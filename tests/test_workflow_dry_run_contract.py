@@ -192,6 +192,54 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 workflow = load_workflow(name)
                 self.assertEqual(workflow["permissions"], workflow_permissions)
 
+        for name in ("gate-pr-hash-sbom.yml", "gate-pr-community-failclosed.yml"):
+            with self.subTest(workflow=name):
+                workflow = load_workflow(name)
+                self.assertEqual(workflow["permissions"], workflow_permissions)
+                validation_job = next(
+                    job for job in workflow["jobs"].values()
+                    if job.get("name", "").endswith("Validation")
+                )
+                self.assertEqual(
+                    validation_job["permissions"],
+                    {"contents": "read", "pull-requests": "write"},
+                )
+                self.assertEqual(
+                    workflow["jobs"]["human-loop-escalation"]["permissions"],
+                    {"contents": "read", "issues": "write"},
+                )
+                self.assertEqual(
+                    workflow["jobs"]["human-loop-resolution"]["permissions"],
+                    {"contents": "read", "issues": "write"},
+                )
+
+        merge_readiness = load_workflow("gate-pr-merge-readiness.yml")
+        self.assertEqual(merge_readiness["permissions"], workflow_permissions)
+        expected_reusable_permissions = {
+            "contents": "read",
+            "pull-requests": "write",
+            "issues": "write",
+        }
+        for caller in (
+            "call-community-failclosed",
+            "call-edition-license",
+            "call-hash-sbom",
+            "call-plugin-boundary",
+        ):
+            with self.subTest(caller=caller):
+                self.assertEqual(
+                    merge_readiness["jobs"][caller]["permissions"],
+                    expected_reusable_permissions,
+                )
+        self.assertEqual(
+            merge_readiness["jobs"]["call-final-runtime-api"]["permissions"],
+            {"contents": "read"},
+        )
+        self.assertEqual(
+            merge_readiness["jobs"]["merge-readiness"]["permissions"],
+            expected_reusable_permissions,
+        )
+
         version_targeting = load_workflow("gate-pr-version-targeting.yml")
         self.assertEqual(
             version_targeting["permissions"],
@@ -749,6 +797,18 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("workflow_dispatch", step["if"])
 
     def test_housekeeping_dry_run_previews_recommendation_comments(self) -> None:
+        workflow = load_workflow("maintenance-housekeeping.yml")
+        self.assertEqual(workflow["permissions"], {})
+        expected_job_permissions = {
+            "run-summary": {"contents": "read"},
+            "sync-labels": {"contents": "read", "issues": "write"},
+            "sync-milestones": {"contents": "read", "issues": "write"},
+            "assign-milestone": {"contents": "read", "issues": "write"},
+            "recommend-closures": {"issues": "write", "pull-requests": "read"},
+        }
+        for job_name, permissions in expected_job_permissions.items():
+            with self.subTest(job=job_name):
+                self.assertEqual(workflow["jobs"][job_name]["permissions"], permissions)
         workflow_text = (WORKFLOWS / "maintenance-housekeeping.yml").read_text(encoding="utf-8")
         self.assertIn("if (dryRun)", workflow_text)
         self.assertIn("[dry-run] would post closure recommendation", workflow_text)
@@ -931,13 +991,20 @@ class WorkflowDryRunContractTests(unittest.TestCase):
     def test_maintenance_issue_triage_dry_run_preserves_analysis_and_scheduled_writes(self) -> None:
         workflow = load_workflow("maintenance-issues.yml")
         triggers = workflow.get(True, workflow.get("on"))
+        self.assertEqual(
+            [entry["cron"] for entry in triggers["schedule"]],
+            ["0 4 * * 2", "0 4 * * 4"],
+        )
+        jobs = workflow["jobs"]
+        self.assertIn("github.event.schedule == '0 4 * * 2'", jobs["gs3-gap-triage"]["if"])
+        self.assertIn("github.event.schedule == '0 4 * * 2'", jobs["doxygen-header-update"]["if"])
+        self.assertIn("github.event.schedule == '0 4 * * 4'", jobs["security-alert-triage"]["if"])
         dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
         self.assertEqual(dry_run["type"], "boolean")
         self.assertIs(dry_run["default"], True)
         self.assertIn("scheduled runs remain live", dry_run["description"].lower())
 
         mutation_guard = "github.event_name != 'workflow_dispatch' || inputs.dry_run != true"
-        jobs = workflow["jobs"]
         gs3 = jobs["gs3-gap-triage"]["steps"]
         gs3_write_steps = {
             "Upsert consolidated GS3 issue",
@@ -1041,6 +1108,67 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn(mutation_guard, commit["if"])
         self.assertIn("Manual dry-run", next(step for step in doxygen_job["steps"] if step.get("name") == "Write job summary")["run"])
         self.assertIn("persist-credentials", next(step for step in doxygen_job["steps"] if step.get("name") == "Checkout repository")["with"])
+
+    def test_maintenance_docs_tracker_mutations_require_successful_scan_outputs(self) -> None:
+        jobs = load_workflow("maintenance-docs.yml")["jobs"]
+        expected_output_guards = {
+            ("developer-llm-wiki", "Open tracker issue for wiki drift findings"): (
+                "steps.wiki_drift.outputs.findings_count != ''",
+            ),
+            ("docs-orphan-check", "Open tracker issue for orphan findings"): (
+                "steps.orphan_scan.outputs.orphan_module_dirs != ''",
+                "steps.orphan_scan.outputs.broken_primary_references != ''",
+            ),
+            ("docs-orphan-check", "Validate: Mark orphan tracker issue resolved when clean"): (
+                "steps.orphan_scan.outputs.orphan_module_dirs != ''",
+                "steps.orphan_scan.outputs.broken_primary_references != ''",
+            ),
+            ("root-docs-hygiene", "Open tracker issue for hygiene findings"): (
+                "steps.root_hygiene.outputs.findings != ''",
+            ),
+            ("src-docs-alignment", "Validate: Build module finding comment payload"): (
+                "steps.align_scan.outputs.undocumented_modules != ''",
+            ),
+            ("src-docs-alignment", "Open tracker issue for alignment findings"): (
+                "steps.align_scan.outputs.undocumented_modules != ''",
+            ),
+            ("src-docs-alignment", "Validate: Comment module findings on existing alignment issue"): (
+                "steps.align_scan.outputs.undocumented_modules != ''",
+                "steps.align_tracker.outputs.issue-number != ''",
+            ),
+            ("src-docs-alignment", "Validate: Mark src/include alignment tracker issue resolved when clean"): (
+                "steps.align_scan.outputs.undocumented_modules != ''",
+            ),
+            ("roadmap-status-drift", "Open tracker issue for ROADMAP drift"): (
+                "steps.roadmap_drift.outputs.suspected_items != ''",
+            ),
+            ("docs-reconciliation", "Validate: Open tracker issue for reconciliation findings"): (
+                "steps.reconcile.outputs.out_json != ''",
+                "steps.reconcile.outputs.attention_count != ''",
+            ),
+            ("docs-reconciliation", "Validate: Mark reconciliation tracker issue resolved when clean"): (
+                "steps.reconcile.outputs.out_json != ''",
+                "steps.reconcile.outputs.attention_count != ''",
+            ),
+            ("ai-working-hygiene", "Open tracker issue for ai_working stale + ai_context orphan findings"): (
+                "steps.hygiene.outputs.stale_count != ''",
+                "steps.hygiene.outputs.orphan_ctx_count != ''",
+            ),
+        }
+        for (job_name, step_name), expected_guards in expected_output_guards.items():
+            step = next(
+                item for item in jobs[job_name]["steps"]
+                if item.get("name") == step_name
+            )
+            with self.subTest(job=job_name, step=step_name):
+                for guard in expected_guards:
+                    self.assertIn(guard, step["if"])
+
+        reconciliation = next(
+            step for step in jobs["docs-reconciliation"]["steps"]
+            if step.get("name") == "Validate: Run issue/PR/docs reconciliation"
+        )
+        self.assertIn("set -o pipefail", reconciliation["run"])
 
     def test_nightly_coverage_manual_dry_run_preserves_validation_and_suppresses_baseline_push(self) -> None:
         workflow = load_workflow("coverage-report-nightly.yml")

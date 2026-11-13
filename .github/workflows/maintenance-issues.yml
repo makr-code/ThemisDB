@@ -7,9 +7,9 @@ name: "Maintenance: Issues [GS3 + Security Alerts]"
 #
 # Both jobs share the same workflow file because they:
 #   - use identical infrastructure (ubuntu-latest, github-script, issues: write)
-#   - have staggered schedules (no overlap)
+#   - have schedule-specific runs (GS3 + Doxygen Tuesday; security Thursday)
 #   - produce governance issues as their primary output
-#   - do not require separate concurrency groups or permission boundaries
+#   - use explicit job-level permission scopes for issue triage and PR publication
 #
 # Replaces:
 #   - .github/workflows/maintenance-gs3-gaps.yml
@@ -118,7 +118,8 @@ jobs:
       actions: read
       issues: write
     if: >
-      github.event_name == 'schedule' ||
+      (github.event_name == 'schedule' &&
+        github.event.schedule == '0 4 * * 2') ||
       (github.event_name == 'workflow_dispatch' &&
         (inputs.job == 'gs3-gap-triage' || inputs.job == 'both'))
     env:
@@ -600,7 +601,8 @@ jobs:
       security-events: read
       issues: write
     if: >
-      github.event_name == 'schedule' ||
+      (github.event_name == 'schedule' &&
+        github.event.schedule == '0 4 * * 4') ||
       (github.event_name == 'workflow_dispatch' &&
         (inputs.job == 'security-alert-triage' || inputs.job == 'both'))
     env:
@@ -784,7 +786,7 @@ jobs:
   # Uses GS3 findings (missing_doxygen_*) as input to autofix_engine.py,
   # which calls doxygen_fixer_adapter → doxygen_autofix.py --apply.
   # Opens a PR against develop if changes are produced; never pushes directly.
-  # Runs weekly on Wednesday 02:30 UTC or on workflow_dispatch.
+  # Runs with the Tuesday GS3 schedule or when explicitly selected by workflow_dispatch.
   # ────────────────────────────────────────────────────────────────────────────
   doxygen-header-update:
     name: "Maintenance: Doxygen Header Update (GS3-driven)"
@@ -794,7 +796,8 @@ jobs:
       contents: write
       pull-requests: write
     if: >
-      github.event_name == 'schedule' ||
+      (github.event_name == 'schedule' &&
+        github.event.schedule == '0 4 * * 2') ||
       (github.event_name == 'workflow_dispatch' &&
         inputs.job == 'doxygen-header-update')
     env:

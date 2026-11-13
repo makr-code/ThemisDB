@@ -78,10 +78,7 @@ concurrency:
   group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
+permissions: {}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Job 1: Label sync
@@ -107,6 +104,9 @@ jobs:
     name: "Maintenance: Sync labels from .github/labels.yml"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
     if: |
       (github.event_name == 'schedule') ||
       (github.event_name == 'push' && contains(github.event.head_commit.modified, '.github/labels.yml')) ||
@@ -208,6 +208,9 @@ jobs:
     name: "Maintenance: Sync milestones from .github/milestones.yml"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
     if: |
       (github.event_name == 'schedule') ||
       (github.event_name == 'push' && contains(github.event.head_commit.modified, '.github/milestones.yml')) ||
@@ -299,6 +302,9 @@ jobs:
     name: "Maintenance: Assign milestone by labels / Target Version"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
     if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
     steps:
       - name: Checkout
@@ -486,6 +492,9 @@ jobs:
     name: "Maintenance: Recommend Issue Closures"
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      issues: write
+      pull-requests: read
     if: |
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' && inputs.run_recommendations == true)

@@ -267,7 +267,7 @@ jobs:
           echo "Manual dry-run: would upsert the developer LLM wiki drift issue for ${{ steps.wiki_drift.outputs.findings_count }} finding(s); no issue, label, or comment changes were made." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for wiki drift findings
-        if: always() && steps.wiki_drift.outputs.findings_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.wiki_drift.outputs.findings_count != '' && steps.wiki_drift.outputs.findings_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -618,7 +618,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for orphan findings
-        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.orphan_scan.outputs.orphan_module_dirs != '' && steps.orphan_scan.outputs.broken_primary_references != '' && (steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -646,7 +646,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark orphan tracker issue resolved when clean"
-        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.orphan_scan.outputs.orphan_module_dirs != '' && steps.orphan_scan.outputs.broken_primary_references != '' && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -712,7 +712,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for hygiene findings
-        if: always() && steps.root_hygiene.outputs.findings != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.root_hygiene.outputs.findings != '' && steps.root_hygiene.outputs.findings != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -780,7 +780,7 @@ jobs:
 
       - name: "Validate: Build module finding comment payload"
         id: align_findings
-        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
+        if: always() && steps.align_scan.outputs.undocumented_modules != '' && steps.align_scan.outputs.undocumented_modules != '0'
         run: |
           python3 - <<'PY'
           import hashlib
@@ -861,7 +861,7 @@ jobs:
 
       - name: Open tracker issue for alignment findings
         id: align_tracker
-        if: always() && steps.align_scan.outputs.undocumented_modules != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.align_scan.outputs.undocumented_modules != '' && steps.align_scan.outputs.undocumented_modules != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -889,7 +889,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Comment module findings on existing alignment issue"
-        if: always() && steps.align_scan.outputs.undocumented_modules != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.align_scan.outputs.undocumented_modules != '' && steps.align_scan.outputs.undocumented_modules != '0' && steps.align_tracker.outputs.issue-number != '' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -902,7 +902,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark src/include alignment tracker issue resolved when clean"
-        if: always() && steps.align_scan.outputs.undocumented_modules == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.align_scan.outputs.undocumented_modules != '' && steps.align_scan.outputs.undocumented_modules == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1020,7 +1020,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for ROADMAP drift
-        if: always() && steps.roadmap_drift.outputs.suspected_items != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.roadmap_drift.outputs.suspected_items != '' && steps.roadmap_drift.outputs.suspected_items != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1098,6 +1098,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -o pipefail
           mkdir -p artifacts
           python3 scripts/reconcile-issues-prs-docs.py | tee /tmp/docs-reconcile.log
           python3 - <<'PY'
@@ -1161,7 +1162,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: "Validate: Open tracker issue for reconciliation findings"
-        if: always() && steps.reconcile.outputs.attention_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.reconcile.outputs.out_json != '' && steps.reconcile.outputs.attention_count != '' && steps.reconcile.outputs.attention_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1192,7 +1193,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark reconciliation tracker issue resolved when clean"
-        if: always() && steps.reconcile.outputs.attention_count == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.reconcile.outputs.out_json != '' && steps.reconcile.outputs.attention_count != '' && steps.reconcile.outputs.attention_count == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1377,7 +1378,7 @@ jobs:
           echo "Manual dry-run: would upsert the AI working/context hygiene issue for ${{ steps.hygiene.outputs.stale_count }} stale file(s) and ${{ steps.hygiene.outputs.orphan_ctx_count }} orphan file(s); tracker writes were suppressed." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for ai_working stale + ai_context orphan findings
-        if: always() && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+        if: always() && steps.hygiene.outputs.stale_count != '' && steps.hygiene.outputs.orphan_ctx_count != '' && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
