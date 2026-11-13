@@ -57,8 +57,10 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Validate workflow syntax with actionlint
+        id: actionlint
         run: docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo rhysd/actionlint:latest -color
 
       - name: Set up Python
@@ -319,3 +321,28 @@ jobs:
           echo "❌ Workflow guidelines validation failed"
           echo "See step 'Run workflow guidelines validation' for details"
           exit 1
+
+      - name: Write run summary
+        if: always()
+        env:
+          RUN_STATUS: ${{ job.status }}
+          SCOPE: ${{ inputs.scope || (github.event_name == 'pull_request' && 'changed') || 'all' }}
+          ACTIONLINT_RESULT: ${{ steps.actionlint.outcome || 'not-run' }}
+          VALIDATION_RESULT: ${{ steps.validate.outcome || 'not-run' }}
+          VIOLATIONS: ${{ steps.validate.outputs.violations || 'not available' }}
+          WARNINGS: ${{ steps.validate.outputs.warnings || 'not available' }}
+        run: |
+          {
+            echo "## Workflow Guidelines Compliance"
+            echo ""
+            echo "- **Result:** ${RUN_STATUS}"
+            echo "- **Scope:** ${SCOPE}"
+            echo "- **Actionlint:** ${ACTIONLINT_RESULT}"
+            echo "- **Guideline validation:** ${VALIDATION_RESULT}"
+            echo "- **Violations:** ${VIOLATIONS}"
+            echo "- **Warnings:** ${WARNINGS}"
+            echo "- **Run:** [${GITHUB_RUN_ID}](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+            if [ "${RUN_STATUS}" != "success" ]; then
+              echo "- **Next step:** Review the failing job step above and rerun after remediation."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

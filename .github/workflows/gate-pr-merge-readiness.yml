@@ -72,26 +72,40 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
   call-community-failclosed:
     name: "Gate: Community Fail-Closed"
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     uses: ./.github/workflows/gate-pr-community-failclosed.yml
 
   call-edition-license:
     name: "Gate: Edition & License"
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     uses: ./.github/workflows/gate-pr-edition-license.yml
 
   call-hash-sbom:
     name: "Gate: Hash & SBOM Integrity"
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     uses: ./.github/workflows/gate-pr-hash-sbom.yml
 
   call-plugin-boundary:
     name: "Gate: Plugin Boundary"
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     uses: ./.github/workflows/gate-pr-plugin-boundary.yml
 
   call-final-runtime-api:
@@ -99,6 +113,8 @@ jobs:
     # Final runtime startup/API validation is required for develop/community rollout branches,
     # which is where branch protection enforces the runtime smoke contract before merge.
     if: github.event_name == 'pull_request' && contains(fromJSON('["develop","community"]'), github.base_ref)
+    permissions:
+      contents: read
     uses: ./.github/workflows/gate-pr-final-runtime-api.yml
 
   # ─────────────────────────────────────────────────────────────────────────
@@ -114,7 +130,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
+      contents: read
       pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v5
         with:

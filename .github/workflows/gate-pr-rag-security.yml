@@ -2,8 +2,8 @@ name: "Gate: PR RAG Security Guardrails"
 
 # Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-09-24
 # Trigger policy: Enforces Phase 4 RAG Security Guardrails compliance.
-# Validates tenant isolation, deny-by-default policy enforcement, OTLP audit trail completeness,
-# and multi-tenant data flow correctness.
+# Validates tenant-scoped PolicyEnforcer decisions and the documented audit requirements.
+# These focused policy API tests do not establish end-to-end RAG request-path enforcement.
 # Blocks merge on cross-tenant leaks, missing policy gates, or incomplete audit trails.
 # Reference: src/security/RETRIEVAL_POLICY_ENFORCEMENT.md
 
@@ -21,6 +21,7 @@ on:
       - 'src/security/**'
       - 'src/rag/**'
       - 'src/retrieval/**'
+      - 'include/security/**'
       - 'tests/security/**'
       - 'tests/rag/**'
       - '.github/workflows/gate-pr-rag-security.yml'
@@ -30,16 +31,17 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: read
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   security_guardrails_validation:
     name: "Gate: RAG Security Guardrails"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     
     steps:
       - name: Checkout
@@ -176,37 +178,15 @@ jobs:
       - name: Generate Gate Report
         if: always()
         run: |
-          cat > /tmp/rag_security_gate_report.md << 'EOF'
+          cat > /tmp/rag_security_gate_report.md << EOF
           ## RAG Security Guardrails Gate Report
           
           **Date:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
           **PR:** ${{ github.event.pull_request.number }}
           **Commit:** ${{ github.event.pull_request.head.sha }}
+          **Validation job result:** ${{ job.status }}
           
-          ### Checklist
-          - [x] RETRIEVAL_POLICY_ENFORCEMENT.md present
-          - [x] All required sections documented
-          - [x] Tenant isolation design documented
-          - [x] Deny-by-default policy gate specified
-          - [x] OTLP audit trail with all required fields
-          - [x] 13+ test cases specified
-          
-          ### Gate Status
-          ✓ **PASS** — RAG Security Guardrails validation complete
-          
-          ### Security Guarantees
-          - **Tenant Isolation:** Per-tenant credential & policy boundaries enforced
-          - **Denial Enforcement:** Missing policy → hard DENY (deterministic exception, no fallback)
-          - **Audit Completeness:** All access logged via OTLP with tenant_id, policy_version, timestamp
-          - **Non-Expiry Enforcement:** Expired policies → automatic hard DENY
-          
-          ### Implementation Checklist
-          - [ ] RetrievalPolicyEnforcer.cpp implementation
-          - [ ] PolicyContextGate with deny-by-default logic
-          - [ ] TenantRetrievalPolicy schema registration
-          - [ ] OTLP audit event instrumentation
-          - [ ] 13 multi-tenant isolation tests
-          - [ ] Cross-tenant leak regression tests
+          Validation outcomes are recorded by the individual workflow steps and in the run summary.
           
           ### References
           - Spec: src/security/RETRIEVAL_POLICY_ENFORCEMENT.md
@@ -226,7 +206,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                labels: ['rag-security-required', 'release_critical', 'quality/security']
+                labels: ['rag-security-required', 'quality/security']
               });
             } catch (error) {
               console.log(`::warning::Unable to apply RAG security labels: ${error.message}`);
@@ -256,7 +236,6 @@ jobs:
     name: "Gate: Tenant Isolation & Policy Enforcement"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
     
     steps:
       - name: Checkout
@@ -276,35 +255,80 @@ jobs:
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON
       
-      - name: Build Security Tests
+      - name: Build Tenant Policy Tests
         run: |
-          cmake --build /tmp/security-build --target test_retrieval_policy_enforcement --parallel 4 2>&1 || {
-            echo "ℹ Test target not yet implemented (expected for specs-only phase)"
+          target="module_security_test_retrieval_policy_focused"
+          if ! target_list="$(cmake --build /tmp/security-build --target help 2>&1)"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect configured CMake targets; retrieval-policy test lane cannot be verified."
+            printf '%s\n' "$target_list"
+            exit 1
+          fi
+          if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::The runtime policy test target '${target}' is not registered. Add and register tenant-scoped policy tests before this requested lane can pass."
+            exit 1
+          fi
+          cmake --build /tmp/security-build --target module_security_test_retrieval_policy_focused --parallel 4
+
+      - name: Verify Multi-Tenant Isolation Test Registration
+        run: |
+          test_filter="tenant_isolation|policy_enforcement"
+          registered_tests="$(ctest --test-dir /tmp/security-build -N -L "$test_filter" 2>&1)" || {
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect registered tenant-isolation/policy-enforcement CTest cases."
+            printf '%s\n' "$registered_tests"
+            exit 1
           }
-      
+          if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::No runtime policy CTest case is registered with tenant_isolation or policy_enforcement labels. Register the focused policy tests before this requested lane can pass."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          fi
+
       - name: Run Multi-Tenant Isolation Tests
         run: |
           cd /tmp/security-build
-          ctest -L "tenant_isolation\|policy_enforcement" -V --output-on-failure 2>&1 || {
-            echo "ℹ Isolation tests not yet implemented (expected for specs-only phase)"
-          }
+          ctest -L "tenant_isolation|policy_enforcement" -V --output-on-failure --no-tests=error
 
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
-    needs: [security_guardrails_validation]
+    permissions:
+      contents: read
+    needs: [security_guardrails_validation, isolation_tests]
     if: always()
     
     steps:
       - name: Check Gate Status
         run: |
-          if [ "${{ needs.security_guardrails_validation.result }}" == "success" ]; then
-            echo "✅ RAG Security Guardrails Gate: PASS"
-            exit 0
-          else
-            echo "❌ RAG Security Guardrails Gate: FAIL"
+          validation_result="${{ needs.security_guardrails_validation.result }}"
+          tests_result="${{ needs.isolation_tests.result }}"
+          if [ "${validation_result}" != "success" ]; then
+            echo "❌ RAG Security Guardrails validation failed: ${validation_result}"
             exit 1
           fi
+          if [ "${tests_result}" != "success" ]; then
+            echo "❌ RAG tenant-isolation tests did not succeed: ${tests_result}"
+            exit 1
+          fi
+          echo "✅ RAG Security Guardrails Gate: PASS (tenant-isolation tests: success)"
+
+  apply-release-critical-label:
+    name: "Gate: Apply release_critical Label"
+    needs: [security_guardrails_validation, isolation_tests, gate_status]
+    if: needs.security_guardrails_validation.result == 'success' && needs.isolation_tests.result == 'success' && needs.gate_status.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Apply release_critical label after tests pass
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['release_critical']
+            });
 
   run-summary:
     name: "Validate: Run Summary"
@@ -313,6 +337,7 @@ jobs:
       - security_guardrails_validation
       - isolation_tests
       - gate_status
+      - apply-release-critical-label
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -320,7 +345,13 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
+      - name: Report release_critical label decision
+        if: always() && needs.isolation_tests.result != 'success'
+        env:
+          TEST_RESULT: ${{ needs.isolation_tests.result }}
+        run: |
+          echo "**release_critical was withheld** because the tenant-isolation test lane did not succeed (result: ${TEST_RESULT})." >> "$GITHUB_STEP_SUMMARY"
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "RAG security guardrails and optional tenant-isolation tests"
+          scope: "RAG security guardrails and required tenant-isolation tests"
           job-results: ${{ toJSON(needs) }}

@@ -34,62 +34,77 @@ on:
         default: ''
         type: string
       enable_sccache_gha:
+        description: "Enable GitHub Actions-backed sccache for supported build lanes."
         required: false
         default: false
         type: boolean
       runs_on:
+        description: "Runner label or labels used by the build job."
         required: false
         default: ubuntu-latest
         type: string
       shell:
+        description: "Shell used to execute setup, configure, build, and validation commands."
         required: false
         default: bash
         type: string
       cache_arch:
+        description: "Architecture identifier included in compiler-cache keys."
         required: false
         default: ''
         type: string
       cache_compiler:
+        description: "Compiler identity included in compiler-cache keys."
         required: false
         default: ''
         type: string
       vcpkg_triplet:
+        description: "vcpkg target triplet used for dependency installation and cache identity."
         required: false
         default: ''
         type: string
       fetch_depth:
+        description: "Git checkout depth; zero fetches full history."
         required: false
         default: '0'
         type: string
       submodules:
+        description: "Initialize Git submodules during checkout."
         required: false
         default: false
         type: boolean
       working_directory:
+        description: "Repository-relative working directory for build commands."
         required: false
         default: .
         type: string
       setup_command:
+        description: "Optional shell command to prepare the runner before configuration."
         required: false
         default: ''
         type: string
       configure_command:
+        description: "Optional custom configure command; when set it replaces the default configure step."
         required: false
         default: ''
         type: string
       build_command:
+        description: "Optional custom build command; when set it replaces the default build step."
         required: false
         default: ''
         type: string
       validation_command:
+        description: "Optional custom validation command; when set it replaces default validation."
         required: false
         default: ''
         type: string
       build_mode:
+        description: "Build behavior profile selected by the reusable workflow."
         required: false
         default: default
         type: string
       preset:
+        description: "CMake configure preset used when no custom configure command is supplied."
         required: false
         default: ''
         type: string
@@ -99,22 +114,27 @@ on:
         default: ''
         type: string
       configure_flags:
+        description: "Additional CMake configure arguments appended to the selected preset."
         required: false
         default: ''
         type: string
       build_targets:
+        description: "Space-separated CMake targets to build; empty uses the default target."
         required: false
         default: ''
         type: string
       validation_mode:
+        description: "Validation strategy, such as none, ctest, or benchmark."
         required: false
         default: none
         type: string
       ctest_label_filter:
+        description: "CTest label expression selecting validation tests."
         required: false
         default: ''
         type: string
       ctest_filter:
+        description: "CTest test-name expression selecting validation tests."
         required: false
         default: ''
         type: string
@@ -139,46 +159,57 @@ on:
         default: ''
         type: string
       benchmark_filter:
+        description: "Optional benchmark name filter passed to benchmark validation."
         required: false
         default: ''
         type: string
       build_continue_on_error:
+        description: "Allow the build step to continue the job after a failure."
         required: false
         default: false
         type: boolean
       validation_continue_on_error:
+        description: "Allow validation failures without failing the job."
         required: false
         default: false
         type: boolean
       artifact_name:
+        description: "Optional name for the primary uploaded build artifact."
         required: false
         default: ''
         type: string
       artifact_paths:
+        description: "Newline-separated paths included in the primary artifact."
         required: false
         default: ''
         type: string
       artifact_name_secondary:
+        description: "Optional name for a second uploaded build artifact."
         required: false
         default: ''
         type: string
       artifact_paths_secondary:
+        description: "Newline-separated paths included in the secondary artifact."
         required: false
         default: ''
         type: string
       artifact_retention_days:
+        description: "Retention period in days for the primary artifact."
         required: false
         default: '30'
         type: string
       artifact_retention_days_secondary:
+        description: "Retention period in days for the secondary artifact."
         required: false
         default: '30'
         type: string
       summary_title:
+        description: "Title shown in the build job's GitHub Actions summary."
         required: false
         default: CMake Build
         type: string
       timeout_minutes:
+        description: "Maximum runtime for the build job in minutes."
         required: false
         default: '360'
         type: string

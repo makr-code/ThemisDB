@@ -128,9 +128,22 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends python3-yaml
-          export BASE_REF="${{ github.base_ref || 'develop' }}"
-          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
-          git diff --name-only "origin/${BASE_REF}" HEAD > /tmp/changed_files.txt
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            export BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            git fetch origin "${BASE_SHA}" --depth=1
+          elif [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            export BASE_SHA="${{ github.event.before }}"
+            if [[ "${BASE_SHA}" =~ ^0+$ ]]; then
+              BASE_SHA=HEAD
+            else
+              git fetch origin "${BASE_SHA}" --depth=1
+            fi
+          else
+            export BASE_REF="${{ github.base_ref || 'develop' }}"
+            git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
+            export BASE_SHA="origin/${BASE_REF}"
+          fi
+          git diff --name-only "${BASE_SHA}" HEAD > /tmp/changed_files.txt
           python3 - <<'PY'
           import re
           import os
@@ -171,7 +184,7 @@ jobs:
                   errors.append(f"{wf}: missing top-level permissions block")
 
               diff = subprocess.run(
-                  ['git', 'diff', '--unified=0', f"origin/{os.environ['BASE_REF']}", 'HEAD', '--', str(wf)],
+                  ['git', 'diff', '--unified=0', os.environ['BASE_SHA'], 'HEAD', '--', str(wf)],
                   check=True, capture_output=True, text=True,
               )
               added_lines = {
@@ -338,9 +351,8 @@ jobs:
           LOG_FILE="$RUNNER_TEMP/release-critical-ctest.log"
           rm -f "$LOG_FILE"
           if [ ! -d build-pr-release-critical ]; then
-            echo "::warning::Skipping standalone CTest quality gate: build-pr-release-critical is not present in this job workspace."
-            echo "ctest_exit=0" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "::error::Release-critical build artifact did not restore build-pr-release-critical; refusing to skip the CTest quality gate."
+            exit 1
           fi
           set +e
           ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 \

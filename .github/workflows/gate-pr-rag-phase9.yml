@@ -28,17 +28,19 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   phase9_validation:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     uses: ./.github/workflows/reusable-rag-phase-gate.yml
     with:
       phase_id: "9"
       phase_title: "Phase 9 Research Evaluation"
+      dry_run: false
       headers_json: '["include/rag/benchmark_suite.h","include/rag/metric_computation.h","include/rag/evaluation_result_store.h"]'
       impls_json: '["src/rag/benchmark_suite.cpp","src/rag/metric_computation.cpp","src/rag/evaluation_result_store.cpp"]'
       tests_json: '["tests/rag/test_benchmark_suite.cpp","tests/rag/test_metric_computation.cpp","tests/rag/test_evaluation_result_store.cpp"]'

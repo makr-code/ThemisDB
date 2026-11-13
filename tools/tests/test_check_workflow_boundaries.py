@@ -409,12 +409,16 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
     assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
     rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
-    rag_phase = rag["jobs"]["phase_validation"]["permissions"]
-    assert rag_phase["pull-requests"] == "write"
-    assert rag_phase["issues"] == "write"
+    assert rag["permissions"] == {"contents": "read"}
+    phase_permissions = rag["jobs"]["phase_validation"]["permissions"]
+    assert phase_permissions["pull-requests"] == "write"
+    assert phase_permissions["issues"] == "write"
     for phase in range(7, 11):
         caller = yaml.safe_load((workflows / f"gate-pr-rag-phase{phase}.yml").read_text(encoding="utf-8"))
-        assert caller["permissions"]["pull-requests"] == "write"
+        assert caller["permissions"] == {"contents": "read"}
+        caller_permissions = caller["jobs"][f"phase{phase}_validation"]["permissions"]
+        assert caller_permissions["pull-requests"] == "write"
+        assert caller_permissions["issues"] == "write"
 
 
 def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):
@@ -1034,7 +1038,7 @@ def test_core_preflight_local_refs_comments_and_new_policy_violations(
         subprocess, "run",
         lambda *args, **kwargs: subprocess.CompletedProcess(args[0], 0, stdout=diff),
     )
-    monkeypatch.setenv("BASE_REF", "develop")
+    monkeypatch.setenv("BASE_SHA", "base-sha")
     monkeypatch.chdir(tmp_path)
     try:
         exec(compile(code, str(source), "exec"), {})
@@ -1042,6 +1046,21 @@ def test_core_preflight_local_refs_comments_and_new_policy_violations(
         assert exc.code == exit_code
     else:
         assert exit_code == 0
+
+
+def test_core_preflight_uses_event_base_sha():
+    source = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-core.yml"
+    data = yaml.safe_load(source.read_text(encoding="utf-8"))
+    step = next(
+        step for step in data["jobs"]["preflight-ci-policy"]["steps"]
+        if step.get("name") == "Run workflow preflight checks"
+    )
+    run = step["run"]
+
+    assert 'github.event.pull_request.base.sha' in run
+    assert 'github.event.before' in run
+    assert 'git diff --name-only "${BASE_SHA}" HEAD' in run
+    assert "os.environ['BASE_SHA']" in run
 
 
 def test_merge_readiness_requires_final_runtime_api_gate(tmp_path: Path):

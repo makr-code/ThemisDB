@@ -266,7 +266,7 @@ TEST(LlmWave3, W3_08_AdapterApplyCompletesWithPathResolver) {
     ctx.query      = "test adapter apply";
     ctx.mode_id    = "rag";
     ctx.request_id = "w3-req-1";
-    ctx.extra["tenant"] = "tenant-w3";
+    ctx.retrieval_execution.tenant_id = "tenant-w3";
 
     OrchestratorResult result = orch.run(ctx);
     // Verify adapter was loaded exactly once (path resolver was called).
@@ -425,7 +425,7 @@ TEST(LlmWave3, W3_TSAN_AdapterLockStress) {
                 ctx.query      = "stress-query";
                 ctx.mode_id    = "rag";
                 ctx.request_id = "tsan-t" + std::to_string(t) + "-i" + std::to_string(i);
-                ctx.extra["tenant"] = "tsan-tenant";
+                ctx.retrieval_execution.tenant_id = "tsan-tenant";
                 // run() must not throw or corrupt shared state.
                 try {
                     orch.run(ctx);

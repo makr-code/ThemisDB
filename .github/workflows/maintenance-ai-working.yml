@@ -66,11 +66,11 @@ on:
       dry_run:
         description: 'Dry-run mode — print actions, no file modifications'
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:
-  contents: write  # required to commit compacted wiki pages back
+  contents: read
 
 concurrency:
   group: maintenance-ai-working-${{ github.ref }}
@@ -84,6 +84,8 @@ jobs:
     name: "Maintenance: AI Working Compaction & Archive"
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -265,6 +267,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: ai-working-compact
+    permissions:
+      contents: write
     # Only sync on schedule, workflow_dispatch, or when docs-related files change
     if: >
       github.event_name == 'schedule' ||

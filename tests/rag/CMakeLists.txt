@@ -8,6 +8,10 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_rag_${_stem}_focused")
     set(_ctest "${_stem}_RagFocusedTests")
+    set(_extra_labels)
+    if(_stem STREQUAL "test_model_promoter")
+        list(APPEND _extra_labels embedding_canary)
+    endif()
 
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
@@ -144,6 +148,12 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/rag/staleness_aware_router.cpp
             ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
         )
+    elseif("${_stem}" STREQUAL "test_model_promoter")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/model_promoter.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/model_registry.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/model_evaluator.cpp
+        )
     endif()
     if(_extra_sources)
         target_sources(${_target} PRIVATE ${_extra_sources})
@@ -156,12 +166,16 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
         )
     endif()
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
+    if("${_stem}" STREQUAL "test_model_promoter")
+        target_link_libraries(${_target} PRIVATE GTest::gtest GTest::gtest_main Threads::Threads)
+    else()
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
@@ -170,6 +184,7 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
+        LABELS ${_extra_labels}
     )
 endforeach()
 

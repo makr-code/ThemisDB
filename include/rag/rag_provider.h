@@ -6,8 +6,11 @@
 #include <atomic>
 #include <chrono>
 #include <cstddef>
+#include <functional>
 #include <memory>
+#include <string>
 #include <variant>
+#include <vector>
 
 namespace themis::rag {
 
@@ -37,15 +40,32 @@ struct RetrievalRequest {
 };
 
 /**
- * @brief Per-call cooperative execution limits; no mutable global request state.
- * @note Checked before/after QueryEngine calls and between materialization steps.
- * Does not interrupt a blocking index call. Authorization is enforced by the
- * supplied QueryEngine's collection access checker, not by caller-supplied tags.
+ * @brief Per-call cooperative limits, trusted retrieval authorization, and tracing.
+ * @note Deadline and cancellation are checked around QueryEngine calls and
+ * between materialization steps; they do not interrupt a blocking index call.
+ * The primary and additional cancellation tokens are observed when present,
+ * allowing consumer-local timeout and upstream request signals to remain
+ * independent.
+ * The optional authorization callback is evaluated for the requested collection
+ * before query execution and for graph collections before vertex loading. It
+ * must come from trusted request context, never untrusted query/YAML data.
+ * A non-empty tenant_id is a trusted tenant claim and restricts materialized
+ * evidence to entities with a matching string `tenant_id`; missing or non-string
+ * fields are rejected. Vector queries also use it as an index prefilter when the
+ * secondary tenant index exists.
+ * The predicate should be deterministic and safe for concurrent invocation
+ * when callers share a context.
  */
 struct RetrievalExecutionContext {
     std::shared_ptr<const std::atomic<bool>> cancelled;
+    std::vector<std::shared_ptr<const std::atomic<bool>>> additional_cancellation_tokens;
     std::chrono::steady_clock::time_point deadline =
         std::chrono::steady_clock::time_point::max();
+    std::function<bool(const std::string&)> authorize_collection;
+    std::string tenant_id;
+    /// Validated W3C trace identifiers for downstream inference correlation.
+    std::string trace_id;
+    std::string span_id;
 };
 
 /// @brief Owned evidence plus explicit rejection and result-limit accounting.
@@ -69,11 +89,15 @@ public:
     /**
      * @brief Execute a typed query and materialize reusable, sourced evidence.
      * @param request Query with 1..1000 candidates and 1..1 MiB content budget.
-     * @param context Optional cancellation/deadline checked cooperatively.
+     * @param context Optional trusted authorization, cancellation, deadline, and
+     * tenant scope. Never populate authorization or tenant data from query or YAML
+     * input; an empty tenant_id preserves unscoped behavior.
      * @return Evidence (possibly empty for no matches), or the original query error,
-     * invalid-input, cancellation, timeout, or content-budget error. Missing content
-     * is counted as rejected, never replaced with an identifier or error message.
+     * invalid-input, access-denied, cancellation, timeout, or content-budget error.
+     * Missing content is counted as rejected, never replaced with an identifier or
+     * error message.
      * @note Thread safety follows the borrowed engine and its configured backends.
+     * The optional authorization predicate may be called more than once.
      * Allocation and backend exceptions propagate to the consumer's error boundary.
      */
     [[nodiscard]] Result<RetrievalResult> retrieve(

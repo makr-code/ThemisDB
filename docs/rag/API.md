@@ -1,4 +1,30 @@
+---
+Author: makr-code
+Created: 2026-11-11
+Last Updated: 2026-11-12
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: makr-code
+---
+
+[docs](../README.md) > [RAG](README.md) > [API reference](API.md)
+Datum: 2026-11-11
+Status: review
+Primary (Quelle der Wahrheit):
+- `include/rag/rag_candidate.h`
+- `include/rag/rag_retrieval_helpers.h`
+- `include/ingestion/ingestion_sinks.h`
+- `src/ingestion/ingestion_sinks.cpp`
+- `src/content/content_manager.cpp`
+- `src/query/query_engine.cpp`
+Bezug / Reference: Core Provider/Consumer implementation follow-up; typed RAG retrieval API.
+
 # Internal RAG API
+
+> Exact model backend not verifiable from final document text alone.
 
 Primary contracts:
 [`rag_provider.h`](../../include/rag/rag_provider.h),
@@ -63,6 +89,48 @@ This prevents a RAG caller from accidentally dropping a hard restriction.
 - Real structured rows can be serialized as evidence. Missing records,
   identifier-only graph placeholders and error messages are not evidence.
 
+### Source identity and vector text
+
+`RAGCandidate::source_reference` is an optional `RAGSourceReference` containing
+the source `type`, exact `collection` and exact `key`, plus provenance and an
+optional version value. The candidate helper reads these from complete
+`source_ref_*` fields; it does not dereference the locator or guess keys.
+
+The current ingestion sink stores `text_snippet` and an exact source reference
+on each vector entity. This remains indexed snippet materialization; the source
+locator does not yet resolve the complete authoritative source. ContentManager
+stores chunk `text` on its vector entity and points to the exact `chunk:<id>`
+source key in the `chunks` source collection (the indexed vector key is
+`chunks:<id>`). The owner content ID is checked against the source record. For
+`content_chunk` references, `RAGProvider` resolves that exact key against
+RocksDB, verifies the stored chunk ID and owning `content_id`, and uses the
+stored non-whitespace text instead of the duplicated vector text. A supplied
+source version must match the stored chunk version. Missing, mismatched, or stale
+sources are counted as rejected evidence; malformed persisted JSON is an explicit
+storage-corruption error. The lookup is a single exact-key read, not a prefix
+scan or key guess. This internal bridge adds no public signature or object-layout
+change.
+QueryEngine permits vector-entity key hydration only when the initialized vector
+index namespace exactly matches the query collection, after its existing
+relational and legacy table-key lookups.
+
+The broader Core implementation remains in progress. Real HTTP/AQL/YAML startup
+wiring, complete request-context and authorization isolation, the complete
+source-role map, and remaining task acceptance criteria are pending; see the
+[implementation task](../architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
+Retrieval-enabled YAML `agentic` modes use the orchestrator's existing RAG path
+before tool-call parsing, so typed retrieval failures prevent generation and
+trusted per-call collection authorization is retained. This does not establish
+server-startup engine injection or tenant/row-level authorization.
+The MCP `llm_orchestrate` bridge has no trusted caller authorization context
+today, so retrieval-enabled modes invoked through MCP are rejected before
+orchestration; non-retrieval modes are unchanged.
+The direct HTTP `/api/v1/llm/rag` route retains its existing `requireAccess`
+check and now binds its request-local QueryEngine checker to the authorized
+collection. This is a collection-boundary guard, not caller or row-level policy
+propagation. It also passes the authorized collection as the per-call RAG
+predicate; AQL passes its configured collection checker in the same context.
+
 Scores are not probabilities and are not calibrated across access paths:
 vector scores currently retain the existing `1 - distance` convention, content
 queries return BM25 scores, graph retrieval uses inverse depth, and relational
@@ -76,10 +144,23 @@ authenticate callers, infer a tenant from a string or mutate a global engine's
 caller identity for each request. Consumer-specific authentication and row-level
 policy still belong to the existing trusted execution path.
 
+`RetrievalExecutionContext` may also carry a trusted `authorize_collection`
+predicate. It is checked before non-graph queries and before each graph vertex is
+loaded or expanded; false returns and exceptions deny retrieval. The configured
+QueryEngine checker remains enforced independently. Do not populate this
+predicate from untrusted query or YAML fields. The callback travels with the
+call context rather than mutable engine-wide caller state, but it does not
+provide caller/tenant identity or row-level policy by itself. Existing callers
+that omit it retain the prior QueryEngine-policy behavior.
+
 Cancellation and deadline checks are cooperative: before and after query calls
 and between materialization steps. They do not preempt a blocking backend call.
 Returned-result limits do not bound all work performed inside the query engine.
 The existing graph traversal also retains its own internal result limit.
+
+Adding the callback changes the in-memory layout of `RetrievalExecutionContext`,
+so binary consumers must rebuild. The original `QueryEngine::executeGeneralTraversal`
+overload remains available.
 
 The provider propagates errors reported by QueryEngine through `Result<T>` with
 their codes/context; backend/allocation exceptions reach the consumer boundary.

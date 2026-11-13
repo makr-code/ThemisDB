@@ -16,10 +16,24 @@ TEST(RAGRetrievalHelpers, ExtractsUsableTextWithoutInventingContent) {
 }
 
 TEST(RAGRetrievalHelpers, SerializesRealStructuredRows) {
-    const nlohmann::json row = {{"name", "Berlin"}, {"population", 3500000}};
+    const nlohmann::json row = {
+        {"name", "Berlin"},
+        {"population", 3500000},
+        {"_key", "berlin"},
+        {"source_ref_type", "content_chunk"},
+        {"source_ref_collection", "places"},
+        {"source_ref_key", "chunk:berlin"},
+        {"source_ref_provenance", "content_manager"},
+        {"source_ref_version", "2026-11-11"},
+        {"metadata.owner", "internal"},
+        {"embedding", {0.1, 0.2}}
+    };
     const auto candidate = rag::makeRAGCandidate("berlin", "cities", row, 1, "retrieve:relational");
     ASSERT_TRUE(candidate);
-    EXPECT_EQ(nlohmann::json::parse(candidate->content), row);
+    EXPECT_EQ(nlohmann::json::parse(candidate->content),
+              (nlohmann::json{{"name", "Berlin"}, {"population", 3500000}}));
+    ASSERT_TRUE(candidate->source_reference.has_value());
+    EXPECT_EQ(candidate->source_reference->key, "chunk:berlin");
 }
 
 TEST(RAGRetrievalHelpers, RejectsInvalidIdentityAndScores) {

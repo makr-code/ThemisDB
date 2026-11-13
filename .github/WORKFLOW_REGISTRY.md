@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-10
-> Update Note: Added the all-path PR file-size gate with exact-path allowlists and boundary tests; hardened registered Transaction evidence gates, sanitizer cache configuration, and production importer fuzz linkage
+> Last Updated: 2026-11-12
+> Update Note: Maintenance/docs, nightly coverage, and benchmark tracker writes use safe manual dry-runs; scheduled/push behavior remains unchanged
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -142,8 +142,8 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-benchmarks.yml` | Stark spezialisierte Multi-Lane Benchmark-Orchestrierung (Voice/GPU/Soak/Wave-A) mit heterogenen Targets und Artefakten. |
 | `build-content-regression.yml` | Content/Wave-D Regression mit eigener Test- und Soak-Orchestrierung außerhalb eines einzelnen Build-Line-Contracts. |
 | `build-llm-inference.yml` | Modell-/Inference-spezifische Build+Test-Pipeline inkl. LLM-Artefakt-Vorbereitung. |
-| `build-wave-a-gpu.yml` | GPU-spezifische Matrix-Lane mit Hardware-/Backend-spezifischer Ausführung. |
-| `build-wave-b-transaction.yml` | Transaktionsspezifische Build-/Testlane mit fokussierten Targets. |
+| `build-wave-a-gpu.yml` | GPU-spezifische Matrix-Lane mit Hardware-/Backend-spezifischer Ausführung und Artefakten; keine externen Writes. |
+| `build-wave-b-transaction.yml` | Transaktionsspezifische Build-/Testlane; PR-Kommentar-Schreibzugriff bleibt auf den Testjob begrenzt. |
 | `coverage-report-nightly.yml` | Coverage-Instrumentierung und Report-Erzeugung (nightly) als spezialisierter Ablauf. |
 | `gate-pr-final-runtime-api.yml` | Wiederverwendbarer Final-Runtime-Gate-Workflow mit TinyLlama/docs.db + Runtime-API/Docker-Prüfungen. |
 | `gate-pr-rag-security.yml` | Sicherheitsgate mit isolierten Security-Target-Builds und Security-spezifischer Auswertung. |
@@ -179,16 +179,16 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
+| `build-mainline.yml` | Build: Mainline (all platforms/matrices; manual dry-run preserves build/tests and previews tracker updates) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
-| `build-benchmarks.yml` | Build: Benchmarks (Performance regression suite, 64-matrix) | active |
+| `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (cache-free changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (registered targets built per runner; required Smoke/Full/Chaos suites with strict JUnit evidence; scheduled/manual baseline; fail-closed result gate) | active |
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
-| `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA) | active |
+| `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA; manual dry-run preserves tests/artifacts and previews tracker updates) | active |
 | `build-content-regression.yml` | Build: Content Regression [Wave D] (Content processing validation) | active |
-| `build-widget.yml` | Build: WinGet E2E Validation (Windows installer end-to-end) | active |
+| `build-widget.yml` | Build: WinGet E2E Validation (manifest checks/artifacts always run; manual dry-run defaults to validation-only and previews submission) | active |
 | `build-ollama-router.yml` | Build: Copilot Ollama Router (VS Code extension build) | active |
 | `benchmark-thematic-suites.yml` | Benchmark: Thematic Suites (Scheduled thematic benchmark suites via reusable pipeline) | active |
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
@@ -249,7 +249,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
 | `edition-hyperscaler-ci.yml` | Edition: Hyperscaler [CI] (Hyperscaler-edition specific CI) | edition-specific |
 | `ga-promotion-signoff.yml` | Governance: GA Promotion Sign-Off (GA promotion approval workflow) | governance |
-| `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
+| `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Manual dry-run by default; scheduled tracker updates remain live) | quality |
 | `gate-release-benchmark-validation.yml` | Gate: Release Benchmark Coverage Validation (Release benchmark coverage decision gate) | quality-gate |
 
 ### 4. MAINTENANCE & GOVERNANCE (21 Workflows)
@@ -259,13 +259,13 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `maintenance-pr-failure-diagnosis.yml` | Maintenance: PR Failure Diagnosis [Recommend-Only] (Auto-diagnosis on PR failure) | support |
 | `maintenance-ci-health.yml` | Maintenance: CI Health Dashboard (CI health metrics aggregation) | observability |
 | `maintenance-build-issues.yml` | Maintenance: Build Error Issues (Automatic build error tracking) | issue-tracking |
-| `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
-| `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
+| `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (Default-on manual dry-run; scheduled triage remains live) | security |
+| `maintenance-docs.yml` | Maintenance: Docs (Default-on manual dry-run; scheduled/push checks retain existing behavior) | docs |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Nightly governance evidence and checklist validation) | governance |
-| `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
+| `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Manual dry-run by default; test-gated baseline refresh) | quality |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
-| `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
+| `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Read-only generation and validation; isolated PR publication) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-soll-ist-gap-issues.yml` | Maintenance: SOLL-IST Gap Issues (Roadmap vs. reality tracking) | governance |

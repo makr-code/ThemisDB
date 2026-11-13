@@ -1,7 +1,7 @@
 ---
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: "ThemisDB documentation orchestrator"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -40,7 +40,7 @@ For runtime composition — retriever orchestration, evaluation pipeline schedul
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `rag_provider.h` | `RAGProvider`, `RetrievalRequest`, `RetrievalResult` | Common typed knowledge retrieval; independent of generation |
+| `rag_provider.h` | `RAGProvider`, `RetrievalRequest`, `RetrievalExecutionContext`, `RetrievalResult` | Common typed retrieval; optional trusted per-call collection authorization; independent of generation |
 | `rag_candidate.h` | `RAGCandidate` | Owned evidence shared with the modular pipeline, without an LLM dependency |
 | `rag_retrieval_helpers.h` | `makeRAGCandidate` | Pure materialized-entity conversion; no storage or inference |
 | `hybrid_retriever.h` | `HybridRetriever` | Dense + sparse hybrid retrieval |

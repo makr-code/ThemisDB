@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <variant>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/query_plan_visualizer.h"
@@ -4593,6 +4594,107 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 // General Graph Traversal (Non-Shortest Path)
 // ============================================================================
 
+Result<std::optional<std::pair<std::string, std::int64_t>>> QueryEngine::readContentChunkText(
+    std::string_view exact_source_key, std::string_view expected_content_id) const {
+	if (!db_) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+			"Content chunk source lookup requires the concrete RocksDB backend");
+	}
+	constexpr std::string_view chunk_prefix{"chunk:"};
+	if (exact_source_key.size() <= chunk_prefix.size() ||
+	    exact_source_key.substr(0, chunk_prefix.size()) != chunk_prefix ||
+	    expected_content_id.empty()) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Invalid exact ContentManager chunk source reference");
+	}
+
+	const auto stored = db_->get(exact_source_key);
+	if (!stored) {
+		return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+	}
+
+	try {
+		const std::string serialized(stored->begin(), stored->end());
+		const auto chunk = nlohmann::json::parse(serialized);
+		if (!chunk.is_object()) {
+			return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+				errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+				"ContentManager chunk source record is not an object");
+		}
+		const auto id = chunk.find("id");
+		const auto content_id = chunk.find("content_id");
+		const auto text = chunk.find("text");
+		const auto created_at = chunk.find("created_at");
+		const auto expected_chunk_id = exact_source_key.substr(chunk_prefix.size());
+		if (id == chunk.end() || !id->is_string() ||
+		    id->get_ref<const std::string&>() != expected_chunk_id ||
+		    content_id == chunk.end() || !content_id->is_string() ||
+		    content_id->get_ref<const std::string&>() != expected_content_id ||
+		    text == chunk.end() || !text->is_string() ||
+		    created_at == chunk.end() || !created_at->is_number_integer()) {
+			return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+		}
+		auto source_text = text->get<std::string>();
+		if (source_text.find_first_not_of(" \t\r\n") == std::string::npos) {
+			return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+		}
+		return Ok(std::optional<std::pair<std::string, std::int64_t>>{
+			std::make_pair(std::move(source_text), created_at->get<std::int64_t>())});
+	} catch (const nlohmann::json::exception&) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+			"Malformed ContentManager chunk source record");
+	}
+}
+
+Result<std::optional<std::string>> QueryEngine::readIngestionSourceText(
+    std::string_view exact_source_key, std::string_view expected_source_file_id) const {
+	if (!db_) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+			"Ingestion source lookup requires the concrete RocksDB backend");
+	}
+	if (exact_source_key.empty() || expected_source_file_id.empty()) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Invalid exact ingestion source reference");
+	}
+
+	const auto storage_key = KeySchema::makeRelationalKey("ingestion_sources", exact_source_key);
+	const auto stored = db_->get(storage_key);
+	if (!stored) {
+		return Ok(std::optional<std::string>{});
+	}
+
+	try {
+		const auto source = BaseEntity::deserialize(std::string(exact_source_key), *stored);
+		const auto source_file_id_field = source.getField("source_file_id");
+		const auto source_text_field = source.getField("content");
+		const auto* source_file_id = source_file_id_field
+			? std::get_if<std::string>(&*source_file_id_field)
+			: nullptr;
+		const auto* source_text = source_text_field
+			? std::get_if<std::string>(&*source_text_field)
+			: nullptr;
+		if (!source_file_id || !source_text) {
+			return Err<std::optional<std::string>>(
+				errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+				"Incomplete ingestion source record");
+		}
+		if (*source_file_id != expected_source_file_id ||
+		    source_text->find_first_not_of(" \t\r\n") == std::string::npos) {
+			return Ok(std::optional<std::string>{});
+		}
+		return Ok(std::optional<std::string>{*source_text});
+	} catch (const std::exception&) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+			"Malformed ingestion source record");
+	}
+}
+
 Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
     const std::string& startVertex,
@@ -4601,6 +4703,35 @@ QueryEngine::executeGeneralTraversal(
     TraversalDirection direction,
     const std::string& graphId,
     const std::string& edgeTypeFilter
+) const {
+	return executeGeneralTraversal(startVertex, minDepth, maxDepth, direction,
+	                               graphId, edgeTypeFilter, {});
+}
+
+Result<std::vector<TraversalResult>>
+QueryEngine::executeGeneralTraversal(
+    const std::string& startVertex,
+    int minDepth,
+    int maxDepth,
+    TraversalDirection direction,
+    const std::string& graphId,
+    const std::string& edgeTypeFilter,
+    const std::function<bool(const std::string&)>& authorizeCollection
+) const {
+	return executeGeneralTraversal(startVertex, minDepth, maxDepth, direction,
+	                               graphId, edgeTypeFilter, authorizeCollection, {});
+}
+
+Result<std::vector<TraversalResult>>
+QueryEngine::executeGeneralTraversal(
+    const std::string& startVertex,
+    int minDepth,
+    int maxDepth,
+    TraversalDirection direction,
+    const std::string& graphId,
+    const std::string& edgeTypeFilter,
+    const std::function<bool(const std::string&)>& authorizeCollection,
+    const std::function<bool(const std::string&, const nlohmann::json&)>& authorizeVertex
 ) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
@@ -4657,6 +4788,56 @@ QueryEngine::executeGeneralTraversal(
 				errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
 				"Access denied for collection: " + table);
 		}
+		if (authorizeCollection) {
+			bool authorized = false;
+			try {
+				authorized = authorizeCollection(table);
+			} catch (...) {
+				authorized = false;
+			}
+			if (!authorized) {
+				return Err<std::vector<TraversalResult>>(
+					errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+					"Access denied for collection: " + table);
+			}
+		}
+
+		nlohmann::json authorized_vertex_data;
+		if (authorizeVertex) {
+			auto vertex_data = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
+			if (!vertex_data && slashPos != std::string::npos) {
+				vertex_data = db_->get(
+					KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
+			}
+			if (!vertex_data) {
+				vertex_data = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
+			}
+			if (!vertex_data) {
+				vertex_data = db_->get(table + ":" + current.vertex);
+			}
+
+			authorized_vertex_data = nlohmann::json{{"_key", current.vertex}};
+			if (vertex_data.has_value()) {
+				try {
+					const auto entity = BaseEntity::deserialize(current.vertex, *vertex_data);
+					authorized_vertex_data = nlohmann::json::parse(entity.toJson());
+				} catch (...) {
+					THEMIS_DEBUG("query_engine: unhandled exception caught");
+				}
+			}
+
+			bool authorized = false;
+			try {
+				authorized = authorizeVertex(current.vertex, authorized_vertex_data);
+			} catch (...) {
+				authorized = false;
+			}
+			if (!authorized) {
+				return Err<std::vector<TraversalResult>>(
+					errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+					"Access denied for graph vertex");
+			}
+		}
 		
 		// Add to results if within depth range
 		if (current.depth >= minDepth && current.depth <= maxDepth) {
@@ -4666,29 +4847,33 @@ QueryEngine::executeGeneralTraversal(
 			result.path = current.path;
 			result.edges = current.edges;
 			
-			auto vertexDataOpt = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
-			if (!vertexDataOpt && slashPos != std::string::npos) {
-				vertexDataOpt = db_->get(
-					KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
-			}
-			if (!vertexDataOpt) {
-				vertexDataOpt = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
-			}
-			if (!vertexDataOpt) {
-				vertexDataOpt = db_->get(table + ":" + current.vertex);
-			}
-			if (vertexDataOpt.has_value()) {
-				try {
-					const auto entity = BaseEntity::deserialize(current.vertex, *vertexDataOpt);
-					result.vertex_data = nlohmann::json::parse(entity.toJson());
-				} catch (...) {
-        THEMIS_DEBUG("query_engine: unhandled exception caught");
-					// If parsing fails, create minimal JSON
+			if (authorizeVertex) {
+				result.vertex_data = std::move(authorized_vertex_data);
+			} else {
+				auto vertexDataOpt = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
+				if (!vertexDataOpt && slashPos != std::string::npos) {
+					vertexDataOpt = db_->get(
+						KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
+				}
+				if (!vertexDataOpt) {
+					vertexDataOpt = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
+				}
+				if (!vertexDataOpt) {
+					vertexDataOpt = db_->get(table + ":" + current.vertex);
+				}
+				if (vertexDataOpt.has_value()) {
+					try {
+						const auto entity = BaseEntity::deserialize(current.vertex, *vertexDataOpt);
+						result.vertex_data = nlohmann::json::parse(entity.toJson());
+					} catch (...) {
+						THEMIS_DEBUG("query_engine: unhandled exception caught");
+						// If parsing fails, create minimal JSON
+						result.vertex_data = nlohmann::json{{"_key", current.vertex}};
+					}
+				} else {
+					// Vertex not found in storage, create minimal JSON
 					result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 				}
-			} else {
-				// Vertex not found in storage, create minimal JSON
-				result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 			}
 			
 			results.emplace_back(std::move(result));
@@ -4960,7 +5145,8 @@ namespace {
 
 // Hybrid access paths prefer canonical relational keys while retaining legacy reads.
 std::vector<std::optional<std::vector<uint8_t>>> readHybridEntityBlobs(
-    RocksDBWrapper& db, const std::string& table, const std::vector<std::string>& pks) {
+    RocksDBWrapper& db, const std::string& table, const std::vector<std::string>& pks,
+    const VectorIndexManager* vector_index = nullptr) {
 	std::vector<std::string> keys;
 	keys.reserve(pks.size());
 	for (const auto& pk : pks) {
@@ -4970,6 +5156,9 @@ std::vector<std::optional<std::vector<uint8_t>>> readHybridEntityBlobs(
 	for (std::size_t i = 0; i < pks.size(); ++i) {
 		if (!blobs[i]) {
 			blobs[i] = db.get(table + ":" + pks[i]);
+		}
+		if (!blobs[i] && vector_index && vector_index->getObjectName() == table) {
+			blobs[i] = db.get(KeySchema::makeVectorKey(table, pks[i]));
 		}
 	}
 	return blobs;
@@ -5009,6 +5198,13 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		return Err<std::vector<VectorGeoResult>>(
 			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
 			"Access denied for collection: " + q.table
+		);
+	}
+	if (vectorIdx_ && !vectorIdx_->getObjectName().empty() &&
+	    vectorIdx_->getObjectName() != q.table) {
+		return Err<std::vector<VectorGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Vector index namespace does not match query collection"
 		);
 	}
 
@@ -5168,7 +5364,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (auto& r : vr) {
 			  keys.emplace_back(r.pk);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 			for (size_t i = 0; i < vr.size();++i) {
 				if (!blobs[i].has_value()) {
 				  continue;
@@ -5232,7 +5428,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
 			r.vector_distance = tmp[i].second;
-			auto blobs = readHybridEntityBlobs(*db_, q.table, {tmp[i].first});
+			auto blobs = readHybridEntityBlobs(*db_, q.table, {tmp[i].first}, vectorIdx_);
 			const auto& val_opt = blobs.front();
 			if (val_opt) {
 				try {
@@ -5295,7 +5491,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (const auto& r : vr) {
 			  keys.emplace_back(r.pk);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 
 			// Evaluate spatial filter in parallel
 			std::vector<VectorGeoResult> local = {};
@@ -5387,7 +5583,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (const auto& r : indexResults) {
 			  keys.emplace_back(r.primary_key);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
 				if (!blobs[i].has_value()) {

@@ -1,9 +1,11 @@
 #include "rag/rag_provider.h"
 #include "rag/rag_retrieval_helpers.h"
 #include "storage/base_entity.h"
+#include "query/aql_parser.h"
 
 #include <algorithm>
 #include <cmath>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <type_traits>
@@ -13,13 +15,36 @@ namespace themis::rag {
 namespace {
 
 Result<void> checkExecution(const RetrievalExecutionContext& context) {
-    if (context.cancelled && context.cancelled->load(std::memory_order_acquire)) {
+    const bool primary_cancelled =
+        context.cancelled && context.cancelled->load(std::memory_order_acquire);
+    const bool additional_cancelled = std::any_of(
+        context.additional_cancellation_tokens.begin(),
+        context.additional_cancellation_tokens.end(),
+        [](const auto& token) {
+            return token && token->load(std::memory_order_acquire);
+        });
+    if (primary_cancelled || additional_cancelled) {
         return ErrVoid(errors::ErrorCode::ERR_QUERY_CANCELLED, "RAG retrieval cancelled");
     }
     if (std::chrono::steady_clock::now() >= context.deadline) {
         return ErrVoid(errors::ErrorCode::ERR_QUERY_TIMEOUT, "RAG retrieval deadline exceeded");
     }
     return OkVoid();
+}
+
+Result<void> checkCollectionAccess(
+    const RetrievalExecutionContext& context, const std::string& collection) {
+    if (!context.authorize_collection) {
+        return OkVoid();
+    }
+    try {
+        if (context.authorize_collection(collection)) {
+            return OkVoid();
+        }
+    } catch (...) {
+    }
+    return ErrVoid(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+                   "RAG collection access denied");
 }
 
 } // namespace
@@ -46,7 +71,101 @@ Result<RetrievalResult> RAGProvider::retrieve(
         if (!active) {
             return active;
         }
-        auto candidate = makeRAGCandidate(id, collection, entity, score, provenance);
+        auto authorized = checkCollectionAccess(context, collection);
+        if (!authorized) {
+            return authorized;
+        }
+        if (!context.tenant_id.empty()) {
+            const auto tenant = entity.find("tenant_id");
+            if (tenant == entity.end() || !tenant->is_string() ||
+                tenant->get_ref<const std::string&>() != context.tenant_id) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+        }
+        nlohmann::json materialized_entity;
+        const auto* candidate_entity = &entity;
+        const auto source_type = entity.find("source_ref_type");
+        if (source_type != entity.end() && source_type->is_string() &&
+            source_type->get_ref<const std::string&>() == "ingestion_chunk") {
+            const auto source_collection = entity.find("source_ref_collection");
+            const auto source_key = entity.find("source_ref_key");
+            const auto source_provenance = entity.find("source_ref_provenance");
+            if (source_collection == entity.end() || !source_collection->is_string() ||
+                source_collection->get_ref<const std::string&>() != "ingestion_sources" ||
+                source_key == entity.end() || !source_key->is_string() ||
+                source_key->get_ref<const std::string&>().empty() ||
+                source_provenance == entity.end() || !source_provenance->is_string() ||
+                source_provenance->get_ref<const std::string&>().empty()) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            auto source_text = engine_.readIngestionSourceText(
+                source_key->get_ref<const std::string&>(),
+                source_provenance->get_ref<const std::string&>());
+            if (!source_text) {
+                return tl::unexpected(source_text.error());
+            }
+            if (!*source_text) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            materialized_entity = entity;
+            materialized_entity["content"] = std::move(**source_text);
+            candidate_entity = &materialized_entity;
+        } else if (source_type != entity.end() && source_type->is_string() &&
+                   source_type->get_ref<const std::string&>() == "content_chunk") {
+            const auto source_collection = entity.find("source_ref_collection");
+            const auto source_key = entity.find("source_ref_key");
+            const auto source_version = entity.find("source_ref_version");
+            const auto content_id = entity.find("content_id");
+            if (source_collection == entity.end() || !source_collection->is_string() ||
+                source_collection->get_ref<const std::string&>() != collection ||
+                source_key == entity.end() || !source_key->is_string() ||
+                source_key->get_ref<const std::string&>().empty() ||
+                content_id == entity.end() || !content_id->is_string() ||
+                content_id->get_ref<const std::string&>().empty() ||
+                (source_version != entity.end() &&
+                 !source_version->is_string() && !source_version->is_number_integer())) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            std::optional<std::string> expected_version;
+            if (source_version != entity.end()) {
+                if (source_version->is_string()) {
+                    expected_version = source_version->get<std::string>();
+                } else {
+                    try {
+                        expected_version = std::to_string(
+                            source_version->get<std::int64_t>());
+                    } catch (const nlohmann::json::exception&) {
+                        ++result.rejected_documents;
+                        return OkVoid();
+                    }
+                }
+            }
+            auto source_text = engine_.readContentChunkText(
+                source_key->get_ref<const std::string&>(),
+                content_id->get_ref<const std::string&>());
+            if (!source_text) {
+                return tl::unexpected(source_text.error());
+            }
+            if (!*source_text) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            if (expected_version &&
+                *expected_version !=
+                    std::to_string((*source_text)->second)) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            materialized_entity = entity;
+            materialized_entity["content"] = std::move((*source_text)->first);
+            candidate_entity = &materialized_entity;
+        }
+        auto candidate = makeRAGCandidate(
+            id, collection, *candidate_entity, score, provenance);
         if (!candidate) {
             ++result.rejected_documents;
             return OkVoid();
@@ -79,6 +198,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
                  specification.fuzzyPredicate || specification.spatialPredicate)) {
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "Primary-key lookup cannot bypass additional RAG predicates");
+            }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
             }
             auto keys = engine_.executeAndKeys(specification);
             if (!keys) {
@@ -123,8 +246,21 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG vector query requires a collection, field and finite nonzero embedding");
             }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
+            }
             auto query = specification;
             query.k = request.max_candidates;
+            if (!context.tenant_id.empty()) {
+                auto tenant_field = std::make_shared<themis::query::FieldAccessExpr>(
+                    std::make_shared<themis::query::VariableExpr>("doc"), "tenant_id");
+                auto tenant_value = std::make_shared<themis::query::LiteralExpr>(context.tenant_id);
+                query.extra_filters.push_back(
+                    std::make_shared<themis::query::BinaryOpExpr>(
+                        themis::query::BinaryOperator::Eq, std::move(tenant_field),
+                        std::move(tenant_value)));
+            }
             auto matches = engine_.executeVectorGeoQuery(query);
             if (!matches) {
                 return tl::unexpected(matches.error());
@@ -142,6 +278,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 !specification.spatial_filter) {
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG content query requires collection, text field and search text");
+            }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
             }
             auto query = specification;
             query.limit = request.max_candidates;
@@ -163,9 +303,30 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG graph query requires a start vertex and depth range within 0..16");
             }
+            const auto start_slash = specification.start_vertex.find('/');
+            const auto start_collection = start_slash == std::string::npos
+                ? std::string{"vertices"}
+                : specification.start_vertex.substr(0, start_slash);
+            auto authorized = checkCollectionAccess(context, start_collection);
+            if (!authorized) {
+                return authorized;
+            }
+            const auto tenant_id = context.tenant_id;
+            const auto authorize_vertex = tenant_id.empty()
+                ? std::function<bool(const std::string&, const nlohmann::json&)>{}
+                : std::function<bool(const std::string&, const nlohmann::json&)>{
+                    [tenant_id](const std::string&, const nlohmann::json& vertex) {
+                        if (!vertex.is_object()) {
+                            return false;
+                        }
+                        const auto tenant = vertex.find("tenant_id");
+                        return tenant != vertex.end() && tenant->is_string() &&
+                               tenant->get<std::string>() == tenant_id;
+                    }};
             auto matches = engine_.executeGeneralTraversal(
                 specification.start_vertex, specification.min_depth, specification.max_depth,
-                specification.direction, specification.graph_id, specification.edge_type);
+                specification.direction, specification.graph_id, specification.edge_type,
+                context.authorize_collection, authorize_vertex);
             if (!matches) {
                 return tl::unexpected(matches.error());
             }

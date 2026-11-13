@@ -27,6 +27,9 @@ on:
       - 'cmake/**/*.in'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - '.github/workflows/reusable-cmake-build.yml'
       - 'plugins/private/**/plugin.toml'
       - 'plugins/private/**/plugin.json'
       - 'plugins/private/**/CMakeLists.txt'
@@ -70,7 +73,9 @@ jobs:
   hyperscaler-build:
     if: github.ref == 'refs/heads/hyperscaler'
     uses: ./.github/workflows/reusable-cmake-build.yml
-    secrets: inherit
+    secrets:
+      THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+      THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
     with:
       runs_on: ubuntu-latest
       shell: bash

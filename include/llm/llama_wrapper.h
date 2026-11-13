@@ -294,6 +294,15 @@ public:
     std::optional<ModelInfo> getModelInfo() const override;
     
     bool isModelLoaded() const override;
+
+    /**
+     * @brief Get the SHA-256 fingerprint captured for the currently loaded base model.
+     * @return The loaded model fingerprint, or an empty string if no loaded model
+     *         has a verifiable fingerprint.
+     * @note The fingerprint is captured from the model loader's actual file when
+     *       the model is loaded; it is not recomputed from a potentially changed file.
+     */
+    [[nodiscard]] std::string getLoadedModelFingerprint() const;
     
     // ═══════════════════════════════════════════════════════════
     // LoRA Management

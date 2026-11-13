@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cmath>
 #include <limits>
 #include <shared_mutex>
 #include <sstream>
@@ -86,35 +87,28 @@ struct BudgetOverrideResolution {
     std::string invalid_detail;
 };
 
-constexpr const char* kBudgetOverrideInvalidTenantOverrideType =
-    "tenant_budget_override_type";
 constexpr const char* kBudgetOverrideInvalidTenantOverrideNonPositive =
     "tenant_budget_override_non_positive";
-constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryType =
-    "tenant_budget_entry_type";
 constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
     "tenant_budget_entry_non_positive";
+constexpr const char* kBudgetOverrideInvalidNonFinite =
+    "tenant_budget_override_non_finite";
 
 [[nodiscard]] BudgetOverrideResolution resolveTenantBudgetOverride(
-    const json& extra,
+    const RagCostBudgetContext& budget_context,
     const std::string& tenant) {
-    if (!extra.is_object()) {
-        return {std::nullopt, "policy", false, "", ""};
-    }
-
-    // Precedence rule: explicit tenant_budget_override wins over tenant_budgets map.
-    if (extra.contains("tenant_budget_override")) {
-        if (!extra["tenant_budget_override"].is_number()) {
+    // Precedence rule: explicit trusted override wins over the tenant map.
+    if (budget_context.tenant_budget_override.has_value()) {
+        const double v = *budget_context.tenant_budget_override;
+        if (!std::isfinite(v)) {
             return {
                 std::nullopt,
                 "policy",
                 true,
-                kBudgetOverrideInvalidTenantOverrideType,
+                kBudgetOverrideInvalidNonFinite,
                 "tenant_budget_override",
             };
         }
-
-        const double v = extra["tenant_budget_override"].get<double>();
         if (v <= 0.0) {
             return {
                 std::nullopt,
@@ -128,22 +122,19 @@ constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
         return {v, "tenant_budget_override", false, "", ""};
     }
 
-    if (extra.contains("tenant_budgets") &&
-        extra["tenant_budgets"].is_object() &&
-        !tenant.empty()) {
-        const auto& budgets = extra["tenant_budgets"];
-        if (budgets.contains(tenant)) {
-            if (!budgets[tenant].is_number()) {
+    if (!tenant.empty()) {
+        const auto it = budget_context.tenant_budgets.find(tenant);
+        if (it != budget_context.tenant_budgets.end()) {
+            const double v = it->second;
+            if (!std::isfinite(v)) {
                 return {
                     std::nullopt,
                     "policy",
                     true,
-                    kBudgetOverrideInvalidTenantBudgetEntryType,
+                    kBudgetOverrideInvalidNonFinite,
                     "tenant_budgets." + tenant,
                 };
             }
-
-            const double v = budgets[tenant].get<double>();
             if (v <= 0.0) {
                 return {
                     std::nullopt,
@@ -901,31 +892,41 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
 
     spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id,ctx.query.size());
 
+    OrchestratorContext request_context = ctx;
+    if (mode.retrieval.enabled) {
+        const auto started_at = std::chrono::steady_clock::now();
+        const auto mode_deadline = mode.budgets.timeout_ms > 0
+            ? started_at + std::chrono::milliseconds(mode.budgets.timeout_ms)
+            : started_at;
+        request_context.retrieval_execution.deadline = std::min(
+            request_context.retrieval_execution.deadline, mode_deadline);
+    }
+
     OrchestratorResult result;
     try {
         switch (mode.mode_id) {
             case ModeId::Ask:
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
             case ModeId::Edit:
                 // Edit mode uses the same pipeline as Ask with a different system prompt
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
             case ModeId::Rag:
-                result = runRag(ctx, mode);
+                result = runRag(request_context, mode);
                 break;
             case ModeId::Agentic:
-                result = runAgentic(ctx, mode);
+                result = runAgentic(request_context, mode);
                 break;
             case ModeId::MultiAgent:
-                result = runMultiAgent(ctx, mode);
+                result = runMultiAgent(request_context, mode);
                 break;
             case ModeId::Ethics:
-                result = runEthics(ctx, mode);
+                result = runEthics(request_context, mode);
                 break;
             default:
                 // Custom mode: default to ask pipeline
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
         }
     } catch (const std::exception& e) {
@@ -954,6 +955,13 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
     InferenceRequest req;
     req.model_id    = mode.model_id;
     req.request_id  = ctx.request_id;
+    req.tenant_id   = ctx.retrieval_execution.tenant_id;
+    req.trace_id    = ctx.retrieval_execution.trace_id;
+    req.span_id     = ctx.retrieval_execution.span_id;
+    req.deadline    = ctx.retrieval_execution.deadline;
+    req.cancellation_token = ctx.retrieval_execution.cancelled;
+    req.additional_cancellation_tokens =
+        ctx.retrieval_execution.additional_cancellation_tokens;
     req.max_tokens  = ctx.max_tokens.value_or(mode.budgets.max_tokens);
     req.temperature = ctx.temperature.value_or(mode.budgets.temperature);
     req.top_p       = mode.budgets.top_p;
@@ -1103,14 +1111,12 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         policy_copy = impl_->adapter_switch_policy;
     }
 
-    std::string tenant = {};
-    if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-        tenant = ctx.extra["tenant"].get<std::string>();
-    }
+    const auto& tenant = ctx.retrieval_execution.tenant_id;
 
     double effective_budget_limit = policy_copy.max_total_cost;
     std::string effective_budget_source = "policy";
-    const auto tenant_budget_override = resolveTenantBudgetOverride(ctx.extra, tenant);
+    const auto tenant_budget_override =
+        resolveTenantBudgetOverride(ctx.rag_cost_budget, tenant);
     if (tenant_budget_override.value.has_value() && tenant_budget_override.value.value() > 0.0) {
         effective_budget_limit = tenant_budget_override.value.value();
         effective_budget_source = tenant_budget_override.source;
@@ -1198,6 +1204,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     if (internal_retrieval) {
         if (!query_engine) {
             throw std::runtime_error("RAG retrieval engine not configured for typed request");
+        }
+        if (!ctx.retrieval_execution.authorize_collection) {
+            throw std::runtime_error("RAG retrieval authorization context is unavailable");
         }
         rag::RetrievalRequest retrieval_request;
         if (ctx.retrieval_request) {
@@ -1300,9 +1309,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         input.session_id = ctx.request_id;
         input.top_k = static_cast<std::size_t>(effective_top_k);
 
-        if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-            input.tenant = ctx.extra["tenant"].get<std::string>();
-        }
+        input.tenant = ctx.retrieval_execution.tenant_id;
         if (ctx.extra.contains("domain_hint") && ctx.extra["domain_hint"].is_string()) {
             input.domain_hint = ctx.extra["domain_hint"].get<std::string>();
         }
@@ -1600,9 +1607,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             result.metadata.extra.value("adapter_apply_attempts", 0);
         input.adapter_apply_latency_ms =
             result.metadata.extra.value("adapter_apply_latency_ms", int64_t{0});
-        if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-            input.tenant = ctx.extra["tenant"].get<std::string>();
-        }
+        input.tenant = ctx.retrieval_execution.tenant_id;
         input.extra = ctx.extra;
 
         const auto est = cost_service->estimate(input);
@@ -1672,7 +1677,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
                                                const ModeSpec&            mode) const {
-    OrchestratorResult result = runAsk(ctx, mode);
+    OrchestratorResult result = mode.retrieval.enabled
+        ? runRag(ctx, mode)
+        : runAsk(ctx, mode);
     result.metadata.mode_id = mode.id;
     result.metadata.extra["agentic_tool_parse_attempted"] = true;
     if (!result.success) {

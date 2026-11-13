@@ -24,12 +24,24 @@ foreach(_src IN LISTS INGESTION_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
+    if(_stem STREQUAL "test_reindex_decision_engine")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/ingestion/reindex_decision_engine.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+            spdlog::spdlog
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_ingestion_builtin_steps_v14")

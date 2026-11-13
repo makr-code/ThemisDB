@@ -349,6 +349,11 @@ void McpServer::attachHttpServer(std::shared_ptr<HttpServer> http_server) {
  * @details Calls: isOpen(), get(), themis::config::ConfigPathResolver::mapLegacyToNew(), std::filesystem::exists(), loadFromYAML(), spdlog::info(), spdlog::warn().
  */
 void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
+    // Drop borrowers before replacing their backing database and indexes.
+    query_engine_.reset();
+    graph_mgr_.reset();
+    schema_mgr_.reset();
+    index_mgr_.reset();
     db_ = db;
     
     // Initialize SchemaManager with the database
@@ -360,11 +365,11 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
         // Create GraphIndexManager for graph queries
-        auto graph_mgr = std::make_shared<GraphIndexManager>(*db);
+        graph_mgr_ = std::make_shared<GraphIndexManager>(*db);
         
         // Create QueryEngine for AQL execution
         // Note: VectorIndexManager and SpatialIndexManager are optional
-        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
+        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr_);
         
         // Initialize PromptManager and load system prompts
         prompt_mgr_ = std::make_unique<themis::prompt_engineering::PromptManager>();
@@ -2109,6 +2114,18 @@ json McpServer::toolLLMOrchestrate(const json& args) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
     }
     auto& orchestrator = *orchestrator_;
+
+    const auto& pack = orchestrator.modePack();
+    const auto requested_mode = args.value("mode", std::string{});
+    const auto& effective_mode = requested_mode.empty() ? pack.default_mode : requested_mode;
+    for (const auto& mode : pack.modes) {
+        if (mode.id == effective_mode && mode.retrieval.enabled) {
+            return {
+                {"status", "error"},
+                {"error", "retrieval authorization context is unavailable for MCP orchestration"}
+            };
+        }
+    }
 
     try {
         themis::llm::OrchestratorContext ctx;

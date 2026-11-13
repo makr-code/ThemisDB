@@ -10,9 +10,9 @@ name: "Security: CodeQL"
 # repository and publishes the authoritative CodeQL alerts for PRs and branch
 # pushes. Advanced CodeQL uploads fail in that mode with:
 #   "advanced configurations cannot be processed when the default setup is enabled"
-# To keep this workflow useful without fighting the managed setup, we still run
-# CodeQL extraction and query execution here, but we keep the SARIF local and do
-# not upload it to Code Scanning.
+# To keep this workflow useful without fighting the managed setup, we skip
+# advanced analysis when the managed setup is active. Otherwise normal and
+# scheduled runs publish CodeQL SARIF; manual dry-runs retain it as an artifact.
 #
 # ── Query-suite split (cost control) ─────────────────────────────────────────
 #   pull_request / push  → security-extended   (security rules only, no quality)
@@ -42,6 +42,11 @@ on:
     - cron: '0 3 * * 0'
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: 'Run analysis without Code Scanning/database uploads; retain local SARIF'
+        type: boolean
+        required: false
+        default: true
       query_suite:
         description: 'CodeQL query suite to use'
         required: false
@@ -53,7 +58,7 @@ on:
 
 permissions:
   contents: read
-  security-events: write  # Required for SARIF uploads and Copilot Autofix
+  security-events: write  # Required for non-dry-run SARIF uploads
   actions: read           # Required to fetch workflow run info
 
 concurrency:
@@ -74,7 +79,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "CodeQL static analysis and gate results"
+          scope: "CodeQL static analysis and gate results (manual dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }})"
           job-results: ${{ toJSON(needs) }}
 
   detect-default-setup:
@@ -127,14 +132,16 @@ jobs:
               echo "::notice::CodeQL default setup API returned 403; assuming managed default setup is active and skipping advanced CodeQL jobs."
               echo "::warning::CodeQL default setup API returned 403. This commonly indicates managed default setup, but it can also reflect token or permission restrictions."
               if [[ -s /tmp/codeql-default-setup.json ]]; then
-                cat /tmp/codeql-default-setup.json
+                head -c 2048 /tmp/codeql-default-setup.json
+                printf '\n'
               else
                 echo "::debug::No diagnostic payload was returned for the 403 response."
               fi
               ;;
             *)
               echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."
-              cat /tmp/codeql-default-setup.json || true
+              head -c 2048 /tmp/codeql-default-setup.json || true
+              printf '\n'
               echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
               ;;
           esac
@@ -150,6 +157,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Install C++ build dependencies
         run: |
@@ -209,8 +217,19 @@ jobs:
         with:
           category: "/language:c-cpp"
           output: codeql-results
+          upload: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'never' || 'always' }}
+          upload-database: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
           ram: 6144
           threads: 4
+
+      - name: Upload CodeQL C++ SARIF for manual dry-run
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        uses: actions/upload-artifact@v5
+        with:
+          name: codeql-sarif-cpp-${{ github.run_id }}
+          path: codeql-results
+          if-no-files-found: warn
+          retention-days: 30
 
   analyze-csharp:
     name: "Security: Analyze (csharp)"
@@ -223,6 +242,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -258,8 +278,19 @@ jobs:
         with:
           category: "/language:csharp"
           output: codeql-results-csharp
+          upload: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'never' || 'always' }}
+          upload-database: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
           ram: 4096
           threads: 2
+
+      - name: Upload CodeQL C# SARIF for manual dry-run
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        uses: actions/upload-artifact@v5
+        with:
+          name: codeql-sarif-csharp-${{ github.run_id }}
+          path: codeql-results-csharp
+          if-no-files-found: warn
+          retention-days: 30
 
   analyze-rust:
     name: "Security: Analyze (rust)"
@@ -272,6 +303,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Select query suite
         id: suite
@@ -303,8 +335,19 @@ jobs:
         with:
           category: "/language:rust"
           output: codeql-results-rust
+          upload: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'never' || 'always' }}
+          upload-database: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
           ram: 4096
           threads: 2
+
+      - name: Upload CodeQL Rust SARIF for manual dry-run
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        uses: actions/upload-artifact@v5
+        with:
+          name: codeql-sarif-rust-${{ github.run_id }}
+          path: codeql-results-rust
+          if-no-files-found: warn
+          retention-days: 30
 
   codeql-gate:
     name: "Security: CodeQL Gate"

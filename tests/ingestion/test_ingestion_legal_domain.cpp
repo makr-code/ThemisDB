@@ -45,6 +45,7 @@
 #include "document/document_store.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 
 #include <filesystem>
@@ -198,7 +199,8 @@ TEST(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors) {
     ASSERT_TRUE(db->open());
 
     auto vector_index = std::make_shared<VectorIndexManager>(*db);
-    VectorIndexSinkAdapter adapter(vector_index, "ingestion_chunks", 1);
+    auto source_index = std::make_shared<SecondaryIndexManager>(*db);
+    VectorIndexSinkAdapter adapter(vector_index, source_index, "ingestion_chunks", 1);
 
     auto es = makeEntitySet("vector-file");
     es.chunks.front().embedding = {0.1f};

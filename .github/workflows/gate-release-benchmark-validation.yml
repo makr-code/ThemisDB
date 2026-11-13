@@ -73,8 +73,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: read
 
 concurrency:
   group: release-benchmark-gate-${{ github.ref }}
@@ -103,6 +101,7 @@ jobs:
         with:
           ref: ${{ inputs.ref || github.ref }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Run benchmark coverage audit
         id: audit
@@ -130,6 +129,7 @@ jobs:
         id: gate_logic
         env:
           AUDIT_JSON: ${{ steps.audit.outputs.report_json }}
+          REPORT_ONLY: ${{ inputs.report_only || false }}
         run: |
           set -euo pipefail
           python3 << 'GATE_SCRIPT'
@@ -146,6 +146,7 @@ jobs:
           
           audit_json_str = os.environ.get('AUDIT_JSON', '{}')
           audit = json.loads(audit_json_str)
+          report_only = os.environ.get('REPORT_ONLY', 'false').lower() == 'true'
           
           # Extract summary and targets_by_module from audit output
           summary = audit.get('summary', {})
@@ -244,7 +245,9 @@ jobs:
           with open("/tmp/gate_report.json", "w") as f:
               json.dump(report, f, indent=2)
           
-          sys.exit(0 if gate_status == "PASS" else 1)
+          # The decision job owns gate failure so report-only can remain successful;
+          # parse/audit errors above still fail this step.
+          sys.exit(0 if gate_status == "PASS" or report_only else 1)
           GATE_SCRIPT
 
       - name: Save gate report
@@ -262,6 +265,15 @@ jobs:
             echo "::warning::Benchmark audit report was not produced."
           fi
 
+      - name: Upload benchmark audit diagnostics
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: release-benchmark-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/artifacts/
+          if-no-files-found: warn
+          retention-days: 14
+
   release_gate_decision:
     name: "Gate: Release Readiness Decision"
     runs-on: ubuntu-24.04
@@ -274,6 +286,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Parse gate status
         id: decision
@@ -313,7 +327,7 @@ jobs:
           echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
 
       - name: Create release readiness tracking issue
-        if: always() && needs.audit_benchmarks.outputs.gate_status == 'FAIL'
+        if: always() && needs.audit_benchmarks.outputs.gate_status == 'FAIL' && inputs.report_only != true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -358,7 +372,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Comment on release issue with gate result
-        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/') && inputs.report_only != true
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -420,7 +434,7 @@ jobs:
     needs: [audit_benchmarks, release_gate_decision]
     if: always()
     permissions:
-      checks: write
+      {}
     steps:
 
       - name: Record gate result in workflow summary
@@ -435,6 +449,11 @@ jobs:
           | **Critical Modules** | ${{ needs.audit_benchmarks.outputs.coverage_critical }}% (required ≥100%) |
           | **Other Modules** | ${{ needs.audit_benchmarks.outputs.coverage_other }}% (required ≥95%) |
           | **Failed Modules** | ${{ needs.audit_benchmarks.outputs.failed_modules || '(none)' }} |
+          | **Resolved ref** | `${{ inputs.ref || github.ref }}` |
+          | **Ref source** | ${{ inputs.ref && 'workflow_dispatch input' || 'trigger ref' }} |
+          | **Report-only mode** | ${{ inputs.report_only || false }} |
+          | **Report-only source** | ${{ inputs.report_only == true && 'workflow_dispatch input' || 'default false' }} |
+          | **Diagnostics artifact** | `release-benchmark-audit-${{ github.run_id }}` |
           
           ### Gate Decision
           ${{ needs.audit_benchmarks.outputs.gate_message }}

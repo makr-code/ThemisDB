@@ -49,9 +49,17 @@ public:
     );
 
     /**
-     * @brief Handle Search.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Search nearest neighbors, optionally using cursor pagination.
+     * @param[in] req Borrowed HTTP request with a JSON numeric array `vector`
+     * matching the index dimension and optional positive `k` (default 10).
+     * Optional `filter` must be an empty object (a no-op); metadata predicates
+     * are not supported. `use_cursor` enables pagination with an offset `cursor`.
+     * @return HTTP 200 with `results`, `k`, and `count`, or cursor-mode `items`,
+     * `batch_size`, `has_more`, and optional `next_cursor`. HTTP 400 for invalid
+     * input, including null, scalar, array, or nonempty object `filter` values;
+     * authorization/policy errors and index failures retain their error responses.
+     * @note Omitting `filter` or supplying `{}` performs the same unfiltered
+     * search, including on subsequent cursor pages.
      */
     http::response<http::string_body> handleSearch(const http::request<http::string_body>& req);
 

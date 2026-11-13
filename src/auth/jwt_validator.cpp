@@ -869,7 +869,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
         }
         throw std::runtime_error("Missing required jti claim");
     }
-    claims.tenant_id = payload.value("tenant_id", ""); // Extract tenant_id from JWT
+    claims.tenant_id = payload.value(cfg_.tenant_claim, "");
     claims.issuer    = payload.value("iss", "");
     
     // Mandatory issuer validation: if require_issuer_validation is set, iss claim must be present

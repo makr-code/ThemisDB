@@ -455,6 +455,28 @@ class ThemisClient:
         use_cursor: bool = False,
         cursor: Optional[str] = None,
     ) -> Dict[str, Any]:
+        """Search shards and return at most ``top_k`` hits globally.
+
+        Rank stably by descending score when every hit has a non-null score
+        (including zero), otherwise by ascending distance when every hit has a
+        non-null distance. Non-comparable mixed hits raise ValueError.
+        Ties retain endpoint order, then response order.
+
+        A single successful response retains its fields and pagination format;
+        ``count`` and ``batch_size``, when present, reflect the returned hit count.
+        Its ``has_more`` and ``next_cursor`` are preserved. If a shard exceeds the
+        requested k, client truncation may skip hits when following that cursor.
+        Multiple successes return ``results`` and unmodified ``partials``.
+        Shard cursors are not combined into a global pagination cursor.
+        Filters, including {}, are forwarded unchanged: unsupported nonempty
+        filters must be rejected by the server, not silently ignored.
+
+        HTTP/request failures are reported as ``partial=True`` and an
+        ``errors`` list with credential-free endpoint origins, status (None for
+        request failures), and safe messages. If every shard fails, raise
+        httpx.HTTPError describing the shard statuses, with the same structured
+        list available as its ``errors`` attribute. Other exceptions propagate.
+        """
         request_body: Dict[str, Any] = {"vector": embedding, "k": top_k}
         if metadata_filter is not None:
             request_body["filter"] = metadata_filter
@@ -464,14 +486,35 @@ class ThemisClient:
             request_body["cursor"] = cursor
 
         responses: List[Dict[str, Any]] = []
+        errors: List[Dict[str, Any]] = []
         for endpoint in self._current_endpoints():
-            response = self._request("POST", f"{endpoint}/vector/search", json=request_body)
+            # Report only the origin, never userinfo, query tokens or URL paths.
+            safe_endpoint = str(httpx.URL(endpoint).copy_with(
+                username="", password="", path="", query=None, fragment=None,
+            ))
+            try:
+                response = self._request("POST", f"{endpoint}/vector/search", json=request_body)
+            except httpx.HTTPStatusError as exc:
+                response = exc.response
+            except httpx.RequestError as exc:
+                errors.append({
+                    "endpoint": safe_endpoint,
+                    "status": None,
+                    "message": f"Request failure ({type(exc).__name__})",
+                })
+                continue
             if response.status_code == 200:
                 responses.append(response.json())
+            else:
+                errors.append({
+                    "endpoint": safe_endpoint,
+                    "status": response.status_code,
+                    "message": f"HTTP {response.status_code}",
+                })
         if not responses:
-            return {"results": []}
-        if len(responses) == 1:
-            return responses[0]
+            error = httpx.HTTPError(f"Vector search failed on all shards: {errors}")
+            setattr(error, "errors", errors)
+            raise error
 
         merged_hits: List[Dict[str, Any]] = []
         for payload in responses:
@@ -479,11 +522,28 @@ class ThemisClient:
                 merged_hits.extend(payload.get("results", []))
             elif "items" in payload:
                 merged_hits.extend(payload.get("items", []))
-        merged_hits.sort(key=lambda item: item.get("score") or item.get("distance", 0), reverse=True)
-        return {
-            "results": merged_hits[:top_k],
-            "partials": responses,
-        }
+        if merged_hits:
+            if all(hit.get("score") is not None for hit in merged_hits):
+                metric, reverse = "score", True
+            elif all(hit.get("distance") is not None for hit in merged_hits):
+                metric, reverse = "distance", False
+            else:
+                raise ValueError("Vector search hits lack a common non-null score or distance")
+            merged_hits.sort(key=lambda item: item[metric], reverse=reverse)
+
+        if len(responses) == 1:
+            result = dict(responses[0])
+            hits_key = "results" if "results" in result else "items"
+            if hits_key in result:
+                result[hits_key] = merged_hits[:top_k]
+                for size_key in ("count", "batch_size"):
+                    if size_key in result:
+                        result[size_key] = len(result[hits_key])
+        else:
+            result = {"results": merged_hits[:top_k], "partials": responses}
+        if errors:
+            result.update(partial=True, errors=errors)
+        return result
 
     def begin_transaction(
         self,

@@ -4,57 +4,69 @@ on:
   workflow_call:
     inputs:
       issue_label:
+        description: "Issue label required before approval commands are processed."
         required: true
         type: string
       match_regex:
+        description: "Regular expression matching any supported approval, hold, reject, or rollback command."
         required: true
         type: string
       hold_regex:
+        description: "Regular expression identifying a hold command."
         required: true
         type: string
       reject_regex:
+        description: "Regular expression identifying a rejection command."
         required: true
         type: string
       rollback_regex:
+        description: "Regular expression identifying a rollback command."
         required: true
         type: string
       subject:
+        description: "Publication subject inserted into status comments."
         required: true
         type: string
       environment_name:
+        description: "GitHub Environment used to protect the publication approval job."
         required: true
         type: string
       environment_url:
+        description: "URL displayed for the protected GitHub Environment."
         required: true
         type: string
       target_workflow_id:
+        description: "Workflow filename or ID dispatched after a valid maintainer approval."
         required: true
         type: string
       target_ref:
+        description: "Branch or tag passed to the target workflow; defaults to develop."
         required: false
         default: develop
         type: string
       dispatch_inputs_json:
+        description: "Optional JSON object of additional inputs passed to the target workflow."
         required: false
         default: "{}"
         type: string
       version_input_name:
+        description: "Target workflow input receiving the version extracted from the issue; defaults to version."
         required: false
         default: version
         type: string
       approved_label:
+        description: "Label applied after publication approval."
         required: false
         default: "distro-approved"
         type: string
       approval_note:
+        description: "Optional note included in the approval status comment."
         required: false
         default: ""
         type: string
 
 permissions:
-  issues: write
   contents: read
-  actions: write
 
 concurrency:
   group: release-approval-gate-${{ github.event.issue.number || github.ref }}
@@ -64,6 +76,10 @@ jobs:
   approval-gate:
     name: "Validate: Release Approval Comment Gate"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     outputs:
       gate-skip: ${{ steps.gate.outputs.skip }}
       gate-status: ${{ steps.gate.outputs.status }}
@@ -149,7 +165,7 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            const match = body.match(/## Release Version:\s*v?(\d+\.\d+\.\d+)/);
+            const match = body.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?)(?:\s|$)/);
             if (!match) {
               core.setFailed('Could not extract release version from issue body. Expected format: "## Release Version: v2.5.0"');
               return;
@@ -184,7 +200,17 @@ jobs:
         with:
           script: |
             const version = '${{ steps.extract_version.outputs.version }}';
-            const extraInputs = JSON.parse(process.env.EXTRA_INPUTS_JSON || '{}');
+            let extraInputs;
+            try {
+              extraInputs = JSON.parse(process.env.EXTRA_INPUTS_JSON || '{}');
+            } catch {
+              core.setFailed('Invalid dispatch_inputs_json; expected a JSON object.');
+              return;
+            }
+            if (!extraInputs || typeof extraInputs !== 'object' || Array.isArray(extraInputs)) {
+              core.setFailed('Invalid dispatch_inputs_json; expected a JSON object.');
+              return;
+            }
             const versionInputName = process.env.VERSION_INPUT_NAME || 'version';
             const workflowInputs = { ...extraInputs, [versionInputName]: version };
 

@@ -411,8 +411,7 @@ jobs:
     if: failure() && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: write
+      pull-requests: read
       issues: write
     steps:
       - name: Apply failure label and PR comment

@@ -23,8 +23,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
-  contents: write
+  contents: read
 
 concurrency:
   group: wiki-publish-${{ github.event.issue.number }}
@@ -49,6 +48,9 @@ jobs:
 
   wiki_publish_from_issue:
     name: "Publish: Wiki on approval comment"
+    permissions:
+      contents: write
+      issues: write
     if: |
       contains(github.event.issue.labels.*.name, 'wiki-review') &&
       (

@@ -2,14 +2,14 @@ name: "Release: Rollback"
 
 # Rechenaufwand-Score: R=2 (K=2, L=2, N=1) | last-calibrated: 2026-09-04
 # Trigger policy: manual workflow_dispatch (no scheduled execution)
-# Allows deleting release artifacts and reverting version changes if needed.
+# Allows deleting GitHub Releases and proposing version rollback; registry tag cleanup remains manual.
 #
 # Trigger: workflow_dispatch with version to rollback
 #
 # Actions:
 #   - Delete GitHub Release (optional)
 #   - Revert VERSION/RELEASE_TYPE (optional)
-#   - Delete Docker image tags (optional)
+#   - Report manual Docker image tag cleanup steps (optional)
 #   - Create rollback PR (optional)
 
 on:
@@ -28,7 +28,7 @@ on:
           - "true"
           - "false"
       delete-docker-tags:
-        description: "Delete Docker image tags from registry"
+        description: "Request Docker tag cleanup; this workflow reports the required manual registry steps."
         required: false
         default: "false"
         type: choice
@@ -51,12 +51,15 @@ on:
         description: "Reason for rollback (for PR description)"
         required: false
         type: string
+      dry_run:
+        description: "Validate and preview the requested rollback without deleting releases or creating a rollback pull request."
+        required: false
+        default: true
+        type: boolean
 
 permissions:
-  contents: write
-  packages: write
+  contents: read
   actions: read
-  issues: write
 
 concurrency:
   group: release-rollback-${{ github.ref }}
@@ -66,7 +69,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version, notify-rollback]
+    needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version, create-rollback-pr, notify-rollback]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -76,7 +79,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Release rollback and recovery steps"
+          scope: ${{ inputs.dry_run && 'Release rollback preview (dry-run; destructive writes suppressed)' || 'Release rollback and recovery steps' }}
           job-results: ${{ toJSON(needs) }}
 
   validate-rollback:
@@ -84,17 +87,26 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       proceed: ${{ steps.validate.outputs.proceed }}
+      version: ${{ steps.validate.outputs.version }}
+      previous_version: ${{ steps.validate.outputs.previous_version }}
+      release_tags: ${{ steps.validate.outputs.release_tags }}
     steps:
       - name: Validate rollback request
         id: validate
+        env:
+          VERSION: ${{ inputs.version }}
+          DELETE_RELEASE: ${{ inputs.delete-github-release }}
+          DELETE_DOCKER: ${{ inputs.delete-docker-tags }}
+          REVERT: ${{ inputs.revert-version }}
+          PREVIOUS_VERSION: ${{ inputs.previous-version }}
+          REASON: ${{ inputs.reason }}
         run: |
           set -euo pipefail
-          
-          VERSION="${{ github.event.inputs.version }}"
-          DELETE_RELEASE="${{ github.event.inputs.delete-github-release }}"
-          DELETE_DOCKER="${{ github.event.inputs.delete-docker-tags }}"
-          REVERT="${{ github.event.inputs.revert-version }}"
-          REASON="${{ github.event.inputs.reason }}"
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "::error::Version must be semantic version X.Y.Z with an optional prerelease suffix."
+            exit 1
+          fi
           
           echo "Rollback Request:"
           echo "  Version: $VERSION"
@@ -111,25 +123,45 @@ jobs:
             echo "::error::No rollback actions selected"
             exit 1
           fi
+
+          if [[ "$REVERT" == "true" ]]; then
+            if ! [[ "$PREVIOUS_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+              echo "::error::A valid previous-version is required when revert-version=true"
+              exit 1
+            fi
+            if [[ "$PREVIOUS_VERSION" == "$VERSION" ]]; then
+              echo "::error::previous-version must differ from the rollback version"
+              exit 1
+            fi
+          fi
           
           # Require reason if taking any action
           if [[ -z "$REASON" ]]; then
             echo "::warning::Rollback reason not provided"
           fi
-          
-          echo "proceed=true" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "proceed=true"
+            echo "version=$VERSION"
+            echo "previous_version=$PREVIOUS_VERSION"
+            echo "release_tags=v${VERSION},v${VERSION}-rc1,enterprise-v${VERSION},hyperscaler-v${VERSION},military-v${VERSION},minimal-v${VERSION}"
+          } >> "$GITHUB_OUTPUT"
 
   delete-github-release:
     name: "Release: Delete GitHub Release"
     needs: validate-rollback
     runs-on: ubuntu-latest
-    if: github.event.inputs.delete-github-release == 'true'
+    if: inputs.delete-github-release == 'true' && inputs.dry_run != true
+    permissions:
+      contents: write
     steps:
       - name: Delete GitHub Release
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        env:
+          VERSION: ${{ needs.validate-rollback.outputs.version }}
         with:
           script: |
-            const version = '${{ github.event.inputs.version }}';
+            const version = process.env.VERSION;
             const tags = [
               `v${version}`,
               `v${version}-rc1`,
@@ -156,100 +188,114 @@ jobs:
                   console.log(`✓ Deleted release: ${tag}`);
                 }
               } catch (e) {
-                console.log(`ℹ Release not found or already deleted: ${tag}`);
+                if (e.status === 404) {
+                  console.log(`ℹ Release not found: ${tag}`);
+                  continue;
+                }
+                throw e;
               }
             }
 
       - name: Report deletion status
-        run: |
-          echo "✓ GitHub Release deletion completed"
-          echo "  Version: ${{ github.event.inputs.version }}"
-
-  delete-docker-tags:
-    name: "Release: Delete Docker Image Tags"
-    needs: validate-rollback
-    runs-on: ubuntu-latest
-    if: github.event.inputs.delete-docker-tags == 'true'
-    permissions:
-      packages: write
-    steps:
-      - name: Delete Docker Hub tags
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          VERSION: ${{ needs.validate-rollback.outputs.version }}
         run: |
           set -euo pipefail
-          
-          VERSION="${{ github.event.inputs.version }}"
-          
-          echo "Docker Hub deletion would be manual via Docker Hub UI:"
-          echo "  https://hub.docker.com/r/themisdb/themisdb/tags"
-          echo "  Delete tags: $VERSION, $VERSION-community-binary-x64, etc."
-          echo ""
-          echo "GHCR deletion requires GitHub CLI:"
-          gh auth status 2>/dev/null || echo "GitHub CLI not authenticated"
+          echo "✓ GitHub Release deletion completed"
+          echo "  Release records for version: ${VERSION}"
+          echo "  Git tags were not deleted."
 
-      - name: Report deletion status
-        run: |
-          echo "✓ Docker image deletion initiated (may require manual confirmation)"
-          echo "  Version: ${{ github.event.inputs.version }}"
-
-  revert-version:
-    name: "Release: Revert VERSION File"
+  delete-docker-tags:
+    name: "Release: Plan Docker Tag Cleanup"
     needs: validate-rollback
     runs-on: ubuntu-latest
-    if: github.event.inputs.revert-version == 'true'
+    if: inputs.delete-docker-tags == 'true'
+    steps:
+      - name: Report manual Docker tag cleanup requirements
+        env:
+          VERSION: ${{ needs.validate-rollback.outputs.version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          echo "::notice::Docker tag deletion is not automated by this workflow."
+          {
+            echo "### Docker Tag Cleanup"
+            echo "- Version: \`${VERSION}\`"
+            echo "- Docker Hub tags require manual removal: https://hub.docker.com/r/themisdb/themisdb/tags"
+            echo "- GHCR tags require separate package cleanup; this job does not delete registry tags."
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Dry-run: no registry mutation was attempted."
+            else
+              echo "- No registry mutation was attempted; manual cleanup is still required."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Docker Hub tag cleanup is manual:"
+          echo "  https://hub.docker.com/r/themisdb/themisdb/tags"
+          echo "  Review and remove relevant tags for version ${VERSION}."
+
+  revert-version:
+    name: "Release: Plan Version Revert"
+    needs: validate-rollback
+    runs-on: ubuntu-latest
+    if: inputs.revert-version == 'true'
+    steps:
+      - name: Preview version rollback
+        env:
+          VERSION: ${{ needs.validate-rollback.outputs.version }}
+          PREVIOUS_VERSION: ${{ needs.validate-rollback.outputs.previous_version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          {
+            echo "### Version Rollback"
+            echo "- Requested version: \`${VERSION}\`"
+            echo "- Previous version: \`${PREVIOUS_VERSION}\`"
+            echo "- RELEASE_TYPE would be reset to \`alpha\`."
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Dry-run: no files were changed and no pull request was created."
+            else
+              echo "- Version changes will be proposed in a rollback pull request."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  create-rollback-pr:
+    name: "Release: Create Rollback PR"
+    needs: validate-rollback
+    runs-on: ubuntu-latest
+    if: inputs.revert-version == 'true' && inputs.dry_run != true
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Revert version
-        id: revert
+      - name: Prepare rollback files
+        env:
+          PREVIOUS_VERSION: ${{ needs.validate-rollback.outputs.previous_version }}
         run: |
           set -euo pipefail
-          
-          CURRENT_VERSION="${{ github.event.inputs.version }}"
-          PREVIOUS_VERSION="${{ github.event.inputs.previous-version }}"
-          
-          if [[ -z "$PREVIOUS_VERSION" ]]; then
-            echo "::error::previous-version not provided; cannot revert"
-            exit 1
-          fi
-          
-          echo "$PREVIOUS_VERSION" > VERSION
-          
-          # Determine release type (conservative: revert to alpha for safety)
-          echo "alpha" > RELEASE_TYPE
-          
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git add VERSION RELEASE_TYPE
-          git commit -m "chore: rollback version from $CURRENT_VERSION to $PREVIOUS_VERSION" \
-            --message "Rollback reason: ${{ github.event.inputs.reason }}" \
-            || true
-          
-          echo "reverted-to=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$PREVIOUS_VERSION" > VERSION
+          printf '%s\n' "alpha" > RELEASE_TYPE
 
       - name: Create rollback PR
         uses: peter-evans/create-pull-request@v8.1.1
-        if: steps.revert.outputs.reverted-to != ''
         with:
-          commit-message: "chore: rollback version from ${{ github.event.inputs.version }} to ${{ steps.revert.outputs.reverted-to }}"
-          title: "Rollback: Revert to v${{ steps.revert.outputs.reverted-to }} — Release ${{ github.event.inputs.version }}"
+          commit-message: "chore: rollback version from ${{ needs.validate-rollback.outputs.version }} to ${{ needs.validate-rollback.outputs.previous_version }}"
+          title: "Rollback: Revert to v${{ needs.validate-rollback.outputs.previous_version }} — Release ${{ needs.validate-rollback.outputs.version }}"
           body: |
             ## Rollback Notice
             
-            **Rolled Back From:** ${{ github.event.inputs.version }}  
-            **Rolled Back To:** ${{ steps.revert.outputs.reverted-to }}  
-            **Reason:** ${{ github.event.inputs.reason }}  
+            **Rolled Back From:** ${{ needs.validate-rollback.outputs.version }}
+            **Rolled Back To:** ${{ needs.validate-rollback.outputs.previous_version }}
+            **Reason:** ${{ github.event.inputs.reason }}
             **Initiated By:** @${{ github.actor }}
             
             ### Changes
             
-            - VERSION: ${{ github.event.inputs.version }} → ${{ steps.revert.outputs.reverted-to }}
+            - VERSION: ${{ needs.validate-rollback.outputs.version }} → ${{ needs.validate-rollback.outputs.previous_version }}
             - RELEASE_TYPE: (reverted to alpha for safety)
             
             ### Actions Taken
@@ -260,38 +306,68 @@ jobs:
             - [ ] WinGet PR cancelled (manual at microsoft/winget-pkgs)
             
             Please review and merge this PR to complete the rollback.
-          branch: rollback/v${{ github.event.inputs.version }}
+          branch: rollback/v${{ needs.validate-rollback.outputs.version }}
           delete-branch: false
           labels: release/rollback,critical
 
-      - name: Report rollback status
-        run: |
-          echo "✓ Version rollback initiated"
-          echo "  From: ${{ github.event.inputs.version }}"
-          echo "  To: ${{ steps.revert.outputs.reverted-to }}"
-
   notify-rollback:
     name: "Automation: Notify Rollback"
-    needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version]
+    needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version, create-rollback-pr]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Report rollback completion
+        env:
+          VALIDATION_RESULT: ${{ needs.validate-rollback.result }}
+          VERSION: ${{ needs.validate-rollback.outputs.version }}
+          DELETE_RELEASE: ${{ inputs.delete-github-release }}
+          DELETE_DOCKER: ${{ inputs.delete-docker-tags }}
+          REVERT_VERSION: ${{ inputs.revert-version }}
+          PREVIOUS_VERSION: ${{ needs.validate-rollback.outputs.previous_version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          RELEASE_RESULT: ${{ needs.delete-github-release.result }}
+          DOCKER_PLAN_RESULT: ${{ needs.delete-docker-tags.result }}
+          REVERT_PLAN_RESULT: ${{ needs.revert-version.result }}
+          ROLLBACK_PR_RESULT: ${{ needs.create-rollback-pr.result }}
         run: |
           echo "═══════════════════════════════════════════════════════════════"
-          echo "Release Rollback Complete"
+          echo "Release Rollback Summary"
           echo "═══════════════════════════════════════════════════════════════"
-          echo "Version:    ${{ github.event.inputs.version }}"
-          echo "Reason:     ${{ github.event.inputs.reason }}"
+          echo "Version:    ${VERSION:-not validated}"
           echo "Initiated:  ${{ github.actor }}"
           echo ""
-          echo "Actions Completed:"
-          echo "  GitHub Release: ${{ github.event.inputs.delete-github-release }}"
-          echo "  Docker Tags: ${{ github.event.inputs.delete-docker-tags }}"
-          echo "  Version Revert: ${{ github.event.inputs.revert-version }}"
-          echo ""
-          echo "⚠️  Manual Actions Required:"
-          echo "  1. Cancel WinGet PR at: https://github.com/microsoft/winget-pkgs/pulls"
-          echo "  2. Verify Docker images removed from registries"
-          echo "  3. Review and merge the rollback PR"
+          {
+            echo "### Rollback Request"
+            echo "- Validation: \`${VALIDATION_RESULT}\`"
+            echo "- Version: \`${VERSION:-not validated}\`"
+            echo "- Mode: \`${DRY_RUN}\`"
+            echo "- Requested actions: GitHub Release deletion=\`${DELETE_RELEASE}\`, Docker tag cleanup=\`${DELETE_DOCKER}\`, version revert=\`${REVERT_VERSION}\`"
+            if [ "${VALIDATION_RESULT}" = "success" ]; then
+              if [ "${DRY_RUN}" = "true" ]; then
+                echo "- Dry-run: GitHub Release deletion and rollback PR creation were suppressed."
+                if [ "${DELETE_RELEASE}" = "true" ]; then
+                  echo "- Planned GitHub Release records: \`${{ needs.validate-rollback.outputs.release_tags }}\` (Git tags remain untouched)."
+                else
+                  echo "- GitHub Release deletion was not requested."
+                fi
+                if [ "${REVERT_VERSION}" = "true" ]; then
+                  echo "- Planned version change: \`${VERSION}\` → \`${PREVIOUS_VERSION}\`; RELEASE_TYPE → \`alpha\`."
+                fi
+              else
+                echo "- GitHub Release deletion job: \`${RELEASE_RESULT}\`"
+                echo "- Version plan job: \`${REVERT_PLAN_RESULT}\`"
+                echo "- Rollback PR job: \`${ROLLBACK_PR_RESULT}\`"
+              fi
+            else
+              echo "- No rollback side effects were started because request validation failed."
+            fi
+            echo "- Docker cleanup status: \`${DOCKER_PLAN_RESULT}\`; actual registry deletion remains a manual action."
+            echo "- Manual WinGet cleanup may be required: https://github.com/microsoft/winget-pkgs/pulls"
+            echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "${VALIDATION_RESULT}" = "success" ]; then
+            echo "Rollback request validated and summarized."
+          else
+            echo "::error::Rollback request validation failed; no rollback side effects were started."
+          fi
           echo "═══════════════════════════════════════════════════════════════"

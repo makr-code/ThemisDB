@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 #include "utils/serialization.h"
 #include <cstring>
+#include <stdexcept>
 
 namespace themis {
 namespace utils {
@@ -45,6 +46,7 @@ TEST_F(SerializationTest, DecoderUInt32BoundsOverflow) {
     // and should return 0 safely
     uint32_t value = decoder.decodeUInt32();
     EXPECT_EQ(value, 0);
+    EXPECT_TRUE(decoder.hasError());
 }
 
 TEST_F(SerializationTest, DecoderUInt64BoundsOverflow) {
@@ -60,6 +62,7 @@ TEST_F(SerializationTest, DecoderUInt64BoundsOverflow) {
     Serialization::Decoder decoder(truncated);
     uint64_t value = decoder.decodeUInt64();
     EXPECT_EQ(value, 0);  // Should return 0, not read past buffer
+    EXPECT_TRUE(decoder.hasError());
 }
 
 TEST_F(SerializationTest, DecoderStringBoundsOverflow) {
@@ -86,6 +89,7 @@ TEST_F(SerializationTest, DecoderStringBoundsOverflow) {
     
     // Should return empty string (or truncated to available), not crash
     EXPECT_TRUE(str.empty() || str.size() <= 6);
+    EXPECT_TRUE(decoder.hasError());
 }
 
 TEST_F(SerializationTest, DecoderBinaryBoundsOverflow) {
@@ -109,6 +113,7 @@ TEST_F(SerializationTest, DecoderBinaryBoundsOverflow) {
     
     // Should return empty vector or truncated, not crash with out-of-bounds
     EXPECT_TRUE(binary.empty() || binary.size() <= 16);
+    EXPECT_TRUE(decoder.hasError());
 }
 
 TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
@@ -132,6 +137,21 @@ TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
     
     // Should return empty or partial vector, not crash with out-of-bounds memcpy
     EXPECT_TRUE(vec.empty() || vec.size() * sizeof(float) <= 96);
+}
+
+TEST_F(SerializationTest, DecoderRejectsContainerTypeMismatch) {
+    encoder.beginArray(0);
+    encoder.endArray();
+    const auto array_buffer = encoder.finish();
+    Serialization::Decoder object_decoder(array_buffer);
+    EXPECT_THROW(object_decoder.beginObject(), std::runtime_error);
+
+    Serialization::Encoder object_encoder;
+    object_encoder.beginObject(0);
+    object_encoder.endObject();
+    const auto object_buffer = object_encoder.finish();
+    Serialization::Decoder array_decoder(object_buffer);
+    EXPECT_THROW(array_decoder.beginArray(), std::runtime_error);
 }
 
 // ============================================================================
@@ -167,6 +187,7 @@ TEST_F(SerializationTest, RoundTripString) {
     std::string decoded = decoder.decodeString();
     
     EXPECT_EQ(decoded, original);
+    EXPECT_FALSE(decoder.hasError());
 }
 
 TEST_F(SerializationTest, RoundTripBinary) {

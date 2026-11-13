@@ -2,9 +2,8 @@
 """
 scripts/compendium-drift-scan.py
 ---------------------------------
-Detects stale compendium chapters relative to the ThemisDB v2.4.0-alpha
-ROADMAP.md and FUTURE_ENHANCEMENTS.md sources, and proposes new chapters
-for roadmap topics that have no existing coverage.
+Detects stale compendium chapters relative to the configured target version
+and ROADMAP.md/FUTURE_ENHANCEMENTS.md, and proposes chapters for uncovered topics.
 
 Operating model (human-in-the-loop):
   1. This script DETECTS and CLASSIFIES drift; it never rewrites content.
@@ -72,40 +71,83 @@ PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 # Patterns that indicate a chapter was written for an older release
 _OLD_VERSION_RE = re.compile(
     r"(?<![A-Za-z0-9_])(?:Version|Stand|version)\s*[:=]\s*"
-    r"(?P<ver>[0-9]+\.[0-9]+[\w.\-]*)"
-)
-_ALIGNMENT_SECTION_RE = re.compile(
-    r"^## v2\.4\.0-alpha roadmap alignment\s*\n.*?"
-    r"(?=^#{1,6}\s|^---\s*$|\Z)",
-    re.IGNORECASE | re.MULTILINE | re.DOTALL,
+    r"(?P<ver>[vV]?[0-9]+\.[0-9]+(?:\.[0-9]+)?[\w.+\-]*)"
 )
 
-# Markers inside chapter text that hint at missing v2.4.0 content
-_V24_KEYWORDS: list[str] = [
-    "2.4.0",
-    "Wave A",
-    "Wave B",
-    "Wave C",
-    "Wave D",
-    "v2.4.0",
-    "2.4.0-alpha",
-]
-
-# Version strings that are clearly older than 2.4.0-alpha
+# Preserve the established v2.4.0-alpha staleness policy for existing mappings.
 _STALE_VERSION_PATTERN = re.compile(
     r"^(?:1\.|2\.[0-3]\.|2\.4\.0-?(?:dev|rc(?:[0-2])|beta|draft|old))",
     re.IGNORECASE,
 )
+_SEMVER_PATTERN = re.compile(
+    r"^[vV]?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)"
+    r"(?:-(?P<prerelease>[0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$"
+)
 
 
-def _is_stale_version(ver: str) -> bool:
-    """Return True if ver is clearly older than 2.4.0-alpha."""
-    return bool(_STALE_VERSION_PATTERN.match(ver.strip()))
+def _semver_parts(version: str) -> tuple[tuple[int, int, int], list[str] | None] | None:
+    match = _SEMVER_PATTERN.fullmatch(version.strip())
+    if match is None:
+        return None
+    core = (int(match["major"]), int(match["minor"]), int(match["patch"]))
+    prerelease = match["prerelease"]
+    return core, prerelease.split(".") if prerelease else None
 
 
-def _chapter_has_v24_signals(text: str) -> bool:
-    """Return True if the chapter already references v2.4.0 content."""
-    return any(kw.lower() in text.lower() for kw in _V24_KEYWORDS)
+def _compare_prerelease(left: list[str], right: list[str]) -> int:
+    for left_part, right_part in zip(left, right):
+        if left_part == right_part:
+            continue
+        left_numeric = left_part.isdigit()
+        right_numeric = right_part.isdigit()
+        if left_numeric and right_numeric:
+            return -1 if int(left_part) < int(right_part) else 1
+        if left_numeric != right_numeric:
+            return -1 if left_numeric else 1
+        return -1 if left_part < right_part else 1
+    if len(left) == len(right):
+        return 0
+    return -1 if len(left) < len(right) else 1
+
+
+def _is_stale_version(ver: str, target_version: str = "2.4.0-alpha") -> bool:
+    """Return True if a chapter version predates the configured target."""
+    candidate = ver.strip().lstrip("vV")
+    target = target_version.strip().lstrip("vV")
+    if target == "2.4.0-alpha":
+        return bool(_STALE_VERSION_PATTERN.match(candidate))
+
+    candidate_parts = _semver_parts(candidate)
+    target_parts = _semver_parts(target)
+    if candidate_parts is None or target_parts is None:
+        return False
+    candidate_core, candidate_pre = candidate_parts
+    target_core, target_pre = target_parts
+    if candidate_core != target_core:
+        return candidate_core < target_core
+    if candidate_pre is None:
+        return False
+    if target_pre is None:
+        return True
+    return _compare_prerelease(candidate_pre, target_pre) < 0
+
+
+def _chapter_has_target_version_signals(text: str, target_version: str) -> bool:
+    """Return True if the chapter references the target version or release waves."""
+    version = target_version.lstrip("vV")
+    core = version.split("-", 1)[0].split("+", 1)[0]
+    keywords = [version, core, *(f"Wave {wave}" for wave in "ABCD")]
+    lowered_text = text.lower()
+    return any(keyword.lower() in lowered_text for keyword in keywords)
+
+
+def _alignment_section_pattern(target_version: str) -> re.Pattern[str]:
+    escaped_version = re.escape(target_version.lstrip("vV"))
+    return re.compile(
+        rf"^## v?{escaped_version} roadmap alignment\s*\n.*?"
+        r"(?=^#{1,6}\s|^---\s*$|\Z)",
+        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+    )
 
 
 def _extract_versions(text: str) -> list[str]:
@@ -119,6 +161,18 @@ def _extract_versions(text: str) -> list[str]:
 def _load_yaml(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as fh:
         return yaml.safe_load(fh)
+
+
+def _resolve_target_version(override: str | None, mapping: dict) -> str:
+    configured_version = mapping.get("target_version") if isinstance(mapping, dict) else None
+    target_version = (override or "").strip() or configured_version
+    if not isinstance(target_version, str) or not re.fullmatch(
+        r"[vV]?\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?"
+        r"(?:\+[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?",
+        target_version,
+    ):
+        raise ValueError("target_version must be a semantic version from the mapping or a valid override")
+    return target_version
 
 
 def _load_text(path: Path) -> str:
@@ -151,9 +205,10 @@ def _missing_sot_topics(
     sot_paths: list[str],
     topics: list[str],
     chapter_text: str,
+    target_version: str = "2.4.0-alpha",
 ) -> list[str]:
     """Return SOT topics absent from substantive chapter text."""
-    chapter_content = _ALIGNMENT_SECTION_RE.sub("", chapter_text).lower()
+    chapter_content = _alignment_section_pattern(target_version).sub("", chapter_text).lower()
     found: list[str] = []
     for topic in topics:
         if topic.lower() in chapter_content:
@@ -206,11 +261,11 @@ def scan_chapter(
 
     # Check for stale version strings
     versions = _extract_versions(text)
-    stale = [v for v in versions if _is_stale_version(v)]
+    stale = [v for v in versions if _is_stale_version(v, target_version)]
     result["stale_versions_found"] = stale
 
     # Check for target-version signals
-    result["has_target_version_signal"] = _chapter_has_v24_signals(text)
+    result["has_target_version_signal"] = _chapter_has_target_version_signals(text, target_version)
 
     # Check SOT topic presence
     result["active_sot_topics"] = _missing_sot_topics(
@@ -218,6 +273,7 @@ def scan_chapter(
         entry.get("sot_paths", []),
         entry.get("roadmap_topics", []),
         text,
+        target_version,
     )
 
     # Derive verdict
@@ -445,8 +501,8 @@ def _parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--target-version",
-        default="2.4.0-alpha",
-        help="Version string to check against chapter headers",
+        default=None,
+        help="Version string to check against chapter headers (defaults to mapping target_version)",
     )
     p.add_argument(
         "--github-output",
@@ -478,7 +534,11 @@ def main() -> int:
             return 2
 
     mapping = _load_yaml(mapping_path)
-    target_version = args.target_version
+    try:
+        target_version = _resolve_target_version(args.target_version, mapping)
+    except ValueError as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 2
 
     # Gather all SOT paths referenced in mapping (chapters + gap_topics)
     all_entries: list[dict] = list(mapping.get("chapters", [])) + list(
@@ -576,6 +636,7 @@ def main() -> int:
             f"missing_count={missing_count}",
             f"proposals_count={proposals_count}",
             f"total_issues={total_issues}",
+            f"target_version={target_version}",
             f"report_json={out_json}",
             f"report_md={out_md}",
         ]

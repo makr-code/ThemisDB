@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
@@ -24,6 +24,19 @@ The canonical public interfaces are defined in:
 - `include/llm/model_router.h`
 - `include/llm/prompt_policy.h`
 - `include/llm/llm_plugin_manager.h`
+
+## `InferenceRequest` tenant, trace, and cancellation context
+
+`InferenceRequest::tenant_id` scopes inference-cache isolation and must come
+from trusted caller context. `trace_id` and `span_id` are optional validated
+trace identifiers. The cancellation token is a shared read-only signal to the
+inference consumer; the caller owns the mutable atomic and may set it to request
+cancellation; additional signals may be supplied independently. A finite
+deadline and cancellation are checked by the llama.cpp plugin before model
+execution, but they do not interrupt a blocking generation already in progress.
+YAML, tool arguments, and prompt text are not identity sources.
+The YAML-capable `AIOrchestrator` maps its trusted retrieval execution context
+to these fields for RAG generation.
 
 ## `EmbeddedLLM`
 
