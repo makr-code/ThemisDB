@@ -174,6 +174,58 @@ TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_AskMode_NoPlugin_ReportsNotConf
     EXPECT_NE(resp.dump().find("llm_not_configured"), std::string::npos) << resp.dump();
 }
 
+TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_RetrievalModeFailsClosedWithoutTrustedContext) {
+    mcp_->attachOrchestrator(orch_);
+
+    nlohmann::json call_req = {
+        {"jsonrpc", "2.0"}, {"id", 3},
+        {"method", "tools/call"},
+        {"params", {
+            {"name", "llm_orchestrate"},
+            {"arguments", {
+                {"query", "Find private evidence"},
+                {"mode", "rag"}
+            }}
+        }}
+    };
+    const auto response = mcp_->handleRequest(call_req);
+    ASSERT_TRUE(response.contains("result")) << response.dump();
+    ASSERT_TRUE(response["result"].contains("content")) << response.dump();
+    ASSERT_FALSE(response["result"]["content"].empty()) << response.dump();
+    const auto tool_result = response["result"]["content"][0].value("text", "");
+    EXPECT_NE(tool_result.find("retrieval authorization context is unavailable"),
+              std::string::npos) << response.dump();
+    EXPECT_EQ(tool_result.find("llm_not_configured"), std::string::npos)
+        << "The MCP authorization guard must run before orchestrator execution";
+}
+
+TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_DefaultRetrievalModeFailsClosedWithoutTrustedContext) {
+    ValidationResult validation;
+    auto pack = ModeSpecLoader::loadFromString(kTwoModePack, &validation);
+    ASSERT_TRUE(validation.ok) << (validation.errors.empty() ? "" : validation.errors.front());
+    pack.default_mode = "rag";
+    auto retrieval_orchestrator = std::make_shared<AIOrchestrator>(pack);
+    mcp_->attachOrchestrator(retrieval_orchestrator);
+
+    nlohmann::json call_req = {
+        {"jsonrpc", "2.0"}, {"id", 4},
+        {"method", "tools/call"},
+        {"params", {
+            {"name", "llm_orchestrate"},
+            {"arguments", {{"query", "Find private evidence"}}}
+        }}
+    };
+    const auto response = mcp_->handleRequest(call_req);
+    ASSERT_TRUE(response.contains("result")) << response.dump();
+    ASSERT_TRUE(response["result"].contains("content")) << response.dump();
+    ASSERT_FALSE(response["result"]["content"].empty()) << response.dump();
+    const auto tool_result = response["result"]["content"][0].value("text", "");
+    EXPECT_NE(tool_result.find("retrieval authorization context is unavailable"),
+              std::string::npos) << response.dump();
+    EXPECT_EQ(tool_result.find("RAG retrieval engine not configured"), std::string::npos)
+        << "The default retrieval mode must fail before entering the orchestrator";
+}
+
 TEST_F(McpOrchestratorBridgeTest, AttachNullOrchestrator_IsGraceful) {
     // attachOrchestrator with nullptr must not crash
     EXPECT_NO_THROW(mcp_->attachOrchestrator(nullptr));

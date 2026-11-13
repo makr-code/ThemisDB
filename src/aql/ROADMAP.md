@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,6 +12,8 @@ Human_Author: "ThemisDB Team"
 
 Exact model backend not verifiable from final document text alone.
 
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -40,6 +42,21 @@ include mock implementations, and the module research review found no
 versioned, held-out natural-language-to-AQL quality corpus. These facts prevent
 the historical microbenchmark numbers or test-file counts from establishing
 production accuracy, end-to-end provider latency, or release readiness.
+
+The RAG consumer now exposes a request-scoped typed retrieval-context overload
+and denies retrieval when no trusted collection authorizer is supplied. The
+legacy overload is source-compatible but fails closed. `HttpServer` now exposes
+`POST /api/v1/llm/aql/rag`, composing `LLMAQLHandler::executeRAG()` over the
+server's live storage/index managers and supplying tenant and exact-collection
+authorization from successful HTTP access checks. Valid W3C trace context is
+propagated; timeout errors are not retried. Timed-out workers retain their
+handler and non-owning QueryEngine dependencies, and shutdown defers vector-index
+shutdown/RocksDB close if a worker outlives the drain window. Focused
+server-test source covers tenant isolation, hostile tenant input, exact
+collection policy, trace propagation, and deadline-to-504 mapping; these tests
+have not been built or run. This route is not the generic `/query/aql` path, and
+evidence parity against direct HTTP and YAML-agentic consumers, startup tests,
+and executable integration evidence remain open.
 
 This section is the active forward plan. Dated completion reports below are
 historical unless corroborated by current source and reproducible test or
@@ -121,6 +138,12 @@ provider latency; review data provenance and privacy.
 
 #### Wave 2 — Validation Contract and Security Boundaries (P1)
 
+- [~] Keep the authenticated AQL-backed RAG HTTP route wired to the shared typed
+  retrieval provider, with server-derived identity and exact collection policy;
+  validate positive and negative tenant/policy cases, timeout mapping, and
+  request-lifetime safety under cooperative timeout (Target: v2.5.0). The route
+  and regression source exist, but focused build/test evidence and cross-consumer
+  evidence parity remain pending.
 - [ ] Add focused contract coverage for parser-backed validation, explicit
   parser-disabled behavior, each validation mode, empty/over-limit input,
   retries, and final-versus-partial streaming results (Target: v2.5.0).

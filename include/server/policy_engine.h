@@ -133,11 +133,45 @@ public:
     std::vector<Policy> listPolicies() const;
 
     // Evaluate
+    /**
+     * @brief Authorizes a request using the existing empty-policy default.
+     * @param[in] user_id Authenticated user identifier.
+     * @param[in] action Requested action.
+     * @param[in] resource_path Requested resource path.
+     * @param[in] client_ip Optional client IP used by policy conditions.
+     * @param[in] user_agent Optional user agent used by policy conditions.
+     * @return The matching policy decision, or the legacy default-allow
+     *         decision when no local policies are configured.
+     */
     Decision authorize(const std::string& user_id,
                        const std::string& action,
                        const std::string& resource_path,
                        const std::optional<std::string>& client_ip  = std::nullopt,
                        const std::optional<std::string>& user_agent = std::nullopt) const;
+
+    /**
+     * @brief Authorizes a request with an explicit empty-policy decision.
+     * @param[in] user_id Authenticated user identifier.
+     * @param[in] action Requested action.
+     * @param[in] resource_path Requested resource path.
+     * @param[in] client_ip Optional client IP used by policy conditions.
+     * @param[in] user_agent Optional user agent used by policy conditions.
+     * @param[in] allow_when_empty When false, an unavailable OPA evaluator and
+     *        empty local policy set produce a denial.
+     * @param[in] exact_resource_match When true, a local rule must list the
+     *        resource exactly or use "*" instead of relying on prefix matching.
+     * @return The external or local policy decision. OPA decisions take
+     *         precedence; unavailable OPA falls back to local rules and then
+     *         applies the requested empty-policy behavior.
+     */
+    Decision authorizeWithEmptyPolicyDefault(
+        const std::string& user_id,
+        const std::string& action,
+        const std::string& resource_path,
+        const std::optional<std::string>& client_ip,
+        const std::optional<std::string>& user_agent,
+        bool allow_when_empty,
+        bool exact_resource_match = false) const;
 
     const Metrics& getMetrics() const { return metrics_; }
 

@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Security - HTTP RAG collection policies
+
+- Authenticated non-admin requests to `/api/v1/llm/rag` now require an explicit
+  matching collection policy; an empty policy set denies this endpoint.
+  Native policy rules match the collection exactly (or use an explicit `*`).
+  `THEMIS_TOKEN_RAG` provides an optional least-privilege static identity with
+  only `llm` and `data:read` scopes; startup rejects collisions with other
+  configured static role tokens. `THEMIS_TOKEN_RAG_TENANT` optionally binds
+  that identity to a server-configured tenant; request headers cannot choose or
+  override this tenant.
+  Existing `PolicyEngine` callers retain their default-allow behavior, and
+  authenticated administrators retain the existing policy bypass. Auth-disabled
+  mode remains advisory; configured OPA decisions remain operator-defined.
+
+### Changed - HttpServer JWT bootstrap
+
+- `HttpServer` now enables JWT validation when `THEMIS_JWT_JWKS_URL` is set.
+  Expected issuer and audience are mandatory; startup fails if either is
+  missing. `THEMIS_JWT_TENANT_CLAIM` optionally maps a verified claim into
+  tenant context. JWT identity and tenant claims do not grant collection access;
+  caller-specific collection policy and successful authenticated RAG validation
+  remain open.
+
+### Fixed - Configurable JWT tenant claim
+
+- `AuthMiddleware::JWTConfig::tenant_claim` now propagates to `JWTValidator`,
+  mapping the configured verified JWT claim into `JWTClaims::tenant_id`. The
+  default remains `tenant_id`; JWTs with a non-string configured claim continue
+  to fail validation. `JWTValidatorConfig` gains a public field, changing its
+  binary layout; binary consumers must rebuild.
+
 ### Changed - Shared RAG provider/consumer boundary
 
 - Added a concrete, model-independent RAG knowledge provider over existing
@@ -25,6 +56,155 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   legacy acquisition now reports failures instead of fabricating document content.
 - Documented provider/consumer/helper ownership, migration, cooperative execution
   limits and the actual C-linkage/C++ plugin boundary.
+
+### Changed - Request-scoped RAG consumer context (partial)
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+- Added a typed per-call authorization/context overload for AQL RAG. The
+  source-compatible legacy overload now fails closed without trusted request
+  authorization; tenant, caller cancellation, deadline, and trace context are
+  carried through shared retrieval, while the handler timeout remains an
+  independent cancellation/deadline bound. Access denials do not count as RAG
+  circuit-breaker failures.
+- Internal YAML-agentic retrieval now requires a trusted collection authorizer
+  and forwards tenant, deadline, cancellation, and trace fields to inference. Untrusted
+  YAML metadata cannot grant access. MCP retrieval remains fail-closed because
+  its request boundary still does not supply authenticated caller context.
+- Public retrieval/inference request layouts changed; binary consumers must
+  rebuild. Generic `/query/aql` wiring and real HTTP/AQL/YAML evidence-parity
+  integration remain unverified and are not claimed complete.
+
+### Changed - Authenticated AQL-backed RAG HTTP route (partial)
+
+- Added `POST /api/v1/llm/aql/rag`, composing `LLMAQLHandler::executeRAG()`
+  over the server's live storage/index managers. The route requires the existing
+  `llm` access gate and explicit `data:read` collection access, derives tenant
+  identity only from the successful authorization result, propagates valid W3C
+  trace context, and applies an exact collection predicate. Request `tenant_id`
+  and LoRA selection are not accepted as authorization inputs.
+- Bounded generation/retrieval options and mapped cooperative retrieval deadline
+  expiry to HTTP 504. Timeout cleanup can outlive the response; the AQL worker
+  owns copied request inputs and retains its handler and QueryEngine dependencies
+  until the worker finishes. Server shutdown drains these workers and defers
+  vector-index shutdown/RocksDB close if they outlive the drain window. Retrieval
+  timeout errors are not retried. This does not interrupt blocked backend calls.
+- Added network-level regression source for tenant isolation, untrusted tenant
+  input, exact collection policy, trace propagation, and deadline response
+  mapping. Build and test evidence is pending; this does not establish
+  cross-consumer evidence parity or complete Core task acceptance.
+
+### Core Provider/Consumer follow-up — partial (2026-11-11)
+
+- Added typed `RAGSourceReference` metadata, exact source-reference fields for
+  vector-ingestion and ContentManager vector entities, in-entity text
+  materialization, and vector-namespace-gated vector-key hydration.
+- This is incremental implementation work, not Core task acceptance: normal
+  ingestion's `text_snippet` is not authoritative full-source dereferencing.
+  The AQL RAG path now passes a retrieval deadline matching its configured
+  timeout alongside the existing cooperative cancellation token. This does not
+  interrupt a blocking QueryEngine call or establish full request-context/auth
+  isolation. The direct HTTP route passes its already-authorized collection as a
+  per-call RAG predicate, and AQL passes its configured collection checker;
+  QueryEngine applies the predicate before graph vertex loading/expansion.
+  Collection-level checks do not propagate caller/tenant identity or row-level
+  policy. The retrieval-context layout changed, so binary consumers must rebuild.
+  Real HTTP/AQL/YAML startup wiring, the complete source-role map, remaining
+  acceptance criteria, and focused C++ test execution remain pending. See
+  `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
+
+### Core Provider/Consumer follow-up — HTTP tenant filter (2026-11-12)
+
+- The direct HTTP vector RAG route now applies the tenant claim from a validated
+  bearer token as an equality predicate on `tenant_id`. Caller-supplied tenant
+  headers are not used; tenant-scoped requests exclude entities without that
+  field. The tenant predicate is carried by the shared retrieval execution
+  context, enforced for materialized evidence, and pushed into vector QueryEngine
+  execution. This is not a complete row-level policy integration. AQL/YAML server
+  startup still does not populate trusted tenant context. The public context
+  struct layout changed; binary consumers must rebuild. Focused tests remain
+  unbuilt.
+
+### Core Provider/Consumer follow-up — graph tenant enforcement (2026-11-12)
+
+- QueryEngine traversal now accepts a request-scoped predicate over visited
+  vertex entities and evaluates it before returning or expanding a vertex.
+  Shared RAG retrieval uses this to require an exact string `tenant_id` match;
+  missing, malformed, or foreign-tenant vertices return access denied. Focused
+  regressions cover same-tenant success and foreign/tenantless denial, but have
+  not been built or executed. A concurrent shared-provider vector retrieval
+  regression now checks isolation between two tenant contexts; it also remains
+  unbuilt. AQL/YAML still lack trusted tenant population.
+
+### Core Provider/Consumer follow-up — orchestrator tenant source (2026-11-12)
+
+- Tenant identity for AIOrchestrator budget-map scoping, adapter candidate
+  selection, and cost attribution now comes exclusively from typed
+  `retrieval_execution.tenant_id`; `extra["tenant"]` is ignored. A regression
+  source verifies that conflicting untrusted extra metadata cannot replace the
+  typed tenant. Tenant budget overrides now come from the explicit trusted
+  `rag_cost_budget` context; spoofed budget fields in `extra` are ignored, and
+  non-finite trusted values are rejected. Focused C++ tests have not been built
+  or executed. Server composition still needs to populate tenant and budget
+  contexts from authenticated callers and trusted policy.
+
+### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
+
+- RAG retrieval now resolves typed ContentManager chunk references using an
+  exact RocksDB `chunk:<id>` lookup and validates the stored chunk ID and owning
+  content ID, plus any supplied source version, before using source text. Missing,
+  mismatched, or stale sources are rejected rather than replaced with copied
+  vector text.
+- Focused C++ tests could not run in the current environment; this remains
+  partial implementation progress. See
+  `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
+
+### Core Provider/Consumer follow-up — ingestion source materialization (2026-11-12)
+
+- Normal vector ingestion now persists chunk text in the `ingestion_sources`
+  collection using the exact vector chunk ID. RAG resolves that record from
+  RocksDB, validates its source-file SHA-256, and rejects missing or mismatched
+  sources instead of using the copied vector snippet. Existing older vector
+  references keep their prior snippet behavior; storage is additive.
+- `VectorIndexSinkAdapter` now requires a `SecondaryIndexManager` on the same
+  retrieval database. This changes its source and binary interface; all callers
+  must rebuild and supply that manager.
+- Focused C++ validation remains to be run. This is partial task progress, not
+  completion of Core composition, consumer wiring, authorization, or acceptance.
+
+### Core Provider/Consumer follow-up — YAML agentic retrieval (2026-11-12)
+
+- Retrieval-enabled YAML `agentic` modes now use the AIOrchestrator's existing
+  typed RAG retrieval pipeline before continuing with the existing tool-call
+  dispatch. Per-call authorization stays in the trusted execution context;
+  YAML does not supply credentials or access policy.
+- Server-startup QueryEngine injection, trusted tenant/row-level authorization,
+  and focused C++ test execution remain unverified; diagnostic CMake
+  configuration stopped because the required `fmt` dependency is unavailable.
+  This is partial progress.
+
+### MCP retrieval authorization hardening (2026-11-12)
+
+- Retrieval-enabled MCP `llm_orchestrate` modes now fail closed before
+  orchestrator execution because the current MCP tool-call path supplies no
+  trusted caller authorization context. Non-retrieval modes are unchanged.
+- Authenticated per-request caller-context propagation and MCP retrieval
+  availability remain pending. The direct HTTP vector RAG tenant filter is
+  route-specific and does not change this status.
+
+### MCP QueryEngine graph backend lifetime (2026-11-12)
+
+- `McpServer` now retains the `GraphIndexManager` borrowed by its `QueryEngine`,
+  and releases query/index borrowers before replacing the attached database.
+- Added a focused MCP integration regression for a one-hop AQL graph traversal.
+
+### HTTP RAG retrieval deadline (2026-11-12)
+
+- The direct HTTP RAG route now propagates the live configured request timeout
+  into the typed retrieval context, including query embedding and evidence
+  retrieval; deadline expiry returns HTTP 504.
+- Enforcement is cooperative and can only detect time overrun after a blocking
+  embedding or backend call returns. Request cancellation and tenant/row-level
+  authorization propagation remain open.
 
 <!--
 AI_Used: true

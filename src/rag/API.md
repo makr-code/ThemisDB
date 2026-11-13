@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,11 +17,55 @@ AI provenance note: Exact model backend not verifiable from final document text 
 ## Purpose and scope
 
 This is a source-level reference for maintainers integrating the public C++
-surfaces under `include/rag/`. It is not an HTTP endpoint specification or a
-promise of binary compatibility. The included headers define parameter and
-result types; implementation details and tests define observed edge behavior.
+surfaces under `include/rag/`. The HTTP request contract is recorded in
+[`src/server/API.md`](../server/API.md); this document is not a promise of binary
+compatibility. The included headers define parameter and result types;
+implementation details and tests define observed edge behavior.
 
 ## Retrieval and ranking
+
+### Typed retrieval source materialization
+
+`RAGSourceReference` is an exact locator, not a key-generation recipe.
+ContentManager references are resolved from their stored chunk record. Newly
+written normal-ingestion vectors reference the `ingestion_sources` collection by
+their exact `VectorRecord::chunk_id`; the RAG provider verifies the stored
+`source_file_id` against the vector's SHA-256 provenance and uses the stored
+`content`, not `text_snippet`. Missing, mismatched, or empty source records are
+rejected. Existing vectors marked `ingestion_vector` retain their previous
+snippet materialization behavior for on-disk compatibility.
+
+The ingestion sink's source row and vector entity must use the same RocksDB
+database as the retrieval `QueryEngine`. The source collection is an internal
+materialization target; authorization is inherited from the authorized vector
+collection request and is not caller-selectable.
+
+### Request execution context
+
+`rag::RetrievalExecutionContext` carries the trusted collection authorizer,
+tenant scope, cooperative deadline, one or more observed cancellation signals,
+and optional validated trace/span identifiers. The provider checks both
+cancellation signals before and between materialization operations; a blocking
+QueryEngine call itself is not interruptible. The HTTP route constructs this
+context from its authenticated request. YAML or tool arguments must not supply
+authorization, tenant identity, or ACLs.
+
+The AQL RAG consumer accepts this context per call and denies requests that omit
+the authorizer. `POST /api/v1/llm/aql/rag` is now an authenticated HTTP consumer
+that composes a request-local QueryEngine from the server's live storage/index
+managers and supplies tenant/collection authorization only from its successful
+HTTP access checks. Its deadline errors map to HTTP 504. Timeout cleanup can
+outlive the request thread; the AQL worker owns copied inputs and its request
+context keeps the handler alive until cleanup finishes. Focused tenant/policy and
+deadline test sources exist but are not yet build/run evidence. The orchestrator's
+internal retrieval path also requires the authorizer and forwards tenant,
+cancellation, and trace identifiers to inference. MCP retrieval remains
+fail-closed because its current request boundary does not provide trusted caller
+context. Cross-consumer evidence parity and generic `/query/aql` integration
+remain open.
+
+The context struct and `InferenceRequest::cancellation_token` public types changed
+in this update; binary consumers should rebuild.
 
 ### `themis::rag::HybridRetriever`
 

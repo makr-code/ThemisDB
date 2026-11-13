@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,20 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Wave B (Q3–Q4 2026):** Cluster-wide distributed rate-limit state, GraphQL federation hardening
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
 
+## In Progress
+- [~] Add opt-in HttpServer JWT bootstrap using the existing AuthMiddleware and verified JWT claims (Target: Q4 2026)
+  - `THEMIS_JWT_JWKS_URL` enables JWT; expected issuer and audience are mandatory and incomplete configuration fails construction.
+  - `THEMIS_JWT_TENANT_CLAIM` maps a verified identity claim to tenant context; this does not establish collection grants.
+  - Authenticated non-admin HTTP RAG now requires a matching explicit policy; other PolicyEngine callers retain their existing empty-policy default. Admin bypass and auth-disabled advisory behavior are unchanged.
+  - `THEMIS_TOKEN_RAG` configures a dedicated static `rag_reader` identity with `llm` and `data:read` scopes; optional `THEMIS_TOKEN_RAG_TENANT` binds only this identity to a trusted configured tenant.
+  - Focused test source now covers tenant-bound static-token retrieval isolation through the HTTP RAG route using a test-only inference plugin, alongside JWT startup and policy checks; the C++ test has not been built or run because local CMake configuration is blocked by required `fmt`.
+  - Native RAG policy matching is exact (or explicit `*`); OPA resource semantics remain operator-defined. Production inference integration and executed end-to-end validation remain open.
+
 ## Recently Completed
+- [x] Propagate the configured live HTTP request timeout into direct RAG retrieval and return HTTP 504 when its cooperative deadline expires (2026-11-12)
+  - Deadline starts at request dispatch, includes query embedding and provider retrieval, and is not an interrupt for blocking backend calls.
+  - Existing `data:read` authorization and collection predicate remain in place; caller/tenant/row-level policy propagation and cancellation remain open.
+
 - [x] Source-integrity remediation for BPMN API handler completed (2026-09-07)
   - Removed compile-breaking token corruption in `bpmn_api_handler.cpp` history serialization path (`push_back(event)`), restoring source-valid response assembly for instance history queries.
 - [x] Wave 4-A residual server runtime contract hardening batch (Completed 2026-08-31)

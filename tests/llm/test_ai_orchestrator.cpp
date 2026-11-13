@@ -11,9 +11,14 @@
 
 #include <gtest/gtest.h>
 #include <atomic>
+#include <chrono>
+#include <filesystem>
 #include <thread>
 #include "llm/ai_orchestrator.h"
 #include "llm/llm_plugin_interface.h"
+#include "index/secondary_index.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
 
 using namespace themis::llm;
 
@@ -78,13 +83,71 @@ public:
     std::optional<std::string> last_lora_adapter_id;
 };
 
+class CountingRagPromptLLMPlugin : public EchoLLMPlugin {
+public:
+    InferenceResponse generateRAG(const RAGContext& context,
+                                  const InferenceRequest& request) override {
+        ++rag_generation_calls;
+        last_prompt = request.prompt;
+        last_tenant_id = request.tenant_id;
+        last_trace_id = request.trace_id;
+        last_span_id = request.span_id;
+        last_cancellation_token = request.cancellation_token;
+        last_additional_cancellation_tokens =
+            request.additional_cancellation_tokens;
+        last_deadline = request.deadline;
+        return EchoLLMPlugin::generateRAG(context, request);
+    }
+
+    int rag_generation_calls = 0;
+    std::string last_prompt;
+    std::string last_tenant_id;
+    std::string last_trace_id;
+    std::string last_span_id;
+    std::shared_ptr<const std::atomic<bool>> last_cancellation_token;
+    std::vector<std::shared_ptr<const std::atomic<bool>>>
+        last_additional_cancellation_tokens;
+    std::chrono::steady_clock::time_point last_deadline;
+};
+
+class AgenticTypedRetrievalTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = std::filesystem::temp_directory_path() /
+            ("themis_agentic_retrieval_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()));
+        RocksDBWrapper::Config config;
+        config.db_path = db_path_.string();
+        config.enable_blobdb = false;
+        db_ = std::make_shared<RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        secondary_ = std::make_shared<SecondaryIndexManager>(*db_);
+        query_engine_ = std::make_shared<query::QueryEngine>(*db_, *secondary_);
+    }
+
+    void TearDown() override {
+        query_engine_.reset();
+        secondary_.reset();
+        db_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::filesystem::path db_path_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<SecondaryIndexManager> secondary_;
+    std::shared_ptr<query::QueryEngine> query_engine_;
+};
+
 class FixedAdapterCandidateProvider : public IAdapterCandidateProvider {
 public:
     explicit FixedAdapterCandidateProvider(std::string selected)
         : selected_(std::move(selected)) {}
 
+    mutable std::string last_tenant;
+
     [[nodiscard]] AdapterSelectionResult
     selectCandidates(const AdapterSelectionInput& input) const override {
+        last_tenant = input.tenant;
         AdapterSelectionResult out;
         out.selected_adapter_id = selected_;
         out.reason = "fixed_provider";
@@ -772,14 +835,16 @@ TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToReques
     AIOrchestrator orch(pack);
     auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
     orch.setLLMPlugin(llm);
-    orch.setAdapterCandidateProvider(
-        std::make_shared<FixedAdapterCandidateProvider>("adapter_legal_v2"));
+    auto adapter_provider =
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_legal_v2");
+    orch.setAdapterCandidateProvider(adapter_provider);
 
     OrchestratorContext ctx;
     ctx.query = "contract clause interpretation";
     ctx.mode_id = "rag";
     ctx.request_id = "req-1";
-    ctx.extra["tenant"] = "tenant-a";
+    ctx.retrieval_execution.tenant_id = "tenant-a";
+    ctx.extra["tenant"] = "untrusted-spoof";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -788,6 +853,7 @@ TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToReques
     EXPECT_EQ(result.metadata.adapter_candidates, 1);
     ASSERT_TRUE(result.metadata.selected_adapter_id.has_value());
     EXPECT_EQ(result.metadata.selected_adapter_id.value(), "adapter_legal_v2");
+    EXPECT_EQ(adapter_provider->last_tenant, "tenant-a");
 }
 
 TEST(AIOrchestrator_RagAdapterSelectionTest, ProviderFailureDoesNotBreakRag) {
@@ -823,7 +889,7 @@ TEST(AIOrchestrator_RagCostModelTest, CustomServicePopulatesRagCostEstimate) {
     ctx.query = "rag cost estimate";
     ctx.mode_id = "rag";
     ctx.request_id = "req-cost-1";
-    ctx.extra["tenant"] = "tenant-cost";
+    ctx.retrieval_execution.tenant_id = "tenant-cost";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -991,7 +1057,7 @@ TEST(AIOrchestrator_RagCostModelTest, CostGatePhaseCanBeMultiWithTwoTriggers) {
     EXPECT_GE(s["rag_cost_gate_multi_total"].get<int64_t>(), 1);
 }
 
-TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
+TEST(AIOrchestrator_RagCostModelTest, TypedTenantBudgetCanRelaxCostGate) {
     ValidationResult res;
     ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
     ASSERT_TRUE(res.ok);
@@ -1018,8 +1084,9 @@ TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
     ctx.query = "tenant budget override";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = 250.0;
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
+    ctx.rag_cost_budget.tenant_budgets = {{"tenant-enterprise", 250.0}};
+    ctx.extra["tenant_budget_override"] = 999.0;
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1028,7 +1095,7 @@ TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit", 0.0), 250.0);
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 250.0);
     EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
-              "tenant_budget_override");
+              "tenant_budgets.tenant-enterprise");
 }
 
 TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverTenantMap) {
@@ -1058,11 +1125,9 @@ TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverT
     ctx.query = "tenant budget priority";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-prio-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = 250.0;
-    ctx.extra["tenant_budgets"] = {
-        {"tenant-enterprise", 120.0}
-    };
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
+    ctx.rag_cost_budget.tenant_budget_override = 250.0;
+    ctx.rag_cost_budget.tenant_budgets = {{"tenant-enterprise", 120.0}};
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1099,8 +1164,8 @@ TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndRep
     ctx.query = "tenant budget invalid";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-invalid-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = -1.0;
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
+    ctx.rag_cost_budget.tenant_budget_override = -1.0;
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1123,6 +1188,46 @@ TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndRep
               "tenant_budget_override");
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 50.0);
     EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()), "policy");
+}
+
+TEST(AIOrchestrator_RagCostModelTest, ExtraCannotRelaxTenantCostBudget) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_untrusted_budget_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "untrusted tenant budget override";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-untrusted-tenant-budget-1";
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
+    ctx.extra["tenant_budget_override"] = 250.0;
+    ctx.extra["tenant_budgets"] = {{"tenant-enterprise", 300.0}};
+
+    const OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+    EXPECT_DOUBLE_EQ(
+        result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 50.0);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
+              "policy");
 }
 
 TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed) {
@@ -1149,7 +1254,7 @@ TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed) {
     ctx.query = "balance sheet guidance";
     ctx.mode_id = "rag";
     ctx.request_id = "req-apply-1";
-    ctx.extra["tenant"] = "tenant-fin";
+    ctx.retrieval_execution.tenant_id = "tenant-fin";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1374,7 +1479,7 @@ TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindingUsesConfiguredPathResolver) 
     ctx.query = "resolver path";
     ctx.mode_id = "rag";
     ctx.request_id = "req-path-1";
-    ctx.extra["tenant"] = "tenant-a";
+    ctx.retrieval_execution.tenant_id = "tenant-a";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1842,6 +1947,88 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
     EXPECT_EQ(tool_out.value("result", -1), 7);
     // raw_response should carry the tool name and result.
     EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+TEST_F(AgenticTypedRetrievalTest, RetrievalEnabledAgenticModeUsesTypedProviderAndRequestAuthorization) {
+    static constexpr const char* kAgenticRagYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: agentic-rag-pack
+  version: "1.0.0"
+default_mode: agentic
+modes:
+  - id: agentic
+    retrieval:
+      enabled: true
+      top_k: 2
+      threshold: 0.0
+    budgets: {max_tokens: 128, timeout_ms: 5000}
+)yaml";
+    ValidationResult validation;
+    const auto pack = ModeSpecLoader::loadFromString(kAgenticRagYaml, &validation);
+    ASSERT_TRUE(validation.ok) << (validation.errors.empty() ? "" : validation.errors.front());
+
+    auto entity = themis::BaseEntity::fromFields("doc-1", {
+        {"content", std::string{"authorized agentic evidence"}},
+        {"tenant_id", std::string{"tenant-a"}}
+    });
+    ASSERT_TRUE(secondary_->put("docs", entity).ok);
+
+    AIOrchestrator orchestrator(pack);
+    auto plugin = std::make_shared<CountingRagPromptLLMPlugin>();
+    orchestrator.setLLMPlugin(plugin);
+    orchestrator.setQueryEngine(query_engine_);
+
+    OrchestratorContext context;
+    context.query = "What evidence is available?";
+    context.mode_id = "agentic";
+    themis::query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "doc-1";
+    context.retrieval_request = themis::rag::RetrievalRequest{};
+    context.retrieval_request->query = query;
+    context.extra["tenant"] = "tenant-from-untrusted-yaml";
+    context.retrieval_execution.tenant_id = "tenant-a";
+    context.retrieval_execution.trace_id = "0123456789abcdef0123456789abcdef";
+    context.retrieval_execution.span_id = "0123456789abcdef";
+    context.retrieval_execution.cancelled =
+        std::make_shared<std::atomic<bool>>(false);
+    const auto additional_cancellation =
+        std::make_shared<std::atomic<bool>>(false);
+    context.retrieval_execution.additional_cancellation_tokens.push_back(
+        additional_cancellation);
+    context.retrieval_execution.deadline =
+        std::chrono::steady_clock::now() + std::chrono::seconds(10);
+
+    const auto untrusted_only = orchestrator.run(context);
+    EXPECT_FALSE(untrusted_only.success);
+    EXPECT_EQ(plugin->rag_generation_calls, 0);
+
+    context.retrieval_execution.authorize_collection =
+        [](const std::string& collection) { return collection == "docs"; };
+
+    const auto result = orchestrator.run(context);
+    ASSERT_TRUE(result.success) << result.error;
+    EXPECT_EQ(result.metadata.retrieved_docs, 1u);
+    EXPECT_EQ(plugin->rag_generation_calls, 1);
+    EXPECT_NE(plugin->last_prompt.find("authorized agentic evidence"), std::string::npos);
+    EXPECT_EQ(plugin->last_tenant_id, "tenant-a");
+    EXPECT_EQ(plugin->last_trace_id, "0123456789abcdef0123456789abcdef");
+    EXPECT_EQ(plugin->last_span_id, "0123456789abcdef");
+    EXPECT_EQ(plugin->last_cancellation_token,
+              context.retrieval_execution.cancelled);
+    ASSERT_EQ(plugin->last_additional_cancellation_tokens.size(), 1u);
+    EXPECT_EQ(plugin->last_additional_cancellation_tokens.front(),
+              additional_cancellation);
+    EXPECT_LE(plugin->last_deadline, context.retrieval_execution.deadline);
+
+    context.retrieval_execution.authorize_collection =
+        [](const std::string&) { return false; };
+    const auto denied = orchestrator.run(context);
+    EXPECT_FALSE(denied.success);
+    EXPECT_NE(denied.error.find("access denied"), std::string::npos);
+    EXPECT_EQ(plugin->rag_generation_calls, 1);
 }
 
 // When the LLM response is plain text (not JSON) the orchestrator should

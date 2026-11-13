@@ -3,6 +3,7 @@
 #include "llama_cpp/llama_cpp_registrar.h"
 #include <nlohmann/json.hpp>
 #include <atomic>
+#include <chrono>
 #include <thread>
 #include <vector>
 
@@ -836,6 +837,36 @@ TEST(LlamaCppPluginFocusedTests, T2_CancellationToken_NotSetAllowsGeneration) {
 
     const auto response = plugin.generate(request);
     EXPECT_TRUE(response.success);
+}
+
+TEST(LlamaCppPluginFocusedTests, T3_AdditionalCancellationAndExpiredDeadlineRejectBeforeGeneration) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+    bool bridge_called = false;
+    plugin.setGenerateFn([&](const InferenceRequest&) -> InferenceResponse {
+        bridge_called = true;
+        InferenceResponse response;
+        response.success = true;
+        return response;
+    });
+
+    InferenceRequest cancelled_request;
+    cancelled_request.prompt = "cancel via additional request context";
+    cancelled_request.additional_cancellation_tokens.push_back(
+        std::make_shared<std::atomic<bool>>(true));
+    const auto cancelled_response = plugin.generate(cancelled_request);
+    EXPECT_FALSE(cancelled_response.success);
+    EXPECT_NE(cancelled_response.error_message.find("cancelled"), std::string::npos);
+    EXPECT_FALSE(bridge_called);
+
+    InferenceRequest expired_request;
+    expired_request.prompt = "expired request";
+    expired_request.deadline =
+        std::chrono::steady_clock::now() - std::chrono::milliseconds(1);
+    const auto expired_response = plugin.generate(expired_request);
+    EXPECT_FALSE(expired_response.success);
+    EXPECT_NE(expired_response.error_message.find("deadline"), std::string::npos);
+    EXPECT_FALSE(bridge_called);
 }
 
 // ── Group U – Concurrency hardening (atomic counters + RAG race-free) ──────────

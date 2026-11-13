@@ -186,6 +186,15 @@ controlled ablations instead of assuming their gains add up.
 
 See [`embedded_llm.cpp`](embedded_llm.cpp), [`async_inference_engine.cpp`](async_inference_engine.cpp), [`llm_plugin_manager.cpp`](llm_plugin_manager.cpp), and [`model_router.cpp`](model_router.cpp). The sequence is configurable; not every request traverses every listed component.
 
+`AIOrchestrator` consumes the shared `rag::RAGProvider` through its injected
+`QueryEngine` for retrieval-enabled RAG modes. Retrieval-enabled YAML `agentic`
+modes run that same RAG path before the existing tool-call parser/dispatcher;
+typed retrieval errors fail the run rather than becoming evidence. The
+orchestrator receives authorization, deadline and cancellation only through the
+per-call `OrchestratorContext::retrieval_execution`, not from YAML fields.
+Application startup injection and tenant/row-level policy remain caller
+responsibilities and are not established by this module-level path.
+
 The HTTP route `GET /api/v1/llm/stream` is owned by
 `LLMApiHandler::handleStreamInference`. It collects SSE events in a string and
 returns a `http::string_body` response after generation completes; it does not

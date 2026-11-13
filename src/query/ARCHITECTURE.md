@@ -44,6 +44,13 @@ Exact model backend not verifiable from final document text alone.
 
 These are representative interfaces, not an exhaustive listing of query functions and specialized operators.
 
+The internal RAG materialization bridge resolves only typed ContentManager
+`content_chunk` references: it reads the exact `chunk:<id>` RocksDB key and
+verifies both stored chunk ID and owning `content_id`. It does not scan source
+keys, infer locators, or provide general access to arbitrary storage keys.
+`RAGProvider` also rejects a source-version mismatch when the vector record
+supplies a version.
+
 ## Data flow
 
 1. AQL input is parsed into query structures; SQL/SPARQL/Cypher/Gremlin compatibility parsers are separate frontends where enabled.

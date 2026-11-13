@@ -15,6 +15,8 @@
 #include "utils/logger.h"
 #include <cstring>
 #include <fmt/format.h>
+#include <limits>
+#include <stdexcept>
 
 namespace themis {
 namespace utils {
@@ -239,6 +241,7 @@ Serialization::TypeTag Serialization::Decoder::peekType() const {
  */
 Serialization::TypeTag Serialization::Decoder::readTag() {
     if (pos_ >= data_.size()) {
+        has_error_ = true;
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
             fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),
@@ -256,9 +259,10 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
  */
 uint32_t Serialization::Decoder::readUInt32() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before reading 4 bytes
-    if (pos_ + 4 > data_.size()) {
+    if (pos_ > data_.size() || data_.size() - pos_ < 4) {
         // Bounds overflow detected - return 0 and don't advance pos_
         // This prevents silent out-of-bounds reads on malformed data
+        has_error_ = true;
         return 0;
     }
     uint32_t value = 0;
@@ -275,9 +279,10 @@ uint32_t Serialization::Decoder::readUInt32() {
  */
 uint64_t Serialization::Decoder::readUInt64() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before reading 8 bytes
-    if (pos_ + 8 > data_.size()) {
+    if (pos_ > data_.size() || data_.size() - pos_ < 8) {
         // Bounds overflow detected - return 0 and don't advance pos_
         // This prevents silent out-of-bounds reads on malformed data
+        has_error_ = true;
         return 0;
     }
     uint64_t value = 0;
@@ -379,6 +384,7 @@ std::string Serialization::Decoder::decodeString() {
     if (pos_ > data_.size() || size > data_.size() - pos_) {
         // Malformed: declared string size exceeds available buffer
         // Return empty string instead of reading past buffer
+        has_error_ = true;
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return "";
     }
@@ -405,6 +411,7 @@ std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
     if (pos_ > data_.size() || size > data_.size() - pos_) {
         // Malformed: declared binary size exceeds available buffer
         // Return empty vector instead of reading past buffer
+        has_error_ = true;
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<uint8_t>();
     }
@@ -426,9 +433,15 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before memcpy
     // Prevent out-of-bounds reads when deserializing float vectors
+    if (count > std::numeric_limits<size_t>::max() / sizeof(float)) {
+        has_error_ = true;
+        pos_ = data_.size();
+        return {};
+    }
     const size_t bytes_needed = count * sizeof(float);
     if (pos_ > data_.size() || bytes_needed > data_.size() - pos_) {
         // Malformed: declared vector count exceeds available buffer
+        has_error_ = true;
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<float>();  // Return empty vector
     }
@@ -454,8 +467,10 @@ size_t Serialization::Decoder::beginArray() {
             fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
                        MAX_NESTING_DEPTH));
     }
+    if (readTag() != TypeTag::ARRAY) {
+        throw std::runtime_error("Deserialization type mismatch: expected array");
+    }
     nesting_depth_++;
-    readTag();
     return readUInt32();
 }
 
@@ -483,8 +498,10 @@ size_t Serialization::Decoder::beginObject() {
             fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
                        MAX_NESTING_DEPTH));
     }
+    if (readTag() != TypeTag::OBJECT) {
+        throw std::runtime_error("Deserialization type mismatch: expected object");
+    }
     nesting_depth_++;
-    readTag();
     return readUInt32();
 }
 
@@ -501,6 +518,10 @@ void Serialization::Decoder::endObject() {
 
 bool Serialization::Decoder::hasMore() const {
     return pos_ < data_.size();
+}
+
+bool Serialization::Decoder::hasError() const {
+    return has_error_;
 }
 
 } // namespace utils

@@ -162,6 +162,8 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 #if THEMIS_ENABLE_LLM
+#include "aql/llm_aql_handler.h"
+#include "core/concerns/w3c_trace_context_propagator.h"
 #include "server/feedback_api_handler.h"
 #include "llm/docs_assistant.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -242,6 +244,151 @@ using json = nlohmann::json;
 
 namespace themis {
 namespace server {
+
+namespace {
+
+void shutdownQueryResources(
+    const std::shared_ptr<VectorIndexManager>& vector_index,
+    const std::shared_ptr<RocksDBWrapper>& storage) noexcept {
+    if (vector_index) {
+        try {
+            const auto status = vector_index->shutdown();
+            if (!status.ok) {
+                THEMIS_WARN("Vector index shutdown reported failure: {}",
+                            status.message);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Vector index shutdown failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Vector index shutdown failed: unknown exception");
+        }
+    }
+    if (storage) {
+        try {
+            storage->close();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("RocksDB close failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("RocksDB close failed: unknown exception");
+        }
+    }
+}
+
+} // namespace
+
+struct HttpServer::RagResourceLifetimeState
+    : std::enable_shared_from_this<HttpServer::RagResourceLifetimeState> {
+    struct Lease {
+        explicit Lease(std::shared_ptr<RagResourceLifetimeState> state_in)
+            : state(std::move(state_in)) {}
+
+        ~Lease() {
+            if (registered) {
+                state->release();
+            }
+        }
+
+        std::shared_ptr<RagResourceLifetimeState> state;
+        bool registered = false;
+    };
+
+    RagResourceLifetimeState(
+        std::shared_ptr<RocksDBWrapper> storage_in,
+        std::shared_ptr<SecondaryIndexManager> secondary_index_in,
+        std::shared_ptr<GraphIndexManager> graph_index_in,
+        std::shared_ptr<VectorIndexManager> vector_index_in,
+        std::shared_ptr<index::SpatialIndexManager> spatial_index_in)
+        : storage(std::move(storage_in)),
+          secondary_index(std::move(secondary_index_in)),
+          graph_index(std::move(graph_index_in)),
+          vector_index(std::move(vector_index_in)),
+          spatial_index(std::move(spatial_index_in)) {}
+
+    std::shared_ptr<void> acquire() {
+        auto lease = std::make_shared<Lease>(shared_from_this());
+        std::lock_guard<std::mutex> lock(mutex);
+        if (shutdown_requested) {
+            return {};
+        }
+        ++active_users;
+        lease->registered = true;
+        return lease;
+    }
+
+    void requestShutdown() {
+        std::lock_guard<std::mutex> lock(mutex);
+        shutdown_requested = true;
+    }
+
+    void shutdownWhenIdle() {
+        std::shared_ptr<VectorIndexManager> vector_index_to_shutdown;
+        std::shared_ptr<RocksDBWrapper> storage_to_close;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            shutdown_requested = true;
+            shutdown_ready = true;
+            if (active_users != 0 || shutdown_started) {
+                return;
+            }
+            shutdown_started = true;
+            vector_index_to_shutdown = vector_index;
+            storage_to_close = storage;
+        }
+        shutdownQueryResources(vector_index_to_shutdown, storage_to_close);
+    }
+
+private:
+    void release() {
+        std::shared_ptr<VectorIndexManager> vector_index_to_shutdown;
+        std::shared_ptr<RocksDBWrapper> storage_to_close;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            if (active_users == 0) {
+                return;
+            }
+            --active_users;
+            if (active_users != 0 || !shutdown_requested || !shutdown_ready ||
+                shutdown_started) {
+                return;
+            }
+            shutdown_started = true;
+            vector_index_to_shutdown = vector_index;
+            storage_to_close = storage;
+        }
+        shutdownQueryResources(vector_index_to_shutdown, storage_to_close);
+    }
+
+    std::mutex mutex;
+    size_t active_users = 0;
+    bool shutdown_requested = false;
+    bool shutdown_ready = false;
+    bool shutdown_started = false;
+    std::shared_ptr<RocksDBWrapper> storage;
+    std::shared_ptr<SecondaryIndexManager> secondary_index;
+    std::shared_ptr<GraphIndexManager> graph_index;
+    std::shared_ptr<VectorIndexManager> vector_index;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index;
+};
+
+namespace {
+
+struct RagWorkerResourceLease {
+    std::shared_ptr<std::atomic<uint64_t>> active_workers;
+    std::shared_ptr<void> resource_lifetime;
+
+    RagWorkerResourceLease(std::shared_ptr<std::atomic<uint64_t>> active_workers_in,
+                           std::shared_ptr<void> resource_lifetime_in)
+        : active_workers(std::move(active_workers_in)),
+          resource_lifetime(std::move(resource_lifetime_in)) {
+        active_workers->fetch_add(1, std::memory_order_acq_rel);
+    }
+
+    ~RagWorkerResourceLease() {
+        active_workers->fetch_sub(1, std::memory_order_acq_rel);
+    }
+};
+
+} // namespace
 
 // ============================================================================
 // HttpServer Implementation
@@ -350,6 +497,10 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Spatial Index Manager: {}", e.what());
         // Non-fatal: geo features will be disabled
     }
+    rag_resource_lifetime_state_ =
+        std::make_shared<RagResourceLifetimeState>(
+            storage_, secondary_index_, graph_index_, vector_index_,
+            spatial_index_);
 
     // Initialize Security Signature Manager (content integrity & file verification)
     try {
@@ -766,6 +917,45 @@ HttpServer::HttpServer(
     cfg.scopes = {"metrics:read","data:read","cdc:read","pii:read"};
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: ANALYST token configured via env");
+    }
+    if (auto t = themis_get_env("THEMIS_TOKEN_RAG")) {
+        constexpr const char* other_token_envs[] = {
+            "THEMIS_TOKEN_ADMIN", "THEMIS_TOKEN_READONLY", "THEMIS_TOKEN_ANALYST"};
+        for (const auto* env_name : other_token_envs) {
+            const auto existing_token = themis_get_env(env_name);
+            if (existing_token && *existing_token == *t) {
+                throw std::invalid_argument(
+                    "THEMIS_TOKEN_RAG must differ from other configured role tokens");
+            }
+        }
+
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *t;
+        cfg.user_id = "rag_reader";
+        if (auto tenant = themis_get_env("THEMIS_TOKEN_RAG_TENANT")) {
+            cfg.tenant_id = *tenant;
+        }
+        cfg.scopes = {"llm", "data:read"};
+        auth_->addToken(cfg);
+        THEMIS_INFO("Auth: RAG reader token configured via env");
+    }
+
+    if (auto jwks_url = themis_get_env("THEMIS_JWT_JWKS_URL")) {
+        themis::AuthMiddleware::JWTConfig jwt_cfg;
+        jwt_cfg.jwks_url = *jwks_url;
+        if (auto issuer = themis_get_env("THEMIS_JWT_EXPECTED_ISSUER")) {
+            jwt_cfg.expected_issuer = *issuer;
+        }
+        if (auto audience = themis_get_env("THEMIS_JWT_EXPECTED_AUDIENCE")) {
+            jwt_cfg.expected_audience = *audience;
+        }
+        if (auto tenant_claim = themis_get_env("THEMIS_JWT_TENANT_CLAIM")) {
+            jwt_cfg.tenant_claim = *tenant_claim;
+        }
+        jwt_cfg.require_issuer_validation = true;
+        jwt_cfg.require_audience_validation = true;
+        auth_->enableJWT(jwt_cfg);
+        THEMIS_INFO("Auth: JWT validation configured via environment");
     }
 
     // Initialize security components  
@@ -2468,6 +2658,9 @@ void HttpServer::stop() {
     THEMIS_INFO("Stopping HTTP Server...");
     THEMIS_INFO("Initiating graceful shutdown...");
     running_ = false;
+    if (rag_resource_lifetime_state_) {
+        rag_resource_lifetime_state_->requestShutdown();
+    }
 
     if (workload_optimizer_ && workload_optimizer_->is_auto_adapt_enabled()) {
         workload_optimizer_->disable_auto_adapt();
@@ -2511,7 +2704,8 @@ void HttpServer::stop() {
             config_.graceful_shutdown_timeout_ms,
             themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs,
             [this]() -> uint64_t {
-                return active_requests_.load(std::memory_order_acquire);
+                return active_requests_.load(std::memory_order_acquire) +
+                       active_rag_workers_->load(std::memory_order_acquire);
             },
             // Do not stop the entire io_context from the drain phase.  That can
             // abort in-flight async handlers while request teardown is still using
@@ -2528,6 +2722,14 @@ void HttpServer::stop() {
             THEMIS_WARN("Shutdown forced: {} request(s) still in flight after "
                         "force-close phase", forced);
         }
+    }
+    const auto active_rag_workers =
+        active_rag_workers_->load(std::memory_order_acquire);
+    if (active_requests_.load(std::memory_order_acquire) != 0 ||
+        active_rag_workers != 0) {
+        THEMIS_WARN("Request or RAG worker(s) still active after shutdown drain; "
+                    "deferring vector-index and RocksDB shutdown until all "
+                    "request resource leases are released");
     }
 
     // Flush and cleanup Sprint A/B features
@@ -2570,35 +2772,6 @@ void HttpServer::stop() {
     execution_thread_pool_.reset();
 #endif  // THEMIS_EXECUTION_MODULE
 
-    // Vector index auto-save
-    if (vector_index_) {
-        THEMIS_INFO("Saving vector index (if auto-save enabled)...");
-        try {
-            const auto status = vector_index_->shutdown();
-            if (!status.ok) {
-                THEMIS_WARN("Vector index shutdown reported failure: {}", status.message);
-            }
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Error shutting down vector index: {}", e.what());
-        } catch (...) {
-            THEMIS_ERROR("Error shutting down vector index: unknown exception");
-        }
-    }
-    
-    // Flush RocksDB WAL and memtables
-    if (storage_) {
-        THEMIS_INFO("Flushing RocksDB memtables...");
-        try {
-            // RocksDB will flush on close, but we can trigger it explicitly.
-            storage_->close(); // This flushes and closes cleanly
-            THEMIS_INFO("RocksDB closed cleanly");
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Error closing RocksDB: {}", e.what());
-        } catch (...) {
-            THEMIS_ERROR("Error closing RocksDB: unknown exception");
-        }
-    }
-
     // Shut down the SSE manager before the io_context so that its internal
     // poll_timer_ is cancelled and reset while the executor is still alive.
     // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
@@ -2608,6 +2781,10 @@ void HttpServer::stop() {
         sse_manager_->shutdown();
     }
 #endif
+
+    if (rag_resource_lifetime_state_) {
+        rag_resource_lifetime_state_->shutdownWhenIdle();
+    }
 
     // Stop io_context
     ioc_.stop();
@@ -4817,6 +4994,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         std::atomic<uint64_t>& counter;
         ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
     } active_guard{active_requests_};
+    auto request_resource_lifetime =
+        rag_resource_lifetime_state_
+            ? rag_resource_lifetime_state_->acquire()
+            : std::shared_ptr<void>{};
+    if (!request_resource_lifetime) {
+        auto response = makeErrorResponse(
+            http::status::service_unavailable,
+            "HTTP server is shutting down", req);
+        applyGovernanceHeaders(req, response);
+        return response;
+    }
 
     // Handle CORS preflight early
     if (method == http::verb::options) {
@@ -5533,7 +5721,204 @@ http::response<http::string_body> HttpServer::routeRequest(
                     return response;
                 }
 
+                if (path_only == "/api/v1/llm/aql/rag" && method == http::verb::post) {
+                    auto worker_resource_lifetime =
+                        rag_resource_lifetime_state_->acquire();
+                    if (!worker_resource_lifetime) {
+                        auto response = makeErrorResponse(
+                            http::status::service_unavailable,
+                            "AQL RAG retrieval is shutting down", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+                    auto worker_lifetime =
+                        std::make_shared<RagWorkerResourceLease>(
+                            active_rag_workers_,
+                            std::move(worker_resource_lifetime));
+
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    try {
+                        const std::string query = payload.at("query").get<std::string>();
+                        const std::string collection =
+                            payload.value("collection", std::string{"default"});
+                        const int top_k = payload.value("top_k", 5);
+                        const int max_tokens = payload.value("max_tokens", 512);
+                        if (query.empty() || query.size() > themis::llm::kMaxPromptBytes ||
+                            collection.empty() || top_k <= 0 || top_k > 1000 ||
+                            max_tokens <= 0 || max_tokens > 4096) {
+                            auto response = makeErrorResponse(
+                                http::status::bad_request,
+                                "query, collection, top_k, or max_tokens is invalid", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+
+                        AuthContext retrieval_auth_context;
+                        if (auto access_error = requireAccess(
+                                req, "data:read", "data.read", collection,
+                                /*require_explicit_policy=*/true,
+                                &retrieval_auth_context)) {
+                            applyGovernanceHeaders(req, *access_error);
+                            return *access_error;
+                        }
+                        if (!storage_ || !secondary_index_ || !graph_index_ ||
+                            !vector_index_) {
+                            auto response = makeErrorResponse(
+                                http::status::service_unavailable,
+                                "AQL RAG retrieval engine not configured", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+
+                        auto query_engine = std::make_shared<query::QueryEngine>(
+                            *storage_, *secondary_index_, *graph_index_,
+                            vector_index_.get(), spatial_index_.get());
+                        query_engine->setCollectionAccessChecker(
+                            [authorized_collection = collection](
+                                const std::string& requested_collection,
+                                const std::string&) {
+                                return requested_collection == authorized_collection;
+                            });
+
+                        themis::rag::RetrievalExecutionContext execution_context;
+                        const auto request_timeout_ms =
+                            request_timeout_ms_live_.load(std::memory_order_relaxed);
+                        if (request_timeout_ms != 0) {
+                            execution_context.deadline =
+                                start + std::chrono::milliseconds(request_timeout_ms);
+                        }
+                        execution_context.tenant_id = retrieval_auth_context.tenant_id;
+                        const auto trace_context =
+                            themis::core::concerns::W3CTraceContextPropagator::extract(
+                                req_headers);
+                        execution_context.trace_id =
+                            trace_context->get(
+                                themis::core::concerns::context_keys::kTraceId)
+                                .value_or("");
+                        execution_context.span_id =
+                            trace_context->get(
+                                themis::core::concerns::context_keys::kSpanId)
+                                .value_or("");
+                        execution_context.authorize_collection =
+                            [authorized_collection = collection](
+                                const std::string& requested_collection) {
+                                return requested_collection == authorized_collection;
+                            };
+
+                        std::unordered_map<std::string, std::string> options;
+                        if (payload.contains("similarity_threshold")) {
+                            const auto threshold =
+                                payload.at("similarity_threshold").get<double>();
+                            if (!std::isfinite(threshold)) {
+                                throw std::invalid_argument(
+                                    "similarity_threshold must be finite");
+                            }
+                            options.emplace("similarity_threshold",
+                                            std::to_string(threshold));
+                        }
+                        if (payload.contains("vector_field")) {
+                            const auto vector_field =
+                                payload.at("vector_field").get<std::string>();
+                            if (vector_field.empty() || vector_field.size() > 256) {
+                                throw std::invalid_argument(
+                                    "vector_field must contain 1..256 bytes");
+                            }
+                            options.emplace("vector_field", vector_field);
+                        }
+                        options.emplace("max_tokens", std::to_string(max_tokens));
+                        if (payload.contains("temperature")) {
+                            const auto temperature =
+                                payload.at("temperature").get<double>();
+                            if (!std::isfinite(temperature) ||
+                                temperature < 0.0 || temperature > 2.0) {
+                                throw std::invalid_argument(
+                                    "temperature must be finite and in [0, 2]");
+                            }
+                            options.emplace("temperature",
+                                            std::to_string(temperature));
+                        }
+                        if (payload.contains("top_p")) {
+                            const auto top_p = payload.at("top_p").get<double>();
+                            if (!std::isfinite(top_p) || top_p < 0.0 ||
+                                top_p > 1.0) {
+                                throw std::invalid_argument(
+                                    "top_p must be finite and in [0, 1]");
+                            }
+                            options.emplace("top_p", std::to_string(top_p));
+                        }
+
+                        auto aql_handler =
+                            std::make_shared<themis::aql::LLMAQLHandler>();
+                        aql_handler->setQueryEngine(std::move(query_engine));
+                        // Timeout cleanup can outlive this route; retain the
+                        // handler and its non-owning QueryEngine dependencies.
+                        execution_context.authorize_collection =
+                            [authorized_collection = collection,
+                             handler_lifetime = aql_handler,
+                             worker_lifetime = std::move(worker_lifetime)](
+                                const std::string& requested_collection) {
+                                return handler_lifetime &&
+                                       worker_lifetime &&
+                                       requested_collection == authorized_collection;
+                            };
+                        const auto text = aql_handler->executeRAG(
+                            query, collection, top_k, "", options, execution_context);
+                        auto response = makeResponse(
+                            http::status::ok,
+                            json{{"text", text},
+                                 {"retrieval_attempted", true},
+                                 {"collection", collection},
+                                 {"top_k", top_k}}.dump(),
+                            req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const themis::aql::LLMException& e) {
+                        const auto status =
+                            e.getErrorCode() == themis::aql::LLMErrorCode::ACCESS_DENIED
+                                ? http::status::forbidden
+                                : (e.getErrorCode() == themis::aql::LLMErrorCode::TIMEOUT
+                                    ? http::status::gateway_timeout
+                                    : ((e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_OPTIONS ||
+                                        e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_PROMPT ||
+                                        e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_COLLECTION)
+                                        ? http::status::bad_request
+                                        : http::status::internal_server_error));
+                        auto response = makeErrorResponse(status, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const nlohmann::json::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request,
+                            std::string("invalid AQL RAG parameters: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::internal_server_error,
+                            std::string("AQL RAG failed: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+                }
+
                 if (path_only == "/api/v1/llm/rag" && method == http::verb::post) {
+                    struct RetrievalDeadlineExceeded {};
+
                     json payload;
                     try {
                         payload = json::parse(req.body());
@@ -5588,10 +5973,37 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
-                    if (auto access_error = requireAccess(req, "data:read", "data.read", collection)) {
+                    AuthContext retrieval_auth_context;
+                    if (auto access_error = requireAccess(
+                            req, "data:read", "data.read", collection,
+                            /*require_explicit_policy=*/true,
+                            &retrieval_auth_context)) {
                         applyGovernanceHeaders(req, *access_error);
                         return *access_error;
                     }
+
+                    rag::RetrievalExecutionContext retrieval_execution;
+                    const auto request_timeout_ms =
+                        request_timeout_ms_live_.load(std::memory_order_relaxed);
+                    if (request_timeout_ms != 0) {
+                        retrieval_execution.deadline =
+                            start + std::chrono::milliseconds(request_timeout_ms);
+                    }
+                    retrieval_execution.tenant_id = retrieval_auth_context.tenant_id;
+                    retrieval_execution.authorize_collection =
+                        [authorized_collection = collection](
+                            const std::string& requested_collection) {
+                            return requested_collection == authorized_collection;
+                        };
+
+                    auto makeRetrievalTimeoutResponse = [&]() {
+                        auto response = makeErrorResponse(
+                            http::status::gateway_timeout,
+                            "RAG retrieval deadline exceeded", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    };
+
                     if (!storage_ || !secondary_index_ || !graph_index_) {
                         auto response = makeErrorResponse(http::status::service_unavailable,
                             "RAG retrieval engine not configured", req);
@@ -5644,16 +6056,34 @@ http::response<http::string_body> HttpServer::routeRequest(
                         query::QueryEngine retrieval_engine(
                             *storage_, *secondary_index_, *graph_index_,
                             vector_index_.get(), spatial_index_.get());
+                        retrieval_engine.setCollectionAccessChecker(
+                            [authorized_collection = collection](
+                                const std::string& requested_collection,
+                                const std::string&) {
+                                return requested_collection == authorized_collection;
+                            });
                         rag::RAGProvider provider(retrieval_engine);
+                        if (std::chrono::steady_clock::now() >=
+                            retrieval_execution.deadline) {
+                            throw RetrievalDeadlineExceeded{};
+                        }
                         query::VectorGeoQuery vector_query;
                         vector_query.table = collection;
                         vector_query.vector_field = payload.value("vector_field", std::string{"embedding"});
                         vector_query.query_vector = plugin_mgr.embed(query);
+                        if (std::chrono::steady_clock::now() >=
+                            retrieval_execution.deadline) {
+                            throw RetrievalDeadlineExceeded{};
+                        }
                         rag::RetrievalRequest retrieval_request;
                         retrieval_request.query = std::move(vector_query);
                         retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
-                        auto evidence = provider.retrieve(retrieval_request);
+                        auto evidence = provider.retrieve(retrieval_request, retrieval_execution);
                         if (!evidence) {
+                            if (evidence.error().code() ==
+                                errors::ErrorCode::ERR_QUERY_TIMEOUT) {
+                                throw RetrievalDeadlineExceeded{};
+                            }
                             throw std::runtime_error("RAG retrieval failed: " + evidence.error().context());
                         }
                         rag_context.documents = themis::llm::toRAGDocuments(evidence->candidates);
@@ -5708,6 +6138,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                             http::status::bad_request, e.what(), req);
                         applyGovernanceHeaders(req, response);
                         return response;
+                    } catch (const RetrievalDeadlineExceeded&) {
+                        return makeRetrievalTimeoutResponse();
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         const bool retryable =
@@ -5720,6 +6152,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;
+                                } catch (const RetrievalDeadlineExceeded&) {
+                                    return makeRetrievalTimeoutResponse();
                                 } catch (...) {
                                     throw;
                                 }
@@ -11681,8 +12115,14 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     const http::request<http::string_body>& req,
     std::string_view required_scope,
     std::string_view action,
-    std::string_view resource_path
+    std::string_view resource_path,
+    bool require_explicit_policy,
+    AuthContext* auth_context
 ) {
+    if (auth_context != nullptr) {
+        *auth_context = {};
+    }
+
     // If auth is disabled and no policy engine configured, allow
     bool auth_enabled = (auth_ && auth_->isEnabled());
     bool policy_enabled = (policy_engine_ != nullptr);
@@ -11761,6 +12201,22 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             return res;
         }
         user_id = ar.user_id;
+        if (auth_context != nullptr) {
+            auth_context->user_id = ar.user_id;
+            auth_context->tenant_id = ar.tenant_id;
+            auth_context->groups = ar.groups;
+        }
+    }
+
+    if (require_explicit_policy && auth_enabled && user_id != "admin" &&
+        !policy_enabled) {
+        http::response<http::string_body> res{http::status::forbidden, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"policy_unavailable","message":"An explicit collection policy is required"})";
+        applyGovernanceHeaders(req, res);
+        res.prepare_payload();
+        return res;
     }
 
     // 2) Policy evaluation (if enabled)
@@ -11812,7 +12268,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
 
         THEMIS_INFO("PolicyEngine: evaluating user='{}' action='{}' resource='{}' client_ip='{}'", user_id, action, resource, client_ip.has_value() ? *client_ip : std::string("<none>"));
-        auto decision = policy_engine_->authorize(user_id, std::string(action), resource, client_ip);
+        auto decision = policy_engine_->authorizeWithEmptyPolicyDefault(
+            user_id, std::string(action), resource, client_ip, std::nullopt,
+            !require_explicit_policy, require_explicit_policy);
         THEMIS_INFO("PolicyEngine: decision.allowed={} reason='{}' policy_id='{}'", decision.allowed, decision.reason, decision.policy_id);
         if (!decision.allowed) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
@@ -11858,6 +12316,7 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     auto ar = auth_->validateToken(*token);
     if (ar.authorized) {
         ctx.user_id = ar.user_id;
+        ctx.tenant_id = ar.tenant_id;
         ctx.groups = ar.groups;
     }
     
@@ -15498,6 +15957,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"POST", "/query",                    "Structured query"});
     endpoints.push_back({"POST", "/query/aql",                "AQL query"});
     endpoints.push_back({"POST", "/api/aql",                  "AQL query (compat)"});
+    endpoints.push_back({"POST", "/api/v1/llm/aql/rag",       "Authenticated AQL-backed RAG"});
     endpoints.push_back({"GET",  "/v2/query/stream",          "SSE streaming AQL results"});
 
     // Index Management

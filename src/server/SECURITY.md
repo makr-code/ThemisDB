@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-12"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,6 +30,7 @@ Security in the server module focuses on authentication and request-control midd
 | request flood and overload | rate-limiting, adaptive throttling, and load-shedding surfaces |
 | hidden endpoint failure or unsafe degradation | explicit handler and health/error signaling |
 | protocol/session abuse on server-owned transports | bounded session/runtime behavior for WebSocket, MQTT, PostgreSQL wire, and gRPC |
+| MCP RAG without authenticated caller scope | retrieval-enabled `llm_orchestrate` modes fail closed because the current tool-call path has no trusted retrieval authorization context |
 
 ## Implemented Security Controls
 

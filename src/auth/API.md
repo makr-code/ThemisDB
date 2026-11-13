@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-31
+Last Updated: 2026-11-13
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -32,6 +32,9 @@ Key behavior and constraints:
 
 - invalid or unsigned tokens are rejected
 - with the `JWTValidatorConfig` constructor, required issuer/audience values are checked during construction; the URL-only constructor disables those two requirements unless configured through another path
+- `JWTValidatorConfig::tenant_claim` selects the verified JWT payload key copied into `JWTClaims::tenant_id`; the default is `tenant_id`. A missing claim produces an empty tenant, and a claim whose value is not a string fails validation.
+- `AuthMiddleware::JWTConfig::tenant_claim` is propagated into `JWTValidatorConfig`. This maps identity only; it does not grant collection access or require a tenant claim.
+- `JWTValidatorConfig` layout changed when `tenant_claim` was added; binary consumers must rebuild.
 - JWKS refresh is single-flight and cache-aware to avoid concurrent fetch races
 
 ### Session lifecycle
