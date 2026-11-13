@@ -50,7 +50,8 @@
       "TEST_MISSING": "No test evidence found for the required behavior.",
       "PARTIAL": "Existing tests cover only part of the stated contract.",
       "REGISTERED_UNVERIFIED": "Test and registration were found; execution has not been verified for the pinned profile.",
-      "BLOCKED": "Execution or interpretation needs a missing workload, environment, model, or approved threshold."
+        "BLOCKED": "Test-to-criterion coverage cannot be assessed until a profile/scope prerequisite is resolved; this is not a runtime failure.",
+        "NOT_APPLICABLE": "Excluded from this profile with a reviewed rationale and explicit disposition."
     },
     "execution": {
       "NOT_RUN": "No execution result is attached.",
@@ -60,6 +61,35 @@
       "BLOCKED": "A required prerequisite prevented a valid run.",
       "NOT_APPLICABLE": "Reviewed and explicitly excluded from this profile with rationale."
     }
+  },
+  "criterion_record_contract": {
+    "same_fields_required_for_every_criterion": true,
+    "required_fields": [
+      "id",
+      "modules",
+      "requirement_sources",
+      "proposed_gate",
+      "requirement",
+      "test_obligations",
+      "existing_test_sources",
+      "coverage_status",
+      "execution_status",
+      "gap",
+      "blocked_reasons",
+      "threshold",
+      "threshold_approval"
+    ],
+    "defaults": {
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
+    },
+    "threshold_approval_values": [
+      "not_applicable",
+      "pending_owner_approval",
+      "approved"
+    ],
+    "unknown_fields": "Require a schema_version update before adding new criterion fields."
   },
   "test_dimensions": {
     "verification_level": [
@@ -128,6 +158,7 @@
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
       "gap": "Source-level tests exist, but the complete cache/shard/HTTP/AQL authorization matrix has not been mapped to and executed in a pinned profile.",
+      "blocked_reasons": [],
       "threshold": null,
       "threshold_approval": "not_applicable"
     },
@@ -161,6 +192,7 @@
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
       "gap": "The provider-level contract is represented in source tests; persistence/restart and concurrent re-ingestion behavior still need profile-level evidence.",
+      "blocked_reasons": [],
       "threshold": null,
       "threshold_approval": "not_applicable"
     },
@@ -190,7 +222,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Existing identity tests do not establish global chunk-key uniqueness, update/delete propagation, or idempotent retry semantics."
+      "gap": "Existing identity tests do not establish global chunk-key uniqueness, update/delete propagation, or idempotent retry semantics.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-ING-004",
@@ -221,7 +256,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "The referenced suites exist, but this catalog has not verified that they cover source/vector/graph partial-write state and recovery; sink writes are not assumed atomic."
+      "gap": "The referenced suites exist, but this catalog has not verified that they cover source/vector/graph partial-write state and recovery; sink writes are not assumed atomic.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-RAG-005",
@@ -256,7 +294,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Route-level status, direct-provider behavior, timeout configuration, and all backend error paths need a single mapped run; cooperative deadlines cannot interrupt a blocking call."
+      "gap": "Route-level status, direct-provider behavior, timeout configuration, and all backend error paths need a single mapped run; cooperative deadlines cannot interrupt a blocking call.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-RAG-006",
@@ -297,7 +338,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Existing budget suites are source evidence; exact tokenizer parity on the final production prompt and representative small-model windows have not been verified."
+      "gap": "Existing budget suites are source evidence; exact tokenizer parity on the final production prompt and representative small-model windows have not been verified.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-LLM-007",
@@ -335,7 +379,9 @@
         "No focused test was identified that compares the fingerprint with the model actually loaded by the training/inference path.",
         "A pinned local model artifact and runtime were not supplied or executed for this catalog."
       ],
-      "gap": "Add a contract-level loaded-model identity assertion before treating model-backed tests as evidence."
+      "gap": "Add a contract-level loaded-model identity assertion before treating model-backed tests as evidence.",
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-TRAIN-008",
@@ -369,7 +415,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Current sample-provider cases establish a bound and malformed-input behavior, not authorization, snapshot isolation, or filter-before-limit semantics."
+      "gap": "Current sample-provider cases establish a bound and malformed-input behavior, not authorization, snapshot isolation, or filter-before-limit semantics.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-TRAIN-009",
@@ -404,7 +453,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Existing rank and checkpoint-creation cases do not by themselves prove complete metadata round-trip or failure atomicity."
+      "gap": "Existing rank and checkpoint-creation cases do not by themselves prove complete metadata round-trip or failure atomicity.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-LLM-010",
@@ -443,7 +495,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "Manager-level adapter failures exist in tests; batch inference's required-adapter failure propagation and no-base-fallback contract are not established by those cases."
+      "gap": "Manager-level adapter failures exist in tests; batch inference's required-adapter failure propagation and no-base-fallback contract are not established by those cases.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     },
     {
       "id": "HYB-TENSOR-011",
@@ -480,6 +535,7 @@
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
       "gap": "Existing bridge tests include stub/injected seams and do not establish numerical round-trip, persistence across restart, or a real llama.cpp handoff.",
+      "blocked_reasons": [],
       "threshold": null,
       "threshold_approval": "pending_owner_approval"
     },
@@ -520,7 +576,9 @@
         "Checked-in corpora are synthetic smoke fixtures rather than the representative datasets described by the contract.",
         "No complete retrieval-and-answer evaluation runner or result artifact was identified."
       ],
-      "gap": "Provide approved datasets, executable evaluator, raw results, and owner-approved targets before claiming metric evidence."
+      "gap": "Provide approved datasets, executable evaluator, raw results, and owner-approved targets before claiming metric evidence.",
+      "threshold": null,
+      "threshold_approval": "pending_owner_approval"
     },
     {
       "id": "HYB-PERF-013",
@@ -558,7 +616,9 @@
         "No profile-level mixed-load or five-way ablation run was identified.",
         "Numerical thresholds and representative hardware have not been approved."
       ],
-      "gap": "Define workload and baseline, then approve thresholds; do not infer performance from target registration or synthetic tests."
+      "gap": "Define workload and baseline, then approve thresholds; do not infer performance from target registration or synthetic tests.",
+      "threshold": null,
+      "threshold_approval": "pending_owner_approval"
     },
     {
       "id": "HYB-EVID-014",
@@ -591,7 +651,10 @@
       ],
       "coverage_status": "PARTIAL",
       "execution_status": "NOT_RUN",
-      "gap": "No profile-specific catalog-to-CTest/GoogleTest result join and readiness JSON was identified; current static inventory and runtime wrapper do not provide this crosswalk."
+      "gap": "No profile-specific catalog-to-CTest/GoogleTest result join and readiness JSON was identified; current static inventory and runtime wrapper do not provide this crosswalk.",
+      "blocked_reasons": [],
+      "threshold": null,
+      "threshold_approval": "not_applicable"
     }
   ],
   "aggregation": {

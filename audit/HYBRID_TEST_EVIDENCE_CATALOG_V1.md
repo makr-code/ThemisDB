@@ -68,17 +68,28 @@ test cases execute.
 
 ### Coverage and execution states
 
-- `TEST_MISSING`: no test evidence was found for the required behavior.
-- `PARTIAL`: existing tests cover only part of the stated contract.
-- `REGISTERED_UNVERIFIED`: a test and registration were found, but execution
-  has not been verified for the pinned build profile.
-- `BLOCKED`: execution or interpretation requires a missing workload, model,
-  environment, or owner-approved threshold.
-- `PASS` / `FAIL`: reserved for a captured, reproducible execution result.
-- `SKIPPED`: a registered case reported a skip; required skipped cases do not
-  count as passing evidence.
-- `NOT_APPLICABLE`: allowed only with a reviewed rationale and explicit
-  profile disposition; it is not an implicit success.
+Coverage and execution use separate vocabularies:
+
+| Field | State | Meaning |
+|---|---|---|
+| `coverage_status` | `TEST_MISSING` | No test evidence was found for the required behavior. |
+| `coverage_status` | `PARTIAL` | Existing tests cover only part of the stated contract. |
+| `coverage_status` | `REGISTERED_UNVERIFIED` | A test and registration were found, but execution has not been verified for the pinned build profile. |
+| `coverage_status` | `BLOCKED` | Test-to-criterion coverage cannot be assessed until a profile/scope prerequisite is resolved; this is not a runtime failure. |
+| `coverage_status` | `NOT_APPLICABLE` | Excluded from this profile with a reviewed rationale and explicit disposition. |
+| `execution_status` | `NOT_RUN` | No execution result is attached; this is the initial state for this catalog. |
+| `execution_status` | `PASS` / `FAIL` | Reserved for a captured, reproducible execution result. |
+| `execution_status` | `SKIPPED` | A registered case reported a skip; required skipped cases do not count as passing evidence. |
+| `execution_status` | `BLOCKED` | A mapped test could not run because a prerequisite such as a model, dataset, or hardware lane was unavailable. |
+| `execution_status` | `NOT_APPLICABLE` | Excluded from this profile with a reviewed rationale; it is not an implicit success. |
+
+`BLOCKED` in `coverage_status` means the coverage mapping itself is unresolved;
+`BLOCKED` in `execution_status` means execution could not proceed. They are
+not interchangeable. Every criterion record uses the same JSON fields.
+`threshold` is `null` until a numeric value is approved;
+`threshold_approval` is `not_applicable` when no numeric threshold applies and
+`pending_owner_approval` when one is needed; `blocked_reasons` is an empty
+array when no execution blocker is known.
 
 The catalog records static test-coverage state separately from runtime
 execution state. A criterion can have existing tests and still be unverified.
