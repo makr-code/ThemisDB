@@ -1160,6 +1160,10 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
         if (!lora_applied) {
             spdlog::warn("Failed to apply LoRA {}, skipping {} requests",
                          lora_id, indices.size());
+            if (!removeLoRA(lora_id, model_context)) {
+                spdlog::error("Failed to clean up LoRA {} after application failure",
+                              lora_id);
+            }
             for (size_t idx : indices) {
                 const InferenceRequest& request = requests[idx].first;
                 auto& response = responses[idx];
