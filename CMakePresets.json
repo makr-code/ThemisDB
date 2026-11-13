@@ -46,6 +46,7 @@
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "X_VCPKG_APPLOCAL_DEPS_SERIALIZED": "ON",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_GPU_AUTO_DETECT": "ON",
         "THEMIS_ENABLE_VULKAN": "ON",

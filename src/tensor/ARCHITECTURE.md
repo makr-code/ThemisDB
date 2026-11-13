@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,39 @@ Human_Author: "ThemisDB Contributors"
 The tensor module composes tensor index management, bridge-oriented ingestion/runtime behavior, fingerprint graph operations, and tensor-specific structural helper paths into a bounded subsystem.
 
 ## Main Execution Planes
+
+### Role in the native database/LLM hybrid (design target; 2026-11-13)
+
+Tensor abstraction is not merely prompt formatting or an additional vector
+index. Distinguish:
+
+- **Representation/storage:** TT cores, ranks, dtype/layout and reconstruction
+  error for vectors or adapter updates; persist the required metadata and
+  lifetimes through the selected backend.
+- **Selection/planning:** `TensorMidLayer` normalizes adapter/package/
+  fingerprint/shard scopes and queries injected repositories/fingerprint
+  graphs. Summaries reduce candidate work, not necessarily prompt tokens.
+- **Training/serving bridge:** `AdaLoraTTBridge` exposes adapter conversion,
+  while `TensorRAGPipeline` and final-layer interfaces expose routing/handoffs.
+  Verify the actual decoder/ggml consumer before claiming compressed
+  execution, zero-copy, KV injection or live adapter switching.
+- **Decentralized artifacts:** distributed-tensor planners and injected
+  fetchers can support summary-first/exact-on-demand design. Planning APIs and
+  in-process callback execution are not a built-in distributed transport.
+
+The proposed contract binds tenant/base-model/artifact versions, shape,
+dtype/layout, rank/scaling, decomposition profile, measured approximation
+error, provenance and storage/mapping ownership. Qualify approximate summaries
+with exact artifact/evidence checks where required; similarity is neither
+authorization nor adapter compatibility.
+
+Tensor representations do not create an unlimited semantic context window.
+The existing RAG `tensor_hybrid`/`tensor_prefix` text compatibility modes are
+not direct tensor/KV injection. Native tensor consumption needs separate
+backend capability, numerical/quality tests and runtime evidence. See
+[the tensor backlog](FUTURE_ENHANCEMENTS.md),
+[training](../training/ARCHITECTURE.md), and
+[native LLM architecture](../llm/ARCHITECTURE.md).
 
 1. Tensor index and retrieval plane
 - `TensorIndexManager::routeFor()` obtains a `TensorRouter` decision from a dimension-derived profile; `createIndex()` currently constructs a flat TT index without applying that decision. `HnswTTBridge` is a separate `ITensorIndex` implementation.

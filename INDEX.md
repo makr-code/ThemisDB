@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-09-23
-Last Updated: 2026-11-01
+Last Updated: 2026-11-13
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -56,6 +56,7 @@ Exact model backend not verifiable from final document text alone.
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — generated module and dependency overview
 - [TARGET_ARCHITECTURE.md](TARGET_ARCHITECTURE.md) — target retrieval and reasoning architecture
+- [ThemisDB.md](ThemisDB.md) — source-grounded database-first LLM hybrid analysis and proposed data contracts
 - [MODULE_INDEX.md](MODULE_INDEX.md) — module navigation
 - [CMAKE.md](CMAKE.md) — build-system overview
 - [CTEST.md](CTEST.md) — dated test evidence and focused test guidance

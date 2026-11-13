@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -32,6 +32,24 @@ Implemented runtime surfaces include tensor index management, bridges, adapter p
 - [x] phase-5+ tensor integration closure: durable fingerprint persistence, distributed training coordinator, CUDA compression/routing path, and workflow SLO observability (Completed 2026-07-22)
 
 ## Planned Features
+
+### Native Hybrid Tensor Layers (Proposal; Target: Q2 2027)
+
+- [ ] Qualify representation/storage, adapter/package/shard summaries and
+  actual ggml/llama.cpp consumption as distinct capabilities
+  (Target: Q2 2027 proposal).
+- [ ] Bind artifact versions/shapes/dtype/rank/scaling, approximation error and
+  lifetimes across AdaLoRA TT conversion and Multi-LoRA serving; test real
+  scaled-update/output round-trips (Target: Q2 2027 proposal).
+- [ ] Measure summary-first/exact-on-demand retrieval and native-vs-tensor
+  ablations under shared context/resource budgets; preserve tenant policy,
+  provenance and explicit transport/storage limits (Target: Q2 2027 proposal).
+
+Apply the existing six implementation phases to these new gates; historical
+completion notes do not prove direct tensor/KV injection, zero-copy execution,
+distributed transport or end-to-end quality. See
+[the layer plan](FUTURE_ENHANCEMENTS.md) and
+[architecture](ARCHITECTURE.md).
 
 ### Research-driven v2.5.0 → v3.0.0 plan
 

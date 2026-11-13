@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,6 +48,35 @@ the repository's RocksDB record format. Cryptographic signing of trained artifac
 is not implemented by this path and remains a deployment gate.
 
 ## Core Contracts
+
+### Role in the native database/LLM hybrid (design target; 2026-11-13)
+
+AdaLoRA is the specialization plane for smaller local base models; retrieval
+remains the current, permission-aware evidence plane. The serving plane uses
+approved Multi-LoRA artifacts, while tensor layers can organize/compress
+artifacts and guide retrieval. These are complementary responsibilities, not
+proof that training embeds all database knowledge or removes context limits.
+
+The current native pipeline targets block-sharded `output.weight`, using
+frozen-model hidden states/logits and bounded source-neutral batches. Do not
+describe it as full-model or arbitrary-layer training. Its optional
+`load_for_inference` handoff calls the wrapper and reports rejected loading;
+successful loading is not a measured quality gate, signed production promotion,
+or proof of concurrent multi-adapter composition.
+
+Proposed lifecycle: authorize source -> bind sample/snapshot provenance ->
+train under rank/token/memory limits -> checkpoint/export -> validate held-out
+quality and artifact/base compatibility -> explicitly promote -> request-pinned
+Multi-LoRA serving -> monitor/rollback. Keep training on a dedicated wrapper,
+outside interactive request threads and without long-held DB locks.
+
+Tensor export through
+[`AdaLoraTTBridge`](../../include/training/adalora_tt_bridge.h) is a distinct
+representation transformation: qualify scaling/rank, reconstruction error,
+round-trip and actual serving handoff. Its illustrative runtime examples are
+not evidence of direct TT execution or adapter-switch latency. See
+[the detailed backlog](FUTURE_ENHANCEMENTS.md) and
+[native inference architecture](../llm/ARCHITECTURE.md).
 
 | Contract | Behavior |
 |---|---|

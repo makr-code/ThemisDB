@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-11-09 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
+**Last Updated:** 2026-11-13 (LLM application framework interoperability proposal added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the 2026-10-01 manifest records C1/C2 as successful, C3 sustained-load evidence as pending, C4 compliance sign-off as in progress, and `overall_status` as open. The latest `gate-wave-closure.yml` develop run [41036260560](https://github.com/makr-code/ThemisDB/actions/runs/41036260560) succeeded structural manifest validation only; artifact `12967483854` (digest `sha256:159a15db1d236c2b6992b5ca8ede4c6f01289752bc0f76bb3d93746822f8b33e`, expires 2026-11-29) is not C3/C4 evidence. See `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md`. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **The Q3 quarterly pentest workflow run 36261285860 produced simulated results only, not an executed pentest/vendor assessment; PENTEST-Q3-001 remains HIGH OPEN and PENTEST-Q3-002/003/004 remain OPEN without verified dispositions. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -341,6 +341,135 @@ This execution contract is the active implementation sequence to close hardening
 - [ ] Recovery/failover paths have deterministic chaos evidence (Target: Q1 2027)
 - [ ] Security controls have production-style integration validation (Target: Q1 2027)
 - [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
+## LLM Application Framework Interoperability (Proposal; Not a Release Commitment)
+
+**Direction clarified 2026-11-13:** ThemisDB remains a database with native LLM
+execution, prioritizing smaller local models and decentralized processing near
+the data. The embedded llama.cpp path is not merely a connector to a remote
+agent service. Retrieval must maximize useful, attributable evidence within the
+selected model's actual context budget, rather than rely on a larger hosted
+model or a larger prompt. This is a product direction, not a claim that other
+vendors lack local-model capabilities.
+
+The database/LLM boundary is about authority and budgets, not a blanket ban on
+native agent functions. Bounded re-retrieval, prompt planning, tool selection,
+and approved local model/LoRA routing can belong to the native intelligence
+path. QueryEngine, storage, and authorization remain authoritative for data
+access, query execution, and commits; model proposals are not execution rights.
+Long-running workflows and human approvals require an explicit optional
+process/application contract, whether deployed with ThemisDB or externally.
+They must not hold database locks while waiting for inference or a human.
+
+Existing llama.cpp wrappers, `RAGProvider`, `AgenticRAG`, AQL agents, routing,
+process integrations, AdaLoRA training, Multi-LoRA serving, tensor abstractions
+and telemetry are source surfaces, not proof of uniform
+budgets, end-to-end compatibility, durable agent execution, or workload isolation.
+See the [LLM hybrid boundary](src/llm/ARCHITECTURE.md) and
+[RAG context design](src/rag/ARCHITECTURE.md).
+
+- [ ] **P0 -- Retrieval contract correctness:** reconcile server and SDK filter,
+  ID, metric/score direction, pagination, timeout, and partial-failure semantics
+  before advertising framework support; propagate errors instead of empty
+  success-shaped results (Target: Q2 2027 proposal).
+- [ ] **P0 -- Trusted retrieval:** enforce authenticated tenant/collection/row
+  policy across lexical, vector, graph, shard, and cache paths; define
+  authorization-revocation visibility separately from caller metadata filters
+  (Target: Q2 2027 proposal).
+- [ ] **P1 -- Small-model context efficiency:** integrate model-tokenizer-exact
+  final-prompt budgeting, output reservation, evidence deduplication/diversity,
+  source revisions, and bounded iterative retrieval; evaluate answer quality
+  at fixed context budgets, not recall alone (Target: Q2 2027 proposal).
+- [ ] **P1 -- Ingestion lifecycle:** define idempotent source/chunk/embedding
+  updates, version manifests, deletion propagation, index freshness and
+  transaction boundaries; keep embedding and generation model versions distinct
+  (Target: Q2 2027 proposal).
+- [ ] **P1 -- Decentralized native execution:** define locality/egress policy,
+  global fan-out and session budgets, local model capabilities, and shared
+  CPU/RAM/VRAM admission control under mixed database/inference load; no implicit
+  cloud escalation on local failure (Target: Q2 2027 proposal).
+- [ ] **P1 -- Native specialization lifecycle:** qualify authorized DB-sample
+  selection -> bounded AdaLoRA training -> versioned artifact validation ->
+  explicit promotion -> Multi-LoRA serving/rollback on compatible local base
+  models. Distinguish resident adapters, per-request selection, simultaneous
+  application and offline fusion; none implies the others
+  (Target: Q2 2027 proposal).
+- [ ] **P1 -- Tensor abstraction layers:** qualify TT representations,
+  fingerprints, adapter/package/shard summaries and exact-on-demand loads
+  between retrieval, training and serving. Declare reconstruction/quality
+  error, artifact compatibility, lifetimes and actual llama.cpp handoff;
+  compressed artifacts are not automatically additional semantic context
+  (Target: Q2 2027 proposal).
+- [ ] **P1 -- Optional integrations:** qualify LangChain VectorStore/Retriever
+  and Microsoft .NET `Microsoft.Extensions.VectorData` adapters first; evaluate
+  LlamaIndex/Haystack according to maintainer demand and keep framework
+  dependencies outside core builds (Target: Q2 2027 proposal).
+- [ ] **P2 -- State and diagnostics:** distinguish framework checkpointers,
+  cross-session stores, and history providers; define optional native workflow
+  recovery separately, and correlate DB/retrieval/inference diagnostics with
+  privacy-bounded, versioned telemetry (Target: Q2 2027 proposal).
+
+#### Implementation Phases
+
+- **Phase 1 — Design / API Contract:** inventory current native/SDK paths and
+  verified gaps; specify trust, tokenizer, locality, consistency, resource,
+  and optional orchestration boundaries before expanding public interfaces.
+- **Phase 2 — Core Implementation:** close P0 contract gaps; compose existing
+  search/RAG/llama.cpp components for approved bounded native operations;
+  build optional adapters over that contract rather than a parallel engine.
+- **Phase 3 — Error Handling & Edge Cases:** cover insufficient evidence,
+  tokenizer/model mismatch, revoked access, stale indexes, node loss, exhausted
+  shared budgets, cancellation, unsupported features, and replayed effects.
+- **Phase 4 — Tests:** verify server/SDK parity, final-token bounds, policy
+  isolation, document lifecycle, pinned framework conformance, native-loop
+  termination, and any claimed persistent recovery against real storage.
+- **Phase 5 — Performance / Hardening:** compare fixed-budget retrieval/answer
+  quality, filtered recall, network bytes, RAM/VRAM, and database p95/p99 under
+  concurrent inference/training. Ablate base-only, RAG, adapter-only,
+  RAG+adapter and tensor-enabled variants; ratify thresholds from baselines.
+- **Phase 6 — Documentation & Acceptance:** publish supported local models,
+  quantizations/tokenizers, topology/egress and consistency limits, compatibility
+  matrices, recovery guidance, measured evidence, and owner-approved API changes.
+
+**Acceptance gates:** no tested supported filter is dropped; no backend failure
+is presented as an ordinary empty result; every admitted rendered prompt plus
+reserved output fits its effective model window; configured native-loop and
+aggregate fan-out budgets terminate with explicit outcomes; no tested policy or
+locality boundary is bypassed. Lifecycle and checkpoint claims require
+restart/delete/revocation evidence, not in-memory fixtures. Ordinary database
+operations must remain available when inference is unavailable; shared-process
+crash isolation is not implied. Optional adapters pass pinned conformance tests
+without adding framework dependencies to core. Proposed quality/performance
+thresholds require a representative baseline and owner approval.
+Training success is not serving promotion; required-adapter failure must not
+silently become base-model execution. Adapter changes require a declared KV/
+prefix-cache validity policy. Tensor compression must pass measured numerical
+and downstream task-quality checks, not only a storage-ratio target.
+
+Detailed targets and ownership are tracked in
+[`src/llm/FUTURE_ENHANCEMENTS.md`](src/llm/FUTURE_ENHANCEMENTS.md),
+[`src/rag/FUTURE_ENHANCEMENTS.md`](src/rag/FUTURE_ENHANCEMENTS.md),
+[`src/search/FUTURE_ENHANCEMENTS.md`](src/search/FUTURE_ENHANCEMENTS.md),
+[`src/ingestion/FUTURE_ENHANCEMENTS.md`](src/ingestion/FUTURE_ENHANCEMENTS.md),
+[`src/training/FUTURE_ENHANCEMENTS.md`](src/training/FUTURE_ENHANCEMENTS.md),
+[`src/tensor/FUTURE_ENHANCEMENTS.md`](src/tensor/FUTURE_ENHANCEMENTS.md),
+[`src/process/FUTURE_ENHANCEMENTS.md`](src/process/FUTURE_ENHANCEMENTS.md), and
+[`src/observability/FUTURE_ENHANCEMENTS.md`](src/observability/FUTURE_ENHANCEMENTS.md).
+
+**Official research references (reviewed 2026-11-13; not ThemisDB runtime evidence):**
+[LangChain vector stores](https://docs.langchain.com/oss/python/integrations/vectorstores)
+and [standard tests](https://docs.langchain.com/oss/python/contributing/standard-tests-langchain);
+[LangGraph checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers)
+and [stores](https://docs.langchain.com/oss/python/langgraph/stores);
+[Microsoft vector integrations](https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/vector-stores/)
+and [history storage](https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/storage);
+[Azure filter semantics](https://learn.microsoft.com/en-us/azure/search/vector-search-filters)
+and [Cosmos DB hybrid search](https://learn.microsoft.com/en-us/azure/cosmos-db/gen-ai/hybrid-search);
+[LlamaIndex ingestion](https://developers.llamaindex.ai/python/framework/module_guides/loading/ingestion_pipeline/)
+and [Haystack DocumentStore](https://docs.haystack.deepset.ai/docs/document-store).
+Pin package/API versions before implementation; Microsoft Python vector
+interfaces and some Azure capabilities are experimental/preview, not universal
+production baselines.
 
 ## Private Plugin Externalization & Monetization Program
 

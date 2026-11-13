@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown; Claude (WP H snapshot provenance section)"
@@ -37,6 +37,134 @@ Exact model backend not verifiable from final document text alone.
 ## Scope, boundaries, and ownership
 
 `src/llm/` owns model-backed inference runtime surfaces: embedded and asynchronous requests, model/backend selection, prompt policy, streaming response helpers, model/adapter lifecycle, and inference resource support. The module does not own client protocol endpoints, search ranking, or durable database storage.
+
+## Database-native hybrid direction (design target; 2026-11-13)
+
+ThemisDB prioritizes smaller local models and decentralized processing near
+the data. Its llama.cpp integration is native inference, not merely a remote
+provider adapter. This direction does not restrict every deployment to a fixed
+parameter count or assume that a smaller model always matches a larger one.
+Task quality must be measured for the selected model, quantization, hardware,
+retrieval corpus, and context budget.
+
+**Current evidence:** [`LlamaWrapper`](../../include/llm/llama_wrapper.h)
+invokes llama.cpp and performs model-vocabulary tokenization;
+[`generateRAG()`](llama_wrapper.cpp) uses the shared
+[`prepareRAGRequest()`](../../include/llm/rag_helpers.h).
+[`AgenticRAG`](../../include/rag/agentic_rag.h),
+[`ReActAgent`](../../include/aql/aql_agent.h), and
+[`AIOrchestrator`](../../include/llm/ai_orchestrator.h) already expose iterative
+retrieval/tool/mode surfaces. Their presence does not establish uniform hard
+budgets, safe execution of arbitrary tools, durable orchestration, or isolation.
+RAG packing still uses estimated tokens; see the
+[current retrieval/generation contract](../../docs/rag/API.md).
+
+The following allocation is a proposal, not newly implemented behavior:
+
+| Layer | Responsibility and authority |
+|---|---|
+| Database execution | QueryEngine/storage own plans, reads, indexes, authorization integration, and transaction commits. A model-generated query or tool call is untrusted input. |
+| Native intelligence execution | Local llama.cpp generation/embeddings, prompt assembly, approved model/LoRA selection, and bounded retrieval/refinement/tool loops may run with the database. All consume explicit shared resource budgets. |
+| Optional process/application coordination | Long-lived jobs, approval waits, cross-service effects, and recovery need their own durable state/authorization contract. They may be integrated or external; neither placement grants database privileges. |
+| Framework interoperability | Python/.NET adapters expose supported operations without importing LangChain or another framework into core builds. |
+
+### Proposed request lifecycle and safety boundaries
+
+1. Authenticate and authorize at the owning boundary; resolve tenant, permitted
+   collections/tools, locality, model/adapter, and finite request/session budgets.
+2. Execute typed retrieval through QueryEngine and the common RAG provider;
+   preserve source identity, revision and any supported read-consistency scope.
+3. Rank/deduplicate evidence and budget the fully rendered prompt using the
+   selected generation model's tokenizer, including templates, tools/history,
+   output reservation and a safety margin.
+4. Perform local inference. A bounded controller may propose another retrieval,
+   select an allowlisted tool, or select an approved local model/LoRA; the
+   trusted executor validates schema, arguments, permissions and remaining
+   aggregate budget before each operation.
+5. Return attributable output, an explicit insufficient-evidence outcome, or
+   an error. A model/judge score is not a proof of factual correctness.
+   Generated writes and external effects require a separately authorized,
+   validated operation; generation itself is not a database commit.
+
+Do not hold transaction locks across generation or human approval. Where
+snapshot pinning is supported, bound its lifetime and report stale/expired
+evidence; do not infer a global cross-shard snapshot from independent reads.
+LLM planning supplies candidate requests, not a replacement for the trusted
+query optimizer or authorization checks.
+
+### Locality, lifecycle, and failure domains
+
+- Local model switching is an existing architectural concern, not something
+  categorically excluded from the database. Remote/node routing requires an
+  explicit deployment policy; local failure must not silently trigger cloud
+  egress or a larger external model.
+- Embedding encoder, generation model/tokenizer, and LoRA version are distinct.
+  A generation-only change requires re-budgeting and cache/quality review,
+  not automatically re-embedding an unchanged index.
+- Admission control must cover query work, prompt prefill/decode, retries,
+  iterative tools, and background training/indexing across CPU, RAM and VRAM.
+  Source-level queue/quota helpers do not prove mixed-workload isolation.
+- Inference unavailability must not disable ordinary database operations.
+  An embedded shared-process backend still shares a crash/address-space
+  failure domain; process isolation would require an explicit worker design.
+
+Detailed acceptance work is in [the LLM backlog](FUTURE_ENHANCEMENTS.md) and
+[the context-efficiency design](../rag/ARCHITECTURE.md). These proposals change
+no existing API, plugin ABI, transaction guarantee, or deployment default.
+
+### AdaLoRA, Multi-LoRA and tensor layers in the hybrid
+
+These are architectural pillars, not incidental model-selection options:
+
+1. **Retrieval supplies current evidence.** Source-backed facts, permissions
+   and revisions stay in the database; an adapter is not a replacement for
+   fresh, authorized retrieval.
+2. **AdaLoRA specializes a frozen local base.** The current
+   [native pipeline](../../include/training/adalora_training_pipeline.h)
+   consumes bounded normalized samples, trains a block-sharded `output.weight`
+   update from frozen-model hidden states/logits, exports GGUF and can request
+   loading through the wrapper. This does not establish full-transformer
+   fine-tuning, general domain-quality gains or signed deployment.
+3. **Multi-LoRA serves approved specializations.**
+   [MultiLoRAManager](../../include/llm/multi_lora_manager.h) manages adapter
+   lifecycle and has actual llama.cpp load/apply calls. Multiple resident
+   adapters, selecting one per request, applying several weighted updates to
+   one context, and creating a fused artifact are different capabilities.
+   The existing request field names one adapter; broader composition must
+   be qualified per backend rather than inferred from the manager name.
+4. **Tensor abstraction organizes and reduces artifacts/candidates.**
+   [TensorMidLayer](../../include/tensor/tensor_mid_layer.h) handles
+   adapter/package/fingerprint/shard scopes;
+   [AdaLoraTTBridge](../../include/training/adalora_tt_bridge.h) exposes
+   adapter-to-TT conversion, and
+   [TensorRAGPipeline](../../include/rag/tensor_rag_pipeline.h) exposes
+   retrieval-gate and layer handoffs. None alone proves direct compressed
+   tensor execution in llama.cpp or expands its usable semantic context.
+
+The proposed lifecycle is authorized samples -> bounded training -> evaluated,
+versioned artifact -> explicit promotion -> request-pinned adapter/model ->
+retrieval/context preparation -> inference -> monitored rollback if required.
+Bind the base-model digest, tokenizer, target tensors/shapes, adapter revision,
+rank/scaling and any composition weights; tensor artifacts additionally bind
+layout/dtype/decomposition profile and approximation error.
+
+Freeze adapter identity for a request or explicitly define a safe transition.
+Mid-generation switching cannot assume old KV/prefix states remain valid:
+invalidate/re-prefill or demonstrate backend-specific equivalence. Pin loaded
+artifacts until in-flight use ends, reject incompatible/revoked adapters, and
+partition caches by the actual model/adapter composition. Required-adapter
+application failure is not permission to silently use the base model.
+
+Training runs separately from latency-sensitive request threads and competes
+under shared admission budgets; the current pipeline requires a dedicated
+wrapper, not concurrent inference on its training context. Promotion, signing
+and authorization differ by training path: the snapshot-provenance flow below
+must not be generalized to all AdaLoRA exports.
+
+Use the [training plan](../training/FUTURE_ENHANCEMENTS.md) and
+[tensor plan](../tensor/FUTURE_ENHANCEMENTS.md) for missing end-to-end gates.
+RAG, adapters and tensor representations are complementary; compare them in
+controlled ablations instead of assuming their gains add up.
 
 ## Components and public interfaces
 

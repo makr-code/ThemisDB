@@ -8,6 +8,7 @@
 **AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
+**Last Updated:** 2026-11-13 (native small-model lifecycle proposal)
 
 > Exact model backend not verifiable from final document text alone.
 
@@ -176,6 +177,74 @@ Estimates, candidate performance gates, compliance scope, and release timing
 are proposals; see [`ROADMAP.md`](./ROADMAP.md) and
 [`RESEARCH.md`](./RESEARCH.md) for dependencies, evidence limits, and the
 research basis.
+
+## Native Small-Model Retrieval Lifecycle (Proposal; Q2 2027)
+
+### Scope
+
+Refine the existing embedding/index lifecycle work for decentralized retrieval
+and smaller native models. Framework ingestion pipelines may remain external;
+the database owns the declared persistence/visibility contract. This is a
+proposal, not an implemented migration or release commitment.
+
+### Design Constraints
+
+- Preserve source/document identity independently of content hashes, and bind
+  chunks to a source revision, offsets/section/page where available, and a
+  versioned chunking profile. Reprocessing must not leave stale child chunks.
+- Distinguish embedding encoder/dimension/normalization/index schema from the
+  generation model/tokenizer/LoRA. A generation-only change may require
+  re-budgeting and cache/evaluation changes, not re-embedding unchanged vectors.
+- Declare which writes share a transaction and which indexes update
+  asynchronously. Do not promise atomicity across unrelated sinks/shards.
+
+### Required Interfaces
+
+- Versioned source/chunk/vector lineage, model/profile manifests, explicit
+  duplicate/upsert policy and idempotent write identities.
+- Update/delete propagation with a declared commit point, search-visibility
+  watermark/lag, replay/retention limits and supported revocation behavior.
+- Source-linked compact passages/parent references that RAG can fetch within a
+  context budget; metadata is proposed, not a claim about every current record.
+
+### Implementation Notes
+
+- Reuse the current sink/checkpoint/CDC lifecycle work rather than add a second
+  ingestion orchestrator. Coordinate embedding/index owners on migration,
+  rollback and stale-chunk deletion.
+- Treat `ReindexDecisionEngine`/canary helpers as helpers only; see
+  [EMBEDDING.md](EMBEDDING.md) for missing integrated lifecycle evidence.
+- Declare local/remote embedding execution and data-egress policy explicitly;
+  an unavailable encoder must not be reported as successfully produced vectors.
+
+### Test Strategy
+
+- Re-ingest unchanged/changed sources; verify expected final source/chunk/vector
+  sets after retries, interrupted writes, restart and complete source deletion.
+- Test incompatible encoder/dimension/chunk profiles, generation-only model
+  changes, missing backends and asynchronous index/search visibility.
+- Verify authorization revocation and deletion through retrieval/cache paths
+  at the agreed lifecycle boundary, including delayed CDC consumers.
+
+### Performance Targets
+
+Measure source-update/delete-to-search visibility, backlog/replay lag,
+throughput and memory under concurrent DB/retrieval/native-inference load.
+Approve workload-specific gates after a reproducible baseline; existing
+microbenchmarks are not this end-to-end evidence.
+
+### Security / Reliability
+
+Preserve provenance and tenant policy through updates, retries and deletion.
+Retention of CDC payloads, caches and checkpoints must not silently defeat the
+declared deletion/revocation policy; report expired replay windows explicitly.
+
+Research basis (reviewed 2026-11-13):
+[LlamaIndex ingestion](https://developers.llamaindex.ai/python/framework/module_guides/loading/ingestion_pipeline/)
+uses document identity/hashes for reprocessing;
+[Haystack DocumentStore](https://docs.haystack.deepset.ai/docs/document-store)
+defines write/delete and duplicate policies. Neither is evidence of current
+ThemisDB implementation or a reason to require those frameworks in core.
 
 ## RAG-Readiness Audit Backlog (2026-09-23)
 

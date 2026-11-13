@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,24 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 - [~] unify AQL and docs.db TinyLlama AdaLoRA training behind a bounded provider/consumer contract; keep docs.db as a read-only source adapter (Target: Q4 2026)
 
 ## Planned Features
+
+### Native Hybrid Specialization (Proposal; Target: Q2 2027)
+
+- [ ] Qualify bounded source-neutral AdaLoRA training -> evaluated/versioned
+  GGUF artifact -> explicit Multi-LoRA promotion and rollback; retain actual
+  `output.weight` training scope (Target: Q2 2027 proposal).
+- [ ] Bind sample/snapshot provenance, base/tokenizer, adaptive rank schedule,
+  target shapes/scaling and artifact trust; test real-GGUF serving outcomes
+  rather than equate export/load success with quality (Target: Q2 2027 proposal).
+- [ ] Qualify optional AdaLoRA-to-TT round-trip and serving bridges with
+  measured scaled-update error and held-out task quality; compare native,
+  RAG and adapter/tensor variants under shared resource budgets
+  (Target: Q2 2027 proposal).
+
+Use the existing design/core/error/test/hardening/documentation phases for this
+work; historical completion labels do not close these new gates. See
+[the specialization plan](FUTURE_ENHANCEMENTS.md) and
+[the hybrid boundary](../llm/ARCHITECTURE.md).
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
