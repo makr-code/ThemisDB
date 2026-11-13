@@ -917,6 +917,13 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
             fmt::format("Model checksum verification failed: {}", model_file_path.string()));
     }
 
+    const std::string model_fingerprint =
+        ::themis::utils::calculateSHA256(model_file_path.string());
+    if (model_fingerprint.empty()) {
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED,
+            fmt::format("Failed to capture SHA-256 for model: {}", model_file_path.string()));
+    }
+
     size_t size_bytes = static_cast<size_t>(fs::file_size(model_file_path));
 
     // Initialize llama.cpp model parameters
@@ -1196,6 +1203,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->info.context_length = ctx_params.n_ctx;
     model->info.size_bytes = size_bytes;
     model->info.is_loaded = true;
+    model->info.metadata["themis.base_model.sha256"] = model_fingerprint;
 
     // Estimate VRAM/RAM usage
     size_t vram_mb = static_cast<size_t>(size_bytes / (1024ull * 1024ull));
