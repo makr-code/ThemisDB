@@ -985,6 +985,16 @@ def test_coverage_installs_real_test_and_storage_dependencies():
     assert "-DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF" in configure
 
 
+def test_rag_version_gate_installs_test_dependencies():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-rag-version.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["reindex_decision_tests"]["steps"]
+    install = next(step["run"] for step in steps if step.get("name") == "Install Build Dependencies")
+    for package in ("libgtest-dev", "libgmock-dev"):
+        assert package in install.split()
+    configure = next(step["run"] for step in steps if step.get("name") == "Configure")
+    assert "-DTHEMIS_BUILD_TESTS=ON" in configure
+
+
 @pytest.mark.parametrize(
     ("body", "introduced", "exit_code"),
     [
