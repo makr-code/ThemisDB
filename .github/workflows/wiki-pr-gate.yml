@@ -43,8 +43,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
-  issues: write
 
 concurrency:
   group: wiki-pr-gate-${{ github.ref }}
@@ -60,6 +58,9 @@ env:
 jobs:
   wiki_pr_gate:
     name: "Validate: Wiki Human Review PR"
+    permissions:
+      contents: read
+      issues: write
     if: |
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'

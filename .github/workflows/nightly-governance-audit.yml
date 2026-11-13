@@ -13,8 +13,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 concurrency:
   group: nightly-governance-audit-${{ github.ref }}
@@ -31,6 +29,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -136,6 +135,11 @@ jobs:
           {
             echo "## Governance Audit Summary"
             echo ""
+            echo "- Outcome: **${{ job.status }}**"
+            echo "- PR checklist parity requested: **${{ inputs.include_pr_validation || github.event_name == 'schedule' }}**"
+            run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+            run_url+="/actions/runs/${GITHUB_RUN_ID}"
+            echo "- Run: ${run_url}"
             echo "- Scope: \`audit/\` governance docs and release evidence"
             echo "- Template: \`audit/GOVERNANCE_TEST_TEMPLATE.md\`"
             echo "- Checklist: \`PR_GOVERNANCE_TESTS_CHECKLIST.md\`"

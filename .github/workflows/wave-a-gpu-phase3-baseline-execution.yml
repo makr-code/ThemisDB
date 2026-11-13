@@ -56,7 +56,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Wave A GPU Phase 3 baseline capture and measurement"
+          scope: "Wave A GPU Phase 3 baseline capture and measurement (mode=${{ inputs.execution_mode }}, skip_long_measurements=${{ inputs.skip_long_measurements }})"
           job-results: ${{ toJSON(needs) }}
 
   phase3-setup:
@@ -71,6 +71,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 100
+          persist-credentials: false
 
       - name: Setup & detect infrastructure
         id: setup
@@ -139,6 +140,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 100
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@82c7e631bb3cdc910f68e0410993293157bda51a
@@ -152,7 +154,7 @@ jobs:
           pip install numpy scipy
 
       - name: Run GPU latency measurement
-        continue-on-error: true
+        if: inputs.skip_long_measurements != true
         run: |
           echo "=== GPU Latency Measurement ==="
           GPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json"
@@ -184,7 +186,7 @@ jobs:
           fi
 
       - name: Run GPU throughput measurement
-        continue-on-error: true
+        if: inputs.skip_long_measurements != true
         run: |
           echo "=== GPU Throughput Measurement ==="
           GPU_THROUGHPUT_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json"
@@ -216,6 +218,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 100
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@82c7e631bb3cdc910f68e0410993293157bda51a
@@ -229,6 +232,7 @@ jobs:
           pip install numpy scipy
 
       - name: Run CPU latency measurement
+        if: inputs.skip_long_measurements != true
         run: |
           echo "=== CPU Latency Measurement ==="
           CPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json"
@@ -288,12 +292,13 @@ jobs:
     name: "Automation: Phase 3 Consolidate & Generate Evidence"
     needs: [phase3-setup, phase3-gpu-measurement, phase3-cpu-measurement]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && inputs.skip_long_measurements != true
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
           fetch-depth: 100
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@82c7e631bb3cdc910f68e0410993293157bda51a
@@ -392,26 +397,32 @@ jobs:
           from textwrap import dedent
           
           summary_path, generated_at, run_id, commit_sha = sys.argv[1:5]
+          import json
+          baseline = json.loads(Path("benchmarks/wave8/GPU_BASELINES_2026_Q4_MEASURED.json").read_text(encoding="utf-8"))
+          metadata = baseline.get("metadata", {})
+          cuda_reduction = baseline.get("cuda_reduction_metrics", {}).get("reduction_percentage", "not reported")
+          acceptance = baseline.get("acceptance_checklist", {})
+          cpu_fallback = "PASS" if acceptance.get("cpu_fallback_operational") else "FAIL"
+          baseline_captured = "PASS" if acceptance.get("baseline_captured") else "FAIL"
+          latency = baseline.get("latency_baselines", {})
+          throughput = baseline.get("throughput_baselines", {})
+
           content = dedent(f"""\
           # Phase 3: Baseline Capture & Measurement — COMPLETE
 
           **Date:** {generated_at}
-          **Status:** ✅ COMPLETE
+          **Status:** {metadata.get("status", "UNKNOWN")}
 
           ## Measurements Executed
 
-          - [x] GPU latency baselines (p50/p95/p99) — collected
-          - [x] GPU throughput baselines (ops/sec, vectors/sec) — collected
-          - [x] CPU fallback latency — collected
-          - [x] CPU fallback validation — all error scenarios passed
-          - [x] CUDA kernel call reduction — 75% achieved (exceeds 40% target)
+          - GPU latency baseline data: {json.dumps(latency, sort_keys=True) if latency else "not reported"}
+          - Throughput baseline data: {json.dumps(throughput, sort_keys=True) if throughput else "not reported"}
 
           ## Acceptance Criteria
 
-          - [x] CUDA reduction ≥40% — **75% achieved**
-          - [x] CPU fallback operational — **verified across all error classes**
-          - [x] Latency baseline captured — **p50/p95/p99 documented**
-          - [x] Throughput baseline captured — **ops/sec and vectors/sec measured**
+          - CUDA kernel-call reduction: **{cuda_reduction}%** (target ≥40%)
+          - CPU fallback operational: **{cpu_fallback}**
+          - Baseline captured: **{baseline_captured}**
 
           ## Evidence Location
 
@@ -427,10 +438,8 @@ jobs:
 
           ## Timeline
 
-          - Phase 1: ✅ COMPLETE (0 weeks, CPU fallback ready)
-          - Phase 2: ✅ COMPLETE (75% CUDA reduction)
-          - Phase 3: ✅ COMPLETE (baseline captured and validated)
-          - Phase 4: 🟡 READY (awaits sign-off)
+          - Phase 3: COMPLETE (baseline captured and validated by this run)
+          - Phase 4: READY for sign-off review
 
           ---
 
@@ -455,10 +464,12 @@ jobs:
     name: "Automation: Phase 3 Completion Report"
     needs: phase3-consolidate
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && inputs.skip_long_measurements != true
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Download baseline evidence
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85

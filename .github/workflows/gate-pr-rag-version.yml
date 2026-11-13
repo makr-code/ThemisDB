@@ -30,16 +30,17 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   version_governance_validation:
     name: "Gate: Embedding Version Governance"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     
     steps:
       - name: Checkout
@@ -173,30 +174,15 @@ jobs:
       - name: Generate Gate Report
         if: always()
         run: |
-          cat > /tmp/rag_version_gate_report.md << 'EOF'
+          cat > /tmp/rag_version_gate_report.md << EOF
           ## RAG Embedding Version Governance Gate Report
           
           **Date:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
           **PR:** ${{ github.event.pull_request.number }}
           **Commit:** ${{ github.event.pull_request.head.sha }}
+          **Validation job result:** ${{ job.status }}
           
-          ### Checklist
-          - [x] EMBEDDING_VERSION_GOVERNANCE.md present
-          - [x] All required sections documented
-          - [x] INDEX_MANIFEST_V1_SCHEMA.json valid
-          - [x] Reindex decision logic documented
-          - [x] Canary deployment pattern defined (5% → 100%)
-          - [x] Rollback strategy atomic & documented
-          
-          ### Gate Status
-          ✓ **PASS** — RAG Embedding Version Governance validation complete
-          
-          ### Implementation Checklist
-          - [ ] reindex_decision_engine.cpp implementation
-          - [ ] Dual-read query-time comparison wired
-          - [ ] Canary percentage scaling tests
-          - [ ] Rollback atomic safety tests (30+ test cases)
-          - [ ] Index manifest RocksDB persistence
+          Validation outcomes are recorded by the individual workflow steps and in the run summary.
           
           ### References
           - Spec: src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md
@@ -258,34 +244,59 @@ jobs:
       
       - name: Build Reindex Decision Tests
         run: |
-          cmake --build /tmp/version-build --target test_reindex_decision --parallel 4 2>&1 || {
-            echo "ℹ Test target not yet implemented (expected for specs-only phase)"
+          target="test_reindex_decision"
+          if ! target_list="$(cmake --build /tmp/version-build --target help 2>&1)"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect configured CMake targets; embedding-version test lane cannot be verified."
+            printf '%s\n' "$target_list"
+            exit 1
+          fi
+          if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::The embedding-version test target '${target}' is not registered. The existing reindex-decision helper test does not provide canary coverage; implement and register the requested lifecycle test target before this lane can pass."
+            exit 1
+          fi
+          cmake --build /tmp/version-build --target test_reindex_decision --parallel 4
+
+      - name: Verify Embedding Canary Test Registration
+        run: |
+          test_filter="embedding_canary"
+          registered_tests="$(ctest --test-dir /tmp/version-build -N -L "$test_filter" 2>&1)" || {
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect registered embedding-canary CTest cases."
+            printf '%s\n' "$registered_tests"
+            exit 1
           }
-      
+          if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::No CTest case is registered with the embedding_canary label. Register implemented version-lifecycle/canary coverage before this requested lane can pass."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          fi
+
       - name: Run Canary Deployment Tests
         run: |
           cd /tmp/version-build
-          ctest -L "embedding_canary" -V --output-on-failure 2>&1 || {
-            echo "ℹ Canary tests not yet implemented (expected for specs-only phase)"
-          }
+          ctest -L "embedding_canary" -V --output-on-failure --no-tests=error
 
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
-    needs: [version_governance_validation]
+    permissions:
+      contents: read
+    needs: [version_governance_validation, reindex_decision_tests]
     if: always()
     
     steps:
       - name: Check Gate Status
         run: |
-          result="${{ needs.version_governance_validation.result }}"
-          if [ "$result" == "success" ] || [ "$result" == "skipped" ] || [ "$result" == "abandoned" ]; then
-            echo "✅ RAG Embedding Version Governance Gate: PASS (result: $result)"
-            exit 0
-          else
-            echo "❌ RAG Embedding Version Governance Gate: FAIL (result: $result)"
+          validation_result="${{ needs.version_governance_validation.result }}"
+          tests_result="${{ needs.reindex_decision_tests.result }}"
+          if [ "${validation_result}" != "success" ]; then
+            echo "❌ RAG Embedding Version Governance validation failed: ${validation_result}"
             exit 1
           fi
+          if [ "${tests_result}" != "success" ] && [ "${tests_result}" != "skipped" ]; then
+            echo "❌ RAG reindex decision tests failed: ${tests_result}"
+            exit 1
+          fi
+          echo "✅ RAG Embedding Version Governance Gate: PASS (tests: ${tests_result})"
 
   run-summary:
     name: "Validate: Run Summary"

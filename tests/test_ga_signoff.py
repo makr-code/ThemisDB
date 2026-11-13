@@ -176,8 +176,20 @@ class GASignoffTests(unittest.TestCase):
         self.assertIn("pull_request_review:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertIn("docs/governance/ga_signoff_requests/**", workflow)
-        self.assertIn("actions/upload-artifact@v4", workflow)
+        self.assertIn("actions/upload-artifact@v5", workflow)
         self.assertIn("comment_issue", workflow)
+
+    def test_pr_validation_checkout_does_not_persist_credentials(self) -> None:
+        workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+        validation_job = workflow.split("  request-validation:", 1)[1].split("  finalize-signoff:", 1)[0]
+        checkout_step = validation_job.split("      - uses: actions/checkout@v5", 1)[1].split("      - uses:", 1)[0]
+        self.assertIn("persist-credentials: false", checkout_step)
+
+    def test_review_signoff_ref_uses_pull_request_event_context(self) -> None:
+        workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+        self.assertIn("PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}", workflow)
+        self.assertIn("os.environ.get('PR_HEAD_REF', '')", workflow)
+        self.assertNotIn("os.environ.get('GITHUB_HEAD_REF'", workflow)
 
     def test_issue_template_links_issue_to_payload_and_pr_flow(self) -> None:
         template = ISSUE_TEMPLATE_PATH.read_text(encoding="utf-8")

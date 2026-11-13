@@ -34,6 +34,11 @@ on:
         description: 'Optional ISO 8601 signer timestamp override for manual runs.'
         type: string
         required: false
+      dry_run:
+        description: 'Validate and generate the sign-off locally; do not publish the final artifact.'
+        type: boolean
+        required: false
+        default: true
 
 concurrency:
   group: ga-promotion-signoff-${{ github.event.pull_request.number || github.ref }}
@@ -41,7 +46,6 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   request-validation:
@@ -53,6 +57,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -62,6 +67,7 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check pyyaml
 
       - name: Collect changed GA sign-off request payloads
+        id: collect-payloads
         shell: bash
         run: |
           set -euo pipefail
@@ -74,6 +80,7 @@ jobs:
           fi
 
       - name: Validate request payloads and emit preview manifests
+        id: validate-requests
         shell: bash
         run: |
           set -euo pipefail
@@ -100,13 +107,21 @@ jobs:
       - name: Summarize preview validation
         if: always()
         shell: bash
+        env:
+          COLLECTION_OUTCOME: ${{ steps.collect-payloads.outcome || 'not run' }}
+          VALIDATION_OUTCOME: ${{ steps.validate-requests.outcome || 'not run' }}
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
+          import os
           from pathlib import Path
 
           results_dir = Path('/tmp/ga-signoff-preview-results')
           print('## GA Sign-Off Request Validation')
+          print()
+          print(f"- Payload collection: `{os.environ.get('COLLECTION_OUTCOME', 'not run')}`")
+          print(f"- Payload validation: `{os.environ.get('VALIDATION_OUTCOME', 'not run')}`")
+          print(f"- Workflow run: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}")
           print()
           if not results_dir.exists():
               print('- Result: no changed GA sign-off request payloads detected')
@@ -142,11 +157,14 @@ jobs:
       (github.event_name == 'pull_request_review' &&
        github.event.review.state == 'approved' &&
        github.event.pull_request.head.repo.full_name == github.repository)
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.ref != '' && inputs.ref || github.ref) || format('refs/pull/{0}/head', github.event.pull_request.number) }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.repository.default_branch || github.event.pull_request.base.sha }}
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -158,33 +176,145 @@ jobs:
       - name: Resolve payload list
         id: resolve-payloads
         shell: bash
+        env:
+          DISPATCH_PAYLOAD_PATH: ${{ inputs.payload_path }}
+          DISPATCH_TARGET_REF: ${{ inputs.ref || github.ref }}
+          DISPATCH_REF_OVERRIDE: ${{ inputs.ref }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_REVIEW_COMMIT_SHA: ${{ github.event.review.commit_id }}
         run: |
           set -euo pipefail
           mkdir -p /tmp/ga-signoff-final /tmp/ga-signoff-final-results
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            printf '%s\n' "${{ inputs.payload_path }}" > /tmp/ga-signoff-files.txt
-            echo "has_payloads=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          python3 - <<'PY'
+          import os
+          import re
+          import subprocess
+          from pathlib import Path, PurePosixPath
 
-          BASE_REF="${{ github.event.pull_request.base.ref }}"
-          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
-          git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" \
-            | grep -E '^docs/governance/ga_signoff_requests/.*\.(json|ya?ml)$' > /tmp/ga-signoff-files.txt || true
-          if [ ! -s /tmp/ga-signoff-files.txt ]; then
-            echo "No GA sign-off request payload changes were found in this PR — skipping finalization."
-            echo "has_payloads=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          echo "has_payloads=true" >> "$GITHUB_OUTPUT"
+          files_path = Path('/tmp/ga-signoff-files.txt')
+          output_path = Path(os.environ['GITHUB_OUTPUT'])
+          repo_root = Path.cwd().resolve()
+          payload_pattern = re.compile(
+              r'docs/governance/ga_signoff_requests/(?:[^/]+/)*[^/]+\.(?:json|yaml|yml)'
+          )
+
+          def git(*args, capture_output=False):
+              return subprocess.run(
+                  ['git', *args],
+                  check=True,
+                  capture_output=capture_output,
+              )
+
+          def stage_payload(commit, payload):
+              path = PurePosixPath(payload)
+              if (
+                  path.is_absolute()
+                  or path.as_posix() != payload
+                  or '\\' in payload
+                  or not payload_pattern.fullmatch(payload)
+                  or any(part in ('', '.', '..') for part in path.parts)
+              ):
+                  raise ValueError(f'Invalid GA sign-off payload path: {payload!r}')
+
+              tree = git('ls-tree', '-z', commit, '--', payload, capture_output=True).stdout
+              records = [record for record in tree.split(b'\0') if record]
+              if len(records) != 1:
+                  raise ValueError(f'Payload is not a single tracked file at {commit}: {payload}')
+              metadata, listed_path = records[0].split(b'\t', 1)
+              mode, object_type, object_id = metadata.split()
+              if listed_path.decode('utf-8') != payload or object_type != b'blob' or mode not in (b'100644', b'100755'):
+                  raise ValueError(f'Payload must be a regular tracked file: {payload}')
+              content = git('cat-file', 'blob', object_id.decode('ascii'), capture_output=True).stdout
+
+              destination = repo_root.joinpath(*path.parts)
+              parent = repo_root
+              for part in path.parts[:-1]:
+                  parent = parent / part
+                  if parent.is_symlink():
+                      raise ValueError(f'Payload directory must not be a symlink: {parent}')
+                  parent.mkdir(exist_ok=True)
+              if destination.is_symlink():
+                  destination.unlink()
+              destination.write_bytes(content)
+
+          def write_outputs(has_payloads, target_ref, target_sha, ref_source):
+              files_path.write_text(''.join(f'{path}\n' for path in payloads), encoding='utf-8')
+              with output_path.open('a', encoding='utf-8') as output:
+                  output.write(f'has_payloads={str(has_payloads).lower()}\n')
+                  output.write(f'target_ref={target_ref}\n')
+                  output.write(f'target_sha={target_sha}\n')
+                  output.write(f'target_ref_source={ref_source}\n')
+
+          payloads = []
+          if os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch':
+              payload = os.environ.get('DISPATCH_PAYLOAD_PATH', '')
+              target_ref = os.environ.get('DISPATCH_TARGET_REF', '')
+              ref_check = ['git', 'check-ref-format']
+              if target_ref.startswith('refs/'):
+                  fetch_ref = target_ref
+                  ref_check.append(target_ref)
+              else:
+                  fetch_ref = f'refs/heads/{target_ref}'
+                  ref_check.extend(['--branch', target_ref])
+              if not payload:
+                  raise SystemExit('workflow_dispatch requires a payload path.')
+              if not target_ref or subprocess.run(ref_check).returncode != 0:
+                  raise SystemExit(f'Invalid target branch/ref: {target_ref!r}')
+              git('fetch', '--no-tags', 'origin', fetch_ref)
+              target_sha = git(
+                  'rev-parse', '--verify', '--end-of-options', 'FETCH_HEAD^{commit}',
+                  capture_output=True,
+              ).stdout.decode('ascii').strip()
+              stage_payload(target_sha, payload)
+              payloads.append(payload)
+              ref_source = (
+                  'workflow_dispatch input'
+                  if os.environ.get('DISPATCH_REF_OVERRIDE')
+                  else 'workflow ref default'
+              )
+              write_outputs(True, fetch_ref, target_sha, ref_source)
+          else:
+              base_sha = os.environ.get('PR_BASE_SHA', '')
+              head_sha = os.environ.get('PR_HEAD_SHA', '')
+              review_sha = os.environ.get('PR_REVIEW_COMMIT_SHA', '')
+              if not re.fullmatch(r'[0-9a-fA-F]{40}', base_sha) or not re.fullmatch(r'[0-9a-fA-F]{40}', head_sha):
+                  raise SystemExit('The review event did not provide valid base/head commit SHAs.')
+              if review_sha != head_sha:
+                  raise SystemExit(
+                      'The approval is not for the current PR head; approve the latest commit before sign-off.'
+                  )
+              git('fetch', '--no-tags', 'origin', head_sha)
+              changed = git(
+                  'diff', '--name-only', '--diff-filter=ACMR', '-z',
+                  f'{base_sha}...{head_sha}', capture_output=True,
+              ).stdout
+              for raw_path in changed.split(b'\0'):
+                  if not raw_path:
+                      continue
+                  try:
+                      payload = raw_path.decode('utf-8')
+                  except UnicodeDecodeError:
+                      continue
+                  if payload_pattern.fullmatch(payload):
+                      stage_payload(head_sha, payload)
+                      payloads.append(payload)
+              target_ref = os.environ.get('PR_HEAD_REF', '')
+              if not payloads:
+                  print('No changed GA sign-off request payloads were found in this PR — skipping finalization.')
+              write_outputs(bool(payloads), target_ref, head_sha, 'approved PR head')
+          PY
 
       - name: Validate signer and generate final manifests
+        id: validate-signoff
         if: steps.resolve-payloads.outputs.has_payloads == 'true'
         shell: bash
         env:
           EVENT_SIGNED_AT: ${{ github.event_name == 'pull_request_review' && github.event.review.submitted_at || inputs.signed_at }}
-          GA_SIGNOFF_REF: ${{ github.event_name == 'workflow_dispatch' && (inputs.ref || github.ref) || github.event.pull_request.head.ref }}
-          GA_SIGNOFF_SHA: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
+          GA_SIGNOFF_ACTOR: ${{ github.event_name == 'pull_request_review' && github.event.review.user.login || github.actor }}
+          GA_SIGNOFF_REF: ${{ steps.resolve-payloads.outputs.target_ref }}
+          GA_SIGNOFF_SHA: ${{ steps.resolve-payloads.outputs.target_sha }}
         run: |
           set -euo pipefail
           while IFS= read -r payload; do
@@ -196,7 +326,7 @@ jobs:
               --authorized-maintainers .github/ga-signoff-authorized-maintainers.json
               --output-dir "/tmp/ga-signoff-final/${stem}"
               --result-json "/tmp/ga-signoff-final-results/${stem}.json"
-              --github-actor "${{ github.actor }}"
+              --github-actor "${GA_SIGNOFF_ACTOR}"
               --github-repository "${{ github.repository }}"
               --github-ref "${GA_SIGNOFF_REF}"
               --github-sha "${GA_SIGNOFF_SHA}"
@@ -210,7 +340,9 @@ jobs:
           done < /tmp/ga-signoff-files.txt
 
       - name: Build PR comment body
-        if: always() && github.event_name == 'pull_request_review'
+        if: success() && github.event_name == 'pull_request_review' && steps.resolve-payloads.outputs.has_payloads == 'true'
+        env:
+          GITHUB_ACTOR: ${{ github.event.review.user.login }}
         shell: bash
         run: |
           python3 - <<'PY'
@@ -241,7 +373,7 @@ jobs:
           PY
 
       - name: Comment final hash on PR
-        if: always() && github.event_name == 'pull_request_review'
+        if: success() && github.event_name == 'pull_request_review' && steps.resolve-payloads.outputs.has_payloads == 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -254,13 +386,44 @@ jobs:
       - name: Summarize final sign-off
         if: always()
         shell: bash
+        env:
+          RESOLVE_OUTCOME: ${{ steps.resolve-payloads.outcome || 'not run' }}
+          VALIDATION_OUTCOME: ${{ steps.validate-signoff.outcome || 'not run' }}
+          HAS_PAYLOADS: ${{ steps.resolve-payloads.outputs.has_payloads || 'unknown' }}
+          TARGET_REF: ${{ steps.resolve-payloads.outputs.target_ref || 'unresolved' }}
+          TARGET_REF_SOURCE: ${{ steps.resolve-payloads.outputs.target_ref_source || 'unresolved' }}
+          TARGET_SHA: ${{ steps.resolve-payloads.outputs.target_sha || 'unresolved' }}
+          MANUAL_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          SIGNED_AT_SOURCE: ${{ github.event_name == 'pull_request_review' && 'approved review timestamp' || (inputs.signed_at != '' && 'workflow_dispatch override' || 'current UTC default') }}
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
+          import os
           from pathlib import Path
 
           results_dir = Path('/tmp/ga-signoff-final-results')
           print('## GA Promotion Sign-Off')
+          print()
+          print(f"- Event: `{os.environ.get('GITHUB_EVENT_NAME', '')}`")
+          print(f"- Payload source ref: `{os.environ.get('TARGET_REF', 'unresolved')}`")
+          print(f"- Payload ref source: `{os.environ.get('TARGET_REF_SOURCE', 'unresolved')}`")
+          print(f"- Payload source SHA: `{os.environ.get('TARGET_SHA', 'unresolved')}`")
+          print(f"- Payload resolution: `{os.environ.get('RESOLVE_OUTCOME', 'not run')}` (payloads: `{os.environ.get('HAS_PAYLOADS', 'unknown')}`)")
+          print(f"- Final validation: `{os.environ.get('VALIDATION_OUTCOME', 'not run')}`")
+          if os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch':
+              print(f"- Manual dry-run: `{os.environ.get('MANUAL_DRY_RUN', 'false')}`")
+          else:
+              print('- Manual dry-run: not applicable (approved PR review event)')
+          print(f"- Signer timestamp source: `{os.environ.get('SIGNED_AT_SOURCE', 'unresolved')}`")
+          if os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch' and os.environ.get('MANUAL_DRY_RUN') == 'true':
+              print('- Final artifact: not uploaded (manual dry-run)')
+          else:
+              print('- Final artifact: uploaded after successful validation when a payload is present')
+          print(f"- Workflow run: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}")
+          if os.environ.get('VALIDATION_OUTCOME') == 'failure':
+              print('- Failure details: inspect the `Validate signer and generate final manifests` step.')
+          elif os.environ.get('RESOLVE_OUTCOME') == 'failure':
+              print('- Failure details: inspect the `Resolve payload list` step.')
           print()
           if not results_dir.exists():
               print('- Result: no final manifest artifacts generated')
@@ -277,7 +440,9 @@ jobs:
           PY
 
       - name: Upload final sign-off artifacts
-        if: (success() || failure()) && steps.resolve-payloads.outputs.has_payloads == 'true'
+        if: steps.validate-signoff.outcome == 'success' &&
+            steps.resolve-payloads.outputs.has_payloads == 'true' &&
+            (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: actions/upload-artifact@v5
         with:
           name: ga-signoff-${{ github.run_number }}

@@ -290,6 +290,63 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                     )
                     self.assertIn("github.event_name == 'pull_request'", jobs[feedback_job]["if"])
 
+    def test_rag_test_lanes_report_unimplemented_registrations_and_fail_closed(self) -> None:
+        cases = {
+            "gate-pr-rag-security.yml": {
+                "test_job": "isolation_tests",
+                "build_step": "Build Security Tests",
+                "target": "test_retrieval_policy_enforcement",
+                "registration_step": "Verify Multi-Tenant Isolation Test Registration",
+                "filter": "tenant_isolation|policy_enforcement",
+            },
+            "gate-pr-rag-version.yml": {
+                "test_job": "reindex_decision_tests",
+                "build_step": "Build Reindex Decision Tests",
+                "target": "test_reindex_decision",
+                "registration_step": "Verify Embedding Canary Test Registration",
+                "filter": "embedding_canary",
+            },
+        }
+
+        for workflow_name, contract in cases.items():
+            with self.subTest(workflow=workflow_name):
+                workflow = load_workflow(workflow_name)
+                test_job = workflow["jobs"][contract["test_job"]]
+                build_step = next(
+                    step for step in test_job["steps"]
+                    if step.get("name") == contract["build_step"]
+                )
+                build_script = build_step["run"]
+                self.assertIn("--target help", build_script)
+                self.assertIn(contract["target"], build_script)
+                self.assertIn("UNIMPLEMENTED/BLOCKED", build_script)
+                self.assertIn("exit 1", build_script)
+                self.assertNotRegex(build_script, r"\|\|\s*\{")
+
+                registration_step = next(
+                    step for step in test_job["steps"]
+                    if step.get("name") == contract["registration_step"]
+                )
+                registration_script = registration_step["run"]
+                self.assertIn("ctest", registration_script)
+                self.assertIn("-N -L", registration_script)
+                self.assertIn(contract["filter"], registration_script)
+                self.assertIn("UNIMPLEMENTED/BLOCKED", registration_script)
+                self.assertIn("exit 1", registration_script)
+
+                test_run = next(
+                    step for step in test_job["steps"]
+                    if "--no-tests=error" in step.get("run", "")
+                )
+                self.assertIn("ctest", test_run["run"])
+                self.assertIn(f'-L "{contract["filter"]}"', test_run["run"])
+                gate_status = workflow["jobs"]["gate_status"]
+                self.assertIn(contract["test_job"], gate_status["needs"])
+                status_script = gate_status["steps"][0]["run"]
+                self.assertIn("tests_result", status_script)
+                self.assertIn('"success"', status_script)
+                self.assertIn('"skipped"', status_script)
+
     def test_benchmark_ctest_feedback_permissions_are_pr_only(self) -> None:
         workflow = load_workflow("gate-pr-benchmark-ctest.yml")
         self.assertEqual(workflow["permissions"], {"contents": "read"})

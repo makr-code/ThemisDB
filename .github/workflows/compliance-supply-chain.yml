@@ -46,6 +46,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -56,7 +58,7 @@ jobs:
         id: baseline
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, sys
+          import json, re, sys
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
           sha = manifest.get('builtin-baseline', '')
@@ -123,11 +125,12 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
-      security-events: write
       id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Verify vcpkg baseline commit signature if configured
         if: ${{ hashFiles('vcpkg.json') != '' }}
@@ -259,6 +262,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Resolve release identifier
         id: release_id
@@ -348,6 +353,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -560,13 +567,14 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
-      security-events: write
     env:
       EVIDENCE_WINDOW_DAYS: ${{ github.event.inputs.evidence_window_days || '7' }}
       THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Start ThemisDB container
         env:

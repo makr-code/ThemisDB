@@ -31,17 +31,19 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   phase7_validation:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     uses: ./.github/workflows/reusable-rag-phase-gate.yml
     with:
       phase_id: "7"
       phase_title: "Phase 7 Freshness SLA"
+      dry_run: false
       headers_json: '["include/rag/ingestion_latency_monitor.h","include/rag/staleness_aware_router.h","include/rag/index_refresh_scheduler.h","include/rag/freshness_sla_enforcer.h"]'
       impls_json: '["src/rag/ingestion_latency_monitor.cpp","src/rag/staleness_aware_router.cpp","src/rag/index_refresh_scheduler.cpp","src/rag/freshness_sla_enforcer.cpp"]'
       tests_json: '["tests/rag/test_ingestion_latency_monitor.cpp","tests/rag/test_staleness_aware_router.cpp","tests/rag/test_index_refresh_scheduler.cpp","tests/rag/test_freshness_sla_enforcer.cpp"]'

@@ -57,6 +57,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Print dashboard context
         run: |
@@ -107,7 +109,7 @@ jobs:
             console.log('');
 
             const rows = [];
-            let totalRuns = 0, totalFailures = 0;
+            let totalRuns = 0, totalSuccesses = 0, totalFailures = 0;
 
             for (const wf of active) {
               const { data: runs } = await github.rest.actions.listWorkflowRuns({
@@ -146,13 +148,14 @@ jobs:
                           failure: failures.length, cancelled: cancelled.length,
                           skipped: skipped.length, failRate, healthIcon });
               totalRuns += total;
+              totalSuccesses += successes.length;
               totalFailures += failures.length;
             }
 
             rows.sort((a, b) => parseFloat(b.failRate) - parseFloat(a.failRate));
 
             const overallHealth = totalRuns > 0
-              ? (((totalRuns - totalFailures) / totalRuns) * 100).toFixed(1)
+              ? ((totalSuccesses / totalRuns) * 100).toFixed(1)
               : '100.0';
             const chronic = rows.filter(r => parseFloat(r.failRate) > 30 && r.failure >= 3);
             const maxFailRate = rows.length > 0

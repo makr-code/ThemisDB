@@ -42,10 +42,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
-  checks: write
-  security-events: read
 
 # Concurrency: keep review, comment, and branch-driven runs in separate lanes so
 # approval events do not cancel waiver handling or non-PR maintenance runs.
@@ -59,6 +55,9 @@ jobs:
   gate-event-context:
     name: "Governance: Gate Event Context"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     outputs:
       run_pr_governance_gates: ${{ steps.decide.outputs.run_pr_governance_gates }}
     steps:
@@ -264,6 +263,9 @@ jobs:
     name: "Gate: Merge Enforcer"
     needs: gate-event-context
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     # Intentionally review-only: merge gating should happen on the approval
     # review event that immediately precedes merge.
     if: needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
@@ -586,6 +588,9 @@ jobs:
   gate-command-help:
     name: "Governance: Gate Command Help"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     if: >
       github.event_name == 'issue_comment' &&
       github.event.issue.pull_request &&
@@ -633,6 +638,9 @@ jobs:
   doxygen-waiver-commands:
     name: "Governance: Doxygen Waiver Commands"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     if: >
       github.event_name == 'issue_comment' &&
       github.event.issue.pull_request &&
@@ -835,6 +843,9 @@ jobs:
   waiver-expiration-check:
     name: "Governance: Waiver Expiration Check"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
@@ -944,8 +955,6 @@ jobs:
        needs.gate-event-context.outputs.run_pr_governance_gates == 'true'))
     permissions:
       contents: read
-      pull-requests: write
-      issues: write
     steps:
       - name: Print wave gate context
         run: |

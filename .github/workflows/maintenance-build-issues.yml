@@ -62,6 +62,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Post build failure comment on triggering PR
         if: >-
@@ -232,6 +234,7 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
+            const { execFileSync } = require('child_process');
             
             // Determine look-back window
             let lookbackMs = 24 * 60 * 60 * 1000; // 24 hours default
@@ -330,15 +333,14 @@ jobs:
                     });
                     
                     // response.data is an ArrayBuffer when redirect is followed
-                    const zipPath = path.join(artifactDir, `${artifact.name}-${run.id}.zip`);
+                    const zipPath = path.join(artifactDir, `${artifact.id}-${run.id}.zip`);
                     fs.writeFileSync(zipPath, Buffer.from(response.data));
                     
                     // Extract zip to a named subdirectory
-                    const extractDir = path.join(artifactDir, `${artifact.name}-${run.id}`);
+                    const extractDir = path.join(artifactDir, `${artifact.id}-${run.id}`);
                     fs.mkdirSync(extractDir, { recursive: true });
                     
-                    const { execSync } = require('child_process');
-                    execSync(`unzip -o "${zipPath}" -d "${extractDir}"`, { stdio: 'pipe' });
+                    execFileSync('unzip', ['-o', zipPath, '-d', extractDir], { stdio: 'pipe' });
                     
                     // Write metadata alongside extracted files
                     fs.writeFileSync(
@@ -372,8 +374,7 @@ jobs:
 
                   const logsExtractDir = path.join(artifactDir, `run-logs-${run.id}`);
                   fs.mkdirSync(logsExtractDir, { recursive: true });
-                  const { execSync } = require('child_process');
-                  execSync(`unzip -o "${logsZipPath}" -d "${logsExtractDir}"`, { stdio: 'pipe' });
+                  execFileSync('unzip', ['-o', logsZipPath, '-d', logsExtractDir], { stdio: 'pipe' });
 
                   fs.writeFileSync(
                     path.join(logsExtractDir, `_metadata.json`),
@@ -534,7 +535,7 @@ jobs:
             <!-- ci-build:type:chronic-error-report -->
             ## Build Error Aggregation Report
             
-            **Aggregation Period**: Last 24 hours  
+            **Aggregation Period**: Last ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }} minutes  
             **Latest Aggregation Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
             ### Debugging Tips
@@ -656,6 +657,7 @@ jobs:
       - name: Print error aggregation summary
         if: always()
         env:
+          EVENT_NAME: ${{ github.event_name }}
           DRY_RUN_ENABLED: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
           LOOKBACK_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }}
           TOTAL_ERRORS: ${{ steps.aggregate.outputs.total_errors }}
@@ -674,13 +676,24 @@ jobs:
             head -50 /tmp/aggregated-errors.md
             echo "... (see full report in GitHub issue)"
           fi
+          {
+            echo "## Build Error Aggregation"
+            echo ""
+            echo "- Trigger: \`${EVENT_NAME}\`"
+            echo "- Look-back window: ${LOOKBACK_MINUTES} minutes"
+            echo "- Unique errors: ${TOTAL_ERRORS:-unavailable}"
+            echo "- Chronic errors (≥3x): ${CHRONIC_ERRORS:-unavailable}"
+            echo "- Diagnostic metrics artifact: \`error-metrics\`"
+            if [ "${DRY_RUN_ENABLED}" = "true" ]; then
+              echo "- Manual dry-run: issue, comment, label, dashboard, and outbound notification writes were suppressed."
+            else
+              echo "- Live processing is enabled for this trigger."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
           if [ "${DRY_RUN_ENABLED}" = "true" ]; then
             {
               echo "## Build Error Dry-Run Preview"
               echo ""
-              echo "- Look-back window: ${LOOKBACK_MINUTES} minutes"
-              echo "- Unique errors: ${TOTAL_ERRORS:-unavailable}"
-              echo "- Chronic errors: ${CHRONIC_ERRORS:-unavailable}"
               echo "- Labels, issue creation/update, issue comments, Slack/Discord notifications, and dashboard publication: suppressed"
               echo "- Diagnostic metrics artifact: retained for this workflow run"
               if [[ "${CHRONIC_ERRORS:-}" =~ ^[0-9]+$ ]] && (( CHRONIC_ERRORS > 0 )); then

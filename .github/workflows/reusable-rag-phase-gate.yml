@@ -33,6 +33,13 @@ on:
         required: false
         default: ""
         type: string
+      dry_run:
+        description: >-
+          Validate and report without applying labels, posting comments, or
+          updating tracker issues.
+        required: false
+        default: true
+        type: boolean
       timeout_minutes:
         description: "Maximum phase-validation job duration in minutes."
         required: false
@@ -40,10 +47,7 @@ on:
         type: string
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 concurrency:
   group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
@@ -54,6 +58,10 @@ jobs:
     name: "Validate: ${{ inputs.phase_title }}"
     runs-on: ubuntu-22.04
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -147,7 +155,7 @@ jobs:
           PY
 
       - name: Apply Gate Labels
-        if: success() && inputs.labels_csv != ''
+        if: success() && inputs.dry_run != true && inputs.labels_csv != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -165,7 +173,7 @@ jobs:
             }
 
       - name: Comment Gate Status
-        if: always()
+        if: always() && inputs.dry_run != true
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -183,11 +191,19 @@ jobs:
 
       - name: Write gate summary
         if: always()
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           report_path="/tmp/phase${{ inputs.phase_id }}_gate_report.md"
           {
             echo "## Validate: ${{ inputs.phase_title }} (Workflow Summary)"
             echo ""
+            if [[ "${DRY_RUN}" == "true" ]]; then
+              echo "Dry run: validation remains active."
+              echo "Gate labels, comments, and tracker updates are suppressed."
+              echo "Would-be external updates were not performed."
+              echo ""
+            fi
             if [[ -f "${report_path}" ]]; then
               cat "${report_path}"
             else
@@ -200,6 +216,8 @@ jobs:
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     needs: [phase_validation]
     if: always()
     steps:
@@ -220,7 +238,7 @@ jobs:
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
     needs: [phase_validation, gate_status]
-    if: always() && needs.phase_validation.result == 'failure' && github.event_name == 'pull_request'
+    if: always() && needs.phase_validation.result == 'failure' && github.event_name == 'pull_request' && inputs.dry_run != true
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
@@ -258,7 +276,7 @@ jobs:
   human-loop-resolution:
     name: "Validate: Human-in-the-loop Resolution Labels"
     needs: [phase_validation]
-    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request'
+    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request' && inputs.dry_run != true
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read

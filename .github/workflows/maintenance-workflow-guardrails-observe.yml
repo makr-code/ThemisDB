@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Analyze workflow policies
         id: analyze
@@ -94,7 +96,9 @@ jobs:
           for wf in files:
               text = wf.read_text(encoding='utf-8', errors='replace')
               try:
-                  doc = yaml.safe_load(text)
+                  # BaseLoader preserves GitHub's "on" key as a string; PyYAML's
+                  # YAML 1.1 safe loader otherwise resolves it as boolean true.
+                  doc = yaml.load(text, Loader=yaml.BaseLoader)
               except Exception as exc:
                   add(wf, 'HIGH', 'yaml-parse', f'YAML parse error: {exc}')
                   continue
@@ -192,6 +196,7 @@ jobs:
           summary = Path(__import__('os').environ['GITHUB_STEP_SUMMARY'])
           with summary.open('a', encoding='utf-8') as fh:
               fh.write('## Workflow Guardrails (Observe)\n\n')
+              fh.write('Mode: read-only observation; no external mutations are performed.\n\n')
               fh.write(f"- Files scanned: {len(files)}\n")
               fh.write(f"- HIGH: {counts['HIGH']}\n")
               fh.write(f"- MEDIUM: {counts['MEDIUM']}\n")
