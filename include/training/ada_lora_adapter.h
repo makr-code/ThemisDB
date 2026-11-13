@@ -26,7 +26,7 @@ struct AdaLoRALayerStats {
     std::string layer_name;         ///< Layer identifier
     size_t      max_rank    = 0;    ///< Maximum allowed rank for this layer
     size_t      active_rank = 0;    ///< Currently active (unpruned) rank
-    float       importance  = 0.0f; ///< Mean triplet score over all max_rank triplets
+    float       importance  = 0.0f; ///< Magnitude score at the last importance update
     float       alpha       = 0.0f; ///< LoRA alpha (scaling = alpha / max_rank)
 };
 
@@ -54,32 +54,13 @@ struct AdaLoRATrainStepResult {
  * @brief AdaLoRA adapter with importance-based rank allocation
  *        (Zhang et al., ICLR 2023, arXiv:2303.10512).
  *
- * Each layer stores ΔW = B · A with B (in_dim × max_rank) and A
- * (max_rank × out_dim).  Rank component i (column B[:,i], row A[i,:]) is one
- * AdaLoRA triplet with P = B and Q = A.  The class does not hold a separate
- * diagonal Λ (it is folded into the factors), therefore the triplet score is
- *   S_i = mean_j s(B[j,i]) + mean_j s(A[i,j]),
- * where s(w) = Ī(w) · Ū(w) is the smoothed sensitivity times its uncertainty,
- * maintained by updateImportanceFromGradients().
+ * Each layer stores ΔW = B · A, with B (in_dim × max_rank) and A
+ * (max_rank × out_dim). The implemented allocator uses a per-layer magnitude
+ * importance and changes the active prefix; it does not reorder components.
  *
- * reallocateRanks() ranks all triplets globally, keeps exactly @c budget of
- * them (at least one per layer), and reorders the rank components within
- * each layer so that the active set is always the prefix [0, active_rank).
- * The full-rank product B · A is invariant under this reordering.
- *
- * Usage:
- * @code
- * AdaLoRAAdapter ada(4, 8.0f, 128);
- * ada.addLayer("q_proj", 768, 768, 8);
- * ada.addLayer("v_proj", 768, 768, 8);
- * ada.setBudgetSchedule(16, 8, 100, 200);   // b(0)=16, b(T)=8, t_i=100, t_f=200
- *
- * // Training loop, after backward() and before the optimiser step:
- * ada.updateImportanceFromGradients("q_proj", grad_B_q, grad_A_q);
- * ada.updateImportanceFromGradients("v_proj", grad_B_v, grad_A_v);
- * ada.reallocateRanks(ada.budgetAt(step, total_steps));
- * double reg = ada.orthogonalityPenalty("q_proj");   // R(P,Q)
- * @endcode
+ * @warning The declared gradient-sensitivity, triplet-score, budget-schedule
+ * and orthogonality methods have no implementation in this build. No EMA,
+ * triplet-score or schedule state exists for checkpointing or resumption.
  *
  * Not thread-safe: an instance must not be shared between threads without
  * external synchronisation.
@@ -135,7 +116,7 @@ public:
     /** @brief Whether a layer with the given name is registered. */
     bool hasLayer(const std::string& layer_name) const;
 
-    /** @brief Names of all registered layers (order unspecified). */
+    /** @brief Names of all registered layers in insertion order. */
     std::vector<std::string> layerNames() const;
 
     /** @brief Number of registered layers. */
@@ -148,11 +129,9 @@ public:
     /**
      * @brief Weight-magnitude fallback score (no gradients available).
      *
-     * Sets triplet score S_i = ||B[:,i]||² · ||A[i,:]||² for every one of the
-     * max_rank triplets.  This is a magnitude heuristic, NOT the AdaLoRA
-     * sensitivity score; use updateImportanceFromGradients() during training.
-     * Any previously accumulated sensitivity EMA state of the layer is kept
-     * but no longer used for ranking until the next gradient update.
+     * Sets layer importance to the mean of ||B[:,i]||² · ||A[i,:]||²
+     * over the active rank prefix. This is a magnitude heuristic, not the
+     * AdaLoRA sensitivity score.
      *
      * @param layer_name  Target layer
      * @throws std::out_of_range if the layer does not exist
@@ -207,21 +186,17 @@ public:
     std::vector<float> getTripletScores(const std::string& layer_name) const;
 
     /**
-     * @brief Reallocate exactly @p total_budget ranks by global triplet ranking.
+     * @brief Adjust layer ranks using their relative magnitude importance.
      *
-     * Every layer keeps its best triplet (minimum rank 1); the remaining
-     * total_budget - layerCount() slots go to the highest-scoring remaining
-     * triplets across all layers, bounded by each layer's max_rank.  Ties are
-     * broken deterministically by (position within the layer ascending, layer
-     * insertion order ascending), which yields a round-robin distribution
-     * when all scores are equal.  Rank components are reordered within each
-     * layer (weights and score state together) so that the active triplets
-     * occupy indices [0, active_rank).
+     * Every layer receives at least one rank, up to its maximum. When all
+     * importances are zero the budget is divided evenly, rounded down.
+     * Otherwise ranks are allocated proportionally, with a rounding adjustment
+     * to the most important layer. The resulting total can differ from the
+     * requested budget. Rank components are not reordered.
      *
-     * @param total_budget  Total number of active ranks after the call
-     * @return ReallocResult with total_active_rank == total_budget
-     * @throws std::invalid_argument if total_budget < layerCount(),
-     *         total_budget > sum of max ranks, or total_budget == 0
+     * @param total_budget  Requested total number of active ranks (> 0)
+     * @return Actual total and the numbers of layers pruned and expanded.
+     * @throws std::invalid_argument if total_budget == 0
      */
     ReallocResult reallocateRanks(size_t total_budget);
 
@@ -299,7 +274,7 @@ public:
     size_t getMaxRank(const std::string& layer_name) const;
 
     /**
-     * @brief Mean triplet score of a layer over all max_rank triplets.
+     * @brief Mean magnitude score over the active rank at the last update.
      * @throws std::out_of_range if the layer does not exist
      */
     float getImportance(const std::string& layer_name) const;
@@ -429,7 +404,11 @@ public:
     /** @brief Global rank budget used by reallocateRanks(). */
     size_t rankBudget() const;
 
-    /** @brief Update the global rank budget. */
+    /**
+     * @brief Update the global rank budget, including to zero.
+     * @param budget New budget. Zero is retained and checkpointed, but the
+     *        no-argument reallocateRanks() throws until a positive budget is set.
+     */
     void setRankBudget(size_t budget);
 
     // -------------------------------------------------------------------------
@@ -439,28 +418,36 @@ public:
     /**
      * @brief Persist the complete adapter state to a binary checkpoint file.
      *
-     * The file format (host byte order) is:
+     * The bounded format uses host byte order and IEEE-754 32-bit floats:
      *   - 8-byte magic ("ADALORA\0")
      *   - 4-byte uint32 version (currently 2; other versions are rejected)
      *   - 64-byte model fingerprint (SHA-256 hex, NUL-padded)
      *   - uint64 default_rank, float default_alpha, uint64 rank_budget
-     *   - float β1, float β2
-     *   - uint8 schedule_configured, uint64 b(0), b(T), t_i, t_f
      *   - 4-byte uint32 layer count
      *   - For each layer (in insertion order):
-     *       - uint32 name length, name bytes (UTF-8, no NUL)
+     *       - uint32 name length, nonempty name bytes (no NUL, at most 4096)
      *       - uint64 in_dim, out_dim, max_rank, active_rank
      *       - float alpha, float importance
-     *       - uint8 score_source, uint64 sensitivity_steps
      *       - B (in_dim × max_rank) and A (max_rank × out_dim) float32 values
-     *       - triplet scores (max_rank float32 values)
-     *       - uint8 has_sensitivity_state; if 1: Ī(B), Ū(B), Ī(A), Ū(A)
+     *   - uint64 FNV-1a checksum of all preceding bytes
+     *
+     * Files are limited to 256 MiB and 65536 layers. Default rank and budget
+     * are stored independently of these limits as uint64 values, and must be
+     * representable as size_t on load. The checksum detects
+     * accidental corruption, not malicious tampering. Saving truncates the
+     * destination and is not atomic; use a temporary file and atomic rename
+     * when required. The checkpoint covers implemented adapter state only.
+     * Sensitivity EMA, triplet scores, and schedules are not implemented and
+     * cannot be restored. The caller must separately
+     * persist training progress, optimizer state, random state, data position,
+     * and any base-model or tokenizer state needed to resume training.
      *
      * @param path             Destination file path (parent directory must exist).
      * @param model_fingerprint Optional SHA-256 fingerprint of the base model
-     *                          (64 hex chars); stored in the header for cache
-     *                          invalidation.  Empty string stores all-zero bytes.
-     * @throws std::runtime_error on I/O failure.
+     *                          (up to 64 bytes, without NUL); stored for cache
+     *                          invalidation. Empty stores all-zero bytes.
+     * @throws std::runtime_error on invalid or non-finite state, size limit,
+     *         invalid fingerprint or I/O failure.
      */
     void saveToFile(const std::string& path,
                     const std::string& model_fingerprint = "") const;
@@ -468,15 +455,17 @@ public:
     /**
      * @brief Restore adapter state from a binary checkpoint file.
      *
-     * Replaces the complete adapter state (layers, weights, alpha, active
-     * ranks, triplet scores, sensitivity EMA state, β1/β2, rank budget and
-     * budget schedule).  On any error the current state is left unchanged.
+     * Replaces implemented adapter state: defaults, rank budget, ordered
+     * layers, dimensions, active ranks, alpha, importance and weights.
+     * Sensitivity EMA, triplet scores and schedule state do not exist in this
+     * implementation and cannot be restored. On any error the current state
+     * is left unchanged. Version 1 and all other versions are rejected.
      *
      * @param path  Source file path.
      * @return The model fingerprint string stored in the checkpoint header
      *         (empty if none was stored).
      * @throws std::runtime_error on I/O failure, bad magic, unsupported
-     *         format version or inconsistent content.
+     *         format version, size limit, checksum failure or inconsistent content.
      */
     std::string loadFromFile(const std::string& path);
 
@@ -484,13 +473,14 @@ public:
      * @brief Check whether a saved checkpoint is still valid for the given model.
      *
      * Reads only the header of @p checkpoint_path and compares the stored
-     * fingerprint against @p current_fingerprint.
+     * fingerprint against @p current_fingerprint. It does not validate the
+     * payload or checksum; a subsequent load can still fail.
      *
      * @param checkpoint_path     Path to a checkpoint written by saveToFile().
      * @param current_fingerprint SHA-256 fingerprint of the current base model.
      * @return true  — checkpoint exists and fingerprint matches (no rebuild needed).
-     * @return false — checkpoint absent, unreadable, or fingerprint differs
-     *                 (rebuild required).
+     * @return false — checkpoint absent, unreadable, unsupported, or fingerprint
+     *                 absent or different (rebuild required).
      */
     static bool isCacheValid(const std::string& checkpoint_path,
                              const std::string& current_fingerprint);
