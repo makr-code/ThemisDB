@@ -25,6 +25,50 @@ HANDLERS = ("monitoring_api_handler", "monitoring_api_routes", "index_api_handle
 
 @unittest.skipUnless(shutil.which("cmake") and shutil.which("ninja"), "requires CMake and Ninja")
 class MainlineCompilerConfigurationTests(unittest.TestCase):
+    def test_llm_sharding_static_link_cycle(self) -> None:
+        policy = re.search(
+            r"(?m)^        # LLM and sharding reference each other;.*?"
+            r"^        endif\(\)\n",
+            MODULAR_BUILD.read_text(encoding="utf-8"),
+            re.DOTALL | re.MULTILINE,
+        )
+        self.assertIsNotNone(policy)
+        for split in (False, True):
+            with self.subTest(split=split), tempfile.TemporaryDirectory(prefix="llm-sharding-link-") as tmp:
+                root = Path(tmp)
+                (root / "main.c").write_text("int shard_entry(void); int main(void) { return shard_entry(); }\n")
+                (root / "shard.c").write_text("int llm_entry(void); int shard_entry(void) { return llm_entry(); }\n")
+                (root / "helper.c").write_text("int shard_helper(void) { return 0; }\n")
+                (root / "llm.c").write_text(
+                    "int ext_entry(void); int llm_entry(void) { return ext_entry(); }\n" if split else
+                    "int shard_helper(void); int llm_entry(void) { return shard_helper(); }\n"
+                )
+                (root / "ext.c").write_text("int shard_helper(void); int ext_entry(void) { return shard_helper(); }\n")
+                (root / "CMakeLists.txt").write_text(
+                    "cmake_minimum_required(VERSION 3.20)\n"
+                    "project(LinkCycle C)\n"
+                    "add_library(themis_sharding STATIC shard.c helper.c)\n"
+                    "add_library(themis_llm STATIC llm.c)\n"
+                    "target_link_libraries(themis_sharding PRIVATE themis_llm)\n"
+                    + ("add_library(themis_llm_ext STATIC ext.c)\n"
+                       "target_link_libraries(themis_llm_ext PRIVATE themis_llm)\n"
+                       "target_link_libraries(themis_sharding PRIVATE themis_llm_ext)\n" if split else "")
+                    + policy.group(0)
+                    + ("get_target_property(ext_deps themis_llm_ext LINK_LIBRARIES)\n"
+                       "if(NOT \"themis_sharding\" IN_LIST ext_deps)\n"
+                       "  message(FATAL_ERROR \"LLM extension must depend on sharding\")\n"
+                       "endif()\n" if split else "") +
+                    "add_executable(link_test main.c)\n"
+                    "target_link_libraries(link_test PRIVATE themis_sharding)\n",
+                    encoding="utf-8",
+                )
+                for command in (
+                    ["cmake", "-G", "Ninja", "-S", str(root), "-B", str(root / "build")],
+                    ["cmake", "--build", str(root / "build")],
+                ):
+                    result = subprocess.run(command, capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+
     def configure(self, body: str, build_type: str, **variables: str) -> dict[str, list[str]]:
         # Configure real CMake policies without loading a compiler or building ThemisDB.
         # MSVC branch selection below checks CMake semantics, not native cl.exe behavior.

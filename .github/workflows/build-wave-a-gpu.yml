@@ -7,25 +7,33 @@ on:
     inputs:
       phase:
         description: "Test phase to run (all, baseline, fallback, memory, determinism)"
+        type: choice
         required: false
         default: "all"
+        options:
+          - all
+          - baseline
+          - fallback
+          - memory
+          - determinism
       parallel_jobs:
         description: "Number of parallel compilation jobs"
+        type: number
         required: false
-        default: "4"
+        default: 4
       representative_cuda_arch:
         description: "CUDA architecture for representative baseline run"
+        type: string
         required: false
         default: "native"
       run_representative_hardware:
         description: "Run self-hosted representative GPU hardware baseline capture"
+        type: boolean
         required: false
-        default: "false"
+        default: false
 
 permissions:
   contents: read
-  checks: write
-  pull-requests: write
 
 concurrency:
   group: build-wave-a-gpu-${{ github.ref }}

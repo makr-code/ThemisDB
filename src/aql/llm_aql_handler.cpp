@@ -1208,9 +1208,19 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
     }
 }
 
-std::string LLMAQLHandler::executeRAG(const std::string &query, const std::string &collection, int top_k,
-                                      const std::string &lora_id,
-                                      const std::unordered_map<std::string, std::string> &options) {
+std::string LLMAQLHandler::executeRAG(
+    const std::string& query, const std::string& collection, int top_k,
+    const std::string& lora_id,
+    const std::unordered_map<std::string, std::string>& options) {
+    return executeRAG(query, collection, top_k, lora_id, options,
+                      rag::RetrievalExecutionContext{});
+}
+
+std::string LLMAQLHandler::executeRAG(
+    const std::string &query, const std::string &collection, int top_k,
+    const std::string &lora_id,
+    const std::unordered_map<std::string, std::string> &options,
+    const rag::RetrievalExecutionContext& request_context) {
     // --- Wave D D2: OTel span for the RAG pipeline ---
     THEMIS_LLM_TRACE_SCOPE("llm.rag");
     THEMIS_LLM_TRACE_EVENT("llm.rag.start",
@@ -1220,7 +1230,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
 
     auto start_time       = std::chrono::steady_clock::now();
     auto &metrics         = LLMMetricsCollector::instance();
-    size_t retrieved_docs = 0;
+    auto retrieved_docs = std::make_shared<std::atomic_size_t>(0);
 
     try {
         // Input validation
@@ -1236,8 +1246,46 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                "Circuit breaker is open - LLM service temporarily unavailable");
         }
 
-        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
-        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
+        // Keep the retrieval provider's cooperative deadline aligned with the
+        // timeout manager's cancellation budget. QueryEngine backend calls are
+        // not interruptible, but retrieval can stop as soon as one returns.
+        const auto retrieval_started_at = std::chrono::steady_clock::now();
+        const auto retrieval_timeout = impl_->timeout_manager_.getConfig().rag_timeout;
+        const auto max_retrieval_timeout = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::steady_clock::time_point::max() - retrieval_started_at);
+        const auto retrieval_deadline =
+            retrieval_timeout <= std::chrono::seconds::zero()
+                ? retrieval_started_at
+                : (retrieval_timeout >= max_retrieval_timeout
+                    ? std::chrono::steady_clock::time_point::max()
+                    : retrieval_started_at + retrieval_timeout);
+        const auto collection_access_checker = impl_->collection_access_checker_;
+        if (!request_context.authorize_collection) {
+            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                               "RAG request authorization context is unavailable");
+        }
+        const auto authorize_collection =
+            [request_checker = request_context.authorize_collection,
+             collection_access_checker](const std::string& requested_collection) {
+                try {
+                    return request_checker(requested_collection) &&
+                        (!collection_access_checker ||
+                         collection_access_checker(requested_collection));
+                } catch (...) {
+                    return false;
+                }
+            };
+        if (!authorize_collection(collection)) {
+            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                               "RAG collection access denied");
+        }
+
+        // Execute with timeout and cooperative cancellation propagated to retrieval
+        // and streaming callbacks. Timeout cleanup can outlive this call, so the
+        // worker must own request inputs.
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken(
+            [&, query, collection, top_k, lora_id, options, request_context,
+             authorize_collection, retrieval_deadline, retrieved_docs](auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
@@ -1246,12 +1294,6 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG retrieval engine not configured; call setQueryEngine()");
                     }
-                    if (impl_->collection_access_checker_ &&
-                        !impl_->collection_access_checker_(collection)) {
-                        throw LLMException(LLMErrorCode::RAG_FAILED,
-                                           "RAG collection access denied");
-                    }
-
                     llm::RAGContext context;
                     context.query           = query;
                     context.collection_name = collection;
@@ -1275,11 +1317,24 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     rag::RetrievalRequest retrieval_request;
                     retrieval_request.query = std::move(vector_query);
                     retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
-                    rag::RetrievalExecutionContext execution_context;
-                    execution_context.cancelled = cancel_token;
+                    rag::RetrievalExecutionContext execution_context = request_context;
+                    execution_context.additional_cancellation_tokens.push_back(cancel_token);
+                    execution_context.deadline =
+                        std::min(request_context.deadline, retrieval_deadline);
+                    execution_context.authorize_collection = authorize_collection;
                     const rag::RAGProvider provider(*impl_->query_engine_);
                     auto evidence = provider.retrieve(retrieval_request, execution_context);
                     if (!evidence) {
+                        if (evidence.error().code() ==
+                            errors::ErrorCode::ERR_QUERY_TIMEOUT) {
+                            throw LLMException(LLMErrorCode::TIMEOUT,
+                                               evidence.error().context());
+                        }
+                        if (evidence.error().code() ==
+                            errors::ErrorCode::ERR_QUERY_ACCESS_DENIED) {
+                            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                                               evidence.error().context());
+                        }
                         throw LLMException(LLMErrorCode::RAG_FAILED, evidence.error().context());
                     }
                     context.documents = llm::toRAGDocuments(evidence->candidates);
@@ -1298,7 +1353,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                         }
                         document.content = "[DOCUMENT_START]\n" + document.content + "\n[DOCUMENT_END]";
                     }
-                    retrieved_docs = context.documents.size();
+                    retrieved_docs->store(context.documents.size(), std::memory_order_relaxed);
                     if (context.documents.empty()) {
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG retrieval returned no usable evidence");
@@ -1307,6 +1362,18 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     // Build inference request with RAG context
                     llm::InferenceRequest request;
                     request.prompt = query;
+                    request.tenant_id = request_context.tenant_id;
+                    request.trace_id = request_context.trace_id;
+                    request.span_id = request_context.span_id;
+                    request.deadline =
+                        std::min(request_context.deadline, retrieval_deadline);
+                    request.cancellation_token = cancel_token;
+                    request.additional_cancellation_tokens =
+                        request_context.additional_cancellation_tokens;
+                    if (request_context.cancelled) {
+                        request.additional_cancellation_tokens.push_back(
+                            request_context.cancelled);
+                    }
 
                     // Set LoRA adapter if specified
                     if (!lora_id.empty()) {
@@ -1342,7 +1409,13 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     }
                     return response.text;
                 },
-                RetryPolicy::isRetryableError);
+                [](const std::exception& error) {
+                    const auto* llm_error =
+                        dynamic_cast<const LLMException*>(&error);
+                    return !llm_error ||
+                           (llm_error->getErrorCode() != LLMErrorCode::TIMEOUT &&
+                            RetryPolicy::isRetryableError(error));
+                });
         });
 
         auto end_time = std::chrono::steady_clock::now();
@@ -1362,7 +1435,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                 {"response_bytes",result.size()},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
-                {"retrieved_docs", retrieved_docs},
+                {"retrieved_docs", retrieved_docs->load(std::memory_order_relaxed)},
                 {"latency_ms", latency.count()},
                 {"collection", collection},
                 {"lora_id", lora_id}},
@@ -1371,22 +1444,28 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
         // Record success
         impl_->getBreaker("rag").recordSuccess();
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, input_tokens, output_tokens, true, "");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          input_tokens, output_tokens, true, "");
 
-        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms", collection, retrieved_docs,
+        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms", collection,
+                      retrieved_docs->load(std::memory_order_relaxed),
                       latency.count());
 
         return result;
 
     } catch (const LLMException &e) {
-        // Record failure
-        impl_->getBreaker("rag").recordFailure();
+        if (e.getErrorCode() != LLMErrorCode::ACCESS_DENIED) {
+            impl_->getBreaker("rag").recordFailure();
+        }
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, LLMException::getErrorCodeString(e.getErrorCode()));
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          LLMException::getErrorCodeString(e.getErrorCode()));
 
         spdlog::error("LLM RAG failed: collection={}, error={}", collection, e.what());
 
@@ -1399,8 +1478,10 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, "INVALID_OPTIONS");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          "INVALID_OPTIONS");
 
         // Catch option parsing errors
         throw LLMException(LLMErrorCode::INVALID_OPTIONS, std::string("Invalid option value: ") + e.what());
@@ -1411,8 +1492,10 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, "RAG_FAILED");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          "RAG_FAILED");
 
         // Wrap other exceptions with a stable prefix expected by legacy callers/tests.
         throw LLMException(LLMErrorCode::RAG_FAILED, std::string("LLM RAG failed: ") + e.what());

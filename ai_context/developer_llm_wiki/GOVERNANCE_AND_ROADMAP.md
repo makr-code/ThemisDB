@@ -14,7 +14,7 @@ Status: Active
 
 ## BRANCHING_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `bc5b076360285457`
+- Hash: `0e5e1cd9d6791b65`
 - Titel: ThemisDB Branching Strategy
 - Auszug:
   - > Status: Active
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `b98c4d5ebbe3f281`
+- Hash: `8a7bde3764105fe6`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -363,258 +363,6 @@ Status: Active
   - Author: "ThemisDB Contributors"
   - Created: "2026-10-29"
 
-## ai_context/developer_llm_wiki/.tmp_issue_docs_access_model.md
-- Kategorie: governance_and_docs
-- Hash: `6031c176d6b0f691`
-- Titel: Modulauftrag: Entwicklerdokumentation (access-model)
-- Auszug:
-  - soll-ist-key:docs:access_model
-  - - Compliance Status: LOW
-  - - Compliance Score: 30%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_ai_working.md
-- Kategorie: governance_and_docs
-- Hash: `5864e438b4733bd7`
-- Titel: Modulauftrag: Entwicklerdokumentation (ai-working)
-- Auszug:
-  - soll-ist-key:docs:ai_working
-  - - Compliance Status: LOW
-  - - Compliance Score: 10%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_execution.md
-- Kategorie: governance_and_docs
-- Hash: `119cb8bb35a0e5eb`
-- Titel: Modulauftrag: Entwicklerdokumentation (execution)
-- Auszug:
-  - soll-ist-key:docs:execution
-  - - Compliance Status: LOW
-  - - Compliance Score: 30%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_image_analysis.md
-- Kategorie: governance_and_docs
-- Hash: `bfbbaaec6136f956`
-- Titel: Modulauftrag: Entwicklerdokumentation (image-analysis)
-- Auszug:
-  - soll-ist-key:docs:image_analysis
-  - - Compliance Status: LOW
-  - - Compliance Score: 30%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_llama_cpp.md
-- Kategorie: governance_and_docs
-- Hash: `3f38fde2ab42f1c2`
-- Titel: Modulauftrag: Entwicklerdokumentation (llama-cpp)
-- Auszug:
-  - soll-ist-key:docs:llama_cpp
-  - - Compliance Status: PARTIAL
-  - - Compliance Score: 90%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_llm_streaming.md
-- Kategorie: governance_and_docs
-- Hash: `4f9bfd89578bc78c`
-- Titel: Modulauftrag: Entwicklerdokumentation (llm-streaming)
-- Auszug:
-  - soll-ist-key:docs:llm_streaming
-  - - Compliance Status: LOW
-  - - Compliance Score: 30%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_llm_wiki.md
-- Kategorie: governance_and_docs
-- Hash: `32b4324a688a89ba`
-- Titel: Modulauftrag: Entwicklerdokumentation (llm-wiki)
-- Auszug:
-  - soll-ist-key:docs:llm_wiki
-  - - Compliance Status: LOW
-  - - Compliance Score: 40%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_onnx_clip.md
-- Kategorie: governance_and_docs
-- Hash: `6102caea04f61989`
-- Titel: Modulauftrag: Entwicklerdokumentation (onnx-clip)
-- Auszug:
-  - soll-ist-key:docs:onnx_clip
-  - - Compliance Status: PARTIAL
-  - - Compliance Score: 90%
-
-## ai_context/developer_llm_wiki/.tmp_issue_docs_vector_search.md
-- Kategorie: governance_and_docs
-- Hash: `3c12baae203d1f17`
-- Titel: Modulauftrag: Entwicklerdokumentation (vector-search)
-- Auszug:
-  - soll-ist-key:docs:vector_search
-  - - Compliance Status: LOW
-  - - Compliance Score: 30%
-
-## ai_context/developer_llm_wiki/.tmp_issue_impl_llm.md
-- Kategorie: governance_and_docs
-- Hash: `ac98ebb1ec676f88`
-- Titel: Modulauftrag: Implementierung (llm)
-- Auszug:
-  - soll-ist-key:impl:llm
-  - - Actionable Findings: 5
-  - - Critical: 2
-
-## ai_context/developer_llm_wiki/.tmp_issue_impl_network.md
-- Kategorie: governance_and_docs
-- Hash: `fe0395d1ca9fd89c`
-- Titel: Modulauftrag: Implementierung (network)
-- Auszug:
-  - soll-ist-key:impl:network
-  - - Actionable Findings: 13
-  - - Critical: 4
-
-## ai_context/developer_llm_wiki/.tmp_issue_impl_query.md
-- Kategorie: governance_and_docs
-- Hash: `8e6ad0647c48821b`
-- Titel: Modulauftrag: Implementierung (query)
-- Auszug:
-  - soll-ist-key:impl:query
-  - - Actionable Findings: 9
-  - - Critical: 2
-
-## ai_context/developer_llm_wiki/.tmp_issue_impl_rag.md
-- Kategorie: governance_and_docs
-- Hash: `f6b9259634f433bd`
-- Titel: Modulauftrag: Implementierung (rag)
-- Auszug:
-  - soll-ist-key:impl:rag
-  - - Actionable Findings: 0
-  - - Critical: 0
-
-## ai_context/developer_llm_wiki/.tmp_issue_impl_transaction.md
-- Kategorie: governance_and_docs
-- Hash: `0c4b28d6a4c5877c`
-- Titel: Modulauftrag: Implementierung (transaction)
-- Auszug:
-  - soll-ist-key:impl:transaction
-  - - Actionable Findings: 4
-  - - Critical: 0
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_access_model.md
-- Kategorie: governance_and_docs
-- Hash: `10ce6dd19114ec4c`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:auth, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_ai_working.md
-- Kategorie: governance_and_docs
-- Hash: `59f79b2bd8cd5e10`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:governance, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_execution.md
-- Kategorie: governance_and_docs
-- Hash: `9b7f1744f7a2f134`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:core, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_image_analysis.md
-- Kategorie: governance_and_docs
-- Hash: `e496e8713cc596b5`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:content, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_llama_cpp.md
-- Kategorie: governance_and_docs
-- Hash: `e1dcdaf300b8cfca`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:llm, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_llm.md
-- Kategorie: governance_and_docs
-- Hash: `5706c11882770c34`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:llm, type:chore, priority:critical, status:open
-  - - Milestone: Q4 2026
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_llm_streaming.md
-- Kategorie: governance_and_docs
-- Hash: `f5fda6a1bd25411a`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:llm, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_llm_wiki.md
-- Kategorie: governance_and_docs
-- Hash: `2ba3da7e48c0c04f`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:core, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_network.md
-- Kategorie: governance_and_docs
-- Hash: `c4497808675a37de`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:network, type:chore, priority:critical, status:open
-  - - Milestone: Q4 2026
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_onnx_clip.md
-- Kategorie: governance_and_docs
-- Hash: `fc181b41177d5ad7`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:llm, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_query.md
-- Kategorie: governance_and_docs
-- Hash: `20005e6da05424a7`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:query, type:chore, priority:critical, status:open
-  - - Milestone: Q4 2026
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_rag.md
-- Kategorie: governance_and_docs
-- Hash: `800f6b777ab833bd`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:rag, type:chore, priority:high, status:open
-  - - Milestone: Q4 2026
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_transaction.md
-- Kategorie: governance_and_docs
-- Hash: `4ec8ec9c6e55cdae`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:transaction, type:chore, priority:high, status:open
-  - - Milestone: Q4 2026
-  - - Status: open
-
-## ai_context/developer_llm_wiki/.tmp_issue_module_vector_search.md
-- Kategorie: governance_and_docs
-- Hash: `68a9bc5cf00ebcd0`
-- Titel: Metadaten
-- Auszug:
-  - - Labels: area:search, type:chore, priority:medium, status:open
-  - - Milestone: Documentation
-  - - Status: open
-
 ## ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md
 - Kategorie: governance_and_docs
 - Hash: `042b994f42dbe7c5`
@@ -626,7 +374,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `be8a21894dad0a23`
+- Hash: `c1cd8f093de14d6a`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -635,7 +383,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `886516e6531fe83e`
+- Hash: `2997c8a2a81fb58c`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
   - ---
@@ -662,7 +410,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `d21c9558d4da490b`
+- Hash: `f7478b8d6d633c87`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
   - Datum: 2026-11-13
@@ -689,7 +437,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `4f18c04fd65df106`
+- Hash: `0e9c802121ec7d90`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
   - ---
@@ -707,7 +455,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `dd82ec585b7239d3`
+- Hash: `96ce6ad828e0b566`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
   - ---
@@ -722,3 +470,255 @@ Status: Active
   - - Source mode: direct_doxygen_markers
   - - Source files scanned: 2
   - - Source symbols (raw/filter): 2 / 2
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `70bdaabe9198cd9f`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BATCH_.md
+- Kategorie: governance_and_docs
+- Hash: `54bfc77e9f0da368`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `e0dfe8624bb3756e`
+- Titel: Module Doxygen Coverage Summary
+- Auszug:
+  - - Module: vector_search
+  - - Source mode: direct_doxygen_markers
+  - - Symbol presence ratio: 0.5
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `ac011d4137a51fd5`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
+
+## ai_context/developer_llm_wiki/PROCESS.md
+- Kategorie: governance_and_docs
+- Hash: `5f2c442b079d2234`
+- Titel: Process — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/PROMPT_ENGINEERING.md
+- Kategorie: governance_and_docs
+- Hash: `cb4e42e9e8d1328e`
+- Titel: Prompt Engineering — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
+- Kategorie: governance_and_docs
+- Hash: `ff0a4aa5152fe57a`
+- Titel: Direct Doxygen Check: retrieval
+- Auszug:
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
+
+## ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `80978d7c340d4b6f`
+- Titel: Soll-Ist Gap Summary
+- Auszug:
+  - - Generated At: 2026-09-28T16:29:22Z
+  - - Modules: 72
+  - - Modules with docs gaps: 7
+
+## ai_context/developer_llm_wiki/STORAGE.md
+- Kategorie: governance_and_docs
+- Hash: `d6117be4e8e41142`
+- Titel: Storage — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/TEMPORAL.md
+- Kategorie: governance_and_docs
+- Hash: `ebb0fa94ae8ec94a`
+- Titel: Temporal — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/UPDATES.md
+- Kategorie: governance_and_docs
+- Hash: `78ab134dbfecd1cb`
+- Titel: Updates — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md
+- Kategorie: governance_and_docs
+- Hash: `e70d576660a2478a`
+- Titel: User Storage Encrypted — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- Kategorie: governance_and_docs
+- Hash: `04cbdfcae4b06866`
+- Titel: Developer LLM Wiki — Delta Report
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_coverage.md
+- Kategorie: governance_and_docs
+- Hash: `84e5aeb0d5994675`
+- Titel: Module Doxygen Coverage Summary
+- Auszug:
+  - - Module: temporal
+  - - Source mode: direct_doxygen_markers
+  - - Symbol presence ratio: 0.897
+
+## ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_summary.md
+- Kategorie: governance_and_docs
+- Hash: `780ad5c40b6206b9`
+- Titel: Direct Doxygen Check: temporal
+- Auszug:
+  - - Source mode: direct_doxygen_markers
+  - - Source files scanned: 56
+  - - Source symbols (raw/filter): 351 / 324
+
+## ai_context/legacy_status/STATUS_2026_08_01.md
+- Kategorie: governance_and_docs
+- Hash: `4b9fb2277f428edc`
+- Titel: Historical
+- Auszug:
+  - **Author:** ThemisDB Contributors
+  - **Created:** 2026-08-01
+  - **Last Updated:** 2026-10-02
+
+## ai_context/memory_management_policy.md
+- Kategorie: governance_and_docs
+- Hash: `dfe9ce223dae2a36`
+- Titel: Memory Management Policy — Core Rules
+- Auszug:
+  - Datum: 2026-10-29
+  - **Status:** Active, Enforced
+  - **Primary:** src/base/resource.h, include/base/*.h
+
+## docs/00_DOCUMENTATION_INDEX.md
+- Kategorie: governance_and_docs
+- Hash: `8f72c077dedd155c`
+- Titel: ThemisDB Documentation Index
+- Auszug:
+  - Stand: 2026-08-12
+  - Status: aktiv gepflegt
+  - Diese Uebersicht verlinkt nur auf stabile Einstiegsseiten und reduziert Root-Rauschen.
+
+## docs/API_TRANSPORT_RUNBOOK.md
+- Kategorie: governance_and_docs
+- Hash: `aeccbb6a8a2f6852`
+- Titel: API Transport Operations Runbook
+- Auszug:
+  - **ThemisDB API Transport Critical-Path Operations Guide**
+  - Version: 1.0
+  - Last Updated: 2026-08-19
+
+## docs/ARCHIVED/README.md
+- Kategorie: governance_and_docs
+- Hash: `5ad7b32ba7421985`
+- Titel: ThemisDB Documentation Archive
+- Auszug:
+  - **Archive Updated:** 2026-08-24
+  - **Version Status:** 2.4.0-rc1 (GA hardening)
+  - ---
+
+## docs/ARCHIVED/ai-working-history/01_WAVE_C_D_NEXT_ACTIONS_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `32bc306063602eb5`
+- Titel: Wave C Validation + Wave D Execution Planning
+- Auszug:
+  - **Date:** 2026-09-02, 15:45 UTC
+  - **Status:** Wave B Phase 1 complete; Wave C already complete; Wave D in progress
+  - **Branch:** copilot/update-documentation-for-gaps-again
+
+## docs/ARCHIVED/ai-working-history/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `8988b6aa3ce9d068`
+- Titel: Wave A Completion Plan — Runtime Reliability First
+- Auszug:
+  - **Date:** 2026-09-02, 16:30 UTC
+  - **Status:** Wave A code delivery complete; CI execution + evidence validation required
+  - **Branch:** copilot/update-documentation-for-gaps-again
+
+## docs/ARCHIVED/ai-working-history/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `b1eb8ddb4c01469c`
+- Titel: Wave A Exit Criteria Validation Report
+- Auszug:
+  - **Status:** 🟢 All code deliverables complete; CI execution validation in progress
+  - **Date:** 2026-09-02, 17:00 UTC
+  - **Author:** Copilot Coding Agent
+
+## docs/ARCHIVED/ai-working-history/06_WAVE_A_CI_EXECUTION_READINESS_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `ff5c5b8a3ecabf87`
+- Titel: Wave A CI Execution Readiness Report
+- Auszug:
+  - **Date:** 2026-09-02, 16:20 UTC
+  - **Status:** 🟡 **READY FOR EXECUTION** — Local environment dependency issues identified; GitHub Actions runners recommended
+  - **Blocker Context:** Wave A exit gates A3 (CI Green) requires these test suites to pass by Sept 3
+
+## docs/ARCHIVED/ai-working-history/07_WAVE_A_CI_EXECUTION_CHECKLIST_2026_09_03.md
+- Kategorie: governance_and_docs
+- Hash: `5e58b1d3216557ad`
+- Titel: Wave A CI Execution Checklist — Sept 3, 2026
+- Auszug:
+  - **Status:** READY FOR GITHUB ACTIONS EXECUTION
+  - **Deadline:** Sept 3, 18:00 UTC
+  - **Expected Duration:** 35-40 minutes (parallel execution)
+
+## docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_COMPLETION_SUMMARY_2026_09_04.md
+- Kategorie: governance_and_docs
+- Hash: `02de8ac7d806ad86`
+- Titel: Batch 8 Phase 4: Sign-Compare Hardening - Completion Summary
+- Auszug:
+  - **Date:** 2026-09-04 07:31 – 07:45 UTC
+  - **Duration:** ~14 minutes
+  - **Status:** ✅ **COMPLETE** (101.4% of target achieved)
+
+## docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_SIGN_COMPARE_HARDENING_2026_09_04.md
+- Kategorie: governance_and_docs
+- Hash: `8c48b296ac2ce76d`
+- Titel: Batch 8 Phase 4: Sign-Compare Hardening Execution Plan
+- Auszug:
+  - **Date:** 2026-09-04 07:31 UTC
+  - **Scope:** Fix -Wsign-compare warnings (target: 19,849 instances across 1,698 files)
+  - **Target:** Q3 2026 hardening completion
+
+## docs/ARCHIVED/ai-working-history/A2_REMEDIATION_COMPLETION.md
+- Kategorie: governance_and_docs
+- Hash: `c0736e515c4be679`
+- Titel: Phase 2: A2 Critical Findings Remediation — Completion Report
+- Auszug:
+  - **Date**: 2026-08-07T15:42:27Z
+  - **Status**: IMPLEMENTATION IN PROGRESS
+  - **Phase**: Phase 2 A2 Remediation (Aug 15-21)

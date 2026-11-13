@@ -75,6 +75,12 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
                     toolchain.parent.mkdir(parents=True)
                     toolchain.touch()
+                    thrift_port = directory / "vcpkg/ports/thrift/portfile.cmake"
+                    thrift_port.parent.mkdir(parents=True)
+                    thrift_port.write_text(
+                        'URLS "https://archive.apache.org/dist/thrift/${VERSION}/'
+                        'thrift-${VERSION}.tar.gz"\n'
+                    )
                     bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
                     bootstrap.write_text(
                         '#!/bin/bash\nset -euo pipefail\n'
@@ -104,6 +110,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
                     )
                     self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertIn("https://dlcdn.apache.org/thrift/", thrift_port.read_text())
+                    self.assertNotIn("https://archive.apache.org/dist/thrift/", thrift_port.read_text())
                     self.assertEqual(int(attempt_log.read_text()), attempts)
                     self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
                     self.assertEqual((directory / "model-step-ran").exists(), status == 0)
@@ -261,6 +269,73 @@ class DeploymentWorkflowTests(unittest.TestCase):
             caller["with"]["build_continue_on_error"],
             "${{ matrix.build_continue_on_error || false }}",
         )
+
+    def test_invalid_release_matrix_selectors_fail_before_lane_planning(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        common_environment = {
+            "BUILD_MATRIX": "all",
+            "OS_SELECTOR": "all",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        cases = [
+            ("BUILD_MATRIX", "unknown-only", "Unsupported build matrix selector"),
+            ("OS_SELECTOR", "plan9", "Unsupported OS selector"),
+            ("ARCH_SELECTOR", "riscv64", "Unsupported architecture selector"),
+        ]
+
+        for key, invalid_value, expected_error in cases:
+            with self.subTest(selector=key), tempfile.TemporaryDirectory() as temp:
+                environment = {**common_environment, key: invalid_value}
+                result, values = run_bash(script, Path(temp), **environment)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(expected_error, result.stderr)
+                self.assertNotIn("matrix=", values)
+
+    def test_release_matrix_presets_respect_platform_filters(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        common_environment = {
+            "OS_SELECTOR": "windows",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), **{**common_environment, "BUILD_MATRIX": "community-only"}
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        self.assertEqual({entry["id"] for entry in entries}, {"windows-amd64"})
+
+    def test_conflicting_release_matrix_presets_fail_with_selector_context(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        environment = {
+            "BUILD_MATRIX": "linux-amd64-only",
+            "OS_SELECTOR": "windows",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(script, Path(temp), **environment)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(
+            "Release matrix selected no platforms for build_matrix=linux-amd64-only, "
+            "os=windows, architecture=all",
+            result.stderr,
+        )
+        self.assertNotIn("matrix=", values)
 
     def test_reusable_build_preserves_diagnostics_but_not_packages_after_failure(self):
         steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]

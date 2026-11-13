@@ -35,6 +35,11 @@ on:
         description: "Version to submit to WinGet (e.g., 2.4.0)"
         required: true
         type: string
+      dry_run:
+        description: "Generate and validate manifests without submitting a PR or updating GitHub issue status."
+        required: false
+        default: true
+        type: boolean
       fork_owner:
         description: "GitHub username or org that owns the winget-pkgs fork"
         required: false
@@ -49,6 +54,11 @@ on:
         description: "Version to submit to WinGet (e.g., 2.4.0)"
         required: true
         type: string
+      dry_run:
+        description: "Generate and validate manifests without submitting a PR or updating GitHub issue status."
+        required: false
+        default: true
+        type: boolean
       fork_owner:
         description: "GitHub username or org that owns the winget-pkgs fork"
         required: false
@@ -62,8 +72,6 @@ permissions:
   contents: read
   packages: read
   actions: read
-  pull-requests: write
-  issues: write
 
 concurrency:
   group: release-winget-${{ github.ref }}
@@ -83,13 +91,14 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "WinGet release manifest validation and submission"
+          scope: ${{ inputs.dry_run && 'WinGet manifest validation (dry-run; submission and issue updates suppressed)' || 'WinGet release manifest validation and submission' }}
           job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
     name: "Release: Mark WinGet Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    if: github.event_name == 'release' || inputs.dry_run != true
     permissions:
       contents: read
       issues: write
@@ -318,7 +327,9 @@ jobs:
     needs: [detect-release, validate-manifests, generate-manifests]
     runs-on: windows-latest
     environment: winget-production
-    if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
+    if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true' && inputs.dry_run != true
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -370,7 +381,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize WinGet Status"
     needs: [mark-release-pending, detect-release, generate-manifests, validate-manifests, create-fork-pr, notify]
-    if: always()
+    if: always() && (github.event_name == 'release' || inputs.dry_run != true)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -463,24 +474,56 @@ jobs:
 
   notify:
     name: "Automation: Notify WinGet Submission"
-    needs: [detect-release, generate-manifests]
+    needs: [detect-release, generate-manifests, validate-manifests, create-fork-pr]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Report WinGet submission status
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+          EVENT_NAME: ${{ github.event_name }}
+          VERSION: ${{ needs.detect-release.outputs.version }}
+          SHOULD_SUBMIT: ${{ needs.detect-release.outputs.should-submit }}
+          MANIFEST_DIR: ${{ needs.generate-manifests.outputs.manifest-dir }}
+          DETECT_RESULT: ${{ needs.detect-release.result }}
+          MANIFEST_RESULT: ${{ needs.generate-manifests.result }}
+          VALIDATE_RESULT: ${{ needs.validate-manifests.result }}
+          PR_RESULT: ${{ needs.create-fork-pr.result }}
         run: |
+          set -euo pipefail
+          DRY_RUN_ENABLED="false"
+          if [ "${EVENT_NAME}" != "release" ] && [ "${DRY_RUN:-true}" = "true" ]; then
+            DRY_RUN_ENABLED="true"
+          fi
           echo "═══════════════════════════════════════════════════"
           echo "WinGet Release Submission Status"
           echo "═══════════════════════════════════════════════════"
-          echo "Version: ${{ needs.detect-release.outputs.version }}"
-          echo "Should Submit: ${{ needs.detect-release.outputs.should-submit }}"
-          echo "Manifests Generated: ${{ needs.generate-manifests.outputs.manifest-dir }}"
+          echo "Version: ${VERSION:-not resolved}"
+          echo "Should Submit: ${SHOULD_SUBMIT:-false}"
+          echo "Manifests Generated: ${MANIFEST_DIR:-none}"
           echo ""
-          echo "Next steps:"
-          echo "  1. Download winget-manifests artifact"
-          echo "  2. Fork: https://github.com/microsoft/winget-pkgs"
-          echo "  3. Copy manifests to your fork at:"
-          echo "     manifests/t/ThemisDB/ThemisDB/${{ needs.detect-release.outputs.version }}/"
-          echo "  4. Submit PR with title:"
-          echo "     'New package: ThemisDB.ThemisDB version ${{ needs.detect-release.outputs.version }}'"
+          if [ "${DRY_RUN_ENABLED}" = "true" ]; then
+            echo "Dry-run: manifest generation and validation ran; no WinGet PR or GitHub issue update was attempted."
+            echo "Download artifact: winget-manifests-${VERSION:-unknown}"
+          elif [ "${SHOULD_SUBMIT:-false}" = "true" ]; then
+            echo "WinGet submission job result: ${{ needs.create-fork-pr.result }}"
+            echo "Review the draft PR in microsoft/winget-pkgs and remove draft status after approval."
+          else
+            echo "Submission was not required for this release."
+          fi
+          {
+            echo "## WinGet Release Submission"
+            echo ""
+            echo "- Version: \`${VERSION:-not resolved}\`"
+            echo "- Release detection: \`${DETECT_RESULT}\` (\`${SHOULD_SUBMIT:-false}\` submission required)"
+            echo "- Mode: \`${DRY_RUN_ENABLED}\` (source: \`${EVENT_NAME}\`)"
+            echo "- Manifest generation: \`${MANIFEST_RESULT}\`"
+            echo "- Manifest validation: \`${VALIDATE_RESULT}\`"
+            echo "- WinGet PR submission: \`${PR_RESULT}\`"
+            echo "- Manifest artifact: \`winget-manifests-${VERSION:-unknown}\`"
+            if [ "${DRY_RUN_ENABLED}" = "true" ]; then
+              echo "- Dry-run: no WinGet PR or GitHub issue update was attempted."
+            fi
+            echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          } >> "$GITHUB_STEP_SUMMARY"
           echo "═══════════════════════════════════════════════════"

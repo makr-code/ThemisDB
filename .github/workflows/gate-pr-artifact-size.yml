@@ -55,8 +55,6 @@ jobs:
     if: failure() && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: write
       issues: write
     steps:
       - name: Label and explain failed gate

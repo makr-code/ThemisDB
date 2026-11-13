@@ -125,7 +125,7 @@ protected:
         }
     }
 
-    json httpPost(const std::string& target, const json& body) {
+    http::response<http::string_body> httpPostResponse(const std::string& target, const json& body) {
         net::io_context ioc;
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
@@ -148,7 +148,11 @@ protected:
         beast::error_code ec;
         stream.socket().shutdown(tcp::socket::shutdown_both, ec);
 
-        return json::parse(res.body());
+        return res;
+    }
+
+    json httpPost(const std::string& target, const json& body) {
+        return json::parse(httpPostResponse(target, body).body());
     }
 
     json httpGet(const std::string& target) {
@@ -460,6 +464,83 @@ TEST_F(HttpVectorApiTest, VectorSearch_RespectsKParameter) {
     
     auto results = response["results"];
     ASSERT_EQ(results.size(), 1);
+}
+
+TEST_F(HttpVectorApiTest, VectorSearch_RejectsUnsupportedFilters) {
+    const std::vector<json> filters = {
+        json{{"content", "first document"}},  // Matches existing metadata.
+        json{{"content", "missing document"}}, // Matches no metadata.
+        nullptr, true, false, 42, 1.5, "", "content",
+        json::array(), json::array({json{{"content", "first document"}}})
+    };
+    for (const auto& filter : filters) {
+        // Cover unpaginated search, the first page, and a continuation page.
+        for (int page = 0; page < 3; ++page) {
+            SCOPED_TRACE("filter=" + filter.dump() + ", page=" + std::to_string(page));
+            json request = {
+                {"vector", {1.0f, 0.4f, 0.1f}},
+                {"k", 1},
+                {"filter", filter}
+            };
+            if (page > 0) {
+                request["use_cursor"] = true;
+                if (page == 2) request["cursor"] = "1";
+            }
+            const auto response = httpPostResponse("/vector/search", request);
+            ASSERT_EQ(response.result(), http::status::bad_request) << response.body();
+            const auto body = json::parse(response.body());
+            EXPECT_EQ(body.at("error"), true);
+            EXPECT_EQ(body.at("status_code"), 400);
+            EXPECT_EQ(body.at("message"),
+                "Field 'filter' must be an empty object; metadata filtering is not supported");
+            EXPECT_FALSE(body.contains("results"));
+            EXPECT_FALSE(body.contains("items"));
+            EXPECT_FALSE(body.contains("next_cursor"));
+        }
+    }
+}
+
+TEST_F(HttpVectorApiTest, VectorSearch_EmptyFilterPreservesUnfilteredResults) {
+    json request = {{"vector", {1.0f, 0.4f, 0.1f}}, {"k", 3}};
+    const auto unfiltered = httpPostResponse("/vector/search", request);
+    ASSERT_EQ(unfiltered.result(), http::status::ok) << unfiltered.body();
+    const auto expected = json::parse(unfiltered.body());
+    ASSERT_EQ(expected.at("count"), 3);
+    ASSERT_EQ(expected.at("results").size(), 3);
+    EXPECT_EQ(expected.at("results").at(0).at("pk"), "doc1");
+    request["filter"] = json::object();
+    const auto empty_filter = httpPostResponse("/vector/search", request);
+    ASSERT_EQ(empty_filter.result(), http::status::ok) << empty_filter.body();
+    EXPECT_EQ(json::parse(empty_filter.body()), expected);
+
+    request.erase("filter");
+    request["k"] = 1;
+    request["use_cursor"] = true;
+    for (size_t offset = 0; offset <= 3; ++offset) {
+        SCOPED_TRACE("offset=" + std::to_string(offset));
+        if (offset > 0) request["cursor"] = std::to_string(offset);
+        const auto page = httpPostResponse("/vector/search", request);
+        ASSERT_EQ(page.result(), http::status::ok) << page.body();
+        const auto expected_page = json::parse(page.body());
+        EXPECT_EQ(expected_page.at("batch_size"), offset < 3 ? 1 : 0);
+        EXPECT_EQ(expected_page.at("has_more"), offset < 2);
+        if (offset < 3) {
+            ASSERT_EQ(expected_page.at("items").size(), 1);
+            EXPECT_EQ(expected_page.at("items").at(0), expected.at("results").at(offset));
+        } else {
+            EXPECT_TRUE(expected_page.at("items").empty());
+        }
+        if (offset < 2) {
+            EXPECT_EQ(expected_page.at("next_cursor"), std::to_string(offset + 1));
+        } else {
+            EXPECT_FALSE(expected_page.contains("next_cursor"));
+        }
+        request["filter"] = json::object();
+        const auto filtered_page = httpPostResponse("/vector/search", request);
+        ASSERT_EQ(filtered_page.result(), http::status::ok) << filtered_page.body();
+        EXPECT_EQ(json::parse(filtered_page.body()), expected_page);
+        request.erase("filter");
+    }
 }
 
 TEST_F(HttpVectorApiTest, VectorSearch_DefaultsK) {

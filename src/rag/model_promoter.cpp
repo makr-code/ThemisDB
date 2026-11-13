@@ -52,8 +52,27 @@ struct ModelPromoter::Impl {
   CanaryPhase current_phase = CanaryPhase::kNone;
   uint64_t canary_start_time_us = 0;
   uint64_t phase_start_time_us = 0;
+  bool rollback_pending = false;
   
   mutable std::mutex mu;
+
+  bool Rollback(const std::string& reason, uint32_t expected_canary_version = 0) {
+    if (current_phase == CanaryPhase::kNone || canary_version == 0 ||
+        (expected_canary_version != 0 && canary_version != expected_canary_version)) {
+      return false;
+    }
+
+    const auto failed_version = canary_version;
+    current_phase = CanaryPhase::kNone;
+    canary_version = 0;
+    rollback_pending = false;
+
+    if (model_registry) {
+      model_registry->UpdateModelStatus(failed_version, ModelStatus::kFailed,
+                                        "Canary rollback: " + reason);
+    }
+    return true;
+  }
 
   uint64_t GetCurrentTimestampUs() const {
     using namespace std::chrono;
@@ -133,6 +152,7 @@ bool ModelPromoter::StartCanary(uint32_t candidate_version) {
   pimpl_->current_phase = CanaryPhase::kShadow;
   pimpl_->canary_start_time_us = pimpl_->GetCurrentTimestampUs();
   pimpl_->phase_start_time_us = pimpl_->canary_start_time_us;
+  pimpl_->rollback_pending = false;
 
   return true;
 }
@@ -144,7 +164,8 @@ TrafficSplitDecision ModelPromoter::GetTrafficSplit() const {
   decision.baseline_version = pimpl_->baseline_version;
   decision.canary_version = pimpl_->canary_version;
   decision.phase = pimpl_->current_phase;
-  decision.canary_traffic_pct = pimpl_->GetTrafficPercentage(pimpl_->current_phase);
+  decision.canary_traffic_pct =
+      pimpl_->rollback_pending ? 0.0 : pimpl_->GetTrafficPercentage(pimpl_->current_phase);
 
   return decision;
 }
@@ -152,7 +173,7 @@ TrafficSplitDecision ModelPromoter::GetTrafficSplit() const {
 bool ModelPromoter::AdvancePhase() {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  if (pimpl_->current_phase == CanaryPhase::kNone) {
+  if (pimpl_->current_phase == CanaryPhase::kNone || pimpl_->rollback_pending) {
     return false;
   }
 
@@ -170,23 +191,7 @@ bool ModelPromoter::AdvancePhase() {
 
 bool ModelPromoter::Rollback(const std::string& reason) {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
-
-  if (pimpl_->current_phase == CanaryPhase::kNone) {
-    return false;
-  }
-
-  // Revert to baseline model
-  pimpl_->current_phase = CanaryPhase::kNone;
-  pimpl_->canary_version = 0;
-
-  // Could mark canary version as failed in registry here
-  if (pimpl_->model_registry && pimpl_->canary_version > 0) {
-    pimpl_->model_registry->UpdateModelStatus(pimpl_->canary_version,
-                                               ModelStatus::kFailed,
-                                               "Canary rollback: " + reason);
-  }
-
-  return true;
+  return pimpl_->Rollback(reason);
 }
 
 bool ModelPromoter::ReportMetric(const std::string& metric_name, double current_value,
@@ -197,6 +202,10 @@ bool ModelPromoter::ReportMetric(const std::string& metric_name, double current_
     return true;
   }
 
+  if (pimpl_->rollback_pending) {
+    return false;
+  }
+
   if (baseline_value == 0.0) {
     return true;
   }
@@ -204,15 +213,28 @@ bool ModelPromoter::ReportMetric(const std::string& metric_name, double current_
   double regression = (baseline_value - current_value) / baseline_value;
 
   if (regression > pimpl_->quality_regression_threshold_pct) {
-    // Regression detected, trigger rollback
-    if (pimpl_->regression_callback) {
-      lock.unlock();
-      pimpl_->regression_callback(metric_name, baseline_value, current_value,
-                                  pimpl_->quality_regression_threshold_pct);
-      lock.lock();
+    // Block phase advancement and promotion before the callback runs outside the lock.
+    const auto failed_version = pimpl_->canary_version;
+    const auto callback = pimpl_->regression_callback;
+    const auto threshold = pimpl_->quality_regression_threshold_pct;
+    const auto rollback_reason = "Quality regression in " + metric_name;
+    pimpl_->rollback_pending = true;
+    lock.unlock();
+
+    const auto rollback_failed_canary = [&]() {
+      std::lock_guard<std::mutex> rollback_lock(pimpl_->mu);
+      pimpl_->Rollback(rollback_reason, failed_version);
+    };
+    try {
+      if (callback) {
+        callback(metric_name, baseline_value, current_value, threshold);
+      }
+    } catch (...) {
+      rollback_failed_canary();
+      throw;
     }
 
-    Rollback("Quality regression in " + metric_name);
+    rollback_failed_canary();
     return false;
   }
 
@@ -242,7 +264,7 @@ uint64_t ModelPromoter::GetCanaryStartTimeUs() const {
 bool ModelPromoter::FinalizeDeployment() {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  if (pimpl_->current_phase != CanaryPhase::kDeployed) {
+  if (pimpl_->current_phase != CanaryPhase::kDeployed || pimpl_->rollback_pending) {
     return false;
   }
 

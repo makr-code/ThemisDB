@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-13"
+Last Updated: "2026-11-13"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Python SDK
 
 Official Python client for ThemisDB - A high-performance multi-model database.
@@ -313,13 +327,65 @@ ThemisClient(
 - `batch_put(model, collection, items)` - Batch create/update
 - `batch_delete(model, collection, uuids)` - Batch delete
 - `query(aql, *, params=None)` - Execute AQL query
-- `vector_search(embedding, top_k=10)` - Vector similarity search
+- `vector_search(embedding, top_k=10, metadata_filter=None, *, use_cursor=False, cursor=None)` - Synchronous vector similarity search
 - `graph_traverse(start_node, max_depth=3)` - Graph traversal
 - `health(endpoint=None)` - Health check
 - `begin_transaction(*, isolation_level="READ_COMMITTED")` - Start transaction
 - `llm_interaction(model, messages, *, reasoning_steps=None, metadata=None)` - **NEW:** Create LLM interaction
 - `get_llm_interaction(interaction_id)` - **NEW:** Retrieve LLM interaction
 - `list_llm_interactions(*, model=None, limit=100, offset=0)` - **NEW:** List LLM interactions
+
+#### Synchronous vector search contract (#8089)
+
+`ThemisClient.vector_search()` sends `POST /vector/search` with `vector` and
+`k=top_k`. `metadata_filter=None` omits the HTTP `filter` field; `{}` sends an
+empty object. Both are no-ops. The server does **not** implement caller metadata
+filtering here: any nonempty `filter` object or nonobject value (including JSON
+`null`, arrays, strings, numbers, and booleans) is rejected with HTTP 400.
+Caller-supplied metadata filters are **not authorization policy**; do not use
+them to enforce tenant isolation or access control.
+
+For a multi-endpoint client:
+
+- Hits from successful endpoints are merged and limited to global `top_k`,
+  even when only one endpoint succeeds.
+- Prefer descending `score` when every hit has a non-null score (`0` is valid).
+  Otherwise use ascending `distance` when every hit has a non-null distance.
+  Scores/distances are expected to be numeric. Ties retain endpoint order, then
+  response order. Mixed hits without a common ranking field raise `ValueError`
+  with `Vector search hits lack a common non-null score or distance`, rather than
+  comparing scores and distances as interchangeable.
+- HTTP/request failures are reported through `partial=True` and an `errors`
+  list of `endpoint`, `status`, and `message` records. Endpoint origins omit
+  credentials, paths, and query strings; request failures have `status=None`.
+  Messages are `HTTP <status>` or `Request failure (<exception class>)`; server
+  response bodies are intentionally not exposed.
+  Only when at least two endpoints succeed does the SDK return merged `results`
+  and original successful payloads in `partials`. With one successful response,
+  even if other shards fail, its response keys and `results` or `items` format
+  are preserved while hits are ranked/capped and `count`/`batch_size` updated
+  when present.
+  Failures add `partial=True` and `errors`; the SDK does not add `partials` for
+  one success. A partial response is not a complete search
+  result. If all endpoints fail, the client raises `httpx.HTTPError` with the
+  structured list in its `errors` attribute, not a successful empty result.
+  An HTTP 200 with no hits is still a valid empty success.
+
+A successful single-endpoint call retains the server response format and cursor
+fields while ranking/capping hits and updating `count`/`batch_size` when present. Pass
+`use_cursor=True` and the returned `next_cursor` as `cursor` to continue; no global
+multi-endpoint cursor is promised. If a shard exceeds the requested k, client
+truncation may skip hits when following its preserved cursor.
+
+**Compatibility:** previously ignored nonempty filters now error; formerly
+silent partial success is explicit, and all-shard failure is no longer an empty
+success. Correct score/distance ranking can change result order and global
+top-k membership. These SDK changes apply only to the synchronous REST
+`ThemisClient`; `AsyncThemisClient` is out of scope and is not claimed to have
+changed.
+
+Sources: [`ThemisClient.vector_search()`](themis/__init__.py) and
+[`VectorApiHandler::handleSearch()`](../../src/server/vector_api_handler.cpp).
 
 ### Transaction
 

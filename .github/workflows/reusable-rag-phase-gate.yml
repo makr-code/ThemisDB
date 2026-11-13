@@ -4,38 +4,50 @@ on:
   workflow_call:
     inputs:
       phase_id:
+        description: "Stable phase identifier used in reports and temporary artifact names."
         required: true
         type: string
       phase_title:
+        description: "Human-readable phase name shown in job and gate reports."
         required: true
         type: string
       headers_json:
+        description: "JSON array of public header paths required for the phase."
         required: true
         type: string
       impls_json:
+        description: "JSON array of implementation paths compiled by the gate."
         required: true
         type: string
       tests_json:
+        description: "JSON array of test source paths checked by the gate."
         required: true
         type: string
       grep_checks_json:
+        description: "Optional JSON array of file/pattern/error checks; defaults to an empty array."
         required: false
         default: "[]"
         type: string
       labels_csv:
+        description: "Optional comma-separated labels applied after successful validation."
         required: false
         default: ""
         type: string
+      dry_run:
+        description: >-
+          Validate and report without applying labels, posting comments, or
+          updating tracker issues.
+        required: false
+        default: true
+        type: boolean
       timeout_minutes:
+        description: "Maximum phase-validation job duration in minutes."
         required: false
         default: "30"
         type: string
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 concurrency:
   group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
@@ -46,6 +58,10 @@ jobs:
     name: "Validate: ${{ inputs.phase_title }}"
     runs-on: ubuntu-22.04
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -139,7 +155,7 @@ jobs:
           PY
 
       - name: Apply Gate Labels
-        if: success() && inputs.labels_csv != ''
+        if: success() && inputs.dry_run != true && inputs.labels_csv != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -157,7 +173,7 @@ jobs:
             }
 
       - name: Comment Gate Status
-        if: always()
+        if: always() && inputs.dry_run != true
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -175,11 +191,19 @@ jobs:
 
       - name: Write gate summary
         if: always()
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           report_path="/tmp/phase${{ inputs.phase_id }}_gate_report.md"
           {
             echo "## Validate: ${{ inputs.phase_title }} (Workflow Summary)"
             echo ""
+            if [[ "${DRY_RUN}" == "true" ]]; then
+              echo "Dry run: validation remains active."
+              echo "Gate labels, comments, and tracker updates are suppressed."
+              echo "Would-be external updates were not performed."
+              echo ""
+            fi
             if [[ -f "${report_path}" ]]; then
               cat "${report_path}"
             else
@@ -192,6 +216,8 @@ jobs:
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     needs: [phase_validation]
     if: always()
     steps:
@@ -202,17 +228,13 @@ jobs:
             echo "✅ ${{ inputs.phase_title }} Gate: PASS"
             exit 0
           fi
-          if [ "$result" = "cancelled" ]; then
-            echo "⚠️ ${{ inputs.phase_title }} Gate: CANCELLED (skipping human escalation; not a failing gate)"
-            exit 0
-          fi
           echo "❌ ${{ inputs.phase_title }} Gate: FAIL"
           exit 1
 
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
     needs: [phase_validation, gate_status]
-    if: always() && needs.phase_validation.result == 'failure' && github.event_name == 'pull_request'
+    if: always() && needs.phase_validation.result == 'failure' && github.event_name == 'pull_request' && inputs.dry_run != true
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
@@ -250,7 +272,7 @@ jobs:
   human-loop-resolution:
     name: "Validate: Human-in-the-loop Resolution Labels"
     needs: [phase_validation]
-    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request'
+    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request' && inputs.dry_run != true
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read

@@ -53,6 +53,17 @@ provider-side code even when their historical filename contains "helpers".
 
 1. Internal consumers obtain candidates through `RAGProvider`; explicit external
    evidence remains a supported consumer input.
+   The direct HTTP `/api/v1/llm/rag` route performs its existing `requireAccess`
+   check and binds the request-local QueryEngine access checker to that
+   collection and passes that boundary as a per-call collection predicate. It
+   also propagates the live HTTP request timeout as a retrieval deadline and
+   returns 504 when that cooperative retrieval deadline expires. This does not
+   propagate caller identity, cancellation, tenant identity, or row-level
+   policy. The AQL RAG consumer passes its configured collection checker,
+   timeout-manager cancellation token, and matching deadline through
+   `RetrievalExecutionContext`. QueryEngine also enforces the request predicate
+   before each graph vertex load/expansion. Deadline and cancellation checks
+   are cooperative and cannot interrupt a blocking embedding or backend call.
 2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
    perform index search.
 3. For generation, both llama.cpp wrappers call the shared
@@ -73,13 +84,16 @@ from that manifest field and sequence number. The bridge stamps
 `source_file_id` only after workflow execution, too late to correct a chunk ID
 already produced. The fallback path creates a different `doc_id + "#0"` ID.
 
-Writing a vector through the
-[VectorIndexSinkAdapter](../ingestion/ingestion_sinks.cpp) does not by itself
-prove that a canonical relational document is available for retrieval. The
-common [RAGProvider](../../include/rag/rag_provider.h) uses QueryEngine results
-and materializes their entity content. Its
-[provider test](../../tests/rag/test_rag_provider.cpp) explicitly writes both
-the relational entity and vector entry.
+The [VectorIndexSinkAdapter](../ingestion/ingestion_sinks.cpp) first persists
+a per-chunk source record in the global `ingestion_sources` collection, then
+writes the vector entry with `source_ref_type="ingestion_chunk"`,
+`source_ref_key=<chunk_id>` and `source_ref_provenance=<source_file_id>`.
+[RAGProvider](rag_provider.cpp) resolves that reference through
+`QueryEngine::readIngestionSourceText` and rejects candidates whose source is
+missing or whose provenance does not match. Remaining gaps: the source write
+and vector write are separate, non-atomic steps (an orphaned source or a
+partially written batch is possible), and the source key is the bare
+`chunk_id`, so its uniqueness depends on the chunk-ID issue described above.
 
 The bridge logs a vector-writer failure but still returns `IndexResult::ok`
 and discards graph-writer results. Treat this as path-specific partial-success

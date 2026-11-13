@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-11-11T17:33:04.830477+00:00`
+> Generated: `2026-11-13T08:22:06.602967+00:00`
 
 ## Statistics
 
@@ -14,10 +14,10 @@
 | Modules with private plugin | 4 |
 | Modules with API contracts | 6 |
 | Documentation sources scanned | 1254 |
-| LLM Wiki source files | 8085 |
+| LLM Wiki source files | 8134 |
 | LLM Wiki module/API entries | 80 |
-| LLM Wiki generated | `2026-11-11T15:23:30+00:00` |
-| ai_working artifacts | 29 |
+| LLM Wiki generated | `2026-11-13T07:35:35+00:00` |
+| ai_working artifacts | 30 |
 
 ## Module Architecture Diagram
 
@@ -355,9 +355,9 @@ Isolated modules (no incoming/outgoing dependency): 30
 ## Knowledge Sources
 
 ### Developer LLM Wiki
-- Generated at: `2026-11-11T15:23:30+00:00`
-- Source hash: `dfc1d25f30a8536a4027704895272134ad25872dd9d19553e7ca9d74f349cdfc`
-- Source file count: 8085
+- Generated at: `2026-11-13T07:35:35+00:00`
+- Source hash: `58db3eb17cddb70a3268a40aab2a7cc294071ef4539b9061f7714638432e8991`
+- Source file count: 8134
 - Module/API entries indexed: 80
 
 ### ai_working Artifacts
@@ -371,12 +371,12 @@ JSON analysis artifacts: 8
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `d06f68c45c8384dc` |
-| `FUTURE_ENHANCEMENTS.md` | `ab3cf42244d049f6` |
-| `ROADMAP.md` | `ccccd02fbb5493c5` |
+| `ARCHITECTURE.md` | `21321f18b38d21b7` |
+| `FUTURE_ENHANCEMENTS.md` | `d9f033e9da09b940` |
+| `ROADMAP.md` | `3f051a5cb34ab117` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
 | `ai_context/MODULES_AND_NAMESPACES.md` | `bf42dba44a39f8cb` |
 | `ai_context/api_contracts/` | `bfdcd3503fc9863b` |
-| `ai_context/developer_llm_wiki/` | `cdd2be61ddd3a5a2` |
-| `ai_working/` | `9db3e45d014bc226` |
-| `docs/` | `6493df82fe17c082` |
+| `ai_context/developer_llm_wiki/` | `345d17ac6f8c1950` |
+| `ai_working/` | `2da2d31a22a9695b` |
+| `docs/` | `64216277d454bab0` |

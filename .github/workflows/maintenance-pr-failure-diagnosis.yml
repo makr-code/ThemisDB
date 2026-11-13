@@ -14,6 +14,11 @@ on:
     types: [completed]
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Collect diagnosis evidence and preview the PR comment without creating or updating comments."
+        required: false
+        default: true
+        type: boolean
       run_id:
         description: 'Optional workflow run ID for manual diagnosis'
         required: false
@@ -68,9 +73,11 @@ jobs:
           echo "============================================================"
 
       - name: Generate and publish recommend-only diagnosis comment
+        id: diagnose
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         env:
           RUN_ID_INPUT: ${{ inputs.run_id }}
+          DRY_RUN: ${{ inputs.dry_run }}
         with:
           script: |
             const owner = context.repo.owner;
@@ -109,6 +116,8 @@ jobs:
               core.setOutput('diagnosis_status', 'skipped');
               return;
             }
+            const runUrl = run.html_url || `${context.serverUrl}/${owner}/${repo}/actions/runs/${run.id}`;
+            core.setOutput('source_run_url', runUrl);
 
             if (run.conclusion !== 'failure') {
               core.notice(`Run ${run.id} conclusion is '${run.conclusion}', no failure diagnosis comment required.`);
@@ -146,9 +155,9 @@ jobs:
               return `- ${job.name} (conclusion: ${job.conclusion}, first failed step: ${firstFailedStep}, started: ${started})`;
             });
 
-            const runUrl = run.html_url || `${context.serverUrl}/${owner}/${repo}/actions/runs/${run.id}`;
             const shortSha = (run.head_sha || '').slice(0, 8) || 'n/a';
             const workflowName = run.name || 'Unknown Workflow';
+            const dryRun = context.eventName === 'workflow_dispatch' && process.env.DRY_RUN === 'true';
 
             const recommendationLines = [
               '1. Oeffne den fehlgeschlagenen Job und pruefe den ersten fehlerhaften Step.',
@@ -177,6 +186,7 @@ jobs:
               `Aktualisiert: ${new Date().toISOString()}`,
             ].join('\n');
 
+            const plannedActions = [];
             for (const prRef of prRefs) {
               const issueNumber = prRef.number;
               const { data: comments } = await github.rest.issues.listComments({
@@ -190,6 +200,11 @@ jobs:
                 (c.body || '').includes(marker) &&
                 (c.body || '').includes(`<!-- workflow-name:${workflowName} -->`)
               );
+
+              if (dryRun) {
+                plannedActions.push(`- Would ${existing ? 'update' : 'create'} a diagnosis comment on PR #${issueNumber}.`);
+                continue;
+              }
 
               if (existing) {
                 await github.rest.issues.updateComment({
@@ -210,6 +225,44 @@ jobs:
               }
             }
 
+            if (dryRun) {
+              const summaryLines = [
+                '## PR Failure Diagnosis — Dry Run',
+                '',
+                `- Source run: [${run.id}](${runUrl})`,
+                `- Diagnosis comment writes: suppressed`,
+                ...(plannedActions.length ? plannedActions : ['- No PR comment changes are required.']),
+              ];
+              require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${summaryLines.join('\n')}\n`);
+              core.setOutput('diagnosis_status', 'dry-run');
+              core.notice(`Dry run: diagnosis collected; no comments changed. ${plannedActions.length} PR comment action(s) previewed.`);
+              return;
+            }
+
             core.setOutput('diagnosis_status', 'success');
             core.notice(`Diagnosis successfully posted to ${prRefs.length} PR(s).`);
             return;
+
+      - name: Write diagnosis run summary
+        if: always()
+        env:
+          DIAGNOSIS_OUTCOME: ${{ steps.diagnose.outcome }}
+          DIAGNOSIS_STATUS: ${{ steps.diagnose.outputs.diagnosis_status || 'not reported' }}
+          SOURCE_RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id || 'n/a' }}
+          SOURCE_RUN_URL: ${{ steps.diagnose.outputs.source_run_url }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          {
+            echo "## PR Failure Diagnosis"
+            echo "- Mode: recommend-only; this workflow does not modify code or labels."
+            if [ -n "${SOURCE_RUN_URL}" ]; then
+              echo "- Source workflow run: [\`${SOURCE_RUN_ID}\`](${SOURCE_RUN_URL})"
+            else
+              echo "- Source workflow run: \`${SOURCE_RUN_ID}\`"
+            fi
+            echo "- Diagnosis step outcome: \`${DIAGNOSIS_OUTCOME:-not run}\`"
+            echo "- Diagnosis status: \`${DIAGNOSIS_STATUS}\`"
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Manual dry-run: PR comment writes were suppressed."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

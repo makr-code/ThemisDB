@@ -150,9 +150,9 @@ RetrievalPolicy PolicyEnforcer::UpdatePolicy(const std::string& policy_id,
     throw std::runtime_error("Policy not loaded: " + policy_id);
   }
 
-  // Save old version
-  auto old_copy = std::make_unique<RetrievalPolicy>(*old_policy);
-  policy_versions_[policy_id] = std::move(old_copy);
+  // Keep a value copy because LoadPolicy replaces and destroys the map entry.
+  RetrievalPolicy old_policy_copy(*old_policy);
+  policy_versions_[policy_id] = std::make_unique<RetrievalPolicy>(old_policy_copy);
 
   // Load new policy
   LoadPolicy(policy_id, new_policy);
@@ -160,8 +160,8 @@ RetrievalPolicy PolicyEnforcer::UpdatePolicy(const std::string& policy_id,
   spdlog::info("[PolicyEnforcer] Updated policy '{}' to version {}", policy_id,
                new_policy.GetVersion());
 
-  // Return old policy for caller (for logging/rollback)
-  return *old_policy;
+  // Return old policy for caller (for logging/rollback).
+  return old_policy_copy;
 }
 
 bool PolicyEnforcer::RollbackPolicy(const std::string& policy_id,

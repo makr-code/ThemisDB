@@ -44,6 +44,126 @@ registration, persistent storage, external telemetry, or production readiness.
 
 ## In Progress
 
+- [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-12)
+  - Current source diff adds typed `RAGSourceReference` fields, exact source
+    identity on normal vector-ingestion entities. New normal ingestion vectors
+    point to exact `ingestion_sources` rows persisted by `VectorIndexSinkAdapter`;
+    RAG checks the source-file identity before using the stored chunk text.
+    Missing, mismatched, and empty rows are rejected instead of falling back to
+    the copied vector snippet. Existing vectors with the earlier
+    `ingestion_vector` reference retain their previous snippet behavior. The
+    sink constructor now requires a shared `SecondaryIndexManager`; callers must
+    supply the same retrieval database. ContentManager chunk text and
+    exact `chunk:<id>` source keys on vector entities, and namespace-gated
+    vector-key hydration in QueryEngine. Typed ContentManager chunk references
+    are also resolved from the exact RocksDB `chunk:<id>` record with stored
+    chunk/content identity validation and supplied source-version checks; missing,
+    mismatched, or stale source records are rejected rather than using copied
+    vector text. Malformed source JSON is an explicit storage-corruption error.
+  - This is partial implementation progress. The ingestion sink persists the
+    canonical chunk text provided by `VectorRecord`; a separate version record
+    beyond the originating file SHA-256 is not available at this boundary.
+    A focused test now verifies that a vector written only through the sink
+    retrieves its persisted source text and typed identity, without a test-only
+    duplicate source write, and that matching-provenance whitespace-only source
+    content is rejected without using the copied vector snippet, and that
+    malformed JSON, array/null/string roots, and well-formed but incomplete
+    persisted ingestion-source records—including numeric identity/content
+    fields—as well as a truncated object header, truncated field-name payload,
+    unsupported type tag, a non-object binary root, trailing bytes appended
+    after a valid binary object, and truncated required source text—fail with
+    `ERR_STORAGE_CORRUPTION`. These tests have not been built or executed.
+  - `LLMAQLHandler::executeRAG()` now has a typed per-call
+    `RetrievalExecutionContext` overload. It requires a trusted request
+    authorizer, preserves caller tenant/deadline/cancellation/trace fields, and
+    combines the caller deadline/cancellation with the handler timeout. Its
+    legacy overload fails closed. These checks are cooperative and cannot
+    interrupt a blocking QueryEngine operation; the focused tests have not run.
+  - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check,
+    binds the request-local QueryEngine checker to the authorized collection,
+    passes that boundary through the per-call retrieval context, and now
+    propagates the live request timeout as a cooperative retrieval deadline.
+    Expired retrieval returns HTTP 504. AQL passes its configured collection
+    checker in the same context. QueryEngine applies the predicate before graph
+    vertices are loaded or expanded. Provider regression source now checks
+    deadline expiry after a blocking QueryEngine access check for both a matching
+    row and a no-match result, and cancellation raised during a blocking access
+    check with no match. These tests have not been built or executed. This still
+    does not propagate caller identity, AQL/YAML tenant scope, general row-level
+    policy, or HTTP cancellation. For the direct HTTP vector RAG route only, a
+    tenant claim from a validated bearer token is now applied as a `tenant_id`
+    equality filter; caller-supplied tenant headers are ignored. The filter also
+    rejects documents without a tenant field when the token is tenant-scoped.
+    Tenant enforcement now lives in `RetrievalExecutionContext`: the provider
+    applies it to all materialized candidate types and adds a vector predicate
+    before QueryEngine execution. QueryEngine may use a secondary-index prefilter
+    when available and always applies the predicate to returned vector candidates;
+    absent tenant indexes can therefore reduce recall within the route's `top_k`
+    window. Focused test source covers matching, other-tenant, and tenantless
+    entities; it also checks that an indexed tenant prefilter still returns the
+    authorized document at top-1 when a foreign-tenant vector is nearer, and that
+    a foreign relational entity is rejected during materialization. This test
+    remains unbuilt. The YAML-capable `AIOrchestrator` now requires a request
+    authorizer for internal retrieval and forwards trusted tenant, deadline,
+    cancel, and trace fields to inference; the typed orchestration test covers
+    authorized and absent-context behavior. An authenticated
+    `POST /api/v1/llm/aql/rag` route now calls the typed AQL RAG operation using
+    server-owned storage/index managers and derives tenant context from
+    successful authorization. It propagates valid W3C trace context, does not
+    retry timed-out retrievals, and retains QueryEngine dependencies until
+    timeout cleanup finishes; shutdown defers vector-index shutdown/RocksDB close
+    if the worker remains active after the drain window. Policy, tenant,
+    trace, and deadline regression source is present but unrun. Generic
+    `/query/aql` startup wiring and HTTP/AQL/YAML evidence parity remain
+    unverified. MCP still has no authenticated per-request context transport and
+    remains fail-closed. Adding the context fields changes its
+    binary layout; binary consumers need to rebuild. Tenant-scoped graph
+    traversal now validates each visited vertex's materialized `tenant_id`
+    before returning or expanding it; missing or mismatched tenant values return
+    access denied. Focused source regressions cover same-tenant success and
+    foreign/tenantless vertex denial. Another focused test source now checks
+    concurrent vector retrieval with two tenant contexts sharing one provider,
+    requiring each result to contain only its own tenant's evidence. These tests
+    have not been built or executed.
+    A blocking embedding or backend call can only be checked after it returns.
+  - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
+    before the existing agentic tool-call dispatch. A focused RocksDB-backed
+    test-source regression verifies evidence reaches the prompt and denied
+    collection context prevents generation; this test has not yet been run.
+    Tenant identity used by orchestration budget scoping, adapter selection, and
+    cost attribution now comes from typed `retrieval_execution.tenant_id`;
+    `extra["tenant"]` is ignored. A regression source supplies a conflicting
+    extra value and checks that the typed tenant wins. Tenant budget overrides
+    now come only from the explicit trusted `rag_cost_budget` context; overrides
+    in arbitrary `extra` metadata are ignored, and non-finite trusted values are
+    rejected. Focused test sources cover both paths but remain unrun. Production
+    startup still must populate the trusted contexts from authenticated callers
+    and server policy. The direct HttpServer RAG route copies `tenant_id` from
+    AuthMiddleware. The HttpServer now enables JWT when
+    `THEMIS_JWT_JWKS_URL` is configured and requires expected issuer and audience;
+    `THEMIS_JWT_TENANT_CLAIM` selects the verified tenant claim. Static role
+    tokens still have no tenant IDs. Authenticated non-admin HTTP RAG requests
+    now require an explicit matching policy; an empty policy set denies this
+    route. Other PolicyEngine callers retain the default-allow behavior, policy
+    denials are advisory when authentication is disabled, and admin users bypass
+    policy evaluation. The route's collection-equality predicate remains distinct
+    from the caller-specific policy grant. Native HTTP RAG rules require an
+    exact collection resource or explicit `*`; other PolicyEngine callers keep
+    prefix-matching and first-match-wins semantics. Configured OPA resource
+    semantics remain operator-defined.
+  - The canonical Core task now contains the evidence-backed current-source role
+    map for every immediate `src/` directory. This documents source roles only;
+    it does not mark a runtime acceptance criterion complete.
+  - Trusted tenant-bearing credentials can now be configured through JWT, and
+    explicit policy grants are now required for authenticated non-admin HTTP RAG.
+    OPA collection-policy validation, generic `/query/aql` startup integration,
+    YAML startup context, full request-context/auth isolation,
+    remaining acceptance criteria, and focused test execution/evidence remain
+    pending. Network-level source regressions now cover rejection of unauthenticated,
+    invalid-token, and missing-`llm`-scope requests at the actual HttpServer RAG
+    auth gateway; these do not verify successful retrieval or tenant isolation and
+    have not been run. See
+    [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
   - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
   - **Run**: CTest entry `test_rag_ingestion_bridge_hardening_focused_RagFocusedTests`; historical run evidence remains dated 2026-08-24.

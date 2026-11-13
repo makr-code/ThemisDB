@@ -90,9 +90,10 @@ VectorApiHandler::VectorApiHandler(
 }
 
 /**
- * @brief Handle Search.
- * @param[in] req Input parameter.
- * @return Return value.
+ * @brief Search nearest neighbors with optional cursor pagination.
+ * @param[in] req Borrowed JSON request; `filter` must be absent or `{}`.
+ * @return Search results or an HTTP error. Unsupported `filter` values return
+ * HTTP 400 before searching, including on cursor continuation requests.
  * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), isBodyWithinLimit().
  */
 http::response<http::string_body> VectorApiHandler::handleSearch(
@@ -139,6 +140,16 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         }
 
         auto body_json = json::parse(req.body());
+
+        // No metadata filter schema is defined for this endpoint. Fail closed
+        // rather than returning unfiltered neighbors for a supplied predicate.
+        const auto filter = body_json.find("filter");
+        if (filter != body_json.end() && (!filter->is_object() || !filter->empty())) {
+            span.setAttribute("error", "unsupported_filter");
+            span.setStatus(false, "Metadata filtering is not supported");
+            return makeErrorResponse(http::status::bad_request,
+                "Field 'filter' must be an empty object; metadata filtering is not supported", req);
+        }
         
         // Validate required fields
         if (!body_json.contains("vector")) {

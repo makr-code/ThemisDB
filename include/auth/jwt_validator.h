@@ -70,6 +70,8 @@ struct JWTValidatorConfig {
     bool require_audience_validation = true; // throw at construction if expected_audience is unset
     bool require_jti = false;                // when true, reject tokens that are missing the jti claim
     std::chrono::milliseconds refresh_wait_timeout{15'000};
+    /// @brief JWT payload claim mapped to JWTClaims::tenant_id; defaults to "tenant_id".
+    std::string tenant_claim = "tenant_id";
 };
 
 class JWTValidator {

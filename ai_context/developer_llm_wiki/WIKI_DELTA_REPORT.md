@@ -19,23 +19,42 @@ Status: Active
 
 ## Summary
 
-- Added: 0
-- Removed: 0
-- Changed: 6
+- Added: 6
+- Removed: 2
+- Changed: 19
 
 ## Added
 
-- none
+- ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
+- ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
+- ai_context/developer_llm_wiki/INDEX.md
+- ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+- ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md
 
 ## Removed
 
-- none
+- docs/ARCHIVED/ai-working-history/PHASE3_IMPLEMENTATION_SUMMARY.md
+- docs/audit/DOCS_INVENTORY_2026-Q3.md
 
 ## Changed
 
-- .github/workflows/release-build-matrix.yml
-- .github/workflows/reusable-cmake-build.yml
-- ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
-- ai_context/developer_llm_wiki/INDEX.md
-- ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
-- docs/code_maturity_report.md
+- CHANGELOG.md
+- ai_context/developer_llm_wiki/AQL.md
+- docs/rag/API.md
+- include/aql/llm_aql_handler.h
+- include/auth/jwt_validator.h
+- include/ingestion/ingestion_sinks.h
+- include/llm/ai_orchestrator.h
+- include/llm/llm_plugin_interface.h
+- include/query/query_engine.h
+- include/rag/rag_candidate.h
+- include/rag/rag_provider.h
+- include/rag/rag_retrieval_helpers.h
+- include/server/http_server.h
+- include/server/mcp_server.h
+- include/server/policy_engine.h
+- include/utils/serialization.h
+- src/aql/ROADMAP.md
+- src/rag/ROADMAP.md
+- src/server/ROADMAP.md

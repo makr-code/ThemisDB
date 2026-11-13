@@ -10,7 +10,15 @@
 #include "training/ada_lora_adapter.h"
 
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 #include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <filesystem>
+#include <fstream>
+#include <iterator>
+#include <limits>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -387,6 +395,15 @@ TEST(AdaLoRAAdapterTest, LayerStatsReturnsCorrectInfo) {
     EXPECT_EQ(stats[0].layer_name, "q_proj");
     EXPECT_EQ(stats[0].max_rank,   4u);
     EXPECT_EQ(stats[0].active_rank, 4u);
+    EXPECT_FLOAT_EQ(stats[0].alpha, 8.0f);
+}
+
+TEST(AdaLoRAAdapterTest, LayerStatsReportsCustomAlpha) {
+    AdaLoRAAdapter ada(4, 8.0f, 32);
+    ada.addLayer("q_proj", 8, 8, 4, 16.0f);
+    const auto stats = ada.getLayerStats();
+    ASSERT_EQ(stats.size(), 1u);
+    EXPECT_FLOAT_EQ(stats[0].alpha, 16.0f);
 }
 
 TEST(AdaLoRAAdapterTest, TotalActiveParameterCountCorrect) {
@@ -432,4 +449,252 @@ TEST(AdaLoRAAdapterTest, RemoveAndReAddLayer) {
     EXPECT_FALSE(ada.hasLayer("q_proj"));
     ada.addLayer("q_proj", 8, 8);  // Should not throw
     EXPECT_TRUE(ada.hasLayer("q_proj"));
+}
+
+namespace {
+class CheckpointFile {
+public:
+    CheckpointFile() {
+        static std::atomic<unsigned> sequence{0};
+        path = (std::filesystem::temp_directory_path() /
+            ("themis-adalora-" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()) +
+             "-" + std::to_string(sequence++) + ".bin")).string();
+    }
+    ~CheckpointFile() { std::error_code ec; std::filesystem::remove(path, ec); }
+    std::string path;
+};
+
+std::vector<char> checkpointBytes(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    return {std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
+}
+
+void writeCheckpointBytes(const std::string& path, const std::vector<char>& bytes) {
+    std::ofstream out(path, std::ios::binary | std::ios::trunc);
+    if (!bytes.empty())
+        out.write(bytes.data(), static_cast<std::streamsize>(bytes.size()));
+}
+
+void updateCheckpointChecksum(std::vector<char>& bytes) {
+    uint64_t hash = 14695981039346656037ull;
+    for (size_t i = 0; i < bytes.size() - sizeof(hash); ++i) {
+        hash ^= static_cast<unsigned char>(bytes[i]);
+        hash *= 1099511628211ull;
+    }
+    std::memcpy(bytes.data() + bytes.size() - sizeof(hash), &hash, sizeof(hash));
+}
+
+template <typename T>
+void replaceCheckpointValue(std::vector<char>& bytes, size_t offset, T value) {
+    std::memcpy(bytes.data() + offset, &value, sizeof(value));
+}
+} // namespace
+
+TEST(AdaLoRAAdapterTest, CheckpointRestoresStateAndTrainingContinuation) {
+    CheckpointFile file;
+    AdaLoRAAdapter original(3, 5.0f, 3);
+    original.addLayer("z", 2, 1, 2, 7.0f);
+    original.addLayer("a", 2, 1, 2, 9.0f);
+    original.setWeights("z", {1, 2, 3, 4}, {1, 2});
+    original.setWeights("a", {1, 1, 1, 1}, {0.1f, 0.2f});
+    original.updateAllImportances();
+    original.reallocateRanks(3);
+    ASSERT_NE(original.getActiveRank("a"), original.getMaxRank("a"));
+    original.saveToFile(file.path, "model");
+
+    AdaLoRAAdapter restored(1, 1.0f, 1);
+    restored.addLayer("obsolete", 1, 1);
+    EXPECT_EQ(restored.loadFromFile(file.path), "model");
+    EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(file.path, "model"));
+    EXPECT_FALSE(restored.hasLayer("obsolete"));
+    EXPECT_EQ(restored.layerNames(), original.layerNames());
+    EXPECT_EQ(restored.rankBudget(), original.rankBudget());
+    for (const auto& name : original.layerNames()) {
+        EXPECT_EQ(restored.getWeights(name), original.getWeights(name));
+        EXPECT_EQ(restored.getActiveRank(name), original.getActiveRank(name));
+        EXPECT_FLOAT_EQ(restored.getImportance(name), original.getImportance(name));
+        EXPECT_EQ(restored.forward(name, {0.5f, 1.0f}, 1),
+                  original.forward(name, {0.5f, 1.0f}, 1));
+    }
+    const auto stats = restored.getLayerStats();
+    ASSERT_EQ(stats.size(), 2u);
+    EXPECT_FLOAT_EQ(stats[0].alpha, 7.0f);
+    EXPECT_FLOAT_EQ(stats[1].alpha, 9.0f);
+
+    const auto first = original.trainBatch("z", {1, 2}, {0.25f}, 1, 0.001f);
+    const auto second = restored.trainBatch("z", {1, 2}, {0.25f}, 1, 0.001f);
+    EXPECT_FLOAT_EQ(first.loss, second.loss);
+    EXPECT_FLOAT_EQ(first.gradient_norm, second.gradient_norm);
+    EXPECT_EQ(original.getWeights("z"), restored.getWeights("z"));
+    EXPECT_EQ(original.reallocateRanks().total_active_rank,
+              restored.reallocateRanks().total_active_rank);
+    for (const auto& name : original.layerNames())
+        EXPECT_EQ(original.getActiveRank(name), restored.getActiveRank(name));
+
+    restored.addLayer("defaults", 1, 1);
+    EXPECT_EQ(restored.getMaxRank("defaults"), 3u);
+    EXPECT_FLOAT_EQ(restored.getLayerStats().back().alpha, 5.0f);
+}
+
+TEST(AdaLoRAAdapterTest, CheckpointRejectsCorruptAndTruncatedWithoutMutation) {
+    CheckpointFile file;
+    AdaLoRAAdapter source(2, 3.0f, 1);
+    source.addLayer("x", 1, 1, 2, 4.0f);
+    source.setWeights("x", {1, 2}, {3, 4});
+    source.saveToFile(file.path, "model");
+    const auto valid = checkpointBytes(file.path);
+    ASSERT_GT(valid.size(), 150u);
+
+    AdaLoRAAdapter target(1, 2.0f, 7);
+    target.addLayer("keep", 1, 1, 1, 6.0f);
+    target.setWeights("keep", {2}, {3});
+    const auto before = target.getWeights("keep");
+    auto reject = [&](const std::vector<char>& bytes) {
+        writeCheckpointBytes(file.path, bytes);
+        EXPECT_THROW(target.loadFromFile(file.path), std::runtime_error);
+        EXPECT_EQ(target.layerNames(), std::vector<std::string>{"keep"});
+        EXPECT_EQ(target.getWeights("keep"), before);
+        EXPECT_EQ(target.rankBudget(), 7u);
+        EXPECT_FLOAT_EQ(target.getLayerStats().front().alpha, 6.0f);
+    };
+
+    for (size_t n = 0; n < valid.size(); ++n)
+        reject(std::vector<char>(valid.begin(), valid.begin() + n));
+    auto changed = valid;
+    changed[valid.size() - 9] ^= 1;
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<uint32_t>(changed, 8, 1);
+    reject(changed);
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(file.path, "model"));
+    // A real empty v1 file is shorter than the minimum v2 file.
+    changed.resize(8 + 4 + 64 + 4);
+    replaceCheckpointValue<uint32_t>(changed, 8 + 4 + 64, 0);
+    writeCheckpointBytes(file.path, changed);
+    try {
+        target.loadFromFile(file.path);
+        FAIL() << "v1 checkpoint was accepted";
+    } catch (const std::runtime_error& error) {
+        EXPECT_NE(std::string(error.what()).find("unsupported version 1"), std::string::npos);
+    }
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(file.path, "model"));
+    EXPECT_EQ(target.getWeights("keep"), before);
+    changed = valid;
+    replaceCheckpointValue<uint32_t>(changed, 8, 99);
+    reject(changed);
+    // Recompute the checksum to exercise metadata validation, not just integrity.
+    changed = valid;
+    replaceCheckpointValue<uint32_t>(changed, 100, std::numeric_limits<uint32_t>::max());
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<uint32_t>(changed, 96, std::numeric_limits<uint32_t>::max());
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<uint64_t>(changed, 105, std::numeric_limits<uint64_t>::max());
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<uint64_t>(changed, 129, 3); // active_rank > max_rank
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<float>(changed, 137, std::numeric_limits<float>::quiet_NaN());
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    replaceCheckpointValue<uint64_t>(changed, 76, 0); // default rank must be nonzero
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    if (std::numeric_limits<size_t>::max() < std::numeric_limits<uint64_t>::max()) {
+        changed = valid;
+        replaceCheckpointValue<uint64_t>(changed, 88, std::numeric_limits<uint64_t>::max());
+        updateCheckpointChecksum(changed);
+        reject(changed);
+    }
+    changed = valid;
+    replaceCheckpointValue<float>(changed, 145, std::numeric_limits<float>::infinity());
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    changed[18] = 'x'; // nonzero after fingerprint NUL padding
+    updateCheckpointChecksum(changed);
+    reject(changed);
+    changed = valid;
+    changed.insert(changed.end() - sizeof(uint64_t), 'x');
+    updateCheckpointChecksum(changed);
+    reject(changed);
+}
+
+TEST(AdaLoRAAdapterTest, CheckpointRejectsDuplicateNamesAndInvalidSaveState) {
+    CheckpointFile file;
+    AdaLoRAAdapter adapter(1, 2.0f, 2);
+    adapter.addLayer("x", 1, 1, 1);
+    adapter.addLayer("y", 1, 1, 1);
+    adapter.saveToFile(file.path, "model");
+    const auto valid = checkpointBytes(file.path);
+    auto duplicate = valid;
+    ASSERT_GT(duplicate.size(), 157u);
+    duplicate[157] = 'x'; // second one-byte name
+    updateCheckpointChecksum(duplicate);
+    writeCheckpointBytes(file.path, duplicate);
+    EXPECT_THROW(adapter.loadFromFile(file.path), std::runtime_error);
+    EXPECT_EQ(adapter.layerNames(), (std::vector<std::string>{"x", "y"}));
+
+    writeCheckpointBytes(file.path, valid);
+    adapter.setWeights("x", {std::numeric_limits<float>::infinity()}, {0.0f});
+    EXPECT_THROW(adapter.saveToFile(file.path, "model"), std::runtime_error);
+    EXPECT_EQ(checkpointBytes(file.path), valid); // validation precedes truncation
+    EXPECT_THROW(adapter.saveToFile(file.path, std::string(65, 'a')), std::runtime_error);
+    EXPECT_EQ(checkpointBytes(file.path), valid);
+}
+
+TEST(AdaLoRAAdapterTest, CheckpointRestoresEmptyAdapterAndZeroBudget) {
+    CheckpointFile file;
+    AdaLoRAAdapter source(2, 3.0f, 1);
+    source.setRankBudget(0);
+    source.saveToFile(file.path);
+    AdaLoRAAdapter target;
+    target.addLayer("old", 1, 1);
+    EXPECT_TRUE(target.loadFromFile(file.path).empty());
+    EXPECT_EQ(target.layerCount(), 0u);
+    EXPECT_EQ(target.rankBudget(), 0u);
+    target.addLayer("new", 1, 1);
+    EXPECT_EQ(target.getMaxRank("new"), 2u);
+    EXPECT_FLOAT_EQ(target.getLayerStats().front().alpha, 3.0f);
+    EXPECT_THROW(target.reallocateRanks(), std::invalid_argument);
+    target.saveToFile(file.path);
+    AdaLoRAAdapter with_layer;
+    with_layer.loadFromFile(file.path);
+    EXPECT_EQ(with_layer.rankBudget(), 0u);
+    EXPECT_EQ(with_layer.layerNames(), (std::vector<std::string>{"new"}));
+    EXPECT_THROW(with_layer.reallocateRanks(), std::invalid_argument);
+}
+
+TEST(AdaLoRAAdapterTest, CheckpointPreservesLargeConfigurationValues) {
+    CheckpointFile file;
+    CheckpointFile resaved;
+    for (const size_t rank : {size_t{1}, size_t{33554433}, std::numeric_limits<size_t>::max()}) {
+        for (const size_t budget : {size_t{0}, size_t{33554433}, std::numeric_limits<size_t>::max()}) {
+            AdaLoRAAdapter source(rank, 3.0f, 1);
+            source.setRankBudget(budget);
+            source.saveToFile(file.path, "model");
+            AdaLoRAAdapter loaded;
+            EXPECT_EQ(loaded.loadFromFile(file.path), "model");
+            EXPECT_EQ(loaded.layerCount(), 0u);
+            EXPECT_EQ(loaded.rankBudget(), budget);
+            loaded.saveToFile(resaved.path, "model");
+            EXPECT_EQ(checkpointBytes(file.path), checkpointBytes(resaved.path));
+
+            source.addLayer("small", 1, 1, 1);
+            source.saveToFile(file.path, "model");
+            EXPECT_EQ(loaded.loadFromFile(file.path), "model");
+            EXPECT_EQ(loaded.getMaxRank("small"), 1u);
+            EXPECT_EQ(loaded.rankBudget(), budget);
+            loaded.saveToFile(resaved.path, "model");
+            EXPECT_EQ(checkpointBytes(file.path), checkpointBytes(resaved.path));
+        }
+    }
 }

@@ -301,10 +301,22 @@ AdaLoRATrainingResult trainPreparedSamples(
         if (!model.isModelLoaded() && !model.loadModel(config.base_model_path)) {
             throw std::runtime_error("LlamaWrapper could not load base model " + config.base_model_path);
         }
-        result.model_fingerprint = llm::LlamaWrapper::calculateModelChecksum(config.base_model_path);
-        if (result.model_fingerprint.empty()) {
+        const auto loaded_model = model.getModelInfo();
+        const auto loaded_fingerprint = model.getLoadedModelFingerprint();
+        if (!loaded_model || loaded_model->path.empty() || loaded_fingerprint.empty()) {
+            throw std::runtime_error("Could not identify and fingerprint the loaded base model");
+        }
+        const auto requested_fingerprint =
+            llm::LlamaWrapper::calculateModelChecksum(config.base_model_path);
+        if (requested_fingerprint.empty()) {
             throw std::runtime_error("Could not calculate the base model SHA-256 fingerprint");
         }
+        if (loaded_fingerprint != requested_fingerprint) {
+            throw std::runtime_error(
+                "Loaded base model fingerprint does not match the requested base model: " +
+                loaded_model->path + " != " + config.base_model_path);
+        }
+        result.model_fingerprint = loaded_fingerprint;
 
         std::vector<PreparedSample> prepared;
         prepared.reserve(samples.size());

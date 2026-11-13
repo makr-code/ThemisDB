@@ -126,7 +126,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 text=True,
             )
             added_paths = github_path.read_text(encoding="utf-8").splitlines()
-            ninja_dir = root / "cmake-ninja"
+            ninja_dir = system_bin
             self.assertEqual(added_paths, [str(ninja_dir)])
             self.assertEqual(list(ninja_dir.iterdir()), [ninja_dir / "ninja"])
             self.assertEqual((ninja_dir / "ninja").resolve(), ninja.resolve())
@@ -270,9 +270,14 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_release_build_matrix_community_only_excludes_experimental_macos_lane(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
 
-        self.assertIn('if build_matrix == "community-only":', workflow_text)
-        self.assertIn('return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64"}', workflow_text)
-        self.assertNotIn('"macos-arm64"', workflow_text.split('if build_matrix == "community-only":', 1)[1].split('if build_matrix.endswith("-only")', 1)[0])
+        self.assertIn(
+            '"community-only": {"linux-amd64", "linux-arm64", "windows-amd64"}',
+            workflow_text,
+        )
+        self.assertNotIn(
+            '"macos-arm64"',
+            workflow_text.split('"community-only":', 1)[1].split("}", 1)[0],
+        )
 
     def test_release_build_matrix_macos_arm64_disables_sccache_github_backend(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")

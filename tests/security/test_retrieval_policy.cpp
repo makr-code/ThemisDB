@@ -8,7 +8,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <filesystem>
 
 #include "security/retrieval_policy.h"
 #include "security/policy_enforcer.h"
@@ -228,21 +227,8 @@ TEST_F(RetrievalPolicyTest, POLICY_08_ComplexConditions) {
 
 class PolicyEnforcerTest : public ::testing::Test {
  protected:
-  void SetUp() override {
-    temp_dir_ = std::filesystem::temp_directory_path() / "test_policy_store_XXXXXX";
-    std::filesystem::create_directories(temp_dir_);
-  }
-
-  void TearDown() override {
-    if (std::filesystem::exists(temp_dir_)) {
-      std::filesystem::remove_all(temp_dir_);
-    }
-  }
-
-  std::filesystem::path temp_dir_;
-
   PolicyEnforcer CreateEnforcer() {
-    return PolicyEnforcer(temp_dir_.string());
+    return PolicyEnforcer("");
   }
 };
 
@@ -323,4 +309,55 @@ TEST_F(PolicyEnforcerTest, PolicyUpdateRollback) {
   enforcer.RollbackPolicy("test-policy", old_policy);
   auto current = enforcer.GetPolicy("test-policy");
   EXPECT_EQ(current->GetVersion(), 1);
+}
+
+/**
+ * @test A tenant-scoped retrieval rule permits only its matching tenant.
+ */
+TEST_F(PolicyEnforcerTest, TenantScopedPolicyAllowsOwnResourceAndDeniesOtherTenant) {
+  auto enforcer = CreateEnforcer();
+  RetrievalPolicy policy("tenant-a-policy", 1);
+
+  PolicyRule rule;
+  rule.rule_id = 1;
+  rule.action = PolicyAction::Query;
+  rule.resource_pattern = "tenant_a_.*";
+  rule.principal_pattern = "tenant_a_.*";
+  rule.allow = true;
+  policy.AddRule(rule);
+  enforcer.LoadPolicy(policy.GetPolicyId(), policy);
+
+  QueryContext context;
+  context.action = PolicyAction::Query;
+  context.resource_id = "tenant_a_documents";
+  context.principal_id = "tenant_a_reader";
+  EXPECT_TRUE(enforcer.EnforceQuery(context).allowed);
+
+  context.principal_id = "tenant_b_reader";
+  const auto cross_tenant_principal_decision = enforcer.EnforceQuery(context);
+  EXPECT_FALSE(cross_tenant_principal_decision.allowed);
+  EXPECT_EQ(cross_tenant_principal_decision.denial_reason,
+            "Authorization denied by policy");
+
+  context.resource_id = "tenant_b_documents";
+  context.principal_id = "tenant_b_reader";
+  const auto cross_tenant_resource_decision = enforcer.EnforceQuery(context);
+  EXPECT_FALSE(cross_tenant_resource_decision.allowed);
+  EXPECT_EQ(cross_tenant_resource_decision.denial_reason,
+            "No policy defined for resource");
+}
+
+/**
+ * @test Missing policy configuration is denied by the runtime enforcer.
+ */
+TEST_F(PolicyEnforcerTest, MissingPolicyDeniesByDefault) {
+  auto enforcer = CreateEnforcer();
+  QueryContext context;
+  context.action = PolicyAction::Query;
+  context.resource_id = "tenant_a_documents";
+  context.principal_id = "tenant_a_reader";
+
+  const auto decision = enforcer.EnforceQuery(context);
+  EXPECT_FALSE(decision.allowed);
+  EXPECT_EQ(decision.denial_reason, "No policy defined for resource");
 }

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-12"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,6 +23,13 @@ The `server` module is the trust boundary between external traffic and internal 
 ### Auth boundary
 
 `AuthMiddleware` is responsible for validating external identity and scope. This is the primary trust boundary for access control. The risk if this boundary fails is broad and immediate: unauthorized requests can reach server handlers and downstream modules.
+
+The MCP `llm_orchestrate` bridge does not receive a trusted caller authorization
+context in its current tool-call path. It therefore rejects retrieval-enabled
+modes before orchestrator execution; client-supplied mode arguments, MCP
+`clientInfo`, and YAML settings are not authorization evidence. Retrieval over
+MCP remains unavailable until authenticated caller and collection/tenant scope
+are propagated through a trusted request context.
 
 ### Admission boundary
 

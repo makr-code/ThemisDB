@@ -21,8 +21,12 @@ on:
       - 'src/ingestion/**'
       - 'src/index/**'
       - 'src/llm/**'
+      - 'src/rag/**'
+      - 'include/rag/**'
+      - 'include/ingestion/**'
       - 'tests/ingestion/**'
       - 'tests/llm/**'
+      - 'tests/rag/**'
       - '.github/workflows/gate-pr-rag-version.yml'
 
 concurrency:
@@ -30,16 +34,17 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   version_governance_validation:
     name: "Gate: Embedding Version Governance"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     
     steps:
       - name: Checkout
@@ -173,30 +178,15 @@ jobs:
       - name: Generate Gate Report
         if: always()
         run: |
-          cat > /tmp/rag_version_gate_report.md << 'EOF'
+          cat > /tmp/rag_version_gate_report.md << EOF
           ## RAG Embedding Version Governance Gate Report
           
           **Date:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
           **PR:** ${{ github.event.pull_request.number }}
           **Commit:** ${{ github.event.pull_request.head.sha }}
+          **Validation job result:** ${{ job.status }}
           
-          ### Checklist
-          - [x] EMBEDDING_VERSION_GOVERNANCE.md present
-          - [x] All required sections documented
-          - [x] INDEX_MANIFEST_V1_SCHEMA.json valid
-          - [x] Reindex decision logic documented
-          - [x] Canary deployment pattern defined (5% → 100%)
-          - [x] Rollback strategy atomic & documented
-          
-          ### Gate Status
-          ✓ **PASS** — RAG Embedding Version Governance validation complete
-          
-          ### Implementation Checklist
-          - [ ] reindex_decision_engine.cpp implementation
-          - [ ] Dual-read query-time comparison wired
-          - [ ] Canary percentage scaling tests
-          - [ ] Rollback atomic safety tests (30+ test cases)
-          - [ ] Index manifest RocksDB persistence
+          Validation outcomes are recorded by the individual workflow steps and in the run summary.
           
           ### References
           - Spec: src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md
@@ -214,7 +204,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ['rag-version-required', 'release_critical', 'quality/versioning']
+              labels: ['rag-version-required', 'quality/versioning']
             });
       
       - name: Comment Gate Status
@@ -236,7 +226,6 @@ jobs:
     name: "Gate: Reindex Decision Logic"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
     
     steps:
       - name: Checkout
@@ -245,7 +234,7 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libcpp-httplib-dev libyaml-cpp-dev
+            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libcpp-httplib-dev libyaml-cpp-dev libgtest-dev libgmock-dev
           cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure
@@ -256,36 +245,104 @@ jobs:
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON
       
-      - name: Build Reindex Decision Tests
+      - name: Build Reindex and Canary Tests
         run: |
-          cmake --build /tmp/version-build --target test_reindex_decision --parallel 4 2>&1 || {
-            echo "ℹ Test target not yet implemented (expected for specs-only phase)"
+          if ! target_list="$(cmake --build /tmp/version-build --target help 2>&1)"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect configured CMake targets; embedding-version test lane cannot be verified."
+            printf '%s\n' "$target_list"
+            exit 1
+          fi
+          for target in module_ingestion_test_reindex_decision_engine_focused module_rag_test_model_promoter_focused; do
+            if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
+              echo "::error title=UNIMPLEMENTED/BLOCKED::The required embedding-version test target '${target}' is not registered. Verify the reindex-engine and model-canary tests are included by CMake."
+              exit 1
+            fi
+          done
+          cmake --build /tmp/version-build --target \
+            module_ingestion_test_reindex_decision_engine_focused \
+            module_rag_test_model_promoter_focused --parallel 4
+
+      - name: Verify Reindex Decision Test Registration
+        run: |
+          reindex_test="test_reindex_decision_engine_ingestion_FocusedTests"
+          registered_tests="$(ctest --test-dir /tmp/version-build -N -R "^${reindex_test}$" 2>&1)" || {
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect registered ReindexDecisionEngine CTest cases."
+            printf '%s\n' "$registered_tests"
+            exit 1
           }
-      
+          if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::The real ReindexDecisionEngine test is not registered with CTest."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          fi
+
+      - name: Verify Embedding Canary Test Registration
+        run: |
+          test_filter="embedding_canary"
+          registered_tests="$(ctest --test-dir /tmp/version-build -N -L "$test_filter" 2>&1)" || {
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect registered embedding-canary CTest cases."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          }
+          if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::No CTest case is registered with the embedding_canary label. Register implemented version-lifecycle/canary coverage before this requested lane can pass."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          fi
+
       - name: Run Canary Deployment Tests
         run: |
           cd /tmp/version-build
-          ctest -L "embedding_canary" -V --output-on-failure 2>&1 || {
-            echo "ℹ Canary tests not yet implemented (expected for specs-only phase)"
-          }
+          ctest -L "embedding_canary" -V --output-on-failure --no-tests=error
+
+      - name: Run Reindex Decision Tests
+        run: |
+          cd /tmp/version-build
+          ctest -R '^test_reindex_decision_engine_ingestion_FocusedTests$' \
+            -V --output-on-failure --no-tests=error
 
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
-    needs: [version_governance_validation]
+    permissions:
+      contents: read
+    needs: [version_governance_validation, reindex_decision_tests]
     if: always()
     
     steps:
       - name: Check Gate Status
         run: |
-          result="${{ needs.version_governance_validation.result }}"
-          if [ "$result" == "success" ] || [ "$result" == "skipped" ] || [ "$result" == "abandoned" ]; then
-            echo "✅ RAG Embedding Version Governance Gate: PASS (result: $result)"
-            exit 0
-          else
-            echo "❌ RAG Embedding Version Governance Gate: FAIL (result: $result)"
+          validation_result="${{ needs.version_governance_validation.result }}"
+          tests_result="${{ needs.reindex_decision_tests.result }}"
+          if [ "${validation_result}" != "success" ]; then
+            echo "❌ RAG Embedding Version Governance validation failed: ${validation_result}"
             exit 1
           fi
+          if [ "${tests_result}" != "success" ]; then
+            echo "❌ RAG reindex decision tests did not succeed: ${tests_result}"
+            exit 1
+          fi
+          echo "✅ RAG Embedding Version Governance Gate: PASS (reindex/canary tests: success)"
+
+  apply-release-critical-label:
+    name: "Gate: Apply release_critical Label"
+    needs: [version_governance_validation, reindex_decision_tests, gate_status]
+    if: needs.version_governance_validation.result == 'success' && needs.reindex_decision_tests.result == 'success' && needs.gate_status.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Apply release_critical label after tests pass
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['release_critical']
+            });
 
   run-summary:
     name: "Validate: Run Summary"
@@ -294,6 +351,7 @@ jobs:
       - version_governance_validation
       - reindex_decision_tests
       - gate_status
+      - apply-release-critical-label
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -301,7 +359,13 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
+      - name: Report release_critical label decision
+        if: always() && needs.reindex_decision_tests.result != 'success'
+        env:
+          TEST_RESULT: ${{ needs.reindex_decision_tests.result }}
+        run: |
+          echo "**release_critical was withheld** because the reindex/canary test lane did not succeed (result: ${TEST_RESULT})." >> "$GITHUB_STEP_SUMMARY"
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "RAG embedding version governance and optional reindex tests"
+          scope: "RAG embedding version governance and required reindex/canary tests"
           job-results: ${{ toJSON(needs) }}

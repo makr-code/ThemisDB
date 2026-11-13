@@ -38,6 +38,11 @@ on:
         description: 'Skip AdaLoRA test suite (LORA-01..07)'
         type: boolean
         default: false
+      dry_run:
+        description: 'Run all selected inference tests without updating the failure tracker (scheduled runs remain live)'
+        type: boolean
+        required: false
+        default: true
 
 concurrency:
   group: ci-llm-inference-${{ github.ref }}
@@ -45,7 +50,6 @@ concurrency:
 
 permissions:
   contents: read
-  issues: write   # For failure issue labelling
 
 env:
   MODEL_DIR: ${{ github.workspace }}/models
@@ -433,6 +437,9 @@ jobs:
       - run-inference-suite
       - run-rag-suite
       - run-adalora-suite
+    permissions:
+      contents: read
+      issues: write
 
     steps:
       - name: Checkout repository
@@ -485,11 +492,32 @@ jobs:
             done
           fi
 
+      - name: Preview failure tracker update
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        env:
+          INFERENCE_RESULT: ${{ needs.run-inference-suite.result }}
+          RAG_RESULT: ${{ needs.run-rag-suite.result }}
+          ADALORA_RESULT: ${{ needs.run-adalora-suite.result }}
+        run: |
+          {
+            echo ""
+            echo "### Failure tracker dry-run preview"
+            if [ "${INFERENCE_RESULT}" = "failure" ] || [ "${RAG_RESULT}" = "failure" ] || [ "${ADALORA_RESULT}" = "failure" ]; then
+              echo "A failure issue upsert and status-label normalization would be attempted."
+            else
+              echo "A recovery comment and resolved-status normalization would be attempted if a matching issue exists."
+            fi
+            echo "All tracker issue, label, and comment writes were suppressed; validation and artifacts still ran."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Label failure issue
         if: >
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+          (
           needs.run-inference-suite.result == 'failure' ||
           needs.run-rag-suite.result == 'failure' ||
           needs.run-adalora-suite.result == 'failure'
+          )
         id: llm-state
         shell: bash
         run: |
@@ -507,9 +535,12 @@ jobs:
 
       - name: Upsert failure issue
         if: >
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+          (
           needs.run-inference-suite.result == 'failure' ||
           needs.run-rag-suite.result == 'failure' ||
           needs.run-adalora-suite.result == 'failure'
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -540,9 +571,12 @@ jobs:
 
       - name: Normalize LLM failure state labels
         if: >
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+          (
           needs.run-inference-suite.result == 'failure' ||
           needs.run-rag-suite.result == 'failure' ||
           needs.run-adalora-suite.result == 'failure'
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -556,9 +590,12 @@ jobs:
 
       - name: Comment LLM recovery state
         if: >
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+          (
           needs.run-inference-suite.result != 'failure' &&
           needs.run-rag-suite.result != 'failure' &&
           needs.run-adalora-suite.result != 'failure'
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -575,9 +612,12 @@ jobs:
 
       - name: Normalize LLM resolved state
         if: >
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+          (
           needs.run-inference-suite.result != 'failure' &&
           needs.run-rag-suite.result != 'failure' &&
           needs.run-adalora-suite.result != 'failure'
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

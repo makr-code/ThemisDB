@@ -49,6 +49,85 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md)", modules)
         self.assertIn("AI_Used: true", modules)
 
+    def test_ops_render_preserves_curated_sections_around_generated_inventory(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            ops_path = repo_root / wiki_sync.OPS_MD
+            ops_path.parent.mkdir(parents=True)
+            ops_path.write_text(
+                "\n".join(
+                    [
+                        "---",
+                        'Last Updated: "2026-11-11"',
+                        "---",
+                        "# Developer LLM Wiki — Build/Test/CI/Operations",
+                        "",
+                        "Datum: 2026-11-11",
+                        "Status: Active",
+                        "",
+                        "## Curated operational contract",
+                        "",
+                        "Manual guidance before generated inventory.",
+                        "",
+                        "## .github/workflows/example.yml",
+                        "- Kategorie: build_test_ci",
+                        "- Hash: `old-hash`",
+                        "",
+                        "## Curated follow-up evidence",
+                        "",
+                        "Manual guidance after generated inventory.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            entry = wiki_sync.SourceEntry(
+                path=".github/workflows/example.yml",
+                category="build_test_ci",
+                size=1,
+                sha256="current-hash",
+                modified_utc="2026-11-12T00:00:00+00:00",
+            )
+
+            rendered = wiki_sync.render_ops(repo_root, [entry])
+
+        self.assertIn("## Curated operational contract", rendered)
+        self.assertIn("Manual guidance before generated inventory.", rendered)
+        self.assertIn("## Curated follow-up evidence", rendered)
+        self.assertIn("Manual guidance after generated inventory.", rendered)
+        self.assertIn("## .github/workflows/example.yml", rendered)
+        self.assertIn("`current-hash`", rendered)
+        self.assertLess(
+            rendered.index("## Curated operational contract"),
+            rendered.index("## .github/workflows/example.yml"),
+        )
+        self.assertLess(
+            rendered.index("## Curated follow-up evidence"),
+            rendered.index("## .github/workflows/example.yml"),
+        )
+
+    def test_output_link_validation_ignores_markdown_fragments(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            wiki_dir = repo_root / "ai_context" / "developer_llm_wiki"
+            wiki_dir.mkdir(parents=True)
+            target = repo_root / "docs" / "operations" / "runbook.md"
+            target.parent.mkdir(parents=True)
+            target.write_text("# Runbook\n\n## Troubleshooting\n", encoding="utf-8")
+            output = wiki_dir / "BUILD_TEST_CI_AND_OPERATIONS.md"
+            output.write_text(
+                "[Valid link](../../docs/operations/runbook.md#troubleshooting)\n",
+                encoding="utf-8",
+            )
+
+            findings = wiki_sync.validate_outputs(repo_root, [output], [])
+
+        self.assertEqual(findings, [])
+
     def test_previous_source_manifest_is_used_for_delta(self):
         wiki_sync = _load_module()
 

@@ -11,6 +11,7 @@
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include "rag/rag_provider.h"
 #include "sharding/adaptive_shard_router.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
@@ -170,6 +171,47 @@ TEST_F(LLMAQLHandlerTest, ExecuteRAGWithLoRA) {
         auto result = handler->executeRAG("Query", "docs", 5, "custom-lora", options);
     } catch (const std::exception& e) {
         EXPECT_TRUE(std::string(e.what()).find("LLM RAG failed") != std::string::npos);
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteRAGFailsClosedWithoutRequestAuthorization) {
+    std::unordered_map<std::string, std::string> options{
+        {"tenant_id", "tenant-a"},
+        {"collection", "documents"}
+    };
+
+    for (int attempt = 0; attempt < 6; ++attempt) {
+        try {
+            (void)handler->executeRAG("Test query", "documents", 5, "", options);
+            FAIL() << "Expected RAG to deny a request without trusted authorization";
+        } catch (const LLMException& ex) {
+            EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+        }
+    }
+    EXPECT_EQ(handler->getCircuitBreakerStates().rag, "CLOSED");
+
+    themis::rag::RetrievalExecutionContext denied_context;
+    denied_context.authorize_collection =
+        [](const std::string&) { return false; };
+    try {
+        (void)handler->executeRAG(
+            "Test query", "documents", 5, "", {}, denied_context);
+        FAIL() << "Expected the request-scoped authorization callback to deny access";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+    }
+
+    themis::rag::RetrievalExecutionContext authorized_context;
+    authorized_context.authorize_collection =
+        [](const std::string& collection) { return collection == "documents"; };
+    try {
+        (void)handler->executeRAG(
+            "Test query", "documents", 5, "", {}, authorized_context);
+        FAIL() << "Expected the missing retrieval engine to fail";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::RAG_FAILED);
+        EXPECT_NE(std::string(ex.what()).find("query engine not configured"),
+                  std::string::npos);
     }
 }
 

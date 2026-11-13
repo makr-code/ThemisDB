@@ -55,6 +55,8 @@ project(Themis
 # package during WiX/MSI generation.
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
+include(cmake/packaging/LinuxRuntimePaths.cmake)
+
 # Windows + Ninja can hit transient file locks when multiple shared libs are
 # linked in parallel (vcpkg applocal + antivirus/indexer contention). Scale the
 # link pool to the host core count but cap it at a conservative upper bound so
@@ -1263,7 +1265,7 @@ else()
     # dpkg-shlibdeps (SHLIBDEPS ON below) will auto-resolve most shared-library deps;
     # these explicit entries act as a conservative fallback for static/mixed builds.
     set(CPACK_DEBIAN_PACKAGE_DEPENDS
-        "librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-dev | libboost-system-dev | libboost-filesystem-dev")
+        "libatomic1, librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-dev | libboost-system-dev | libboost-filesystem-dev")
     # SHLIBDEPS resolves shared-library deps automatically when dpkg-shlibdeps is available.
     # Falls back gracefully when the tool is absent (local builds without full dpkg stack).
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS   ON)
@@ -1279,7 +1281,7 @@ else()
     set(CPACK_RPM_PACKAGE_GROUP      "Applications/Databases")
     set(CPACK_RPM_PACKAGE_URL        "https://github.com/makr-code/ThemisDB")
     set(CPACK_RPM_PACKAGE_REQUIRES
-        "rocksdb, grpc, openssl-libs, boost-filesystem")
+        "libatomic, rocksdb, grpc, openssl-libs, boost-filesystem")
 endif()
 
 # Persist a per-build diagnostic log in the repo root logs/ directory. The

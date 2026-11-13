@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -69,6 +69,34 @@ service configuration through `setParserService()`. The
   before returning generated AQL.
 - Confidence is a review signal in `[0.0, 1.0]`; an unscored value is not a
   successful safety check.
+
+## RAG request context
+
+`LLMAQLHandler::executeRAG()` has a typed overload accepting
+`rag::RetrievalExecutionContext`. Callers must provide a trusted per-request
+`authorize_collection` callback; a missing callback or denied collection returns
+`ACCESS_DENIED`. Tenant scope, deadline, cancellation, and trace identifiers are
+forwarded through the shared `RAGProvider` path. Tuning values in the string
+`options` map, including tenant-like keys, are never authorization inputs.
+
+The legacy overload remains source-compatible but now fails closed because it
+cannot receive trusted request authorization. `HttpServer`'s
+`POST /api/v1/llm/aql/rag` route now supplies the context from successful HTTP
+authorization and composes the handler with live server storage/index managers.
+This is an AQL-backed RAG endpoint, not a change to generic `/query/aql`
+execution. Host authorization must be created from a trusted request boundary;
+do not populate it from AQL, YAML, or MCP input. Deadline checks remain
+cooperative and cannot interrupt blocking backend calls. Timeout cleanup can
+outlive the request thread; the worker owns its copied inputs, and the HTTP route
+retains the handler and the non-owning QueryEngine dependencies through its
+copied request context until cleanup completes. Shutdown drains these workers;
+if a worker remains blocked past the drain window, vector-index shutdown and
+RocksDB close are deferred until its retained resource owners are released.
+RAG timeout errors are not retried, avoiding repeated embedding after the
+request deadline has expired.
+Valid W3C `traceparent` fields are propagated; malformed or absent trace context
+is ignored. Focused policy/tenant/trace/deadline test source exists, but build
+and execution evidence is pending.
 
 ## Contract and implementation review
 

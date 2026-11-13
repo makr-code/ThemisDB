@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "content/content_manager.h"
 #include "rag/rag_provider.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -6,9 +7,16 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "ingestion/ingestion_sinks.h"
+#include "utils/serialization.h"
 
 #include <filesystem>
+#include <future>
 #include <limits>
+#include <nlohmann/json.hpp>
+#include <stdexcept>
+#include <thread>
+#include <utility>
 
 using namespace themis;
 
@@ -21,11 +29,11 @@ protected:
         RocksDBWrapper::Config config;
         config.db_path = path_.string();
         config.enable_blobdb = false;
-        db_ = std::make_unique<RocksDBWrapper>(config);
+        db_ = std::make_shared<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
-        secondary_ = std::make_unique<SecondaryIndexManager>(*db_);
-        graph_ = std::make_unique<GraphIndexManager>(*db_);
-        vector_ = std::make_unique<VectorIndexManager>(*db_);
+        secondary_ = std::make_shared<SecondaryIndexManager>(*db_);
+        graph_ = std::make_shared<GraphIndexManager>(*db_);
+        vector_ = std::make_shared<VectorIndexManager>(*db_);
         ASSERT_TRUE(vector_->init("docs", 2, VectorIndexManager::Metric::COSINE).ok);
         engine_ = std::make_unique<query::QueryEngine>(
             *db_, *secondary_, *graph_, vector_.get(), nullptr);
@@ -51,11 +59,25 @@ protected:
         ASSERT_TRUE(vector_->addEntity(entity).ok);
     }
 
+    void storeTenantDocument(
+        const std::string& id,
+        const std::string& text,
+        const std::string& tenant_id,
+        std::vector<float> embedding = {1.0f, 0.0f}) {
+        BaseEntity entity(id);
+        entity.setField("content", text);
+        entity.setField("category", std::string{"public"});
+        entity.setField("tenant_id", tenant_id);
+        entity.setField("embedding", embedding);
+        ASSERT_TRUE(secondary_->put("docs", entity).ok);
+        ASSERT_TRUE(vector_->addEntity(entity).ok);
+    }
+
     std::filesystem::path path_;
-    std::unique_ptr<RocksDBWrapper> db_;
-    std::unique_ptr<SecondaryIndexManager> secondary_;
-    std::unique_ptr<GraphIndexManager> graph_;
-    std::unique_ptr<VectorIndexManager> vector_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<SecondaryIndexManager> secondary_;
+    std::shared_ptr<GraphIndexManager> graph_;
+    std::shared_ptr<VectorIndexManager> vector_;
     std::unique_ptr<query::QueryEngine> engine_;
     std::unique_ptr<rag::RAGProvider> provider_;
 };
@@ -86,6 +108,538 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
     ASSERT_EQ(result->candidates.size(), 1);
     EXPECT_EQ(result->candidates.front().doc_id, "d1");
     EXPECT_EQ(result->candidates.front().content, "indexed evidence");
+}
+
+TEST_F(RAGProviderTest, TrustedTenantContextFiltersVectorQueryAndPreservesTopK) {
+    ASSERT_TRUE(secondary_->createIndex("docs", "tenant_id").ok);
+    storeTenantDocument("acme", "Acme evidence", "acme", {0.6f, 0.8f});
+    storeTenantDocument("beta", "Beta evidence", "beta", {1.0f, 0.0f});
+    storeDocument("legacy", "Tenantless evidence");
+
+    auto tenant_field = std::make_shared<query::FieldAccessExpr>(
+        std::make_shared<query::VariableExpr>("doc"), "tenant_id");
+    auto tenant_value = std::make_shared<query::LiteralExpr>(std::string{"acme"});
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    query.k = 1;
+
+    rag::RetrievalRequest request;
+    request.query = std::move(query);
+    request.max_candidates = 1;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().doc_id, "acme");
+    EXPECT_EQ(result->candidates.front().content, "Acme evidence");
+}
+
+TEST_F(RAGProviderTest, TrustedTenantContextRejectsForeignRelationalEvidence) {
+    storeTenantDocument("beta", "Beta evidence", "beta");
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "beta";
+
+    rag::RetrievalRequest request;
+    request.query = query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
+    ingestion::VectorIndexSinkAdapter sink(
+        vector_,
+        secondary_,
+        "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-1:0";
+    record.source_file_id = "source-1";
+    record.text_snippet = "authoritative persisted source text";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto stale_vector = BaseEntity::fromFields(record.chunk_id, {
+        {"chunk_id", record.chunk_id},
+        {"source_file_id", record.source_file_id},
+        {"text_snippet", std::string{"stale copied vector snippet"}},
+        {"embedding", record.embedding},
+        {"source_ref_type", std::string{"ingestion_chunk"}},
+        {"source_ref_collection", std::string{"ingestion_sources"}},
+        {"source_ref_key", record.chunk_id},
+        {"source_ref_provenance", record.source_file_id}
+    });
+    ASSERT_TRUE(vector_->addEntity(stale_vector).ok);
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().content, "authoritative persisted source text");
+    ASSERT_TRUE(result->candidates.front().source_reference.has_value());
+    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_chunk");
+    EXPECT_EQ(result->candidates.front().source_reference->collection, "ingestion_sources");
+    EXPECT_EQ(result->candidates.front().source_reference->key, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionSinkRetrievesSourceWithoutAdditionalWrites) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-clean:0";
+    record.source_file_id = "source-clean";
+    record.text_snippet = "source persisted by the ingestion sink";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().doc_id, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().content, record.text_snippet);
+    ASSERT_TRUE(result->candidates.front().source_reference.has_value());
+    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_chunk");
+    EXPECT_EQ(result->candidates.front().source_reference->collection, "ingestion_sources");
+    EXPECT_EQ(result->candidates.front().source_reference->key, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionRejectsMissingOrMismatchedSourceRecords) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-2:0";
+    record.source_file_id = "source-2";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    ASSERT_TRUE(secondary_->erase("ingestion_sources", record.chunk_id).ok);
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    auto result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    const auto mismatched_source = BaseEntity::fromFields(record.chunk_id, {
+        {"source_file_id", std::string{"different-source"}},
+        {"content", std::string{"unrelated text"}}
+    });
+    ASSERT_TRUE(secondary_->put("ingestion_sources", mismatched_source).ok);
+    result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    const auto empty_source = BaseEntity::fromFields(record.chunk_id, {
+        {"source_file_id", record.source_file_id},
+        {"content", std::string{" \t\r\n"}}
+    });
+    ASSERT_TRUE(secondary_->put("ingestion_sources", empty_source).ok);
+    result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-corrupt:0";
+    record.source_file_id = "source-corrupt";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto source_key = KeySchema::makeRelationalKey(
+        "ingestion_sources", record.chunk_id);
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    for (const auto& source : {"{", "[]", "null", R"("not-an-object")"}) {
+        ASSERT_TRUE(db_->put(source_key, source));
+        const auto result = provider_->retrieve(request);
+
+        ASSERT_FALSE(result);
+        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    }
+
+    utils::Serialization::Encoder wrong_root_encoder;
+    wrong_root_encoder.beginArray(0);
+    wrong_root_encoder.endArray();
+    ASSERT_TRUE(db_->put(source_key, wrong_root_encoder.finish()));
+    const auto wrong_binary_root_result = provider_->retrieve(request);
+    ASSERT_FALSE(wrong_binary_root_result);
+    EXPECT_EQ(wrong_binary_root_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    ASSERT_TRUE(db_->put(source_key, std::string(1, static_cast<char>(0x60))));
+    const auto truncated_binary_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_binary_result);
+    EXPECT_EQ(truncated_binary_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder truncated_name_encoder;
+    truncated_name_encoder.beginObject(1);
+    truncated_name_encoder.encodeString("source_file_id");
+    auto truncated_name_record = truncated_name_encoder.finish();
+    truncated_name_record.pop_back();
+    ASSERT_TRUE(db_->put(source_key, truncated_name_record));
+    const auto truncated_name_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_name_result);
+    EXPECT_EQ(truncated_name_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder unsupported_type_encoder;
+    unsupported_type_encoder.beginObject(1);
+    unsupported_type_encoder.encodeString("source_file_id");
+    auto unsupported_type_record = unsupported_type_encoder.finish();
+    unsupported_type_record.push_back(0x7f);
+    ASSERT_TRUE(db_->put(source_key, unsupported_type_record));
+    const auto unsupported_type_result = provider_->retrieve(request);
+    ASSERT_FALSE(unsupported_type_result);
+    EXPECT_EQ(unsupported_type_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder trailing_bytes_encoder;
+    trailing_bytes_encoder.beginObject(2);
+    trailing_bytes_encoder.encodeString("source_file_id");
+    trailing_bytes_encoder.encodeString("source-corrupt");
+    trailing_bytes_encoder.encodeString("content");
+    trailing_bytes_encoder.encodeString("valid source text");
+    auto trailing_bytes_record = trailing_bytes_encoder.finish();
+    trailing_bytes_record.push_back(0xff);
+    ASSERT_TRUE(db_->put(source_key, trailing_bytes_record));
+    const auto trailing_bytes_result = provider_->retrieve(request);
+    ASSERT_FALSE(trailing_bytes_result);
+    EXPECT_EQ(trailing_bytes_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder truncated_content_encoder;
+    truncated_content_encoder.beginObject(2);
+    truncated_content_encoder.encodeString("source_file_id");
+    truncated_content_encoder.encodeString("source-corrupt");
+    truncated_content_encoder.encodeString("content");
+    truncated_content_encoder.encodeString("valid source text");
+    auto truncated_content_record = truncated_content_encoder.finish();
+    truncated_content_record.pop_back();
+    ASSERT_TRUE(db_->put(source_key, truncated_content_record));
+    const auto truncated_content_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_content_result);
+    EXPECT_EQ(truncated_content_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionRejectsIncompletePersistedSourceRecord) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-incomplete:0";
+    record.source_file_id = "source-incomplete";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto source_key = KeySchema::makeRelationalKey(
+        "ingestion_sources", record.chunk_id);
+    ASSERT_TRUE(db_->put(source_key, R"({"source_file_id":"source-incomplete"})"));
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionRejectsNonStringPersistedSourceFields) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-types:0";
+    record.source_file_id = "source-types";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto source_key = KeySchema::makeRelationalKey(
+        "ingestion_sources", record.chunk_id);
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    for (const auto& source : {
+             R"({"source_file_id":"source-types","content":123})",
+             R"({"source_file_id":123,"content":"untrusted numeric identity"})"}) {
+        ASSERT_TRUE(db_->put(source_key, source));
+        const auto result = provider_->retrieve(request);
+
+        ASSERT_FALSE(result);
+        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    }
+}
+
+TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-1"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 28},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-1-chunk-0"},
+            {"content_id", "content-1"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "content-manager evidence"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+
+    const auto source_key = std::string{"chunk:content-1-chunk-0"};
+    auto stored_source = db_->get(source_key);
+    ASSERT_TRUE(stored_source.has_value());
+    auto source_record = nlohmann::json::parse(
+        std::string(stored_source->begin(), stored_source->end()));
+    source_record["text"] = "authoritative source text";
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = content_provider.retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    const auto& candidate = result->candidates.front();
+    EXPECT_EQ(candidate.content, "authoritative source text");
+    ASSERT_TRUE(candidate.source_reference.has_value());
+    EXPECT_EQ(candidate.source_reference->type, "content_chunk");
+    EXPECT_EQ(candidate.source_reference->collection, "chunks");
+    EXPECT_EQ(candidate.source_reference->key, "chunk:content-1-chunk-0");
+    EXPECT_EQ(candidate.source_reference->provenance, "content_manager");
+    ASSERT_TRUE(candidate.source_reference->version.has_value());
+    EXPECT_EQ(*candidate.source_reference->version, "123");
+}
+
+TEST_F(RAGProviderTest, ContentManagerVectorRejectsMissingAndCorruptChunkSources) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-2"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 16},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-2-chunk-0"},
+            {"content_id", "content-2"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "stored vector copy"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+    ASSERT_TRUE(db_->del("chunk:content-2-chunk-0"));
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    ASSERT_TRUE(db_->put("chunk:content-2-chunk-0", "{"));
+    const auto corrupt_result = content_provider.retrieve(request);
+    ASSERT_FALSE(corrupt_result);
+    EXPECT_EQ(corrupt_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    ASSERT_TRUE(db_->put("chunk:content-2-chunk-0", "[]"));
+    const auto invalid_shape_result = content_provider.retrieve(request);
+    ASSERT_FALSE(invalid_shape_result);
+    EXPECT_EQ(invalid_shape_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+}
+
+TEST_F(RAGProviderTest, ContentManagerChunkSourceCanMaterializeWithoutVectorText) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    const nlohmann::json source_record = {
+        {"id", "source-only-chunk"},
+        {"content_id", "source-only-content"},
+        {"text", "canonical source-only evidence"},
+        {"created_at", 123}
+    };
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put("chunk:source-only-chunk", std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
+    const auto vector_entity = BaseEntity::fromFields("source-only-chunk", {
+        {"content_id", std::string{"source-only-content"}},
+        {"source_ref_type", std::string{"content_chunk"}},
+        {"source_ref_collection", std::string{"chunks"}},
+        {"source_ref_key", std::string{"chunk:source-only-chunk"}},
+        {"source_ref_provenance", std::string{"content_manager"}},
+        {"source_ref_version", std::int64_t{123}},
+        {"embedding", std::vector<float>{1.0f, 0.0f}}
+    });
+    ASSERT_TRUE(content_vector->addEntity(vector_entity).ok);
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().content, "canonical source-only evidence");
+}
+
+TEST_F(RAGProviderTest, ContentManagerVectorRejectsChunkFromDifferentContent) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-3"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 15},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-3-chunk-0"},
+            {"content_id", "content-3"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "stored vector copy"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+
+    const auto source_key = std::string{"chunk:content-3-chunk-0"};
+    const auto stored_source = db_->get(source_key);
+    ASSERT_TRUE(stored_source.has_value());
+    auto source_record = nlohmann::json::parse(
+        std::string(stored_source->begin(), stored_source->end()));
+    source_record["content_id"] = "other-content";
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    source_record["content_id"] = "content-3";
+    source_record["created_at"] = 999;
+    const auto stale_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        stale_source.begin(), stale_source.end())));
+    const auto stale_result = content_provider.retrieve(request);
+    ASSERT_TRUE(stale_result) << stale_result.error().context();
+    EXPECT_TRUE(stale_result->candidates.empty());
+    EXPECT_EQ(stale_result->rejected_documents, 1);
+}
+
+TEST_F(RAGProviderTest, VectorOnlyMetadataIsNotMaterializedAsEvidence) {
+    const auto vector_entity = BaseEntity::fromFields("metadata-only", {
+        {"embedding", std::vector<float>{1.0f, 0.0f}},
+        {"source_file_id", std::string{"source-2"}}
+    });
+    ASSERT_TRUE(vector_->addEntity(vector_entity).ok);
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, GraphMaterializesCanonicalNodeStorage) {
@@ -122,6 +676,223 @@ TEST_F(RAGProviderTest, PropagatesCollectionDenialForRelationalVectorAndGraph) {
         ASSERT_FALSE(result);
         EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
     }
+}
+
+TEST_F(RAGProviderTest, RequestScopedCollectionCheckerAllowsOnlyAuthorizedCollection) {
+    storeDocument("d1", "authorized evidence");
+    engine_->setCollectionAccessChecker(
+        [](const std::string& collection, const std::string&) {
+            return collection == "docs";
+        });
+
+    query::ConjunctiveQuery authorized_query;
+    authorized_query.table = "docs";
+    authorized_query.pk_eq = "d1";
+    rag::RetrievalRequest authorized_request;
+    authorized_request.query = authorized_query;
+    const auto authorized_result = provider_->retrieve(authorized_request);
+    ASSERT_TRUE(authorized_result) << authorized_result.error().context();
+    ASSERT_EQ(authorized_result->candidates.size(), 1);
+    EXPECT_EQ(authorized_result->candidates.front().content, "authorized evidence");
+
+    query::ConjunctiveQuery other_collection_query;
+    other_collection_query.table = "other";
+    other_collection_query.pk_eq = "d1";
+    rag::RetrievalRequest denied_request;
+    denied_request.query = other_collection_query;
+    const auto denied_result = provider_->retrieve(denied_request);
+    ASSERT_FALSE(denied_result);
+    EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, RequestScopedAuthorizationIsolatedAcrossConcurrentRetrievals) {
+    storeDocument("d1", "request-local evidence");
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext allowed_context;
+    allowed_context.authorize_collection = [](const std::string& collection) {
+        return collection == "docs";
+    };
+    rag::RetrievalExecutionContext denied_context;
+    denied_context.authorize_collection = [](const std::string& collection) {
+        return collection == "other";
+    };
+
+    auto allowed = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, allowed_context);
+    });
+    auto denied = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, denied_context);
+    });
+    const auto allowed_result = allowed.get();
+    const auto denied_result = denied.get();
+    ASSERT_TRUE(allowed_result) << allowed_result.error().context();
+    ASSERT_EQ(allowed_result->candidates.size(), 1);
+    EXPECT_EQ(allowed_result->candidates.front().content, "request-local evidence");
+    ASSERT_FALSE(denied_result);
+    EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, TrustedTenantContextsStayIsolatedAcrossConcurrentRetrievals) {
+    ASSERT_TRUE(secondary_->createIndex("docs", "tenant_id").ok);
+    storeTenantDocument("acme", "Acme private evidence", "acme", {0.6f, 0.8f});
+    storeTenantDocument("beta", "Beta private evidence", "beta");
+
+    query::VectorGeoQuery vector_query;
+    vector_query.table = "docs";
+    vector_query.query_vector = {1.0f, 0.0f};
+    vector_query.k = 1;
+    rag::RetrievalRequest request;
+    request.query = vector_query;
+    request.max_candidates = 1;
+
+    rag::RetrievalExecutionContext acme_context;
+    acme_context.tenant_id = "acme";
+    rag::RetrievalExecutionContext beta_context;
+    beta_context.tenant_id = "beta";
+
+    auto acme = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, acme_context);
+    });
+    auto beta = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, beta_context);
+    });
+
+    const auto acme_result = acme.get();
+    const auto beta_result = beta.get();
+    ASSERT_TRUE(acme_result) << acme_result.error().context();
+    ASSERT_TRUE(beta_result) << beta_result.error().context();
+    ASSERT_EQ(acme_result->candidates.size(), 1);
+    ASSERT_EQ(beta_result->candidates.size(), 1);
+    EXPECT_EQ(acme_result->candidates.front().doc_id, "acme");
+    EXPECT_EQ(acme_result->candidates.front().content, "Acme private evidence");
+    EXPECT_EQ(beta_result->candidates.front().doc_id, "beta");
+    EXPECT_EQ(beta_result->candidates.front().content, "Beta private evidence");
+}
+
+TEST_F(RAGProviderTest, RequestScopedAuthorizationExceptionsFailClosed) {
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    rag::RetrievalRequest request;
+    request.query = query;
+    rag::RetrievalExecutionContext context;
+    context.authorize_collection = [](const std::string&) -> bool {
+        throw std::runtime_error("authorization backend unavailable");
+    };
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, RequestScopedGraphAuthorizationPrecedesCrossCollectionVertexRead) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    BaseEntity edge("edge-1");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"private/secret"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.authorize_collection = [](const std::string& collection) {
+        return collection == "docs";
+    };
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalAllowsSameTenantVertices) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto same_tenant = BaseEntity::fromFields(
+        "docs/same-tenant", {{"content", std::string{"same tenant evidence"}},
+                             {"tenant_id", std::string{"acme"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/same-tenant"), same_tenant.serialize()));
+    BaseEntity edge("edge-same-tenant");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/same-tenant"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 2);
+    EXPECT_EQ(result->candidates[0].content, "authorized start");
+    EXPECT_EQ(result->candidates[1].content, "same tenant evidence");
+}
+
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalDeniesForeignVertexBeforeExpansion) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto foreign = BaseEntity::fromFields(
+        "docs/foreign", {{"content", std::string{"foreign evidence"}},
+                         {"tenant_id", std::string{"other"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/foreign"), foreign.serialize()));
+    BaseEntity edge("edge-foreign-tenant");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/foreign"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalDeniesVertexWithoutTenant) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto tenantless = BaseEntity::fromFields(
+        "docs/tenantless", {{"content", std::string{"unscoped evidence"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/tenantless"), tenantless.serialize()));
+    BaseEntity edge("edge-tenantless");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/tenantless"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
 TEST_F(RAGProviderTest, GraphReferencesCanMaterializeCanonicalRelationalDocuments) {
@@ -190,8 +961,14 @@ TEST_F(RAGProviderTest, RejectsPrimaryKeyQueriesThatWouldIgnoreHardPredicates) {
 
 TEST_F(RAGProviderTest, HonorsCancellationAndExpiredDeadlines) {
     rag::RetrievalExecutionContext context;
-    context.cancelled = std::make_shared<std::atomic<bool>>(true);
+    context.additional_cancellation_tokens.push_back(
+        std::make_shared<std::atomic<bool>>(true));
     auto result = provider_->retrieve({}, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    context.additional_cancellation_tokens.clear();
+    context.cancelled = std::make_shared<std::atomic<bool>>(true);
+    result = provider_->retrieve({}, context);
     ASSERT_FALSE(result);
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
     context.cancelled.reset();
@@ -199,4 +976,79 @@ TEST_F(RAGProviderTest, HonorsCancellationAndExpiredDeadlines) {
     result = provider_->retrieve({}, context);
     ASSERT_FALSE(result);
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+}
+
+TEST_F(RAGProviderTest, StopsAfterBlockingQueryEngineCallExceedsDeadline) {
+    storeDocument("d1", "deadline-bound evidence");
+    bool access_check_called = false;
+    engine_->setCollectionAccessChecker(
+        [&access_check_called](const std::string&, const std::string&) {
+            access_check_called = true;
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+            return true;
+        });
+
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "d1";
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext context;
+    context.deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(5);
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+    EXPECT_TRUE(access_check_called);
+}
+
+TEST_F(RAGProviderTest, StopsAfterBlockingQueryEngineCallExceedsDeadlineWithNoMatches) {
+    bool access_check_called = false;
+    engine_->setCollectionAccessChecker(
+        [&access_check_called](const std::string&, const std::string&) {
+            access_check_called = true;
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+            return true;
+        });
+
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "missing";
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext context;
+    context.deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(5);
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+    EXPECT_TRUE(access_check_called);
+}
+
+TEST_F(RAGProviderTest, StopsAfterCancellationDuringBlockingQueryEngineCallWithNoMatches) {
+    auto cancelled = std::make_shared<std::atomic<bool>>(false);
+    bool access_check_called = false;
+    engine_->setCollectionAccessChecker(
+        [&cancelled, &access_check_called](const std::string&, const std::string&) {
+            access_check_called = true;
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+            cancelled->store(true, std::memory_order_release);
+            return true;
+        });
+
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "missing";
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext context;
+    context.cancelled = cancelled;
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_TRUE(access_check_called);
 }

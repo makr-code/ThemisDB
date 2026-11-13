@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,8 +10,8 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
-Canonical_References: "include/aql/llm_aql_handler.h; include/aql/aql_query_validator.h; src/aql/ARCHITECTURE.md; src/aql/API.md; src/aql/AQL_ASSISTANCE_CONTRACT.md; tests/aql/CMakeLists.txt; benchmarks/aql/CMakeLists.txt"
-source: "include/aql/llm_aql_handler.h; src/aql/llm_aql_handler.cpp; src/aql/aql_query_validator.cpp; tests/aql/CMakeLists.txt; benchmarks/aql/CMakeLists.txt"
+Canonical_References: "include/aql/llm_aql_handler.h; include/aql/aql_query_validator.h; src/aql/ARCHITECTURE.md; src/aql/API.md; src/aql/AQL_ASSISTANCE_CONTRACT.md; src/server/API.md; tests/server/test_rag_collection_policy.cpp; tests/aql/CMakeLists.txt; benchmarks/aql/CMakeLists.txt"
+source: "include/aql/llm_aql_handler.h; src/aql/llm_aql_handler.cpp; src/aql/aql_query_validator.cpp; src/server/http_server.cpp; tests/server/test_rag_collection_policy.cpp; tests/aql/CMakeLists.txt; benchmarks/aql/CMakeLists.txt"
 source_class: "secondary"
 source_weight: 60
 ---
@@ -60,6 +60,19 @@ do not override root release status.
   validation mode.
 - Parsing is not execution, semantic correctness against live data, or
   authorization. Apply host policy at every query execution or tool boundary.
+- `POST /api/v1/llm/aql/rag` is the current authenticated HTTP composition of
+  `LLMAQLHandler::executeRAG()`: it uses the live server storage/index managers,
+  exact collection policy, and tenant context from the successful access check.
+  The normal `/query/aql` endpoint is not changed. Its regression source checks
+policy denial, hostile JSON tenant input, tenant isolation, trace propagation,
+deadline mapping, and that deadline expiry does not repeat embedding; it has
+not been built or run.
+- Timeout cleanup can outlive an AQL RAG call; the worker captures request
+inputs by value, uses shared result accounting, and the route retains the
+handler plus its non-owning QueryEngine dependencies through copied request
+context leases until the worker completes. Shutdown rejects new resource
+leases and closes the vector index/RocksDB only after all HTTP-request and
+background RAG-worker leases drain. Deadline timeout errors are not retried.
 - `validateAQLWithParser()` is a private source helper, not a public handler
   method. The former frozen prose and unsupported-provider trigger claims are
   reconciled in [`AQL_ASSISTANCE_CONTRACT.md`](../../src/aql/AQL_ASSISTANCE_CONTRACT.md).

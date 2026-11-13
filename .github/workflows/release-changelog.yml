@@ -128,38 +128,47 @@ on:
         default: "update"
         type: string
       entry-title:
+        description: "Changelog entry title supplied by the caller."
         required: true
         type: string
       entry-body:
+        description: "Newline-separated changelog entry body supplied by the caller."
         required: true
         type: string
       section:
+        description: "Changelog subsection for the entry; defaults to Added."
         required: false
         default: "Added"
         type: string
       target-version:
+        description: "Version heading to update; empty targets the Unreleased section."
         required: false
         default: ""
         type: string
       release-date:
+        description: "ISO date for a newly created version heading; empty uses workflow behavior."
         required: false
         default: ""
         type: string
       key:
+        description: "Idempotency key preventing duplicate entries; empty defaults to the title."
         required: false
         default: ""
         type: string
       target-branch:
+        description: "Branch to update; defaults to develop."
         required: false
         default: "develop"
         type: string
       commit-message:
+        description: "Commit message used when the changelog update is applied."
         required: false
         default: "chore: update CHANGELOG.md [skip ci]"
         type: string
       dry-run:
+        description: "Preview the changelog change without writing or committing it."
         required: false
-        default: false
+        default: true
         type: boolean
     outputs:
       changed:

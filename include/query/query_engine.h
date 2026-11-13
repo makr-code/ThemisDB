@@ -38,6 +38,9 @@ class VectorIndexManager;
 class GraphIndexManager;
 class StatisticsCollector;
 class AQLTranslator;
+namespace rag {
+class RAGProvider;
+}
 namespace utils {
 class AuditLogger;
 }
@@ -435,6 +438,60 @@ public:
     ) const;
 
     /**
+     * @brief Traverse a graph while applying an additional request-scoped collection policy.
+     * @param startVertex Starting vertex key; its collection is checked before access.
+     * @param minDepth Minimum returned traversal depth; must be non-negative.
+     * @param maxDepth Maximum traversal depth; must not be less than minDepth.
+     * @param direction Edge traversal direction.
+     * @param graphId Graph identifier used by the existing traversal contract.
+     * @param edgeTypeFilter Optional edge type restriction.
+     * @param authorizeCollection Trusted per-call predicate applied before each
+     *        visited vertex is loaded or expanded; an empty predicate adds no policy.
+     * @return Traversal results, or the existing query error including access denied.
+     * @note The configured engine-level policy and this request policy are both
+     *       enforced. A throwing request predicate is treated as denial; it may
+     *       be called concurrently if the caller shares it across traversals.
+     */
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& graphId,
+        const std::string& edgeTypeFilter,
+        const std::function<bool(const std::string&)>& authorizeCollection
+    ) const;
+
+    /**
+     * @brief Traverse a graph with request-scoped collection and vertex policies.
+     * @param startVertex Starting vertex key; its collection and vertex are checked.
+     * @param minDepth Minimum returned traversal depth; must be non-negative.
+     * @param maxDepth Maximum traversal depth; must not be less than minDepth.
+     * @param direction Edge traversal direction.
+     * @param graphId Graph identifier used by the existing traversal contract.
+     * @param edgeTypeFilter Optional edge type restriction.
+     * @param authorizeCollection Trusted per-call predicate applied before each
+     *        visited vertex is loaded or expanded; an empty predicate adds no policy.
+     * @param authorizeVertex Trusted per-call predicate applied to each visited
+     *        vertex's materialized entity before it is returned or expanded. Missing
+     *        or malformed vertices use the existing minimal entity representation;
+     *        callers can reject it. A false result or exception returns access denied.
+     * @return Traversal results, or the existing query error including access denied.
+     * @note The configured engine-level policy and both request policies are enforced.
+     *       The vertex predicate is not called when empty.
+     */
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& graphId,
+        const std::string& edgeTypeFilter,
+        const std::function<bool(const std::string&)>& authorizeCollection,
+        const std::function<bool(const std::string&, const nlohmann::json&)>& authorizeVertex
+    ) const;
+
+    /**
      * @brief Execute And Entities.
      * @param[in] q Input parameter.
      * @return Return value.
@@ -675,6 +732,30 @@ public:
     std::vector<std::string> listCollections() const;
 
 private:
+    friend class ::themis::rag::RAGProvider;
+
+    /**
+     * @brief Resolve one exact ContentManager chunk locator to its stored text.
+     * @param exact_source_key Exact `chunk:<id>` key already carried by a typed source reference.
+     * @param expected_content_id Expected owning content ID; mismatches are treated as not found.
+     * @return Stored non-whitespace text and source version, empty when the source is missing
+     *         or identity mismatches, or a storage-corruption/input error when malformed.
+     * @note Performs one exact RocksDB lookup; it never scans or guesses keys. Internal RAG bridge.
+     */
+    [[nodiscard]] Result<std::optional<std::pair<std::string, std::int64_t>>> readContentChunkText(
+        std::string_view exact_source_key, std::string_view expected_content_id) const;
+
+    /**
+     * @brief Resolve one exact ingestion source row and validate its file identity.
+     * @param exact_source_key Primary key carried by the typed ingestion source reference.
+     * @param expected_source_file_id SHA-256 source identity carried by the indexed vector.
+     * @return Stored non-whitespace chunk text, or an empty optional when the row is
+     *         missing or its identity does not match; malformed storage is an error.
+     * @note Performs one exact lookup in `ingestion_sources`; it does not scan or infer keys.
+     */
+    [[nodiscard]] Result<std::optional<std::string>> readIngestionSourceText(
+        std::string_view exact_source_key, std::string_view expected_source_file_id) const;
+
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
     SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer
     GraphIndexManager* graphIdx_ = nullptr;
@@ -874,5 +955,3 @@ struct QueryEngine::EvaluationContext {
 
 } // namespace query
 } // namespace themis
-
-

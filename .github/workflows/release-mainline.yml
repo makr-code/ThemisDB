@@ -100,15 +100,13 @@ on:
       dry_run:
         description: 'Dry-run mode for reusable invocations'
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:
   contents: read
-  packages: write
   actions: read
   pull-requests: read
-  issues: write
 
 concurrency:
   group: ci-release-matrix.${{ github.ref_name || github.ref }}-${{ inputs.build_matrix || 'os' }}-${{ inputs.os || 'all' }}-${{ inputs.architecture || 'all' }}
@@ -129,6 +127,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set release tracker pending label
+        if: ${{ !((github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run == true) }}
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -662,7 +661,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize Status"
     needs: [build-matrix, package, validate-release-manifest, ci-widget, publish-community, publish-private, changelog, llm-inference-gate]
-    if: always()
+    if: ${{ always() && !((github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run == true) }}
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -768,6 +767,22 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+  run-summary:
+    name: "Validate: Release Run Summary"
+    if: always()
+    needs: [preflight-release-policy, build-matrix, package, validate-release-manifest, ci-widget, publish-community, publish-private, changelog, llm-inference-gate, finalize-release-status]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: ${{ format('Canonical release packaging — event {0}, tag {1} from {2}, edition {3} from {4}; dry-run={5}', github.event_name, needs.preflight-release-policy.outputs.tag || 'unresolved', inputs.tag_name != '' && 'dispatch tag_name input' || github.event_name == 'release' && 'release event tag' || github.event_name == 'schedule' && 'VERSION file / nightly policy' || 'selected workflow ref', needs.preflight-release-policy.outputs.edition || 'unresolved', github.event_name == 'workflow_dispatch' && inputs.edition != '' && 'dispatch edition input/default' || needs.preflight-release-policy.outputs.tag != '' && 'resolved release tag' || 'safe default community', (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run) }}
+          job-results: ${{ toJSON(needs) }}
 
   changelog:
     name: "Release: Update Changelog"

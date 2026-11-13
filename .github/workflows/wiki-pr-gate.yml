@@ -27,11 +27,10 @@ on:
         default: 'develop'
         type: string
       dry_run:
-        description: 'Stop after build validation without creating/updating a PR branch'
+        description: 'Build and validate wiki pages without creating or updating tracking issues'
         required: false
-        default: 'false'
-        type: choice
-        options: ['false', 'true']
+        default: true
+        type: boolean
       fail_on_blocked_private:
         description: 'Fail build if private-content guardrail blocks wiki sources (workflow_dispatch only)'
         required: false
@@ -44,8 +43,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
-  issues: write
 
 concurrency:
   group: wiki-pr-gate-${{ github.ref }}
@@ -61,6 +58,9 @@ env:
 jobs:
   wiki_pr_gate:
     name: "Validate: Wiki Human Review PR"
+    permissions:
+      contents: read
+      issues: write
     if: |
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'
@@ -135,7 +135,8 @@ jobs:
           PY
 
       - name: Ensure failure tracker issue
-        if: steps.build.outcome == 'failure'
+        if: steps.build.outcome == 'failure' &&
+          !(github.event_name == 'workflow_dispatch' && inputs.dry_run == true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -166,7 +167,8 @@ jobs:
 
       - name: Upsert wiki review tracking issue
         id: tracking_issue
-        if: steps.build.outcome == 'success'
+        if: steps.build.outcome == 'success' &&
+          !(github.event_name == 'workflow_dispatch' && inputs.dry_run == true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -193,7 +195,9 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Comment run metrics on tracking issue
-        if: steps.build.outcome == 'success' && steps.tracking_issue.outputs.issue-number != ''
+        if: steps.build.outcome == 'success' &&
+          !(github.event_name == 'workflow_dispatch' && inputs.dry_run == true) &&
+          steps.tracking_issue.outputs.issue-number != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -230,7 +234,8 @@ jobs:
         if: steps.build.outcome == 'success'
         run: |
           {
-            echo "## Wiki Review Issue Updated"
+            echo "## Wiki Review Run"
+            echo "- Dry run: **${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}**"
             echo "- Issue: **${{ steps.tracking_issue.outputs.issue-number || 'n/a' }}**"
             echo "- Pages written: **${{ steps.build.outputs.pages_written || '0' }}**"
             echo "- Private blocks: **${{ steps.build.outputs.blocked_private || '0' }}**"

@@ -2,7 +2,6 @@ name: "Gate: Copilot Regression"
 
 permissions:
   contents: read
-  issues: write
 
 # Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
@@ -61,6 +60,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c

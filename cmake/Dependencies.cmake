@@ -871,7 +871,7 @@ endif()
 
 # GTest (unit testing framework - required for tests)
 if(THEMIS_BUILD_TESTS)
-    find_package(GTest QUIET CONFIG)
+    find_package(GTest QUIET)
     if(GTest_FOUND)
         message(STATUS "GTest found - tests enabled")
         add_compile_definitions(THEMIS_HAS_GTEST=1)

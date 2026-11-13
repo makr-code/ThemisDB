@@ -1,9 +1,23 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-10"
+Last Updated: "2026-11-12"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Maturity Automation Runbook
 
 **Document:** Operations Guide for Phase 2/3 Automation Infrastructure  
 **Version:** 1.0  
 **Owner:** Platform Release / @makr-code  
-**Last Updated:** 2026-08-10  
+**Last Updated:** 2026-11-12
 **Target Audience:** Release Leads, Infrastructure Engineers, DevOps
 
 ---
@@ -67,19 +81,22 @@
 
 ### Workflow Execution
 
-#### `10-governance_maturity-verification.yml`
-- **Trigger:** Daily at 03:00 UTC + every PR to develop
-- **Purpose:** Continuous validation of evidence registry and gate freshness
-- **Duration:** ~15 min
-- **Status Page:** `docs/governance/MATURITY_AUTOMATION_DASHBOARD.md` (updated hourly)
+#### `.github/workflows/compliance-governance-gates.yml`
+- **Trigger:** Governance-relevant pushes to `develop`, approved in-scope pull-request reviews, daily schedule, and manual dispatch.
+- **Purpose:** Validate the grouped `gates` in `docs/governance/MATURITY_EVIDENCE_MANIFEST.json` and enforce declared artifact/content checks.
+- **Report:** `maturity-report-<run number>` artifact containing `/tmp/maturity_report.json`.
+- **Hard exit criteria:** Evaluated separately by `scripts/verification/check_maturity_exit_criteria.py`.
+
+The verifier evaluates `PASS` entries and checks artifact paths, freshness from Git history, gate markers, section text, and bounded content patterns using the `.*` wildcard. `PENDING` entries are shown as pending, not passed, and do not fail the workflow. Unsupported rules or invalid paths on a `PASS` entry fail closed.
 
 **If workflow fails:**
 1. Check GitHub Actions logs
 2. Common issues:
-   - Evidence artifact file missing → verify path in MATURITY_EVIDENCE_MANIFEST.json
-   - Manifest stale → run verify workflow manually
-   - Network issue accessing benchmarks → retry with backoff
-3. Create GitHub issue: `[automation] gate-verification-failure`
+   - Evidence artifact missing or stale → verify its `artifact_path`, expected freshness, and recorded status in `MATURITY_EVIDENCE_MANIFEST.json`.
+   - Unsupported validation rule → implement and test the rule before changing the entry to `PASS`.
+   - Pending compliance gate → treat it as unresolved evidence; it is not counted as passed.
+3. Use workflow logs and the uploaded JSON report to identify the failing group and evidence item.
+4. Create GitHub issue: `[automation] gate-verification-failure`
 
 #### `.github/scripts/module_phase_verifier.py`
 - **Purpose:** Scans ROADMAP.md to verify phase state vs. implementation
@@ -209,7 +226,7 @@ cat ai_working/MERGE_GATE_AUDIT_LOG.json | jq 'select(.target_branch=="community
 **Recovery:**
 1. Check bot health: `curl https://api.github.com/app/installations`
 2. Verify manifest file exists: `docs/governance/MATURITY_EVIDENCE_MANIFEST.json`
-3. Check GitHub Actions logs: `.github/workflows/10-governance_maturity-verification.yml`
+3. Check GitHub Actions logs for `.github/workflows/compliance-governance-gates.yml`.
 4. If bot error: restart bot or reinstall GitHub App
 5. If manifest error: manually verify and regenerate
 6. Post status to Slack #themisdb-release
@@ -275,16 +292,7 @@ cat ai_working/MERGE_GATE_AUDIT_LOG.json | jq 'select(.target_branch=="community
 
 ### Daily Status Report
 
-**File:** `docs/governance/MATURITY_AUTOMATION_DASHBOARD.md`  
-**Updated:** Hourly via `.github/workflows/10-governance_maturity-verification.yml`  
-**Contents:**
-- Real-time gate status (all 18 gates)
-- Age of last verification for each gate
-- Active waivers with expiration dates
-- Recent escalations
-- Weekly summary metrics
-
-**Access:** Embedded in repository homepage (README.md link)
+The latest gate results are available in the `maturity-report-<run number>` artifact attached to each `.github/workflows/compliance-governance-gates.yml` run. The report lists each manifest group and the pass, fail, and pending counts; it is not a continuously updated repository dashboard.
 
 ---
 
@@ -326,4 +334,3 @@ cat ai_working/MERGE_GATE_AUDIT_LOG.json | jq 'select(.target_branch=="community
 - Bot config: `MERGE_GATE_BOT_CONFIG.md`
 - Evidence manifest: `MATURITY_EVIDENCE_MANIFEST.json`
 - Phase dependency graph: `PHASE_DEPENDENCY_GRAPH.md`
-

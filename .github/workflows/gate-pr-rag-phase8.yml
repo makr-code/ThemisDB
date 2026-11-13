@@ -28,17 +28,19 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   phase8_validation:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     uses: ./.github/workflows/reusable-rag-phase-gate.yml
     with:
       phase_id: "8"
       phase_title: "Phase 8 Observability SLO"
+      dry_run: false
       headers_json: '["include/rag/realtime_slo_tracker.h","include/rag/otel_span_emitter.h","include/rag/cost_attribution_tracker.h"]'
       impls_json: '["src/rag/realtime_slo_tracker.cpp","src/rag/otel_span_emitter.cpp","src/rag/cost_attribution_tracker.cpp"]'
       tests_json: '["tests/rag/test_realtime_slo_tracker.cpp","tests/rag/test_otel_span_emitter.cpp","tests/rag/test_cost_attribution_tracker.cpp"]'

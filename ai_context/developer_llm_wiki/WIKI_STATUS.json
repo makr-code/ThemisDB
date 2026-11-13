@@ -1,25 +1,48 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-13T08:34:30+00:00",
+  "generated_at": "2026-11-13T12:48:21+00:00",
   "mode": "incremental",
-  "source_count": 8134,
-  "source_hash": "22019aac646aedce4d2c6e6522687869c4b75895bcd8859127943be5bc5a6e86",
+  "source_count": 8095,
+  "source_hash": "cd9e4381f9fd219cbc045e7a3b9a33d03a82a83ec76f7970f3fc9235912cdf44",
   "delta": {
-    "added_count": 0,
-    "removed_count": 0,
-    "changed_count": 6,
-    "added_preview": [],
-    "removed_preview": [],
-    "changed_preview": [
-      ".github/workflows/release-build-matrix.yml",
-      ".github/workflows/reusable-cmake-build.yml",
+    "added_count": 6,
+    "removed_count": 2,
+    "changed_count": 19,
+    "added_preview": [
+      "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
       "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
       "ai_context/developer_llm_wiki/INDEX.md",
+      "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
       "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md",
-      "docs/code_maturity_report.md"
+      "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md"
+    ],
+    "removed_preview": [
+      "docs/ARCHIVED/ai-working-history/PHASE3_IMPLEMENTATION_SUMMARY.md",
+      "docs/audit/DOCS_INVENTORY_2026-Q3.md"
+    ],
+    "changed_preview": [
+      "CHANGELOG.md",
+      "ai_context/developer_llm_wiki/AQL.md",
+      "docs/rag/API.md",
+      "include/aql/llm_aql_handler.h",
+      "include/auth/jwt_validator.h",
+      "include/ingestion/ingestion_sinks.h",
+      "include/llm/ai_orchestrator.h",
+      "include/llm/llm_plugin_interface.h",
+      "include/query/query_engine.h",
+      "include/rag/rag_candidate.h",
+      "include/rag/rag_provider.h",
+      "include/rag/rag_retrieval_helpers.h",
+      "include/server/http_server.h",
+      "include/server/mcp_server.h",
+      "include/server/policy_engine.h",
+      "include/utils/serialization.h",
+      "src/aql/ROADMAP.md",
+      "src/rag/ROADMAP.md",
+      "src/server/ROADMAP.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "a4a3bb1ed9bc1c4b12a7049382f0369bdc22273b5f3fe4350043d732c6d54f9a"
+  "manifest_sha256": "cea2580103acda96dc1d4388f533e71c9c1ece9e46d72b86755a5f678338a4cd"
 }

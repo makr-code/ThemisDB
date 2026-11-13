@@ -18,47 +18,64 @@ on:
       - completed
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Generate and verify the evidence ledger without publishing the ledger artifact."
+        type: boolean
+        required: false
+        default: true
       event_type:
         description: "Evidence event type"
+        type: string
         required: true
         default: "manual_evidence"
       commit_sha:
         description: "Commit SHA"
+        type: string
         required: true
       tag:
         description: "Release tag"
+        type: string
         required: false
         default: "unknown"
       version:
         description: "Release version"
+        type: string
         required: false
         default: "unknown"
       artifact_digest_sha256:
         description: "Artifact digest"
+        type: string
         required: false
         default: "unknown"
       sbom_digest_sha256:
         description: "SBOM digest"
+        type: string
         required: false
         default: "unknown"
       approver_identity:
         description: "Approver identity"
+        type: string
         required: true
       approver_role:
         description: "Approver role"
+        type: string
         required: true
       approval_scope:
         description: "Approval scope"
+        type: string
         required: true
       environment:
         description: "Deployment environment"
+        type: string
         required: false
         default: "manual"
       source_workflow:
         description: "Source workflow name"
+        type: string
         required: true
       source_run_id:
         description: "Source workflow run id"
+        type: string
         required: true
 
 permissions:
@@ -355,10 +372,11 @@ jobs:
             echo "- Artifact digest: \`${{ steps.digests.outputs.artifact_digest }}\`"
             echo "- SBOM digest: \`${{ steps.digests.outputs.sbom_digest }}\`"
             echo "- Approver identity: \`${{ steps.attrs.outputs.approver_identity }}\`"
+            echo "- Ledger persistence: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'dry-run (artifact upload suppressed)' || 'artifact upload attempted' }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload ledger artifacts
-        if: always()
+        if: always() && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: release-evidence-chain-ledger

@@ -65,7 +65,8 @@ public:
     /**
      * @brief Run one bounded training job.
      * @param data_iterator Open, configured iterator whose QueryEngine outlives the call.
-     * @param model Dedicated LlamaWrapper for the configured frozen GGUF base model.
+     * @param model Dedicated LlamaWrapper; its loaded base-model SHA-256 must match
+     *        the configured GGUF file, or this call fails before training/checkpoint reuse.
      * @param config Model, AQL, rank, optimizer, checkpoint, and output settings.
      * @return Counts, measured loss, fingerprint, and adapter path; failures are fail-closed.
      * @throws std::invalid_argument if required configuration or query is invalid.
@@ -80,7 +81,8 @@ public:
     /**
      * @brief Consume normalized batches from an injected source and train one adapter.
     * @param provider Source-specific provider; initialized by this call and not used concurrently.
-     * @param model Dedicated LlamaWrapper for the configured frozen GGUF base model.
+     * @param model Dedicated LlamaWrapper; its loaded base-model SHA-256 must match
+     *        the configured GGUF file, or this call fails before training/checkpoint reuse.
      * @param config Model, rank, optimizer, checkpoint, and output settings.
      * @return Training result; provider, model, checkpoint, and export failures are explicit.
     * @throws std::bad_alloc if bounded sample or model buffers cannot be allocated.
@@ -95,7 +97,8 @@ public:
      * @brief Train an AdaLoRA adapter directly from a generated documentation RocksDB.
      * @param docs_db_path Path to the docs.db RocksDB directory produced by the
      *        repository documentation importer.
-     * @param model Dedicated LlamaWrapper for the configured frozen GGUF base model.
+     * @param model Dedicated LlamaWrapper; its loaded base-model SHA-256 must match
+     *        the configured GGUF file, or this call fails before training/checkpoint reuse.
      * @param config Model, rank, optimizer, checkpoint, and output settings; aql_query
      *        is not used by this source path.
      * @return Counts, measured loss, fingerprint, and adapter path; malformed or empty

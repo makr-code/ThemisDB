@@ -39,7 +39,9 @@ def runtime_environment():
                 "DYLD_FALLBACK_LIBRARY_PATH", "DYLD_INSERT_LIBRARIES"):
         env.pop(key, None)
     if os.name == "nt":
-        system = env["SystemRoot"]
+        system = env.get("SYSTEMROOT")
+        if not system:
+            raise ValueError("SYSTEMROOT is required to construct the Windows runtime PATH")
         env["PATH"] = os.pathsep.join((os.path.join(system, "System32"), system))
     else:
         env["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
@@ -92,7 +94,7 @@ def check_libraries(root, env, report):
         with path.open("rb") as stream:
             if stream.read(4) != b"\x7fELF":
                 continue
-        result = subprocess.run(["ldd", str(path)], env=env, capture_output=True,
+        result = subprocess.run(["ldd", str(path.resolve())], env=env, capture_output=True,
                                 text=True, timeout=30)
         output = result.stdout + result.stderr
         libraries.append({"file": str(path.relative_to(root)), "ldd": output})

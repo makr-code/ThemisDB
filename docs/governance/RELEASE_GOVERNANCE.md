@@ -2,9 +2,16 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-23
-Last Updated: 2026-09-23
+Last Updated: 2026-11-12
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 Purpose: Centralized reference for all release publishing approval workflows, keywords, and tracking
+
+Exact model backend not verifiable from final document text alone.
 
 This document is the single source of truth for:
 - All approval gate workflows and their triggers
@@ -21,6 +28,20 @@ This document is the single source of truth for:
 - [ACTION_PIN_POLICY.md](../../.github/ACTION_PIN_POLICY.md) — Workflow action pinning
 
 ## Approval Gate Workflows
+
+### Shared Approval Gate Behavior
+
+The Linux distro, Windows distro, and WinGet issue-comment approval wrappers use
+`.github/workflows/reusable-release-approval-comment-gate.yml`. The reusable
+approval job validates the issue label and command, requires an `admin` or
+`maintain` commenter, and waits for the configured GitHub Environment
+protection before dispatching the target workflow. These three wrappers
+intentionally pass `dry_run=false`: this is the live publication path, and it
+must remain behind both the maintainer command and the Environment approval.
+
+Workflow-level permissions are read-only. Issue and workflow-dispatch writes
+are granted only to the reusable approval job and its calling job; the summary
+and human-escalation jobs receive only the permissions they need.
 
 ### 1. GitHub Release Publication
 **Workflow:** `.github/workflows/release-mainline-approval.yml`
