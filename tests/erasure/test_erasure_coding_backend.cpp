@@ -92,6 +92,14 @@ TEST_F(ErasureCodingFocusedTests, ConfigRS4_2_Overhead) {
     EXPECT_NEAR(b.storageOverhead(), 1.5, 0.01);
 }
 
+TEST_F(ErasureCodingFocusedTests, FactoryCreatesLocallyRepairableCoderForLRC) {
+    auto coder = themis::sharding::ErasureCoder::create(
+        themis::sharding::ErasureCodingAlgorithm::LRC);
+    ASSERT_NE(coder, nullptr);
+    EXPECT_NE(dynamic_cast<themis::sharding::LocallyRepairableCoder*>(coder.get()),
+              nullptr);
+}
+
 TEST_F(ErasureCodingFocusedTests, CanRecoverWithinTolerance) {
     ErasureCodingBackend b(makeConfig(4, 2));
     EXPECT_TRUE(b.canRecover(0));

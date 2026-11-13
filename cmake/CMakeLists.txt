@@ -3005,6 +3005,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
     ../src/storage/erasure_coding_backend.cpp
+    ../src/storage/erasure_coder_factory.cpp
+    ../src/storage/hamming_coder.cpp
     ../src/server/sharding_metrics_handler.cpp
 
     # Enhanced sharding features
