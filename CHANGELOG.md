@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   matching collection policy; an empty policy set denies this endpoint.
   Native policy rules match the collection exactly (or use an explicit `*`).
   `THEMIS_TOKEN_RAG` provides an optional least-privilege static identity with
-  only `llm` and `data:read` scopes.
+  only `llm` and `data:read` scopes; startup rejects collisions with other
+  configured static role tokens.
   Existing `PolicyEngine` callers retain their default-allow behavior, and
   authenticated administrators retain the existing policy bypass. Auth-disabled
   mode remains advisory; configured OPA decisions remain operator-defined.
