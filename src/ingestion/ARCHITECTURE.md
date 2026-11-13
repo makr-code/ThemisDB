@@ -1,6 +1,6 @@
 # Architecture - Ingestion Module
 
-<!-- Status: current | validated: 2026-10-31 -->
+<!-- Status: current | validated: 2026-10-31 | RAG integration source review: 2026-11-13 -->
 <!-- Links: README.md · API.md · IMPLEMENTATION.md · ROADMAP.md -->
 
 **AI_Used:** true
@@ -46,6 +46,24 @@ persistence, and security properties must be checked at the concrete call site.
   filesystem workflow branch currently increments processed counters without
   handing the returned entity set to a sink.
 
+### RAG bridge integration (path-specific source evidence; 2026-11-13)
+
+The [RAGIngestionBridge](../rag/rag_ingestion_bridge.cpp) constructs an
+`ExtractionContext` for the workflow but does not set
+`ctx.manifest.file_id` before execution. The [chunk embedding step](steps/chunk_embed_step.cpp)
+forms chunk IDs from `manifest.file_id` and the chunk sequence. If no earlier
+workflow step supplies that ID, chunks from distinct documents can receive
+the same IDs. The fallback path creates IDs from `doc_id + "#0"`; it is a
+separate path and does not repair IDs already produced by the workflow.
+
+The bridge stamps `source_file_id` after the workflow, which does not repair
+the chunk ID. It also logs vector-write failures but returns a successful
+`IndexResult`; graph-writer results are discarded. Therefore that result does
+not prove all configured sinks completed. Separately,
+`IngestionSinkBundle::writeAll()` is ordered and fail-fast, but the inspected
+implementation does not roll back earlier sink writes. These observations
+apply to the inspected call paths, not to every ingestion workflow.
+
 ## Core Contracts
 
 | Contract | Behavior |
@@ -68,7 +86,8 @@ Verified against `include/ingestion/ingestion_manager.h`,
 `include/ingestion/ingestion_coordinator.h`,
 `include/ingestion/workflow_engine.h`, `include/ingestion/ingestion_sinks.h`,
 `src/ingestion/ingestion_manager.cpp`, and
-`src/ingestion/ingestion_coordinator.cpp`. Focused behavior tests are registered
+`src/ingestion/ingestion_coordinator.cpp`, plus the RAG bridge and chunk
+embedding call paths described above. Focused behavior tests are registered
 through `tests/ingestion/CMakeLists.txt`; see [`MODULE_GUIDE.md`](./MODULE_GUIDE.md).
 
 ## Non-goals

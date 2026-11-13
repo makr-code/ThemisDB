@@ -52,63 +52,64 @@ auszuwählen.
 
 ## Zielstruktur und Datenfluss
 
-Das folgende Diagramm beschreibt das **Zielbild**, nicht den Nachweis einer
-bereits durchgängig implementierten Pipeline:
+Die folgenden Diagramme beschreiben das **Zielbild**, nicht den Nachweis einer
+bereits durchgängig implementierten Pipeline. Sie sind bewusst vertikal und
+nach Teilprozessen getrennt, damit sie auch in schmalen Dokumentansichten
+lesbar bleiben.
+
+### Dokumentaufnahme und Indexierung
 
 ```mermaid
-flowchart LR
-    subgraph data["Ingestion und Speicher"]
-        direction TB
-        document["Dokument"] --> extraction["Extraktion"]
-        extraction --> revisions["Dokumentrevision + Chunks"]
-        revisions --> storage[("Kanonischer Speicher")]
-        storage --> changefeed["Changefeed"]
-    end
-
-    subgraph search["Indexierung und Retrieval"]
-        direction TB
-        profiles["Embedding-/Indexprofile"] --> indexes["Vektor-/Text-/Graphindizes"]
-        request["Anfrage"] --> trust["Authentifizierung / Policy / Budgets"]
-        trust --> query["QueryEngine"]
-        query --> retrieval["Autorisiertes Hybrid-Retrieval"]
-        indexes --> retrieval
-    end
-
-    subgraph serving["Kontext und lokale Inferenz"]
-        direction TB
-        evidence["Evidence mit Quellen und Status"] --> packing["Tokenizerexakte Kontextauswahl"]
-        packing --> inference["llama.cpp + ausgewählte LoRA-Adapter"]
-        inference --> answer["Antwort + belegbare Quellen"]
-    end
-
-    revisions --> profiles
+flowchart TB
+    document["Dokument"] --> extraction["Extraktion"]
+    extraction --> revision["Dokumentrevision und Chunks"]
+    revision --> storage[("Kanonischer Speicher")]
+    revision --> profile["Embedding- und Indexprofile"]
+    storage --> changefeed["Changefeed"]
+    profile --> indexes["Abgeleitete Vektor-, Text- und Graphindizes"]
     changefeed --> indexes
-    storage -->|Materialisierung| retrieval
-    retrieval --> evidence
+```
+
+### Retrieval und lokale Antwortgenerierung
+
+```mermaid
+flowchart TB
+    request["Anfrage"] --> trust["Authentifizierung, Policy und Budgets"]
+    trust --> query["QueryEngine<br/>autorisierte Suche über Speicher und Indizes"]
+    query --> evidence["Evidence mit Quellen und Status"]
+    evidence --> packing["Tokenizerexakte Kontextauswahl"]
+    packing --> inference["Lokales llama.cpp mit ausgewählten LoRA-Adaptern"]
+    inference --> answer["Antwort mit belegbaren Quellen"]
 ```
 
 Authentifizierung, Policy und Budgets gelten über alle Schritte hinweg, nicht
-nur für den eingezeichneten Anfragepfad.
+nur für den eingezeichneten Anfragepfad. Die QueryEngine kombiniert dabei
+autorisierte Zugriffe auf kanonische Dokumente und abgeleitete Suchindizes.
 
-### Optionale Spezialisierung und Tensor-Verarbeitung
+### Optionaler AdaLoRA-Trainings- und Serving-Lebenszyklus
 
 ```mermaid
-flowchart LR
+flowchart TB
     storage[("Kanonischer Speicher")] --> snapshot["Autorisierter Trainings-Snapshot"]
     snapshot --> training["AdaLoRA"]
     training --> evaluation["Evaluation"]
-    evaluation --> approval["Freigabe"]
-    approval --> registry["Adapter-Registry / Serving"]
+    evaluation --> approval["Explizite Freigabe"]
+    approval --> registry["Adapter-Registry und Serving"]
     registry -.->|freigegebener Adapter| inference["Lokales llama.cpp"]
+```
 
-    tensor["Tensor-Schicht: versionierte Repräsentationen"]
-    tensor -.->|optional / qualifiziert| training
-    tensor -.->|optional / qualifiziert| registry
+### Optionale Tensor-Repräsentation und qualifizierter Handoff
+
+```mermaid
+flowchart TB
+    tensor["Tensor-Repräsentation"] --> validation["Shape, Dtype, Rang, Scaling, Integrität und Fehlergrenze prüfen"]
+    validation --> artifact["Versioniertes Tensor-Artifact"]
+    artifact -.-> handoff["Optionaler, qualifizierter Übergang zu Training oder Serving"]
 ```
 
 Gestrichelte Verbindungen markieren optionale oder noch zu qualifizierende
-Übergänge. Die Tensor-Schicht impliziert keinen automatischen Tensor- oder
-KV-Handoff.
+Übergänge. Das Tensor-Diagramm beschreibt Anforderungen an einen möglichen
+Übergang, nicht einen bereits durchgängigen Tensor- oder KV-Handoff.
 
 Leitprinzipien:
 
@@ -128,12 +129,13 @@ Leitprinzipien:
 | Übergang | Quellbefund und Risiko |
 |---|---|
 | **Dokument -> Chunk** | Die [RAGIngestionBridge](src/rag/rag_ingestion_bridge.cpp#L205) setzt vor dem Workflow keine `file_id`. [chunk_embed](src/ingestion/steps/chunk_embed_step.cpp#L84) bildet daraus die Chunk-ID. Wenn kein Workflow-Schritt die ID setzt, können verschiedene Dokumente IDs wie `:0` erhalten. Der separate Fallback-Pfad ist davon zu unterscheiden. |
-| **Vektorindex -> Dokument** | Der [VectorIndexSinkAdapter](src/ingestion/ingestion_sinks.cpp#L647) schreibt Vektoreinträge. Der untersuchte [QueryEngine-Pfad](src/query/query_engine.cpp#L4962) materialisiert Dokumente aus relationalen Schlüsseln. Für diese Kombination reicht der Vektorschreibvorgang allein nicht als Nachweis eines abrufbaren RAG-Dokuments. Der [Provider-Test](tests/rag/test_rag_provider.cpp#L42) schreibt beide Seiten separat. |
-| **Ingestion -> Status** | Die Bridge meldet nach einem Vektor-Schreibfehler weiterhin Erfolg; Graph-Schreibergebnisse werden ignoriert. Siehe [rag_ingestion_bridge.cpp](src/rag/rag_ingestion_bridge.cpp#L315). Der separate [Sink-Bundle-Pfad](src/ingestion/ingestion_sinks.cpp#L354) schreibt sequenziell; ein gemeinsamer Rollback ist dort nicht belegt. |
+| **Vektorindex -> Dokument** | Der [VectorIndexSinkAdapter](src/ingestion/ingestion_sinks.cpp#L667) persistiert je Chunk zuerst einen Quelldatensatz in `ingestion_sources` und schreibt danach den Vektoreintrag mit `source_ref_*`-Feldern. [RAGProvider](src/rag/rag_provider.cpp#L88) löst diese Referenz über [`QueryEngine::readIngestionSourceText`](src/query/query_engine.cpp#L4652) inklusive Provenienzprüfung auf und verwirft Treffer ohne gültige Quelle. Offen bleibt: Beide Schreibvorgänge sind nicht atomar (Quelle ohne Vektor bzw. Teilbatch möglich), und `ingestion_sources` ist ein globaler Schlüsselraum über der `chunk_id`, deren Kollisionsfreiheit vom Ingestion-Pfad abhängt (siehe Zeile „Dokument -> Chunk“). |
+| **Ingestion -> Status** | Die Bridge meldet nach einem Vektor-Schreibfehler weiterhin Erfolg; Graph-Schreibergebnisse werden ignoriert. Siehe [rag_ingestion_bridge.cpp](src/rag/rag_ingestion_bridge.cpp#L315). Der separate [Sink-Bundle-Pfad](src/ingestion/ingestion_sinks.cpp#L359) schreibt sequenziell; ein gemeinsamer Rollback ist dort nicht belegt. |
 | **SDK -> Vektorsuche** | Der synchrone [Python-Client](clients/python/themis/__init__.py#L449) sendet `metadata_filter`, aber der untersuchte [HTTP-Handler](src/server/vector_api_handler.cpp#L95) wertet ihn nicht aus. Bei mehreren Endpunkten werden Distanztreffer zudem absteigend sortiert; Nicht-200-Antworten können als leeres Ergebnis enden. Caller-Metadatenfilter dürfen nicht mit einer Autorisierungspolicy gleichgesetzt werden. |
-| **Retrieval -> Prompt** | [RAGProvider](include/rag/rag_provider.h#L24) liefert typisierte Kandidaten und Grenzen; seine Abbruchprüfung unterbricht jedoch keinen blockierenden Backend-Aufruf. Der [HTTP-RAG-Pfad](src/server/http_server.cpp#L5536) prüft Collection-Zugriff, liefert aber keinen vollständigen strukturierten Evidence-Vertrag. Eine allgemeine Zeilen-/Tenant-Policy ist dadurch nicht nachgewiesen. |
+| **Retrieval -> Prompt** | [RAGProvider](include/rag/rag_provider.h#L27) liefert typisierte Kandidaten und Grenzen; seine Deadline-/Abbruchprüfung ist kooperativ und unterbricht keinen blockierenden Backend-Aufruf. Der [HTTP-RAG-Pfad](src/server/http_server.cpp#L5919) prüft Collection-Zugriff und reicht das Request-Timeout als Retrieval-Deadline weiter (504 bei Ablauf), liefert aber keinen vollständigen strukturierten Evidence-Vertrag. Eine allgemeine Zeilen-/Tenant-Policy ist dadurch nicht nachgewiesen. |
 | **Kontextbudget** | [prepareRAGRequest](src/llm/rag_helpers.cpp#L12) reserviert Antwortbudget und rahmt Quellen, verwendet in diesem Pfad aber eine zeichengestützte Tokenschätzung. `tensor_hybrid` und `tensor_prefix` erzeugen dort Text-Slots, keine nachgewiesene Tensor- oder KV-Injektion. Siehe [context_window_budget.h](include/llm/context_window_budget.h#L22). |
 | **AdaLoRA-Wiederaufnahme** | Der [Checkpoint-Code](src/training/ada_lora_adapter.cpp#L954) schreibt Version 1 und ein synthetisches `alpha=8`; beim Laden wird der gespeicherte aktive Rang nicht wiederhergestellt. Der [Header](include/training/ada_lora_adapter.h#L437) beschreibt dagegen Version 2 und vollständige Wiederherstellung. Außerdem werden bestehende Layer vor vollständiger Dateiprüfung gelöscht. |
+| **Trainingsauswahl -> DB-Loader** | Die [TrainingPipeline](src/training/training_pipeline.cpp#L310) übergibt ausgewählte Sample-IDs an den [DB-LoRA-Trainer](src/training/incremental_lora_trainer.cpp#L1201). Dessen Abfrage wendet jedoch erst `LIMIT max_training_samples` an und filtert danach nach den ausgewählten IDs. Daher ist nicht garantiert, dass jede ausgewählte ID in der begrenzten Abfrage enthalten ist; betroffen ist dieser DB-gestützte Pfad. |
 | **Modell- und Adapteridentität** | Die [Trainingspipeline](src/training/adalora_training_pipeline.cpp#L300) prüft bei einem bereits geladenen Modell nicht dessen Übereinstimmung mit dem konfigurierten Modellpfad, berechnet den Fingerprint aber aus diesem Pfad. Im separaten [Multi-LoRA-Batchpfad](src/llm/multi_lora_manager.cpp#L1155) läuft Inferenz nach fehlgeschlagenem Apply weiter und meldet dennoch die Adapter-ID. |
 | **Tensor-Übergang** | [AdaLoraTTBridge](src/training/adalora_tt_bridge.cpp#L216) setzt beim Export Scaling auf `1.0` und `orthogonal_validated` auf `true`; eine entsprechende Prüfung ist im untersuchten Exportpfad nicht sichtbar. `store()`/`loadAdapter()` verwenden dort einen Instanz-Cache, keinen nachgewiesenen persistenten Speicher. |
 
@@ -299,6 +301,26 @@ Hauptquellen; das allein belegt keinen vollständig aktuellen Build.
 Die festgestellten Vertragsbrüche sind überwiegend statische Quellbefunde. Vor
 einer Umsetzung sind sie durch fokussierte Regressionstests zu reproduzieren.
 Es wurden für diesen Bericht keine Codeänderungen vorgenommen.
+
+## Issue-Nachverfolgung
+
+Die folgenden GitHub-Issues halten die Befunde und ihre nächsten Prüfschritte
+nach. Issue-Status und Merge-Status sind Verwaltungsinformationen, kein
+Nachweis einer Laufzeitkorrektur. Die neuen Befund-Issues verweisen auf eine
+statische Quellprüfung des Commits
+`cb0763b514070a3951937f17261663cdaefd2072`; Regressionstests stehen noch aus.
+
+| Befund | Nachverfolgung |
+|---|---|
+| Ingestion-Identität und sichtbarer Teilerfolg in der RAG-Bridge | [#7491](https://github.com/makr-code/ThemisDB/issues/7491) – ergänzende Evidenz und Tests für `file_id`, Chunk-Kollisionen sowie Vector-/Graph-Schreibfehler |
+| Sequenzielle Sink-Schreibvorgänge ohne belegten gemeinsamen Rollback | [#7525](https://github.com/makr-code/ThemisDB/issues/7525) – Fehler-Injektion und expliziter Vertrag für partielle Persistenz |
+| Vector-SDK-Filter, Trefferreihenfolge und Shard-Fehler | [#8089](https://github.com/makr-code/ThemisDB/issues/8089) |
+| AdaLoRA-Checkpoint-Roundtrip und Fehleratomarität | [#8090](https://github.com/makr-code/ThemisDB/issues/8090) |
+| Abgleich des tatsächlich geladenen Modells mit dem Trainings-Fingerprint | [#8091](https://github.com/makr-code/ThemisDB/issues/8091) |
+| Fail-closed-Verhalten bei fehlgeschlagener Adapterbindung im Multi-LoRA-Batchpfad | [#8092](https://github.com/makr-code/ThemisDB/issues/8092) |
+| DB-Trainingsauswahl und AdaLoRA-TT-Scaling, Orthogonalität und Persistenz | [#7551](https://github.com/makr-code/ThemisDB/issues/7551), ergänzt um die konkreten Checkpoint- und Modellidentitäts-Folgeaufgaben [#8090](https://github.com/makr-code/ThemisDB/issues/8090) und [#8091](https://github.com/makr-code/ThemisDB/issues/8091) |
+
+Die frühere Materialisierungsarbeit ist in [#8054](https://github.com/makr-code/ThemisDB/issues/8054) dokumentiert und wurde mit dem gemergten [PR #8055](https://github.com/makr-code/ThemisDB/pull/8055) abgeschlossen. Das belegt den GitHub-Abschluss dieser Arbeit, ersetzt aber keinen aktuellen Ende-zu-Ende-Nachweis für alle in diesem Bericht beschriebenen Ingestion- und Retrievalpfade.
 
 ## Quellen
 

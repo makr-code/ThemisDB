@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `b98c4d5ebbe3f281`
+- Hash: `8a7bde3764105fe6`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -374,8 +374,17 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `be8a21894dad0a23`
+- Hash: `c1cd8f093de14d6a`
 - Titel: AQL — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
+- Kategorie: governance_and_docs
+- Hash: `2997c8a2a81fb58c`
+- Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
   - ---
   - Author: "ThemisDB Team"
@@ -399,6 +408,15 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
+- Kategorie: governance_and_docs
+- Hash: `f7478b8d6d633c87`
+- Titel: Developer LLM Wiki — Governance and Roadmap
+- Auszug:
+  - Datum: 2026-11-13
+  - Status: Active
+  - - Kategorie: governance_and_docs
+
 ## ai_context/developer_llm_wiki/GRAPH.md
 - Kategorie: governance_and_docs
 - Hash: `03b7c914fbba252f`
@@ -417,6 +435,15 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/INDEX.md
+- Kategorie: governance_and_docs
+- Hash: `0e9c802121ec7d90`
+- Titel: Developer LLM Wiki — Index
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
 ## ai_context/developer_llm_wiki/MAINTENANCE.md
 - Kategorie: governance_and_docs
 - Hash: `e315de50bf8e9588`
@@ -425,6 +452,15 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+- Kategorie: governance_and_docs
+- Hash: `96ce6ad828e0b566`
+- Titel: Developer LLM Wiki — Modules and APIs
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
@@ -542,6 +578,15 @@ Status: Active
   - ---
   - Author: "ThemisDB Contributors"
   - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- Kategorie: governance_and_docs
+- Hash: `04cbdfcae4b06866`
+- Titel: Developer LLM Wiki — Delta Report
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
 
 ## ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_coverage.md
 - Kategorie: governance_and_docs
@@ -677,48 +722,3 @@ Status: Active
   - **Date**: 2026-08-07T15:42:27Z
   - **Status**: IMPLEMENTATION IN PROGRESS
   - **Phase**: Phase 2 A2 Remediation (Aug 15-21)
-
-## docs/ARCHIVED/ai-working-history/ACCELERATION_MODULE_FIX_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `ed44d3c15be4aa60`
-- Titel: Acceleration Module Fix Summary
-- Auszug:
-  - **Date**: 2026-07-19
-  - **Objective**: Complete acceleration module production readiness per user request "fix all. Fehlende Implementierung ergänzen"
-  - 1. **f9894e30**: epic3_distributed_tensor/CMakeLists.txt - Added missing `endforeach()` after foreach loop (line 17)
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE5_DELIVERY_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `ef68cb8346198531`
-- Titel: Access Model Phase 5.1-5.3 Observability Implementation - Delivery Summary
-- Auszug:
-  - **Date:** 2026-08-17
-  - **Status:** ✅ COMPLETE
-  - **Scope:** Structured logging, correlation ID propagation, and enhanced metrics
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
-- Kategorie: governance_and_docs
-- Hash: `e86995224b29939c`
-- Titel: Access Model Phase 5-6 Implementation Plan
-- Auszug:
-  - **Document Version:** 1.0.0
-  - **Status:** Detailed Planning
-  - **Target:** Wave B Exit Criteria (Q3-Q4 2026)
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `a4adf5ac2db03141`
-- Titel: Access Model Phase 5-6 Implementation Summary
-- Auszug:
-  - **Date:** 2026-08-17
-  - **Status:** COMPLETE ✅ — All deliverables implemented, verified, and committed
-  - **Target Wave:** Wave B (Performance Consolidation & GA Promotion)
-
-## docs/ARCHIVED/ai-working-history/AGENT3_DELIVERY_CHECKLIST.md
-- Kategorie: governance_and_docs
-- Hash: `23c71bdd3e6ee6b9`
-- Titel: Agent 3 Delivery Checklist — Replication Module Gap Closure
-- Auszug:
-  - **Status**: ✅ **READY FOR DELIVERY**
-  - ---
-  - - [x] src/replication/async_wal_shipper.cpp
