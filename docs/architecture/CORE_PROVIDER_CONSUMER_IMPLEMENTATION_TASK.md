@@ -50,24 +50,33 @@ wrappers.
   RocksDB/index manager members. The interface-only builder path therefore
   must not be presented as a working replacement for the production backend
   composition without fixing and testing that boundary.
-- `HttpServer`'s direct `POST /api/v1/llm/rag` route calls `requireAccess` with
-  `data:read`, action `data.read`, and the requested collection as resource, then
+- `HttpServer`'s direct `POST /api/v1/llm/rag` route passes the general `llm`
+  gate and then calls `requireAccess` with `data:read`, action `data.read`, and
+  the requested collection as resource, then
   creates a request-local concrete `query::QueryEngine` using the live
   server-owned storage and index managers (`storage_`, `secondary_index_`,
   `graph_index_`, `vector_index_`, and `spatial_index_`). `requireAccess` checks
   the scope when auth is enabled and evaluates the resource for authenticated
   non-admin users. `HttpServer` constructs a `PolicyEngine` even when no policy
-  file is found, but that empty policy set defaults to allow; policy denials are
-  also advisory when auth is disabled, and admin users bypass policy evaluation.
-  The route's collection predicates require retrieval to stay on the requested
-  collection, but do not alone prove that the caller has a grant for that
-  collection.
+  file is found. Authenticated non-admin HTTP RAG requests now deny on an empty
+  policy set and require an explicit matching policy. Other `PolicyEngine`
+  callers retain the default-allow behavior; policy denials remain advisory
+  when auth is disabled, and admin users bypass policy evaluation. The route's
+  collection predicate restricts retrieval to the requested collection but is
+  not itself a caller-specific grant. The native policy path uses exact resource
+  matching for this route (or an explicit `*` grant); other policy callers keep
+  prefix matching and first-match-wins ordering. Configured OPA decisions are
+  honored, so external rules must also use exact collection semantics. When
+  policies are configured, the general LLM gate also requires an `llm` policy
+  for the `/api/v1/llm/` resource.
 - The route creates a local `RAGProvider` over the request-local engine and
-  copies `tenant_id` from `extractAuthContext(req)` into
-  `RetrievalExecutionContext`. However, `HttpServer` currently configures only
-  static `THEMIS_TOKEN_ADMIN`, `THEMIS_TOKEN_READONLY`, and
-  `THEMIS_TOKEN_ANALYST` tokens, without assigning their `TokenConfig::tenant_id`.
-  The bootstrap now optionally enables JWT when `THEMIS_JWT_JWKS_URL` is set;
+  copies `tenant_id` from the successful `requireAccess` result into
+  `RetrievalExecutionContext`, avoiding a second token validation that could
+  otherwise lose the trusted tenant context. However, `HttpServer` currently
+  configures static `THEMIS_TOKEN_ADMIN`, `THEMIS_TOKEN_READONLY`,
+  `THEMIS_TOKEN_ANALYST`, and `THEMIS_TOKEN_RAG` tokens. The dedicated RAG
+  token has `llm` and `data:read` scopes but no tenant ID.
+  The bootstrap optionally enables JWT when `THEMIS_JWT_JWKS_URL` is set;
   issuer and audience validation are mandatory, and
   `THEMIS_JWT_TENANT_CLAIM` selects the verified claim mapped into tenant context.
   Static role tokens remain unscoped by tenant. This concrete
@@ -133,23 +142,25 @@ The direct HTTP RAG route now carries its configured live request timeout into
 `RetrievalExecutionContext` from request dispatch through query embedding and
 provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
 is cooperative and cannot interrupt a blocking embedding or backend call. The
-route copies `tenant_id` from the validated authentication context into
+route copies `tenant_id` from the successful authorization result into
 `RetrievalExecutionContext`; the provider applies tenant filters only when that
 value is nonempty and does not trust a caller-supplied tenant header. The normal
 `HttpServer` bootstrap currently creates only static role tokens without tenant
-IDs and does not enable JWT validation, so those standard requests have no
-tenant filter. Establishing a trusted tenant-bearing HTTP auth configuration
-remains open. When a tenant is present, the provider filters materialized
+IDs. JWT validation is enabled when the JWKS environment variable is configured;
+static role tokens still produce an empty tenant context. When a tenant is
+present, the provider filters materialized
 relational, content, and vector evidence and injects the tenant predicate
 before vector search; graph retrieval passes a request-scoped vertex policy to
 QueryEngine, which checks each visited entity's `tenant_id` before returning it
 or expanding that vertex. Missing, malformed, or mismatched tenant values
-return access denied. Although `requireAccess` evaluates the collection
-resource for authenticated non-admin users, the server's empty policy set
-defaults to allow, unauthenticated policy evaluation is advisory, and admin
-users bypass policy checks. The request-matching collection predicate is not
-itself a caller-specific grant. This does not populate trusted tenant context
-for AQL/YAML server consumers, establish general row-level policy outside these
+return access denied. The HTTP RAG route now requires an explicit matching
+collection policy for authenticated non-admin users; an empty policy set denies
+that route. Auth-disabled policy evaluation remains advisory, and admin users
+bypass policy checks. Native HTTP RAG resource matching is exact; configured OPA
+policy semantics remain externally defined. The
+request-matching collection predicate is not itself a caller-specific grant.
+This does not populate trusted tenant context for AQL/YAML server consumers,
+establish general row-level policy outside these
 retrieval paths, propagate caller identity, or add HTTP cancellation. Focused
 provider regressions cover foreign/missing tenants,
 indexed top-1 behavior, and same-tenant/foreign/tenantless graph vertices. A
@@ -159,13 +170,15 @@ or executed. Adding the context field is source-compatible for ordinary member
 assignment/default construction but changes the struct layout; binary consumers
 must rebuild.
 
-The server integration suite now has network-level regressions for the actual
+The server integration suite has network-level regressions for the actual
 `HttpServer` `/api/v1/llm/rag` route: absent and invalid bearer credentials are
 rejected before body parsing, and a valid configured token without the `llm`
 scope is forbidden. These tests cover only the outer authentication gateway;
-they do not exercise successful RAG execution, tenant-bearing credentials,
-collection-level policy, or evidence isolation, and have not yet been built or
-run.
+they do not exercise successful RAG execution, policy authorization at the route,
+tenant-bearing credentials, or evidence isolation. A focused PolicyEngine test
+source covers strict empty-policy denial, exact collection matching, and
+explicit/OPA decisions, but neither it nor the server integration suite has
+been built or run.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
@@ -226,8 +239,9 @@ the sink boundary. Existing vectors with the old `ingestion_vector` marker
 retain their prior snippet behavior. The new sink constructor requires callers
 to provide a `SecondaryIndexManager` on the same retrieval database.
 
-Still pending: configure and verify a trusted tenant-bearing HTTP auth source
-and caller-specific collection policy; trace and verify real AQL/YAML startup and
+Still pending: end-to-end validation of trusted tenant-bearing HTTP credentials,
+collection-policy decisions, and evidence isolation;
+trace and verify real AQL/YAML startup and
 request wiring; complete production composition; complete caller/tenant/row-level
 authorization and full context propagation (the direct HTTP vector filter is
 route-specific and does not establish general row-level policy);

@@ -10,6 +10,7 @@
 
 
 #include "server/policy_engine.h"
+#include <algorithm>
 #include <stdexcept>
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
@@ -341,6 +342,19 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
                                                const std::string& resource_path,
                                                const std::optional<std::string>& client_ip,
                                                const std::optional<std::string>& user_agent) const {
+    return authorizeWithEmptyPolicyDefault(
+        user_id, action, resource_path, client_ip, user_agent,
+        /*allow_when_empty=*/true);
+}
+
+PolicyEngine::Decision PolicyEngine::authorizeWithEmptyPolicyDefault(
+    const std::string& user_id,
+    const std::string& action,
+    const std::string& resource_path,
+    const std::optional<std::string>& client_ip,
+    const std::optional<std::string>& user_agent,
+    bool allow_when_empty,
+    bool exact_resource_match) const {
     metrics_.policy_eval_total++;
 
     // If an OPA evaluator is configured, try it first.
@@ -369,13 +383,15 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
      */
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // If no policies are defined, default allow to preserve the repository's
-    // ABAC contract and to keep authorization behavior consistent with RBAC.
-    // An empty policy set is treated as "no restriction" until an explicit deny
-    // rule is loaded, while unmatched explicit rules still fail closed.
+    // Preserve the established default for existing callers, while allowing
+    // sensitive endpoints to require an explicit policy grant.
     if (policies_.empty()) {
-        metrics_.policy_allow_total++;
-        return {true, "", "no_policies_default_allow"};
+        if (allow_when_empty) {
+            metrics_.policy_allow_total++;
+            return {true, "", "no_policies_default_allow"};
+        }
+        metrics_.policy_deny_total++;
+        return {false, "", "no_policies_fail_closed"};
     }
 
     // Evaluate in order: first matching policy decides
@@ -386,7 +402,15 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
         if (!matchAction(p, action)) {
           continue;
         }
-        if (!matchResource(p, resource_path)) {
+        const bool resource_matches = exact_resource_match
+          ? !p.resources.empty() &&
+                std::any_of(p.resources.begin(), p.resources.end(),
+                    [&resource_path](const std::string& policy_resource) {
+                        return policy_resource == "*" ||
+                               policy_resource == resource_path;
+                    })
+          : matchResource(p, resource_path);
+        if (!resource_matches) {
           continue;
         }
         if (!matchConditions(p, client_ip, user_agent)) {
@@ -564,4 +588,3 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
 }
 
 } // namespace themis
-

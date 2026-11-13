@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Security - HTTP RAG collection policies
+
+- Authenticated non-admin requests to `/api/v1/llm/rag` now require an explicit
+  matching collection policy; an empty policy set denies this endpoint.
+  Native policy rules match the collection exactly (or use an explicit `*`).
+  `THEMIS_TOKEN_RAG` provides an optional least-privilege static identity with
+  only `llm` and `data:read` scopes.
+  Existing `PolicyEngine` callers retain their default-allow behavior, and
+  authenticated administrators retain the existing policy bypass. Auth-disabled
+  mode remains advisory; configured OPA decisions remain operator-defined.
+
 ### Changed - HttpServer JWT bootstrap
 
 - `HttpServer` now enables JWT validation when `THEMIS_JWT_JWKS_URL` is set.

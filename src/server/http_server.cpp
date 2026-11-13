@@ -767,6 +767,14 @@ HttpServer::HttpServer(
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: ANALYST token configured via env");
     }
+    if (auto t = themis_get_env("THEMIS_TOKEN_RAG")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *t;
+        cfg.user_id = "rag_reader";
+        cfg.scopes = {"llm", "data:read"};
+        auth_->addToken(cfg);
+        THEMIS_INFO("Auth: RAG reader token configured via env");
+    }
 
     if (auto jwks_url = themis_get_env("THEMIS_JWT_JWKS_URL")) {
         themis::AuthMiddleware::JWTConfig jwt_cfg;
@@ -5608,7 +5616,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
-                    if (auto access_error = requireAccess(req, "data:read", "data.read", collection)) {
+                    AuthContext retrieval_auth_context;
+                    if (auto access_error = requireAccess(
+                            req, "data:read", "data.read", collection,
+                            /*require_explicit_policy=*/true,
+                            &retrieval_auth_context)) {
                         applyGovernanceHeaders(req, *access_error);
                         return *access_error;
                     }
@@ -5620,7 +5632,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         retrieval_execution.deadline =
                             start + std::chrono::milliseconds(request_timeout_ms);
                     }
-                    retrieval_execution.tenant_id = extractAuthContext(req).tenant_id;
+                    retrieval_execution.tenant_id = retrieval_auth_context.tenant_id;
                     retrieval_execution.authorize_collection =
                         [authorized_collection = collection](
                             const std::string& requested_collection) {
@@ -11746,8 +11758,14 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     const http::request<http::string_body>& req,
     std::string_view required_scope,
     std::string_view action,
-    std::string_view resource_path
+    std::string_view resource_path,
+    bool require_explicit_policy,
+    AuthContext* auth_context
 ) {
+    if (auth_context != nullptr) {
+        *auth_context = {};
+    }
+
     // If auth is disabled and no policy engine configured, allow
     bool auth_enabled = (auth_ && auth_->isEnabled());
     bool policy_enabled = (policy_engine_ != nullptr);
@@ -11826,6 +11844,22 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             return res;
         }
         user_id = ar.user_id;
+        if (auth_context != nullptr) {
+            auth_context->user_id = ar.user_id;
+            auth_context->tenant_id = ar.tenant_id;
+            auth_context->groups = ar.groups;
+        }
+    }
+
+    if (require_explicit_policy && auth_enabled && user_id != "admin" &&
+        !policy_enabled) {
+        http::response<http::string_body> res{http::status::forbidden, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"policy_unavailable","message":"An explicit collection policy is required"})";
+        applyGovernanceHeaders(req, res);
+        res.prepare_payload();
+        return res;
     }
 
     // 2) Policy evaluation (if enabled)
@@ -11877,7 +11911,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
 
         THEMIS_INFO("PolicyEngine: evaluating user='{}' action='{}' resource='{}' client_ip='{}'", user_id, action, resource, client_ip.has_value() ? *client_ip : std::string("<none>"));
-        auto decision = policy_engine_->authorize(user_id, std::string(action), resource, client_ip);
+        auto decision = policy_engine_->authorizeWithEmptyPolicyDefault(
+            user_id, std::string(action), resource, client_ip, std::nullopt,
+            !require_explicit_policy, require_explicit_policy);
         THEMIS_INFO("PolicyEngine: decision.allowed={} reason='{}' policy_id='{}'", decision.allowed, decision.reason, decision.policy_id);
         if (!decision.allowed) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};

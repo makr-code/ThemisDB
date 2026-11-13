@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,7 +25,10 @@ Related issues: #7093, #7167
 - `APIGateway::Config` controls optional routing/admission features, request limits/timeouts, metrics, and API version checks. Runtime behavior depends on these settings and the dependencies supplied at construction.
 - `AuthMiddleware` exposes configuration for JWT, Kerberos, mTLS, API-key, and token paths. Authorization returns `AuthResult`, including `authorized`, user/tenant context, and a reason.
 - `HttpServer` enables JWT validation when `THEMIS_JWT_JWKS_URL` is set. Both `THEMIS_JWT_EXPECTED_ISSUER` and `THEMIS_JWT_EXPECTED_AUDIENCE` are required; incomplete configuration fails server construction. `THEMIS_JWT_TENANT_CLAIM` optionally selects the signed claim mapped to `AuthResult.tenant_id` (default `tenant_id`). Without the JWKS URL, JWT validation is not enabled by this bootstrap.
-- JWT authentication establishes a verified identity and optional tenant claim, not a collection grant. RAG still calls `requireAccess()` for the requested collection; operators configure policies using `THEMIS_POLICIES_PATH` or `config/policies.yaml|yml|json`. An absent or empty policy set retains the existing default-allow behavior, so it is not caller-specific collection authorization.
+- `THEMIS_TOKEN_RAG` configures a static `rag_reader` identity with only `llm` and `data:read` scopes for deployments that need a dedicated RAG caller.
+- JWT authentication establishes a verified identity and optional tenant claim, not a collection grant. HTTP RAG requires an explicit matching policy for authenticated non-admin callers; an empty policy set denies this route. Configure policies using `THEMIS_POLICIES_PATH` or `config/policies.yaml|yml|json`; native collection grants match the validated user ID (or an explicitly configured subject wildcard), action `data.read`, and the exact collection resource (or an explicitly configured resource wildcard). The existing LLM route gate also requires an `llm` policy for `/api/v1/llm/` when policies are configured. The existing default-allow behavior remains for other policy callers. Other PolicyEngine callers retain prefix matching, and policies remain first-match-wins. OPA results are honored as configured, so external policy rules must enforce exact collection matching themselves.
+- HTTP RAG's collection-policy requirement applies only when authentication is enabled. Existing auth-disabled mode treats policy checks as advisory, and authenticated `admin` bypasses policy checks by design. Tenant filtering remains independent of collection authorization.
+- The HTTP RAG route carries user and tenant identity from its successful `requireAccess()` decision into retrieval; it does not revalidate the bearer token to construct retrieval context.
 - The HttpServer bootstrap does not apply `THEMIS_JWT_SCOPE_CLAIM`; JWT scope authorization uses parsed `scope`/`scp` claims or configured role-to-scope mappings.
 
 ## Caller obligations and failure cases

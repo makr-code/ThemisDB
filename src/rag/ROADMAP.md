@@ -128,17 +128,22 @@ registration, persistent storage, external telemetry, or production readiness.
     AuthMiddleware. The HttpServer now enables JWT when
     `THEMIS_JWT_JWKS_URL` is configured and requires expected issuer and audience;
     `THEMIS_JWT_TENANT_CLAIM` selects the verified tenant claim. Static role
-    tokens still have no tenant IDs. The HttpServer creates a PolicyEngine by
-    default, but an absent/empty policy set defaults to
-    allow; policy denials are advisory when authentication is disabled, and admin
-    users bypass policy evaluation. The route's collection-equality predicate is
-    not a caller-specific collection grant.
+    tokens still have no tenant IDs. Authenticated non-admin HTTP RAG requests
+    now require an explicit matching policy; an empty policy set denies this
+    route. Other PolicyEngine callers retain the default-allow behavior, policy
+    denials are advisory when authentication is disabled, and admin users bypass
+    policy evaluation. The route's collection-equality predicate remains distinct
+    from the caller-specific policy grant. Native HTTP RAG rules require an
+    exact collection resource or explicit `*`; other PolicyEngine callers keep
+    prefix-matching and first-match-wins semantics. Configured OPA resource
+    semantics remain operator-defined.
   - The canonical Core task now contains the evidence-backed current-source role
     map for every immediate `src/` directory. This documents source roles only;
     it does not mark a runtime acceptance criterion complete.
-  - Trusted tenant-bearing credentials can now be configured through JWT, but
-    caller-specific collection
-    policy, real AQL/YAML startup wiring, full request-context/auth isolation,
+  - Trusted tenant-bearing credentials can now be configured through JWT, and
+    explicit policy grants are now required for authenticated non-admin HTTP RAG.
+    OPA collection-policy validation, real AQL/YAML startup wiring, full
+    request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. Network-level source regressions now cover rejection of unauthenticated,
     invalid-token, and missing-`llm`-scope requests at the actual HttpServer RAG

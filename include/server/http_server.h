@@ -1467,28 +1467,35 @@ private:
         std::string_view scope
     );
 
+    struct AuthContext {
+        std::string user_id;
+        std::string tenant_id;
+        std::vector<std::string> groups;
+    };
+
     /**
      * @brief Require Access.
      * @param[in] req Input parameter.
      * @param[in] required_scope Input parameter.
      * @param[in] action Input parameter.
      * @param[in] resource_path Path to the resource.
+     * @param[in] require_explicit_policy When true, authenticated non-admin
+     *        requests are denied if no policy explicitly authorizes the resource.
+     * @param[out] auth_context Receives the identity from the same successful
+     *        authorization decision; remains empty when authentication is disabled.
      * @return Return value.
      */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         std::string_view required_scope,
         std::string_view action,
-        std::string_view resource_path
+        std::string_view resource_path,
+        bool require_explicit_policy = false,
+        AuthContext* auth_context = nullptr
     );
 
     // Extract user, tenant, and groups from a validated bearer token.
     // Returns an empty context if auth is disabled or token validation fails.
-    struct AuthContext {
-        std::string user_id;
-        std::string tenant_id;
-        std::vector<std::string> groups;
-    };
     /**
      * @brief Extract Auth Context.
      * @param[in] req Input parameter.
