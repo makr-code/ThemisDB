@@ -147,11 +147,11 @@ provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
 is cooperative and cannot interrupt a blocking embedding or backend call. The
 route copies `tenant_id` from the successful authorization result into
 `RetrievalExecutionContext`; the provider applies tenant filters only when that
-value is nonempty and does not trust a caller-supplied tenant header. The normal
-`HttpServer` bootstrap currently creates only static role tokens without tenant
-IDs. JWT validation is enabled when the JWKS environment variable is configured;
-static role tokens still produce an empty tenant context unless the dedicated
-RAG token has `THEMIS_TOKEN_RAG_TENANT` configured. When a tenant is
+value is nonempty and does not trust a caller-supplied tenant header. By default,
+the `HttpServer` static role tokens have no tenant IDs. JWT validation is enabled
+when the JWKS environment variable is configured; static role tokens still
+produce an empty tenant context unless the dedicated RAG token has
+`THEMIS_TOKEN_RAG_TENANT` configured. When a tenant is
 present, the provider filters materialized
 relational, content, and vector evidence and injects the tenant predicate
 before vector search; graph retrieval passes a request-scoped vertex policy to
@@ -159,8 +159,9 @@ QueryEngine, which checks each visited entity's `tenant_id` before returning it
 or expanding that vertex. Missing, malformed, or mismatched tenant values
 return access denied. The HTTP RAG route now requires an explicit matching
 collection policy for authenticated non-admin users; an empty policy set denies
-that route. The policy test now configures a tenant-bound static RAG token,
-but still does not exercise successful retrieval or evidence isolation.
+that route. A focused HTTP route test now configures a tenant-bound static RAG
+token and asserts foreign-tenant evidence is excluded, using a test-only
+inference plugin. The test source has not yet been built or executed.
 Auth-disabled policy evaluation remains advisory, and admin users
 bypass policy checks. Native HTTP RAG resource matching is exact; configured OPA
 policy semantics remain externally defined. The
@@ -179,12 +180,12 @@ must rebuild.
 The server integration suite has network-level regressions for the actual
 `HttpServer` `/api/v1/llm/rag` route: absent and invalid bearer credentials are
 rejected before body parsing, and a valid configured token without the `llm`
-scope is forbidden. These tests cover only the outer authentication gateway;
-they do not exercise successful RAG execution, policy authorization at the route,
-tenant-bearing credentials, or evidence isolation. A focused PolicyEngine test
-source covers strict empty-policy denial, exact collection matching, and
-explicit/OPA decisions, but neither it nor the server integration suite has
-been built or run.
+scope is forbidden. A focused policy-route test also exercises a successful
+tenant-bound static-token request with a test-only inference plugin and asserts
+that only same-tenant evidence is returned. A focused PolicyEngine test source
+covers strict empty-policy denial, exact collection matching, and explicit/OPA
+decisions. These C++ tests have not been built or executed; the test plugin does
+not validate production inference integration.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in

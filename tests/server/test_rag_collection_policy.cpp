@@ -6,8 +6,10 @@
 #include "index/graph_index.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
+#include "llm/llm_plugin_manager.h"
 #include "server/http_server.h"
 #include "server/policy_engine.h"
+#include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
 
@@ -78,6 +80,88 @@ struct ScopedEnv {
     }
 };
 
+class TenantEvidencePlugin final : public themis::llm::ILLMPlugin {
+public:
+    bool loadModel(const std::string&, const themis::llm::json&) override {
+        return true;
+    }
+
+    void unloadModel() override {}
+    std::optional<themis::llm::ModelInfo> getModelInfo() const override {
+        return std::nullopt;
+    }
+    bool isModelLoaded() const override { return true; }
+    bool loadLoRA(const std::string&, const std::string&, float) override {
+        return true;
+    }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<themis::llm::LoRAInfo> listLoRAs() const override { return {}; }
+    themis::llm::InferenceResponse generate(
+        const themis::llm::InferenceRequest& request) override {
+        themis::llm::InferenceResponse response;
+        response.success = true;
+        response.model_id = request.model_id;
+        return response;
+    }
+    themis::llm::InferenceResponse generateRAG(
+        const themis::llm::RAGContext& context,
+        const themis::llm::InferenceRequest& request) override {
+        themis::llm::InferenceResponse response;
+        response.success = true;
+        response.model_id = request.model_id;
+        for (const auto& document : context.documents) {
+            if (!response.text.empty()) {
+                response.text.push_back('\n');
+            }
+            response.text += document.content;
+        }
+        return response;
+    }
+    std::vector<float> embed(const std::string&) override { return {1.0f, 0.0f}; }
+    themis::llm::LLMCapabilities getCapabilities() const override {
+        themis::llm::LLMCapabilities capabilities;
+        capabilities.supports_embeddings = true;
+        capabilities.supports_rag = true;
+        return capabilities;
+    }
+    themis::llm::json getMemoryStats() const override { return {}; }
+    themis::llm::json getPerformanceStats() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override {
+        return true;
+    }
+};
+
+class ScopedTenantEvidencePlugin {
+public:
+    ScopedTenantEvidencePlugin()
+        : manager_(themis::llm::LLMPluginManager::instance()) {
+        if (auto* default_plugin = manager_.getDefaultPlugin()) {
+            for (const auto& plugin_name : manager_.listPlugins()) {
+                if (manager_.getPlugin(plugin_name) == default_plugin) {
+                    previous_default_ = plugin_name;
+                    break;
+                }
+            }
+        }
+        manager_.registerPlugin(kPluginName,
+                                std::make_unique<TenantEvidencePlugin>());
+        manager_.setDefaultPlugin(kPluginName);
+    }
+
+    ~ScopedTenantEvidencePlugin() {
+        manager_.unregisterPlugin(kPluginName);
+        if (!previous_default_.empty() && manager_.hasPlugin(previous_default_)) {
+            manager_.setDefaultPlugin(previous_default_);
+        }
+    }
+
+private:
+    static constexpr const char* kPluginName = "rag-tenant-propagation-test";
+    themis::llm::LLMPluginManager& manager_;
+    std::string previous_default_;
+};
+
 class RagPolicyHttpFixture {
 public:
     static constexpr uint16_t kPort = 18107;
@@ -107,10 +191,9 @@ public:
                 std::make_unique<ScopedEnv>("THEMIS_TOKEN_READONLY", kToken);
         }
         token_env_ = std::make_unique<ScopedEnv>("THEMIS_TOKEN_RAG", kToken);
-        if (rag_tenant_id) {
-            tenant_env_ = std::make_unique<ScopedEnv>(
-                "THEMIS_TOKEN_RAG_TENANT", *rag_tenant_id);
-        }
+        tenant_env_ = std::make_unique<ScopedEnv>(
+            "THEMIS_TOKEN_RAG_TENANT",
+            rag_tenant_id.value_or(std::string{}));
         policy_env_ = std::make_unique<ScopedEnv>(
             "THEMIS_POLICIES_PATH", policy_path_.string());
 
@@ -140,6 +223,27 @@ public:
         server_->start();
         std::this_thread::sleep_for(std::chrono::milliseconds(120));
         return true;
+    }
+
+    bool storeTenantEvidence() {
+        if (!vector_index_->init(
+                "docs", 2, themis::VectorIndexManager::Metric::COSINE).ok ||
+            !secondary_index_->createIndex("docs", "tenant_id").ok) {
+            return false;
+        }
+
+        const auto store = [this](const std::string& id,
+                                  const std::string& content,
+                                  const std::string& tenant_id) {
+            themis::BaseEntity entity(id);
+            entity.setField("content", content);
+            entity.setField("tenant_id", tenant_id);
+            entity.setField("embedding", std::vector<float>{1.0f, 0.0f});
+            return secondary_index_->put("docs", entity).ok &&
+                   vector_index_->addEntity(entity).ok;
+        };
+        return store("tenant-a-doc", "tenant-a evidence", "tenant-a") &&
+               store("tenant-b-doc", "tenant-b secret", "tenant-b");
     }
 
     void stop() {
@@ -325,7 +429,8 @@ TEST(RagCollectionPolicyHttpTest, EmptyPolicySetDeniesAuthenticatedRagRequest) {
     EXPECT_EQ(body.value("message", ""), "no_policies_fail_closed");
 }
 
-TEST(RagCollectionPolicyHttpTest, NativePolicyMatchesTheExactCollection) {
+TEST(RagCollectionPolicyHttpTest,
+     TenantBoundRagTokenFiltersForeignEvidenceAndRequiresExactCollectionPolicy) {
     const std::string policies = R"json({
         "policies": [
             {
@@ -347,6 +452,8 @@ TEST(RagCollectionPolicyHttpTest, NativePolicyMatchesTheExactCollection) {
     RagPolicyHttpFixture fixture;
     ASSERT_TRUE(fixture.start(policies, /*duplicate_readonly_token=*/false,
                               "tenant-a"));
+    ASSERT_TRUE(fixture.storeTenantEvidence());
+    ScopedTenantEvidencePlugin test_plugin;
 
     const auto prefix_sibling = postRagRequest("docs-private");
     EXPECT_EQ(prefix_sibling.result(), http::status::forbidden);
@@ -354,8 +461,13 @@ TEST(RagCollectionPolicyHttpTest, NativePolicyMatchesTheExactCollection) {
     EXPECT_EQ(denied_body.value("message", ""), "no_matching_policy");
 
     const auto exact_collection = postRagRequest("docs");
-    EXPECT_NE(exact_collection.result(), http::status::forbidden)
+    ASSERT_EQ(exact_collection.result(), http::status::ok)
         << exact_collection.body();
+    const auto result = nlohmann::json::parse(exact_collection.body());
+    EXPECT_EQ(result.value("documents_retrieved", 0), 1);
+    const auto generated_text = result.value("text", "");
+    EXPECT_NE(generated_text.find("tenant-a evidence"), std::string::npos);
+    EXPECT_EQ(generated_text.find("tenant-b secret"), std::string::npos);
 }
 
 TEST(RagCollectionPolicyHttpTest, RejectsRagTokenCollisionWithExistingRoleToken) {

@@ -33,8 +33,8 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - `THEMIS_JWT_TENANT_CLAIM` maps a verified identity claim to tenant context; this does not establish collection grants.
   - Authenticated non-admin HTTP RAG now requires a matching explicit policy; other PolicyEngine callers retain their existing empty-policy default. Admin bypass and auth-disabled advisory behavior are unchanged.
   - `THEMIS_TOKEN_RAG` configures a dedicated static `rag_reader` identity with `llm` and `data:read` scopes; optional `THEMIS_TOKEN_RAG_TENANT` binds only this identity to a trusted configured tenant.
-  - Focused tests cover JWT startup validation, policy-engine allow/deny decisions, and the tenant-bound token's route authorization, but have not been built or run; local CMake configuration is blocked by the required `fmt` dependency.
-  - Native RAG policy matching is exact (or explicit `*`); OPA resource semantics remain operator-defined. Successful authenticated RAG evidence and end-to-end tenant-isolation validation remain open.
+  - Focused test source now covers tenant-bound static-token retrieval isolation through the HTTP RAG route using a test-only inference plugin, alongside JWT startup and policy checks; the C++ test has not been built or run because local CMake configuration is blocked by required `fmt`.
+  - Native RAG policy matching is exact (or explicit `*`); OPA resource semantics remain operator-defined. Production inference integration and executed end-to-end validation remain open.
 
 ## Recently Completed
 - [x] Propagate the configured live HTTP request timeout into direct RAG retrieval and return HTTP 504 when its cooperative deadline expires (2026-11-12)
