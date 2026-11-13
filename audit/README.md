@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-13
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
@@ -38,6 +38,8 @@ Exact model backend not verifiable from final document text alone.
 | `BENCHMARK_MODULE_COVERAGE.json` | Source/CMake/CTest and evidence-status inventory for all 73 source modules |
 | `ROADMAP.md` | Audit-derived production-readiness roadmap (WS1–WS11, milestones M0–M4, traceability matrix); non-normative for release status |
 | `TEST_QUALITY_INVENTORY.md` | Baseline v1 test-quality inventory (snapshot 2026-11-09) for issue #7820; generated from `develop` at `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`, with metrics sourced from `test_quality_baseline_v1.json` (4,258 test sources; all 1,018 C++ files under `tests/legacy/` pending per-file disposition) |
+| [`HYBRID_TEST_EVIDENCE_CATALOG_V1.md`](HYBRID_TEST_EVIDENCE_CATALOG_V1.md) | Draft profile-level test obligations for DB core + RAG/LLM/AdaLoRA/Multi-LoRA/Tensor; static source snapshot only, no execution claim |
+| [`hybrid_test_evidence_catalog_v1.json`](hybrid_test_evidence_catalog_v1.json) | Machine-readable criteria, current test mappings, gaps, and separate coverage/execution statuses for the hybrid profile draft |
 | `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md` | Consolidated source-verified audit, maturity, security, and monetary update |
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
@@ -85,6 +87,7 @@ Exact model backend not verifiable from final document text alone.
 - `FULL_DEEP_DIVE_AUDIT_2026-10-31.md`
 - `ROADMAP.md`
 - [`TEST_QUALITY_INVENTORY.md`](TEST_QUALITY_INVENTORY.md) — issue #7820 baseline v1; source SHA `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`; includes all C++ source files under `tests/legacy/`
+- [`HYBRID_TEST_EVIDENCE_CATALOG_V1.md`](HYBRID_TEST_EVIDENCE_CATALOG_V1.md) — proposed DB-core/hybrid acceptance obligations and evidence rules; thresholds and mandatory scope await maintainer ratification
 - `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
