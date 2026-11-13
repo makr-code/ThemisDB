@@ -32,10 +32,7 @@ on:
         type: string
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 concurrency:
   group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
@@ -46,6 +43,10 @@ jobs:
     name: "Validate: ${{ inputs.phase_title }}"
     runs-on: ubuntu-22.04
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
