@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,10 @@ source-grounded capability summary, not a release-readiness statement.
 - **Adapter training and lifecycle:** `IncrementalLoRATrainer` and
   `MultiTaskLoRATrainer` expose training operations; adapter implementations
   support LoRA/AdaLoRA representation, merge, checkpoint, and resume paths.
+- **Provider-to-consumer AdaLoRA:** `ITrainingSampleProvider` normalizes bounded
+  source batches; the AQL provider supports authorized training collections and
+  `DocsDbTrainingSampleProvider` reads generated documentation RocksDBs
+  read-only. Both feed the same frozen-GGUF AdaLoRA consumer and GGUF export path.
 - **Orchestration and governance:** `TrainingPipeline` coordinates enabled
   stages, while `ProvenanceTracker` records sample lineage and
   `adapter_serving.h` exposes router handoff results.
@@ -51,6 +55,9 @@ source-grounded capability summary, not a release-readiness statement.
 - The optional OCR path does not currently return recognized image text.
 - A trained adapter is not automatically serving: deployment requires a
   configured router and callers must inspect its result.
+- The docs.db path requires imported `chunk_` records or legacy `doc_` previews
+  and a real TinyLlama-compatible GGUF. Source authorization and cryptographic
+  signing of the exported adapter remain separate production requirements.
 
 ## Source references
 

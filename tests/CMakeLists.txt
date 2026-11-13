@@ -59,6 +59,29 @@ endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)
 
+set(_themis_vcpkg_include_dir "")
+set(_themis_vcpkg_lib_dir "")
+set(_themis_vcpkg_bin_dir "")
+set(_themis_vcpkg_debug_bin_dir "")
+if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_themis_vcpkg_include_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+    set(_themis_vcpkg_lib_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
+    set(_themis_vcpkg_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    set(_themis_vcpkg_debug_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
+    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
+    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
+    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/bin")
+endif()
+
+if(NOT _themis_vcpkg_bin_dir AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib")
+    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/debug/bin")
+endif()
+
 # Harden Windows test runtime dependency syncing at the target layer. This
 # resolves the actual DLL import graph for each executable instead of relying on
 # a manual list of files copied from the shared bin directory.
@@ -215,6 +238,25 @@ if(TARGET themis_training)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    add_executable(module_training_test_docs_db_training_sample_provider_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/training/test_docs_db_training_sample_provider.cpp
+    )
+    target_link_libraries(module_training_test_docs_db_training_sample_provider_focused
+        PRIVATE themis_training GTest::gtest_main
+    )
+    themis_register_module_focused_test(
+        MODULE training
+        NAME docs_db_training_sample_provider
+        TARGET module_training_test_docs_db_training_sample_provider_focused
+        TIER unit
+        TIMEOUT 120
+    )
+    gtest_discover_tests(module_training_test_docs_db_training_sample_provider_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_docs_db_training_sample_provider_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
 endif()
 
 if(TARGET themis_llm)
@@ -241,29 +283,6 @@ endif()
 # These are intentionally scoped outside the module auto-discover pass so they
 # remain visible even when the broader module test matrix is filtered.
 include(${THEMIS_ROOT_DIR}/cmake/AuditScope.cmake)
-
-set(_themis_vcpkg_include_dir "")
-set(_themis_vcpkg_lib_dir "")
-set(_themis_vcpkg_bin_dir "")
-set(_themis_vcpkg_debug_bin_dir "")
-if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
-    set(_themis_vcpkg_include_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
-    set(_themis_vcpkg_lib_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
-    set(_themis_vcpkg_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
-    set(_themis_vcpkg_debug_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
-elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
-    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include")
-    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
-    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
-    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/bin")
-endif()
-
-if(NOT _themis_vcpkg_bin_dir AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
-    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include")
-    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib")
-    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
-    set(_themis_vcpkg_debug_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/debug/bin")
-endif()
 
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
 # integration is added separately with an explicit binary directory below.

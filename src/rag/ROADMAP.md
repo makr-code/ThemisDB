@@ -382,6 +382,55 @@ benchmark execution, or release acceptance.
   - **Evidence**: `docs/operability/RUNBOOK_RAG_PIPELINE.md` delivers operator-critical remediation hints for all 5 Wave D scenarios
 - [~] Wave B B1: Self-RAG retrieval-controller/critic/refinement rollout (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
 
+### Small-Model Retrieval and Framework Interoperability (Proposal; Target: Q2 2027)
+
+- [ ] Reconcile server/SDK filters, distance/score ordering, IDs, cursors and
+  partial-failure semantics before adding advertised framework support
+  (Priority: P0; Target: Q2 2027 proposal).
+- [ ] Qualify tenant/row/collection restrictions across retrieval and caches;
+  caller metadata filters are not authorization (Priority: P0; Target: Q2 2027 proposal).
+- [ ] Wire tokenizer-exact final prompt budgeting and evaluate diverse,
+  attributable evidence at fixed local-model context budgets, including
+  bounded re-retrieval (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Coordinate decentralized candidate reduction and document
+  update/delete/freshness contracts with search and ingestion
+  (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Evaluate request-pinned Multi-LoRA specialization and tensor-layer
+  candidate/adapter routing with source attribution, backend signal checks,
+  numerical error and controlled quality/context-budget ablations
+  (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Qualify optional LangChain and .NET VectorData adapters over the corrected
+  contract; evaluate LlamaIndex/Haystack only with maintained conformance
+  coverage (Priority: P1; Target: Q2 2027 proposal).
+
+- **Phase 1 — Design / API Contract:** inventory native RAG, tokenizer,
+  QueryEngine, SDK/filter/score and locality surfaces; define fixed-budget
+  evaluation fixtures and separate current gaps from proposed metadata.
+- **Phase 2 — Core Implementation:** compose existing search/RAG/llama.cpp
+  components for exact final admission and bounded evidence refinement; wrap
+  qualified client contracts in optional adapters, not a second query engine.
+- **Phase 3 — Error Handling & Edge Cases:** distinguish no evidence, no-fitting
+  evidence, unsupported filters, backend/partial failures, revoked access,
+  tokenizer mismatch, denied egress and exhausted aggregate budgets.
+- **Phase 4 — Tests:** verify actual server/SDK parity, final token limits,
+  filtered recall, provenance, lifecycle, policy isolation and pinned framework
+  standard/integration suites.
+- **Phase 5 — Performance / Hardening:** measure fixed-context answer-support
+  quality, prefill/total latency, cross-node bytes and RAM/VRAM under concurrent
+  database load; ratify thresholds against representative baselines.
+- **Phase 6 — Documentation & Acceptance:** publish model/tokenizer/topology
+  limits, capability matrices, consistency/retention policies, installation,
+  auth and measured evidence without claiming unsupported compatibility.
+
+**Acceptance:** supported predicates are not dropped, metric directions are
+preserved, and backend failures are not ordinary empty results. Admitted final
+prompts plus output reservation fit the effective window; configured native
+loops terminate explicitly. Declared SDK/framework combinations pass their
+pinned suites without core framework dependencies. See
+[`ARCHITECTURE.md`](ARCHITECTURE.md) and
+[`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md). This is a proposal, not
+implemented behavior or a release commitment.
+
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract

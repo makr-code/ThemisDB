@@ -46,6 +46,7 @@
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "X_VCPKG_APPLOCAL_DEPS_SERIALIZED": "ON",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_GPU_AUTO_DETECT": "ON",
         "THEMIS_ENABLE_VULKAN": "ON",
@@ -130,6 +131,17 @@
         "THEMIS_CHAOS_ADMIN": "OFF",
         "THEMIS_PLUGIN_SCRAPER": "ON",
         "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+      }
+    },
+    {
+      "name": "windows-bench",
+      "displayName": "Windows x64: Benchmark Release",
+      "description": "Release profile for benchmark targets with tests disabled.",
+      "inherits": "windows-release",
+      "binaryDir": "${sourceDir}/build-msvc-windows-bench",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
     {
@@ -738,6 +750,11 @@
       "name": "windows-debug",
       "configurePreset": "windows-debug",
       "jobs": 20
+    },
+    {
+      "name": "windows-bench",
+      "configurePreset": "windows-bench",
+      "jobs": 16
     },
     {
       "name": "hyperscaler-debug-windows",

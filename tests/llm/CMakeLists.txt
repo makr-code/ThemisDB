@@ -71,6 +71,12 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         message(STATUS "Not registering ${_stem}: THEMIS_ENABLE_LLM is OFF")
         continue()
     endif()
+    if(NOT THEMIS_ENABLE_VISION
+       AND (_stem STREQUAL "test_llm_vision_encoder"
+            OR _stem STREQUAL "test_llm_vision_integration"))
+        message(STATUS "Not registering ${_stem}: THEMIS_ENABLE_VISION is OFF")
+        continue()
+    endif()
 
     # Temporarily quarantine phase3 wiki focused suites with known API/syntax drift.
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
@@ -430,6 +436,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     set(_gmock_link "")
 
     set(_llm_test_libs ${TEST_LIBS})
+    if(_stem STREQUAL "test_gpu_lora_integration")
+        set(_llm_test_libs GTest::gtest_main)
+    endif()
 
     target_link_libraries(${_target} PRIVATE
         ${_llm_test_libs}

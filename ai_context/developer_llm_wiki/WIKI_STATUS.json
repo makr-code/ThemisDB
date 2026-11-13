@@ -1,24 +1,23 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T07:48:23+00:00",
+  "generated_at": "2026-11-13T07:35:35+00:00",
   "mode": "incremental",
-  "source_count": 8090,
-  "source_hash": "96ba6fee81d1ccff8024597f98d71dd2ce68f289096eb1adfd5b2419bae06e81",
+  "source_count": 8134,
+  "source_hash": "58db3eb17cddb70a3268a40aab2a7cc294071ef4539b9061f7714638432e8991",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 5,
+    "changed_count": 4,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "CHANGELOG.md",
-      "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
-      "include/ingestion/ingestion_sinks.h",
-      "include/query/query_engine.h",
-      "src/rag/ROADMAP.md"
+      "INDEX.md",
+      "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
+      "ai_context/developer_llm_wiki/INDEX.md",
+      "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "1002997d93561052f00bdb174f29c7841bad23ad7280243eeb2887314bf3a4cb"
+  "manifest_sha256": "1fb5074274c2b8a8b36995bdc1e86184fd662754e09874f6b6e6d5e0ff85bcac"
 }

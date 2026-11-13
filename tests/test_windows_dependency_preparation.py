@@ -36,14 +36,16 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
     def named(self, name):
         return next(step for step in self.steps if step["name"] == name)
 
-    def plan(self, selector="all", edition="community", build_type="Release", concurrency="2"):
+    def plan(self, selector="all", edition="community", build_type="Release", concurrency="2",
+             ref="", source_sha=""):
         command = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
         result = subprocess.run(
             ["bash", "-euo", "pipefail", "-c", command.replace(' >> "$GITHUB_OUTPUT"', "")],
             env={**os.environ, "BUILD_MATRIX": selector, "OS_SELECTOR": "all",
                  "ARCH_SELECTOR": "all", "EDITION": edition, "BUILD_TYPE": build_type,
                  "PACKAGING": "auto", "DISTRIBUTION": "all", "RUN_NUMBER": "1",
-                 "WINDOWS_DEPENDENCY_CONCURRENCY": concurrency},
+                 "WINDOWS_DEPENDENCY_CONCURRENCY": concurrency, "GITHUB_REF": ref,
+                 "GITHUB_SHA": "test-sha", "GITHUB_RUN_ID": "123", "SOURCE_SHA": source_sha},
             capture_output=True, text=True,
         )
         return result, dict(line.split("=", 1) for line in result.stdout.splitlines() if "=" in line)
@@ -378,6 +380,30 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual("-DTHEMIS_ENABLE_GRPC=ON" in lane["configure_command"], edition != "minimal")
                 self.assertNotIn("VCPKG_BUILD_TYPE", lane["configure_command"])
                 self.assertEqual("VCPKG_OVERLAY_TRIPLETS" in lane["configure_command"], config == "Release")
+
+    def test_windows_release_never_builds_or_runs_tests(self):
+        for ref, source_sha in [
+            ("refs/heads/develop", ""),
+            ("refs/heads/develop", "pinned-sha"),
+            ("refs/tags/v1.0.0", ""),
+        ]:
+            with self.subTest(ref=ref, source_sha=source_sha):
+                result, values = self.plan(ref=ref, source_sha=source_sha)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                lanes = {lane["id"]: lane for lane in json.loads(values["matrix"])["include"]}
+                windows = lanes["windows-amd64"]
+                self.assertEqual(windows, json.loads(values["windows_lane"]))
+                self.assertIn("-DTHEMIS_BUILD_TESTS=OFF", windows["configure_command"])
+                self.assertNotIn("-DTHEMIS_BUILD_TESTS=ON", windows["configure_command"])
+                self.assertNotIn("ctest", windows["build_command"].lower())
+                self.assertNotIn("ctest", windows["validation_command"].lower())
+                self.assertNotIn("ctest_junit_path", windows)
+                self.assertNotIn("test-windows-release", windows["artifact_paths"])
+                self.assertIn("cmake --install", windows["validation_command"])
+                self.assertIn("cpack --config", windows["validation_command"])
+                self.assertIn("validate_runtime_payload.py", windows["validation_command"])
+                for lane_id in ("linux-amd64", "linux-arm64", "macos-arm64"):
+                    self.assertIn("-DTHEMIS_BUILD_TESTS=OFF", lanes[lane_id]["configure_command"])
 
     def test_release_triplet_is_available_for_pinned_sources(self):
         triplet = (ROOT / "triplets/x64-windows.cmake").read_text()

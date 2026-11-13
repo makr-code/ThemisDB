@@ -75,6 +75,12 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
                     toolchain.parent.mkdir(parents=True)
                     toolchain.touch()
+                    thrift_port = directory / "vcpkg/ports/thrift/portfile.cmake"
+                    thrift_port.parent.mkdir(parents=True)
+                    thrift_port.write_text(
+                        'URLS "https://archive.apache.org/dist/thrift/${VERSION}/'
+                        'thrift-${VERSION}.tar.gz"\n'
+                    )
                     bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
                     bootstrap.write_text(
                         '#!/bin/bash\nset -euo pipefail\n'
@@ -104,6 +110,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
                     )
                     self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertIn("https://dlcdn.apache.org/thrift/", thrift_port.read_text())
+                    self.assertNotIn("https://archive.apache.org/dist/thrift/", thrift_port.read_text())
                     self.assertEqual(int(attempt_log.read_text()), attempts)
                     self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
                     self.assertEqual((directory / "model-step-ran").exists(), status == 0)
@@ -438,6 +446,88 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 workflow_sha,
             )
             self.assertIn("dry-run only", result.stdout)
+
+    def test_dockerhub_overwrite_builds_workflow_source_for_existing_release(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            tagged_sha = self.make_source(directory)
+            workflow_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", DRY_RUN="false",
+                BUILD_FROM_WORKFLOW_SOURCE="false", OVERWRITE_DOCKERHUB_IMAGE="true",
+                REGISTRY="docker.io", OVERRIDE_SOURCE_PREFLIGHT="false",
+                GITHUB_EVENT_PATH="/dev/null",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["version"], "v2.4.0")
+        self.assertEqual(values["source_sha"], workflow_sha)
+        self.assertNotEqual(values["source_sha"], tagged_sha)
+        self.assertIn("Docker Hub overwrite enabled", result.stdout)
+
+    def test_dockerhub_overwrite_with_both_registry_is_scoped_to_dockerhub(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", DRY_RUN="false",
+                BUILD_FROM_WORKFLOW_SOURCE="false", OVERWRITE_DOCKERHUB_IMAGE="true",
+                REGISTRY="both", OVERRIDE_SOURCE_PREFLIGHT="false",
+                GITHUB_EVENT_PATH="/dev/null",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["registry"], "docker.io")
+        self.assertIn("limiting publication to Docker Hub", result.stdout)
+
+    def test_dockerhub_overwrite_requires_explicit_safe_dispatch_settings(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        cases = [
+            {"EVENT_NAME": "workflow_call"},
+            {"TAG_INPUT": ""},
+            {"PUSH_INPUT": "false"},
+            {"REGISTRY": "ghcr.io"},
+            {"DRY_RUN": "true"},
+            {"BUILD_FROM_WORKFLOW_SOURCE": "true"},
+            {"OVERRIDE_SOURCE_PREFLIGHT": "true"},
+        ]
+        for overrides in cases:
+            with self.subTest(overrides=overrides), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                self.make_source(directory)
+                environment = {
+                    "EVENT_NAME": "workflow_dispatch",
+                    "GIT_REF": "refs/heads/develop",
+                    "TAG_INPUT": "v2.4.0",
+                    "PUSH_INPUT": "true",
+                    "DRY_RUN": "false",
+                    "BUILD_FROM_WORKFLOW_SOURCE": "false",
+                    "OVERWRITE_DOCKERHUB_IMAGE": "true",
+                    "REGISTRY": "docker.io",
+                    "OVERRIDE_SOURCE_PREFLIGHT": "false",
+                    "GITHUB_EVENT_PATH": "/dev/null",
+                    **overrides,
+                }
+                result, _ = run_bash(script, directory, **environment)
+                self.assertNotEqual(result.returncode, 0)
+
+    def test_dockerhub_overwrite_policy_preserves_registry_push(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), PUSH_REQUESTED="true", BUILD_FROM_WORKFLOW_SOURCE="false",
+                OVERWRITE_DOCKERHUB_IMAGE="true", TAG_NAME="v2.4.0", DRY_RUN="false",
+                REGISTRY="docker.io", INCLUDE_TINYLLAMA="true", LLM_MODEL="tinyllama",
+                LLM_MODEL_URL="", LLM_MODEL_FILE="", FORCE_DOWNLOAD="false",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(values["push_requested"], "true")
+        self.assertEqual(values["dry_run"], "false")
+        self.assertIn("will replace those image tags", result.stdout)
 
     def test_docker_workflow_source_build_automatically_uses_dry_run(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]

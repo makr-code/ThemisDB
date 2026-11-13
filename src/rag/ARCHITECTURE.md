@@ -15,7 +15,7 @@ Human_Author: "ThemisDB Team"
 <!-- Phase 6: Documentation enhanced with thread-safety, complexity analysis, failure modes -->
 
 Version: 1.1
-Last Updated: 2026-11-12
+Last Updated: 2026-11-13
 Module Path: src/rag/
 
 ## 1. Overview
@@ -73,6 +73,86 @@ provider-side code even when their historical filename contains "helpers".
    evaluation, or enrichment. The module does not enforce a fixed order.
 5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured
    injected sinks and does not guarantee their persistence.
+
+### Small-model context and decentralized retrieval (design target; 2026-11-13)
+
+The native database/LLM hybrid should select compact, complementary evidence
+for smaller local models, rather than maximize chunk count or fill every
+available token. It combines database-side relational/graph/geo/lexical/vector
+selection with local generation; external agent frameworks remain optional.
+
+**Current boundary:** `prepareRAGRequest()` already frames sources, reserves
+response space, and selects whole chunks, but uses character-based token
+estimates. llama.cpp tokenization exists in the inference backend; it is not
+yet evidence of tokenizer-exact packing in the shared RAG helper.
+`AgenticRAG` implements iterative callback-based retrieval and stop reasons;
+its default session token cap is disabled and reported token use is best-effort.
+Neither establishes a universal, preemptive resource budget.
+
+The proposed final admission condition is:
+
+`tokens_model(final_rendered_input) + reserved_output + safety_margin <= effective_context`
+
+`final_rendered_input` includes system instructions, query, chat template,
+tool definitions/results, retained history, source framing and selected evidence.
+`effective_context` must respect the loaded model/runtime window and any
+smaller request limit. Validate the final rendering with the actual tokenizer;
+separate fragment estimates can miss template/special-token costs. Reject or
+reselect evidence if the budget cannot be met; do not silently remove hard
+instructions, source attribution, or required output reservation.
+
+Proposed retrieval/context sequence:
+
+1. Apply trusted access policy and hard metadata/relational restrictions at
+   the owning data path before returning evidence.
+2. Retrieve bounded local candidates using suitable lexical/vector/graph/geo
+   paths; use an explicit fusion policy for unlike score scales.
+3. Deduplicate by namespace/source/revision and reduce overlapping passages;
+   retain complementary evidence needed for multi-part answers.
+4. Fetch concise source-linked passages or parent context only where useful;
+   retain offsets/revisions. Any model-produced compression must be marked as
+   derived text and retain links to the original evidence, not fabricated quotes.
+5. Pack against the final tokenizer budget. Re-retrieve only within cumulative
+   step/token/time/candidate limits; stop on no new evidence, cancellation,
+   exhausted budget, or the configured completion criterion.
+6. Pass the evidence to native generation or return it independently.
+   Insufficient evidence must be distinguishable from backend failure.
+
+For decentralized execution, reduce candidates near their authorized data
+source and transfer only policy-permitted content/provenance needed by the
+coordinator. Allocate an aggregate fan-out, byte and time budget across nodes;
+giving every shard the entire request budget is not a global bound. Expose
+partial coverage and freshness; independent shard reads are not a proven
+global snapshot. Locality constraints must not trigger unapproved external
+fallback when a node or model is unavailable.
+
+Evaluate fixed, model-supported context sizes, multilingual/code-heavy inputs,
+quantizations, and single-/multi-node deployments. Report evidence precision,
+answer-support coverage, duplicate/context-token use, attribution, abstention,
+prefill/total latency and RAM/VRAM alongside recall/nDCG. An LLM judge alone is
+not the reference truth. The target is task-quality per context/resource
+budget, not an unmeasured promise that retrieval removes hallucinations.
+
+AdaLoRA specialization and Multi-LoRA activation complement this evidence
+path: adapters may improve task behavior but do not grant access or establish
+current facts. Tensor layers may route via adapter/package/shard summaries and
+retrieve finer artifacts on demand; approximate fingerprints are candidate
+signals, not source evidence. Keep generation-adapter choice distinct from
+embedding-encoder/index identity. Any adaptive retrieval driven by logits or
+uncertainty needs an actually wired backend signal; low confidence alone is
+neither proof of a knowledge gap nor permission to fetch denied data.
+
+Compare base-only, RAG-only, adapter-only, RAG+adapter, and tensor-enabled
+variants with pinned artifacts and reported budget differences. Measure
+attribution and factual support separately from learned task competence.
+Tensor compression does not save prompt tokens unless the executed
+retrieval/representation path actually reduces rendered input; the existing
+`tensor_hybrid`/`tensor_prefix` text modes are not native tensor/KV injection.
+
+See [the native hybrid boundary](../llm/ARCHITECTURE.md),
+[the RAG backlog](FUTURE_ENHANCEMENTS.md), and
+[search planning](../search/FUTURE_ENHANCEMENTS.md). All new controls in this
+subsection are proposals unless identified as current behavior above.
 
 ## 4. Integration Boundaries
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-12"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-12
+Datum: 2026-11-13
 Status: Active
 
 ## .github/workflows/benchmark-gate.yml
@@ -339,7 +339,7 @@ Status: Active
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `9ad576cf08a3af87`
+- Hash: `f5144441d94fc85b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -354,7 +354,7 @@ Status: Active
 
 ## .github/workflows/release-docker-image.yml
 - Kategorie: build_test_ci
-- Hash: `c56f976d65b951c9`
+- Hash: `4cdee4a720611821`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-evidence-chain.yml

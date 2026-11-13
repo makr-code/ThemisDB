@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,8 +28,27 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 - [~] improving diagnostics consistency across labeling, training, and serving-handoff stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for training hot paths (Target: Q3 2026)
 - [x] implement real DB-backed sample loading and one benchmark per supported LoRA data path, including preparation, model-backed paths, AQL iterator, collection training, selection, and full pipeline (Target: Q4 2026)
+- [~] unify AQL and docs.db TinyLlama AdaLoRA training behind a bounded provider/consumer contract; keep docs.db as a read-only source adapter (Target: Q4 2026)
 
 ## Planned Features
+
+### Native Hybrid Specialization (Proposal; Target: Q2 2027)
+
+- [ ] Qualify bounded source-neutral AdaLoRA training -> evaluated/versioned
+  GGUF artifact -> explicit Multi-LoRA promotion and rollback; retain actual
+  `output.weight` training scope (Target: Q2 2027 proposal).
+- [ ] Bind sample/snapshot provenance, base/tokenizer, adaptive rank schedule,
+  target shapes/scaling and artifact trust; test real-GGUF serving outcomes
+  rather than equate export/load success with quality (Target: Q2 2027 proposal).
+- [ ] Qualify optional AdaLoRA-to-TT round-trip and serving bridges with
+  measured scaled-update error and held-out task quality; compare native,
+  RAG and adapter/tensor variants under shared resource budgets
+  (Target: Q2 2027 proposal).
+
+Use the existing design/core/error/test/hardening/documentation phases for this
+work; historical completion labels do not close these new gates. See
+[the specialization plan](FUTURE_ENHANCEMENTS.md) and
+[the hybrid boundary](../llm/ARCHITECTURE.md).
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
@@ -53,6 +72,7 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 - [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 - [x] load bounded, validated samples from the configured ThemisDB collection into IncrementalLoRATrainer (Target: Q4 2026)
 - [x] implement TrainingDataIterator AQL execution and connect TrainingPipeline QueryEngine injection, sample persistence, selected IDs, and training reads (Target: Q4 2026)
+- [~] add the source-neutral `ITrainingSampleProvider` contract, read-only docs.db provider, and shared native AdaLoRA consumer with TinyLlama GGUF export (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
@@ -87,6 +107,8 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 
 - runtime behavior depends on training configuration, adapter size, and available acceleration.
 - model-backed source cases require a real GGUF artifact; without one, their benchmark preflight is reported as not run.
+- docs.db training requires a generated RocksDB with valid `chunk_` records or legacy `doc_` previews and a real TinyLlama-compatible GGUF model; provider-only unit coverage is not end-to-end training evidence.
+- training source authorization and cryptographic signing/verification of exported AdaLoRA artifacts remain unimplemented production gates.
 - selected checkpoint, merge, and serving edge scenarios need continued hardening.
 - benchmark depth should continue expanding for broader training workloads.
 - Wave B B3 rollout depends on Wave A deployment readiness and stable LLM adapter lifecycle baselines.

@@ -1,6 +1,6 @@
 /**
  * @file adalora_training_pipeline.cpp
- * @brief Native docs-to-TinyLlama AdaLoRA training and GGUF serving handoff.
+ * @brief AdaLoRA consumer for provider-backed TinyLlama training and GGUF serving handoff.
  */
 #include "training/adalora_training_pipeline.h"
 
@@ -8,6 +8,7 @@
 #include "llm/llama_wrapper.h"
 #include "llm/training_data_iterator.h"
 #include "training/ada_lora_adapter.h"
+#include "training/docs_db_training_sample_provider.h"
 
 #include <ggml.h>
 #include <gguf.h>
@@ -41,6 +42,26 @@ struct PreparedSample {
     float weight = 1.0f;
 };
 
+void validateTrainingConfig(const AdaLoRATrainingConfig& config) {
+    if (config.adapter_id.empty() || config.base_model_path.empty() ||
+        config.adapter_output_path.empty() || config.checkpoint_path.empty() ||
+        config.model_architecture != "llama" || config.max_samples == 0 ||
+        config.max_sample_bytes == 0 || config.max_training_data_bytes == 0 ||
+        config.provider_batch_size == 0 || config.max_sequence_length < 2 ||
+        config.output_shard_count == 0 || config.initial_rank == 0 ||
+        config.rank_budget < config.output_shard_count || config.epochs <= 0 ||
+        !std::isfinite(config.alpha) || config.alpha <= 0.0f ||
+        !std::isfinite(config.learning_rate) || config.learning_rate <= 0.0f ||
+        !std::isfinite(config.max_gradient_norm) || config.max_gradient_norm <= 0.0f ||
+        config.reallocate_every_steps == 0) {
+        throw std::invalid_argument("Invalid AdaLoRA training pipeline configuration");
+    }
+    if (config.output_shard_count > std::numeric_limits<size_t>::max() / config.initial_rank ||
+        config.rank_budget > config.output_shard_count * config.initial_rank) {
+        throw std::invalid_argument("AdaLoRA rank budget exceeds output-shard capacity");
+    }
+}
+
 void atomicallyReplaceFile(const std::filesystem::path& temporary,
                            const std::filesystem::path& destination) {
 #ifdef _WIN32
@@ -60,7 +81,7 @@ void atomicallyReplaceFile(const std::filesystem::path& temporary,
 #endif
 }
 
-std::string makePrompt(const llm::TrainingDataIterator::TrainingSample& sample) {
+std::string makePrompt(const TrainingSampleRecord& sample) {
     std::string prompt = sample.instruction;
     if (!sample.input.empty()) {
         if (!prompt.empty()) {
@@ -71,11 +92,89 @@ std::string makePrompt(const llm::TrainingDataIterator::TrainingSample& sample) 
     return prompt;
 }
 
+class AqlTrainingSampleProvider final : public ITrainingSampleProvider {
+public:
+    AqlTrainingSampleProvider(llm::TrainingDataIterator& iterator,
+                              const AdaLoRATrainingConfig& config)
+        : iterator_(iterator), config_(config) {}
+
+    void initialize(size_t max_samples, size_t batch_size) override {
+        if (config_.aql_query.empty()) {
+            throw std::invalid_argument("AQL training provider query is empty");
+        }
+        auto iterator_config = iterator_.getConfig();
+        iterator_config.max_samples = std::min(iterator_config.max_samples, max_samples);
+        iterator_config.batch_size = std::min(iterator_config.batch_size, batch_size);
+        iterator_config.quality_filter.max_text_length = std::min(
+            iterator_config.quality_filter.max_text_length, config_.max_sample_bytes);
+        iterator_.setConfig(iterator_config);
+
+        llm::AdapterMetadata metadata;
+        metadata.adapter_id = config_.adapter_id;
+        metadata.base_model_name = std::filesystem::path(config_.base_model_path).stem().string();
+        metadata.architecture = config_.model_architecture;
+        metadata.task_type = "causal-language-modeling";
+        metadata.domain = "documentation";
+        metadata.training_config.lora_rank = static_cast<int>(config_.initial_rank);
+        metadata.training_config.lora_alpha = config_.alpha;
+        metadata.training_config.learning_rate = config_.learning_rate;
+        metadata.training_config.epochs = config_.epochs;
+        metadata.training_config.max_seq_length = static_cast<int>(config_.max_sequence_length);
+        metadata.training_config.target_modules = {"output"};
+        metadata.provenance.dataset_name = config_.adapter_id + "_documentation";
+        metadata.provenance.training_query = config_.aql_query;
+        if (!iterator_.initialize(config_.aql_query, metadata)) {
+            throw std::runtime_error("AQL training dataset initialization failed: " + iterator_.lastError());
+        }
+        initialized_ = true;
+    }
+
+    [[nodiscard]] bool hasNext() const noexcept override {
+        return initialized_ && iterator_.hasNext();
+    }
+
+    [[nodiscard]] std::vector<TrainingSampleRecord> nextBatch() override {
+        auto batch = iterator_.getNextBatch();
+        if (!batch) {
+            return {};
+        }
+        std::vector<TrainingSampleRecord> samples;
+        samples.reserve(batch->samples.size());
+        for (auto& sample : batch->samples) {
+            TrainingSampleRecord record;
+            const auto id = sample.metadata.find("sample_id");
+            record.sample_id = id == sample.metadata.end()
+                ? "aql-sample-" + std::to_string(next_sample_id_)
+                : id->second;
+            ++next_sample_id_;
+            const auto source = sample.metadata.find("source_uri");
+            record.source_uri = source == sample.metadata.end() ? "aql" : source->second;
+            record.instruction = std::move(sample.instruction);
+            record.input = std::move(sample.input);
+            record.output = std::move(sample.output);
+            record.weight = sample.weight;
+            samples.push_back(std::move(record));
+        }
+        return samples;
+    }
+
+    [[nodiscard]] std::string_view sourceName() const noexcept override {
+        return "aql";
+    }
+
+private:
+    llm::TrainingDataIterator& iterator_;
+    const AdaLoRATrainingConfig& config_;
+    size_t next_sample_id_ = 0;
+    bool initialized_ = false;
+};
+
 void writeAdapterGGUF(const AdaLoRAAdapter& adapter,
                       const AdaLoRATrainingConfig& config,
                       size_t hidden_size,
                       size_t vocabulary_size,
-                      const std::string& model_fingerprint) {
+                      const std::string& model_fingerprint,
+                      std::string_view training_source) {
     namespace fs = std::filesystem;
     const fs::path output_path(config.adapter_output_path);
     if (output_path.empty()) {
@@ -155,6 +254,8 @@ void writeAdapterGGUF(const AdaLoRAAdapter& adapter,
                                static_cast<float>(total_rank);
     gguf_set_val_f32(gguf.get(), "adapter.lora.alpha", export_alpha);
     gguf_set_val_str(gguf.get(), "themis.base_model.sha256", model_fingerprint.c_str());
+    const std::string source_name(training_source);
+    gguf_set_val_str(gguf.get(), "themis.training.source", source_name.c_str());
 
     auto* tensor_a = ggml_new_tensor_2d(tensor_context.get(), GGML_TYPE_F32,
         static_cast<int64_t>(hidden_size), static_cast<int64_t>(total_rank));
@@ -176,83 +277,27 @@ void writeAdapterGGUF(const AdaLoRAAdapter& adapter,
     fs::remove(temporary_path, remove_error);
     if (!gguf_write_to_file(gguf.get(), temporary_path.string().c_str(), false)) {
         fs::remove(temporary_path, remove_error);
-        throw std::runtime_error("llama.cpp failed to write the AdaLoRA GGUF adapter");
+        throw std::runtime_error("llama.cpp failed to write the AdaLoRA adapter GGUF");
     }
-    std::error_code rename_error;
-    fs::rename(temporary_path, output_path, rename_error);
-    if (rename_error) {
-        fs::remove(temporary_path, remove_error);
-        throw std::runtime_error("Failed to publish AdaLoRA GGUF adapter: " + rename_error.message());
-    }
+    atomicallyReplaceFile(temporary_path, output_path);
 }
 
-} // namespace
-
-AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
-    llm::TrainingDataIterator& data_iterator,
+AdaLoRATrainingResult trainPreparedSamples(
+    std::vector<TrainingSampleRecord> samples,
     llm::LlamaWrapper& model,
-    const AdaLoRATrainingConfig& config) {
+    const AdaLoRATrainingConfig& config,
+    std::string_view training_source) {
     AdaLoRATrainingResult result;
     result.adapter_path = config.adapter_output_path;
+    result.samples_read = samples.size();
     try {
-        if (config.adapter_id.empty() || config.base_model_path.empty() || config.aql_query.empty() ||
-            config.adapter_output_path.empty() || config.checkpoint_path.empty() ||
-            config.model_architecture != "llama" || config.max_samples == 0 ||
-            config.max_sequence_length < 2 || config.output_shard_count == 0 ||
-            config.initial_rank == 0 || config.rank_budget < config.output_shard_count ||
-            config.epochs <= 0 || !std::isfinite(config.alpha) || config.alpha <= 0.0f ||
-            !std::isfinite(config.learning_rate) || config.learning_rate <= 0.0f ||
-            !std::isfinite(config.max_gradient_norm) || config.max_gradient_norm <= 0.0f ||
-            config.reallocate_every_steps == 0) {
-            throw std::invalid_argument("Invalid AdaLoRA training pipeline configuration");
-        }
-        if (config.output_shard_count > std::numeric_limits<size_t>::max() / config.initial_rank ||
-            config.rank_budget > config.output_shard_count * config.initial_rank) {
-            throw std::invalid_argument("AdaLoRA rank budget exceeds output-shard capacity");
+        validateTrainingConfig(config);
+        if (samples.empty()) {
+            throw std::runtime_error("Training sample provider returned no usable samples");
         }
         if (!std::filesystem::is_regular_file(config.base_model_path)) {
             throw std::invalid_argument("Base model GGUF is not a regular file: " + config.base_model_path);
         }
-
-        llm::AdapterMetadata metadata;
-        metadata.adapter_id = config.adapter_id;
-        metadata.base_model_name = std::filesystem::path(config.base_model_path).stem().string();
-        metadata.architecture = config.model_architecture;
-        metadata.task_type = "causal-language-modeling";
-        metadata.domain = "documentation";
-        metadata.training_config.lora_rank = static_cast<int>(config.initial_rank);
-        metadata.training_config.lora_alpha = config.alpha;
-        metadata.training_config.learning_rate = config.learning_rate;
-        metadata.training_config.epochs = config.epochs;
-        metadata.training_config.max_seq_length = static_cast<int>(config.max_sequence_length);
-        metadata.training_config.target_modules = {"output"};
-        metadata.provenance.dataset_name = config.adapter_id + "_documentation";
-        metadata.provenance.training_query = config.aql_query;
-        if (!data_iterator.initialize(config.aql_query, metadata)) {
-            throw std::runtime_error("AQL training dataset initialization failed: " + data_iterator.lastError());
-        }
-
-        std::vector<llm::TrainingDataIterator::TrainingSample> samples;
-        samples.reserve(std::min(config.max_samples, data_iterator.getTotalSamples()));
-        while (data_iterator.hasNext() && samples.size() < config.max_samples) {
-            auto batch = data_iterator.getNextBatch();
-            if (!batch) {
-                break;
-            }
-            for (auto& sample : batch->samples) {
-                if (samples.size() == config.max_samples) {
-                    break;
-                }
-                if (!sample.output.empty() && std::isfinite(sample.weight) && sample.weight > 0.0) {
-                    samples.push_back(std::move(sample));
-                }
-            }
-        }
-        result.samples_read = samples.size();
-        if (samples.empty()) {
-            throw std::runtime_error("AQL training query returned no usable instruction/completion samples");
-        }
-
         if (!model.isModelLoaded() && !model.loadModel(config.base_model_path)) {
             throw std::runtime_error("LlamaWrapper could not load base model " + config.base_model_path);
         }
@@ -296,11 +341,11 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
         }
         result.samples_read = prepared.size();
         if (prepared.empty() || hidden_size == 0 || vocabulary_size == 0) {
-            throw std::runtime_error("No usable model-tokenized documentation samples");
+            throw std::runtime_error("No usable model-tokenized training samples");
         }
 
         const size_t shard_count = std::min(config.output_shard_count, vocabulary_size);
-        if (config.rank_budget < shard_count || vocabulary_size < shard_count) {
+        if (config.rank_budget < shard_count) {
             throw std::invalid_argument("AdaLoRA rank budget must provide at least rank one per output shard");
         }
         AdaLoRAAdapter adapter(config.initial_rank, config.alpha, config.rank_budget);
@@ -314,17 +359,13 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
         if (vocabulary_offset != vocabulary_size) {
             throw std::runtime_error("AdaLoRA output-shard partition does not cover the model vocabulary");
         }
-
         if (std::filesystem::exists(config.checkpoint_path)) {
             if (!AdaLoRAAdapter::isCacheValid(config.checkpoint_path, result.model_fingerprint)) {
                 throw std::runtime_error("Existing AdaLoRA checkpoint belongs to a different base model");
             }
             const auto checkpoint_fingerprint = adapter.loadFromFile(config.checkpoint_path);
-            if (checkpoint_fingerprint != result.model_fingerprint) {
-                throw std::runtime_error("AdaLoRA checkpoint fingerprint verification failed");
-            }
-            if (adapter.layerCount() != shard_count) {
-                throw std::runtime_error("AdaLoRA checkpoint shard count does not match current model");
+            if (checkpoint_fingerprint != result.model_fingerprint || adapter.layerCount() != shard_count) {
+                throw std::runtime_error("AdaLoRA checkpoint metadata does not match model or output shards");
             }
         }
         const auto initial_allocation = adapter.reallocateRanks(config.rank_budget);
@@ -370,24 +411,22 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
                     }
                 }
             }
-            if (!config.checkpoint_path.empty()) {
-                const std::filesystem::path checkpoint_path(config.checkpoint_path);
-                const auto checkpoint_parent = checkpoint_path.parent_path();
-                if (!checkpoint_parent.empty()) {
-                    std::filesystem::create_directories(checkpoint_parent);
-                }
-                auto temporary_checkpoint = checkpoint_path;
-                temporary_checkpoint += ".tmp";
-                adapter.saveToFile(temporary_checkpoint.string(), result.model_fingerprint);
-                atomicallyReplaceFile(temporary_checkpoint, checkpoint_path);
+            const std::filesystem::path checkpoint_path(config.checkpoint_path);
+            if (!checkpoint_path.parent_path().empty()) {
+                std::filesystem::create_directories(checkpoint_path.parent_path());
             }
+            auto temporary_checkpoint = checkpoint_path;
+            temporary_checkpoint += ".tmp";
+            adapter.saveToFile(temporary_checkpoint.string(), result.model_fingerprint);
+            atomicallyReplaceFile(temporary_checkpoint, checkpoint_path);
         }
         if (result.target_tokens_trained == 0) {
             throw std::runtime_error("No next-token targets were processed");
         }
         result.mean_loss = loss_sum / static_cast<float>(result.target_tokens_trained);
         result.final_rank = adapter.reallocateRanks(config.rank_budget).total_active_rank;
-        writeAdapterGGUF(adapter, config, hidden_size, vocabulary_size, result.model_fingerprint);
+        writeAdapterGGUF(adapter, config, hidden_size, vocabulary_size,
+                         result.model_fingerprint, training_source);
         if (config.load_for_inference && !model.loadLoRA(config.adapter_id, config.adapter_output_path, 1.0f)) {
             throw std::runtime_error("Training succeeded but the serving LoRA manager rejected the exported GGUF adapter");
         }
@@ -396,6 +435,84 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
         result.error_message = exception.what();
     }
     return result;
+}
+
+} // namespace
+
+AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
+    llm::TrainingDataIterator& data_iterator,
+    llm::LlamaWrapper& model,
+    const AdaLoRATrainingConfig& config) {
+    AqlTrainingSampleProvider provider(data_iterator, config);
+    return trainFromProvider(provider, model, config);
+}
+
+AdaLoRATrainingResult AdaLoRATrainingPipeline::trainFromProvider(
+    ITrainingSampleProvider& provider,
+    llm::LlamaWrapper& model,
+    const AdaLoRATrainingConfig& config) {
+    AdaLoRATrainingResult result;
+    result.adapter_path = config.adapter_output_path;
+    std::vector<TrainingSampleRecord> samples;
+    try {
+        validateTrainingConfig(config);
+        provider.initialize(config.max_samples, config.provider_batch_size);
+        size_t empty_batches = 0;
+        size_t total_sample_bytes = 0;
+        while (provider.hasNext() && samples.size() < config.max_samples) {
+            auto batch = provider.nextBatch();
+            if (batch.empty()) {
+                if (!provider.hasNext()) {
+                    break;
+                }
+                if (++empty_batches > 32) {
+                    throw std::runtime_error("Training sample provider made no progress");
+                }
+                continue;
+            }
+            empty_batches = 0;
+            for (auto& sample : batch) {
+                if (samples.size() == config.max_samples) {
+                    break;
+                }
+                if (!sample.output.empty() && std::isfinite(sample.weight) && sample.weight > 0.0) {
+                    const size_t sample_limit = std::min(config.max_sample_bytes,
+                        config.max_training_data_bytes - total_sample_bytes);
+                    size_t sample_bytes = 0;
+                    const auto add_bytes = [&sample_bytes, sample_limit](size_t value) {
+                        if (value > sample_limit - sample_bytes) {
+                            throw std::runtime_error("Training sample byte limit exceeded");
+                        }
+                        sample_bytes += value;
+                    };
+                    add_bytes(sample.sample_id.size());
+                    add_bytes(sample.source_uri.size());
+                    add_bytes(sample.instruction.size());
+                    add_bytes(sample.input.size());
+                    add_bytes(sample.output.size());
+                    total_sample_bytes += sample_bytes;
+                    samples.push_back(std::move(sample));
+                }
+            }
+        }
+        result.samples_read = samples.size();
+        if (samples.empty()) {
+            throw std::runtime_error("Training sample provider returned no usable samples");
+        }
+        return trainPreparedSamples(std::move(samples), model, config, provider.sourceName());
+    } catch (const std::exception& exception) {
+        result.samples_read = samples.size();
+        result.error_message = exception.what();
+    }
+    return result;
+}
+
+AdaLoRATrainingResult AdaLoRATrainingPipeline::trainFromDocsDatabase(
+    const std::string& docs_db_path,
+    llm::LlamaWrapper& model,
+    const AdaLoRATrainingConfig& config) {
+    DocsDbTrainingSampleProvider provider({docs_db_path});
+    return trainFromProvider(provider, model, config);
 }
 
 } // namespace themis::training

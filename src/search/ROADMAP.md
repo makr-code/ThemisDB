@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -184,6 +184,28 @@ current status.
 - [~] **Wave C: Federation Hardening** (Target: Q3 2026): Federated search coordination, cross-tenant isolation, distributed cache coherency.
 
 ## Planned Features
+
+### Native Small-Model Retrieval (Proposal; Target: Q2 2027)
+
+- [ ] Reconcile server/SDK filtering, metric-aware shard merge, ID/cursor and
+  explicit partial-failure semantics before framework qualification
+  (Priority: P0; Target: Q2 2027 proposal).
+- [ ] Qualify policy-aware pre/post-filter strategy and measure filtered recall
+  across selectivity levels against an exact oracle; retain hard predicates
+  independently of ANN quality (Priority: P0; Target: Q2 2027 proposal).
+- [ ] Reduce authorized candidates near their data, enforce aggregate shard
+  budgets, and evaluate complementary evidence at fixed local-model context
+  limits with RAG (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Measure cross-node bytes, coverage/freshness and DB p95/p99 under
+  concurrent native inference; approve thresholds only after baselines
+  (Priority: P1; Target: Q2 2027 proposal).
+
+Use the existing design/implementation/error/test/hardening/documentation phases
+below for this work; their historical completion labels do not close these new
+items. Contracts, tests and research sources are in
+[FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md). Existing hybrid/RRF and
+filtered-query components are building blocks, not evidence that every
+external endpoint already preserves their semantics.
 
 ### Q1 2027+ — Advanced Search Enhancements
 

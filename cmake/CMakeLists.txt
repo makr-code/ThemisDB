@@ -5153,7 +5153,6 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/prompt_policy.cpp
         ../src/llm/llm_plugin_manager.cpp
-        ../src/llm/ssm_state_rocksdb_store.cpp
         ../src/llm/llm_factory_stub.cpp      # Factory shims for create* entry points used by demos and query functions
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
         ../src/llm/model_quantization_pipeline.cpp  # GGUF/AWQ/GPTQ quantization pipeline (Phase 3)
@@ -5224,7 +5223,6 @@ if(THEMIS_ENABLE_LLM)
         
         # P1: Enterprise Features - LLM Inference Engine Improvements
         ../src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
-        ../src/llm/token_quota_manager.cpp
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
@@ -6321,7 +6319,9 @@ if(WIN32)
         COMPONENT runtime
         DIRECTORIES ${_themis_runtime_dependency_dirs}
         PRE_EXCLUDE_REGEXES "api-ms-.*" "ext-ms-.*"
-        POST_EXCLUDE_REGEXES ".*/system32/.*\\.dll" ".*/cmake/.*\\.dll"
+        POST_EXCLUDE_REGEXES
+            ".*[/\\\\][sS][yY][sS][tT][eE][mM]32[/\\\\].*\\.[dD][lL][lL]"
+            ".*/cmake/.*\\.dll"
     )
 
     install(FILES "${CMAKE_BINARY_DIR}/bin/faiss.dll"

@@ -9,6 +9,7 @@
 **AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
+**Last Updated:** 2026-11-13 (native small-model lifecycle proposal; earlier evidence dates retained)
 
 > Exact model backend not verifiable from final document text alone.
 
@@ -58,6 +59,23 @@ throughput, or release-gate enforcement. In particular:
 The maturity label is a planning assessment, not a repository-wide formal
 rating. Root `ROADMAP.md` and release governance remain authoritative for release
 dates and readiness.
+
+### Native Small-Model Retrieval Lifecycle (Proposal; Target: Q2 2027)
+
+- [ ] Extend the existing lifecycle backlog with stable source/chunk IDs,
+  source revisions, content hashes and source-linked chunk profiles for
+  fixed-budget local-model retrieval (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Qualify idempotent document/chunk/vector updates, stale-chunk cleanup,
+  deletion/revocation propagation and measured search visibility at declared
+  transaction/index boundaries (Priority: P1; Target: Q2 2027 proposal).
+- [ ] Distinguish embedding-encoder/index identity from generation-model/
+  tokenizer identity; do not require re-embedding solely because the generator
+  changes (Priority: P1; Target: Q2 2027 proposal).
+
+This refines the existing embedding/index wave, not a duplicate implementation
+or a claim that its helpers perform a complete migration. See
+[the detailed proposal](FUTURE_ENHANCEMENTS.md) and
+[current embedding behavior](EMBEDDING.md).
 
 ## v2.5.0 / v3.0.0 Research and Wave Plan
 

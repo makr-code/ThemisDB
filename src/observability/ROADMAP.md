@@ -1,7 +1,7 @@
 # Observability Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | evidence snapshot: 2026-11-07 -->
+<!-- Status: current | evidence snapshot: 2026-11-07 | Last Updated: 2026-11-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!--
 AI_Used: true
@@ -33,6 +33,7 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [ ] re-baseline p95/p99 envelopes for observability export and scrape operations (Target: Q1 2027)
 - [ ] broaden benchmark depth for distributed observability workflows (Target: Q1 2027)
 - [ ] harden long-running reliability under sustained telemetry pressure (Target: Q1 2027)
+- [ ] inventory and specify versioned GenAI semantic-convention instrumentation across LLM and RAG paths, including privacy and cardinality controls (Target: Q2 2027 proposal)
 
 ## Implementation Phases
 
@@ -294,6 +295,35 @@ References (accessed 2026-11-07): [OpenTelemetry cardinality limits](https://ope
 - **Risk:** external backend and network behavior may differ from in-process test doubles; do not generalize mock-only results to production.
 - **Success metric:** all supported integration paths preserve trace identity; every injected loss/failure is surfaced; bounded queues recover within the agreed recovery objective; no p95/p99 gate regresses more than 10% on matched hardware.
 - **Validation:** module and cross-module integration suites, chaos/soak run, Release benchmark artifacts, security/governance review, runbook exercise, and human release sign-off.
+
+#### Wave 4 — native hybrid diagnostics and GenAI interoperability (proposal; Q2 2027)
+
+- **Goal:** correlate database service health, decentralized retrieval and
+  smaller local-model inference, with pinned OpenTelemetry GenAI mappings
+  where applicable and without replacing existing DB trace/export contracts.
+- **Tasks:** inventory existing tracer and RAG emitter wiring; map available
+  model/provider, operation, token, latency, and error fields; define bounded
+  attributes, cardinality policy, and deny-by-default content redaction. Include
+  context admission/reservation, refinement stop reasons, index freshness,
+  shard coverage/bytes, queue pressure and RAM/VRAM beside DB p95/p99; add
+  end-to-end instrumentation only after owner review.
+- **Dependencies:** versioned conventions, LLM/RAG instrumentation owners,
+  exporter behavior and lifecycle contract, and security/privacy approval.
+  Existing OpenTelemetry components do not establish complete GenAI
+  instrumentation.
+- **Risk:** convention changes can break dashboards; model and tenant labels
+  can create high cardinality; prompt, completion, and retrieved content can
+  expose sensitive information.
+- **Success metric:** all supported GenAI spans pass pinned schema tests; no
+  seeded prompt/completion/credential or retrieved-content sentinel is
+  exported; instrumentation overhead remains within the existing matched
+  Release-baseline limit of 10%.
+- **Validation:** versioned span-schema tests; end-to-end model and retrieval
+  traces; collector outage/drop tests; redaction and cardinality stress
+  coverage; fixed-context local-model evaluation and mixed DB/inference
+  workload evidence. Keep measured, estimated and unavailable token counts
+  distinct. For instrumentation overhead, retain at least 10 Release benchmark
+  repetitions of at least 15 seconds on the same hardware/configuration.
 
 ### KPIs, assumptions, and decision gates
 

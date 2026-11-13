@@ -1573,6 +1573,7 @@ set(THEMIS_TRAINING_SOURCES
     ../src/training/auto_labeler.cpp
     ../src/training/ada_lora_adapter.cpp
     ../src/training/adalora_training_pipeline.cpp
+    ../src/training/docs_db_training_sample_provider.cpp
     ../src/training/adalora_tt_bridge.cpp
     ../src/training/adapter_serving.cpp
     ../src/training/database_domain_auto_labeler.cpp
@@ -2045,6 +2046,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/wire_protocol_zero_copy.cpp
     ../src/network/wire_protocol_batch.cpp
+    ../src/network/network_audit_log.cpp
     ../src/network/io_uring_batcher.cpp
     ../src/network/connection_compression.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>

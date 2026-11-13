@@ -339,6 +339,43 @@ class MonolithicRuntimeSourceTests(unittest.TestCase):
                     self.assertEqual(len(re.findall(rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s|$)", block)), 1)
 
 
+@unittest.skipUnless(shutil.which("cmake"), "requires CMake")
+class WindowsRuntimeDependencyFilterTests(unittest.TestCase):
+    def test_system32_filter_handles_windows_path_separators(self) -> None:
+        cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        install = re.search(
+            r"install\(RUNTIME_DEPENDENCY_SET themis_runtime_deps\b(.*?)\n\s*\)",
+            cmake, re.DOTALL,
+        )
+        self.assertIsNotNone(install)
+        filters = re.search(r"POST_EXCLUDE_REGEXES\s+(\"[^\"]+\")", install.group(1))
+        self.assertIsNotNone(filters)
+        body = f"""set(filter {filters.group(1)})
+foreach(path IN ITEMS
+    [[C:\\Windows\\system32/kernel32.dll]]
+    [[C:/Windows/System32/KERNEL32.DLL]]
+    [[C:\\Windows\\system32\\kernel32.dll]])
+    if(NOT path MATCHES "${{filter}}")
+        message(FATAL_ERROR "System path was not excluded: ${{path}}")
+    endif()
+endforeach()
+foreach(path IN ITEMS
+    [[D:/project/bin/thirdparty.dll]]
+    [[C:/Windows/system32extra/kernel32.dll]])
+    if(path MATCHES "${{filter}}")
+        message(FATAL_ERROR "Non-system path was excluded: ${{path}}")
+    endif()
+endforeach()
+"""
+        with tempfile.TemporaryDirectory(prefix="runtime-filter-") as tmp:
+            script = Path(tmp) / "filter.cmake"
+            script.write_text(body, encoding="utf-8")
+            result = subprocess.run(
+                [shutil.which("cmake"), "-P", str(script)], capture_output=True, text=True
+            )
+        self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+
+
 class MainlineWindowsMatrixTests(unittest.TestCase):
     def test_windows_release_build_is_serial_with_independent_configure_concurrency(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")

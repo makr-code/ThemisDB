@@ -1,7 +1,18 @@
-# ThemisDB Future Enhancements (Root Index)
+---
+Author: "ThemisDB Team"
+Created: "2026-08-28"
+Last Updated: "2026-11-13"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-> Status: Active
-> Last Updated: 2026-08-28
+> Exact model backend not verifiable from final document text alone.
+
+# ThemisDB Future Enhancements (Root Index)
 
 This root file is the canonical entry point for future enhancement planning.
 Detailed implementation backlogs live close to code and are aggregated in module-level documents.
@@ -11,6 +22,51 @@ Detailed implementation backlogs live close to code and are aggregated in module
 - Cross-module enhancement direction and release prioritization are tracked in `ROADMAP.md`.
 - Module-specific enhancement details are tracked in `src/FUTURE_ENHANCEMENTS.md` and `src/<module>/FUTURE_ENHANCEMENTS.md`.
 - Archived enhancement snapshots are stored in `docs/ARCHIVED/ai-working-history/`.
+
+## Cross-Module LLM Application Interoperability (Proposal)
+
+ThemisDB's direction is a database-native LLM hybrid: smaller local models,
+embedded llama.cpp execution, and decentralized retrieval close to the data.
+Framework interoperability complements that direction; it does not replace
+native inference or require a general agent-framework dependency. Bounded
+native retrieval loops, tool selection, prompt planning, and local model/LoRA
+routing are legitimate design subjects, not categorically external features.
+Deterministic database execution and authorization remain authoritative.
+
+- [`src/llm/`](src/llm/FUTURE_ENHANCEMENTS.md): native model/tokenizer
+  capabilities, local routing, bounded tool execution, shared resource
+  admission, and explicit network/egress policy.
+- [`src/rag/`](src/rag/FUTURE_ENHANCEMENTS.md): model-aware context packing,
+  evidence provenance, bounded re-retrieval, and optional Python/.NET
+  integrations after server/SDK correctness is established.
+- [`src/search/`](src/search/FUTURE_ENHANCEMENTS.md): policy-aware filtered
+  hybrid retrieval, metric-correct fusion, and bounded decentralized candidate
+  reduction; reuse existing search components.
+- [`src/training/`](src/training/FUTURE_ENHANCEMENTS.md): authorized,
+  source-neutral AdaLoRA training with adaptive rank budgets, reproducible
+  artifacts, quality gates and explicit Multi-LoRA promotion/rollback.
+- [`src/tensor/`](src/tensor/FUTURE_ENHANCEMENTS.md): TT/fingerprint and
+  adapter/package/shard abstraction layers for retrieval and artifact
+  management, with numerical/semantic validation and verified backend bridges.
+  Distributed planning does not itself establish networked execution.
+- [`src/ingestion/`](src/ingestion/FUTURE_ENHANCEMENTS.md): stable
+  document/chunk identities, embedding/index versions, idempotent updates,
+  deletion propagation, and measured search visibility.
+- [`src/process/`](src/process/FUTURE_ENHANCEMENTS.md): distinguish native
+  bounded execution from optional long-lived workflows; specify framework
+  checkpoint/store/history adapters and any native recovery contract separately.
+- [`src/observability/`](src/observability/FUTURE_ENHANCEMENTS.md): correlate
+  database availability, retrieval quality/context use, locality, and native
+  inference resources with privacy-bounded, versioned telemetry.
+
+The root roadmap owns the cross-module phases and acceptance gates; each
+module's roadmap and future-enhancement document owns its interfaces, tests,
+failure behavior, and measured targets. No module's source presence or
+component-level test is evidence that these end-to-end integrations already
+exist. This proposal supersedes the earlier emphasis on a new general-purpose
+agent graph runtime and a broad remote-provider catalog. Q2 2027 remains a
+provisional planning target, not a release commitment; ordinary database
+operations must not depend on model availability.
 
 ## Overall v2.5.0 → v3.0.0 module evolution concept
 

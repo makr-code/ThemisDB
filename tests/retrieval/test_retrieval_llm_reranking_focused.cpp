@@ -267,9 +267,8 @@ TEST(RetrievalArtifactStore, RejectsUnsignedRecordsAlreadyPersistedInRocksDB) {
     }
 
     rocksdb::Options options;
-    rocksdb::DB* raw_db = nullptr;
-    ASSERT_TRUE(rocksdb::DB::Open(options, db_path.string(), &raw_db).ok());
-    std::unique_ptr<rocksdb::DB> db(raw_db);
+    std::unique_ptr<rocksdb::DB> db;
+    ASSERT_TRUE(rocksdb::DB::Open(options, db_path.string(), &db).ok());
     auto unsigned_package = MakeDraftPackage();
     unsigned_package.integrity.signature.clear();
     ASSERT_TRUE(db->Put(rocksdb::WriteOptions(),

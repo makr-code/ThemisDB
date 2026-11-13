@@ -6883,8 +6883,14 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_multi_gpu_lora_advanced
       MODULE "gpu"
       TIMEOUT 120
+      MIN_TIME "0.001s"
     EXTRA_LABELS release_critical
     )
+    if(DEFINED THEMIS_BENCH_LORA_PATH AND NOT "${THEMIS_BENCH_LORA_PATH}" STREQUAL "")
+      set_tests_properties(bench_multi_gpu_lora_advanced PROPERTIES
+        ENVIRONMENT "THEMIS_BENCH_LORA_PATH=${THEMIS_BENCH_LORA_PATH}"
+      )
+    endif()
   endif()
   if(TARGET bench_multi_gpu_scaling)
     themis_register_benchmark_ctest(

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-12"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,14 +14,14 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-11-12
+Datum: 2026-11-13
 Status: Active
 
 ## Summary
 
 - Added: 0
 - Removed: 0
-- Changed: 5
+- Changed: 4
 
 ## Added
 
@@ -33,8 +33,7 @@ Status: Active
 
 ## Changed
 
-- CHANGELOG.md
-- docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md
-- include/ingestion/ingestion_sinks.h
-- include/query/query_engine.h
-- src/rag/ROADMAP.md
+- INDEX.md
+- ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
+- ai_context/developer_llm_wiki/INDEX.md
+- ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md

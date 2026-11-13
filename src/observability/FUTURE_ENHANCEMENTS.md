@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-02-10"
+Last Updated: "2026-11-13"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Observability Module - Future Enhancements & Completed Features
 
 **Status:** 2026-09-24 – Phase 1-6 Complete; Block B benchmark closure delivered and Block A focused-test coverage verified  
@@ -63,7 +77,7 @@
 - Degraded backend integration remains explicit and non-silent (fail-closed semantics)
 - No breaking changes without v3.0 migration plan and changelog entry
 
-## Required Interfaces (All ✓ COMPLETE)
+## Required Interfaces (Core Interfaces Complete; GenAI Interoperability Proposed)
 
 | Interface | Requirement | Delivery |
 |-----------|-------------|----------|
@@ -73,6 +87,8 @@
 | alerting interfaces | deterministic rule evaluation and notification behavior | ✅ Block A Phase 2-3 |
 | SLO measurement | window alignment, error budget tracking | ✅ Block B Phase 2-3 |
 | provenance storage | immutable audit logs, query interface | ✅ Block B Phase 2-3 |
+| GenAI semantic attributes | versioned model/RAG span mapping and privacy policy | 📋 Proposed; not yet an end-to-end integration claim |
+| Native hybrid diagnostics | DB service health, context budgets, locality, index freshness and inference resource correlation | Proposed; no mixed-workload isolation claim |
 
 ## Remaining Backlog (v2.5.0 and beyond)
 
@@ -92,7 +108,7 @@
 - [ ] distributed observability: multi-node trace correlation and cross-cluster SLO tracking
 - [ ] advanced RCA: root-cause analysis integration with causal graph algorithms
 - [ ] operator tooling: enhanced diagnostic UI, incident response playbooks
-- [ ] observability for ML/LLM pipelines: embedding similarity, token flow tracing
+- [ ] observability for ML/LLM pipelines: versioned GenAI semantic attributes for model and RAG spans, token/cost measurements, and privacy-reviewed flow correlation
 
 ## Implementation Notes (Phases 1-6 Complete)
 
@@ -102,6 +118,9 @@
 - ✅ Test suite delivered with 20+ focused tests
 - ✅ Performance gates locked with reproducible benchmarks (18 gates, all PASS)
 - ✅ Documentation sync complete; next cycle planning aligned with ROADMAP
+- 📋 Inventory current LLM/RAG emitters and define a versioned OpenTelemetry GenAI convention mapping; standalone emitter presence is not end-to-end instrumentation evidence.
+- 📋 Add optional instrumentation for model and retrieval stages only after semantic attributes, redaction, cardinality, ownership, and export behavior are agreed.
+- 📋 Review the evolving [OpenTelemetry GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md) and pin a version before claiming interoperability.
 
 ## Test Strategy (Phases 4-6)
 
@@ -111,6 +130,7 @@
 - ✅ Release-profile benchmark runs for mapped observability targets
 - ✅ Sanitizer validation (ASan/UBSan/TSan) for all focused tests
 - 📋 Extended distributed observability tests (deferred to v2.5.0)
+- 📋 Versioned GenAI attribute conformance, cross-module span correlation, and seeded prompt/completion/credential redaction tests
 
 ## Performance Targets (Phases 5-6)
 
@@ -128,6 +148,35 @@
 - ✅ Keep diagnostics actionable for production observability incidents
 - ✅ No PII in telemetry; masking policy enforced
 - ✅ Audit logging active for security events
+- 📋 Keep labels, attributes, and baggage cardinality bounded; exclude prompt, completion, retrieved-document, and credential contents by default
+
+### Native Small-Model Hybrid Diagnostics (Proposal; Q2 2027)
+
+- Correlate DB query/commit latency and errors with retrieval/fusion/context
+  preparation, queueing, local prefill/decode, and bounded refinement. Existing
+  component emitters do not prove this end-to-end path or external export.
+- Distinguish exact tokenizer input/output counts, estimates, reservations and
+  missing measurements. Generated-token counters alone are not total session
+  cost or proof of pre-admission budget enforcement.
+- Record configured/used context, selected/deduplicated evidence, no-fitting
+  evidence, stop reasons and quality-at-fixed-context results. Keep model
+  judge scores distinct from independently assessed factual support.
+- Measure search-visibility lag, index generation, partial shard coverage,
+  transferred bytes, locality decisions, aggregate fan-out, CPU/RAM/VRAM and
+  quota rejection alongside DB p95/p99 under concurrent inference.
+- Correlate training sample/rank budgets, artifact promotion/revocation and
+  adapter apply/rollback outcomes; track tensor reconstruction error, true
+  stored/transferred bytes and exact-vs-summary path. High-cardinality artifact
+  digests/composition identities belong in access-controlled sampled
+  diagnostics, not metric labels. Training completion is not serving success.
+- Use bounded approved model/topology labels; do not place document/session/
+  tenant IDs, queries or retrieved content in unbounded metric labels.
+  Any privileged provenance diagnostics need explicit access/retention policy.
+- Pin the applicable GenAI convention version; application-specific context
+  and locality fields are not automatically standardized GenAI attributes.
+  Validate schema/privacy and preserve the existing matched-baseline
+  instrumentation-overhead gate. Do not infer native resource isolation,
+  factual accuracy, or successful export from metric/source presence.
 
 ## Deprecated / Not Planned
 
