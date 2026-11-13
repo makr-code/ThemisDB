@@ -105,6 +105,19 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], True)
 
+    def test_ai_working_maintenance_write_permissions_are_job_scoped(self) -> None:
+        workflow = load_workflow("maintenance-ai-working.yml")
+
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+        self.assertEqual(
+            workflow["jobs"]["ai-working-compact"]["permissions"],
+            {"contents": "write"},
+        )
+        self.assertEqual(
+            workflow["jobs"]["llm-wiki-sync"]["permissions"],
+            {"contents": "write"},
+        )
+
     def test_mainline_and_llm_manual_dry_runs_preserve_validation_and_suppress_tracker_writes(self) -> None:
         mainline = load_workflow("build-mainline.yml")
         mainline_triggers = mainline.get(True, mainline.get("on"))
