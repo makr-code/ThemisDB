@@ -1023,7 +1023,7 @@ def test_core_preflight_local_refs_comments_and_new_policy_violations(
         subprocess, "run",
         lambda *args, **kwargs: subprocess.CompletedProcess(args[0], 0, stdout=diff),
     )
-    monkeypatch.setenv("BASE_REF", "develop")
+    monkeypatch.setenv("BASE_SHA", "base-sha")
     monkeypatch.chdir(tmp_path)
     try:
         exec(compile(code, str(source), "exec"), {})
@@ -1031,6 +1031,21 @@ def test_core_preflight_local_refs_comments_and_new_policy_violations(
         assert exc.code == exit_code
     else:
         assert exit_code == 0
+
+
+def test_core_preflight_uses_event_base_sha():
+    source = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-core.yml"
+    data = yaml.safe_load(source.read_text(encoding="utf-8"))
+    step = next(
+        step for step in data["jobs"]["preflight-ci-policy"]["steps"]
+        if step.get("name") == "Run workflow preflight checks"
+    )
+    run = step["run"]
+
+    assert 'github.event.pull_request.base.sha' in run
+    assert 'github.event.before' in run
+    assert 'git diff --name-only "${BASE_SHA}" HEAD' in run
+    assert "os.environ['BASE_SHA']" in run
 
 
 def test_merge_readiness_requires_final_runtime_api_gate(tmp_path: Path):
