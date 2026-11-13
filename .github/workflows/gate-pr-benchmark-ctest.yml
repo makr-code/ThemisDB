@@ -38,14 +38,19 @@ concurrency:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 jobs:
   benchmark-ctest-coverage:
     name: "Gate: Benchmark CTest Coverage ≥95%"
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      gate_status: ${{ steps.gate_logic.outputs.gate_status }}
+      coverage: ${{ steps.gate_logic.outputs.coverage }}
+      unregistered_sources: ${{ steps.gate_logic.outputs.unregistered_sources }}
+      broken_targets: ${{ steps.gate_logic.outputs.broken_targets }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -176,12 +181,45 @@ jobs:
           _Audit details: See workflow logs for full `audit_benchmark_coverage.py` output._
           EOF
 
+      - name: Report gate result
+        if: always()
+        run: |
+          GATE_STATUS="${{ steps.gate_logic.outputs.gate_status }}"
+          GATE_MSG="${{ steps.gate_logic.outputs.gate_message }}"
+
+          echo ""
+          echo "════════════════════════════════════════════════"
+          echo "  Benchmark CTest Coverage Gate"
+          echo "════════════════════════════════════════════════"
+          echo "  Status: ${GATE_STATUS}"
+          echo "  Message: ${GATE_MSG}"
+          echo "════════════════════════════════════════════════"
+          echo ""
+
+          if [[ "${GATE_STATUS}" == "FAIL" ]]; then
+            echo "::error::${GATE_MSG}"
+            exit 1
+          elif [[ "${GATE_STATUS}" == "WARN" ]]; then
+            echo "::warning::${GATE_MSG}"
+          else
+            echo "::notice::${GATE_MSG}"
+          fi
+
+  gate-feedback:
+    name: "Gate: PR Feedback"
+    needs: [benchmark-ctest-coverage]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
       - name: Apply PR labels
         if: always()
         uses: actions/github-script@v7
         with:
           script: |
-            const gateStatus = "${{ steps.gate_logic.outputs.gate_status }}";
+            const gateStatus = "${{ needs.benchmark-ctest-coverage.outputs.gate_status }}";
             const labels = {
               PASS: 'quality/benchmarks-pass',
               WARN: 'quality/benchmarks-warn',
@@ -191,7 +229,6 @@ jobs:
             const labelToAdd = labels[gateStatus] || 'quality/benchmarks-fail';
             const labelsToRemove = Object.values(labels).filter(l => l !== labelToAdd);
             
-            // Remove old labels
             for (const label of labelsToRemove) {
               try {
                 await github.rest.issues.removeLabel({
@@ -205,7 +242,6 @@ jobs:
               }
             }
             
-            // Add new label
             try {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
@@ -218,13 +254,13 @@ jobs:
             }
 
       - name: Create tracker issue on FAIL
-        if: steps.gate_logic.outputs.gate_status == 'FAIL'
+        if: needs.benchmark-ctest-coverage.outputs.gate_status == 'FAIL'
         uses: actions/github-script@v7
         with:
           script: |
-            const coverage = "${{ steps.gate_logic.outputs.coverage }}";
-            const unregistered = "${{ steps.gate_logic.outputs.unregistered_sources }}";
-            const broken = "${{ steps.gate_logic.outputs.broken_targets }}";
+            const coverage = "${{ needs.benchmark-ctest-coverage.outputs.coverage }}";
+            const unregistered = "${{ needs.benchmark-ctest-coverage.outputs.unregistered_sources }}";
+            const broken = "${{ needs.benchmark-ctest-coverage.outputs.broken_targets }}";
             
             let reason = '';
             if (broken > 0) {
@@ -285,34 +321,10 @@ jobs:
               console.log(`Note: Could not create tracker issue: ${e.message}`);
             }
 
-      - name: Report gate result
-        if: always()
-        run: |
-          GATE_STATUS="${{ steps.gate_logic.outputs.gate_status }}"
-          GATE_MSG="${{ steps.gate_logic.outputs.gate_message }}"
-          
-          echo ""
-          echo "════════════════════════════════════════════════"
-          echo "  Benchmark CTest Coverage Gate"
-          echo "════════════════════════════════════════════════"
-          echo "  Status: ${GATE_STATUS}"
-          echo "  Message: ${GATE_MSG}"
-          echo "════════════════════════════════════════════════"
-          echo ""
-          
-          if [[ "${GATE_STATUS}" == "FAIL" ]]; then
-            echo "::error::${GATE_MSG}"
-            exit 1
-          elif [[ "${GATE_STATUS}" == "WARN" ]]; then
-            echo "::warning::${GATE_MSG}"
-          else
-            echo "::notice::${GATE_MSG}"
-          fi
-
   run-summary:
     name: Workflow run summary
     runs-on: ubuntu-latest
-    needs: [benchmark-ctest-coverage]
+    needs: [benchmark-ctest-coverage, gate-feedback]
     if: always()
     permissions:
       contents: read

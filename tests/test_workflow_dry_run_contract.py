@@ -18,7 +18,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
     def test_run_summary_jobs_cover_all_workflow_jobs(self) -> None:
         expected = {
             "build-content-regression.yml": {"content-regression", "wave-d-soak"},
-            "gate-pr-benchmark-ctest.yml": {"benchmark-ctest-coverage"},
+            "gate-pr-benchmark-ctest.yml": {"benchmark-ctest-coverage", "gate-feedback"},
             "maintenance-ci-health.yml": {"ci-health-dashboard", "update-chronic-issue"},
             "maintenance-workflow-guardrails-observe.yml": {"workflow-guardrails"},
             "security-consolidated.yml": {"trivy", "gitleaks", "kubesec"},
@@ -192,6 +192,16 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 workflow = load_workflow(name)
                 self.assertEqual(workflow["permissions"], workflow_permissions)
 
+        version_targeting = load_workflow("gate-pr-version-targeting.yml")
+        self.assertEqual(
+            version_targeting["permissions"],
+            {"contents": "read", "pull-requests": "read"},
+        )
+        self.assertEqual(
+            version_targeting["jobs"]["gate-feedback"]["permissions"],
+            {"pull-requests": "write", "issues": "write"},
+        )
+
         for name, validation_job in (
             ("gate-pr-doc-metadata.yml", "doc-metadata-gate"),
             ("gate-pr-doxygen-governance.yml", "doxygen-governance"),
@@ -231,6 +241,32 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                         {"contents": "read", "issues": "write"},
                     )
                     self.assertIn("github.event_name == 'pull_request'", jobs[feedback_job]["if"])
+
+    def test_benchmark_ctest_feedback_permissions_are_pr_only(self) -> None:
+        workflow = load_workflow("gate-pr-benchmark-ctest.yml")
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        validation = workflow["jobs"]["benchmark-ctest-coverage"]
+        self.assertEqual(validation["permissions"], {"contents": "read"})
+        self.assertEqual(
+            validation["outputs"]["gate_status"],
+            "${{ steps.gate_logic.outputs.gate_status }}",
+        )
+
+        feedback = workflow["jobs"]["gate-feedback"]
+        self.assertEqual(feedback["permissions"], {
+            "issues": "write",
+            "pull-requests": "write",
+        })
+        self.assertIn("github.event_name == 'pull_request'", feedback["if"])
+        self.assertEqual(feedback["needs"], ["benchmark-ctest-coverage"])
+        self.assertIn("gate-feedback", workflow["jobs"]["run-summary"]["needs"])
+        self.assertTrue(
+            all(
+                step.get("uses") == "actions/github-script@v7"
+                for step in feedback["steps"]
+            )
+        )
 
     def test_winget_e2e_dry_run_preserves_validation_and_suppresses_submission(self) -> None:
         workflow = load_workflow("build-widget.yml")
