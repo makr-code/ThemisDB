@@ -347,8 +347,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "gate-pr-rag-security.yml": {
                 "test_job": "isolation_tests",
                 "validation_job": "security_guardrails_validation",
-                "build_step": "Build Security Tests",
-                "target": "test_retrieval_policy_enforcement",
+                "build_step": "Build Tenant Policy Tests",
+                "targets": ("module_security_test_retrieval_policy_focused",),
                 "registration_step": "Verify Multi-Tenant Isolation Test Registration",
                 "filter": "tenant_isolation|policy_enforcement",
                 "noncritical_labels": ("rag-security-required", "quality/security"),
@@ -357,8 +357,13 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "gate-pr-rag-version.yml": {
                 "test_job": "reindex_decision_tests",
                 "validation_job": "version_governance_validation",
-                "build_step": "Build Reindex Decision Tests",
-                "target": "test_reindex_decision",
+                "build_step": "Build Reindex and Canary Tests",
+                "targets": (
+                    "module_ingestion_test_reindex_decision_engine_focused",
+                    "module_rag_test_model_promoter_focused",
+                ),
+                "reindex_registration_step": "Verify Reindex Decision Test Registration",
+                "reindex_test": "test_reindex_decision_engine_ingestion_FocusedTests",
                 "registration_step": "Verify Embedding Canary Test Registration",
                 "filter": "embedding_canary",
                 "noncritical_labels": ("rag-version-required", "quality/versioning"),
@@ -376,7 +381,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 )
                 build_script = build_step["run"]
                 self.assertIn("--target help", build_script)
-                self.assertIn(contract["target"], build_script)
+                for target in contract["targets"]:
+                    self.assertIn(target, build_script)
                 self.assertIn("UNIMPLEMENTED/BLOCKED", build_script)
                 self.assertIn("exit 1", build_script)
                 self.assertNotRegex(build_script, r"\|\|\s*\{")
@@ -398,6 +404,18 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 )
                 self.assertIn("ctest", test_run["run"])
                 self.assertIn(f'-L "{contract["filter"]}"', test_run["run"])
+                if "reindex_registration_step" in contract:
+                    reindex_registration = next(
+                        step for step in test_job["steps"]
+                        if step.get("name") == contract["reindex_registration_step"]
+                    )
+                    self.assertIn(contract["reindex_test"], reindex_registration["run"])
+                    reindex_run = next(
+                        step for step in test_job["steps"]
+                        if contract["reindex_test"] in step.get("run", "")
+                        and "--no-tests=error" in step.get("run", "")
+                    )
+                    self.assertIn(contract["reindex_test"], reindex_run["run"])
                 gate_status = workflow["jobs"]["gate_status"]
                 self.assertIn(contract["test_job"], gate_status["needs"])
                 status_script = gate_status["steps"][0]["run"]

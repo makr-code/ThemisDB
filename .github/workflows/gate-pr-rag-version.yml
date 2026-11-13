@@ -21,8 +21,12 @@ on:
       - 'src/ingestion/**'
       - 'src/index/**'
       - 'src/llm/**'
+      - 'src/rag/**'
+      - 'include/rag/**'
+      - 'include/ingestion/**'
       - 'tests/ingestion/**'
       - 'tests/llm/**'
+      - 'tests/rag/**'
       - '.github/workflows/gate-pr-rag-version.yml'
 
 concurrency:
@@ -242,19 +246,36 @@ jobs:
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON
       
-      - name: Build Reindex Decision Tests
+      - name: Build Reindex and Canary Tests
         run: |
-          target="test_reindex_decision"
           if ! target_list="$(cmake --build /tmp/version-build --target help 2>&1)"; then
             echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect configured CMake targets; embedding-version test lane cannot be verified."
             printf '%s\n' "$target_list"
             exit 1
           fi
-          if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
-            echo "::error title=UNIMPLEMENTED/BLOCKED::The embedding-version test target '${target}' is not registered. The existing reindex-decision helper test does not provide canary coverage; implement and register the requested lifecycle test target before this lane can pass."
+          for target in module_ingestion_test_reindex_decision_engine_focused module_rag_test_model_promoter_focused; do
+            if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
+              echo "::error title=UNIMPLEMENTED/BLOCKED::The required embedding-version test target '${target}' is not registered. Verify the reindex-engine and model-canary tests are included by CMake."
+              exit 1
+            fi
+          done
+          cmake --build /tmp/version-build --target \
+            module_ingestion_test_reindex_decision_engine_focused \
+            module_rag_test_model_promoter_focused --parallel 4
+
+      - name: Verify Reindex Decision Test Registration
+        run: |
+          reindex_test="test_reindex_decision_engine_ingestion_FocusedTests"
+          registered_tests="$(ctest --test-dir /tmp/version-build -N -R "^${reindex_test}$" 2>&1)" || {
+            echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect registered ReindexDecisionEngine CTest cases."
+            printf '%s\n' "$registered_tests"
+            exit 1
+          }
+          if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
+            echo "::error title=UNIMPLEMENTED/BLOCKED::The real ReindexDecisionEngine test is not registered with CTest."
+            printf '%s\n' "$registered_tests"
             exit 1
           fi
-          cmake --build /tmp/version-build --target test_reindex_decision --parallel 4
 
       - name: Verify Embedding Canary Test Registration
         run: |
@@ -274,6 +295,12 @@ jobs:
         run: |
           cd /tmp/version-build
           ctest -L "embedding_canary" -V --output-on-failure --no-tests=error
+
+      - name: Run Reindex Decision Tests
+        run: |
+          cd /tmp/version-build
+          ctest -R '^test_reindex_decision_engine_ingestion_FocusedTests$' \
+            -V --output-on-failure --no-tests=error
 
   gate_status:
     name: "Validate: Gate Status Summary"

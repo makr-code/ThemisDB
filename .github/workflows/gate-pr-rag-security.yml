@@ -2,8 +2,8 @@ name: "Gate: PR RAG Security Guardrails"
 
 # Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-09-24
 # Trigger policy: Enforces Phase 4 RAG Security Guardrails compliance.
-# Validates tenant isolation, deny-by-default policy enforcement, OTLP audit trail completeness,
-# and multi-tenant data flow correctness.
+# Validates tenant-scoped PolicyEnforcer decisions and the documented audit requirements.
+# These focused policy API tests do not establish end-to-end RAG request-path enforcement.
 # Blocks merge on cross-tenant leaks, missing policy gates, or incomplete audit trails.
 # Reference: src/security/RETRIEVAL_POLICY_ENFORCEMENT.md
 
@@ -21,6 +21,7 @@ on:
       - 'src/security/**'
       - 'src/rag/**'
       - 'src/retrieval/**'
+      - 'include/security/**'
       - 'tests/security/**'
       - 'tests/rag/**'
       - '.github/workflows/gate-pr-rag-security.yml'
@@ -255,19 +256,19 @@ jobs:
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON
       
-      - name: Build Security Tests
+      - name: Build Tenant Policy Tests
         run: |
-          target="test_retrieval_policy_enforcement"
+          target="module_security_test_retrieval_policy_focused"
           if ! target_list="$(cmake --build /tmp/security-build --target help 2>&1)"; then
             echo "::error title=UNIMPLEMENTED/BLOCKED::Unable to inspect configured CMake targets; retrieval-policy test lane cannot be verified."
             printf '%s\n' "$target_list"
             exit 1
           fi
           if ! grep -Eq "(^|[[:space:]])${target}([[:space:]:]|$)" <<< "$target_list"; then
-            echo "::error title=UNIMPLEMENTED/BLOCKED::The RAG security test target '${target}' is not registered. Add and register tenant-isolation/policy-enforcement tests under tests/security before this requested lane can pass."
+            echo "::error title=UNIMPLEMENTED/BLOCKED::The runtime policy test target '${target}' is not registered. Add and register tenant-scoped policy tests before this requested lane can pass."
             exit 1
           fi
-          cmake --build /tmp/security-build --target test_retrieval_policy_enforcement --parallel 4
+          cmake --build /tmp/security-build --target module_security_test_retrieval_policy_focused --parallel 4
 
       - name: Verify Multi-Tenant Isolation Test Registration
         run: |
@@ -278,7 +279,7 @@ jobs:
             exit 1
           }
           if ! grep -Eq '^Total Tests: [1-9][0-9]*$' <<< "$registered_tests"; then
-            echo "::error title=UNIMPLEMENTED/BLOCKED::No CTest case is registered with tenant_isolation or policy_enforcement labels. Register the implemented security tests with one of these labels before this requested lane can pass."
+            echo "::error title=UNIMPLEMENTED/BLOCKED::No runtime policy CTest case is registered with tenant_isolation or policy_enforcement labels. Register the focused policy tests before this requested lane can pass."
             printf '%s\n' "$registered_tests"
             exit 1
           fi

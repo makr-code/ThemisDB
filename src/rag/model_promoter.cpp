@@ -175,13 +175,13 @@ bool ModelPromoter::Rollback(const std::string& reason) {
     return false;
   }
 
-  // Revert to baseline model
+  // Mark the failed model before clearing its version from canary state.
+  const auto failed_version = pimpl_->canary_version;
   pimpl_->current_phase = CanaryPhase::kNone;
   pimpl_->canary_version = 0;
 
-  // Could mark canary version as failed in registry here
-  if (pimpl_->model_registry && pimpl_->canary_version > 0) {
-    pimpl_->model_registry->UpdateModelStatus(pimpl_->canary_version,
+  if (pimpl_->model_registry && failed_version > 0) {
+    pimpl_->model_registry->UpdateModelStatus(failed_version,
                                                ModelStatus::kFailed,
                                                "Canary rollback: " + reason);
   }
@@ -205,11 +205,11 @@ bool ModelPromoter::ReportMetric(const std::string& metric_name, double current_
 
   if (regression > pimpl_->quality_regression_threshold_pct) {
     // Regression detected, trigger rollback
-    if (pimpl_->regression_callback) {
-      lock.unlock();
-      pimpl_->regression_callback(metric_name, baseline_value, current_value,
-                                  pimpl_->quality_regression_threshold_pct);
-      lock.lock();
+    const auto callback = pimpl_->regression_callback;
+    const auto threshold = pimpl_->quality_regression_threshold_pct;
+    lock.unlock();
+    if (callback) {
+      callback(metric_name, baseline_value, current_value, threshold);
     }
 
     Rollback("Quality regression in " + metric_name);
