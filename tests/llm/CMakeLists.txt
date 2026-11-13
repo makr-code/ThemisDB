@@ -72,7 +72,7 @@ function(themis_llm_rescan_sharding_dependencies target_name)
         return()
     endif()
 
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
+    if(CMAKE_CXX_LINK_GROUP_USING_RESCAN_SUPPORTED)
         target_link_libraries(${target_name} PRIVATE
             "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
         )
@@ -80,6 +80,8 @@ function(themis_llm_rescan_sharding_dependencies target_name)
         target_link_libraries(${target_name} PRIVATE
             "-Wl,--start-group" themis_llm themis_sharding "-Wl,--end-group"
         )
+    else()
+        target_link_libraries(${target_name} PRIVATE themis_llm themis_sharding)
     endif()
 endfunction()
 

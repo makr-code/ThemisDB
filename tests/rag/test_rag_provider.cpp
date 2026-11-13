@@ -8,6 +8,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "ingestion/ingestion_sinks.h"
+#include "query/aql_parser.h"
 #include "utils/serialization.h"
 
 #include <filesystem>

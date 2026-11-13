@@ -17,10 +17,13 @@
 #include "llm/ai_orchestrator.h"
 #include "llm/llm_plugin_interface.h"
 #include "index/secondary_index.h"
+#include "query/query_engine.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 
 using namespace themis::llm;
+using themis::RocksDBWrapper;
+using themis::SecondaryIndexManager;
 
 using ValidationResult = ModeSpecValidationResult;
 
@@ -122,7 +125,7 @@ protected:
         db_ = std::make_shared<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         secondary_ = std::make_shared<SecondaryIndexManager>(*db_);
-        query_engine_ = std::make_shared<query::QueryEngine>(*db_, *secondary_);
+        query_engine_ = std::make_shared<themis::query::QueryEngine>(*db_, *secondary_);
     }
 
     void TearDown() override {
@@ -135,7 +138,7 @@ protected:
     std::filesystem::path db_path_;
     std::shared_ptr<RocksDBWrapper> db_;
     std::shared_ptr<SecondaryIndexManager> secondary_;
-    std::shared_ptr<query::QueryEngine> query_engine_;
+    std::shared_ptr<themis::query::QueryEngine> query_engine_;
 };
 
 class FixedAdapterCandidateProvider : public IAdapterCandidateProvider {

@@ -32,8 +32,10 @@
 
 // Conditional compilation for LLM support
 #ifdef THEMIS_ENABLE_LLM
+#include "llm/llm_plugin_interface.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/model_loader.h"
+using themis::llm::InferenceRequest;
 using themis::llm::MultiLoRAManager;
 using themis::llm::LoRASlot;
 #endif

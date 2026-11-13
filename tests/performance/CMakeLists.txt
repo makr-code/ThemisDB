@@ -46,6 +46,12 @@ foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_bwtree")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/phase3/bwtree.cpp
+        )
+    endif()
+
     if(_stem STREQUAL "test_performance_hardware_accelerator")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
