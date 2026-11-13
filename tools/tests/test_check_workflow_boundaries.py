@@ -409,8 +409,9 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
     assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
     rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
-    assert rag["permissions"]["pull-requests"] == "write"
-    assert rag["permissions"]["issues"] == "write"
+    rag_phase = rag["jobs"]["phase_validation"]["permissions"]
+    assert rag_phase["pull-requests"] == "write"
+    assert rag_phase["issues"] == "write"
     for phase in range(7, 11):
         caller = yaml.safe_load((workflows / f"gate-pr-rag-phase{phase}.yml").read_text(encoding="utf-8"))
         assert caller["permissions"]["pull-requests"] == "write"
