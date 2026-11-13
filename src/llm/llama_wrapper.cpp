@@ -824,6 +824,14 @@ bool LlamaWrapper::loadModel(
         
         return false;
     }
+
+    const auto model_fingerprint =
+        model->info.metadata.value("themis.base_model.sha256", std::string{});
+    if (model_fingerprint.empty()) {
+        transitionToState(WrapperState::ERROR_STATE,
+                          "Could not calculate SHA-256 for the loaded model file");
+        return false;
+    }
     
     spdlog::info("Model ready: {} (lazy loaded)", current_model_id_);
     
@@ -1229,6 +1237,20 @@ bool LlamaWrapper::isModelLoaded() const {
     }
     return !current_model_id_.empty() && 
            model_loader->isModelLoaded(current_model_id_);
+}
+
+std::string LlamaWrapper::getLoadedModelFingerprint() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto* const model_loader = model_loader_.get();
+    if (current_model_id_.empty() || !model_loader ||
+        !model_loader->isModelLoaded(current_model_id_)) {
+        return {};
+    }
+    const auto info = model_loader->getModelInfo(current_model_id_);
+    if (!info || !info->is_loaded) {
+        return {};
+    }
+    return info->metadata.value("themis.base_model.sha256", std::string{});
 }
 
 /**

@@ -15,19 +15,27 @@
 #include "query/query_engine.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
+#include "training/ada_lora_adapter.h"
 #include "training/adalora_training_pipeline.h"
+#include "training/training_sample_provider.h"
 #include "utils/rocksdb_open_compat.h"
+
+#include <gguf.h>
 
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <filesystem>
+#include <fstream>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <string>
+#include <string_view>
 #include <system_error>
+#include <utility>
+#include <vector>
 
 namespace {
 
@@ -50,6 +58,49 @@ public:
 private:
     std::filesystem::path path_;
 };
+
+class SingleSampleProvider final : public themis::training::ITrainingSampleProvider {
+public:
+    void initialize(size_t, size_t) override {
+        consumed_ = false;
+    }
+
+    [[nodiscard]] bool hasNext() const noexcept override {
+        return !consumed_;
+    }
+
+    [[nodiscard]] std::vector<themis::training::TrainingSampleRecord> nextBatch() override {
+        consumed_ = true;
+        themis::training::TrainingSampleRecord sample;
+        sample.sample_id = "identity-check";
+        sample.instruction = "Describe the database.";
+        sample.output = "The database stores documents.";
+        return {std::move(sample)};
+    }
+
+    [[nodiscard]] std::string_view sourceName() const noexcept override {
+        return "identity-test";
+    }
+
+private:
+    bool consumed_ = false;
+};
+
+std::string readGgufStringMetadata(const std::filesystem::path& path, const char* key) {
+    gguf_init_params params{};
+    params.no_alloc = true;
+    auto context = std::unique_ptr<gguf_context, decltype(&gguf_free)>(
+        gguf_init_from_file(path.string().c_str(), params), &gguf_free);
+    if (!context) {
+        return {};
+    }
+    const auto key_id = gguf_find_key(context.get(), key);
+    if (key_id < 0) {
+        return {};
+    }
+    const auto* value = gguf_get_val_str(context.get(), key_id);
+    return value ? value : "";
+}
 
 TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter) {
     const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
@@ -122,9 +173,15 @@ TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter)
     training_config.learning_rate = 0.01f;
     training_config.max_gradient_norm = 1.0f;
 
+    ASSERT_TRUE(model.loadModel(training_config.base_model_path));
     const auto result = themis::training::AdaLoRATrainingPipeline::train(
         iterator, model, training_config);
     ASSERT_TRUE(result.success) << result.error_message;
+    EXPECT_EQ(result.model_fingerprint, model.getLoadedModelFingerprint());
+    EXPECT_TRUE(themis::training::AdaLoRAAdapter::isCacheValid(
+        checkpoint_path.string(), result.model_fingerprint));
+    EXPECT_EQ(readGgufStringMetadata(adapter_path, "themis.base_model.sha256"),
+              model.getLoadedModelFingerprint());
     EXPECT_EQ(result.samples_read, 1u);
     EXPECT_EQ(result.samples_trained, 1u);
     EXPECT_GT(result.target_tokens_trained, 0u);
@@ -144,12 +201,106 @@ TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter)
     ASSERT_TRUE(response.lora_used.has_value());
     EXPECT_EQ(*response.lora_used, training_config.adapter_id);
 
+    training_config.adapter_output_path = (root / "tinyllama_docs_resumed.gguf").string();
+    training_config.load_for_inference = false;
+    SingleSampleProvider resume_provider;
+    const auto resumed_result = themis::training::AdaLoRATrainingPipeline::trainFromProvider(
+        resume_provider, model, training_config);
+    ASSERT_TRUE(resumed_result.success) << resumed_result.error_message;
+    EXPECT_EQ(resumed_result.model_fingerprint, result.model_fingerprint);
+    EXPECT_TRUE(themis::training::AdaLoRAAdapter::isCacheValid(
+        checkpoint_path.string(), resumed_result.model_fingerprint));
+    EXPECT_EQ(readGgufStringMetadata(training_config.adapter_output_path,
+                                    "themis.base_model.sha256"),
+              model.getLoadedModelFingerprint());
+
     query_engine.reset();
     indexes.reset();
     exporter.reset();
     db->close();
     db.reset();
 }
+
+TEST(AdaLoRATrainingPipelineTest, RejectsDifferentAlreadyLoadedBaseModel) {
+    const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
+    if (!model_path_env || !std::filesystem::is_regular_file(model_path_env)) {
+        GTEST_SKIP() << "Set THEMIS_TEST_MODEL_PATH to a TinyLlama GGUF model";
+    }
+
+    TemporaryTrainingDirectory temporary_directory;
+    const auto requested_model_path = temporary_directory.path() / "other_model.gguf";
+    {
+        std::ofstream requested_model(requested_model_path, std::ios::binary);
+        ASSERT_TRUE(requested_model);
+        requested_model << "different model contents";
+    }
+
+    themis::llm::LlamaWrapper::Config model_config;
+    model_config.n_gpu_layers = 0;
+    themis::llm::LlamaWrapper model(model_config);
+    ASSERT_TRUE(model.loadModel(model_path_env));
+    ASSERT_NE(model.getLoadedModelFingerprint(), "");
+
+    themis::training::AdaLoRATrainingConfig config;
+    config.adapter_id = "identity_mismatch";
+    config.base_model_path = requested_model_path.string();
+    config.adapter_output_path = (temporary_directory.path() / "adapter.gguf").string();
+    config.checkpoint_path = (temporary_directory.path() / "checkpoint.adalora").string();
+    SingleSampleProvider provider;
+
+    const auto result = themis::training::AdaLoRATrainingPipeline::trainFromProvider(
+        provider, model, config);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("fingerprint does not match"), std::string::npos);
+    EXPECT_FALSE(std::filesystem::exists(config.adapter_output_path));
+    EXPECT_FALSE(std::filesystem::exists(config.checkpoint_path));
+}
+
+#ifndef _WIN32
+TEST(AdaLoRATrainingPipelineTest, RejectsBaseFileChangedAfterModelWasLoaded) {
+    const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
+    if (!model_path_env || !std::filesystem::is_regular_file(model_path_env)) {
+        GTEST_SKIP() << "Set THEMIS_TEST_MODEL_PATH to a TinyLlama GGUF model";
+    }
+
+    TemporaryTrainingDirectory temporary_directory;
+    const auto requested_model_path = temporary_directory.path() / "base_model.gguf";
+    const auto replacement_model_path = temporary_directory.path() / "replacement.gguf";
+    {
+        std::ofstream replacement_model(replacement_model_path, std::ios::binary);
+        ASSERT_TRUE(replacement_model);
+        replacement_model << "replacement model contents";
+    }
+    std::filesystem::create_symlink(
+        std::filesystem::absolute(model_path_env), requested_model_path);
+
+    themis::llm::LlamaWrapper::Config model_config;
+    model_config.n_gpu_layers = 0;
+    themis::llm::LlamaWrapper model(model_config);
+    ASSERT_TRUE(model.loadModel(requested_model_path.string()));
+    const auto loaded_fingerprint = model.getLoadedModelFingerprint();
+    ASSERT_FALSE(loaded_fingerprint.empty());
+
+    std::filesystem::remove(requested_model_path);
+    std::filesystem::create_symlink(replacement_model_path, requested_model_path);
+    ASSERT_NE(loaded_fingerprint,
+              themis::llm::LlamaWrapper::calculateModelChecksum(requested_model_path.string()));
+
+    themis::training::AdaLoRATrainingConfig config;
+    config.adapter_id = "changed_file";
+    config.base_model_path = requested_model_path.string();
+    config.adapter_output_path = (temporary_directory.path() / "adapter.gguf").string();
+    config.checkpoint_path = (temporary_directory.path() / "checkpoint.adalora").string();
+    SingleSampleProvider provider;
+
+    const auto result = themis::training::AdaLoRATrainingPipeline::trainFromProvider(
+        provider, model, config);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("fingerprint does not match"), std::string::npos);
+    EXPECT_FALSE(std::filesystem::exists(config.adapter_output_path));
+    EXPECT_FALSE(std::filesystem::exists(config.checkpoint_path));
+}
+#endif
 
 TEST(AdaLoRATrainingPipelineTest, TrainsFromDocsDatabaseAndServesTinyLlamaAdapter) {
     const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
