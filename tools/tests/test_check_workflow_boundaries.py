@@ -999,6 +999,14 @@ def test_rag_version_gate_installs_test_dependencies():
     assert "-DTHEMIS_BUILD_TESTS=ON" in configure
 
 
+def test_rag_version_label_job_has_write_permissions():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-rag-version.yml"
+    data = yaml.safe_load(workflow.read_text(encoding="utf-8"))
+    label_permissions = data["jobs"]["apply-release-critical-label"]["permissions"]
+    assert label_permissions["issues"] == "write"
+    assert label_permissions["pull-requests"] == "write"
+
+
 @pytest.mark.parametrize(
     ("body", "introduced", "exit_code"),
     [
