@@ -39,7 +39,9 @@ def runtime_environment():
                 "DYLD_FALLBACK_LIBRARY_PATH", "DYLD_INSERT_LIBRARIES"):
         env.pop(key, None)
     if os.name == "nt":
-        system = env["SystemRoot"]
+        system = env.get("SYSTEMROOT")
+        if not system:
+            raise ValueError("SYSTEMROOT is required to construct the Windows runtime PATH")
         env["PATH"] = os.pathsep.join((os.path.join(system, "System32"), system))
     else:
         env["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
