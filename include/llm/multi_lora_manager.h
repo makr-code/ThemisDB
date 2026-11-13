@@ -470,6 +470,15 @@ public:
      */
     bool removeLoRA(const std::string& lora_id, llama_context* context);
     
+    /**
+     * @brief Run requests grouped by adapter while preserving their input order.
+     * @param[in] requests Requests paired with registered LoRA ids.
+     * @param[in,out] model_context Valid model context used for tokenization and generation.
+     * @return One response per request in the original order. Missing or unapplied adapters
+     *         produce failed responses with no generated text and no `lora_used` value.
+     * @note Adapter-application failures are fail-closed: that adapter group is skipped rather
+     *       than generated with base-model weights. Other groups are processed independently.
+     */
     std::vector<InferenceResponse> batchInferenceMultiLoRA(
         const std::vector<std::pair<InferenceRequest, std::string>>& requests,
         llama_context* model_context
@@ -1015,4 +1024,3 @@ private:
 
 } // namespace llm
 } // namespace themis
-

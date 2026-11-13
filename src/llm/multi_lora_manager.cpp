@@ -1148,7 +1148,9 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
                 responses[idx].success       = false;
                 responses[idx].error_message = "LoRA not loaded: " + lora_id;
                 responses[idx].model_used    = "unknown";
-                responses[idx].lora_used     = lora_id;
+                responses[idx].request_id    = requests[idx].first.request_id;
+                responses[idx].trace_id      = requests[idx].first.trace_id;
+                responses[idx].span_id       = requests[idx].first.span_id;
             }
             continue;
         }
@@ -1156,8 +1158,19 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
         // Apply this LoRA adapter to the context
         const bool lora_applied = applyLoRA(lora_id, model_context);
         if (!lora_applied) {
-            spdlog::warn("Failed to apply LoRA {}, continuing without adapter", lora_id);
-            // Non-fatal: proceed with base model weights
+            spdlog::warn("Failed to apply LoRA {}, skipping {} requests",
+                         lora_id, indices.size());
+            for (size_t idx : indices) {
+                const InferenceRequest& request = requests[idx].first;
+                auto& response = responses[idx];
+                response.success = false;
+                response.error_message = "Failed to apply LoRA adapter: " + lora_id;
+                response.model_used = lora->base_model_id;
+                response.request_id = request.request_id;
+                response.trace_id = request.trace_id;
+                response.span_id = request.span_id;
+            }
+            continue;
         }
 
         // Run inference for each request in this LoRA group
