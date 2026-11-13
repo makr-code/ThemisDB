@@ -26,15 +26,19 @@ on:
         required: false
         default: ''
         type: string
+      dry_run:
+        description: 'Build/compare/upload artifacts; suppress tracker issue/comment writes'
+        required: false
+        default: true
+        type: boolean
       force_create_issue:
         description: 'Force issue upsert even when all targets pass'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: ci-benchmark-gate-${{ github.ref }}
@@ -181,13 +185,34 @@ jobs:
           echo "triage_exit=${TRIAGE_EXIT}" >> "$GITHUB_OUTPUT"
           exit 0
 
+      - name: Summarize tracker write mode
+        if: always()
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          {
+            echo "## Tracker mutation mode"
+            if [[ "${EVENT_NAME}" == "workflow_dispatch" && "${DRY_RUN}" == "true" ]]; then
+              echo "Manual dry run: tracker issue upsert and report comment are suppressed; comparison, report generation, and artifact uploads still run."
+            elif [[ "${EVENT_NAME}" == "schedule" ]]; then
+              echo "Scheduled run: live tracker issue upsert and report comment behavior remains enabled."
+            else
+              echo "Live tracker writes follow the existing comparison and issue conditions."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY" || true
+          exit 0
+
       - name: Upsert benchmark results tracker issue
         id: tracker
         # Skip upsert when all targets pass and force_create_issue is not set
         if: >-
+          !(github.event_name == 'workflow_dispatch' && inputs.dry_run == true) &&
+          (
           (steps.compare.outputs.compare_status == 'FAIL' ||
           inputs.force_create_issue == true) &&
           steps.benchmark_triage.outputs.has_actionable_issues == 'true'
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -201,6 +226,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Post full comparison report as issue comment
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run == true) }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.tracker.outputs.issue-number }}

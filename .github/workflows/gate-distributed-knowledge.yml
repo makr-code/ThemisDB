@@ -88,8 +88,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
 
 concurrency:
   group: ci-gate-distributed-knowledge-${{ github.event.pull_request.number || github.ref }}
@@ -296,7 +294,6 @@ jobs:
     if: failure() && github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     permissions:
-      pull-requests: write
       issues: write
     steps:
       - name: "Post failure feedback"

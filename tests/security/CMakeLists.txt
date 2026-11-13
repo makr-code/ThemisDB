@@ -8,6 +8,10 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_security_${_stem}_focused")
     set(_ctest "${_stem}_SecurityFocusedTests")
+    set(_extra_labels)
+    if(_stem STREQUAL "test_retrieval_policy")
+        list(APPEND _extra_labels tenant_isolation policy_enforcement)
+    endif()
 
     add_executable(${_target} "${_src}")
     if(_stem STREQUAL "test_hsm_security_checker")
@@ -21,6 +25,12 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/tests/test_gtest_main.cpp
         )
         set(_security_test_gtest_libs GTest::gtest ${_security_test_gmock_link})
+    elseif(_stem STREQUAL "test_retrieval_policy")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/retrieval_policy.cpp
+            ${THEMIS_ROOT_DIR}/src/security/policy_enforcer.cpp
+        )
+        set(_security_test_gtest_libs GTest::gtest GTest::gtest_main)
     else()
         set(_security_test_gtest_libs ${TEST_LIBS})
     endif()
@@ -30,10 +40,12 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
     )
     target_link_libraries(${_target} PRIVATE
         ${_security_test_gtest_libs}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
     )
+    if(_stem STREQUAL "test_retrieval_policy")
+        target_link_libraries(${_target} PRIVATE spdlog::spdlog Threads::Threads)
+    else()
+        target_link_libraries(${_target} PRIVATE themis_core spdlog::spdlog Threads::Threads)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
     if(_stem STREQUAL "test_hsm_stub_gating" AND THEMIS_ENABLE_HSM_REAL)
         target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_HSM_REAL=1)
@@ -87,6 +99,7 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
+        LABELS ${_extra_labels}
     )
 endforeach()
 

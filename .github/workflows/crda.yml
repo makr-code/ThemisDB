@@ -52,19 +52,31 @@ on:
   # uncomment the 'push' trigger below and configure it based on your requirements.
   #
   workflow_call:
+    inputs:
+      dry_run:
+        description: 'Run the scan without uploading SARIF'
+        type: boolean
+        required: false
+        default: true
     secrets:
       CRDA_KEY:
         required: false
       SNYK_TOKEN:
         required: false
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run the scan without uploading SARIF'
+        type: boolean
+        required: false
+        default: true
 
   # push:
   #   branches: [ "develop" ]
 
-  # pull_request_target is used so this security scan continues to run on PRs
-  # with the expected repository context.
-  pull_request_target:
+  # This is read-only PR validation. Using pull_request keeps fork PRs on the
+  # restricted token and scans the PR merge ref rather than only the base.
+  pull_request:
     branches: [ "develop" ]
     types: [ assigned, opened, synchronize, reopened, labeled, edited ]
 
@@ -92,7 +104,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Trivy dependency scan"
+          scope: "Trivy dependency scan (dry-run input: ${{ inputs.dry_run }})"
           job-results: ${{ toJSON(needs) }}
 
   crda-scan:
@@ -106,6 +118,8 @@ jobs:
 
       - name: Check out repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       # *******************************************************************
       # Required: Instructions to setup project
@@ -143,7 +157,21 @@ jobs:
             .
 
       - name: Upload SARIF to GitHub Security tab
+        if: >-
+          github.event_name == 'schedule' ||
+          (inputs.dry_run != true &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository))
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: crda-results.sarif
           category: crda
+
+      - name: Upload scan results for review
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: crda-scan-${{ github.run_id }}
+          path: crda-results.sarif
+          retention-days: 30
+          if-no-files-found: ignore

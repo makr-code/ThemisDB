@@ -31,13 +31,10 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Dry-run (generate manifests but do not submit PR)"
+        description: "Generate and validate manifests without pushing a fork branch or submitting a PR"
         required: false
-        default: "true"
-        type: choice
-        options:
-          - "true"
-          - "false"
+        default: true
+        type: boolean
       tag_name:
         description: "Release tag (e.g. v2.4.0 or v2.4.0-alpha)"
         required: true
@@ -97,9 +94,15 @@ jobs:
       - name: Resolve version from tag
         id: version
         shell: bash
+        env:
+          TAG_INPUT: ${{ inputs.tag_name }}
         run: |
           set -euo pipefail
-          TAG="${{ inputs.tag_name }}"
+          TAG="${TAG_INPUT}"
+          if [[ ! "${TAG}" =~ ^[A-Za-z0-9][A-Za-z0-9._+-]*$ ]]; then
+            echo "::error::Release tag contains unsupported characters"
+            exit 1
+          fi
           # Normalize: ensure v-prefix for gh release download
           if [[ "$TAG" != v* ]]; then
             TAG="v${TAG}"
@@ -426,7 +429,7 @@ jobs:
     needs: [download-release-assets, generate-manifests, validate-manifests]
     if: |
       needs.validate-manifests.outputs.validated == 'true' &&
-      inputs.dry_run == 'false'
+      inputs.dry_run != true
     permissions:
       contents: read
     steps:
@@ -513,23 +516,53 @@ jobs:
     steps:
       - name: Report
         shell: bash
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+          TAG: ${{ needs.download-release-assets.outputs.tag }}
+          VERSION: ${{ needs.download-release-assets.outputs.version }}
+          ARTIFACT: widget-manifests-${{ needs.download-release-assets.outputs.version }}-${{ github.run_number }}
+          VALIDATED: ${{ needs.validate-manifests.outputs.validated }}
+          SOURCE_WORKFLOW: ${{ inputs.source_workflow }}
+          SUBMIT_RESULT: ${{ needs.submit-winget-pr.result }}
         run: |
           echo "══════════════════════════════════════════════════════════"
           echo " Build: Widget Path — WinGet Release Summary"
           echo "══════════════════════════════════════════════════════════"
-          echo "  Tag:          ${{ needs.download-release-assets.outputs.tag }}"
-          echo "  Version:      ${{ needs.download-release-assets.outputs.version }}"
-          echo "  Dry run:      ${{ inputs.dry_run }}"
-          echo "  Manifests:    ${{ needs.generate-manifests.outputs.manifest-dir }}"
-          echo "  Validated:    ${{ needs.validate-manifests.outputs.validated }}"
-          echo "  Source:       ${{ inputs.source_workflow }}"
+          echo "  Tag:          ${TAG}"
+          echo "  Version:      ${VERSION}"
+          echo "  Dry run:      ${DRY_RUN}"
+          echo "  Manifests:    ${ARTIFACT}"
+          echo "  Validated:    ${VALIDATED}"
+          echo "  Source:       ${SOURCE_WORKFLOW}"
+          echo "  Submission:   ${SUBMIT_RESULT}"
           echo ""
-          if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+          {
+            echo "## WinGet release validation summary"
+            echo ""
+            echo "| Field | Result |"
+            echo "|---|---|"
+            printf '| Release tag | %s |\n' "${TAG}"
+            printf '| Version | %s |\n' "${VERSION}"
+            printf '| Manifest validation | %s |\n' "${VALIDATED}"
+            printf '| Submission job | %s |\n' "${SUBMIT_RESULT}"
+            printf '| Source workflow | %s |\n' "${SOURCE_WORKFLOW}"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${DRY_RUN}" == "true" ]]; then
             echo "  ℹ Dry-run: manifests generated and validated, PR NOT submitted."
-            echo "  ↳ Download artifact: widget-manifests-${{ needs.download-release-assets.outputs.version }}-${{ github.run_number }}"
+            echo "  ↳ Download artifact: ${ARTIFACT}"
             echo "  ↳ To submit: re-run with dry_run=false (requires WINGET_FORK_PAT secret)"
+            {
+              echo "### Dry-run preview"
+              echo "- Manifest generation, checksums, and winget validate completed normally."
+              echo "- No fork branch push or upstream pull request was attempted."
+              printf '%s\n' "- Manifest artifact: ${ARTIFACT}"
+              echo "- To submit intentionally, rerun with dry_run=false."
+            } >> "$GITHUB_STEP_SUMMARY"
           else
             echo "  ✓ PR submitted to microsoft/winget-pkgs"
-            echo "  ↳ https://github.com/microsoft/winget-pkgs/pulls?q=${{ needs.download-release-assets.outputs.version }}"
+            echo "  ↳ https://github.com/microsoft/winget-pkgs/pulls?q=${VERSION}"
+            echo ""
+            echo "Submission was enabled; inspect the submit-winget-pr job for push and PR details." >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "══════════════════════════════════════════════════════════"

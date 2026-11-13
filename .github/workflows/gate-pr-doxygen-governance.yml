@@ -45,14 +45,16 @@ concurrency:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 jobs:
   doxygen-governance:
     name: "Gate: Doxygen Governance"
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:

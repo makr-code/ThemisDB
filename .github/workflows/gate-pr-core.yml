@@ -338,9 +338,8 @@ jobs:
           LOG_FILE="$RUNNER_TEMP/release-critical-ctest.log"
           rm -f "$LOG_FILE"
           if [ ! -d build-pr-release-critical ]; then
-            echo "::warning::Skipping standalone CTest quality gate: build-pr-release-critical is not present in this job workspace."
-            echo "ctest_exit=0" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "::error::Release-critical build artifact did not restore build-pr-release-critical; refusing to skip the CTest quality gate."
+            exit 1
           fi
           set +e
           ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 \

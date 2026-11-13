@@ -46,14 +46,15 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
 
 jobs:
   community-fail-closed-validation:
     name: "Gate: Community Fail-Closed Validation"
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:

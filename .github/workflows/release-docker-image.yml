@@ -20,7 +20,7 @@ on:
       dry_run:
         description: "Build and validate without logging into or publishing to any registry"
         required: false
-        default: false
+        default: true
         type: boolean
       push_to_registry:
         description: "Push built images to Docker registry"
@@ -77,7 +77,7 @@ on:
       dry_run:
         description: "Build and validate without logging into or publishing to any registry"
         required: false
-        default: false
+        default: true
         type: boolean
       push_to_registry:
         description: "Push built images to Docker registry"

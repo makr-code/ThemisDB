@@ -12,6 +12,41 @@ SPEC.loader.exec_module(compendium_drift_scan)
 
 
 class CompendiumDriftScanTests(unittest.TestCase):
+    def test_target_version_defaults_to_mapping_and_accepts_valid_override(self):
+        mapping = {"target_version": "2.4.0-alpha"}
+
+        self.assertEqual(
+            compendium_drift_scan._resolve_target_version(None, mapping),
+            "2.4.0-alpha",
+        )
+        self.assertEqual(
+            compendium_drift_scan._resolve_target_version("3.0.0-rc.1", mapping),
+            "3.0.0-rc.1",
+        )
+
+    def test_target_version_rejects_invalid_mapping_or_override(self):
+        for override, mapping in (
+            ("$(touch /tmp/injected)", {"target_version": "2.4.0-alpha"}),
+            (None, {"target_version": ""}),
+        ):
+            with self.subTest(override=override, mapping=mapping):
+                with self.assertRaises(ValueError):
+                    compendium_drift_scan._resolve_target_version(override, mapping)
+
+    def test_target_version_drives_staleness_and_chapter_signals(self):
+        self.assertTrue(compendium_drift_scan._is_stale_version("2.4.0", "3.0.0"))
+        self.assertTrue(compendium_drift_scan._is_stale_version("3.0.0-rc.1", "3.0.0"))
+        self.assertTrue(
+            compendium_drift_scan._chapter_has_target_version_signals(
+                "The current release is v3.0.0-rc.1.", "3.0.0-rc.1"
+            )
+        )
+        self.assertFalse(
+            compendium_drift_scan._chapter_has_target_version_signals(
+                "The current release is v2.4.0-alpha.", "3.0.0"
+            )
+        )
+
     def test_alignment_summary_does_not_count_as_topic_integration(self):
         topics = ["voice", "anti-spoof", "liveness"]
         sot_cache = {"ROADMAP.md": "voice anti-spoof liveness"}
@@ -43,6 +78,22 @@ class CompendiumDriftScanTests(unittest.TestCase):
         )
 
         self.assertEqual(missing, [])
+
+    def test_alignment_section_exclusion_uses_target_version(self):
+        topics = ["voice"]
+        sot_cache = {"ROADMAP.md": "voice"}
+        chapter = (
+            "## v3.0.0-rc.1 roadmap alignment\n"
+            "This chapter covers voice.\n"
+            "## Overview\n"
+            "General overview.\n"
+        )
+
+        missing = compendium_drift_scan._missing_sot_topics(
+            sot_cache, ["ROADMAP.md"], topics, chapter, "3.0.0-rc.1"
+        )
+
+        self.assertEqual(missing, ["voice"])
 
     def test_nested_version_keys_are_not_product_release_versions(self):
         text = (

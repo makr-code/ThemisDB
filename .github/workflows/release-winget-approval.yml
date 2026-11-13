@@ -5,10 +5,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
   contents: read
-  pull-requests: write
-  actions: write
 
 concurrency:
   group: winget-publish-${{ github.event.issue.number }}
@@ -30,6 +27,10 @@ jobs:
         contains(github.event.comment.body, '/rollback-winget')
       )
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     with:
       issue_label: winget-release
       match_regex: "/publish-winget\\b|/approve-winget\\b|@publish-winget\\b|/hold-winget\\b|/pause-winget\\b|/reject-winget\\b|/cancel-winget\\b|/rollback-winget\\b"
@@ -41,7 +42,7 @@ jobs:
       environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-winget-approval.yml
       target_workflow_id: release-winget.yml
       target_ref: develop
-      dispatch_inputs_json: '{"fork_owner":"${{ vars.WINGET_FORK_OWNER }}"}'
+      dispatch_inputs_json: '{"fork_owner":"${{ vars.WINGET_FORK_OWNER }}","dry_run":false}'
       approved_label: winget-approved
       approval_note: |
         Monitor `release-winget.yml` for submission status and winget-pkgs PR creation.
@@ -49,6 +50,8 @@ jobs:
   summary:
     name: "Validate: Wrapper Summary"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [winget_publish_from_issue]
     if: always()
     steps:

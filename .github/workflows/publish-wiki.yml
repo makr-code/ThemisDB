@@ -65,11 +65,10 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry-run only (print pages, do not push wiki)'
+        description: 'Build and validate staged pages without publishing or updating issues'
         required: false
-        default: 'false'
-        type: choice
-        options: ['false', 'true']
+        default: true
+        type: boolean
       enable_ai_enrichment:
         description: 'AI enrichment: generate LLM module overviews via GitHub Models API'
         required: false
@@ -96,8 +95,7 @@ on:
         options: ['false', 'true']
 
 permissions:
-  actions: write
-  contents: write
+  contents: read
 
 concurrency:
   group: publish-wiki-${{ github.ref }}
@@ -113,6 +111,10 @@ env:
 jobs:
   publish-wiki:
     name: "Publish: Validate and publish wiki"
+    permissions:
+      actions: write
+      contents: write
+      issues: write
     if: |
       (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') &&
       (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'develop' || github.event.workflow_run.head_branch == 'community')
@@ -196,7 +198,6 @@ jobs:
           )
           DRY_RUN_FLAG="false"
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            build_args+=(--dry-run)
             DRY_RUN_FLAG="true"
           fi
           if [ "${{ steps.glossary_gen.outputs.glossaries_generated }}" = "true" ]; then
@@ -219,7 +220,6 @@ jobs:
       # Phase 2b: Validate internal [[wiki links]] before publishing
       # -----------------------------------------------------------------------
       - name: Validate internal wiki links
-        if: steps.build.outputs.is_dry_run != 'true'
         id: linkcheck
         run: |
           FAIL_ON_BROKEN="true"
@@ -236,7 +236,7 @@ jobs:
           python scripts/validate_wiki_links.py "${validate_args[@]}"
 
       - name: Upload link validation report
-        if: always() && steps.build.outputs.is_dry_run != 'true'
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: wiki-link-report-${{ github.run_number }}
@@ -254,7 +254,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Extract link metrics
-        if: always() && steps.build.outputs.is_dry_run != 'true'
+        if: always()
         id: link_metrics
         run: |
           python3 - <<'PY'
@@ -284,7 +284,7 @@ jobs:
           cat /tmp/link-metrics.out >> "$GITHUB_OUTPUT"
 
       - name: Write link check summary
-        if: always() && steps.build.outputs.is_dry_run != 'true'
+        if: always()
         run: |
           {
             echo "## Wiki Link Validation"
@@ -508,9 +508,13 @@ jobs:
           if [ -n "$CLOSED_ISSUE" ]; then
             TRACKER_STATUS="Closed (#${CLOSED_ISSUE})"
           fi
+          if [ "${{ steps.build.outputs.is_dry_run }}" = "true" ]; then
+            TRACKER_STATUS="Not modified (dry run)"
+          fi
 
           {
             echo "## Wiki Publish Summary"
+            echo "- Dry run: **${{ steps.build.outputs.is_dry_run || 'false' }}**"
             echo "- Pages generated: **$PAGE_COUNT**"
             echo "- Pages written (manifest): **${{ steps.build.outputs.pages_written || '0' }}**"
             echo "- Private-content blocks: **${BLOCKED_COUNT}**"
@@ -522,6 +526,9 @@ jobs:
             echo "- Commit: \`${{ github.sha }}\`"
             echo "- Tracking issue status: **${TRACKER_STATUS}**"
             echo "- Review gate dispatched: **${REVIEW_DISPATCHED}** (issue-based — no PR branch created)"
+            if [ "${{ steps.build.outputs.is_dry_run }}" = "true" ]; then
+              echo "- External changes: **none** (wiki publish, issue updates, and review dispatch suppressed)"
+            fi
             echo ""
             echo "### Reader KPIs"
             echo "- Evidence quality score (0-100): **${EVIDENCE_SCORE}**"

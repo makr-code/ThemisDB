@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-11
+> Last Updated: 2026-11-12
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -506,7 +506,58 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 ## CI Health Dashboard
 - `maintenance-ci-health.yml` aggregiert wöchentlich (sonntags 06:00 UTC) pass/fail-Raten je Workflow.
 - Schwellwert für chronische Fehler: >30% Fehlerrate bei ≥3 Fehlern → öffnet `ci/chronic-failure`-Issue.
-- Lookback-Fenster konfigurierbar via `workflow_dispatch` Input `lookback_days` (Standard: 7).
+- Das `workflow_dispatch`-Input `lookback_days` akzeptiert ganze Zahlen von 1 bis 90 (Standard: 7); ungültige Werte brechen die Analyse vor dem API-Aufruf ab.
+- Manuelle Läufe starten standardmäßig mit `dry_run=true`: Analyse, Zusammenfassung und Report-Artefakt laufen weiter; Issue- und Label-Änderungen werden nur in einem Live-Lauf ausgeführt. Geplante Läufe bleiben live.
+
+## Nightly Coverage
+- `coverage-report-nightly.yml` führt Build, fokussierte und release-kritische Tests sowie Report-Artefakte auch bei manuellen Dry-Runs aus.
+- Manuelle Läufe starten mit `dry_run=true`; ein Baseline-Commit nach `develop` erfordert zusätzlich `generate_baseline=true` und `dry_run=false`. Geplante Läufe behalten das bestehende Update-Verhalten.
+- Fehlgeschlagene fokussierte oder release-kritische Tests verhindern Baseline-Updates und führen nach dem Upload der Diagnose-Artefakte zu einem fehlgeschlagenen Workflow-Ergebnis.
+
+## Benchmark Workflows
+- `benchmark-performance-gate.yml` führt Build, Vergleich und Report-Artefakte bei manuellen Dry-Runs weiter aus; Tracker-Issue-Upserts und Kommentare sind standardmäßig deaktiviert. Geplante Läufe bleiben live.
+- `build-benchmarks.yml` führt manuelle Builds und Reports ohne Repository-Schreibzugriff aus; nur der geplante Preflight darf bei Bedarf den Build-Tracker initialisieren.
+- `build-wave-a-gpu.yml` ist Build-/Test-/Artefakt-Ausführung; `build-wave-b-transaction.yml` kommentiert weiterhin nur bei `pull_request` und benötigt dafür PR-Schreibzugriff im Testjob.
+- Schreibberechtigungen bleiben auf die Tracker-/PR-Jobs begrenzt; Validierung, Benchmark-Ausführung und Artefakt-Uploads werden durch Dry-Run-Guards nicht übersprungen.
+
+## Compendium Sync
+- `maintenance-compendium-sync.yml` resolves its default target version from the top-level `target_version` in `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`; an optional manual override is validated before scanning and is carried into tracker identity and content.
+- Manual dispatch defaults to `dry_run=true`: the scan and report artifacts still run, but tracker issue writes are suppressed. Scheduled runs remain live.
+- The drift scanner returns `1` for valid findings and `0` for no findings; the workflow validates those outcomes against generated reports and fails on scan/configuration errors instead of suppressing them.
+- Issue-write permissions are limited to tracker jobs; the scan job has read-only repository access.
+
+## Architecture CI
+- `maintenance-architecture-ci.yml` generates and validates architecture outputs in a read-only job with checkout credentials disabled, then transfers validated files as a run artifact.
+- A separate publication job receives write permissions and runs only when outputs changed and the dispatch is not a dry-run. Scheduled and `develop` push runs retain automatic publication behavior.
+- Manual runs default to `dry_run=true`; generation, validation, artifact upload, and summaries still run while branch/PR writes are skipped.
+
+## Issue and Security Triage
+- `maintenance-issues.yml` manual runs default to `dry_run=true`. GS3 scans, security-alert queries, Doxygen autofixes, artifacts, and summaries still run; issue, label, comment, branch, and PR changes are previewed or suppressed.
+- Scheduled runs remain live. Setting `dry_run=false` on a manual run enables the selected job's existing tracker or PR updates.
+- Doxygen autofixes in a manual dry-run modify only the runner workspace; the summary previews the branch/PR publication without pushing.
+- Security SLA input is passed through the environment and validated as a positive integer. Recovery issue updates require a successful alert query.
+
+## Documentation Maintenance
+- `maintenance-docs.yml` manual runs default to `dry_run=true`; documentation scans, wiki validation, report generation, and artifact uploads still run.
+- A manual dry-run suppresses issue, comment, and label updates; AI/wiki updates; docs-audit and module-wise issue creation; code-maturity commits; and Doxygen API-reference commits.
+- Existing script preview modes report proposed issue creation where available. Scheduled and push runs retain their current live behavior; set `dry_run=false` to enable manual write operations.
+- Workflow-wide permissions are read-only; jobs that create tracker issues or publish generated artifacts retain only their existing job-scoped write permissions.
+
+## Mainline and LLM Inference Builds
+- `build-mainline.yml` and `build-llm-inference.yml` manual runs default to `dry_run=true`; builds, selected test suites, summaries, and artifacts still run.
+- Manual dry-runs suppress only build/LLM tracker issue, label, and comment updates and write a preview to the run summary. Scheduled runs remain live; set `dry_run=false` for an intentional manual tracker update.
+- Workflow-wide permissions are read-only. Issue-write permissions are scoped to the mainline tracker jobs and the LLM report job; build and inference/test jobs do not inherit issue-write access.
+
+## WinGet E2E Submission
+- `build-widget.yml` requires a release tag, validates checksums/manifests, and uploads generated manifests before considering submission.
+- Manual runs default to boolean `dry_run=true`; manifest validation and artifacts still run, while the fork push and upstream PR job remain skipped. The final job summary states the preview/result and artifact name.
+- Set `dry_run=false` only for intentional submission. The tag is passed through an environment variable and restricted to safe release-tag characters before it is used for artifact selection and manifest paths.
+
+## Pull-Request Gate Feedback Permissions
+- Keep workflow-level permissions read-only for validation gates. Grant issue/PR write scopes only to jobs that post feedback or update tracker labels/issues.
+- If feedback is performed inside the validation job, guard every write step to its intended event (`pull_request`); manual dispatch and push validation should remain read-only without skipping checks.
+- If feedback is isolated into a separate job, scope that job's permissions and event condition independently from the validation job.
+- `gate-pr-plugin-boundary.yml` and `gate-pr-edition-license.yml` post idempotent PR comments from their validation jobs and therefore require job-scoped `pull-requests: write`; their separate human-loop jobs retain only `issues: write`.
 
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:

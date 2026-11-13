@@ -28,17 +28,19 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
-  checks: write
 
 jobs:
   phase10_validation:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     uses: ./.github/workflows/reusable-rag-phase-gate.yml
     with:
       phase_id: "10"
       phase_title: "Phase 10 Cost Optimizer"
+      dry_run: false
       headers_json: '["include/rag/gradient_descent_optimizer.h","include/rag/cost_model_builder.h","include/rag/recommendation_engine.h"]'
       impls_json: '["src/rag/gradient_descent_optimizer.cpp","src/rag/cost_model_builder.cpp","src/rag/recommendation_engine.cpp"]'
       tests_json: '["tests/rag/test_gradient_descent_optimizer.cpp","tests/rag/test_cost_model_builder.cpp","tests/rag/test_recommendation_engine.cpp"]'

@@ -5,10 +5,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
   contents: read
-  packages: write
-  actions: write
 
 concurrency:
   group: docker-publish-${{ github.event.issue.number }}
@@ -30,6 +27,10 @@ jobs:
         contains(github.event.comment.body, '/rollback-docker')
       )
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     with:
       issue_label: docker-release
       match_regex: "/publish-docker\\b|/approve-docker\\b|@publish-docker\\b|/hold-docker\\b|/pause-docker\\b|/reject-docker\\b|/cancel-docker\\b|/rollback-docker\\b"
@@ -41,7 +42,9 @@ jobs:
       environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-docker-approval.yml
       target_workflow_id: release-docker-image.yml
       target_ref: develop
-      dispatch_inputs_json: '{"push_to_registry":"true","registry":"ghcr.io","include_tinyllama":"true","llm_model":"tinyllama"}'
+      # The maintainer command and protected environment authorize publication;
+      # registry and model settings inherit release-docker-image.yml defaults.
+      dispatch_inputs_json: '{"push_to_registry":"true","dry_run":false}'
       version_input_name: tag_name
       approved_label: docker-approved
       approval_note: |
@@ -50,6 +53,8 @@ jobs:
   summary:
     name: "Validate: Wrapper Summary"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [docker_publish_from_issue]
     if: always()
     steps:
