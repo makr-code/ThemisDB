@@ -84,7 +84,8 @@ public:
     static constexpr const char* kToken = "test-rag-policy-token";
 
     bool start(const std::optional<std::string>& policy_json,
-               bool duplicate_readonly_token = false) {
+               bool duplicate_readonly_token = false,
+               const std::optional<std::string>& rag_tenant_id = std::nullopt) {
         const auto suffix = std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         base_path_ = std::filesystem::temp_directory_path() /
@@ -106,6 +107,10 @@ public:
                 std::make_unique<ScopedEnv>("THEMIS_TOKEN_READONLY", kToken);
         }
         token_env_ = std::make_unique<ScopedEnv>("THEMIS_TOKEN_RAG", kToken);
+        if (rag_tenant_id) {
+            tenant_env_ = std::make_unique<ScopedEnv>(
+                "THEMIS_TOKEN_RAG_TENANT", *rag_tenant_id);
+        }
         policy_env_ = std::make_unique<ScopedEnv>(
             "THEMIS_POLICIES_PATH", policy_path_.string());
 
@@ -147,6 +152,7 @@ public:
             storage_.reset();
         }
         policy_env_.reset();
+        tenant_env_.reset();
         token_env_.reset();
         readonly_token_env_.reset();
         if (!base_path_.empty()) {
@@ -161,6 +167,7 @@ private:
     std::filesystem::path db_path_;
     std::filesystem::path policy_path_;
     std::unique_ptr<ScopedEnv> token_env_;
+    std::unique_ptr<ScopedEnv> tenant_env_;
     std::unique_ptr<ScopedEnv> policy_env_;
     std::unique_ptr<ScopedEnv> readonly_token_env_;
     std::unique_ptr<themis::server::HttpServer> server_;
@@ -338,7 +345,8 @@ TEST(RagCollectionPolicyHttpTest, NativePolicyMatchesTheExactCollection) {
         ]
     })json";
     RagPolicyHttpFixture fixture;
-    ASSERT_TRUE(fixture.start(policies));
+    ASSERT_TRUE(fixture.start(policies, /*duplicate_readonly_token=*/false,
+                              "tenant-a"));
 
     const auto prefix_sibling = postRagRequest("docs-private");
     EXPECT_EQ(prefix_sibling.result(), http::status::forbidden);

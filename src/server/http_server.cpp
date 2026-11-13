@@ -781,6 +781,9 @@ HttpServer::HttpServer(
         themis::AuthMiddleware::TokenConfig cfg;
         cfg.token = *t;
         cfg.user_id = "rag_reader";
+        if (auto tenant = themis_get_env("THEMIS_TOKEN_RAG_TENANT")) {
+            cfg.tenant_id = *tenant;
+        }
         cfg.scopes = {"llm", "data:read"};
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: RAG reader token configured via env");
