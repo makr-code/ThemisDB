@@ -64,11 +64,15 @@ do not override root release status.
   `LLMAQLHandler::executeRAG()`: it uses the live server storage/index managers,
   exact collection policy, and tenant context from the successful access check.
   The normal `/query/aql` endpoint is not changed. Its regression source checks
-  policy denial, hostile JSON tenant input, tenant isolation, and deadline
-  mapping, but has not been built or run.
+policy denial, hostile JSON tenant input, tenant isolation, trace propagation,
+deadline mapping, and that deadline expiry does not repeat embedding; it has
+not been built or run.
 - Timeout cleanup can outlive an AQL RAG call; the worker captures request
-  inputs by value, uses shared result accounting, and the route retains the
-  handler through its copied request context until the worker completes.
+inputs by value, uses shared result accounting, and the route retains the
+handler plus its non-owning QueryEngine dependencies through copied request
+context leases until the worker completes. Shutdown rejects new resource
+leases and closes the vector index/RocksDB only after all HTTP-request and
+background RAG-worker leases drain. Deadline timeout errors are not retried.
 - `validateAQLWithParser()` is a private source helper, not a public handler
   method. The former frozen prose and unsupported-provider trigger claims are
   reconciled in [`AQL_ASSISTANCE_CONTRACT.md`](../../src/aql/AQL_ASSISTANCE_CONTRACT.md).
