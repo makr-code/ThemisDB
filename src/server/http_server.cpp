@@ -162,6 +162,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 #if THEMIS_ENABLE_LLM
+#include "aql/llm_aql_handler.h"
 #include "server/feedback_api_handler.h"
 #include "llm/docs_assistant.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -5570,6 +5571,135 @@ http::response<http::string_body> HttpServer::routeRequest(
                     recordLatency(duration);
                     span.setStatus(true);
                     return response;
+                }
+
+                if (path_only == "/api/v1/llm/aql/rag" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    try {
+                        const std::string query = payload.at("query").get<std::string>();
+                        const std::string collection =
+                            payload.value("collection", std::string{"default"});
+                        const int top_k = payload.value("top_k", 5);
+                        const int max_tokens = payload.value("max_tokens", 512);
+                        if (query.empty() || query.size() > themis::llm::kMaxPromptBytes ||
+                            collection.empty() || top_k <= 0 || top_k > 1000 ||
+                            max_tokens <= 0 || max_tokens > 4096) {
+                            auto response = makeErrorResponse(
+                                http::status::bad_request,
+                                "query, collection, top_k, or max_tokens is invalid", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+
+                        AuthContext retrieval_auth_context;
+                        if (auto access_error = requireAccess(
+                                req, "data:read", "data.read", collection,
+                                /*require_explicit_policy=*/true,
+                                &retrieval_auth_context)) {
+                            applyGovernanceHeaders(req, *access_error);
+                            return *access_error;
+                        }
+                        if (!storage_ || !secondary_index_ || !graph_index_) {
+                            auto response = makeErrorResponse(
+                                http::status::service_unavailable,
+                                "AQL RAG retrieval engine not configured", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+
+                        auto query_engine = std::make_shared<query::QueryEngine>(
+                            *storage_, *secondary_index_, *graph_index_,
+                            vector_index_.get(), spatial_index_.get());
+                        query_engine->setCollectionAccessChecker(
+                            [authorized_collection = collection](
+                                const std::string& requested_collection,
+                                const std::string&) {
+                                return requested_collection == authorized_collection;
+                            });
+
+                        themis::rag::RetrievalExecutionContext execution_context;
+                        const auto request_timeout_ms =
+                            request_timeout_ms_live_.load(std::memory_order_relaxed);
+                        if (request_timeout_ms != 0) {
+                            execution_context.deadline =
+                                start + std::chrono::milliseconds(request_timeout_ms);
+                        }
+                        execution_context.tenant_id = retrieval_auth_context.tenant_id;
+                        execution_context.authorize_collection =
+                            [authorized_collection = collection](
+                                const std::string& requested_collection) {
+                                return requested_collection == authorized_collection;
+                            };
+
+                        std::unordered_map<std::string, std::string> options;
+                        if (payload.contains("similarity_threshold")) {
+                            options.emplace("similarity_threshold",
+                                std::to_string(payload.at("similarity_threshold").get<double>()));
+                        }
+                        if (payload.contains("vector_field")) {
+                            options.emplace("vector_field",
+                                payload.at("vector_field").get<std::string>());
+                        }
+                        options.emplace("max_tokens", std::to_string(max_tokens));
+                        if (payload.contains("temperature")) {
+                            options.emplace("temperature",
+                                std::to_string(payload.at("temperature").get<double>()));
+                        }
+                        if (payload.contains("top_p")) {
+                            options.emplace("top_p",
+                                std::to_string(payload.at("top_p").get<double>()));
+                        }
+
+                        themis::aql::LLMAQLHandler aql_handler;
+                        aql_handler.setQueryEngine(std::move(query_engine));
+                        const auto text = aql_handler.executeRAG(
+                            query, collection, top_k, "", options, execution_context);
+                        auto response = makeResponse(
+                            http::status::ok,
+                            json{{"text", text},
+                                 {"retrieval_attempted", true},
+                                 {"collection", collection},
+                                 {"top_k", top_k}}.dump(),
+                            req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const themis::aql::LLMException& e) {
+                        const auto status =
+                            e.getErrorCode() == themis::aql::LLMErrorCode::ACCESS_DENIED
+                                ? http::status::forbidden
+                                : (e.getErrorCode() == themis::aql::LLMErrorCode::TIMEOUT
+                                    ? http::status::gateway_timeout
+                                    : ((e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_OPTIONS ||
+                                        e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_PROMPT ||
+                                        e.getErrorCode() == themis::aql::LLMErrorCode::INVALID_COLLECTION)
+                                        ? http::status::bad_request
+                                        : http::status::internal_server_error));
+                        auto response = makeErrorResponse(status, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const nlohmann::json::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request,
+                            std::string("invalid AQL RAG parameters: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::exception& e) {
+                        auto response = makeErrorResponse(
+                            http::status::internal_server_error,
+                            std::string("AQL RAG failed: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
                 }
 
                 if (path_only == "/api/v1/llm/rag" && method == http::verb::post) {

@@ -282,7 +282,10 @@ private:
     std::shared_ptr<themis::TransactionManager> transaction_manager_;
 };
 
-http::response<http::string_body> postRagRequest(const std::string& collection) {
+http::response<http::string_body> postRagRequest(
+    const std::string& collection,
+    const std::string& route = "/api/v1/llm/rag",
+    const std::optional<std::string>& untrusted_tenant = std::nullopt) {
     net::io_context ioc;
     tcp::resolver resolver(ioc);
     beast::tcp_stream stream(ioc);
@@ -290,13 +293,17 @@ http::response<http::string_body> postRagRequest(const std::string& collection) 
                                     std::to_string(RagPolicyHttpFixture::kPort)));
 
     http::request<http::string_body> request{
-        http::verb::post, "/api/v1/llm/rag", 11};
+        http::verb::post, route, 11};
     request.set(http::field::host, "127.0.0.1");
     request.set(http::field::authorization,
                 std::string("Bearer ") + RagPolicyHttpFixture::kToken);
     request.set(http::field::content_type, "application/json");
-    request.body() = nlohmann::json{
-        {"query", "test query"}, {"collection", collection}}.dump();
+    nlohmann::json body{
+        {"query", "test query"}, {"collection", collection}};
+    if (untrusted_tenant.has_value()) {
+        body["tenant_id"] = *untrusted_tenant;
+    }
+    request.body() = body.dump();
     request.prepare_payload();
 
     http::write(stream, request);
@@ -465,6 +472,46 @@ TEST(RagCollectionPolicyHttpTest,
         << exact_collection.body();
     const auto result = nlohmann::json::parse(exact_collection.body());
     EXPECT_EQ(result.value("documents_retrieved", 0), 1);
+    const auto generated_text = result.value("text", "");
+    EXPECT_NE(generated_text.find("tenant-a evidence"), std::string::npos);
+    EXPECT_EQ(generated_text.find("tenant-b secret"), std::string::npos);
+}
+
+TEST(RagCollectionPolicyHttpTest,
+     AqlRagRouteUsesAuthenticatedTenantContextAndExactCollectionPolicy) {
+    const std::string policies = R"json({
+        "policies": [
+            {
+                "id": "rag-route",
+                "subjects": ["rag_reader"],
+                "actions": ["llm"],
+                "resources": ["/api/v1/llm/"],
+                "effect": "allow"
+            },
+            {
+                "id": "rag-docs",
+                "subjects": ["rag_reader"],
+                "actions": ["data.read"],
+                "resources": ["docs"],
+                "effect": "allow"
+            }
+        ]
+    })json";
+    RagPolicyHttpFixture fixture;
+    ASSERT_TRUE(fixture.start(policies, /*duplicate_readonly_token=*/false,
+                              "tenant-a"));
+    ASSERT_TRUE(fixture.storeTenantEvidence());
+    ScopedTenantEvidencePlugin test_plugin;
+
+    const auto prefix_sibling =
+        postRagRequest("docs-private", "/api/v1/llm/aql/rag");
+    EXPECT_EQ(prefix_sibling.result(), http::status::forbidden);
+
+    const auto response = postRagRequest(
+        "docs", "/api/v1/llm/aql/rag", "tenant-b");
+    ASSERT_EQ(response.result(), http::status::ok) << response.body();
+    const auto result = nlohmann::json::parse(response.body());
+    EXPECT_TRUE(result.value("retrieval_attempted", false));
     const auto generated_text = result.value("text", "");
     EXPECT_NE(generated_text.find("tenant-a evidence"), std::string::npos);
     EXPECT_EQ(generated_text.find("tenant-b secret"), std::string::npos);
