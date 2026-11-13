@@ -28,7 +28,6 @@ name: "Maintenance: Soll-Ist Gap Issues"
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: maintenance-soll-ist-gap-${{ github.ref_name || github.ref }}
@@ -54,6 +53,9 @@ jobs:
   soll_ist_sync:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5

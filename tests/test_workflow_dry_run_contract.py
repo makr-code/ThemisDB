@@ -875,6 +875,23 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("github.event.inputs.apply_changes == 'true'", step["if"])
                 self.assertIn("github.event.inputs.dry_run != 'true'", step["if"])
 
+    def test_issue_and_wiki_publish_write_permissions_are_job_scoped(self) -> None:
+        issue_sync = load_workflow("maintenance-soll-ist-gap-issues.yml")
+        self.assertEqual(issue_sync["permissions"], {"contents": "read"})
+        self.assertEqual(
+            issue_sync["jobs"]["soll_ist_sync"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+        self.assertEqual(issue_sync["jobs"]["run-summary"]["permissions"], {"contents": "read"})
+
+        wiki_publish = load_workflow("wiki-publish-from-issue.yml")
+        self.assertEqual(wiki_publish["permissions"], {"contents": "read"})
+        self.assertEqual(
+            wiki_publish["jobs"]["wiki_publish_from_issue"]["permissions"],
+            {"contents": "write", "issues": "write"},
+        )
+        self.assertEqual(wiki_publish["jobs"]["run-summary"]["permissions"], {"contents": "read"})
+
     def test_maintenance_issue_triage_dry_run_preserves_analysis_and_scheduled_writes(self) -> None:
         workflow = load_workflow("maintenance-issues.yml")
         triggers = workflow.get(True, workflow.get("on"))
