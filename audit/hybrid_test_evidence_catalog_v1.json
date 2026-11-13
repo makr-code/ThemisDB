@@ -1,0 +1,603 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "db-core-hybrid-v1",
+  "catalog_status": "draft",
+  "generated_at": "2026-11-13",
+  "source_snapshot": {
+    "branch": "develop",
+    "revision": "ee492ee342f11d14d61d55bbc27d89a07da4e797",
+    "static_inventory_only": true,
+    "execution_performed": false
+  },
+  "provenance": {
+    "ai_used": true,
+    "ai_models": "unknown",
+    "ai_contributor": "GitHub Copilot",
+    "human_review": false,
+    "human_author": "ThemisDB Team",
+    "exact_model_note": "Exact model backend not verifiable from final document text alone."
+  },
+  "authority": {
+    "audit_source_of_truth": "audit/",
+    "release_status_source_of_truth": [
+      "ROADMAP.md",
+      "RELEASE_STRATEGY.md"
+    ],
+    "catalog_is_release_authority": false,
+    "profile_approval": "pending_maintainer_review"
+  },
+  "profile": {
+    "id": "db-core-hybrid-v1",
+    "name": "DB core + hybrid profile v1 (RAG, LLM, LoRA, Tensor)",
+    "requiredness_status": "proposed_not_ratified",
+    "included_boundaries": [
+      "QueryEngine, storage, and access-policy authority",
+      "document/source ingestion and RAG retrieval",
+      "small local llama.cpp inference and context budgeting",
+      "authorized database-sample selection and AdaLoRA training artifacts",
+      "Multi-LoRA serving and required-adapter failure behavior",
+      "tensor/adapter conversion and runtime handoff"
+    ],
+    "excluded_boundaries": [
+      "optional third-party framework adapters",
+      "durable human-approval workflows",
+      "cloud-provider failover"
+    ],
+    "threshold_policy": "Numeric quality/performance gates require a representative baseline and accountable owner approval; no weights or aggregate percentage are defined."
+  },
+  "status_semantics": {
+    "coverage": {
+      "TEST_MISSING": "No test evidence found for the required behavior.",
+      "PARTIAL": "Existing tests cover only part of the stated contract.",
+      "REGISTERED_UNVERIFIED": "Test and registration were found; execution has not been verified for the pinned profile.",
+      "BLOCKED": "Execution or interpretation needs a missing workload, environment, model, or approved threshold."
+    },
+    "execution": {
+      "NOT_RUN": "No execution result is attached.",
+      "PASS": "All required cases executed and passed with valid retained evidence.",
+      "FAIL": "At least one required case executed and failed.",
+      "SKIPPED": "One or more required cases were skipped; this is not a pass.",
+      "BLOCKED": "A required prerequisite prevented a valid run.",
+      "NOT_APPLICABLE": "Reviewed and explicitly excluded from this profile with rationale."
+    }
+  },
+  "test_dimensions": {
+    "verification_level": [
+      "unit",
+      "module_integration",
+      "cross_module",
+      "end_to_end"
+    ],
+    "selection": [
+      "focused",
+      "aggregate",
+      "release_critical"
+    ],
+    "workload": [
+      "deterministic_fixture",
+      "real_model",
+      "database_replay",
+      "benchmark"
+    ],
+    "rule": "Dimensions are orthogonal. Focused is a selection, not a verification level; benchmark registration is not an execution result."
+  },
+  "result_requirements": [
+    "source revision and build profile/options",
+    "discovered test targets and case identifiers",
+    "CTest discovery JSON and CTest JUnit",
+    "per-case GoogleTest XML or equivalent, including internal skips",
+    "environment and model/tokenizer artifact identity where applicable",
+    "raw benchmark workload, corpus, hardware, sample count, warm-up, and measurement method"
+  ],
+  "criteria": [
+    {
+      "id": "HYB-SEC-001",
+      "modules": ["server", "rag", "query"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/rag/ARCHITECTURE.md",
+        "src/server/ARCHITECTURE.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Trusted authorization and tenant/collection predicates are enforced on every retrieval path, including relational, vector, graph expansion, cache, and shard boundaries; caller metadata filters never grant access.",
+      "test_obligations": [
+        "Allow and deny exact collection/tenant cases across retrieval backends.",
+        "Prove graph authorization occurs before cross-collection vertex reads or expansion.",
+        "Exercise concurrent requests with different authorization contexts and fail-closed policy errors."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_provider.cpp",
+          "cases": [
+            "PropagatesCollectionDenialForRelationalVectorAndGraph",
+            "RequestScopedAuthorizationIsolatedAcrossConcurrentRetrievals",
+            "TenantScopedGraphRetrievalDeniesForeignVertexBeforeExpansion"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/server/test_rag_collection_policy.cpp",
+          "cases": [
+            "EmptyPolicySetDeniesAuthenticatedRagRequest",
+            "TenantBoundRagTokenFiltersForeignEvidenceAndRequiresExactCollectionPolicy",
+            "AqlRagRouteUsesAuthenticatedTenantContextAndExactCollectionPolicy"
+          ],
+          "registration": "tests/server/CMakeLists.txt test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Source-level tests exist, but the complete cache/shard/HTTP/AQL authorization matrix has not been mapped to and executed in a pinned profile.",
+      "threshold": null,
+      "threshold_approval": "not_applicable"
+    },
+    {
+      "id": "HYB-RAG-002",
+      "modules": ["ingestion", "rag", "query"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/rag/ARCHITECTURE.md",
+        "src/ingestion/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Every retrieved vector candidate resolves to durable canonical source content with matching identity/provenance; missing, malformed, mismatched, or metadata-only evidence is rejected rather than fabricated.",
+      "test_obligations": [
+        "Round-trip vector source reference to canonical source content.",
+        "Reject missing, malformed, incomplete, non-string, and provenance-mismatched source records.",
+        "Verify no-match and vector-only metadata paths cannot produce fabricated evidence."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_provider.cpp",
+          "cases": [
+            "VectorIngestionSinkMaterializesPersistedSourceText",
+            "VectorIngestionRejectsMissingOrMismatchedSourceRecords",
+            "VectorOnlyMetadataIsNotMaterializedAsEvidence",
+            "DoesNotTurnNoMatchesIntoFabricatedEvidence"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "The provider-level contract is represented in source tests; persistence/restart and concurrent re-ingestion behavior still need profile-level evidence.",
+      "threshold": null,
+      "threshold_approval": "not_applicable"
+    },
+    {
+      "id": "HYB-ING-003",
+      "modules": ["ingestion", "rag"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/ingestion/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Document, revision, chunk, and embedding identities are stable and collision-resistant; update, retry, delete, and index-refresh operations preserve idempotency and freshness.",
+      "test_obligations": [
+        "Ingest the same document repeatedly and verify deterministic identities and no duplicate logical chunks.",
+        "Ingest different documents with overlapping local chunk numbering and prove there are no source-key collisions.",
+        "Update and delete a document, then prove stale vectors and source records are no longer retrievable."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_provider.cpp",
+          "cases": [
+            "ContentManagerChunkVectorPreservesTextAndSourceIdentity",
+            "ContentManagerVectorRejectsChunkFromDifferentContent"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Existing identity tests do not establish global chunk-key uniqueness, update/delete propagation, or idempotent retry semantics."
+    },
+    {
+      "id": "HYB-ING-004",
+      "modules": ["ingestion", "rag"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/ingestion/FUTURE_ENHANCEMENTS.md",
+        "src/rag/ARCHITECTURE.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Multi-sink ingestion reports complete, partial, or failed outcomes truthfully and preserves a documented recovery/consistency contract when source, vector, or graph writes fail independently.",
+      "test_obligations": [
+        "Inject source-store, vector-index, and graph-store failures before and during a batch.",
+        "Assert the reported status matches persisted state and no failure is returned as complete success.",
+        "Verify retry or repair behavior for orphaned source rows and partially written vectors."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp",
+          "cases": [],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/ingestion/test_ingestion_assembler_sinks.cpp",
+          "cases": [],
+          "registration": "tests/ingestion/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "The referenced suites exist, but this catalog has not verified that they cover source/vector/graph partial-write state and recovery; sink writes are not assumed atomic."
+    },
+    {
+      "id": "HYB-RAG-005",
+      "modules": ["rag", "server", "llm"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/rag/ARCHITECTURE.md",
+        "src/server/ARCHITECTURE.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Cancellation, retrieval deadlines, backend errors, and partial failures propagate as explicit outcomes; HTTP status mapping is consistent and blocking backend behavior is documented.",
+      "test_obligations": [
+        "Verify expired deadlines and cancellation before retrieval and during a delayed backend call.",
+        "Verify backend failure cannot become an ordinary empty-success result.",
+        "Verify the HTTP RAG route maps deadline expiry to its documented status."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_provider.cpp",
+          "cases": [
+            "HonorsCancellationAndExpiredDeadlines",
+            "StopsAfterBlockingQueryEngineCallExceedsDeadline",
+            "StopsAfterCancellationDuringBlockingQueryEngineCallWithNoMatches"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/server/test_rag_collection_policy.cpp",
+          "cases": ["AqlRagDeadlineExpiryReturnsGatewayTimeout"],
+          "registration": "tests/server/CMakeLists.txt test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Route-level status, direct-provider behavior, timeout configuration, and all backend error paths need a single mapped run; cooperative deadlines cannot interrupt a blocking call."
+    },
+    {
+      "id": "HYB-RAG-006",
+      "modules": ["rag", "llm"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/rag/ARCHITECTURE.md",
+        "src/rag/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Evidence selection and final prompt assembly stay within the effective model context window while reserving output tokens and preserving source attribution.",
+      "test_obligations": [
+        "Use the serving model's tokenizer to count the fully rendered system, query, evidence, and output reservation.",
+        "Exercise empty, oversized, duplicate, low-relevance, and boundary-sized evidence.",
+        "Verify deterministic selection and that overflow returns an explicit outcome rather than silently exceeding the window."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/rag/test_rag_context_assembler.cpp",
+          "cases": [
+            "A4_ZeroModelCtxFallsBackTo4096",
+            "B2_OversizedChunkTruncatedByDefault",
+            "C6_EqualRelevanceUsesDeterministicTieBreak",
+            "D2_ResponseBudgetAtLeastReserved"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/rag/test_rag_budget_consistency_focused.cpp",
+          "cases": [
+            "A2_TokenCountingIsConsistent",
+            "A3_ResponseReservationMaintained",
+            "B2_BudgetPreservationAcrossRecursion",
+            "E3_ResponseReservedTokensNotIncludedInUsed"
+          ],
+          "registration": "tests/rag/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Existing budget suites are source evidence; exact tokenizer parity on the final production prompt and representative small-model windows have not been verified."
+    },
+    {
+      "id": "HYB-LLM-007",
+      "modules": ["llm", "llama_cpp", "server"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/llm/ARCHITECTURE.md",
+        "src/llm/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Inference evidence identifies the model artifact actually loaded, tokenizer/template, quantization, and runtime; a configured or requested path is not a substitute for loaded identity.",
+      "test_obligations": [
+        "Load a pinned local model and assert reported fingerprint matches the bytes and runtime actually used.",
+        "Reject or explicitly report mismatches between requested, loaded, and training-provenance model identity.",
+        "Repeat with missing, replaced, and corrupted model artifacts."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/llm/test_llama_cpp_real_inference.cpp",
+          "cases": [
+            "A1_LoadModel_ReturnsTrue",
+            "A3_GetModelInfo_ValidInfo"
+          ],
+          "registration": "tests/llm/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/training/test_adalora_training_pipeline.cpp",
+          "cases": [],
+          "registration": "tests/CMakeLists.txt integration target; model-path prerequisite applies"
+        }
+      ],
+      "coverage_status": "TEST_MISSING",
+      "execution_status": "BLOCKED",
+      "blocked_reasons": [
+        "No focused test was identified that compares the fingerprint with the model actually loaded by the training/inference path.",
+        "A pinned local model artifact and runtime were not supplied or executed for this catalog."
+      ],
+      "gap": "Add a contract-level loaded-model identity assertion before treating model-backed tests as evidence."
+    },
+    {
+      "id": "HYB-TRAIN-008",
+      "modules": ["training", "storage"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/training/ARCHITECTURE.md",
+        "src/training/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Database training samples come from an authorized, revision-stable selection; filters are applied before limits, bounds are enforced, and malformed or unauthorized records fail explicitly.",
+      "test_obligations": [
+        "Verify collection/tenant authorization and selected IDs are applied before the sample limit.",
+        "Verify snapshot/revision provenance is stable across a run and changes are detectable.",
+        "Test empty selection, malformed rows, duplicate IDs, and exact maximum sample/batch bounds."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/training/test_docs_db_training_sample_provider.cpp",
+          "cases": [
+            "PrefersFullChunksAndHonorsSampleBound",
+            "RejectsMissingDatabaseAndMalformedRecords"
+          ],
+          "registration": "tests/CMakeLists.txt docs_db_training_sample_provider focused unit target"
+        },
+        {
+          "path": "tests/training/test_incremental_lora_db_training.cpp",
+          "cases": [],
+          "registration": "tests/training/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Current sample-provider cases establish a bound and malformed-input behavior, not authorization, snapshot isolation, or filter-before-limit semantics."
+    },
+    {
+      "id": "HYB-TRAIN-009",
+      "modules": ["training"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/training/ARCHITECTURE.md",
+        "src/training/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "AdaLoRA checkpoints round-trip weights, active ranks, importance/statistics, scaling, base-model identity, and format/version metadata; failed loads do not destroy valid active state.",
+      "test_obligations": [
+        "Round-trip every persisted adapter field and compare values within an approved numerical tolerance.",
+        "Reject unsupported/corrupt/truncated checkpoints without partial state replacement.",
+        "Resume training and compare declared identity and active-rank state before and after restart."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/training/test_adalora_edge_regressions.cpp",
+          "cases": [
+            "AddLayerDeterministicInitializationByName",
+            "ReallocateRanksBudgetBelowLayerCountThrows",
+            "ReallocateRanksZeroImportanceDeterministicDistribution"
+          ],
+          "registration": "tests/training/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/training/test_adalora_training_pipeline.cpp",
+          "cases": ["TrainsFromAqlExportsAndServesTinyLlamaAdapter"],
+          "registration": "tests/CMakeLists.txt integration target; model-path prerequisite applies"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Existing rank and checkpoint-creation cases do not by themselves prove complete metadata round-trip or failure atomicity."
+    },
+    {
+      "id": "HYB-LLM-010",
+      "modules": ["llm", "llama_cpp"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/llm/ARCHITECTURE.md",
+        "src/llm/FUTURE_ENHANCEMENTS.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "A selected required adapter is either successfully bound to the compatible loaded base model or inference fails explicitly; a bind/apply failure never silently generates with the unadapted base model.",
+      "test_obligations": [
+        "Inject load, compatibility, and apply failures for single and batch generation.",
+        "Assert no generation occurs after required-adapter failure and no success-shaped response is returned.",
+        "Verify adapter switch/cache behavior cannot reuse a KV/prefix state across incompatible adapter identity."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/llm/test_lora_adapter_application.cpp",
+          "cases": [
+            "LoadLoRAFailsWithInvalidPath",
+            "ApplyLoRAWithNullContextBridgeFailure",
+            "ApplyNonexistentLoRA"
+          ],
+          "registration": "tests/llm/CMakeLists.txt focused test_*.cpp registration"
+        },
+        {
+          "path": "tests/llm/test_lora_adapters.cpp",
+          "cases": [
+            "Loading_InvalidPath",
+            "Switching_BetweenAdapters",
+            "Switching_VerifyActiveAdapter"
+          ],
+          "registration": "tests/llm/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Manager-level adapter failures exist in tests; batch inference's required-adapter failure propagation and no-base-fallback contract are not established by those cases."
+    },
+    {
+      "id": "HYB-TENSOR-011",
+      "modules": ["training", "tensor", "llm"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/tensor/ARCHITECTURE.md",
+        "src/tensor/FUTURE_ENHANCEMENTS.md",
+        "src/training/ARCHITECTURE.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "Tensor abstraction and AdaLoRA conversion preserve declared shape, dtype, rank, scale, ownership/lifetime, and numerical behavior through the actual serving handoff.",
+      "test_obligations": [
+        "Round-trip representative adapters through tensor export/import and compare reconstruction error against an owner-approved tolerance.",
+        "Reject incompatible shape/dtype/rank and corrupted artifacts without accepting success metadata.",
+        "Verify the returned artifact is consumed by the real local inference backend, not only an injected callback or in-memory cache."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/test_adalora_tt_bridge.cpp",
+          "cases": [
+            "ALTB_P3_01_map_adapter_returns_false_without_fn",
+            "ALTB_P3_02_map_adapter_calls_injected_fn",
+            "ALTB_P4_01_round_and_reallocate_builtin_path"
+          ],
+          "registration": "tests/CMakeLists.txt _tensor_focused_test(test_adalora_tt_bridge)"
+        },
+        {
+          "path": "tests/llm/test_llm_adalora_doku_training.cpp",
+          "cases": [],
+          "registration": "tests/llm/CMakeLists.txt focused test_*.cpp registration"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "Existing bridge tests include stub/injected seams and do not establish numerical round-trip, persistence across restart, or a real llama.cpp handoff.",
+      "threshold": null,
+      "threshold_approval": "pending_owner_approval"
+    },
+    {
+      "id": "HYB-EVAL-012",
+      "modules": ["rag", "llm"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "src/rag/EVALUATION_CONTRACT_V1.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "RAG retrieval and answer quality are measured against representative, versioned corpora with reproducible labels and a real evaluation runner.",
+      "test_obligations": [
+        "Run retrieval metrics on representative corpora and preserve per-query outputs and aggregate metrics.",
+        "Evaluate faithfulness/relevance with documented, versioned method and human-reviewed sample.",
+        "Separate retrieval ANN recall from relevance-labeled RAG recall."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "src/rag/EVALUATION_CONTRACT_V1.md",
+          "cases": [],
+          "registration": "Contract only; not an executable evaluator"
+        },
+        {
+          "path": "benchmarks/rag/validate_eval_datasets.py",
+          "cases": [],
+          "registration": "Validates fixture schema and references; does not execute retrieval or metrics"
+        },
+        {
+          "path": ".github/workflows/gate-pr-rag-eval.yml",
+          "cases": [],
+          "registration": "Optional result comparison; no full evaluation run is provided by this workflow"
+        }
+      ],
+      "coverage_status": "TEST_MISSING",
+      "execution_status": "BLOCKED",
+      "blocked_reasons": [
+        "Checked-in corpora are synthetic smoke fixtures rather than the representative datasets described by the contract.",
+        "No complete retrieval-and-answer evaluation runner or result artifact was identified."
+      ],
+      "gap": "Provide approved datasets, executable evaluator, raw results, and owner-approved targets before claiming metric evidence."
+    },
+    {
+      "id": "HYB-PERF-013",
+      "modules": ["query", "rag", "llm", "training", "tensor"],
+      "requirement_sources": [
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment",
+        "audit/BENCHMARK_MODULE_COVERAGE.json",
+        "src/rag/EVALUATION_CONTRACT_V1.md"
+      ],
+      "proposed_gate": "required",
+      "requirement": "The hybrid profile preserves ordinary database availability and measures retrieval/inference/training under mixed load, including the declared base-only, RAG, adapter-only, RAG+adapter, and tensor-enabled ablations.",
+      "test_obligations": [
+        "Run representative mixed workloads and record database p95/p99, retrieval latency, inference latency/throughput, CPU/RAM/VRAM, and errors.",
+        "Compare the five roadmap ablations on the same corpus, model, tokenizer, hardware, and token budget.",
+        "Exercise model/inference unavailable behavior while ordinary database operations continue."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/llm/test_inference_performance.cpp",
+          "cases": [
+            "Latency_FirstToken",
+            "Throughput_TokensPerSecond"
+          ],
+          "registration": "tests/llm benchmark/test registration must be verified for chosen build profile"
+        },
+        {
+          "path": "audit/BENCHMARK_MODULE_COVERAGE.json",
+          "cases": [],
+          "registration": "Static benchmark inventory; not an executed workload"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "BLOCKED",
+      "blocked_reasons": [
+        "No profile-level mixed-load or five-way ablation run was identified.",
+        "Numerical thresholds and representative hardware have not been approved."
+      ],
+      "gap": "Define workload and baseline, then approve thresholds; do not infer performance from target registration or synthetic tests."
+    },
+    {
+      "id": "HYB-EVID-014",
+      "modules": ["cross_module"],
+      "requirement_sources": [
+        "audit/ROADMAP.md",
+        "audit/TEST_QUALITY_INVENTORY.md",
+        "tests/cmake/RunRegisteredTest.cmake",
+        "ROADMAP.md#llm-application-framework-interoperability-proposal-not-a-release-commitment"
+      ],
+      "proposed_gate": "required",
+      "requirement": "The readiness report proves that every required criterion maps to discovered targets and executed cases, and distinguishes missing, empty, build-failed, assertion-failed, blocked, skipped, and not-applicable states.",
+      "test_obligations": [
+        "Validate catalog schema and unique criterion/test identifiers.",
+        "Fail profile readiness when a required criterion has no test mapping or valid result artifact.",
+        "Detect zero discovered or executed cases and preserve per-case skip reasons.",
+        "Emit machine-readable JSON with source/build identity and artifact references."
+      ],
+      "existing_test_sources": [
+        {
+          "path": "tests/cmake/RunRegisteredTest.cmake",
+          "cases": [],
+          "registration": "Runtime wrapper; strict evidence policy is opt-in"
+        },
+        {
+          "path": "tools/ci/test_quality_inventory.py",
+          "cases": [],
+          "registration": "Static inventory; does not collect CTest or GoogleTest execution results"
+        }
+      ],
+      "coverage_status": "PARTIAL",
+      "execution_status": "NOT_RUN",
+      "gap": "No profile-specific catalog-to-CTest/GoogleTest result join and readiness JSON was identified; current static inventory and runtime wrapper do not provide this crosswalk."
+    }
+  ],
+  "aggregation": {
+    "weighted_score": null,
+    "percentage_maturity": null,
+    "readiness_rule": "Not ready while any proposed-required criterion lacks valid retained evidence or has unresolved required status; do not count registrations, skips, empty results, or N/A without approved rationale as passes.",
+    "ratification_required": true
+  }
+}
