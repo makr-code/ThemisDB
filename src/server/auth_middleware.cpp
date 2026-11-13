@@ -48,6 +48,7 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     jwt_cfg.require_audience_validation = config.require_audience_validation;
     jwt_cfg.cache_ttl = config.jwks_cache_ttl;
     jwt_cfg.clock_skew = config.clock_skew;
+    jwt_cfg.tenant_claim = config.tenant_claim;
     
     jwt_validator_ = std::make_unique<auth::JWTValidator>(jwt_cfg);
     jwt_config_ = config;
@@ -840,4 +841,3 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
-

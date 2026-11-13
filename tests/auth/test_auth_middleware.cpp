@@ -1022,6 +1022,28 @@ TEST_F(JWTScopeEnforcementTest, EmptyRequiredScopeAlwaysPasses) {
     EXPECT_TRUE(result.authorized) << result.reason;
 }
 
+TEST_F(JWTScopeEnforcementTest, DefaultTenantClaimIsExtracted) {
+    auto token = jwt_makeES256Token(key_, {{"tenant_id", "tenant-default"}});
+    const auto result = auth_.authorize(token, "");
+    EXPECT_TRUE(result.authorized) << result.reason;
+    EXPECT_EQ(result.tenant_id, "tenant-default");
+}
+
+TEST_F(JWTScopeEnforcementTest, ConfiguredTenantClaimIsExtracted) {
+    AuthMiddleware::JWTConfig jwt_cfg;
+    jwt_cfg.jwks_url = "";
+    jwt_cfg.require_issuer_validation = false;
+    jwt_cfg.require_audience_validation = false;
+    jwt_cfg.tenant_claim = "organization";
+    auth_.enableJWT(jwt_cfg);
+    auth_.setJWKSForTesting(jwt_makeECJwks(key_));
+
+    auto token = jwt_makeES256Token(key_, {{"organization", "tenant-custom"}});
+    const auto result = auth_.authorize(token, "");
+    EXPECT_TRUE(result.authorized) << result.reason;
+    EXPECT_EQ(result.tenant_id, "tenant-custom");
+}
+
 // ── Role-to-scope mapping enforcement ─────────────────────────────────────
 
 TEST_F(JWTScopeEnforcementTest, RoleMappingGrantsScope) {

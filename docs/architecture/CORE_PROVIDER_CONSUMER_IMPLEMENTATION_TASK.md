@@ -73,7 +73,10 @@ wrappers.
   `HttpServer` bootstrap does not currently configure that path. This concrete
   HTTP composition is not evidence that the builder's interface-only
   composition is production-ready, nor does it establish general row-level
-  authorization or propagate caller identity to other consumers.
+  authorization or propagate caller identity to other consumers. The
+  `AuthMiddleware::JWTConfig::tenant_claim` setting is propagated to JWT claim
+  extraction (default `tenant_id`); this does not enable JWT in `HttpServer` or
+  establish a collection grant.
 - `LLMAQLHandler::executeRAG()` uses its injected query engine and passes its
   cancellation token, configured retrieval deadline, and configured
   collection-check predicate to `RAGProvider`. A source-tree search finds no

@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - Configurable JWT tenant claim
+
+- `AuthMiddleware::JWTConfig::tenant_claim` now propagates to `JWTValidator`,
+  mapping the configured verified JWT claim into `JWTClaims::tenant_id`. The
+  default remains `tenant_id`; JWTs with a non-string configured claim continue
+  to fail validation. `JWTValidatorConfig` gains a public field, changing its
+  binary layout; binary consumers must rebuild.
+
 ### Changed - Shared RAG provider/consumer boundary
 
 - Added a concrete, model-independent RAG knowledge provider over existing
