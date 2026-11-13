@@ -1425,8 +1425,9 @@ std::string LLMAQLHandler::executeRAG(
         return result;
 
     } catch (const LLMException &e) {
-        // Record failure
-        impl_->getBreaker("rag").recordFailure();
+        if (e.getErrorCode() != LLMErrorCode::ACCESS_DENIED) {
+            impl_->getBreaker("rag").recordFailure();
+        }
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);

@@ -180,12 +180,15 @@ TEST_F(LLMAQLHandlerTest, ExecuteRAGFailsClosedWithoutRequestAuthorization) {
         {"collection", "documents"}
     };
 
-    try {
-        (void)handler->executeRAG("Test query", "documents", 5, "", options);
-        FAIL() << "Expected RAG to deny a request without trusted authorization";
-    } catch (const LLMException& ex) {
-        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+    for (int attempt = 0; attempt < 6; ++attempt) {
+        try {
+            (void)handler->executeRAG("Test query", "documents", 5, "", options);
+            FAIL() << "Expected RAG to deny a request without trusted authorization";
+        } catch (const LLMException& ex) {
+            EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+        }
     }
+    EXPECT_EQ(handler->getCircuitBreakerStates().rag, "CLOSED");
 
     themis::rag::RetrievalExecutionContext denied_context;
     denied_context.authorize_collection =

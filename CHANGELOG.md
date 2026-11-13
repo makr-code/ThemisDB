@@ -64,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   source-compatible legacy overload now fails closed without trusted request
   authorization; tenant, caller cancellation, deadline, and trace context are
   carried through shared retrieval, while the handler timeout remains an
-  independent cancellation/deadline bound.
+  independent cancellation/deadline bound. Access denials do not count as RAG
+  circuit-breaker failures.
 - Internal YAML-agentic retrieval now requires a trusted collection authorizer
   and forwards tenant, cancellation, and trace fields to inference. Untrusted
   YAML metadata cannot grant access. MCP retrieval remains fail-closed because
