@@ -8,6 +8,16 @@ AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ROADMAP.md"
+  - "FUTURE_ENHANCEMENTS.md"
+  - "../../include/tensor/tensor_index_manager.h"
+  - "../../include/tensor/tensor_core_bridge.h"
+  - "../../include/tensor/tensor_fingerprint_graph.h"
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -17,11 +27,11 @@ Human_Author: "ThemisDB Contributors"
 <!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Overview
+## Kontext
 
 The tensor module composes tensor index management, bridge-oriented ingestion/runtime behavior, fingerprint graph operations, and tensor-specific structural helper paths into a bounded subsystem.
 
-## Main Execution Planes
+## Komponenten
 
 ### Role in the native database/LLM hybrid (design target; 2026-11-13)
 
@@ -48,6 +58,14 @@ error, provenance and storage/mapping ownership. Qualify approximate summaries
 with exact artifact/evidence checks where required; similarity is neither
 authorization nor adapter compatibility.
 
+**Observed AdaLoRA bridge limitation:** the inspected
+[`AdaLoraTTBridge`](../training/adalora_tt_bridge.cpp#L216) export sets
+`scaling` to `1.0` and reports `orthogonal_validated=true`; an orthogonality
+check is not visible in that export path. Its `store()`/`loadAdapter()` methods
+use an instance-local cache, while the injected storage engine is not used by
+those methods. This path does not establish validated orthogonality, durable
+TT persistence, or a llama.cpp handoff.
+
 Tensor representations do not create an unlimited semantic context window.
 The existing RAG `tensor_hybrid`/`tensor_prefix` text compatibility modes are
 not direct tensor/KV injection. Native tensor consumption needs separate
@@ -65,14 +83,14 @@ backend capability, numerical/quality tests and runtime evidence. See
 3. Fingerprint and structural plane
 - `AdapterRepository` may register TT trains with `TensorFingerprintGraph`. The graph stores first-core fingerprints and registered trains; key-based search uses TT inner products, while raw-fingerprint search scans candidates using approximate cosine similarity. Structural helpers are separate public surfaces.
 
-## Data Flow
+## Datenfluss
 
 1. A caller supplies dimensions and vector count to `routeFor()` for a routing estimate.
 2. `createIndex()` creates or restores the manager's flat TT index; `addFlat()`/`searchFlat()` compress flat vectors, while `add()`/`search()` accept `TTTrain` values directly.
 3. Ingestion records are serialized and passed to the configured tensor storage backend. Adapter storage uses its own required backend and can optionally wire the fingerprint graph.
 4. Similarity requests use either registered-train comparison or the approximate first-core fingerprint path; invalid/missing registered-train state is rejected or skipped, with diagnostics on the corresponding error paths.
 
-## Core Contracts
+## Schnittstellen
 
 | Contract | Behavior |
 |---|---|
@@ -93,12 +111,44 @@ backend capability, numerical/quality tests and runtime evidence. See
   - key-based similarity at 10k candidates: p95 <= 80 ms, p99 <= 140 ms
   - fingerprint similarity at 10k candidates: p95 <= 15 ms, p99 <= 30 ms
 
-## Failure Semantics
+## Fehlerpfade und Resilienz
 
 - tensor index lifecycle and route mismatches are explicit.
 - bridge ingestion/persistence faults remain diagnosable.
 - fingerprint graph path failures surface deterministic outcomes.
 - advanced structural path failures remain observable and non-silent.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant Manager as TensorIndexManager
+    participant Router as TensorRouter
+    participant Index as Flat TT index
+    Caller->>Manager: routeFor(dimensions, vector count)
+    Manager->>Router: derive routing profile
+    Router-->>Manager: route estimate
+    Manager-->>Caller: route decision
+    Caller->>Manager: createIndex(...)
+    Manager->>Index: construct flat TT index
+    Index-->>Manager: index result
+    Manager-->>Caller: create result
+```
+
+**Kurzinterpretation:** `routeFor()` returns a routing estimate, but the
+documented `createIndex()` path currently constructs a flat TT index without
+applying that decision. The diagram does not imply the estimate controls index
+construction.
+
+## Nicht-Ziele
+
+- Tensor abstraction does not establish direct compressed execution in
+  llama.cpp, zero-copy behavior, KV injection, or live adapter switching.
+- Candidate summaries and tensor representations do not create an unlimited
+  semantic context window.
+- The module does not own external model-serving orchestration outside its
+  tensor boundaries.
 
 ## Sourcecode Verification (Module: tensor/architecture)
 
@@ -146,3 +196,12 @@ and optional compile-time guards.
 ### Integration: Ingestion contract
 **Files:** `src/tensor/tensor_core_bridge.cpp` ↔ `include/ingestion/ingestion_sinks.h`
 **Contract:** `TensorCoreStorageBridge` implements `ingestion::ITensorCoreBridge`; it validates tenant and record fields and reports backend write failures through its result type.
+
+## Verweise
+
+- [Module README](README.md) · [Module roadmap](ROADMAP.md) ·
+  [Future enhancements](FUTURE_ENHANCEMENTS.md) · [API notes](API.md)
+- [`tensor_index_manager.h`](../../include/tensor/tensor_index_manager.h) ·
+  [`tensor_core_bridge.h`](../../include/tensor/tensor_core_bridge.h) ·
+  [`tensor_fingerprint_graph.h`](../../include/tensor/tensor_fingerprint_graph.h)
+- Source implementation and build/test evidence are listed in the sections above.

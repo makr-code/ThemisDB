@@ -1,13 +1,22 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-11-12"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ROADMAP.md"
+  - "FUTURE_ENHANCEMENTS.md"
+  - "../../include/server/api_gateway.h"
+  - "../../include/server/auth_middleware.h"
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -17,11 +26,11 @@ Exact model backend not verifiable from final document text alone.
 <!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Overview
+## Kontext
 
 The server module composes gateway routing, middleware enforcement, endpoint dispatch, stream/session handling, and operational server surfaces into the client-facing runtime boundary of ThemisDB.
 
-## Main Execution Planes
+## Komponenten
 
 1. Request lifecycle plane
 - HTTP server ingress, request parsing, middleware execution, and handler dispatch behavior
@@ -32,7 +41,7 @@ The server module composes gateway routing, middleware enforcement, endpoint dis
 3. Session and protocol plane
 - WebSocket, MQTT, PostgreSQL-wire, and gRPC service behavior owned by the server runtime
 
-## Core Contracts
+## Schnittstellen
 
 | Contract | Behavior |
 |---|---|
@@ -41,7 +50,7 @@ The server module composes gateway routing, middleware enforcement, endpoint dis
 | endpoint contract | handler-local API behavior behind shared server lifecycle control |
 | session contract | explicit protocol/session behavior for server-owned transports |
 
-## Failure Semantics
+## Fehlerpfade und Resilienz
 
 - request rejection and overload behavior remain explicit through middleware and health signaling.
 - endpoint failures remain bounded to handler and response paths rather than widening into transport control.
@@ -102,6 +111,12 @@ These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `bench
 **Contract:** `AuthMiddleware::authorize(token, required_scope)` returns an `AuthResult`; callers must check `authorized` before using its identity context. The gateway and individual HTTP routes invoke auth according to their configuration and route logic; there is no module-wide `AuthMiddleware::process()` stage.
 **Failure Mode:** The caller determines the response mapping for a denied result. Do not assume one status code for every route or that auth is enabled globally.
 
+### Critical Integration: Vector and RAG HTTP APIs
+**Files:** `src/server/vector_api_handler.cpp`, `src/server/http_server.cpp`, and `clients/python/themis/__init__.py`.
+**Contract:** The inspected `/vector/search` handler parses the vector, `k`, and cursor fields, but does not parse the Python client's `filter` request field. The multi-endpoint Python client omits non-200 responses and can return an empty result when all endpoints fail; when merging distance-only results, it sorts distances descending although lower distance represents the closer result. These are endpoint/client-path behaviors, not claims about every search API.
+**RAG Boundary:** The inspected `/api/v1/llm/rag` route checks read access for the collection and returns generated text and counts, not a complete evidence bundle with source revisions and retrieval status. A route-level collection check does not establish a general row-level or tenant-policy contract for every retrieval path.
+**Failure Mode:** Do not treat a client-supplied metadata filter as authorization or interpret an empty merged SDK result as proof that no matching data exists.
+
 ### LLM and MCP integration
 **Files:** `src/server/lora_api_handler.cpp` → `include/llm/lora_framework/lora_orchestrator.h`; `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`
 **Contract:** The LoRA handler integrates with the LLM orchestrator; the LLM-side MCP tool bridge depends on the server MCP interface. These are explicit module edges, not evidence that every call is asynchronous or retried.
@@ -123,6 +138,52 @@ not add caller, tenant, or row-level policy propagation.
 **Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, and `src/server/themis_core_grpc_service.cpp`
 **Contract:** These components implement server-owned protocol/session behavior. Their I/O, synchronization, and teardown details are protocol-specific; consult the corresponding implementation and tests before relying on a shared lifecycle or thread-safety guarantee.
 
+## Datenfluss
+
+For the gateway path, a request enters `APIGateway::handleRequest()`, passes
+only the configured middleware and routing steps, and is dispatched to the
+local handler or configured shard path. Query parsing and execution belong to
+the selected downstream handler/module, not the gateway itself. Protocol
+sessions follow their own implementation-specific paths.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gateway as APIGateway
+    participant Middleware as Configured middleware
+    participant Handler as Local handler or shard path
+    Client->>Gateway: handleRequest(request)
+    opt configured authentication
+        Gateway->>Middleware: authorize request
+        Middleware-->>Gateway: AuthResult
+    end
+    opt configured admission controls
+        Gateway->>Middleware: rate limit / load shed
+        Middleware-->>Gateway: admission result
+    end
+    Gateway->>Gateway: normalize version path and select route
+    Gateway->>Handler: dispatch
+    Handler-->>Gateway: handler response
+    Gateway-->>Client: response
+```
+
+**Kurzinterpretation:** The sequence captures the documented gateway dispatch
+path. Middleware is configuration-dependent; handler-specific query behavior
+and response mapping are owned downstream. Authentication or admission
+rejections return explicit gateway responses and are not shown on this
+successful-dispatch path.
+
+## Nicht-Ziele
+
+- The gateway does not directly invoke `AqlRunner`; query parsing and execution
+  belong to the selected handler and query modules.
+- This page does not define one authentication status code or a module-wide
+  session/thread-safety contract; those depend on the route and component.
+- Server architecture does not claim ownership of storage, query, or index
+  internals.
+
 ---
 
 ## Sourcecode Verification (Module: server/architecture)
@@ -142,3 +203,12 @@ not add caller, tenant, or row-level policy propagation.
   - request lifecycle, endpoint, and session/protocol plane split
   - explicit middleware and overload boundaries
   - module-local ownership of client-facing server runtime behavior
+
+## Verweise
+
+- [Module README](README.md) · [Module roadmap](ROADMAP.md) ·
+  [Future enhancements](FUTURE_ENHANCEMENTS.md)
+- [`api_gateway.h`](../../include/server/api_gateway.h) ·
+  [`auth_middleware.h`](../../include/server/auth_middleware.h) ·
+  [`http_server.cpp`](http_server.cpp) · [`api_gateway.cpp`](api_gateway.cpp)
+- See the integration contracts above for route-specific evidence and limits.

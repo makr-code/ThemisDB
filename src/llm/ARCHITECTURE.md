@@ -4,7 +4,7 @@ Created: "2026-10-30"
 Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown; Claude (WP H snapshot provenance section)"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
@@ -27,18 +27,20 @@ Canonical_References:
   - "llm_plugin_manager.cpp"
   - "../server/llm_api_handler.cpp"
 Related_Issue: "#7167 (closes #7091)"
-Related_Milestone: "DOC-WEEKLY-2026-W44"
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # LLM Module Architecture
 
-## Scope, boundaries, and ownership
+## Kontext
 
 `src/llm/` owns model-backed inference runtime surfaces: embedded and asynchronous requests, model/backend selection, prompt policy, streaming response helpers, model/adapter lifecycle, and inference resource support. The module does not own client protocol endpoints, search ranking, or durable database storage.
 
-## Database-native hybrid direction (design target; 2026-11-13)
+## Komponenten
+
+### Database-native hybrid direction (design target; 2026-11-13)
 
 ThemisDB prioritizes smaller local models and decentralized processing near
 the data. Its llama.cpp integration is native inference, not merely a remote
@@ -154,6 +156,12 @@ invalidate/re-prefill or demonstrate backend-specific equivalence. Pin loaded
 artifacts until in-flight use ends, reject incompatible/revoked adapters, and
 partition caches by the actual model/adapter composition. Required-adapter
 application failure is not permission to silently use the base model.
+**Observed path-specific exception:** `MultiLoRAManager::batchInference()`
+currently logs a failed `applyLoRA()` and continues with base-model inference;
+the response still records the requested adapter ID and can be marked
+successful ([implementation](multi_lora_manager.cpp#L1157)). Do not treat this
+batch path as enforcing the required-adapter rule until its failure semantics
+are corrected and covered by a focused test.
 
 Training runs separately from latency-sensitive request threads and competes
 under shared admission budgets; the current pipeline requires a dedicated
@@ -166,7 +174,7 @@ Use the [training plan](../training/FUTURE_ENHANCEMENTS.md) and
 RAG, adapters and tensor representations are complementary; compare them in
 controlled ablations instead of assuming their gains add up.
 
-## Components and public interfaces
+## Schnittstellen
 
 | Component | Public interface | Source-backed responsibility |
 |---|---|---|
@@ -177,7 +185,7 @@ controlled ablations instead of assuming their gains add up.
 | Embedded stream callbacks | [`EmbeddedLLM`](../../include/llm/embedded_llm.h) | Pass generated text through callbacks and optionally format callback values as SSE. |
 | Runtime resources | [`SharedWorkerPool`](../../include/llm/shared_worker_pool.h), [`TokenQuotaManager`](../../include/llm/token_quota_manager.h), [`GPU memory manager`](../../include/llm/gpu_memory_manager.h) | Schedule work and expose token/GPU resource controls. |
 
-## Request and event flow
+## Datenfluss
 
 1. A caller submits through an embedded or asynchronous inference interface.
 2. Where wired, prompt policy and routing determine whether and where the request proceeds; async execution uses worker-pool and request-management components.
@@ -185,6 +193,24 @@ controlled ablations instead of assuming their gains add up.
 4. Backend status and request completion are returned through the corresponding synchronous result, handle, or callback.
 
 See [`embedded_llm.cpp`](embedded_llm.cpp), [`async_inference_engine.cpp`](async_inference_engine.cpp), [`llm_plugin_manager.cpp`](llm_plugin_manager.cpp), and [`model_router.cpp`](model_router.cpp). The sequence is configurable; not every request traverses every listed component.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant Interface as Embedded or async interface
+    participant Engine as Selected engine or plugin
+    Caller->>Interface: submit inference request
+    Interface->>Engine: execute configured request
+    Engine-->>Interface: result or completion status
+    Interface-->>Caller: result, handle state, or callback
+```
+
+**Kurzinterpretation:** The diagram summarizes the common inference boundary.
+Routing, prompt policy, worker-pool use, and callback delivery depend on the
+selected API and wiring; this is not a claim that every request traverses every
+listed component.
 
 `AIOrchestrator` consumes the shared `rag::RAGProvider` through its injected
 `QueryEngine` for retrieval-enabled RAG modes. Retrieval-enabled YAML `agentic`
@@ -213,7 +239,7 @@ JSON errors. This path also does not write chunks incrementally to the network.
 submitted through that engine; these synchronous HTTP streaming paths do not
 submit through it.
 
-## Failure domains and edge cases
+## Fehlerpfade und Resilienz
 
 - Invalid prompt-rule regex/configuration is rejected when rules are installed.
 - Missing model/plugin, model-load errors, and backend inference errors are distinct from successful empty output.
@@ -295,14 +321,14 @@ itself is never written into adapter metadata.
     tensor hash is signed, and the manifest records `gguf_sha256`.
   - Adapters trained from inline/AQL datasets carry no snapshot reference.
 
-## Explicit non-goals
+## Nicht-Ziele
 
 - Owning HTTP/gRPC/WebSocket endpoint behavior.
 - Owning search fusion/ranking or RAG retrieval candidate generation.
 - Owning durable storage semantics for state/cache backends.
 - Guaranteeing GPU availability, distributed inference, or a specific performance envelope for every build.
 
-## Verified cross-module references
+### Verified cross-module references
 
 | Boundary | Evidence and link |
 |---|---|
@@ -310,7 +336,7 @@ itself is never written into adapter metadata.
 | Storage-backed state | LLM sources include storage interfaces for selected persisted state/model paths; see [storage architecture](../storage/ARCHITECTURE.md). |
 | Query integration | Query has LLM/LoRA function interfaces; this is a caller integration, not ownership of the query engine. See [query architecture](../query/ARCHITECTURE.md). |
 
-## References
+## Verweise
 
 - [Module README](README.md) · [API contract](API.md) · [module roadmap](ROADMAP.md)
 - [`llm_api_contract.h`](../../include/llm/llm_api_contract.h) · [`embedded_llm.h`](../../include/llm/embedded_llm.h) · [`llm_plugin_interface.h`](../../include/llm/llm_plugin_interface.h)

@@ -74,6 +74,34 @@ provider-side code even when their historical filename contains "helpers".
 5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured
    injected sinks and does not guarantee their persistence.
 
+### Verified ingestion-to-RAG boundary (source-verified; 2026-11-13)
+
+The [RAGIngestionBridge](rag_ingestion_bridge.cpp) derives a document ID, but
+the inspected workflow path does not assign it to
+`ExtractionContext::manifest.file_id` before running workflow steps.
+[`chunk_embed`](../ingestion/steps/chunk_embed_step.cpp) constructs chunk IDs
+from that manifest field and sequence number. The bridge stamps
+`source_file_id` only after workflow execution, too late to correct a chunk ID
+already produced. The fallback path creates a different `doc_id + "#0"` ID.
+
+The [VectorIndexSinkAdapter](../ingestion/ingestion_sinks.cpp) first persists
+a per-chunk source record in the global `ingestion_sources` collection, then
+writes the vector entry with `source_ref_type="ingestion_chunk"`,
+`source_ref_key=<chunk_id>` and `source_ref_provenance=<source_file_id>`.
+[RAGProvider](rag_provider.cpp) resolves that reference through
+`QueryEngine::readIngestionSourceText` and rejects candidates whose source is
+missing or whose provenance does not match. Remaining gaps: the source write
+and vector write are separate, non-atomic steps (an orphaned source or a
+partially written batch is possible), and the source key is the bare
+`chunk_id`, so its uniqueness depends on the chunk-ID issue described above.
+
+The bridge logs a vector-writer failure but still returns `IndexResult::ok`
+and discards graph-writer results. Treat this as path-specific partial-success
+behavior, not as evidence of atomic multi-sink ingestion or complete RAG
+indexing. A future status contract should distinguish complete, partial, and
+failed indexing; introducing that behavior requires an explicit compatibility
+decision.
+
 ### Small-model context and decentralized retrieval (design target; 2026-11-13)
 
 The native database/LLM hybrid should select compact, complementary evidence

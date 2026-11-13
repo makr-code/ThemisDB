@@ -15,6 +15,7 @@
 #include <httplib.h>
 #endif
 #include <nlohmann/json.hpp>
+#include <optional>
 #include <thread>
 
 using json = nlohmann::json;
@@ -177,19 +178,19 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         http_headers.emplace("User-Agent", config_.user_agent);
 
         // Perform request
-        httplib::Result result;
+        std::optional<httplib::Result> result;
         switch (method) {
             case HTTPMethod::GET:
-                result = impl_->http_client->Get(path.c_str(), http_headers);
+                result.emplace(impl_->http_client->Get(path.c_str(), http_headers));
                 break;
             case HTTPMethod::POST:
-                result = impl_->http_client->Post(path.c_str(), http_headers, body, "application/json");
+                result.emplace(impl_->http_client->Post(path.c_str(), http_headers, body, "application/json"));
                 break;
             case HTTPMethod::PUT:
-                result = impl_->http_client->Put(path.c_str(), http_headers, body, "application/json");
+                result.emplace(impl_->http_client->Put(path.c_str(), http_headers, body, "application/json"));
                 break;
             case HTTPMethod::DELETE_:
-                result = impl_->http_client->Delete(path.c_str(), http_headers);
+                result.emplace(impl_->http_client->Delete(path.c_str(), http_headers));
                 break;
             default:
                 response.success = false;
@@ -201,23 +202,24 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         response.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         response.headers.clear();
 
-        if (result) {
-            response.status_code = result->status;
-            response.body        = result->body;
-            for (const auto& [key, value] : result->headers) {
+        const auto& http_result = *result;
+        if (http_result) {
+            response.status_code = http_result->status;
+            response.body        = http_result->body;
+            for (const auto& [key, value] : http_result->headers) {
                 response.headers[key] = value;
             }
-            response.success = (result->status >= 200 && result->status < 300);
+            response.success = (http_result->status >= 200 && http_result->status < 300);
 
             if (response.success) {
                 THEMIS_DEBUG("HTTP {} {} succeeded with status {}",
-                               method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
+                               method == HTTPMethod::POST ? "POST" : "GET", path, http_result->status);
                 break; // done
             }
 
             if (attempt < config_.max_retries) {
                 THEMIS_WARN("Request failed with status {}, retrying in {}ms (attempt {}/{})",
-                              result->status, backoff.current_delay_ms(),
+                              http_result->status, backoff.current_delay_ms(),
                               attempt + 1, config_.max_retries);
                 {
                     /**
@@ -230,14 +232,14 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
                 }
                 backoff.wait();
             } else {
-                response.error_message = "HTTP " + std::to_string(result->status);
+                response.error_message = "HTTP " + std::to_string(http_result->status);
                 THEMIS_ERROR("HTTP {} {} failed with status {}",
-                               method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
+                               method == HTTPMethod::POST ? "POST" : "GET", path, http_result->status);
             }
         } else {
             response.success       = false;
             response.status_code   = 0;
-            response.error_message = httplib::to_string(result.error());
+            response.error_message = httplib::to_string(http_result.error());
 
             if (attempt < config_.max_retries) {
                 THEMIS_WARN("Request failed: {}, retrying in {}ms (attempt {}/{})",
