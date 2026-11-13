@@ -133,6 +133,62 @@ else:
             with self.assertRaisesRegex(ValueError, "libfixture.so.*not found"):
                 GATE.validate_tree(package, {}, 3, dependencies_only=True)
 
+    @unittest.skipUnless(sys.platform.startswith("linux") and shutil.which("cc")
+                         and shutil.which("cmake"), "Linux C compiler and CMake required")
+    def test_installed_runtime_resolves_transitive_libraries_without_build_tree(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "source"
+            build = root / "build"
+            package = root / "package"
+            source.mkdir()
+            (source / "base.c").write_text("int base(void) { return 42; }\n")
+            (source / "module.c").write_text(
+                "extern int base(void); int module(void) { return base(); }\n"
+            )
+            (source / "server.c").write_text(
+                '#include <stdio.h>\nextern int module(void);\n'
+                'int main(void) { puts("1.2.3"); return module() == 42 ? 0 : 1; }\n'
+            )
+            paths = ROOT / "cmake/packaging/LinuxRuntimePaths.cmake"
+            (source / "CMakeLists.txt").write_text(
+                "cmake_minimum_required(VERSION 3.20)\nproject(runtime_fixture C)\n"
+                f'include("{paths.as_posix()}")\n'
+                "add_library(base SHARED base.c)\n"
+                "add_library(module SHARED module.c)\n"
+                "target_link_libraries(module PRIVATE base)\n"
+                "add_executable(themis_server server.c)\n"
+                "target_link_libraries(themis_server PRIVATE module)\n"
+                "install(TARGETS base module themis_server "
+                "RUNTIME DESTINATION bin LIBRARY DESTINATION lib)\n"
+            )
+            subprocess.run(["cmake", "-S", str(source), "-B", str(build)], check=True,
+                           capture_output=True)
+            subprocess.run(["cmake", "--build", str(build)], check=True, capture_output=True)
+            subprocess.run(["cmake", "--install", str(build), "--prefix", str(package)],
+                           check=True, capture_output=True)
+            shutil.rmtree(build)
+            build_id = package / "lib/.build-id/ab"
+            build_id.mkdir(parents=True)
+            (build_id / "123").symlink_to("../../../bin/themis_server")
+            report = {}
+            GATE.validate_tree(package, report, 3, dependencies_only=True)
+            self.assertEqual(report["version"], "1.2.3")
+            self.assertIn("libbase.so", json.dumps(report["libraries"]))
+            self.assertTrue(any(item["file"] == "lib/.build-id/ab/123"
+                                for item in report["libraries"]))
+            (package / "lib/libbase.so").unlink()
+            with self.assertRaisesRegex(ValueError, "libbase.so.*not found"):
+                GATE.validate_tree(package, {}, 3, dependencies_only=True)
+
+    def test_linux_runtime_declares_atomic_dependency(self):
+        dependencies = (ROOT / "scripts/release/runtime-dependencies-ubuntu-24.04.txt").read_text()
+        self.assertIn("libatomic1", dependencies.splitlines())
+        cmake = (ROOT / "CMakeLists.txt").read_text()
+        self.assertIn("include(cmake/packaging/LinuxRuntimePaths.cmake)", cmake)
+        self.assertRegex(cmake, r'CPACK_DEBIAN_PACKAGE_DEPENDS\s+"libatomic1,')
+        self.assertRegex(cmake, r'CPACK_RPM_PACKAGE_REQUIRES\s+"libatomic,')
+
     @unittest.skipIf(os.name == "nt", "POSIX executable fixture")
     def test_each_final_archive_is_started_independently(self):
         with tempfile.TemporaryDirectory() as temporary:
