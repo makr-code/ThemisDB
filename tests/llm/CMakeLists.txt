@@ -58,6 +58,31 @@ if(WIN32)
     endfunction()
 endif()
 
+function(themis_llm_rescan_sharding_dependencies target_name)
+    if(NOT THEMIS_BUILD_MODULAR
+       OR NOT TARGET themis_llm
+       OR NOT TARGET themis_sharding)
+        return()
+    endif()
+
+    get_target_property(_llm_type themis_llm TYPE)
+    get_target_property(_sharding_type themis_sharding TYPE)
+    if(NOT _llm_type STREQUAL "STATIC_LIBRARY"
+       OR NOT _sharding_type STREQUAL "STATIC_LIBRARY")
+        return()
+    endif()
+
+    if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
+        target_link_libraries(${target_name} PRIVATE
+            "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
+        )
+    elseif(UNIX AND NOT APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_link_libraries(${target_name} PRIVATE
+            "-Wl,--start-group" themis_llm themis_sharding "-Wl,--end-group"
+        )
+    endif()
+endfunction()
+
 foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_llm_${_stem}_focused")
@@ -480,6 +505,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
+    if(_stem STREQUAL "test_wiki_index_store_phase_b")
+        themis_llm_rescan_sharding_dependencies(${_target})
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
     if(WIN32)
         themis_llm_sync_runtime_dlls(${_target})
@@ -853,6 +881,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
         if(TARGET themis_sharding)
             target_link_libraries(${_tgt} PRIVATE themis_sharding)
         endif()
+        themis_llm_rescan_sharding_dependencies(${_tgt})
         target_compile_definitions(${_tgt} PRIVATE THEMIS_TEST_BUILD=1)
         if(WIN32)
             themis_llm_sync_runtime_dlls(${_tgt})
