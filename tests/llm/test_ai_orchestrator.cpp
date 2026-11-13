@@ -1964,7 +1964,8 @@ modes:
     ASSERT_TRUE(validation.ok) << (validation.errors.empty() ? "" : validation.errors.front());
 
     auto entity = themis::BaseEntity::fromFields("doc-1", {
-        {"content", std::string{"authorized agentic evidence"}}
+        {"content", std::string{"authorized agentic evidence"}},
+        {"tenant_id", std::string{"tenant-a"}}
     });
     ASSERT_TRUE(secondary_->put("docs", entity).ok);
 
