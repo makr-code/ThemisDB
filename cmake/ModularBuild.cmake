@@ -2635,11 +2635,8 @@ function(themis_build_modular)
     if(THEMIS_MODULE_GEO)
         list(APPEND _themis_query_deps themis_geo)
     endif()
-    # Note: themis_llm is intentionally NOT added here to avoid creating
-    # cyclic inter-target dependencies with themis_sharding. When LLM symbols
-    # are required at link time, higher-level shared targets (e.g. themis_sharding)
-    # should link both themis_query and themis_llm so the final link resolves
-    # transitive references without introducing cycles among static libs.
+    # Keep the query-to-LLM implementation dependency out of this target;
+    # sharding and LLM declare their static-library dependencies below.
     if(onnxruntime_FOUND)
         list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
@@ -2807,9 +2804,7 @@ function(themis_build_modular)
         # Link the lightweight LLM API module (if built) to provide
         # runtime-facing LLM symbols used by query/sharding without
         # pulling in the full LLM implementation that depends on sharding.
-        # Prefer linking the full themis_llm target if available; it no
-        # longer depends on themis_sharding (avoid cycles). Fall back to
-        # themis_llm_api if a split API module is used.
+        # Prefer linking the full themis_llm target if already available.
         if(TARGET themis_llm)
             target_link_libraries(themis_sharding PRIVATE themis_llm)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
@@ -2970,6 +2965,14 @@ function(themis_build_modular)
                     themis_llm
                     themis_query
             )
+        endif()
+        # LLM and sharding reference each other; declaring both static-library
+        # edges lets CMake repeat the archives for linkers that scan only once.
+        if(TARGET themis_sharding)
+            target_link_libraries(themis_llm PRIVATE themis_sharding)
+            if(TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PRIVATE themis_sharding)
+            endif()
         endif()
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)

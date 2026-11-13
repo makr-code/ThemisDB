@@ -234,7 +234,7 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libcpp-httplib-dev libyaml-cpp-dev
+            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libcpp-httplib-dev libyaml-cpp-dev libgtest-dev libgmock-dev
           cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure
@@ -331,6 +331,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      pull-requests: write
     steps:
       - name: Apply release_critical label after tests pass
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1

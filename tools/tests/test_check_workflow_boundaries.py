@@ -415,7 +415,10 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
     assert phase_permissions["issues"] == "write"
     for phase in range(7, 11):
         caller = yaml.safe_load((workflows / f"gate-pr-rag-phase{phase}.yml").read_text(encoding="utf-8"))
-        assert caller["permissions"]["pull-requests"] == "write"
+        assert caller["permissions"] == {"contents": "read"}
+        caller_permissions = caller["jobs"][f"phase{phase}_validation"]["permissions"]
+        assert caller_permissions["pull-requests"] == "write"
+        assert caller_permissions["issues"] == "write"
 
 
 def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):
@@ -984,6 +987,24 @@ def test_coverage_installs_real_test_and_storage_dependencies():
     configure = next(step["run"] for step in steps if step.get("name") == "CMake configure (with coverage enabled)")
     assert "-DTHEMIS_BUILD_TESTS=ON" in configure
     assert "-DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF" in configure
+
+
+def test_rag_version_gate_installs_test_dependencies():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-rag-version.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["reindex_decision_tests"]["steps"]
+    install = next(step["run"] for step in steps if step.get("name") == "Install Build Dependencies")
+    for package in ("libgtest-dev", "libgmock-dev"):
+        assert package in install.split()
+    configure = next(step["run"] for step in steps if step.get("name") == "Configure")
+    assert "-DTHEMIS_BUILD_TESTS=ON" in configure
+
+
+def test_rag_version_label_job_has_write_permissions():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-rag-version.yml"
+    data = yaml.safe_load(workflow.read_text(encoding="utf-8"))
+    label_permissions = data["jobs"]["apply-release-critical-label"]["permissions"]
+    assert label_permissions["issues"] == "write"
+    assert label_permissions["pull-requests"] == "write"
 
 
 @pytest.mark.parametrize(

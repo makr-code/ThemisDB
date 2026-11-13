@@ -532,13 +532,10 @@ jobs:
           fi
 
           publish_ninja() {
-            # CMake does not initialize CMAKE_MAKE_PROGRAM from the environment.
-            # Publish only Ninja on PATH so nested vcpkg configures use it too.
-            ninja_dir="${RUNNER_TEMP}/themis-ninja"
-            mkdir -p "${ninja_dir}"
-            ln -sf "$1" "${ninja_dir}/ninja"
+            # CMake caches the discovered executable in the build tree. Publish
+            # its stable directory so downstream jobs can reuse that build tree.
+            ninja_dir="$(dirname "$1")"
             echo "${ninja_dir}" >> "$GITHUB_PATH"
-            echo "CMAKE_MAKE_PROGRAM=${ninja_dir}/ninja" >> "$GITHUB_ENV"
           }
 
           if [ -x /usr/bin/ninja ] && /usr/bin/ninja --version >/dev/null 2>&1; then

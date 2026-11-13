@@ -21,7 +21,9 @@
 
 #include <gtest/gtest.h>
 #include "../test_performance_helpers.h"
+#include <cstdlib>
 #include <filesystem>
+#include <memory>
 #include <thread>
 #include <atomic>
 #include <chrono>
@@ -31,6 +33,7 @@
 // Conditional compilation for LLM support
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/multi_lora_manager.h"
+#include "llm/model_loader.h"
 using themis::llm::MultiLoRAManager;
 using themis::llm::LoRASlot;
 #endif
@@ -155,6 +158,74 @@ TEST_F(LoRAAdapterTest, Loading_InvalidPath) {
     EXPECT_FALSE(manager->isLoRALoaded("invalid"));
 #endif
 }
+
+#ifdef THEMIS_ENABLE_LLM
+TEST_F(LoRAAdapterTest, BatchInference_FailsClosedWhenAdapterApplicationFails) {
+    const char* model_path = std::getenv("THEMIS_TEST_MODEL_PATH");
+    if (model_path == nullptr || !fs::exists(model_path)) {
+        GTEST_SKIP() << "Set THEMIS_TEST_MODEL_PATH to a GGUF model to exercise batch inference";
+    }
+
+    themis::llm::LazyModelLoader::Config model_config;
+    model_config.max_models = 1;
+    model_config.default_n_gpu_layers = 0;
+    model_config.default_n_ctx = 512;
+    model_config.prefer_custom_gguf_loader = false;
+    themis::llm::LazyModelLoader model_loader(model_config);
+    const auto loaded_model = model_loader.getOrLoadModelShared(
+        "batch-fail-closed-test",
+        model_path,
+        {{"n_ctx", 512}, {"n_batch", 512}, {"n_threads", 1}, {"n_gpu_layers", 0}});
+    ASSERT_NE(loaded_model, nullptr);
+    auto* context = reinterpret_cast<llama_context*>(loaded_model->context_handle);
+    ASSERT_NE(context, nullptr);
+
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 16;
+    config.lora_base_dir = test_dir_.string();
+    config.lora_ttl = std::chrono::seconds(0);
+    config.multi_gpu.enabled = false;
+    config.enable_multi_lora_batch = true;
+    auto manager = std::make_unique<MultiLoRAManager>(config);
+    ASSERT_TRUE(manager->loadLoRA(
+        "z-failing", createMockAdapter("z-failing"), "base_model", 1.0f));
+
+    InferenceRequest failing_request;
+    failing_request.prompt = "must not be generated";
+    failing_request.request_id = "failed-request";
+    InferenceRequest missing_request;
+    missing_request.prompt = "missing adapter";
+    missing_request.request_id = "missing-request";
+    InferenceRequest second_failing_request = failing_request;
+    second_failing_request.request_id = "second-failed-request";
+
+    const std::vector<std::pair<InferenceRequest, std::string>> requests = {
+        {failing_request, "z-failing"},
+        {missing_request, "a-missing"},
+        {second_failing_request, "z-failing"},
+    };
+    const auto responses = manager->batchInferenceMultiLoRA(requests, context);
+
+    ASSERT_EQ(responses.size(), requests.size());
+    EXPECT_EQ(responses[0].request_id, "failed-request");
+    EXPECT_FALSE(responses[0].success);
+    EXPECT_TRUE(responses[0].text.empty());
+    EXPECT_FALSE(responses[0].lora_used.has_value());
+    EXPECT_NE(responses[0].error_message.find("Failed to apply LoRA"), std::string::npos);
+
+    EXPECT_EQ(responses[1].request_id, "missing-request");
+    EXPECT_FALSE(responses[1].success);
+    EXPECT_TRUE(responses[1].text.empty());
+    EXPECT_FALSE(responses[1].lora_used.has_value());
+    EXPECT_NE(responses[1].error_message.find("LoRA not loaded"), std::string::npos);
+
+    EXPECT_EQ(responses[2].request_id, "second-failed-request");
+    EXPECT_FALSE(responses[2].success);
+    EXPECT_TRUE(responses[2].text.empty());
+    EXPECT_FALSE(responses[2].lora_used.has_value());
+    EXPECT_NE(responses[2].error_message.find("Failed to apply LoRA"), std::string::npos);
+}
+#endif
 
 // ═══════════════════════════════════════════════════════════
 // Adapter Unloading Tests

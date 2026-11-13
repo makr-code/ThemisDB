@@ -47,7 +47,6 @@ class CMakeNinjaDiscoveryTests(unittest.TestCase):
         env.update(
             PATH=f"{shadow_bin}{os.pathsep}{os.environ['PATH']}",
             RUNNER_TEMP=str(root),
-            GITHUB_ENV=str(root / "github_env"),
             GITHUB_PATH=str(root / "github_path"),
             REAL_NINJA=str(ninja),
             SYSTEM_NINJA=str(system_ninja),
@@ -64,10 +63,8 @@ class CMakeNinjaDiscoveryTests(unittest.TestCase):
         github_path = Path(env["GITHUB_PATH"])
         self.assertTrue(github_path.exists(), "validated Ninja must be published to PATH")
         additions = github_path.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(additions, [str(system_ninja.parent)])
         env["PATH"] = os.pathsep.join([*reversed(additions), env["PATH"]])
-        for line in Path(env["GITHUB_ENV"]).read_text(encoding="utf-8").splitlines():
-            key, value = line.split("=", 1)
-            env[key] = value
         self.assertEqual(Path(shutil.which("ninja", path=env["PATH"])).resolve(), ninja)
         return env
 

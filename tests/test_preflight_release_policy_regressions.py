@@ -126,7 +126,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 text=True,
             )
             added_paths = github_path.read_text(encoding="utf-8").splitlines()
-            ninja_dir = root / "cmake-ninja"
+            ninja_dir = system_bin
             self.assertEqual(added_paths, [str(ninja_dir)])
             self.assertEqual(list(ninja_dir.iterdir()), [ninja_dir / "ninja"])
             self.assertEqual((ninja_dir / "ninja").resolve(), ninja.resolve())

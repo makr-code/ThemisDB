@@ -200,7 +200,7 @@ jobs:
             else
               echo "Live tracker writes follow the existing comparison and issue conditions."
             fi
-          } >> "$GITHUB_STEP_SUMMARY" || true
+          } >> "$GITHUB_STEP_SUMMARY"
           exit 0
 
       - name: Upsert benchmark results tracker issue
