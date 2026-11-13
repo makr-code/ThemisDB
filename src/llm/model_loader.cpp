@@ -1194,6 +1194,13 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
             fmt::format("Failed to create context for model: {}", model_id));
     }
 
+    const std::string loaded_model_fingerprint =
+        ::themis::utils::calculateSHA256(model_file_path.string());
+    if (loaded_model_fingerprint.empty() || loaded_model_fingerprint != model_fingerprint) {
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED,
+            fmt::format("Model file changed while loading: {}", model_file_path.string()));
+    }
+
     // Populate model info
     model->info.name = model_id;
     model->info.model_id = model_id;
@@ -1203,7 +1210,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->info.context_length = ctx_params.n_ctx;
     model->info.size_bytes = size_bytes;
     model->info.is_loaded = true;
-    model->info.metadata["themis.base_model.sha256"] = model_fingerprint;
+    model->info.metadata["themis.base_model.sha256"] = loaded_model_fingerprint;
 
     // Estimate VRAM/RAM usage
     size_t vram_mb = static_cast<size_t>(size_bytes / (1024ull * 1024ull));

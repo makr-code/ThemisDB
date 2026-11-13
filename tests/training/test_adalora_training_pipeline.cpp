@@ -20,6 +20,8 @@
 #include "training/training_sample_provider.h"
 #include "utils/rocksdb_open_compat.h"
 
+#include <gguf.h>
+
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
@@ -83,6 +85,22 @@ public:
 private:
     bool consumed_ = false;
 };
+
+std::string readGgufStringMetadata(const std::filesystem::path& path, const char* key) {
+    gguf_init_params params{};
+    params.no_alloc = true;
+    auto context = std::unique_ptr<gguf_context, decltype(&gguf_free)>(
+        gguf_init_from_file(path.string().c_str(), params), &gguf_free);
+    if (!context) {
+        return {};
+    }
+    const auto key_id = gguf_find_key(context.get(), key);
+    if (key_id < 0) {
+        return {};
+    }
+    const auto* value = gguf_get_val_str(context.get(), key_id);
+    return value ? value : "";
+}
 
 TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter) {
     const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
@@ -162,6 +180,8 @@ TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter)
     EXPECT_EQ(result.model_fingerprint, model.getLoadedModelFingerprint());
     EXPECT_TRUE(themis::training::AdaLoRAAdapter::isCacheValid(
         checkpoint_path.string(), result.model_fingerprint));
+    EXPECT_EQ(readGgufStringMetadata(adapter_path, "themis.base_model.sha256"),
+              model.getLoadedModelFingerprint());
     EXPECT_EQ(result.samples_read, 1u);
     EXPECT_EQ(result.samples_trained, 1u);
     EXPECT_GT(result.target_tokens_trained, 0u);
@@ -180,6 +200,19 @@ TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter)
     EXPECT_FALSE(response.text.empty());
     ASSERT_TRUE(response.lora_used.has_value());
     EXPECT_EQ(*response.lora_used, training_config.adapter_id);
+
+    training_config.adapter_output_path = (root / "tinyllama_docs_resumed.gguf").string();
+    training_config.load_for_inference = false;
+    SingleSampleProvider resume_provider;
+    const auto resumed_result = themis::training::AdaLoRATrainingPipeline::trainFromProvider(
+        resume_provider, model, training_config);
+    ASSERT_TRUE(resumed_result.success) << resumed_result.error_message;
+    EXPECT_EQ(resumed_result.model_fingerprint, result.model_fingerprint);
+    EXPECT_TRUE(themis::training::AdaLoRAAdapter::isCacheValid(
+        checkpoint_path.string(), resumed_result.model_fingerprint));
+    EXPECT_EQ(readGgufStringMetadata(training_config.adapter_output_path,
+                                    "themis.base_model.sha256"),
+              model.getLoadedModelFingerprint());
 
     query_engine.reset();
     indexes.reset();
