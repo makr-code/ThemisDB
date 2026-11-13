@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-10
+Last Updated: 2026-11-13
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -38,6 +38,10 @@ The module has implemented source surfaces for process-model lifecycle and forma
 - [ ] Reconcile audit persistence/integrity and telemetry export behavior with their public contracts; do not claim unsupported guarantees (Target: v2.5.0 hardening wave).
 - [ ] Establish reproducible build/test evidence and a benchmark baseline before publishing module readiness or performance status (Target: v2.5.0 hardening wave).
 - [ ] Evaluate standards-based process-model/event interchange and the long-term audit, telemetry, and federation contracts (Target: v3.0.0 strategic wave).
+- [ ] Specify framework checkpoint/store/history adapters and optional native
+  recovery/approval boundaries separately from bounded native retrieval/tool
+  loops; do not assume a new general graph runtime is required
+  (Target: Q2 2027 proposal).
 
 ## Research findings and gap analysis
 
@@ -124,6 +128,36 @@ These are planning proposals for v2.5.0 and v3.0.0, not release approvals or del
 - **Risks / trade-offs:** Verified behavior may require architectural changes outside `process`; weakening claims may reduce advertised capability, while stronger guarantees can increase latency and operational complexity.
 - **Measurable KPI / exit criterion:** Every retained federation guarantee maps to at least one repeatable fault scenario and observed result; no conflicting committed state is observed in the approved scenario set, and unsupported guarantees are explicitly excluded.
 - **Validation:** Run deterministic multi-node fault/restart scenarios against the documented topology; preserve scenario configuration, raw results, and source revision; do not infer safety from comments or simulated behavior alone.
+
+#### Wave 7 — hybrid coordination and framework persistence (proposal; Q2 2027)
+
+- **Goal:** support the native small-model/database hybrid without assuming
+  either that all agent functions must be external or that ThemisDB needs a
+  new general-purpose graph scheduler.
+- **Tasks:** separate bounded native retrieval/tool execution from optional
+  long-lived workflows; define LangGraph checkpointer, cross-session store,
+  and Microsoft history-provider adapters as distinct contracts. Specify
+  checkpoint identity/parents, pending task writes, exact/latest lookup,
+  pagination, serialization, retention and scoped deletion. Any native
+  resumability/approval feature needs its own approved state/recovery schema.
+- **Dependencies:** corrected server/SDK operations; storage transaction and
+  durability scope; LLM/RAG aggregate budgets; authenticated session ownership
+  and operations review. Training checkpoints and profile records are not
+  agent checkpoints.
+- **Risks / trade-offs:** approvals must not retain transaction locks; resume
+  must reauthorize and handle changed data/model versions. Persisting a
+  checkpoint does not make external effects exactly-once. Frameworks retain
+  their own replay/scheduling semantics; native and external state formats
+  are not automatically interchangeable.
+- **Measurable KPI / exit criterion:** every declared checkpoint operation
+  passes persistent restart/by-ID/pending-write/deletion cases; namespaces
+  cannot cross authenticated tenant/session boundaries; conflict, corruption,
+  incompatible version and duplicate effects have explicit outcomes.
+- **Validation:** pinned adapter conformance plus real-store crash/reopen,
+  concurrent writer, full-session deletion and authorization tests. If delta
+  channels are supported, pruning must preserve required ancestor writes;
+  the researched LangGraph delta-channel API is beta and must be version-pinned.
+  No durability target is proven by in-memory fixtures alone.
 
 ## Open assumptions and knowledge gaps
 

@@ -78,9 +78,12 @@ TEST_F(FieldEncryptionDITest, ShouldEncryptReturnsTrueWhenNoConfigSet) {
 }
 
 TEST_F(FieldEncryptionDITest, CreateDefaultFactoryWorks) {
-    themis::test::ScopedEnvVar production_mode("THEMIS_PRODUCTION_MODE", "0");
-    themis::test::ScopedEnvVar environment("THEMIS_ENVIRONMENT", "testing");
-    themis::test::ScopedEnvVar allow_mock("THEMIS_ALLOW_MOCK_KEY_PROVIDER", "1");
+    themis::test::ScopedEnvVar production_mode{
+        std::string{"THEMIS_PRODUCTION_MODE"}, std::string{"0"}};
+    themis::test::ScopedEnvVar environment{
+        std::string{"THEMIS_ENVIRONMENT"}, std::string{"testing"}};
+    themis::test::ScopedEnvVar allow_mock{
+        std::string{"THEMIS_ALLOW_MOCK_KEY_PROVIDER"}, std::string{"1"}};
     auto enc = FieldEncryption::createDefault();
     EXPECT_NE(enc, nullptr);
     EXPECT_NE(enc->getKeyProvider(), nullptr);

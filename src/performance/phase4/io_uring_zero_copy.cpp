@@ -9,10 +9,19 @@
  */
 
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 #include "performance/phase4/io_uring_zero_copy.h"
 
 #include <cerrno>
 #include <cstring>
+#include <limits>
 #include <new>
 #include <stdexcept>
 
@@ -417,6 +426,10 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
     if (buf_index >= buffers_.size()) {
       return -EINVAL;
     }
+        if (len > buffers_[buf_index].size() ||
+                len > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            return -EINVAL;
+        }
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
@@ -462,8 +475,19 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
 #endif // __linux__
 #endif // THEMIS_ENABLE_IO_URING
 
-    // Fallback: standard blocking send()
-    ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,
+        // Fallback: standard blocking send()
+#ifdef _WIN32
+        if (len > static_cast<size_t>(std::numeric_limits<int>::max())) {
+                return -EINVAL;
+        }
+        const int ret = ::send(static_cast<SOCKET>(fd),
+                                                     reinterpret_cast<const char*>(buffers_[buf_index].data()),
+                                                     static_cast<int>(len), 0);
+        if (ret == SOCKET_ERROR) {
+            return -static_cast<int>(::WSAGetLastError());
+        }
+#else
+        const ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,
 #ifdef MSG_NOSIGNAL
                          MSG_NOSIGNAL
 #else
@@ -473,6 +497,7 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
     if (ret < 0) {
       return -errno;
     }
+#endif
     fallback_sends_.fetch_add(1, std::memory_order_relaxed);
     bytes_sent_.fetch_add(static_cast<uint64_t>(ret), std::memory_order_relaxed);
     return 0;
@@ -482,6 +507,10 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
     if (buf_index >= buffers_.size()) {
       return -EINVAL;
     }
+        if (max_len > buffers_[buf_index].size() ||
+                max_len > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            return -EINVAL;
+        }
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
@@ -524,10 +553,22 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
 #endif // THEMIS_ENABLE_IO_URING
 
     // Fallback: standard blocking recv()
-    ssize_t ret = ::recv(fd, buffers_[buf_index].data(), max_len, 0);
+#ifdef _WIN32
+    if (max_len > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        return -EINVAL;
+    }
+    const int ret = ::recv(static_cast<SOCKET>(fd),
+                           reinterpret_cast<char*>(buffers_[buf_index].data()),
+                           static_cast<int>(max_len), 0);
+    if (ret == SOCKET_ERROR) {
+      return -static_cast<int>(::WSAGetLastError());
+    }
+#else
+    const ssize_t ret = ::recv(fd, buffers_[buf_index].data(), max_len, 0);
     if (ret < 0) {
       return -errno;
     }
+#endif
     fallback_recvs_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(static_cast<uint64_t>(ret), std::memory_order_relaxed);
     return static_cast<int>(ret);

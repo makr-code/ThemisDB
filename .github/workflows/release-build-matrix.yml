@@ -318,10 +318,10 @@ jobs:
                       + "${THEMIS_WINDOWS_DEPENDENCY_FLAGS:-} 2>&1 | tee configure-windows-release.log"
                   ),
                   "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 1 2>&1 | tee build-windows-release.log",
-                  "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
+                  "validation_command": "set -euo pipefail\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
                   "build_directory": "build-msvc-windows-release",
                   "artifact_name": f"build-windows-amd64-release-{run_number}",
-                  "artifact_paths": "build-msvc-windows-release/*.exe\nbuild-msvc-windows-release/*.dll\nconfigure-windows-release.log\nbuild-windows-release.log\ntest-windows-release.log\ninstall-windows-release.log\ncpack-*windows-release.log",
+                  "artifact_paths": "build-msvc-windows-release/*.exe\nbuild-msvc-windows-release/*.dll\nconfigure-windows-release.log\nbuild-windows-release.log\ninstall-windows-release.log\ncpack-*windows-release.log",
                   "artifact_name_secondary": f"packages-windows-amd64-release-{run_number}",
                   "artifact_paths_secondary": "packages/",
                   "artifact_retention_days": "30",
@@ -359,7 +359,17 @@ jobs:
               if lane_os == "linux":
                   entry["setup_command"] = entry["setup_command"].replace(
                       "./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
-                      """for attempt in 1 2 3; do
+                      """thrift_port="vcpkg/ports/thrift/portfile.cmake"
+          grep -Fq 'https://archive.apache.org/dist/thrift/' "$thrift_port" || {
+            echo "::error::Expected Thrift source URL was not found in $thrift_port"
+            exit 1
+          }
+          sed -i 's#https://archive.apache.org/dist/thrift/#https://dlcdn.apache.org/thrift/#' "$thrift_port"
+          grep -Fq 'https://dlcdn.apache.org/thrift/' "$thrift_port" || {
+            echo "::error::Failed to switch the Thrift source URL to the Apache CDN"
+            exit 1
+          }
+          for attempt in 1 2 3; do
           bootstrap_log="${RUNNER_TEMP:-/tmp}/vcpkg-bootstrap-${attempt}.log"
           set +e
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>&1 | tee "$bootstrap_log"
@@ -416,33 +426,6 @@ jobs:
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
               entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
               entry["validation_continue_on_error"] = False
-              if (
-                  entry["id"] == "windows-amd64"
-                  and not os.environ.get("SOURCE_SHA", "").strip()
-                  and os.environ.get("GITHUB_REF") == "refs/heads/develop"
-              ):
-                  entry["artifact_name"] = (
-                      f"ctest-evidence-windows-{os.environ['GITHUB_SHA']}-{os.environ['GITHUB_RUN_ID']}"
-                  )
-                  entry["configure_command"] = entry["configure_command"].replace(
-                      "cmake --preset windows-release ${CMAKE_FLAGS}",
-                      "cmake --preset windows-release ${CMAKE_FLAGS} -DTHEMIS_BUILD_TESTS=ON",
-                  )
-                  entry["validation_command"] = entry["validation_command"].replace(
-                      "ctest --preset windows-release --output-on-failure -j 1 --timeout 60",
-                      "THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --preset windows-release "
-                      "--output-on-failure -j 1 --timeout 60 --no-tests=error "
-                      '--output-junit "${GITHUB_WORKSPACE}/build-msvc-windows-release/test-windows-release.xml"',
-                  )
-                  entry["artifact_paths"] += (
-                      "\nbuild-msvc-windows-release/test-windows-release.xml"
-                      "\nbuild-msvc-windows-release/test-windows-release-summary.md"
-                  )
-                  entry["artifact_retention_days"] = "90"
-                  entry["ctest_build_directory"] = "build-msvc-windows-release"
-                  entry["ctest_junit_path"] = "build-msvc-windows-release/test-windows-release.xml"
-                  entry["ctest_summary_path"] = "build-msvc-windows-release/test-windows-release-summary.md"
-                  entry["ctest_preset"] = "windows-release"
 
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:

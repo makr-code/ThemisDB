@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -95,6 +95,84 @@ Exact model backend not verifiable from final document text alone.
 - preserve explicit failure signaling for labeling, adapter, and serving faults.
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
+
+## Native Specialization to Multi-LoRA Serving (Proposal; Q2 2027)
+
+### Scope
+
+Qualify authorized DB-backed AdaLoRA training and explicit promotion to
+Multi-LoRA serving on smaller local models, optionally via tensor artifact
+representations. Reuse existing providers/trainers/managers; this proposal
+does not claim full-model training, signed deployment or current quality gains.
+
+### Design Constraints
+
+- Keep base weights frozen and declare actual target tensors; the current
+  native pipeline trains block-sharded `output.weight`, not arbitrary
+  transformer layers.
+- Preserve bounded source-neutral sample batches, adaptive rank and gradient/
+  token/memory limits; authorization is a caller/deployment obligation until
+  the required path is explicitly enforced.
+- Training and generation use separate wrapper contexts. Schedule training
+  under shared DB/inference resource admission, not on request threads or
+  inside long-held transactions.
+- Separate artifact production, signing/validation, quality approval, serving
+  residency and request activation; no automatic online learning from
+  unreviewed answers or retrieved instructions.
+
+### Required Interfaces
+
+- A manifest binding source/sample or supported snapshot fingerprint,
+  split/dedup policy, base/tokenizer identity, target tensor names/shapes,
+  rank schedule/budget, alpha/scaling, optimizer, seed and output digest.
+- Explicit promotion/revocation/rollback linked to Multi-LoRA artifact
+  identity and per-request activation; concurrent composition is a separate
+  backend capability from loading multiple adapters.
+- Optional AdaLoRA-to-TT export/import with dtype/layout/profile, scale/rank,
+  measured reconstruction error and verified consumer bridge.
+
+### Implementation Notes
+
+- Preserve the current GGUF handoff and explicit load rejection, but add
+  owner-approved quality/trust gates before production promotion.
+- Do not generalize the signed snapshot path in the LLM module to all native
+  pipeline exports; signing/authorization gaps remain path-specific.
+- Define incremental retraining on source/model/profile changes and revoke
+  affected artifacts when policy requires it. Deleting source rows alone
+  does not demonstrate removal of memorized training information from weights.
+- TT storage/fingerprint similarity does not establish semantic adapter
+  interchangeability, exact equivalence or direct compressed llama.cpp execution.
+
+### Test Strategy
+
+- Real-GGUF training/export/load/inference with measured loss and held-out task
+  results; cover provider failure, bounded batches, rank reallocation,
+  interrupted checkpoints and incompatible base/target shapes.
+- Verify signed/trusted promotion where implemented, unauthorized source
+  rejection at the owning boundary, and rollback with in-flight requests.
+- Test TT round-trip of reconstructed scaled updates and downstream outputs
+  against the native artifact; cover zero/pruned ranks and non-finite data.
+- Ablate base-only, RAG, adapter-only, RAG+adapter and tensor-enabled variants;
+  use source-grouped train/validation splits to avoid overlapping-chunk leakage.
+
+### Performance Targets
+
+Report held-out task quality/forgetting, rank/parameter count, samples/target
+tokens, training/checkpoint/export/load time, RAM/VRAM, inference TTFT and DB
+p95/p99 under contention. Ratify numeric gates after a real model-backed
+baseline; lifecycle microbenchmarks alone are not end-to-end evidence.
+
+### Security / Reliability
+
+Bound datasets, artifact sizes, training resources and promotion privileges.
+Require explicit provenance/consent policy, artifact trust and audit retention.
+Reject required-adapter failure rather than silently serve base-model output.
+Support policy-driven revocation/retraining; do not promise machine unlearning.
+
+Research anchors: [LoRA](https://arxiv.org/abs/2106.09685) and
+[AdaLoRA](https://arxiv.org/abs/2303.10512), already referenced in
+[the module roadmap](ROADMAP.md), motivate low-rank specialization, not
+ThemisDB-specific performance or full-model-training claims.
 
 ## Future DB-Backed Training Data Path Benchmarks
 

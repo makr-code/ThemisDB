@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-09 -->
+<!-- Last Updated: 2026-11-13 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -262,6 +262,51 @@ This plan is a research-backed proposal, not a release commitment. It separates 
 - [x] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
 - [x] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
+- [ ] Qualify smaller local-model/tokenizer/quantization capabilities and approved local model/LoRA routing before expanding optional provider adapters (Target: Q2 2027 proposal).
+- [ ] Specify bounded native retrieval/tool/prompt-planning loops, locality/egress policy and aggregate resource admission without framework dependencies in core (Target: Q2 2027 proposal).
+- [ ] Integrate tokenizer-exact final RAG admission and verify ordinary database availability and p95/p99 under concurrent native inference (Target: Q2 2027 proposal).
+- [ ] Qualify AdaLoRA artifact promotion and Multi-LoRA request activation/
+  composition separately, including base compatibility, cache validity,
+  in-flight lifecycle and explicit required-adapter failure
+  (Target: Q2 2027 proposal).
+- [ ] Verify tensor-layer selection-to-llama.cpp handoff with measured
+  reconstruction/task-quality bounds; do not infer direct tensor execution
+  from storage/summary interfaces (Target: Q2 2027 proposal).
+
+### Native Hybrid and Application Interoperability (Proposed; Target: Q2 2027)
+
+- **Phase 1 — Design / API Contract:** inventory `ILLMPlugin`
+  implementations, `ModelRouter`, `OpenAICompatAdapter`, MCP tool calls, and
+  their current tests; specify local model/tokenizer capabilities, trusted
+  execution boundaries and aggregate session/locality budgets.
+- **Phase 2 — Core Implementation:** implement the approved versioned
+  native capability and admission contract using existing llama.cpp/RAG/tool
+  surfaces; keep framework dependencies optional and outside core.
+- **Phase 3 — Error Handling & Edge Cases:** define unsupported features,
+  malformed responses, credential failure, rate limiting, deadlines,
+  cancellation, partial streams, insufficient evidence, denied egress,
+  exhausted resources and retry/idempotency behavior.
+- **Phase 4 — Tests:** run the same contract suite against each declared
+  provider for tool calls, streaming, structured output, errors, and policy
+  enforcement; cover final token budgets, loop termination, native model
+  failure, and database progress under inference load. Registration alone is
+  not evidence of compatibility or isolation.
+- **Phase 5 — Performance / Hardening:** benchmark matched direct and adapted
+  local-model requests at fixed context budgets; measure task quality,
+  database p95/p99, prefill/decode and shared RAM/VRAM under contention.
+- **Phase 6 — Documentation & Acceptance:** publish the provider capability
+  matrix, compatibility/migration policy, operational guidance, test results,
+  and owner approval before changing public APIs.
+
+**Acceptance:** every declared supported model/backend passes its capability
+suite; admitted final prompts plus reserved output fit the selected model
+window; configured loops/fan-out terminate within their defined budgets;
+unauthorized tools/egress are rejected; inference unavailability does not
+disable ordinary database operations. Performance thresholds require matched
+mixed-workload baselines and owner approval. See
+[`ARCHITECTURE.md`](ARCHITECTURE.md) and
+[`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md); none of these targets asserts
+current end-to-end enforcement or new external-provider support.
 
 ### Wave 2-B: RAII & Resource Safety (Target: Q4 2026)
 

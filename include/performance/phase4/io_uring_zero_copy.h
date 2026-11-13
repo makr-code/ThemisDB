@@ -180,22 +180,30 @@ public:
     /// Returns true on success.
     bool register_fd(int fd) noexcept;
 
-    /// Enqueue a zero-copy send of @p len bytes from pre-registered buffer
-    /// at index @p buf_index.  The caller must have written @p len bytes into
-    /// get_buffer(buf_index).data() before calling this.
+    /// Send @p len bytes from the pre-registered buffer at @p buf_index.  The
+    /// caller must initialize those bytes first; @p len must not exceed the
+    /// buffer capacity or the platform socket API's length limit.  On Windows,
+    /// @p fd is interpreted as a SOCKET value representable as an int.
     ///
     /// On io_uring: submits an IORING_OP_SEND with IORING_RECVSEND_FIXED_BUF.
     /// On fallback: calls send() immediately and increments fallback_sends.
     ///
-    /// @return 0 on success (io_uring submission or fallback), -errno on error.
+    /// @return 0 on successful submission/send; a negative errno on POSIX or
+    ///         negative WSAGetLastError() on Windows. Invalid buffer ranges
+    ///         return -EINVAL.
     int send_zerocopy(int fd, uint32_t buf_index, size_t len) noexcept;
 
-    /// Enqueue a receive into pre-registered buffer at index @p buf_index.
+    /// Receive into the pre-registered buffer at @p buf_index. The requested
+    /// length must not exceed the buffer capacity or the platform socket API's
+    /// length limit. On Windows, @p fd is interpreted as a SOCKET value
+    /// representable as an int.
     ///
     /// On io_uring: submits an IORING_OP_RECV with IORING_RECVSEND_FIXED_BUF.
     /// On fallback: calls recv() immediately and increments fallback_recvs.
     ///
-    /// @return number of bytes received on fallback, 0 on io_uring queue, -errno on error.
+    /// @return Bytes received on fallback, 0 when queued through io_uring, or
+    ///         a negative errno on POSIX / negative WSAGetLastError() on
+    ///         Windows. Invalid buffer ranges return -EINVAL.
     int recv_zerocopy(int fd, uint32_t buf_index, size_t max_len) noexcept;
 
     /// Block until at least @p min_completions CQEs are available and drain

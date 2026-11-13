@@ -11,10 +11,11 @@ namespace themis::test {
 class ScopedEnvVar {
 public:
     ScopedEnvVar(std::string name, std::string value)
-        : ScopedEnvVar(std::move(name), std::optional<std::string>{std::move(value)}) {}
+        : ScopedEnvVar(std::move(name),
+                       std::optional<std::string>{std::move(value)}, InitTag{}) {}
 
     ScopedEnvVar(std::string name, std::nullopt_t)
-        : ScopedEnvVar(std::move(name), std::optional<std::string>{}) {}
+        : ScopedEnvVar(std::move(name), std::optional<std::string>{}, InitTag{}) {}
 
     ~ScopedEnvVar() {
         try {
@@ -27,7 +28,9 @@ public:
     ScopedEnvVar& operator=(const ScopedEnvVar&) = delete;
 
 private:
-    ScopedEnvVar(std::string name, std::optional<std::string> value)
+    struct InitTag {};
+
+    ScopedEnvVar(std::string name, std::optional<std::string> value, InitTag)
         : name_(std::move(name)) {
         if (const char* current = std::getenv(name_.c_str())) {
             previous_ = current;

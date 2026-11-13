@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -77,6 +77,71 @@ are planned work, not implemented runtime behavior.
 - preserve explicit failure signaling for fingerprint and replay-adjacent faults.
 - enforce predictable degradation under concurrent tensor graph load.
 - keep diagnostics actionable for production tensor incidents.
+
+## Native Hybrid Tensor Layers (Proposal; Q2 2027)
+
+### Scope
+
+Qualify tensor representations, scoped summaries and actual artifact/decoder
+bridges across retrieval, AdaLoRA training and Multi-LoRA serving. Reuse the
+existing bridge design, not a second tensor stack; no new runtime guarantees
+or release commitment follow from this proposal.
+
+### Design Constraints
+
+- Separate TT storage, fingerprint candidate routing, exact tensor operations
+  and decoder consumption; each needs its own demonstrated capability.
+- Preserve tenant/base/artifact identity, target shapes, dtype/layout,
+  rank/scaling, decomposition version, integrity and buffer ownership.
+- Do not treat approximation error as retrieval/task quality, or tensor bytes
+  as model-readable semantic context without an implemented consumer.
+- Existing default in-memory storage, copying mappings and injected fetchers
+  remain explicit; neither mmap nor planning implies zero-copy distributed
+  execution.
+
+### Required Interfaces
+
+- Versioned evidence/adapter/package/shard envelopes shared with the existing
+  `TensorMidLayer`, repository, fingerprint and RAG/final-layer contracts.
+- Summary-to-exact lookup with provenance and bounded candidate/fan-out/byte
+  budgets, explicit absent/stale/corrupt states and tenant policy.
+- AdaLoRA TT/native round-trip and verified Multi-LoRA/backend application,
+  including scaling, compatibility, lifetime and adapter/cache transition policy.
+
+### Implementation Notes
+
+- Reconcile the existing
+  [ML bridge design](TENSOR_ML_TRAINING_BRIDGE.md) with current source before
+  promoting any end-to-end or direct ggml execution claim.
+- Measure reconstructed scaled adapter updates, true retained bytes, rank and
+  downstream quality. Conversion alone does not prove a compression gain.
+- Keep distributed retrieval planning separate from injected fragment fetch/
+  transport and exact consumer execution; do not inherit cryptographic
+  integrity or durable-storage claims from unverified companion components.
+
+### Test Strategy
+
+- Verify shape/dtype/rank/scaling round-trip, measured reconstruction error,
+  wrong-base/profile rejection, non-finite inputs, buffer lifetime and corrupt
+  artifacts through the actual selected storage/consumer.
+- Compare exact/reference vs summary-routed retrieval and native vs TT-derived
+  adapter output; test stale summaries, missing shards and denied access.
+- Run real-model RAG/adapter/tensor ablations and cache/adapter-change tests;
+  distinguish text compatibility modes from direct tensor backend paths.
+
+### Performance Targets
+
+Report actual bytes/compression ratio and numerical error with recall,
+held-out task quality, final prompt tokens, mapping/copy/load cost, network
+bytes, RAM/VRAM and DB p95/p99. Ratify gains against matched dense/native
+baselines; synthetic fixtures or illustrative switch latencies are not evidence.
+
+### Security / Reliability
+
+Verify access, artifact trust, storage durability and transport at their owning
+boundaries. Approximate fingerprints cannot authorize retrieval or select an
+incompatible adapter. Required-layer failures must remain explicit rather
+than silently turning into unrelated base-model or ungrounded execution.
 
 ## Related Enhancement Tracks
 

@@ -494,6 +494,12 @@ RUN set -eux; \
     cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" docs_database --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}" && \
     cmake --install "${THEMIS_BUILD_DIR}" --prefix /opt/themis-runtime --component documentation
 
+RUN set -eux; \
+    mkdir -p /opt/themis-runtime/lib; \
+    if [ "${ENABLE_LLM}" = "ON" ]; then \
+        cp -a /src/${THEMIS_BUILD_DIR}/bin/libllama.so* /src/${THEMIS_BUILD_DIR}/bin/libggml*.so* /opt/themis-runtime/lib/; \
+    fi
+
 COPY --from=llama /opt/bundled-models /opt/themis-runtime/models
 RUN python3 scripts/release/validate_runtime_payload.py /opt/themis-runtime
 
@@ -539,8 +545,8 @@ COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_ser
 COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
 COPY --from=build /src/build-gcc-linux-release/lib/libthemis_*.so* /usr/local/lib/
 
-# Copy llama.cpp libraries
-COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+# Copy the llama.cpp libraries linked by the ThemisDB build.
+COPY --from=build /opt/themis-runtime/lib/ /usr/local/lib/
 
 # Mandatory TinyLlama baseline, plus the explicitly selected model.
 COPY --from=llama /opt/bundled-models/ /models/
@@ -602,8 +608,8 @@ COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_ser
 COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
 COPY --from=build /src/build-gcc-linux-release/lib/libthemis_*.so* /usr/local/lib/
 
-# Copy llama.cpp libraries
-COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+# Copy the llama.cpp libraries linked by the ThemisDB build.
+COPY --from=build /opt/themis-runtime/lib/ /usr/local/lib/
 
 # Mandatory TinyLlama baseline, plus the explicitly selected model.
 COPY --from=llama /opt/bundled-models/ /models/

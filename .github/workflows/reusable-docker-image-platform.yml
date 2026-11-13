@@ -414,9 +414,12 @@ jobs:
         shell: bash
         env:
           REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
         run: |
           set -euo pipefail
-          docker pull "${REGISTRY_TAG}"
+          : "${IMAGE_DIGEST:?Missing pushed image digest}"
+          docker pull "${REGISTRY_TAG}@${IMAGE_DIGEST}"
+          docker tag "${REGISTRY_TAG}@${IMAGE_DIGEST}" "${REGISTRY_TAG}"
           docker image inspect "${REGISTRY_TAG}" >/dev/null 2>&1 || {
             echo "::error::Image ${REGISTRY_TAG} not found locally after push; cannot run Trivy release gate scan."
             exit 1
@@ -459,17 +462,14 @@ jobs:
         env:
           WORKFLOW_SHA: ${{ github.sha }}
           IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
-          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$WORKFLOW_SHA"
           VALIDATOR="${RUNNER_TEMP}/runtime_smoke_gate.py"
           git show "${WORKFLOW_SHA}:scripts/release/runtime_smoke_gate.py" > "$VALIDATOR"
           git show "${WORKFLOW_SHA}:scripts/release/validate_runtime_payload.py" > "${RUNNER_TEMP}/validate_runtime_payload.py"
-          if [[ -n "$IMAGE_DIGEST" ]]; then
-            IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
-          fi
-          python3 "$VALIDATOR" --image "$IMAGE_REF" \
+          IMAGE_ID="$(docker image inspect --format '{{.Id}}' "$IMAGE_REF")"
+          python3 "$VALIDATOR" --image "$IMAGE_ID" \
             --output "${RUNNER_TEMP}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json"
 
       - name: Upload runtime dependency and startup evidence

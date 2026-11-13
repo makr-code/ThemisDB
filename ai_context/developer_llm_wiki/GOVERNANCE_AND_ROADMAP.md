@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-12
+Datum: 2026-11-13
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -41,16 +41,16 @@ Status: Active
 
 ## FUTURE_ENHANCEMENTS.md
 - Kategorie: governance_and_docs
-- Hash: `ab3cf42244d049f6`
+- Hash: `d9f033e9da09b940`
 - Titel: ThemisDB Future Enhancements (Root Index)
 - Auszug:
-  - > Status: Active
-  - > Last Updated: 2026-08-28
-  - This root file is the canonical entry point for future enhancement planning.
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-08-28"
 
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `87676997ec43194c`
+- Hash: `7631bc2d5287b45a`
 - Titel: ThemisDB Root Index
 - Auszug:
   - ---
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `ccccd02fbb5493c5`
+- Hash: `3f051a5cb34ab117`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-11-09 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
+  - **Last Updated:** 2026-11-13 (LLM application framework interoperability proposal added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
