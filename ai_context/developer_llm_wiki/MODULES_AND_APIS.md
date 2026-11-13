@@ -33,6 +33,44 @@ Status: Active
 - [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.
 
 
+## Curated vector-search contract (#8089)
+
+Sources: [server handler](../../src/server/vector_api_handler.cpp),
+[public handler contract](../../include/server/vector_api_handler.h),
+[synchronous Python SDK](../../clients/python/themis/__init__.py).
+
+- `POST /vector/search` accepts omitted `filter` or `{}` as no-ops. Nonempty
+  objects and all nonobjects, including JSON `null`, return HTTP 400. Caller
+  metadata filters are not authorization policy or tenant-isolation controls;
+  existing authorization/governance checks remain separate.
+- Synchronous `ThemisClient.vector_search()` merges successful shard hits into
+  global top-k, including when only one endpoint succeeds. Prefer descending
+  non-null scores for all hits (zero is valid), else ascending non-null distances
+  for all hits; scores/distances are expected to be numeric. No common metric
+  means `ValueError` (`Vector search hits lack a common non-null score or distance`), not a
+  mixed score/distance comparison; ties retain endpoint and response order.
+- HTTP/request shard failures produce `partial=True` and an `errors` list
+  (`endpoint`, `status`, `message`; sanitized origins, request status `None`).
+  Messages are `HTTP <status>` or `Request failure (<exception class>)`, without
+  server response bodies. At least two
+  successes produce merged `results` plus original `partials`; one success,
+  even with failed shards, preserves response keys and `results`/`items` format
+  while ranking/capping hits and updating `count`/`batch_size` when present. The SDK adds
+  `partial=True`/`errors` for failures, but no `partials` for one success.
+  All failures raise `httpx.HTTPError` with an `errors` attribute; a successful
+  empty shard response remains valid.
+- Single-endpoint cursor fields are retained; there is no global shard cursor.
+  Client truncation of oversized shard responses may skip hits on cursor continuation.
+  Previously ignored nonempty filters now error, silent partial success becomes
+  explicit, and corrected ranking can change order/top-k membership.
+- Scope/evidence gap: `AsyncThemisClient` is unchanged by this SDK task. Focused
+  regression sources are [SDK vector tests](../../clients/python/tests/test_vector_search.py)
+  and [HTTP vector tests](../../tests/network/test_http_vector.cpp); reading them
+  is not execution evidence. This curated section fills the vector-specific
+  contract gap in the fresh 2026-11-13 wiki (8,134 sources); generated hashes and
+  manifests are not regenerated. See the [SDK reference](../../clients/python/README.md#synchronous-vector-search-contract-8089)
+  for caller-facing compatibility details.
+
 ## include/acceleration/ai_hardware_dispatcher.h
 - Kategorie: modules_and_api
 - Hash: `9ded277956ff475c`
