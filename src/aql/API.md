@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -69,6 +69,22 @@ service configuration through `setParserService()`. The
   before returning generated AQL.
 - Confidence is a review signal in `[0.0, 1.0]`; an unscored value is not a
   successful safety check.
+
+## RAG request context
+
+`LLMAQLHandler::executeRAG()` has a typed overload accepting
+`rag::RetrievalExecutionContext`. Callers must provide a trusted per-request
+`authorize_collection` callback; a missing callback or denied collection returns
+`ACCESS_DENIED`. Tenant scope, deadline, cancellation, and trace identifiers are
+forwarded through the shared `RAGProvider` path. Tuning values in the string
+`options` map, including tenant-like keys, are never authorization inputs.
+
+The legacy overload remains source-compatible but now fails closed because it
+cannot receive trusted request authorization. No production startup/request
+caller currently supplies this context, so this API seam is not evidence that
+the AQL RAG path is wired to authenticated server requests. Host authorization
+must be created from a trusted request boundary; do not populate it from AQL,
+YAML, or MCP input.
 
 ## Contract and implementation review
 

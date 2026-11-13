@@ -1208,9 +1208,19 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
     }
 }
 
-std::string LLMAQLHandler::executeRAG(const std::string &query, const std::string &collection, int top_k,
-                                      const std::string &lora_id,
-                                      const std::unordered_map<std::string, std::string> &options) {
+std::string LLMAQLHandler::executeRAG(
+    const std::string& query, const std::string& collection, int top_k,
+    const std::string& lora_id,
+    const std::unordered_map<std::string, std::string>& options) {
+    return executeRAG(query, collection, top_k, lora_id, options,
+                      rag::RetrievalExecutionContext{});
+}
+
+std::string LLMAQLHandler::executeRAG(
+    const std::string &query, const std::string &collection, int top_k,
+    const std::string &lora_id,
+    const std::unordered_map<std::string, std::string> &options,
+    const rag::RetrievalExecutionContext& request_context) {
     // --- Wave D D2: OTel span for the RAG pipeline ---
     THEMIS_LLM_TRACE_SCOPE("llm.rag");
     THEMIS_LLM_TRACE_EVENT("llm.rag.start",
@@ -1250,6 +1260,25 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     ? std::chrono::steady_clock::time_point::max()
                     : retrieval_started_at + retrieval_timeout);
         const auto collection_access_checker = impl_->collection_access_checker_;
+        if (!request_context.authorize_collection) {
+            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                               "RAG request authorization context is unavailable");
+        }
+        const auto authorize_collection =
+            [request_checker = request_context.authorize_collection,
+             collection_access_checker](const std::string& requested_collection) {
+                try {
+                    return request_checker(requested_collection) &&
+                        (!collection_access_checker ||
+                         collection_access_checker(requested_collection));
+                } catch (...) {
+                    return false;
+                }
+            };
+        if (!authorize_collection(collection)) {
+            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                               "RAG collection access denied");
+        }
 
         // Execute with timeout and cooperative cancellation propagated to retrieval
         // and streaming callbacks.
@@ -1262,12 +1291,6 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG retrieval engine not configured; call setQueryEngine()");
                     }
-                    if (collection_access_checker &&
-                        !collection_access_checker(collection)) {
-                        throw LLMException(LLMErrorCode::RAG_FAILED,
-                                           "RAG collection access denied");
-                    }
-
                     llm::RAGContext context;
                     context.query           = query;
                     context.collection_name = collection;
@@ -1291,10 +1314,11 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     rag::RetrievalRequest retrieval_request;
                     retrieval_request.query = std::move(vector_query);
                     retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
-                    rag::RetrievalExecutionContext execution_context;
-                    execution_context.cancelled = cancel_token;
-                    execution_context.deadline = retrieval_deadline;
-                    execution_context.authorize_collection = collection_access_checker;
+                    rag::RetrievalExecutionContext execution_context = request_context;
+                    execution_context.additional_cancellation_tokens.push_back(cancel_token);
+                    execution_context.deadline =
+                        std::min(request_context.deadline, retrieval_deadline);
+                    execution_context.authorize_collection = authorize_collection;
                     const rag::RAGProvider provider(*impl_->query_engine_);
                     auto evidence = provider.retrieve(retrieval_request, execution_context);
                     if (!evidence) {
@@ -1325,6 +1349,10 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     // Build inference request with RAG context
                     llm::InferenceRequest request;
                     request.prompt = query;
+                    request.tenant_id = request_context.tenant_id;
+                    request.trace_id = request_context.trace_id;
+                    request.span_id = request_context.span_id;
+                    request.cancellation_token = cancel_token;
 
                     // Set LoRA adapter if specified
                     if (!lora_id.empty()) {

@@ -88,14 +88,20 @@ wrappers.
   authorization or propagate caller identity to other consumers. The
   `AuthMiddleware::JWTConfig::tenant_claim` setting is propagated to JWT claim
   extraction (default `tenant_id`); this does not establish a collection grant.
-- `LLMAQLHandler::executeRAG()` uses its injected query engine and passes its
-  cancellation token, configured retrieval deadline, and configured
-  collection-check predicate to `RAGProvider`. A source-tree search finds no
-  production call site for `executeRAG()` that supplies trusted caller context;
-  the checks are cooperative and cannot interrupt a blocking backend operation.
-  The method's injection API is not evidence of live startup/request wiring.
-  Trace actual composition callers before claiming AQL is an integrated consumer.
-  The YAML/MCP boundary is similarly not implied by an orchestration API.
+- `LLMAQLHandler::executeRAG()` has a typed per-call
+  `RetrievalExecutionContext` overload. It requires a trusted collection
+  authorizer, and carries tenant, deadline, cancellation, and trace data through
+  the shared provider; its legacy overload fails closed. The cancellation and
+  deadline checks are cooperative and cannot interrupt a blocking backend
+  operation. A source-tree search still finds no production caller that supplies
+  the trusted context, so this API seam is not live AQL startup/request wiring.
+- The internal YAML-agentic `AIOrchestrator` path uses the shared typed provider,
+  now rejects missing collection authorization, and carries trusted tenant,
+  cancellation, and trace fields into inference. Tests cover its typed retrieval
+  and authorization behavior. MCP's current request boundary still has no
+  authenticated per-request context; retrieval-enabled MCP modes remain
+  intentionally fail-closed. Orchestration APIs alone do not prove production
+  startup or transport wiring.
 - `VectorIndexSinkAdapter` writes vector entities to `VectorIndexManager`.
   New writes also persist chunk text in the dedicated relational
   `ingestion_sources` collection keyed by the exact `VectorRecord::chunk_id`.

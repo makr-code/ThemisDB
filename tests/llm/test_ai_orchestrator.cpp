@@ -89,11 +89,19 @@ public:
                                   const InferenceRequest& request) override {
         ++rag_generation_calls;
         last_prompt = request.prompt;
+        last_tenant_id = request.tenant_id;
+        last_trace_id = request.trace_id;
+        last_span_id = request.span_id;
+        last_cancellation_token = request.cancellation_token;
         return EchoLLMPlugin::generateRAG(context, request);
     }
 
     int rag_generation_calls = 0;
     std::string last_prompt;
+    std::string last_tenant_id;
+    std::string last_trace_id;
+    std::string last_span_id;
+    std::shared_ptr<const std::atomic<bool>> last_cancellation_token;
 };
 
 class AgenticTypedRetrievalTest : public ::testing::Test {
@@ -1973,6 +1981,17 @@ modes:
     query.pk_eq = "doc-1";
     context.retrieval_request = themis::rag::RetrievalRequest{};
     context.retrieval_request->query = query;
+    context.extra["tenant"] = "tenant-from-untrusted-yaml";
+    context.retrieval_execution.tenant_id = "tenant-a";
+    context.retrieval_execution.trace_id = "0123456789abcdef0123456789abcdef";
+    context.retrieval_execution.span_id = "0123456789abcdef";
+    context.retrieval_execution.cancelled =
+        std::make_shared<std::atomic<bool>>(false);
+
+    const auto untrusted_only = orchestrator.run(context);
+    EXPECT_FALSE(untrusted_only.success);
+    EXPECT_EQ(plugin->rag_generation_calls, 0);
+
     context.retrieval_execution.authorize_collection =
         [](const std::string& collection) { return collection == "docs"; };
 
@@ -1981,6 +2000,11 @@ modes:
     EXPECT_EQ(result.metadata.retrieved_docs, 1u);
     EXPECT_EQ(plugin->rag_generation_calls, 1);
     EXPECT_NE(plugin->last_prompt.find("authorized agentic evidence"), std::string::npos);
+    EXPECT_EQ(plugin->last_tenant_id, "tenant-a");
+    EXPECT_EQ(plugin->last_trace_id, "0123456789abcdef0123456789abcdef");
+    EXPECT_EQ(plugin->last_span_id, "0123456789abcdef");
+    EXPECT_EQ(plugin->last_cancellation_token,
+              context.retrieval_execution.cancelled);
 
     context.retrieval_execution.authorize_collection =
         [](const std::string&) { return false; };

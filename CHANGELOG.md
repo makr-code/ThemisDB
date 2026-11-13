@@ -57,6 +57,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documented provider/consumer/helper ownership, migration, cooperative execution
   limits and the actual C-linkage/C++ plugin boundary.
 
+### Changed - Request-scoped RAG consumer context (partial)
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+- Added a typed per-call authorization/context overload for AQL RAG. The
+  source-compatible legacy overload now fails closed without trusted request
+  authorization; tenant, caller cancellation, deadline, and trace context are
+  carried through shared retrieval, while the handler timeout remains an
+  independent cancellation/deadline bound.
+- Internal YAML-agentic retrieval now requires a trusted collection authorizer
+  and forwards tenant, cancellation, and trace fields to inference. Untrusted
+  YAML metadata cannot grant access. MCP retrieval remains fail-closed because
+  its request boundary still does not supply authenticated caller context.
+- Public retrieval/inference request layouts changed; binary consumers must
+  rebuild. AQL production caller wiring and real HTTP/AQL/YAML evidence-parity
+  integration remain unverified and are not claimed complete.
+
 ### Core Provider/Consumer follow-up — partial (2026-11-11)
 
 - Added typed `RAGSourceReference` metadata, exact source-reference fields for

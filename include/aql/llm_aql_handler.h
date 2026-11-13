@@ -14,6 +14,7 @@
 // Forward-declare RocksDBWrapper to allow setStorage() without pulling in its header.
 namespace themis { class RocksDBWrapper; }
 namespace themis::query { class QueryEngine; }
+namespace themis::rag { struct RetrievalExecutionContext; }
 
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
@@ -196,6 +197,40 @@ public:
         const std::unordered_map<std::string, std::string>& options = {}
     );
 
+    /**
+     * @brief Execute RAG using only trusted per-request retrieval authorization.
+     * @param query User query; never interpreted as caller identity.
+     * @param collection Requested collection, checked against the supplied context.
+     * @param top_k Maximum number of evidence candidates to retrieve.
+     * @param lora_id Optional adapter identifier.
+     * @param options Retrieval/generation tuning values; never used as identity or ACL.
+     * @param execution_context Trusted caller tenant, authorization, deadline,
+     * cancellation, and trace context. An absent authorization callback denies access.
+     * @return Generated response grounded in authorized evidence.
+     * @throws LLMException with ACCESS_DENIED for absent or rejected authorization,
+     * or with the existing RAG error taxonomy for query, timeout, cancellation, or
+     * inference failures.
+     */
+    std::string executeRAG(
+        const std::string& query,
+        const std::string& collection,
+        int top_k,
+        const std::string& lora_id,
+        const std::unordered_map<std::string, std::string>& options,
+        const themis::rag::RetrievalExecutionContext& execution_context
+    );
+
+    /**
+     * @brief Execute RAG without request authorization; this overload fails closed.
+     * @param query User query.
+     * @param collection Requested collection.
+     * @param top_k Maximum number of evidence candidates to retrieve.
+     * @param lora_id Optional adapter identifier.
+     * @param options Retrieval/generation tuning values; never used as identity or ACL.
+     * @return Generated response when access is authorized; otherwise throws.
+     * @throws LLMException with ACCESS_DENIED because this overload has no trusted
+     * caller context.
+     */
     std::string executeRAG(
         const std::string& query,
         const std::string& collection,

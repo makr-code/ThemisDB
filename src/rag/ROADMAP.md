@@ -73,10 +73,12 @@ registration, persistent storage, external telemetry, or production readiness.
     unsupported type tag, a non-object binary root, trailing bytes appended
     after a valid binary object, and truncated required source text—fail with
     `ERR_STORAGE_CORRUPTION`. These tests have not been built or executed.
-  - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
-    token and configured retrieval deadline to `RAGProvider`. Both checks are
-    cooperative and cannot interrupt a blocking QueryEngine operation; the new
-    backend-delay regression test has not been run.
+  - `LLMAQLHandler::executeRAG()` now has a typed per-call
+    `RetrievalExecutionContext` overload. It requires a trusted request
+    authorizer, preserves caller tenant/deadline/cancellation/trace fields, and
+    combines the caller deadline/cancellation with the handler timeout. Its
+    legacy overload fails closed. These checks are cooperative and cannot
+    interrupt a blocking QueryEngine operation; the focused tests have not run.
   - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check,
     binds the request-local QueryEngine checker to the authorized collection,
     passes that boundary through the per-call retrieval context, and now
@@ -101,8 +103,12 @@ registration, persistent storage, external telemetry, or production readiness.
     entities; it also checks that an indexed tenant prefilter still returns the
     authorized document at top-1 when a foreign-tenant vector is nearer, and that
     a foreign relational entity is rejected during materialization. This test
-    remains unbuilt. AQL/YAML startup still does not populate the tenant field
-    from trusted server caller context. Adding the context field changes its
+    remains unbuilt. The YAML-capable `AIOrchestrator` now requires a request
+    authorizer for internal retrieval and forwards trusted tenant/cancel/trace
+    fields to inference; the typed orchestration test covers authorized and
+    absent-context behavior. No production AQL startup caller supplies the new
+    typed context, and MCP still has no authenticated per-request context
+    transport and remains fail-closed. Adding the context fields changes its
     binary layout; binary consumers need to rebuild. Tenant-scoped graph
     traversal now validates each visited vertex's materialized `tenant_id`
     before returning or expanding it; missing or mismatched tenant values return

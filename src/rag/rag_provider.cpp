@@ -15,7 +15,15 @@ namespace themis::rag {
 namespace {
 
 Result<void> checkExecution(const RetrievalExecutionContext& context) {
-    if (context.cancelled && context.cancelled->load(std::memory_order_acquire)) {
+    const bool primary_cancelled =
+        context.cancelled && context.cancelled->load(std::memory_order_acquire);
+    const bool additional_cancelled = std::any_of(
+        context.additional_cancellation_tokens.begin(),
+        context.additional_cancellation_tokens.end(),
+        [](const auto& token) {
+            return token && token->load(std::memory_order_acquire);
+        });
+    if (primary_cancelled || additional_cancelled) {
         return ErrVoid(errors::ErrorCode::ERR_QUERY_CANCELLED, "RAG retrieval cancelled");
     }
     if (std::chrono::steady_clock::now() >= context.deadline) {

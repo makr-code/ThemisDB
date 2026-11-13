@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-12"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,6 +38,26 @@ The ingestion sink's source row and vector entity must use the same RocksDB
 database as the retrieval `QueryEngine`. The source collection is an internal
 materialization target; authorization is inherited from the authorized vector
 collection request and is not caller-selectable.
+
+### Request execution context
+
+`rag::RetrievalExecutionContext` carries the trusted collection authorizer,
+tenant scope, cooperative deadline, one or more observed cancellation signals,
+and optional validated trace/span identifiers. The provider checks both
+cancellation signals before and between materialization operations; a blocking
+QueryEngine call itself is not interruptible. The HTTP route constructs this
+context from its authenticated request. YAML or tool arguments must not supply
+authorization, tenant identity, or ACLs.
+
+The AQL RAG consumer now accepts this context per call and denies requests that
+omit the authorizer. The orchestrator's internal retrieval path also requires
+the authorizer and forwards tenant, cancellation, and trace identifiers to the
+inference request. MCP retrieval remains fail-closed because its current request
+boundary does not provide trusted caller context. These API seams do not by
+themselves establish production startup wiring for AQL or MCP.
+
+The context struct and `InferenceRequest::cancellation_token` public types changed
+in this update; binary consumers should rebuild.
 
 ### `themis::rag::HybridRetriever`
 

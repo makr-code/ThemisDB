@@ -199,14 +199,14 @@ struct InferenceRequest {
     // inference results across tenant boundaries.
     std::string tenant_id;
 
-    // Per-request cancellation token.
-    // The caller creates a shared atomic<bool> initialised to false and passes
-    // it here.  The inference path checks this flag before starting (and, where
-    // the underlying engine supports it, during) generation.  When the flag is
-    // set to true the generate() call returns an error response with
-    // success=false and error_message="Request cancelled".
+    // Per-request cancellation token. The caller creates a shared atomic<bool>
+    // initialised to false; consumers may inspect it but must not mutate it.
+    // The inference path checks this flag before starting (and, where the
+    // underlying engine supports it, during) generation. When set to true,
+    // generate() returns an error response with success=false and
+    // error_message="Request cancelled".
     // When nullptr (the default) no cancellation is active.
-    std::shared_ptr<std::atomic<bool>> cancellation_token;
+    std::shared_ptr<const std::atomic<bool>> cancellation_token;
 };
 
 struct InferenceResponse {

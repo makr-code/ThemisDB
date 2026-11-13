@@ -961,8 +961,14 @@ TEST_F(RAGProviderTest, RejectsPrimaryKeyQueriesThatWouldIgnoreHardPredicates) {
 
 TEST_F(RAGProviderTest, HonorsCancellationAndExpiredDeadlines) {
     rag::RetrievalExecutionContext context;
-    context.cancelled = std::make_shared<std::atomic<bool>>(true);
+    context.additional_cancellation_tokens.push_back(
+        std::make_shared<std::atomic<bool>>(true));
     auto result = provider_->retrieve({}, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    context.additional_cancellation_tokens.clear();
+    context.cancelled = std::make_shared<std::atomic<bool>>(true);
+    result = provider_->retrieve({}, context);
     ASSERT_FALSE(result);
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
     context.cancelled.reset();

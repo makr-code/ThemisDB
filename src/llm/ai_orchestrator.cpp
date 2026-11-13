@@ -945,6 +945,10 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
     InferenceRequest req;
     req.model_id    = mode.model_id;
     req.request_id  = ctx.request_id;
+    req.tenant_id   = ctx.retrieval_execution.tenant_id;
+    req.trace_id    = ctx.retrieval_execution.trace_id;
+    req.span_id     = ctx.retrieval_execution.span_id;
+    req.cancellation_token = ctx.retrieval_execution.cancelled;
     req.max_tokens  = ctx.max_tokens.value_or(mode.budgets.max_tokens);
     req.temperature = ctx.temperature.value_or(mode.budgets.temperature);
     req.top_p       = mode.budgets.top_p;
@@ -1187,6 +1191,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     if (internal_retrieval) {
         if (!query_engine) {
             throw std::runtime_error("RAG retrieval engine not configured for typed request");
+        }
+        if (!ctx.retrieval_execution.authorize_collection) {
+            throw std::runtime_error("RAG retrieval authorization context is unavailable");
         }
         rag::RetrievalRequest retrieval_request;
         if (ctx.retrieval_request) {

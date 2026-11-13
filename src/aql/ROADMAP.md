@@ -12,6 +12,8 @@ Human_Author: "ThemisDB Team"
 
 Exact model backend not verifiable from final document text alone.
 
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -40,6 +42,13 @@ include mock implementations, and the module research review found no
 versioned, held-out natural-language-to-AQL quality corpus. These facts prevent
 the historical microbenchmark numbers or test-file counts from establishing
 production accuracy, end-to-end provider latency, or release readiness.
+
+The RAG consumer now exposes a request-scoped typed retrieval-context overload
+and denies retrieval when no trusted collection authorizer is supplied. The
+legacy overload is source-compatible but fails closed. Source inspection still
+finds no production caller that supplies authenticated tenant/policy context;
+the host startup/request integration and focused real-backend validation remain
+open.
 
 This section is the active forward plan. Dated completion reports below are
 historical unless corroborated by current source and reproducible test or
