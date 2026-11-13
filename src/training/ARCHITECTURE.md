@@ -8,6 +8,16 @@ AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ROADMAP.md"
+  - "FUTURE_ENHANCEMENTS.md"
+  - "../../include/training/adalora_training_pipeline.h"
+  - "../../include/training/ada_lora_adapter.h"
+  - "../../include/training/lora_data_selection.h"
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -17,11 +27,11 @@ Exact model backend not verifiable from final document text alone.
 <!-- Status: current | source paths and dataflow reviewed: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Overview
+## Kontext
 
 The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA training lifecycle behavior, checkpoint/provenance handling, and training-pipeline orchestration into a bounded subsystem.
 
-## Main Execution Planes
+## Komponenten
 
 1. Dataset preparation plane
 - auto-labeling, domain labeling, modality parsing, and graph enrichment behavior
@@ -32,7 +42,7 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 3. Governance and orchestration plane
 - provenance tracking, data selection, and end-to-end training pipeline behavior
 
-## Training Data Paths
+## Datenfluss
 
 - Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
 - DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads bounded, validated samples from that collection; `TrainingDataIterator` executes AQL and yields batches.
@@ -47,7 +57,7 @@ before use. The docs.db adapter is not a docs-specific trainer; it only translat
 the repository's RocksDB record format. Cryptographic signing of trained artifacts
 is not implemented by this path and remains a deployment gate.
 
-## Core Contracts
+## Schnittstellen
 
 ### Role in the native database/LLM hybrid (design target; 2026-11-13)
 
@@ -102,12 +112,42 @@ not evidence of direct TT execution or adapter-switch latency. See
 | adapter contract | bounded adapter merge and serving-handoff behavior |
 | governance contract | explicit provenance and selection lifecycle behavior |
 
-## Failure Semantics
+## Fehlerpfade und Resilienz
 
 - invalid training or labeling inputs surface explicit failures.
 - checkpoint and adapter lifecycle faults remain diagnosable and non-silent.
 - enrichment and provenance failures remain observable.
 - capability-gated GPU paths degrade explicitly by runtime configuration.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Provider as ITrainingSampleProvider
+    participant Pipeline as AdaLoRATrainingPipeline
+    participant Model as Frozen base model
+    participant Artifact as Checkpoint / GGUF export
+    Provider-->>Pipeline: bounded TrainingSampleRecord batches
+    Pipeline->>Pipeline: tokenize and prepare batches
+    Pipeline->>Model: frozen-model forward pass
+    Model-->>Pipeline: hidden states / logits
+    Pipeline->>Pipeline: apply AdaLoRA updates
+    Pipeline->>Artifact: checkpoint and export
+    Artifact-->>Pipeline: output status
+```
+
+**Kurzinterpretation:** This is the provider-based AdaLoRA path described for
+`trainFromProvider()`. It does not imply full-model training, signed artifact
+promotion, or that every training input uses this provider interface.
+
+## Nicht-Ziele
+
+- The current native pipeline does not establish full-transformer or arbitrary
+  layer training; it targets block-sharded `output.weight`.
+- This module path does not cryptographically sign trained artifacts or enforce
+  caller authorization for training data.
+- Successful adapter loading is not a measured quality gate or proof of
+  concurrent multi-adapter composition.
 
 ## Sourcecode Verification (Module: training/architecture)
 
@@ -153,6 +193,16 @@ not evidence of direct TT execution or adapter-switch latency. See
 **Files:** `src/rag/continuous_learning_orchestrator.cpp` ↔ `include/training/lora_data_selection.h`
 **Contract:** The RAG continuous-learning orchestrator owns and calls `DataSelectionPipeline` to select candidate samples before retraining. This is separate from `TrainingPipeline`'s selection stage: the latter passes selected IDs to `trainSelected()`, but its DB-backed trainer limits query results before filtering those results by selected ID. It therefore does not guarantee that the exact selected set is trained.
 **Thread Safety:** Ownership and synchronization are defined by the RAG orchestrator and training selection interfaces; do not assume there is no shared mutable state without checking those contracts.
+
+## Verweise
+
+- [Module README](README.md) · [Module roadmap](ROADMAP.md) ·
+  [Future enhancements](FUTURE_ENHANCEMENTS.md) · [API contract](API.md)
+- [`adalora_training_pipeline.h`](../../include/training/adalora_training_pipeline.h) ·
+  [`ada_lora_adapter.h`](../../include/training/ada_lora_adapter.h) ·
+  [`lora_data_selection.h`](../../include/training/lora_data_selection.h)
+- Implementation and test references are listed in the source verification and
+  integration sections above.
 
 ## Planning Traceability
 
