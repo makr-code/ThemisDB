@@ -93,6 +93,9 @@ public:
         last_trace_id = request.trace_id;
         last_span_id = request.span_id;
         last_cancellation_token = request.cancellation_token;
+        last_additional_cancellation_tokens =
+            request.additional_cancellation_tokens;
+        last_deadline = request.deadline;
         return EchoLLMPlugin::generateRAG(context, request);
     }
 
@@ -102,6 +105,9 @@ public:
     std::string last_trace_id;
     std::string last_span_id;
     std::shared_ptr<const std::atomic<bool>> last_cancellation_token;
+    std::vector<std::shared_ptr<const std::atomic<bool>>>
+        last_additional_cancellation_tokens;
+    std::chrono::steady_clock::time_point last_deadline;
 };
 
 class AgenticTypedRetrievalTest : public ::testing::Test {
@@ -1988,6 +1994,12 @@ modes:
     context.retrieval_execution.span_id = "0123456789abcdef";
     context.retrieval_execution.cancelled =
         std::make_shared<std::atomic<bool>>(false);
+    const auto additional_cancellation =
+        std::make_shared<std::atomic<bool>>(false);
+    context.retrieval_execution.additional_cancellation_tokens.push_back(
+        additional_cancellation);
+    context.retrieval_execution.deadline =
+        std::chrono::steady_clock::now() + std::chrono::seconds(10);
 
     const auto untrusted_only = orchestrator.run(context);
     EXPECT_FALSE(untrusted_only.success);
@@ -2006,6 +2018,10 @@ modes:
     EXPECT_EQ(plugin->last_span_id, "0123456789abcdef");
     EXPECT_EQ(plugin->last_cancellation_token,
               context.retrieval_execution.cancelled);
+    ASSERT_EQ(plugin->last_additional_cancellation_tokens.size(), 1u);
+    EXPECT_EQ(plugin->last_additional_cancellation_tokens.front(),
+              additional_cancellation);
+    EXPECT_LE(plugin->last_deadline, context.retrieval_execution.deadline);
 
     context.retrieval_execution.authorize_collection =
         [](const std::string&) { return false; };

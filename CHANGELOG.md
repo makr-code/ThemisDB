@@ -67,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   independent cancellation/deadline bound. Access denials do not count as RAG
   circuit-breaker failures.
 - Internal YAML-agentic retrieval now requires a trusted collection authorizer
-  and forwards tenant, cancellation, and trace fields to inference. Untrusted
+  and forwards tenant, deadline, cancellation, and trace fields to inference. Untrusted
   YAML metadata cannot grant access. MCP retrieval remains fail-closed because
   its request boundary still does not supply authenticated caller context.
 - Public retrieval/inference request layouts changed; binary consumers must

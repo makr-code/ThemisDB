@@ -17,6 +17,7 @@
 #include "plugins/plugin_interface.h"
 
 #include <cstdint>
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <atomic>
@@ -150,6 +151,9 @@ struct InferenceRequest {
     //                         span_id  is 16 hex chars (64-bit).
     std::string trace_id;        ///< W3C traceparent trace-id (128-bit hex, 32 chars)
     std::string span_id;         ///< W3C traceparent parent-id (64-bit hex, 16 chars)
+    /// Absolute cooperative deadline; plugins check it before starting inference.
+    std::chrono::steady_clock::time_point deadline =
+        std::chrono::steady_clock::time_point::max();
     
     // Generation parameters
     int max_tokens = 512;
@@ -207,6 +211,33 @@ struct InferenceRequest {
     // error_message="Request cancelled".
     // When nullptr (the default) no cancellation is active.
     std::shared_ptr<const std::atomic<bool>> cancellation_token;
+    /// Additional independently owned request cancellation signals.
+    std::vector<std::shared_ptr<const std::atomic<bool>>> additional_cancellation_tokens;
+
+    /**
+     * @brief Check whether the caller has requested cancellation.
+     * @return True when any configured cancellation signal is set.
+     */
+    [[nodiscard]] bool isCancellationRequested() const noexcept {
+        if (cancellation_token &&
+            cancellation_token->load(std::memory_order_acquire)) {
+            return true;
+        }
+        for (const auto& token : additional_cancellation_tokens) {
+            if (token && token->load(std::memory_order_acquire)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @brief Check whether the cooperative inference deadline has elapsed.
+     * @return True when the current steady-clock time is at or beyond deadline.
+     */
+    [[nodiscard]] bool isDeadlineExceeded() const noexcept {
+        return std::chrono::steady_clock::now() >= deadline;
+    }
 };
 
 struct InferenceResponse {

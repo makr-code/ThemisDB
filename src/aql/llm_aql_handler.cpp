@@ -1352,7 +1352,15 @@ std::string LLMAQLHandler::executeRAG(
                     request.tenant_id = request_context.tenant_id;
                     request.trace_id = request_context.trace_id;
                     request.span_id = request_context.span_id;
+                    request.deadline =
+                        std::min(request_context.deadline, retrieval_deadline);
                     request.cancellation_token = cancel_token;
+                    request.additional_cancellation_tokens =
+                        request_context.additional_cancellation_tokens;
+                    if (request_context.cancelled) {
+                        request.additional_cancellation_tokens.push_back(
+                            request_context.cancelled);
+                    }
 
                     // Set LoRA adapter if specified
                     if (!lora_id.empty()) {

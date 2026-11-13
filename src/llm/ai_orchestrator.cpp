@@ -892,31 +892,41 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
 
     spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id,ctx.query.size());
 
+    OrchestratorContext request_context = ctx;
+    if (mode.retrieval.enabled) {
+        const auto started_at = std::chrono::steady_clock::now();
+        const auto mode_deadline = mode.budgets.timeout_ms > 0
+            ? started_at + std::chrono::milliseconds(mode.budgets.timeout_ms)
+            : started_at;
+        request_context.retrieval_execution.deadline = std::min(
+            request_context.retrieval_execution.deadline, mode_deadline);
+    }
+
     OrchestratorResult result;
     try {
         switch (mode.mode_id) {
             case ModeId::Ask:
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
             case ModeId::Edit:
                 // Edit mode uses the same pipeline as Ask with a different system prompt
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
             case ModeId::Rag:
-                result = runRag(ctx, mode);
+                result = runRag(request_context, mode);
                 break;
             case ModeId::Agentic:
-                result = runAgentic(ctx, mode);
+                result = runAgentic(request_context, mode);
                 break;
             case ModeId::MultiAgent:
-                result = runMultiAgent(ctx, mode);
+                result = runMultiAgent(request_context, mode);
                 break;
             case ModeId::Ethics:
-                result = runEthics(ctx, mode);
+                result = runEthics(request_context, mode);
                 break;
             default:
                 // Custom mode: default to ask pipeline
-                result = runAsk(ctx, mode);
+                result = runAsk(request_context, mode);
                 break;
         }
     } catch (const std::exception& e) {
@@ -948,7 +958,10 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
     req.tenant_id   = ctx.retrieval_execution.tenant_id;
     req.trace_id    = ctx.retrieval_execution.trace_id;
     req.span_id     = ctx.retrieval_execution.span_id;
+    req.deadline    = ctx.retrieval_execution.deadline;
     req.cancellation_token = ctx.retrieval_execution.cancelled;
+    req.additional_cancellation_tokens =
+        ctx.retrieval_execution.additional_cancellation_tokens;
     req.max_tokens  = ctx.max_tokens.value_or(mode.budgets.max_tokens);
     req.temperature = ctx.temperature.value_or(mode.budgets.temperature);
     req.top_p       = mode.budgets.top_p;

@@ -31,7 +31,10 @@ The canonical public interfaces are defined in:
 from trusted caller context. `trace_id` and `span_id` are optional validated
 trace identifiers. The cancellation token is a shared read-only signal to the
 inference consumer; the caller owns the mutable atomic and may set it to request
-cancellation. YAML, tool arguments, and prompt text are not identity sources.
+cancellation; additional signals may be supplied independently. A finite
+deadline and cancellation are checked by the llama.cpp plugin before model
+execution, but they do not interrupt a blocking generation already in progress.
+YAML, tool arguments, and prompt text are not identity sources.
 The YAML-capable `AIOrchestrator` maps its trusted retrieval execution context
 to these fields for RAG generation.
 

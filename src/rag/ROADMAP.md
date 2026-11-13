@@ -104,8 +104,8 @@ registration, persistent storage, external telemetry, or production readiness.
     authorized document at top-1 when a foreign-tenant vector is nearer, and that
     a foreign relational entity is rejected during materialization. This test
     remains unbuilt. The YAML-capable `AIOrchestrator` now requires a request
-    authorizer for internal retrieval and forwards trusted tenant/cancel/trace
-    fields to inference; the typed orchestration test covers authorized and
+    authorizer for internal retrieval and forwards trusted tenant, deadline,
+    cancel, and trace fields to inference; the typed orchestration test covers authorized and
     absent-context behavior. No production AQL startup caller supplies the new
     typed context, and MCP still has no authenticated per-request context
     transport and remains fail-closed. Adding the context fields changes its

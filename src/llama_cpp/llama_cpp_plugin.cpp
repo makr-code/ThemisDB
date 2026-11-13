@@ -299,9 +299,16 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         return response;
     }
 
-    // Per-request cancellation check: reject before starting inference.
-    if (request.cancellation_token &&
-        request.cancellation_token->load(std::memory_order_acquire)) {
+    // Per-request deadline and cancellation checks run before model execution.
+    if (request.isDeadlineExceeded()) {
+        ++error_count_;
+        response.success       = false;
+        response.error_message = "Request deadline exceeded";
+        response.trace_id      = request.trace_id;
+        response.span_id       = request.span_id;
+        return response;
+    }
+    if (request.isCancellationRequested()) {
         ++error_count_;
         response.success       = false;
         response.error_message = "Request cancelled";
