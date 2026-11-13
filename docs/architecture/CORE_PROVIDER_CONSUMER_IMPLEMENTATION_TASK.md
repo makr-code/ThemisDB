@@ -99,7 +99,9 @@ wrappers.
   valid W3C trace propagation and deadline-to-504 mapping; tests remain unbuilt and
   unrun. Cancellation and
   deadline checks are cooperative and cannot interrupt a blocking backend
-  operation. This route does not wire general `/query/aql` execution, and
+  operation. Timeout errors are not retried; timed-out workers retain their
+  QueryEngine dependencies, and shutdown defers vector-index shutdown/RocksDB
+  close if a worker outlives the drain window. This route does not wire general `/query/aql` execution, and
   cross-consumer evidence parity remains unverified.
 - The internal YAML-agentic `AIOrchestrator` path uses the shared typed provider,
   now rejects missing collection authorization, and carries trusted tenant,

@@ -84,8 +84,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and LoRA selection are not accepted as authorization inputs.
 - Bounded generation/retrieval options and mapped cooperative retrieval deadline
   expiry to HTTP 504. Timeout cleanup can outlive the response; the AQL worker
-  owns copied request inputs and the route keeps its handler alive until the
-  worker finishes. This does not interrupt blocked backend calls.
+  owns copied request inputs and retains its handler and QueryEngine dependencies
+  until the worker finishes. Server shutdown drains these workers and defers
+  vector-index shutdown/RocksDB close if they outlive the drain window. Retrieval
+  timeout errors are not retried. This does not interrupt blocked backend calls.
 - Added network-level regression source for tenant isolation, untrusted tenant
   input, exact collection policy, trace propagation, and deadline response
   mapping. Build and test evidence is pending; this does not establish

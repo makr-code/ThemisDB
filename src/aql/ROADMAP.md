@@ -48,12 +48,15 @@ and denies retrieval when no trusted collection authorizer is supplied. The
 legacy overload is source-compatible but fails closed. `HttpServer` now exposes
 `POST /api/v1/llm/aql/rag`, composing `LLMAQLHandler::executeRAG()` over the
 server's live storage/index managers and supplying tenant and exact-collection
-authorization from successful HTTP access checks. Focused server-test source
-covers tenant isolation, hostile tenant input, exact collection policy, and
-deadline-to-504 mapping; these tests have not been built or run. This route is
-not the generic `/query/aql` path, and evidence parity against direct HTTP and
-YAML-agentic consumers, startup tests, and executable integration evidence remain
-open.
+authorization from successful HTTP access checks. Valid W3C trace context is
+propagated; timeout errors are not retried. Timed-out workers retain their
+handler and non-owning QueryEngine dependencies, and shutdown defers vector-index
+shutdown/RocksDB close if a worker outlives the drain window. Focused
+server-test source covers tenant isolation, hostile tenant input, exact
+collection policy, trace propagation, and deadline-to-504 mapping; these tests
+have not been built or run. This route is not the generic `/query/aql` path, and
+evidence parity against direct HTTP and YAML-agentic consumers, startup tests,
+and executable integration evidence remain open.
 
 This section is the active forward plan. Dated completion reports below are
 historical unless corroborated by current source and reproducible test or

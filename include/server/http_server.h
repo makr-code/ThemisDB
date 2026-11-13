@@ -1906,6 +1906,10 @@ private:
     std::atomic<uint64_t> request_count_{0};
     std::atomic<uint64_t> error_count_{0};
     std::atomic<uint64_t> active_requests_{0}; // In-flight request counter for graceful shutdown
+    std::shared_ptr<std::atomic<uint64_t>> active_rag_workers_ =
+        std::make_shared<std::atomic<uint64_t>>(0);
+    struct RagResourceLifetimeState;
+    std::shared_ptr<RagResourceLifetimeState> rag_resource_lifetime_state_;
     std::atomic<uint64_t> active_connections_{0}; // Open TCP connections
     std::chrono::steady_clock::time_point start_time_;
 

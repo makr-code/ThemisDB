@@ -88,7 +88,12 @@ execution. Host authorization must be created from a trusted request boundary;
 do not populate it from AQL, YAML, or MCP input. Deadline checks remain
 cooperative and cannot interrupt blocking backend calls. Timeout cleanup can
 outlive the request thread; the worker owns its copied inputs, and the HTTP route
-retains the handler through its copied request context until cleanup completes.
+retains the handler and the non-owning QueryEngine dependencies through its
+copied request context until cleanup completes. Shutdown drains these workers;
+if a worker remains blocked past the drain window, vector-index shutdown and
+RocksDB close are deferred until its retained resource owners are released.
+RAG timeout errors are not retried, avoiding repeated embedding after the
+request deadline has expired.
 Valid W3C `traceparent` fields are propagated; malformed or absent trace context
 is ignored. Focused policy/tenant/trace/deadline test source exists, but build
 and execution evidence is pending.

@@ -245,6 +245,151 @@ using json = nlohmann::json;
 namespace themis {
 namespace server {
 
+namespace {
+
+void shutdownQueryResources(
+    const std::shared_ptr<VectorIndexManager>& vector_index,
+    const std::shared_ptr<RocksDBWrapper>& storage) noexcept {
+    if (vector_index) {
+        try {
+            const auto status = vector_index->shutdown();
+            if (!status.ok) {
+                THEMIS_WARN("Vector index shutdown reported failure: {}",
+                            status.message);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Vector index shutdown failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Vector index shutdown failed: unknown exception");
+        }
+    }
+    if (storage) {
+        try {
+            storage->close();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("RocksDB close failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("RocksDB close failed: unknown exception");
+        }
+    }
+}
+
+} // namespace
+
+struct HttpServer::RagResourceLifetimeState
+    : std::enable_shared_from_this<HttpServer::RagResourceLifetimeState> {
+    struct Lease {
+        explicit Lease(std::shared_ptr<RagResourceLifetimeState> state_in)
+            : state(std::move(state_in)) {}
+
+        ~Lease() {
+            if (registered) {
+                state->release();
+            }
+        }
+
+        std::shared_ptr<RagResourceLifetimeState> state;
+        bool registered = false;
+    };
+
+    RagResourceLifetimeState(
+        std::shared_ptr<RocksDBWrapper> storage_in,
+        std::shared_ptr<SecondaryIndexManager> secondary_index_in,
+        std::shared_ptr<GraphIndexManager> graph_index_in,
+        std::shared_ptr<VectorIndexManager> vector_index_in,
+        std::shared_ptr<index::SpatialIndexManager> spatial_index_in)
+        : storage(std::move(storage_in)),
+          secondary_index(std::move(secondary_index_in)),
+          graph_index(std::move(graph_index_in)),
+          vector_index(std::move(vector_index_in)),
+          spatial_index(std::move(spatial_index_in)) {}
+
+    std::shared_ptr<void> acquire() {
+        auto lease = std::make_shared<Lease>(shared_from_this());
+        std::lock_guard<std::mutex> lock(mutex);
+        if (shutdown_requested) {
+            return {};
+        }
+        ++active_users;
+        lease->registered = true;
+        return lease;
+    }
+
+    void requestShutdown() {
+        std::lock_guard<std::mutex> lock(mutex);
+        shutdown_requested = true;
+    }
+
+    void shutdownWhenIdle() {
+        std::shared_ptr<VectorIndexManager> vector_index_to_shutdown;
+        std::shared_ptr<RocksDBWrapper> storage_to_close;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            shutdown_requested = true;
+            shutdown_ready = true;
+            if (active_users != 0 || shutdown_started) {
+                return;
+            }
+            shutdown_started = true;
+            vector_index_to_shutdown = vector_index;
+            storage_to_close = storage;
+        }
+        shutdownQueryResources(vector_index_to_shutdown, storage_to_close);
+    }
+
+private:
+    void release() {
+        std::shared_ptr<VectorIndexManager> vector_index_to_shutdown;
+        std::shared_ptr<RocksDBWrapper> storage_to_close;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            if (active_users == 0) {
+                return;
+            }
+            --active_users;
+            if (active_users != 0 || !shutdown_requested || !shutdown_ready ||
+                shutdown_started) {
+                return;
+            }
+            shutdown_started = true;
+            vector_index_to_shutdown = vector_index;
+            storage_to_close = storage;
+        }
+        shutdownQueryResources(vector_index_to_shutdown, storage_to_close);
+    }
+
+    std::mutex mutex;
+    size_t active_users = 0;
+    bool shutdown_requested = false;
+    bool shutdown_ready = false;
+    bool shutdown_started = false;
+    std::shared_ptr<RocksDBWrapper> storage;
+    std::shared_ptr<SecondaryIndexManager> secondary_index;
+    std::shared_ptr<GraphIndexManager> graph_index;
+    std::shared_ptr<VectorIndexManager> vector_index;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index;
+};
+
+namespace {
+
+struct RagWorkerResourceLease {
+    std::shared_ptr<std::atomic<uint64_t>> active_workers;
+    std::shared_ptr<void> resource_lifetime;
+
+    RagWorkerResourceLease(std::shared_ptr<std::atomic<uint64_t>> active_workers_in,
+                           std::shared_ptr<void> resource_lifetime_in)
+        : active_workers(std::move(active_workers_in)),
+          resource_lifetime(std::move(resource_lifetime_in)) {
+        active_workers->fetch_add(1, std::memory_order_acq_rel);
+    }
+
+    ~RagWorkerResourceLease() {
+        active_workers->fetch_sub(1, std::memory_order_acq_rel);
+    }
+};
+
+} // namespace
+
 // ============================================================================
 // HttpServer Implementation
 // ============================================================================
@@ -352,6 +497,10 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Spatial Index Manager: {}", e.what());
         // Non-fatal: geo features will be disabled
     }
+    rag_resource_lifetime_state_ =
+        std::make_shared<RagResourceLifetimeState>(
+            storage_, secondary_index_, graph_index_, vector_index_,
+            spatial_index_);
 
     // Initialize Security Signature Manager (content integrity & file verification)
     try {
@@ -2509,6 +2658,9 @@ void HttpServer::stop() {
     THEMIS_INFO("Stopping HTTP Server...");
     THEMIS_INFO("Initiating graceful shutdown...");
     running_ = false;
+    if (rag_resource_lifetime_state_) {
+        rag_resource_lifetime_state_->requestShutdown();
+    }
 
     if (workload_optimizer_ && workload_optimizer_->is_auto_adapt_enabled()) {
         workload_optimizer_->disable_auto_adapt();
@@ -2552,7 +2704,8 @@ void HttpServer::stop() {
             config_.graceful_shutdown_timeout_ms,
             themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs,
             [this]() -> uint64_t {
-                return active_requests_.load(std::memory_order_acquire);
+                return active_requests_.load(std::memory_order_acquire) +
+                       active_rag_workers_->load(std::memory_order_acquire);
             },
             // Do not stop the entire io_context from the drain phase.  That can
             // abort in-flight async handlers while request teardown is still using
@@ -2569,6 +2722,14 @@ void HttpServer::stop() {
             THEMIS_WARN("Shutdown forced: {} request(s) still in flight after "
                         "force-close phase", forced);
         }
+    }
+    const auto active_rag_workers =
+        active_rag_workers_->load(std::memory_order_acquire);
+    if (active_requests_.load(std::memory_order_acquire) != 0 ||
+        active_rag_workers != 0) {
+        THEMIS_WARN("Request or RAG worker(s) still active after shutdown drain; "
+                    "deferring vector-index and RocksDB shutdown until all "
+                    "request resource leases are released");
     }
 
     // Flush and cleanup Sprint A/B features
@@ -2611,35 +2772,6 @@ void HttpServer::stop() {
     execution_thread_pool_.reset();
 #endif  // THEMIS_EXECUTION_MODULE
 
-    // Vector index auto-save
-    if (vector_index_) {
-        THEMIS_INFO("Saving vector index (if auto-save enabled)...");
-        try {
-            const auto status = vector_index_->shutdown();
-            if (!status.ok) {
-                THEMIS_WARN("Vector index shutdown reported failure: {}", status.message);
-            }
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Error shutting down vector index: {}", e.what());
-        } catch (...) {
-            THEMIS_ERROR("Error shutting down vector index: unknown exception");
-        }
-    }
-    
-    // Flush RocksDB WAL and memtables
-    if (storage_) {
-        THEMIS_INFO("Flushing RocksDB memtables...");
-        try {
-            // RocksDB will flush on close, but we can trigger it explicitly.
-            storage_->close(); // This flushes and closes cleanly
-            THEMIS_INFO("RocksDB closed cleanly");
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Error closing RocksDB: {}", e.what());
-        } catch (...) {
-            THEMIS_ERROR("Error closing RocksDB: unknown exception");
-        }
-    }
-
     // Shut down the SSE manager before the io_context so that its internal
     // poll_timer_ is cancelled and reset while the executor is still alive.
     // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
@@ -2649,6 +2781,10 @@ void HttpServer::stop() {
         sse_manager_->shutdown();
     }
 #endif
+
+    if (rag_resource_lifetime_state_) {
+        rag_resource_lifetime_state_->shutdownWhenIdle();
+    }
 
     // Stop io_context
     ioc_.stop();
@@ -4858,6 +4994,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         std::atomic<uint64_t>& counter;
         ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
     } active_guard{active_requests_};
+    auto request_resource_lifetime =
+        rag_resource_lifetime_state_
+            ? rag_resource_lifetime_state_->acquire()
+            : std::shared_ptr<void>{};
+    if (!request_resource_lifetime) {
+        auto response = makeErrorResponse(
+            http::status::service_unavailable,
+            "HTTP server is shutting down", req);
+        applyGovernanceHeaders(req, response);
+        return response;
+    }
 
     // Handle CORS preflight early
     if (method == http::verb::options) {
@@ -5575,6 +5722,20 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
 
                 if (path_only == "/api/v1/llm/aql/rag" && method == http::verb::post) {
+                    auto worker_resource_lifetime =
+                        rag_resource_lifetime_state_->acquire();
+                    if (!worker_resource_lifetime) {
+                        auto response = makeErrorResponse(
+                            http::status::service_unavailable,
+                            "AQL RAG retrieval is shutting down", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+                    auto worker_lifetime =
+                        std::make_shared<RagWorkerResourceLease>(
+                            active_rag_workers_,
+                            std::move(worker_resource_lifetime));
+
                     json payload;
                     try {
                         payload = json::parse(req.body());
@@ -5699,13 +5860,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                         auto aql_handler =
                             std::make_shared<themis::aql::LLMAQLHandler>();
                         aql_handler->setQueryEngine(std::move(query_engine));
-                        // Timeout cleanup can outlive this route; retain the handler
-                        // in the copied context until its worker finishes.
+                        // Timeout cleanup can outlive this route; retain the
+                        // handler and its non-owning QueryEngine dependencies.
                         execution_context.authorize_collection =
                             [authorized_collection = collection,
-                             handler_lifetime = aql_handler](
+                             handler_lifetime = aql_handler,
+                             worker_lifetime = std::move(worker_lifetime)](
                                 const std::string& requested_collection) {
                                 return handler_lifetime &&
+                                       worker_lifetime &&
                                        requested_collection == authorized_collection;
                             };
                         const auto text = aql_handler->executeRAG(

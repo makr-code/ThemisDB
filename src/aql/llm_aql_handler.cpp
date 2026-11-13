@@ -1409,7 +1409,13 @@ std::string LLMAQLHandler::executeRAG(
                     }
                     return response.text;
                 },
-                RetryPolicy::isRetryableError);
+                [](const std::exception& error) {
+                    const auto* llm_error =
+                        dynamic_cast<const LLMException*>(&error);
+                    return !llm_error ||
+                           (llm_error->getErrorCode() != LLMErrorCode::TIMEOUT &&
+                            RetryPolicy::isRetryableError(error));
+                });
         });
 
         auto end_time = std::chrono::steady_clock::now();

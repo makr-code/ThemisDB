@@ -105,13 +105,18 @@ registration, persistent storage, external telemetry, or production readiness.
     a foreign relational entity is rejected during materialization. This test
     remains unbuilt. The YAML-capable `AIOrchestrator` now requires a request
     authorizer for internal retrieval and forwards trusted tenant, deadline,
-    cancel, and trace fields to inference; the typed orchestration test covers authorized and
-    absent-context behavior.     An authenticated `POST /api/v1/llm/aql/rag` route now calls the typed AQL
-    RAG operation using server-owned storage/index managers and derives tenant
-    context from successful authorization; its policy, tenant-isolation, and
-    deadline regression source is present but unrun. Generic `/query/aql` startup
-    wiring and HTTP/AQL/YAML evidence parity remain unverified. MCP still has no
-    authenticated per-request context transport and remains fail-closed. Adding the context fields changes its
+    cancel, and trace fields to inference; the typed orchestration test covers
+    authorized and absent-context behavior. An authenticated
+    `POST /api/v1/llm/aql/rag` route now calls the typed AQL RAG operation using
+    server-owned storage/index managers and derives tenant context from
+    successful authorization. It propagates valid W3C trace context, does not
+    retry timed-out retrievals, and retains QueryEngine dependencies until
+    timeout cleanup finishes; shutdown defers vector-index shutdown/RocksDB close
+    if the worker remains active after the drain window. Policy, tenant,
+    trace, and deadline regression source is present but unrun. Generic
+    `/query/aql` startup wiring and HTTP/AQL/YAML evidence parity remain
+    unverified. MCP still has no authenticated per-request context transport and
+    remains fail-closed. Adding the context fields changes its
     binary layout; binary consumers need to rebuild. Tenant-scoped graph
     traversal now validates each visited vertex's materialized `tenant_id`
     before returning or expanding it; missing or mismatched tenant values return

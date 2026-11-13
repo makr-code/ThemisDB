@@ -14,6 +14,7 @@
 #include "transaction/transaction_manager.h"
 
 #include <chrono>
+#include <atomic>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
@@ -82,8 +83,11 @@ struct ScopedEnv {
 
 class TenantEvidencePlugin final : public themis::llm::ILLMPlugin {
 public:
-    explicit TenantEvidencePlugin(std::chrono::milliseconds embedding_delay = {})
-        : embedding_delay_(embedding_delay) {}
+    explicit TenantEvidencePlugin(
+        std::chrono::milliseconds embedding_delay = {},
+        std::shared_ptr<std::atomic_size_t> embedding_attempts = {})
+        : embedding_delay_(embedding_delay),
+          embedding_attempts_(std::move(embedding_attempts)) {}
 
     bool loadModel(const std::string&, const themis::llm::json&) override {
         return true;
@@ -124,6 +128,9 @@ public:
         return response;
     }
     std::vector<float> embed(const std::string&) override {
+        if (embedding_attempts_) {
+            embedding_attempts_->fetch_add(1, std::memory_order_relaxed);
+        }
         if (embedding_delay_ > std::chrono::milliseconds::zero()) {
             std::this_thread::sleep_for(embedding_delay_);
         }
@@ -144,12 +151,14 @@ public:
 
 private:
     std::chrono::milliseconds embedding_delay_;
+    std::shared_ptr<std::atomic_size_t> embedding_attempts_;
 };
 
 class ScopedTenantEvidencePlugin {
 public:
     explicit ScopedTenantEvidencePlugin(
-        std::chrono::milliseconds embedding_delay = {})
+        std::chrono::milliseconds embedding_delay = {},
+        std::shared_ptr<std::atomic_size_t> embedding_attempts = {})
         : manager_(themis::llm::LLMPluginManager::instance()) {
         if (auto* default_plugin = manager_.getDefaultPlugin()) {
             for (const auto& plugin_name : manager_.listPlugins()) {
@@ -160,7 +169,9 @@ public:
             }
         }
         manager_.registerPlugin(kPluginName,
-                                std::make_unique<TenantEvidencePlugin>(embedding_delay));
+                                std::make_unique<TenantEvidencePlugin>(
+                                    embedding_delay,
+                                    std::move(embedding_attempts)));
         manager_.setDefaultPlugin(kPluginName);
     }
 
@@ -567,11 +578,14 @@ TEST(RagCollectionPolicyHttpTest, AqlRagDeadlineExpiryReturnsGatewayTimeout) {
     ASSERT_TRUE(fixture.start(policies, /*duplicate_readonly_token=*/false,
                               "tenant-a", /*request_timeout_ms=*/1000));
     ASSERT_TRUE(fixture.storeTenantEvidence());
-    ScopedTenantEvidencePlugin slow_plugin(std::chrono::milliseconds(1100));
+    auto embedding_attempts = std::make_shared<std::atomic_size_t>(0);
+    ScopedTenantEvidencePlugin slow_plugin(
+        std::chrono::milliseconds(1100), embedding_attempts);
 
     const auto response =
         postRagRequest("docs", "/api/v1/llm/aql/rag");
     EXPECT_EQ(response.result(), http::status::gateway_timeout);
+    EXPECT_EQ(embedding_attempts->load(std::memory_order_relaxed), 1);
 }
 
 TEST(RagCollectionPolicyHttpTest, RejectsRagTokenCollisionWithExistingRoleToken) {
