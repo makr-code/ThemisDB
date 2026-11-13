@@ -75,6 +75,12 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
                     toolchain.parent.mkdir(parents=True)
                     toolchain.touch()
+                    thrift_port = directory / "vcpkg/ports/thrift/portfile.cmake"
+                    thrift_port.parent.mkdir(parents=True)
+                    thrift_port.write_text(
+                        'URLS "https://archive.apache.org/dist/thrift/${VERSION}/'
+                        'thrift-${VERSION}.tar.gz"\n'
+                    )
                     bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
                     bootstrap.write_text(
                         '#!/bin/bash\nset -euo pipefail\n'
@@ -104,6 +110,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
                     )
                     self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertIn("https://dlcdn.apache.org/thrift/", thrift_port.read_text())
+                    self.assertNotIn("https://archive.apache.org/dist/thrift/", thrift_port.read_text())
                     self.assertEqual(int(attempt_log.read_text()), attempts)
                     self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
                     self.assertEqual((directory / "model-step-ran").exists(), status == 0)

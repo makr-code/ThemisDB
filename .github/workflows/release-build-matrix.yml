@@ -364,7 +364,17 @@ jobs:
               if lane_os == "linux":
                   entry["setup_command"] = entry["setup_command"].replace(
                       "./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
-                      """for attempt in 1 2 3; do
+                      """thrift_port="vcpkg/ports/thrift/portfile.cmake"
+          grep -Fq 'https://archive.apache.org/dist/thrift/' "$thrift_port" || {
+            echo "::error::Expected Thrift source URL was not found in $thrift_port"
+            exit 1
+          }
+          sed -i 's#https://archive.apache.org/dist/thrift/#https://dlcdn.apache.org/thrift/#' "$thrift_port"
+          grep -Fq 'https://dlcdn.apache.org/thrift/' "$thrift_port" || {
+            echo "::error::Failed to switch the Thrift source URL to the Apache CDN"
+            exit 1
+          }
+          for attempt in 1 2 3; do
           bootstrap_log="${RUNNER_TEMP:-/tmp}/vcpkg-bootstrap-${attempt}.log"
           set +e
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>&1 | tee "$bootstrap_log"
