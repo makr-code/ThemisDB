@@ -13,8 +13,10 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include <fstream>
+#include <limits>
 #include <numeric>
 #include <random>
 #include <stdexcept>
@@ -231,8 +233,8 @@ public:
 
         // Compute total importance
         float total_importance = 0.0f;
-        for (const auto& [_, lay] : layers_)
-            total_importance += lay.importance;
+        for (const auto& name : insertion_order_)
+            total_importance += layers_.at(name).importance;
 
         ReallocResult result = {};
 
@@ -240,7 +242,8 @@ public:
             // No importance data yet; distribute budget evenly
             size_t n = layers_.size();
             size_t per_layer = std::max<size_t>(1, total_budget / n);
-            for (auto& [name, lay] : layers_) {
+            for (const auto& name : insertion_order_) {
+                auto& lay = layers_.at(name);
                 size_t new_rank = std::min(per_layer, lay.max_rank);
                 new_rank        = std::max<size_t>(1, new_rank);
                 if (new_rank < lay.active_rank) {
@@ -332,6 +335,7 @@ public:
             s.max_rank     = lay.max_rank;
             s.active_rank  = lay.active_rank;
             s.importance   = lay.importance;
+            s.alpha        = lay.alpha;
             stats.push_back(s);
         }
         return stats;
@@ -679,6 +683,7 @@ public:
     void setRankBudget(size_t b) { rank_budget_ = b; }
 
 private:
+    friend class AdaLoRAAdapter;
     size_t default_rank_ = {};
     float  default_alpha_ = {};
     size_t rank_budget_ = {};
@@ -891,22 +896,115 @@ namespace {
 
 // File format constants
 constexpr std::array<char, 8> kMagic = {'A','D','A','L','O','R','A','\0'};
-constexpr uint32_t kFormatVersion = 1;
+constexpr uint32_t kFormatVersion = 2;
 constexpr size_t   kFingerprintBytes = 64; // 64-char hex SHA-256 + NUL-pad
+constexpr uint64_t kMaxCheckpointBytes = 256ull * 1024 * 1024;
+constexpr uint32_t kMaxLayers = 65536;
+constexpr uint32_t kMaxNameBytes = 4096;
 
-template <typename T>
-/**
- * @brief Write LE.
- * @param[in,out] os Input/output parameter.
- * @param[in] val Input parameter.
- * @details Calls: write().
- */
-void writeLE(std::ostream& os, T val) {
-    os.write(reinterpret_cast<const char*>(&val), sizeof(T));
+void addSize(uint64_t& total, uint64_t count) {
+    if (count > kMaxCheckpointBytes - total)
+        throw std::runtime_error("AdaLoRA checkpoint: size limit exceeded");
+    total += count;
 }
 
+bool finiteFloat(float value) {
+    static_assert(sizeof(float) == sizeof(uint32_t), "checkpoint requires 32-bit floats");
+    static_assert(std::numeric_limits<float>::is_iec559, "checkpoint requires IEEE-754 floats");
+    uint32_t bits;
+    std::memcpy(&bits, &value, sizeof(bits));
+    return (bits & 0x7f800000u) != 0x7f800000u;
+}
+
+bool validFloats(const std::vector<float>& values) {
+    return std::all_of(values.begin(), values.end(),
+                       [](float x) { return finiteFloat(x); });
+}
+
+size_t checkedSize(uint64_t value) {
+    if (value > std::numeric_limits<size_t>::max())
+        throw std::runtime_error("AdaLoRA checkpoint: size is not representable");
+    return static_cast<size_t>(value);
+}
+
+size_t checkedProduct(size_t a, size_t b) {
+    if (a == 0 || b == 0 || a > std::numeric_limits<size_t>::max() / b)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid dimensions");
+    return a * b;
+}
+
+// FNV-1a detects accidental corruption, not malicious tampering.
+uint64_t updateChecksum(uint64_t hash, const char* data, size_t size) {
+    for (size_t i = 0; i < size; ++i) {
+        hash ^= static_cast<unsigned char>(data[i]);
+        hash *= 1099511628211ull;
+    }
+    return hash;
+}
+
+class CheckpointWriter {
+public:
+    explicit CheckpointWriter(std::ostream& stream) : stream_(stream) {}
+    void write(const char* data, size_t bytes) {
+        stream_.write(data, static_cast<std::streamsize>(bytes));
+        if (!stream_) throw std::runtime_error("AdaLoRA checkpoint: write error");
+        hash_ = updateChecksum(hash_, data, bytes);
+    }
+    template <typename T> void value(T value) {
+        write(reinterpret_cast<const char*>(&value), sizeof(value));
+    }
+    void floats(const std::vector<float>& values) {
+        if (!values.empty())
+            write(reinterpret_cast<const char*>(values.data()), values.size() * sizeof(float));
+    }
+    uint64_t hash() const { return hash_; }
+private:
+    std::ostream& stream_;
+    uint64_t hash_ = 14695981039346656037ull;
+};
+
+class CheckpointReader {
+public:
+    CheckpointReader(std::istream& stream, uint64_t bytes)
+        : stream_(stream), remaining_(bytes) {}
+
+    void require(uint64_t bytes) const {
+        if (bytes > remaining_)
+            throw std::runtime_error("AdaLoRA checkpoint: truncated or invalid data");
+    }
+
+    void read(char* destination, size_t bytes) {
+        require(bytes);
+        stream_.read(destination, static_cast<std::streamsize>(bytes));
+        if (!stream_) throw std::runtime_error("AdaLoRA checkpoint: truncated data");
+        hash_ = updateChecksum(hash_, destination, bytes);
+        remaining_ -= bytes;
+    }
+
+    template <typename T> T value() {
+        T result{};
+        read(reinterpret_cast<char*>(&result), sizeof(result));
+        return result;
+    }
+
+    std::vector<float> floats(size_t count) {
+        require(static_cast<uint64_t>(count) * sizeof(float));
+        std::vector<float> result(count);
+        if (count) read(reinterpret_cast<char*>(result.data()), count * sizeof(float));
+        return result;
+    }
+
+    uint64_t remaining() const { return remaining_; }
+    uint64_t hash() const { return hash_; }
+
+private:
+    std::istream& stream_;
+    uint64_t remaining_;
+    uint64_t hash_ = 14695981039346656037ull;
+};
+
 template <typename T>
-T readLE(std::istream& is) {
+T readNative(std::istream& is) {
     T val{};
     is.read(reinterpret_cast<char*>(&val), sizeof(T));
     if (!is) {
@@ -915,110 +1013,84 @@ T readLE(std::istream& is) {
     return val;
 }
 
-/**
- * @brief Write Floats.
- * @param[in,out] os Input/output parameter.
- * @param[in] v Input parameter.
- * @details Calls: empty(), write(), data(), size().
- */
-void writeFloats(std::ostream& os, const std::vector<float>& v) {
-    if (!v.empty())
-        os.write(reinterpret_cast<const char*>(v.data()),
-                 static_cast<std::streamsize>(v.size() * sizeof(float)));
-}
-
-/**
- * @brief Read Floats.
- * @param[in,out] is Input/output parameter.
- * @param[in] count Input parameter.
- * @return Return value.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: v(), read(), data().
- */
-std::vector<float> readFloats(std::istream& is, size_t count) {
-    std::vector<float> v(count);
-    if (count > 0) {
-        is.read(reinterpret_cast<char*>(v.data()),
-                static_cast<std::streamsize>(count * sizeof(float)));
-        if (!is) {
-          throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated weight data");
-        }
-    }
-    return v;
-}
-
 } // anonymous namespace
 
 // ─── saveToFile ──────────────────────────────────────────────────────────────
 
 void AdaLoRAAdapter::saveToFile(const std::string& path,
                                 const std::string& model_fingerprint) const {
+    if (model_fingerprint.size() > kFingerprintBytes ||
+        model_fingerprint.find('\0') != std::string::npos)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid fingerprint");
+    if (impl_->default_rank_ == 0 || !finiteFloat(impl_->default_alpha_) ||
+        impl_->default_alpha_ <= 0 || impl_->insertion_order_.size() > kMaxLayers)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid configuration");
+    uint64_t size = 8 + 4 + kFingerprintBytes + 8 + 4 + 8 + 4 + 8;
+    float total_importance = 0.0f;
+    for (const auto& name : impl_->insertion_order_) {
+        const auto& layer = impl_->layers_.at(name);
+        if (name.empty() || name.size() > kMaxNameBytes || name.find('\0') != std::string::npos ||
+            layer.active_rank == 0 || layer.active_rank > layer.max_rank ||
+            !finiteFloat(layer.alpha) || layer.alpha <= 0 ||
+            !finiteFloat(layer.importance) || layer.importance < 0 ||
+            checkedProduct(layer.in_dim, layer.max_rank) != layer.B.size() ||
+            checkedProduct(layer.out_dim, layer.max_rank) != layer.A.size() ||
+            !validFloats(layer.B) || !validFloats(layer.A))
+            throw std::runtime_error("AdaLoRA checkpoint: invalid layer");
+        total_importance += layer.importance;
+        if (!finiteFloat(total_importance))
+            throw std::runtime_error("AdaLoRA checkpoint: importance sum overflow");
+        addSize(size, 4 + name.size() + 4 * sizeof(uint64_t) + 2 * sizeof(float));
+        if (layer.B.size() > kMaxCheckpointBytes / sizeof(float) ||
+            layer.A.size() > kMaxCheckpointBytes / sizeof(float))
+            throw std::runtime_error("AdaLoRA checkpoint: weights exceed size limit");
+        addSize(size, layer.B.size() * sizeof(float));
+        addSize(size, layer.A.size() * sizeof(float));
+    }
+
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
     if (!ofs)
         throw std::runtime_error("AdaLoRAAdapter::saveToFile: cannot open '" + path + "'");
+    CheckpointWriter writer(ofs);
 
     // Magic
-    ofs.write(kMagic.data(), static_cast<std::streamsize>(kMagic.size()));
+    writer.write(kMagic.data(), kMagic.size());
 
     // Version
-    writeLE<uint32_t>(ofs, kFormatVersion);
+    writer.value<uint32_t>(kFormatVersion);
 
     // Fingerprint — exactly kFingerprintBytes, NUL-padded
     char fp_buf[kFingerprintBytes] = {};
-    const size_t copy_len = std::min(model_fingerprint.size(), kFingerprintBytes);
-    std::memcpy(fp_buf, model_fingerprint.data(), copy_len);
-    ofs.write(fp_buf, static_cast<std::streamsize>(kFingerprintBytes));
+    std::memcpy(fp_buf, model_fingerprint.data(), model_fingerprint.size());
+    writer.write(fp_buf, kFingerprintBytes);
 
-    // Layer count
-    const auto names = impl_->layerNames();
-    writeLE<uint32_t>(ofs, static_cast<uint32_t>(names.size()));
+    writer.value<uint64_t>(impl_->default_rank_);
+    writer.value<float>(impl_->default_alpha_);
+    writer.value<uint64_t>(impl_->rank_budget_);
+    writer.value<uint32_t>(static_cast<uint32_t>(impl_->insertion_order_.size()));
 
-    for (const auto& name : names) {
-        const auto [B, A] = impl_->getWeights(name);
-        const size_t active_rank = impl_->getActiveRank(name);
-        const size_t max_rank    = impl_->getMaxRank(name);
-        const float  importance  = impl_->getImportance(name);
-
-        // Infer dimensions from B (in_dim × max_rank) and A (max_rank × out_dim)
-        const size_t in_dim  = (max_rank > 0) ?B.size() / max_rank : 0;
-        const size_t out_dim = (max_rank > 0) ?A.size() / max_rank : 0;
-
-        // alpha is not directly exposed; reconstruct as default
-        // We store a synthetic alpha via importance field note: real alpha stored
-        // as a pair with a sentinel — use layer stats to get it.
-        const auto stats = impl_->getLayerStats();
-        float alpha = 8.0f;
-        for (const auto& s : stats) {
-            if (s.layer_name == name) {
-                // alpha is not in stats; we write sentinel 0 and restore default on load
-                (void)s;
-                break;
-            }
-        }
-
-        // Name
+    for (const auto& name : impl_->insertion_order_) {
+        const auto& layer = impl_->layers_.at(name);
         const auto name_len = static_cast<uint32_t>(name.size());
-        writeLE<uint32_t>(ofs, name_len);
-        ofs.write(name.data(), static_cast<std::streamsize>(name.size()));
-
-        // Dimensions
-        writeLE<uint64_t>(ofs, static_cast<uint64_t>(in_dim));
-        writeLE<uint64_t>(ofs, static_cast<uint64_t>(out_dim));
-        writeLE<uint64_t>(ofs, static_cast<uint64_t>(max_rank));
-        writeLE<uint64_t>(ofs, static_cast<uint64_t>(active_rank));
-
-        // Scalars
-        writeLE<float>(ofs, alpha);
-        writeLE<float>(ofs, importance);
-
-        // Weights
-        writeFloats(ofs, B);
-        writeFloats(ofs, A);
+        writer.value<uint32_t>(name_len);
+        writer.write(name.data(), name.size());
+        writer.value<uint64_t>(layer.in_dim);
+        writer.value<uint64_t>(layer.out_dim);
+        writer.value<uint64_t>(layer.max_rank);
+        writer.value<uint64_t>(layer.active_rank);
+        writer.value<float>(layer.alpha);
+        writer.value<float>(layer.importance);
+        writer.floats(layer.B);
+        writer.floats(layer.A);
     }
-
+    const auto digest = writer.hash();
+    ofs.write(reinterpret_cast<const char*>(&digest), sizeof(digest));
     ofs.flush();
     if (!ofs)
         throw std::runtime_error("AdaLoRAAdapter::saveToFile: write error on '" + path + "'");
+    ofs.close();
+    if (!ofs)
+        throw std::runtime_error("AdaLoRAAdapter::saveToFile: close error on '" + path + "'");
 }
 
 /**
@@ -1026,80 +1098,102 @@ void AdaLoRAAdapter::saveToFile(const std::string& path,
  * @param[in] path Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
- * @details Calls: ifs(), read(), std::memcmp(), data(), std::to_string(), fingerprint(), layerNames(), removeLayer().
+ * @details Validates a temporary implementation before replacing current state.
  */
 
 std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
-    std::ifstream ifs(path, std::ios::binary);
+    std::ifstream ifs(path, std::ios::binary | std::ios::ate);
     if (!ifs)
         throw std::runtime_error("AdaLoRAAdapter::loadFromFile: cannot open '" + path + "'");
-
-    // Magic
+    const auto end = ifs.tellg();
+    constexpr uint64_t minimum_size = 8 + 4 + kFingerprintBytes + 8 + 4 + 8 + 4 + 8;
+    if (end < 0 || static_cast<uint64_t>(end) < 8 + sizeof(uint32_t) ||
+        static_cast<uint64_t>(end) > kMaxCheckpointBytes)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid file size");
+    ifs.seekg(0);
     char magic_buf[8] = {};
-    ifs.read(magic_buf, 8);
+    ifs.read(magic_buf, sizeof(magic_buf));
     if (!ifs || std::memcmp(magic_buf, kMagic.data(), 8) != 0)
         throw std::runtime_error("AdaLoRAAdapter::loadFromFile: bad magic in '" + path + "'");
-
-    // Version
-    const uint32_t version = readLE<uint32_t>(ifs);
+    const uint32_t version = readNative<uint32_t>(ifs);
     if (version != kFormatVersion)
         throw std::runtime_error("AdaLoRAAdapter::loadFromFile: unsupported version " +
                                  std::to_string(version) + " in '" + path + "'");
+    if (static_cast<uint64_t>(end) < minimum_size)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid file size");
 
-    // Fingerprint
+    // Hash and validate the bytes actually parsed, including the header.
+    ifs.seekg(0);
+    CheckpointReader reader(ifs, static_cast<uint64_t>(end) - sizeof(uint64_t));
+    reader.read(magic_buf, sizeof(magic_buf));
+    if (std::memcmp(magic_buf, kMagic.data(), sizeof(magic_buf)) != 0 ||
+        reader.value<uint32_t>() != kFormatVersion)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid header");
+
     char fp_buf[kFingerprintBytes + 1] = {};
-    ifs.read(fp_buf, static_cast<std::streamsize>(kFingerprintBytes));
-    if (!ifs)
-        throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated fingerprint");
-    std::string fingerprint(fp_buf); // stops at first NUL
-
-    // Clear existing layers
-    for (const auto& n : impl_->layerNames()) {
-      impl_->removeLayer(n);
-    }
-
-    // Layer count
-    const uint32_t layer_count = readLE<uint32_t>(ifs);
-
-    size_t total_max_rank = 0;
+    reader.read(fp_buf, kFingerprintBytes);
+    const auto fp_end = std::find(fp_buf, fp_buf + kFingerprintBytes, '\0');
+    if (!std::all_of(fp_end, fp_buf + kFingerprintBytes, [](char c) { return c == '\0'; }))
+        throw std::runtime_error("AdaLoRA checkpoint: invalid fingerprint padding");
+    std::string fingerprint(fp_buf, fp_end);
+    const size_t default_rank = checkedSize(reader.value<uint64_t>());
+    const float default_alpha = reader.value<float>();
+    const size_t rank_budget = checkedSize(reader.value<uint64_t>());
+    if (default_rank == 0 || !finiteFloat(default_alpha) || default_alpha <= 0)
+        throw std::runtime_error("AdaLoRA checkpoint: invalid configuration");
+    auto replacement = std::make_unique<Impl>(default_rank, default_alpha, rank_budget);
+    // The setter permits zero, whereas the constructor substitutes a default.
+    replacement->rank_budget_ = rank_budget;
+    const uint32_t layer_count = reader.value<uint32_t>();
+    if (layer_count > kMaxLayers)
+        throw std::runtime_error("AdaLoRA checkpoint: too many layers");
+    reader.require(static_cast<uint64_t>(layer_count) * (4 + 1 + 32 + 8 + 8));
+    float total_importance = 0.0f;
     for (uint32_t i = 0; i < layer_count; ++i) {
-        // Name
-        const uint32_t name_len = readLE<uint32_t>(ifs);
-        if (name_len > 4096)
-            throw std::runtime_error("AdaLoRAAdapter::loadFromFile: implausible name length");
+        const uint32_t name_len = reader.value<uint32_t>();
+        if (name_len == 0 || name_len > kMaxNameBytes)
+            throw std::runtime_error("AdaLoRA checkpoint: invalid name length");
+        reader.require(static_cast<uint64_t>(name_len) + 32 + 8);
         std::string name(name_len, '\0');
-        ifs.read(name.data(), static_cast<std::streamsize>(name_len));
-        if (!ifs)
-            throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated layer name");
+        reader.read(name.data(), name_len);
+        if (name.find('\0') != std::string::npos || replacement->layers_.count(name))
+            throw std::runtime_error("AdaLoRA checkpoint: invalid or duplicate layer name");
 
-        const auto in_dim      = static_cast<size_t>(readLE<uint64_t>(ifs));
-        const auto out_dim     = static_cast<size_t>(readLE<uint64_t>(ifs));
-        const auto max_rank    = static_cast<size_t>(readLE<uint64_t>(ifs));
-        const auto active_rank = static_cast<size_t>(readLE<uint64_t>(ifs));
-        const float alpha      = readLE<float>(ifs);
-        const float importance = readLE<float>(ifs);
-
-        auto B = readFloats(ifs, in_dim  * max_rank);
-        auto A = readFloats(ifs, max_rank * out_dim);
-
-        impl_->addLayer(name, in_dim, out_dim, max_rank, alpha > 0.0f ? alpha : 8.0f);
-        impl_->setWeights(name, B, A);
-        // Restore active rank and importance via internal mutation through existing API
-        impl_->updateImportance(name); // recalculates from weights — then override
-        // Override active_rank by calling reallocateRanks not possible per-layer;
-        // use the exposed rank set path if available.  For now: ensure active_rank
-        // is bounded by max_rank (setWeights already does this implicitly).
-        (void)active_rank;
-        (void)importance;
-
-        total_max_rank += max_rank;
+        Impl::Layer layer;
+        layer.layer_name = name;
+        layer.in_dim = checkedSize(reader.value<uint64_t>());
+        layer.out_dim = checkedSize(reader.value<uint64_t>());
+        layer.max_rank = checkedSize(reader.value<uint64_t>());
+        layer.active_rank = checkedSize(reader.value<uint64_t>());
+        layer.alpha = reader.value<float>();
+        layer.importance = reader.value<float>();
+        if (layer.active_rank == 0 || layer.active_rank > layer.max_rank ||
+            !finiteFloat(layer.alpha) || layer.alpha <= 0 ||
+            !finiteFloat(layer.importance) || layer.importance < 0)
+            throw std::runtime_error("AdaLoRA checkpoint: invalid layer metadata");
+        total_importance += layer.importance;
+        if (!finiteFloat(total_importance))
+            throw std::runtime_error("AdaLoRA checkpoint: importance sum overflow");
+        const auto b_count = checkedProduct(layer.in_dim, layer.max_rank);
+        const auto a_count = checkedProduct(layer.out_dim, layer.max_rank);
+        if (b_count > kMaxCheckpointBytes / sizeof(float) ||
+            a_count > kMaxCheckpointBytes / sizeof(float))
+            throw std::runtime_error("AdaLoRA checkpoint: invalid weight size");
+        reader.require((static_cast<uint64_t>(b_count) + a_count) * sizeof(float));
+        layer.B = reader.floats(b_count);
+        layer.A = reader.floats(a_count);
+        if (!validFloats(layer.B) || !validFloats(layer.A))
+            throw std::runtime_error("AdaLoRA checkpoint: non-finite weights");
+        replacement->layers_.emplace(name, std::move(layer));
+        replacement->insertion_order_.push_back(std::move(name));
     }
-
-    // Update budget to match the stored total
-    if (total_max_rank > 0) {
-      impl_->setRankBudget(total_max_rank);
-    }
-
+    if (reader.remaining() != 0)
+        throw std::runtime_error("AdaLoRA checkpoint: trailing data");
+    if (readNative<uint64_t>(ifs) != reader.hash())
+        throw std::runtime_error("AdaLoRA checkpoint: checksum mismatch");
+    if (ifs.peek() != std::char_traits<char>::eof() || ifs.bad())
+        throw std::runtime_error("AdaLoRA checkpoint: trailing data");
+    impl_.swap(replacement);
     return fingerprint;
 }
 
