@@ -466,6 +466,17 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("release_critical was withheld", withheld_summary["run"])
                 self.assertIn(contract["withheld_reason"], withheld_summary["run"])
 
+    def test_rag_phase_gate_fails_when_validation_is_cancelled(self) -> None:
+        gate = load_workflow("reusable-rag-phase-gate.yml")["jobs"]["gate_status"]
+        self.assertEqual(gate["needs"], ["phase_validation"])
+        self.assertEqual(gate["if"], "always()")
+
+        status_script = gate["steps"][0]["run"]
+        self.assertIn('if [ "$result" = "success" ]; then', status_script)
+        self.assertIn('echo "❌ ${{ inputs.phase_title }} Gate: FAIL"', status_script)
+        self.assertIn("exit 1", status_script)
+        self.assertNotIn('"cancelled"', status_script)
+
     def test_benchmark_ctest_feedback_permissions_are_pr_only(self) -> None:
         workflow = load_workflow("gate-pr-benchmark-ctest.yml")
         self.assertEqual(workflow["permissions"], {"contents": "read"})

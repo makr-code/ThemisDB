@@ -228,10 +228,6 @@ jobs:
             echo "✅ ${{ inputs.phase_title }} Gate: PASS"
             exit 0
           fi
-          if [ "$result" = "cancelled" ]; then
-            echo "⚠️ ${{ inputs.phase_title }} Gate: CANCELLED (skipping human escalation; not a failing gate)"
-            exit 0
-          fi
           echo "❌ ${{ inputs.phase_title }} Gate: FAIL"
           exit 1
 
