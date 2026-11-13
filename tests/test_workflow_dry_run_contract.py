@@ -813,6 +813,33 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("if (dryRun)", workflow_text)
         self.assertIn("[dry-run] would post closure recommendation", workflow_text)
 
+    def test_housekeeping_pull_request_target_uses_trusted_base_context(self) -> None:
+        workflow = load_workflow("maintenance-housekeeping.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        pull_request = triggers["pull_request"]
+        pull_request_target = triggers["pull_request_target"]
+
+        for key in ("branches", "paths", "types"):
+            with self.subTest(trigger_setting=key):
+                self.assertEqual(pull_request_target[key], pull_request[key])
+
+        base_ref = "${{ github.event.pull_request.base.sha || github.sha }}"
+        for job_name in ("run-summary", "assign-milestone"):
+            with self.subTest(job=job_name):
+                checkout = next(
+                    step for step in workflow["jobs"][job_name]["steps"]
+                    if step.get("uses") == "actions/checkout@v5"
+                )
+                self.assertEqual(checkout["with"]["ref"], base_ref)
+                self.assertIs(checkout["with"]["persist-credentials"], False)
+
+        self.assertIn(
+            "github.event.pull_request.number || github.ref",
+            workflow["concurrency"]["group"],
+        )
+        self.assertNotIn("github.event.pull_request.head", str(workflow["jobs"]))
+        self.assertNotIn("github.head_ref", str(workflow["jobs"]))
+
     def test_compendium_sync_uses_safe_version_resolution_and_fail_closed_scan(self) -> None:
         workflow = load_workflow("maintenance-compendium-sync.yml")
         triggers = workflow.get(True, workflow.get("on"))

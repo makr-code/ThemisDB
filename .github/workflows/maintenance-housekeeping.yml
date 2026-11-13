@@ -71,11 +71,20 @@ on:
       - '.github/milestones.yml'
       - '.github/workflows/maintenance-housekeeping.yml'
     types: [opened, reopened, edited, synchronize, ready_for_review, labeled, unlabeled]
+  # Threat boundary: pull_request_target uses base-repository workflow code only.
+  # The assignment job reads issue text as data; it never checks out or executes PR-head content.
+  pull_request_target:
+    branches: [develop, community]
+    paths:
+      - '.github/labels.yml'
+      - '.github/milestones.yml'
+      - '.github/workflows/maintenance-housekeeping.yml'
+    types: [opened, reopened, edited, synchronize, ready_for_review, labeled, unlabeled]
   issues:
     types: [opened, reopened, edited, labeled, unlabeled]
 
 concurrency:
-  group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
+  group: maintenance-housekeeping-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions: {}
@@ -94,6 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
@@ -309,6 +319,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
 
       - name: Install js-yaml
         run: npm install js-yaml@4
