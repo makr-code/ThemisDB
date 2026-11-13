@@ -42,7 +42,9 @@ jobs:
       environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-docker-approval.yml
       target_workflow_id: release-docker-image.yml
       target_ref: develop
-      dispatch_inputs_json: '{"push_to_registry":"true","registry":"ghcr.io","include_tinyllama":"true","llm_model":"tinyllama","dry_run":false}'
+      # The maintainer command and protected environment authorize publication;
+      # registry and model settings inherit release-docker-image.yml defaults.
+      dispatch_inputs_json: '{"push_to_registry":"true","dry_run":false}'
       version_input_name: tag_name
       approved_label: docker-approved
       approval_note: |

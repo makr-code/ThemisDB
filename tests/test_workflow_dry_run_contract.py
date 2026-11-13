@@ -1,4 +1,5 @@
 import ast
+import json
 import os
 import re
 import subprocess
@@ -854,6 +855,32 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         dispatch_inputs = docker["jobs"]["docker_publish_from_issue"]["with"]["dispatch_inputs_json"]
         self.assertIn('"push_to_registry":"true"', dispatch_inputs)
         self.assertIn('"dry_run":false', dispatch_inputs)
+
+    def test_release_approval_callers_inherit_target_workflow_configuration(self) -> None:
+        docker = load_workflow("release-docker-approval.yml")
+        docker_inputs = json.loads(
+            docker["jobs"]["docker_publish_from_issue"]["with"]["dispatch_inputs_json"]
+        )
+        self.assertEqual(docker_inputs, {"push_to_registry": "true", "dry_run": False})
+
+        docker_target = load_workflow("release-docker-image.yml")
+        docker_triggers = docker_target.get(True, docker_target.get("on", {}))
+        docker_defaults = docker_triggers["workflow_call"]["inputs"]
+        self.assertEqual(docker_defaults["registry"]["default"], "ghcr.io")
+        self.assertIs(docker_defaults["include_tinyllama"]["default"], True)
+        self.assertEqual(docker_defaults["llm_model"]["default"], "tinyllama")
+
+        linux = load_workflow("release-linux-distro-approval.yml")
+        linux_inputs = json.loads(
+            linux["jobs"]["linux_distro_publish_from_issue"]["with"]["dispatch_inputs_json"]
+        )
+        self.assertEqual(linux_inputs, {"publish_bundle": "true", "dry_run": False})
+
+        linux_target = load_workflow("release-linux-distribution.yml")
+        linux_triggers = linux_target.get(True, linux_target.get("on", {}))
+        self.assertEqual(
+            linux_triggers["workflow_call"]["inputs"]["channel"]["default"], "stable"
+        )
 
     def test_reusable_release_approval_rejects_bad_dispatch_json_and_extracts_prerelease(self) -> None:
         reusable = load_workflow("reusable-release-approval-comment-gate.yml")
