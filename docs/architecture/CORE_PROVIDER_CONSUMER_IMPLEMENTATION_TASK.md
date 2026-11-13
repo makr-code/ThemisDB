@@ -75,7 +75,10 @@ wrappers.
   otherwise lose the trusted tenant context. However, `HttpServer` currently
   configures static `THEMIS_TOKEN_ADMIN`, `THEMIS_TOKEN_READONLY`,
   `THEMIS_TOKEN_ANALYST`, and `THEMIS_TOKEN_RAG` tokens. The dedicated RAG
-  token has `llm` and `data:read` scopes but no tenant ID.
+  token has `llm` and `data:read` scopes. `THEMIS_TOKEN_RAG_TENANT` can
+  optionally bind that static identity to a trusted configured tenant; it is
+  ignored without `THEMIS_TOKEN_RAG`. Other static role tokens remain
+  unscoped by tenant.
   The bootstrap optionally enables JWT when `THEMIS_JWT_JWKS_URL` is set;
   issuer and audience validation are mandatory, and
   `THEMIS_JWT_TENANT_CLAIM` selects the verified claim mapped into tenant context.
@@ -147,7 +150,8 @@ route copies `tenant_id` from the successful authorization result into
 value is nonempty and does not trust a caller-supplied tenant header. The normal
 `HttpServer` bootstrap currently creates only static role tokens without tenant
 IDs. JWT validation is enabled when the JWKS environment variable is configured;
-static role tokens still produce an empty tenant context. When a tenant is
+static role tokens still produce an empty tenant context unless the dedicated
+RAG token has `THEMIS_TOKEN_RAG_TENANT` configured. When a tenant is
 present, the provider filters materialized
 relational, content, and vector evidence and injects the tenant predicate
 before vector search; graph retrieval passes a request-scoped vertex policy to
@@ -155,7 +159,9 @@ QueryEngine, which checks each visited entity's `tenant_id` before returning it
 or expanding that vertex. Missing, malformed, or mismatched tenant values
 return access denied. The HTTP RAG route now requires an explicit matching
 collection policy for authenticated non-admin users; an empty policy set denies
-that route. Auth-disabled policy evaluation remains advisory, and admin users
+that route. The policy test now configures a tenant-bound static RAG token,
+but still does not exercise successful retrieval or evidence isolation.
+Auth-disabled policy evaluation remains advisory, and admin users
 bypass policy checks. Native HTTP RAG resource matching is exact; configured OPA
 policy semantics remain externally defined. The
 request-matching collection predicate is not itself a caller-specific grant.
