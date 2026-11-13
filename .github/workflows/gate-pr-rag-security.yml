@@ -318,6 +318,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      pull-requests: write
     steps:
       - name: Apply release_critical label after tests pass
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
