@@ -768,6 +768,16 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ANALYST token configured via env");
     }
     if (auto t = themis_get_env("THEMIS_TOKEN_RAG")) {
+        constexpr std::array<const char*, 3> other_token_envs = {
+            "THEMIS_TOKEN_ADMIN", "THEMIS_TOKEN_READONLY", "THEMIS_TOKEN_ANALYST"};
+        for (const auto* env_name : other_token_envs) {
+            const auto existing_token = themis_get_env(env_name);
+            if (existing_token && *existing_token == *t) {
+                throw std::invalid_argument(
+                    "THEMIS_TOKEN_RAG must differ from other configured role tokens");
+            }
+        }
+
         themis::AuthMiddleware::TokenConfig cfg;
         cfg.token = *t;
         cfg.user_id = "rag_reader";

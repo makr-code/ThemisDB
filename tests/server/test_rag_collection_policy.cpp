@@ -17,6 +17,7 @@
 #include <filesystem>
 #include <fstream>
 #include <optional>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <utility>
@@ -82,7 +83,8 @@ public:
     static constexpr uint16_t kPort = 18107;
     static constexpr const char* kToken = "test-rag-policy-token";
 
-    bool start(const std::optional<std::string>& policy_json) {
+    bool start(const std::optional<std::string>& policy_json,
+               bool duplicate_readonly_token = false) {
         const auto suffix = std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         base_path_ = std::filesystem::temp_directory_path() /
@@ -99,6 +101,10 @@ public:
             }
         }
 
+        if (duplicate_readonly_token) {
+            readonly_token_env_ =
+                std::make_unique<ScopedEnv>("THEMIS_TOKEN_READONLY", kToken);
+        }
         token_env_ = std::make_unique<ScopedEnv>("THEMIS_TOKEN_RAG", kToken);
         policy_env_ = std::make_unique<ScopedEnv>(
             "THEMIS_POLICIES_PATH", policy_path_.string());
@@ -142,6 +148,7 @@ public:
         }
         policy_env_.reset();
         token_env_.reset();
+        readonly_token_env_.reset();
         if (!base_path_.empty()) {
             std::filesystem::remove_all(base_path_);
         }
@@ -155,6 +162,7 @@ private:
     std::filesystem::path policy_path_;
     std::unique_ptr<ScopedEnv> token_env_;
     std::unique_ptr<ScopedEnv> policy_env_;
+    std::unique_ptr<ScopedEnv> readonly_token_env_;
     std::unique_ptr<themis::server::HttpServer> server_;
     std::shared_ptr<themis::RocksDBWrapper> storage_;
     std::shared_ptr<themis::SecondaryIndexManager> secondary_index_;
@@ -336,6 +344,23 @@ TEST(RagCollectionPolicyHttpTest, NativePolicyMatchesTheExactCollection) {
     EXPECT_EQ(prefix_sibling.result(), http::status::forbidden);
     const auto denied_body = nlohmann::json::parse(prefix_sibling.body());
     EXPECT_EQ(denied_body.value("message", ""), "no_matching_policy");
+
+    const auto exact_collection = postRagRequest("docs");
+    EXPECT_NE(exact_collection.result(), http::status::forbidden)
+        << exact_collection.body();
+}
+
+TEST(RagCollectionPolicyHttpTest, RejectsRagTokenCollisionWithExistingRoleToken) {
+    RagPolicyHttpFixture fixture;
+
+    try {
+        fixture.start(std::nullopt, /*duplicate_readonly_token=*/true);
+        FAIL() << "A RAG token collision must abort server construction";
+    } catch (const std::invalid_argument& error) {
+        EXPECT_STREQ(
+            error.what(),
+            "THEMIS_TOKEN_RAG must differ from other configured role tokens");
+    }
 }
 
 } // namespace
