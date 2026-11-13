@@ -63,11 +63,19 @@ class RuntimeSmokeGateTests(unittest.TestCase):
         self.assertNotIn("LD_PRELOAD", env)
         self.assertNotIn("/build", env["PATH"])
         with mock.patch.object(GATE.os, "name", "nt"), mock.patch.dict(
-            os.environ, {"SystemRoot": "C:/Windows", "PATH": "C:/vcpkg/bin"}
+            os.environ, {"SYSTEMROOT": "C:/Windows", "PATH": "C:/vcpkg/bin"}, clear=True
         ):
             env = GATE.runtime_environment()
-        self.assertNotIn("vcpkg", env["PATH"])
-        self.assertIn("System32", env["PATH"])
+        self.assertEqual(env["PATH"], os.pathsep.join(
+            (os.path.join("C:/Windows", "System32"), "C:/Windows")
+        ))
+
+    def test_windows_environment_requires_systemroot(self):
+        with mock.patch.object(GATE.os, "name", "nt"), mock.patch.dict(
+            os.environ, {}, clear=True
+        ):
+            with self.assertRaisesRegex(ValueError, "SYSTEMROOT is required"):
+                GATE.runtime_environment()
 
     @unittest.skipIf(os.name == "nt", "POSIX executable fixture")
     def test_native_server_reaches_health_and_is_stopped(self):
