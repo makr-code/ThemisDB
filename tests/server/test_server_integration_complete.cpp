@@ -57,8 +57,10 @@
 #include <chrono>
 #include <cstdlib>
 #include <filesystem>
+#include <stdexcept>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 // POSIX setenv/unsetenv compatibility shim for Windows
@@ -378,6 +380,36 @@ TEST_F(ServerAuthEnforcementTest, Rag_ValidTokenWithoutLlmScope_Returns403) {
     EXPECT_EQ(res.result(), http::status::forbidden)
         << "RAG request without the required llm scope must be rejected; got: "
         << res.body();
+}
+
+TEST(HttpServerJwtBootstrapTest, RequiresIssuerAndAudienceWhenJwksIsConfigured) {
+    struct IncompleteJwtConfig {
+        std::string issuer;
+        std::string audience;
+        const char* expected_error;
+    };
+    const std::vector<IncompleteJwtConfig> incomplete_configs = {
+        {"", "test-audience", "Issuer validation not configured"},
+        {"test-issuer", "", "Audience validation not configured"}
+    };
+
+    for (std::size_t i = 0; i < incomplete_configs.size(); ++i) {
+        ScopedEnv jwks_url("THEMIS_JWT_JWKS_URL", "http://127.0.0.1:1/jwks");
+        ScopedEnv issuer("THEMIS_JWT_EXPECTED_ISSUER",
+                         incomplete_configs[i].issuer.c_str());
+        ScopedEnv audience("THEMIS_JWT_EXPECTED_AUDIENCE",
+                           incomplete_configs[i].audience.c_str());
+
+        ServerFixtureHelper fixture;
+        try {
+            fixture.start(static_cast<uint16_t>(18105 + i),
+                          "data/themis_jwt_bootstrap_test_" + std::to_string(i));
+            FAIL() << "HttpServer must reject incomplete JWT trust configuration";
+        } catch (const std::runtime_error& error) {
+            EXPECT_STREQ(error.what(), incomplete_configs[i].expected_error);
+        }
+        fixture.stop();
+    }
 }
 
 // ── Auth-required: PII reveal endpoint ────────────────────────────────────

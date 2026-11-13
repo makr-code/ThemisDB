@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - HttpServer JWT bootstrap
+
+- `HttpServer` now enables JWT validation when `THEMIS_JWT_JWKS_URL` is set.
+  Expected issuer and audience are mandatory; startup fails if either is
+  missing. `THEMIS_JWT_TENANT_CLAIM` optionally maps a verified claim into
+  tenant context. JWT identity and tenant claims do not grant collection access;
+  caller-specific collection policy and successful authenticated RAG validation
+  remain open.
+
 ### Fixed - Configurable JWT tenant claim
 
 - `AuthMiddleware::JWTConfig::tenant_claim` now propagates to `JWTValidator`,

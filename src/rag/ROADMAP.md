@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-06"
-Last Updated: "2026-11-12"
+Last Updated: "2026-11-13"
 Status: "active"
 AI_Used: true
 AI_Models: unknown
@@ -125,17 +125,19 @@ registration, persistent storage, external telemetry, or production readiness.
     rejected. Focused test sources cover both paths but remain unrun. Production
     startup still must populate the trusted contexts from authenticated callers
     and server policy. The direct HttpServer RAG route copies `tenant_id` from
-    AuthMiddleware, but the current bootstrap only adds static role tokens without
-    tenant IDs and does not enable JWT validation, so those tokens produce an
-    empty tenant context and provider tenant filters do not apply. The HttpServer
-    creates a PolicyEngine by default, but an absent/empty policy set defaults to
+    AuthMiddleware. The HttpServer now enables JWT when
+    `THEMIS_JWT_JWKS_URL` is configured and requires expected issuer and audience;
+    `THEMIS_JWT_TENANT_CLAIM` selects the verified tenant claim. Static role
+    tokens still have no tenant IDs. The HttpServer creates a PolicyEngine by
+    default, but an absent/empty policy set defaults to
     allow; policy denials are advisory when authentication is disabled, and admin
     users bypass policy evaluation. The route's collection-equality predicate is
     not a caller-specific collection grant.
   - The canonical Core task now contains the evidence-backed current-source role
     map for every immediate `src/` directory. This documents source roles only;
     it does not mark a runtime acceptance criterion complete.
-  - Trusted tenant-bearing HTTP auth configuration, caller-specific collection
+  - Trusted tenant-bearing credentials can now be configured through JWT, but
+    caller-specific collection
     policy, real AQL/YAML startup wiring, full request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. Network-level source regressions now cover rejection of unauthenticated,

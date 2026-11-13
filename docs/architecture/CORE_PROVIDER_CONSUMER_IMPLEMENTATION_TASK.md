@@ -66,17 +66,16 @@ wrappers.
   copies `tenant_id` from `extractAuthContext(req)` into
   `RetrievalExecutionContext`. However, `HttpServer` currently configures only
   static `THEMIS_TOKEN_ADMIN`, `THEMIS_TOKEN_READONLY`, and
-  `THEMIS_TOKEN_ANALYST` tokens, without assigning their `TokenConfig::tenant_id`;
-  it does not enable JWT validation. Consequently those standard tokens yield an
-  empty tenant, and the RAG provider skips tenant filters for those requests.
-  `AuthMiddleware` supports tenant-bearing token/JWT results, but the normal
-  `HttpServer` bootstrap does not currently configure that path. This concrete
+  `THEMIS_TOKEN_ANALYST` tokens, without assigning their `TokenConfig::tenant_id`.
+  The bootstrap now optionally enables JWT when `THEMIS_JWT_JWKS_URL` is set;
+  issuer and audience validation are mandatory, and
+  `THEMIS_JWT_TENANT_CLAIM` selects the verified claim mapped into tenant context.
+  Static role tokens remain unscoped by tenant. This concrete
   HTTP composition is not evidence that the builder's interface-only
   composition is production-ready, nor does it establish general row-level
   authorization or propagate caller identity to other consumers. The
   `AuthMiddleware::JWTConfig::tenant_claim` setting is propagated to JWT claim
-  extraction (default `tenant_id`); this does not enable JWT in `HttpServer` or
-  establish a collection grant.
+  extraction (default `tenant_id`); this does not establish a collection grant.
 - `LLMAQLHandler::executeRAG()` uses its injected query engine and passes its
   cancellation token, configured retrieval deadline, and configured
   collection-check predicate to `RAGProvider`. A source-tree search finds no

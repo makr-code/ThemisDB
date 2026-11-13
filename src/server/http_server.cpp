@@ -768,6 +768,24 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ANALYST token configured via env");
     }
 
+    if (auto jwks_url = themis_get_env("THEMIS_JWT_JWKS_URL")) {
+        themis::AuthMiddleware::JWTConfig jwt_cfg;
+        jwt_cfg.jwks_url = *jwks_url;
+        if (auto issuer = themis_get_env("THEMIS_JWT_EXPECTED_ISSUER")) {
+            jwt_cfg.expected_issuer = *issuer;
+        }
+        if (auto audience = themis_get_env("THEMIS_JWT_EXPECTED_AUDIENCE")) {
+            jwt_cfg.expected_audience = *audience;
+        }
+        if (auto tenant_claim = themis_get_env("THEMIS_JWT_TENANT_CLAIM")) {
+            jwt_cfg.tenant_claim = *tenant_claim;
+        }
+        jwt_cfg.require_issuer_validation = true;
+        jwt_cfg.require_audience_validation = true;
+        auth_->enableJWT(jwt_cfg);
+        THEMIS_INFO("Auth: JWT validation configured via environment");
+    }
+
     // Initialize security components  
     key_provider_ = std::make_shared<themis::security::PKIKeyProvider>(
         std::make_shared<themis::utils::VCCPKIClient>(themis::utils::PKIConfig{}),

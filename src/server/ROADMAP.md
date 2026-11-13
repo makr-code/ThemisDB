@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,13 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Wave A Exit Criteria:** Deterministic chaos evidence (timeout/shutdown) + fail-closed verification + release-critical CI GREEN
 - **Wave B (Q3–Q4 2026):** Cluster-wide distributed rate-limit state, GraphQL federation hardening
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
+
+## In Progress
+- [~] Add opt-in HttpServer JWT bootstrap using the existing AuthMiddleware and verified JWT claims (Target: Q4 2026)
+  - `THEMIS_JWT_JWKS_URL` enables JWT; expected issuer and audience are mandatory and incomplete configuration fails construction.
+  - `THEMIS_JWT_TENANT_CLAIM` maps a verified identity claim to tenant context; this does not establish collection grants.
+  - Focused startup regressions cover missing issuer/audience. They have not been built or run; local CMake configuration is blocked by the required `fmt` dependency.
+  - Caller-specific collection policy and successful authenticated RAG evidence remain open.
 
 ## Recently Completed
 - [x] Propagate the configured live HTTP request timeout into direct RAG retrieval and return HTTP 504 when its cooperative deadline expires (2026-11-12)
