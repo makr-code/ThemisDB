@@ -226,7 +226,6 @@ jobs:
     name: "Gate: Reindex Decision Logic"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
     
     steps:
       - name: Checkout
@@ -319,11 +318,11 @@ jobs:
             echo "❌ RAG Embedding Version Governance validation failed: ${validation_result}"
             exit 1
           fi
-          if [ "${tests_result}" != "success" ] && [ "${tests_result}" != "skipped" ]; then
-            echo "❌ RAG reindex decision tests failed: ${tests_result}"
+          if [ "${tests_result}" != "success" ]; then
+            echo "❌ RAG reindex decision tests did not succeed: ${tests_result}"
             exit 1
           fi
-          echo "✅ RAG Embedding Version Governance Gate: PASS (tests: ${tests_result})"
+          echo "✅ RAG Embedding Version Governance Gate: PASS (reindex/canary tests: success)"
 
   apply-release-critical-label:
     name: "Gate: Apply release_critical Label"
@@ -367,5 +366,5 @@ jobs:
           echo "**release_critical was withheld** because the reindex/canary test lane did not succeed (result: ${TEST_RESULT})." >> "$GITHUB_STEP_SUMMARY"
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "RAG embedding version governance and optional reindex tests"
+          scope: "RAG embedding version governance and required reindex/canary tests"
           job-results: ${{ toJSON(needs) }}

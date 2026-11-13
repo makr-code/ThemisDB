@@ -236,7 +236,6 @@ jobs:
     name: "Gate: Tenant Isolation & Policy Enforcement"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
     
     steps:
       - name: Checkout
@@ -306,11 +305,11 @@ jobs:
             echo "❌ RAG Security Guardrails validation failed: ${validation_result}"
             exit 1
           fi
-          if [ "${tests_result}" != "success" ] && [ "${tests_result}" != "skipped" ]; then
-            echo "❌ RAG tenant-isolation tests failed: ${tests_result}"
+          if [ "${tests_result}" != "success" ]; then
+            echo "❌ RAG tenant-isolation tests did not succeed: ${tests_result}"
             exit 1
           fi
-          echo "✅ RAG Security Guardrails Gate: PASS (tests: ${tests_result})"
+          echo "✅ RAG Security Guardrails Gate: PASS (tenant-isolation tests: success)"
 
   apply-release-critical-label:
     name: "Gate: Apply release_critical Label"
@@ -354,5 +353,5 @@ jobs:
           echo "**release_critical was withheld** because the tenant-isolation test lane did not succeed (result: ${TEST_RESULT})." >> "$GITHUB_STEP_SUMMARY"
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "RAG security guardrails and optional tenant-isolation tests"
+          scope: "RAG security guardrails and required tenant-isolation tests"
           job-results: ${{ toJSON(needs) }}

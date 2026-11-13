@@ -418,10 +418,12 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                     self.assertIn(contract["reindex_test"], reindex_run["run"])
                 gate_status = workflow["jobs"]["gate_status"]
                 self.assertIn(contract["test_job"], gate_status["needs"])
+                self.assertNotIn("if", test_job)
                 status_script = gate_status["steps"][0]["run"]
                 self.assertIn("tests_result", status_script)
                 self.assertIn('"success"', status_script)
-                self.assertIn('"skipped"', status_script)
+                self.assertNotIn('"skipped"', status_script)
+                self.assertIn('if [ "${tests_result}" != "success" ]', status_script)
 
                 validation_label_step = next(
                     step for step in workflow["jobs"][contract["validation_job"]]["steps"]
