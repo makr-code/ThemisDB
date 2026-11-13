@@ -92,7 +92,7 @@ def check_libraries(root, env, report):
         with path.open("rb") as stream:
             if stream.read(4) != b"\x7fELF":
                 continue
-        result = subprocess.run(["ldd", str(path)], env=env, capture_output=True,
+        result = subprocess.run(["ldd", str(path.resolve())], env=env, capture_output=True,
                                 text=True, timeout=30)
         output = result.stdout + result.stderr
         libraries.append({"file": str(path.relative_to(root)), "ldd": output})
