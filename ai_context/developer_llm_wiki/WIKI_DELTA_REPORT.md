@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 4
+- Changed: 6
 
 ## Added
 
@@ -33,7 +33,9 @@ Status: Active
 
 ## Changed
 
-- INDEX.md
+- .github/workflows/release-build-matrix.yml
+- .github/workflows/reusable-cmake-build.yml
 - ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - ai_context/developer_llm_wiki/INDEX.md
 - ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- docs/code_maturity_report.md

@@ -8,6 +8,10 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_training_${_stem}_focused")
     set(_ctest "${_stem}_training_FocusedTests")
+    set(_tier unit)
+    if(_stem STREQUAL "test_adalora_training_pipeline")
+        set(_tier benchmark)
+    endif()
 
     if(TARGET ${_target})
         continue()
@@ -35,7 +39,7 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
         MODULE training
         NAME ${_ctest}
         TARGET ${_target}
-        TIER unit
+        TIER ${_tier}
         TIMEOUT 120
         LABELS training
     )

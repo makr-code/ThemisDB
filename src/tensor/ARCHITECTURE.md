@@ -48,6 +48,14 @@ error, provenance and storage/mapping ownership. Qualify approximate summaries
 with exact artifact/evidence checks where required; similarity is neither
 authorization nor adapter compatibility.
 
+**Observed AdaLoRA bridge limitation:** the inspected
+[`AdaLoraTTBridge`](../training/adalora_tt_bridge.cpp#L216) export sets
+`scaling` to `1.0` and reports `orthogonal_validated=true`; an orthogonality
+check is not visible in that export path. Its `store()`/`loadAdapter()` methods
+use an instance-local cache, while the injected storage engine is not used by
+those methods. This path does not establish validated orthogonality, durable
+TT persistence, or a llama.cpp handoff.
+
 Tensor representations do not create an unlimited semantic context window.
 The existing RAG `tensor_hybrid`/`tensor_prefix` text compatibility modes are
 not direct tensor/KV injection. Native tensor consumption needs separate

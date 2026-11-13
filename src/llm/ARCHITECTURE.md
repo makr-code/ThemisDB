@@ -154,6 +154,12 @@ invalidate/re-prefill or demonstrate backend-specific equivalence. Pin loaded
 artifacts until in-flight use ends, reject incompatible/revoked adapters, and
 partition caches by the actual model/adapter composition. Required-adapter
 application failure is not permission to silently use the base model.
+**Observed path-specific exception:** `MultiLoRAManager::batchInference()`
+currently logs a failed `applyLoRA()` and continues with base-model inference;
+the response still records the requested adapter ID and can be marked
+successful ([implementation](multi_lora_manager.cpp#L1157)). Do not treat this
+batch path as enforcing the required-adapter rule until its failure semantics
+are corrected and covered by a focused test.
 
 Training runs separately from latency-sensitive request threads and competes
 under shared admission budgets; the current pipeline requires a dedicated

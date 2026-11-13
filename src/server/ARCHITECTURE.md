@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -101,6 +101,12 @@ These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `bench
 **Files:** `include/server/auth_middleware.h` ↔ `include/auth/` + `include/security/`
 **Contract:** `AuthMiddleware::authorize(token, required_scope)` returns an `AuthResult`; callers must check `authorized` before using its identity context. The gateway and individual HTTP routes invoke auth according to their configuration and route logic; there is no module-wide `AuthMiddleware::process()` stage.
 **Failure Mode:** The caller determines the response mapping for a denied result. Do not assume one status code for every route or that auth is enabled globally.
+
+### Critical Integration: Vector and RAG HTTP APIs
+**Files:** `src/server/vector_api_handler.cpp`, `src/server/http_server.cpp`, and `clients/python/themis/__init__.py`.
+**Contract:** The inspected `/vector/search` handler parses the vector, `k`, and cursor fields, but does not parse the Python client's `filter` request field. The multi-endpoint Python client omits non-200 responses and can return an empty result when all endpoints fail; when merging distance-only results, it sorts distances descending although lower distance represents the closer result. These are endpoint/client-path behaviors, not claims about every search API.
+**RAG Boundary:** The inspected `/api/v1/llm/rag` route checks read access for the collection and returns generated text and counts, not a complete evidence bundle with source revisions and retrieval status. A route-level collection check does not establish a general row-level or tenant-policy contract for every retrieval path.
+**Failure Mode:** Do not treat a client-supplied metadata filter as authorization or interpret an empty merged SDK result as proof that no matching data exists.
 
 ### LLM and MCP integration
 **Files:** `src/server/lora_api_handler.cpp` → `include/llm/lora_framework/lora_orchestrator.h`; `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`

@@ -9,22 +9,12 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
-# Windows/Ninja can hit transient file locks while many test executables are
-# linked in parallel (vcpkg applocal + antivirus/indexer contention). Reuse the
-# canonical project-wide link pool so all targets serialize against the same
-# DLL link gate while keeping the definition idempotent across reconfigures.
+# Windows/Ninja test executables share per-module output directories and runtime
+# DLLs. Serialize their link and post-build dependency-copy edges to avoid
+# concurrent reads/writes of those shared files.
 if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
-    set(_themis_link_pool_name "themis_windows_ninja_link_pool")
-    set(_themis_link_pool_value 8)
-    cmake_host_system_information(RESULT _themis_logical_cores QUERY NUMBER_OF_LOGICAL_CORES)
-    if(_themis_logical_cores GREATER 0)
-        math(EXPR _themis_link_pool_value "${_themis_logical_cores} * 75 / 100")
-        if(_themis_link_pool_value LESS 2)
-            set(_themis_link_pool_value 2)
-        elseif(_themis_link_pool_value GREATER 8)
-            set(_themis_link_pool_value 8)
-        endif()
-    endif()
+    set(_themis_link_pool_name "themis_windows_ninja_test_link_pool")
+    set(_themis_link_pool_value 1)
     set(_themis_link_pool_entry "${_themis_link_pool_name}=${_themis_link_pool_value}")
 
     get_property(_themis_job_pools GLOBAL PROPERTY JOB_POOLS)
@@ -35,7 +25,7 @@ if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
     set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_job_pools}")
 
     set(CMAKE_JOB_POOL_LINK ${_themis_link_pool_name})
-    message(STATUS "tests: using canonical Ninja link job pool '${_themis_link_pool_entry}' (logical cores=${_themis_logical_cores}, 75% cap) to avoid file-lock link failures")
+    message(STATUS "tests: using single-slot Ninja link job pool '${_themis_link_pool_entry}' to serialize shared runtime DLL copies")
 endif()
 
 # Per team policy: suppress warnings for test builds only.
@@ -230,11 +220,12 @@ if(TARGET themis_training)
         MODULE training
         NAME adalora_training_pipeline
         TARGET module_training_test_adalora_training_pipeline_focused
-        TIER integration
+        TIER benchmark
         TIMEOUT 300
     )
     gtest_discover_tests(module_training_test_adalora_training_pipeline_focused
         DISCOVERY_MODE POST_BUILD
+        DISCOVERY_TIMEOUT 60
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
         EXTRA_ARGS --gtest_color=yes
     )

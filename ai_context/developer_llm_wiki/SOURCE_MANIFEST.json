@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-13T07:35:35+00:00",
+  "generated_at": "2026-11-13T08:34:30+00:00",
   "source_count": 8134,
   "sources": [
     {
@@ -455,9 +455,9 @@
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 39055,
-      "sha256": "f5144441d94fc85b6faef0b11d6f8e80833ecb7cd3e2dd18b275a9beb74ab03b",
-      "modified_utc": "2026-11-12T15:45:19+00:00"
+      "size": 37182,
+      "sha256": "2e6ddebf1b57d4c38cf1c1155ad6668d842b1cdf6d163fbb5b811c1d82241c15",
+      "modified_utc": "2026-11-13T08:15:15+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -588,9 +588,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 45256,
-      "sha256": "08e67169f0a6d85b96fb4c884a9b25e6411a2dfbfe9e2213fd02af8d508a2c22",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 46591,
+      "sha256": "51f482ba51b774b3beb2f8683034f3715db36b371b28214ba38c3642578ac4e0",
+      "modified_utc": "2026-11-13T08:15:15+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -1233,8 +1233,8 @@
       "path": "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
       "category": "governance_and_docs",
       "size": 23541,
-      "sha256": "fef78a4c00748c7d5658f727d149076efde8f9cbc391181f2d3905cd708f2700",
-      "modified_utc": "2026-11-13T06:37:00+00:00"
+      "sha256": "d21c9558d4da490ba432c66933bfa921318ec118f64b87c90ea7d0248fd6c97c",
+      "modified_utc": "2026-11-13T07:36:10+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/GRAPH.md",
@@ -1254,8 +1254,8 @@
       "path": "ai_context/developer_llm_wiki/INDEX.md",
       "category": "governance_and_docs",
       "size": 3308,
-      "sha256": "4c4215abc2302d27409f79334ef231530a71b4cd672c1e540fc86e4e01309827",
-      "modified_utc": "2026-11-13T06:37:00+00:00"
+      "sha256": "4f18c04fd65df1065fd88a933e30adb4e988fbf9ee35c117eaf4180a80af2c81",
+      "modified_utc": "2026-11-13T07:36:10+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/MAINTENANCE.md",
@@ -1365,9 +1365,9 @@
     {
       "path": "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md",
       "category": "governance_and_docs",
-      "size": 975,
-      "sha256": "5a6a50b71ce5305bba2d5e3c62feee54eb75a30665ad0550bdeab1dde42b8ec9",
-      "modified_utc": "2026-11-13T06:37:00+00:00"
+      "size": 662,
+      "sha256": "43f942b6001b74b9c663c21df78e6a121c8df30a0017e532441bad77f09a1dda",
+      "modified_utc": "2026-11-13T07:36:10+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_coverage.md",
@@ -21182,9 +21182,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2314274,
-      "sha256": "5908a704db167c6b20bf20540c15084e42e2b1b20a216c0087a426a978e2d7bc",
-      "modified_utc": "2026-11-12T06:57:16+00:00"
+      "size": 2314280,
+      "sha256": "6f4085dd4aa087df9b68419241bdfb2d363a8ee1522a862833d45a49886e12a2",
+      "modified_utc": "2026-11-13T08:15:15+00:00"
     },
     {
       "path": "docs/community/Supporters.md",

@@ -63,6 +63,31 @@ provider-side code even when their historical filename contains "helpers".
 5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured
    injected sinks and does not guarantee their persistence.
 
+### Verified ingestion-to-RAG boundary (source-verified; 2026-11-13)
+
+The [RAGIngestionBridge](rag_ingestion_bridge.cpp) derives a document ID, but
+the inspected workflow path does not assign it to
+`ExtractionContext::manifest.file_id` before running workflow steps.
+[`chunk_embed`](../ingestion/steps/chunk_embed_step.cpp) constructs chunk IDs
+from that manifest field and sequence number. The bridge stamps
+`source_file_id` only after workflow execution, too late to correct a chunk ID
+already produced. The fallback path creates a different `doc_id + "#0"` ID.
+
+Writing a vector through the
+[VectorIndexSinkAdapter](../ingestion/ingestion_sinks.cpp) does not by itself
+prove that a canonical relational document is available for retrieval. The
+common [RAGProvider](../../include/rag/rag_provider.h) uses QueryEngine results
+and materializes their entity content. Its
+[provider test](../../tests/rag/test_rag_provider.cpp) explicitly writes both
+the relational entity and vector entry.
+
+The bridge logs a vector-writer failure but still returns `IndexResult::ok`
+and discards graph-writer results. Treat this as path-specific partial-success
+behavior, not as evidence of atomic multi-sink ingestion or complete RAG
+indexing. A future status contract should distinguish complete, partial, and
+failed indexing; introducing that behavior requires an explicit compatibility
+decision.
+
 ### Small-model context and decentralized retrieval (design target; 2026-11-13)
 
 The native database/LLM hybrid should select compact, complementary evidence

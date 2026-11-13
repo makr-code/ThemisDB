@@ -662,7 +662,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `fef78a4c00748c7d`
+- Hash: `d21c9558d4da490b`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
   - Datum: 2026-11-13
@@ -689,7 +689,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `4c4215abc2302d27`
+- Hash: `4f18c04fd65df106`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
   - ---

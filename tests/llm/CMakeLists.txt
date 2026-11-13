@@ -152,6 +152,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             THEMIS_TEST_REPO_ROOT="${THEMIS_ROOT_DIR}"
         )
     endif()
+    if(_stem STREQUAL "test_peft_subprocess_backend")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/peft_subprocess_backend.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_wave3_gap_fixes")
         target_sources(${_target} PRIVATE
             ${_llm_orchestrator_link_sources}
@@ -568,6 +573,13 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_llm_${_stem}_autofocused")
     set(_ctest "${_stem}_llm_AutoFocusedTests")
+
+    if(NOT THEMIS_ENABLE_VISION
+       AND (_stem STREQUAL "test_llm_vision_encoder"
+            OR _stem STREQUAL "test_llm_vision_integration"))
+        message(STATUS "Not registering ${_stem} autofocused target: THEMIS_ENABLE_VISION is OFF")
+        continue()
+    endif()
 
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
          OR _stem STREQUAL "test_llm_wiki_phase3_features_focused"
