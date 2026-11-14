@@ -434,7 +434,15 @@ public:
     VisionResponse generateVision(const VisionRequest& vision_request);
 #endif
     
-    std::vector<float> embed(const std::string& text) override;
+    /**
+     * @brief Computes a normalized embedding from the loaded model's final hidden state.
+     * @param[in] text Text to evaluate; empty text may tokenize to the model's BOS token.
+     * @return L2-normalized embedding; throws if the model, context, or output is unavailable.
+     * @throws std::invalid_argument if tokenized input exceeds the loaded context or batch limit.
+     * @throws std::runtime_error if model loading, decoding, or embedding retrieval fails.
+     * @note Temporarily enables embedding extraction and clears context memory before and after evaluation.
+     */
+    [[nodiscard]] std::vector<float> embed(const std::string& text) override;
     
     // ═══════════════════════════════════════════════════════════
     // Capabilities

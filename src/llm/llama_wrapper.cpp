@@ -2006,8 +2006,31 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     }
     
     try {
+        struct ContextReset {
+            llama_context* context;
+            bool embeddings_enabled;
+
+            ~ContextReset() {
+                llama_set_embeddings(context, embeddings_enabled);
+                if (auto memory = llama_get_memory(context)) {
+                    llama_memory_clear(memory, true);
+                }
+            }
+        } reset{lctx, config_.enable_embeddings};
+
+        auto memory = llama_get_memory(lctx);
+        if (!memory) {
+            throw std::runtime_error("llama.cpp context has no memory for embeddings");
+        }
+        llama_memory_clear(memory, true);
+        llama_set_embeddings(lctx, true);
+
         // 1. Tokenize input text
         std::vector<llama_token> tokens = tokenizeInternal(lmodel, text, true);
+        if (tokens.empty() || tokens.size() > llama_n_ctx(lctx) ||
+            tokens.size() > llama_n_batch(lctx)) {
+            throw std::invalid_argument("Embedding text is empty or exceeds loaded context/batch limits");
+        }
         
         // 2. Prepare batch for evaluation
         llama_batch batch = llama_batch_get_one(tokens.data(), static_cast<int32_t>(tokens.size()));
