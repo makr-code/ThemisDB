@@ -81,6 +81,20 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         'URLS "https://archive.apache.org/dist/thrift/${VERSION}/'
                         'thrift-${VERSION}.tar.gz"\n'
                     )
+                    make_common = directory / "vcpkg/ports/vcpkg-make/vcpkg_make_common.cmake"
+                    make_common.parent.mkdir(parents=True)
+                    make_common.write_text(
+                        'function(check_filter filter)\n'
+                        '    cmake_parse_arguments(PARSE_ARGV 0 arg "" "EXCLUDE_FILTER" "")\n'
+                        '    set(opts "--prefix=/installed" "--disable-shared")\n'
+                        '    if(NOT arg_EXCLUDE_FILTER STREQUAL "")\n'
+                        '        list(FILTER opts EXCLUDE REGEX "${arg_EXCLUDE_FILTER}")\n'
+                        '    endif()\n'
+                        '    set(result "${opts}" PARENT_SCOPE)\n'
+                        'endfunction()\n'
+                    )
+                    github_env = directory / "github-env"
+                    github_env.touch()
                     bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
                     bootstrap.write_text(
                         '#!/bin/bash\nset -euo pipefail\n'
@@ -106,12 +120,36 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         entry["setup_command"], directory,
                         PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
                         GITHUB_WORKSPACE=str(directory), RUNNER_TEMP=str(directory),
+                        GITHUB_ENV=str(github_env),
                         FAILURES=str(len(errors)), ERROR_LOG=str(error_log),
                         ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
                     )
                     self.assertEqual(result.returncode, status, result.stderr)
                     self.assertIn("https://dlcdn.apache.org/thrift/", thrift_port.read_text())
                     self.assertNotIn("https://archive.apache.org/dist/thrift/", thrift_port.read_text())
+                    overlay = directory / "vcpkg-make-overlay/vcpkg-make/vcpkg_make_common.cmake"
+                    self.assertIn("VCPKG_OVERLAY_PORTS=" + str(overlay.parent.parent), github_env.read_text())
+                    self.assertIn('if(NOT arg_EXCLUDE_FILTER STREQUAL "")', make_common.read_text())
+                    self.assertIn('if(DEFINED arg_EXCLUDE_FILTER AND NOT arg_EXCLUDE_FILTER STREQUAL "")',
+                                  overlay.read_text())
+                    if not errors:
+                        check = directory / "check-filter.cmake"
+                        check.write_text(
+                            f'include("{overlay}")\n'
+                            'check_filter(EXCLUDE_FILTER "")\n'
+                            'if(NOT result STREQUAL "--prefix=/installed;--disable-shared")\n'
+                            '  message(FATAL_ERROR "empty filter removed defaults: ${result}")\n'
+                            'endif()\n'
+                            'check_filter(EXCLUDE_FILTER "^--disable")\n'
+                            'if(NOT result STREQUAL "--prefix=/installed")\n'
+                            '  message(FATAL_ERROR "nonempty filter did not apply: ${result}")\n'
+                            'endif()\n'
+                        )
+                        cmake = subprocess.run(
+                            ["cmake", "-Wno-dev", "-P", str(check)],
+                            capture_output=True, text=True,
+                        )
+                        self.assertEqual(cmake.returncode, 0, cmake.stderr)
                     self.assertEqual(int(attempt_log.read_text()), attempts)
                     self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
                     self.assertEqual((directory / "model-step-ran").exists(), status == 0)
