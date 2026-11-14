@@ -1489,8 +1489,8 @@ TEST_F(DistributedTxnManagerTest, CommitWithoutWALFailsClosedBeforePhase2) {
     std::atomic<int> phase2_calls{0};
     cfg.remote_phase2_dispatch = [&phase2_calls](
             const std::string&, const std::string&, const std::string&, bool) {
-        const int call_no = ++phase2_calls;
-        return call_no > 6;
+        ++phase2_calls;
+        return false;
     };
 
     DistributedTransactionManager mgr2("coord-recovery-commit-replay", cfg);
@@ -1502,7 +1502,8 @@ TEST_F(DistributedTxnManagerTest, CommitWithoutWALFailsClosedBeforePhase2) {
 
     const auto pre_recovery = mgr2.getTransaction(tid);
     ASSERT_TRUE(pre_recovery.has_value());
-    EXPECT_EQ(pre_recovery->state, DistributedTxnState::COMMITTING);
+    EXPECT_EQ(pre_recovery->state, DistributedTxnState::PREPARED)
+        << "A commit without a WAL must not transition to COMMITTING";
 
     const size_t resolved = mgr2.recoverInDoubtTransactions();
     EXPECT_EQ(resolved, 0u);
@@ -1514,7 +1515,8 @@ TEST_F(DistributedTxnManagerTest, CommitWithoutWALFailsClosedBeforePhase2) {
     EXPECT_EQ(post_recovery->state, DistributedTxnState::ABORTING);
 }
 
-TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction) {
+TEST_F(DistributedTxnManagerTest,
+       RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction) {
     const std::string wal_dir = makeTempWalDir("commit_replay");
     {
         DistributedTxnManagerConfig cfg;
@@ -1531,7 +1533,7 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommitt
         cfg.remote_phase2_dispatch = [&phase2_calls](
                 const std::string&, const std::string&, const std::string&, bool) {
             const int call_no = ++phase2_calls;
-            return call_no > 3;
+            return call_no > 4;
         };
 
         DistributedTransactionManager mgr2("coord-recovery-wal-commit", cfg);
@@ -1548,7 +1550,7 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommitt
         const size_t failed_recovery = mgr2.recoverInDoubtTransactions();
         EXPECT_EQ(failed_recovery, 0u)
             << "Failed COMMIT replay must remain unresolved";
-        EXPECT_EQ(phase2_calls.load(), 6);
+        EXPECT_EQ(phase2_calls.load(), 4);
 
         const auto after_failed_recovery = mgr2.getTransaction(tid);
         ASSERT_TRUE(after_failed_recovery.has_value());
@@ -1556,7 +1558,7 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommitt
 
         const size_t resolved = mgr2.recoverInDoubtTransactions();
         EXPECT_GE(resolved, 1u);
-        EXPECT_EQ(phase2_calls.load(), 7)
+        EXPECT_EQ(phase2_calls.load(), 5)
             << "WAL recovery should keep retrying the durable COMMIT decision";
 
         const auto after_recovery = mgr2.getTransaction(tid);
@@ -1635,6 +1637,13 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALIsIdempotentAcrossRestartForPre
                 const std::string&, const std::string&, const std::string&, bool) {
             return true;
         };
+        recover_cfg.recovery_endpoint_resolver =
+            [](const std::string& node_id) -> std::optional<std::string> {
+                if (node_id == "remote-prepare-restart-node") {
+                    return "remote-prepare-restart-node:9090";
+                }
+                return std::nullopt;
+            };
 
         DistributedTransactionManager mgr3("coord-restart-prepare-recover-1", recover_cfg);
         const size_t first_resolved = mgr3.recoverInDoubtTransactions();
@@ -1707,9 +1716,9 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALDoesNotRecountCommitDecisionAcr
     removeTempWalDir(wal_dir);
 }
 
-// DTM-3: isParticipantAlive() must return true for in-process participants and
-// false for remote participants (no callback).
-TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote) {
+// DTM-3: A configured transport makes a remote participant contactable.
+TEST_F(DistributedTxnManagerTest,
+       DTM3_IsParticipantAliveRecognizesConfiguredRemoteTransport) {
     ScopedTempWalDir wal_dir("liveness-local-remote");
     DistributedTxnManagerConfig cfg;
     cfg.wal_directory = wal_dir.path();
@@ -1724,8 +1733,8 @@ TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRe
 
     EXPECT_TRUE(mgr2.isParticipantAlive("in-proc-node"))
         << "In-process participant with callback must be alive (DTM-3)";
-    EXPECT_FALSE(mgr2.isParticipantAlive("remote-node-dtm3"))
-        << "Remote participant without callback must be reported as not alive (DTM-3)";
+    EXPECT_TRUE(mgr2.isParticipantAlive("remote-node-dtm3"))
+        << "Remote participant with configured transport is contactable (DTM-3)";
     EXPECT_TRUE(mgr2.isParticipantAlive("unknown-node"))
         << "Unknown node (not in any txn) must default to alive (DTM-3)";
 

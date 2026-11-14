@@ -43,6 +43,7 @@ void appendParticipantRecord(
     themis::sharding::WALEntry entry;
     entry.type = type;
     entry.transaction_id = transaction_id;
+    entry.data = nlohmann::json::object();
     wal.append(entry);
     wal.flush();
 }
