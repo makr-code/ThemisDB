@@ -56,7 +56,11 @@ struct AdaLoraTTExport {
     std::string                          tenant = {};
     std::vector<AdaLoraTTLayerExport>    layers;
 
-    /// Total active TT-rank (sum across layers).
+    /**
+     * @brief Return the sum of active TT ranks across exported layers.
+     * @details Sums each layer's active rank without modifying the export.
+     * @return Total active rank; zero when the export has no layers.
+     */
     std::size_t totalActiveRank() const noexcept {
         std::size_t s = 0;
         for (const auto& l : layers) {
@@ -65,7 +69,10 @@ struct AdaLoraTTExport {
         return s;
     }
 
-    /// Total number of float32 parameters stored (TT-cores only, not base weights).
+    /**
+     * @brief Count float32 parameters in the exported TT cores.
+     * @return Total core parameter count, excluding base-model weights.
+     */
     std::size_t totalParameters() const noexcept;
 };
 
@@ -245,7 +252,11 @@ public:
      * If config.auto_deduplicate is true, inserts into the in-process
      * TensorFingerprintGraph; that similarity index is not persisted here.
      *
+     * @param exp Export to validate and store; its name and layers must be
+     *            non-empty, and any orthogonality claim must pass validation.
      * @return true only after the metadata write succeeds.
+     *         Returns false for invalid exports, absent storage, oversized
+     *         serialization, or a failed metadata write.
      */
     bool store(const AdaLoraTTExport& exp);
 
@@ -254,6 +265,11 @@ public:
      *
      * Forwards to store(exp) to preserve existing call sites and tests that
      * still use the historical method name.
+     *
+     * @details Performs no validation or persistence beyond store().
+     * @param exp Export to validate and store; subject to the same constraints
+     *            and failures as store().
+     * @return true if store() persists the export; false otherwise.
      */
     bool storeAdapter(const AdaLoraTTExport& exp) { return store(exp); }
 
@@ -333,8 +349,16 @@ public:
         double      avg_compression_ratio = 0.0; ///< TT vs. flat B+A matrices
     };
 
+    /**
+     * @brief Return the bridge's current diagnostic counters and aggregates.
+     * @return A copy of the current statistics.
+     */
     BridgeStats stats() const noexcept;
 
+    /**
+     * @brief Return the configuration used by this bridge.
+     * @return A const reference valid for the lifetime of this bridge.
+     */
     const AdaLoraTTBridgeConfig& config() const noexcept;
 
     // -----------------------------------------------------------------------
@@ -359,6 +383,13 @@ public:
      * @param fn  Function called by `mapAdapter()` to inject TT-cores into llama.cpp.
      */
     void setMapAdapterFn(MapAdapterFn fn);
+
+    /**
+     * @brief Remove the injected adapter-mapping callback.
+     *
+     * After clearing, mapAdapter() returns false until a callback is set again.
+     * The callback update is protected by the bridge's instance-level mutex.
+     */
     void clearMapAdapterFn();
 
     /**

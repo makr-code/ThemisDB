@@ -14,6 +14,8 @@ Exact model backend not verifiable from final document text alone.
 
 # Training Module
 
+## Zweck
+
 This module implements training-data preparation, LoRA/AdaLoRA adapters,
 incremental training, checkpoint and provenance handling, selection, and
 training-pipeline orchestration. Its public contracts are declared in
@@ -21,7 +23,7 @@ training-pipeline orchestration. Its public contracts are declared in
 the current implementation; it does not assert release readiness or that every
 planned data path is complete.
 
-## Component map
+## Scope
 
 | Component | Responsibility |
 |---|---|
@@ -37,12 +39,23 @@ planned data path is complete.
 | `provenance_tracker.cpp` | Record sample lineage and provenance |
 | `training_pipeline.cpp`, `adapter_serving.cpp` | Coordinate configured stages and adapter-serving handoff |
 
-## Data flow and limits
+## Integrationsueberblick
 
 `TrainingPipeline` runs enabled labeling, enrichment, quality/drift, selection,
 and training stages according to `PipelineConfig`. Individual components also
 expose their own interfaces; their input types and failure results are defined
 in the corresponding public headers.
+
+```mermaid
+flowchart LR
+  TP[TrainingPipeline] -->|selected IDs| ILT[IncrementalLoRATrainer]
+  QE[QueryEngine] -->|bounded samples| ILT
+  Provider[ITrainingSampleProvider] -->|bounded records| Consumer[AdaLoRATrainingPipeline]
+  Consumer -->|GGUF adapter export| Serving[Existing serving manager]
+```
+**Kurzinterpretation:** The DB-backed selection/training path and the provider-based
+AdaLoRA path are separate integrations; exporting an adapter does not prove its
+activation, quality, or latency in serving.
 
 The trainer supports bounded reads from its configured training collection
 through an injected `QueryEngine`; invalid collections, query failures, and
@@ -60,12 +73,9 @@ the configured backend; its fingerprint/similarity index remains in-process.
 `mapAdapter()` is only an injected hook and does not prove a serving handoff or
 latency. `TrainingDataIterator` is owned by `llm`, not this module. Broader
 input-route benchmarks and end-to-end acceptance remain open in
-[`ROADMAP.md`](./ROADMAP.md). Selection clustering currently uses a
-character-statistic heuristic rather than the configured embedding model, and
-the optional OCR path does not return recognized image text. See
-[`MODELING.md`](./MODELING.md) and [`EMBEDDING.md`](./EMBEDDING.md).
+[`ROADMAP.md`](./ROADMAP.md).
 
-## Provider-to-Consumer AdaLoRA Path
+### Provider-to-Consumer AdaLoRA Path
 
 `ITrainingSampleProvider` is the source boundary. The AQL adapter reads any
 authorized collection supported by `TrainingDataIterator`; the docs.db provider
@@ -81,7 +91,7 @@ cryptographically sign the exported adapter. Those remain explicit production
 requirements; callers must authorize the source and deployments must gate
 serving on their approved artifact-verification process.
 
-## Build and focused tests
+## Quickstart (Build/Run)
 
 Training tests under [`../../tests/training/`](../../tests/training/) are
 registered as focused targets with the `training` label and a 120-second
@@ -91,7 +101,39 @@ build the target for the changed component. See
 Training benchmarks are optional and require `THEMIS_BUILD_BENCHMARKS=ON`; see
 [`../../benchmarks/training/README.md`](../../benchmarks/training/README.md).
 
-## Developer references
+From a configured build directory, build a focused target and run the training
+label:
+
+```sh
+cmake --build <build-dir> --target module_training_test_training_pipeline_e2e_focused
+ctest --test-dir <build-dir> -L training --output-on-failure
+```
+
+## API/CLI Einstieg
+
+The module exposes C++ interfaces rather than a standalone training CLI. Start
+with [`API.md`](./API.md) and the public declarations in
+[`../../include/training/`](../../include/training/); `TrainingPipeline`,
+`IncrementalLoRATrainer`, `ITrainingSampleProvider`, and
+`AdaLoRATrainingPipeline` are the principal orchestration, training, source,
+and consumer entry points.
+
+## Known Limitations
+
+- Selection clustering uses a character-statistic heuristic rather than the
+  configured embedding model.
+- The optional OCR path does not return recognized image text.
+- Restart durability depends on the configured tensor-storage backend; the
+  AdaLoRA-TT fingerprint/similarity index remains in-process.
+- The adapter mapping hook is injected and does not demonstrate a production
+  serving handoff or latency.
+- Deployment authorization, cryptographic artifact signing, representative
+  latency evidence, and end-to-end acceptance remain open.
+
+See [`MODELING.md`](./MODELING.md), [`EMBEDDING.md`](./EMBEDDING.md), and
+[`ROADMAP.md`](./ROADMAP.md) for source-backed details and remaining gates.
+
+## Verweise
 
 - [`API.md`](./API.md) — public interface index and integration expectations.
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — module boundaries and data flow.

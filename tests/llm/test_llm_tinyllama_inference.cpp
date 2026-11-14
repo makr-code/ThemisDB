@@ -10,7 +10,7 @@
  *  INFER-05: KV-cache reuse acceleration — 2nd prefixed request ≥ 10% faster
  *  INFER-06: Grammar-constrained JSON output — response parses as valid JSON
  *  INFER-07: Timeout/cancellation — request cancelled after 5s, no resource leak
- *  INFER-08: Context-length limit — overlong prompt is rejected or truncated safely
+ *  INFER-08: Context-length limit — overlong prompt is rejected safely
  *  INFER-09: Multi-model fallback — missing model yields stub/skip, not crash
  *  INFER-10: Embedding generation — 768-dim output, L2-normalised
  *
@@ -352,11 +352,10 @@ TEST_F(TinyLlamaInferenceTest, Infer08_ContextLengthLimit) {
     }
     long_prompt += "Summarize:";
 
-    // Should not crash; may truncate or return an error
+    // The wrapper rejects prompts that exceed the loaded context or batch size.
     const std::string result = llm_->generate(long_prompt, /*max_tokens=*/30);
-    // We accept either a non-empty (truncated) result or an empty result,
-    // but the call must not throw or abort.
-    SUCCEED();
+    EXPECT_TRUE(result.empty()) << "An over-limit prompt should fail closed "
+                                   "rather than reach llama.cpp decode";
     spdlog::info("INFER-08: overlong prompt result size={}", result.size());
 }
 
