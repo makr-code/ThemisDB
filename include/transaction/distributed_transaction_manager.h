@@ -121,7 +121,8 @@ enum class DistributedTxnState {
     COMMITTING, ///< Phase 2 COMMIT in progress
     COMMITTED,  ///< All participants committed successfully
     ABORTING,   ///< Phase 2 ABORT in progress
-    ABORTED,    ///< Transaction aborted (vote NO, timeout, or explicit abort)
+    /// @brief Transaction aborted after a NO vote, timeout, or explicit abort.
+    ABORTED,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
