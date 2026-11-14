@@ -369,6 +369,18 @@ jobs:
             echo "::error::Failed to switch the Thrift source URL to the Apache CDN"
             exit 1
           }
+          # CMake before CMP0174 unsets empty parsed arguments; an unset filter
+          # otherwise excludes every default option, including --prefix.
+          make_overlay="${RUNNER_TEMP}/vcpkg-make-overlay"
+          mkdir -p "$make_overlay"
+          cp -a vcpkg/ports/vcpkg-make "$make_overlay/"
+          make_common="$make_overlay/vcpkg-make/vcpkg_make_common.cmake"
+          grep -Fxq '    if(NOT arg_EXCLUDE_FILTER STREQUAL "")' "$make_common" || {
+            echo "::error::Expected vcpkg-make option filter was not found"
+            exit 1
+          }
+          sed -i 's/if(NOT arg_EXCLUDE_FILTER STREQUAL "")/if(DEFINED arg_EXCLUDE_FILTER AND NOT arg_EXCLUDE_FILTER STREQUAL "")/' "$make_common"
+          echo "VCPKG_OVERLAY_PORTS=$make_overlay" >> "$GITHUB_ENV"
           for attempt in 1 2 3; do
           bootstrap_log="${RUNNER_TEMP:-/tmp}/vcpkg-bootstrap-${attempt}.log"
           set +e
