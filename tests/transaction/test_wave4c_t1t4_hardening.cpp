@@ -87,21 +87,23 @@ TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout) {
     ASSERT_EQ(lm.acquireLock(txB, key, LockType::SHARED, ms{500}).status,
               LockStatus::GRANTED);
 
-    std::atomic<LockStatus> statusA{LockStatus::GRANTED};
-    std::atomic<LockStatus> statusB{LockStatus::GRANTED};
+    std::atomic<LockStatus> statusA{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusB{LockStatus::TIMEOUT};
     std::atomic<bool> doneA{false}, doneB{false};
 
-    auto upgradeA = [&] {
-        statusA.store(lm.upgradeLock(txA, key, ms{5000}).status);
-        doneA.store(true);
-    };
-    auto upgradeB = [&] {
-        statusB.store(lm.upgradeLock(txB, key, ms{5000}).status);
-        doneB.store(true);
+    auto upgrade = [&](LockManager::TransactionId txn_id,
+                       std::atomic<LockStatus>& status,
+                       std::atomic<bool>& done) {
+        const auto result = lm.upgradeLock(txn_id, key, ms{5000});
+        status.store(result.status);
+        if (result.status == LockStatus::DENIED) {
+            lm.releaseAllLocks(txn_id);
+        }
+        done.store(true);
     };
 
-    std::thread tA(upgradeA);
-    std::thread tB(upgradeB);
+    std::thread tA([&] { upgrade(txA, statusA, doneA); });
+    std::thread tB([&] { upgrade(txB, statusB, doneB); });
 
     // Both should finish well within 2 seconds (deadlock detected, not 5s timeout)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
@@ -118,14 +120,17 @@ TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout) {
     EXPECT_TRUE(doneA.load() && doneB.load())
         << "Both upgrade attempts should complete (not hang until 5s timeout)";
 
-    // At least one must have been denied (deadlock) or the other granted
-    bool oneGranted = (statusA == LockStatus::GRANTED) || (statusB == LockStatus::GRANTED);
-    bool oneDenied  = (statusA == LockStatus::DENIED)  || (statusB == LockStatus::DENIED);
-    EXPECT_TRUE(oneGranted || oneDenied)
-        << "Expected at least one GRANTED and/or one DENIED in mutual upgrade scenario";
+    const bool aGranted = statusA.load() == LockStatus::GRANTED;
+    const bool bGranted = statusB.load() == LockStatus::GRANTED;
+    EXPECT_NE(aGranted, bGranted)
+        << "Exactly one upgrade should succeed after the denied transaction "
+           "releases its locks";
+    EXPECT_NE(statusA.load(), statusB.load())
+        << "The mutual upgrade should resolve as one GRANTED and one DENIED";
 
     // The important assertion: neither should have TIMED_OUT
-    bool anyTimeout = (statusA == LockStatus::TIMEOUT) || (statusB == LockStatus::TIMEOUT);
+    bool anyTimeout = (statusA.load() == LockStatus::TIMEOUT) ||
+                      (statusB.load() == LockStatus::TIMEOUT);
     EXPECT_FALSE(anyTimeout)
         << "Mutual upgrade deadlock should be detected without waiting for full timeout";
 
@@ -144,16 +149,38 @@ TEST(Wave4CT2UpgradeDeadlock, ThreeConcurrentUpgraders_NoHang) {
     ASSERT_EQ(lm.acquireLock(txB, key, LockType::SHARED, ms{500}).status, LockStatus::GRANTED);
     ASSERT_EQ(lm.acquireLock(txC, key, LockType::SHARED, ms{500}).status, LockStatus::GRANTED);
 
+    std::atomic<LockStatus> statusA{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusB{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusC{LockStatus::TIMEOUT};
     std::atomic<bool> doneA{false}, doneB{false}, doneC{false};
-    auto upA = [&]{ lm.upgradeLock(txA, key, ms{2000}); doneA.store(true); };
-    auto upB = [&]{ lm.upgradeLock(txB, key, ms{2000}); doneB.store(true); };
-    auto upC = [&]{ lm.upgradeLock(txC, key, ms{2000}); doneC.store(true); };
+    auto upgrade = [&](LockManager::TransactionId txn_id,
+                       std::atomic<LockStatus>& status,
+                       std::atomic<bool>& done) {
+        const auto result = lm.upgradeLock(txn_id, key, ms{2000});
+        status.store(result.status);
+        if (result.status == LockStatus::DENIED) {
+            lm.releaseAllLocks(txn_id);
+        }
+        done.store(true);
+    };
 
-    std::thread tA(upA), tB(upB), tC(upC);
+    std::thread tA([&] { upgrade(txA, statusA, doneA); });
+    std::thread tB([&] { upgrade(txB, statusB, doneB); });
+    std::thread tC([&] { upgrade(txC, statusC, doneC); });
     tA.join(); tB.join(); tC.join();
 
     EXPECT_TRUE(doneA.load() && doneB.load() && doneC.load())
         << "All upgrade threads should complete without hanging";
+    const int granted_count =
+        (statusA.load() == LockStatus::GRANTED) +
+        (statusB.load() == LockStatus::GRANTED) +
+        (statusC.load() == LockStatus::GRANTED);
+    const int denied_count =
+        (statusA.load() == LockStatus::DENIED) +
+        (statusB.load() == LockStatus::DENIED) +
+        (statusC.load() == LockStatus::DENIED);
+    EXPECT_EQ(granted_count, 1);
+    EXPECT_EQ(denied_count, 2);
 
     lm.releaseAllLocks(txA);
     lm.releaseAllLocks(txB);

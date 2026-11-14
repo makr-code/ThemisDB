@@ -22,7 +22,13 @@ Related issues: #7093, #7167
 ## Public surfaces
 
 - `TransactionManager` coordinates local transaction lifecycle and exposes transaction state/timeout behavior.
-- `LockManager::acquireLock()` and `upgradeLock()` return `LockResult` with `GRANTED`, `TIMEOUT`, or `DENIED`; the default lock wait is five seconds. The API also exposes release and two-phase-locking phase operations.
+- `LockManager::acquireLock()` and `upgradeLock()` return `LockResult` with
+  `GRANTED`, `TIMEOUT`, or `DENIED`; the default lock wait is five seconds. A
+  single shared-lock upgrader may wait while other holders drain; a competing
+  upgrader is denied to break the cycle. `DENIED` and `TIMEOUT` leave the
+  caller's existing shared lock held, so a denied transaction must abort or
+  release its locks. The API also exposes release and two-phase-locking phase
+  operations.
 - `Transaction::trackPredicateRead()` rejects a SERIALIZABLE read when predicate-lock capacity is exhausted; callers must stop or abort that operation. Predicate tracking remains a no-op when predicate locking is explicitly disabled.
 - `Saga` registers compensating callbacks and exposes `compensate()` / `compensateWithRetry()`; retry count defaults to three.
 - `DistributedTransactionManager` uses participant callbacks (`onPrepare`, `onCommit`, `onAbort`) and the declared distributed-state enum. Remote participants require a non-empty endpoint and explicit Phase-1 PREPARE and Phase-2 decision transports before `beginDistributed()` admits the transaction; missing values fail with `std::invalid_argument`. A transaction admitted through the static RPC hooks retains those hook snapshots until the decision is completed, so clearing a hook affects only later admissions.
