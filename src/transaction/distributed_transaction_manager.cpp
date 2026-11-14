@@ -351,7 +351,7 @@ DistributedTransactionManager::DistributedTransactionManager(
         const bool has_phase2_transport =
             static_cast<bool>(config_.phase2_rpc_fn) ||
             static_cast<bool>(config_.remote_phase2_dispatch) ||
-            hasExplicitRpcPhase2Fn();
+            getExplicitRpcPhase2Fn().has_value();
         if (!has_phase2_transport) {
             throw std::invalid_argument(
                 "DistributedTransactionManager [" + coordinator_id_ + "]: "
@@ -1510,8 +1510,8 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
         static_cast<bool>(config_.remote_phase1_dispatch) ||
         static_cast<bool>(config_.phase2_rpc_fn) ||
         static_cast<bool>(config_.remote_phase2_dispatch) ||
-        hasExplicitRpcPhase1Fn() ||
-        hasExplicitRpcPhase2Fn();
+        getExplicitRpcPhase1Fn().has_value() ||
+        getExplicitRpcPhase2Fn().has_value();
     if (has_transport_bridge) {
         return true;
     }
