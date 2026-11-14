@@ -1,4 +1,5 @@
 #include "transaction/distributed_transaction_manager.h"
+#include "sharding/epoch_fencing.h"
 #include "sharding/two_phase_commit_participant.h"
 
 #include <gtest/gtest.h>
@@ -8,6 +9,7 @@
 #include <cerrno>
 #include <chrono>
 #include <filesystem>
+#include <memory>
 #include <optional>
 #include <set>
 #include <stdexcept>
@@ -50,6 +52,25 @@ std::vector<themis::sharding::WALEntry> readWal(const std::string& wal_directory
     config.wal_directory = wal_directory;
     themis::sharding::WALManager wal(config);
     return wal.readRange(wal.getOldestLSN());
+}
+
+std::string makePreparePayload(
+    const std::shared_ptr<themis::sharding::EpochFencingManager>& fencing_manager
+) {
+    const auto token = fencing_manager->makeToken();
+    const auto issued_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        token.issued_at.time_since_epoch()).count();
+    nlohmann::json payload;
+    payload["operations"] = nlohmann::json::array({
+        {{"type", "put"}, {"key", "participant-key"}, {"value", "durable"}},
+    });
+    payload["fencing_token"] = {
+        {"epoch", token.epoch},
+        {"issuer", token.issuer},
+        {"shard_id", token.shard_id},
+        {"issued_at_ms", issued_at_ms},
+    };
+    return payload.dump();
 }
 
 std::string makeTempDirectory(const std::string& scenario) {
@@ -156,6 +177,11 @@ int runParticipantChild(
 ) {
     themis::sharding::TwoPhaseCommitParticipant::Config config;
     config.wal_directory = participant_wal;
+    themis::sharding::EpochFencingConfig fencing_config;
+    fencing_config.shard_id = "participant-process";
+    fencing_config.node_id = "coordinator-process";
+    config.fencing_manager =
+        std::make_shared<themis::sharding::EpochFencingManager>(fencing_config);
     themis::sharding::TwoPhaseCommitParticipant participant(
         "participant-process", config,
         [](const std::string&, const nlohmann::json&) { return true; },
@@ -165,10 +191,9 @@ int runParticipantChild(
             }
             return true;
         });
+    const auto payload = makePreparePayload(config.fencing_manager);
 
     if (stage == "prepare") {
-        const auto payload =
-            R"({"operations":[{"type":"put","key":"participant-key","value":"durable"}]})";
         if (!participant.onPrepare(transaction_id, "coordinator-process", payload)) {
             return 10;
         }
@@ -182,8 +207,6 @@ int runParticipantChild(
     }
 
     if (stage == "after_prepare") {
-        const auto payload =
-            R"({"operations":[{"type":"put","key":"participant-key","value":"durable"}]})";
         if (!participant.onPrepare(transaction_id, "coordinator-process", payload)) {
             return 13;
         }
@@ -192,8 +215,6 @@ int runParticipantChild(
     }
 
     if (stage == "during_commit" || stage == "after_ack") {
-        const auto payload =
-            R"({"operations":[{"type":"put","key":"participant-key","value":"durable"}]})";
         if (!participant.onPrepare(transaction_id, "coordinator-process", payload)) {
             return 14;
         }

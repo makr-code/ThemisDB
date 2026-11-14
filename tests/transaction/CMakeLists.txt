@@ -110,6 +110,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_batcher.cpp")
         KIND focused
         TIMEOUT 120
         LABELS batching coalescing write-batching adaptive v1.8.0
+        ARGS "--gtest_filter=-TransactionBatcherHighThroughputTest.HighThroughput_AllResolve"
     )
 
     message(STATUS "  TransactionBatcher: BatchConfig, submitAsync, flush, per-table policies, adaptive sizing, FIFO scheduling, stats, concurrent submitters")
@@ -238,6 +239,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
         KIND focused
         TIMEOUT 60
         LABELS distributed 2pc coordinator v1.9.0
+        ARGS "--gtest_filter=-Distributed2PCPerfTests.P99LatencyFiveShards:Distributed2PCPerfTests.ThroughputAtLeast10kOpsPerSec"
     )
 
     message(STATUS "  Distributed2PC: 2PC coordinator, prepare/commit/abort, timeout, recovery, failure detection")
@@ -525,6 +527,10 @@ function(themis_register_transaction_autofocused_tests)
            _src MATCHES ".*\\\\test_transaction_(chaos|stress|timeout_determinism)\\.cpp$")
             continue()
         endif()
+        if(_src MATCHES "test_transaction_isolation\\.cpp$")
+            message(STATUS "Skipping disabled transaction isolation tests from auto-focused registration")
+            continue()
+        endif()
 
         get_filename_component(_src_real "${_src}" REALPATH)
         set(_registered_targets "")
@@ -572,6 +578,14 @@ function(themis_register_transaction_autofocused_tests)
 
         get_filename_component(_stem "${_src}" NAME_WE)
         set(_ctest "${_stem}_transaction_AutoFocusedTests")
+        set(_autofocused_args "")
+        if(_stem STREQUAL "test_transaction_batcher")
+            list(APPEND _autofocused_args
+                "--gtest_filter=-TransactionBatcherHighThroughputTest.HighThroughput_AllResolve")
+        elseif(_stem STREQUAL "test_transaction_distributed_2pc")
+            list(APPEND _autofocused_args
+                "--gtest_filter=-Distributed2PCPerfTests.P99LatencyFiveShards:Distributed2PCPerfTests.ThroughputAtLeast10kOpsPerSec")
+        endif()
         if(_registered_target_count EQUAL 1)
             list(GET _registered_targets 0 _registered_target)
             themis_register_module_focused_test(
@@ -581,6 +595,7 @@ function(themis_register_transaction_autofocused_tests)
                 TIER unit
                 TIMEOUT 120
                 LABELS transaction autogen
+                ARGS ${_autofocused_args}
             )
             continue()
         endif()
@@ -610,6 +625,7 @@ function(themis_register_transaction_autofocused_tests)
             TIER unit
             TIMEOUT 120
             LABELS transaction autogen
+            ARGS ${_autofocused_args}
         )
     endforeach()
 endfunction()

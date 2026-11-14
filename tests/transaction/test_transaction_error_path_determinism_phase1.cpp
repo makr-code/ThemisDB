@@ -191,12 +191,15 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErr
     std::vector<std::thread> threads;
     std::atomic<int> success_count(0);
     std::atomic<int> expected_error_count(0);
+    std::atomic<int> failed_transactions(0);
 
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([this, i, &success_count, &expected_error_count] {
+        threads.emplace_back([this, i, &success_count, &expected_error_count,
+                              &failed_transactions] {
             auto txn_id = tx_manager_->beginTransaction();
             if (txn_id <= 0) {
                 ++expected_error_count;
+                ++failed_transactions;
                 return;
             }
 
@@ -223,6 +226,7 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErr
                 }
             } else {
                 ++expected_error_count;
+                ++failed_transactions;
             }
         });
     }
@@ -231,8 +235,8 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErr
         thread.join();
     }
 
-    EXPECT_EQ(success_count + expected_error_count, num_threads)
-        << "All transactions accounted for";
+    EXPECT_EQ(success_count + failed_transactions, num_threads)
+        << "Each transaction's initial operation should be accounted for once";
     EXPECT_GT(expected_error_count, 0) << "Invalid transitions should generate errors";
 }
 
@@ -356,13 +360,16 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, StressTest_HighFrequencyErrorP
     std::atomic<int> successful_ops(0);
     std::atomic<int> error_ops(0);
     std::atomic<int> recovery_ops(0);
+    std::atomic<int> failed_initial_ops(0);
 
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([this, &successful_ops, &error_ops, &recovery_ops] {
+        threads.emplace_back([this, &successful_ops, &error_ops, &recovery_ops,
+                              &failed_initial_ops] {
             for (int op = 0; op < ops_per_thread; ++op) {
                 auto txn_id = tx_manager_->beginTransaction();
                 if (txn_id <= 0) {
                     ++error_ops;
+                    ++failed_initial_ops;
                     continue;
                 }
 
@@ -384,6 +391,7 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, StressTest_HighFrequencyErrorP
                     }
                 } else {
                     ++error_ops;
+                    ++failed_initial_ops;
                 }
             }
         });
@@ -393,15 +401,14 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, StressTest_HighFrequencyErrorP
         thread.join();
     }
 
-    int total = successful_ops + error_ops + recovery_ops;
-    EXPECT_EQ(total, num_threads * ops_per_thread)
-        << "All operations should be accounted for";
+    EXPECT_EQ(successful_ops + failed_initial_ops, num_threads * ops_per_thread)
+        << "Each transaction's initial commit should be accounted for once";
 
     std::cout << "\nHigh-Frequency Error Path Stress Test:\n"
               << "  Successful Ops: " << successful_ops << "\n"
               << "  Error Ops: " << error_ops << "\n"
               << "  Recovery Ops: " << recovery_ops << "\n"
-              << "  Total: " << total << std::endl;
+              << "  Failed Initial Ops: " << failed_initial_ops << std::endl;
 }
 
 // ===== SUMMARY =====

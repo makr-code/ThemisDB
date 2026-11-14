@@ -1285,7 +1285,8 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
-                txn->state = DistributedTxnState::ABORTING;
+                txn->state = recovered_commit ? DistributedTxnState::COMMITTING
+                                              : DistributedTxnState::ABORTING;
             }
         }
     }

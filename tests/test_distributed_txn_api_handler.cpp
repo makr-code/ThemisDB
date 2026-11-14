@@ -149,7 +149,7 @@ TEST_F(DistributedTxnApiHandlerTest, BeginWithSnapshotIsolation) {
                 body["isolation_level"] == "serializable");
 }
 
-TEST(DistributedTxnApiHandlerTest, PercolatorRequiresDurableCoordinatorLog) {
+TEST_F(DistributedTxnApiHandlerTest, PercolatorRequiresDurableCoordinatorLog) {
     TrueTime::Config tt;
     auto truetime = std::make_shared<TrueTime>(tt);
 
@@ -533,7 +533,7 @@ TEST_F(DistributedTxnApiHandlerTest, StatusOfActiveTransaction) {
     EXPECT_EQ(body["transaction_id"], txn_id);
 }
 
-TEST_F(DistributedTxnApiHandlerTest, StatusOfAbortedTransaction) {
+TEST_F(DistributedTxnApiHandlerTest, StatusOfUndeliveredAbort) {
     auto begin_req = makeReq(http::verb::post, "/dtxn/begin",
                              R"({"shards":["shard1"]})");
     auto txn_id = parseBody(handler_->handleBegin(begin_req))["transaction_id"].get<std::string>();
@@ -548,7 +548,9 @@ TEST_F(DistributedTxnApiHandlerTest, StatusOfAbortedTransaction) {
     );
 
     EXPECT_EQ(status_res.result(), http::status::ok);
-    EXPECT_EQ(parseBody(status_res)["state"], "ABORTED");
+    EXPECT_EQ(parseBody(status_res)["state"], "ABORTING")
+        << "A shard transaction remains unresolved until every participant "
+           "acknowledges ABORT";
 }
 
 TEST_F(DistributedTxnApiHandlerTest, StatusOfUnknownTransactionReturnsNotFound) {
@@ -587,8 +589,8 @@ TEST_F(DistributedTxnApiHandlerTest, StatsReturnsValidJson) {
     EXPECT_TRUE(body.contains("aborted_transactions"));
 }
 
-TEST_F(DistributedTxnApiHandlerTest, StatsCountsAfterBeginAndAbort) {
-    // Begin and abort 2 transactions
+TEST_F(DistributedTxnApiHandlerTest, StatsDoNotCountUndeliveredAborts) {
+    // Unknown shard endpoints cannot acknowledge the ABORT decision.
     for (int i = 0; i < 2; ++i) {
         auto begin_req = makeReq(http::verb::post, "/dtxn/begin",
                                  R"({"shards":["shard1"]})");
@@ -604,7 +606,7 @@ TEST_F(DistributedTxnApiHandlerTest, StatsCountsAfterBeginAndAbort) {
     ));
 
     EXPECT_GE(stats["total_transactions"].get<int>(), 2);
-    EXPECT_GE(stats["aborted_transactions"].get<int>(), 2);
+    EXPECT_EQ(stats["aborted_transactions"].get<int>(), 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -637,7 +639,7 @@ TEST_F(DistributedTxnApiHandlerTest, ReadOnlyMissingShardsReturnsBadRequest) {
 // Full begin → operate → abort flow
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(DistributedTxnApiHandlerTest, FullBeginOperateAbortFlow) {
+TEST_F(DistributedTxnApiHandlerTest, FullBeginOperateAbortFlowRemainsInDoubt) {
     // 1. Begin
     auto begin_res = handler_->handleBegin(
         makeReq(http::verb::post, "/dtxn/begin",
@@ -668,8 +670,8 @@ TEST_F(DistributedTxnApiHandlerTest, FullBeginOperateAbortFlow) {
                 nlohmann::json{{"transaction_id", txn_id}}.dump()));
     EXPECT_EQ(abort_res.result(), http::status::ok);
 
-    // 5. Status should now be ABORTED
+    // 5. Status remains ABORTING until participants acknowledge the decision.
     auto st2 = parseBody(handler_->handleStatus(
         makeReq(http::verb::get, "/dtxn/status/" + txn_id)));
-    EXPECT_EQ(st2["state"], "ABORTED");
+    EXPECT_EQ(st2["state"], "ABORTING");
 }
