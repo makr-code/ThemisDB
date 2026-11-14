@@ -377,8 +377,11 @@ TEST_F(SSITest, MaxPredicateLocks_Enforced) {
 
     EXPECT_TRUE(txn->trackPredicateRead("a", "b").ok);
     EXPECT_TRUE(txn->trackPredicateRead("c", "d").ok);
-    // Third acquire exceeds the global limit of 2 – silently dropped.
-    EXPECT_TRUE(txn->trackPredicateRead("e", "f").ok);
+    // A SERIALIZABLE read must be rejected if its predicate lock cannot be stored.
+    auto overflow = txn->trackPredicateRead("e", "f");
+    EXPECT_FALSE(overflow.ok);
+    EXPECT_NE(overflow.message.find("predicate lock capacity is exhausted"),
+              std::string::npos);
 
     // Only 2 locks should be recorded (limit was reached before the 3rd).
     EXPECT_LE(mgr_->getLockManager().getPredicateLockCount(txn_id), 2u);

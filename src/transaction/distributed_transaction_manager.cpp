@@ -69,15 +69,8 @@ struct TransactionStateSnapshot {
     
 };
 
-// ============================================================================
-// RPC phase-2 bridge (BRIDGE_REF #279)
-//
-// STUB/SIMULATION NOTE:
-// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
-// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
-// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
-// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
-// ============================================================================
+// Default bridge callbacks fail closed. Runtime wiring must install a real
+// transport before a remote participant can be registered.
 
 namespace {
 using ParticipantDescriptorJson = nlohmann::json;
@@ -165,25 +158,14 @@ void DistributedTransactionManager::clearRpcPhase2Fn() {
  * @return Return value.
  * @details Calls: lock().
  */
-static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
+static std::optional<DistributedTransactionManager::RpcPhase2Fn>
+getExplicitRpcPhase2Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    if (!s_rpc_phase2_fn_overridden) {
+        return std::nullopt;
+    }
     return s_rpc_phase2_fn;
 }
-
-static bool hasExplicitRpcPhase2Fn() {
-    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
-    return s_rpc_phase2_fn_overridden;
-}
-
-// ============================================================================
-// RPC phase-1 bridge (BRIDGE_REF #279 — Phase-1 PREPARE extension)
-//
-// STUB/SIMULATION NOTE:
-// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
-// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
-// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
-// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
-// ============================================================================
 
 namespace {
 DistributedTransactionManager::RpcPhase1Fn makeDefaultRpcPhase1Fn() {
@@ -230,14 +212,13 @@ void DistributedTransactionManager::clearRpcPhase1Fn() {
  * @return Return value.
  * @details Calls: lock().
  */
-static DistributedTransactionManager::RpcPhase1Fn getRpcPhase1Fn() {
+static std::optional<DistributedTransactionManager::RpcPhase1Fn>
+getExplicitRpcPhase1Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
+    if (!s_rpc_phase1_fn_overridden) {
+        return std::nullopt;
+    }
     return s_rpc_phase1_fn;
-}
-
-static bool hasExplicitRpcPhase1Fn() {
-    std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
-    return s_rpc_phase1_fn_overridden;
 }
 
 // ============================================================================
@@ -370,7 +351,7 @@ DistributedTransactionManager::DistributedTransactionManager(
         const bool has_phase2_transport =
             static_cast<bool>(config_.phase2_rpc_fn) ||
             static_cast<bool>(config_.remote_phase2_dispatch) ||
-            hasExplicitRpcPhase2Fn();
+            getExplicitRpcPhase2Fn().has_value();
         if (!has_phase2_transport) {
             throw std::invalid_argument(
                 "DistributedTransactionManager [" + coordinator_id_ + "]: "
@@ -446,22 +427,46 @@ DistributedTransactionManager::beginDistributed(
             "DistributedTransactionManager::beginDistributed: participants must not be empty");
     }
 
-    // Stub #279 fail-fast contract: each remote participant needs a Phase-2
-    // delivery bridge at registration time to avoid PREPARED-state deadlocks.
+    // Both protocol phases must be configured before a remote participant is
+    // admitted; missing transport must not become an implicit vote or lost decision.
+    std::optional<RpcPhase1Fn> static_phase1_fn;
+    if (!config_.phase1_rpc_fn && !config_.remote_phase1_dispatch) {
+        static_phase1_fn = getExplicitRpcPhase1Fn();
+    }
+    std::optional<RpcPhase2Fn> static_phase2_fn;
+    if (!config_.phase2_rpc_fn && !config_.remote_phase2_dispatch) {
+        static_phase2_fn = getExplicitRpcPhase2Fn();
+    }
+    const bool has_phase1_transport =
+        static_cast<bool>(config_.phase1_rpc_fn) ||
+        static_cast<bool>(config_.remote_phase1_dispatch) ||
+        static_cast<bool>(static_phase1_fn);
     const bool has_phase2_transport =
         static_cast<bool>(config_.phase2_rpc_fn) ||
         static_cast<bool>(config_.remote_phase2_dispatch) ||
-        hasExplicitRpcPhase2Fn();
+        static_cast<bool>(static_phase2_fn);
     for (const auto& participant : participants) {
-        const bool is_remote_participant =
-            participant.callback == nullptr && !participant.endpoint.empty();
-        if (is_remote_participant && !has_phase2_transport) {
-            throw std::invalid_argument(
-                "DistributedTransactionManager::beginDistributed: remote participant '"
-                + participant.node_id
-                + "' has no Phase-2 transport bridge (set phase2_rpc_fn, "
-                  "remote_phase2_dispatch, or setRpcPhase2Fn); stub #279 "
-                  "requires fail-fast registration checks");
+        const bool is_remote_participant = participant.callback == nullptr;
+        if (is_remote_participant) {
+            if (participant.endpoint.empty()) {
+                throw std::invalid_argument(
+                    "DistributedTransactionManager::beginDistributed: remote participant '"
+                    + participant.node_id + "' has no endpoint");
+            }
+            if (!has_phase1_transport) {
+                throw std::invalid_argument(
+                    "DistributedTransactionManager::beginDistributed: remote participant '"
+                    + participant.node_id
+                    + "' has no Phase-1 transport bridge (set phase1_rpc_fn, "
+                      "remote_phase1_dispatch, or setRpcPhase1Fn)");
+            }
+            if (!has_phase2_transport) {
+                throw std::invalid_argument(
+                    "DistributedTransactionManager::beginDistributed: remote participant '"
+                    + participant.node_id
+                    + "' has no Phase-2 transport bridge (set phase2_rpc_fn, "
+                      "remote_phase2_dispatch, or setRpcPhase2Fn)");
+            }
         }
     }
 
@@ -512,6 +517,11 @@ DistributedTransactionManager::beginDistributed(
         // This ensures all subsequent operations use the copied txn_id, not the moved object.
         // Pattern: Move object, access by ID; never access moved object.
         transactions_.emplace(txn_id, std::move(rec));
+        if (static_phase1_fn || static_phase2_fn) {
+            static_rpc_bridges_.emplace(
+                txn_id, StaticRpcBridgeSnapshot{
+                    std::move(static_phase1_fn), std::move(static_phase2_fn)});
+        }
     }
 
     ++stat_total_;
@@ -734,6 +744,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
         return DistributedTxnStatus::Error("Transaction removed during commit: " + txn_id);
     }
     txn->state = DistributedTxnState::COMMITTED;
+    static_rpc_bridges_.erase(txn_id);
     ++stat_committed_;
     THEMIS_INFO("DistributedTransactionManager [{}] txn={} COMMITTED", coordinator_id_, txn_id);
     return DistributedTxnStatus::OK();
@@ -843,6 +854,7 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
         return;
     }
     txn->state = DistributedTxnState::ABORTED;
+    static_rpc_bridges_.erase(txn_id);
     ++stat_aborted_;
     THEMIS_INFO("DistributedTransactionManager [{}] txn={} ABORTED", coordinator_id_, txn_id);
 }
@@ -1006,6 +1018,7 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
             txn->state = recovered_commit ? DistributedTxnState::COMMITTED
                                           : DistributedTxnState::ABORTED;
+            static_rpc_bridges_.erase(item.txn_id);
             ++stat_recovered_;
             if (recovered_commit) {
                 ++stat_committed_;
@@ -1272,7 +1285,8 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
-                txn->state = DistributedTxnState::ABORTING;
+                txn->state = recovered_commit ? DistributedTxnState::COMMITTING
+                                              : DistributedTxnState::ABORTING;
             }
         }
     }
@@ -1497,8 +1511,8 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
         static_cast<bool>(config_.remote_phase1_dispatch) ||
         static_cast<bool>(config_.phase2_rpc_fn) ||
         static_cast<bool>(config_.remote_phase2_dispatch) ||
-        hasExplicitRpcPhase1Fn() ||
-        hasExplicitRpcPhase2Fn();
+        getExplicitRpcPhase1Fn().has_value() ||
+        getExplicitRpcPhase2Fn().has_value();
     if (has_transport_bridge) {
         return true;
     }
@@ -1664,6 +1678,7 @@ DistributedTransactionManager::findTransaction(const TransactionId& txn_id) cons
 bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_id) {
     // Snapshot participants under lock, then release before calling callbacks.
     std::vector<Participant> parts;
+    std::optional<RpcPhase1Fn> static_phase1_fn;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto* txn = findTransaction(txn_id);
@@ -1671,6 +1686,10 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
           return false;
         }
         parts = txn->participants;
+        const auto bridge_it = static_rpc_bridges_.find(txn_id);
+        if (bridge_it != static_rpc_bridges_.end()) {
+            static_phase1_fn = bridge_it->second.phase1;
+        }
     }
 
     const auto deadline =
@@ -1754,10 +1773,13 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
                 continue;
             }
 
-            if (auto legacy_p1_fn = getRpcPhase1Fn()) {
+            auto legacy_p1_fn = static_phase1_fn
+                ? static_phase1_fn
+                : getExplicitRpcPhase1Fn();
+            if (legacy_p1_fn) {
                 futures.push_back(submitTask([legacy_p1_fn, ep, nid, tid, cid, keys]() -> VoteResult {
                     try {
-                        const bool vote = legacy_p1_fn(nid, tid, keys);
+                        const bool vote = (*legacy_p1_fn)(nid, tid, keys);
                         if (!vote) {
                             THEMIS_WARN("2PC legacy Phase-1 RPC ABORT vote from node={} txn={} coordinator={}",
                                         nid, tid, cid);
@@ -1867,6 +1889,15 @@ bool DistributedTransactionManager::runPhase2Unlocked(
     const std::vector<Participant>& parts,
     bool                         do_commit
 ) {
+    std::optional<RpcPhase2Fn> static_phase2_fn;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto bridge_it = static_rpc_bridges_.find(txn_id);
+        if (bridge_it != static_rpc_bridges_.end()) {
+            static_phase2_fn = bridge_it->second.phase2;
+        }
+    }
+
     const auto deadline =
         std::chrono::steady_clock::now() + config_.commit_timeout;
 
@@ -1932,11 +1963,14 @@ bool DistributedTransactionManager::runPhase2Unlocked(
                 continue;
             }
 
-            if (auto legacy_rpc_fn = getRpcPhase2Fn()) {
+            auto legacy_rpc_fn = static_phase2_fn
+                ? static_phase2_fn
+                : getExplicitRpcPhase2Fn();
+            if (legacy_rpc_fn) {
                 futures.push_back(submitTask([legacy_rpc_fn, nid, tid, cid, dc]() {
                     return deliverPhase2WithRetry(
                         [&]() {
-                            legacy_rpc_fn(nid, tid, dc);
+                            (*legacy_rpc_fn)(nid, tid, dc);
                             return true;
                         },
                         "legacy Phase-2 RPC", nid, tid, cid, dc);
@@ -1944,12 +1978,8 @@ bool DistributedTransactionManager::runPhase2Unlocked(
                 continue;
             }
 
-            // CRITICAL FIX for stub #279: No Phase-2 transport available.
-            // This should have been caught during initialization if remote_phase1_dispatch is set,
-            // or during beginDistributed for per-transaction participants.
-            // If we reach here, either: (a) configuration is incomplete, or (b) Phase-2 bridge
-            // was cleared after initialization/beginDistributed (production safety violation).
-            // 
+            // A missing Phase-2 transport should have been caught during
+            // beginDistributed for newly admitted remote participants.
             // FIX: Implement fail-closed behavior - fail the entire Phase-2 delivery
             // instead of silently skipping this participant, which would leave them
             // in PREPARED state indefinitely.

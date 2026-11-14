@@ -175,6 +175,23 @@ static void removeTempWalDir(const std::string& wal_dir) {
                     << ec.message() << ")";
 }
 
+class ScopedTempWalDir {
+public:
+    explicit ScopedTempWalDir(const std::string& suffix)
+        : path_(makeTempWalDir(suffix)) {}
+
+    ~ScopedTempWalDir() {
+        removeTempWalDir(path_);
+    }
+
+    const std::string& path() const noexcept {
+        return path_;
+    }
+
+private:
+    std::string path_;
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture
 // ─────────────────────────────────────────────────────────────────────────────
@@ -462,10 +479,12 @@ TEST_F(DistributedTxnManagerTest, CommitCallsOnCommitOnAllParticipants) {
 // DTM-Phase2 fail-closed: deadline expiry must not report a successful COMMIT
 // ---------------------------------------------------------------------------
 TEST_F(DistributedTxnManagerTest, Phase2DeadlineExpiryFailsClosedOnCommit) {
+    ScopedTempWalDir wal_dir("phase2-deadline");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 0ms;  // force immediate Phase-2 deadline expiry
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
 
     auto mgr2 = std::make_unique<DistributedTransactionManager>("coord-phase2-deadline", cfg);
     const auto tid = mgr2->beginDistributed({makeParticipant("n1", p1.get())});
@@ -536,10 +555,12 @@ TEST_F(DistributedTxnManagerTest, ApplyCommitReturnsErrorForUnknownTxn) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(DistributedTxnManagerTest, CheckTimeoutsAbortsExpiredTransactions) {
+    ScopedTempWalDir wal_dir("timeout-abort");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 1ms;  // Very short timeout for test
+    cfg.wal_directory = wal_dir.path();
     auto short_mgr = std::make_unique<DistributedTransactionManager>("short-coord", cfg);
 
     auto tid = short_mgr->beginDistributed({makeParticipant("n1", p1.get())});
@@ -556,10 +577,12 @@ TEST_F(DistributedTxnManagerTest, CheckTimeoutsAbortsExpiredTransactions) {
 }
 
 TEST_F(DistributedTxnManagerTest, CheckTimeoutsDoesNotCountIncompleteAbortDelivery) {
+    ScopedTempWalDir wal_dir("timeout-incomplete-abort");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 1ms;
+    cfg.wal_directory = wal_dir.path();
     auto short_mgr = std::make_unique<DistributedTransactionManager>("short-incomplete-abort", cfg);
 
     AbortThrowingParticipant abort_thrower;
@@ -635,9 +658,11 @@ TEST_F(DistributedTxnManagerTest, PrepareTimeoutAbortsTransaction) {
         void onAbort(const std::string&) override {}
     } slow;
 
+    ScopedTempWalDir wal_dir("prepare-timeout");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 50ms;  // much shorter than 500ms sleep
     cfg.commit_timeout  = 2000ms;
+    cfg.wal_directory = wal_dir.path();
     auto timeout_mgr = std::make_unique<DistributedTransactionManager>("timeout-coord", cfg);
 
     auto tid = timeout_mgr->beginDistributed({makeParticipant("slow", &slow)});
@@ -835,8 +860,10 @@ TEST_F(DistributedTxnManagerTest, BeginDistributedEnforcesMaxActiveTransactions)
 }
 
 TEST_F(DistributedTxnManagerTest, BeginDistributedAllowsNewTxnAfterCommitReleasesCapacity) {
+    ScopedTempWalDir wal_dir("max-active-reuse");
     DistributedTxnManagerConfig cfg;
     cfg.max_active_transactions = 1;
+    cfg.wal_directory = wal_dir.path();
     auto limited_mgr = std::make_unique<DistributedTransactionManager>("max-active-reuse", cfg);
 
     const auto tid1 = limited_mgr->beginDistributed({makeParticipant("n1", p1.get())});
@@ -1030,9 +1057,11 @@ TEST(Distributed2PCPerfTests, WorkerThreadCountCanBeConfigured) {
 TEST(Distributed2PCPerfTests, FullHappyPathWithThreadPool) {
     MockParticipant p1, p2, p3;
 
+    ScopedTempWalDir wal_dir("perf-happy-path");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(0);  // immediate
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-coord-tp", cfg);
 
     auto tid = mgr.beginDistributed({
@@ -1056,10 +1085,12 @@ TEST(Distributed2PCPerfTests, FullHappyPathWithThreadPool) {
 TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     constexpr int N = 10;
 
+    ScopedTempWalDir wal_dir("perf-batched-prepare");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(30);
     cfg.prepare_timeout      = std::chrono::milliseconds(15000);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-coord-batch", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(N);
@@ -1107,9 +1138,11 @@ TEST(Distributed2PCPerfTests, AbortWithThreadPool) {
     MockParticipant p1, p2;
     MockParticipant aborting(MockParticipant::Policy::ALWAYS_ABORT);
 
+    ScopedTempWalDir wal_dir("perf-abort");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-coord-abort", cfg);
 
     auto tid = mgr.beginDistributed({
@@ -1132,9 +1165,11 @@ TEST(Distributed2PCPerfTests, AbortWithThreadPool) {
 TEST(Distributed2PCPerfTests, LegacyModeWorkerCount0) {
     MockParticipant p1, p2;
 
+    ScopedTempWalDir wal_dir("perf-legacy");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 0;  // legacy: std::async per call
     cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-coord-legacy", cfg);
 
     auto tid = mgr.beginDistributed({
@@ -1153,10 +1188,12 @@ TEST(Distributed2PCPerfTests, LegacyModeWorkerCount0) {
 TEST(Distributed2PCPerfTests, ConcurrentTxnsWithThreadPool) {
     constexpr int N = 100;
 
+    ScopedTempWalDir wal_dir("perf-concurrent");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 8;
     cfg.prepare_batch_window = std::chrono::milliseconds(0);
     cfg.prepare_timeout      = std::chrono::milliseconds(5000);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-coord-concurrent", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> pa(N), pb(N);
@@ -1202,9 +1239,11 @@ TEST(Distributed2PCPerfTests, P99LatencyFiveShards) {
     constexpr int ITERATIONS = 2000;
     constexpr int SHARDS     = 5;
 
+    ScopedTempWalDir wal_dir("perf-p99");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 8;
     cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-p99", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(SHARDS);
@@ -1254,9 +1293,11 @@ TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
     constexpr int DURATION_SEC = 3;
     constexpr int WORKER_THREADS = 8;
 
+    ScopedTempWalDir wal_dir("perf-throughput");
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = WORKER_THREADS;
     cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    cfg.wal_directory = wal_dir.path();
     DistributedTransactionManager mgr("perf-throughput", cfg);
 
     constexpr int MAX_PARTICIPANTS = 500;
@@ -1324,30 +1365,45 @@ static Participant makeRemoteParticipant(
     return p;
 }
 
-// DTM-1: A remote participant without a registered callback must vote ABORT,
-// not COMMIT.  prepareDistributed() with a remote-only participant must fail.
-TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutCallbackVotesAbort) {
-    const auto tid = mgr->beginDistributed({makeRemoteParticipant("remote-node-1")});
-    const auto status = mgr->prepareDistributed(tid);
-    EXPECT_FALSE(status.ok) << "Remote participant without callback must vote ABORT (DTM-1)";
+static void configureAcceptingRemoteTransports(DistributedTxnManagerConfig& cfg) {
+    cfg.phase1_rpc_fn = [](
+            const std::string&, const std::string&,
+            const std::set<std::string>&) {
+        return true;
+    };
+    cfg.remote_phase2_dispatch = [](
+            const std::string&, const std::string&,
+            const std::string&, bool) {
+        return true;
+    };
 }
 
-// DTM-1: Mixed — one local (COMMIT vote) and one remote (ABORT vote) participant.
-// The transaction must be aborted because the remote cannot confirm.
-TEST_F(DistributedTxnManagerTest, DTM1_MixedLocalAndRemoteVotesAbort) {
-    const auto tid = mgr->beginDistributed({
-        makeParticipant("local-node",  p1.get()),
-        makeRemoteParticipant("remote-node-2"),
-    });
-    const auto status = mgr->prepareDistributed(tid);
-    EXPECT_FALSE(status.ok) << "Mixed local+remote must abort when remote has no callback (DTM-1)";
-    // Local participant must have been asked to prepare.
-    EXPECT_GE(p1->prepareCount(), 1);
+// A callback-less remote participant requires explicit transports for both phases.
+TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutTransportsIsRejected) {
+    EXPECT_THROW(
+        mgr->beginDistributed({makeRemoteParticipant("remote-node-1")}),
+        std::invalid_argument);
 }
 
-// DTM-1 hardening: a configured Phase-2 bridge must not be used as a
-// compatibility shortcut for missing Phase-1 PREPARE transport.
-TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vote) {
+TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutEndpointIsRejected) {
+    Participant remote;
+    remote.node_id = "remote-node-without-endpoint";
+    EXPECT_THROW(mgr->beginDistributed({remote}), std::invalid_argument);
+}
+
+TEST_F(DistributedTxnManagerTest, DTM1_MixedParticipantsWithoutTransportsAreRejected) {
+    EXPECT_THROW(
+        mgr->beginDistributed({
+            makeParticipant("local-node", p1.get()),
+            makeRemoteParticipant("remote-node-2"),
+        }),
+        std::invalid_argument);
+    EXPECT_EQ(p1->prepareCount(), 0)
+        << "No participant may be prepared before transport validation succeeds";
+}
+
+// A configured Phase-2 bridge must not mask a missing Phase-1 transport.
+TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Transport) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
@@ -1371,18 +1427,16 @@ TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vot
         };
 
     DistributedTransactionManager mgr2("coord-no-phase1", cfg);
-    const auto tid = mgr2.beginDistributed({
-        makeParticipant("local-node", p1.get()),
-        makeRemoteParticipant("remote-node-no-phase1"),
-    });
-
-    const auto prepare_status = mgr2.prepareDistributed(tid);
-    EXPECT_FALSE(prepare_status.ok)
-        << "Missing Phase-1 bridge for a remote participant must fail prepare";
+    EXPECT_THROW(
+        mgr2.beginDistributed({
+            makeParticipant("local-node", p1.get()),
+            makeRemoteParticipant("remote-node-no-phase1"),
+        }),
+        std::invalid_argument);
     EXPECT_EQ(phase2_commit_calls.load(), 0)
-        << "Remote participant must never receive COMMIT without a PREPARE vote";
-    EXPECT_EQ(phase2_abort_calls.load(), 1)
-        << "Fail-closed path must send ABORT to remote participant";
+        << "No RPC phase may start when Phase-1 transport validation fails";
+    EXPECT_EQ(phase2_abort_calls.load(), 0);
+    EXPECT_EQ(p1->prepareCount(), 0);
 }
 
 // DTM-2: recoverInDoubtTransactions() must call onAbort on in-memory
@@ -1423,7 +1477,7 @@ TEST_F(DistributedTxnManagerTest, DTM2_RecoveryDoesNotMarkResolvedWhenAbortDeliv
         << "Failed recovery ABORT delivery must keep txn non-terminal";
 }
 
-TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTransaction) {
+TEST_F(DistributedTxnManagerTest, CommitWithoutWALFailsClosedBeforePhase2) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
@@ -1436,7 +1490,7 @@ TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTran
     cfg.remote_phase2_dispatch = [&phase2_calls](
             const std::string&, const std::string&, const std::string&, bool) {
         const int call_no = ++phase2_calls;
-        return call_no > 3;
+        return call_no > 6;
     };
 
     DistributedTransactionManager mgr2("coord-recovery-commit-replay", cfg);
@@ -1451,13 +1505,13 @@ TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTran
     EXPECT_EQ(pre_recovery->state, DistributedTxnState::COMMITTING);
 
     const size_t resolved = mgr2.recoverInDoubtTransactions();
-    EXPECT_GE(resolved, 1u);
-    EXPECT_EQ(phase2_calls.load(), 4)
-        << "Recovery should replay one additional COMMIT delivery after the initial 3 retries";
+    EXPECT_EQ(resolved, 0u);
+    EXPECT_EQ(phase2_calls.load(), 0)
+        << "A COMMIT without a durable decision must not be sent or replayed";
 
     const auto post_recovery = mgr2.getTransaction(tid);
     ASSERT_TRUE(post_recovery.has_value());
-    EXPECT_EQ(post_recovery->state, DistributedTxnState::COMMITTED);
+    EXPECT_EQ(post_recovery->state, DistributedTxnState::ABORTING);
 }
 
 TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction) {
@@ -1491,10 +1545,19 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommitt
         ASSERT_TRUE(before_recovery.has_value());
         EXPECT_EQ(before_recovery->state, DistributedTxnState::COMMITTING);
 
+        const size_t failed_recovery = mgr2.recoverInDoubtTransactions();
+        EXPECT_EQ(failed_recovery, 0u)
+            << "Failed COMMIT replay must remain unresolved";
+        EXPECT_EQ(phase2_calls.load(), 6);
+
+        const auto after_failed_recovery = mgr2.getTransaction(tid);
+        ASSERT_TRUE(after_failed_recovery.has_value());
+        EXPECT_EQ(after_failed_recovery->state, DistributedTxnState::COMMITTING);
+
         const size_t resolved = mgr2.recoverInDoubtTransactions();
         EXPECT_GE(resolved, 1u);
-        EXPECT_EQ(phase2_calls.load(), 4)
-            << "WAL recovery should replay one additional COMMIT delivery";
+        EXPECT_EQ(phase2_calls.load(), 7)
+            << "WAL recovery should keep retrying the durable COMMIT decision";
 
         const auto after_recovery = mgr2.getTransaction(tid);
         ASSERT_TRUE(after_recovery.has_value());
@@ -1548,9 +1611,15 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALIsIdempotentAcrossRestartForPre
         cfg.wal_directory       = wal_dir;
         cfg.sync_wal_writes     = true;
         cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+        cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                               const std::set<std::string>&) { return true; };
+        cfg.remote_phase2_dispatch = [](
+                const std::string&, const std::string&, const std::string&, bool) {
+            return true;
+        };
 
         DistributedTransactionManager mgr2("coord-restart-prepare-stage", cfg);
-        const auto tid = mgr2.beginDistributed({makeParticipant("n1", p1.get())});
+        const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-prepare-restart-node")});
         ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
     }
 
@@ -1562,6 +1631,10 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALIsIdempotentAcrossRestartForPre
         recover_cfg.wal_directory       = wal_dir;
         recover_cfg.sync_wal_writes     = true;
         recover_cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+        recover_cfg.remote_phase2_dispatch = [](
+                const std::string&, const std::string&, const std::string&, bool) {
+            return true;
+        };
 
         DistributedTransactionManager mgr3("coord-restart-prepare-recover-1", recover_cfg);
         const size_t first_resolved = mgr3.recoverInDoubtTransactions();
@@ -1637,21 +1710,27 @@ TEST_F(DistributedTxnManagerTest, RecoveryWithWALDoesNotRecountCommitDecisionAcr
 // DTM-3: isParticipantAlive() must return true for in-process participants and
 // false for remote participants (no callback).
 TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote) {
+    ScopedTempWalDir wal_dir("liveness-local-remote");
+    DistributedTxnManagerConfig cfg;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
+    DistributedTransactionManager mgr2("coord-liveness-local-remote", cfg);
+
     // Register a transaction with both an in-process and a remote participant.
-    const auto tid = mgr->beginDistributed({
+    const auto tid = mgr2.beginDistributed({
         makeParticipant("in-proc-node",  p1.get()),
         makeRemoteParticipant("remote-node-dtm3"),
     });
 
-    EXPECT_TRUE(mgr->isParticipantAlive("in-proc-node"))
+    EXPECT_TRUE(mgr2.isParticipantAlive("in-proc-node"))
         << "In-process participant with callback must be alive (DTM-3)";
-    EXPECT_FALSE(mgr->isParticipantAlive("remote-node-dtm3"))
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-node-dtm3"))
         << "Remote participant without callback must be reported as not alive (DTM-3)";
-    EXPECT_TRUE(mgr->isParticipantAlive("unknown-node"))
+    EXPECT_TRUE(mgr2.isParticipantAlive("unknown-node"))
         << "Unknown node (not in any txn) must default to alive (DTM-3)";
 
     // Clean up.
-    mgr->abortDistributed(tid);
+    mgr2.abortDistributed(tid);
 }
 
 // CC-1: logToWAL (via commitDistributed/abortDistributed) must propagate WAL
@@ -1659,7 +1738,7 @@ TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRe
 // by verifying that a successfully committed transaction was correctly recorded
 // (the positive case; negative/fault-injection testing requires a mock WAL).
 TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
-    // Without a WAL configured (default test fixture), commit must still work.
+    // A durably logged decision must still be delivered to every participant.
     const auto tid = mgr->beginDistributed({
         makeParticipant("n1", p1.get()),
         makeParticipant("n2", p2.get()),
@@ -1675,14 +1754,21 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
 // #279: Callback-less remote participants must receive Phase-2 ABORT through
 // the configured remote dispatcher.
 TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher) {
+    ScopedTempWalDir wal_dir("remote-abort-dispatch");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
 
     std::atomic<int> dispatch_calls{0};
     std::atomic<int> abort_calls{0};
     std::atomic<int> commit_calls{0};
+    cfg.phase1_rpc_fn = [](
+            const std::string&, const std::string&,
+            const std::set<std::string>&) {
+        return false;
+    };
     cfg.remote_phase2_dispatch =
         [&dispatch_calls, &abort_calls, &commit_calls](
             const std::string& /*txn_id*/,
@@ -1714,10 +1800,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatc
 // the configured remote dispatcher once a real Phase-1 bridge has collected a
 // COMMIT vote.
 TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher) {
+    ScopedTempWalDir wal_dir("remote-commit-dispatch");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
     cfg.phase1_rpc_fn = [](
             const std::string&,
@@ -1764,10 +1852,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispat
 // When phase1_rpc_fn is configured, the remote participant's PREPARE vote is
 // collected via RPC.  A YES vote (true) allows the transaction to commit.
 TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnYesVoteAllowsCommit) {
+    ScopedTempWalDir wal_dir("phase1-rpc-yes");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
@@ -1808,10 +1898,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnYesVoteAllowsCommit) {
 // When phase1_rpc_fn returns false, the remote participant votes NO and the
 // transaction must be aborted.
 TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnNoVoteAbortsTransaction) {
+    ScopedTempWalDir wal_dir("phase1-rpc-no");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
@@ -1850,10 +1942,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnNoVoteAbortsTransaction) {
 // When the phase1_rpc_fn throws, the coordinator treats it as an ABORT vote
 // (fail-closed).
 TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnExceptionIsAbortVote) {
+    ScopedTempWalDir wal_dir("phase1-rpc-throw");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
 
     cfg.phase1_rpc_fn = [](
             const std::string& /*endpoint*/,
@@ -1878,10 +1972,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnExceptionIsAbortVote) {
 // remote_phase1_dispatch is the config-level Phase-1 bridge (lower priority than
 // phase1_rpc_fn but higher than the static setRpcPhase1Fn).
 TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase1DispatchCommit) {
+    ScopedTempWalDir wal_dir("remote-phase1-dispatch");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
@@ -1918,10 +2014,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase1DispatchCommit) {
 // A pure-remote 2PC (all participants are remote) must succeed when a Phase-1
 // bridge is configured and all remote participants vote YES.
 TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase1Rpc) {
+    ScopedTempWalDir wal_dir("pure-remote");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> prepare_calls{0};
@@ -1965,10 +2063,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase
 // The static setRpcPhase1Fn / clearRpcPhase1Fn bridge works as the lowest-priority
 // fallback for Phase-1 PREPARE delivery.
 TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
+    ScopedTempWalDir wal_dir("static-phase1");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
     cfg.remote_phase2_dispatch = [](
             const std::string& /*txn_id*/, const std::string& /*node_id*/,
@@ -1999,7 +2099,57 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
     DistributedTransactionManager::clearRpcPhase1Fn();
 }
 
-TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnFallsBackToAbortVote) {
+TEST_F(DistributedTxnManagerTest, Stub279_AdmittedTransactionRetainsStaticBridgeSnapshot) {
+    struct StaticBridgeReset {
+        ~StaticBridgeReset() {
+            DistributedTransactionManager::clearRpcPhase1Fn();
+            DistributedTransactionManager::clearRpcPhase2Fn();
+        }
+    } reset;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = makeTempWalDir("static-bridge-snapshot");
+    const auto wal_dir = cfg.wal_directory;
+    cfg.liveness_check_fn =
+        [](const std::string&, const std::string&) { return true; };
+
+    std::atomic<int> phase1_calls{0};
+    std::atomic<int> phase2_commit_calls{0};
+    DistributedTransactionManager::setRpcPhase1Fn(
+        [&phase1_calls](const std::string&, const std::string&,
+                        const std::set<std::string>&) {
+            ++phase1_calls;
+            return true;
+        });
+    DistributedTransactionManager::setRpcPhase2Fn(
+        [&phase2_commit_calls](const std::string&, const std::string&, bool do_commit) {
+            if (do_commit) {
+                ++phase2_commit_calls;
+            }
+        });
+
+    {
+        DistributedTransactionManager mgr2("coord-static-snapshot", cfg);
+        const auto txn_id = mgr2.beginDistributed({
+            makeRemoteParticipant("remote-node")});
+
+        DistributedTransactionManager::clearRpcPhase1Fn();
+        DistributedTransactionManager::clearRpcPhase2Fn();
+
+        const auto prepared = mgr2.prepareDistributed(txn_id);
+        ASSERT_TRUE(prepared.ok) << prepared.message;
+        ASSERT_TRUE(mgr2.commitDistributed(txn_id).ok);
+    }
+
+    removeTempWalDir(wal_dir);
+    EXPECT_EQ(phase1_calls.load(), 1);
+    EXPECT_EQ(phase2_commit_calls.load(), 1);
+}
+
+TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnRejectsRemoteTransaction) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
@@ -2026,15 +2176,14 @@ TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnFallsBackToAbortV
     DistributedTransactionManager::clearRpcPhase1Fn();
 
     DistributedTransactionManager mgr2("coord-static-p1-cleared", cfg);
-    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-node")});
-
-    const auto prepare_result = mgr2.prepareDistributed(tid);
-    EXPECT_FALSE(prepare_result.ok)
-        << "Clearing the static Phase-1 bridge must restore the fail-closed ABORT vote";
+    EXPECT_THROW(
+        mgr2.beginDistributed({makeRemoteParticipant("remote-node")}),
+        std::invalid_argument)
+        << "A remote transaction without Phase-1 transport must fail before admission";
     EXPECT_EQ(static_p1_calls.load(), 0)
         << "Cleared Phase-1 bridge must not keep invoking the previous override";
-    EXPECT_EQ(phase2_abort_calls.load(), 1)
-        << "Fail-closed Phase-1 default must trigger a remote ABORT delivery";
+    EXPECT_EQ(phase2_abort_calls.load(), 0)
+        << "Phase-2 must not run for a transaction rejected before admission";
 }
 
 TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase2FnDoesNotCountAsTransportBridge) {
@@ -2058,10 +2207,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase2FnDoesNotCountAsTra
 
 // Phase-2 delivery must use 3-attempt retry with backoff before failing.
 TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesOnPersistentFailure) {
+    ScopedTempWalDir wal_dir("remote-phase2-retry");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
     cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
                            const std::set<std::string>&) { return true; };
@@ -2099,10 +2250,12 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesO
 
 // DTM-3b: Per-instance liveness_check_fn returns true → isParticipantAlive true.
 TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsTrue) {
+    ScopedTempWalDir wal_dir("liveness-instance-true");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
 
     std::atomic<int> liveness_calls{0};
     cfg.liveness_check_fn = [&liveness_calls](
@@ -2131,10 +2284,13 @@ TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsTrue) {
 
 // DTM-3c: Per-instance liveness_check_fn returns false → isParticipantAlive false.
 TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsFalse) {
+    ScopedTempWalDir wal_dir("liveness-instance-false");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
 
     cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
                                 const std::string& /*node_id*/) -> bool {
@@ -2154,10 +2310,13 @@ TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsFalse) {
 
 // DTM-3d: Per-instance liveness_check_fn throws → isParticipantAlive returns false (fail-closed).
 TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive) {
+    ScopedTempWalDir wal_dir("liveness-instance-throw");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
 
     cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
                                 const std::string& /*node_id*/) -> bool {
@@ -2176,10 +2335,13 @@ TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive
 }
 
 TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceCStringExceptionIsNotAlive) {
+    ScopedTempWalDir wal_dir("liveness-instance-throw-cstr");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
 
     cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
                                 const std::string& /*node_id*/) -> bool {
@@ -2199,11 +2361,14 @@ TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceCStringExceptionIsN
 
 // DTM-3e: Static liveness bridge (setLivenessCheckFn) is consulted when no per-instance fn set.
 TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
+    ScopedTempWalDir wal_dir("liveness-static-true");
     // No liveness_check_fn on config — relies on static bridge.
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
 
     std::atomic<int> static_calls{0};
     DistributedTransactionManager::setLivenessCheckFn(
@@ -2228,10 +2393,13 @@ TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
 }
 
 TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeStringExceptionIsNotAlive) {
+    ScopedTempWalDir wal_dir("liveness-static-throw");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
 
     DistributedTransactionManager::setLivenessCheckFn(
         [](const std::string& /*node_id*/,
@@ -2261,10 +2429,13 @@ TEST_F(DistributedTxnManagerTest, DTM3_InstanceBridgeTakesPriorityOverStaticBrid
             return true; // would say alive if consulted
         });
 
+    ScopedTempWalDir wal_dir("liveness-instance-priority");
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = wal_dir.path();
+    configureAcceptingRemoteTransports(cfg);
     cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
                                 const std::string& /*node_id*/) -> bool {
         return false; // instance bridge says dead → takes priority

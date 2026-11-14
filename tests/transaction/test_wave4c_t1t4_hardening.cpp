@@ -3,7 +3,7 @@
  * @brief Wave 4-C T1–T4 hardening regression tests.
  *
  * Coverage:
- *  T1 — STUB/SIMULATION NOTE present in distributed_transaction_manager.cpp
+ *  T1 — obsolete RPC simulation placeholder removed (runtime preflight is tested separately)
  *  T2 — Mutual upgrade deadlock detected promptly (not via timeout)
  *  T3 — GTM Phase-2 runs outside global mutex (non-blocking)
  *  T4 — Predicate lock drop increments counter + emits THEMIS_WARN
@@ -26,7 +26,7 @@ using namespace themis;
 using ms = std::chrono::milliseconds;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// T1 — STUB/SIMULATION NOTE documentation in source file
+// T1 — obsolete guarded-stub placeholder removed
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
@@ -49,24 +49,9 @@ bool fileContainsString(const std::string& path, const std::string& needle) {
 static const char* kDTMSourcePath =
     THEMIS_ROOT_DIR "/src/transaction/distributed_transaction_manager.cpp";
 
-TEST(Wave4CT1StubNote, Phase2BridgeHasStubNoteComment) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "STUB/SIMULATION NOTE"))
-        << "Expected STUB/SIMULATION NOTE comment in " << kDTMSourcePath;
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsActivation) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Activation:"))
-        << "Expected 'Activation:' field in STUB/SIMULATION NOTE";
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsProductionDelta) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Production Delta:"))
-        << "Expected 'Production Delta:' field in STUB/SIMULATION NOTE";
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsRemovalPlan) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Removal Plan:"))
-        << "Expected 'Removal Plan:' field in STUB/SIMULATION NOTE";
+TEST(Wave4CT1StubNote, SimulationPlaceholderRemoved) {
+    EXPECT_FALSE(fileContainsString(kDTMSourcePath, "STUB/SIMULATION NOTE"))
+        << "RPC transport is a production integration boundary, not a simulation path";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -102,21 +87,23 @@ TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout) {
     ASSERT_EQ(lm.acquireLock(txB, key, LockType::SHARED, ms{500}).status,
               LockStatus::GRANTED);
 
-    std::atomic<LockStatus> statusA{LockStatus::GRANTED};
-    std::atomic<LockStatus> statusB{LockStatus::GRANTED};
+    std::atomic<LockStatus> statusA{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusB{LockStatus::TIMEOUT};
     std::atomic<bool> doneA{false}, doneB{false};
 
-    auto upgradeA = [&] {
-        statusA.store(lm.upgradeLock(txA, key, ms{5000}).status);
-        doneA.store(true);
-    };
-    auto upgradeB = [&] {
-        statusB.store(lm.upgradeLock(txB, key, ms{5000}).status);
-        doneB.store(true);
+    auto upgrade = [&](LockManager::TransactionId txn_id,
+                       std::atomic<LockStatus>& status,
+                       std::atomic<bool>& done) {
+        const auto result = lm.upgradeLock(txn_id, key, ms{5000});
+        status.store(result.status);
+        if (result.status == LockStatus::DENIED) {
+            lm.releaseAllLocks(txn_id);
+        }
+        done.store(true);
     };
 
-    std::thread tA(upgradeA);
-    std::thread tB(upgradeB);
+    std::thread tA([&] { upgrade(txA, statusA, doneA); });
+    std::thread tB([&] { upgrade(txB, statusB, doneB); });
 
     // Both should finish well within 2 seconds (deadlock detected, not 5s timeout)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
@@ -133,14 +120,17 @@ TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout) {
     EXPECT_TRUE(doneA.load() && doneB.load())
         << "Both upgrade attempts should complete (not hang until 5s timeout)";
 
-    // At least one must have been denied (deadlock) or the other granted
-    bool oneGranted = (statusA == LockStatus::GRANTED) || (statusB == LockStatus::GRANTED);
-    bool oneDenied  = (statusA == LockStatus::DENIED)  || (statusB == LockStatus::DENIED);
-    EXPECT_TRUE(oneGranted || oneDenied)
-        << "Expected at least one GRANTED and/or one DENIED in mutual upgrade scenario";
+    const bool aGranted = statusA.load() == LockStatus::GRANTED;
+    const bool bGranted = statusB.load() == LockStatus::GRANTED;
+    EXPECT_NE(aGranted, bGranted)
+        << "Exactly one upgrade should succeed after the denied transaction "
+           "releases its locks";
+    EXPECT_NE(statusA.load(), statusB.load())
+        << "The mutual upgrade should resolve as one GRANTED and one DENIED";
 
     // The important assertion: neither should have TIMED_OUT
-    bool anyTimeout = (statusA == LockStatus::TIMEOUT) || (statusB == LockStatus::TIMEOUT);
+    bool anyTimeout = (statusA.load() == LockStatus::TIMEOUT) ||
+                      (statusB.load() == LockStatus::TIMEOUT);
     EXPECT_FALSE(anyTimeout)
         << "Mutual upgrade deadlock should be detected without waiting for full timeout";
 
@@ -159,20 +149,87 @@ TEST(Wave4CT2UpgradeDeadlock, ThreeConcurrentUpgraders_NoHang) {
     ASSERT_EQ(lm.acquireLock(txB, key, LockType::SHARED, ms{500}).status, LockStatus::GRANTED);
     ASSERT_EQ(lm.acquireLock(txC, key, LockType::SHARED, ms{500}).status, LockStatus::GRANTED);
 
+    std::atomic<LockStatus> statusA{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusB{LockStatus::TIMEOUT};
+    std::atomic<LockStatus> statusC{LockStatus::TIMEOUT};
     std::atomic<bool> doneA{false}, doneB{false}, doneC{false};
-    auto upA = [&]{ lm.upgradeLock(txA, key, ms{2000}); doneA.store(true); };
-    auto upB = [&]{ lm.upgradeLock(txB, key, ms{2000}); doneB.store(true); };
-    auto upC = [&]{ lm.upgradeLock(txC, key, ms{2000}); doneC.store(true); };
+    auto upgrade = [&](LockManager::TransactionId txn_id,
+                       std::atomic<LockStatus>& status,
+                       std::atomic<bool>& done) {
+        const auto result = lm.upgradeLock(txn_id, key, ms{2000});
+        status.store(result.status);
+        if (result.status == LockStatus::DENIED) {
+            lm.releaseAllLocks(txn_id);
+        }
+        done.store(true);
+    };
 
-    std::thread tA(upA), tB(upB), tC(upC);
+    std::thread tA([&] { upgrade(txA, statusA, doneA); });
+    std::thread tB([&] { upgrade(txB, statusB, doneB); });
+    std::thread tC([&] { upgrade(txC, statusC, doneC); });
     tA.join(); tB.join(); tC.join();
 
     EXPECT_TRUE(doneA.load() && doneB.load() && doneC.load())
         << "All upgrade threads should complete without hanging";
+    const int granted_count =
+        (statusA.load() == LockStatus::GRANTED) +
+        (statusB.load() == LockStatus::GRANTED) +
+        (statusC.load() == LockStatus::GRANTED);
+    const int denied_count =
+        (statusA.load() == LockStatus::DENIED) +
+        (statusB.load() == LockStatus::DENIED) +
+        (statusC.load() == LockStatus::DENIED);
+    EXPECT_EQ(granted_count, 1);
+    EXPECT_EQ(denied_count, 2);
 
     lm.releaseAllLocks(txA);
     lm.releaseAllLocks(txB);
     lm.releaseAllLocks(txC);
+}
+
+TEST(Wave4CLockWaiter, TimeoutRaceWithReleaseDoesNotLeakGrantedLock) {
+    LockManager lm;
+    const std::string key = "row:timeout_release_race";
+
+    for (LockManager::TransactionId txn_id = 1; txn_id <= 100; ++txn_id) {
+        ASSERT_EQ(lm.acquireLock(1000, key, LockType::EXCLUSIVE).status,
+                  LockStatus::GRANTED);
+
+        std::atomic<LockStatus> status{LockStatus::DENIED};
+        std::thread waiter([&] {
+            status.store(lm.acquireLock(
+                txn_id, key, LockType::SHARED, ms{5}).status);
+        });
+
+        const auto enqueue_deadline =
+            std::chrono::steady_clock::now() + std::chrono::seconds(1);
+        while (lm.getWaiters(key).empty() &&
+               std::chrono::steady_clock::now() < enqueue_deadline) {
+            std::this_thread::yield();
+        }
+        const bool enqueued = !lm.getWaiters(key).empty();
+        if (!enqueued) {
+            EXPECT_TRUE(lm.releaseLock(1000, key));
+            waiter.join();
+            ADD_FAILURE() << "Waiter was not enqueued before the timeout race";
+            continue;
+        }
+
+        std::this_thread::sleep_for(ms{5});
+        const bool released = lm.releaseLock(1000, key);
+        waiter.join();
+        ASSERT_TRUE(released);
+
+        if (status.load() == LockStatus::TIMEOUT) {
+            EXPECT_FALSE(lm.holdsLock(txn_id, key, LockType::SHARED))
+                << "A timed-out request must not own a lock";
+        } else {
+            ASSERT_EQ(status.load(), LockStatus::GRANTED);
+            EXPECT_TRUE(lm.holdsLock(txn_id, key, LockType::SHARED))
+                << "A granted request must be reflected in the transaction lock set";
+            EXPECT_TRUE(lm.releaseLock(txn_id, key));
+        }
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
