@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-07"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -283,10 +283,9 @@ See [`../../VERSIONING.md`](../../VERSIONING.md) and
 - Model identity/license, ONNX export method, tokenizer, preprocessing,
   retrieval dataset, supported providers, target hardware, and deployment limits
   remain open decisions.
-- The developer wiki health snapshot reports generation on 2026-11-02 and an
-  incomplete source delta. Current code, tests, benchmarks, and canonical module
-  documents above take precedence; refresh the wiki separately if it is used for
-  release decisions.
+- The Developer LLM wiki is derived context, not module evidence. Use the current
+  source, tests, benchmarks, and canonical module documents above for release
+  decisions.
 
 ## Breaking Changes
 
