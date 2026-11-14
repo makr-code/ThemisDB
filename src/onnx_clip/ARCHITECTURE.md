@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -137,4 +137,5 @@ authorization or admission control.
 - [`onnx_clip_plugin.h`](./onnx_clip_plugin.h)
 - [`include/plugins/image_analysis_interface.h`](../../include/plugins/image_analysis_interface.h)
 - [`tests/onnx_clip/`](../../tests/onnx_clip/)
+- [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md)
 - [`CMakeLists.txt`](./CMakeLists.txt)
