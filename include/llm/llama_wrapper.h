@@ -122,6 +122,11 @@ struct StateTransition {
           timestamp(std::chrono::system_clock::now()) {}
 };
 
+/**
+ * @brief Implements model loading and inference through llama.cpp.
+ * @details Owns the wrapper's configured model state and validates requests
+ *          before performing llama.cpp operations.
+ */
 class LlamaWrapper : public ILLMPlugin {
 public:
     struct Config {
@@ -339,6 +344,7 @@ public:
 
     /**
      * @brief Const overload of loraManager(); same lifetime and thread-safety rules.
+     * @details Returns a non-owning view of the manager owned by this wrapper.
      * @return Non-owning const pointer to the manager (may be nullptr).
      */
     [[nodiscard]] const MultiLoRAManager* loraManager() const noexcept { return lora_manager_.get(); }
@@ -347,8 +353,31 @@ public:
     // Inference
     // ═══════════════════════════════════════════════════════════
     
+    /**
+     * @brief Generate a completion for a sanitized request.
+     * @param request Request whose tokenized prompt must fit both the loaded
+     *                context and batch limits.
+     * @return Inference result; adapter-binding failures may be represented as
+     *         a failed result.
+     * @throws std::invalid_argument if prompt processing is rejected or the
+     *         prompt exceeds either loaded token limit.
+     * @throws std::runtime_error if model loading or inference fails.
+     */
     InferenceResponse generate(const InferenceRequest& request) override;
 
+    /**
+     * @brief Generate draft token IDs and their logits from the loaded model.
+     * @param request Request whose tokenized prompt must fit the loaded context
+     *                and batch limits.
+     * @param k Number of draft tokens to produce; must be greater than zero.
+     * @param vocab_size_hint Expected vocabulary size; a mismatch is ignored in
+     *                        favor of the loaded model's vocabulary.
+     * @return Draft token IDs and corresponding model logits.
+     * @throws std::invalid_argument if k is zero or the prompt exceeds a loaded
+     *         token limit.
+     * @throws std::runtime_error if model loading or decoding fails.
+     * @note Clears the model context's KV memory before evaluating the prompt.
+     */
     [[nodiscard]] DraftTokensResult generateDraftTokens(
         const InferenceRequest& request,
         size_t k,
@@ -373,6 +402,19 @@ public:
     [[nodiscard]] CausalLmForwardBatch forwardCausalBatchForTraining(
         const std::vector<int>& token_ids);
 
+    /**
+     * @brief Evaluate a prompt and draft tokens with the target model.
+     * @param request Request whose tokenized prompt must fit the loaded context
+     *                and batch limits.
+     * @param draft_token_ids Token IDs from the target vocabulary; each ID must
+     *                        be in range. An empty list returns prompt logits
+     *                        only.
+     * @return Logit rows for the prompt's final position and each draft token.
+     * @throws std::invalid_argument if the prompt exceeds loaded limits or a
+     *         draft token is outside the target vocabulary.
+     * @throws std::runtime_error if model loading or decoding fails.
+     * @note Clears the target context's KV memory before evaluating the prompt.
+     */
     [[nodiscard]] std::vector<std::vector<float>> computeTargetLogitsForTokens(
         const InferenceRequest& request,
         const std::vector<int>& draft_token_ids

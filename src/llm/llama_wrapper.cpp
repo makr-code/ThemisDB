@@ -73,6 +73,15 @@ namespace {
     return key;
 }
 
+void validatePromptTokenCount(const std::vector<llama_token> &prompt_tokens,
+                              const llama_context *context) {
+  if (prompt_tokens.size() > llama_n_ctx(context) ||
+      prompt_tokens.size() > llama_n_batch(context)) {
+    throw std::invalid_argument(
+        "Prompt token count exceeds the loaded context or batch limit");
+  }
+}
+
 /**
  * @brief RAII per-request LoRA binding (fail-closed).
  *
@@ -1587,6 +1596,7 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     }
 
     auto prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+    validatePromptTokenCount(prompt_tokens, lctx);
 
     llama_memory_t mem = llama_get_memory(lctx);
     if (mem) {
@@ -1697,6 +1707,7 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     }
 
     auto prompt_tokens = tokenizeInternal(model_handle, request.prompt, true);
+    validatePromptTokenCount(prompt_tokens, context_handle);
 
     auto mem = llama_get_memory(context_handle);
     if (mem) {
@@ -3025,7 +3036,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
-        
+        validatePromptTokenCount(prompt_tokens, target_context);
+        validatePromptTokenCount(prompt_tokens, draft_context_);
+
         InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
@@ -3292,7 +3305,8 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         }
         
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
-        
+        validatePromptTokenCount(prompt_tokens, lctx);
+
         InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;

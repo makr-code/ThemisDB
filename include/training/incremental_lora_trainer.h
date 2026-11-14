@@ -272,10 +272,12 @@ public:
      * @brief Train using only sample records selected from the configured DB collection.
      * @param mode Training mode for this run.
      * @param selected_sample_ids Non-empty collection `_key` values selected by the caller.
-     *        The IDs are copied into the read query; the caller retains ownership.
+     *        IDs must be unique and non-empty. The query filters on these IDs
+     *        before applying its result limit; the caller retains ownership.
      * @param callback Optional progress callback, invoked with the same contract as train().
      * @return Training result; `success` is false when the DB is unavailable, the selection
-     *         is empty, the query fails, or no selected records contain valid input/output.
+     *         is empty/invalid, the query fails, or any selected record is missing or
+     *         lacks valid non-empty input/output.
      * @note This overload requires a live QueryEngine and never falls back to synthetic data.
      */
     [[nodiscard]] TrainingResult trainSelected(

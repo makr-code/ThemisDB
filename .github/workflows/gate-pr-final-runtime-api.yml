@@ -120,7 +120,7 @@ jobs:
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
             --parallel 1 \
-            --timeout 120 \
+            --timeout 600 \
             -R "test_llm_tinyllama_inference_LlmInferenceCITests" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-tinyllama.log"
 

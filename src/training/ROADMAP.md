@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -20,7 +20,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Current Status
 
-The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint handling, provenance, data selection, and pipeline orchestration. Its core runtime is functional and broadly covered by focused tests; deployment authorization/signing, representative performance evidence, and operational release gates remain incomplete. Treat this as a production-candidate subsystem, not an independently production-approved training service.
+The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint handling, provenance, data selection, and pipeline orchestration. Selected-ID DB training now filters before applying its row bound and rejects incomplete selections; the AdaLoRA-TT bridge preserves effective scaling, validates its orthogonality claim, and persists serialized exports through the configured tensor-storage backend. Deployment authorization/signing, representative performance evidence, backend-specific restart verification, and operational release gates remain incomplete. Treat this as a production-candidate subsystem, not an independently production-approved training service.
 
 ## In Progress
 
@@ -77,6 +77,8 @@ work; historical completion labels do not close these new gates. See
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
 - [x] fail closed on DB query errors and invalid collection names; count and skip malformed/empty samples deterministically (Target: Q4 2026)
+- [x] filter selected IDs before the bounded DB result limit and fail closed for empty, duplicate, missing, or invalid selected records (Target: Q4 2026)
+- [x] preserve AdaLoRA effective scaling, report orthogonality only after checking active directions, and reject invalid TT core metadata (Target: Q4 2026)
 - [x] unify diagnostics across dataset, training, and adapter incident classes (Wave D: RUNBOOK_TRAINING_PIPELINE.md — 5 log patterns delivered 2026-09-16)
 
 ### Phase 4: Tests
@@ -85,6 +87,7 @@ work; historical completion labels do not close these new gates. See
 - [x] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Wave D: test_training_highcardinality_stress.cpp delivered 2026-09-16)
 - [x] extend deterministic stress fixtures for training-lifecycle workloads (Wave D: test_training_highcardinality_stress.cpp — HighCardinalityBatchDispatch, ConcurrentCheckpointStress, GradientAccumulationStress 2026-09-16)
 - [x] add isolated RocksDB/QueryEngine tests for iterator batches, trainer sample counts, persisted labels, selection IDs, and DB-backed pipeline training (Target: Q4 2026)
+- [x] cover a selected key beyond the unfiltered query limit, partial/duplicate selection failure, TT scaling/output round-trip, orthogonality reporting, and metadata reload (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for training hot paths (Wave D: bench_training_dedicated_gates.cpp — TR-BM-01..04 delivered 2026-09-16)
@@ -159,7 +162,8 @@ This assessment is based on the implementation, registered tests, and benchmark 
 
 ### Source and evidence map
 
-- Pipeline and selected-sample flow: [`training_pipeline.cpp`](./training_pipeline.cpp) passes selected IDs to `trainSelected()` when selection is enabled; [`test_training_pipeline_db.cpp`](../../tests/training/test_training_pipeline_db.cpp) covers DB-backed persistence/training. Older statements in [`TRAINING_CONTRACT.md`](../../include/training/TRAINING_CONTRACT.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md), and this module's [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) say those IDs are not passed. Reconcile those secondary-doc claims against current code and tests before using them as acceptance evidence.
+- Pipeline and selected-sample flow: [`training_pipeline.cpp`](./training_pipeline.cpp) passes selected IDs to `trainSelected()` when selection is enabled; [`incremental_lora_trainer.cpp`](./incremental_lora_trainer.cpp) filters by `_key` before limiting and rejects incomplete selections. Focused evidence is in [`test_incremental_lora_db_training.cpp`](../../tests/training/test_incremental_lora_db_training.cpp) and [`test_training_pipeline_db.cpp`](../../tests/training/test_training_pipeline_db.cpp).
+- TT bridge flow: [`adalora_tt_bridge.cpp`](./adalora_tt_bridge.cpp) preserves effective scaling, reports measured orthogonality status, and writes a serialized export to `TensorNetworkStorageEngine` metadata. [`test_adalora_tt_bridge_hardening.cpp`](../../tests/training/test_adalora_tt_bridge_hardening.cpp) covers numerical output, invalid orthogonality claims, and reload through an in-memory backend; this does not establish process-restart durability with RocksDB or a live serving handoff.
 - Trainer bounds and result metrics: [`incremental_lora_trainer.h`](../../include/training/incremental_lora_trainer.h); DB and lifecycle coverage includes [`test_incremental_lora_db_training.cpp`](../../tests/training/test_incremental_lora_db_training.cpp), [`test_checkpoint_recovery.cpp`](../../tests/training/test_checkpoint_recovery.cpp), and [`test_deterministic_training_lifecycle.cpp`](../../tests/training/test_deterministic_training_lifecycle.cpp).
 - Benchmark limits: [`benchmarks/training/README.md`](../../benchmarks/training/README.md), [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md), and the targets in [`benchmarks/training/CMakeLists.txt`](../../benchmarks/training/CMakeLists.txt). The `training` tests are glob-registered as focused unit tests in [`tests/training/CMakeLists.txt`](../../tests/training/CMakeLists.txt); the benchmarks are separately built and are not CTest tests.
 - Security and operating boundaries: [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md), [`SECURITY.md`](./SECURITY.md), and [`OPERATIONS.md`](./OPERATIONS.md).
@@ -171,6 +175,14 @@ This assessment is based on the implementation, registered tests, and benchmark 
 3. **Dataset governance and risk:** [Datasheets for Datasets](https://cacm.acm.org/research/datasheets-for-datasets/) advocates documenting dataset origin, composition, collection, and intended use. [NIST AI RMF 1.0](https://doi.org/10.6028/NIST.AI.100-1) organizes risk work as Govern/Map/Measure/Manage; [OWASP ML02:2023](https://owasp.github.io/www-project-machine-learning-security-top-10/docs/ML02_2023-Data_Poisoning_Attack.html) identifies training-data poisoning and recommends validation, access controls, monitoring, and audit. These support explicit dataset lineage, authorization, holdout evaluation, and fail-closed artifact verification before release.
 
 The measurements needed to close the gaps are not yet present as release evidence. Thresholds below are proposed acceptance gates for maintainers to confirm against representative workloads before implementation; they are not claims of current performance.
+
+### Training issue #7551 evidence update (2026-11-14)
+
+- **Selection correctness gate:** for a selected run, the query filters on the requested `_key` values before its result limit. Empty, duplicate, absent, malformed, or empty-content selections must produce `success=false` and `samples_trained=0`; successful runs must load exactly the unique requested IDs. The focused DB regression selects `sample_2` with a query limit of one and exercises partial and duplicate selections.
+- **TT numerical gate:** export stores the source adapter's `alpha/max_rank` separately from the TT factors. With `eps_orth=1e-4`, the bridge sets `orthogonal_validated=true` only when normalized active B-column and A-row Gram matrices are each within that Frobenius tolerance of identity. The focused round-trip compares adapter outputs at absolute tolerance `1e-5`; this is a deterministic unit gate, not evidence for quantized/backend or model-level quality.
+- **Persistence boundary:** serialized exports are stored via `TensorNetworkStorageEngine` metadata and can be reloaded after bridge recreation. A memory-backed test validates the engine API path only; production restart durability requires testing with the configured RocksDB backend. Similarity indexing remains in-process.
+- **Serving boundary:** `mapAdapter()` is an injected callback hook. No production tensor-to-GGUF serving handoff or adapter-switch p95/p99 measurement is established, so no adapter-switch speed claim is accepted.
+- **Release gates:** keep DB selected-ID, malformed-input, checkpoint/recovery, and bridge regressions green; before promotion, run the focused suite on release configuration and capture same-host/profile p50/p95/p99, throughput, and peak memory for DB read, training, checkpoint, and end-to-end paths. A >10% same-profile throughput regression blocks the mapped release gate; missing GGUF/GPU or representative-backend coverage is reported as not run, not as a pass.
 
 ## v2.5.0 Plan — Compatibility-Preserving Hardening
 

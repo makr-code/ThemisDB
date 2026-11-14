@@ -109,4 +109,67 @@ TEST_F(IncrementalLoRADbTrainingTest, InvalidCollectionIdentifierFailsClosed) {
     EXPECT_NE(result.error_message.find("invalid collection identifier"), std::string::npos);
 }
 
+TEST_F(IncrementalLoRADbTrainingTest, SelectedSampleBeyondCollectionLimitIsLoaded) {
+    auto config = makeConfig();
+    config.max_training_samples = 1;
+    themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
+
+    const auto result = trainer.trainSelected(
+        themis::training::TrainingMode::INITIAL, {"sample_2"});
+
+    ASSERT_TRUE(result.success) << result.error_message;
+    EXPECT_EQ(result.samples_trained, 1u);
+}
+
+TEST_F(IncrementalLoRADbTrainingTest, PartialSelectedSampleSetFailsClosed) {
+    auto config = makeConfig();
+    themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
+
+    const auto result = trainer.trainSelected(
+        themis::training::TrainingMode::INITIAL, {"sample_0", "missing_sample"});
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.samples_trained, 0u);
+    EXPECT_NE(result.error_message.find("could not load every selected sample"), std::string::npos);
+}
+
+TEST_F(IncrementalLoRADbTrainingTest, DuplicateSelectedSampleIdsFailClosed) {
+    auto config = makeConfig();
+    themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
+
+    const auto result = trainer.trainSelected(
+        themis::training::TrainingMode::INITIAL, {"sample_0", "sample_0"});
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.samples_trained, 0u);
+    EXPECT_NE(result.error_message.find("non-empty and unique"), std::string::npos);
+}
+
+TEST_F(IncrementalLoRADbTrainingTest, EmptySelectedSampleIdsFailClosed) {
+    auto config = makeConfig();
+    themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
+
+    const auto result = trainer.trainSelected(themis::training::TrainingMode::INITIAL, {});
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.samples_trained, 0u);
+    EXPECT_NE(result.error_message.find("at least one selected sample ID"), std::string::npos);
+}
+
+TEST_F(IncrementalLoRADbTrainingTest, SelectedRecordWithEmptyContentFailsClosed) {
+    themis::BaseEntity sample("empty_content");
+    sample.setField("input", std::string{});
+    sample.setField("output", std::string("answer"));
+    ASSERT_TRUE(indexes_->put("training_samples", sample).ok);
+
+    auto config = makeConfig();
+    themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
+    const auto result = trainer.trainSelected(
+        themis::training::TrainingMode::INITIAL, {"empty_content"});
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.samples_trained, 0u);
+    EXPECT_NE(result.error_message.find("could not load every selected sample"), std::string::npos);
+}
+
 }  // namespace
