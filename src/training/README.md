@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -46,13 +46,21 @@ in the corresponding public headers.
 
 The trainer supports bounded reads from its configured training collection
 through an injected `QueryEngine`; invalid collections, query failures, and
-empty valid datasets fail closed. The pipeline can persist labeled samples and
-train from that collection; focused RocksDB tests cover both paths. The
-pipeline's selection stage currently records selection results but does not
-pass the selected subset directly to the trainer, which reads its configured
-collection separately. `TrainingDataIterator` is owned by `llm`, not this
-module. Broader input-route benchmarks and end-to-end acceptance remain open
-in [`ROADMAP.md`](./ROADMAP.md). Selection clustering currently uses a
+empty valid datasets fail closed. With data selection enabled,
+`TrainingPipeline` passes selected IDs to `trainSelected()`. The trainer filters
+by `_key` before applying the bounded result limit and fails the run unless
+every unique, non-empty selected ID has a valid non-empty input/output record.
+This contract is covered by focused RocksDB tests, including keys outside the
+unfiltered result prefix and partial selections.
+
+The AdaLoRA-TT bridge preserves the effective alpha/rank scaling, reports
+orthogonality only when its configured tolerance passes, and stores serialized
+exports as `TensorNetworkStorageEngine` metadata. Restart durability depends on
+the configured backend; its fingerprint/similarity index remains in-process.
+`mapAdapter()` is only an injected hook and does not prove a serving handoff or
+latency. `TrainingDataIterator` is owned by `llm`, not this module. Broader
+input-route benchmarks and end-to-end acceptance remain open in
+[`ROADMAP.md`](./ROADMAP.md). Selection clustering currently uses a
 character-statistic heuristic rather than the configured embedding model, and
 the optional OCR path does not return recognized image text. See
 [`MODELING.md`](./MODELING.md) and [`EMBEDDING.md`](./EMBEDDING.md).

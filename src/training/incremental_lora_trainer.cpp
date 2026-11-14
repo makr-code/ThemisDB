@@ -1209,6 +1209,16 @@ public:
             error_message = "selected sample count exceeds max_training_samples";
             return false;
         }
+        std::unordered_set<std::string> selected_ids;
+        if (selected_sample_ids != nullptr) {
+            selected_ids.reserve(selected_sample_ids->size());
+            for (const auto& id : *selected_sample_ids) {
+                if (id.empty() || !selected_ids.insert(id).second) {
+                    error_message = "selected sample IDs must be non-empty and unique";
+                    return false;
+                }
+            }
+        }
         const auto isIdentifierStart = [](unsigned char ch) {
             return std::isalpha(ch) != 0 || ch == '_';
         };
@@ -1221,9 +1231,15 @@ public:
             return false;
         }
 
+        const std::string selected_filter = selected_sample_ids == nullptr
+            ? std::string{}
+            : " FILTER sample._key IN " + nlohmann::json(*selected_sample_ids).dump();
+        const size_t query_limit = selected_sample_ids == nullptr
+            ? config_.max_training_samples
+            : selected_ids.size();
         const std::string aql =
-            "FOR sample IN " + collection +
-            " LIMIT " + std::to_string(config_.max_training_samples) +
+            "FOR sample IN " + collection + selected_filter +
+            " LIMIT " + std::to_string(query_limit) +
             " RETURN { _key: sample._key, input: sample.input, output: sample.output }";
         auto query_result = ::themis::executeAql(aql, *query_engine_);
         if (!query_result) {
@@ -1244,19 +1260,21 @@ public:
         }
 
         training_data.reserve(std::min(rows->size(), config_.max_training_samples));
-        const std::unordered_set<std::string> selected_ids = selected_sample_ids == nullptr
-            ? std::unordered_set<std::string>{}
-            : std::unordered_set<std::string>(selected_sample_ids->begin(), selected_sample_ids->end());
         size_t invalid_rows = 0;
+        std::unordered_set<std::string> loaded_selected_ids;
+        loaded_selected_ids.reserve(selected_ids.size());
         for (const auto& row : *rows) {
+            if (selected_sample_ids != nullptr) {
+                if (!row.is_object() || !row.contains("_key") || !row["_key"].is_string() ||
+                    !selected_ids.contains(row["_key"].get<std::string>())) {
+                    ++invalid_rows;
+                    continue;
+                }
+                loaded_selected_ids.insert(row["_key"].get<std::string>());
+            }
             if (!row.is_object() || !row.contains("input") || !row.contains("output") ||
                 !row["input"].is_string() || !row["output"].is_string()) {
                 ++invalid_rows;
-                continue;
-            }
-            if (selected_sample_ids != nullptr &&
-                (!row.contains("_key") || !row["_key"].is_string() ||
-                 !selected_ids.contains(row["_key"].get<std::string>()))) {
                 continue;
             }
             auto input = row["input"].get<std::string>();
@@ -1264,6 +1282,16 @@ public:
             if (!input.empty() && !output.empty()) {
                 training_data.emplace_back(std::move(input), std::move(output));
             }
+        }
+        if (selected_sample_ids != nullptr &&
+            (training_data.size() != selected_ids.size() ||
+             loaded_selected_ids.size() != selected_ids.size())) {
+            error_message = "DB-backed LoRA training could not load every selected sample "
+                "(requested=" + std::to_string(selected_ids.size()) +
+                ", loaded=" + std::to_string(training_data.size()) +
+                ", matched_ids=" + std::to_string(loaded_selected_ids.size()) +
+                ", invalid_rows=" + std::to_string(invalid_rows) + ")";
+            return false;
         }
         if (training_data.empty()) {
             error_message = "DB-backed LoRA training collection contained no valid input/output samples (rows=" +
@@ -2460,4 +2488,3 @@ void IncrementalLoRATrainer::enableIntermediateCheckpointing(bool enabled, size_
 
 } // namespace training
 } // namespace themis
-

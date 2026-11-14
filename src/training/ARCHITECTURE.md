@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,7 +47,7 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 - Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
 - DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads bounded, validated samples from that collection; `TrainingDataIterator` executes AQL and yields batches.
 - AdaLoRA provider/consumer path: `ITrainingSampleProvider` normalizes source-specific records into bounded `TrainingSampleRecord` batches. `AqlTrainingSampleProvider` adapts `TrainingDataIterator` for authorized collections. `DocsDbTrainingSampleProvider` opens generated RocksDB read-only, prefers full `chunk_` records, and falls back to legacy `doc_` previews. `AdaLoRATrainingPipeline::trainFromProvider()` is the source-neutral consumer and owns tokenization, frozen-model forward passes, AdaLoRA updates, checkpoints, and GGUF export.
-- Selection-to-training path: `TrainingPipeline` passes selected sample IDs to `IncrementalLoRATrainer::trainSelected()`. The DB loader currently applies its AQL `LIMIT` before filtering the returned rows by those IDs, so a selected key outside that bounded result is omitted; the path does not guarantee training on the complete selected set.
+- Selection-to-training path: `TrainingPipeline` passes selected sample IDs to `IncrementalLoRATrainer::trainSelected()`. The DB query filters `_key` against the requested IDs before applying a limit equal to the unique selected-ID count. Empty, duplicate, or missing IDs and records with invalid/empty input or output fail closed; this path does not fall back to collection-wide or synthetic training.
 - End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training; stage timings remain observable independently.
 - Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
 - The benchmark covers preparation-only and DB-backed CPU paths without a model artifact. Actual model-backed LoRA cases require a real GGUF and remain unmeasured when the preflight cannot find one.
@@ -98,12 +98,15 @@ Multi-LoRA serving -> monitor/rollback. Keep training on a dedicated wrapper,
 outside interactive request threads and without long-held DB locks.
 
 Tensor export through
-[`AdaLoraTTBridge`](../../include/training/adalora_tt_bridge.h) is a distinct
-representation transformation: qualify scaling/rank, reconstruction error,
-round-trip and actual serving handoff. Its illustrative runtime examples are
-not evidence of direct TT execution or adapter-switch latency. See
-[the detailed backlog](FUTURE_ENHANCEMENTS.md) and
-[native inference architecture](../llm/ARCHITECTURE.md).
+[`AdaLoraTTBridge`](../../include/training/adalora_tt_bridge.h) preserves the
+effective alpha/max-rank scaling and checks orthogonality of normalized active
+directions against `eps_orth`; it does not orthogonalize them. Complete exports
+are serialized through `TensorNetworkStorageEngine` metadata. Durable restart
+behavior depends on the configured backend, and the fingerprint index is
+in-process. `mapAdapter()` is an injectable hook, not a proven serving handoff;
+no adapter-switch latency claim is supported. See [the detailed
+backlog](FUTURE_ENHANCEMENTS.md) and [native inference
+architecture](../llm/ARCHITECTURE.md).
 
 | Contract | Behavior |
 |---|---|
@@ -191,7 +194,7 @@ promotion, or that every training input uses this provider interface.
 
 ### Critical Integration: RAG LoRA Data Selection
 **Files:** `src/rag/continuous_learning_orchestrator.cpp` ↔ `include/training/lora_data_selection.h`
-**Contract:** The RAG continuous-learning orchestrator owns and calls `DataSelectionPipeline` to select candidate samples before retraining. This is separate from `TrainingPipeline`'s selection stage: the latter passes selected IDs to `trainSelected()`, but its DB-backed trainer limits query results before filtering those results by selected ID. It therefore does not guarantee that the exact selected set is trained.
+**Contract:** The RAG continuous-learning orchestrator owns and calls `DataSelectionPipeline` to select candidate samples before retraining. This is separate from `TrainingPipeline`'s selection stage: the latter passes selected IDs to `trainSelected()`, whose DB query filters by those IDs before applying its bounded limit and rejects incomplete selected sets.
 **Thread Safety:** Ownership and synchronization are defined by the RAG orchestrator and training selection interfaces; do not assume there is no shared mutable state without checking those contracts.
 
 ## Verweise

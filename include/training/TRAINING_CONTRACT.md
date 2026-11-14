@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,12 +35,16 @@ input/output samples. Malformed rows are skipped; a collection with no valid
 rows is an error.
 
 The pipeline can use injected query and sample-storage dependencies to persist
-labeled samples and train from the configured collection. The focused RocksDB
-pipeline test verifies persisted and consumed sample counts with selection
-disabled. In the current implementation, selection results are recorded by
-the pipeline but are not passed directly to the trainer, which reads its
-configured collection separately. `TrainingDataIterator` is owned by the
-`llm` module and has a separate AQL batch-reading path.
+labeled samples and train from the configured collection. When selection is
+enabled, it passes selected IDs to `trainSelected()`. That method requires a
+live query engine and a non-empty, unique ID list; the DB query filters by the
+selected `_key` values before applying a limit equal to their count. Training
+fails unless each requested ID resolves to a record with non-empty string
+`input` and `output`. It never falls back to collection-wide or synthetic
+training on this path. Focused RocksDB tests cover persistence, selected keys
+beyond the initial collection prefix, and partial/duplicate selection failure.
+`TrainingDataIterator` is owned by the `llm` module and has a separate AQL
+batch-reading path.
 
 ## Checkpoint and serving behavior
 
@@ -56,6 +60,12 @@ configured collection separately. `TrainingDataIterator` is owned by the
   fields and verify external router state after a failed handoff.
 - The pipeline's stage sequence does not include serving handoff as an
   automatic `run()` stage; deployment is a separate trainer/router operation.
+- `AdaLoraTTBridge` stores a serialized adapter export through
+  `TensorNetworkStorageEngine` metadata and loads it from that engine when its
+  local cache misses. Persistence across process restarts depends on the
+  configured storage backend; a memory backend is not durable. Its similarity
+  fingerprint index is in-process, and the injectable `mapAdapter()` hook is
+  not evidence of a live serving handoff or adapter-switch latency.
 
 ## Error-code reference
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -46,10 +46,10 @@ source-grounded capability summary, not a release-readiness statement.
   failed queries, and empty valid datasets fail closed. The pipeline can persist
   labeled samples and train from that collection. Focused RocksDB tests cover
   these paths, but do not establish all production deployment behavior.
-- `TrainingDataIterator` is owned by `llm`, not this module. The pipeline's
-  selection stage records its output but does not pass the selected subset
-  directly to the trainer, which reads its configured collection separately.
-  Broader route benchmarks and acceptance remain open in `ROADMAP.md`.
+- `TrainingDataIterator` is owned by `llm`, not this module. When pipeline
+  selection is enabled, selected IDs are filtered by `_key` before the trainer
+  applies its result limit. Missing or invalid members fail the selected run;
+  broader route benchmarks and acceptance remain open in `ROADMAP.md`.
 - Selection clustering currently uses character statistics, not embeddings
   produced by the configured model name.
 - The optional OCR path does not currently return recognized image text.

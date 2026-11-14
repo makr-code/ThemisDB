@@ -18,6 +18,7 @@
 #include "storage/tensor_network_storage_engine.h"
 
 #include <cmath>
+#include <memory>
 #include <numeric>
 #include <string>
 #include <thread>
@@ -69,6 +70,11 @@ AdaLoraTTExport makeMinimalExport(const std::string& name = "test_adapter",
 /// Build a bridge with nullptr engine (storage disabled; export/import still work).
 AdaLoraTTBridge makeBridge() {
     return AdaLoraTTBridge(nullptr, AdaLoraTTBridgeConfig{});
+}
+
+std::shared_ptr<TensorNetworkStorageEngine> makeStorageEngine() {
+    return std::make_shared<TensorNetworkStorageEngine>(
+        std::make_shared<InMemoryTensorBackend>());
 }
 
 } // namespace
@@ -179,7 +185,7 @@ TEST(AdaLoraTTBridgeStub271, ALTB_P4_03_clear_training_step_fn_reverts_builtin) 
 TEST(AdaLoraTTBridgeDRFix, ALTB_DR_01_concurrent_store_adapter_no_crash) {
     AdaLoraTTBridgeConfig cfg;
     cfg.auto_deduplicate = true;
-    AdaLoraTTBridge bridge(nullptr, cfg);
+    AdaLoraTTBridge bridge(makeStorageEngine(), cfg);
 
     constexpr int kThreads = 8;
     std::vector<std::thread> threads;
@@ -200,7 +206,7 @@ TEST(AdaLoraTTBridgeDRFix, ALTB_DR_01_concurrent_store_adapter_no_crash) {
 TEST(AdaLoraTTBridgeDRFix, ALTB_DR_02_concurrent_store_and_find_no_crash) {
     AdaLoraTTBridgeConfig cfg;
     cfg.auto_deduplicate = true;
-    AdaLoraTTBridge bridge(nullptr, cfg);
+    AdaLoraTTBridge bridge(makeStorageEngine(), cfg);
 
     // Pre-populate one entry so findSimilarAdapters has something to search.
     auto seed = makeMinimalExport("seed_adapter", "seed_tenant");
