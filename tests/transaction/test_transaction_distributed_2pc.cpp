@@ -1324,30 +1324,32 @@ static Participant makeRemoteParticipant(
     return p;
 }
 
-// DTM-1: A remote participant without a registered callback must vote ABORT,
-// not COMMIT.  prepareDistributed() with a remote-only participant must fail.
-TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutCallbackVotesAbort) {
-    const auto tid = mgr->beginDistributed({makeRemoteParticipant("remote-node-1")});
-    const auto status = mgr->prepareDistributed(tid);
-    EXPECT_FALSE(status.ok) << "Remote participant without callback must vote ABORT (DTM-1)";
+// A callback-less remote participant requires explicit transports for both phases.
+TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutTransportsIsRejected) {
+    EXPECT_THROW(
+        mgr->beginDistributed({makeRemoteParticipant("remote-node-1")}),
+        std::invalid_argument);
 }
 
-// DTM-1: Mixed — one local (COMMIT vote) and one remote (ABORT vote) participant.
-// The transaction must be aborted because the remote cannot confirm.
-TEST_F(DistributedTxnManagerTest, DTM1_MixedLocalAndRemoteVotesAbort) {
-    const auto tid = mgr->beginDistributed({
-        makeParticipant("local-node",  p1.get()),
-        makeRemoteParticipant("remote-node-2"),
-    });
-    const auto status = mgr->prepareDistributed(tid);
-    EXPECT_FALSE(status.ok) << "Mixed local+remote must abort when remote has no callback (DTM-1)";
-    // Local participant must have been asked to prepare.
-    EXPECT_GE(p1->prepareCount(), 1);
+TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutEndpointIsRejected) {
+    Participant remote;
+    remote.node_id = "remote-node-without-endpoint";
+    EXPECT_THROW(mgr->beginDistributed({remote}), std::invalid_argument);
 }
 
-// DTM-1 hardening: a configured Phase-2 bridge must not be used as a
-// compatibility shortcut for missing Phase-1 PREPARE transport.
-TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vote) {
+TEST_F(DistributedTxnManagerTest, DTM1_MixedParticipantsWithoutTransportsAreRejected) {
+    EXPECT_THROW(
+        mgr->beginDistributed({
+            makeParticipant("local-node", p1.get()),
+            makeRemoteParticipant("remote-node-2"),
+        }),
+        std::invalid_argument);
+    EXPECT_EQ(p1->prepareCount(), 0)
+        << "No participant may be prepared before transport validation succeeds";
+}
+
+// A configured Phase-2 bridge must not mask a missing Phase-1 transport.
+TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Transport) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
@@ -1371,18 +1373,16 @@ TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vot
         };
 
     DistributedTransactionManager mgr2("coord-no-phase1", cfg);
-    const auto tid = mgr2.beginDistributed({
-        makeParticipant("local-node", p1.get()),
-        makeRemoteParticipant("remote-node-no-phase1"),
-    });
-
-    const auto prepare_status = mgr2.prepareDistributed(tid);
-    EXPECT_FALSE(prepare_status.ok)
-        << "Missing Phase-1 bridge for a remote participant must fail prepare";
+    EXPECT_THROW(
+        mgr2.beginDistributed({
+            makeParticipant("local-node", p1.get()),
+            makeRemoteParticipant("remote-node-no-phase1"),
+        }),
+        std::invalid_argument);
     EXPECT_EQ(phase2_commit_calls.load(), 0)
-        << "Remote participant must never receive COMMIT without a PREPARE vote";
-    EXPECT_EQ(phase2_abort_calls.load(), 1)
-        << "Fail-closed path must send ABORT to remote participant";
+        << "No RPC phase may start when Phase-1 transport validation fails";
+    EXPECT_EQ(phase2_abort_calls.load(), 0);
+    EXPECT_EQ(p1->prepareCount(), 0);
 }
 
 // DTM-2: recoverInDoubtTransactions() must call onAbort on in-memory
@@ -1683,6 +1683,11 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatc
     std::atomic<int> dispatch_calls{0};
     std::atomic<int> abort_calls{0};
     std::atomic<int> commit_calls{0};
+    cfg.phase1_rpc_fn = [](
+            const std::string&, const std::string&,
+            const std::set<std::string>&) {
+        return false;
+    };
     cfg.remote_phase2_dispatch =
         [&dispatch_calls, &abort_calls, &commit_calls](
             const std::string& /*txn_id*/,
@@ -1999,7 +2004,57 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
     DistributedTransactionManager::clearRpcPhase1Fn();
 }
 
-TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnFallsBackToAbortVote) {
+TEST_F(DistributedTxnManagerTest, Stub279_AdmittedTransactionRetainsStaticBridgeSnapshot) {
+    struct StaticBridgeReset {
+        ~StaticBridgeReset() {
+            DistributedTransactionManager::clearRpcPhase1Fn();
+            DistributedTransactionManager::clearRpcPhase2Fn();
+        }
+    } reset;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = makeTempWalDir("static-bridge-snapshot");
+    const auto wal_dir = cfg.wal_directory;
+    cfg.liveness_check_fn =
+        [](const std::string&, const std::string&) { return true; };
+
+    std::atomic<int> phase1_calls{0};
+    std::atomic<int> phase2_commit_calls{0};
+    DistributedTransactionManager::setRpcPhase1Fn(
+        [&phase1_calls](const std::string&, const std::string&,
+                        const std::set<std::string>&) {
+            ++phase1_calls;
+            return true;
+        });
+    DistributedTransactionManager::setRpcPhase2Fn(
+        [&phase2_commit_calls](const std::string&, const std::string&, bool do_commit) {
+            if (do_commit) {
+                ++phase2_commit_calls;
+            }
+        });
+
+    {
+        DistributedTransactionManager mgr2("coord-static-snapshot", cfg);
+        const auto txn_id = mgr2.beginDistributed({
+            makeRemoteParticipant("remote-node")});
+
+        DistributedTransactionManager::clearRpcPhase1Fn();
+        DistributedTransactionManager::clearRpcPhase2Fn();
+
+        const auto prepared = mgr2.prepareDistributed(txn_id);
+        ASSERT_TRUE(prepared.ok) << prepared.message;
+        ASSERT_TRUE(mgr2.commitDistributed(txn_id).ok);
+    }
+
+    removeTempWalDir(wal_dir);
+    EXPECT_EQ(phase1_calls.load(), 1);
+    EXPECT_EQ(phase2_commit_calls.load(), 1);
+}
+
+TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnRejectsRemoteTransaction) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
@@ -2026,15 +2081,14 @@ TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnFallsBackToAbortV
     DistributedTransactionManager::clearRpcPhase1Fn();
 
     DistributedTransactionManager mgr2("coord-static-p1-cleared", cfg);
-    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-node")});
-
-    const auto prepare_result = mgr2.prepareDistributed(tid);
-    EXPECT_FALSE(prepare_result.ok)
-        << "Clearing the static Phase-1 bridge must restore the fail-closed ABORT vote";
+    EXPECT_THROW(
+        mgr2.beginDistributed({makeRemoteParticipant("remote-node")}),
+        std::invalid_argument)
+        << "A remote transaction without Phase-1 transport must fail before admission";
     EXPECT_EQ(static_p1_calls.load(), 0)
         << "Cleared Phase-1 bridge must not keep invoking the previous override";
-    EXPECT_EQ(phase2_abort_calls.load(), 1)
-        << "Fail-closed Phase-1 default must trigger a remote ABORT delivery";
+    EXPECT_EQ(phase2_abort_calls.load(), 0)
+        << "Phase-2 must not run for a transaction rejected before admission";
 }
 
 TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase2FnDoesNotCountAsTransportBridge) {

@@ -3,7 +3,7 @@
  * @brief Wave 4-C T1–T4 hardening regression tests.
  *
  * Coverage:
- *  T1 — STUB/SIMULATION NOTE present in distributed_transaction_manager.cpp
+ *  T1 — obsolete RPC simulation placeholder removed (runtime preflight is tested separately)
  *  T2 — Mutual upgrade deadlock detected promptly (not via timeout)
  *  T3 — GTM Phase-2 runs outside global mutex (non-blocking)
  *  T4 — Predicate lock drop increments counter + emits THEMIS_WARN
@@ -26,7 +26,7 @@ using namespace themis;
 using ms = std::chrono::milliseconds;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// T1 — STUB/SIMULATION NOTE documentation in source file
+// T1 — obsolete guarded-stub placeholder removed
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
@@ -49,24 +49,9 @@ bool fileContainsString(const std::string& path, const std::string& needle) {
 static const char* kDTMSourcePath =
     THEMIS_ROOT_DIR "/src/transaction/distributed_transaction_manager.cpp";
 
-TEST(Wave4CT1StubNote, Phase2BridgeHasStubNoteComment) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "STUB/SIMULATION NOTE"))
-        << "Expected STUB/SIMULATION NOTE comment in " << kDTMSourcePath;
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsActivation) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Activation:"))
-        << "Expected 'Activation:' field in STUB/SIMULATION NOTE";
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsProductionDelta) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Production Delta:"))
-        << "Expected 'Production Delta:' field in STUB/SIMULATION NOTE";
-}
-
-TEST(Wave4CT1StubNote, Phase2BridgeDocumentsRemovalPlan) {
-    EXPECT_TRUE(fileContainsString(kDTMSourcePath, "Removal Plan:"))
-        << "Expected 'Removal Plan:' field in STUB/SIMULATION NOTE";
+TEST(Wave4CT1StubNote, SimulationPlaceholderRemoved) {
+    EXPECT_FALSE(fileContainsString(kDTMSourcePath, "STUB/SIMULATION NOTE"))
+        << "RPC transport is a production integration boundary, not a simulation path";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -173,6 +158,51 @@ TEST(Wave4CT2UpgradeDeadlock, ThreeConcurrentUpgraders_NoHang) {
     lm.releaseAllLocks(txA);
     lm.releaseAllLocks(txB);
     lm.releaseAllLocks(txC);
+}
+
+TEST(Wave4CLockWaiter, TimeoutRaceWithReleaseDoesNotLeakGrantedLock) {
+    LockManager lm;
+    const std::string key = "row:timeout_release_race";
+
+    for (LockManager::TransactionId txn_id = 1; txn_id <= 100; ++txn_id) {
+        ASSERT_EQ(lm.acquireLock(1000, key, LockType::EXCLUSIVE).status,
+                  LockStatus::GRANTED);
+
+        std::atomic<LockStatus> status{LockStatus::DENIED};
+        std::thread waiter([&] {
+            status.store(lm.acquireLock(
+                txn_id, key, LockType::SHARED, ms{5}).status);
+        });
+
+        const auto enqueue_deadline =
+            std::chrono::steady_clock::now() + std::chrono::seconds(1);
+        while (lm.getWaiters(key).empty() &&
+               std::chrono::steady_clock::now() < enqueue_deadline) {
+            std::this_thread::yield();
+        }
+        const bool enqueued = !lm.getWaiters(key).empty();
+        if (!enqueued) {
+            EXPECT_TRUE(lm.releaseLock(1000, key));
+            waiter.join();
+            ADD_FAILURE() << "Waiter was not enqueued before the timeout race";
+            continue;
+        }
+
+        std::this_thread::sleep_for(ms{5});
+        const bool released = lm.releaseLock(1000, key);
+        waiter.join();
+        ASSERT_TRUE(released);
+
+        if (status.load() == LockStatus::TIMEOUT) {
+            EXPECT_FALSE(lm.holdsLock(txn_id, key, LockType::SHARED))
+                << "A timed-out request must not own a lock";
+        } else {
+            ASSERT_EQ(status.load(), LockStatus::GRANTED);
+            EXPECT_TRUE(lm.holdsLock(txn_id, key, LockType::SHARED))
+                << "A granted request must be reflected in the transaction lock set";
+            EXPECT_TRUE(lm.releaseLock(txn_id, key));
+        }
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

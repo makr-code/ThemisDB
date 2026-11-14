@@ -879,7 +879,7 @@ endif()
 
 # ===== WAVE 4-C HARDENING TESTS (2026-08-26) =====
 
-# Wave 4-C T1–T4: STUB note doc, mutual upgrade deadlock, GTM Phase-2 unlock, predicate drop counter
+# Wave 4-C T1–T4: RPC placeholder removal, lock upgrade, GTM Phase-2, predicate capacity
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
     message(STATUS "Adding Wave 4-C T1-T4 hardening tests (transaction, 2026-08-26)")
 
@@ -912,10 +912,10 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
         TIER unit
         KIND focused
         TIMEOUT 60
-        LABELS transaction wave_c release_critical stub-note upgrade-deadlock gtm-phase2 predicate-lock
+        LABELS transaction wave_c release_critical rpc-preflight upgrade-deadlock gtm-phase2 predicate-lock
     )
 
-    message(STATUS "  Wave 4-C: T1 STUB note, T2 mutual upgrade deadlock, T3 GTM Phase-2 unlock, T4 predicate drop counter")
+    message(STATUS "  Wave 4-C: T1 RPC preflight, T2 mutual upgrade deadlock, T3 GTM Phase-2 unlock, T4 predicate capacity")
 else()
     message(STATUS "Wave 4-C T1-T4 hardening tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
 endif()

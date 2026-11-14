@@ -138,6 +138,13 @@ LockManager::LockResult LockManager::acquireLock(
     }
     lk.lock();
 
+    // A release may grant the request after wait_for reaches its deadline but
+    // before this thread reacquires mutex_. Resolve that race under both locks.
+    {
+        std::lock_guard<std::mutex> req_lock(req->state_mutex);
+        granted = req->granted;
+    }
+
     waiting_for_.erase(txn_id);
     stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
 
@@ -367,6 +374,10 @@ LockManager::LockResult LockManager::upgradeLock(
         }
 
         lk.lock();
+        {
+            std::lock_guard<std::mutex> req_lock(req->state_mutex);
+            granted = req->granted;
+        }
         waiting_for_.erase(txn_id);
         stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
 
@@ -606,15 +617,20 @@ void LockManager::processWaiters(const std::string& key) {
     auto& entry = lt_it->second;
 
     for (auto& req : entry.waiters) {
-        if (req->granted) {
-          continue;
+        bool already_granted = false;
+        {
+            std::lock_guard<std::mutex> req_lock(req->state_mutex);
+            already_granted = req->granted;
+        }
+        if (already_granted) {
+            continue;
         }
 
         // Check compatibility with all current holders
         bool ok = true;
         for (const auto& holder : entry.holders) {
             if (holder.holder == req->txn_id) {
-              continue;
+                continue;
             }
             if (!compatible(holder.type, req->type)) {
                 ok = false;
@@ -626,7 +642,10 @@ void LockManager::processWaiters(const std::string& key) {
             entry.holders.push_back(
                 {req->txn_id, req->type, std::chrono::system_clock::now()});
             held_by_txn_[req->txn_id][key] = req->type;
-            req->granted = true;
+            {
+                std::lock_guard<std::mutex> req_lock(req->state_mutex);
+                req->granted = true;
+            }
             req->cv.notify_one();
         }
     }

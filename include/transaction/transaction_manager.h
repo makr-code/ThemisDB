@@ -249,10 +249,13 @@ public:
 
 
         /**
-         * @brief Track Predicate Read.
-         * @param[in] start_key Input parameter.
-         * @param[in] end_key Input parameter.
-         * @return Return value.
+         * @brief Track a SERIALIZABLE predicate-read range.
+         * @param start_key Inclusive lower bound of the read range.
+         * @param end_key Inclusive upper bound of the read range.
+         * @return OK when a LockManager is available and the range is tracked or
+         *         predicate locking is disabled; an error when no LockManager is
+         *         available or enabled predicate locking cannot store the range
+         *         because capacity is exhausted.
          */
         Status trackPredicateRead(const std::string& start_key,
                                   const std::string& end_key);
@@ -995,4 +998,3 @@ private:
 };
 
 } // namespace themis
-

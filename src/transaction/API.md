@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,8 +23,10 @@ Related issues: #7093, #7167
 
 - `TransactionManager` coordinates local transaction lifecycle and exposes transaction state/timeout behavior.
 - `LockManager::acquireLock()` and `upgradeLock()` return `LockResult` with `GRANTED`, `TIMEOUT`, or `DENIED`; the default lock wait is five seconds. The API also exposes release and two-phase-locking phase operations.
+- `Transaction::trackPredicateRead()` rejects a SERIALIZABLE read when predicate-lock capacity is exhausted; callers must stop or abort that operation. Predicate tracking remains a no-op when predicate locking is explicitly disabled.
 - `Saga` registers compensating callbacks and exposes `compensate()` / `compensateWithRetry()`; retry count defaults to three.
-- `DistributedTransactionManager` uses participant callbacks (`onPrepare`, `onCommit`, `onAbort`) and the declared distributed-state enum. A prepare vote can fail; commit/abort operations are not interchangeable.
+- `DistributedTransactionManager` uses participant callbacks (`onPrepare`, `onCommit`, `onAbort`) and the declared distributed-state enum. Remote participants require a non-empty endpoint and explicit Phase-1 PREPARE and Phase-2 decision transports before `beginDistributed()` admits the transaction; missing values fail with `std::invalid_argument`. A transaction admitted through the static RPC hooks retains those hook snapshots until the decision is completed, so clearing a hook affects only later admissions.
+- A prepare vote can fail; commit/abort operations are not interchangeable.
 
 ## Caller obligations and failure cases
 
