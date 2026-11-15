@@ -285,10 +285,10 @@ TEST_F(TinyLlamaInferenceTest, Infer06_ParameterizedGeneration) {
     }
 
     const std::string result = llm_->generateWithParams(
-        "Explain what a database is in one sentence.",
-        /*temperature=*/0.1f,
+        "The capital of France is",
+        /*temperature=*/0.0f,
         /*top_p=*/0.9f,
-        /*max_tokens=*/80);
+        /*max_tokens=*/100);
 
     EXPECT_FALSE(result.empty()) << "Parameterized generation returned no output";
     spdlog::info("INFER-06: parameterized output: {}", result.substr(0, 120));
