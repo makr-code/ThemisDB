@@ -41,6 +41,24 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         self.assertIn("-DTHEMIS_BUILD_MODULAR=ON", configure_step)
         self.assertIn("-DTHEMIS_ENABLE_LLM=ON", configure_step)
 
+    def test_tinyllama_gate_preserves_timeout_diagnostics(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-final-runtime-api.yml"
+        ).read_text(encoding="utf-8")
+        inference_step = workflow.split("name: Run TinyLlama inference tests", 1)[1]
+        inference_step = inference_step.split("\n      - name:", 1)[0]
+        self.assertIn("--verbose", inference_step)
+        self.assertIn("--timeout 120", inference_step)
+        self.assertIn("ctest-tinyllama.log", inference_step)
+
+        artifact_step = workflow.split("name: Upload LLM/docs.db gate artifacts", 1)[1]
+        artifact_step = artifact_step.split("\n  final-runtime-api-gate:", 1)[0]
+        self.assertIn("if: always()", artifact_step)
+        self.assertIn("Testing/Temporary/LastTest.log", artifact_step)
+
     def test_status_workflow_concurrency_is_scoped_by_operation_and_target(self) -> None:
         workflow = (
             REPO_ROOT
