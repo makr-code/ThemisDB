@@ -1530,10 +1530,11 @@ TEST_F(DistributedTxnManagerTest,
                                const std::set<std::string>&) { return true; };
 
         std::atomic<int> phase2_calls{0};
-        cfg.remote_phase2_dispatch = [&phase2_calls](
+        std::atomic<bool> phase2_available{false};
+        cfg.remote_phase2_dispatch = [&phase2_calls, &phase2_available](
                 const std::string&, const std::string&, const std::string&, bool) {
-            const int call_no = ++phase2_calls;
-            return call_no > 4;
+            ++phase2_calls;
+            return phase2_available.load();
         };
 
         DistributedTransactionManager mgr2("coord-recovery-wal-commit", cfg);
@@ -1550,15 +1551,16 @@ TEST_F(DistributedTxnManagerTest,
         const size_t failed_recovery = mgr2.recoverInDoubtTransactions();
         EXPECT_EQ(failed_recovery, 0u)
             << "Failed COMMIT replay must remain unresolved";
-        EXPECT_EQ(phase2_calls.load(), 4);
+        EXPECT_EQ(phase2_calls.load(), 6);
 
         const auto after_failed_recovery = mgr2.getTransaction(tid);
         ASSERT_TRUE(after_failed_recovery.has_value());
         EXPECT_EQ(after_failed_recovery->state, DistributedTxnState::COMMITTING);
 
+        phase2_available.store(true);
         const size_t resolved = mgr2.recoverInDoubtTransactions();
         EXPECT_GE(resolved, 1u);
-        EXPECT_EQ(phase2_calls.load(), 5)
+        EXPECT_EQ(phase2_calls.load(), 7)
             << "WAL recovery should keep retrying the durable COMMIT decision";
 
         const auto after_recovery = mgr2.getTransaction(tid);
