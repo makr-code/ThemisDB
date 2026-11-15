@@ -121,7 +121,8 @@ enum class DistributedTxnState {
     COMMITTING, ///< Phase 2 COMMIT in progress
     COMMITTED,  ///< All participants committed successfully
     ABORTING,   ///< Phase 2 ABORT in progress
-    ABORTED,    ///< Transaction aborted (vote NO, timeout, or explicit abort)
+    /// @brief Transaction aborted after a NO vote, timeout, or explicit abort.
+    ABORTED,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -291,14 +292,17 @@ public:
 
     /**
      * @brief Register a distributed transaction and durably record its participant identities.
-     * @param participants Non-empty participant descriptors with stable node IDs.
+     * @param participants Non-empty participant descriptors with stable node IDs;
+     *        callback-less remote participants require a non-empty endpoint.
      * @return A unique coordinator transaction ID.
-     * @throws std::invalid_argument if participants are empty or remote transport is
-     *         misconfigured.
+     * @throws std::invalid_argument if participants are empty, a remote endpoint is
+     *         missing, or either remote transport phase is misconfigured.
      * @throws std::runtime_error if the active-transaction limit is reached or the
      *         configured WAL cannot durably persist the BEGIN record.
      * @note Callback pointers, endpoints, and affected keys are not persisted.
      *       Recovery resolves endpoints from node IDs using the configured resolver.
+     *       Static RPC hooks used for admission are snapshotted for the transaction
+     *       and retained until its decision is completed.
      */
     TransactionId beginDistributed(const std::vector<Participant>& participants);
 
@@ -434,13 +438,20 @@ public:
                                            bool               do_commit)>;
 
     /**
-     * @brief Set Rpc Phase2 Fn.
-     * @param[in] fn Input parameter.
+     * @brief Install the remote Phase-2 transport used for participant decisions.
+     * @param fn Callable that delivers COMMIT or ABORT; an empty callable restores
+     *        the fail-closed default.
+     * @note Remote participants are rejected by beginDistributed() unless a real
+     *       Phase-2 transport is configured through this hook or manager config.
+     *       Transactions admitted through this hook retain its callback snapshot
+     *       until completion, even if the global hook is later cleared.
      */
     static void setRpcPhase2Fn(RpcPhase2Fn fn);
 
     /**
      * @brief Clear Rpc Phase2 Fn and restore the default fail-closed bridge.
+     * @note This affects future admissions; already-admitted transactions retain
+     *       their static transport snapshot until completion.
      */
     static void clearRpcPhase2Fn();
 
@@ -451,13 +462,20 @@ public:
                                            const std::set<std::string>& affected_keys)>;
 
     /**
-     * @brief Set Rpc Phase1 Fn.
-     * @param[in] fn Input parameter.
+     * @brief Install the remote Phase-1 PREPARE transport.
+     * @param fn Callable that returns the participant's commit vote; an empty
+     *        callable restores the fail-closed default.
+     * @note Remote participants are rejected by beginDistributed() unless a real
+     *       Phase-1 transport is configured through this hook or manager config.
+     *       Transactions admitted through this hook retain its callback snapshot
+     *       until completion, even if the global hook is later cleared.
      */
     static void setRpcPhase1Fn(RpcPhase1Fn fn);
 
     /**
      * @brief Clear Rpc Phase1 Fn and restore the default fail-closed bridge.
+     * @note This affects future admissions; already-admitted transactions retain
+     *       their static transport snapshot until completion.
      */
     static void clearRpcPhase1Fn();
 
@@ -478,6 +496,11 @@ public:
     static void clearLivenessCheckFn();
 
 private:
+
+    struct StaticRpcBridgeSnapshot {
+        std::optional<RpcPhase1Fn> phase1;
+        std::optional<RpcPhase2Fn> phase2;
+    };
 
     /**
      * @brief Generate Transaction Id.
@@ -583,6 +606,7 @@ private:
     mutable std::mutex                                        mutex_;
     std::condition_variable                                   vote_cv_;
     std::unordered_map<TransactionId, DistributedTransaction> transactions_;
+    std::unordered_map<TransactionId, StaticRpcBridgeSnapshot> static_rpc_bridges_;
 
     std::unique_ptr<themis::sharding::WALManager>        wal_;
 

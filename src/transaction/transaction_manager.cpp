@@ -1929,7 +1929,12 @@ TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(
     if (!lock_manager_) {
         return Status::Error("trackPredicateRead: no LockManager available");
     }
-    lock_manager_->acquirePredicateLock(id_, start_key, end_key);
+    if (lock_manager_->isPredicateLockingEnabled() &&
+        !lock_manager_->acquirePredicateLock(id_, start_key, end_key)) {
+        return Status::Error(
+            "trackPredicateRead: predicate lock capacity is exhausted; "
+            "the SERIALIZABLE read cannot proceed safely");
+    }
     THEMIS_DEBUG("Transaction {} acquired predicate lock on [{}, {}]", id_, start_key, end_key);
     return Status::OK();
 }

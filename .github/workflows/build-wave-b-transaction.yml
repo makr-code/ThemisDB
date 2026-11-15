@@ -110,6 +110,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libpugixml-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
@@ -172,6 +173,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libpugixml-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
@@ -237,6 +239,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libpugixml-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
@@ -313,6 +316,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libpugixml-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
@@ -409,6 +413,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libpugixml-dev libyaml-cpp-dev
 
       - name: "Cache sccache"

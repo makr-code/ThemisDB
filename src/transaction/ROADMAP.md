@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -59,9 +59,9 @@ The source tree contains local transaction lifecycle, MVCC-backed operations, sa
 > **FP confirmed closed:** `saga_orchestrator.cpp` H=10 — Kahn's algorithm cycle-return and circuit breaker FSM states are correct patterns; no unimplemented paths  
 > **FP confirmed closed:** `global_transaction_manager.cpp` H=22 — `scope_mismatch` × 1413 + `circular_lock_ordering` FPs on correct mutex usage
 
-- [x] **T1 — stub #279 STUB NOTE** (`distributed_transaction_manager.cpp:67,91`): RPC Phase-1/Phase-2 bridges are pure injection points; add `// STUB/SIMULATION NOTE` documenting mandatory transport injection requirement; add entry to `PRODUCTION_REQUIREMENTS.md`; fail-fast guards already in place at lines 220–235 and 293–315 — **Done 2026-08-26**
+- [x] **T1 — RPC bridge preflight** (`distributed_transaction_manager.cpp`): actual transport adapters are installed by runtime wiring; remote participants now require explicit Phase-1 and Phase-2 bridges at admission, while absent hooks fail closed. Local callback participants remain unchanged.
   - Files: `src/transaction/distributed_transaction_manager.cpp`
-  - Tests: verify `commit()` with participants and no transport returns `ERR_NO_TRANSPORT`
+  - Tests: remote `beginDistributed()` without either bridge throws before transaction admission.
 - [x] **T2 — Upgrade Deadlock** (`lock_manager.cpp:258-265`): two transactions both holding SHARED on key `k` call `upgradeLock(k)` → both enqueue exclusive waiter → mutual block until timeout; add mutual-upgrade cycle detection before enqueuing OR wire `DeadlockPredictor` into the upgrade-wait path — **Done 2026-08-26**
   - Files: `src/transaction/lock_manager.cpp`
   - Tests: `upgradeLock` under concurrent same-key shared holders → one succeeds, one gets deadlock error promptly
@@ -69,7 +69,7 @@ The source tree contains local transaction lifecycle, MVCC-backed operations, sa
   - Files: `src/transaction/global_transaction_manager.cpp`
   - Also apply to `abort()` (L306) and `recoverInDoubtTransactions()` (L415)
   - Tests: concurrent `beginTransaction` not blocked during slow Phase-2 delivery
-- [x] **T4 — Silent Predicate Lock Drop** (`lock_manager.cpp:530-538`): capacity-based `return false` has no log/counter; SSI false-positive abort rate invisible to operators; add `THEMIS_WARN` + metric counter on `max_locks` capacity reject (MEDIUM) — **Done 2026-08-26**
+- [x] **T4 — Predicate Lock Capacity** (`lock_manager.cpp`): capacity rejection emits `THEMIS_WARN` and increments the drop counter; SERIALIZABLE predicate-read tracking now returns an error when the lock cannot be stored rather than reporting success.
 - **Regression test:** `tests/transaction/test_wave4c_t1t4_hardening.cpp` (CMake executable target: `test_wave4c_t1t4_hardening`)
 
 ### Short-term (3-6 months)

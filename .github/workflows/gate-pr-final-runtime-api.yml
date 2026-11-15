@@ -118,6 +118,7 @@ jobs:
         run: |
           set -euo pipefail
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+            --verbose \
             --output-on-failure \
             --parallel 1 \
             --timeout 120 \
@@ -155,6 +156,7 @@ jobs:
           path: |
             build/test-assets/doku.db.json
             ${{ env.CMAKE_BUILD_DIR }}/ctest-tinyllama.log
+            ${{ env.CMAKE_BUILD_DIR }}/Testing/Temporary/LastTest.log
             ${{ env.CMAKE_BUILD_DIR }}/ctest-doku-rag.log
             ${{ env.CMAKE_BUILD_DIR }}/ctest-rocksdb-phaseb.log
           if-no-files-found: ignore

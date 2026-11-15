@@ -9,8 +9,10 @@
 #include "sharding/truetime.h"
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <cstdlib>
 #include <filesystem>
+#include <future>
 #include <mutex>
 #include <optional>
 #include <stdexcept>
@@ -106,6 +108,41 @@ public:
     }
 
     void abort(const std::string&) override {}
+};
+
+class BlockingCommitRegionParticipant : public IGlobalRegionParticipant {
+public:
+    bool prepare(const std::string&, const nlohmann::json&) override {
+        return true;
+    }
+
+    void commit(const std::string&, int64_t) override {
+        std::unique_lock<std::mutex> lock(mutex_);
+        commit_started_ = true;
+        cv_.notify_all();
+        cv_.wait(lock, [this] { return release_commit_; });
+    }
+
+    void abort(const std::string&) override {}
+
+    bool waitForCommitStart(std::chrono::milliseconds timeout) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        return cv_.wait_for(lock, timeout, [this] { return commit_started_; });
+    }
+
+    void releaseCommit() {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            release_commit_ = true;
+        }
+        cv_.notify_all();
+    }
+
+private:
+    std::mutex mutex_;
+    std::condition_variable cv_;
+    bool commit_started_ = false;
+    bool release_commit_ = false;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -297,6 +334,42 @@ TEST_F(GlobalTransactionManagerTest, CommitSingleRegionSuccess) {
     EXPECT_EQ(p.lastPrepareTxn(), txn_id);
     EXPECT_EQ(p.lastCommitTxn(),  txn_id);
     EXPECT_EQ(p.lastCommitTs(),   outcome.commit_timestamp_ns);
+}
+
+TEST_F(GlobalTransactionManagerTest, Phase2DeliveryDoesNotHoldManagerMutex) {
+    BlockingCommitRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+
+    auto commit = std::async(std::launch::async, [this, &txn_id] {
+        return gtm_->commit(txn_id);
+    });
+    const bool phase2_started = participant.waitForCommitStart(std::chrono::seconds{2});
+    if (!phase2_started) {
+        participant.releaseCommit();
+        (void)commit.get();
+        ADD_FAILURE() << "Participant Phase-2 callback did not start";
+        return;
+    }
+
+    auto state = std::async(std::launch::async, [this, &txn_id] {
+        return gtm_->getTransactionState(txn_id);
+    });
+    const bool state_query_completed =
+        state.wait_for(std::chrono::seconds{1}) == std::future_status::ready;
+    std::optional<GlobalTxnState> state_during_phase2;
+    if (state_query_completed) {
+        state_during_phase2 = state.get();
+    }
+
+    participant.releaseCommit();
+    const auto outcome = commit.get();
+    EXPECT_TRUE(state_query_completed)
+        << "Transaction state queries must not wait for participant Phase-2 I/O";
+    EXPECT_TRUE(outcome.committed());
+    if (state_during_phase2) {
+        EXPECT_EQ(*state_during_phase2, GlobalTxnState::COMMIT_DECIDED);
+    }
 }
 
 TEST_F(GlobalTransactionManagerTest, MissingWALDoesNotPrepareParticipants) {
