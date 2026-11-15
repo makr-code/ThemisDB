@@ -34,15 +34,16 @@ namespace training {
  * current importance scores (singular values approximated from norms).
  *
  * The @p active_rank field mirrors AdaLoRALayerStats::active_rank and
- * controls how many TT-core columns are non-zero.
+ * controls how many TT-core columns are non-zero. @p scaling stores the
+ * adapter's effective alpha/max-rank factor separately from the TT cores.
  */
 struct AdaLoraTTLayerExport {
     std::string       layer_name;
     storage::TTTrain  train;      ///< TT-train: G₀ (1×d×r) and G₁ (r×k×1)
     std::size_t       active_rank = 0;  ///< Effective rank (pruned entries zeroed)
-    float             scaling     = 1.0f; ///< α/r scaling factor (preserved separately)
+    float             scaling     = 1.0f; ///< Effective alpha/max-rank factor, preserved separately
 
-    /// Whether the TT-cores passed orthogonality validation (‖G₀^T·G₀ - I‖_F < ε_orth).
+    /// True only when normalized active B-column and A-row Gram matrices pass eps_orth.
     bool              orthogonal_validated = false;
 };
 
@@ -55,7 +56,11 @@ struct AdaLoraTTExport {
     std::string                          tenant = {};
     std::vector<AdaLoraTTLayerExport>    layers;
 
-    /// Total active TT-rank (sum across layers).
+    /**
+     * @brief Return the sum of active TT ranks across exported layers.
+     * @details Sums each layer's active rank without modifying the export.
+     * @return Total active rank; zero when the export has no layers.
+     */
     std::size_t totalActiveRank() const noexcept {
         std::size_t s = 0;
         for (const auto& l : layers) {
@@ -64,7 +69,10 @@ struct AdaLoraTTExport {
         return s;
     }
 
-    /// Total number of float32 parameters stored (TT-cores only, not base weights).
+    /**
+     * @brief Count float32 parameters in the exported TT cores.
+     * @return Total core parameter count, excluding base-model weights.
+     */
     std::size_t totalParameters() const noexcept;
 };
 
@@ -104,8 +112,8 @@ struct AdaLoraTTBridgeConfig {
 // ============================================================================
 
 /**
- * @brief Converts AdaLoRA adapters to TT-format and manages their lifecycle
- *        in `TensorNetworkStorageEngine`.
+ * @brief Converts AdaLoRA adapters to TT-format and persists exports as
+ *        metadata through `TensorNetworkStorageEngine`.
  *
  * ## Core Conversion (§2 of ADALORA_TT_BRIDGE_RESEARCH.md)
  *
@@ -120,8 +128,8 @@ struct AdaLoraTTBridgeConfig {
  * q_i = A[i, :] / ‖A[i, :]‖₂
  *
  * // Step 3: Build TT-cores
- * G₀[0, :, i] = p_i · √λᵢ · √scaling      (shape: 1 × d × r)
- * G₁[i, :, 0] = q_i · √λᵢ · √scaling      (shape: r × k × 1)
+ * G₀[0, :, i] = p_i · √λᵢ                 (shape: 1 × d × r)
+ * G₁[i, :, 0] = q_i · √λᵢ                 (shape: r × k × 1)
  *
  * // Step 4: Zero out pruned (inactive) rank components
  * if i >= active_rank: G₀[0,:,i] = G₁[i,:,0] = 0
@@ -130,9 +138,9 @@ struct AdaLoraTTBridgeConfig {
  * ## Inverse Conversion (TT → AdaLoRA)
  *
  * ```
- * B[:, i] = G₀[0, :, i]   (absorbing √λ · √scaling back into B)
+ * B[:, i] = G₀[0, :, i]   (absorbing √λ back into B)
  * A[i, :] = G₁[i, :, 0]
- * scaling  = stored separately in AdaLoraTTLayerExport::scaling
+ * scaling  = stored separately in AdaLoraTTLayerExport::scaling and applied on import
  * ```
  *
  * ## Usage Example (post-training export)
@@ -147,8 +155,8 @@ struct AdaLoraTTBridgeConfig {
  * // Later: load it back for training continuation
  * auto loaded = bridge.loadAdapter("my_tenant", "legal_tax_v3");
  *
- * // For inference: use GgmlTensorBridge to mmap the TT-cores directly
- * // (see include/storage/ggml_tensor_bridge.h)
+ * // Loading from the bridge is not a serving handoff. mapAdapter() requires
+ * // an injected backend and returns false when none has been configured.
  * ```
  *
  * ## Usage Example (FLARE live adapter switch)
@@ -161,7 +169,7 @@ struct AdaLoraTTBridgeConfig {
  *     if (handle.valid())
  *         llama_lora_apply(llama_ctx, handle.ggmlTensor(), 1.0f);
  * }
- * // Total latency: ~5–15 ms (vs 300–2000 ms for model reload)
+ * // This illustrative flow is not wired or benchmarked by this bridge.
  * ```
  */
 class AdaLoraTTBridge {
@@ -184,15 +192,17 @@ public:
      * @brief Export all layers of an AdaLoRAAdapter to TT-format.
      *
      * For each registered layer, converts B/A matrices to TT-cores G₀, G₁.
-     * Applies QR sign-normalisation and optional TT-rounding per the config.
+     * Applies sign normalization and optional TT-rounding per the config. Export
+     * reports whether normalized active B-column and A-row directions satisfy
+     * `eps_orth`; the bridge does not orthogonalize them.
      *
      * @param adapter      Source AdaLoRAAdapter (must have at least one layer).
      * @param adapter_name Logical name for storage (used as field key).
      * @param tenant       ThemisDB tenant ID.
      * @return Complete AdaLoraTTExport with one entry per layer.
      *
-     * @throws std::invalid_argument if any layer has active_rank == 0 or
-     *         if active_rank > config.max_tt_rank (use native storage instead).
+     * @throws std::invalid_argument if rank/scaling metadata or `eps_orth` is
+     *         invalid, a layer rank exceeds `max_tt_rank`, or no layer is exportable.
      */
     AdaLoraTTExport exportToTT(const AdaLoRAAdapter& adapter,
                                 const std::string&    adapter_name,
@@ -204,6 +214,8 @@ public:
      * @param adapter     Source AdaLoRAAdapter.
      * @param layer_name  Name of the layer to export.
      * @return TT-export for that layer.
+     * @throws std::invalid_argument if the layer rank, scaling, matrix shape,
+     *         or configured orthogonality tolerance is invalid.
      */
     AdaLoraTTLayerExport exportLayer(const AdaLoRAAdapter& adapter,
                                       const std::string&    layer_name) const;
@@ -215,11 +227,14 @@ public:
     /**
      * @brief Reconstruct an AdaLoRAAdapter from TT-format.
      *
-     * Inverse of exportToTT().  Validates orthogonality of reconstructed P/Q
-     * matrices (‖P^T·P - I‖_F < eps_orth) and logs a warning if violated.
+     * Reconstructs the active-rank update and its effective scaling. A claimed
+     * orthogonality validation is rechecked against `eps_orth`; invalid core
+     * shapes, non-finite values, or a false validation claim throw.
      *
      * @param exp       TT-export to import from.
      * @return Reconstructed AdaLoRAAdapter with weights set to G₀/G₁ columns.
+     * @throws std::invalid_argument if the export is empty, malformed,
+     *         non-finite, or falsely claims orthogonality validation.
      */
     AdaLoRAAdapter importFromTT(const AdaLoraTTExport& exp) const;
 
@@ -228,14 +243,20 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Store an AdaLoraTTExport in TensorNetworkStorageEngine.
+     * @brief Persist an AdaLoraTTExport in TensorNetworkStorageEngine metadata.
      *
-     * Each layer is stored under key:
-     *   `__lora_adapters__:<tenant>:<adapter_name>:<layer_name>:G<0|1>`
+     * The complete export and layer metadata are serialized under a
+     * tenant/name-scoped metadata key. Durability depends on the configured
+     * storage backend; an absent engine or failed write returns false.
      *
-     * If config.auto_deduplicate is true, inserts into TensorFingerprintGraph.
+     * If config.auto_deduplicate is true, inserts into the in-process
+     * TensorFingerprintGraph; that similarity index is not persisted here.
      *
-     * @return true on success.
+     * @param exp Export to validate and store; its name and layers must be
+     *            non-empty, and any orthogonality claim must pass validation.
+     * @return true only after the metadata write succeeds.
+     *         Returns false for invalid exports, absent storage, oversized
+     *         serialization, or a failed metadata write.
      */
     bool store(const AdaLoraTTExport& exp);
 
@@ -244,6 +265,11 @@ public:
      *
      * Forwards to store(exp) to preserve existing call sites and tests that
      * still use the historical method name.
+     *
+     * @details Performs no validation or persistence beyond store().
+     * @param exp Export to validate and store; subject to the same constraints
+     *            and failures as store().
+     * @return true if store() persists the export; false otherwise.
      */
     bool storeAdapter(const AdaLoraTTExport& exp) { return store(exp); }
 
@@ -252,7 +278,8 @@ public:
      *
      * @param tenant       ThemisDB tenant.
      * @param adapter_name Adapter logical name.
-     * @return Reconstructed AdaLoRAAdapter, or nullopt if not found.
+     * @return Reconstructed AdaLoRAAdapter, or nullopt if unavailable, missing,
+     *         or invalid in storage.
      */
     std::optional<AdaLoRAAdapter> loadAdapter(const std::string& tenant,
                                                const std::string& adapter_name) const;
@@ -296,8 +323,9 @@ public:
     /**
      * @brief Find adapters in storage similar to a query adapter.
      *
-     * Uses `TensorFingerprintGraph::findSimilar()` on the stored TT-cores.
-     * Primary use-case: FLARE live adapter selection (≤ 15 ms per call).
+     * Uses the in-process `TensorFingerprintGraph` over adapter fingerprints.
+     * Runtime suitability for live adapter selection is not guaranteed; measure
+     * representative p50/p95/p99 latency before enabling it in serving paths.
      *
      * @param query_exp   TT-export to compare against stored adapters.
      * @param top_k       Maximum number of results.
@@ -321,8 +349,16 @@ public:
         double      avg_compression_ratio = 0.0; ///< TT vs. flat B+A matrices
     };
 
+    /**
+     * @brief Return the bridge's current diagnostic counters and aggregates.
+     * @return A copy of the current statistics.
+     */
     BridgeStats stats() const noexcept;
 
+    /**
+     * @brief Return the configuration used by this bridge.
+     * @return A const reference valid for the lifetime of this bridge.
+     */
     const AdaLoraTTBridgeConfig& config() const noexcept;
 
     // -----------------------------------------------------------------------
@@ -334,9 +370,9 @@ public:
      *
      * Signature: `bool fn(const AdaLoraTTExport& exp)`.
      *
-     * When set, `mapAdapter(exp)` delegates to this function instead of
-     * returning `false` (the Phase 3 stub).  Typically wired to
-     * `GgmlTensorBridge::mapAdapter()` during production bootstrap.
+     * When set, `mapAdapter(exp)` delegates to this function; without an
+     * injected function it returns false. This hook does not itself establish
+     * a production serving handoff or latency guarantee.
      *
      * Thread-safe (instance-level; stored in Impl).
      */
@@ -347,6 +383,13 @@ public:
      * @param fn  Function called by `mapAdapter()` to inject TT-cores into llama.cpp.
      */
     void setMapAdapterFn(MapAdapterFn fn);
+
+    /**
+     * @brief Remove the injected adapter-mapping callback.
+     *
+     * After clearing, mapAdapter() returns false until a callback is set again.
+     * The callback update is protected by the bridge's instance-level mutex.
+     */
     void clearMapAdapterFn();
 
     /**

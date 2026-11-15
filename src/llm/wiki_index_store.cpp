@@ -951,6 +951,9 @@ JsonWikiIndexReader::JsonWikiIndexReader(std::string index_path, bool auto_load)
  * @details Calls: f(), is_open(), std::string(), what(), is_array(), clear(), reserve(), size().
  */
 void JsonWikiIndexReader::load() {
+    loaded_ = false;
+    chunks_.clear();
+
     std::ifstream f(index_path_);
     if (!f.is_open()) {
         throw std::runtime_error("[JsonWikiIndexReader] cannot open: " + index_path_);
@@ -964,23 +967,27 @@ void JsonWikiIndexReader::load() {
             std::string("[JsonWikiIndexReader] JSON parse error: ") + ex.what());
     }
 
-    if (!j.is_array()) {
+    const nlohmann::json* chunks = nullptr;
+    if (j.is_array()) {
+        chunks = &j;
+    } else if (j.is_object() && j.contains("chunks") && j["chunks"].is_array()) {
+        chunks = &j["chunks"];
+    } else {
         throw std::runtime_error(
-            "[JsonWikiIndexReader] expected JSON array at top level");
+            "[JsonWikiIndexReader] expected a top-level JSON array or object with a chunks array");
     }
 
-    chunks_.clear();
-    chunks_.reserve(j.size());
+    chunks_.reserve(chunks->size());
 
-    for (const auto& obj : j) {
+    for (const auto& obj : *chunks) {
         WikiChunk c;
         c.chunk_id      = obj.value("chunk_id",      "");
-        c.source_path   = obj.value("file_path",      "");
+        c.source_path   = obj.value("file_path",      obj.value("source_path", ""));
         c.doc_id        = c.source_path;
-        c.section_title = obj.value("section_title",  "");
+        c.section_title = obj.value("section_title",  obj.value("section_heading", ""));
         c.line_start    = obj.value("line_start",      0);
         c.line_end      = obj.value("line_end",        0);
-        c.text          = obj.value("text",            "");
+        c.text          = obj.value("text",            obj.value("content", ""));
         // Optional score_override (not in basic MVP format, but accepted)
         if (obj.contains("score_override") && obj["score_override"].is_number()) {
             c.score = obj["score_override"].get<float>();

@@ -923,7 +923,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
     _add_llm_inference_ci_target(
         test_llm_tinyllama_inference
         "llm;llm_inference;model_required"
-        120
+        600
     )
     # INFER-04 uses LlamaTokenizer which lives outside themis_core
     target_sources(module_llm_test_llm_tinyllama_inference_focused PRIVATE

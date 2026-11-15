@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Training Module - Future Enhancements
 
-<!-- Source review: 2026-10-31; remaining benchmark and selection-to-training items are open. -->
+<!-- Source review: 2026-11-14; selected-ID semantics and bridge integrity are tested; production evidence gates remain open. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · TRAINING_PHASE_ACCEPTANCE_CHECKLIST.md -->
 
 ## Scope
@@ -23,7 +23,7 @@ Exact model backend not verifiable from final document text alone.
 - deterministic reliability improvements for dataset/training/adapter paths
 - stronger benchmark-backed guardrails for training hot paths
 - benchmark coverage for the implemented bounded trainer collection-read and persisted-label pipeline paths
-- explicit, tested dataflow semantics between pipeline selection output and the trainer's configured collection
+- benchmark coverage for the implemented pipeline selection-to-trainer path and production-backend persistence
 - per-source benchmark coverage for supported in-memory/custom, JSON, AQL iterator, collection, and full-pipeline routes
 - bounded DB-backed sample readers and selection-aware training for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
 - per-source benchmark coverage for built-in, in-memory/custom, JSON, trainBatch, AQL iterator, collection, and full-pipeline paths
@@ -35,6 +35,8 @@ Exact model backend not verifiable from final document text alone.
 - labeling and adapter lifecycle outcomes remain explicit and deterministic.
 - degraded checkpoint and enrichment paths remain observable and non-silent.
 - acceleration-dependent training behavior remains bounded and diagnosable.
+- selected-ID DB training filters before LIMIT and fails if any requested ID is duplicate, absent, malformed, or has empty input/output.
+- AdaLoRA-TT scaling is explicit, orthogonality metadata is measured rather than asserted, and storage writes fail when no engine is configured.
 
 ## Required Interfaces
 
@@ -55,10 +57,13 @@ Exact model backend not verifiable from final document text alone.
 - standardize incident taxonomy for labeling, enrichment, and serving classes.
 - expand resilience tests for prolonged adapter lifecycle workloads.
 - broaden benchmark depth for training-pipeline and checkpoint scenarios.
-- preserve the tested label-persistence and trainer collection-read behavior; clarify that the current selection stage does not pass its selected subset directly to the trainer.
+- preserve tested label-persistence and trainer collection-read behavior; selected IDs are filtered before the DB limit and incomplete selections fail without fallback.
 - add separate DB read, conversion, and training measurements; never label synthetic or stub work as DB-backed training.
 - persist auto-labeled samples before training and consume the configured target collection rather than an empty vector.
-- pass the selected sample `_key` values from data selection into the trainer query; an empty selection must not fall through to full-collection or synthetic training.
+- retain focused tests for selected keys beyond the unfiltered query prefix and empty, duplicate, missing, malformed, and partial selections.
+- validate TT export/import against reference adapter outputs at absolute tolerance `1e-5`; preserve effective `alpha/max_rank` and only mark orthogonality when normalized active B-column and A-row Gram matrices are each within `eps_orth`.
+- validate storage reload with the configured RocksDB backend across bridge recreation/reopen before claiming restart durability; the in-memory backend test is API-path evidence only.
+- verify the tensor-to-serving handoff with the real serving backend before claiming adapter activation, quality, or latency.
 - keep DB read/convert/train timing separate; never label deterministic synthetic fallback as DB-backed training.
 - preserve the source-neutral consumer contract: AQL and docs.db providers emit identical normalized records, and provider failures never switch to a synthetic or alternate source.
 
@@ -80,12 +85,13 @@ Exact model backend not verifiable from final document text alone.
 - release-profile benchmark runs for mapped training targets.
 - test the generated docs.db import path and model-backed `trainFromDocsDatabase()` integration with a real TinyLlama GGUF; provider unit tests alone are insufficient end-to-end evidence.
 - retain focused RocksDB/QueryEngine coverage for bounded trainer reads, invalid collection names, empty data, persisted labels, and pipeline sample counts; add tests for selection-to-training semantics and remaining failure/batch boundaries.
+- test selected-ID filtering before LIMIT, exact loaded-ID count, and fail-closed partial/duplicate selection behavior; verify TT scaling, orthogonality status, numerical round-trip, and storage reload.
 - add benchmark smoke and comparison-report validation when per-route DB benchmarks are implemented; current `benchmarks/training/` targets do not provide those cases.
 
 ## Performance Targets
 
-- training hot paths remain inside regression budgets.
-- establish p95/p99 envelopes from reproducible release-profile measurements before treating them as targets.
+- capture same-host/profile p50/p95/p99, throughput, and peak memory for DB read, conversion/selection, LoRA update, checkpoint I/O, and end-to-end paths before release claims.
+- block the mapped release gate on a throughput regression greater than 10% against its stored same-host/profile baseline; report missing model/backend/hardware coverage as not run.
 - map supported input routes to benchmarks before claiming complete release-gate coverage.
 
 ## Security / Reliability
@@ -186,7 +192,7 @@ ThemisDB-specific performance or full-model-training claims.
 
 ### Required Interfaces
 - Preserve the existing non-owning `QueryEngine` contracts for `IncrementalLoRATrainer` and `TrainingPipeline`.
-- Measure the current trainer read and pipeline persistence paths separately; document that pipeline selection results are not currently passed directly to the trainer.
+- Measure trainer reads and pipeline persistence separately. When DB selection is enabled, `TrainingPipeline` passes selected IDs to `trainSelected()`; verify selection completeness and failure behavior independently.
 - `TrainingDataIterator` is owned by `llm`; retain its bounded AQL batch contract and report it as a separate path.
 
 ### Test Strategy
