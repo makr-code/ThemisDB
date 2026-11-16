@@ -236,10 +236,11 @@ public:
     /**
      * @brief Recover state from WAL after a crash
      *
-     * Must be called before the participant starts handling requests.
-     * The WAL manager streams every durable record through recovery before
-     * trimming its bounded serving cache; this method restores locks for
-     * replayed PREPARED transactions and only then marks the participant ready.
+     * The constructor runs this recovery synchronously before the participant
+     * can handle requests; callers may invoke it again to inspect the unresolved
+     * count without restoring locks twice. The WAL manager streams every durable
+     * record before trimming its bounded serving cache, and recovery restores
+     * locks for replayed PREPARED transactions before reporting completion.
      * In-doubt transactions (PREPARED with no COMMIT/ABORT decision) are
      * left in PREPARED state; the coordinator should re-resolve them.
      *

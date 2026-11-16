@@ -67,6 +67,9 @@ TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
             transactions_.begin(), transactions_.end(), [](const auto& item) {
                 return item.second.state == ParticipantTxnState::PREPARED;
             });
+        if (!recovery_complete_) {
+            (void)recoverFromWAL();
+        }
         THEMIS_INFO("2PC participant [{}] WAL initialised at {}", shard_id_, config_.wal_directory);
     }
 }
@@ -504,6 +507,7 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
 
     size_t in_doubt = 0;
     std::vector<std::string> restored_transactions;
+    std::vector<std::string> attempted_lock_restores;
 
     try {
         for (const auto& [txn_id, txn] : transactions_) {
@@ -519,6 +523,7 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
                 !validate_and_lock_) {
                 continue;
             }
+            attempted_lock_restores.push_back(txn_id);
             if (!validate_and_lock_(txn_id, it->second.operations)) {
                 throw std::runtime_error(
                     "could not restore participant locks for prepared transaction " + txn_id);
@@ -536,6 +541,14 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
 
         recovery_complete_ = true;
     } catch (const std::exception& e) {
+        if (release_locks_) {
+            for (const auto& txn_id : attempted_lock_restores) {
+                try {
+                    release_locks_(txn_id);
+                } catch (...) {
+                }
+            }
+        }
         durability_failed_ = true;
         THEMIS_ERROR("2PC participant [{}] WAL recovery failed: {}", shard_id_, e.what());
         throw;

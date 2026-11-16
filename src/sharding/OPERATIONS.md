@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Canonical_References:
   - ../../include/sharding/operational_metrics.h
   - ../../include/sharding/health_monitor.h
   - ../../tests/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7381, #7494"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -70,9 +70,9 @@ The implementation surfaces these through `operational_metrics.cpp`, `prometheus
 The participant reconstructs in-doubt transaction state from the complete WAL replay stream,
 independently of the bounded in-memory range-serving cache. Terminal transaction state is retained
 only within that bounded cache; PREPARED transactions remain tracked until their durable COMMIT or
-ABORT record is replayed. A participant with recovered PREPARED transactions reports unhealthy and
-rejects PREPARE/COMMIT/ABORT requests until `recoverFromWAL()` restores the prepared locks. Recovery
-failure keeps it unavailable.
+ABORT record is replayed. Construction restores locks for recovered PREPARED transactions before
+the participant can serve requests; handlers and health checks remain fail-closed if recovery is
+incomplete. Recovery failure aborts construction, so the instance cannot report ready.
 
 Participant statistics expose `recovery_complete` and `wal_recovery_status`. The latter preserves
 the canonical WALStorage startup result as `complete` or `truncated_tail`; a truncated final record

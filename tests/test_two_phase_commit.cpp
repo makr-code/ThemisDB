@@ -246,8 +246,7 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
                 applied_count.fetch_add(1, std::memory_order_relaxed);
                 return true;
             });
-        EXPECT_FALSE(participant.onHealthCheck().is_healthy);
-        EXPECT_FALSE(participant.onCommit(transaction_id));
+        EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.recoverFromWAL(), 1u);
         EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.getTransactionState(transaction_id),
@@ -283,7 +282,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache
         prepare.transaction_id = transaction_id;
         prepare.data = {
             {"vote", true},
-            {"operations", nlohmann::json::array({{{"key", "old-prepared"}}})},
+            {"operations", nlohmann::json::array({
+                nlohmann::json{{"key", "old-prepared"}}
+            })},
             {"fencing_token", {
                 {"epoch", 1},
                 {"issuer", "coordinator"},
@@ -300,6 +301,10 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache
             ASSERT_GT(wal.append(checkpoint).offset, 0u);
         }
     }
+    {
+        WALManager bounded_wal(wal_config);
+        EXPECT_FALSE(bounded_wal.read(LSN(1, 1)).has_value());
+    }
 
     std::atomic<int> restored_lock_count{0};
     TwoPhaseCommitParticipant::Config config;
@@ -313,13 +318,14 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache
             return true;
         });
 
-    EXPECT_FALSE(participant.onHealthCheck().is_healthy);
-    EXPECT_FALSE(participant.onCommit(transaction_id));
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_TRUE(participant.getStatistics()["recovery_complete"].get<bool>());
     EXPECT_EQ(participant.getTransactionState(transaction_id),
               ParticipantTxnState::PREPARED);
     EXPECT_EQ(participant.recoverFromWAL(), 1u);
     EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
     EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_TRUE(participant.getStatistics()["recovery_complete"].get<bool>());
     EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "complete");
 }
 
@@ -327,7 +333,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, PreservesTruncatedTailRecoveryStatus
     TemporaryTransactionLog log("themis_participant_truncated_tail");
     const auto wal_directory = log.logPath().parent_path().string();
     {
-        WALManager wal(WALManagerConfig{.wal_directory = wal_directory});
+        WALManagerConfig wal_config;
+        wal_config.wal_directory = wal_directory;
+        WALManager wal(wal_config);
         WALEntry checkpoint;
         checkpoint.type = WALEntryType::CHECKPOINT;
         checkpoint.data = nlohmann::json::object();
@@ -350,6 +358,44 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, PreservesTruncatedTailRecoveryStatus
 
     EXPECT_TRUE(participant.onHealthCheck().is_healthy);
     EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "truncated_tail");
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, FailedLockRestoreRollsBackPartialRestoration) {
+    TemporaryTransactionLog log("themis_participant_failed_lock_restore");
+    const auto wal_directory = log.logPath().parent_path().string();
+    {
+        WALManagerConfig wal_config;
+        wal_config.wal_directory = wal_directory;
+        WALManager wal(wal_config);
+        for (const auto* txn_id : {"a-restore", "z-fail"}) {
+            WALEntry prepare;
+            prepare.type = WALEntryType::PREPARE_TX;
+            prepare.transaction_id = txn_id;
+            prepare.data = {
+                {"vote", true},
+                {"operations", nlohmann::json::array()}
+            };
+            ASSERT_GT(wal.append(prepare).offset, 0u);
+        }
+    }
+
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-restore-failure");
+    std::set<std::string> released_transactions;
+    EXPECT_THROW(
+        TwoPhaseCommitParticipant(
+            "shard-restore-failure", config,
+            [](const std::string& txn_id, const nlohmann::json&) {
+                return txn_id != "z-fail";
+            },
+            nullptr,
+            [&released_transactions](const std::string& txn_id) {
+                released_transactions.insert(txn_id);
+            }),
+        std::runtime_error);
+    EXPECT_EQ(released_transactions,
+              (std::set<std::string>{"a-restore", "z-fail"}));
 }
 
 TEST_F(TwoPhaseCommitParticipantTest, MissingFencingTokenVotesAbortBeforeLocking) {
