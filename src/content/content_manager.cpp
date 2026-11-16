@@ -2111,7 +2111,15 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             return {};
         }
         if (!allow.empty()) {
-            std::unordered_set<std::string> allowed(allow.begin(), allow.end());
+            std::unordered_set<std::string> allowed;
+            allowed.reserve(allow.size());
+            size_t allowed_checks = 0;
+            for (const auto& id : allow) {
+                if (((++allowed_checks & 63U) == 0U) && stopIfRequested()) {
+                    return {};
+                }
+                allowed.insert(id);
+            }
             size_t output_index = 0;
             for (const auto& item : out) {
                 if (((++results_since_poll & 63U) == 0U) && stopIfRequested()) {
