@@ -3625,7 +3625,14 @@ QueryEngine::executeAndKeysRangeAware_(
 			if (shouldStop()) {
 				return stopped();
 			}
-			candidates = lists.front();
+			candidates.reserve(lists.front().size());
+			size_t copied = 0;
+			for (const auto& candidate : lists.front()) {
+				if ((copied++ & 63U) == 0U && shouldStop()) {
+					return stopped();
+				}
+				candidates.emplace_back(candidate);
+			}
 			for (size_t list_index = 1; list_index < lists.size(); ++list_index) {
 				const auto& next = lists[list_index];
 				std::vector<std::string> intersection;

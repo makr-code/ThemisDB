@@ -146,7 +146,7 @@ TEST_F(AqlFulltextDeadlineTest, CancellationDuringPrefixScanDiscardsPartialResul
 
 TEST_F(AqlFulltextDeadlineTest, StructuralPredicateExecutionHonorsCancellation) {
     PollState state;
-    state.stop_after = 26;  // After text retrieval, at structural-index intersection.
+    state.stop_after = 35;  // After candidate copy, during structural key-list intersection.
     const themis::query::RequestContext cancelled(
         nullptr, std::nullopt, &stopAfterPolls, &state);
     const auto response = handler_->handleQueryAql(

@@ -275,8 +275,9 @@ now measures overrun classification, not a hard wall-clock bound.
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
 - `POST /query/aql` passes a request context through full-text index scans,
-  score lookups and entity hydration only; its parsing, structural predicates,
-  full-scan fallback and other query stages remain checkpoint-only. Other HTTP
+  score lookups, entity hydration, and structural key-list intersection.
+  Structural index reads and sorting are checkpoint-only; parsing, the
+  `allow_full_scan` fallback, and other query stages remain checkpoint-only. Other HTTP
   search routes besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client
