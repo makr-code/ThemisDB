@@ -397,12 +397,12 @@ TEST_F(WALChecksumTest, CorruptTermRecordBlocksReadiness) {
     {
         std::fstream fs(term_segment, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
-        fs.seekg(static_cast<std::streamoff>(-8), std::ios::end);
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
         std::uint8_t byte{};
         fs.read(reinterpret_cast<char*>(&byte), 1);
         ASSERT_TRUE(fs.good());
         byte ^= static_cast<std::uint8_t>(0x80u);
-        fs.seekp(static_cast<std::streamoff>(-8), std::ios::end);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
         fs.write(reinterpret_cast<const char*>(&byte), 1);
         ASSERT_TRUE(fs.good());
     }
