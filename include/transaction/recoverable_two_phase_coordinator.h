@@ -46,14 +46,14 @@ namespace themis::transaction {
  * and interoperability.
  */
 enum class RecoverableTwoPhaseState {
-    ACTIVE,      ///< Transaction exists but has not reached PREPARE yet.
-    PREPARING,   ///< Phase 1 is still collecting votes.
-    PREPARED,    ///< All participants prepared; no durable final decision yet.
-    COMMITTING,  ///< Durable COMMIT decision exists; Phase 2 in progress.
-    ABORTING,    ///< Durable ABORT decision exists; Phase 2 in progress.
-    COMPLETED,   ///< Final decision was fully replayed/completed.
-    FAILED,      ///< Recovery cannot make further progress automatically.
-    UNKNOWN      ///< Coordinator cannot classify the transaction safely.
+    ACTIVE,      ///< Pre-PREPARE transaction; blocks readiness until recovery resolves it.
+    PREPARING,   ///< Phase 1 is collecting votes; blocks readiness until recovery resolves it.
+    PREPARED,    ///< Participants prepared without a durable final decision; recovery must resolve it.
+    COMMITTING,  ///< Durable COMMIT decision exists; Phase 2 remains incomplete.
+    ABORTING,    ///< Durable ABORT decision exists; Phase 2 remains incomplete.
+    COMPLETED,   ///< Final decision was fully replayed/completed; does not block readiness.
+    FAILED,      ///< Recovery cannot progress automatically; blocks readiness.
+    UNKNOWN      ///< Coordinator cannot classify the transaction; blocks readiness.
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -115,7 +115,9 @@ public:
      * @brief Return the currently known recoverable/non-final transactions.
      *
      * The returned snapshot reflects the coordinator's view at the time of
-     * the call.  Non-final means any state except COMPLETED.
+     * the call. Non-final means any state except COMPLETED. ACTIVE and PREPARING
+     * are included because participants may have work to resolve even when no
+     * final decision is durable; callers must not treat them as safe to ignore.
      *
      * @return Canonical recovery snapshot for global orchestration.
      */
@@ -133,9 +135,9 @@ public:
 struct RecoverableTwoPhaseCoordinatorReport {
     std::string coordinator_name;  ///< Value from recoveryCoordinatorName().
     std::string backend_name;      ///< Value from recoveryBackendName().
-    size_t      in_doubt_before = 0; ///< Non-final transaction count before recovery.
+    size_t      in_doubt_before = 0; ///< All non-final transactions before recovery, including ACTIVE/PREPARING.
     size_t      resolved        = 0; ///< Transactions successfully re-driven.
-    size_t      in_doubt_after  = 0; ///< Non-final transaction count after recovery.
+    size_t      in_doubt_after  = 0; ///< All non-final transactions after recovery, including ACTIVE/PREPARING.
 };
 
 /**
@@ -150,12 +152,13 @@ struct GlobalTwoPhaseCommitRecoveryReport {
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
 
-    /// False if any supplied coordinator is missing or unresolved work remains.
+    /// False if a coordinator is missing or any non-COMPLETED transaction remains.
     bool ready_for_service = false;
 
     /**
     * @brief Whether startup must remain blocked after the recovery pass.
-    * @return True if any coordinator is missing or unresolved work remains.
+    * @return True if any coordinator is missing or any non-COMPLETED transaction remains,
+    *         including ACTIVE, PREPARING, FAILED, and UNKNOWN states.
     */
     [[nodiscard]] bool startupBlocked() const noexcept {
         return !ready_for_service;
@@ -172,7 +175,10 @@ struct GlobalTwoPhaseCommitRecoveryReport {
  * This is a stateless header-only orchestrator. Call recoverAll() once after
  * coordinator restart to drive every registered coordinator through its
  * recovery sequence and obtain a unified report. Callers must withhold service
- * readiness unless ready_for_service is true. This class does not establish
+ * readiness unless ready_for_service is true. Every state except COMPLETED
+ * blocks readiness if it remains after the pass, including ACTIVE and
+ * PREPARING states without a durable final decision. Each coordinator owns
+ * participant communication and timeout policy; this class does not establish
  * cross-coordinator WAL compatibility or multi-process recovery guarantees.
  *
  * Example:
@@ -191,12 +197,14 @@ public:
      *
      * Iterates @p coordinators in order, calls recoverInDoubtTransactions()
      * on each, and accumulates before/after counts and per-coordinator details.
-     * Null pointers in the list are silently skipped.
+     * Every state except COMPLETED counts as in-doubt; ACTIVE and PREPARING
+     * transactions therefore continue to block readiness until resolved.
+     * Null pointers in the list are skipped and keep the result not ready.
      *
      * @param coordinators Recovery-capable coordinators to visit exactly once.
      * @return             Aggregated counts and per-coordinator results.
      *                      ready_for_service is false when a supplied coordinator
-     *                      is null or any non-final transaction remains.
+     *                      is null or any non-COMPLETED transaction remains.
      *                     Use startupBlocked() to test readiness.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
