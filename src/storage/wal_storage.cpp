@@ -836,26 +836,28 @@ Result<void> WALStorage::replaySegment(const std::string& path,
  * @brief Close-Path Locking and Exception Safety (W5-Storage Hardening) openNewSegment() transitions file descriptor and segment state atomically under mutex_: 1.
  * @param[in] segment_id Identifier of the segment.
  * @return Return value.
- * @details Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ >= 0, fsync old segment (may timeout, but continue anyway). 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err<>; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string(), std::strerror().
+ * @details Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ >= 0, fsync old segment; fail closed if durability is unconfirmed. 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err<>; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_ERROR(), count(), ErrVoid(), std::string(), std::strerror().
  */
 Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     if (fd_ >= 0) {
-        // W1-S02: fsync timeout protection for segment rotation.
-        // Prevent hung fsync from blocking segment rollover indefinitely (CWE-833).
+        // A failed or timed-out fsync cannot establish durability for the old segment.
         auto start_time = std::chrono::steady_clock::now();
         constexpr auto FSYNC_TIMEOUT = std::chrono::seconds(30);
 
         if (themis_fsync_fd(fd_) != 0) {
+            const auto fsync_error = errno;
             auto elapsed = std::chrono::steady_clock::now() - start_time;
-            if (elapsed > FSYNC_TIMEOUT) {
-                THEMIS_WARN("WALStorage::openNewSegment: fsync timeout (>{}ms) on old segment, "
-                           "continuing with degraded durability during rotation",
+            if (elapsed >= FSYNC_TIMEOUT) {
+                THEMIS_ERROR("WALStorage::openNewSegment: fsync timed out after >{}ms; "
+                             "refusing segment rotation",
                            std::chrono::duration_cast<std::chrono::milliseconds>(FSYNC_TIMEOUT).count());
-            } else {
                 return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
-                               "cannot fsync WAL segment before rollover: " +
-                                   std::string(std::strerror(errno)));
+                               "WAL segment fsync timed out before rollover: " +
+                                   std::string(std::strerror(fsync_error)));
             }
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                           "cannot fsync WAL segment before rollover: " +
+                               std::string(std::strerror(fsync_error)));
         }
         themis_close_fd(fd_);
         fd_ = -1;
@@ -985,32 +987,29 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
 /**
  * @brief Sync If Required.
  * @return Return value.
- * @details Calls: OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string().
+ * @details Calls: OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_ERROR(), count(), ErrVoid(), std::string().
  */
 Result<void> WALStorage::syncIfRequired() {
     if (!config_.fsync_on_write || fd_ < 0) {
         return OkVoid();
     }
 
-    // W1-S02: fsync timeout protection (CWE-833).
-    // Slow/frozen filesystems can block fsync indefinitely.
-    // On POSIX systems, we use a simple deadline approach with signal safety.
-    // If fsync hangs, we log a warning but continue (the data may still be durable).
+    // A timed-out fsync cannot establish the durability required for an acknowledgement.
     auto start_time = std::chrono::steady_clock::now();
     constexpr auto FSYNC_TIMEOUT = std::chrono::seconds(30);
 
-    // Attempt fsync with timeout monitoring
-    // Note: ::fsync is not formally interruptible; this is a best-effort check.
     if (themis_fsync_fd(fd_) != 0) {
+        const auto fsync_error = errno;
         auto elapsed = std::chrono::steady_clock::now() - start_time;
-        if (elapsed > FSYNC_TIMEOUT) {
-            THEMIS_WARN("WALStorage::syncIfRequired: fsync timeout (>{}ms), continuing with degraded durability",
+        if (elapsed >= FSYNC_TIMEOUT) {
+            THEMIS_ERROR("WALStorage::syncIfRequired: fsync timed out after >{}ms; durability is unconfirmed",
                        std::chrono::duration_cast<std::chrono::milliseconds>(FSYNC_TIMEOUT).count());
-            // Continue rather than failing — partial durability is better than complete failure
-            return OkVoid();
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                          "WAL fsync timed out without confirming durability: " +
+                              std::string(std::strerror(fsync_error)));
         }
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
-                       "WAL fsync failed: " + std::string(std::strerror(errno)));
+                       "WAL fsync failed: " + std::string(std::strerror(fsync_error)));
     }
 
     return OkVoid();
@@ -1159,7 +1158,7 @@ size_t WALStorage::segmentCount() const {
 /**
  * @brief Flush.
  * @return Return value.
- * @details Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid().
+ * @details Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_ERROR(), count(), ErrVoid().
  */
 Result<void> WALStorage::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -1175,7 +1174,7 @@ Result<void> WALStorage::flush() {
     if (themis_fsync_fd(fd_) != 0) {
         auto elapsed = std::chrono::steady_clock::now() - start_time;
         const auto flush_error = std::string(std::strerror(errno));
-        if (elapsed > FSYNC_TIMEOUT) {
+        if (elapsed >= FSYNC_TIMEOUT) {
             THEMIS_ERROR("WALStorage::flush: fsync timeout (>{}ms); durability is unconfirmed: {}",
                        std::chrono::duration_cast<std::chrono::milliseconds>(FSYNC_TIMEOUT).count(),
                        flush_error);

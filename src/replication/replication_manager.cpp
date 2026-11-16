@@ -156,6 +156,7 @@ struct WalManagerRuntimeState {
     std::unique_ptr<themis::WALStorage> durability_wal;
     std::unique_ptr<themis::WALStorage> term_wal;
     std::deque<WALEntry> wal_entries;
+    bool durability_failed = false;
 };
 
 std::mutex g_wal_manager_state_mutex;
@@ -554,7 +555,7 @@ WALManager::WALManager(const ReplicationConfig& config)
 }
 
 WALManager::~WALManager() {
-    sync();
+    (void)sync();
     eraseWalManagerState(this);
 }
 
@@ -565,8 +566,20 @@ WALManager::~WALManager() {
  * @details Calls: lock(), load(), empty(), SHA256(), c_str(), size(), std::setw(), std::setfill().
  */
 uint64_t WALManager::append(const WALEntry& entry) {
+    return appendImpl(entry, false);
+}
+
+uint64_t WALManager::appendDurably(const WALEntry& entry) {
+    return appendImpl(entry, true);
+}
+
+uint64_t WALManager::appendImpl(const WALEntry& entry, bool require_durability) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
+
+    if (state.durability_failed) {
+        throw std::runtime_error("Replication WAL durability is unconfirmed; reopen and recover it");
+    }
 
     if (!state.durability_wal) {
         throw std::runtime_error("WAL durability backend is not initialized");
@@ -593,11 +606,23 @@ uint64_t WALManager::append(const WALEntry& entry) {
     std::string payload(serialized.begin(), serialized.end());
     auto append_result = state.durability_wal->appendPut(kReplicationWalEntryType, payload);
     if (!append_result.has_value()) {
+        state.durability_failed = true;
         throw std::runtime_error("Failed to append replication WAL entry: " +
                                  append_result.error().message());
     }
 
     seq = append_result.value();
+    if (require_durability && !config_.wal_sync_on_commit) {
+        const auto flush_result = state.durability_wal->flush();
+        if (!flush_result.has_value()) {
+            state.durability_failed = true;
+            THEMIS_ERROR("Replication WAL durable append failed: {}",
+                         flush_result.error().message());
+            throw std::runtime_error("Failed to confirm replication WAL durability: " +
+                                     flush_result.error().message());
+        }
+    }
+
     stored_entry.sequence_number = seq;
     current_sequence_.store(seq);
     state.wal_entries.push_back(std::move(stored_entry));
@@ -616,7 +641,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
     std::vector<WALEntry> entries;
-    if (limit == 0) {
+    if (limit == 0 || state.durability_failed) {
         return entries;
     }
     entries.reserve(limit);
@@ -697,26 +722,32 @@ void WALManager::truncateBefore(uint64_t sequence) {
 
 /**
  * @brief Sync.
- * @details Calls: dir(), empty(), fs::exists(), THEMIS_WARN(), message(), fs::directory_iterator(), path(), extension().
+ * @return True only if each initialized WAL flush succeeds.
+ * @details Calls: flush(), THEMIS_ERROR(), message().
  */
-void WALManager::sync() {
+bool WALManager::sync() {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
-    if (!state.durability_wal) {
-        return;
+    if (!state.durability_wal || state.durability_failed) {
+        return false;
     }
 
     auto flush_result = state.durability_wal->flush();
     if (!flush_result.has_value()) {
-        THEMIS_WARN("Replication WAL flush failed: {}", flush_result.error().message());
+        THEMIS_ERROR("Replication WAL flush failed: {}", flush_result.error().message());
+        state.durability_failed = true;
+        return false;
     }
     if (state.term_wal) {
         auto term_flush_result = state.term_wal->flush();
         if (!term_flush_result.has_value()) {
-            THEMIS_WARN("Replication WAL term flush failed: {}",
-                        term_flush_result.error().message());
+            THEMIS_ERROR("Replication WAL term flush failed: {}",
+                         term_flush_result.error().message());
+            state.durability_failed = true;
+            return false;
         }
     }
+    return true;
 }
 
 uint64_t WALManager::getSize() const {
@@ -1221,36 +1252,13 @@ ReplicationStream::ReplicationStream(
     , follower_info_{}
     , last_acked_sequence_(0)
     , running_(false)
-    , consecutive_failures_(0)
-    , compressed_stream_(nullptr) {
+    , consecutive_failures_(0) {
     
     follower_info_.endpoint = follower_endpoint;
     follower_info_.role = ReplicationRole::FOLLOWER;
     follower_info_.last_applied_sequence = 0;
     follower_info_.last_heartbeat = std::chrono::system_clock::now();
 
-    // Build compressed stream if WAL compression is enabled
-    if (config_.enable_wal_compression) {
-        CompressedReplicationStream::CompressionConfig cc;
-        cc.compression_level    = config_.wal_compression_level;
-        cc.min_batch_size       = static_cast<uint32_t>(config_.wal_compression_min_batch_bytes);
-
-        const auto& algo = config_.wal_compression_algorithm;
-        if (algo == "lz4") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::LZ4;
-        } else if (algo == "snappy") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::SNAPPY;
-        } else if (algo == "auto") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::AUTO;
-        } else if (algo == "none") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
-        } else {
-            // Default (including "zstd" and unknown values) → ZSTD
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
-        }
-
-        compressed_stream_ = std::make_unique<CompressedReplicationStream>(follower_endpoint, cc);
-    }
 }
 
 ReplicationStream::~ReplicationStream() {
@@ -1288,27 +1296,9 @@ bool ReplicationStream::isHealthy() const {
  * @details Calls: load(), computeBackoffMs(), lk(), wait_for(), std::chrono::milliseconds(), readFrom(), empty(), sendBatch().
  */
 void ReplicationStream::streamLoop() {
-    // BATCH D ANNOTATION: Replication Acknowledgment and Consensus Semantics
-    // This loop implements a pull-based replication model with explicit acknowledgment tracking.
-    // Each cycle reads a batch of WAL entries and attempts transmission to a follower.
-    //
-    // Replication Mode Semantics:
-    // - ASYNC (fire-and-forget): sendBatch() returns true immediately after transmission;
-    //   no wait for follower acknowledgment. Follower failures don't block leader writes.
-    //   Causality: Local linearization only (leader's FIFO order).
-    // - SEMI_SYNC (leader waits for one follower ACK): sendBatch() blocks until ACK
-    //   or timeout. Guarantees at least one replica has the write before commit. Causality:
-    //   Includes acknowledged follower's vector clock in consistency decision.
-    // - SYNC (full quorum): sendBatch() requires quorum ACKs. Strongest consistency.
-    //   Causality: All replicas in quorum have identical write order (total order broadcast).
-    //
-    // Consensus Expectation (RFC 7530 / Raft consistency):
-    // - Successful sendBatch() + last_acked_sequence_.store() ensures happens-before
-    //   relationship between this send and the next follower read.
-    // - consecutive_failures_ tracks transient faults; exponential backoff avoids
-    //   network storms while maintaining eventual delivery (liveness).
-    // - Follower health status (HEALTHY/DEGRADED/FAILED) is updated on ACK receipt
-    //   and used for quorum calculations on the leader.
+    // ACK positions advance only after sendBatch confirms delivery. This stream
+    // currently has no network transport, so it remains unacknowledged and retries
+    // with backoff instead of claiming follower progress.
     
     while (running_.load()) {
         // Apply exponential backoff when the follower is not responsive
@@ -1367,47 +1357,12 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 /**
  * @brief Send Batch.
  * @param[in] entries Input parameter.
- * @return True when the operation succeeds.
- * @details Implements sendBatch without additional internal calls.
+ * @return False because this stream has no network transport to confirm delivery.
+ * @details A locally available batch is not evidence of follower receipt or application.
  */
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // BATCH D ANNOTATION: Consensus and Acknowledgment Handling
-    // This method is the critical juncture between local WAL and follower replication.
-    //
-    // Replication Acknowledgment Semantics:
-    // 1. Async Path (ASYNC mode): Returns immediately after serialization and transmission,
-    //    without waiting for follower response. Causality is local only.
-    // 2. Sync-Wait Path (SEMI_SYNC/SYNC mode): Blocks until follower ACKs the entries
-    //    (implemented in CompressedReplicationStream::sendBatch). Causality includes
-    //    follower's vector clock alignment.
-    //
-    // Timeout and Backoff Strategy:
-    // - CompressedReplicationStream handles timeouts internally; if no ACK within
-    //   replication_timeout_ms, returns false to signal failure.
-    // - streamLoop caller applies exponential backoff: base * 2^(N-1) up to max_backoff.
-    // - This prevents network storms (stability) while ensuring eventual retransmission
-    //   under quorum failure scenarios.
-    //
-    // Checksum and Integrity:
-    // - Each WALEntry includes a checksum computed during initial write.
-    // - Follower must verify checksum on ACK to ensure data integrity in transit.
-    // - Checksum mismatch triggers replay/resync at the entry level.
-    //
-    // Causality Guarantees:
-    // - If sendBatch returns true, the follower's last_applied_sequence must advance
-    //   to at least entries.back().sequence_number before next streamLoop cycle.
-    // - Sequence numbers form a total order: no gaps allowed. Duplicate ACKs are idempotent.
-    
-    // When WAL compression is configured, delegate to CompressedReplicationStream
-    // which serialises, compresses (Zstd/LZ4/Snappy), and ships the batch.
-    if (compressed_stream_) {
-        return compressed_stream_->sendBatch(entries);
-    }
-
-    // Uncompressed path: in a real deployment this would serialise the entries
-    // and transmit them via the mTLS connection to the follower endpoint.
-    // The retry/backoff logic is managed by the caller (streamLoop).
-    return true;
+    (void)entries;
+    return false;
 }
 
 // ============================================================================
@@ -1520,7 +1475,7 @@ void ReplicationManager::shutdown() {
  * @brief Replicate.
  * @param[in] entry Input parameter.
  * @return True when the operation succeeds.
- * @details Calls: load(), THEMIS_ERROR(), isLeader(), append(), size(), notifyListeners(), onWALEntryApplied(), waitForReplication().
+ * @details Calls: load(), THEMIS_ERROR(), isLeader(), appendDurably(), size(), notifyListeners(), onWALEntryApplied(), waitForReplication().
  */
 bool ReplicationManager::replicate(const WALEntry& entry) {
     if (!initialized_.load()) {
@@ -1534,8 +1489,8 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
     }
     
     try {
-        // Append to WAL
-        uint64_t seq = wal_->append(entry);
+        // Keep the entry hidden from replication readers until its local WAL is durable.
+        uint64_t seq = wal_->appendDurably(entry);
         if (seq == 0) {
             THEMIS_ERROR("WAL append failed for entry operation={} collection={}",
                          entry.operation, entry.collection);
@@ -1543,19 +1498,18 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
             return false;
         }
         
+        if (config_.mode != ReplicationMode::ASYNC) {
+            if (!waitForReplication(seq, config_.replication_timeout_ms)) {
+                return false;
+            }
+        }
+
         stats_.entries_replicated++;
         stats_.bytes_replicated += entry.data.size();
-        
-        // Notify CDC listeners about the applied WAL entry
+
         notifyListeners([&entry](IReplicationListener& l) {
             l.onWALEntryApplied(entry);
         });
-        
-        // For sync/semi-sync mode, wait for consensus from replicas
-        // This ensures quorum acknowledgment before the write is considered committed
-        if (config_.mode != ReplicationMode::ASYNC) {
-            return waitForReplication(seq, config_.replication_timeout_ms);
-        }
         
         return true;
         

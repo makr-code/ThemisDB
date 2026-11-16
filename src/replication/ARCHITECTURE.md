@@ -52,15 +52,22 @@ into the current runtime.
 ## Data and event flow
 
 1. Replication configuration and membership are managed through the manager/consensus surfaces.
-2. A storage WAL record or logical change is encoded/selected for the configured replication path.
+2. `ReplicationManager::replicate()` durably appends its WAL entry before exposing it
+   to replication readers or returning a local acknowledgement.
 3. Logical subscribers consume changes through slots/streams; the async shipper queues WAL segments and dispatches them through its configured handler.
 4. Conflict resolver APIs can resolve competing writes when invoked by their caller; lag and health components expose state through separate APIs.
+
+`ReplicationStream` does not currently have a network transport. It must not advance
+the follower acknowledgement sequence based on local compression or serialization;
+SYNC and SEMI_SYNC therefore fail to acknowledge until a transport returns a real
+follower acknowledgement.
 
 The manager includes `storage/wal_storage.h`; see [`replication_manager.cpp`](replication_manager.cpp), [`logical_replication.cpp`](logical_replication.cpp), and [`async_wal_shipper.cpp`](async_wal_shipper.cpp).
 
 ## Failure domains and edge cases
 
 - Replica heartbeat/election/ack timeouts and quorum requirements affect promotion or synchronous write acknowledgement according to configuration.
+- A local durable WAL append is distinct from follower delivery. Compression and a successful local serialization are not follower acknowledgements.
 - Replication startup uses the canonical `WALStorage` recovery result, validates the serialized entry checksum and sequence, and remains unready on corruption, timeout, or I/O failure; a truncated physical tail is reported distinctly after repair.
 - A full async shipping queue returns `false` from `enqueueSegment()`; callers must handle this backpressure result and the shipper statistics.
 - A paused replication slot retains its progress position; stale consumers can therefore constrain log retention.

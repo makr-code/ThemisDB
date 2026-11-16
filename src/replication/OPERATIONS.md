@@ -81,15 +81,25 @@ accepting a higher-term heartbeat, or promoting a replica, regardless of
 corrupted term records block initialization. The term WAL does not advance the
 data-entry LSN.
 
+`ReplicationManager::replicate()` uses a durable append: with
+`wal_sync_on_commit=true`, the append's fsync must succeed; with it disabled, an
+explicit flush is required before the entry becomes visible to replication readers.
+An unconfirmed flush fails the write and makes that WAL manager unavailable until
+restart and recovery. Listener notifications occur only after local durability and
+the selected replication acknowledgement condition succeed.
+
+The current `ReplicationStream` has no network transport. It retries without
+advancing its acknowledged sequence, so SYNC and SEMI_SYNC writes cannot satisfy
+their follower acknowledgement condition in this configuration. Compression alone
+is not delivery or a follower ACK. ASYNC mode can acknowledge after local WAL
+durability, but does not establish a follower copy.
+
 These states report startup recovery only. They do not establish end-to-end
 multi-process crash evidence, automatic failover, or topology-specific RPO/RTO
 guarantees. The module has no approved numeric lag or recovery SLO; set such targets
 only after recording a representative baseline and obtaining an operational owner.
-Local append acknowledgement is backed by the configured WAL fsync policy:
-`wal_sync_on_commit=false` disables per-write fsync and therefore does not establish
-zero-loss acknowledgement durability. Coordinator/participant decision logs are
-separate recovery domains; these replication metrics do not replace their in-doubt
-recovery checks.
+Coordinator/participant decision logs are separate recovery domains; these
+replication metrics do not replace their in-doubt recovery checks.
 
 ## Slots and logical consumers
 

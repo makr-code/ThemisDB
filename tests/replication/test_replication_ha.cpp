@@ -1596,6 +1596,39 @@ TEST(ReplicationStreamTest, InitialBackoffIsZero) {
     EXPECT_EQ(stream.getConsecutiveFailures(), 0u);
 }
 
+TEST(ReplicationStreamTest, MissingTransportNeverAdvancesAcknowledgedSequence) {
+    TempWALDir wd("/tmp/themis_stream_no_transport");
+
+    for (const bool compression_enabled : {false, true}) {
+        ReplicationConfig cfg = makeConfig(
+            (std::filesystem::path(wd.path) /
+             (compression_enabled ? "compressed" : "uncompressed")).string());
+        cfg.enable_wal_compression = compression_enabled;
+        cfg.batch_timeout_ms = 5;
+
+        auto wal = std::make_shared<WALManager>(cfg);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "replication";
+        entry.document_id = compression_enabled ? "compressed" : "uncompressed";
+        entry.data = "payload";
+        ASSERT_GT(wal->appendDurably(entry), 0u);
+
+        ReplicationStream stream("127.0.0.1:9999", wal, cfg);
+        stream.start();
+        const auto deadline = std::chrono::steady_clock::now() +
+                              std::chrono::seconds(1);
+        while (stream.getConsecutiveFailures() == 0 &&
+               std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        }
+        stream.stop();
+
+        EXPECT_GT(stream.getConsecutiveFailures(), 0u);
+        EXPECT_EQ(stream.getLastAckedSequence(), 0u);
+    }
+}
+
 // ============================================================================
 // 14. MultiMasterReplicationManager
 // ============================================================================
@@ -3423,6 +3456,7 @@ TEST(CDCManagerTest, ThrowingCallbackDoesNotCrash) {
 TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     TempWALDir tmp("/tmp/themis_cdc_mgr_test");
     auto cfg = makeConfig(tmp.path);
+    cfg.wal_sync_on_commit = true;
     cfg.seed_nodes.clear();
     // Use the minimum election timeout so the single-node cluster elects
     // itself as leader quickly.
@@ -3431,31 +3465,77 @@ TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     // This test validates CDC delivery, not lease semantics.
     cfg.enable_leader_lease = false;
 
-    ReplicationManager mgr(cfg);
-    ASSERT_TRUE(mgr.initialize());
-
     auto cdc = std::make_shared<CDCManager>();
     std::vector<std::string> captured;
     cdc->subscribe("", [&captured](const WALEntry& e) {
         captured.push_back(e.document_id);
     });
-    mgr.addListener(cdc);
-
-    // Wait for the single-node cluster to elect itself leader
-    // (election_timeout_max_ms = 100 ms, add extra margin)
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
     WALEntry entry;
     entry.operation   = "INSERT";
     entry.collection  = "items";
     entry.document_id = "item-42";
     entry.data        = R"({"name":"widget"})";
-    bool ok = mgr.replicate(entry);
+    bool ok = false;
+    {
+        ReplicationManager mgr(cfg);
+        ASSERT_TRUE(mgr.initialize());
+        mgr.addListener(cdc);
 
-    mgr.shutdown();
+        // Wait for the single-node cluster to elect itself leader.
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        ok = mgr.replicate(entry);
+        mgr.shutdown();
+    }
+
     ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
     ASSERT_EQ(captured.size(), 1u);
     EXPECT_EQ(captured[0], "item-42");
+
+    WALManager reopened(cfg);
+    const auto recovered = reopened.readFrom(1, 1);
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered.front().document_id, "item-42");
+}
+
+TEST(CDCManagerTest, ReplicationManagerDoesNotPublishBeforeQuorumAcknowledgement) {
+    TempWALDir tmp("/tmp/themis_cdc_quorum_test");
+    auto cfg = makeConfig(tmp.path);
+    cfg.mode = ReplicationMode::SEMI_SYNC;
+    cfg.wal_sync_on_commit = true;
+    cfg.replication_timeout_ms = 50;
+    cfg.seed_nodes.clear();
+    cfg.election_timeout_min_ms = 50;
+    cfg.election_timeout_max_ms = 100;
+    cfg.enable_leader_lease = false;
+
+    auto cdc = std::make_shared<CDCManager>();
+    std::vector<std::string> captured;
+    cdc->subscribe("", [&captured](const WALEntry& entry) {
+        captured.push_back(entry.document_id);
+    });
+
+    WALEntry entry;
+    entry.operation = "INSERT";
+    entry.collection = "items";
+    entry.document_id = "uncommitted";
+    entry.data = R"({"name":"not-published"})";
+
+    {
+        ReplicationManager mgr(cfg);
+        ASSERT_TRUE(mgr.initialize());
+        mgr.addListener(cdc);
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+        EXPECT_FALSE(mgr.replicate(entry));
+        EXPECT_TRUE(captured.empty());
+        mgr.shutdown();
+    }
+
+    WALManager reopened(cfg);
+    const auto recovered = reopened.readFrom(1, 1);
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered.front().document_id, "uncommitted");
+    EXPECT_TRUE(captured.empty());
 }
 
 // ============================================================================

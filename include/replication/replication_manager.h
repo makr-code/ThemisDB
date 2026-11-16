@@ -434,8 +434,24 @@ public:
         return recovery_status_;
     }
     
-    // Append entry to WAL
+    /**
+     * @brief Append an entry using the configured WAL fsync policy.
+     * @param entry The entry to append; a supplied checksum must match the payload.
+     * @return The assigned WAL sequence number.
+     * @throws std::runtime_error if the WAL is unavailable, the append fails, or the checksum is invalid.
+     */
     uint64_t append(const WALEntry& entry);
+
+    /**
+     * @brief Append an entry and confirm its durability before exposing it to readers.
+     * @param entry The entry to append; a supplied checksum must match the payload.
+     * @return The assigned WAL sequence number after the configured fsync or explicit flush succeeds.
+     * @throws std::runtime_error if the WAL is unavailable, the append fails, or durability is unconfirmed.
+     * @note The WAL lock is held through the durability check so replication readers cannot observe
+     *       an entry before its durable append has completed. A failed durability check poisons
+     *       this WAL manager until it is reopened and recovered.
+     */
+    [[nodiscard]] uint64_t appendDurably(const WALEntry& entry);
     
     // Read entries starting from sequence number
     std::vector<WALEntry> readFrom(uint64_t start_sequence, uint32_t limit = 1000);
@@ -467,8 +483,13 @@ public:
     // Truncate WAL up to sequence (for compaction)
     void truncateBefore(uint64_t sequence);
     
-    // Sync WAL to disk
-    void sync();
+    /**
+     * @brief Flush data and election-term WALs to durable storage.
+     * @return True only if the data WAL and any initialized term WAL flush successfully;
+     *         false if either WAL is unavailable, previously poisoned, or its flush fails.
+     * @note A failed flush marks this manager unavailable for further appends until restart.
+     */
+    [[nodiscard]] bool sync();
     
     // Get WAL size in bytes
     uint64_t getSize() const;
@@ -478,6 +499,8 @@ public:
     std::mutex& getMutex() { return wal_mutex_; }
 
 private:
+    uint64_t appendImpl(const WALEntry& entry, bool require_durability);
+
     ReplicationConfig config_;
     WALRecoveryStatus recovery_status_ = WALRecoveryStatus::NOT_STARTED;
     std::atomic<uint64_t> current_sequence_{0};
@@ -619,7 +642,11 @@ private:
 };
 
 /**
- * Replication Stream for streaming WAL entries to followers
+ * Replication Stream for tracking WAL delivery to a follower.
+ *
+ * A follower ACK is recorded only after a transport confirms delivery. No
+ * network transport is currently configured, so streams retry and retain an
+ * acknowledged sequence of zero rather than reporting local work as delivered.
  */
 class ReplicationStream {
 public:
@@ -665,9 +692,6 @@ private:
     static constexpr uint32_t kMaxRetries = 3;
     static constexpr uint32_t kBaseBackoffMs = 100;
     static constexpr uint32_t kMaxBackoffMs = 5000;
-
-    // Compressed WAL transport (Zstd/LZ4/Snappy, configured via ReplicationConfig)
-    std::unique_ptr<CompressedReplicationStream> compressed_stream_;
 
     void streamLoop();
     bool sendBatch(const std::vector<WALEntry>& entries);
@@ -724,12 +748,17 @@ public:
      * (SYNC, SEMI_SYNC, or ASYNC).
      *
      * @param entry WAL entry containing operation, document, data, and checksum.
-     * @return true if entry was appended to WAL; false if this node is not
-     *         the leader, WAL append failed, or replication is not initialized.
+     * @return true if the entry is durable locally and meets the configured replication
+     *         acknowledgement condition; false if this node is not the leader, durability
+     *         is unconfirmed, a required replica acknowledgement is missing, or replication
+     *         is not initialized.
      *
-     * @note In ASYNC mode, returns true immediately without waiting for replicas.
+     * @note In ASYNC mode, returns true after local WAL durability without waiting for replicas.
      *       In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge.
      *       In SYNC mode, waits for all voting replicas.
+     * @note No listener notification is emitted for an entry that fails the configured
+     *       acknowledgement condition. This API does not provide a network transport when
+     *       no transport implementation is configured.
      */
     bool replicate(const WALEntry& entry);
     
@@ -1365,7 +1394,8 @@ private:
 /**
  * CompressedReplicationStream
  *
- * Wraps a replication batch before sending and decompresses on receive.
+ * Serializes and compresses a replication batch locally and decompresses received data.
+ * This helper does not own or implement network transport.
  * Supported algorithms: NONE, LZ4 (fast), ZSTD (best ratio), SNAPPY (fastest).
  * AUTO selects ZSTD for batches >= min_batch_size, otherwise NONE.
  */
@@ -1400,8 +1430,12 @@ public:
 
     // Construct with default compression config
     explicit CompressedReplicationStream(const std::string& endpoint);
-    // Compress entries and (in production) send over network.
-    // Returns true on success; false on compression error.
+    /**
+     * @brief Compress a batch and update local compression statistics.
+     * @param entries Entries to serialize and compress; an empty batch is a successful no-op.
+     * @return True when local compression succeeds; false on a compression error.
+     * @note This method does not send data or establish a follower acknowledgement.
+     */
     bool sendBatch(const std::vector<WALEntry>& entries);
 
     // Decompress a byte buffer received from the network.
