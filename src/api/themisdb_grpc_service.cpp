@@ -294,6 +294,27 @@ grpc::Status stopGrpcSearch(
     Response* response) {
     return stopGrpcSearch(request.stopReason(), response);
 }
+
+/// Distinct cancellation / deadline status for AQL RPCs (reason must not be None).
+grpc::Status aqlStopStatus(themis::query::StopReason reason) {
+    return reason == themis::query::StopReason::Cancelled
+        ? grpc::Status(grpc::StatusCode::CANCELLED, "AQL query cancelled")
+        : grpc::Status(grpc::StatusCode::DEADLINE_EXCEEDED,
+                       "AQL query deadline exceeded");
+}
+
+/// Unary ExecuteAQL stop: discard every row and report the stop.
+grpc::Status stopGrpcAql(themis::query::StopReason reason,
+                         themis::api::AQLQueryResponse* response) {
+    response->set_success(false);
+    response->clear_rows();
+    auto* error = response->mutable_error();
+    error->set_code(reason == themis::query::StopReason::Cancelled ? 499 : 408);
+    error->set_message(reason == themis::query::StopReason::Cancelled
+                           ? "AQL query cancelled"
+                           : "AQL query deadline exceeded");
+    return aqlStopStatus(reason);
+}
 #endif
 
 } // namespace
@@ -967,7 +988,7 @@ private:
         // ── AQL ────────────────────────────────────────────────────────────
 
         grpc::Status ExecuteAQL(
-            grpc::ServerContext*       /*ctx*/,
+            grpc::ServerContext*       ctx,
             const AQLQueryRequest*     req,
             AQLQueryResponse*          resp
         ) override {
@@ -999,7 +1020,21 @@ private:
                                     "AQL engine not wired into this service instance");
             }
 
-            auto result = aql_engine_->execute(req->query());
+            // Borrowed ServerContext is polled synchronously; no worker thread.
+            const auto request_context = makeRequestContext(ctx);
+            if (request_context.shouldStop()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
+
+            auto stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(req->query(), "{}", request_context, stop_reason);
+            if (stop_reason != themis::query::StopReason::None) {
+                // Result (success or error) is discarded; nothing partial is surfaced.
+                return stopGrpcAql(stop_reason, resp);
+            }
+            if (request_context.shouldStop()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
             if (!result) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1010,11 +1045,21 @@ private:
             }
 
             resp->set_success(true);
+            // Poll between rows; on stop all rows are cleared.
+            const auto stopped = [&]() -> bool {
+                return request_context.shouldStop();
+            };
 #if THEMIS_HAS_JSON
             try {
                 const auto json = nlohmann::json::parse(*result);
+                if (stopped()) {
+                    return stopGrpcAql(request_context.stopReason(), resp);
+                }
                 if (json.is_array()) {
                     for (const auto& element : json) {
+                        if (stopped()) {
+                            return stopGrpcAql(request_context.stopReason(), resp);
+                        }
                         auto* row = resp->add_rows();
                         row->set_data(element.dump());
                         row->set_has_more(false);
@@ -1024,23 +1069,12 @@ private:
                     row->set_data(*result);
                     row->set_has_more(false);
                 }
-            } catch (const nlohmann::json::exception&) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
-            } catch (const std::string&) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
-            } catch (const char*) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
             } catch (...) {
                 // Fall back to raw payload when response is not valid JSON.
+                resp->clear_rows();
+                if (stopped()) {
+                    return stopGrpcAql(request_context.stopReason(), resp);
+                }
                 auto* row = resp->add_rows();
                 row->set_data(*result);
                 row->set_has_more(false);
@@ -1050,6 +1084,9 @@ private:
             row->set_data(*result);
             row->set_has_more(false);
 #endif
+            if (stopped()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
             return grpc::Status::OK;
             });
         }
@@ -1078,43 +1115,73 @@ private:
                                     "inject one via ThemisDBGrpcServiceFactory");
             }
 
-            auto result = aql_engine_->execute(req->query());
+            const auto request_context = makeRequestContext(ctx);
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
+
+            auto stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(req->query(), "{}", request_context, stop_reason);
+            if (stop_reason != themis::query::StopReason::None) {
+                return aqlStopStatus(stop_reason);
+            }
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
             if (!result) {
                 return mapThemisErrorToGrpcStatus(result.error());
             }
 
+            const auto write_failed = grpc::Status(
+                grpc::StatusCode::CANCELLED, "AQL stream write failed");
+            const auto write_failure_status = [&]() {
+                const auto reason = request_context.stopReason();
+                return reason == themis::query::StopReason::None
+                    ? write_failed
+                    : aqlStopStatus(reason);
+            };
+
             // Stream each element of the JSON result array as a separate row.
 #if THEMIS_HAS_JSON
+            nlohmann::json json;
+            bool is_json = true;
             try {
-                const auto json = nlohmann::json::parse(*result);
-                if (json.is_array()) {
-                    for (const auto& element : json) {
-                        if (ctx->IsCancelled()) {
-                            return grpc::Status(grpc::StatusCode::CANCELLED,
-                                                "client cancelled streaming request");
-                        }
-                        AQLRow row;
-                        row.set_data(element.dump());
-                        writer->Write(row);
-                    }
-                } else {
-                    // Non-array result: emit as a single row
-                    AQLRow row;
-                    row.set_data(*result);
-                    writer->Write(row);
-                }
+                json = nlohmann::json::parse(*result);
             } catch (const nlohmann::json::parse_error&) {
-                // Result is not JSON; emit as-is in a single row
+                is_json = false;  // Not JSON; emit as-is in a single row
+            }
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
+            if (is_json && json.is_array()) {
+                for (const auto& element : json) {
+                    if (request_context.shouldStop()) {
+                        return aqlStopStatus(request_context.stopReason());
+                    }
+                    AQLRow row;
+                    row.set_data(element.dump());
+                    if (!writer->Write(row)) {
+                        return write_failure_status();
+                    }
+                }
+            } else {
                 AQLRow row;
                 row.set_data(*result);
-                writer->Write(row);
+                if (!writer->Write(row)) {
+                    return write_failure_status();
+                }
             }
 #else
             // JSON library not available; emit entire result as one row
             AQLRow row;
             row.set_data(*result);
-            writer->Write(row);
+            if (!writer->Write(row)) {
+                return write_failure_status();
+            }
 #endif
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
             return grpc::Status::OK;
             });
         }

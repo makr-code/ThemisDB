@@ -64,12 +64,16 @@ service ThemisDBService {
     // ── Query / AQL ─────────────────────────────────────────────────────────
 
     // Execute an AQL query and return all results in one response
-    // (mirrors POST /query/aql).
+    // (mirrors POST /query/aql). Honors client cancellation (CANCELLED) and the
+    // gRPC deadline (DEADLINE_EXCEEDED); rows are cleared on stop. Legacy
+    // synchronous engines are checkpoint-only (not interrupted mid-call).
     rpc ExecuteAQL(AQLQueryRequest) returns (AQLQueryResponse);
 
     // Execute an AQL query and stream result rows one at a time
     // (mirrors the planned /v2/query/stream SSE endpoint).
-    // Each streamed message is one AQLRow from the result set.
+    // Each streamed message is one AQLRow from the result set. Stops with
+    // CANCELLED / DEADLINE_EXCEEDED before/after execution and between rows;
+    // legacy synchronous engines are checkpoint-only (not interrupted mid-call).
     rpc StreamAQL(AQLQueryRequest) returns (stream AQLRow);
 
     // ── Vector search ───────────────────────────────────────────────────────

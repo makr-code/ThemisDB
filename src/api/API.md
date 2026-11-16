@@ -50,9 +50,21 @@ Related issues: #7093, #7167
   cancellation requires an override that polls `RequestContext::shouldStop()`.
   Any observed stop returns `CANCELLED`/`DEADLINE_EXCEEDED`, `success=false`
   and no hits; for `HybridSearch`, hits from the dense stage are cleared too.
-- Generic `ExecuteAQL`/`ExecuteAQLStream`, HTTP search and other gRPC search
-  methods do not yet bind a request context; see the QRY-07 status in
-  `src/search/ROADMAP.md`.
+- Unary `ExecuteAQL` and server-streaming `StreamAQL` build a request context
+  from the gRPC `ServerContext` (polled synchronously, no worker thread) and call
+  the same context-aware `IQueryEngine::execute`. Order: transaction/empty-query/
+  engine-wired checks (unchanged), stop check before dispatch, execute, stop
+  check, then polling after JSON parsing and between rows. Cancellation maps to
+  `CANCELLED` and deadline to `DEADLINE_EXCEEDED`; `ExecuteAQL` additionally
+  returns `success=false`, an error code 499/408 and no rows (rows cleared on any
+  stop), `StreamAQL` stops emitting rows and returns the status. A failed
+  `writer->Write` returns the observed cancellation/deadline status, or
+  `CANCELLED` if no stop reason is observed. Legacy synchronous engines remain
+  checkpoint-only: a running call is not interrupted, only its result is
+  discarded when a stop is observed afterwards. Bind variables are still not
+  forwarded (`"{}"`), as before.
+- HTTP search routes and other gRPC search methods do not yet bind a request
+  context; see the QRY-07 status in `src/search/ROADMAP.md`.
 
 ## Integration obligations and edge cases
 

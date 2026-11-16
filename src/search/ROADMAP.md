@@ -167,14 +167,16 @@ now measures overrun classification, not a hard wall-clock bound.
   **AQL engines that do not override it cannot be interrupted mid-call.** No
   in-tree engine overrides it yet.
 - Wired into gRPC `FullTextSearch` and the sparse AQL stage of `HybridSearch`
-  (stop => `CANCELLED`/`DEADLINE_EXCEEDED`, hits cleared). Generic `ExecuteAQL`
-  is not wired.
+  (stop => `CANCELLED`/`DEADLINE_EXCEEDED`, hits cleared). Unary `ExecuteAQL`
+  and `StreamAQL` are wired too (see below).
 - Tests added to `tests/api/test_api_grpc_search_cancellation.cpp`; not built or
   run on the authoring runner (gRPC/protobuf/GoogleTest/spdlog unavailable).
 
 **Remaining gaps (QRY-07 still OPEN)**
 - No production AQL engine implements cooperative cancellation; `ExecuteAQL`
-  paths are not context-aware.
+  and `StreamAQL` pass a request context and poll before dispatch, after
+  execution, after JSON parsing and between rows, but in-tree engines are
+  checkpoint-only (running call not interrupted, late result discarded).
 - mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
   callback/wake-up registration, so transport abort latency is ~10 ms, not
   instant. Synchronous gRPC search polls its borrowed server context directly.
@@ -190,10 +192,12 @@ now measures overrun classification, not a hard wall-clock bound.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
-- HTTP search routes and gRPC `ExecuteAQL`/streaming AQL routes remain unbound
-  to a request context. `FullTextSearch` and both stages of `HybridSearch` now
-  pass one to their backends, but in-tree AQL engines still use the
-  checkpoint-only default and cannot be interrupted mid-call.
+- HTTP search routes remain unbound to a request context. gRPC `ExecuteAQL`,
+  `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
+  to their backends, but in-tree AQL engines still use the checkpoint-only
+  default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;
+  `StreamAQL` honors `Write` failure and stops between rows. Tests for these are
+  authored but not built/run (dependencies unavailable on the runner).
 - `VectorIndexAdapter` KNN is now cooperative only in brute-force cache/storage
   scans and evaluator candidate filtering. Synchronous HNSW/ScaNN/DiskANN
   backend calls are pre/post checkpoints and can overrun the deadline by the

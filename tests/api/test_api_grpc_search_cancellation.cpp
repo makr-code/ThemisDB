@@ -9,6 +9,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstddef>
 #include <memory>
 #include <string>
 #include <thread>
@@ -496,4 +497,245 @@ TEST(GrpcSearchCancellation, HybridSparseStageCooperativeCancellationClearsParti
     EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
     EXPECT_FALSE(response.success());
     EXPECT_EQ(response.hits_size(), 0);
+}
+
+namespace {
+
+/// Legacy-only engine returning a large JSON array, for StreamAQL row emission.
+class ManyRowsEngine final : public themis::IQueryEngine {
+public:
+    explicit ManyRowsEngine(std::size_t rows) {
+        payload_ = "[";
+        for (std::size_t i = 0; i < rows; ++i) {
+            if (i) payload_ += ",";
+            payload_ += "{\"_key\":\"" + std::to_string(i) + "\",\"pad\":\"" +
+                        std::string(1024, 'x') + "\"}";
+        }
+        payload_ += "]";
+    }
+    [[nodiscard]] themis::Result<std::string> execute(const std::string&) override {
+        ++calls;
+        return payload_;
+    }
+    [[nodiscard]] themis::Result<void> validate(const std::string&) const override {
+        return {};
+    }
+    [[nodiscard]] themis::Result<std::unique_ptr<themis::IExpressionEvaluator>>
+    createExpressionEvaluator() const override {
+        return themis::Err<std::unique_ptr<themis::IExpressionEvaluator>>(
+            themis::errors::ErrorCode::ERR_UNKNOWN, "unused");
+    }
+    [[nodiscard]] themis::Result<std::string> explainQuery(const std::string&) const override {
+        return std::string("{}");
+    }
+    std::atomic<unsigned int> calls{0};
+
+private:
+    std::string payload_;
+};
+
+void waitForEngine(const std::atomic<bool>& entered) {
+    const auto wait_deadline = std::chrono::steady_clock::now() + std::chrono::seconds{2};
+    while (!entered.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < wait_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds{1});
+    }
+}
+
+} // namespace
+
+TEST(GrpcAqlCancellation, ExecuteAqlAlreadyCancelledDoesNotInvokeEngine) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.TryCancel();
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    themis::api::AQLQueryResponse response;
+    const auto status = server.stub().ExecuteAQL(&context, request, &response);
+
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.rows_size(), 0);
+    EXPECT_EQ(engine->cooperative_calls.load(), 0u);
+    EXPECT_EQ(engine->legacy_calls.load(), 0u);
+}
+
+TEST(GrpcAqlCancellation, ExecuteAqlCooperativeEngineObservesCancellationInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    themis::api::AQLQueryResponse response;
+    grpc::Status status;
+    std::thread rpc_thread([&] {
+        status = server.stub().ExecuteAQL(&context, request, &response);
+    });
+    waitForEngine(engine->entered);
+    const bool entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    rpc_thread.join();
+
+    EXPECT_TRUE(entered);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.rows_size(), 0);
+}
+
+TEST(GrpcAqlCancellation, ExecuteAqlCooperativeEngineObservesDeadlineInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{1});
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    themis::api::AQLQueryResponse response;
+    const auto status = server.stub().ExecuteAQL(&context, request, &response);
+
+    // Client-side deadline and server-side stop both map to DEADLINE_EXCEEDED.
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::DEADLINE_EXCEEDED);
+    EXPECT_EQ(engine->cooperative_calls.load(), 1u);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.rows_size(), 0);
+}
+
+TEST(GrpcAqlCancellation, ExecuteAqlLegacyEngineDiscardsResultAfterStop) {
+    // Checkpoint-only default: the blocking call is not interrupted, its result is dropped.
+    auto engine = std::make_shared<BlockingLegacyEngine>();
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    themis::api::AQLQueryResponse response;
+    grpc::Status status;
+    std::thread rpc_thread([&] {
+        status = server.stub().ExecuteAQL(&context, request, &response);
+    });
+    waitForEngine(engine->entered);
+    const bool entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    std::this_thread::sleep_for(std::chrono::milliseconds{100});
+    engine->release.store(true, std::memory_order_release);
+    rpc_thread.join();
+
+    EXPECT_TRUE(entered);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.rows_size(), 0);
+}
+
+TEST(GrpcAqlCancellation, StreamAqlAlreadyCancelledDoesNotInvokeEngine) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.TryCancel();
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    auto reader = server.stub().StreamAQL(&context, request);
+    themis::api::AQLRow row;
+    std::size_t rows = 0;
+    while (reader->Read(&row)) ++rows;
+    const auto status = reader->Finish();
+
+    EXPECT_EQ(rows, 0u);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_EQ(engine->cooperative_calls.load(), 0u);
+}
+
+TEST(GrpcAqlCancellation, StreamAqlCooperativeEngineObservesCancellationInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    auto reader = server.stub().StreamAQL(&context, request);
+    waitForEngine(engine->entered);
+    const bool entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    themis::api::AQLRow row;
+    std::size_t rows = 0;
+    while (reader->Read(&row)) ++rows;
+    const auto status = reader->Finish();
+
+    EXPECT_TRUE(entered);
+    EXPECT_EQ(rows, 0u);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+}
+
+TEST(GrpcAqlCancellation, StreamAqlCooperativeEngineObservesDeadlineInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{1});
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    auto reader = server.stub().StreamAQL(&context, request);
+    themis::api::AQLRow row;
+    std::size_t rows = 0;
+    while (reader->Read(&row)) ++rows;
+    const auto status = reader->Finish();
+
+    EXPECT_EQ(rows, 0u);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::DEADLINE_EXCEEDED);
+    EXPECT_EQ(engine->cooperative_calls.load(), 1u);
+}
+
+TEST(GrpcAqlCancellation, StreamAqlStopsEmittingRowsAfterClientCancel) {
+    // ~8 MiB of rows exceeds transport flow-control windows, so the server is still
+    // emitting when the client cancels after the first row.
+    constexpr std::size_t kRows = 8000;
+    auto engine = std::make_shared<ManyRowsEngine>(kRows);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    auto reader = server.stub().StreamAQL(&context, request);
+    themis::api::AQLRow row;
+    std::size_t rows = 0;
+    if (reader->Read(&row)) {
+        ++rows;
+        context.TryCancel();
+    }
+    while (reader->Read(&row)) ++rows;
+    const auto status = reader->Finish();
+
+    EXPECT_GE(rows, 1u);
+    EXPECT_LT(rows, kRows);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_EQ(engine->calls.load(), 1u);
+}
+
+TEST(GrpcAqlCancellation, StreamAqlUncancelledStreamsAllRows) {
+    auto engine = std::make_shared<ManyRowsEngine>(5);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::AQLQueryRequest request;
+    request.set_query("FOR d IN docs RETURN d");
+    auto reader = server.stub().StreamAQL(&context, request);
+    themis::api::AQLRow row;
+    std::size_t rows = 0;
+    while (reader->Read(&row)) ++rows;
+    const auto status = reader->Finish();
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(rows, 5u);
 }
