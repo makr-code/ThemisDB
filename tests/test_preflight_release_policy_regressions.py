@@ -206,6 +206,18 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             re.compile(r"brew install[^\n]*\bgoogletest\b"),
         )
 
+    def test_macos_kqueue_lane_uses_modular_test_targets(self) -> None:
+        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+
+        for target in (
+            "module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests",
+            "module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests",
+            "module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests",
+        ):
+            with self.subTest(target=target):
+                self.assertIn(f"build_target {target}", macos_kqueue_job)
+
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
