@@ -98,7 +98,7 @@ protected:
     std::unique_ptr<themis::server::ContentApiHandler> handler_;
 };
 
-TEST_F(HybridSearchDeadlineTest, EmptyResultsRemainSuccessful) {
+TEST_F(HybridSearchDeadlineTest, MissingVectorIndexRetainsLegacyEmpty200Fallback) {
     const auto res = handler_->handleHybridSearch(makeRequest());
 
     ASSERT_EQ(res.result(), http::status::ok);

@@ -106,7 +106,10 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   `ContentManager::searchWithExpansion(..., RequestContext, StopReason*)` retain
   their unbounded legacy overloads. `HttpServer` supplies the live configured
   request timeout (`0` means unbounded); a stop returns HTTP 504 and discards
-  partial results, while a valid empty result remains HTTP 200.
+  partial results, while a valid no-match result remains HTTP 200. The existing
+  content-manager fallback also returns an empty result for an unavailable or
+  uninitialized vector index, missing text processor, or base KNN status error;
+  that HTTP 200 is a degraded legacy fallback, not proof of a successful search.
 - The context reaches request-aware KNN and is polled during graph expansion,
   result filtering, and materialization. Embedding generation, vector ANN,
   graph neighbor/Dijkstra reads, whitelist scans, and sorting are checkpoint-only;
