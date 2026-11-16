@@ -34,7 +34,8 @@ struct PollState {
 
 bool stopAfterPolls(const void* opaque) noexcept {
     auto* state = const_cast<PollState*>(static_cast<const PollState*>(opaque));
-    return state->polls.fetch_add(1, std::memory_order_relaxed) + 1 >= state->stop_after;
+    const auto poll = state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
+    return state->stop_after != 0 && poll >= state->stop_after;
 }
 
 class VectorSearchDeadlineTest : public ::testing::Test {
@@ -117,26 +118,25 @@ TEST_F(VectorSearchDeadlineTest, ExpiredDeadlineReturns504InCursorMode) {
 }
 
 TEST_F(VectorSearchDeadlineTest, StopDuringSerializationDiscardsPartialOutput) {
-    // Let the search itself finish, then stop on a later poll (during slicing/serializing).
-    // Sweep stop points: every outcome must be either a complete 200 or an empty 504.
-    bool saw_ok = false;
-    bool saw_timeout = false;
-    for (unsigned int stop_after = 1; stop_after < 4096 && !(saw_ok && saw_timeout);
-         stop_after *= 2) {
-        PollState state;
-        state.stop_after = stop_after;
-        const themis::query::RequestContext ctx(nullptr, std::nullopt, &stopAfterPolls, &state);
-        const auto res = handler_->handleSearch(makeRequest({{"vector", {0.0}}, {"k", 8}}), ctx);
-        if (res.result() == http::status::ok) {
-            saw_ok = true;
-            EXPECT_EQ(nlohmann::json::parse(res.body())["count"], 8);
-        } else {
-            ASSERT_EQ(res.result(), http::status::gateway_timeout);
-            saw_timeout = true;
-            EXPECT_EQ(res.body().find("pk-"), std::string::npos);
-        }
-    }
-    EXPECT_TRUE(saw_timeout);
+    // Measure the exact poll count for KNN alone, then stop on the first
+    // handler-side poll while it materializes the completed search results.
+    PollState search_polls;
+    const themis::query::RequestContext counting(
+        nullptr, std::nullopt, &stopAfterPolls, &search_polls);
+    auto [search_status, search_results] = index_->searchKnn(
+        std::vector<float>{0.0f}, 8, nullptr, counting);
+    ASSERT_TRUE(search_status.ok) << search_status.message;
+    ASSERT_EQ(search_results.size(), 8u);
+    ASSERT_GT(search_polls.polls.load(std::memory_order_relaxed), 0u);
+
+    PollState state;
+    state.stop_after = search_polls.polls.load(std::memory_order_relaxed) + 2;
+    const themis::query::RequestContext ctx(nullptr, std::nullopt, &stopAfterPolls, &state);
+    const auto res = handler_->handleSearch(makeRequest({{"vector", {0.0}}, {"k", 8}}), ctx);
+
+    ASSERT_EQ(res.result(), http::status::gateway_timeout);
+    EXPECT_EQ(res.body().find("pk-"), std::string::npos);
+    EXPECT_EQ(res.body().find("\"results\""), std::string::npos);
 }
 
 TEST_F(VectorSearchDeadlineTest, ValidationStatusPrecedesDeadline) {
