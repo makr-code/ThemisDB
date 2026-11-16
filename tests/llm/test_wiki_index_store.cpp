@@ -257,6 +257,7 @@ TEST(JsonWikiIndexReader, WIS19_RejectsMalformedDocsDbEnvelope) {
     EXPECT_THROW(reader.load(), std::runtime_error);
     EXPECT_FALSE(reader.isReady());
     EXPECT_EQ(reader.size(), 0u);
+    EXPECT_TRUE(reader.query("rocksdb HNSW", 5, 0.0f).empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -345,11 +346,17 @@ TEST(JsonWikiIndexReader, WIS12_ReloadRefreshesChunks) {
     const std::string path = writeTempFile(makeMinimalJsonIndex());
     JsonWikiIndexReader reader(path, /*auto_load=*/true);
     EXPECT_EQ(reader.size(), 3u);
+    const auto before_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    ASSERT_FALSE(before_reload.empty());
 
-    // Reload must keep the same count
+    // Reload must rebuild the query index along with the chunks.
     reader.load();
     EXPECT_EQ(reader.size(), 3u);
     EXPECT_TRUE(reader.isReady());
+    const auto after_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    ASSERT_EQ(after_reload.size(), before_reload.size());
+    EXPECT_EQ(after_reload.front().chunk_id, before_reload.front().chunk_id);
+    EXPECT_FLOAT_EQ(after_reload.front().score, before_reload.front().score);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

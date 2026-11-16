@@ -399,8 +399,15 @@ public:
     [[nodiscard]] std::size_t size() const noexcept;
 
 private:
+    struct TokenPosting {
+        std::size_t chunk_index;
+        int frequency;
+    };
+
     std::string            index_path_;   ///< Path to JSON file
     std::vector<WikiChunk> chunks_;       ///< Loaded chunks
+    std::unordered_map<std::string, std::vector<TokenPosting>> token_postings_;
+    std::vector<std::size_t> chunk_unique_token_counts_;
     bool                   loaded_{false}; ///< Load status flag
 };
 

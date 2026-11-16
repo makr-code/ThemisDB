@@ -14,7 +14,7 @@
  *
  * JsonWikiIndexReader:
  *   - Reads the Python-MVP index.json format (array of chunk objects).
- *   - Performs in-memory BM25-style TF token-overlap scoring for queries.
+ *   - Builds token postings at load time and performs in-memory TF overlap scoring.
  *   - Self-contained: no RocksDB dependency.
  *
  * @version 0.1.0
@@ -28,6 +28,7 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -63,6 +64,20 @@ std::string makeCacheMaterial(const WikiChunk& chunk) {
 
 double applyBm25PlusFloor(double bm25_score, double delta) noexcept {
     return bm25_score + std::max(0.0, delta);
+}
+
+std::unordered_map<std::string, int> tokenizeWikiText(const std::string& text) {
+    static const std::regex tok_re(R"([A-Za-z0-9_\-]+)", std::regex::ECMAScript);
+    std::unordered_map<std::string, int> frequencies;
+    auto it = std::sregex_iterator(text.begin(), text.end(), tok_re);
+    const auto end = std::sregex_iterator();
+    for (; it != end; ++it) {
+        std::string token = it->str();
+        std::transform(token.begin(), token.end(), token.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        ++frequencies[token];
+    }
+    return frequencies;
 }
 
 /**
@@ -953,6 +968,8 @@ JsonWikiIndexReader::JsonWikiIndexReader(std::string index_path, bool auto_load)
 void JsonWikiIndexReader::load() {
     loaded_ = false;
     chunks_.clear();
+    token_postings_.clear();
+    chunk_unique_token_counts_.clear();
 
     std::ifstream f(index_path_);
     if (!f.is_open()) {
@@ -997,6 +1014,15 @@ void JsonWikiIndexReader::load() {
         }
     }
 
+    chunk_unique_token_counts_.reserve(chunks_.size());
+    for (std::size_t chunk_index = 0; chunk_index < chunks_.size(); ++chunk_index) {
+        const auto token_frequencies = tokenizeWikiText(chunks_[chunk_index].text);
+        chunk_unique_token_counts_.push_back(token_frequencies.size());
+        for (const auto& [token, frequency] : token_frequencies) {
+            token_postings_[token].push_back({chunk_index, frequency});
+        }
+    }
+
     loaded_ = true;
     spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",chunks_.size(), index_path_);
 }
@@ -1012,67 +1038,41 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
         return {};
     }
 
-    static const std::regex tok_re(R"([A-Za-z0-9_\-]+)", std::regex::ECMAScript);
-
-    // Tokenise query
-    std::unordered_map<std::string, int> query_tf;
-    {
-        auto it  = std::sregex_iterator(query_text.begin(), query_text.end(), tok_re);
-        auto end = std::sregex_iterator();
-        for (; it != end; ++it) {
-            std::string tok = it->str();
-            // Lowercase for case-insensitive matching
-            std::transform(tok.begin(), tok.end(), tok.begin(),
-                           [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
-            ++query_tf[tok];
-        }
-    }
-
+    const auto query_tf = tokenizeWikiText(query_text);
     if (query_tf.empty()) {
         return {};
     }
 
-    // Score each chunk
     struct Scored { std::size_t idx; float score; };
-    std::vector<Scored> scored = {};
+    std::vector<float> scores(chunks_.size(), 0.0f);
 
+    for (const auto& [query_token, query_frequency] : query_tf) {
+        const auto postings = token_postings_.find(query_token);
+        if (postings == token_postings_.end()) {
+            continue;
+        }
+
+        for (const auto& posting : postings->second) {
+            scores[posting.chunk_index] +=
+                static_cast<float>(1 + std::log(static_cast<float>(posting.frequency)))
+                * static_cast<float>(query_frequency);
+        }
+    }
+
+    std::vector<Scored> scored;
     scored.reserve(chunks_.size());
-
-    for (std::size_t ci = 0; ci < chunks_.size(); ++ci) {
-        const WikiChunk& chunk = chunks_[ci];
-
-        // Build chunk token frequencies
-        std::unordered_map<std::string, int> chunk_tf;
-        {
-            auto it  = std::sregex_iterator(chunk.text.begin(), chunk.text.end(), tok_re);
-            auto end = std::sregex_iterator();
-            for (; it != end; ++it) {
-                std::string tok = it->str();
-                std::transform(tok.begin(), tok.end(), tok.begin(),
-                               [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
-                ++chunk_tf[tok];
-            }
+    for (std::size_t chunk_index = 0; chunk_index < scores.size(); ++chunk_index) {
+        float score = scores[chunk_index];
+        if (score <= 0.0f) {
+            continue;
         }
-
-        // TF overlap: sum TF(query_tok in chunk) * TF(query_tok in query)
-        float sc = 0.0f;
-        bool has_overlap = false;
-        for (const auto& [qtok, qtf] : query_tf) {
-            auto cit = chunk_tf.find(qtok);
-            if (cit != chunk_tf.end()) {
-                has_overlap = true;
-                sc += static_cast<float>(1 + std::log(static_cast<float>(cit->second)))
-                    * static_cast<float>(qtf);
-            }
+        const auto unique_token_count = chunk_unique_token_counts_[chunk_index];
+        if (unique_token_count > 0) {
+            score /= static_cast<float>(
+                std::sqrt(static_cast<double>(unique_token_count)));
         }
-
-        // Normalise by chunk length (avoid favouring very long chunks)
-        if (!chunk_tf.empty()) {
-            sc /= static_cast<float>(std::sqrt(static_cast<double>(chunk_tf.size())));
-        }
-
-        if (has_overlap && sc >= min_score) {
-            scored.push_back({ci, sc});
+        if (score >= min_score) {
+            scored.push_back({chunk_index, score});
         }
     }
 
