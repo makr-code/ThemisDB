@@ -13,6 +13,7 @@
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/index_compression.h"
+#include "query/request_context.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -163,6 +164,27 @@ public:
         std::string pk;
         double score;
     };
+    /**
+     * @brief Searches an indexed field with BM25 scoring and cooperative request stops.
+     * @param table Indexed table name.
+     * @param column Indexed text column name.
+     * @param query Text to tokenize and match; all resulting tokens are required.
+     * @param limit Maximum number of scored results to return.
+     * @param request Deadline/cancellation source polled throughout retrieval loops.
+     * @param stop_reason Receives the observed stop cause; reset to None on entry.
+     * @return Status and top-scored matches, or an error with no matches when stopped
+     *         or when the index/query operation fails.
+     * @note A stop is cooperative; synchronous storage reads and result sorting are
+     *       not interrupted while in progress. Existing overload remains unbounded.
+     */
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextWithScores(
+        std::string_view table,
+        std::string_view column,
+        std::string_view query,
+        size_t limit,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason = nullptr
+    ) const;
     std::pair<Status, std::vector<FulltextResult>> scanFulltextWithScores(
         std::string_view table,
         std::string_view column,
@@ -499,7 +521,9 @@ private:
         std::string_view table,
         std::string_view column,
         std::string_view query,
-        size_t limit
+        size_t limit,
+        const query::RequestContext& request = {},
+        query::StopReason* stop_reason = nullptr
     ) const;
     
     // Prüft ob Feld-Wert NULL/leer ist (für Sparse-Index)
