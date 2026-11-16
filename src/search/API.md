@@ -221,6 +221,14 @@ checkpoint-only; client disconnect cancellation is unavailable in synchronous
 handler dispatch. A valid no-match query returns an empty success, distinct from
 invalid index state (HTTP 400) or an observed deadline/cancellation.
 
+`POST /search/fusion` also uses the server-configured request deadline. The
+context is passed to the BM25 text stage and request-aware KNN vector stage,
+then polled while candidates are fused and materialized. Any observed stop
+returns HTTP 504 and discards partial fusion results; a valid empty fusion
+remains HTTP 200. RocksDB reads, synchronous ANN backend calls, sorting, and
+serialization are checkpoint-only. HTTP disconnect cancellation is not
+available in synchronous dispatch.
+
 ## Error taxonomy
 
 The module error taxonomy is defined in `include/search/search_error_codes.h`.

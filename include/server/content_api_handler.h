@@ -82,11 +82,22 @@ public:
     http::response<http::string_body> handleHybridSearch(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle Fusion Search.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Performs an unbounded text/vector fusion search for legacy callers.
+     * @param[in] req HTTP request containing table and text/vector query fields.
+     * @return Fused JSON results or a validation/backend error response.
      */
     http::response<http::string_body> handleFusionSearch(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Performs text/vector fusion search under a cooperative request stop context.
+     * @param[in] req HTTP request containing table and text/vector query fields.
+     * @param[in] request Deadline/cancellation source propagated to BM25 and KNN stages.
+     * @return Fused results on success; HTTP 504 without partial output when stopped.
+     * @note Synchronous storage reads, ANN calls, and sorting are checkpoint-only.
+     */
+    http::response<http::string_body> handleFusionSearch(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request);
 
     /**
      * @brief Performs an unbounded BM25 full-text search for legacy callers.

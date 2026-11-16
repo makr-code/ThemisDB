@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Seven bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Eight bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -86,6 +86,20 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - Tests: `tests/api/test_api_fulltext_search_deadline.cpp` covers empty result,
   expired deadline, and a stop during an index-prefix scan. Test execution is
   not claimed until the focused target is built and run.
+
+**HTTP `/search/fusion` deadline slice (2026-11-16)**
+- `ContentApiHandler::handleFusionSearch(req, RequestContext)` preserves the
+  unbounded legacy overload. The route builds its context from the live server
+  timeout (`0` means unbounded); caller-supplied values cannot extend it.
+- The same context is passed through BM25 and request-aware KNN. Fusion,
+  top-k materialization, and response construction poll cooperatively; observed
+  stops return HTTP 504 with partial results discarded. Valid empty fusion
+  results remain HTTP 200.
+- Synchronous RocksDB reads, ANN calls, and sorting are checkpoint-only;
+  client-disconnect cancellation remains unavailable in synchronous dispatch.
+- Tests: `tests/api/test_api_fusion_search_deadline.cpp` covers empty results,
+  an expired deadline, and cancellation during text retrieval. Execution is not
+  claimed until the focused target is built and run.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -222,7 +236,7 @@ now measures overrun classification, not a hard wall-clock bound.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
-- HTTP search routes other than `POST /vector/search` and `POST /search/fulltext` remain unbound to a request context (and neither route has disconnect cancellation). gRPC `ExecuteAQL`,
+- HTTP search routes other than `POST /vector/search`, `POST /search/fulltext`, and `POST /search/fusion` remain unbound to a request context (none of these routes has disconnect cancellation). gRPC `ExecuteAQL`,
   `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
   to their backends, but in-tree AQL engines still use the checkpoint-only
   default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;

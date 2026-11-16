@@ -353,6 +353,13 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
 http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     const http::request<http::string_body>& req
 ) {
+    return handleFusionSearch(req, ::themis::query::RequestContext{});
+}
+
+http::response<http::string_body> ContentApiHandler::handleFusionSearch(
+    const http::request<http::string_body>& req,
+    const ::themis::query::RequestContext& request
+) {
     try {
         if (!secondary_index_) {
           return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
@@ -362,6 +369,14 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         auto& secondary_index = *secondary_index_;
         auto& vector_index = *vector_index_;
+        auto stoppedResponse = [&]() {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Fusion search stopped: request deadline exceeded or cancelled", req);
+        };
+        size_t work_since_poll = 0;
+        auto pollFusionStop = [&]() {
+            return ((++work_since_poll & 63U) == 0U) && request.shouldStop();
+        };
         
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -390,6 +405,9 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         bool hasTextQuery = body.contains("text_query") && body.contains("text_column");
         
         if (hasTextQuery) {
+            if (request.shouldStop()) {
+                return stoppedResponse();
+            }
             std::string textColumn = body["text_column"];
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
@@ -399,7 +417,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto text_stop_reason = ::themis::query::StopReason::None;
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(
+                table, textColumn, textQuery, textLimit, request, &text_stop_reason);
+            if (text_stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+                return stoppedResponse();
+            }
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
@@ -411,6 +434,9 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         bool hasVectorQuery = body.contains("vector_query");
         
         if (hasVectorQuery) {
+            if (request.shouldStop()) {
+                return stoppedResponse();
+            }
             if (!body["vector_query"].is_array()) {
                 return makeErrorResponse(http::status::bad_request, "vector_query must be array of floats", req);
             }
@@ -428,7 +454,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             }
             
             int vectorLimit = body.value("vector_limit", 1000);
-            auto [vecStatus, vecRes] = vector_index.searchKnn(vectorQuery, vectorLimit);
+            auto vector_stop_reason = ::themis::query::StopReason::None;
+            auto [vecStatus, vecRes] = vector_index.searchKnn(
+                vectorQuery, vectorLimit, nullptr, request, &vector_stop_reason);
+            if (vector_stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+                return stoppedResponse();
+            }
             if (!vecStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Vector search failed: " + vecStatus.message, req);
             }
@@ -450,21 +481,36 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 scores[textResults[i].pk] += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
             for (size_t i = 0; i < vectorResults.size(); ++i) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 scores[vectorResults[i].pk] += 1.0 / (kRrf + i + 1);
             }
             
             // Convert to vector and sort
             fusedResults.reserve(scores.size());
             for (const auto& [pk, score] : scores) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 fusedResults.emplace_back(pk, score);
+            }
+            if (request.shouldStop()) {
+                return stoppedResponse();
             }
             std::sort(fusedResults.begin(), fusedResults.end(), 
                 [](const auto& a, const auto& b) { return a.second > b.second; });
+            if (request.shouldStop()) {
+                return stoppedResponse();
+            }
             
         } else if (fusionMode == "weighted") {
             // Weighted fusion: alpha * normalize(text_score) + (1 - alpha) * normalize(vector_sim)
@@ -486,12 +532,18 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             
             // Text contributions
             for (const auto& res : textResults) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 double normScore = (res.score - textMin) / textRange;
                 scores[res.pk] += alpha * normScore;
             }
             
             // Vector contributions (convert distance to similarity)
             for (const auto& res : vectorResults) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 double normDist = (res.distance - vecMin) / vecRange;
                 double similarity = 1.0 - normDist;
                 scores[res.pk] += (1.0 - alpha) * similarity;
@@ -500,10 +552,19 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             // Convert to vector and sort
             fusedResults.reserve(scores.size());
             for (const auto& [pk, score] : scores) {
+                if (pollFusionStop()) {
+                    return stoppedResponse();
+                }
                 fusedResults.emplace_back(pk, score);
+            }
+            if (request.shouldStop()) {
+                return stoppedResponse();
             }
             std::sort(fusedResults.begin(), fusedResults.end(), 
                 [](const auto& a, const auto& b) { return a.second > b.second; });
+            if (request.shouldStop()) {
+                return stoppedResponse();
+            }
             
         } else {
             return makeErrorResponse(http::status::bad_request, 
@@ -518,6 +579,9 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         // Build response
         nlohmann::json resp = nlohmann::json::array();
         for (const auto& [pk, score] : fusedResults) {
+            if (pollFusionStop()) {
+                return stoppedResponse();
+            }
             resp.push_back({
                 {"pk", pk},
                 {"score", score}
@@ -538,7 +602,11 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             out["vector_count"] = vectorResults.size();
         }
         
-        return makeResponse(http::status::ok, out.dump(), req);
+        auto response_body = out.dump();
+        if (request.shouldStop()) {
+            return stoppedResponse();
+        }
+        return makeResponse(http::status::ok, response_body, req);
         
     } catch (const nlohmann::json::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
