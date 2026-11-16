@@ -54,8 +54,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** A first slice is implemented; most layers and
-  all transports are still not interruptible (see "Remaining gaps").
+- [ ] **QRY-07 remains OPEN.** Two slices are implemented; most backends and
+  all non-GET/POST or legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -84,19 +84,64 @@ return later than the deadline by that backend's overrun; the caller wait is
 no longer hard-bounded. The previous `EnforcesHardDeadlineAndMarksTimeoutSkip`
 now measures overrun classification, not a hard wall-clock bound.
 
-**Remaining gaps (not done)**
+**Slice 2 (2026-11-16): distributed fan-out + mTLS transport**
+- `DistributedHybridSearch::search(text, vec, ctx, &stats)` (legacy overload
+  unchanged). Context is checked before the local shard and before every
+  fan-out batch; once stopped, no further batch is launched
+  (`SearchStats::shards_skipped`). Each shard call receives
+  `ctx.child(shard_timeout_ms)`. All launched tasks are joined before return;
+  the `wait_for`-then-abandon path is gone. New stats distinguish
+  `shards_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded` from
+  ordinary failures and from empty results; completed shards stay merged and
+  flagged `partial_result`. `setShardSearchFunction()` allows an alternative
+  transport / deterministic tests.
+- `MTLSClient::get/post(..., const RequestContext&)`: resolve, connect, TLS
+  handshake, write, read run as async Boost.Asio operations on a private
+  per-call `io_context` driven by the calling thread. A 10 ms poll timer on that
+  executor evaluates the token, the request deadline and the per-stage timeout
+  (`connect_timeout_ms` / `request_timeout_ms`) and aborts the pending operation
+  (resolver cancel + socket close); `run()` returns only after all handlers
+  finished, so no thread/socket/timer outlives the call. Responses carry
+  `cancelled` / `timed_out`. Stage timeouts are not retried; retry back-off
+  honours the context.
+- `RemoteExecutor::get/post(..., ctx)` propagate the context; a client
+  cancellation is not recorded as circuit-breaker failure, a timeout is.
+- Finding: the legacy sync path calls `tcp_stream::expires_after()` around
+  blocking `connect/handshake/write/read`; Beast timeouts only apply to async
+  operations, so those configured timeouts are not enforced on the legacy
+  overloads. They are unchanged here.
+- Tests: `tests/search/test_distributed_request_context.cpp` (8 cases: budget
+  clamping, pre-cancel launches nothing, cancel between batches, strict mode,
+  in-flight cooperative shard + join/cleanup, timeout vs empty, ordinary partial
+  failure, legacy overload) and `tests/sharding/test_mtls_client_cancellation.cpp`
+  (6 cases against a real black-hole TCP listener: token cancel and request
+  deadline abort a hanging TLS handshake in ~100-150 ms vs 5 s/30 s configured
+  timeouts, stage timeout, pre-cancel, refused connection is neither
+  cancelled nor timed out, RemoteExecutor propagation; registered only when
+  CMake `UNIX` is true because the test uses POSIX sockets). Built ad hoc with g++
+  and link shims; both suites also ran clean under ThreadSanitizer. Not yet run
+  through the CMake/ctest build.
+
+**Remaining gaps (QRY-07 still OPEN)**
+- Cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
+  callback/wake-up registration, so abort latency is ~10 ms, not instant.
+- Only `MTLSClient::get/post` (and `RemoteExecutor::get/post`) are
+  cancellable. `put/del/postBinary`, the connection-pool path and all legacy
+  overloads remain synchronous and non-interruptible.
+- Transport cancellation was proven for the TLS handshake stage against a
+  black-hole peer; mid-write/mid-read abort uses the same mechanism but has no
+  dedicated test, and no end-to-end test against a real shard server exists.
+- `DistributedHybridSearch`: the local `HybridSearch::search` call is not
+  interruptible (only skipped if already stopped); a custom shard function that
+  ignores its context delays the join.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
-  `LLMClient::generate` take no context; mid-call cancellation is impossible.
-  The LLM only gets a timeout value; in-flight HTTP cancellation is absent.
-- FAISS/cuVS ANN search is a single blocking call (no mid-search abort).
-- `DistributedHybridSearch` fan-out (`std::async`/`wait_for`) and the
-  `RemoteExecutor`/`MTLSClient` Boost.Beast transports do not consume
-  `RequestContext`; no in-flight transport cancellation, and abandoned
-  `std::async` futures still block in their destructors.
-- HTTP/gRPC layers do not yet bind client disconnect/cancel to a token for
-  search requests; `SearchResultStream` open-timeout is unrelated.
-- Still required for acceptance: client-cancellation and partial-failure tests
-  across distributed fan-out, and a slow-search cleanup trace.
+  `LLMClient::generate` take no context; the LLM only gets a timeout value
+  and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
+- No HTTP/gRPC server binding from client disconnect to a token for search
+  requests; no `search()` caller outside tests passes a `RequestContext` yet.
+- Still required for acceptance: slow-search cleanup trace (end-to-end, real
+  shards), and cancellation during active backend execution in the layered
+  pipeline.
 
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
 below are historical records and require re-validation before being used as

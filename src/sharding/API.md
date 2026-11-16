@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -51,6 +51,30 @@ These are declaration/header semantics. They do not establish that each transpor
 query-pushdown path is enabled or conformant in every build. The implementation is
 `src/sharding/shard_router.cpp`; `tests/sharding/CMakeLists.txt` conditionally registers the
 contract-hardening and focused sharding tests.
+
+## Request-context-aware transport (`MTLSClient`, `RemoteExecutor`)
+
+Additive overloads taking `const themis::query::RequestContext&`
+(`include/query/request_context.h`: deadline + cancellation token); existing
+overloads are unchanged.
+
+| Declaration | Behavior |
+|---|---|
+| `MTLSClient::get(endpoint, path, ctx)`, `MTLSClient::post(endpoint, path, body, ctx)` | Resolve/connect/TLS handshake/write/read run as async Boost.Asio operations on a private per-call `io_context` driven by the calling thread. A 10 ms poll timer evaluates the token, request deadline and per-stage timeout (`connect_timeout_ms` for resolve/connect/handshake, `request_timeout_ms` for write/read) and aborts the pending operation. All handlers complete before return; no thread/socket/timer outlives the call. |
+| `MTLSClient::Response::cancelled` / `timed_out` | Set when aborted by cancellation / by request deadline or stage timeout. A refused or failed connection sets neither. Stage timeouts are not retried; retry back-off honours the context. |
+| `RemoteExecutor::get(shard, path, ctx)`, `RemoteExecutor::post(shard, path, body, ctx)` | Check the context before the circuit breaker, then propagate it into the transport. `Result::cancelled` / `timed_out` mirror the response. A cancel is not recorded as a circuit-breaker failure; a timeout is. |
+
+Explicit limits (QRY-07 is not complete):
+
+- Cancellation is observed by polling (~10 ms), not by wake-up.
+- `MTLSClient::put/del`, the `authorization_header` `post` overload,
+  `RemoteExecutor::put/del/executeQuery/postBinary`, the connection-pool path and
+  all legacy overloads remain synchronous and non-interruptible. On the legacy
+  path `tcp_stream::expires_after()` does not bound blocking Beast calls, so its
+  configured timeouts are not enforced.
+- In-flight abort is tested for the TLS handshake against a non-responding peer;
+  write/read abort uses the same mechanism without a dedicated test, and there is
+  no end-to-end test against a real shard server.
 
 ## Shard write fencing and transaction credentials
 

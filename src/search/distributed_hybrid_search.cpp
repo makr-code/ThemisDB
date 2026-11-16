@@ -79,7 +79,17 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     const std::vector<float>& vector_query,
     SearchStats* stats
 ) {
+    return search(text_query, vector_query, query::RequestContext{}, stats);
+}
+
+std::vector<HybridSearch::Result> DistributedHybridSearch::search(
+    const std::string& text_query,
+    const std::vector<float>& vector_query,
+    const query::RequestContext& ctx,
+    SearchStats* stats
+) {
     total_searches_++;
+    size_t shards_skipped = 0;
 
     std::vector<ShardSearchResult> shard_results;
 
@@ -90,7 +100,11 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                              ? "local"
                              : config_.local_shard_id;
 
-        if (local_search_) {
+        if (const auto stop = ctx.stopReason(); stop != query::StopReason::None) {
+            ++shards_skipped;  // local search is not started once the request stopped
+            local.success = false;
+            local.stop_reason = stop;
+        } else if (local_search_) {
             try {
                 auto t_start = std::chrono::steady_clock::now();
 
@@ -127,11 +141,14 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                          "(shard='{}')", local.shard_id);
         }
 
-        shard_results.push_back(std::move(local));
+        // A local shard that was never started is counted in shards_skipped only.
+        if (local.stop_reason == query::StopReason::None) {
+            shard_results.push_back(std::move(local));
+        }
     }
 
     // --- Remote shards ---
-    if (resolver_ && executor_) {
+    if (resolver_ && (executor_ || shard_search_fn_)) {
         try {
             auto healthy_shards = resolver_->getHealthyShards();
 
@@ -145,11 +162,19 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 }
             }
 
-            const size_t max_concurrent = std::min(
-                config_.max_concurrent_shards, remote_shards.size());
+            const size_t max_concurrent = std::max<size_t>(1, std::min(
+                config_.max_concurrent_shards, remote_shards.size()));
+            const auto shard_timeout =
+                std::chrono::milliseconds(config_.shard_timeout_ms);
 
             for (size_t batch_start = 0; batch_start < remote_shards.size();
                  batch_start += max_concurrent) {
+
+                // Stop launching further batches once the request has stopped.
+                if (ctx.shouldStop()) {
+                    shards_skipped += remote_shards.size() - batch_start;
+                    break;
+                }
 
                 const size_t batch_end = std::min(
                     batch_start + max_concurrent, remote_shards.size());
@@ -157,40 +182,35 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 std::vector<std::future<ShardSearchResult>> futures;
                 futures.reserve(batch_end - batch_start);
 
+                // Per-shard budget: min(remaining request time, shard timeout).
+                const auto shard_ctx = ctx.child(shard_timeout);
+
                 for (size_t i = batch_start; i < batch_end; ++i) {
                     auto shard = remote_shards[i];
                     futures.push_back(std::async(
                         std::launch::async,
-                        [this, shard, &text_query, &vector_query]()
+                        [this, shard, &text_query, &vector_query, &shard_ctx]()
                             -> ShardSearchResult {
                             return searchRemoteShard(
-                                shard, text_query, vector_query, config_.k);
+                                shard, text_query, vector_query, config_.k,
+                                shard_ctx);
                         }));
                 }
 
-                const auto timeout =
-                    std::chrono::milliseconds(config_.shard_timeout_ms);
-
+                // Join every task of the batch. The transport is bounded by
+                // shard_ctx, so this wait is bounded for transports that honour it.
                 for (size_t i = 0; i < futures.size(); ++i) {
                     const auto& shard = remote_shards[batch_start + i];
                     try {
-                        if (futures[i].wait_for(timeout) ==
-                            std::future_status::ready) {
-                            shard_results.push_back(futures[i].get());
-                        } else {
-                            // Timeout
-                            ShardSearchResult timeout_result;
-                            timeout_result.shard_id = shard.shard_id;
-                            timeout_result.success = false;
-                            timeout_result.error_msg = "shard timeout";
-                            timeout_result.execution_time_ms =
-                                config_.shard_timeout_ms;
-                            shard_results.push_back(std::move(timeout_result));
-                            THEMIS_WARN(
-                                "DistributedHybridSearch: shard '{}' timed out "
-                                "after {} ms",
-                                shard.shard_id, config_.shard_timeout_ms);
+                        auto sr = futures[i].get();
+                        if (!sr.success && sr.stop_reason == query::StopReason::None) {
+                            // Classify an abort that the transport reported only as an error.
+                            const auto reason = ctx.stopReason();
+                            if (reason != query::StopReason::None) {
+                                sr.stop_reason = reason;
+                            }
                         }
+                        shard_results.push_back(std::move(sr));
                     } catch (const std::exception& e) {
                         ShardSearchResult err_result;
                         err_result.shard_id = shard.shard_id;
@@ -210,13 +230,18 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     // --- Statistics ---
     size_t n_success = 0;
     size_t n_failed = 0;
+    size_t n_timed_out = 0;
+    size_t n_cancelled = 0;
     for (const auto& sr : shard_results) {
         if (sr.success) {
             ++n_success;
         } else {
             ++n_failed;
+            if (sr.stop_reason == query::StopReason::Cancelled) ++n_cancelled;
+            if (sr.stop_reason == query::StopReason::DeadlineExceeded) ++n_timed_out;
         }
     }
+    const auto final_stop = ctx.stopReason();
 
     total_shards_queried_ += shard_results.size();
     total_shard_failures_ += n_failed;
@@ -225,7 +250,13 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
         stats->shards_queried   = shard_results.size();
         stats->shards_succeeded = n_success;
         stats->shards_failed    = n_failed;
-        stats->partial_result   = (n_failed > 0 && n_success > 0);
+        stats->partial_result   = ((n_failed > 0 || shards_skipped > 0) && n_success > 0);
+        stats->shards_skipped   = shards_skipped;
+        stats->shards_timed_out = n_timed_out;
+        stats->shards_cancelled = n_cancelled;
+        stats->cancelled = (final_stop == query::StopReason::Cancelled) || n_cancelled > 0;
+        stats->deadline_exceeded =
+            (final_stop == query::StopReason::DeadlineExceeded) || n_timed_out > 0;
         
         // Phase 2: Populate failed_shard_reasons for operator diagnostics
         for (const auto& sr : shard_results) {
@@ -242,7 +273,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     }
 
     // Abort if any shard failed and skip_failed_shards is false
-    if (!config_.skip_failed_shards && n_failed > 0) {
+    if (!config_.skip_failed_shards && (n_failed > 0 || shards_skipped > 0)) {
         THEMIS_ERROR("DistributedHybridSearch: aborting due to shard failure "
                      "(skip_failed_shards=false)");
         return {};
@@ -381,8 +412,21 @@ DistributedHybridSearch::searchRemoteShard(
     const themis::sharding::ShardInfo& shard,
     const std::string& text_query,
     const std::vector<float>& vector_query,
-    size_t k
+    size_t k,
+    const query::RequestContext& ctx
 ) {
+    if (shard_search_fn_) {
+        try {
+            return shard_search_fn_(shard, text_query, vector_query, k, ctx);
+        } catch (const std::exception& e) {
+            ShardSearchResult failed;
+            failed.shard_id = shard.shard_id;
+            failed.success = false;
+            failed.error_msg = std::string("exception: ") + e.what();
+            return failed;
+        }
+    }
+
     ShardSearchResult result;
     result.shard_id = shard.shard_id;
 
@@ -398,7 +442,7 @@ DistributedHybridSearch::searchRemoteShard(
         }
 
         auto exec_result = executor_->post(
-            shard, config_.search_endpoint, payload);
+            shard, config_.search_endpoint, payload, ctx);
 
         auto t_end = std::chrono::steady_clock::now();
         result.execution_time_ms = static_cast<uint64_t>(
@@ -408,6 +452,11 @@ DistributedHybridSearch::searchRemoteShard(
         if (!exec_result.success) {
             result.success   = false;
             result.error_msg = exec_result.error;
+            if (exec_result.cancelled) {
+                result.stop_reason = query::StopReason::Cancelled;
+            } else if (exec_result.timed_out) {
+                result.stop_reason = query::StopReason::DeadlineExceeded;
+            }
             THEMIS_WARN("DistributedHybridSearch: shard '{}' returned error: {}",
                         shard.shard_id, exec_result.error);
             return result;

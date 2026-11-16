@@ -110,6 +110,35 @@ Important invariants:
   one shard succeeds; if every attempted shard fails, the result is fail-closed
 - the input configuration requires a valid `search_endpoint` and positive shard-concurrency settings
 
+Request-context overload (QRY-07 slices; not a completed QRY-07):
+
+```cpp
+std::vector<HybridSearch::Result> search(
+    const std::string& text, const std::vector<float>& vec,
+    const themis::query::RequestContext& ctx, SearchStats* stats = nullptr);
+```
+
+- `RequestContext` (`include/query/request_context.h`) carries an absolute
+  deadline and a `QueryCancellationToken`. The legacy
+  `search(text, vec, stats)` overload is unchanged and uses an unbounded context.
+- The context is checked before the local shard and before each fan-out batch;
+  after it stops, no further batch is launched and unstarted shards are counted
+  in `SearchStats::shards_skipped`. Each remote call receives
+  `ctx.child(shard_timeout_ms)`, i.e. min(remaining request time, shard timeout).
+- Every launched shard task is joined before `search()` returns; nothing is
+  detached. Completed shards are merged and reported via `partial_result`.
+  `skip_failed_shards=false` returns empty if any shard failed or was skipped.
+- `SearchStats` adds `shards_skipped`, `shards_timed_out`, `shards_cancelled`,
+  `cancelled`, `deadline_exceeded`; `ShardSearchResult::stop_reason` marks a
+  shard that stopped on cancellation/deadline, so a stop is distinguishable from
+  an empty or ordinarily failed shard.
+- `setShardSearchFunction(ShardSearchFn)` replaces the default RemoteExecutor
+  transport; the function must honour its context to stay cancellable.
+- **Not interruptible:** the local `HybridSearch::search` call (only skipped if
+  the context already stopped); a custom shard function that ignores its
+  context; every `RemoteExecutor`/`MTLSClient` path other than `get`/`post`
+  with a context (see `src/sharding/API.md`).
+
 ### SearchResultStream
 
 File: `include/search/search_result_stream.h`
@@ -127,12 +156,20 @@ This retrieval chain executes the stages:
 - Graph
 - LLM
 
-The orchestrator records per-layer decisions and enforces guardrails. Its
-configured per-layer timeout bounds how long the caller waits, not how long
-backend work runs: a timed-out worker is detached and may continue after
-`execute()` returns. There is no request-level deadline or client-cancellation
-token in this API, so timeout/cancellation enforcement is not complete and must
-not be claimed as a production guarantee.
+The orchestrator records per-layer decisions and enforces guardrails.
+`LayeredRetrievalContext::request` (a `query::RequestContext`, default
+unbounded) carries a request deadline and client cancellation token. Layers run
+inline on the caller thread (no detached workers). The context is checked before
+every layer and after each backend call; a late result is discarded and reported
+as `TIMEOUT_SKIP` or `CANCELLED` (distinct from `FALLBACK`, "ran, found
+nothing"), with `LayeredRetrievalResult::cancelled` / `partial` set and earlier
+layers' outputs retained. `AdvancedVectorIndex::search(q, k, ctx, &stop)` is
+checkpoint-only.
+
+Not complete: tensor, graph, LLM and the ANN backend call itself cannot be
+interrupted mid-call, so `execute()` can return later than the deadline by that
+backend's overrun. Timeout/cancellation enforcement must not be claimed as a
+production guarantee; see `src/search/ROADMAP.md` (QRY-07).
 
 ## Error taxonomy
 

@@ -627,7 +627,12 @@ Reciprocal Rank Fusion (RRF) result merging and mTLS-secured inter-node communic
 - `DistributedHybridSearch::ShardSearchResult`: Per-shard outcome with results, success flag,
   error message, and execution time
 - `DistributedHybridSearch::SearchStats`: Diagnostics — `shards_queried`, `shards_succeeded`,
-  `shards_failed`, `partial_result`
+  `shards_failed`, `partial_result`, plus request-context fields `shards_skipped`,
+  `shards_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded`
+- `DistributedHybridSearch::search(text, vec, const query::RequestContext&, stats)`: deadline +
+  cancellation aware overload (stops launching batches, per-shard budget =
+  min(remaining, `shard_timeout_ms`), joins all tasks). The local shard call and non-`get`/`post`
+  transport paths remain non-interruptible; QRY-07 is not complete (see `src/search/ROADMAP.md`).
 
 **Usage:**
 ```cpp

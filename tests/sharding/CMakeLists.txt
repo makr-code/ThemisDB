@@ -644,3 +644,12 @@ foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS sharding autogen
     )
 endforeach()
+# POSIX-only: the test uses BSD sockets (arpa/inet.h, sys/socket.h, unistd.h) for its black-hole listener.
+if(UNIX AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_mtls_client_cancellation.cpp")
+    message(STATUS "Adding Sharding: MTLSClient in-flight cancellation focused tests (QRY-07 slice)")
+    add_executable(test_mtls_client_cancellation_focused test_mtls_client_cancellation.cpp)
+    target_include_directories(test_mtls_client_cancellation_focused PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+    target_link_libraries(test_mtls_client_cancellation_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_mtls_client_cancellation_focused PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME MTLSClientCancellationFocusedTests TARGET test_mtls_client_cancellation_focused TIER unit TIMEOUT 60 LABELS mtls cancellation qry-07)
+endif()

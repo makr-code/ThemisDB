@@ -17,6 +17,8 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 
+#include "query/request_context.h"
+
 // Forward declarations to avoid pulling in Boost headers
 namespace boost {
 namespace asio {
@@ -98,6 +100,12 @@ public:
         std::string raw_body;           // Raw response body
         bool success;                   // true if status 2xx
         std::string error;              // Error message if failed
+        /// True when the request was aborted because the caller's RequestContext
+        /// was cancelled (only set by the RequestContext overloads).
+        bool cancelled = false;
+        /// True when the request was aborted by the request deadline or by a
+        /// connect/request stage timeout (only set by the RequestContext overloads).
+        bool timed_out = false;
     };
     
     /**
@@ -170,6 +178,45 @@ public:
      * @return Response with JSON body, or error
      */
     Response del(const std::string& endpoint, const std::string& path);
+
+    /**
+     * @brief HTTP GET that can be cancelled or deadline-bounded while in flight.
+     *
+     * Unlike the legacy overloads (blocking Beast calls where tcp_stream
+     * timeouts do not apply), this runs resolve/connect/TLS-handshake/write/read
+     * as asynchronous Boost.Asio operations on a private, per-call
+     * `io_context` driven by the calling thread. A 10 ms poll timer on that
+     * same executor evaluates @p ctx, the per-stage timeout and aborts the
+     * pending operation (resolver cancel + socket close), so all handlers are
+     * invoked and no thread, socket or timer outlives the call.
+     *
+     * Limits: token cancellation is observed by polling, so abort latency is up
+     * to ~10 ms plus handler dispatch. The retry back-off honours @p ctx.
+     * Stage timeouts (connect_timeout_ms for resolve/connect/handshake,
+     * request_timeout_ms for write/read) are not retried.
+     *
+     * @param[in] endpoint Server endpoint (e.g. "https://host:8080").
+     * @param[in] path Request path.
+     * @param[in] ctx Deadline + cancellation token for this request.
+     * @return Response; `cancelled` / `timed_out` distinguish an aborted request
+     *         from a normal transport failure (`error` is set in all failure cases).
+     */
+    Response get(const std::string& endpoint,
+                 const std::string& path,
+                 const query::RequestContext& ctx);
+
+    /**
+     * @brief HTTP POST (JSON body) that can be cancelled or deadline-bounded in flight.
+     * @param[in] endpoint Server endpoint.
+     * @param[in] path Request path.
+     * @param[in] body JSON request body.
+     * @param[in] ctx Deadline + cancellation token for this request.
+     * @return Response; see get(const std::string&, const std::string&, const query::RequestContext&).
+     */
+    Response post(const std::string& endpoint,
+                  const std::string& path,
+                  const nlohmann::json& body,
+                  const query::RequestContext& ctx);
     
     /**
      * Check if client is configured and ready
@@ -220,6 +267,23 @@ private:
     // Connection pool manager (new)
     std::shared_ptr<MTLSConnectionPoolManager> pool_manager_;
     
+    /**
+     * @brief Asynchronous, cancellable variant of request().
+     * @param[in] method HTTP method ("GET" or "POST").
+     * @param[in] endpoint Server endpoint.
+     * @param[in] path Request path.
+     * @param[in] body Optional JSON body.
+     * @param[in] authorization_header Optional Authorization header value.
+     * @param[in] ctx Deadline + cancellation token.
+     * @return Response with cancelled/timed_out flags populated on abort.
+     */
+    Response requestWithContext(const std::string& method,
+                                const std::string& endpoint,
+                                const std::string& path,
+                                const std::optional<nlohmann::json>& body,
+                                const std::string& authorization_header,
+                                const query::RequestContext& ctx);
+
     /**
      * Perform HTTP request with retry logic
      */

@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 #include <atomic>
+#include <functional>
+#include "query/request_context.h"
 
 namespace themis {
 
@@ -113,6 +115,9 @@ public:
         bool success = false;                    ///< true if shard responded OK
         std::string error_msg;                   ///< Error description if failed
         uint64_t execution_time_ms = 0;          ///< Round-trip time
+        /// Why the shard stopped early (None for success or an ordinary failure).
+        /// Lets callers tell a timeout/cancellation from "no results".
+        query::StopReason stop_reason = query::StopReason::None;
     };
 
     /**
@@ -126,7 +131,14 @@ public:
         size_t shards_queried = 0;        ///< Total shards attempted
         size_t shards_succeeded = 0;      ///< Shards that returned results
         size_t shards_failed = 0;         ///< Shards that failed or timed out
-        bool partial_result = false;      ///< True when at least one shard failed
+        bool partial_result = false;      ///< True when results come from only some shards (failed or not started, with >=1 success)
+
+        // Request-context (deadline / cancellation) visibility
+        size_t shards_skipped = 0;        ///< Shards never started because the request had stopped
+        size_t shards_timed_out = 0;      ///< Shards that hit the shard/request deadline (subset of shards_failed)
+        size_t shards_cancelled = 0;      ///< Shards aborted by client cancellation (subset of shards_failed)
+        bool cancelled = false;           ///< True when the request was cancelled by the client
+        bool deadline_exceeded = false;   ///< True when the request deadline expired before all shards finished
         
         // Phase 2: Degradation visibility flags
         bool merge_underflow = false;     ///< True when merge produced < k results due to candidate deficit
@@ -205,6 +217,63 @@ public:
         SearchStats* stats = nullptr
     );
 
+    /**
+     * @brief Distributed search bound to a request deadline and cancellation token.
+     *
+     * Behavior versus the legacy overload:
+     * - The context is checked before the local shard and before every fan-out
+     *   batch. Once it has stopped, no further batch is launched; the unstarted
+     *   shards are counted in SearchStats::shards_skipped.
+     * - Each remote shard call gets `ctx.child(shard_timeout_ms)`, so its time
+     *   budget is min(remaining request time, shard timeout). RemoteExecutor
+     *   propagates it into MTLSClient's asynchronous transport, which aborts the
+     *   in-flight connect/handshake/write/read on cancellation or deadline.
+     * - Every launched shard task is joined before this function returns;
+     *   nothing is detached or abandoned. The local HybridSearch call is not
+     *   interruptible: it is only skipped if the context had already stopped.
+     * - Results of shards that completed before the stop are merged and
+     *   reported as partial (SearchStats::partial_result, cancelled,
+     *   deadline_exceeded). With skip_failed_shards=false any failed or skipped
+     *   shard yields an empty result vector.
+     *
+     * A custom shard function (setShardSearchFunction) that ignores its context
+     * cannot be interrupted and delays the join accordingly.
+     *
+     * Never throws.
+     *
+     * @param[in] text_query Full-text query (empty to skip BM25).
+     * @param[in] vector_query Optional semantic vector (empty to skip ANN).
+     * @param[in] ctx Request deadline + cancellation token.
+     * @param[out] stats Optional diagnostics, including stop information.
+     * @return Globally merged top-k results from the shards that completed.
+     */
+    std::vector<HybridSearch::Result> search(
+        const std::string& text_query,
+        const std::vector<float>& vector_query,
+        const query::RequestContext& ctx,
+        SearchStats* stats = nullptr
+    );
+
+    /// Signature of a per-shard search transport.
+    using ShardSearchFn = std::function<ShardSearchResult(
+        const themis::sharding::ShardInfo& shard,
+        const std::string& text_query,
+        const std::vector<float>& vector_query,
+        size_t k,
+        const query::RequestContext& ctx)>;
+
+    /**
+     * @brief Replace the remote shard transport (default: RemoteExecutor over mTLS).
+     *
+     * The function runs on a fan-out worker thread and must honour @p ctx
+     * to stay cancellable. Intended for alternative transports and for tests
+     * that need deterministic shard behavior. Must be set before search() is
+     * called concurrently.
+     *
+     * @param[in] fn Transport; an empty function restores the RemoteExecutor path.
+     */
+    void setShardSearchFunction(ShardSearchFn fn) { shard_search_fn_ = std::move(fn); }
+
     // -----------------------------------------------------------------------
     // Merging (public for unit testing)
     // -----------------------------------------------------------------------
@@ -269,13 +338,22 @@ private:
 
     /**
      * @brief Query a single remote shard via HTTP POST (mTLS).
+     * @param[in] shard Target shard.
+     * @param[in] text_query Text query.
+     * @param[in] vector_query Query vector.
+     * @param[in] k Per-shard result count.
+     * @param[in] ctx Per-shard context (already clamped to the shard timeout).
+     * @return Shard outcome with stop_reason set on timeout/cancellation.
      */
     ShardSearchResult searchRemoteShard(
         const themis::sharding::ShardInfo& shard,
         const std::string& text_query,
         const std::vector<float>& vector_query,
-        size_t k
+        size_t k,
+        const query::RequestContext& ctx
     );
+
+    ShardSearchFn shard_search_fn_;
 };
 
 } // namespace themis

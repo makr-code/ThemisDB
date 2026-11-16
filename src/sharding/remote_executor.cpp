@@ -76,6 +76,19 @@ RemoteExecutor::Result RemoteExecutor::post(const ShardInfo& shard_info,
     return executeRequest("POST", shard_info, path, std::optional<nlohmann::json>(body));
 }
 
+RemoteExecutor::Result RemoteExecutor::get(const ShardInfo& shard_info,
+                                          const std::string& path,
+                                          const query::RequestContext& ctx) {
+    return executeRequest("GET", shard_info, path, std::nullopt, &ctx);
+}
+
+RemoteExecutor::Result RemoteExecutor::post(const ShardInfo& shard_info,
+                                           const std::string& path,
+                                           const nlohmann::json& body,
+                                           const query::RequestContext& ctx) {
+    return executeRequest("POST", shard_info, path, std::optional<nlohmann::json>(body), &ctx);
+}
+
 /**
  * @brief Put.
  * @param[in] shard_info Input parameter.
@@ -191,7 +204,8 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     const std::string& method,
     const ShardInfo& shard_info,
     const std::string& path,
-    const std::optional<nlohmann::json>& body) {
+    const std::optional<nlohmann::json>& body,
+    const query::RequestContext* ctx) {
     
     auto span = Tracer::startSpan("RemoteExecutor.executeRequest");
     span.setAttribute("method", method);
@@ -199,6 +213,23 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     span.setAttribute("path", path);
     
     auto start = std::chrono::steady_clock::now();
+
+    // Request already cancelled / past deadline: do not touch breaker or network.
+    if (ctx != nullptr) {
+        const auto reason = ctx->stopReason();
+        if (reason != query::StopReason::None) {
+            Result stopped;
+            stopped.shard_id = shard_info.shard_id;
+            stopped.success = false;
+            stopped.http_status = 0;
+            stopped.execution_time_ms = 0;
+            stopped.cancelled = reason == query::StopReason::Cancelled;
+            stopped.timed_out = reason == query::StopReason::DeadlineExceeded;
+            stopped.error = stopped.cancelled ? "Request cancelled before send"
+                                              : "Request deadline exceeded before send";
+            return stopped;
+        }
+    }
     
     // Check circuit breaker if enabled
     if (config_.enable_circuit_breaker) {
@@ -248,9 +279,11 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     MTLSClient::Response response;
     
     if (method == "GET") {
-        response = mtls_client_->get(endpoint, path);
+        response = ctx ? mtls_client_->get(endpoint, path, *ctx)
+                       : mtls_client_->get(endpoint, path);
     } else if (method == "POST") {
-        response = mtls_client_->post(endpoint, path, request_body);
+        response = ctx ? mtls_client_->post(endpoint, path, request_body, *ctx)
+                       : mtls_client_->post(endpoint, path, request_body);
     } else if (method == "PUT") {
         response = mtls_client_->put(endpoint, path, request_body);
     } else if (method == "DELETE") {
@@ -271,12 +304,17 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
         
         if (response.success && response.status_code >= 200 && response.status_code < 300) {
             circuit_breaker.recordSuccess();
+        } else if (response.cancelled) {
+            // Client-initiated abort says nothing about shard health.
         } else {
             circuit_breaker.recordFailure();
         }
     }
     
-    return convertResponse(response, shard_info.shard_id, elapsed_ms);
+    auto converted = convertResponse(response, shard_info.shard_id, elapsed_ms);
+    converted.cancelled = response.cancelled;
+    converted.timed_out = response.timed_out;
+    return converted;
 }
 
 /**
