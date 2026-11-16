@@ -19,6 +19,8 @@ Canonical_References:
   - ../../src/replication/async_wal_shipper.cpp
   - ../../src/replication/lag_alert_manager.cpp
   - ../../tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp
+  - ../../tests/replication/test_replication_wal_process_crash.cpp
+  - ../../tests/replication/replication_wal_crash_worker.cpp
 Related_Issue: "#7373"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
@@ -93,6 +95,15 @@ append can be acknowledged. On Windows, `_commit` flushes file contents, but
 the implementation does not claim power-loss durability for a newly created
 segment's directory entry; process-crash tests do not prove that stronger
 platform guarantee.
+
+`tests/replication/test_replication_wal_process_crash.cpp` adds a POSIX
+subprocess source test that kills a real `WALManager` after term persistence
+and after zero, one, or two durable append acknowledgements. Reopen checks the
+exact acknowledged sequence, payloads, and term; a one-byte segment threshold
+also forces append rotation. This is source coverage only until the focused
+target is built and executed. It does not cover crashes inside an active I/O
+syscall, coordinator/participant decisions, network delivery, or multi-node
+history correctness.
 
 The current `ReplicationStream` has no network transport. It retries without
 advancing its acknowledged sequence, so SYNC and SEMI_SYNC writes cannot satisfy
