@@ -78,6 +78,11 @@ These states report startup recovery only. They do not establish end-to-end
 multi-process crash evidence, automatic failover, or topology-specific RPO/RTO
 guarantees. The module has no approved numeric lag or recovery SLO; set such targets
 only after recording a representative baseline and obtaining an operational owner.
+Local append acknowledgement is backed by the configured WAL fsync policy:
+`wal_sync_on_commit=false` disables per-write fsync and therefore does not establish
+zero-loss acknowledgement durability. Coordinator/participant decision logs are
+separate recovery domains; these replication metrics do not replace their in-doubt
+recovery checks.
 
 ## Slots and logical consumers
 

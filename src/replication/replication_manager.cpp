@@ -403,6 +403,11 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         if (entry.checksum.empty()) {
             THEMIS_WARN("WALEntry::deserialize: checksum is empty (potential corruption)");
         }
+
+        if (pos != data.size()) {
+            THEMIS_ERROR("WALEntry::deserialize: trailing bytes after serialized entry");
+            return std::nullopt;
+        }
         
         return entry;
     } catch (const std::out_of_range& e) {
@@ -538,7 +543,12 @@ WALManager::WALManager(const ReplicationConfig& config)
     : config_(config) {
     // Ensure WAL directory exists
     std::filesystem::create_directories(config_.wal_directory);
-    loadFromDisk();
+    try {
+        loadFromDisk();
+    } catch (...) {
+        eraseWalManagerState(this);
+        throw;
+    }
 }
 
 WALManager::~WALManager() {

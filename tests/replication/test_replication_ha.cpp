@@ -381,6 +381,31 @@ TEST_F(WALChecksumTest, TruncatedTailIsReportedAndValidPrefixIsReplayed) {
     EXPECT_EQ(entries.front().document_id, "o2");
 }
 
+TEST_F(WALChecksumTest, RecoveryTimeoutIsReportedAndBlocksReadiness) {
+    TempWALDir wd("/tmp/themis_wal_recovery_timeout");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    {
+        WALManager wal(cfg);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "large";
+        entry.document_id = "timeout";
+        entry.data = std::string(16 * 1024 * 1024, 'x');
+        ASSERT_GT(wal.append(entry), 0u);
+    }
+
+    cfg.file_io_timeout_ms = 1;
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::TIMED_OUT);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"timed_out\"} 1"),
+              std::string::npos);
+}
+
 TEST_F(WALChecksumTest, InvalidEmbeddedChecksumIsReportedAsCorruption) {
     TempWALDir wd("/tmp/themis_wal_invalid_embedded_checksum");
     themis::WALStorage::Config storage_config;
