@@ -3058,7 +3058,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // nutze direkt die range-fähige Engine-Logik (Optimizer unterstützt nur Gleichheit).
             else if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
                 exec_mode = "index_rangeaware";
-                auto result = engine.executeAndEntities(q);
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = engine.executeAndEntities(q, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {

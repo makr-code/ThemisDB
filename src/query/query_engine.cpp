@@ -1339,6 +1339,26 @@ QueryEngine::executeAndEntities(
 		return stopped(request.stopReason());
 	}
 	if (!q.fulltextPredicate.has_value() || q.pk_eq.has_value()) {
+		if (!q.pk_eq.has_value() && !q.fulltextPredicate.has_value() &&
+			(!q.rangePredicates.empty() || q.orderBy.has_value())) {
+			if (!db_) {
+				return Err<std::vector<BaseEntity>>(
+					errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+					"Storage backend not available");
+			}
+			if (q.table.empty()) {
+				return Err<std::vector<BaseEntity>>(
+					errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+					"Table name cannot be empty");
+			}
+			if (collection_access_checker_ &&
+				!collection_access_checker_(q.table, collection_access_caller_id_)) {
+				return Err<std::vector<BaseEntity>>(
+					errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+					"Access denied for collection: " + q.table);
+			}
+			return executeAndEntitiesRangeAware_(q, request, stop_reason);
+		}
 		auto result = executeAndEntities(q);
 		if (request.shouldStop()) {
 			return stopped(request.stopReason());
@@ -3970,6 +3990,92 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
 	return Ok(std::move(out));
+}
+
+Result<std::vector<BaseEntity>>
+QueryEngine::executeAndEntitiesRangeAware_(
+	const ConjunctiveQuery& q,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		observed_stop_reason = request.stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&]() {
+		auto reason = observed_stop_reason;
+		if (reason == StopReason::None && stop_reason) {
+			reason = *stop_reason;
+		}
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Structural query cancelled"
+			: "Structural query deadline exceeded";
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
+
+	auto keys_result = executeAndKeysRangeAware_(q, &request, stop_reason);
+	if (!keys_result) {
+		if (shouldStop() || (stop_reason && *stop_reason != StopReason::None)) {
+			return stopped();
+		}
+		return Err<std::vector<BaseEntity>>(
+			keys_result.error().code(), keys_result.error().context());
+	}
+	if (shouldStop()) {
+		return stopped();
+	}
+
+	auto keys = std::move(*keys_result);
+	constexpr size_t kMaxResultSetSize = 1'000'000;
+	if (keys.size() > kMaxResultSetSize) {
+		THEMIS_WARN("executeAndEntitiesRangeAware_: result set truncated from {} to {} entries",
+			keys.size(), kMaxResultSetSize);
+		keys.resize(kMaxResultSetSize);
+	}
+
+	std::vector<BaseEntity> entities;
+	entities.reserve(keys.size());
+	for (size_t i = 0; i < keys.size(); ++i) {
+		if ((i & 31U) == 0U && shouldStop()) {
+			return stopped();
+		}
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, keys[i]));
+		if (shouldStop()) {
+			return stopped();
+		}
+		if (!blob) {
+			continue;
+		}
+		try {
+			entities.emplace_back(BaseEntity::deserialize(keys[i], *blob));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntitiesRangeAware_: deserialization failed for PK={}", keys[i]);
+		}
+	}
+	if (shouldStop()) {
+		return stopped();
+	}
+	return Ok(std::move(entities));
 }
 
 /**

@@ -55,11 +55,14 @@ protected:
         ASSERT_TRUE(category_index_status.ok) << category_index_status.message;
         const auto status_index_status = index_->createIndex("articles", "status");
         ASSERT_TRUE(status_index_status.ok) << status_index_status.message;
+        const auto rank_index_status = index_->createRangeIndex("articles", "rank");
+        ASSERT_TRUE(rank_index_status.ok) << rank_index_status.message;
         for (int i = 0; i < 128; ++i) {
             themis::BaseEntity entity("article-" + std::to_string(i));
             entity.setField("content", "deadlineprobe fulltext cancellation coverage");
             entity.setField("category", i % 2 == 0 ? "even" : "odd");
             entity.setField("status", "published");
+            entity.setField("rank", std::to_string(i));
             entity.setField("unindexed", "fallback");
             const auto put_status = index_->put("articles", entity);
             ASSERT_TRUE(put_status.ok) << put_status.message;
@@ -198,6 +201,28 @@ TEST_F(AqlFulltextDeadlineTest, CancellationDuringFallbackFilteringDiscardsParti
         nullptr, std::nullopt, &stopAfterPolls, &state);
     const auto response = handler_->handleQueryAql(
         makeRequest("FOR d IN articles FILTER d.unindexed == \"fallback\" RETURN d", true),
+        cancelled);
+
+    ASSERT_EQ(response.result(), http::status::gateway_timeout);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+    EXPECT_EQ(response.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, RangeAwareExecutionReturnsResults) {
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER d.rank >= \"0\" RETURN d"));
+
+    ASSERT_EQ(response.result(), http::status::ok) << response.body();
+    EXPECT_EQ(nlohmann::json::parse(response.body())["count"], 128);
+}
+
+TEST_F(AqlFulltextDeadlineTest, CancellationDuringRangeAwareKeyProcessingDiscardsResults) {
+    PollState state;
+    state.stop_after = 10;  // After dispatch and range scan, during candidate copying.
+    const themis::query::RequestContext cancelled(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER d.rank >= \"0\" RETURN d"),
         cancelled);
 
     ASSERT_EQ(response.result(), http::status::gateway_timeout);

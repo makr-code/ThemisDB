@@ -500,17 +500,17 @@ public:
     Result<std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
 
     /**
-     * @brief Execute a full-text query with cooperative deadline and cancellation.
-     * @param q Query to execute; request-aware retrieval is applied when it contains
-     *        a full-text predicate. Other query forms use the legacy path with
-     *        entry/exit stop checks.
+     * @brief Execute a query with cooperative deadline and cancellation.
+     * @param q Query to execute; full-text and range/order queries use request-aware
+     *        retrieval, while other query forms use the legacy path with entry/exit
+     *        stop checks.
      * @param request Absolute deadline and cancellation source; borrowed cancellation
      *        state must remain valid until this synchronous call returns.
      * @param stop_reason Receives the stop cause, or None when no stop was observed.
      * @return Materialized entities, or an error with no partial entities when stopped.
-     * @note Full-text index scans, structural key-list intersection, and sequential
-     *       entity hydration poll cooperatively. Structural index reads, sorting,
-     *       storage reads, and non-full-text execution remain synchronous/checkpoint-only.
+     * @note Full-text scans and range/order key processing poll cooperatively. Range
+     *       index calls, sorting, individual storage reads, and other query forms
+     *       remain synchronous or checkpoint-only.
      */
     Result<std::vector<BaseEntity>> executeAndEntities(
         const ConjunctiveQuery& q,
@@ -955,9 +955,23 @@ private:
         StopReason* stop_reason = nullptr
     ) const;
     /**
-     * @brief Execute And Entities Range Aware.
-     * @param[in] q Input parameter.
-     * @return Return value.
+     * @brief Materialize range-aware results while observing request cancellation.
+     * @param q Query containing range predicates and/or ordering.
+     * @param request Deadline and cancellation source used by key retrieval and hydration.
+     * @param stop_reason Receives the stop cause when observed.
+     * @return Entities, or an error with partial entities discarded on stop.
+     * @note Individual index operations and storage reads remain synchronous; polling
+     *       occurs at stage boundaries and during candidate processing/hydration.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason
+    ) const;
+    /**
+     * @brief Execute the legacy unbounded range-aware entity path.
+     * @param q Query containing range predicates and/or ordering.
+     * @return Matching entities, or an execution error.
      */
     Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const;
 };

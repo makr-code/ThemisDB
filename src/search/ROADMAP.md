@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Twelve bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Thirteen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -130,6 +130,9 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - Full-text queries with structural predicates poll around equality/range index
   reads, index sorting, and during key-list intersection. The storage/index
   calls and sorts themselves are synchronous and only observed at checkpoints.
+  Non-full-text range-aware AQL queries also pass the request context through
+  key processing and sequential entity hydration, while individual range-index
+  calls and sorting remain checkpoint-only.
   The non-full-text `allow_full_scan` fallback now polls during prefix
   collection, sequential predicate filtering, and entity hydration; this
   request-aware path avoids spawning worker tasks, and `allow_full_scan` does
@@ -139,7 +142,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   client-disconnect cancellation is unavailable during synchronous dispatch.
 - Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
   valid empty results, expired deadline, cancellation, and a stop during the
-  full-text prefix scan, structural predicate execution, and full-scan fallback.
+  full-text prefix scan, structural predicate execution, full-scan fallback,
+  and range-aware key processing.
   Test/build execution is not claimed until verified.
 
 **Implemented slice (2026-11-16)**
@@ -281,7 +285,8 @@ now measures overrun classification, not a hard wall-clock bound.
   score lookups, entity hydration, and structural key-list intersection.
   The non-full-text `allow_full_scan` path polls the storage scan, sequential
   filter and entity hydration; `FULLTEXT()` remains on its indexed path.
-  Structural index reads and sorting are checkpoint-only;
+  Range-aware non-full-text queries poll key processing and entity hydration;
+  structural index calls and sorting are checkpoint-only.
   parsing and other query stages remain checkpoint-only. Other HTTP search routes besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client
