@@ -51,7 +51,7 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         inference_step = workflow.split("name: Run TinyLlama inference tests", 1)[1]
         inference_step = inference_step.split("\n      - name:", 1)[0]
         self.assertIn("--verbose", inference_step)
-        self.assertIn("--timeout 120", inference_step)
+        self.assertIn("--timeout 600", inference_step)
         self.assertIn("ctest-tinyllama.log", inference_step)
 
         artifact_step = workflow.split("name: Upload LLM/docs.db gate artifacts", 1)[1]
