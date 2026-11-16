@@ -54,22 +54,49 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] Request deadline and client cancellation propagation through search
-  stages, including distributed fan-out, are not implemented.
-- `LayeredRetrievalOrchestrator` applies a per-layer caller wait deadline by
-  detaching a worker thread. A timeout sets `timed_out` and
-  `TIMEOUT_SKIP`, but does not stop the backend call; work may continue after
-  `execute()` returns. The implementation therefore does not meet the
-  no-background-work-after-completion criterion.
-- The integration test `EnforcesHardDeadlineAndMarksTimeoutSkip` verifies the
-  returned timeout decision only; it does not verify cancellation or worker
-  cleanup. Do not treat it as QRY-07 acceptance evidence.
-- The 30-second stream open-timeout setting is not a substitute for request
-  deadline propagation or cancellation.
-- Do not claim search timeout/cancellation enforcement complete until
-  cooperative backend cancellation, request-level deadline propagation,
-  client-cancellation and partial-failure tests, and a slow-search cleanup
-  trace are validated.
+- [ ] **QRY-07 remains OPEN.** A first slice is implemented; most layers and
+  all transports are still not interruptible (see "Remaining gaps").
+
+**Implemented slice (2026-11-16)**
+- `include/query/request_context.h`: shared `query::RequestContext`
+  (absolute deadline + `QueryCancellationToken`), `StopReason`
+  {None, Cancelled, DeadlineExceeded}, `child(timeout)` clamping.
+- `LayeredRetrievalOrchestrator` no longer detaches worker threads. Layers run
+  inline on the caller thread; nothing runs after `execute()` returns.
+  `LayeredRetrievalContext::request` carries deadline/token (default:
+  unbounded, source compatible). Request stop is checked before each layer and
+  after each backend call; late results are discarded.
+- Distinct outcomes: `CANCELLED` (new), `TIMEOUT_SKIP`, and `FALLBACK`
+  ("ran, found nothing"). `LayeredRetrievalResult` gains `cancelled` and
+  `partial`; earlier-layer outputs are retained when later layers are skipped.
+- `AdvancedVectorIndex::search(q, k, ctx, &stop)` (checkpoint-only: pre/post
+  check around one non-interruptible backend call).
+- LLM layer derives `GenerationOptions.timeout_ms` from the remaining budget.
+- Tests: `tests/query/test_request_context.cpp`; five new cases in
+  `tests/search/test_layered_retrieval_integration_phase4.cpp` (pre-cancel,
+  mid-LLM cancel with partial retention, expired deadline vs empty result,
+  no work after `execute()`, ANN stop-vs-empty). Verified locally with an ad-hoc
+  g++ build and test-local link shims (full CMake/vcpkg build not run).
+
+**Behavior trade-off:** because workers are gone, a backend that ignores the
+context (tensor, graph, LLM, and the ANN call itself) can make `execute()`
+return later than the deadline by that backend's overrun; the caller wait is
+no longer hard-bounded. The previous `EnforcesHardDeadlineAndMarksTimeoutSkip`
+now measures overrun classification, not a hard wall-clock bound.
+
+**Remaining gaps (not done)**
+- `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
+  `LLMClient::generate` take no context; mid-call cancellation is impossible.
+  The LLM only gets a timeout value; in-flight HTTP cancellation is absent.
+- FAISS/cuVS ANN search is a single blocking call (no mid-search abort).
+- `DistributedHybridSearch` fan-out (`std::async`/`wait_for`) and the
+  `RemoteExecutor`/`MTLSClient` Boost.Beast transports do not consume
+  `RequestContext`; no in-flight transport cancellation, and abandoned
+  `std::async` futures still block in their destructors.
+- HTTP/gRPC layers do not yet bind client disconnect/cancel to a token for
+  search requests; `SearchResultStream` open-timeout is unrelated.
+- Still required for acceptance: client-cancellation and partial-failure tests
+  across distributed fan-out, and a slow-search cleanup trace.
 
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
 below are historical records and require re-validation before being used as

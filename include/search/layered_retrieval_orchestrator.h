@@ -13,6 +13,8 @@
 
 #pragma once
 
+#include "query/request_context.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -51,6 +53,9 @@ enum class LayerRoutingDecision : std::uint8_t {
     TIMEOUT_SKIP,
     GUARDRAIL_SKIP,
     DISABLED,
+    /// Layer was not run, or its result was discarded, because the request was
+    /// cancelled by the client. Distinct from FALLBACK ("ran, found nothing").
+    CANCELLED,
 };
 
 /**
@@ -120,7 +125,10 @@ struct LayeredRetrievalConfig {
     bool graph_enabled = true;
     bool llm_enabled = true;
 
-    /// Maximum caller wait per layer; timed-out backend work is not cancelled.
+    /// Per-layer time budget (clamped by the request deadline). Layers run on
+    /// the caller thread: an overrun is detected when the backend returns and
+    /// its result is discarded (TIMEOUT_SKIP). Backends that do not poll the
+    /// RequestContext cannot be interrupted mid-call.
     std::uint32_t layer_timeout_ms = 50;
     std::size_t ann_top_k = 10;
     int graph_max_hops = 2;
@@ -147,6 +155,9 @@ struct LayeredRetrievalContext {
     std::string correlation_id;
     std::string llm_prompt_prefix;
     std::string lora_adapter_id;
+    /// Request-level deadline + client cancellation token. Default: unbounded,
+    /// not cancellable (previous behavior).
+    query::RequestContext request;
 };
 
 /**
@@ -162,9 +173,14 @@ struct LayeredRetrievalResult {
     std::unordered_map<std::string, std::uint64_t> layer_latencies;
     std::vector<std::string> diagnostics;
 
-    /// True when at least one layer exceeded its caller wait deadline; this
-    /// does not imply that the backend operation was cancelled.
+    /// True when at least one layer (or the request) exceeded its deadline.
     bool timed_out = false;
+    /// True when the client cancelled the request; remaining layers are
+    /// recorded as CANCELLED and any in-flight layer result is discarded.
+    bool cancelled = false;
+    /// True when at least one layer did not contribute because of timeout or
+    /// cancellation, i.e. the outputs above are incomplete (not "no results").
+    bool partial = false;
     bool guardrail_pruned = false;
 };
 
@@ -173,10 +189,15 @@ struct LayeredRetrievalResult {
  *
  * The orchestrator is intentionally fail-safe:
  * - Missing backends degrade to FALLBACK decisions instead of throwing.
- * - Each enabled layer has a caller wait deadline controlled by
- *   @ref LayeredRetrievalConfig::layer_timeout_ms.
- * - A timed-out worker is detached and may continue after execute() returns;
- *   this API does not provide request deadlines or client cancellation.
+ * - Each enabled layer has a time budget (@ref LayeredRetrievalConfig::layer_timeout_ms)
+ *   clamped by the request deadline in @ref LayeredRetrievalContext::request.
+ * - No worker threads are spawned: nothing runs after execute() returns.
+ *   Consequently a backend that does not poll the RequestContext (tensor,
+ *   graph, LLM today; ANN is checkpoint-only) cannot be interrupted, and
+ *   execute() may return later than the deadline by that backend's overrun.
+ *   Late results are discarded and reported as TIMEOUT_SKIP / CANCELLED.
+ * - Client cancellation / request deadline are checked before every layer;
+ *   once hit, later layers are skipped and the result is flagged partial.
  * - Per-query guardrails clamp expensive fan-out before downstream work begins.
  *
  * Thread safety: configuration and backend wiring must be completed before

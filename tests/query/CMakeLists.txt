@@ -1,7 +1,7 @@
 # Query module test registration (pilot extraction from root tests/CMakeLists.txt)
 
 # Query gap-fix focused tests migrated from root tests/CMakeLists.txt.
-foreach(_src_name test_pagerank test_query_cancellation)
+foreach(_src_name test_pagerank test_query_cancellation test_request_context)
     if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${_src_name}.cpp")
         set(_target "module_query_${_src_name}_focused")
         set(_ctest "${_src_name}_QueryFocusedTests")

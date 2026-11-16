@@ -16,9 +16,7 @@
 #include <chrono>
 #include <cmath>
 #include <exception>
-#include <future>
 #include <sstream>
-#include <thread>
 #include <utility>
 
 namespace themis::search {
@@ -30,6 +28,7 @@ using Milliseconds = std::chrono::milliseconds;
 enum class DeadlineState : std::uint8_t {
     Completed,
     TimedOut,
+    Cancelled,
     Failed,
 };
 
@@ -49,55 +48,56 @@ std::string decisionToString(const LayerRoutingDecision decision) {
             return "timeout_skip";
         case LayerRoutingDecision::GUARDRAIL_SKIP:
             return "guardrail_skip";
+        case LayerRoutingDecision::CANCELLED:
+            return "cancelled";
         case LayerRoutingDecision::DISABLED:
         default:
             return "disabled";
     }
 }
 
-template <typename Fn>
 /**
- * @brief Run With Deadline.
- * @param[in] fn Input parameter.
- * @param[in] timeout Input parameter.
- * @param[in,out] error Input/output parameter.
- * @return Return value.
- * @details Calls: get_future(), std::thread(), task(), std::current_exception(), set_value(), detach(), wait_for(), std::rethrow_exception().
+ * @brief Run one layer inline on the caller thread under a request context.
+ *
+ * No worker thread is created, so nothing can outlive execute(). The context is
+ * checked before the call and after it returns; the layer functor receives the
+ * layer-scoped context (request deadline clamped to the layer budget, shared
+ * cancellation token) and may poll it to stop early. A result produced after
+ * the context stopped is reported as Cancelled/TimedOut and must be discarded.
+ * Backends that do not poll cannot be interrupted mid-call.
  */
-DeadlineState runWithDeadline(Fn&& fn, const Milliseconds timeout, std::string& error) {
-    auto completion = std::make_shared<std::promise<void>>();
-    auto future = completion->get_future();
-    auto failure = std::make_shared<std::exception_ptr>();
-
-    std::thread([completion, failure, task = std::forward<Fn>(fn)]() mutable {
-        try {
-            task();
-        } catch (...) {
-            *failure = std::current_exception();
+template <typename Fn>
+DeadlineState runLayer(const query::RequestContext& request,
+                       const Milliseconds layer_timeout,
+                       Fn&& fn,
+                       std::string& error) {
+    const auto stop_to_state = [&error](const query::StopReason reason) {
+        if (reason == query::StopReason::Cancelled) {
+            error = "request cancelled";
+            return DeadlineState::Cancelled;
         }
-
-        try {
-            completion->set_value();
-        } catch (...) {
-        }
-    }).detach();
-
-    if (future.wait_for(timeout) == std::future_status::timeout) {
         error = "layer deadline exceeded";
         return DeadlineState::TimedOut;
+    };
+
+    const auto layer_ctx = request.child(layer_timeout);
+    if (const auto reason = layer_ctx.stopReason(); reason != query::StopReason::None) {
+        return stop_to_state(reason);
     }
 
-    if (*failure != nullptr) {
-        try {
-            std::rethrow_exception(*failure);
-        } catch (const std::exception& ex) {
-            error = ex.what();
-        } catch (...) {
-            error = "unknown layer failure";
-        }
+    try {
+        fn(layer_ctx);
+    } catch (const std::exception& ex) {
+        error = ex.what();
+        return DeadlineState::Failed;
+    } catch (...) {
+        error = "unknown layer failure";
         return DeadlineState::Failed;
     }
 
+    if (const auto reason = layer_ctx.stopReason(); reason != query::StopReason::None) {
+        return stop_to_state(reason);
+    }
     return DeadlineState::Completed;
 }
 
@@ -304,9 +304,30 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         return false;
     };
 
+    const auto stop_before_layer = [&](const std::string& layer_name) -> bool {
+        const auto reason = context.request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        result.partial = true;
+        if (reason == query::StopReason::Cancelled) {
+            result.cancelled = true;
+            result.diagnostics.push_back(layer_name + " skipped: request cancelled");
+            add_record({layer_name, LayerRoutingDecision::CANCELLED,
+                        "request cancelled before layer start", 0, 0, 0});
+        } else {
+            result.timed_out = true;
+            result.diagnostics.push_back(layer_name + " skipped: request deadline exceeded");
+            add_record({layer_name, LayerRoutingDecision::TIMEOUT_SKIP,
+                        "request deadline exceeded before layer start", 0, 0, 0});
+        }
+        return true;
+    };
+
     if (!config_.ann_enabled) {
         add_record({"ann", LayerRoutingDecision::DISABLED, "ann layer disabled", 0, 0, 0});
     } else if (guardrail_blocks_layer("ann")) {
+    } else if (stop_before_layer("ann")) {
     } else if (!ann_index_) {
         result.diagnostics.push_back("ann layer requested without AdvancedVectorIndex backend");
         add_record({"ann", LayerRoutingDecision::FALLBACK,
@@ -333,14 +354,15 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         auto search_result = std::make_shared<AdvancedVectorIndex::SearchResult>();
         std::string error;
         const auto started_at = Clock::now();
-        const auto state = runWithDeadline(
+        const auto state = runLayer(
+            context.request,
+            Milliseconds(config_.layer_timeout_ms),
             [backend = ann_index_,
              query = context.query_vector,
              top_k,
-             search_result]() {
-                *search_result = backend->search(query.data(), top_k);
+             search_result](const query::RequestContext& layer_ctx) {
+                *search_result = backend->search(query.data(), top_k, layer_ctx);
             },
-            Milliseconds(config_.layer_timeout_ms),
             error);
         const auto latency_ms =
             static_cast<std::uint64_t>(std::chrono::duration_cast<Milliseconds>(
@@ -351,8 +373,15 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         record.input_count = context.query_vector.size();
         record.latency_ms = latency_ms;
 
-        if (state == DeadlineState::TimedOut) {
+        if (state == DeadlineState::Cancelled) {
+            result.cancelled = true;
+            result.partial = true;
+            result.diagnostics.push_back("ann layer cancelled");
+            record.decision = LayerRoutingDecision::CANCELLED;
+            record.detail = error;
+        } else if (state == DeadlineState::TimedOut) {
             result.timed_out = true;
+            result.partial = true;
             result.diagnostics.push_back("ann layer timed out");
             record.decision = LayerRoutingDecision::TIMEOUT_SKIP;
             record.detail = error;
@@ -389,6 +418,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
     if (!config_.tensor_enabled) {
         add_record({"tensor", LayerRoutingDecision::DISABLED, "tensor layer disabled", 0, 0, 0});
     } else if (guardrail_blocks_layer("tensor")) {
+    } else if (stop_before_layer("tensor")) {
     } else if (!tensor_graph_) {
         result.diagnostics.push_back("tensor layer requested without TensorFingerprintGraph backend");
         add_record({"tensor", LayerRoutingDecision::FALLBACK,
@@ -416,14 +446,15 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         auto tensor_result = std::make_shared<std::vector<tensor::SimilarityResult>>();
         std::string error;
         const auto started_at = Clock::now();
-        const auto state = runWithDeadline(
+        const auto state = runLayer(
+            context.request,
+            Milliseconds(config_.layer_timeout_ms),
             [graph = tensor_graph_,
              query_key = context.tensor_query_key,
              top_k,
-             tensor_result]() {
+             tensor_result](const query::RequestContext&) {
                 *tensor_result = graph->findSimilar(query_key, top_k);
             },
-            Milliseconds(config_.layer_timeout_ms),
             error);
         const auto latency_ms =
             static_cast<std::uint64_t>(std::chrono::duration_cast<Milliseconds>(
@@ -434,8 +465,15 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         record.input_count = top_k;
         record.latency_ms = latency_ms;
 
-        if (state == DeadlineState::TimedOut) {
+        if (state == DeadlineState::Cancelled) {
+            result.cancelled = true;
+            result.partial = true;
+            result.diagnostics.push_back("tensor layer cancelled");
+            record.decision = LayerRoutingDecision::CANCELLED;
+            record.detail = error;
+        } else if (state == DeadlineState::TimedOut) {
             result.timed_out = true;
+            result.partial = true;
             result.diagnostics.push_back("tensor layer timed out");
             record.decision = LayerRoutingDecision::TIMEOUT_SKIP;
             record.detail = error;
@@ -470,6 +508,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
     if (!config_.graph_enabled) {
         add_record({"graph", LayerRoutingDecision::DISABLED, "graph layer disabled", 0, 0, 0});
     } else if (guardrail_blocks_layer("graph")) {
+    } else if (stop_before_layer("graph")) {
     } else if (!graph_reasoner_) {
         result.diagnostics.push_back("graph layer requested without KnowledgeGraphReasoner backend");
         add_record({"graph", LayerRoutingDecision::FALLBACK,
@@ -489,18 +528,19 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         auto chain = std::make_shared<graph::InferenceChain>();
         std::string error = {};
         const auto started_at = Clock::now();
-        const auto state = runWithDeadline(
+        const auto state = runLayer(
+            context.request,
+            Milliseconds(config_.layer_timeout_ms),
             [reasoner = graph_reasoner_,
              subject = context.graph_subject_id,
              hops = config_.graph_max_hops,
              adapter_id = context.lora_adapter_id,
-             chain]() {
+             chain](const query::RequestContext& layer_ctx) {
                 *chain = reasoner->infer(subject, hops);
-                if (!adapter_id.empty()) {
+                if (!adapter_id.empty() && !layer_ctx.shouldStop()) {
                     reasoner->applyLoRAScore(*chain, adapter_id);
                 }
             },
-            Milliseconds(config_.layer_timeout_ms),
             error);
         const auto latency_ms =
             static_cast<std::uint64_t>(std::chrono::duration_cast<Milliseconds>(
@@ -511,8 +551,15 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         record.input_count = static_cast<std::size_t>(config_.graph_max_hops);
         record.latency_ms = latency_ms;
 
-        if (state == DeadlineState::TimedOut) {
+        if (state == DeadlineState::Cancelled) {
+            result.cancelled = true;
+            result.partial = true;
+            result.diagnostics.push_back("graph layer cancelled");
+            record.decision = LayerRoutingDecision::CANCELLED;
+            record.detail = error;
+        } else if (state == DeadlineState::TimedOut) {
             result.timed_out = true;
+            result.partial = true;
             result.diagnostics.push_back("graph layer timed out");
             record.decision = LayerRoutingDecision::TIMEOUT_SKIP;
             record.detail = error;
@@ -556,6 +603,8 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
     if (!config_.llm_enabled) {
         add_record({"llm", LayerRoutingDecision::DISABLED, "llm layer disabled", 0, 0, 0});
     } else if (guardrail_blocks_layer("llm")) {
+        result.final_answer = buildFallbackAnswer(result);
+    } else if (stop_before_layer("llm")) {
         result.final_answer = buildFallbackAnswer(result);
     } else if (!llm_client_) {
         result.diagnostics.push_back("llm layer requested without LLMClient backend");
@@ -612,17 +661,20 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         auto generation = std::make_shared<llm::GenerationResult>();
         std::string error;
         const auto started_at = Clock::now();
-        const auto state = runWithDeadline(
+        const auto state = runLayer(
+            context.request,
+            Milliseconds(config_.layer_timeout_ms),
             [client = llm_client_,
              prompt = std::move(prompt),
-             timeout_ms = config_.layer_timeout_ms,
-             generation]() {
+             generation](const query::RequestContext& layer_ctx) {
                 llm::GenerationOptions options;
-                options.timeout_ms = timeout_ms;
+                // Derive the transport timeout from the remaining budget (min 1 ms).
+                const auto remaining = layer_ctx.remaining();
+                options.timeout_ms = static_cast<decltype(options.timeout_ms)>(
+                    remaining ? std::max<std::int64_t>(1, remaining->count()) : 1);
                 options.max_tokens = 256;
                 *generation = client->generate(prompt, options);
             },
-            Milliseconds(config_.layer_timeout_ms),
             error);
         const auto latency_ms =
             static_cast<std::uint64_t>(std::chrono::duration_cast<Milliseconds>(
@@ -633,8 +685,16 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         record.input_count = context.query.size();
         record.latency_ms = latency_ms;
 
-        if (state == DeadlineState::TimedOut) {
+        if (state == DeadlineState::Cancelled) {
+            result.cancelled = true;
+            result.partial = true;
+            result.diagnostics.push_back("llm layer cancelled");
+            record.decision = LayerRoutingDecision::CANCELLED;
+            record.detail = error;
+            result.final_answer = buildFallbackAnswer(result);
+        } else if (state == DeadlineState::TimedOut) {
             result.timed_out = true;
+            result.partial = true;
             result.diagnostics.push_back("llm layer timed out");
             record.decision = LayerRoutingDecision::TIMEOUT_SKIP;
             record.detail = error;
@@ -667,6 +727,8 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         root_span->setAttribute("layers.executed",
                                 static_cast<std::int64_t>(layers_started));
         root_span->setAttribute("result.timed_out", result.timed_out);
+        root_span->setAttribute("result.cancelled", result.cancelled);
+        root_span->setAttribute("result.partial", result.partial);
         root_span->setAttribute("result.guardrail_pruned", result.guardrail_pruned);
         root_span->setStatus(!result.final_answer.empty(), result.final_answer.empty()
             ? "no final answer produced"

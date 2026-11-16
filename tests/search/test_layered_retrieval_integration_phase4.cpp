@@ -14,7 +14,9 @@
 #include "tensor/tensor_fingerprint_graph.h"
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
+#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -215,8 +217,19 @@ public:
         : latency_(latency)
         , success_(success) {}
 
+    /// Number of generate() entries / completions, to prove no work outlives execute().
+    std::atomic<int> started{0};
+    std::atomic<int> finished{0};
+    /// Optional hook invoked inside generate() (e.g. to cancel mid-flight).
+    std::function<void()> on_generate;
+
     llm::GenerationResult generate(const std::string& prompt,
                                    const llm::GenerationOptions&) override {
+        started.fetch_add(1);
+        struct Done { std::atomic<int>& c; ~Done() { c.fetch_add(1); } } done{finished};
+        if (on_generate) {
+            on_generate();
+        }
         if (latency_.count() > 0) {
             std::this_thread::sleep_for(latency_);
         }
@@ -455,6 +468,163 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, AppliesPerQueryGuardrailsAcrossLay
     EXPECT_EQ(result.provenance.size(), 1U);
     EXPECT_TRUE(result.guardrail_pruned);
     EXPECT_FALSE(result.final_answer.empty());
+}
+
+// ---------------------------------------------------------------------------
+// QRY-07 slice: request context (deadline + cancellation) through the
+// orchestrator. These tests cover the orchestrator and the ANN checkpoint
+// only; tensor/graph/LLM backends remain non-interruptible mid-call.
+// ---------------------------------------------------------------------------
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, PreCancelledRequestSkipsAllLayersAndNeverCallsBackends) {
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    token->cancel();
+
+    auto llm_client = std::make_shared<TestLlmClient>();
+    LayeredRetrievalOrchestrator orchestrator;
+    orchestrator.setLlmClient(llm_client);
+
+    LayeredRetrievalContext context;
+    context.query = "cancelled query";
+    context.query_vector = {1.0f, 0.0f};
+    context.tensor_query_key = "k";
+    context.graph_subject_id = "alice";
+    context.request = query::RequestContext(token);
+
+    // Backends other than the LLM are missing; a cancelled request must be
+    // reported as CANCELLED, not as "missing backend" FALLBACK.
+    const auto result = orchestrator.execute(context);
+
+    EXPECT_TRUE(result.cancelled);
+    EXPECT_TRUE(result.partial);
+    EXPECT_FALSE(result.timed_out);
+    ASSERT_EQ(result.routing_decisions.size(), 4U);
+    for (const auto& decision : result.routing_decisions) {
+        EXPECT_EQ(decision.decision, LayerRoutingDecision::CANCELLED) << decision.layer_name;
+    }
+    EXPECT_EQ(llm_client->started.load(), 0);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, CancelDuringLlmLayerDiscardsLateResultButKeepsEarlierLayers) {
+    AdvancedVectorIndex::Config ann_config;
+    ann_config.index_type = AdvancedVectorIndex::Config::Type::HNSW_FLAT;
+    auto ann_index = std::make_shared<AdvancedVectorIndex>(2, ann_config);
+    const float vectors[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    const std::int64_t ids[] = {7, 8};
+    ASSERT_TRUE(ann_index->train(vectors, 2));
+    ASSERT_TRUE(ann_index->addWithIds(vectors, ids, 2));
+
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    auto llm_client = std::make_shared<TestLlmClient>();
+    llm_client->on_generate = [token]() { token->cancel(); };
+
+    LayeredRetrievalConfig config;
+    config.layer_timeout_ms = 5000;
+    config.tensor_enabled = false;
+    config.graph_enabled = false;
+    LayeredRetrievalOrchestrator orchestrator(config);
+    orchestrator.setAnnIndex(ann_index);
+    orchestrator.setLlmClient(llm_client);
+
+    LayeredRetrievalContext context;
+    context.query = "cancel mid llm";
+    context.query_vector = {1.0f, 0.0f};
+    context.request = query::RequestContext(token);
+
+    const auto result = orchestrator.execute(context);
+
+    EXPECT_TRUE(result.cancelled);
+    EXPECT_TRUE(result.partial);
+    ASSERT_FALSE(result.ann_candidates.empty());          // partial result retained
+    EXPECT_EQ(result.ann_candidates.front().id, 7);
+    ASSERT_EQ(result.routing_decisions.size(), 4U);
+    EXPECT_EQ(result.routing_decisions.front().decision, LayerRoutingDecision::EXECUTED);
+    EXPECT_EQ(result.routing_decisions.back().layer_name, "llm");
+    EXPECT_EQ(result.routing_decisions.back().decision, LayerRoutingDecision::CANCELLED);
+    EXPECT_EQ(result.final_answer.rfind("ann fallback", 0), 0U);  // LLM text discarded
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, ExpiredRequestDeadlineIsTimeoutNotEmptyResult) {
+    AdvancedVectorIndex::Config ann_config;
+    ann_config.index_type = AdvancedVectorIndex::Config::Type::HNSW_FLAT;
+    auto empty_index = std::make_shared<AdvancedVectorIndex>(2, ann_config);
+    ASSERT_TRUE(empty_index->train(nullptr, 0));
+
+    LayeredRetrievalConfig config;
+    config.tensor_enabled = false;
+    config.graph_enabled = false;
+    config.llm_enabled = false;
+    LayeredRetrievalOrchestrator orchestrator(config);
+    orchestrator.setAnnIndex(empty_index);
+
+    LayeredRetrievalContext context;
+    context.query_vector = {1.0f, 0.0f};
+
+    // (a) Live deadline, backend returns nothing: FALLBACK, not a timeout.
+    context.request = query::RequestContext::withTimeout(std::chrono::seconds{30});
+    auto empty = orchestrator.execute(context);
+    ASSERT_FALSE(empty.routing_decisions.empty());
+    EXPECT_EQ(empty.routing_decisions.front().decision, LayerRoutingDecision::FALLBACK);
+    EXPECT_FALSE(empty.timed_out);
+    EXPECT_FALSE(empty.partial);
+
+    // (b) Deadline already passed: TIMEOUT_SKIP, flagged partial.
+    context.request = query::RequestContext::withTimeout(std::chrono::milliseconds{-1});
+    auto expired = orchestrator.execute(context);
+    ASSERT_FALSE(expired.routing_decisions.empty());
+    EXPECT_EQ(expired.routing_decisions.front().decision, LayerRoutingDecision::TIMEOUT_SKIP);
+    EXPECT_TRUE(expired.timed_out);
+    EXPECT_TRUE(expired.partial);
+    EXPECT_FALSE(expired.cancelled);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, SlowLlmLeavesNoBackgroundWorkAfterExecute) {
+    LayeredRetrievalConfig config;
+    config.ann_enabled = false;
+    config.tensor_enabled = false;
+    config.graph_enabled = false;
+    config.layer_timeout_ms = 5;
+
+    auto llm_client = std::make_shared<TestLlmClient>(std::chrono::milliseconds{30});
+    LayeredRetrievalOrchestrator orchestrator(config);
+    orchestrator.setLlmClient(llm_client);
+
+    LayeredRetrievalContext context;
+    context.query = "slow";
+    const auto result = orchestrator.execute(context);
+
+    EXPECT_TRUE(result.timed_out);
+    EXPECT_EQ(result.routing_decisions.back().decision, LayerRoutingDecision::TIMEOUT_SKIP);
+    // Cleanup: every started backend call has finished by the time execute() returns.
+    EXPECT_EQ(llm_client->started.load(), 1);
+    EXPECT_EQ(llm_client->finished.load(), 1);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, AnnSearchWithContextReportsStopDistinctFromEmpty) {
+    AdvancedVectorIndex::Config ann_config;
+    ann_config.index_type = AdvancedVectorIndex::Config::Type::HNSW_FLAT;
+    AdvancedVectorIndex index(2, ann_config);
+    const float vectors[] = {1.0f, 0.0f};
+    const std::int64_t ids[] = {1};
+    ASSERT_TRUE(index.train(vectors, 1));
+    ASSERT_TRUE(index.addWithIds(vectors, ids, 1));
+    const float q[] = {1.0f, 0.0f};
+
+    query::StopReason stop = query::StopReason::DeadlineExceeded;
+    auto ok = index.search(q, 1, query::RequestContext{}, &stop);
+    EXPECT_EQ(stop, query::StopReason::None);
+    EXPECT_EQ(ok.ids.size(), 1U);
+
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    token->cancel();
+    auto cancelled = index.search(q, 1, query::RequestContext(token), &stop);
+    EXPECT_EQ(stop, query::StopReason::Cancelled);
+    EXPECT_TRUE(cancelled.ids.empty());
+
+    auto expired = index.search(
+        q, 1, query::RequestContext::withTimeout(std::chrono::milliseconds{-1}), &stop);
+    EXPECT_EQ(stop, query::StopReason::DeadlineExceeded);
+    EXPECT_TRUE(expired.ids.empty());
 }
 
 } // namespace

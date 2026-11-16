@@ -18,6 +18,8 @@
 #include <functional>
 #include <mutex>
 
+#include "query/request_context.h"
+
 namespace themis {
 
 class AdvancedVectorIndex {
@@ -116,6 +118,25 @@ public:
      * @return Return value.
      */
     SearchResult search(const float* query, size_t k);
+
+    /**
+     * @brief Request-context-aware search (checkpoint-only cancellation).
+     *
+     * The context is checked before the backend call and again after it. The
+     * backend call itself (a single FAISS/cuVS/callback invocation) is NOT
+     * interruptible; an in-flight search runs to completion and its result is
+     * discarded when the context stopped meanwhile.
+     *
+     * @param[in] query Query vector.
+     * @param[in] k Number of neighbours.
+     * @param[in] ctx Deadline + cancellation token.
+     * @param[out] stop Optional; set to the stop reason (None when completed).
+     * @return Empty SearchResult when stopped, so callers must consult @p stop
+     *         to tell "stopped" apart from "no neighbours".
+     */
+    SearchResult search(const float* query, size_t k,
+                        const query::RequestContext& ctx,
+                        query::StopReason* stop = nullptr);
     
     /**
      * @brief Search Batch.
