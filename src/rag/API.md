@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -145,10 +145,32 @@ Header: `include/rag/rag_ingestion_bridge.h`
 
 Construct with a non-null `IngestionToolbox`; vector and graph writers are
 optional. `indexDocument()` returns an `IndexResult` rather than throwing for
-ordinary validation or sink failures. Check both `ok` and `vector_count`:
-vector sink failure is logged and may produce a partial result with `ok == true`.
-Graph writer errors are not represented in the result. Input limits and
-deduplication behavior are detailed in
+ordinary validation or sink failures. `status` is `COMPLETE` when the workflow
+and attempted configured sinks succeed, `DEGRADED` when workflow fallback and
+its attempted sink writes succeed, `PARTIAL` when a sink fails after a
+confirmed write or its outcome is unknown, and `FAILED` when validation fails
+or a sink error occurs before any write is confirmed. `ok` is true only for
+`COMPLETE` and `DEGRADED`; fallback use and confirmed vector, graph-entity,
+and graph-relation counts are returned explicitly. An absent writer is not an
+attempted write: zero counts do not prove persistence.
+
+An unavailable workflow or returned workflow error selects fallback. An
+exception before sink writes instead returns `FAILED`; an exception after a
+sink write starts returns `PARTIAL` because side effects may be unknown. The
+bridge performs no automatic retries; fallback is a single bounded attempt.
+
+The bridge sets `ExtractionContext::manifest.file_id` before workflow
+execution, so `chunk_embed` IDs are scoped to the deterministic document ID.
+Document IDs are `"<collection>/<sha256(text)>"` with a full 64-character
+lowercase SHA-256 digest. This replaces the earlier truncated `std::hash`
+format; reindex or clean old records when migrating, and rebuild binary
+consumers because `IndexResult`'s public layout changed.
+
+Sink operations are not atomic. A successful adapter call confirms only the
+adapter's reported success; it cannot prove that a batch had no internal
+partial side effects. If a call throws after writes begin, the bridge returns
+`PARTIAL` because the write outcome is unknown. Graph relations are skipped
+when graph-entity writing fails. Input limits and validation are detailed in
 [implementation guidance](./IMPLEMENTATION.md).
 
 ### `themis::rag::security::PromptInjectionDetector` and

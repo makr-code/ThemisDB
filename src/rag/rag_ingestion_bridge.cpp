@@ -11,15 +11,14 @@
 
 #include "rag/rag_ingestion_bridge.h"
 
+#include "core/concerns/adapter_signing.h"
 #include "ingestion/workflow_engine.h"
 #include "ingestion/extraction_context.h"
 
 #include <spdlog/spdlog.h>
 
 #include <sstream>
-#include <iomanip>
 #include <stdexcept>
-#include <functional>  // std::hash
 #include <utility>
 #include <algorithm>
 
@@ -86,6 +85,16 @@ std::string boundedMetadataValue(const std::string& value) {
     return truncateCopy(trimCopy(value), kMaxMetadataValueChars);
 }
 
+const char* indexStatusName(IndexStatus status) {
+    switch (status) {
+        case IndexStatus::COMPLETE: return "complete";
+        case IndexStatus::DEGRADED: return "degraded";
+        case IndexStatus::PARTIAL: return "partial";
+        case IndexStatus::FAILED: return "failed";
+    }
+    return "failed";
+}
+
 } // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -122,7 +131,9 @@ RAGIngestionBridge& RAGIngestionBridge::operator=(RAGIngestionBridge&&) noexcept
  * @param[in] mime Input parameter.
  * @param[in] filename Input parameter.
  * @return Return value.
- * @details Complexity: O(m * e) where m = text.size(), e = entity extraction overhead Failure modes handled (all return ok=false with descriptive error): - Empty text: rejected with error="empty input" - Text > kMaxDocumentChars (5 MiB): rejected with error="input too large" - Invalid collection name (empty, >256 chars, control chars): rejected - Invalid mime type (empty, >128 chars, control chars): rejected - Invalid filename (empty, >512 chars, control chars): rejected - Workflow engine unavailable: falls back to direct entity extraction (fail-open) - Vector writer failure: logged, partial result returned (vector_count=0) - Graph writer failure: logged, indexing continues without graph writes All validation errors are logged at WARN level; I/O errors at WARN level. Doc ID is deterministic from text hash (idempotent re-indexing). Fallback workflow ensures partial indexing succeeds even without full pipeline.
+ * @details Workflow fallback is reported as DEGRADED. Configured sink failures
+ * return PARTIAL or FAILED, never ok=true; unconfirmed write outcomes are
+ * conservatively reported as PARTIAL. IDs use a full SHA-256 text digest.
  */
 
 IndexResult RAGIngestionBridge::indexDocument(
@@ -134,6 +145,9 @@ IndexResult RAGIngestionBridge::indexDocument(
     const auto toolbox = toolbox_;
     const auto vector_writer = vector_writer_;
     const auto graph_writer = graph_writer_;
+    IndexResult outcome;
+    std::size_t confirmed_write_stages = 0;
+    bool write_started = false;
 
     try {
         const std::string trimmed_collection = trimCopy(collection);
@@ -153,48 +167,43 @@ IndexResult RAGIngestionBridge::indexDocument(
     
     if (text.empty()) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: empty input");
-        return IndexResult{
-            .ok    = false,
-            .error = "empty input"
-        };
+        IndexResult invalid_result;
+        invalid_result.error = "empty input";
+        return invalid_result;
     }
     // Bound check: text <= kMaxDocumentChars (5 MiB)
     // Prevents memory exhaustion and ensures bounded ingestion time
     if (text.size() > kMaxDocumentChars) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})",text.size());
-        return IndexResult{
-            .ok    = false,
-            .error = "input too large"
-        };
+        IndexResult invalid_result;
+        invalid_result.error = "input too large";
+        return invalid_result;
     }
     // Collection name validation: must be non-empty, <= 256 chars, no control chars
     // Control char check prevents injection attacks and ensures clean metadata
     if (trimmed_collection.empty() || trimmed_collection.size() > kMaxCollectionChars ||
         hasControlCharacters(trimmed_collection)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid collection");
-        return IndexResult{
-            .ok    = false,
-            .error = "invalid collection"
-        };
+        IndexResult invalid_result;
+        invalid_result.error = "invalid collection";
+        return invalid_result;
     }
     // MIME type validation: must be non-empty, <= 128 chars, no control chars
     if (trimmed_mime.empty() || trimmed_mime.size() > kMaxMimeChars ||
         hasControlCharacters(trimmed_mime)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid mime");
-        return IndexResult{
-            .ok    = false,
-            .error = "invalid mime"
-        };
+        IndexResult invalid_result;
+        invalid_result.error = "invalid mime";
+        return invalid_result;
     }
     // Filename validation: must be non-empty, <= 512 chars, no control chars
     // Filename used for workflow routing (e.g., PDF vs plain text handling)
     if (trimmed_filename.empty() || trimmed_filename.size() > kMaxFilenameChars ||
         hasControlCharacters(trimmed_filename)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid filename");
-        return IndexResult{
-            .ok    = false,
-            .error = "invalid filename"
-        };
+        IndexResult invalid_result;
+        invalid_result.error = "invalid filename";
+        return invalid_result;
     }
 
     // ── Workflow execution with fallback path ────────────────────────────────
@@ -204,9 +213,12 @@ IndexResult RAGIngestionBridge::indexDocument(
     // Derive a stable document ID from collection + text
     const std::string doc_hash = computeDocHash(text);
     const std::string doc_id   = trimmed_collection + "/" + doc_hash;
+    outcome.doc_id = doc_id;
+    outcome.collection = trimmed_collection;
 
     // Build an ExtractionContext and run the workflow
     ingestion::ExtractionContext ctx;
+    ctx.manifest.file_id       = doc_id;
     ctx.manifest.detected_mime  = trimmed_mime;
     ctx.manifest.filename_stem  = trimmed_filename;
     ctx.manifest.extension      = "";
@@ -239,6 +251,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     // Fallback workflow path: minimal entity extraction + one canonical chunk
     // Ensures RAG pipeline can still retrieve documents even without full processing.
     if (used_workflow_fallback) {
+        outcome.used_fallback = true;
         spdlog::info(
             "RAGIngestionBridge::indexDocument using fallback workflow path for collection='{}'",
             trimmed_collection);
@@ -262,15 +275,14 @@ IndexResult RAGIngestionBridge::indexDocument(
         fallback_chunk.metadata["source"] = doc_id;
         entity_set.chunks.push_back(std::move(fallback_chunk));
     }
-
-    std::size_t vector_count = 0;
-    std::size_t entity_count = entity_set.nodes.size();
+    outcome.entity_count = entity_set.nodes.size();
+    std::vector<std::string> write_errors;
 
     // ── Vector writer section (failure handling) ────────────────────────────
     // Writes all extracted chunks to the vector index (if vector_writer configured).
     // Injects canonical RAG metadata: collection, source, content
-    // Failure to write is logged but non-fatal; indexing continues.
-    // This allows partial indexing to succeed even if vector write fails.
+    // Failure to write is returned to the caller; independent sinks still run.
+    // The final status distinguishes partial progress from complete indexing.
     
     // Write vector chunks (stamp each chunk's source_file_id with our doc_id)
     if (vector_writer && !entity_set.chunks.empty()) {
@@ -314,55 +326,106 @@ IndexResult RAGIngestionBridge::indexDocument(
             }
         }
 
+        write_started = true;
         auto write_result = vector_writer->writeVectors(stamped_chunks);
         if (write_result) {
-            vector_count = stamped_chunks.size();
+            outcome.vector_count = stamped_chunks.size();
+            ++confirmed_write_stages;
             spdlog::debug(
                 "RAGIngestionBridge::indexDocument vector write ok: chunk_count={}",
-                vector_count);
+                outcome.vector_count);
         } else {
             spdlog::warn(
                 "RAGIngestionBridge::indexDocument vector write failed for collection='{}'",
                 trimmed_collection);
+            write_errors.emplace_back("vector write failed");
         }
-        // Write failure is non-fatal: we still return a partial result
     }
 
-    // ── Graph writer section (optional, failure-closed) ──────────────────────
-    // Writes extracted entities and relations to graph store (if graph_writer configured).
-    // Failure is logged but does not affect indexing result.
-    // Write is fire-and-forget; caller cannot observe graph write failures.
+    // ── Graph writer section (optional, explicit result) ─────────────────────
+    // Relations are withheld when their entity batch failed to avoid creating
+    // graph edges for nodes this operation could not confirm.
     
     // Write graph entities / relations
     if (graph_writer) {
+        bool entities_written = entity_set.nodes.empty();
         if (!entity_set.nodes.empty()) {
-            static_cast<void>(graph_writer->writeEntities(entity_set.nodes));
+            write_started = true;
+            auto write_result = graph_writer->writeEntities(entity_set.nodes);
+            if (write_result) {
+                outcome.graph_entity_count = entity_set.nodes.size();
+                ++confirmed_write_stages;
+                entities_written = true;
+            } else {
+                spdlog::warn(
+                    "RAGIngestionBridge::indexDocument graph entity write failed for collection='{}'",
+                    trimmed_collection);
+                write_errors.emplace_back("graph entity write failed");
+            }
         }
         if (!entity_set.edges.empty()) {
-            static_cast<void>(graph_writer->writeRelations(entity_set.edges));
+            if (!entities_written) {
+                write_errors.emplace_back("graph relation write skipped after entity write failure");
+            } else {
+                write_started = true;
+                auto write_result = graph_writer->writeRelations(entity_set.edges);
+                if (write_result) {
+                    outcome.graph_relation_count = entity_set.edges.size();
+                    ++confirmed_write_stages;
+                } else {
+                    spdlog::warn(
+                        "RAGIngestionBridge::indexDocument graph relation write failed for collection='{}'",
+                        trimmed_collection);
+                    write_errors.emplace_back("graph relation write failed");
+                }
+            }
+        }
+    }
+
+    if (write_errors.empty()) {
+        outcome.status = used_workflow_fallback
+            ? IndexStatus::DEGRADED
+            : IndexStatus::COMPLETE;
+        outcome.ok = true;
+    } else {
+        outcome.status = confirmed_write_stages > 0
+            ? IndexStatus::PARTIAL
+            : IndexStatus::FAILED;
+        outcome.ok = false;
+        for (const auto& error : write_errors) {
+            if (!outcome.error.empty()) {
+                outcome.error += "; ";
+            }
+            outcome.error += error;
         }
     }
 
     spdlog::info(
-        "RAGIngestionBridge::indexDocument complete: doc_id='{}' entities={} vectors={} fallback={}",
+        "RAGIngestionBridge::indexDocument complete: doc_id='{}' entities={} vectors={} graph_entities={} graph_relations={} status={}",
         doc_id,
-        entity_count,
-        vector_count,
-        used_workflow_fallback);
+        outcome.entity_count,
+        outcome.vector_count,
+        outcome.graph_entity_count,
+        outcome.graph_relation_count,
+        indexStatusName(outcome.status));
 
-    return IndexResult{
-        .ok           = true,
-        .doc_id       = doc_id,
-        .collection   = trimmed_collection,
-        .entity_count = entity_count,
-        .vector_count = vector_count
-    };
+    return outcome;
     } catch (const std::exception& ex) {
         spdlog::error("RAGIngestionBridge::indexDocument exception: {}", ex.what());
-        return IndexResult{.ok = false, .error = ex.what()};
+        outcome.ok = false;
+        outcome.status = write_started ? IndexStatus::PARTIAL : IndexStatus::FAILED;
+        outcome.error = write_started
+            ? std::string("indexing failed; sink write outcome may be partial: ") + ex.what()
+            : ex.what();
+        return outcome;
     } catch (...) {
         spdlog::error("RAGIngestionBridge::indexDocument exception: unknown failure");
-        return IndexResult{.ok = false, .error = "unknown indexing failure"};
+        outcome.ok = false;
+        outcome.status = write_started ? IndexStatus::PARTIAL : IndexStatus::FAILED;
+        outcome.error = write_started
+            ? "indexing failed; sink write outcome may be partial"
+            : "unknown indexing failure";
+        return outcome;
     }
 }
 
@@ -485,23 +548,16 @@ std::string RAGIngestionBridge::buildEntityContext(
  * @brief Compute Doc Hash.
  * @param[in] text Input parameter.
  * @return Return value.
- * @details Calls: size(), substr(), std::setfill(), std::setw(), str().
+ * @details Computes a full SHA-256 digest so document IDs remain stable across
+ * processes and have substantially lower collision risk than truncated hashes.
  */
 std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
-    // Derive a stable 16-character hex digest from the text.
-    // Uses two independent std::hash calls on overlapping halves so that
-    // both the beginning and end of long documents contribute to the hash.
-    // This is NOT cryptographically secure; it is only used as a stable,
-    // deterministic document key for idempotent upserts.
-    const std::size_t h1 = std::hash<std::string>{}(text);
-    const std::size_t h2 = std::hash<std::string>{}(
-        text.size() > 32 ? text.substr(text.size() / 2) : text
-    );
-    std::ostringstream oss = {};
-    oss << std::hex << std::setfill('0')
-        << std::setw(8) << (static_cast<uint32_t>(h1) & 0xFFFFFFFFu)
-        << std::setw(8) << (static_cast<uint32_t>(h2) & 0xFFFFFFFFu);
-    return oss.str();
+    const std::string digest =
+        themis::core::concerns::SignedAdapterValidator::sha256Hex(text);
+    if (digest.empty()) {
+        throw std::runtime_error("document identity hashing failed");
+    }
+    return digest;
 }
 
 /**

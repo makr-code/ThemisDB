@@ -15,7 +15,7 @@ Human_Author: "ThemisDB Team"
 <!-- Phase 6: Documentation enhanced with thread-safety, complexity analysis, failure modes -->
 
 Version: 1.1
-Last Updated: 2026-11-13
+Last Updated: 2026-11-16
 Module Path: src/rag/
 
 ## 1. Overview
@@ -74,15 +74,16 @@ provider-side code even when their historical filename contains "helpers".
 5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured
    injected sinks and does not guarantee their persistence.
 
-### Verified ingestion-to-RAG boundary (source-verified; 2026-11-13)
+### Verified ingestion-to-RAG boundary (source-verified; 2026-11-16)
 
-The [RAGIngestionBridge](rag_ingestion_bridge.cpp) derives a document ID, but
-the inspected workflow path does not assign it to
-`ExtractionContext::manifest.file_id` before running workflow steps.
-[`chunk_embed`](../ingestion/steps/chunk_embed_step.cpp) constructs chunk IDs
-from that manifest field and sequence number. The bridge stamps
-`source_file_id` only after workflow execution, too late to correct a chunk ID
-already produced. The fallback path creates a different `doc_id + "#0"` ID.
+The [RAGIngestionBridge](rag_ingestion_bridge.cpp) now sets the
+collection-scoped `"<collection>/<sha256(text)>"` document ID on
+`ExtractionContext::manifest.file_id` before workflow execution.
+[`chunk_embed`](../ingestion/steps/chunk_embed_step.cpp) derives chunk IDs from
+that field and the sequence number. The fallback path still uses a separate
+`doc_id + "#0"` chunk suffix. The full SHA-256 digest replaces the earlier
+truncated `std::hash` identifier; existing records under the former IDs require
+an explicit reindex/cleanup decision during migration.
 
 The [VectorIndexSinkAdapter](../ingestion/ingestion_sinks.cpp) first persists
 a per-chunk source record in the global `ingestion_sources` collection, then
@@ -95,12 +96,15 @@ and vector write are separate, non-atomic steps (an orphaned source or a
 partially written batch is possible), and the source key is the bare
 `chunk_id`, so its uniqueness depends on the chunk-ID issue described above.
 
-The bridge logs a vector-writer failure but still returns `IndexResult::ok`
-and discards graph-writer results. Treat this as path-specific partial-success
-behavior, not as evidence of atomic multi-sink ingestion or complete RAG
-indexing. A future status contract should distinguish complete, partial, and
-failed indexing; introducing that behavior requires an explicit compatibility
-decision.
+`IndexResult` now exposes `COMPLETE`, `DEGRADED`, `PARTIAL`, and `FAILED`;
+`ok` is true only for the first two states. Fallback use and confirmed vector,
+graph-entity, and graph-relation counts are returned, with writer failures
+reported by stage. Graph relations are skipped after an entity-write failure.
+Writes remain non-atomic: adapters may have side effects before reporting
+failure, and exceptions after a write begins are conservatively classified as
+`PARTIAL`. Missing writers are not attempted and do not establish persistence.
+These semantics do not provide cross-sink transactions or prove backend
+durability.
 
 ### Small-model context and decentralized retrieval (design target; 2026-11-13)
 

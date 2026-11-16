@@ -27,15 +27,33 @@ namespace rag {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
+ * @brief Completion state of a RAG document-indexing attempt.
+ */
+enum class IndexStatus {
+    COMPLETE,  ///< Workflow and every attempted configured sink completed.
+    DEGRADED,  ///< Workflow fallback and all attempted sink writes completed.
+    PARTIAL,   ///< A sink failed after writes began, or a sink outcome is unknown.
+    FAILED     ///< No indexing result was confirmed, or validation failed.
+};
+
+/**
  * @brief Result produced by `RAGIngestionBridge::indexDocument()`.
+ *
+ * `ok` is true only for COMPLETE or DEGRADED results. PARTIAL and FAILED
+ * results are never success-shaped; counts include only work confirmed by
+ * successful workflow/sink results.
  */
 struct IndexResult {
-    bool        ok{false};          ///< True on success
-    std::string doc_id;             ///< Assigned document identifier
+    bool        ok{false};          ///< True for COMPLETE or DEGRADED only
+    IndexStatus status{IndexStatus::FAILED}; ///< Explicit completion/degradation state
+    bool        used_fallback{false}; ///< True when fallback extraction/chunking ran
+    std::string doc_id;             ///< Assigned collection-scoped document identifier
     std::string collection;         ///< Target collection name
-    std::size_t entity_count{0};    ///< Number of NER entities extracted
-    std::size_t vector_count{0};    ///< Number of vector chunks written
-    std::string error;              ///< Human-readable error when ok == false
+    std::size_t entity_count{0};    ///< Number of entities extracted by the workflow
+    std::size_t vector_count{0};    ///< Number of vector records confirmed written
+    std::size_t graph_entity_count{0}; ///< Number of graph nodes confirmed written
+    std::size_t graph_relation_count{0}; ///< Number of graph relations confirmed written
+    std::string error;              ///< Failed stage(s); empty for COMPLETE/DEGRADED
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -94,9 +112,10 @@ struct IndexResult {
  *
  * ## Deduplication
  * `indexDocument()` derives a stable `doc_id` from `collection + "/" +
- * SHA-1-like prefix of the text` (deterministic hash).  When the same
- * document is re-indexed, the `IVectorWriter` sink replaces existing records
- * keyed by `chunk_id`, making the operation idempotent.
+ * SHA-256(text)`. When the same document is re-indexed, the configured sinks
+ * replace existing records keyed by `chunk_id`. The full digest is stable
+ * across processes and avoids the collisions possible with the prior
+ * truncated `std::hash` identifier.
  *
  * ## Usage
  * @code
@@ -149,20 +168,24 @@ public:
      *  1. Validates input size (text <= kMaxDocumentChars, collection <= kMaxCollectionChars).
      *  2. Runs `WorkflowEngine::execute()` on the text to produce a
      *     `BaseEntitySet` (NER nodes, vector chunks, quality score).
-     *     If workflow execution is unavailable or fails, a minimal fallback
-     *     entity set is generated from direct entity extraction plus one
-     *     canonical retrieval chunk so indexing remains usable.
-     *  3. Writes all `VectorRecord` chunks to the `IVectorWriter` sink
-     *     (if configured).
-     *  4. Writes all `BaseEntity` nodes and `EntityRelation` edges to the
-     *     `IGraphWriter` sink (if configured).
-     *  5. Returns an `IndexResult` describing the outcome.
+     *     If the workflow is unavailable or returns an error, a minimal
+     *     fallback entity set is generated and used_fallback is set. When its
+     *     attempted sink writes succeed the status is DEGRADED; sink failures
+     *     instead produce PARTIAL or FAILED.
+     *  3. Writes vector chunks and graph entities/relations to configured sinks.
+     *     A sink error is returned as PARTIAL when another write succeeded, or
+     *     FAILED when no write was confirmed. Graph relations are not written
+     *     after a graph-entity write failure.
+     *  4. Returns an `IndexResult` describing the outcome and confirmed writes.
      *
      * ## Idempotency
      * The returned `doc_id` has the form `"<collection>/<doc_hash>"` where
-     * `doc_hash` is a stable 16-character hex digest of the input text.
+     * `doc_hash` is the 64-character lowercase SHA-256 hex digest of the input text.
      * Re-indexing the same text produces the same `doc_id` and overwrite
-     * previous records in the vector and graph sinks.
+     * previous records in the vector and graph sinks. Existing identifiers
+     * produced by the former truncated hash are not preserved; callers should
+     * rebuild binary consumers and reindex/clean old records during the v3
+     * migration.
      *
      * @param text        UTF-8 text to index.  Empty text is rejected with
      *                    `IndexResult{.ok=false, .error="empty input"}`.
@@ -176,12 +199,16 @@ public:
      *                    Default: "document.txt".
      *
      * @return IndexResult with:
-     *   - ok: true on success, false on failure (validation, I/O, etc.)
+     *   - status: COMPLETE, DEGRADED, PARTIAL, or FAILED
+     *   - ok: true only for COMPLETE or DEGRADED
+     *   - used_fallback: whether workflow fallback ran
      *   - doc_id: assigned document identifier (format: "<collection>/<hash>")
      *   - collection: echoed collection name
-     *   - entity_count: number of NER entities extracted
-     *   - vector_count: number of vector chunks written
-     *   - error: human-readable error message when ok == false
+     *   - entity_count: number of entities extracted, whether or not a graph
+     *     sink is configured
+     *   - vector_count, graph_entity_count, graph_relation_count: records
+     *     confirmed written by successful sink operations
+     *   - error: failed stage(s); a successful fallback is labeled DEGRADED
      *
      * @pre toolbox must not be null (checked in constructor)
      * @pre text.size() <= kMaxDocumentChars (5 MiB)
@@ -189,8 +216,8 @@ public:
      *
      * @post if ok == true: doc_id is non-empty and deterministic from text
      * @post if ok == false: error message is non-empty and human-readable
-     * @post vector_count reflects records written to vector_writer (0 if null)
-     * @post entity_count reflects records written to graph_writer (0 if null)
+     * @post write counts include only records confirmed by successful sink calls
+     * @post ok == false for validation errors and failed or partial sink writes
      *
      * @note Does not throw: empty text returns IndexResult{ok=false, error="empty input"}
      *
@@ -198,7 +225,7 @@ public:
      * @note Thread-safe: no mutable shared state modified
      * @note Fail-closed: malformed input returns IndexResult.ok=false, not exception
      */
-    IndexResult indexDocument(
+    [[nodiscard]] IndexResult indexDocument(
         const std::string& text,
         const std::string& collection = "default",
         const std::string& mime       = "text/plain",
@@ -352,7 +379,7 @@ private:
     std::shared_ptr<ingestion::IVectorWriter>  vector_writer_;
     std::shared_ptr<ingestion::IGraphWriter>   graph_writer_;
 
-    /// Compute a stable 16-character hex doc hash from text.
+    /// Compute a stable 64-character SHA-256 hex digest from text.
     static std::string computeDocHash(const std::string& text);
 
     /// Map an EntityType enum value to a short display string.

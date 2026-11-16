@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -65,10 +65,26 @@ semantics determine the resulting records.
 Validation rejects empty text, text over 5 MiB, invalid collection/MIME/filename
 values, and control characters in those metadata inputs. If the workflow is
 unavailable or fails, the bridge builds a minimal entity set and one retrieval
-chunk. A failed vector write is logged but does not make the returned
-`IndexResult` fail; inspect `vector_count` and the logs before treating
-`ok == true` as proof that vectors were persisted. Graph writes are also
-best-effort and their sink results are not exposed in `IndexResult`.
+chunk and marks the result `DEGRADED`. The collection-scoped document ID uses
+the full SHA-256 digest of the input text and is assigned to
+`ExtractionContext::manifest.file_id` before workflow execution, so the
+`chunk_embed` step can derive distinct IDs for distinct documents. The former
+truncated `std::hash` IDs are not retained; migration requires rebuilding
+binary consumers and reindexing or cleaning records under the old IDs.
+
+`IndexResult::status` and `ok` expose the workflow and configured sink outcome:
+`COMPLETE`/`DEGRADED` have `ok == true`; `PARTIAL`/`FAILED` have `ok == false`.
+The fallback status applies only when fallback and all attempted sink writes
+succeed. Vector, graph-entity, and graph-relation counts include only
+successful sink calls. Sink failures include stage names in `error`; relations
+are not written after a graph-entity failure. A returned workflow error or
+unavailable workflow selects fallback, but an exception before sink writes
+returns `FAILED`. If a sink call throws after writes begin, the result is
+conservatively `PARTIAL` because the adapter may have side effects. Writes are
+not atomic across adapters or batches. The bridge has no retry loop; workflow
+fallback is attempted once. Optional absent writers are not attempted and
+therefore do not prove persistence; callers should inspect the counts and
+independently verify required sink state.
 
 ## Invariants and edge cases
 
