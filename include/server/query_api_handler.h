@@ -11,6 +11,7 @@
 
 #pragma once
 #include "server/auth_middleware.h"
+#include "query/request_context.h"
 #include "security/query_masking_policy.h"
 
 #include <memory>
@@ -82,6 +83,21 @@ public:
      * @return Return value.
      */
     http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Execute AQL with the server-derived request deadline and cancellation.
+     * @param req HTTP request; any body timeout remains an additional, stricter limit.
+     * @param request Server-owned deadline/cancellation context; caller input cannot
+     *        extend it, and borrowed cancellation state must remain valid until return.
+     * @return HTTP response; observed request stops return 504 with partial results
+     *         discarded, while the existing body timeout continues to return 408.
+     * @note Execution is cooperative. In-flight synchronous stages and client
+     *       disconnects during synchronous dispatch cannot be interrupted.
+     */
+    http::response<http::string_body> handleQueryAql(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request
+    );
 
     /**
      * @brief Handle Query Enhanced.

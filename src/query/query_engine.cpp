@@ -1188,6 +1188,194 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	return Ok(std::move(out));
 }
 
+Result<std::vector<std::string>>
+QueryEngine::executeAndKeys(
+	const ConjunctiveQuery& q,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	const auto stopped = [&](StopReason reason) {
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Full-text query cancelled"
+			: "Full-text query deadline exceeded";
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	if (!q.fulltextPredicate.has_value() || q.pk_eq.has_value()) {
+		auto result = executeAndKeys(q);
+		if (request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		return result;
+	}
+	if (!db_) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"Storage backend not available");
+	}
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Table name cannot be empty");
+	}
+	if (collection_access_checker_ &&
+		!collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table);
+	}
+
+	const auto& fulltext = *q.fulltextPredicate;
+	auto [status, results] = secIdx_->scanFulltextWithScores(
+		q.table, fulltext.column, fulltext.query, fulltext.limit, request, stop_reason);
+	if (stop_reason && *stop_reason != StopReason::None) {
+		return stopped(*stop_reason);
+	}
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	if (!status.ok) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Fulltext search failed: {}", status.message));
+	}
+
+	std::vector<std::string> fulltext_keys;
+	fulltext_keys.reserve(results.size());
+	for (size_t i = 0; i < results.size(); ++i) {
+		if ((i & 63U) == 0U && request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		fulltext_keys.emplace_back(results[i].pk);
+	}
+
+	if (q.predicates.empty() && q.rangePredicates.empty()) {
+		return Ok(std::move(fulltext_keys));
+	}
+
+	ConjunctiveQuery structural_query;
+	structural_query.table = q.table;
+	structural_query.predicates = q.predicates;
+	structural_query.rangePredicates = q.rangePredicates;
+	structural_query.orderBy = q.orderBy;
+	auto structural_result = executeAndKeysRangeAware_(structural_query);
+	if (!structural_result) {
+		return Err<std::vector<std::string>>(
+			structural_result.error().code(), structural_result.error().context());
+	}
+	auto structural_keys = std::move(*structural_result);
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+
+	std::sort(fulltext_keys.begin(), fulltext_keys.end());
+	std::sort(structural_keys.begin(), structural_keys.end());
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+
+	std::vector<std::string> intersection;
+	intersection.reserve(std::min(fulltext_keys.size(), structural_keys.size()));
+	size_t fulltext_index = 0;
+	size_t structural_index = 0;
+	size_t comparisons_since_poll = 0;
+	while (fulltext_index < fulltext_keys.size() &&
+		   structural_index < structural_keys.size()) {
+		if ((comparisons_since_poll++ & 63U) == 0U && request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		if (fulltext_keys[fulltext_index] < structural_keys[structural_index]) {
+			++fulltext_index;
+		} else if (structural_keys[structural_index] < fulltext_keys[fulltext_index]) {
+			++structural_index;
+		} else {
+			intersection.emplace_back(fulltext_keys[fulltext_index]);
+			++fulltext_index;
+			++structural_index;
+		}
+	}
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	return Ok(std::move(intersection));
+}
+
+Result<std::vector<BaseEntity>>
+QueryEngine::executeAndEntities(
+	const ConjunctiveQuery& q,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	const auto stopped = [&](StopReason reason) {
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Full-text query cancelled"
+			: "Full-text query deadline exceeded";
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	if (!q.fulltextPredicate.has_value() || q.pk_eq.has_value()) {
+		auto result = executeAndEntities(q);
+		if (request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		return result;
+	}
+
+	auto keys_result = executeAndKeys(q, request, stop_reason);
+	if (!keys_result) {
+		return Err<std::vector<BaseEntity>>(
+			keys_result.error().code(), keys_result.error().context());
+	}
+	auto keys = std::move(*keys_result);
+	std::vector<BaseEntity> entities;
+	entities.reserve(keys.size());
+	for (size_t i = 0; i < keys.size(); ++i) {
+		if ((i & 31U) == 0U && request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, keys[i]));
+		if (request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		if (!blob) {
+			continue;
+		}
+		try {
+			entities.emplace_back(BaseEntity::deserialize(keys[i], *blob));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", keys[i]);
+		}
+	}
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	return Ok(std::move(entities));
+}
+
 std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge

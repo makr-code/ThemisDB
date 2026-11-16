@@ -24,6 +24,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
+#include "query/request_context.h"
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
@@ -497,6 +498,25 @@ public:
      * @return Return value.
      */
     Result<std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
+
+    /**
+     * @brief Execute a full-text query with cooperative deadline and cancellation.
+     * @param q Query to execute; request-aware retrieval is applied when it contains
+     *        a full-text predicate. Other query forms use the legacy path with
+     *        entry/exit stop checks.
+     * @param request Absolute deadline and cancellation source; borrowed cancellation
+     *        state must remain valid until this synchronous call returns.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Materialized entities, or an error with no partial entities when stopped.
+     * @note Full-text index scans and sequential entity hydration poll cooperatively.
+     *       Structural predicate access, sorting, storage reads, and non-full-text
+     *       execution remain synchronous/checkpoint-only.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntities(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
     
     /**
      * @brief Execute And Keys.
@@ -504,6 +524,21 @@ public:
      * @return Return value.
      */
     Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
+
+    /**
+     * @brief Execute a full-text key query with cooperative deadline and cancellation.
+     * @param q Query to execute; must contain a full-text predicate for cooperative
+     *        scan polling. Other query forms use the legacy path with stop checkpoints.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching keys, or an error with no partial keys when stopped.
+     * @note Structural predicate retrieval and sorting are checkpoint-only.
+     */
+    Result<std::vector<std::string>> executeAndKeys(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
 
     /**
      * @brief Execute And Count.

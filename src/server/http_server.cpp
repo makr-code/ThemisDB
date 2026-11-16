@@ -55,6 +55,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "query/request_context.h"
 #include "observability/alertmanager.h"
 #include "observability/provenance_store.h"
 #include "performance/phase3/bao.h"
@@ -6781,7 +6782,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                     return res;
                 }
             }
-            response = query_api_->handleQueryAql(req);
+            // Use the live server timeout; request body values may only tighten it.
+            const uint32_t timeout_ms =
+                request_timeout_ms_live_.load(std::memory_order_relaxed);
+            const themis::query::RequestContext aql_request =
+                timeout_ms == 0
+                    ? themis::query::RequestContext{}
+                    : themis::query::RequestContext::withTimeout(
+                          std::chrono::milliseconds(timeout_ms));
+            response = query_api_->handleQueryAql(req, aql_request);
             recordContinuousLearningQueryTelemetry(req, response, start, true);
             break;
         }
