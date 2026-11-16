@@ -62,10 +62,12 @@ server endpoint or dashboard exports them.
 
 `WALManager` delegates record framing, physical WAL checksums, and truncated-tail
 repair to `WALStorage`, then validates each replication entry's payload checksum and
-serialized sequence against the canonical WAL sequence. Deserialization, payload
-checksum, sequence, unexpected DELETE records, and physical-record corruption
-abort recovery; entries after the first invalid record are not replayed. CHECKPOINT
-records are accepted as storage metadata and are not replication entries.
+serialized sequence against the canonical WAL sequence. Physical record sequences
+must be contiguous across retained entries, including CHECKPOINT records; a retained
+prefix may begin above sequence 1 after compaction. Deserialization, payload checksum,
+sequence gaps, unexpected DELETE records, and physical-record corruption abort
+recovery; entries after the first invalid record are not replayed. CHECKPOINT records
+are accepted as storage metadata and are not replication entries.
 
 `ReplicationManager::initialize()` succeeds only for `COMPLETE` or
 `TRUNCATED_TAIL` recovery. A truncated final physical record is removed by

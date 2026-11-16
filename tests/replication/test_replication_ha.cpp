@@ -23,6 +23,7 @@
 #include <filesystem>
 #include <fstream>
 #include <future>
+#include <iterator>
 #include <thread>
 #include <vector>
 #include <atomic>
@@ -551,6 +552,80 @@ TEST_F(WALChecksumTest, DeleteRecordIsReportedAsCorruption) {
     EXPECT_NE(manager.exportPrometheusMetrics().find(
                   "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
               std::string::npos);
+}
+
+TEST_F(WALChecksumTest, SequenceGapIsCorruptionButTrimmedPrefixIsAllowed) {
+    const auto writeEntries = [](const std::string& directory) {
+        ReplicationConfig cfg = makeConfig(directory);
+        WALManager wal(cfg);
+        for (int index = 0; index < 3; ++index) {
+            WALEntry entry;
+            entry.operation = "INSERT";
+            entry.collection = "orders";
+            entry.document_id = "doc" + std::to_string(index);
+            entry.data = "{\"value\":\"same-size\"}";
+            ASSERT_GT(wal.append(entry), 0u);
+        }
+    };
+    const auto removeFrame = [](const std::string& directory, size_t frame_index) {
+        std::filesystem::path segment;
+        for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+            if (entry.path().extension() == ".log") {
+                segment = entry.path();
+                break;
+            }
+        }
+        ASSERT_FALSE(segment.empty());
+        std::ifstream input(segment, std::ios::binary);
+        ASSERT_TRUE(input.is_open());
+        std::vector<char> bytes(
+            std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+        input.close();
+
+        constexpr size_t header_size = 21;
+        constexpr size_t trailer_size = 4;
+        const auto readU32 = [&bytes](size_t offset) {
+            return static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset])) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 1])) << 8) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 2])) << 16) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 3])) << 24);
+        };
+        size_t offset = 0;
+        for (size_t index = 0; index < frame_index; ++index) {
+            const auto frame_size = header_size + readU32(offset + 13) +
+                                    readU32(offset + 17) + trailer_size;
+            offset += frame_size;
+        }
+        const auto frame_size = header_size + readU32(offset + 13) +
+                                readU32(offset + 17) + trailer_size;
+        ASSERT_LE(offset + frame_size, bytes.size());
+        bytes.erase(bytes.begin() + static_cast<std::ptrdiff_t>(offset),
+                    bytes.begin() + static_cast<std::ptrdiff_t>(offset + frame_size));
+
+        std::ofstream output(segment, std::ios::binary | std::ios::trunc);
+        ASSERT_TRUE(output.is_open());
+        output.write(bytes.data(), static_cast<std::streamsize>(bytes.size()));
+        ASSERT_TRUE(output.good());
+    };
+
+    TempWALDir gap_dir("/tmp/themis_wal_sequence_gap");
+    writeEntries(gap_dir.path);
+    removeFrame(gap_dir.path, 1);
+    {
+        ReplicationManager manager(makeConfig(gap_dir.path));
+        EXPECT_FALSE(manager.initialize());
+        EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+        const auto health = manager.getClusterHealth();
+        ASSERT_EQ(health.size(), 1u);
+        EXPECT_FALSE(health.begin()->second);
+    }
+
+    TempWALDir compacted_dir("/tmp/themis_wal_compacted_prefix");
+    writeEntries(compacted_dir.path);
+    removeFrame(compacted_dir.path, 0);
+    WALManager recovered(makeConfig(compacted_dir.path));
+    EXPECT_EQ(recovered.getRecoveryStatus(), WALRecoveryStatus::COMPLETE);
+    EXPECT_EQ(recovered.getCurrentSequence(), 3u);
 }
 
 TEST_F(WALChecksumTest, SerializedSequenceMismatchIsReportedAsCorruption) {

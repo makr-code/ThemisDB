@@ -791,10 +791,25 @@ void WALManager::loadFromDisk() {
     wal_config.fsync_on_write = config_.wal_sync_on_commit;
     wal_config.recovery_timeout = std::chrono::milliseconds(config_.file_io_timeout_ms);
     bool invalid_replication_entry = false;
+    uint64_t last_recovered_sequence = 0;
+    bool has_recovered_sequence = false;
 
-    auto recovery_callback = [this, &state, &invalid_replication_entry](
+    auto recovery_callback = [this, &state, &invalid_replication_entry,
+                              &last_recovered_sequence, &has_recovered_sequence](
                                  const themis::WALStorage::Entry& recovered) {
+        if (recovered.sequence == 0 ||
+            (has_recovered_sequence &&
+             (last_recovered_sequence == std::numeric_limits<uint64_t>::max() ||
+              recovered.sequence != last_recovered_sequence + 1))) {
+            invalid_replication_entry = true;
+            THEMIS_ERROR("Non-contiguous replication WAL sequence at {}; aborting recovery",
+                         recovered.sequence);
+            return false;
+        }
+
         if (recovered.type == themis::WALStorage::EntryType::CHECKPOINT) {
+            last_recovered_sequence = recovered.sequence;
+            has_recovered_sequence = true;
             return true;
         }
         if (recovered.type != themis::WALStorage::EntryType::PUT) {
@@ -815,6 +830,8 @@ void WALManager::loadFromDisk() {
             return false;
         }
 
+        last_recovered_sequence = recovered.sequence;
+        has_recovered_sequence = true;
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
         state.wal_entries.push_back(*wal_entry);
