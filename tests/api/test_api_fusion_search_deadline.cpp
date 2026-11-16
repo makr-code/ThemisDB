@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 
 #include <nlohmann/json.hpp>
 
@@ -115,7 +116,7 @@ TEST_F(FusionSearchDeadlineTest, ExpiredDeadlineReturns504WithoutResults) {
 
 TEST_F(FusionSearchDeadlineTest, CancellationDuringTextStageDiscardsPartialResults) {
     PollState state;
-    state.stop_after = 3;  // Entry, token stage, then the 64-entry prefix-scan poll.
+    state.stop_after = 4;  // Route, BM25 entry/token checks, then the 64-entry scan poll.
     const themis::query::RequestContext request(nullptr, std::nullopt, &stopAfterPolls, &state);
     const auto res = handler_->handleFusionSearch(
         makeRequest(textOnlyRequest("fusiondeadline")), request);
