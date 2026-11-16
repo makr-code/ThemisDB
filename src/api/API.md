@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,20 @@ Related issues: #7093, #7167
 - `GrpcApiServer` exposes `initialize`, service registration, `start`, `stop`, and `isRunning`; initialization/start report success as `bool`.
 - `WsChangeHandler::validate()` returns an `UpgradeDecision`; its fields include upgrade decision, rejection status/reason, and parsed subscription context.
 - GraphQL and other protocol APIs are defined in their matching `include/api/` headers; confirm the declaration before relying on behavior not listed here.
+
+## gRPC search cancellation
+
+- `VectorSearch`, `FilteredVectorSearch`, and `HybridSearch` map the gRPC
+  deadline to the query request context and poll `ServerContext::IsCancelled()`
+  without creating a watcher thread.
+- These RPCs use the cancellation-aware `IVectorIndex::search` overload.
+  Existing implementations use its checkpoint-only default (before/after the
+  legacy synchronous call); in-flight interruption requires an implementation
+  that polls the request context. An observed stop returns gRPC `CANCELLED` or
+  `DEADLINE_EXCEEDED`, with no partial hit list returned.
+- Hybrid AQL execution remains checkpoint-only. HTTP search and other gRPC
+  search methods do not yet bind a request context; see the QRY-07 status in
+  `src/search/ROADMAP.md`.
 
 ## Integration obligations and edge cases
 

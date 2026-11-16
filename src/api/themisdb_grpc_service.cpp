@@ -20,6 +20,7 @@
 // IQueryEngine and IVectorIndex live in the base interface headers.
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/index_interface.h"
+#include "query/request_context.h"
 
 // Conditionally compile the real service implementation when the protobuf
 // stubs generated from proto/themisdb.proto are available on the include path.
@@ -53,6 +54,7 @@
 #include <cmath>
 #include <exception>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -227,6 +229,70 @@ const char* grpcStatusCodeLabel(grpc::StatusCode code) {
         case grpc::StatusCode::DATA_LOSS: return "data_loss";
         default: return "other";
     }
+}
+
+bool grpcRequestIsCancelled(const void* state) noexcept {
+    const auto* context = static_cast<const grpc::ServerContext*>(state);
+    return context && context->IsCancelled();
+}
+
+themis::query::RequestContext makeRequestContext(
+    const grpc::ServerContext* context) {
+    using RequestContext = themis::query::RequestContext;
+    if (!context) {
+        return {};
+    }
+
+    std::optional<RequestContext::TimePoint> deadline;
+    const auto grpc_deadline = context->deadline();
+    if (grpc_deadline != std::chrono::system_clock::time_point::max()) {
+        const auto system_now = std::chrono::system_clock::now();
+        const auto remaining = grpc_deadline > system_now
+            ? grpc_deadline - system_now
+            : std::chrono::system_clock::duration::zero();
+        const auto steady_now = RequestContext::Clock::now();
+        const auto steady_remaining =
+            std::chrono::duration_cast<RequestContext::Clock::duration>(remaining);
+        const auto maximum_remaining =
+            RequestContext::TimePoint::max() - steady_now;
+        deadline = steady_remaining >= maximum_remaining
+            ? RequestContext::TimePoint::max()
+            : steady_now + steady_remaining;
+    }
+
+    // The synchronous handler polls ServerContext directly. This avoids a watcher
+    // thread and keeps the borrowed gRPC context alive until all index work returns.
+    return RequestContext(nullptr, deadline, &grpcRequestIsCancelled, context);
+}
+
+template <typename Response>
+grpc::Status stopGrpcSearch(
+    themis::query::StopReason reason,
+    Response* response) {
+    if (reason == themis::query::StopReason::None) {
+        return grpc::Status::OK;
+    }
+
+    response->set_success(false);
+    response->clear_hits();
+    auto* error = response->mutable_error();
+    if (reason == themis::query::StopReason::Cancelled) {
+        error->set_code(499);
+        error->set_message("search cancelled");
+        return grpc::Status(grpc::StatusCode::CANCELLED, "search cancelled");
+    }
+
+    error->set_code(408);
+    error->set_message("search deadline exceeded");
+    return grpc::Status(grpc::StatusCode::DEADLINE_EXCEEDED,
+                        "search deadline exceeded");
+}
+
+template <typename Response>
+grpc::Status stopGrpcSearch(
+    const themis::query::RequestContext& request,
+    Response* response) {
+    return stopGrpcSearch(request.stopReason(), response);
 }
 #endif
 
@@ -1056,11 +1122,16 @@ private:
         // ── Vector search ──────────────────────────────────────────────────
 
         grpc::Status VectorSearch(
-            grpc::ServerContext*           /*ctx*/,
+            grpc::ServerContext*           ctx,
             const VectorSearchRequest*     req,
             VectorSearchResponse*          resp
         ) override {
             return withRpcMetrics("VectorSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             if (!vector_index_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1093,9 +1164,20 @@ private:
                                     "storage backend not wired into this service instance");
             }
 
-            const auto hits = vector_index_->search(embedding, k);
+            const auto search = vector_index_->search(
+                embedding, k, nullptr, request_context);
+            if (auto stop = stopGrpcSearch(search.stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             resp->set_success(true);
-            for (const auto& hit : hits) {
+            for (const auto& hit : search.results) {
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 auto* h = resp->add_hits();
                 h->set_collection(req->collection());
                 h->set_key(hit.primary_key);
@@ -1107,16 +1189,24 @@ private:
                     }
                 }
             }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
 
         grpc::Status FilteredVectorSearch(
-            grpc::ServerContext*                  /*ctx*/,
+            grpc::ServerContext*                  ctx,
             const FilteredVectorSearchRequest*    req,
             VectorSearchResponse*                 resp
         ) override {
             return withRpcMetrics("FilteredVectorSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             if (!vector_index_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1517,12 +1607,24 @@ private:
                 vector_filter_evaluator =
                     std::make_unique<JsonClauseFilterEvaluator>(key_filters, req->collection());
             }
-            const auto hits = vector_index_->search(embedding, k, vector_filter_evaluator.get());
+            const auto search = vector_index_->search(
+                embedding, k, vector_filter_evaluator.get(), request_context);
 #else
-            const auto hits = vector_index_->search(embedding, k, nullptr);
+            const auto search = vector_index_->search(
+                embedding, k, nullptr, request_context);
 #endif
+            if (auto stop = stopGrpcSearch(search.stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             resp->set_success(true);
-            for (const auto& hit : hits) {
+            for (const auto& hit : search.results) {
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 bool include_hit = true;
                 std::string doc_body = {};
                 bool has_doc_body = false;
@@ -1662,16 +1764,24 @@ private:
                     }
                 }
             }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
 
         grpc::Status HybridSearch(
-            grpc::ServerContext*       /*ctx*/,
+            grpc::ServerContext*       ctx,
             const HybridSearchRequest* req,
             HybridSearchResponse*      resp
         ) override {
             return withRpcMetrics("HybridSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             // Hybrid search combines dense vector + sparse BM25 text search.
             // Implementation strategy when an AQL engine is wired:
             //   1. Execute a FULLTEXT AQL query for the sparse component.
@@ -1728,8 +1838,18 @@ private:
                 const std::vector<float> embedding(
                     req->dense_vector().values().begin(),
                     req->dense_vector().values().end());
-                const auto dense_hits = vector_index_->search(embedding, k);
-                for (const auto& hit : dense_hits) {
+                const auto dense_search = vector_index_->search(
+                    embedding, k, nullptr, request_context);
+                if (auto stop = stopGrpcSearch(dense_search.stop_reason, resp); !stop.ok()) {
+                    return stop;
+                }
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
+                for (const auto& hit : dense_search.results) {
+                    if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                        return stop;
+                    }
                     auto* h = resp->add_hits();
                     h->set_collection(req->collection());
                     h->set_key(hit.primary_key);
@@ -1747,6 +1867,9 @@ private:
                     " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->sparse_query()) + "')"
                     " LIMIT " + std::to_string(k) + " RETURN doc";
                 auto result = aql_engine_->execute(aql);
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 if (result) {
                     const float sparse_weight = 1.0f - alpha;
 #if THEMIS_HAS_JSON
@@ -1780,6 +1903,9 @@ private:
                 }
             }
 
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }

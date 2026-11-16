@@ -75,12 +75,20 @@ service ThemisDBService {
     // ── Vector search ───────────────────────────────────────────────────────
 
     // k-nearest-neighbour search (mirrors POST /vector/search).
+    // Server cancellation returns CANCELLED; request deadline expiry returns
+    // DEADLINE_EXCEEDED. Legacy vector-index implementations are checked before
+    // and after their existing search call, so they may overrun a stop condition;
+    // indexes must implement cooperative context polling to stop in-flight work.
     rpc VectorSearch(VectorSearchRequest) returns (VectorSearchResponse);
 
     // Vector search with attribute filter (mirrors POST /vector/by-filter).
+    // Cancellation and deadline status semantics match VectorSearch.
     rpc FilteredVectorSearch(FilteredVectorSearchRequest) returns (VectorSearchResponse);
 
     // Hybrid dense+sparse search (mirrors POST /search/hybrid).
+    // Cancellation and deadline status semantics match VectorSearch; AQL and
+    // legacy vector-index calls remain checkpoint-only unless their backend
+    // cooperatively polls the request context.
     rpc HybridSearch(HybridSearchRequest) returns (HybridSearchResponse);
 
     // Full-text search (mirrors POST /search/fulltext).

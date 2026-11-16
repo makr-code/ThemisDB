@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Two slices are implemented; most backends and
+- [ ] **QRY-07 remains OPEN.** Three slices are implemented; most backends and
   all non-GET/POST or legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **Implemented slice (2026-11-16)**
@@ -122,9 +122,28 @@ now measures overrun classification, not a hard wall-clock bound.
   and link shims; both suites also ran clean under ThreadSanitizer. Not yet run
   through the CMake/ctest build.
 
+**Slice 3 (2026-11-16): gRPC vector and hybrid search entry points**
+- `VectorSearch`, `FilteredVectorSearch`, and `HybridSearch` derive a
+  `query::RequestContext` from the synchronous gRPC server context. The
+  context maps the gRPC wall-clock deadline to a steady-clock deadline and
+  polls `ServerContext::IsCancelled()` directly; no detached work or watcher
+  threads are created.
+- These routes call the cancellation-aware `IVectorIndex::search` overload.
+  Its source-compatible default checks before and after the legacy call,
+  discards late results, and reports cancellation separately from deadline
+  expiry. Existing index implementations remain checkpoint-only; in-flight
+  interruption requires overriding the new overload and polling the context.
+- An observed stop returns gRPC `CANCELLED` or `DEADLINE_EXCEEDED` and clears
+  response hits rather than returning a successful empty result. Hybrid AQL
+  work remains checkpoint-only.
+- Focused API tests cover legacy-index pre-cancellation and expired deadlines,
+  cooperative index polling, and gRPC route status behavior when gRPC service
+  test dependencies are available. No build/test pass is claimed here.
+
 **Remaining gaps (QRY-07 still OPEN)**
-- Cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
-  callback/wake-up registration, so abort latency is ~10 ms, not instant.
+- mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
+  callback/wake-up registration, so transport abort latency is ~10 ms, not
+  instant. Synchronous gRPC search polls its borrowed server context directly.
 - Only `MTLSClient::get/post` (and `RemoteExecutor::get/post`) are
   cancellable. `put/del/postBinary`, the connection-pool path and all legacy
   overloads remain synchronous and non-interruptible.
@@ -137,8 +156,12 @@ now measures overrun classification, not a hard wall-clock bound.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
-- No HTTP/gRPC server binding from client disconnect to a token for search
-  requests; no `search()` caller outside tests passes a `RequestContext` yet.
+- HTTP search routes and non-vector gRPC search routes are not bound to a
+  request context. The gRPC vector/hybrid routes pass a context only to vector
+  search; other search callers and backends still need propagation.
+- Legacy vector-index implementations and the HybridSearch AQL path only get
+  entry/exit checkpoints; a backend that does not poll can overrun a client
+  cancellation or deadline before gRPC can return its status.
 - Still required for acceptance: slow-search cleanup trace (end-to-end, real
   shards), and cancellation during active backend execution in the layered
   pipeline.

@@ -41,6 +41,7 @@ class RequestContext {
 public:
     using Clock = std::chrono::steady_clock;
     using TimePoint = Clock::time_point;
+    using CancellationProbe = bool (*)(const void*) noexcept;
 
     /// Unbounded, non-cancellable context.
     RequestContext() = default;
@@ -49,6 +50,23 @@ public:
                             std::optional<TimePoint> deadline = std::nullopt) noexcept
         : token_(std::move(token)), deadline_(deadline) {}
 
+    /// @brief Creates a request context with an additional borrowed cancellation source.
+    /// @param token Optional shared cancellation token.
+    /// @param deadline Optional absolute steady-clock deadline.
+    /// @param probe Non-throwing callback polled by isCancelled(); may be null.
+    /// @param probe_state Opaque borrowed state passed to probe; must remain valid while
+    ///        this context is used. The callback must be safe to call from polling threads.
+    /// @note No worker is created. Consumers observe external cancellation only when
+    ///       they poll this context; callers must not retain it beyond probe_state's lifetime.
+    RequestContext(std::shared_ptr<QueryCancellationToken> token,
+                   std::optional<TimePoint> deadline,
+                   CancellationProbe probe,
+                   const void* probe_state) noexcept
+        : token_(std::move(token)),
+          deadline_(deadline),
+          cancellation_probe_(probe),
+          cancellation_probe_state_(probe_state) {}
+
     /// Context whose deadline is now + timeout, optionally sharing a token.
     [[nodiscard]] static RequestContext withTimeout(
         std::chrono::milliseconds timeout,
@@ -56,11 +74,13 @@ public:
         return RequestContext(std::move(token), Clock::now() + timeout);
     }
 
-    /// Derived context sharing the same token with deadline = min(parent, now + timeout).
+    /// Derived context shares the token and borrowed cancellation probe, with deadline
+    /// = min(parent, now + timeout). The probe state must remain valid for the child.
     [[nodiscard]] RequestContext child(std::chrono::milliseconds timeout) const {
         const auto candidate = Clock::now() + timeout;
         const auto effective = deadline_ ? std::min(*deadline_, candidate) : candidate;
-        return RequestContext(token_, effective);
+        return RequestContext(token_, effective, cancellation_probe_,
+                              cancellation_probe_state_);
     }
 
     [[nodiscard]] bool hasDeadline() const noexcept { return deadline_.has_value(); }
@@ -70,7 +90,8 @@ public:
     }
 
     [[nodiscard]] bool isCancelled() const noexcept {
-        return token_ && token_->isCancelled();
+        return (token_ && token_->isCancelled()) ||
+               (cancellation_probe_ && cancellation_probe_(cancellation_probe_state_));
     }
 
     [[nodiscard]] bool isDeadlineExceeded() const noexcept {
@@ -106,6 +127,8 @@ public:
 private:
     std::shared_ptr<QueryCancellationToken> token_;
     std::optional<TimePoint> deadline_;
+    CancellationProbe cancellation_probe_{nullptr};
+    const void* cancellation_probe_state_{nullptr};
 };
 
 } // namespace query

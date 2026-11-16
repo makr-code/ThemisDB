@@ -64,3 +64,15 @@ TEST(RequestContextTest, ChildOfUnboundedParentGetsDeadline) {
     EXPECT_TRUE(child.hasDeadline());
     EXPECT_EQ(child.stopReason(), StopReason::None);
 }
+
+TEST(RequestContextTest, ChildPreservesExternalCancellationProbe) {
+    const bool externally_cancelled = true;
+    const auto probe = [](const void* state) noexcept {
+        return *static_cast<const bool*>(state);
+    };
+    RequestContext parent(nullptr, std::nullopt, probe, &externally_cancelled);
+
+    const auto child = parent.child(1s);
+
+    EXPECT_EQ(child.stopReason(), StopReason::Cancelled);
+}
