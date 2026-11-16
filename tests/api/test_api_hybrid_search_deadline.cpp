@@ -6,8 +6,11 @@
 #include <gtest/gtest.h>
 
 #include "content/content_manager.h"
+#include "content/content_processor.h"
+#include "index/vector_index.h"
 #include "query/request_context.h"
 #include "server/content_api_handler.h"
+#include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 
 #include <atomic>
@@ -16,6 +19,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -56,6 +60,7 @@ protected:
     void TearDown() override {
         handler_.reset();
         content_manager_.reset();
+        vector_index_.reset();
         db_.reset();
         std::error_code error;
         std::filesystem::remove_all(db_path_, error);
@@ -68,8 +73,27 @@ protected:
         return req;
     }
 
+    void configureVectorRetrieval() {
+        vector_index_ = std::make_shared<themis::VectorIndexManager>(*db_);
+        ASSERT_TRUE(vector_index_->init("hybrid-search-deadline-test", 2).ok);
+        themis::BaseEntity entity("chunks:hybrid-search-deadline-test");
+        entity.setField("embedding", std::vector<float>{1.0f, 0.0f});
+        ASSERT_TRUE(vector_index_->addEntity(entity).ok);
+
+        content_manager_ = std::make_shared<themis::content::ContentManager>(
+            db_, vector_index_, nullptr, nullptr);
+        auto text_processor = std::make_unique<themis::content::TextProcessor>();
+        text_processor->setEmbeddingBackend([](const std::string&) {
+            return std::vector<float>{1.0f, 0.0f};
+        });
+        content_manager_->registerProcessor(std::move(text_processor));
+        handler_ = std::make_unique<themis::server::ContentApiHandler>(
+            db_, content_manager_, nullptr, nullptr, nullptr, vector_index_);
+    }
+
     std::filesystem::path db_path_;
     std::shared_ptr<themis::RocksDBWrapper> db_;
+    std::shared_ptr<themis::VectorIndexManager> vector_index_;
     std::shared_ptr<themis::content::ContentManager> content_manager_;
     std::unique_ptr<themis::server::ContentApiHandler> handler_;
 };
@@ -100,9 +124,10 @@ TEST_F(HybridSearchDeadlineTest, ClientCancellationReturns504WithoutResults) {
     EXPECT_EQ(res.body().find("\"results\""), std::string::npos);
 }
 
-TEST_F(HybridSearchDeadlineTest, CancellationDuringContentSearchReturns504) {
+TEST_F(HybridSearchDeadlineTest, CancellationAtVectorSearchEntryReturns504) {
+    configureVectorRetrieval();
     PollState state;
-    state.stop_after = 2;  // Handler dispatch, then the content-manager base-search checkpoint.
+    state.stop_after = 5;  // Dispatch, content checks, then request-aware KNN entry.
     const themis::query::RequestContext cancelled(nullptr, std::nullopt, &stopAfterPolls, &state);
     const auto res = handler_->handleHybridSearch(makeRequest(), cancelled);
 
