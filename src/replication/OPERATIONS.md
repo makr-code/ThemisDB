@@ -87,6 +87,12 @@ explicit flush is required before the entry becomes visible to replication reade
 An unconfirmed flush fails the write and makes that WAL manager unavailable until
 restart and recovery. Listener notifications occur only after local durability and
 the selected replication acknowledgement condition succeed.
+On POSIX, WAL segment activation also synchronizes directory metadata (including
+the directory ancestry), and a failure blocks open or rotation before another
+append can be acknowledged. On Windows, `_commit` flushes file contents, but
+the implementation does not claim power-loss durability for a newly created
+segment's directory entry; process-crash tests do not prove that stronger
+platform guarantee.
 
 The current `ReplicationStream` has no network transport. It retries without
 advancing its acknowledged sequence, so SYNC and SEMI_SYNC writes cannot satisfy

@@ -176,6 +176,64 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #endif
 
+/**
+ * @brief Persist directory entries that make WAL segments discoverable after a crash.
+ * @param[in] path WAL directory containing the active segment.
+ * @param[out] error Description of the first failed directory operation.
+ * @return True when namespace metadata is persisted or the platform has no
+ *         directory-sync primitive used by this implementation.
+ * @note Windows currently flushes WAL file handles with _commit(), but has no
+ *       documented directory-entry flush in this implementation.
+ */
+static bool themis_sync_wal_directory_metadata(const std::string& path,
+                                               std::string& error) {
+#if defined(_WIN32)
+    (void)path;
+    error.clear();
+    return true;
+#else
+    std::error_code path_error;
+    auto directory = fs::absolute(fs::path(path), path_error).lexically_normal();
+    if (path_error) {
+        error = "cannot resolve WAL directory path: " + path_error.message();
+        return false;
+    }
+
+    while (!directory.empty()) {
+        const int directory_fd =
+            themis_open_fd(directory.c_str(), O_RDONLY | O_DIRECTORY, 0);
+        if (directory_fd < 0) {
+            error = "cannot open directory '" + directory.string() +
+                    "' for fsync: " + std::strerror(errno);
+            return false;
+        }
+
+        int sync_result = 0;
+        if (themis_test_flag_once("THEMIS_TEST_WAL_DIRECTORY_FSYNC_FAIL_ONCE")) {
+            errno = EIO;
+            sync_result = -1;
+        } else {
+            sync_result = themis_fsync_fd(directory_fd);
+        }
+        const int sync_error = errno;
+        themis_close_fd(directory_fd);
+        if (sync_result != 0) {
+            error = "cannot fsync directory '" + directory.string() +
+                    "': " + std::strerror(sync_error);
+            errno = sync_error;
+            return false;
+        }
+
+        const auto parent = directory.parent_path();
+        if (parent == directory) {
+            break;
+        }
+        directory = parent;
+    }
+    return true;
+#endif
+}
+
 class ScopedFileDescriptor {
 public:
     explicit ScopedFileDescriptor(int fd = -1) noexcept : fd_(fd) {}
@@ -833,10 +891,12 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 // ──────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Close-Path Locking and Exception Safety (W5-Storage Hardening) openNewSegment() transitions file descriptor and segment state atomically under mutex_: 1.
- * @param[in] segment_id Identifier of the segment.
- * @return Return value.
- * @details Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ >= 0, fsync old segment; fail closed if durability is unconfirmed. 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err<>; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_ERROR(), count(), ErrVoid(), std::string(), std::strerror().
+ * @brief Open a segment only after its directory metadata is synchronized.
+ * @param[in] segment_id Identifier of the segment to activate.
+ * @return Success after the prior segment is flushed, the target segment is
+ *         opened, and POSIX directory metadata is synchronized; otherwise an
+ *         error is returned and no subsequent append can be acknowledged.
+ * @note Callers hold mutex_ so segment state changes are not visible midway.
  */
 Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     if (fd_ >= 0) {
@@ -872,6 +932,15 @@ Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "cannot open WAL segment '" + path + "': " +
                            std::strerror(errno));
+    }
+
+    std::string directory_sync_error;
+    if (!themis_sync_wal_directory_metadata(config_.dir, directory_sync_error)) {
+        // next_fd closes on return; retry opens this segment again and repeats
+        // the directory sync before any append can use it.
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "cannot confirm WAL segment namespace durability: " +
+                           directory_sync_error);
     }
 
     // Determine how many bytes are already in the file.
