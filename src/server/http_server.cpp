@@ -8384,7 +8384,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = content_api_->handleFusionSearch(req);
             break;
         case Route::FulltextSearchPost:
-            response = content_api_->handleFulltextSearch(req);
+           {
+               // Server-configured cooperative deadline starting at handler dispatch.
+               // 0 disables the timeout (unbounded); caller headers are never trusted.
+               const uint32_t timeout_ms =
+                   request_timeout_ms_live_.load(std::memory_order_relaxed);
+               const themis::query::RequestContext fulltext_request =
+                   timeout_ms == 0
+                       ? themis::query::RequestContext{}
+                       : themis::query::RequestContext::withTimeout(
+                             std::chrono::milliseconds(timeout_ms));
+               response = content_api_->handleFulltextSearch(req, fulltext_request);
+           }
             break;
         case Route::ContentFilterSchemaGet:
             response = content_api_->handleContentFilterSchemaGet(req);

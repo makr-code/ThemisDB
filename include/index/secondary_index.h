@@ -182,8 +182,8 @@ public:
         std::string_view column,
         std::string_view query,
         size_t limit,
-        const query::RequestContext& request,
-        query::StopReason* stop_reason = nullptr
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
     ) const;
     std::pair<Status, std::vector<FulltextResult>> scanFulltextWithScores(
         std::string_view table,
@@ -522,8 +522,8 @@ private:
         std::string_view column,
         std::string_view query,
         size_t limit,
-        const query::RequestContext& request = {},
-        query::StopReason* stop_reason = nullptr
+        const ::themis::query::RequestContext& request = {},
+        ::themis::query::StopReason* stop_reason = nullptr
     ) const;
     
     // Prüft ob Feld-Wert NULL/leer ist (für Sparse-Index)

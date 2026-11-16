@@ -11,6 +11,7 @@
 
 #pragma once
 #include "server/auth_middleware.h"
+#include "query/request_context.h"
 
 #include <memory>
 #include <string>
@@ -88,11 +89,23 @@ public:
     http::response<http::string_body> handleFusionSearch(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle Fulltext Search.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Performs an unbounded BM25 full-text search for legacy callers.
+     * @param[in] req HTTP request containing table, column, query, and optional limit.
+     * @return JSON results, a validation/index error, or a backend error response.
      */
     http::response<http::string_body> handleFulltextSearch(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Performs BM25 full-text search with a cooperative request stop context.
+     * @param[in] req HTTP request containing table, column, query, and optional limit.
+     * @param[in] request Deadline/cancellation source propagated through index retrieval.
+     * @return JSON results on success; HTTP 504 with no partial results when stopped.
+     * @note Synchronous storage reads and result sorting are checkpoint-only; no
+     *       work continues after this synchronous handler returns.
+     */
+    http::response<http::string_body> handleFulltextSearch(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request);
 
     /**
      * @brief Handle Config Get.

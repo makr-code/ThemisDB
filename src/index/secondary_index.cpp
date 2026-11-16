@@ -3126,8 +3126,40 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::string_view table,
 	std::string_view column,
 	std::string_view query,
-	size_t limit
+	size_t limit,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
 ) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	size_t work_since_poll = 0;
+	auto pollStop = [&]() {
+		const auto reason = request.stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	auto pollPeriodically = [&]() {
+		return (++work_since_poll & 63U) == 0U && pollStop();
+	};
+	auto stopped = [&]() {
+		const auto reason = stop_reason
+			? *stop_reason
+			: request.stopReason();
+		const char* message = reason == ::themis::query::StopReason::Cancelled
+			? "Fulltext search cancelled"
+			: "Fulltext search deadline exceeded";
+		return std::pair<Status, std::vector<FulltextResult>>{
+			Status::Error(message), std::vector<FulltextResult>()};
+	};
+	if (pollStop()) {
+		return stopped();
+	}
 	if (!hasFulltextIndex(table, column)) {
 		return {Status::Error("computeBM25Scores_: Kein Fulltext-Index für " + std::string(table) + "." + std::string(column)), std::vector<FulltextResult>()};
 	}
@@ -3181,15 +3213,25 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	
 	if (tokens.empty()) {
+		if (pollStop()) {
+			return stopped();
+		}
 		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// For each token, get PKs from inverted index (doc frequency sets)
 	for (const auto& token : tokens) {
+		if (pollStop()) {
+			return stopped();
+		}
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
-		
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val) {
+		bool scan_stopped = false;
+		db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
+			if (pollPeriodically()) {
+				scan_stopped = true;
+				return false;
+			}
 			// Extract PK from ftidx:table:column:token:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
@@ -3197,25 +3239,40 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 			return true;
 		});
+		if (scan_stopped || pollStop()) {
+			return stopped();
+		}
 		
 		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
 	if (tokenResults.empty()) {
+		if (pollStop()) {
+			return stopped();
+		}
 		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
 	std::sort(tokenResults.begin(), tokenResults.end(),
 	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
+	if (pollStop()) {
+		return stopped();
+	}
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
+		if (pollStop()) {
+			return stopped();
+		}
 		std::unordered_set<std::string> intersection = {};
 
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
 		for (const auto& pk : intersectionSet) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			if (tokenResults[i].count(pk)) {
 				intersection.insert(pk);
 			}
@@ -3234,6 +3291,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 		normalizedPhrases.reserve(phrases.size());
 		for (auto ph : phrases) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			if (config.normalize_umlauts) {
 			  ph = utils::Normalizer::normalizeUmlauts(ph);
 			}
@@ -3245,6 +3305,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			auto pkey = KeySchema::makeRelationalKey(table, pk);
 			auto blob = db_.get(pkey);
 			bool keep = false;
@@ -3262,6 +3325,9 @@ SecondaryIndexManager::computeBM25Scores_(
 						std::transform(field.begin(), field.end(), field.begin(), [](unsigned char c){ return std::tolower(c); });
 						bool allFound = true;
 						for (const auto& ph : normalizedPhrases) {
+							if (pollPeriodically()) {
+								return stopped();
+							}
 							if (field.find(ph) == std::string::npos) { allFound = false; break; }
 						}
 						keep = allFound;
@@ -3275,9 +3341,17 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 		}
 		for (const auto& pk : toErase) {
+		  if (pollPeriodically()) {
+			return stopped();
+		  }
 		  intersectionSet.erase(pk);
 		}
-		if (intersectionSet.empty()) return {Status::OK(), std::vector<FulltextResult>()};
+		if (intersectionSet.empty()) {
+			if (pollStop()) {
+				return stopped();
+			}
+			return {Status::OK(), std::vector<FulltextResult>()};
+		}
 	}
 
 	// BM25 Ranking über die Schnittmenge berechnen
@@ -3287,11 +3361,17 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::unordered_set<std::string> universe;
 	size_t universe_hint = 0;
 	for (const auto& s : tokenResults) {
+		if (pollStop()) {
+			return stopped();
+		}
 		universe_hint += s.size();
 	}
 	universe.reserve(universe_hint);
 	for (const auto& s : tokenResults) {
 		for (const auto& pk : s) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 		  universe.insert(pk);
 		}
 	}
@@ -3303,6 +3383,9 @@ SecondaryIndexManager::computeBM25Scores_(
 	docLen.reserve(universe.size());
 	double totalLen = 0.0;
 	for (const auto& pk : universe) {
+		if (pollPeriodically()) {
+			return stopped();
+		}
 		const std::string dkey = makeFulltextDocLenKey(table, column, pk);
 		auto v = db_.get(dkey);
 		double dl = 0.0;
@@ -3320,6 +3403,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	dfs.reserve(tokens.size());
 	for (const auto& s : tokenResults) {
+	  if (pollPeriodically()) {
+		return stopped();
+	  }
 	  dfs.emplace_back(static_cast<double>(s.size()));
 	}
 
@@ -3332,10 +3418,16 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
+		if (pollPeriodically()) {
+			return stopped();
+		}
 		const auto itLen = docLen.find(pk);
 		double dl = (itLen != docLen.end()) ? itLen->second : 0.0;
 		double s = 0.0;
 		for (size_t i = 0; i < tokens.size(); ++i) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			const auto& token = tokens[i];
 			const double df = std::max(1.0, dfs[i]);
 			// IDF wie BM25 mit +1 Stabilisierung
@@ -3359,10 +3451,16 @@ SecondaryIndexManager::computeBM25Scores_(
 		scored.emplace_back(FulltextResult{pk, s});
 	}
 
+	if (pollStop()) {
+		return stopped();
+	}
 	// Sortieren nach Score absteigend
 	std::sort(scored.begin(), scored.end(), [](const FulltextResult& a, const FulltextResult& b){
 		return a.score > b.score;
 	});
+	if (pollStop()) {
+		return stopped();
+	}
 
 	// Top-k Ergebnisse extrahieren
 	std::vector<FulltextResult> finalResults = {};
@@ -3410,6 +3508,18 @@ SecondaryIndexManager::scanFulltextWithScores(
 	size_t limit
 ) const {
 	return computeBM25Scores_(table, column, query, limit);
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<SecondaryIndexManager::FulltextResult>>
+SecondaryIndexManager::scanFulltextWithScores(
+	std::string_view table,
+	std::string_view column,
+	std::string_view query,
+	size_t limit,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	return computeBM25Scores_(table, column, query, limit, request, stop_reason);
 }
 
 // Phrase search: exact phrase matching with position awareness

@@ -559,6 +559,13 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
 http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
     const http::request<http::string_body>& req
 ) {
+    return handleFulltextSearch(req, ::themis::query::RequestContext{});
+}
+
+http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
+    const http::request<http::string_body>& req,
+    const ::themis::query::RequestContext& request
+) {
     try {
         if (!secondary_index_) {
           return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
@@ -601,7 +608,14 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
+        auto stop_reason = ::themis::query::StopReason::None;
+        auto [status, results] = secondary_index.scanFulltextWithScores(
+            table, column, query, limit, request, &stop_reason);
+
+        if (stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Fulltext search stopped: request deadline exceeded or cancelled", req);
+        }
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -609,7 +623,12 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         
         // Build response with scores
         nlohmann::json resp = nlohmann::json::array();
+        size_t materialized = 0;
         for (const auto& result : results) {
+            if ((++materialized & 63U) == 0U && request.shouldStop()) {
+                return makeErrorResponse(http::status::gateway_timeout,
+                    "Fulltext search stopped: request deadline exceeded or cancelled", req);
+            }
             resp.push_back({
                 {"pk", result.pk},
                 {"score", result.score}
@@ -624,7 +643,12 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
             {"query", query}
         };
         
-        return makeResponse(http::status::ok, out.dump(), req);
+        auto response_body = out.dump();
+        if (request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Fulltext search stopped: request deadline exceeded or cancelled", req);
+        }
+        return makeResponse(http::status::ok, response_body, req);
         
     } catch (const nlohmann::json::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
@@ -1077,4 +1101,3 @@ http::response<http::string_body> ContentApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-
