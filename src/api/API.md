@@ -42,8 +42,16 @@ Related issues: #7093, #7167
   legacy synchronous call); in-flight interruption requires an implementation
   that polls the request context. An observed stop returns gRPC `CANCELLED` or
   `DEADLINE_EXCEEDED`, with no partial hit list returned.
-- Hybrid AQL execution remains checkpoint-only. HTTP search and other gRPC
-  search methods do not yet bind a request context; see the QRY-07 status in
+- `FullTextSearch` and the sparse AQL stage of `HybridSearch` call
+  `IQueryEngine::execute(query, bind_vars_json, RequestContext, StopReason&)`.
+  The default implementation is checkpoint-only (check before/after the legacy
+  call, result discarded at the caller when a stop is observed); AQL engines that
+  do not override it cannot be interrupted mid-call. Cooperative in-flight
+  cancellation requires an override that polls `RequestContext::shouldStop()`.
+  Any observed stop returns `CANCELLED`/`DEADLINE_EXCEEDED`, `success=false`
+  and no hits; for `HybridSearch`, hits from the dense stage are cleared too.
+- Generic `ExecuteAQL`/`ExecuteAQLStream`, HTTP search and other gRPC search
+  methods do not yet bind a request context; see the QRY-07 status in
   `src/search/ROADMAP.md`.
 
 ## Integration obligations and edge cases

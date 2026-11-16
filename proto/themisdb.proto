@@ -92,6 +92,11 @@ service ThemisDBService {
     rpc HybridSearch(HybridSearchRequest) returns (HybridSearchResponse);
 
     // Full-text search (mirrors POST /search/fulltext).
+    // Cancellation and deadline status semantics match VectorSearch: a stop
+    // observed before, during (cooperative AQL engines only) or after the AQL call
+    // yields CANCELLED / DEADLINE_EXCEEDED with no hits. AQL engines that do not
+    // override the context-aware IQueryEngine::execute cannot be interrupted
+    // mid-call; their result is discarded once the stop is observed.
     rpc FullTextSearch(FullTextSearchRequest) returns (FullTextSearchResponse);
 
     // ── Health ──────────────────────────────────────────────────────────────

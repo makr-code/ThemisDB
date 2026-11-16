@@ -2,6 +2,7 @@
 
 #include "api/themisdb_grpc_service.h"
 #include "themis/base/interfaces/index_interface.h"
+#include "themis/base/interfaces/query_interface.h"
 
 #include <grpcpp/grpcpp.h>
 #include "themisdb.grpc.pb.h"
@@ -59,14 +60,93 @@ public:
     mutable std::atomic<bool> entered{false};
 };
 
+/// Query engine used to exercise the AQL stages of FullTextSearch/HybridSearch.
+/// cooperative=true overrides the context-aware execute() and polls the request;
+/// cooperative=false only implements the legacy overload (checkpoint-only default).
+class StubQueryEngine final : public themis::IQueryEngine {
+public:
+    explicit StubQueryEngine(bool cooperative) : cooperative_(cooperative) {}
+
+    using themis::IQueryEngine::execute;
+
+    [[nodiscard]] themis::Result<std::string> execute(const std::string&) override {
+        ++legacy_calls;
+        return std::string("[{\"_key\":\"doc1\"}]");
+    }
+
+    [[nodiscard]] themis::Result<std::string> execute(
+        const std::string& query,
+        const std::string& bind_vars_json,
+        const themis::query::RequestContext& request,
+        themis::query::StopReason& stop_reason) override {
+        if (!cooperative_) {
+            return themis::IQueryEngine::execute(query, bind_vars_json, request, stop_reason);
+        }
+        ++cooperative_calls;
+        entered.store(true, std::memory_order_release);
+        while (!request.shouldStop()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds{1});
+        }
+        stop_reason = request.stopReason();
+        return themis::Err<std::string>(
+            themis::errors::ErrorCode::ERR_QUERY_CANCELLED, "stopped in flight");
+    }
+
+    [[nodiscard]] themis::Result<void> validate(const std::string&) const override {
+        return {};
+    }
+    [[nodiscard]] themis::Result<std::unique_ptr<themis::IExpressionEvaluator>>
+    createExpressionEvaluator() const override {
+        return themis::Err<std::unique_ptr<themis::IExpressionEvaluator>>(
+            themis::errors::ErrorCode::ERR_UNKNOWN, "unused");
+    }
+    [[nodiscard]] themis::Result<std::string> explainQuery(const std::string&) const override {
+        return std::string("{}");
+    }
+
+    std::atomic<unsigned int> legacy_calls{0};
+    std::atomic<unsigned int> cooperative_calls{0};
+    std::atomic<bool> entered{false};
+
+private:
+    bool cooperative_;
+};
+
+/// Engine whose legacy execute() blocks until released, to show that the default
+/// checkpoint-only overload cannot interrupt a running call but discards the result.
+class BlockingLegacyEngine final : public themis::IQueryEngine {
+public:
+    [[nodiscard]] themis::Result<std::string> execute(const std::string&) override {
+        entered.store(true, std::memory_order_release);
+        while (!release.load(std::memory_order_acquire)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds{1});
+        }
+        return std::string("[{\"_key\":\"late\"}]");
+    }
+    [[nodiscard]] themis::Result<void> validate(const std::string&) const override {
+        return {};
+    }
+    [[nodiscard]] themis::Result<std::unique_ptr<themis::IExpressionEvaluator>>
+    createExpressionEvaluator() const override {
+        return themis::Err<std::unique_ptr<themis::IExpressionEvaluator>>(
+            themis::errors::ErrorCode::ERR_UNKNOWN, "unused");
+    }
+    [[nodiscard]] themis::Result<std::string> explainQuery(const std::string&) const override {
+        return std::string("{}");
+    }
+    std::atomic<bool> entered{false};
+    std::atomic<bool> release{false};
+};
+
 void setValidVector(themis::api::Vector* vector) {
     vector->add_values(0.0f);
 }
 
 class RunningSearchServer {
 public:
-    explicit RunningSearchServer(std::shared_ptr<CooperativeVectorIndex> index)
-        : owner_(nullptr, nullptr, nullptr, std::move(index)) {
+    explicit RunningSearchServer(std::shared_ptr<CooperativeVectorIndex> index,
+                                 std::shared_ptr<themis::IQueryEngine> engine = nullptr)
+        : owner_(nullptr, nullptr, std::move(engine), std::move(index)) {
         grpc::ServerBuilder builder;
         builder.AddListeningPort("127.0.0.1:0",
                                  grpc::InsecureServerCredentials(),
@@ -263,6 +343,157 @@ TEST(GrpcSearchCancellation, CooperativeIndexObservesDeadlineInFlight) {
 
     EXPECT_EQ(status.error_code(), grpc::StatusCode::DEADLINE_EXCEEDED);
     EXPECT_EQ(index->cooperative_search_calls.load(), 1u);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+}
+
+TEST(GrpcSearchCancellation, FullTextAlreadyCancelledDoesNotInvokeEngine) {
+    auto engine = std::make_shared<StubQueryEngine>(false);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.TryCancel();
+    themis::api::FullTextSearchRequest request;
+    request.set_query("term");
+    request.set_collection("docs");
+    themis::api::FullTextSearchResponse response;
+    const auto status = server.stub().FullTextSearch(&context, request, &response);
+
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+    EXPECT_EQ(engine->legacy_calls.load(), 0u);
+}
+
+TEST(GrpcSearchCancellation, FullTextExpiredDeadlineDoesNotInvokeEngine) {
+    auto engine = std::make_shared<StubQueryEngine>(false);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.set_deadline(std::chrono::system_clock::now() -
+                         std::chrono::milliseconds{1});
+    themis::api::FullTextSearchRequest request;
+    request.set_query("term");
+    request.set_collection("docs");
+    themis::api::FullTextSearchResponse response;
+    const auto status = server.stub().FullTextSearch(&context, request, &response);
+
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::DEADLINE_EXCEEDED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+    EXPECT_EQ(engine->legacy_calls.load(), 0u);
+}
+
+TEST(GrpcSearchCancellation, FullTextCooperativeEngineObservesCancellationInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::FullTextSearchRequest request;
+    request.set_query("term");
+    request.set_collection("docs");
+    themis::api::FullTextSearchResponse response;
+    grpc::Status status;
+    std::thread rpc_thread([&] {
+        status = server.stub().FullTextSearch(&context, request, &response);
+    });
+    const auto wait_deadline = std::chrono::steady_clock::now() + std::chrono::seconds{2};
+    while (!engine->entered.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < wait_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds{1});
+    }
+    const bool entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    rpc_thread.join();
+
+    EXPECT_TRUE(entered);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+}
+
+TEST(GrpcSearchCancellation, FullTextCooperativeEngineObservesDeadlineInFlight) {
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{1});
+    themis::api::FullTextSearchRequest request;
+    request.set_query("term");
+    request.set_collection("docs");
+    themis::api::FullTextSearchResponse response;
+    const auto status = server.stub().FullTextSearch(&context, request, &response);
+
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::DEADLINE_EXCEEDED);
+    EXPECT_EQ(engine->cooperative_calls.load(), 1u);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+}
+
+TEST(GrpcSearchCancellation, FullTextNonOverridingEngineDiscardsResultAfterStop) {
+    // Default overload is checkpoint-only: the blocking call is not interrupted,
+    // but its successful result is discarded once the stop is observed.
+    auto engine = std::make_shared<BlockingLegacyEngine>();
+    RunningSearchServer server(nullptr, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::FullTextSearchRequest request;
+    request.set_query("term");
+    request.set_collection("docs");
+    themis::api::FullTextSearchResponse response;
+    grpc::Status status;
+    std::thread rpc_thread([&] {
+        status = server.stub().FullTextSearch(&context, request, &response);
+    });
+    const auto wait_deadline = std::chrono::steady_clock::now() + std::chrono::seconds{2};
+    while (!engine->entered.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < wait_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds{1});
+    }
+    const bool engine_entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    // Allow the server to observe the cancellation before the engine returns.
+    std::this_thread::sleep_for(std::chrono::milliseconds{100});
+    engine->release.store(true, std::memory_order_release);
+    rpc_thread.join();
+
+    EXPECT_TRUE(engine_entered);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
+    EXPECT_FALSE(response.success());
+    EXPECT_EQ(response.hits_size(), 0);
+}
+
+TEST(GrpcSearchCancellation, HybridSparseStageCooperativeCancellationClearsPartialHits) {
+    auto index = std::make_shared<CooperativeVectorIndex>();
+    auto engine = std::make_shared<StubQueryEngine>(true);
+    RunningSearchServer server(index, engine);
+    ASSERT_TRUE(server.ready());
+
+    grpc::ClientContext context;
+    themis::api::HybridSearchRequest request;
+    request.set_collection("docs");
+    request.set_sparse_query("term");  // no dense vector: only sparse AQL stage runs
+    themis::api::HybridSearchResponse response;
+    grpc::Status status;
+    std::thread rpc_thread([&] {
+        status = server.stub().HybridSearch(&context, request, &response);
+    });
+    const auto wait_deadline = std::chrono::steady_clock::now() + std::chrono::seconds{2};
+    while (!engine->entered.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < wait_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds{1});
+    }
+    const bool entered = engine->entered.load(std::memory_order_acquire);
+    context.TryCancel();
+    rpc_thread.join();
+
+    EXPECT_TRUE(entered);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::CANCELLED);
     EXPECT_FALSE(response.success());
     EXPECT_EQ(response.hits_size(), 0);
 }

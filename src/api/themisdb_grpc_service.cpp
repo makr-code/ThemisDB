@@ -1866,7 +1866,11 @@ private:
                     "FOR doc IN " + req->collection() +
                     " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->sparse_query()) + "')"
                     " LIMIT " + std::to_string(k) + " RETURN doc";
-                auto result = aql_engine_->execute(aql);
+                themis::query::StopReason sparse_stop = themis::query::StopReason::None;
+                auto result = aql_engine_->execute(aql, "{}", request_context, sparse_stop);
+                if (auto stop = stopGrpcSearch(sparse_stop, resp); !stop.ok()) {
+                    return stop;
+                }
                 if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
                     return stop;
                 }
@@ -1911,11 +1915,15 @@ private:
         }
 
         grpc::Status FullTextSearch(
-            grpc::ServerContext*           /*ctx*/,
+            grpc::ServerContext*           ctx,
             const FullTextSearchRequest*   req,
             FullTextSearchResponse*        resp
         ) override {
             return withRpcMetrics("FullTextSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             if (!aql_engine_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1951,7 +1959,14 @@ private:
                 " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->query()) + "')"
                 " LIMIT " + std::to_string(limit) + " RETURN doc";
 
-            auto result = aql_engine_->execute(aql);
+            themis::query::StopReason stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(aql, "{}", request_context, stop_reason);
+            if (auto stop = stopGrpcSearch(stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             if (!result) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1967,6 +1982,9 @@ private:
                 const auto json = nlohmann::json::parse(*result);
                 if (json.is_array()) {
                     for (const auto& element : json) {
+                        if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                            return stop;
+                        }
                         auto* h = resp->add_hits();
                         h->set_collection(req->collection());
                         // Best-effort: extract _key from the document JSON
@@ -1986,6 +2004,9 @@ private:
                             "valid JSON ({}); degraded mode, no hits emitted", e.what());
             }
 #endif
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
