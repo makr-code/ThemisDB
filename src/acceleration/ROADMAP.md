@@ -1,29 +1,46 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-10-29"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
 # Acceleration Module Roadmap
 
+> Exact model backend not verifiable from final document text alone.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-15 -->
+<!-- Evidence audit: 2026-11-16; older validation statements below are superseded where marked NOT VERIFIED or EVIDENCE PENDING. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase B–C), §7 (risk) -->
 
-## Research-based module assessment (2026-10-29)
+## Research-based module assessment (2026-10-29; evidence audit updated 2026-11-16)
 
-Production-grade acceleration runtime with backend selection, fallback orchestration, plugin/security guards, and multi-device integration.
+The source implements backend selection, fallback orchestration, plugin/security guards, and multi-device interfaces. This feature presence is not release evidence: runtime support and performance remain profile- and hardware-dependent.
 
 ### Current maturity
 
-The acceleration module is a production candidate in its core architecture: backend registration, capability probing, fail-closed fallback logic, plugin trust validation, and multi-device coordination are all present in the implementation and test surface. The strongest evidence is in deterministic fallback and routing behavior, while the main remaining risk is hardware-specific validation depth for distributed and optional backend operations.
+The module is an implementation candidate, not an evidence-complete release. BackendRegistry filters available backends by requested capabilities and uses a fixed priority ending in CPU; it restricts selection to CPU when the discovery snapshot has no healthy accelerator. The AI dispatcher is a separate selector with a 120-second probe cache and ordered `run()` chain; DeviceManager uses a 60-second cache. Discovery health is a snapshot, not continuous hardware attestation or automatic runtime-health eviction.
+
+The kernel fallback dispatcher retries only device-loss, timeout, and synchronization errors and then invokes the fallback table. Retry policy is now validated and bounded (at most eight attempts and 100 ms maximum delay). It returns the final status but does not publish per-attempt telemetry. Invalid vector-similarity sizes are rejected before allocation/dispatch; allocation failure is returned as an error.
+
+`tests/acceleration/test_acceleration_regression.cpp` exercises registry CPU selection and the production kernel fallback dispatcher. `test_acceleration_failure_handling.cpp` uses simulated failures and does not prove that the production code cancels hangs or recovers from all resource failures. `test_acceleration_performance_gates.cpp` times proxy calculations, and `bench_acceleration_dedicated_gates.cpp` benchmarks stubs; neither establishes production performance.
+
+## Evidence-first v2.5.0 → v3.0.0 release gates (2026-11-16)
+
+- [ ] v2.5.0: publish a capability/operation support matrix tied to build flags, source registrations, and tests; report unsupported or unknown capability states explicitly (Target: v2.5.0).
+- [ ] v2.5.0: record deterministic normal, invalid, no-accelerator, unhealthy-snapshot, and fallback test results; include the test command, build profile, and artifact (Target: v2.5.0).
+- [ ] v2.5.0: establish per-profile dispatch p95/p99 and CPU-fallback p95/p99 from production-path benchmarks; record workload, build flags, CPU/GPU, driver/runtime, warmups, repetitions, correctness parity, and raw output. Do not promote candidate values in `PERFORMANCE_BASELINES.md` until a reviewed run manifest exists; `benchmarks/baselines/acceleration/baseline.json` is representative sample data only (Target: v2.5.0).
+- [ ] v2.5.0: verify retry exhaustion, permanent-error fallback, invalid retry settings, and fallback result correctness with production dispatcher tests; include final status and retry counts in evidence (Target: v2.5.0).
+- [ ] v3.0.0: add bounded multi-device queue/backpressure and partial-device failure tests, plus named-topology soak and p95/p99 evidence; document unsupported recovery/health-eviction behavior (Target: v3.0.0).
+- [ ] v3.0.0: define support tiers and release thresholds only from repeatable, versioned artifacts; retain failed/skipped benchmark cases and explicit owner disposition (Target: v3.0.0).
+
+**Release posture:** v2.5.0 and v3.0.0 performance/safety sign-off remains pending until these artifacts exist. The numeric values in this roadmap and `PERFORMANCE_BASELINES.md` are targets, not verified claims.
 
 ### Research evidence and best-practice baseline
 
@@ -257,7 +274,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) now implemented in `tests/geo/test_category_b_parity_geo.cpp` and registered via `add_geo_focused_test` in `tests/CMakeLists.txt`. (Target: Q3 2026)
 
 #### GPU Benchmark Re-baseline
-- [~] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json` (**file missing** as of 2026-09-15 — `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp` exists, baseline JSON not yet generated). (Target: Q3 2026)
+- [~] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; `benchmarks/wave_cuda_baseline.json` is absent, and the checked-in `benchmarks/baselines/acceleration/baseline.json` contains representative sample values, not a measured release baseline. (Target: Q3 2026)
 - [~] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after RAII + A-06/A-07 changes. (Target: Q3 2026)
 
 ### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off
@@ -315,11 +332,11 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] Extend multi-device failure-injection regressions for merge and resource paths (Wave D: test_acceleration_highcardinality_stress.cpp — ConcurrentGPUCPUFallbackStress, AccelerationPathFailClosedStress 2026-09-16)
 
 ### Phase 5: Performance and Hardening
-- [x] Lock benchmark-backed release gates for dispatch, backend throughput, and fallback overhead (Wave D: bench_acceleration_dedicated_gates.cpp — ACC-BM-01..04 delivered 2026-09-16)
-- [x] Validate sustained-load behavior for capability probing, queueing, and memory/resource paths (Wave D: test_acceleration_soak.cpp delivered 2026-09-16)
+- [~] Replace proxy benchmark targets with production-path release measurements and approved profile baselines (Target: Q1 2027)
+- [~] Validate sustained-load behavior for capability probing, queueing, and memory/resource paths using named hardware/build profiles (Target: Q1 2027)
 
 ### Phase 6: Documentation and Acceptance
-- [x] Keep acceleration docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing; Doxygen audit, security hardening, performance validation, and failure handling completed 2026-07-19)
+- [~] Keep acceleration docs source-aligned and distinguish implementation/tests from hardware evidence (Target: ongoing)
 - [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Documentation Status (2026-07-19)
@@ -341,75 +358,49 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - Files: include/acceleration/metrics/{backend_metrics,metrics_collector}.h — 100% metrics API coverage
 - File: include/acceleration/compute_backend.h — complete interface documentation
 
-## Performance Verification Status (2026-07-19)
+## Performance Verification Status (historical claims reviewed 2026-11-16)
 
-### Item 2: Performance Expectations Validated ✅ COMPLETE
-- [x] Dispatch overhead ≤ 5 µs (ACC-1 gate: p99 ≤ 7.5 µs)
-- [x] Geo-dispatch overhead ≤ 10 µs (ACC-2 gate: p99 ≤ 15 µs)
-- [x] Backend selection time ≤ 10 µs (ACC-8 gate)
-- [x] Multi-GPU scaling efficiency ≥ 75% per device (ACC-3 gate: 4-GPU ≥ 3.2x)
-- [x] CUDA speedup ≥ 40x over CPU (ACC-5/ACC-9 gate: ≥ 35x minimum)
-- [x] Fallback overhead ≤ 5% (ACC-10 gate)
-- [x] Hard release gates AG-1 through AG-4 validated
-- [x] Test coverage: `tests/acceleration/test_acceleration_performance_gates.cpp`
-  - Dispatch Performance Test Suite: 4 test cases
-  - Backend Selection Performance Test Suite: 2 test cases
-  - Fallback Overhead Test Suite: 2 test cases
-  - Multi-Device Scaling Test Suite: 1 test case
-  - Backend Performance Ratios Test Suite: 2 test cases
-  - Integration Test: 1 test case
-  - **Total: 12 test cases validating performance gates**
+### Item 2: Performance gates NOT VERIFIED
+- [!] Historical µs, speedup, and multi-GPU values are candidate thresholds only; no reviewed release-run artifacts were found for these claims.
+- [!] `tests/acceleration/test_acceleration_performance_gates.cpp` times synthetic/proxy operations and hard-coded ratios; it does not measure registry selection, kernel dispatch, hardware speedup, or CPU fallback.
+- [!] `benchmarks/acceleration/bench_acceleration_dedicated_gates.cpp` uses stubs; its results are not production-path evidence.
+- [ ] Release approval requires production-path benchmark output, profile metadata, and a versioned manifest for each supported hardware tier.
 
 ### Performance Baseline Documentation
-- File: `src/acceleration/PERFORMANCE_BASELINES.md` — established baselines for all ACC gates
+- File: `src/acceleration/PERFORMANCE_BASELINES.md` — candidate thresholds; no verified profile baseline
   - ACC-1 through ACC-10 baselines defined with thresholds
   - Hard gates AG-1 through AG-4 with acceptance criteria
   - Measurement methodology and regression detection procedure
   - Performance anomaly response protocol
   - Maintenance cadence and owner assignment
 
-### Performance Implementation Verification
-- All dispatch paths: ≤ 5 µs overhead (measured via test suite)
-- All backend operations: Within established baselines
-- Fallback mechanisms: Explicit and bounded overhead
-- Multi-device operations: Measured scaling efficiency
-- Release profile validation: Community-release build verified
+### Performance Evidence Required
+- Dispatch and fallback p95/p99: production-path benchmarks with a fixed workload and environment
+- Backend speedup: paired CPU/accelerator runs with correctness parity
+- Multi-device behavior: named topology, partial-device cases, throughput and p95/p99
+- Release profile: build identity, feature flags, raw output, and manifest retained for review
 
-## Failure Handling Verification Status (2026-07-19)
+## Failure Handling Verification Status (historical claims reviewed 2026-11-16)
 
-### Item 3: Failure Handling Validated ✅ COMPLETE
-- [x] Timeout handling on backend operations (device hang, kernel timeout)
-- [x] Degradation recovery (partial device failures, driver errors)
-- [x] Resource exhaustion scenario handling (OOM, host resource limits)
-- [x] Explicit fallback path validation
-- [x] Bounded recovery (no infinite retry loops)
-- [x] Failure diagnostics for operators
-- [x] Result correctness maintained in fallback paths
-- [x] Test coverage: `tests/acceleration/test_acceleration_failure_handling.cpp`
-  - Timeout Handling Test Suite: 3 test cases
-  - Degradation Recovery Test Suite: 3 test cases
-  - Resource Exhaustion Test Suite: 3 test cases
-  - Explicit Fallback Test Suite: 3 test cases
-  - Integration Test: 1 test case
-  - Acceptance Criteria Verification: 1 test case
-  - **Total: 14 production-ready test cases**
+### Item 3: Production recovery evidence PARTIAL
+- [x] Normal CPU selection and capability rejection: covered by `test_acceleration_regression.cpp` and `test_backend_registry_startup.cpp`.
+- [x] Production kernel fallback after bounded transient retries: covered by the focused regression added with this evidence audit.
+- [!] `tests/acceleration/test_acceleration_failure_handling.cpp` simulates timeout, device hang, OOM, and recovery decisions; those tests do not invoke production cancellation or recovery mechanisms.
+- [ ] Add production-path tests for runtime health transition/eviction and multi-device partial failure; no general automatic runtime-health eviction is currently implemented.
 
-### Failure Handling Implementation Verification
-- All timeout scenarios: Explicit detection and recovery (no hangs)
-- All degradation scenarios: Explicit fallback to CPU or alternative backend
-- All resource exhaustion scenarios: Graceful degradation (not crash)
-- All fallback paths: Explicit decision logging and result verification
-- Bounded recovery: Maximum retry limits enforced, no infinite loops
-- Operator diagnostics: Detailed failure logs with recovery recommendations
+### Failure-handling contract and gaps
+- Invalid capability requirements return `nullptr`; no healthy accelerator snapshot restricts registry selection to CPU.
+- AI vector-similarity malformed sizes and result-allocation errors return an explicit failure; GPU initialization/kernel failure falls back to CPU for that path.
+- Kernel retry is limited to the configured transient status set and validated attempt/delay bounds; the final status is observable, but individual retry attempts are not exported as metrics.
+- The module does not claim general kernel cancellation on device hang, continuous hardware attestation, or automatic backend eviction after runtime degradation.
 
-## Production Readiness Checklist - COMPLETE ✅
+## Production Readiness Checklist - EVIDENCE PENDING
 
-- [x] API and behavior contracts documented with comprehensive Doxygen tags
-- [x] Security and integrity checks verified on plugin and shader execution paths
-- [x] Performance expectations validated through mapped release-profile benchmarks
-- [x] Failure handling validated for timeout, degraded backend, and partial device modes
-- [x] Audit and documentation synchronized with implementation (Doxygen coverage now >90%)
-- [x] GPU backend implementations fully integrated (CUDA/HIP/Vulkan/OpenCL + distributed)
+- [x] Core backend-selection and CPU-fallback contracts are documented.
+- [x] Invalid vector-similarity range checks fail before allocation/dispatch.
+- [ ] Approved benchmark artifacts and profile-specific p95/p99 baselines.
+- [ ] Production-path hang cancellation and runtime-degradation/partial-device recovery evidence.
+- [ ] Support tiers and operator recovery procedure signed off for each backend profile.
 
 ## Known Issues and Limitations
 
