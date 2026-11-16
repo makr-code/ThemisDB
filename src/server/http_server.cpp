@@ -6976,7 +6976,16 @@ http::response<http::string_body> HttpServer::routeRequest(
            {
                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
-                   response = vector_api_->handleSearch(req);
+                   // Server-configured cooperative deadline starting at handler dispatch.
+                   // 0 disables the timeout (unbounded); caller headers are never trusted.
+                   const uint32_t timeout_ms =
+                       request_timeout_ms_live_.load(std::memory_order_relaxed);
+                   const themis::query::RequestContext vector_request =
+                       timeout_ms == 0
+                           ? themis::query::RequestContext{}
+                           : themis::query::RequestContext::withTimeout(
+                                 std::chrono::milliseconds(timeout_ms));
+                   response = vector_api_->handleSearch(req, vector_request);
                } else {
                    response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
                }

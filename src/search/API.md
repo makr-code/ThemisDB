@@ -198,6 +198,13 @@ nothing"), with `LayeredRetrievalResult::cancelled` / `partial` set and earlier
 layers' outputs retained. `AdvancedVectorIndex::search(q, k, ctx, &stop)` is
 checkpoint-only.
 
+HTTP `POST /vector/search` passes a server-derived `RequestContext` (deadline =
+dispatch time + `request_timeout_ms`; `0` = unbounded; never from caller headers)
+to `VectorIndexManager::searchKnn(query, k, nullptr, context, &stop_reason)` and
+polls it while slicing/serializing results; a stop returns 504 with no results.
+HTTP client-disconnect cancellation is not provided: a disconnect cannot be
+observed concurrently in synchronous handler dispatch.
+
 Not complete: tensor, graph, LLM and the ANN backend call itself cannot be
 interrupted mid-call, so `execute()` can return later than the deadline by that
 backend's overrun. Timeout/cancellation enforcement must not be claimed as a

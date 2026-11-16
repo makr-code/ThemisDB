@@ -54,8 +54,20 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Five bounded slices are implemented; most backends and
-  all non-GET/POST or legacy transport paths are still not interruptible (see "Remaining gaps").
+- [ ] **QRY-07 remains OPEN.** Six bounded slices are implemented; several
+  backends and legacy transport paths are still not interruptible (see "Remaining gaps").
+
+**HTTP `/vector/search` deadline slice (2026-11-16)**
+- `VectorApiHandler::handleSearch(req, RequestContext)` added (single-argument
+  overload retained, unbounded). `HttpServer` route dispatch builds the context
+  from live `request_timeout_ms` (deadline starts at handler dispatch; `0` =
+  unbounded; caller headers never trusted) and the handler calls request-aware
+  `VectorIndexManager::searchKnn`. A stop returns 504, no results; slicing and
+  serialization are polled and partial output is discarded.
+- **Not done:** HTTP client-disconnect cancellation. A disconnect cannot be
+  observed concurrently in synchronous handler dispatch, so only the deadline is
+  enforced. ANN backend calls remain checkpoint-only. QRY-07 stays OPEN.
+- Tests: `tests/api/test_api_vector_search_deadline.cpp`.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -192,7 +204,7 @@ now measures overrun classification, not a hard wall-clock bound.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
-- HTTP search routes remain unbound to a request context. gRPC `ExecuteAQL`,
+- HTTP search routes other than `POST /vector/search` remain unbound to a request context (and `/vector/search` has no disconnect cancellation). gRPC `ExecuteAQL`,
   `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
   to their backends, but in-tree AQL engines still use the checkpoint-only
   default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;
