@@ -6,6 +6,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 #include <thread>
 
@@ -16,6 +17,18 @@ namespace test {
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
+
+inline void writeFile(const std::filesystem::path& path,
+                      const std::string& content = "") {
+    std::filesystem::create_directories(path.parent_path());
+    std::ofstream file(path);
+    if (!file) {
+        throw std::runtime_error("Failed to create file: " + path.string());
+    }
+    if (!content.empty()) {
+        file << content;
+    }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ConfigFileWatcher unit tests
