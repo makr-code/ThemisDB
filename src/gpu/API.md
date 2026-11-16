@@ -1,16 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "ThemisDB documentation orchestration specialist"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-Exact model backend not verifiable from final document text alone.
+AI-assisted update; exact model backend not verifiable from final document text alone.
 
 # GPU Module API
 
@@ -33,8 +33,8 @@ The header documents its public methods as thread-safe.
 
 | Method | Contract and edge cases |
 |---|---|
-| `initialize(config, backend)` | Validates `config`; returns `{ok=false, error}` on validation failure. The launcher is created only when `ASYNC_LAUNCHER` is enabled. A supplied backend function overrides default selection. |
-| `submitWork(caller_id, tenant_id, item)` | Returns failure if uninitialized. If `POLICY_GATE` is enabled, caller must hold `GPU_ALLOCATE`. Result includes `submitted`, `via_gpu`, and `error`; policy denial is unsuccessful. A non-GPU success indicates the fallback callback succeeded, not that this facade executed the item on CPU. |
+| `initialize(config, backend, cpu_fallback_backend)` | Validates `config`; returns `{ok=false, error}` on validation failure. The launcher is created only when `ASYNC_LAUNCHER` is enabled and an enabled hardware backend is available. A supplied GPU backend overrides default selection. Without an available default backend, the explicit CPU callback is used by `submitWork`; it must execute the same item and return true only on completion. |
+| `submitWork(caller_id, tenant_id, item)` | Returns failure if uninitialized. If `POLICY_GATE` is enabled, caller must hold `GPU_ALLOCATE`. Result includes `status` (`Ok`, `OkDegraded`, or `Failed`), `mode` (`Gpu`, `CpuFallback`, or `None`), `submitted`, `via_gpu`, and `error`. CPU fallback success is reported as `OkDegraded`; no callback or a failing callback is `Failed`. |
 | `allocate(caller_id, tenant_id, bytes, tag)` | Returns false if uninitialized, denied by an enabled policy gate, or rejected by the canonical memory manager. An empty tenant ID omits tenant-specific accounting. |
 | `deallocate(tenant_id, bytes)` | No-op before initialization; otherwise releases the accounted bytes and updates enabled telemetry/audit surfaces. The method has no result value. |
 | `grantCaller(caller_id, capability)` / `revokeCaller(caller_id)` | Mutate in-process caller grants. `grantCaller` defaults to `GPU_ANY`; revocation removes all grants for that caller. Protect these operations at the owning administrative boundary. |
@@ -46,6 +46,13 @@ see [`config.h`](../../include/themis/gpu/config.h) for exact conditions and
 defaults. `simulateAllocation(bytes, current_allocated_bytes)` is a
 configuration-level simulation and does not access physical GPU state.
 
+`SubmitResult::serialize()` emits JSON containing the stable status/mode
+labels, legacy booleans, and error text. When the metrics and audit-log
+features are enabled, dispatches also increment
+`themis_gpu_dispatch_total{status,mode}` and record a `DISPATCH_RESULT` event.
+When an observability span is active, dispatches set
+`gpu.execution.status` and `gpu.execution.mode` attributes on that span.
+
 ## Backend and diagnostics contracts
 
 `GPULauncher::BackendFn` and `WorkItem` are defined in
@@ -53,6 +60,10 @@ configuration-level simulation and does not access physical GPU state.
 resolver checks ROCm and then Vulkan availability; callers can inject a
 backend function during initialization. Feature flags can gate subsystem
 creation independently of CMake backend compilation.
+
+The default resolver selects ROCm, then enabled Vulkan, only when that backend
+reports an available device; it does not install a CPU-success callback as a
+GPU backend.
 
 For allocation and dispatch error codes and diagnostic expectations, use the
 current

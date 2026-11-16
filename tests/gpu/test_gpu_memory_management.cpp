@@ -884,7 +884,8 @@ protected:
 /// incremented. This ensures quota tracking remains consistent.
 TEST_F(GPUMemoryPhase3HardeningTest, AllocationFailure_QuotaNotIncremented) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_edition_limit";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -909,7 +910,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, AllocationFailure_QuotaNotIncremented) {
 /// Ensures that failed allocations don't corrupt the tenant state.
 TEST_F(GPUMemoryPhase3HardeningTest, QuotaTrackingConsistency_AfterManyFailures) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -942,7 +944,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, QuotaTrackingConsistency_AfterManyFailures)
 /// Verifies that allocation failures for one tenant don't corrupt another tenant's quota.
 TEST_F(GPUMemoryPhase3HardeningTest, TenantQuotaIsolation_FailureIndependence) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -983,7 +986,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, TenantQuotaIsolation_FailureIndependence) {
 /// Ensures that failed allocations don't incorrectly increment peak_bytes.
 TEST_F(GPUMemoryPhase3HardeningTest, PeakBytesNotAffectedByFailures) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -1007,7 +1011,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, PeakBytesNotAffectedByFailures) {
 /// Verifies that quota enforcement is correct and doesn't leak state.
 TEST_F(GPUMemoryPhase3HardeningTest, TenantQuotaExceeded_StateConsistent) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -1046,7 +1051,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, TenantQuotaExceeded_StateConsistent) {
 /// Ensures that the predicate is consistent with actual allocation logic.
 TEST_F(GPUMemoryPhase3HardeningTest, CanAllocateMatchesTryAllocate_ConsistencyCheck) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -1081,7 +1087,8 @@ TEST_F(GPUMemoryPhase3HardeningTest, CanAllocateMatchesTryAllocate_ConsistencyCh
 /// Verifies that the allocation_count is not incremented on failures.
 TEST_F(GPUMemoryPhase3HardeningTest, AllocationCountOnlyIncrementsOnSuccess) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition;"
+                        "evidence-gap=gpu_memory_management_path";
     }
 
     auto& mgr = GPUMemoryManager::GetInstance();
@@ -1117,4 +1124,3 @@ TEST_F(GPUMemoryPhase3HardeningTest, MemoryPoolSlabConsistency) {
     // (Full exception injection testing would require mock infrastructure.)
     EXPECT_TRUE(true);  // Placeholder for future pool stress testing.
 }
-

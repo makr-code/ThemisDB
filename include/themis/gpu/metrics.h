@@ -35,6 +35,7 @@ namespace gpu {
  * - themis_gpu_dealloc_total           (counter)
  * - themis_gpu_fallback_total          (counter, reason=oom|circuit_open|device_unavailable)
  * - themis_gpu_circuit_open_total      (counter)
+ * - themis_gpu_dispatch_total          (counter, status, mode)
  * - themis_gpu_temperature_celsius     (gauge, device=<id>)
  * - themis_gpu_power_draw_watts        (gauge, device=<id>)
  * - themis_gpu_power_limit_watts       (gauge, device=<id>)
@@ -89,6 +90,13 @@ public:
     void recordDealloc(uint64_t bytes, const std::string& tenant_id = "");
     void recordFallback(const std::string& reason = "oom");
     void recordCircuitOpen();
+
+    /**
+     * @brief Count a work dispatch by its result status and execution mode.
+     * @param status Stable result label (`ok`, `ok_degraded`, or `failed`).
+     * @param mode Stable execution path label (`gpu`, `cpu_fallback`, or `none`).
+     */
+    void recordDispatchResult(const std::string& status, const std::string& mode);
 
     /**
      * @brief Update the live VRAM gauge (must be called after each alloc/free).
@@ -205,4 +213,3 @@ private:
 
 } // namespace gpu
 } // namespace themis
-

@@ -43,6 +43,7 @@ public:
         DEVICE_UNAVAILABLE,      ///< Device discovery found no healthy GPU
         CIRCUIT_OPENED,          ///< Circuit breaker tripped
         CIRCUIT_RESET,           ///< Circuit breaker reset to DEGRADED/HEALTHY
+        DISPATCH_RESULT,         ///< Work result with execution status and mode
     };
 
     // -----------------------------------------------------------------------

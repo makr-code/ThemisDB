@@ -36,6 +36,7 @@ CMAKE_TARGET_PATTERN = re.compile(
 )
 
 MODULE_ISSUES = {
+    "gpu": 7492,
     "server": 7543,
     "distributed_tensor": 7512,
     "prompt_engineering": 7538,
@@ -327,21 +328,47 @@ def _ctest_targets(path: Path) -> dict[str, list[str]]:
 def _skip_findings(source: str, text: str, issue: int) -> list[dict[str, object]]:
     findings = []
     clean_text = _strip_cpp_comments(text)
+    gpu_scoped = source.startswith("tests/gpu/")
     for match in SKIP_PATTERN.finditer(clean_text):
-        statement_end = clean_text.find(";", match.end())
-        if statement_end < 0:
-            statement_end = clean_text.find("\n", match.end())
-        if statement_end < 0:
-            statement_end = len(clean_text)
+        statement_end = len(clean_text)
+        in_string = False
+        escaped = False
+        for index in range(match.end(), len(clean_text)):
+            char = clean_text[index]
+            if char == '"' and not escaped:
+                in_string = not in_string
+            elif char == ";" and not in_string:
+                statement_end = index
+                break
+            if char == "\\" and not escaped:
+                escaped = True
+            else:
+                escaped = False
         statement = clean_text[match.end() : statement_end]
-        reason_match = re.search(r'"((?:\\.|[^"\\])*)"', statement)
-        reason = reason_match.group(1) if reason_match else None
+        reason_literals = re.findall(r'"((?:\\.|[^"\\])*)"', statement)
+        reason = "".join(reason_literals) if reason_literals else None
+        capability_match = re.search(r"(?:^|;)capability:([^;]+)", reason or "")
+        evidence_gap = (
+            {
+                "status": "tracked" if reason else "missing",
+                "description": f"Skipped behavior not exercised: {reason}" if reason else None,
+                "tracker_issue": 7492,
+                "tracker_issue_url": "https://github.com/makr-code/ThemisDB/issues/7492",
+            }
+            if gpu_scoped
+            else None
+        )
         findings.append(
             {
                 "path": source,
                 "line": text.count("\n", 0, match.start()) + 1,
                 "reason": reason,
                 "reason_status": "documented" if reason else "missing",
+                "capability": capability_match.group(1) if capability_match else None,
+                "capability_status": (
+                    "documented" if capability_match else "missing"
+                ) if gpu_scoped else "not_applicable",
+                "evidence_gap": evidence_gap,
                 "issue": issue,
                 "issue_url": f"https://github.com/makr-code/ThemisDB/issues/{issue}",
             }
@@ -534,6 +561,12 @@ def build_inventory(
     total_assertions = sum(
         item["tests"]["assertion_candidates"] for item in module_rows
     )
+    gpu_skips = [
+        finding
+        for item in module_rows
+        for finding in item["tests"]["skips_detail"]
+        if finding["path"].startswith("tests/gpu/")
+    ]
     baseline = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -557,7 +590,7 @@ def build_inventory(
         "methodology": {
             "source_loc": "Physical lines in C/C++ source/header files under src/<module>/, excluding nested tests/ trees and including blank and comment lines.",
             "test_case_count": "Lexical count of TEST, TEST_F, TEST_P, TYPED_TEST, and TYPED_TEST_P declarations; parameterized runtime instances are not expanded.",
-            "skip_reason": "First string literal after GTEST_SKIP() on the same C++ statement; missing literals are reported for manual disposition.",
+            "skip_reason": "First string literal after GTEST_SKIP() on the same C++ statement; GPU skips include capability and tracked evidence-gap dispositions.",
             "assertion_quality": "Lexical vacuous-assertion candidates only; findings require manual review and are not an automatic deletion instruction.",
             "legacy_disposition": "CMake compile-database registration when supplied; legacy files without verified target mapping remain review-pending.",
             "coverage": "Production line/branch coverage from the supplied lcov-derived module JSON; null means no successful current run was available.",
@@ -575,6 +608,15 @@ def build_inventory(
                 item["tests"]["cases"] for item in module_rows
             ),
             "gtest_skip_calls": total_skips,
+            "gpu_gtest_skip_calls": len(gpu_skips),
+            "gpu_skips_missing_capability": sum(
+                finding["capability_status"] == "missing" for finding in gpu_skips
+            ),
+            "gpu_skips_missing_evidence_gap": sum(
+                not finding["evidence_gap"]
+                or finding["evidence_gap"]["status"] != "tracked"
+                for finding in gpu_skips
+            ),
             "gtest_skips_missing_literal_reason": total_skips
             - sum(item["tests"]["skips_with_reason"] for item in module_rows),
             "m1_skip_budget_maximum": sum(

@@ -14,11 +14,39 @@
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/rocm_backend.h"
 #include "themis/gpu/vulkan_backend.h"
+#include "observability/trace_instrumentation.h"
 #include "utils/logger.h"
+
+#include <nlohmann/json.hpp>
+#include <utility>
 
 namespace themis {
 namespace gpu {
 namespace {
+
+const char* executionStatusName(GPUModule::SubmitResult::ExecutionStatus status) {
+    switch (status) {
+        case GPUModule::SubmitResult::ExecutionStatus::Ok:
+            return "ok";
+        case GPUModule::SubmitResult::ExecutionStatus::OkDegraded:
+            return "ok_degraded";
+        case GPUModule::SubmitResult::ExecutionStatus::Failed:
+            return "failed";
+    }
+    return "failed";
+}
+
+const char* executionModeName(GPUModule::SubmitResult::ExecutionMode mode) {
+    switch (mode) {
+        case GPUModule::SubmitResult::ExecutionMode::None:
+            return "none";
+        case GPUModule::SubmitResult::ExecutionMode::Gpu:
+            return "gpu";
+        case GPUModule::SubmitResult::ExecutionMode::CpuFallback:
+            return "cpu_fallback";
+    }
+    return "none";
+}
 
 /**
  * @brief Create Default Launcher Backend.
@@ -33,16 +61,27 @@ GPULauncher::BackendFn createDefaultLauncherBackend() {
     }
 
     auto& vulkan_backend = VulkanComputeBackend::GetInstance();
-    if (vulkan_backend.isAvailable()) {
+    if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::VULKAN_BACKEND) &&
+        vulkan_backend.isAvailable()) {
         THEMIS_INFO("GPUModule: using Vulkan backend for launcher dispatch");
         return vulkan_backend.createBackendFn();
     }
 
-    THEMIS_WARN("GPUModule: no GPU runtime available; using CPU fallback backend");
-    return rocm_backend.createBackendFn();
+    THEMIS_WARN("GPUModule: no enabled GPU backend is available");
+    return nullptr;
 }
 
 } // namespace
+
+std::string GPUModule::SubmitResult::serialize() const {
+    return nlohmann::json{
+        {"status", executionStatusName(status)},
+        {"mode", executionModeName(mode)},
+        {"submitted", submitted},
+        {"via_gpu", via_gpu},
+        {"error", error},
+    }.dump();
+}
 
 // ============================================================================
 // Lifecycle
@@ -55,7 +94,8 @@ GPULauncher::BackendFn createDefaultLauncherBackend() {
  * @return Return value.
  * @details Calls: validate(), empty(), front(), reset(), std::chrono::seconds(), GPUFeatureFlags::GetInstance(), isEnabled(), createDefaultLauncherBackend().
  */
-GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher::BackendFn backend) {
+GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher::BackendFn backend,
+                                           GPULauncher::BackendFn cpu_fallback_backend) {
     auto vr = config.validate();
     if (!vr.ok) {
         InitResult r;
@@ -65,6 +105,8 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
     }
 
     config_ = config;
+    cpu_fallback_backend_ = std::move(cpu_fallback_backend);
+    launcher_.reset();
     safe_fail_.reset([&]() {
         GPUSafeFail::Config c;
         c.failure_threshold     = static_cast<size_t>(config.circuit_failure_threshold);
@@ -76,10 +118,9 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
 
     // Launcher is gated by the ASYNC_LAUNCHER feature flag.
     if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::ASYNC_LAUNCHER)) {
-        if (backend) {
-            launcher_ = std::make_unique<GPULauncher>(backend);
-        } else {
-            launcher_ = std::make_unique<GPULauncher>(createDefaultLauncherBackend());
+        auto selected_backend = backend ? std::move(backend) : createDefaultLauncherBackend();
+        if (selected_backend) {
+            launcher_ = std::make_unique<GPULauncher>(std::move(selected_backend));
         }
     }
 
@@ -101,8 +142,27 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
  */
 GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, const std::string &tenant_id,
                                               const GPULauncher::WorkItem &item) {
+    auto record_dispatch_result = [&](const SubmitResult& result) {
+        if (auto* span = themis::observability::getCurrentSpan()) {
+            span->setAttribute("gpu.execution.status", executionStatusName(result.status));
+            span->setAttribute("gpu.execution.mode", executionModeName(result.mode));
+        }
+        if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
+            GPUMetrics::GetInstance().recordDispatchResult(executionStatusName(result.status),
+                                                          executionModeName(result.mode));
+        }
+        if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
+            audit_log_.record(GPUAuditLog::EventType::DISPATCH_RESULT, 0, "gpu_dispatch", tenant_id,
+                              std::string("status=") + executionStatusName(result.status) +
+                                  ";mode=" + executionModeName(result.mode));
+        }
+    };
+
     if (!initialized_) {
-        return {false, false, "GPUModule not initialized"};
+        SubmitResult result;
+        result.error = "GPUModule not initialized";
+        record_dispatch_result(result);
+        return result;
     }
 
     // 1. Policy check.
@@ -116,54 +176,85 @@ GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, cons
             if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
                 GPUMetrics::GetInstance().recordAllocFailGlobal(0, tenant_id);
             }
-            return {false, false, "policy denied: " + decision.reason};
+            SubmitResult result;
+            result.error = "policy denied: " + decision.reason;
+            record_dispatch_result(result);
+            return result;
         }
     }
 
     // 2. Circuit-breaker / safe-fail dispatch.
     bool used_gpu = false;
-    bool success  = false;
+    bool gpu_attempted = false;
+    bool fallback_attempted = false;
+    bool success = false;
+    std::string execution_error;
 
     auto gpu_op = [&]() -> bool {
         if (!launcher_) {
+            execution_error = "GPU launcher unavailable";
             return false;
         }
-        auto fut = launcher_->submit(item);
-        auto res = fut.get();
-        used_gpu = res.success;
-        return res.success;
+        gpu_attempted = true;
+        try {
+            auto fut = launcher_->submit(item);
+            auto res = fut.get();
+            used_gpu = res.success;
+            if (!res.success) {
+                execution_error = res.error_message.empty() ? "GPU backend failed" : res.error_message;
+            }
+            return res.success;
+        } catch (...) {
+            execution_error = "GPU backend execution failed";
+            return false;
+        }
     };
 
     auto cpu_fallback = [&]() -> bool {
         used_gpu = false;
-        if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
-            audit_log_.recordFallbackToCPU("circuit_open_or_gpu_failure", tenant_id);
+        fallback_attempted = true;
+        if (!cpu_fallback_backend_) {
+            execution_error = "CPU fallback backend unavailable";
+            return false;
         }
-        if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
-            GPUMetrics::GetInstance().recordFallback("circuit_open_or_gpu_failure");
+        try {
+            if (cpu_fallback_backend_(item)) {
+                execution_error.clear();
+                if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
+                    audit_log_.recordFallbackToCPU("gpu_dispatch_failed", tenant_id);
+                }
+                if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
+                    GPUMetrics::GetInstance().recordFallback("cpu_fallback");
+                }
+                return true;
+            }
+            execution_error = "CPU fallback backend failed";
+        } catch (...) {
+            execution_error = "CPU fallback backend threw";
         }
-        return true; // CPU fallback always "succeeds"
+        return false;
     };
 
     success = safe_fail_.executeWithFallback(gpu_op, cpu_fallback, item.kernel_id);
 
-    // 3. Metrics.
-    if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
-        if (success && used_gpu) {
-            GPUMetrics::GetInstance().recordAllocSuccess(0, tenant_id);
-        } else if (!success) {
-            GPUMetrics::GetInstance().recordAllocFailGlobal(0, tenant_id);
-        }
+    SubmitResult result;
+    result.submitted = success;
+    result.via_gpu = used_gpu;
+    if (success && used_gpu) {
+        result.status = SubmitResult::ExecutionStatus::Ok;
+        result.mode = SubmitResult::ExecutionMode::Gpu;
+    } else if (success) {
+        result.status = SubmitResult::ExecutionStatus::OkDegraded;
+        result.mode = SubmitResult::ExecutionMode::CpuFallback;
+    } else {
+        result.status = SubmitResult::ExecutionStatus::Failed;
+        result.mode = fallback_attempted ? SubmitResult::ExecutionMode::CpuFallback
+                                         : gpu_attempted ? SubmitResult::ExecutionMode::Gpu
+                                                         : SubmitResult::ExecutionMode::None;
+        result.error = execution_error.empty() ? "operation failed" : execution_error;
     }
-
-    // 4. Audit.
-    if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
-        auto etype = (success && used_gpu) ? GPUAuditLog::EventType::ALLOC_SUCCESS
-                                           : GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT;
-        audit_log_.record(etype, 0, caller_id, tenant_id, used_gpu ? "gpu_launch" : "cpu_fallback");
-    }
-
-    return {success, used_gpu, success ? "" : "operation failed"};
+    record_dispatch_result(result);
+    return result;
 }
 
 // ============================================================================

@@ -160,7 +160,9 @@ TEST_F(VulkanComputeBackendTest,
     EXPECT_TRUE(fn(item));
 
     if (backend().deviceCount() > 0) {
-        GTEST_SKIP() << "Vulkan compute device available; no-device fallback not exercised";
+        GTEST_SKIP() << "capability:vulkan_device_count_zero=false;"
+                        "reason=vulkan_device_present;"
+                        "evidence-gap=vulkan_no_device_fallback";
     }
 
     const auto stats = backend().getStats();

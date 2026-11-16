@@ -489,6 +489,9 @@ jobs:
                   )
               )
 
+          if not rows:
+              raise SystemExit("Benchmark output contains no gate-bearing measurements")
+
           lines = [
               "# Representative GPU Baseline Summary",
               "",
@@ -502,6 +505,11 @@ jobs:
           Path("gpu-representative-hardware/GPU_BASELINE_SUMMARY.md").write_text(
               "\n".join(lines) + "\n", encoding="utf-8"
           )
+          failures = [name for name, *_values, status in rows if status != "PASS"]
+          if failures:
+              raise SystemExit(
+                  "GPU benchmark gates failed: " + ", ".join(failures)
+              )
           PY
 
       - name: "Upload representative GPU baseline artifacts"

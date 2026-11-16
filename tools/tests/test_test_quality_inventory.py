@@ -94,6 +94,29 @@ class TestQualityInventoryTests(unittest.TestCase):
         )
         self.assertEqual(missing_reason[0]["reason_status"], "missing")
 
+    def test_gpu_skip_records_capability_and_tracked_evidence_gap(self) -> None:
+        skip = (
+            'GTEST_SKIP() << "capability:cuda_runtime_available=false;'
+            'reason=cuda_runtime_unavailable";'
+        )
+        finding = inventory._skip_findings(
+            "tests/gpu/test_cuda_backend.cpp", skip, 7492
+        )[0]
+
+        self.assertEqual(finding["reason_status"], "documented")
+        self.assertEqual(finding["capability"], "cuda_runtime_available=false")
+        self.assertEqual(finding["capability_status"], "documented")
+        self.assertEqual(finding["issue"], 7492)
+        self.assertEqual(finding["evidence_gap"]["status"], "tracked")
+        self.assertIn("cuda_runtime_unavailable", finding["evidence_gap"]["description"])
+
+        missing_capability = inventory._skip_findings(
+            "tests/gpu/test_cuda_backend.cpp",
+            'GTEST_SKIP() << "CUDA runtime unavailable";',
+            7492,
+        )[0]
+        self.assertEqual(missing_capability["capability_status"], "missing")
+
     def test_compile_database_and_ctest_json_provide_target_evidence(self) -> None:
         build = self.root / "build"
         target = "module_server_test_handler_focused"

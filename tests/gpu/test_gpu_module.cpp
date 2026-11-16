@@ -1,8 +1,14 @@
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <nlohmann/json.hpp>
+#include "observability/trace_instrumentation.h"
 #include "themis/gpu/gpu_module.h"
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/memory_manager.h"
+#include "themis/gpu/metrics.h"
 #include "themis/gpu/mig_manager.h"
+#include "themis/gpu/rocm_backend.h"
+#include "themis/gpu/vulkan_backend.h"
 
 using namespace themis::gpu;
 
@@ -20,6 +26,7 @@ static void resetAll() {
 
     // Reset feature flag overrides.
     GPUFeatureFlags::GetInstance().resetToDefaults();
+    GPUMetrics::GetInstance().reset();
 }
 
 static GPUConfig testConfig() {
@@ -221,6 +228,7 @@ TEST_F(GPUModuleTest, SubmitWork_NotInitialized_Fails) {
     item.kernel_id = "k1";
     auto r = mod.submitWork("caller", "tenant", item);
     EXPECT_FALSE(r.submitted);
+    EXPECT_EQ(r.status, GPUModule::SubmitResult::ExecutionStatus::Failed);
 }
 
 TEST_F(GPUModuleTest, SubmitWork_PolicyDenied_Fails) {
@@ -233,13 +241,143 @@ TEST_F(GPUModuleTest, SubmitWork_PolicyDenied_Fails) {
 }
 
 TEST_F(GPUModuleTest, SubmitWork_GrantedCaller_Succeeds) {
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::ASYNC_LAUNCHER);
     GPUModule mod;
-    ASSERT_TRUE(mod.initialize(testConfig()).ok);
+    ASSERT_TRUE(mod.initialize(testConfig(),
+                               [](const GPULauncher::WorkItem&) { return false; },
+                               [](const GPULauncher::WorkItem&) { return true; }).ok);
     mod.grantCaller("caller_h");
     GPULauncher::WorkItem item;
     item.kernel_id = "k3";
     auto r = mod.submitWork("caller_h", "", item);
     EXPECT_TRUE(r.submitted);
+    EXPECT_FALSE(r.via_gpu);
+    EXPECT_EQ(r.status, GPUModule::SubmitResult::ExecutionStatus::OkDegraded);
+    EXPECT_EQ(r.mode, GPUModule::SubmitResult::ExecutionMode::CpuFallback);
+}
+
+TEST_F(GPUModuleTest, SubmitWork_GpuUnavailable_UsesCpuFallback) {
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::ASYNC_LAUNCHER);
+    GPUModule mod;
+    bool cpu_fallback_called = false;
+    ASSERT_TRUE(mod.initialize(testConfig(), nullptr, [&](const GPULauncher::WorkItem&) {
+        cpu_fallback_called = true;
+        return true;
+    }).ok);
+    mod.grantCaller("caller_no_gpu");
+    GPULauncher::WorkItem item;
+    item.kernel_id = "no_gpu_launcher";
+
+    const auto result = mod.submitWork("caller_no_gpu", "", item);
+    const bool gpu_backend_available =
+        ROCmBackend::GetInstance().isAvailable() ||
+        (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::VULKAN_BACKEND) &&
+         VulkanComputeBackend::GetInstance().isAvailable());
+
+    EXPECT_TRUE(result.submitted);
+    if (result.via_gpu) {
+        EXPECT_FALSE(cpu_fallback_called);
+        EXPECT_EQ(result.status, GPUModule::SubmitResult::ExecutionStatus::Ok);
+        EXPECT_EQ(result.mode, GPUModule::SubmitResult::ExecutionMode::Gpu);
+    } else {
+        EXPECT_TRUE(cpu_fallback_called);
+        EXPECT_EQ(result.status, GPUModule::SubmitResult::ExecutionStatus::OkDegraded);
+        EXPECT_EQ(result.mode, GPUModule::SubmitResult::ExecutionMode::CpuFallback);
+    }
+    if (!gpu_backend_available) {
+        EXPECT_TRUE(cpu_fallback_called);
+        EXPECT_EQ(result.status, GPUModule::SubmitResult::ExecutionStatus::OkDegraded);
+    }
+}
+
+TEST_F(GPUModuleTest, SubmitWork_GpuBackendSuccess_ReportsGpuMode) {
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::ASYNC_LAUNCHER);
+    GPUModule mod;
+    ASSERT_TRUE(mod.initialize(testConfig(), [](const GPULauncher::WorkItem&) { return true; }).ok);
+    mod.grantCaller("caller_gpu");
+    GPULauncher::WorkItem item;
+    item.kernel_id = "gpu_success";
+
+    const auto result = mod.submitWork("caller_gpu", "", item);
+
+    EXPECT_TRUE(result.submitted);
+    EXPECT_TRUE(result.via_gpu);
+    EXPECT_EQ(result.status, GPUModule::SubmitResult::ExecutionStatus::Ok);
+    EXPECT_EQ(result.mode, GPUModule::SubmitResult::ExecutionMode::Gpu);
+}
+
+TEST_F(GPUModuleTest, SubmitWork_DegradedResult_IsSerializedAndObservable) {
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::ASYNC_LAUNCHER);
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::METRICS);
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::AUDIT_LOG);
+    GPUModule mod;
+    ASSERT_TRUE(mod.initialize(testConfig(),
+                               [](const GPULauncher::WorkItem&) { return false; },
+                               [](const GPULauncher::WorkItem&) { return true; }).ok);
+    mod.grantCaller("caller_degraded");
+    GPULauncher::WorkItem item;
+    item.kernel_id = "cpu_fallback";
+
+    themis::observability::DistributedTraceSpan span("gpu.dispatch");
+    themis::observability::TraceContextGuard trace_guard(&span, nullptr);
+    const auto result = mod.submitWork("caller_degraded", "tenant_degraded", item);
+    const auto json = nlohmann::json::parse(result.serialize());
+
+    EXPECT_EQ(json.at("status"), "ok_degraded");
+    EXPECT_EQ(json.at("mode"), "cpu_fallback");
+    EXPECT_TRUE(json.at("submitted"));
+    EXPECT_FALSE(json.at("via_gpu"));
+    const auto trace_attributes = span.attributes();
+    EXPECT_EQ(trace_attributes.at("gpu.execution.status"), "ok_degraded");
+    EXPECT_EQ(trace_attributes.at("gpu.execution.mode"), "cpu_fallback");
+
+    const auto samples = GPUMetrics::GetInstance().snapshot();
+    EXPECT_TRUE(std::any_of(samples.begin(), samples.end(), [](const auto& sample) {
+        return sample.name.find("themis_gpu_dispatch_total") != std::string::npos &&
+               sample.name.find("status=\"ok_degraded\"") != std::string::npos &&
+               sample.name.find("mode=\"cpu_fallback\"") != std::string::npos;
+    }));
+    EXPECT_TRUE(std::any_of(samples.begin(), samples.end(), [](const auto& sample) {
+        return sample.name.find("themis_gpu_fallback_total") != std::string::npos;
+    }));
+
+    const auto events = mod.getAuditLog();
+    EXPECT_TRUE(std::any_of(events.begin(), events.end(), [](const auto& event) {
+        return event.type == GPUAuditLog::EventType::DISPATCH_RESULT &&
+               event.message == "status=ok_degraded;mode=cpu_fallback";
+    }));
+    EXPECT_TRUE(std::any_of(events.begin(), events.end(), [](const auto& event) {
+        return event.type == GPUAuditLog::EventType::FALLBACK_TO_CPU;
+    }));
+}
+
+TEST_F(GPUModuleTest, SubmitWork_GpuAndCpuFailure_ReportsFailed) {
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::ASYNC_LAUNCHER);
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::METRICS);
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::AUDIT_LOG);
+    GPUModule mod;
+    ASSERT_TRUE(mod.initialize(testConfig(),
+                               [](const GPULauncher::WorkItem&) { return false; },
+                               [](const GPULauncher::WorkItem&) { return false; }).ok);
+    mod.grantCaller("caller_failed");
+    GPULauncher::WorkItem item;
+    item.kernel_id = "forced_failure";
+
+    const auto result = mod.submitWork("caller_failed", "", item);
+
+    EXPECT_FALSE(result.submitted);
+    EXPECT_FALSE(result.via_gpu);
+    EXPECT_EQ(result.status, GPUModule::SubmitResult::ExecutionStatus::Failed);
+    EXPECT_EQ(result.mode, GPUModule::SubmitResult::ExecutionMode::CpuFallback);
+    EXPECT_EQ(result.error, "CPU fallback backend failed");
+    const auto samples = GPUMetrics::GetInstance().snapshot();
+    EXPECT_FALSE(std::any_of(samples.begin(), samples.end(), [](const auto& sample) {
+        return sample.name.find("themis_gpu_fallback_total") != std::string::npos;
+    }));
+    const auto events = mod.getAuditLog();
+    EXPECT_FALSE(std::any_of(events.begin(), events.end(), [](const auto& event) {
+        return event.type == GPUAuditLog::EventType::FALLBACK_TO_CPU;
+    }));
 }
 
 // ---------------------------------------------------------------------------
