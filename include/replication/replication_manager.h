@@ -961,6 +961,21 @@ public:
     [[nodiscard]] WALRecoveryStatus getWALRecoveryStatus() const noexcept {
         return wal_recovery_status_.load();
     }
+
+    /**
+     * @brief Report whether this replication manager can serve replication work.
+     * @return True only after initialization and while running, with WAL recovery
+     *         complete or a truncated final record safely repaired; false before
+     *         initialization, after shutdown, or when recovery failed.
+     * @note This is local startup readiness, not proof of peer reachability,
+     *       quorum, or end-to-end replication delivery.
+     */
+    [[nodiscard]] bool isReady() const noexcept {
+        const auto recovery_status = wal_recovery_status_.load();
+        return initialized_.load() && running_.load() &&
+               (recovery_status == WALRecoveryStatus::COMPLETE ||
+                recovery_status == WALRecoveryStatus::TRUNCATED_TAIL);
+    }
     
     /**
      * Export metrics in Prometheus format

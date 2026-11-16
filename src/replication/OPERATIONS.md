@@ -78,6 +78,10 @@ initialization, keep local cluster health false, and are exposed by
 `themisdb_replication_wal_recovery_status{status="..."}` metric. The recovery scan
 uses `ReplicationConfig::file_io_timeout_ms` (default 5,000 ms; zero disables the
 timeout).
+`ReplicationManager::isReady()` and `themisdb_replication_ready` report local
+startup readiness: true only while initialized and running after `COMPLETE` or
+`TRUNCATED_TAIL` recovery. This is not a quorum, peer-reachability, or delivery
+guarantee; callers must inspect those signals separately.
 
 Election terms, including higher terms learned from peers, are stored in a separate
 `raft_term` WAL below the replication WAL directory and fsynced before voting,

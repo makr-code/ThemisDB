@@ -1971,7 +1971,7 @@ std::map<std::string, bool> ReplicationManager::getClusterHealth() const {
     std::map<std::string, bool> health;
     
     // Add self
-    health[node_id_] = initialized_.load() && running_.load();
+    health[node_id_] = isReady();
     
     // Add all replicas
     for (const auto& replica : replicas_) {
@@ -1991,6 +1991,10 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
         << "# TYPE themisdb_replication_wal_recovery_status gauge\n"
         << "themisdb_replication_wal_recovery_status{status=\""
         << walRecoveryStatusName(wal_recovery_status_.load()) << "\"} 1\n";
+
+    oss << "\n# HELP themisdb_replication_ready Whether local replication startup recovery completed safely\n"
+        << "# TYPE themisdb_replication_ready gauge\n"
+        << "themisdb_replication_ready " << (isReady() ? 1 : 0) << "\n";
     
     // Add cluster health metrics
     auto health = getClusterHealth();

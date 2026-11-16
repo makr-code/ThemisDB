@@ -248,22 +248,34 @@ void expectRecoveredState(const std::string& directory,
     config.wal_sync_on_commit = true;
     config.wal_segment_size_bytes = 1;
 
-    themisdb::replication::WALManager recovered(config);
-    EXPECT_EQ(recovered.getRecoveryStatus(),
-              themisdb::replication::WALRecoveryStatus::COMPLETE);
-    EXPECT_EQ(recovered.getCurrentSequence(), expected_sequence);
-    EXPECT_EQ(recovered.getCurrentTerm(), 1u);
+    {
+        themisdb::replication::WALManager recovered(config);
+        EXPECT_EQ(recovered.getRecoveryStatus(),
+                  themisdb::replication::WALRecoveryStatus::COMPLETE);
+        EXPECT_EQ(recovered.getCurrentSequence(), expected_sequence);
+        EXPECT_EQ(recovered.getCurrentTerm(), 1u);
 
-    const auto entries = recovered.readFrom(1);
-    ASSERT_EQ(entries.size(), expected_sequence);
-    for (uint64_t index = 1; index <= expected_sequence; ++index) {
-        EXPECT_EQ(entries[index - 1].sequence_number, index);
-        EXPECT_EQ(entries[index - 1].document_id,
-                  "entry-" + std::to_string(index));
-        EXPECT_EQ(entries[index - 1].data,
-                  "durable-payload-" + std::to_string(index));
-        EXPECT_EQ(entries[index - 1].term, 1u);
+        const auto entries = recovered.readFrom(1);
+        ASSERT_EQ(entries.size(), expected_sequence);
+        for (uint64_t index = 1; index <= expected_sequence; ++index) {
+            EXPECT_EQ(entries[index - 1].sequence_number, index);
+            EXPECT_EQ(entries[index - 1].document_id,
+                      "entry-" + std::to_string(index));
+            EXPECT_EQ(entries[index - 1].data,
+                      "durable-payload-" + std::to_string(index));
+            EXPECT_EQ(entries[index - 1].term, 1u);
+        }
     }
+
+    themisdb::replication::ReplicationManager manager(config);
+    EXPECT_FALSE(manager.isReady());
+    ASSERT_TRUE(manager.initialize());
+    EXPECT_TRUE(manager.isReady());
+    const auto metrics = manager.exportPrometheusMetrics();
+    EXPECT_NE(metrics.find("themisdb_replication_wal_recovery_status{status=\"complete\"} 1"),
+              std::string::npos);
+    EXPECT_NE(metrics.find("themisdb_replication_ready 1"), std::string::npos);
+    manager.shutdown();
 }
 
 TEST(ReplicationWalProcessCrash, RestartPreservesTermAndEveryAcknowledgedEntry) {

@@ -175,12 +175,17 @@ TEST_F(ReplicationConfigTest, ValidConfigInitializesSuccessfully) {
     ReplicationConfig cfg = makeConfig(wd.path);
 
     ReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.isReady());
     EXPECT_TRUE(mgr.initialize());
+    EXPECT_TRUE(mgr.isReady());
     EXPECT_EQ(mgr.getWALRecoveryStatus(), WALRecoveryStatus::COMPLETE);
     EXPECT_NE(mgr.exportPrometheusMetrics().find(
                   "themisdb_replication_wal_recovery_status{status=\"complete\"} 1"),
               std::string::npos);
+    EXPECT_NE(mgr.exportPrometheusMetrics().find("themisdb_replication_ready 1"),
+              std::string::npos);
     mgr.shutdown();
+    EXPECT_FALSE(mgr.isReady());
 }
 
 TEST_F(ReplicationConfigTest, InvalidWALCompressionLevelFails) {
@@ -292,12 +297,15 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryAbortsRecovery) {
 
     ReplicationManager manager(cfg);
     EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
     EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
     const auto health = manager.getClusterHealth();
     ASSERT_EQ(health.size(), 1u);
     EXPECT_FALSE(health.begin()->second);
     EXPECT_NE(manager.exportPrometheusMetrics().find(
                   "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
+              std::string::npos);
+    EXPECT_NE(manager.exportPrometheusMetrics().find("themisdb_replication_ready 0"),
               std::string::npos);
 }
 
@@ -466,9 +474,12 @@ TEST_F(WALChecksumTest, TruncatedTailIsReportedAndValidPrefixIsReplayed) {
     {
         ReplicationManager recovered(cfg);
         ASSERT_TRUE(recovered.initialize());
+        EXPECT_TRUE(recovered.isReady());
         EXPECT_EQ(recovered.getWALRecoveryStatus(), WALRecoveryStatus::TRUNCATED_TAIL);
         EXPECT_NE(recovered.exportPrometheusMetrics().find(
                       "themisdb_replication_wal_recovery_status{status=\"truncated_tail\"} 1"),
+                  std::string::npos);
+        EXPECT_NE(recovered.exportPrometheusMetrics().find("themisdb_replication_ready 1"),
                   std::string::npos);
         const auto health = recovered.getClusterHealth();
         ASSERT_EQ(health.size(), 1u);
@@ -498,12 +509,15 @@ TEST_F(WALChecksumTest, RecoveryTimeoutIsReportedAndBlocksReadiness) {
     cfg.file_io_timeout_ms = 1;
     ReplicationManager manager(cfg);
     EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
     EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::TIMED_OUT);
     const auto health = manager.getClusterHealth();
     ASSERT_EQ(health.size(), 1u);
     EXPECT_FALSE(health.begin()->second);
     EXPECT_NE(manager.exportPrometheusMetrics().find(
                   "themisdb_replication_wal_recovery_status{status=\"timed_out\"} 1"),
+              std::string::npos);
+    EXPECT_NE(manager.exportPrometheusMetrics().find("themisdb_replication_ready 0"),
               std::string::npos);
 }
 
@@ -530,6 +544,7 @@ TEST_F(WALChecksumTest, InvalidEmbeddedChecksumIsReportedAsCorruption) {
     ReplicationConfig cfg = makeConfig(wd.path);
     ReplicationManager manager(cfg);
     EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
     EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
 }
 
