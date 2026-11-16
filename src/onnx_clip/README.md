@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-14"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,16 +22,16 @@ Exact model backend not verifiable from final document text alone.
 
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 >
-> **Status:** current | source-checked: 2026-10-31
+> **Status:** current | source-checked: 2026-11-14
 
-<!-- Status: current | source-checked: 2026-10-31 -->
+<!-- Status: current | source-checked: 2026-11-14 -->
 <!-- Links: ../../include/onnx_clip/README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md -->
 
 # ThemisDB ONNX CLIP Plugin
 
 **Plugin metadata version:** 1.0.0
 **Status:** deterministic reference implementation
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-14
 **Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
@@ -242,6 +242,7 @@ target_include_directories(your_target PRIVATE
 - [`TRUST.md`](./TRUST.md) — trust boundaries and security assumptions
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component layout and runtime contract
 - [`ROADMAP.md`](./ROADMAP.md) — delivery phases and work items
+- [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md) — deployment limits and production acceptance gates
 - [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — follow-up implementation work
 - [`SECURITY.md`](./SECURITY.md) — threat model and controls
 - [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — performance evidence boundary; no validated module results

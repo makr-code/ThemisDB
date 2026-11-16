@@ -127,6 +127,17 @@ public:
      */
     void releaseAllLocks(TransactionId txn_id);
 
+    /**
+     * @brief Upgrade a held SHARED lock to EXCLUSIVE.
+     * @param[in] txn_id Transaction requesting the upgrade.
+     * @param[in] key Key whose lock is being upgraded.
+     * @param[in] timeout Maximum time to wait for other holders.
+     * @return GRANTED on success, DENIED when another holder is already
+     *         upgrading, or TIMEOUT when the wait expires.
+     * @details DENIED and TIMEOUT leave the SHARED lock held. A denied upgrader
+     *          must abort or release its locks so the admitted upgrader can
+     *          proceed.
+     */
     LockResult upgradeLock(
         TransactionId txn_id,
         const std::string& key,

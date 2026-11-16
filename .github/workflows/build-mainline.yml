@@ -431,9 +431,9 @@ jobs:
             fi
           }
 
-          build_target test_config_file_watcher_focused ConfigFileWatcherFocusedTests
-          build_target test_plugin_hot_plug_focused PluginHotPlugFocusedTests
-          build_target test_plugin_hot_reload_enhanced_focused PluginHotReloadEnhancedFocusedTests
+          build_target module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests
+          build_target module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests
+          build_target module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests
 
           SECS=$(( $(date +%s) - T0 ))
           echo "  ✅ kqueue-scoped targets built in ${SECS}s (${BUILD_WARN} target(s) with warnings)"

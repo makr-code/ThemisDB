@@ -3965,7 +3965,11 @@ if(THEMIS_BUILD_MODULAR)
     if(THEMIS_GLOBAL_COMPILE_DEFINITIONS)
         target_compile_definitions(themis_core INTERFACE ${THEMIS_GLOBAL_COMPILE_DEFINITIONS})
     endif()
-    target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    # Keep core modules in the explicit link-order block below.
+    set(_themis_interface_modules ${THEMIS_ALL_MODULES})
+    list(REMOVE_ITEM _themis_interface_modules
+        themis_base themis_storage themis_query themis_security themis_transaction themis_network)
+    target_link_libraries(themis_core INTERFACE ${_themis_interface_modules})
     if(TARGET themis_shard_proto)
         target_link_libraries(themis_core INTERFACE themis_shard_proto)
     endif()

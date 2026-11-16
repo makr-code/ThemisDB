@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-13
+Datum: 2026-11-16
 Status: Active
 
 ## .github/workflows/benchmark-gate.yml
@@ -24,7 +24,7 @@ Status: Active
 
 ## .github/workflows/benchmark-performance-gate.yml
 - Kategorie: build_test_ci
-- Hash: `56ca872e4254d902`
+- Hash: `1e33467911fc22b8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-thematic-suites.yml
@@ -79,7 +79,7 @@ Status: Active
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `9c82e6ff94847dd8`
+- Hash: `2a1e15fa0e6f980f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -154,7 +154,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `beadc68205fe2aae`
+- Hash: `083ee14409216faa`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -179,7 +179,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `c6cb01cff1f5e22b`
+- Hash: `19eb43de4bb84eb8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
@@ -234,12 +234,12 @@ Status: Active
 
 ## .github/workflows/gate-pr-rag-security.yml
 - Kategorie: build_test_ci
-- Hash: `8d8ce04fb309ac55`
+- Hash: `118f656434a9d21f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-version.yml
 - Kategorie: build_test_ci
-- Hash: `5bada4289ee43535`
+- Hash: `d3925741c9c25dc4`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-version-targeting.yml
@@ -339,7 +339,7 @@ Status: Active
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `d611192deee464b7`
+- Hash: `1166ab293a019a6d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml

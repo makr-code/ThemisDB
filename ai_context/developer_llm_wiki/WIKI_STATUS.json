@@ -1,48 +1,54 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-13T12:48:21+00:00",
+  "generated_at": "2026-11-16T03:02:41+00:00",
   "mode": "incremental",
-  "source_count": 8095,
-  "source_hash": "cd9e4381f9fd219cbc045e7a3b9a33d03a82a83ec76f7970f3fc9235912cdf44",
+  "source_count": 8092,
+  "source_hash": "7df8e233a39b083b113bc1f03f056ca8383041b0b2dd4950415a5cbdc37c01fb",
   "delta": {
-    "added_count": 6,
-    "removed_count": 2,
-    "changed_count": 19,
+    "added_count": 2,
+    "removed_count": 5,
+    "changed_count": 26,
     "added_preview": [
+      "docs/ARCHIVED/ai-working-history/PHASE3_IMPLEMENTATION_SUMMARY.md",
+      "docs/audit/DOCS_INVENTORY_2026-Q3.md"
+    ],
+    "removed_preview": [
       "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
       "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
       "ai_context/developer_llm_wiki/INDEX.md",
       "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
-      "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md",
-      "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md"
-    ],
-    "removed_preview": [
-      "docs/ARCHIVED/ai-working-history/PHASE3_IMPLEMENTATION_SUMMARY.md",
-      "docs/audit/DOCS_INVENTORY_2026-Q3.md"
+      "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md"
     ],
     "changed_preview": [
-      "CHANGELOG.md",
-      "ai_context/developer_llm_wiki/AQL.md",
-      "docs/rag/API.md",
-      "include/aql/llm_aql_handler.h",
-      "include/auth/jwt_validator.h",
-      "include/ingestion/ingestion_sinks.h",
-      "include/llm/ai_orchestrator.h",
-      "include/llm/llm_plugin_interface.h",
-      "include/query/query_engine.h",
-      "include/rag/rag_candidate.h",
-      "include/rag/rag_provider.h",
-      "include/rag/rag_retrieval_helpers.h",
-      "include/server/http_server.h",
-      "include/server/mcp_server.h",
-      "include/server/policy_engine.h",
-      "include/utils/serialization.h",
-      "src/aql/ROADMAP.md",
-      "src/rag/ROADMAP.md",
-      "src/server/ROADMAP.md"
+      ".github/workflows/benchmark-performance-gate.yml",
+      ".github/workflows/build-wave-b-transaction.yml",
+      ".github/workflows/gate-pr-core.yml",
+      ".github/workflows/gate-pr-final-runtime-api.yml",
+      ".github/workflows/gate-pr-rag-security.yml",
+      ".github/workflows/gate-pr-rag-version.yml",
+      ".github/workflows/release-build-matrix.yml",
+      ".github/workflows/reusable-cmake-build.yml",
+      "docs/code_maturity_report.md",
+      "include/llm/llama_wrapper.h",
+      "include/llm/multi_lora_manager.h",
+      "include/llm/wiki_index_store.h",
+      "include/server/vector_api_handler.h",
+      "include/training/ada_lora_adapter.h",
+      "include/training/adalora_training_pipeline.h",
+      "include/training/adalora_tt_bridge.h",
+      "include/training/incremental_lora_trainer.h",
+      "include/transaction/distributed_transaction_manager.h",
+      "include/transaction/lock_manager.h",
+      "include/transaction/transaction_manager.h",
+      "src/onnx_clip/README.md",
+      "src/onnx_clip/ROADMAP.md",
+      "src/training/FUTURE_ENHANCEMENTS.md",
+      "src/training/README.md",
+      "src/training/ROADMAP.md",
+      "src/transaction/ROADMAP.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "cea2580103acda96dc1d4388f533e71c9c1ece9e46d72b86755a5f678338a4cd"
+  "manifest_sha256": "782152d6ba7ff3c19811c156128705e43266c1c4655b4e9ca4d0b50654a0cb9c"
 }

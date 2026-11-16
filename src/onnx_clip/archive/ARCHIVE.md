@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-28"
+Last Updated: "2026-11-14"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ONNX CLIP Plugin – Archive
 
 ## Purpose
@@ -6,7 +20,9 @@ This directory contains delivery reports and implementation summaries from compl
 
 These documents are historical and are no longer part of the canonical module governance set.
 
-When new feature phases (e.g., Phase 4B) are completed, their delivery reports will be archived here as well.
+This archive is historical. New delivery reports should be added only when a
+maintainer requests a durable record; the live implementation status belongs in
+the canonical module roadmap.
 
 ## Archived Documents
 
@@ -20,9 +36,12 @@ When new feature phases (e.g., Phase 4B) are completed, their delivery reports w
 
 ### Phase 4B – Memory-Mapped Model Loading
 
-*Status:* Phase 4B is currently in progress. When Phase 4B delivery reports are completed, they will be archived in this directory alongside Phase 3B documentation.
-
-See `ROADMAP.md` for current Phase 4B status and completion timeline.
+The source supports optional read-only file mapping for a configured model path,
+but the mapped bytes are not consumed by an inference runtime. This archived
+phase label does not imply ONNX model loading or semantic inference. See
+[`../ROADMAP.md`](../ROADMAP.md) and
+[`../PRODUCTION_REQUIREMENTS.md`](../PRODUCTION_REQUIREMENTS.md) for the current
+module contract.
 
 ### Auto-Generated and Meta-Documentation (Archived 2026-09-28)
 
@@ -57,5 +76,4 @@ If any archived document is needed for reference:
 
 ---
 
-**Last Updated:** 2026-09-28  
 **Archivist:** Governance Documentation Alignment (Issue #6591)

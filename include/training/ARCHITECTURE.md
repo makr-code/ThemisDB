@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -45,9 +45,10 @@ claimed by older versions of this page.
 3. Optional graph enrichment can query configured graph data and an injected
    vector index.
 4. `TrainingPipeline` conditionally coordinates preparation, quality/drift
-   checks, selection, and training according to `PipelineConfig`. Its current
-   selection stage records results but does not pass the selected subset
-   directly to the trainer.
+   checks, selection, and training according to `PipelineConfig`. When DB
+   selection is enabled, selected IDs are filtered by `_key` before the
+   trainer's result limit; empty, duplicate, missing, or invalid selected
+   records fail closed.
 5. The trainer/checkpoint manager persist or resume adapter state; the
    `ILLMRouter` integration separately handles deployment and rollback.
 

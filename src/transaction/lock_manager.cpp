@@ -138,6 +138,13 @@ LockManager::LockResult LockManager::acquireLock(
     }
     lk.lock();
 
+    // A release may grant the request after wait_for reaches its deadline but
+    // before this thread reacquires mutex_. Resolve that race under both locks.
+    {
+        std::lock_guard<std::mutex> req_lock(req->state_mutex);
+        granted = req->granted;
+    }
+
     waiting_for_.erase(txn_id);
     stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
 
@@ -305,27 +312,9 @@ LockManager::LockResult LockManager::upgradeLock(
                               entry.holders[0].holder == txn_id);
 
     if (!only_holder) {
-        const bool has_other_shared_holder = std::any_of(
-            entry.holders.begin(), entry.holders.end(),
-            [&](const LockEntry& e) {
-                return e.holder != txn_id && e.type == LockType::SHARED;
-            });
-
-        if (has_other_shared_holder) {
-            // Wave 4C T2: competing SHARED holders turn this upgrade into a classic
-            // circular wait (A waits for B, B waits for A). Failing fast here is
-            // stricter than queueing behind the other SHARED holder and avoids the
-            // deadlock-by-timeout scenario that would otherwise stall both transactions.
-            THEMIS_WARN(
-                "[TXLOCK] Mutual upgrade deadlock detected for key={}, txn={} "
-                "with competing SHARED holder; aborting upgrade without timeout.",
-                key, txn_id);
-            stats_deadlocks_.fetch_add(1, std::memory_order_relaxed);
-            return LockResult::Denied(
-                "mutual upgrade deadlock on key '" + key + "': txn " +
-                std::to_string(txn_id) + " aborted — retry with back-off");
-        }
-
+        // Allow one upgrader to wait for other shared holders to drain. If a
+        // different holder already has an upgrade waiter, deny this request to
+        // break the mutual-upgrade cycle.
         for (const auto& waiter : entry.waiters) {
             if (waiter->type == LockType::EXCLUSIVE && waiter->txn_id != txn_id) {
                 const bool is_upgrade_waiter = std::any_of(
@@ -336,13 +325,14 @@ LockManager::LockResult LockManager::upgradeLock(
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
                         "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "
-                        "txn {} aborted (competing txn {} holds upgrade waiter). "
-                        "Caller should retry with back-off.",
+                        "txn {} denied: competing txn {} is upgrading. "
+                        "Caller must abort or release locks.",
                         key, txn_id, waiter->txn_id, txn_id, waiter->txn_id);
                     stats_deadlocks_.fetch_add(1, std::memory_order_relaxed);
                     return LockResult::Denied(
                         "mutual upgrade deadlock on key '" + key + "': txn " +
-                        std::to_string(txn_id) + " aborted — retry with back-off");
+                        std::to_string(txn_id) +
+                        " denied — abort or release its locks before retrying");
                 }
             }
         }
@@ -367,6 +357,10 @@ LockManager::LockResult LockManager::upgradeLock(
         }
 
         lk.lock();
+        {
+            std::lock_guard<std::mutex> req_lock(req->state_mutex);
+            granted = req->granted;
+        }
         waiting_for_.erase(txn_id);
         stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
 
@@ -606,15 +600,20 @@ void LockManager::processWaiters(const std::string& key) {
     auto& entry = lt_it->second;
 
     for (auto& req : entry.waiters) {
-        if (req->granted) {
-          continue;
+        bool already_granted = false;
+        {
+            std::lock_guard<std::mutex> req_lock(req->state_mutex);
+            already_granted = req->granted;
+        }
+        if (already_granted) {
+            continue;
         }
 
         // Check compatibility with all current holders
         bool ok = true;
         for (const auto& holder : entry.holders) {
             if (holder.holder == req->txn_id) {
-              continue;
+                continue;
             }
             if (!compatible(holder.type, req->type)) {
                 ok = false;
@@ -626,7 +625,10 @@ void LockManager::processWaiters(const std::string& key) {
             entry.holders.push_back(
                 {req->txn_id, req->type, std::chrono::system_clock::now()});
             held_by_txn_[req->txn_id][key] = req->type;
-            req->granted = true;
+            {
+                std::lock_guard<std::mutex> req_lock(req->state_mutex);
+                req->granted = true;
+            }
             req->cv.notify_one();
         }
     }

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-14"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,6 +47,9 @@ All module interfaces are in `themis::training`.
 
 - `TrainingPipeline` can run labeling, enrichment, quality/drift checks, data
   selection, and LoRA training according to `PipelineConfig`.
+- With DB selection enabled, selected IDs are filtered before the trainer's
+  result limit; duplicate, missing, or invalid selected records fail the run
+  instead of falling back to collection-wide or synthetic samples.
 - Database-backed components require their query/database dependencies to be
   injected. An offline/test mode is not evidence of a successful database read.
 - AdaLoRA separates providers from the model consumer. The AQL provider can read
@@ -63,6 +66,10 @@ All module interfaces are in `themis::training`.
 - Adapter deployment and rollback use the injected `ILLMRouter`. Check the
   returned `DeployResult`; a successful training result alone does not mean that
   the adapter is serving.
+- `AdaLoraTTBridge` stores serialized exports in `TensorNetworkStorageEngine`
+  metadata and reloads them on a cache miss. Restart durability depends on the
+  configured backend; its fingerprint index is in-process and `mapAdapter()` is
+  an injection hook, not a proven serving handoff or latency guarantee.
 - The data-selection clustering implementation is a lightweight
   character-statistic heuristic, not a call to the configured embedding model.
 - The current OCR path does not provide recognized image text. See

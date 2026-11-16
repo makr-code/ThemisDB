@@ -1,6 +1,6 @@
 /**
  * @file test_wiki_index_store.cpp
- * @brief Unit tests WIS-01..17 for WikiChunkSplitter, JsonWikiIndexReader,
+ * @brief Unit tests WIS-01..19 for WikiChunkSplitter, JsonWikiIndexReader,
  *        WikiIndexStore (JSON-path only), and WikiRagSource.
  *
  * Tests:
@@ -22,6 +22,8 @@
  *  WIS-15: WikiRagSource default fail-closed: unloaded reader → Error
  *  WIS-16: WikiRagSource fail-open compatibility: unloaded reader → Skipped
  *  WIS-17: WikiRagSource empty wiki → Success with zero candidates
+ *  WIS-18: JsonWikiIndexReader loads the docs.db metadata envelope
+ *  WIS-19: JsonWikiIndexReader rejects malformed envelopes and clears stale data
  */
 
 #include <gtest/gtest.h>
@@ -216,6 +218,45 @@ TEST(JsonWikiIndexReader, WIS05_LoadAndQueryRoundtrip) {
     auto results = reader.query("RocksDB HNSW architecture", 10, 0.0f);
     ASSERT_FALSE(results.empty()) << "Should find chunk about architecture/RocksDB/HNSW";
     EXPECT_EQ(results[0].chunk_id, "aaa001");
+}
+
+TEST(JsonWikiIndexReader, WIS18_LoadsDocsDbEnvelope) {
+    const std::string path = writeTempFile(R"({
+  "schema_version": "1.0",
+  "chunk_count": 1,
+  "chunks": [{
+    "chunk_id": "docs001",
+    "source_path": "src/llm/README.md",
+    "section_heading": "Index Format",
+    "content": "The envelope format stores wiki chunks for retrieval."
+  }]
+})");
+    JsonWikiIndexReader reader(path, /*auto_load=*/true);
+
+    ASSERT_TRUE(reader.isReady());
+    ASSERT_EQ(reader.size(), 1u);
+    const auto results = reader.query("envelope format wiki chunks", 5, 0.0f);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].source_path, "src/llm/README.md");
+    EXPECT_EQ(results[0].section_title, "Index Format");
+    EXPECT_EQ(results[0].text, "The envelope format stores wiki chunks for retrieval.");
+}
+
+TEST(JsonWikiIndexReader, WIS19_RejectsMalformedDocsDbEnvelope) {
+    const std::string path = writeTempFile(makeMinimalJsonIndex());
+    JsonWikiIndexReader reader(path);
+    reader.load();
+    ASSERT_TRUE(reader.isReady());
+    ASSERT_EQ(reader.size(), 3u);
+
+    {
+        std::ofstream output(path);
+        output << R"({"chunk_count": 1, "chunks": {}})";
+    }
+
+    EXPECT_THROW(reader.load(), std::runtime_error);
+    EXPECT_FALSE(reader.isReady());
+    EXPECT_EQ(reader.size(), 0u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

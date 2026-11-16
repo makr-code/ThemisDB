@@ -380,7 +380,12 @@ public:
     explicit JsonWikiIndexReader(std::string index_path, bool auto_load = false);
 
     /**
-     * @brief Load.
+     * @brief Loads a wiki chunk index from JSON.
+     * @throws std::runtime_error if the file cannot be opened, parsed, or does not contain
+     *         a top-level chunk array (directly or in an object field named "chunks").
+     * @note Accepts both the direct array format and the metadata envelope emitted by
+     *       scripts/ci-build-doku-db.sh.
+     * @note A failed load leaves the reader not ready and discards previously loaded chunks.
      */
     void load();
 

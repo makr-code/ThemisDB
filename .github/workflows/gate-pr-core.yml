@@ -249,12 +249,22 @@ jobs:
       preset: pr-release-critical
       setup_command: >-
         set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev; echo "PR release-critical test dependencies installed via apt"
+      # This build artifact is executed on a separate ubuntu-latest runner.
+      # Keep its CPU baseline portable rather than inheriting the builder's ISA.
       configure_flags: >-
         -DTHEMIS_BUILD_TESTS=ON
         -DTHEMIS_BUILD_BENCHMARKS=OFF
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
         -DTHEMIS_ENABLE_LLM=ON
         -DTHEMIS_ENABLE_GPU=OFF
+        -DTHEMIS_ENABLE_AVX2=OFF
+        -DGGML_NATIVE=OFF
+        -DGGML_SSE42=OFF
+        -DGGML_AVX=OFF
+        -DGGML_AVX2=OFF
+        -DGGML_BMI2=OFF
+        -DGGML_FMA=OFF
+        -DGGML_F16C=OFF
         -DCMAKE_TOOLCHAIN_FILE=
       build_command: >-
         PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
@@ -294,7 +304,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev \
+            cmake librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev \
             libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev \
             libcurl4-openssl-dev libboost-dev libboost-system-dev \

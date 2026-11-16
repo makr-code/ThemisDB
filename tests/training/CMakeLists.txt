@@ -30,6 +30,7 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
     )
     if((_stem STREQUAL "test_incremental_lora_db_training" OR
         _stem STREQUAL "test_training_pipeline_db" OR
+        _stem STREQUAL "test_adalora_tt_bridge_hardening" OR
         _stem STREQUAL "test_docs_db_training_sample_provider") AND TARGET themis_training)
         target_link_libraries(${_target} PRIVATE themis_training)
     endif()

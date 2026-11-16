@@ -221,59 +221,91 @@ protected:
         }
     }
 
-    void configureClient(httplib::Client& client) {
+    template <typename Client>
+    void configureClient(Client& client) {
         client.set_connection_timeout(std::chrono::milliseconds(config().timeout_ms));
         client.set_read_timeout(std::chrono::milliseconds(config().timeout_ms));
         client.set_write_timeout(std::chrono::milliseconds(config().timeout_ms));
         client.set_follow_location(true);
     }
 
+    template <typename Callback>
+    auto withActiveClient(Callback&& callback) {
+        if (client_) {
+            return callback(*client_);
+        }
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+        if (ssl_client_) {
+            return callback(*ssl_client_);
+        }
+#endif
+        throw std::runtime_error("No active HTTP client available");
+    }
+
     void setClientTimeoutMs(int timeout_ms) {
-        activeClient().set_connection_timeout(std::chrono::milliseconds(timeout_ms));
-        activeClient().set_read_timeout(std::chrono::milliseconds(timeout_ms));
-        activeClient().set_write_timeout(std::chrono::milliseconds(timeout_ms));
+        withActiveClient([&](auto& client) {
+            client.set_connection_timeout(std::chrono::milliseconds(timeout_ms));
+            client.set_read_timeout(std::chrono::milliseconds(timeout_ms));
+            client.set_write_timeout(std::chrono::milliseconds(timeout_ms));
+        });
     }
 
     httplib::Result get(const std::string& path, bool with_auth = false) {
-        return activeClient().Get(path, makeHeaders(with_auth));
+        return withActiveClient([&](auto& client) {
+            return client.Get(path, makeHeaders(with_auth));
+        });
     }
 
     httplib::Result postJson(const std::string& path, const json& payload, bool with_auth = false) {
-        return activeClient().Post(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        return withActiveClient([&](auto& client) {
+            return client.Post(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        });
     }
 
     httplib::Result postJsonLlm(const std::string& path, const json& payload, bool with_auth = false) {
         const int default_timeout = config().timeout_ms;
         const int llm_timeout = std::max(default_timeout, config().llm_request_timeout_ms);
         setClientTimeoutMs(llm_timeout);
-        auto res = activeClient().Post(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        auto res = withActiveClient([&](auto& client) {
+            return client.Post(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        });
         setClientTimeoutMs(default_timeout);
         return res;
     }
 
     httplib::Result postRaw(const std::string& path, const std::string& payload, const char* content_type, bool with_auth = false) {
-        return activeClient().Post(path, makeHeaders(with_auth), payload, content_type);
+        return withActiveClient([&](auto& client) {
+            return client.Post(path, makeHeaders(with_auth), payload, content_type);
+        });
     }
 
     httplib::Result postNdjson(const std::string& path, const std::string& payload, bool with_auth = false) {
-        return activeClient().Post(path, makeHeaders(with_auth), payload, "application/x-ndjson");
+        return withActiveClient([&](auto& client) {
+            return client.Post(path, makeHeaders(with_auth), payload, "application/x-ndjson");
+        });
     }
 
     httplib::Result postNdjsonLlm(const std::string& path, const std::string& payload, bool with_auth = false) {
         const int default_timeout = config().timeout_ms;
         const int llm_timeout = std::max(default_timeout, config().llm_request_timeout_ms);
         setClientTimeoutMs(llm_timeout);
-        auto res = activeClient().Post(path, makeHeaders(with_auth), payload, "application/x-ndjson");
+        auto res = withActiveClient([&](auto& client) {
+            return client.Post(path, makeHeaders(with_auth), payload, "application/x-ndjson");
+        });
         setClientTimeoutMs(default_timeout);
         return res;
     }
 
     httplib::Result putJson(const std::string& path, const json& payload, bool with_auth = false) {
-        return activeClient().Put(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        return withActiveClient([&](auto& client) {
+            return client.Put(path, makeHeaders(with_auth), payload.dump(), "application/json");
+        });
     }
 
     httplib::Result del(const std::string& path, bool with_auth = false) {
-        return activeClient().Delete(path, makeHeaders(with_auth));
+        return withActiveClient([&](auto& client) {
+            return client.Delete(path, makeHeaders(with_auth));
+        });
     }
 
     httplib::Headers makeHeaders(bool with_auth) const {
@@ -363,17 +395,6 @@ protected:
         }
 
         FAIL() << "LLM model did not become ready after explicit load request";
-    }
-
-    httplib::Client& activeClient() {
-        if (client_) {
-            return *client_;
-        }
-#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-        return *ssl_client_;
-#else
-        throw std::runtime_error("No active HTTP client available");
-#endif
     }
 
 private:
