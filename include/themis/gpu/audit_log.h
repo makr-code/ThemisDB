@@ -62,6 +62,7 @@ public:
     // Construction
     // -----------------------------------------------------------------------
     /**
+     * @brief Create a bounded in-memory audit log.
      * @param capacity Maximum events kept.  When the buffer is full the
      *                 oldest event is overwritten (ring buffer semantics).
      */
@@ -74,43 +75,90 @@ public:
     // -----------------------------------------------------------------------
     // Logging
     // -----------------------------------------------------------------------
+    /**
+     * @brief Append a structured GPU operation event.
+     * @param type Event category.
+     * @param size_bytes Requested or released bytes, or zero when not applicable.
+     * @param tag Caller-supplied reason or owner label.
+     * @param tenant_id Tenant identifier, or empty for a global event.
+     * @param message Optional human-readable detail.
+     */
     void record(EventType   type,
                 uint64_t    size_bytes,
                 const std::string& tag,
                 const std::string& tenant_id = "",
                 const std::string& message   = "");
 
-    // Convenience overloads for common cases.
+    /** @brief Record a successful allocation.
+     * @param bytes Allocated byte count.
+     * @param tag Caller-supplied reason or owner label.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordAllocSuccess(uint64_t bytes, const std::string& tag,
                             const std::string& tenant_id = "");
+    /** @brief Record an allocation rejected by the global VRAM limit.
+     * @param bytes Requested byte count.
+     * @param tag Caller-supplied reason or owner label.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordAllocFailGlobalLimit(uint64_t bytes, const std::string& tag,
                                     const std::string& tenant_id = "");
+    /** @brief Record an allocation rejected by a tenant quota.
+     * @param bytes Requested byte count.
+     * @param tag Caller-supplied reason or owner label.
+     * @param tenant_id Tenant whose quota rejected the allocation.
+     */
     void recordAllocFailTenantQuota(uint64_t bytes, const std::string& tag,
                                     const std::string& tenant_id);
+    /** @brief Record a deallocation.
+     * @param bytes Released byte count.
+     * @param tag Caller-supplied reason or owner label.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordDealloc(uint64_t bytes, const std::string& tag,
                        const std::string& tenant_id = "");
+    /** @brief Record an operation that completed through CPU fallback.
+     * @param reason Explanation for using CPU execution.
+     * @param tenant_id Tenant identifier, or empty for a global operation.
+     */
     void recordFallbackToCPU(const std::string& reason,
                               const std::string& tenant_id = "");
+    /** @brief Record that no usable GPU device was available.
+     * @param detail Device availability diagnostic.
+     */
     void recordDeviceUnavailable(const std::string& detail);
+    /** @brief Record that the GPU circuit breaker opened.
+     * @param detail Circuit-breaker diagnostic.
+     */
     void recordCircuitOpened(const std::string& detail);
+    /** @brief Record that the GPU circuit breaker was reset. */
     void recordCircuitReset();
 
     // -----------------------------------------------------------------------
     // Queries
     // -----------------------------------------------------------------------
-    /// Snapshot of all events currently in the ring buffer (oldest-first).
+    /**
+     * @brief Return a snapshot of the events currently in the ring buffer.
+     * @return Events in oldest-first order; the log is unchanged.
+     */
     std::vector<Event> snapshot() const;
 
-    /// Number of events currently stored (≤ capacity).
+    /**
+     * @brief Return the number of events currently stored.
+     * @return Number of stored events, no greater than the configured capacity.
+     */
     size_t size() const;
 
-    /// Capacity of the ring buffer.
+    /** @brief Return the maximum number of events retained by the ring buffer. */
     size_t capacity() const;
 
-    /// Total events recorded since construction (may exceed capacity).
+    /**
+     * @brief Return the number of events recorded since construction.
+     * @return Lifetime event count, which may exceed the current buffer size.
+     */
     uint64_t totalRecorded() const;
 
-    /// Clear all events.
+    /** @brief Remove all stored events without resetting the lifetime count. */
     void clear();
 
 private:

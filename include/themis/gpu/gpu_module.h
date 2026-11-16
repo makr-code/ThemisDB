@@ -98,6 +98,11 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide GPU module instance.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static GPUModule& GetInstance() {
         static GPUModule inst;
         return inst;
@@ -177,14 +182,27 @@ public:
      * @brief Release @p bytes of VRAM previously granted to @p tenant_id.
      *
      * Records a dealloc metric and audit event.
+     *
+     * @param tenant_id Tenant that owns the allocation, or empty for a
+     *        non-tenant allocation.
+     * @param bytes Number of bytes to release.
      */
     void deallocate(const std::string& tenant_id, uint64_t bytes);
 
     // -----------------------------------------------------------------------
     // Policy management (delegates to internal GPUPolicy)
     // -----------------------------------------------------------------------
+    /**
+     * @brief Grant a caller the requested GPU capability.
+     * @param caller_id Identity of the caller receiving permission.
+     * @param cap Capability to grant; defaults to all GPU operations.
+     */
     void grantCaller(const std::string& caller_id,
                      GPUPolicy::Capability cap = GPUPolicy::Capability::GPU_ANY);
+    /**
+     * @brief Revoke all GPU capabilities previously granted to a caller.
+     * @param caller_id Identity of the caller whose permissions are removed.
+     */
     void revokeCaller(const std::string& caller_id);
 
     // -----------------------------------------------------------------------
@@ -205,8 +223,16 @@ public:
      * Callers can check `GPUFeatureFlags::GetInstance().isEnabled(
      * GPUFeatureFlags::Feature::MIG_MANAGER)` before calling mutating
      * operations if they want to short-circuit early.
+     *
+     * @details The manager applies the MIG feature gate to mutating operations.
+     * @return Mutable reference to the process-wide MIG manager.
      */
     MIGManager& mig() noexcept { return MIGManager::GetInstance(); }
+    /**
+     * @brief Access the process-wide MIG partition manager as read-only.
+     * @details The manager applies the MIG feature gate to mutating operations.
+     * @return Const reference to the process-wide MIG manager.
+     */
     const MIGManager& mig() const noexcept { return MIGManager::GetInstance(); }
 
     // -----------------------------------------------------------------------

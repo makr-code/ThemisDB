@@ -81,6 +81,11 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide Vulkan compute backend instance.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static VulkanComputeBackend& GetInstance() {
         static VulkanComputeBackend instance;
         return instance;
@@ -91,10 +96,11 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Number of Vulkan-capable physical devices visible to the process.
+     * @brief Return the number of Vulkan-capable physical devices.
      *
      * Returns 0 when `THEMIS_ENABLE_VULKAN` is not defined or when no Vulkan
      * device is detected at runtime.
+     * @return Device count, or zero when Vulkan is disabled or no device is found.
      */
     int deviceCount() const;
 
@@ -104,10 +110,11 @@ public:
     bool isAvailable() const;
 
     /**
-     * @brief Human-readable name of the vendor for the selected device.
+     * @brief Return the selected device's human-readable vendor name.
      *
      * Returns "Unknown" when Vulkan is not available or the vendor cannot
      * be determined from the PCI vendor ID.
+     * @return Vendor name, or "Unknown" when unavailable or unrecognized.
      */
     std::string vendorName() const;
 
@@ -142,6 +149,8 @@ public:
      * On systems without Vulkan records a virtual stream entry so that
      * `hasStream()` / `streamNames()` still work correctly.
      *
+     * @param name Unique stream name; empty names are rejected.
+     * @param device_index Target physical-device ordinal.
      * @return ok == false when a stream with @p name already exists or
      *         @p name is empty.
      */
@@ -150,6 +159,7 @@ public:
     /**
      * @brief Unregister and release a named logical compute stream.
      *
+     * @param name Name of the stream to destroy.
      * @return ok == false when no stream with @p name exists.
      */
     Result destroyStream(const std::string& name);
@@ -158,17 +168,28 @@ public:
      * @brief Block until all pending work on the named stream completes.
      *
      * On the CPU fallback path this is a no-op that returns ok == true.
+     * @param name Name of the stream to synchronize.
      * @return ok == false when the stream does not exist.
      */
     Result synchronizeStream(const std::string& name);
 
-    /** @brief Return the handle for a named stream (invalid if not found). */
+    /**
+     * @brief Return the handle for a named stream.
+     * @param name Name of the stream to look up.
+     * @return Stream handle, invalid when no stream has that name.
+     */
     StreamHandle getStream(const std::string& name) const;
 
-    /** @brief True when a stream with @p name has been created. */
+    /**
+     * @brief Check whether a named stream has been created.
+     * @param name Name of the stream to check.
+     * @return True when the stream exists.
+     */
     bool hasStream(const std::string& name) const;
 
-    /** @brief Return all registered stream names. */
+    /** @brief Return all registered stream names.
+     * @return Names of the currently registered streams.
+     */
     std::vector<std::string> streamNames() const;
 
     // -----------------------------------------------------------------------

@@ -156,7 +156,7 @@ GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, cons
                                                           executionModeName(result.mode));
         }
         if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
-            audit_log_.record(GPUAuditLog::EventType::DISPATCH_RESULT, 0, "gpu_dispatch", tenant_id,
+            audit_log_.record(GPUAuditLog::EventType::DISPATCH_RESULT, 0, caller_id, tenant_id,
                               std::string("status=") + executionStatusName(result.status) +
                                   ";mode=" + executionModeName(result.mode));
         }

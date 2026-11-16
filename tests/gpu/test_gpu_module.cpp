@@ -350,6 +350,7 @@ TEST_F(GPUModuleTest, SubmitWork_DegradedResult_IsSerializedAndObservable) {
     const auto events = mod.getAuditLog();
     EXPECT_TRUE(std::any_of(events.begin(), events.end(), [](const auto& event) {
         return event.type == GPUAuditLog::EventType::DISPATCH_RESULT &&
+               event.tag == "caller_degraded" &&
                event.message == "status=ok_degraded;mode=cpu_fallback";
     }));
     EXPECT_TRUE(std::any_of(events.begin(), events.end(), [](const auto& event) {
