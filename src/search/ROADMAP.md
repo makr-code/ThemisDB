@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Six bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Seven bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -68,6 +68,24 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   observed concurrently in synchronous handler dispatch, so only the deadline is
   enforced. ANN backend calls remain checkpoint-only. QRY-07 stays OPEN.
 - Tests: `tests/api/test_api_vector_search_deadline.cpp`.
+
+**HTTP `/search/fulltext` deadline slice (2026-11-16)**
+- `SecondaryIndexManager::scanFulltextWithScores(..., RequestContext,
+  StopReason*)` preserves the legacy unbounded overload and polls BM25 prefix
+  scans and candidate/ranking loops every 64 entries plus stage boundaries.
+  Prefix iteration stops cooperatively; partial candidates/results are
+  discarded with an explicit cancellation/deadline reason.
+- `ContentApiHandler` receives the live server-configured
+  `request_timeout_ms` at dispatch (`0` means unbounded); observed stops return
+  HTTP 504. Valid no-match queries remain HTTP 200 with zero results; missing
+  index remains HTTP 400. Result materialization polls and serialization has a
+  post-operation checkpoint.
+- Synchronous RocksDB reads, candidate sorting, and response serialization
+  cannot be interrupted mid-call. HTTP client-disconnect cancellation remains
+  unavailable in synchronous handler dispatch; QRY-07 stays OPEN.
+- Tests: `tests/api/test_api_fulltext_search_deadline.cpp` covers empty result,
+  expired deadline, and a stop during an index-prefix scan. Test execution is
+  not claimed until the focused target is built and run.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -204,7 +222,7 @@ now measures overrun classification, not a hard wall-clock bound.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
-- HTTP search routes other than `POST /vector/search` remain unbound to a request context (and `/vector/search` has no disconnect cancellation). gRPC `ExecuteAQL`,
+- HTTP search routes other than `POST /vector/search` and `POST /search/fulltext` remain unbound to a request context (and neither route has disconnect cancellation). gRPC `ExecuteAQL`,
   `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
   to their backends, but in-tree AQL engines still use the checkpoint-only
   default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -33,6 +33,7 @@ Related issues: #7093, #7167
 - `POST /api/v1/llm/aql/rag` invokes `LLMAQLHandler::executeRAG()` over a request-local `QueryEngine` composed from the server's live RocksDB and index managers. It accepts `query` (required string), `collection` (default `default`), `top_k` (default 5, range 1–1000), `max_tokens` (default 512, range 1–4096), and optional `similarity_threshold` (finite number), `vector_field` (1–256 bytes), `temperature` (finite 0–2), and `top_p` (finite 0–1). It does not accept caller-selected tenant or LoRA identity. The authenticated context and tenant come from the same successful access decision; the collection predicate and required `data:read` policy bind retrieval to that exact collection. A valid W3C `traceparent` is propagated to inference; malformed or absent trace context is ignored.
 - The AQL-backed RAG endpoint returns `{text, retrieval_attempted, collection, top_k}` on success. Invalid JSON/options return 400, denied scope or collection policy returns 403, missing retrieval dependencies return 503, cooperative deadline expiry returns 504, and other retrieval/inference failures return 500. QueryEngine and inference calls may not be interrupted while blocked, so the deadline is cooperative.
 - `POST /vector/search` applies the server-configured `request_timeout_ms` (live value; `0` disables the timeout and leaves the search unbounded) as a cooperative deadline starting at handler dispatch, via `VectorApiHandler::handleSearch(req, RequestContext)` and `VectorIndexManager::searchKnn(..., context, &stop_reason)`. A stop returns 504 with no results; partial output is discarded, and result slicing/serialization is polled. Caller-supplied timeout headers or body fields are never trusted. Existing validation/auth/policy statuses are unchanged. The deadline is cooperative: cache/storage scans poll, but synchronous ANN backend calls are checkpoint-only. HTTP client-disconnect cancellation is not implemented: it cannot be observed concurrently in synchronous handler dispatch.
+- `POST /search/fulltext` applies the same server-configured `request_timeout_ms` (live value; `0` disables the timeout) as a cooperative deadline beginning at handler dispatch. The request context reaches BM25 prefix scans and candidate/ranking loops; an observed stop returns HTTP 504 with no partial results. A valid search with no matching tokens/results remains HTTP 200 with `count: 0`; a missing full-text index remains HTTP 400 and is not reported as an empty result. Synchronous RocksDB reads and sorting are checkpoint-only, and client-disconnect cancellation is not observed concurrently in synchronous dispatch.
 - The HttpServer bootstrap does not apply `THEMIS_JWT_SCOPE_CLAIM`; JWT scope authorization uses parsed `scope`/`scp` claims or configured role-to-scope mappings.
 
 ## Caller obligations and failure cases

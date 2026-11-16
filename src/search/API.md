@@ -210,6 +210,17 @@ interrupted mid-call, so `execute()` can return later than the deadline by that
 backend's overrun. Timeout/cancellation enforcement must not be claimed as a
 production guarantee; see `src/search/ROADMAP.md` (QRY-07).
 
+`SecondaryIndexManager::scanFulltextWithScores(..., RequestContext, stop_reason)`
+provides cooperative BM25 full-text cancellation. It polls prefix-scan callbacks
+and candidate/ranking loops every 64 entries and at stage boundaries; it stops
+the current prefix iteration and clears partial results. The legacy overload
+remains unbounded. The HTTP `POST /search/fulltext` endpoint derives its deadline
+from the server's live `request_timeout_ms` (zero means unbounded) and returns
+HTTP 504 for an observed stop. Synchronous RocksDB reads and sorting are
+checkpoint-only; client disconnect cancellation is unavailable in synchronous
+handler dispatch. A valid no-match query returns an empty success, distinct from
+invalid index state (HTTP 400) or an observed deadline/cancellation.
+
 ## Error taxonomy
 
 The module error taxonomy is defined in `include/search/search_error_codes.h`.
