@@ -532,6 +532,27 @@ TEST_F(WALChecksumTest, InvalidEmbeddedChecksumIsReportedAsCorruption) {
     EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
 }
 
+TEST_F(WALChecksumTest, DeleteRecordIsReportedAsCorruption) {
+    TempWALDir wd("/tmp/themis_wal_unexpected_delete_record");
+    themis::WALStorage::Config storage_config;
+    storage_config.dir = wd.path;
+    auto storage = themis::WALStorage::open(storage_config);
+    ASSERT_TRUE(storage.has_value());
+    ASSERT_TRUE((*storage)->appendDelete("replication_entry").has_value());
+    storage->reset();
+
+    ReplicationConfig cfg = makeConfig(wd.path);
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
+              std::string::npos);
+}
+
 TEST_F(WALChecksumTest, SerializedSequenceMismatchIsReportedAsCorruption) {
     TempWALDir source_dir("/tmp/themis_wal_sequence_source");
     ReplicationConfig source_config = makeConfig(source_dir.path);

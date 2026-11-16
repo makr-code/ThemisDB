@@ -794,8 +794,14 @@ void WALManager::loadFromDisk() {
 
     auto recovery_callback = [this, &state, &invalid_replication_entry](
                                  const themis::WALStorage::Entry& recovered) {
-        if (recovered.type != themis::WALStorage::EntryType::PUT) {
+        if (recovered.type == themis::WALStorage::EntryType::CHECKPOINT) {
             return true;
+        }
+        if (recovered.type != themis::WALStorage::EntryType::PUT) {
+            invalid_replication_entry = true;
+            THEMIS_ERROR("Unexpected replication WAL record type at sequence {}; aborting recovery",
+                         recovered.sequence);
+            return false;
         }
 
         std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
