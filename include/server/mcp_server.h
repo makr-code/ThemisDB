@@ -70,6 +70,7 @@ using QueryEngine = ::themis::query::QueryEngine;
 class McpServer : public std::enable_shared_from_this<McpServer> {
 public:
     friend class HttpServer;
+    friend struct McpServerTestAccess;
 
     using ToolHandler = std::function<json(const json& args)>;
 
