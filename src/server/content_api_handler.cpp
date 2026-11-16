@@ -611,9 +611,17 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     } catch (const nlohmann::json::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
+        if (request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Fusion search stopped: request deadline exceeded or cancelled", req);
+        }
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
     } catch (...) {
         THEMIS_WARN("handleFusionSearch: unknown exception");
+        if (request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Fusion search stopped: request deadline exceeded or cancelled", req);
+        }
         return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
