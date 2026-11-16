@@ -103,9 +103,14 @@ public:
         /// True when the request was aborted because the caller's RequestContext
         /// was cancelled (only set by the RequestContext overloads).
         bool cancelled = false;
-        /// True when the request was aborted by the request deadline or by a
-        /// connect/request stage timeout (only set by the RequestContext overloads).
+        /// True when the request was aborted because the deadline of the supplied
+        /// RequestContext expired (only set by the RequestContext overloads). Note the
+        /// supplied context may itself be a per-shard child budget.
         bool timed_out = false;
+        /// True when a transport stage timeout fired (`connect_timeout_ms` for
+        /// resolve/connect/handshake, `request_timeout_ms` for write/read) while the
+        /// context was still live. Mutually exclusive with `timed_out`; never retried.
+        bool stage_timed_out = false;
     };
     
     /**

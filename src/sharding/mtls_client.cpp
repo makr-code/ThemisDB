@@ -611,7 +611,7 @@ MTLSClient::Response MTLSClient::requestWithContext(
                     return response;
                 case AbortCause::StageTimeout:
                     response.status_code = 0;
-                    response.timed_out = true;
+                    response.stage_timed_out = true;
                     response.error = "Timeout during " + exchange->stage();
                     return response;  // timeouts are not retried
                 case AbortCause::None:

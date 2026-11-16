@@ -314,6 +314,7 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     auto converted = convertResponse(response, shard_info.shard_id, elapsed_ms);
     converted.cancelled = response.cancelled;
     converted.timed_out = response.timed_out;
+    converted.stage_timed_out = response.stage_timed_out;
     return converted;
 }
 

@@ -70,8 +70,11 @@ public:
         int http_status;                // HTTP status code
         /// True when the request was aborted by client cancellation (RequestContext overloads only).
         bool cancelled = false;
-        /// True when the request was aborted by a deadline or stage timeout (RequestContext overloads only).
+        /// True when the supplied RequestContext deadline expired (RequestContext overloads only).
         bool timed_out = false;
+        /// True when a transport connect/request stage timeout fired while the context
+        /// was still live (RequestContext overloads only). Exclusive with `timed_out`.
+        bool stage_timed_out = false;
     };
     
     /**

@@ -203,7 +203,8 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                     const auto& shard = remote_shards[batch_start + i];
                     try {
                         auto sr = futures[i].get();
-                        if (!sr.success && sr.stop_reason == query::StopReason::None) {
+                        if (!sr.success && sr.stop_reason == query::StopReason::None &&
+                            !sr.stage_timed_out) {
                             // Classify an abort that the transport reported only as an error.
                             const auto reason = ctx.stopReason();
                             if (reason != query::StopReason::None) {
@@ -232,6 +233,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     size_t n_failed = 0;
     size_t n_timed_out = 0;
     size_t n_cancelled = 0;
+    size_t n_stage_timed_out = 0;
     for (const auto& sr : shard_results) {
         if (sr.success) {
             ++n_success;
@@ -239,6 +241,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             ++n_failed;
             if (sr.stop_reason == query::StopReason::Cancelled) ++n_cancelled;
             if (sr.stop_reason == query::StopReason::DeadlineExceeded) ++n_timed_out;
+            if (sr.stage_timed_out) ++n_stage_timed_out;
         }
     }
     const auto final_stop = ctx.stopReason();
@@ -254,9 +257,11 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
         stats->shards_skipped   = shards_skipped;
         stats->shards_timed_out = n_timed_out;
         stats->shards_cancelled = n_cancelled;
+        stats->shards_stage_timed_out = n_stage_timed_out;
         stats->cancelled = (final_stop == query::StopReason::Cancelled) || n_cancelled > 0;
-        stats->deadline_exceeded =
-            (final_stop == query::StopReason::DeadlineExceeded) || n_timed_out > 0;
+        // Parent request deadline only: shard-budget / stage timeouts are reported
+        // through shards_timed_out / shards_stage_timed_out.
+        stats->deadline_exceeded = (final_stop == query::StopReason::DeadlineExceeded);
         
         // Phase 2: Populate failed_shard_reasons for operator diagnostics
         for (const auto& sr : shard_results) {
@@ -456,6 +461,8 @@ DistributedHybridSearch::searchRemoteShard(
                 result.stop_reason = query::StopReason::Cancelled;
             } else if (exec_result.timed_out) {
                 result.stop_reason = query::StopReason::DeadlineExceeded;
+            } else if (exec_result.stage_timed_out) {
+                result.stage_timed_out = true;
             }
             THEMIS_WARN("DistributedHybridSearch: shard '{}' returned error: {}",
                         shard.shard_id, exec_result.error);

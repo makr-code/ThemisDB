@@ -91,7 +91,7 @@ now measures overrun classification, not a hard wall-clock bound.
   (`SearchStats::shards_skipped`). Each shard call receives
   `ctx.child(shard_timeout_ms)`. All launched tasks are joined before return;
   the `wait_for`-then-abandon path is gone. New stats distinguish
-  `shards_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded` from
+  `shards_timed_out`, `shards_stage_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded` from
   ordinary failures and from empty results; completed shards stay merged and
   flagged `partial_result`. `setShardSearchFunction()` allows an alternative
   transport / deterministic tests.
@@ -102,7 +102,7 @@ now measures overrun classification, not a hard wall-clock bound.
   (`connect_timeout_ms` / `request_timeout_ms`) and aborts the pending operation
   (resolver cancel + socket close); `run()` returns only after all handlers
   finished, so no thread/socket/timer outlives the call. Responses carry
-  `cancelled` / `timed_out`. Stage timeouts are not retried; retry back-off
+  `cancelled` / `timed_out` (context deadline) / `stage_timed_out` (transport stage timeout, kept distinct; `SearchStats::deadline_exceeded` reflects the parent request deadline only). Stage timeouts are not retried; retry back-off
   honours the context.
 - `RemoteExecutor::get/post(..., ctx)` propagate the context; a client
   cancellation is not recorded as circuit-breaker failure, a timeout is.
@@ -110,7 +110,7 @@ now measures overrun classification, not a hard wall-clock bound.
   blocking `connect/handshake/write/read`; Beast timeouts only apply to async
   operations, so those configured timeouts are not enforced on the legacy
   overloads. They are unchanged here.
-- Tests: `tests/search/test_distributed_request_context.cpp` (8 cases: budget
+- Tests: `tests/search/test_distributed_request_context.cpp` (10 cases: budget
   clamping, pre-cancel launches nothing, cancel between batches, strict mode,
   in-flight cooperative shard + join/cleanup, timeout vs empty, ordinary partial
   failure, legacy overload) and `tests/sharding/test_mtls_client_cancellation.cpp`

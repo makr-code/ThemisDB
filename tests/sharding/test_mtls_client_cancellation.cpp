@@ -190,7 +190,8 @@ TEST_F(MtlsCancellationTest, StageTimeoutIsReportedAsTimeoutWithoutRequestDeadli
     const auto resp = client.get(hole_.endpoint(), "/x", query::RequestContext{});
     const auto elapsed = Clock::now() - t0;
 
-    EXPECT_TRUE(resp.timed_out);
+    EXPECT_TRUE(resp.stage_timed_out);
+    EXPECT_FALSE(resp.timed_out);  // request deadline did not expire
     EXPECT_FALSE(resp.cancelled);
     EXPECT_NE(resp.error.find("handshake"), std::string::npos) << resp.error;
     EXPECT_LT(elapsed, 2s);
@@ -238,6 +239,7 @@ TEST_F(MtlsCancellationTest, RemoteExecutorPropagatesContextIntoTransport) {
                                     query::RequestContext::withTimeout(150ms));
     EXPECT_FALSE(resp.success);
     EXPECT_TRUE(resp.timed_out);
+    EXPECT_FALSE(resp.stage_timed_out);
     EXPECT_FALSE(resp.cancelled);
 
     auto token = std::make_shared<query::QueryCancellationToken>();

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -628,7 +628,7 @@ Reciprocal Rank Fusion (RRF) result merging and mTLS-secured inter-node communic
   error message, and execution time
 - `DistributedHybridSearch::SearchStats`: Diagnostics — `shards_queried`, `shards_succeeded`,
   `shards_failed`, `partial_result`, plus request-context fields `shards_skipped`,
-  `shards_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded`
+  `shards_timed_out`, `shards_stage_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded`
 - `DistributedHybridSearch::search(text, vec, const query::RequestContext&, stats)`: deadline +
   cancellation aware overload (stops launching batches, per-shard budget =
   min(remaining, `shard_timeout_ms`), joins all tasks). The local shard call and non-`get`/`post`

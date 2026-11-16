@@ -118,6 +118,9 @@ public:
         /// Why the shard stopped early (None for success or an ordinary failure).
         /// Lets callers tell a timeout/cancellation from "no results".
         query::StopReason stop_reason = query::StopReason::None;
+        /// True when the shard failed on a transport stage timeout (connect/request) while
+        /// its context was still live. Distinct from stop_reason == DeadlineExceeded.
+        bool stage_timed_out = false;
     };
 
     /**
@@ -135,10 +138,11 @@ public:
 
         // Request-context (deadline / cancellation) visibility
         size_t shards_skipped = 0;        ///< Shards never started because the request had stopped
-        size_t shards_timed_out = 0;      ///< Shards that hit the shard/request deadline (subset of shards_failed)
+        size_t shards_timed_out = 0;      ///< Shards that hit their context deadline (per-shard budget or request deadline; subset of shards_failed)
+        size_t shards_stage_timed_out = 0;///< Shards that failed on a transport stage timeout only (subset of shards_failed)
         size_t shards_cancelled = 0;      ///< Shards aborted by client cancellation (subset of shards_failed)
         bool cancelled = false;           ///< True when the request was cancelled by the client
-        bool deadline_exceeded = false;   ///< True when the request deadline expired before all shards finished
+        bool deadline_exceeded = false;   ///< True only when the caller's request deadline expired; shard-budget and transport stage timeouts do not set it
         
         // Phase 2: Degradation visibility flags
         bool merge_underflow = false;     ///< True when merge produced < k results due to candidate deficit

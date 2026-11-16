@@ -128,8 +128,11 @@ std::vector<HybridSearch::Result> search(
 - Every launched shard task is joined before `search()` returns; nothing is
   detached. Completed shards are merged and reported via `partial_result`.
   `skip_failed_shards=false` returns empty if any shard failed or was skipped.
-- `SearchStats` adds `shards_skipped`, `shards_timed_out`, `shards_cancelled`,
-  `cancelled`, `deadline_exceeded`; `ShardSearchResult::stop_reason` marks a
+- `SearchStats` adds `shards_skipped`, `shards_timed_out` (shard context
+  deadline), `shards_stage_timed_out` (transport stage timeout only),
+  `shards_cancelled`, `cancelled`, `deadline_exceeded`. `deadline_exceeded` is
+  true only when the caller's request deadline expired; per-shard budget and
+  transport stage timeouts never set it; `ShardSearchResult::stop_reason` marks a
   shard that stopped on cancellation/deadline, so a stop is distinguishable from
   an empty or ordinarily failed shard.
 - `setShardSearchFunction(ShardSearchFn)` replaces the default RemoteExecutor

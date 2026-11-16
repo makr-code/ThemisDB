@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -61,8 +61,8 @@ overloads are unchanged.
 | Declaration | Behavior |
 |---|---|
 | `MTLSClient::get(endpoint, path, ctx)`, `MTLSClient::post(endpoint, path, body, ctx)` | Resolve/connect/TLS handshake/write/read run as async Boost.Asio operations on a private per-call `io_context` driven by the calling thread. A 10 ms poll timer evaluates the token, request deadline and per-stage timeout (`connect_timeout_ms` for resolve/connect/handshake, `request_timeout_ms` for write/read) and aborts the pending operation. All handlers complete before return; no thread/socket/timer outlives the call. |
-| `MTLSClient::Response::cancelled` / `timed_out` | Set when aborted by cancellation / by request deadline or stage timeout. A refused or failed connection sets neither. Stage timeouts are not retried; retry back-off honours the context. |
-| `RemoteExecutor::get(shard, path, ctx)`, `RemoteExecutor::post(shard, path, body, ctx)` | Check the context before the circuit breaker, then propagate it into the transport. `Result::cancelled` / `timed_out` mirror the response. A cancel is not recorded as a circuit-breaker failure; a timeout is. |
+| `MTLSClient::Response::cancelled` / `timed_out` / `stage_timed_out` | `cancelled`: token cancelled. `timed_out`: the supplied context deadline expired (which may be a per-shard child budget). `stage_timed_out`: a connect/request stage timeout fired while the context was live; it is exclusive with `timed_out` and never retried. A refused or failed connection sets none. Retry back-off honours the context. |
+| `RemoteExecutor::get(shard, path, ctx)`, `RemoteExecutor::post(shard, path, body, ctx)` | Check the context before the circuit breaker, then propagate it into the transport. `Result::cancelled` / `timed_out` / `stage_timed_out` mirror the response. A cancel is not recorded as a circuit-breaker failure; a timeout is. |
 
 Explicit limits (QRY-07 is not complete):
 

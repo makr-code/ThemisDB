@@ -245,9 +245,65 @@ TEST(DistributedRequestContextTest, ShardDeadlineIsTimeoutNotEmptyResult) {
     EXPECT_EQ(stats.shards_succeeded, 2U);  // local (empty) + shard_0 (empty)
     EXPECT_EQ(stats.shards_failed, 1U);
     EXPECT_EQ(stats.shards_timed_out, 1U);  // timeout reported, distinct from empty
-    EXPECT_TRUE(stats.deadline_exceeded);
+    EXPECT_FALSE(stats.deadline_exceeded);  // shard budget only; request deadline is unbounded
     EXPECT_FALSE(stats.cancelled);
     EXPECT_TRUE(stats.partial_result);
+}
+
+TEST(DistributedRequestContextTest, TransportStageTimeoutIsNotRequestDeadline) {
+    Fixture fx(2);
+    auto cfg = baseConfig();
+    Search search(nullptr, fx.resolver.get(), nullptr, cfg);
+
+    search.setShardSearchFunction([&](const sharding::ShardInfo& s, const std::string&,
+                                      const std::vector<float>&, size_t,
+                                      const query::RequestContext&) {
+        if (s.shard_id == "shard_0") return okShard(s.shard_id, {"a"});
+        Search::ShardSearchResult r;
+        r.shard_id = s.shard_id;
+        r.success = false;
+        r.stage_timed_out = true;
+        r.error_msg = "Timeout during handshake";
+        return r;
+    });
+
+    Search::SearchStats stats;
+    // Generous request deadline: it must not be reported as expired.
+    const auto out = search.search("q", {}, query::RequestContext::withTimeout(10s), &stats);
+
+    EXPECT_FALSE(out.empty());
+    EXPECT_EQ(stats.shards_failed, 1U);
+    EXPECT_EQ(stats.shards_stage_timed_out, 1U);
+    EXPECT_EQ(stats.shards_timed_out, 0U);
+    EXPECT_FALSE(stats.deadline_exceeded);
+    EXPECT_FALSE(stats.cancelled);
+    EXPECT_TRUE(stats.partial_result);
+}
+
+TEST(DistributedRequestContextTest, OverallRequestDeadlineSetsDeadlineExceeded) {
+    Fixture fx(2);
+    auto cfg = baseConfig();
+    Search search(nullptr, fx.resolver.get(), nullptr, cfg);
+
+    search.setShardSearchFunction([&](const sharding::ShardInfo& s, const std::string&,
+                                      const std::vector<float>&, size_t,
+                                      const query::RequestContext& ctx) {
+        if (s.shard_id == "shard_0") return okShard(s.shard_id, {"a"});
+        Search::ShardSearchResult r;
+        r.shard_id = s.shard_id;
+        while (!ctx.shouldStop()) std::this_thread::sleep_for(2ms);
+        r.stop_reason = ctx.stopReason();
+        r.error_msg = "deadline";
+        return r;
+    });
+
+    Search::SearchStats stats;
+    search.search("q", {}, query::RequestContext::withTimeout(60ms), &stats);
+
+    EXPECT_TRUE(stats.deadline_exceeded);
+    EXPECT_EQ(stats.shards_timed_out, 1U);
+    EXPECT_EQ(stats.shards_stage_timed_out, 0U);
+    EXPECT_FALSE(stats.cancelled);
 }
 
 TEST(DistributedRequestContextTest, OrdinaryShardFailureIsPartialWithoutStopFlags) {
