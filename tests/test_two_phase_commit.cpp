@@ -25,6 +25,7 @@
 #include <mutex>
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 #include <random>
 #include <stdexcept>
 #include <system_error>
@@ -245,7 +246,10 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
                 applied_count.fetch_add(1, std::memory_order_relaxed);
                 return true;
             });
+        EXPECT_FALSE(participant.onHealthCheck().is_healthy);
+        EXPECT_FALSE(participant.onCommit(transaction_id));
         EXPECT_EQ(participant.recoverFromWAL(), 1u);
+        EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.getTransactionState(transaction_id),
                   ParticipantTxnState::PREPARED);
         EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
@@ -262,6 +266,90 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
     }
 
     std::filesystem::remove_all(wal_directory);
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache) {
+    TemporaryTransactionLog log("themis_participant_full_replay");
+    const auto wal_directory = log.logPath().parent_path().string();
+    const std::string transaction_id = "old-prepared-transaction";
+
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory;
+    wal_config.sync_on_write = false;
+    {
+        WALManager wal(wal_config);
+        WALEntry prepare;
+        prepare.type = WALEntryType::PREPARE_TX;
+        prepare.transaction_id = transaction_id;
+        prepare.data = {
+            {"vote", true},
+            {"operations", nlohmann::json::array({{{"key", "old-prepared"}}})},
+            {"fencing_token", {
+                {"epoch", 1},
+                {"issuer", "coordinator"},
+                {"shard_id", "shard-full-replay"},
+                {"issued_at_ms", 1}
+            }}
+        };
+        ASSERT_GT(wal.append(prepare).offset, 0u);
+
+        for (size_t i = 0; i < 10'000; ++i) {
+            WALEntry checkpoint;
+            checkpoint.type = WALEntryType::CHECKPOINT;
+            checkpoint.data = {{"index", i}};
+            ASSERT_GT(wal.append(checkpoint).offset, 0u);
+        }
+    }
+
+    std::atomic<int> restored_lock_count{0};
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-full-replay");
+    TwoPhaseCommitParticipant participant(
+        "shard-full-replay", config,
+        [&restored_lock_count](const std::string& txn_id, const nlohmann::json&) {
+            EXPECT_EQ(txn_id, "old-prepared-transaction");
+            restored_lock_count.fetch_add(1, std::memory_order_relaxed);
+            return true;
+        });
+
+    EXPECT_FALSE(participant.onHealthCheck().is_healthy);
+    EXPECT_FALSE(participant.onCommit(transaction_id));
+    EXPECT_EQ(participant.getTransactionState(transaction_id),
+              ParticipantTxnState::PREPARED);
+    EXPECT_EQ(participant.recoverFromWAL(), 1u);
+    EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "complete");
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, PreservesTruncatedTailRecoveryStatus) {
+    TemporaryTransactionLog log("themis_participant_truncated_tail");
+    const auto wal_directory = log.logPath().parent_path().string();
+    {
+        WALManager wal(WALManagerConfig{.wal_directory = wal_directory});
+        WALEntry checkpoint;
+        checkpoint.type = WALEntryType::CHECKPOINT;
+        checkpoint.data = nlohmann::json::object();
+        ASSERT_GT(wal.append(checkpoint).offset, 0u);
+    }
+
+    const auto segment_path = std::filesystem::path(wal_directory) /
+        themis::WALStorage::segmentName(1);
+    {
+        std::ofstream segment(segment_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(segment.is_open());
+        const char partial_header[] = {0x34, 0x12, static_cast<char>(0xAB)};
+        segment.write(partial_header, sizeof(partial_header));
+    }
+
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-truncated-tail");
+    TwoPhaseCommitParticipant participant("shard-truncated-tail", config);
+
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "truncated_tail");
 }
 
 TEST_F(TwoPhaseCommitParticipantTest, MissingFencingTokenVotesAbortBeforeLocking) {

@@ -53,10 +53,7 @@
 #include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
-
-namespace themis {
-class WALStorage;
-}
+#include "storage/wal_storage.h"
 
 namespace themis::sharding {
 
@@ -174,6 +171,12 @@ struct WALManagerConfig {
     bool sync_on_write = true;                // fsync after each write
     /** @brief Buffered-write threshold before forced flush. */
     size_t write_buffer_size = 64 * 1024;     // 64 KB buffer
+    /**
+     * @brief Optional callback for every valid WAL entry replayed from disk.
+     * @note Runs in physical WAL order before the bounded in-memory serving
+     *       cache is trimmed. Returning false aborts WAL initialization.
+     */
+    std::function<bool(const WALEntry&)> recovery_callback;
 };
 
 /** @brief Thread-safe write-ahead log manager with segment rotation and retention. */
@@ -249,6 +252,15 @@ public:
     Statistics getStatistics() const;
 
     /**
+     * @brief Return the canonical result of the WALStorage startup scan.
+     * @return The RecoveryResult populated by WALStorage::open; a truncated
+     *         tail is reported distinctly from a complete scan.
+     * @note Corruption, timeout, I/O, or callback failures prevent construction
+     *       and are reported by the constructor as std::runtime_error.
+     */
+    [[nodiscard]] themis::WALStorage::RecoveryResult getRecoveryResult() const;
+
+    /**
      * @brief Initialize WAL manager storage state.
      * @return true on successful initialization.
      */
@@ -259,6 +271,7 @@ private:
     
     mutable std::mutex mutex_;
     std::unique_ptr<themis::WALStorage> durability_wal_;
+    themis::WALStorage::RecoveryResult recovery_result_;
     std::vector<WALEntry> entries_;
     
     // Current write position

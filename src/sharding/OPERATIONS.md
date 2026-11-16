@@ -65,6 +65,21 @@ The implementation surfaces these through `operational_metrics.cpp`, `prometheus
 - confirm that commit and abort outcomes are terminal and replayable,
 - watch for coordinator or participant timeouts as early evidence of instability.
 
+### 2PC participant WAL recovery
+
+The participant reconstructs in-doubt transaction state from the complete WAL replay stream,
+independently of the bounded in-memory range-serving cache. Terminal transaction state is retained
+only within that bounded cache; PREPARED transactions remain tracked until their durable COMMIT or
+ABORT record is replayed. A participant with recovered PREPARED transactions reports unhealthy and
+rejects PREPARE/COMMIT/ABORT requests until `recoverFromWAL()` restores the prepared locks. Recovery
+failure keeps it unavailable.
+
+Participant statistics expose `recovery_complete` and `wal_recovery_status`. The latter preserves
+the canonical WALStorage startup result as `complete` or `truncated_tail`; a truncated final record
+is discarded only after the valid prefix has been replayed. Corruption, timeout, I/O, or replay
+callback failure prevents WAL manager construction and must be treated as a startup failure, not as
+an empty successful recovery.
+
 ### Migration and repair health
 
 - confirm the rebalancer is not blocking indefinitely,
