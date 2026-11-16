@@ -280,6 +280,9 @@ TEST(ReplicationWalProcessCrash, RestartPreservesTermAndEveryAcknowledgedEntry) 
         ASSERT_TRUE(worker.readLine(message));
         ASSERT_EQ(message, "TERM 1");
 
+        if (acknowledged_count > 0) {
+            ASSERT_TRUE(worker.continueWorker());
+        }
         for (uint64_t sequence = 1; sequence <= acknowledged_count; ++sequence) {
             ASSERT_TRUE(worker.readLine(message));
             ASSERT_EQ(message, "ACK " + std::to_string(sequence));

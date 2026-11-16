@@ -23,6 +23,11 @@ int main(int argc, char** argv) {
         std::cout << "READY\n" << std::flush;
         std::cout << "TERM " << wal.incrementTerm() << '\n' << std::flush;
 
+        char command = '\0';
+        if (!std::cin.get(command) || command != 'C') {
+            return 0;
+        }
+
         for (uint64_t index = 1; index <= 2; ++index) {
             themisdb::replication::WALEntry entry{};
             entry.operation = "INSERT";
@@ -33,7 +38,7 @@ int main(int argc, char** argv) {
             const auto sequence = wal.appendDurably(entry);
             std::cout << "ACK " << sequence << '\n' << std::flush;
 
-            char command = '\0';
+            command = '\0';
             if (!std::cin.get(command) || command != 'C') {
                 return 0;
             }
