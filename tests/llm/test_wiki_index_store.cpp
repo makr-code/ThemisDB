@@ -349,14 +349,24 @@ TEST(JsonWikiIndexReader, WIS12_ReloadRefreshesChunks) {
     const auto before_reload = reader.query("RocksDB HNSW", 5, 0.0f);
     ASSERT_FALSE(before_reload.empty());
 
-    // Reload must rebuild the query index along with the chunks.
+    {
+        std::ofstream output(path);
+        output << R"([{
+  "chunk_id": "updated001",
+  "file_path": "docs/gpu.md",
+  "section_title": "GPU",
+  "text": "CUDA GPU acceleration"
+}])";
+    }
+
     reader.load();
-    EXPECT_EQ(reader.size(), 3u);
+    EXPECT_EQ(reader.size(), 1u);
     EXPECT_TRUE(reader.isReady());
     const auto after_reload = reader.query("RocksDB HNSW", 5, 0.0f);
-    ASSERT_EQ(after_reload.size(), before_reload.size());
-    EXPECT_EQ(after_reload.front().chunk_id, before_reload.front().chunk_id);
-    EXPECT_FLOAT_EQ(after_reload.front().score, before_reload.front().score);
+    EXPECT_TRUE(after_reload.empty());
+    const auto updated = reader.query("CUDA GPU acceleration", 5, 0.0f);
+    ASSERT_EQ(updated.size(), 1u);
+    EXPECT_EQ(updated.front().chunk_id, "updated001");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

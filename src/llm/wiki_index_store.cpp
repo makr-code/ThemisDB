@@ -968,8 +968,7 @@ JsonWikiIndexReader::JsonWikiIndexReader(std::string index_path, bool auto_load)
 void JsonWikiIndexReader::load() {
     loaded_ = false;
     chunks_.clear();
-    token_postings_.clear();
-    chunk_unique_token_counts_.clear();
+    chunk_token_frequencies_.clear();
 
     std::ifstream f(index_path_);
     if (!f.is_open()) {
@@ -1014,13 +1013,9 @@ void JsonWikiIndexReader::load() {
         }
     }
 
-    chunk_unique_token_counts_.reserve(chunks_.size());
-    for (std::size_t chunk_index = 0; chunk_index < chunks_.size(); ++chunk_index) {
-        const auto token_frequencies = tokenizeWikiText(chunks_[chunk_index].text);
-        chunk_unique_token_counts_.push_back(token_frequencies.size());
-        for (const auto& [token, frequency] : token_frequencies) {
-            token_postings_[token].push_back({chunk_index, frequency});
-        }
+    chunk_token_frequencies_.reserve(chunks_.size());
+    for (const auto& chunk : chunks_) {
+        chunk_token_frequencies_.push_back(tokenizeWikiText(chunk.text));
     }
 
     loaded_ = true;
@@ -1044,34 +1039,27 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
     }
 
     struct Scored { std::size_t idx; float score; };
-    std::vector<float> scores(chunks_.size(), 0.0f);
-
-    for (const auto& [query_token, query_frequency] : query_tf) {
-        const auto postings = token_postings_.find(query_token);
-        if (postings == token_postings_.end()) {
-            continue;
-        }
-
-        for (const auto& posting : postings->second) {
-            scores[posting.chunk_index] +=
-                static_cast<float>(1 + std::log(static_cast<float>(posting.frequency)))
-                * static_cast<float>(query_frequency);
-        }
-    }
-
     std::vector<Scored> scored;
     scored.reserve(chunks_.size());
-    for (std::size_t chunk_index = 0; chunk_index < scores.size(); ++chunk_index) {
-        float score = scores[chunk_index];
-        if (score <= 0.0f) {
-            continue;
+
+    for (std::size_t chunk_index = 0; chunk_index < chunks_.size(); ++chunk_index) {
+        const auto& chunk_tf = chunk_token_frequencies_[chunk_index];
+        float score = 0.0f;
+        bool has_overlap = false;
+        for (const auto& [query_token, query_frequency] : query_tf) {
+            const auto term = chunk_tf.find(query_token);
+            if (term != chunk_tf.end()) {
+                has_overlap = true;
+                score += static_cast<float>(1 + std::log(static_cast<float>(term->second)))
+                    * static_cast<float>(query_frequency);
+            }
         }
-        const auto unique_token_count = chunk_unique_token_counts_[chunk_index];
-        if (unique_token_count > 0) {
+
+        if (!chunk_tf.empty()) {
             score /= static_cast<float>(
-                std::sqrt(static_cast<double>(unique_token_count)));
+                std::sqrt(static_cast<double>(chunk_tf.size())));
         }
-        if (score >= min_score) {
+        if (has_overlap && score >= min_score) {
             scored.push_back({chunk_index, score});
         }
     }

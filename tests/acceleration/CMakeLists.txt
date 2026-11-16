@@ -40,11 +40,9 @@ endif()
 file(GLOB ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_*.cpp"
 )
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_hardware_dispatcher.cpp")
-    list(APPEND ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_hardware_dispatcher.cpp"
-    )
-endif()
+list(APPEND ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_hardware_dispatcher.cpp"
+)
 
 foreach(_src IN LISTS ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
