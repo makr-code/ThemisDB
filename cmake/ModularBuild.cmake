@@ -3258,7 +3258,6 @@ function(themis_build_modular)
         themis_security
         themis_transaction
         themis_network
-        PARENT_SCOPE
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND THEMIS_ALL_MODULES themis_llm_api)

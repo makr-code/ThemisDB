@@ -385,6 +385,58 @@ class MonolithicRuntimeSourceTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("cmake"), "requires CMake")
 class WindowsRuntimeDependencyFilterTests(unittest.TestCase):
+    def test_core_modules_are_in_the_exported_runtime_dependency_set(self) -> None:
+        cmake = MODULAR_BUILD.read_text(encoding="utf-8")
+        start = cmake.index("    set(THEMIS_ALL_MODULES\n")
+        end = cmake.index("\nendfunction()", start)
+        module_list = cmake[start:end]
+        for enabled in ("OFF", "ON"):
+            with self.subTest(optional_modules=enabled), tempfile.TemporaryDirectory(
+                prefix="runtime-modules-"
+            ) as tmp:
+                script = Path(tmp) / "modules.cmake"
+                script.write_text(
+                    "cmake_minimum_required(VERSION 3.20)\n"
+                    + "".join(
+                        f"set({name} {enabled})\n"
+                        for name in (
+                            "THEMIS_MODULE_LLM", "THEMIS_MODULE_LLM_SPLIT",
+                            "THEMIS_MODULE_SHARDING", "THEMIS_MODULE_TIMESERIES",
+                            "THEMIS_MODULE_GEO", "THEMIS_MODULE_GRAPH", "THEMIS_MODULE_CONTENT",
+                        )
+                    )
+                    + "function(build_modules)\n" + module_list + "\nendfunction()\n"
+                    + "build_modules()\n"
+                    + "foreach(module IN ITEMS themis_base themis_storage themis_query "
+                      "themis_security themis_transaction themis_network)\n"
+                      "  if(NOT module IN_LIST THEMIS_ALL_MODULES)\n"
+                      "    message(FATAL_ERROR \"Missing core module: ${module}\")\n"
+                      "  endif()\n"
+                      "endforeach()\n"
+                      "if(NOT themis_ingestion IN_LIST THEMIS_ALL_MODULES)\n"
+                      "  message(FATAL_ERROR \"Missing ingestion module\")\n"
+                      "endif()\n"
+                      f"if({enabled} AND NOT themis_llm IN_LIST THEMIS_ALL_MODULES)\n"
+                      "  message(FATAL_ERROR \"Missing enabled optional module\")\n"
+                      "endif()\n",
+                    encoding="utf-8",
+                )
+                result = subprocess.run(
+                    [shutil.which("cmake"), "-P", str(script)], capture_output=True, text=True
+                )
+                self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+
+        install = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        self.assertRegex(
+            install,
+            re.compile(
+                r"foreach\(_themis_mod_target IN LISTS THEMIS_ALL_MODULES\).*?"
+                r"install\(TARGETS \$\{_themis_modular_install_targets\}\s+"
+                r"\$\{_themis_runtime_dep_install_arg\}",
+                re.DOTALL,
+            ),
+        )
+
     def test_system32_filter_handles_windows_path_separators(self) -> None:
         cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
         install = re.search(
