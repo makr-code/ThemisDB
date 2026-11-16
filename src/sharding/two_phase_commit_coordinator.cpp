@@ -65,6 +65,21 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
         WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = config_.wal_directory;
         wal_cfg.sync_on_write = config_.sync_wal_writes;
+        wal_cfg.recovery_callback = [this](const WALEntry& entry) {
+            switch (entry.type) {
+            case WALEntryType::BEGIN_TX:
+            case WALEntryType::PREPARE_TX:
+            case WALEntryType::COMMIT_TX:
+            case WALEntryType::ABORT_TX:
+            case WALEntryType::CHECKPOINT:
+                break;
+            default:
+                return false;
+            }
+            themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+                recovered_wal_transactions_, entry);
+            return true;
+        };
         wal_ = std::make_unique<WALManager>(wal_cfg);
         THEMIS_INFO("2PC coordinator [{}] WAL initialised at {}",
                     coordinator_id_, config_.wal_directory);
@@ -457,9 +472,11 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
     size_t resolved = 0;
 
     try {
-        auto entries = wal_->readRange(wal_->getOldestLSN());
-        const auto recovered_wal =
-            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
+        themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovered_wal;
+        {
+            std::lock_guard<std::mutex> recovery_lock(recovery_history_mutex_);
+            recovered_wal = recovered_wal_transactions_;
+        }
 
         std::map<std::string, CoordinatorTxnRecord> recovered = {};
 
@@ -737,6 +754,26 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
     }
 
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
+    std::string wal_recovery_status = "disabled";
+    if (wal_) {
+        switch (wal_->getRecoveryResult().status) {
+        case themis::WALStorage::RecoveryStatus::Complete:
+            wal_recovery_status = "complete";
+            break;
+        case themis::WALStorage::RecoveryStatus::TruncatedTail:
+            wal_recovery_status = "truncated_tail";
+            break;
+        case themis::WALStorage::RecoveryStatus::Corrupted:
+            wal_recovery_status = "corrupted";
+            break;
+        case themis::WALStorage::RecoveryStatus::TimedOut:
+            wal_recovery_status = "timed_out";
+            break;
+        case themis::WALStorage::RecoveryStatus::Failed:
+            wal_recovery_status = "failed";
+            break;
+        }
+    }
     return {
         {"coordinator_id",      coordinator_id_},
         {"uptime_seconds",      static_cast<uint64_t>(
@@ -749,7 +786,8 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
         {"active_transactions", active},
         {"completed_transactions", completed},
         {"recovery_status", recovery_status_},
-        {"recovery_failed", recovery_failed_}
+        {"recovery_failed", recovery_failed_},
+        {"wal_recovery_status", wal_recovery_status}
     };
 }
 
@@ -926,11 +964,23 @@ bool TwoPhaseCommitCoordinator::logToWAL(
         return true;
     }
 
-    return WALLoggingHelper::appendEntryWithResult(
+    std::lock_guard<std::mutex> recovery_lock(recovery_history_mutex_);
+    const auto persisted = WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
         force_sync || config_.sync_wal_writes,
         "coordinator", coordinator_id_
-    ).has_value();
+    );
+    if (!persisted) {
+        return false;
+    }
+
+    WALEntry entry;
+    entry.type = type;
+    entry.transaction_id = txn_id;
+    entry.data = data;
+    themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+        recovered_wal_transactions_, entry);
+    return true;
 }
 
 } // namespace themis::sharding

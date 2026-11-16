@@ -87,7 +87,11 @@ the `FAILED` state, and rejects new commits until recovery is explicitly rerun s
 completed pass with unresolved work reports `recovery_status=blocked` and also rejects new commits.
 A returned resolved count of zero means only that no transaction completed in that pass; callers
 must also inspect the unresolved transaction snapshot and handle exceptions as a readiness failure.
-Commit attempts are rejected while recovery is running, blocked, or failed.
+Commit attempts are rejected while recovery is running, blocked, or failed. The coordinator builds
+its recovery state from the ordered WALStorage replay callback, before `WALManager` trims its bounded
+range-serving cache. `wal_recovery_status` preserves the canonical startup scan result, including
+`truncated_tail`; strict corruption, checksum/sequence errors, unsupported coordinator record types,
+or replay failure prevent construction.
 
 ### Migration and repair health
 

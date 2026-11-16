@@ -40,6 +40,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
+#include "transaction/two_phase_commit_wal_recovery.h"
 #include "sharding/wal_manager.h"
 #ifdef FAILURE
 #undef FAILURE
@@ -303,6 +304,8 @@ public:
      * @return Counters plus `recovery_status` (`not_run`, `running`, `complete`,
      *         `blocked`, or `failed`) and `recovery_failed`; failed replay remains
      *         visible even when it could not reconstruct a transaction.
+     *         `wal_recovery_status` reports the canonical WAL scan result,
+     *         including `truncated_tail` when the valid prefix was recovered.
      */
     nlohmann::json getStatistics() const;
 
@@ -313,6 +316,8 @@ private:
     mutable std::timed_mutex mutex_; ///< Schuetzt Teilnehmer- und Transaktionsregister.
     std::map<std::string, ShardRPCServer::RequestHandler*> participants_; ///< Registrierte Teilnehmer nach Shard-ID.
     std::map<std::string, CoordinatorTxnRecord>            transactions_; ///< Laufende und abgeschlossene Coordinator-Records.
+    themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovered_wal_transactions_;
+    mutable std::mutex recovery_history_mutex_; ///< Serializes WAL append and replay-state updates.
     bool recovery_failed_ = false;
     std::string recovery_status_ = "not_run";
 
