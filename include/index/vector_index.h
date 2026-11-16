@@ -13,6 +13,7 @@
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/ann_index.h"
+#include "query/request_context.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -274,6 +275,24 @@ public:
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
 
+    /// @brief Finds nearest neighbours while observing request cancellation and deadline.
+    /// @param query Query vector; must match the index dimension.
+    /// @param k Maximum number of results to return.
+    /// @param whitelistPks Optional set of primary keys restricting the scan.
+    /// @param request Absolute deadline and cancellation state; not retained after return.
+    /// @param stop_reason Receives the request stop reason, or None on completion; may be null.
+    /// @return Search status and results. Results are empty when stopped; operational errors
+    ///         remain represented by Status and are distinct from request cancellation/deadline.
+    /// @note Cache/storage brute-force work polls cooperatively. Synchronous ANN backend calls
+    ///       are checkpoint-only: results are discarded if the request stops during the call.
+    [[nodiscard]] std::pair<Status, std::vector<Result>> searchKnn(
+        const std::vector<float>& query,
+        size_t k,
+        const std::vector<std::string>* whitelistPks,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    ) const;
+
     /// KNN-Suche mit optionalem Evaluator-basiertem Kandidatenfilter.
     ///
     /// Der Evaluator wird nur fuer den JSON-Kontextvertrag
@@ -286,6 +305,29 @@ public:
         const IExpressionEvaluator* evaluator,
         size_t candidateMultiplier = 4,
         const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
+    /// @brief Evaluator-filtered KNN search that observes request stop conditions.
+    /// @param query Query vector; must match the index dimension.
+    /// @param k Maximum number of results to return.
+    /// @param evaluator Optional evaluator; supported JSON-context evaluators are applied to
+    ///        candidates. Unsupported evaluators retain the legacy unfiltered fallback.
+    /// @param candidateMultiplier Number of ANN candidates requested per result, clamped to >= 1.
+    /// @param whitelistPks Optional set of primary keys restricting candidate generation.
+    /// @param request Absolute deadline and cancellation state; not retained after return.
+    /// @param stop_reason Receives the request stop reason, or None on completion; may be null.
+    /// @return Search status and results. Stopped searches return no partial results and report
+    ///         cancellation/deadline through @p stop_reason.
+    /// @note Candidate evaluation and brute-force scans poll periodically. Synchronous ANN calls
+    ///       are checkpoint-only and late results are discarded.
+    [[nodiscard]] std::pair<Status, std::vector<Result>> searchKnnEvaluated(
+        const std::vector<float>& query,
+        size_t k,
+        const IExpressionEvaluator* evaluator,
+        size_t candidateMultiplier,
+        const std::vector<std::string>* whitelistPks,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
     ) const;
 
     /// @brief Simple post-filter applied to KNN results based on entity attribute equality.
@@ -649,7 +691,25 @@ private:
 
     // Interne Suche
     std::vector<Result> bruteForceSearch_(const std::vector<float>& query, size_t k,
-                                          const std::vector<std::string>* whitelist) const;
+                                          const std::vector<std::string>* whitelist,
+                                          const ::themis::query::RequestContext* request = nullptr,
+                                          ::themis::query::StopReason* stop_reason = nullptr) const;
+    std::pair<Status, std::vector<Result>> searchKnnImpl_(
+        const std::vector<float>& query,
+        size_t k,
+        const std::vector<std::string>* whitelist,
+        const ::themis::query::RequestContext* request,
+        ::themis::query::StopReason* stop_reason
+    ) const;
+    std::pair<Status, std::vector<Result>> searchKnnEvaluatedImpl_(
+        const std::vector<float>& query,
+        size_t k,
+        const IExpressionEvaluator* evaluator,
+        size_t candidateMultiplier,
+        const std::vector<std::string>* whitelist,
+        const ::themis::query::RequestContext* request,
+        ::themis::query::StopReason* stop_reason
+    ) const;
 
     // Encryption insert batching (Phase 1): reduce per-vector DB commit overhead
     std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> encBatch_;

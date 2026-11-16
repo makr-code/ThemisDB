@@ -17,7 +17,11 @@ Canonical_References:
   - "include/search/layered_retrieval_orchestrator.h"
   - "include/search/search_error_codes.h"
   - "include/index/ann_frontdoor.h"
+  - "include/index/vector_index.h"
+  - "include/themis/base/interfaces/index_interface.h"
   - "src/search/hybrid_search.cpp"
+  - "src/index/index_manager.cpp"
+  - "src/index/vector_index.cpp"
   - "src/index/ann_frontdoor.cpp"
   - "src/search/distributed_hybrid_search.cpp"
   - "tests/search/CMakeLists.txt"
@@ -95,6 +99,31 @@ That is a caller-level fallback, not an ANN frontdoor brute-force scan; the
 current `HybridSearch::SearchStats` does not preserve the frontdoor's fallback
 reason, and its frontdoor path marks `vector_ok` even if that separate fallback
 fails. Treat those source-health fields as incomplete for this case.
+
+### Request-aware KNN through `VectorIndexAdapter`
+
+`IVectorIndex::search(query, k, filter, request)` returns a
+`VectorSearchOutcome`. `VectorIndexAdapter` forwards that overload to
+`VectorIndexManager::searchKnnEvaluated(..., request, ...)`; the existing
+`search(query, k, filter)` and `VectorIndexManager::searchKnn(...)` signatures
+remain unchanged. The legacy path does not acquire a request deadline or
+cancellation source.
+
+The request-aware flat search checks cancellation/deadline every 64 cache or
+storage entries, and evaluator candidate filtering checks every 32 candidates.
+An observed stop returns no results, even if candidates had already been
+collected. `VectorSearchOutcome::stop_reason` distinguishes `Cancelled` and
+`DeadlineExceeded` from a successful empty search; ordinary index errors remain
+separate status failures and are not classified as request stops.
+
+HNSW, ScaNN, DiskANN, and other synchronous ANN backend calls are
+**checkpoint-only**: the request is checked immediately before and after the
+call, and late results are discarded. The backend call itself is not
+interruptible. Polling also cannot interrupt one in-progress storage read,
+entity deserialization, distance calculation for one vector, or evaluator
+invocation; these operations may overrun the deadline until they return.
+Range-search, rotation, and attribute pre-filter entry points are not covered
+by this KNN slice.
 
 ### DistributedHybridSearch
 

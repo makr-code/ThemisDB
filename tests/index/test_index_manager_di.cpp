@@ -369,6 +369,25 @@ TEST(IndexManagerDI, VectorIndexAdapter_AppliesJsonContextEvaluatorFilter) {
     EXPECT_EQ(hits[0].primary_key, "user_high");
 }
 
+TEST(IndexManagerDI, VectorIndexAdapter_ReportsRequestCancellation) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_vector_cancel_"));
+    ASSERT_NE(db, nullptr);
+
+    auto vec_result = mgr->createVectorIndex("cancel_vec", 2);
+    ASSERT_TRUE(vec_result.has_value()) << vec_result.error().message();
+    auto* vec = *vec_result;
+    ASSERT_NE(vec, nullptr);
+
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    token->cancel();
+    const query::RequestContext request(token);
+
+    const auto outcome = vec->search(std::vector<float>{0.0f, 0.0f}, 1, nullptr, request);
+
+    EXPECT_EQ(outcome.stop_reason, query::StopReason::Cancelled);
+    EXPECT_TRUE(outcome.results.empty());
+}
+
 TEST(IndexManagerDI, ExportIndexStats_WrongTable_ReturnsEmpty) {
     auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_export_wrong_"));
     ASSERT_NE(db, nullptr);
@@ -421,5 +440,4 @@ TEST(IndexManagerDI, ExportIndexStats_PartialIndex_TypeContainsPartial) {
     // The SecondaryIndexManager must report the index type as "partial".
     EXPECT_NE(stats[0].type.find("partial"), std::string::npos);
 }
-
 

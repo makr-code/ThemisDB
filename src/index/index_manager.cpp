@@ -174,6 +174,45 @@ public:
         return out;
     }
 
+    VectorSearchOutcome search(
+        const std::vector<float>& query_vector,
+        uint32_t k,
+        const IExpressionEvaluator* filter,
+        const query::RequestContext& request) const override {
+        query::StopReason stop_reason = query::StopReason::None;
+        auto [status, results] = manager_->searchKnnEvaluated(
+            query_vector, k, filter, /*candidateMultiplier=*/4,
+            /*whitelist=*/nullptr, request, &stop_reason);
+        if (stop_reason != query::StopReason::None) {
+            return {{}, stop_reason};
+        }
+        const auto initial_stop = request.stopReason();
+        if (initial_stop != query::StopReason::None) {
+            return {{}, initial_stop};
+        }
+        if (!status.ok) {
+            THEMIS_WARN("VectorIndexAdapter::search: request-aware evaluator search failed: {}", status.message);
+            return {};
+        }
+
+        std::vector<VectorSearchResult> out = {};
+        out.reserve(results.size());
+        for (size_t i = 0; i < results.size(); ++i) {
+            if ((i % 64) == 0) {
+                const auto stop = request.stopReason();
+                if (stop != query::StopReason::None) {
+                    return {{}, stop};
+                }
+            }
+            out.emplace_back(results[i].pk, results[i].distance);
+        }
+        const auto final_stop = request.stopReason();
+        if (final_stop != query::StopReason::None) {
+            return {{}, final_stop};
+        }
+        return {std::move(out), query::StopReason::None};
+    }
+
     std::vector<VectorSearchResult> rangeSearch(
         const std::vector<float>& query_vector,
         float max_distance,

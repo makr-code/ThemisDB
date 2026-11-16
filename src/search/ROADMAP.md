@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Three slices are implemented; most backends and
+- [ ] **QRY-07 remains OPEN.** Four bounded slices are implemented; most backends and
   all non-GET/POST or legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **Implemented slice (2026-11-16)**
@@ -140,6 +140,24 @@ now measures overrun classification, not a hard wall-clock bound.
   cooperative index polling, and gRPC route status behavior when gRPC service
   test dependencies are available. No build/test pass is claimed here.
 
+**Slice 4 (2026-11-16): request-aware vector adapter and KNN scan**
+- `VectorIndexAdapter` overrides `IVectorIndex::search(..., request)` and
+  forwards the request to new `VectorIndexManager::searchKnn` and
+  `searchKnnEvaluated` overloads. Existing signatures and the unbounded legacy
+  behavior remain unchanged; `VectorSearchOutcome::stop_reason` distinguishes
+  cancellation and deadline from empty results and ordinary index errors.
+- Brute-force cache, whitelist, and RocksDB prefix scans poll every 64 entries;
+  evaluator candidate filtering polls every 32 candidates. An observed stop
+  discards all accumulated candidates and returns an empty result.
+- HNSW, ScaNN, DiskANN, and other synchronous ANN backend calls are
+  checkpoint-only: check before and after each backend call and discard late
+  results. They are not interrupted while running.
+- Focused deterministic coverage was added for cancellation during a large
+  cache scan and evaluator candidate filtering, plus adapter outcome
+  propagation. Build/test execution was not verified on this runner: required
+  RocksDB, fmt, spdlog, and GoogleTest development packages are unavailable;
+  no test pass is claimed.
+
 **Remaining gaps (QRY-07 still OPEN)**
 - mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
   callback/wake-up registration, so transport abort latency is ~10 ms, not
@@ -159,12 +177,19 @@ now measures overrun classification, not a hard wall-clock bound.
 - HTTP search routes and non-vector gRPC search routes are not bound to a
   request context. The gRPC vector/hybrid routes pass a context only to vector
   search; other search callers and backends still need propagation.
-- Legacy vector-index implementations and the HybridSearch AQL path only get
-  entry/exit checkpoints; a backend that does not poll can overrun a client
-  cancellation or deadline before gRPC can return its status.
+- `VectorIndexAdapter` KNN is now cooperative only in brute-force cache/storage
+  scans and evaluator candidate filtering. Synchronous HNSW/ScaNN/DiskANN
+  backend calls are pre/post checkpoints and can overrun the deadline by the
+  in-flight call duration; a late result is discarded, not interrupted.
+- `VectorIndexManager` range, rotation, and attribute pre-filter entry points,
+  the HybridSearch AQL path, and legacy `IVectorIndex` implementations that do
+  not override the request overload remain checkpoint-only or unbound. Storage
+  reads, entity deserialization, one vector-distance calculation, and one
+  evaluator invocation cannot be interrupted mid-operation.
 - Still required for acceptance: slow-search cleanup trace (end-to-end, real
-  shards), and cancellation during active backend execution in the layered
-  pipeline.
+  shards), end-to-end deadline/cancellation propagation through remaining HTTP
+  and non-vector gRPC routes, and cancellation handling for the remaining
+  in-flight synchronous backends in the layered pipeline.
 
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
 below are historical records and require re-validation before being used as
