@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Eleven bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Twelve bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -130,14 +130,17 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - Full-text queries with structural predicates poll around equality/range index
   reads, index sorting, and during key-list intersection. The storage/index
   calls and sorts themselves are synchronous and only observed at checkpoints.
-  AQL parsing, the separate `allow_full_scan` fallback, result sorting,
-  serialization, synchronous entity reads and any individual non-polling
-  operation remain checkpoint-only. HTTP client-disconnect cancellation is
-  unavailable during synchronous dispatch.
+  The non-full-text `allow_full_scan` fallback now polls during prefix
+  collection, sequential predicate filtering, and entity hydration; this
+  request-aware path avoids spawning worker tasks, and `allow_full_scan` does
+  not bypass the indexed `FULLTEXT()` predicate. AQL parsing, indexed execution outside
+  request-aware stages, result sorting, serialization, synchronous entity
+  reads and any individual non-polling operation remain checkpoint-only. HTTP
+  client-disconnect cancellation is unavailable during synchronous dispatch.
 - Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
   valid empty results, expired deadline, cancellation, and a stop during the
-  full-text prefix scan and structural predicate execution. Test/build execution
-  is not claimed until verified.
+  full-text prefix scan, structural predicate execution, and full-scan fallback.
+  Test/build execution is not claimed until verified.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -276,9 +279,10 @@ now measures overrun classification, not a hard wall-clock bound.
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
 - `POST /query/aql` passes a request context through full-text index scans,
   score lookups, entity hydration, and structural key-list intersection.
-  Structural index reads and sorting are checkpoint-only; parsing, the
-  `allow_full_scan` fallback, and other query stages remain checkpoint-only. Other HTTP
-  search routes besides `POST /vector/search`, `POST /search/fulltext`,
+  The non-full-text `allow_full_scan` path polls the storage scan, sequential
+  filter and entity hydration; `FULLTEXT()` remains on its indexed path.
+  Structural index reads and sorting are checkpoint-only;
+  parsing and other query stages remain checkpoint-only. Other HTTP search routes besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client
   disconnects during synchronous dispatch. The hybrid expansion route still

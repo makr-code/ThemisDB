@@ -60,6 +60,7 @@ protected:
             entity.setField("content", "deadlineprobe fulltext cancellation coverage");
             entity.setField("category", i % 2 == 0 ? "even" : "odd");
             entity.setField("status", "published");
+            entity.setField("unindexed", "fallback");
             const auto put_status = index_->put("articles", entity);
             ASSERT_TRUE(put_status.ok) << put_status.message;
         }
@@ -76,9 +77,16 @@ protected:
         std::filesystem::remove_all(db_path_, error);
     }
 
-    static http::request<http::string_body> makeRequest(std::string query) {
+    static http::request<http::string_body> makeRequest(
+        std::string query,
+        bool allow_full_scan = false
+    ) {
         http::request<http::string_body> req{http::verb::post, "/query/aql", 11};
-        req.body() = nlohmann::json{{"query", std::move(query)}}.dump();
+        nlohmann::json body{{"query", std::move(query)}};
+        if (allow_full_scan) {
+            body["allow_full_scan"] = true;
+        }
+        req.body() = body.dump();
         req.prepare_payload();
         return req;
     }
@@ -152,6 +160,44 @@ TEST_F(AqlFulltextDeadlineTest, StructuralPredicateExecutionHonorsCancellation) 
     const auto response = handler_->handleQueryAql(
         makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"deadlineprobe\") "
                     "AND d.category == \"even\" AND d.status == \"published\" RETURN d"),
+        cancelled);
+
+    ASSERT_EQ(response.result(), http::status::gateway_timeout);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+    EXPECT_EQ(response.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, AllowFullScanFallbackReturnsMatchingEntities) {
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER d.unindexed == \"fallback\" RETURN d", true));
+
+    ASSERT_EQ(response.result(), http::status::ok) << response.body();
+    EXPECT_EQ(nlohmann::json::parse(response.body())["count"], 128);
+
+    const auto fulltext_response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"absenttoken\") RETURN d", true));
+    ASSERT_EQ(fulltext_response.result(), http::status::ok) << fulltext_response.body();
+    EXPECT_EQ(nlohmann::json::parse(fulltext_response.body())["count"], 0);
+}
+
+TEST_F(AqlFulltextDeadlineTest, ExpiredDeadlineStopsAllowFullScanFallback) {
+    const themis::query::RequestContext expired(
+        nullptr, themis::query::RequestContext::Clock::now() - std::chrono::milliseconds{1});
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER d.unindexed == \"fallback\" RETURN d", true),
+        expired);
+
+    ASSERT_EQ(response.result(), http::status::gateway_timeout);
+    EXPECT_EQ(response.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, CancellationDuringFallbackFilteringDiscardsPartialResults) {
+    PollState state;
+    state.stop_after = 9;  // Cancel on the 65th row's 64-entry scan checkpoint.
+    const themis::query::RequestContext cancelled(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER d.unindexed == \"fallback\" RETURN d", true),
         cancelled);
 
     ASSERT_EQ(response.result(), http::status::gateway_timeout);

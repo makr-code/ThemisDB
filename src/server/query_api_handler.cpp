@@ -3020,9 +3020,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             res = std::make_pair(QueryExecStatus::OK(), std::vector<themis::BaseEntity>{});
         } else {
         
-        if (allow_full_scan) {
+        if (allow_full_scan && !q.fulltextPredicate.has_value()) {
             exec_mode = "full_scan_fallback";
-            auto result = engine.executeAndEntitiesWithFallback(q, optimize);
+            query::StopReason stop_reason = query::StopReason::None;
+            auto result = engine.executeAndEntitiesWithFallback(
+                q, optimize, query_request, &stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return timeoutResponse(stop_reason);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
+            }
             if (!result) {
                 res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
             } else {

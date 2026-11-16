@@ -617,6 +617,40 @@ public:
         const ConjunctiveQuery& q,
         bool optimize = true
     ) const;
+
+    /**
+     * @brief Execute an AND query with request-aware fallback scanning.
+     * @param q Query to execute; missing indexes use a cooperative sequential scan.
+     * @param optimize Whether to choose the existing optimized indexed path.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the observed stop cause, or None if not stopped.
+     * @return Matching keys, or an error without partial results when stopped.
+     * @note Full-scan collection and filtering poll cooperatively; indexed execution
+     *       paths remain synchronous except where their existing context overload polls.
+     */
+    Result<std::vector<std::string>> executeAndKeysWithFallback(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
+
+    /**
+     * @brief Materialize an AND query with request-aware fallback scanning.
+     * @param q Query to execute; missing indexes use a cooperative sequential scan.
+     * @param optimize Whether to choose the existing optimized indexed path.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the observed stop cause, or None if not stopped.
+     * @return Matching entities, or an error without partial results when stopped.
+     * @note Fallback scanning and entity hydration poll cooperatively; individual
+     *       synchronous storage reads cannot be interrupted.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
     
     // Join/LET/COLLECT Support (MVP) - Declared in cpp to avoid header dependency
     struct EvaluationContext;
@@ -893,7 +927,17 @@ private:
      * @param[in] q Input parameter.
      * @return Return value.
      */
-    std::vector<std::string> fullScanAndFilter_(const ConjunctiveQuery& q) const;
+    std::vector<std::string> fullScanAndFilter_(
+        const ConjunctiveQuery& q,
+        const RequestContext* request = nullptr,
+        StopReason* stop_reason = nullptr
+    ) const;
+    Result<std::vector<std::string>> executeAndKeysWithFallbackImpl_(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext* request,
+        StopReason* stop_reason
+    ) const;
 
     // Range-Unterstützung
     /**

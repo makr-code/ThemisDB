@@ -3180,7 +3180,31 @@ bool QueryEngine::evaluateCondition(
 namespace themis {
 namespace query {
 
-std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery& q) const {
+std::vector<std::string> QueryEngine::fullScanAndFilter_(
+	const ConjunctiveQuery& q,
+	const RequestContext* request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		if (!request) {
+			return false;
+		}
+		observed_stop_reason = request->stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	if (shouldStop()) {
+		return {};
+	}
 	auto span = Tracer::startSpan("QueryEngine.fullScan");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
@@ -3267,6 +3291,35 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	// ── Phase 1: Collect raw entries (sequential I/O) ──────────────────────────
 	// Each entry stores the primary key and the raw serialized blob.
 	struct RawEntry { std::string pk; std::vector<uint8_t> blob; };
+	if (request) {
+		std::vector<std::string> results;
+		size_t scanned_entries = 0;
+		span.setAttribute("fullscan.mode", "request_aware_streaming");
+		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+			if ((scanned_entries++ & 63U) == 0U && shouldStop()) {
+				return false;
+			}
+			auto pk = KeySchema::extractPrimaryKey(key);
+			std::vector<uint8_t> blob(value.begin(), value.end());
+			try {
+				auto entity = BaseEntity::deserialize(pk, blob);
+				if (matchesPredicates(entity)) {
+					results.emplace_back(std::move(pk));
+				}
+			} catch (...) {
+				THEMIS_DEBUG("query_engine: unhandled exception caught");
+			}
+			return true;
+		});
+		if (shouldStop()) {
+			return {};
+		}
+		span.setAttribute("fullscan.scanned", static_cast<int64_t>(scanned_entries));
+		span.setAttribute("query.result_count", static_cast<int64_t>(results.size()));
+		span.setStatus(true);
+		return results;
+	}
+
 	std::vector<RawEntry> raw_entries;
 
 	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
@@ -3353,6 +3406,54 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 
 Result<std::vector<std::string>>
 QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize) const {
+	return executeAndKeysWithFallbackImpl_(q, optimize, nullptr, nullptr);
+}
+
+Result<std::vector<std::string>>
+QueryEngine::executeAndKeysWithFallback(
+	const ConjunctiveQuery& q,
+	bool optimize,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	return executeAndKeysWithFallbackImpl_(q, optimize, &request, stop_reason);
+}
+
+Result<std::vector<std::string>>
+QueryEngine::executeAndKeysWithFallbackImpl_(
+	const ConjunctiveQuery& q,
+	bool optimize,
+	const RequestContext* request,
+	StopReason* stop_reason
+) const {
+	StopReason local_stop_reason = StopReason::None;
+	auto* effective_stop_reason = stop_reason ? stop_reason : &local_stop_reason;
+	*effective_stop_reason = StopReason::None;
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		if (!request) {
+			return false;
+		}
+		observed_stop_reason = request->stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		*effective_stop_reason = observed_stop_reason;
+		return true;
+	};
+	const auto stopped = [&]() {
+		const auto reason = observed_stop_reason != StopReason::None
+			? observed_stop_reason
+			: (request ? request->stopReason() : StopReason::None);
+		const auto message = reason == StopReason::Cancelled
+			? "Full scan cancelled"
+			: "Full scan deadline exceeded";
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithFallback");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
@@ -3364,9 +3465,18 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			"Access denied for collection: " + q.table
 		);
 	}
+	if (shouldStop()) {
+		return stopped();
+	}
+	if (request && q.fulltextPredicate.has_value()) {
+		return executeAndKeys(q, *request, effective_stop_reason);
+	}
 	// If no predicates at all, must do full scan
 	if (q.predicates.empty() && q.rangePredicates.empty() && !q.orderBy.has_value()) {
-		auto keys = fullScanAndFilter_(q);
+		auto keys = fullScanAndFilter_(q, request, effective_stop_reason);
+		if (shouldStop()) {
+			return stopped();
+		}
 		span.setAttribute("query.exec_mode", "full_scan");
 		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 		span.setStatus(true);
@@ -3380,12 +3490,24 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	if (!q.predicates.empty()) {
 		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
 		for (size_t i=0;i<q.predicates.size();++i) {
+			if (shouldStop()) {
+				return stopped();
+			}
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
+			if (shouldStop()) {
+				return stopped();
+			}
 			size_t eff = capped ? 16 : est;
 			if (eff < bestEst) { bestEst = eff; bestIdx = i; bestCapped = capped; }
 		}
 		{
+			if (shouldStop()) {
+				return stopped();
+			}
 			auto [st, _] = secIdx_->scanKeysEqual(q.table, q.predicates[bestIdx].column, q.predicates[bestIdx].value);
+			if (shouldStop()) {
+				return stopped();
+			}
 			if (!st.ok) {
 			  missingIndex = true;
 			}
@@ -3394,13 +3516,26 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	// Prüfe Range-Indizes
 	for (const auto& r : q.rangePredicates) {
-		if (!secIdx_->hasRangeIndex(q.table, r.column)) { missingIndex = true; break; }
+		if (shouldStop()) {
+			return stopped();
+		}
+		const bool has_range_index = secIdx_->hasRangeIndex(q.table, r.column);
+		if (shouldStop()) {
+			return stopped();
+		}
+		if (!has_range_index) { missingIndex = true; break; }
 	}
 
 	if (!missingIndex) {
 		if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
-			auto result = executeAndKeysRangeAware_(q);
+			auto result = executeAndKeysRangeAware_(q, request, effective_stop_reason);
+			if (shouldStop()) {
+				return stopped();
+			}
 			if (!result) {
+				if (*effective_stop_reason != StopReason::None) {
+					return stopped();
+				}
 				span.setStatus(false, result.error().message());
 				return Err<std::vector<std::string>>(result.error().code(), result.error().context());
 			}
@@ -3410,9 +3545,18 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			return Ok(std::move(result.value()));
 		}
 		if (optimize) {
+			if (shouldStop()) {
+				return stopped();
+			}
 			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
 			auto plan = opt.chooseOrderForAndQuery(q);
+			if (shouldStop()) {
+				return stopped();
+			}
 			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
+			if (shouldStop()) {
+				return stopped();
+			}
 			if (!keysResult) { 
 				span.setStatus(false, keysResult.error().message()); 
 				return Err<std::vector<std::string>>(keysResult.error().code(), keysResult.error().context());
@@ -3422,7 +3566,13 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			span.setStatus(true);
 			return Ok(std::move(keysResult.value()));
 		}
+		if (shouldStop()) {
+			return stopped();
+		}
 		auto result = executeAndKeys(q);
+		if (shouldStop()) {
+			return stopped();
+		}
 		if (!result) {
 			span.setStatus(false, result.error().message());
 			return Err<std::vector<std::string>>(result.error().code(), result.error().context());
@@ -3434,7 +3584,10 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	}
 
 	// Fallback: full scan (inkl. Range-Prädikate)
-	auto keys = fullScanAndFilter_(q);
+	auto keys = fullScanAndFilter_(q, request, effective_stop_reason);
+	if (shouldStop()) {
+		return stopped();
+	}
 	span.setAttribute("query.exec_mode", "full_scan_fallback");
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
@@ -3462,6 +3615,70 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
 	return Ok(std::move(out));
+}
+
+Result<std::vector<BaseEntity>>
+QueryEngine::executeAndEntitiesWithFallback(
+	const ConjunctiveQuery& q,
+	bool optimize,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	const auto stopped = [&](StopReason reason) {
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Full scan cancelled"
+			: "Full scan deadline exceeded";
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+
+	StopReason key_stop_reason = StopReason::None;
+	auto keys_result = executeAndKeysWithFallback(
+		q, optimize, request, &key_stop_reason);
+	if (!keys_result) {
+		if (key_stop_reason != StopReason::None) {
+			return stopped(key_stop_reason);
+		}
+		return Err<std::vector<BaseEntity>>(
+			keys_result.error().code(), keys_result.error().context());
+	}
+
+	const auto& keys = *keys_result;
+	std::vector<BaseEntity> entities;
+	entities.reserve(keys.size());
+	for (size_t i = 0; i < keys.size(); ++i) {
+		if ((i & 31U) == 0U && request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, keys[i]));
+		if (request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		if (!blob) {
+			continue;
+		}
+		try {
+			entities.emplace_back(BaseEntity::deserialize(keys[i], *blob));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", keys[i]);
+		}
+	}
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	return Ok(std::move(entities));
 }
 
 // ===== Range-aware Ausführung =====
