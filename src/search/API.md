@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -16,10 +16,12 @@ Canonical_References:
   - "include/search/search_result_stream.h"
   - "include/search/layered_retrieval_orchestrator.h"
   - "include/search/search_error_codes.h"
+  - "include/index/ann_frontdoor.h"
   - "src/search/hybrid_search.cpp"
+  - "src/index/ann_frontdoor.cpp"
   - "src/search/distributed_hybrid_search.cpp"
   - "tests/search/CMakeLists.txt"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -64,6 +66,36 @@ exists as a public taxonomy, but the inspected search implementation files do
 not currently reference it. **TODO:** wire and test those diagnostics before
 describing them as active runtime signals.
 
+### ANN retrieval and index fallback
+
+The ANN frontdoor clamps results to the requested `k`, sorts by ascending
+distance, and removes negative or non-finite distances. A backend that returns
+too many candidates or invalid distances reports
+`ANN_INVALID_BACKEND_RESULT`: valid candidates that remain are marked
+`degraded_continue`; if none remain, the result is `fail_closed`. This differs
+from an ordinary no-match response, where no backend contract violation or
+fallback reason is present. If an invalid backend result and a distributed
+failure occur together, the invalid-result code is primary and the other
+fallback code is retained in `routing_reason`.
+
+When a selected backend is unavailable, the frontdoor currently cannot execute
+its nominal flat brute-force path: `bruteForceSearch()` logs that the fallback
+is unavailable and returns no candidates. The result reports
+`ANN_BACKEND_UNAVAILABLE` with `fail_closed`; the strategy name is not evidence
+that a brute-force scan ran, and `estimated_recall` is zero when it did not.
+In distributed retrieval, failed shards are
+reported separately; successful shards can produce `degraded_continue` only
+when partial results are enabled. If all attempted shards fail, retrieval
+fails closed even when partial results are allowed because there are no
+successful candidates to return.
+
+`HybridSearch` may separately call `VectorIndexManager::searchKnn()` when the
+frontdoor returns no candidates for a `FLAT_BRUTE_FORCE` or `HNSW` strategy.
+That is a caller-level fallback, not an ANN frontdoor brute-force scan; the
+current `HybridSearch::SearchStats` does not preserve the frontdoor's fallback
+reason, and its frontdoor path marks `vector_ok` even if that separate fallback
+fails. Treat those source-health fields as incomplete for this case.
+
 ### DistributedHybridSearch
 
 File: `include/search/distributed_hybrid_search.h`
@@ -74,7 +106,8 @@ Important invariants:
 
 - local shard is evaluated first and remote shards are executed in bounded batches
 - failures are tracked individually and aggregated in `SearchStats`
-- partial results are preferred over a total query failure when some shards are unavailable
+- partial results can be returned when some shards are unavailable and at least
+  one shard succeeds; if every attempted shard fails, the result is fail-closed
 - the input configuration requires a valid `search_endpoint` and positive shard-concurrency settings
 
 ### SearchResultStream
@@ -87,14 +120,19 @@ This API provides cursor-style pagination over a result vector. `open()` calls `
 
 File: `include/search/layered_retrieval_orchestrator.h`
 
-This production retrieval chain executes the stages:
+This retrieval chain executes the stages:
 
 - ANN
 - Tensor
 - Graph
 - LLM
 
-The orchestrator records per-layer decisions and enforces timeouts and guardrails. It is designed around an explicit fail-safe model rather than exhaustive success assumptions.
+The orchestrator records per-layer decisions and enforces guardrails. Its
+configured per-layer timeout bounds how long the caller waits, not how long
+backend work runs: a timed-out worker is detached and may continue after
+`execute()` returns. There is no request-level deadline or client-cancellation
+token in this API, so timeout/cancellation enforcement is not complete and must
+not be claimed as a production guarantee.
 
 ## Error taxonomy
 

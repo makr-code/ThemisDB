@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,7 +15,7 @@ Canonical_References:
   - "src/search/layered_retrieval_orchestrator.cpp"
   - "tests/search/test_layered_retrieval_integration_phase4.cpp"
   - "tests/search/CMakeLists.txt"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -26,9 +26,10 @@ Exact model backend not verifiable from final document text alone.
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · LAYERED_RETRIEVAL_SLA.md -->
 
 > **Evidence boundary:** Runtime stages and configuration are documented from
-> the header and implementation. The per-layer deadline is a wait deadline:
-> the implementation detaches a worker thread on timeout and does not cancel
-> the backend operation. It therefore is not a hard resource/cancellation
+> the header and implementation. The per-layer deadline bounds caller wait
+> time only: the implementation detaches a worker thread on timeout and does
+> not cancel the backend operation. There is no request deadline or client
+> cancellation propagation. This is not a hard resource/cancellation
 > guarantee. Performance and availability figures in related historical notes
 > are assumptions until measured and recorded.
 
@@ -211,7 +212,7 @@ Final Answer + Diagnostics
 
 ### Per-Layer Deadline Enforcement
 
-Each layer is wrapped in a **wait deadline** (configured via `LayeredRetrievalConfig::layer_timeout_ms`):
+Each layer is wrapped in a **caller wait deadline** (configured via `LayeredRetrievalConfig::layer_timeout_ms`):
 
 ```cpp
 runWithDeadline(
@@ -225,12 +226,15 @@ runWithDeadline(
 - Each layer spawns its execution in a detached thread
 - Main thread waits for completion or deadline
 - On timeout, the detached thread continues in the background; the operation is
-  not cancelled and may continue consuming backend resources
+  not cancelled, may consume backend resources after the request returns, and
+  cannot be stopped by client cancellation
 - Layer marked as TIMEOUT_SKIP; chain continues
 
 **Default Wait Deadline:** 50ms per layer (configurable; does not bound detached work)
 
-**Total Latency Budget:** Up to 200ms for full 4-layer chain at default 50ms per layer
+**Total Caller Wait Budget:** Up to 200ms for a full 4-layer chain at default
+50ms per layer; this is not a request-wide deadline or a bound on total backend
+work.
 
 ### Thread Safety Model
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,7 +22,7 @@ Canonical_References:
   - "distributed_hybrid_search.cpp"
   - "layered_retrieval_orchestrator.cpp"
   - "llm_reranker.cpp"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -56,9 +56,17 @@ Evidence: [`hybrid_search.cpp`](hybrid_search.cpp), [`distributed_hybrid_search.
 ## Failure domains and edge cases
 
 - Missing, failed, or timed-out candidate backends can yield partial/degraded results or explicit layer decisions; inspect `SearchStats`/result metadata.
+- ANN invalid distances and over-cardinality results are bounded and reported as
+  `ANN_INVALID_BACKEND_RESULT`; an empty result after invalid candidates is
+  fail-closed, not an ordinary no-match. Missing ANN backends currently do not
+  run a flat scan: the nominal fallback is unavailable, returns no candidates,
+  and is reported as `ANN_BACKEND_UNAVAILABLE` / `fail_closed`.
 - A remote shard failure affects distributed merge completeness, not the local index's durable state.
 - A missing/throwing optional reranker leaves a distinct rerank failure/fallback path; it is not evidence that the underlying LLM service recovered.
 - Configuration and candidate limits constrain search work; stream/page failures are separate from candidate-generation failures.
+- Layered retrieval deadlines bound caller wait time only. Timed-out work is
+  detached and may continue after request completion; request cancellation and
+  cancellation propagation through backends are not implemented.
 
 ## Explicit non-goals
 

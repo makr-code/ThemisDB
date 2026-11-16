@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -16,7 +16,7 @@ Canonical_References:
   - "tests/search/CMakeLists.txt"
   - "tests/CMakeLists.txt"
   - "benchmarks/search/CMakeLists.txt"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -52,6 +52,25 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   the two `benchmark_*hybrid_search` targets. No benchmark run or threshold
   pass is asserted here.
 
+### QRY-07 timeout and cancellation status (2026-11-16)
+
+- [ ] Request deadline and client cancellation propagation through search
+  stages, including distributed fan-out, are not implemented.
+- `LayeredRetrievalOrchestrator` applies a per-layer caller wait deadline by
+  detaching a worker thread. A timeout sets `timed_out` and
+  `TIMEOUT_SKIP`, but does not stop the backend call; work may continue after
+  `execute()` returns. The implementation therefore does not meet the
+  no-background-work-after-completion criterion.
+- The integration test `EnforcesHardDeadlineAndMarksTimeoutSkip` verifies the
+  returned timeout decision only; it does not verify cancellation or worker
+  cleanup. Do not treat it as QRY-07 acceptance evidence.
+- The 30-second stream open-timeout setting is not a substitute for request
+  deadline propagation or cancellation.
+- Do not claim search timeout/cancellation enforcement complete until
+  cooperative backend cancellation, request-level deadline propagation,
+  client-cancellation and partial-failure tests, and a slow-search cleanup
+  trace are validated.
+
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
 below are historical records and require re-validation before being used as
 current status.
@@ -72,7 +91,7 @@ current status.
 - [x] Frozen retrieval/fusion/distributed contracts (HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0)
 - [x] Defined explicit error taxonomy via search_error_codes.h (32 error codes across 5 categories)
 - [x] Documented contract invariants in ARCHITECTURE.md
-- [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp), no_timeout (search_result_stream.cpp with 30s default)
+- [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp); added a 30s default `open_timeout_ms` setting to SearchResultStream (not proof of backend cancellation or QRY-07 timeout enforcement)
 - [x] Contract boundaries documented for core components (retrieval, fusion, distributed, utility, analytics)
 
 ### Phase 2 Completion Summary (2026-08-06)

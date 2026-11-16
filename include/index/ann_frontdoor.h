@@ -4,6 +4,8 @@
  *
  * Provides a unified entry-point that dispatches ANN queries to the
  * appropriate backend (HNSW, IVF, flat-scan) based on runtime configuration.
+ * A selected fallback strategy is not proof that it executed: when no
+ * brute-force backend is available, search returns an empty fail-closed result.
  */
 
 #pragma once
@@ -252,6 +254,19 @@ public:
     // Retrieval
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Retrieve at most k candidates through the selected ANN strategy.
+     * @param query_vector Non-null query vector with `dim` elements.
+     * @param dim Query-vector dimension; must be non-zero.
+     * @param k Maximum number of candidates; zero selects the configured default.
+     * @param context Routing, tier, locality, and distributed-query hints.
+     * @return Bounded candidates and explicit fallback metadata. Invalid
+     *         backend distances are removed; `fallback_reason_code` identifies
+     *         invalid backend results and fallback metadata distinguishes
+     *         degraded valid output from fail-closed empty output. A missing
+     *         backend does not imply that a brute-force scan ran.
+     * @throws std::invalid_argument if `query_vector` is null or `dim` is zero.
+     */
     [[nodiscard]] AnnFrontdoorResult search(
         const float*          query_vector,
         std::size_t           dim,
@@ -285,9 +300,11 @@ private:
         IAnnIndex&            backend,
         const float*          query,
         std::size_t           dim,
-        int                   k) const;
+        int                   k,
+        bool*                 invalid_result = nullptr) const;
 
-    // Brute-force fallback using the registered VectorIndexManager.
+    // Nominal brute-force fallback; returns no candidates when no executable
+    // brute-force backend is available.
     [[nodiscard]] std::vector<AnnSearchResult> bruteForceSearch(
         const float*           query,
         std::size_t            dim,

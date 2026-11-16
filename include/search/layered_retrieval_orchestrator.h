@@ -120,6 +120,7 @@ struct LayeredRetrievalConfig {
     bool graph_enabled = true;
     bool llm_enabled = true;
 
+    /// Maximum caller wait per layer; timed-out backend work is not cancelled.
     std::uint32_t layer_timeout_ms = 50;
     std::size_t ann_top_k = 10;
     int graph_max_hops = 2;
@@ -161,6 +162,8 @@ struct LayeredRetrievalResult {
     std::unordered_map<std::string, std::uint64_t> layer_latencies;
     std::vector<std::string> diagnostics;
 
+    /// True when at least one layer exceeded its caller wait deadline; this
+    /// does not imply that the backend operation was cancelled.
     bool timed_out = false;
     bool guardrail_pruned = false;
 };
@@ -170,8 +173,10 @@ struct LayeredRetrievalResult {
  *
  * The orchestrator is intentionally fail-safe:
  * - Missing backends degrade to FALLBACK decisions instead of throwing.
- * - Each enabled layer is wrapped in a hard wait budget controlled by
+ * - Each enabled layer has a caller wait deadline controlled by
  *   @ref LayeredRetrievalConfig::layer_timeout_ms.
+ * - A timed-out worker is detached and may continue after execute() returns;
+ *   this API does not provide request deadlines or client cancellation.
  * - Per-query guardrails clamp expensive fan-out before downstream work begins.
  *
  * Thread safety: configuration and backend wiring must be completed before
