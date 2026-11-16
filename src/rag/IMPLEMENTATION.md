@@ -80,8 +80,10 @@ successful sink calls. Sink failures include stage names in `error`; relations
 are not written after a graph-entity failure. A returned workflow error or
 unavailable workflow selects fallback, but an exception before sink writes
 returns `FAILED`. If a sink call throws after writes begin, the result is
-conservatively `PARTIAL` because the adapter may have side effects. Writes are
-not atomic across adapters or batches. The bridge has no retry loop; workflow
+conservatively `PARTIAL` because the adapter may have side effects. A returned
+sink failure is also `PARTIAL` even when no successful write was confirmed,
+since a batch may have been partly applied. Writes are not atomic across
+adapters or batches. The bridge has no retry loop; workflow
 fallback is attempted once. Optional absent writers are not attempted and
 therefore do not prove persistence; callers should inspect the counts and
 independently verify required sink state.

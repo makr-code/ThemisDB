@@ -131,13 +131,19 @@ public:
 class FaultInjectingGraphWriter final : public IGraphWriter
 {
 public:
-    explicit FaultInjectingGraphWriter(bool fail_entities, bool fail_relations)
-        : fail_entities_(fail_entities), fail_relations_(fail_relations)
+    explicit FaultInjectingGraphWriter(
+        bool fail_entities,
+        bool fail_relations,
+        std::size_t entities_applied_before_failure = 0)
+        : fail_entities_(fail_entities)
+        , fail_relations_(fail_relations)
+        , entities_applied_before_failure_(entities_applied_before_failure)
     {}
 
     Result<void> writeEntities(const std::vector<BaseEntity>& nodes) override
     {
         if (fail_entities_) {
+            node_count_ += std::min(nodes.size(), entities_applied_before_failure_);
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                            "injected graph entity failure");
         }
@@ -163,6 +169,7 @@ public:
 private:
     bool fail_entities_;
     bool fail_relations_;
+    std::size_t entities_applied_before_failure_;
     std::size_t node_count_{0};
     std::size_t edge_count_{0};
     std::size_t relation_calls_{0};
@@ -564,7 +571,7 @@ TEST(RagIngestionBridgeHardeningFocusedTests, E8_GraphRelationFailureIsReported)
     EXPECT_NE(result.error.find("graph relation write failed"), std::string::npos);
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E9_VectorFailureWithoutOtherSinkIsFailed) {
+TEST(RagIngestionBridgeHardeningFocusedTests, E9_VectorFailureWithoutOtherSinkIsPartial) {
     RAGIngestionBridge bridge(
         makeWorkflowToolbox(),
         std::make_shared<FailingVectorWriter>());
@@ -572,21 +579,35 @@ TEST(RagIngestionBridgeHardeningFocusedTests, E9_VectorFailureWithoutOtherSinkIs
     const auto result = bridge.indexDocument("unconfirmed vector write", "failure-coll");
 
     EXPECT_FALSE(result.ok);
-    EXPECT_EQ(result.status, IndexStatus::FAILED);
+    EXPECT_EQ(result.status, IndexStatus::PARTIAL);
     EXPECT_EQ(result.vector_count, 0u);
     EXPECT_NE(result.error.find("vector write failed"), std::string::npos);
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E10_GraphEntityFailureWithoutOtherSinkIsFailed) {
+TEST(RagIngestionBridgeHardeningFocusedTests, E10_GraphEntityFailureWithoutOtherSinkIsPartial) {
     auto graph_writer = std::make_shared<FaultInjectingGraphWriter>(true, false);
     RAGIngestionBridge bridge(makeWorkflowToolbox(), nullptr, graph_writer);
 
     const auto result = bridge.indexDocument("unconfirmed graph write", "failure-coll");
 
     EXPECT_FALSE(result.ok);
-    EXPECT_EQ(result.status, IndexStatus::FAILED);
+    EXPECT_EQ(result.status, IndexStatus::PARTIAL);
     EXPECT_EQ(result.graph_entity_count, 0u);
     EXPECT_EQ(result.graph_relation_count, 0u);
+    EXPECT_EQ(graph_writer->relationCalls(), 0u);
+    EXPECT_NE(result.error.find("graph entity write failed"), std::string::npos);
+}
+
+TEST(RagIngestionBridgeHardeningFocusedTests, E11_GraphEntityBatchFailureCanBePartial) {
+    auto graph_writer = std::make_shared<FaultInjectingGraphWriter>(true, false, 1);
+    RAGIngestionBridge bridge(makeWorkflowToolbox(), nullptr, graph_writer);
+
+    const auto result = bridge.indexDocument("partially persisted graph batch", "failure-coll");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.status, IndexStatus::PARTIAL);
+    EXPECT_EQ(result.graph_entity_count, 0u);
+    EXPECT_EQ(graph_writer->nodeCount(), 1u);
     EXPECT_EQ(graph_writer->relationCalls(), 0u);
     EXPECT_NE(result.error.find("graph entity write failed"), std::string::npos);
 }

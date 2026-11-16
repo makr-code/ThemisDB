@@ -59,6 +59,29 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         self.assertIn("if: always()", artifact_step)
         self.assertIn("Testing/Temporary/LastTest.log", artifact_step)
 
+    def test_docs_db_rag_timeout_matches_ctest_registration(self) -> None:
+        cmake = (REPO_ROOT / "tests" / "llm" / "CMakeLists.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertRegex(
+            cmake,
+            re.compile(
+                r"_add_llm_inference_ci_target\(\s*test_llm_doku_rag\s+"
+                r'"[^"]+"\s+600\s*\)',
+                re.DOTALL,
+            ),
+        )
+
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-final-runtime-api.yml"
+        ).read_text(encoding="utf-8")
+        rag_step = workflow.split("name: Run docs.db RAG inference tests", 1)[1]
+        rag_step = rag_step.split("\n      - name:", 1)[0]
+        self.assertIn("--timeout 600", rag_step)
+
     def test_status_workflow_concurrency_is_scoped_by_operation_and_target(self) -> None:
         workflow = (
             REPO_ROOT

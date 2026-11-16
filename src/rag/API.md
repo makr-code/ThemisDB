@@ -147,9 +147,10 @@ Construct with a non-null `IngestionToolbox`; vector and graph writers are
 optional. `indexDocument()` returns an `IndexResult` rather than throwing for
 ordinary validation or sink failures. `status` is `COMPLETE` when the workflow
 and attempted configured sinks succeed, `DEGRADED` when workflow fallback and
-its attempted sink writes succeed, `PARTIAL` when a sink fails after a
-confirmed write or its outcome is unknown, and `FAILED` when validation fails
-or a sink error occurs before any write is confirmed. `ok` is true only for
+its attempted sink writes succeed, `PARTIAL` when a sink call fails and its
+applied outcome is unknown (including after another sink succeeded), and
+`FAILED` when validation or an exception fails before any sink call begins.
+`ok` is true only for
 `COMPLETE` and `DEGRADED`; fallback use and confirmed vector, graph-entity,
 and graph-relation counts are returned explicitly. An absent writer is not an
 attempted write: zero counts do not prove persistence.
@@ -168,9 +169,11 @@ consumers because `IndexResult`'s public layout changed.
 
 Sink operations are not atomic. A successful adapter call confirms only the
 adapter's reported success; it cannot prove that a batch had no internal
-partial side effects. If a call throws after writes begin, the bridge returns
-`PARTIAL` because the write outcome is unknown. Graph relations are skipped
-when graph-entity writing fails. Input limits and validation are detailed in
+partial side effects. Any failed sink call is conservatively `PARTIAL`, because
+the adapter may have applied part of a batch before reporting failure. If a
+call throws after writes begin, the bridge also returns `PARTIAL`. Graph
+relations are skipped when graph-entity writing fails. Input limits and
+validation are detailed in
 [implementation guidance](./IMPLEMENTATION.md).
 
 ### `themis::rag::security::PromptInjectionDetector` and

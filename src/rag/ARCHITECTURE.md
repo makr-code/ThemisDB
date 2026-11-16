@@ -101,8 +101,9 @@ partially written batch is possible), and the source key is the bare
 graph-entity, and graph-relation counts are returned, with writer failures
 reported by stage. Graph relations are skipped after an entity-write failure.
 Writes remain non-atomic: adapters may have side effects before reporting
-failure, and exceptions after a write begins are conservatively classified as
-`PARTIAL`. Missing writers are not attempted and do not establish persistence.
+failure, so any failed sink call and exceptions after a write begins are
+conservatively classified as `PARTIAL`. Missing writers are not attempted and
+do not establish persistence.
 These semantics do not provide cross-sink transactions or prove backend
 durability.
 

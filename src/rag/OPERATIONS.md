@@ -61,8 +61,9 @@ redaction, and access controls in the service's logging and telemetry systems.
   `used_fallback`, `error`, and the confirmed vector, graph-entity, and
   graph-relation counts; independently verify required sink state.
 - Sink writes are not atomic. A successful adapter call is not a transaction
-  receipt, and an exception after a write begins is conservatively reported as
-  `PARTIAL`. Do not retry blindly unless the sink's overwrite/idempotency
+  receipt; failed sink calls are conservatively reported as `PARTIAL` because
+  adapters may have applied part of a batch. Do not retry blindly unless the
+  sink's overwrite/idempotency
   semantics are known; verify existing records first. The bridge has no
   automatic sink retry loop and performs at most one workflow fallback.
 - Deployments that omit a writer receive no persistence guarantee for that

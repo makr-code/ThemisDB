@@ -146,7 +146,6 @@ IndexResult RAGIngestionBridge::indexDocument(
     const auto vector_writer = vector_writer_;
     const auto graph_writer = graph_writer_;
     IndexResult outcome;
-    std::size_t confirmed_write_stages = 0;
     bool write_started = false;
 
     try {
@@ -330,7 +329,6 @@ IndexResult RAGIngestionBridge::indexDocument(
         auto write_result = vector_writer->writeVectors(stamped_chunks);
         if (write_result) {
             outcome.vector_count = stamped_chunks.size();
-            ++confirmed_write_stages;
             spdlog::debug(
                 "RAGIngestionBridge::indexDocument vector write ok: chunk_count={}",
                 outcome.vector_count);
@@ -354,7 +352,6 @@ IndexResult RAGIngestionBridge::indexDocument(
             auto write_result = graph_writer->writeEntities(entity_set.nodes);
             if (write_result) {
                 outcome.graph_entity_count = entity_set.nodes.size();
-                ++confirmed_write_stages;
                 entities_written = true;
             } else {
                 spdlog::warn(
@@ -371,7 +368,6 @@ IndexResult RAGIngestionBridge::indexDocument(
                 auto write_result = graph_writer->writeRelations(entity_set.edges);
                 if (write_result) {
                     outcome.graph_relation_count = entity_set.edges.size();
-                    ++confirmed_write_stages;
                 } else {
                     spdlog::warn(
                         "RAGIngestionBridge::indexDocument graph relation write failed for collection='{}'",
@@ -388,7 +384,7 @@ IndexResult RAGIngestionBridge::indexDocument(
             : IndexStatus::COMPLETE;
         outcome.ok = true;
     } else {
-        outcome.status = confirmed_write_stages > 0
+        outcome.status = write_started
             ? IndexStatus::PARTIAL
             : IndexStatus::FAILED;
         outcome.ok = false;

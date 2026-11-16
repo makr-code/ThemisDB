@@ -942,7 +942,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
     _add_llm_inference_ci_target(
         test_llm_doku_rag
         "llm;llm_rag_doku;model_required"
-        180
+        600
     )
     target_sources(module_llm_test_llm_doku_rag_focused PRIVATE
         ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp

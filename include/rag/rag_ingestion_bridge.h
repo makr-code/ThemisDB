@@ -32,7 +32,7 @@ namespace rag {
 enum class IndexStatus {
     COMPLETE,  ///< Workflow and every attempted configured sink completed.
     DEGRADED,  ///< Workflow fallback and all attempted sink writes completed.
-    PARTIAL,   ///< A sink failed after writes began, or a sink outcome is unknown.
+    PARTIAL,   ///< An attempted sink write failed; its applied effects may be unknown.
     FAILED     ///< No indexing result was confirmed, or validation failed.
 };
 

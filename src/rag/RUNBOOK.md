@@ -79,8 +79,8 @@ quality gate, or injection control to restore throughput.
   not full workflow execution.
 - Check the `RAGIngestionBridge::indexDocument` start/completion/warning logs
   for the status and the failed sink stage. Sink writes are non-atomic, so
-  reconcile destination records before retrying; exceptions after a write
-  starts are reported as `PARTIAL` because side effects may have occurred.
+  reconcile destination records before retrying; failed sink calls are reported
+  as `PARTIAL` because side effects may have occurred.
 - Confirm the vector/graph sink is connected to the expected collection and
   that any query-time authorization filter admits the source.
 - Re-index only after verifying the destination and write semantics.
