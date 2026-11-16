@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Ten bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Eleven bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -127,13 +127,17 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - The context reaches full-text BM25 scans, score lookups and sequential entity
   hydration. `QueryEngine` and handler paths discard stopped results. Valid
   no-match searches remain HTTP 200 with zero results.
-- AQL parsing, structural predicate execution, `allow_full_scan` fallback,
-  sorting, serialization, synchronous storage reads and any individual
-  non-polling operation remain checkpoint-only. HTTP client-disconnect
-  cancellation is unavailable during synchronous dispatch.
+- Full-text queries with structural predicates poll around equality/range index
+  reads, index sorting, and during key-list intersection. The storage/index
+  calls and sorts themselves are synchronous and only observed at checkpoints.
+  AQL parsing, the separate `allow_full_scan` fallback, result sorting,
+  serialization, synchronous entity reads and any individual non-polling
+  operation remain checkpoint-only. HTTP client-disconnect cancellation is
+  unavailable during synchronous dispatch.
 - Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
   valid empty results, expired deadline, cancellation, and a stop during the
-  full-text prefix scan. Test/build execution is not claimed until verified.
+  full-text prefix scan and structural predicate execution. Test/build execution
+  is not claimed until verified.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`

@@ -508,9 +508,9 @@ public:
      *        state must remain valid until this synchronous call returns.
      * @param stop_reason Receives the stop cause, or None when no stop was observed.
      * @return Materialized entities, or an error with no partial entities when stopped.
-     * @note Full-text index scans and sequential entity hydration poll cooperatively.
-     *       Structural predicate access, sorting, storage reads, and non-full-text
-     *       execution remain synchronous/checkpoint-only.
+     * @note Full-text index scans, structural key-list intersection, and sequential
+     *       entity hydration poll cooperatively. Structural index reads, sorting,
+     *       storage reads, and non-full-text execution remain synchronous/checkpoint-only.
      */
     Result<std::vector<BaseEntity>> executeAndEntities(
         const ConjunctiveQuery& q,
@@ -532,7 +532,8 @@ public:
      * @param request Absolute deadline and cancellation source.
      * @param stop_reason Receives the stop cause, or None when no stop was observed.
      * @return Matching keys, or an error with no partial keys when stopped.
-     * @note Structural predicate retrieval and sorting are checkpoint-only.
+     * @note Structural key-list intersection polls cooperatively. Individual index
+     *       reads and sorting are synchronous/checkpoint-only.
      */
     Result<std::vector<std::string>> executeAndKeys(
         const ConjunctiveQuery& q,
@@ -897,10 +898,18 @@ private:
     // Range-Unterstützung
     /**
      * @brief Execute And Keys Range Aware.
-     * @param[in] q Input parameter.
-     * @return Return value.
+     * @param[in] q Query containing equality/range predicates and optional ordering.
+     * @param request Optional request context; when supplied, index reads and sorting
+     *        are checked at stage boundaries and key intersection polls every 64
+     *        comparisons. The underlying index calls and sorting cannot be interrupted.
+     * @param stop_reason Receives the cancellation/deadline cause when observed.
+     * @return Matching keys, or an error without partial keys when stopped.
      */
-    Result<std::vector<std::string>> executeAndKeysRangeAware_(const ConjunctiveQuery& q) const;
+    Result<std::vector<std::string>> executeAndKeysRangeAware_(
+        const ConjunctiveQuery& q,
+        const RequestContext* request = nullptr,
+        StopReason* stop_reason = nullptr
+    ) const;
     /**
      * @brief Execute And Entities Range Aware.
      * @param[in] q Input parameter.

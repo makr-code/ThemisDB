@@ -51,9 +51,15 @@ protected:
         index_ = std::make_shared<themis::SecondaryIndexManager>(*db_);
         const auto index_status = index_->createFulltextIndex("articles", "content");
         ASSERT_TRUE(index_status.ok) << index_status.message;
+        const auto category_index_status = index_->createIndex("articles", "category");
+        ASSERT_TRUE(category_index_status.ok) << category_index_status.message;
+        const auto status_index_status = index_->createIndex("articles", "status");
+        ASSERT_TRUE(status_index_status.ok) << status_index_status.message;
         for (int i = 0; i < 128; ++i) {
             themis::BaseEntity entity("article-" + std::to_string(i));
             entity.setField("content", "deadlineprobe fulltext cancellation coverage");
+            entity.setField("category", i % 2 == 0 ? "even" : "odd");
+            entity.setField("status", "published");
             const auto put_status = index_->put("articles", entity);
             ASSERT_TRUE(put_status.ok) << put_status.message;
         }
@@ -88,6 +94,12 @@ TEST_F(AqlFulltextDeadlineTest, IndexedSearchReturnsResultsAndNoMatchRemainsEmpt
         makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"deadlineprobe\") RETURN d"));
     ASSERT_EQ(found.result(), http::status::ok) << found.body();
     EXPECT_GT(nlohmann::json::parse(found.body())["count"].get<size_t>(), 0u);
+
+    const auto filtered = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"deadlineprobe\") "
+                    "AND d.category == \"even\" AND d.status == \"published\" RETURN d"));
+    ASSERT_EQ(filtered.result(), http::status::ok) << filtered.body();
+    EXPECT_EQ(nlohmann::json::parse(filtered.body())["count"], 64);
 
     const auto absent = handler_->handleQueryAql(
         makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"absenttoken\") RETURN d"));
@@ -125,6 +137,21 @@ TEST_F(AqlFulltextDeadlineTest, CancellationDuringPrefixScanDiscardsPartialResul
         nullptr, std::nullopt, &stopAfterPolls, &state);
     const auto response = handler_->handleQueryAql(
         makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"deadlineprobe\") RETURN d"),
+        cancelled);
+
+    ASSERT_EQ(response.result(), http::status::gateway_timeout);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+    EXPECT_EQ(response.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, StructuralPredicateExecutionHonorsCancellation) {
+    PollState state;
+    state.stop_after = 26;  // After text retrieval, at structural-index intersection.
+    const themis::query::RequestContext cancelled(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    const auto response = handler_->handleQueryAql(
+        makeRequest("FOR d IN articles FILTER FULLTEXT(d.content, \"deadlineprobe\") "
+                    "AND d.category == \"even\" AND d.status == \"published\" RETURN d"),
         cancelled);
 
     ASSERT_EQ(response.result(), http::status::gateway_timeout);

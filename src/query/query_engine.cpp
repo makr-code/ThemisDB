@@ -1270,7 +1270,8 @@ QueryEngine::executeAndKeys(
 	structural_query.predicates = q.predicates;
 	structural_query.rangePredicates = q.rangePredicates;
 	structural_query.orderBy = q.orderBy;
-	auto structural_result = executeAndKeysRangeAware_(structural_query);
+	auto structural_result = executeAndKeysRangeAware_(
+		structural_query, &request, stop_reason);
 	if (!structural_result) {
 		return Err<std::vector<std::string>>(
 			structural_result.error().code(), structural_result.error().context());
@@ -3474,7 +3475,43 @@ static inline size_t bigLimit() { return static_cast<size_t>(1000000000); }
 }
 
 Result<std::vector<std::string>>
-QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
+QueryEngine::executeAndKeysRangeAware_(
+	const ConjunctiveQuery& q,
+	const RequestContext* request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		if (!request) {
+			return false;
+		}
+		observed_stop_reason = request->stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&]() {
+		const auto reason = observed_stop_reason != StopReason::None
+			? observed_stop_reason
+			: (stop_reason && *stop_reason != StopReason::None
+				? *stop_reason
+				: (request ? request->stopReason() : StopReason::None));
+		const auto message = reason == StopReason::Cancelled
+			? "Structural query cancelled"
+			: "Structural query deadline exceeded";
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
@@ -3509,20 +3546,32 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 				});
 		}
 	}
+	if (shouldStop()) {
+		return stopped();
+	}
 
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
 	lists.reserve(ordered_predicates.size() + q.rangePredicates.size() );
 
 	for (const auto& p : ordered_predicates) {
+		if (shouldStop()) {
+			return stopped();
+		}
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
 		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
+		if (shouldStop()) {
+			return stopped();
+		}
 		if (!st.ok) {
 		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		tbb::parallel_sort(keys.begin(), keys.end());
+		if (shouldStop()) {
+			return stopped();
+		}
 		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
@@ -3530,6 +3579,9 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 	// 2) Range-Prädikate
 	for (const auto& r : q.rangePredicates) {
+		if (shouldStop()) {
+			return stopped();
+		}
 		if (!secIdx_->hasRangeIndex(q.table, r.column)) {
 			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Missing range index for column: " + r.column);
 		}
@@ -3541,10 +3593,16 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
 		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
+		if (shouldStop()) {
+			return stopped();
+		}
 		if (!st.ok) {
 		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		tbb::parallel_sort(keys.begin(), keys.end());
+		if (shouldStop()) {
+			return stopped();
+		}
 		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
@@ -3557,7 +3615,49 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		candidates.clear();
 	} else {
 		// 3) Schnittmenge
-		candidates = intersectSortedLists_(std::move(lists));
+		if (request) {
+			tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b) {
+				if (a.size() == b.size()) {
+					return a < b;
+				}
+				return a.size() < b.size();
+			});
+			if (shouldStop()) {
+				return stopped();
+			}
+			candidates = lists.front();
+			for (size_t list_index = 1; list_index < lists.size(); ++list_index) {
+				const auto& next = lists[list_index];
+				std::vector<std::string> intersection;
+				intersection.reserve(std::min(candidates.size(), next.size()));
+				size_t candidate_index = 0;
+				size_t next_index = 0;
+				size_t comparisons_since_poll = 0;
+				while (candidate_index < candidates.size() && next_index < next.size()) {
+					if ((comparisons_since_poll++ & 63U) == 0U && shouldStop()) {
+						return stopped();
+					}
+					if (candidates[candidate_index] < next[next_index]) {
+						++candidate_index;
+					} else if (next[next_index] < candidates[candidate_index]) {
+						++next_index;
+					} else {
+						intersection.emplace_back(candidates[candidate_index]);
+						++candidate_index;
+						++next_index;
+					}
+				}
+				candidates.swap(intersection);
+				if (candidates.empty()) {
+					break;
+				}
+			}
+		} else {
+			candidates = intersectSortedLists_(std::move(lists));
+		}
+	}
+	if (shouldStop()) {
+		return stopped();
 	}
 
 	// 4) ORDER BY
@@ -3576,7 +3676,13 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 		if (!candidates.empty()) {
 			candSet.reserve(candidates.size());
-			candSet.insert(std::make_move_iterator(candidates.begin()), std::make_move_iterator(candidates.end()));
+			size_t moved = 0;
+			for (auto& candidate : candidates) {
+				if ((moved++ & 63U) == 0U && shouldStop()) {
+					return stopped();
+				}
+				candSet.emplace(std::move(candidate));
+			}
 		}
 
 		std::vector<std::string> ordered;
@@ -3587,10 +3693,17 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			anchor = std::make_pair(ob.cursor_value.value(), ob.cursor_pk.value());
 		}
 		auto [st, scan] = secIdx_->scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
+		if (shouldStop()) {
+			return stopped();
+		}
 		if (!st.ok) {
 		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
+		size_t scanned = 0;
 		for (auto& k : scan) {
+			if ((scanned++ & 63U) == 0U && shouldStop()) {
+				return stopped();
+			}
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
 			ordered.emplace_back(std::move(k));
 			if (ordered.size() >= ob.limit) {
@@ -3598,8 +3711,14 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			}
 		}
 		span.setAttribute("query.ordered_count", static_cast<int64_t>(ordered.size()));
+		if (shouldStop()) {
+			return stopped();
+		}
 		span.setStatus(true);
 		return Ok(std::move(ordered));
+	}
+	if (shouldStop()) {
+		return stopped();
 	}
 	span.setAttribute("query.result_count", static_cast<int64_t>(candidates.size()));
 	span.setStatus(true);
