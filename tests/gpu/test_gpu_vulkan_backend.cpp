@@ -1,10 +1,9 @@
 /*
  * Unit tests for the Vulkan compute backend (vulkan_backend.h / vulkan_backend.cpp).
  *
- * All tests are designed to run on CI without Vulkan hardware.  When Vulkan is
- * not available the backend transparently falls back to CPU execution and the
- * tests verify that the fallback path behaves correctly.  On a machine with a
- * real Vulkan-capable GPU the same tests exercise the actual Vulkan code paths.
+ * The tests run on CPU-only CI and verify that unsupported or unimplemented
+ * Vulkan dispatch fails closed. Stream management has separate
+ * CPU-compatible behavior tests.
  */
 
 #include <gtest/gtest.h>
@@ -76,19 +75,19 @@ TEST_F(VulkanComputeBackendTest, CreateBackendFn_ReturnsCallable) {
     ASSERT_TRUE(fn != nullptr);
 }
 
-TEST_F(VulkanComputeBackendTest, CreateBackendFn_WorkItemWithNoArgs_Succeeds) {
+TEST_F(VulkanComputeBackendTest, CreateBackendFn_WorkItemWithNoArgs_DoesNotReportGpuSuccess) {
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "vulkan_test_kernel";
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 }
 
-TEST_F(VulkanComputeBackendTest, CreateBackendFn_WorkItemWithArgs_Succeeds) {
+TEST_F(VulkanComputeBackendTest, CreateBackendFn_WorkItemWithArgs_DoesNotReportGpuSuccess) {
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "vulkan_kernel_with_args";
     item.args      = {0x01, 0x02, 0x03};
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 }
 
 TEST_F(VulkanComputeBackendTest, CreateBackendFn_CanBePassedToGPULauncher) {
@@ -98,7 +97,7 @@ TEST_F(VulkanComputeBackendTest, CreateBackendFn_CanBePassedToGPULauncher) {
     GPULauncher::WorkItem item;
     item.kernel_id = "vulkan_launcher_test";
     auto result = launcher.submit(std::move(item)).get();
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
     EXPECT_EQ(result.kernel_id, "vulkan_launcher_test");
 }
 
@@ -113,8 +112,8 @@ TEST_F(VulkanComputeBackendTest, BackendFn_DispatchUpdatesStats) {
     fn(item);
 
     const auto s = backend().getStats();
-    // Either dispatched or cpu_fallbacks should be incremented.
-    EXPECT_EQ(s.dispatched + s.cpu_fallbacks, 1u);
+    EXPECT_EQ(s.dispatched, 0u);
+    EXPECT_EQ(s.dispatch_errors, 1u);
 }
 
 TEST_F(VulkanComputeBackendTest,
@@ -131,14 +130,14 @@ TEST_F(VulkanComputeBackendTest,
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "vulkan_feature_disabled";
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 
     const auto stats = backend().getStats();
-    EXPECT_EQ(stats.cpu_fallbacks, 1u);
+    EXPECT_EQ(stats.dispatch_errors, 1u);
     EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
                         GPUDispatchErrorCode::BACKEND_NOT_ENABLED),
               observed_codes.end());
-    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+    EXPECT_EQ(std::find(observed_codes.begin(), observed_codes.end(),
                         GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED),
               observed_codes.end());
 }
@@ -157,7 +156,7 @@ TEST_F(VulkanComputeBackendTest,
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "vulkan_no_device";
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 
     if (backend().deviceCount() > 0) {
         GTEST_SKIP() << "capability:vulkan_device_count_zero=false;"
@@ -166,11 +165,11 @@ TEST_F(VulkanComputeBackendTest,
     }
 
     const auto stats = backend().getStats();
-    EXPECT_EQ(stats.cpu_fallbacks, 1u);
+    EXPECT_EQ(stats.dispatch_errors, 1u);
     EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
                         GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE),
               observed_codes.end());
-    EXPECT_NE(std::find(observed_codes.begin(), observed_codes.end(),
+    EXPECT_EQ(std::find(observed_codes.begin(), observed_codes.end(),
                         GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED),
               observed_codes.end());
 }
@@ -278,7 +277,7 @@ TEST(VulkanStreamManagerIntegrationTest,
     GPULauncher::WorkItem item;
     item.kernel_id = "vk_integrated_kernel";
     auto result = sm.submit("vk_integrated", std::move(item)).get();
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
 
     sm.destroyStream("vk_integrated");
 }

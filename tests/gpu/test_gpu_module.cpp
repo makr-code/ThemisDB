@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <nlohmann/json.hpp>
+#ifdef THEMIS_ENABLE_TRACING
 #include "observability/trace_instrumentation.h"
+#endif
 #include "themis/gpu/gpu_module.h"
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/memory_manager.h"
@@ -318,8 +320,10 @@ TEST_F(GPUModuleTest, SubmitWork_DegradedResult_IsSerializedAndObservable) {
     GPULauncher::WorkItem item;
     item.kernel_id = "cpu_fallback";
 
+#ifdef THEMIS_ENABLE_TRACING
     themis::observability::DistributedTraceSpan span("gpu.dispatch");
     themis::observability::TraceContextGuard trace_guard(&span, nullptr);
+#endif
     const auto result = mod.submitWork("caller_degraded", "tenant_degraded", item);
     const auto json = nlohmann::json::parse(result.serialize());
 
@@ -327,9 +331,11 @@ TEST_F(GPUModuleTest, SubmitWork_DegradedResult_IsSerializedAndObservable) {
     EXPECT_EQ(json.at("mode"), "cpu_fallback");
     EXPECT_TRUE(json.at("submitted"));
     EXPECT_FALSE(json.at("via_gpu"));
+#ifdef THEMIS_ENABLE_TRACING
     const auto trace_attributes = span.attributes();
     EXPECT_EQ(trace_attributes.at("gpu.execution.status"), "ok_degraded");
     EXPECT_EQ(trace_attributes.at("gpu.execution.mode"), "cpu_fallback");
+#endif
 
     const auto samples = GPUMetrics::GetInstance().snapshot();
     EXPECT_TRUE(std::any_of(samples.begin(), samples.end(), [](const auto& sample) {

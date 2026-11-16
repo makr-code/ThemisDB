@@ -70,7 +70,9 @@ GPU completion is `Ok` with mode `Gpu`. A caller-provided callback must only
 return true after completing the workload; the module cannot establish
 GPU/CPU output equivalence. The default resolver selects only an enabled
 ROCm/Vulkan backend that reports an available device; it does not install a
-CPU-success callback in the GPU launcher.
+CPU-success callback in the GPU launcher. The current ROCm and Vulkan launcher
+wrappers fail closed until they submit a real kernel; device availability or
+device synchronization alone is not GPU success.
 
 `SubmitResult::serialize()` exposes the stable status and mode labels together
 with the legacy booleans and error. When enabled, `themis_gpu_dispatch_total`

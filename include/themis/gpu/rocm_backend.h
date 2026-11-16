@@ -32,17 +32,15 @@ namespace gpu {
  *    `hipStreamSynchronize`)
  *  - Kernel dispatch via `GPULauncher::BackendFn`
  *
- * All real HIP calls are gated behind `THEMIS_ENABLE_HIP`.  When the define
- * is absent (e.g. CI without AMD GPU hardware) the backend transparently falls
- * back to CPU execution so that `GPUStreamManager`, `GPUMemoryPool`, and
- * `GPULauncher` continue to work correctly.
+ * All real HIP calls are gated behind `THEMIS_ENABLE_HIP`. When the define is
+ * absent, memory and stream management retain CPU-compatible behavior, while
+ * launcher dispatch fails closed unless a HIP kernel is actually launched.
  *
  * Integration points
  * ------------------
  * - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` that
  *   can be passed directly to `GPUStreamManager::createStream()` or
- *   `GPULauncher`.  On systems without HIP the returned function succeeds via
- *   the CPU path.
+ *   `GPULauncher`. The callable does not execute CPU fallback work.
  * - `allocate(size_bytes, tag)` / `deallocate(rec)` — wraps `hipMalloc` /
  *   `hipFree` with ownership tracking.  Use these from `GPUMemoryPool` when
  *   backing a real device memory pool.
@@ -121,17 +119,16 @@ public:
     /**
      * @brief Create a `GPULauncher::BackendFn` backed by HIP.
      *
-     * The returned function:
-     *  - On systems **with** HIP: selects @p device_index, then executes the
-     *    work item.  Kernel blob dispatch via `.hsaco` is a hardware-only
-     *    feature; on a device without loaded kernels the call succeeds (no-op
-     *    kernel).
-     *  - On systems **without** HIP: returns `true` immediately (CPU path).
+     * The returned function reports failure unless it actually launches the
+     * requested kernel. Device selection or synchronization alone is not a
+     * successful dispatch; this wrapper currently has no HIP kernel-launch
+     * path. It does not execute CPU fallback work.
      *
      * The function is safe to move into `GPULauncher` or
      * `GPUStreamManager::createStream()`.
      *
      * @param device_index  Target HIP device index (0-based).
+     * @return Callable that returns true only after successful GPU dispatch.
      */
     GPULauncher::BackendFn createBackendFn(int device_index = 0);
 

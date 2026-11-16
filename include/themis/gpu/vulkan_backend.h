@@ -25,27 +25,25 @@ namespace gpu {
 /**
  * @brief Vulkan compute backend for cross-vendor GPU support.
  *
- * Provides Vulkan-backed equivalents of the GPU compute features used by the
- * GPU module, enabling cross-vendor acceleration on AMD, Intel, ARM, Qualcomm,
- * and NVIDIA hardware without requiring vendor-specific drivers (CUDA/HIP).
+ * Provides Vulkan device and stream management across vendors. The launcher
+ * callable fails closed until Vulkan command-buffer submission is implemented.
  *
- *  - Compute dispatch via `GPULauncher::BackendFn`
+ *  - Fail-closed dispatch interface via `GPULauncher::BackendFn`
  *  - Named stream lifecycle (logical streams backed by Vulkan command queues)
  *  - Device availability query
  *
- * All real Vulkan calls are gated behind `THEMIS_ENABLE_VULKAN`.  When the
- * define is absent (e.g. CI without Vulkan SDK) the backend transparently falls
- * back to CPU execution so that `GPUStreamManager` and `GPULauncher` continue
- * to work correctly. Fallback and gate denials emit structured
- * `GPUBackendDispatchDiagnostics` events (`BACKEND_NOT_ENABLED`,
- * `BACKEND_NO_DEVICE_AVAILABLE`, `FALLBACK_CPU_DEGRADED`).
+ * All real Vulkan calls are gated behind `THEMIS_ENABLE_VULKAN`. When the
+ * define is absent, logical stream management remains available, but launcher
+ * dispatch returns false and leaves CPU fallback to the caller. Gate and
+ * availability failures emit structured `GPUBackendDispatchDiagnostics`
+ * events (`BACKEND_NOT_ENABLED`, `BACKEND_NO_DEVICE_AVAILABLE`).
  *
  * Integration points
  * ------------------
  * - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` that
  *   can be passed directly to `GPUStreamManager::createStream()` or
- *   `GPULauncher`.  On systems without Vulkan the returned function succeeds via
- *   the CPU path.
+ *   `GPULauncher`. The callable fails closed when it cannot submit GPU work;
+ *   CPU fallback must be provided by the caller.
  *
  * Thread safety: all public methods are protected by an internal mutex.
  */
@@ -120,17 +118,17 @@ public:
     /**
      * @brief Create a `GPULauncher::BackendFn` backed by Vulkan compute.
      *
-     * The returned function:
-     *  - On systems **with** Vulkan: selects a compute-capable device and
-     *    dispatches the work item through the Vulkan acceleration backend.
-     *    Falls back to CPU when the Vulkan backend is not initialized.
-     *  - On systems **without** Vulkan: returns `true` immediately (CPU path).
+     * The returned function reports failure unless it submits the requested
+     * work item to Vulkan. Device availability alone is not a successful
+     * dispatch; this wrapper currently has no command-buffer submission path.
+     * It does not execute CPU fallback work.
      *
      * The function is safe to move into `GPULauncher` or
      * `GPUStreamManager::createStream()`.
      *
      * @param device_index  Vulkan physical device ordinal (0-based, ignored when
      *                      Vulkan is unavailable).
+     * @return Callable that returns true only after successful GPU dispatch.
      */
     GPULauncher::BackendFn createBackendFn(int device_index = 0);
 
@@ -181,7 +179,7 @@ public:
         size_t streams_destroyed = 0;  ///< destroyStream calls succeeded
         size_t dispatched        = 0;  ///< Work items dispatched successfully
         size_t dispatch_errors   = 0;  ///< Work items that failed dispatch
-        size_t cpu_fallbacks     = 0;  ///< Items routed to CPU (no Vulkan hw)
+        size_t cpu_fallbacks     = 0;  ///< CPU fallback operations performed by this backend
     };
 
     Stats getStats() const;

@@ -63,7 +63,10 @@ creation independently of CMake backend compilation.
 
 The default resolver selects ROCm, then enabled Vulkan, only when that backend
 reports an available device; it does not install a CPU-success callback as a
-GPU backend.
+GPU backend. Current ROCm and Vulkan launcher wrappers fail closed unless they
+actually submit the requested kernel; device availability or synchronization
+alone is not reported as GPU success. Provide a CPU callback to `initialize()`
+when degraded execution is required.
 
 For allocation and dispatch error codes and diagnostic expectations, use the
 current

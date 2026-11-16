@@ -14,7 +14,9 @@
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/rocm_backend.h"
 #include "themis/gpu/vulkan_backend.h"
+#ifdef THEMIS_ENABLE_TRACING
 #include "observability/trace_instrumentation.h"
+#endif
 #include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
@@ -143,10 +145,12 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
 GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, const std::string &tenant_id,
                                               const GPULauncher::WorkItem &item) {
     auto record_dispatch_result = [&](const SubmitResult& result) {
+#ifdef THEMIS_ENABLE_TRACING
         if (auto* span = themis::observability::getCurrentSpan()) {
             span->setAttribute("gpu.execution.status", executionStatusName(result.status));
             span->setAttribute("gpu.execution.mode", executionModeName(result.mode));
         }
+#endif
         if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
             GPUMetrics::GetInstance().recordDispatchResult(executionStatusName(result.status),
                                                           executionModeName(result.mode));
