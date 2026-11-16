@@ -30,7 +30,7 @@ struct PollState {
 };
 
 bool stopAfterPolls(const void* opaque) noexcept {
-    const auto* state = static_cast<const PollState*>(opaque);
+    auto* state = const_cast<PollState*>(static_cast<const PollState*>(opaque));
     const auto poll = state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
     return state->stop_after != 0 && poll >= state->stop_after;
 }
