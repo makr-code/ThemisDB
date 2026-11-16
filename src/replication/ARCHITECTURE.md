@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -61,6 +61,7 @@ The manager includes `storage/wal_storage.h`; see [`replication_manager.cpp`](re
 ## Failure domains and edge cases
 
 - Replica heartbeat/election/ack timeouts and quorum requirements affect promotion or synchronous write acknowledgement according to configuration.
+- Replication startup uses the canonical `WALStorage` recovery result, validates the serialized entry checksum and sequence, and remains unready on corruption, timeout, or I/O failure; a truncated physical tail is reported distinctly after repair.
 - A full async shipping queue returns `false` from `enqueueSegment()`; callers must handle this backpressure result and the shipper statistics.
 - A paused replication slot retains its progress position; stale consumers can therefore constrain log retention.
 - Ship-handler, schema-event, or conflict-resolver errors are separate component concerns. Exact propagation/retry semantics are not uniform; consult each public interface and implementation.
@@ -71,7 +72,7 @@ header-only declarations noted above.
 
 ## Explicit non-goals
 
-- Owning durable record encoding, RocksDB lifecycle, or storage recovery.
+- Owning the canonical durable-record framing, RocksDB lifecycle, or physical storage recovery; replication validates its application-level WAL payload and sequence on top of `WALStorage`.
 - Choosing shard partitions, coordinating cross-shard transactions, or implementing client-facing admin endpoints.
 - Guaranteeing a single consistency level independent of the configured mode, acknowledgement policy, and available peers.
 

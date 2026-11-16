@@ -27,6 +27,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <memory>
@@ -73,6 +74,22 @@ enum class ReplicationMode {
     SYNC,           // Synchronous: wait for all replicas
     SEMI_SYNC,      // Semi-synchronous: wait for quorum
     ASYNC           // Asynchronous: don't wait
+};
+
+/**
+ * @brief Outcome of replaying the replication WAL during startup.
+ *
+ * A node may become ready only after complete recovery or recovery of a
+ * physically truncated final record. Corruption, timeout, and I/O failure
+ * leave replication unavailable.
+ */
+enum class WALRecoveryStatus : uint8_t {
+    NOT_STARTED,
+    COMPLETE,
+    TRUNCATED_TAIL,
+    CORRUPTED,
+    TIMED_OUT,
+    FAILED
 };
 
 /**
@@ -407,6 +424,15 @@ class WALManager {
 public:
     explicit WALManager(const ReplicationConfig& config);
     ~WALManager();
+
+    /**
+     * @brief Return the outcome of the last WAL replay.
+     * @return COMPLETE or TRUNCATED_TAIL after successful recovery. Construction
+     *         throws on CORRUPTED, TIMED_OUT, or FAILED recovery.
+     */
+    [[nodiscard]] WALRecoveryStatus getRecoveryStatus() const noexcept {
+        return recovery_status_;
+    }
     
     // Append entry to WAL
     uint64_t append(const WALEntry& entry);
@@ -438,6 +464,7 @@ public:
 
 private:
     ReplicationConfig config_;
+    WALRecoveryStatus recovery_status_ = WALRecoveryStatus::NOT_STARTED;
     std::atomic<uint64_t> current_sequence_{0};
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
@@ -860,6 +887,15 @@ public:
      * @return Health status map (node_id -> is_healthy)
      */
     std::map<std::string, bool> getClusterHealth() const;
+
+    /**
+     * @brief Report the latest local replication-WAL recovery outcome.
+     * @return Recovery status. Failed startup recovery remains visible here and
+     *         in exported metrics; the local node is not ready in that state.
+     */
+    [[nodiscard]] WALRecoveryStatus getWALRecoveryStatus() const noexcept {
+        return wal_recovery_status_.load();
+    }
     
     /**
      * Export metrics in Prometheus format
@@ -1041,6 +1077,7 @@ private:
     std::mutex manager_mutex_;
     std::atomic<bool> initialized_{false};
     std::atomic<bool> running_{false};
+    std::atomic<WALRecoveryStatus> wal_recovery_status_{WALRecoveryStatus::NOT_STARTED};
      
     // Background threads
     std::thread heartbeat_thread_;

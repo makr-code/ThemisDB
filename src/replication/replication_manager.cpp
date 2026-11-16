@@ -91,6 +91,66 @@ namespace {
 
 constexpr uint32_t kDefaultMaxInMemoryWalEntries = 10'000;
 
+class WALRecoveryError final : public std::runtime_error {
+public:
+    WALRecoveryError(WALRecoveryStatus status, const std::string& message)
+        : std::runtime_error(message), status_(status) {}
+
+    WALRecoveryStatus status() const noexcept { return status_; }
+
+private:
+    WALRecoveryStatus status_;
+};
+
+WALRecoveryStatus toReplicationRecoveryStatus(themis::WALStorage::RecoveryStatus status) {
+    switch (status) {
+        case themis::WALStorage::RecoveryStatus::Complete:
+            return WALRecoveryStatus::COMPLETE;
+        case themis::WALStorage::RecoveryStatus::TruncatedTail:
+            return WALRecoveryStatus::TRUNCATED_TAIL;
+        case themis::WALStorage::RecoveryStatus::Corrupted:
+            return WALRecoveryStatus::CORRUPTED;
+        case themis::WALStorage::RecoveryStatus::TimedOut:
+            return WALRecoveryStatus::TIMED_OUT;
+        case themis::WALStorage::RecoveryStatus::Failed:
+            return WALRecoveryStatus::FAILED;
+    }
+    return WALRecoveryStatus::FAILED;
+}
+
+const char* walRecoveryStatusName(WALRecoveryStatus status) {
+    switch (status) {
+        case WALRecoveryStatus::NOT_STARTED:
+            return "not_started";
+        case WALRecoveryStatus::COMPLETE:
+            return "complete";
+        case WALRecoveryStatus::TRUNCATED_TAIL:
+            return "truncated_tail";
+        case WALRecoveryStatus::CORRUPTED:
+            return "corrupted";
+        case WALRecoveryStatus::TIMED_OUT:
+            return "timed_out";
+        case WALRecoveryStatus::FAILED:
+            return "failed";
+    }
+    return "failed";
+}
+
+std::string computeReplicationWalChecksum(const WALEntry& entry) {
+    const std::string content = entry.operation + entry.collection +
+                                entry.document_id + entry.data;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
+           content.size(), hash);
+
+    std::ostringstream checksum;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        checksum << std::hex << std::setw(2) << std::setfill('0')
+                 << static_cast<int>(hash[i]);
+    }
+    return checksum.str();
+}
+
 struct WalManagerRuntimeState {
     std::unique_ptr<themis::WALStorage> durability_wal;
     std::deque<WALEntry> wal_entries;
@@ -507,21 +567,12 @@ uint64_t WALManager::append(const WALEntry& entry) {
     stored_entry.sequence_number = seq;
     stored_entry.term = current_term_.load();
 
-    // Compute checksum if not provided
+    // Compute the payload checksum locally and reject an invalid supplied checksum
+    // before appending a record that could be acknowledged but fail on restart.
     if (stored_entry.checksum.empty()) {
-        std::string content = stored_entry.operation + stored_entry.collection + 
-                             stored_entry.document_id + stored_entry.data;
-        
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
-               content.size(), hash);
-        
-        std::ostringstream oss = {};
-        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-            oss << std::hex << std::setw(2) << std::setfill('0') 
-                << static_cast<int>(hash[i]);
-        }
-        stored_entry.checksum = oss.str();
+        stored_entry.checksum = computeReplicationWalChecksum(stored_entry);
+    } else if (stored_entry.checksum != computeReplicationWalChecksum(stored_entry)) {
+        throw std::runtime_error("Replication WAL entry checksum mismatch");
     }
 
     auto serialized = stored_entry.serialize();
@@ -660,21 +711,26 @@ void WALManager::loadFromDisk() {
     wal_config.dir = config_.wal_directory;
     wal_config.rotation_threshold_bytes = config_.wal_segment_size_bytes;
     wal_config.fsync_on_write = config_.wal_sync_on_commit;
+    wal_config.recovery_timeout = std::chrono::milliseconds(config_.file_io_timeout_ms);
+    bool invalid_replication_entry = false;
 
-    auto recovery_callback = [this, &state](const themis::WALStorage::Entry& recovered) {
+    auto recovery_callback = [this, &state, &invalid_replication_entry](
+                                 const themis::WALStorage::Entry& recovered) {
         if (recovered.type != themis::WALStorage::EntryType::PUT) {
             return true;
         }
 
         std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
         auto wal_entry = WALEntry::deserialize(payload);
-        if (!wal_entry) {
+        if (!wal_entry || wal_entry->sequence_number != recovered.sequence ||
+            wal_entry->checksum.empty() ||
+            wal_entry->checksum != computeReplicationWalChecksum(*wal_entry)) {
+            invalid_replication_entry = true;
             THEMIS_ERROR("Invalid replication WAL entry at sequence {}; aborting recovery",
-                        recovered.sequence);
+                         recovered.sequence);
             return false;
         }
 
-        wal_entry->sequence_number = recovered.sequence;
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
         state.wal_entries.push_back(*wal_entry);
@@ -682,12 +738,28 @@ void WALManager::loadFromDisk() {
         return true;
     };
 
-    auto storage_result = themis::WALStorage::open(wal_config, recovery_callback);
+    themis::WALStorage::RecoveryResult recovery_result;
+    auto storage_result = themis::WALStorage::open(
+        wal_config, recovery_callback, &recovery_result);
     if (!storage_result.has_value()) {
-        throw std::runtime_error("Failed to open replication WAL storage: " +
-                                 storage_result.error().message());
+        recovery_status_ = invalid_replication_entry
+                               ? WALRecoveryStatus::CORRUPTED
+                               : toReplicationRecoveryStatus(recovery_result.status);
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL recovery " +
+                std::string(walRecoveryStatusName(recovery_status_)) + ": " +
+                storage_result.error().message());
     }
 
+    recovery_status_ = toReplicationRecoveryStatus(recovery_result.status);
+    if (recovery_status_ != WALRecoveryStatus::COMPLETE &&
+        recovery_status_ != WALRecoveryStatus::TRUNCATED_TAIL) {
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL recovery did not complete: " +
+                std::string(walRecoveryStatusName(recovery_status_)));
+    }
     state.durability_wal = std::move(storage_result.value());
     current_sequence_.store(std::max(current_sequence_.load(), state.durability_wal->lastSequence()));
 }
@@ -1240,8 +1312,21 @@ bool ReplicationManager::initialize() {
         return false;
     }
     
-    // Initialize WAL Manager
-    wal_ = std::make_shared<WALManager>(config_);
+    // Do not start replication threads unless WAL recovery completed safely.
+    wal_recovery_status_.store(WALRecoveryStatus::NOT_STARTED);
+    try {
+        wal_ = std::make_shared<WALManager>(config_);
+        wal_recovery_status_.store(wal_->getRecoveryStatus());
+    } catch (const WALRecoveryError& e) {
+        wal_recovery_status_.store(e.status());
+        THEMIS_ERROR("Replication startup blocked by WAL recovery status {}: {}",
+                     walRecoveryStatusName(e.status()), e.what());
+        return false;
+    } catch (const std::exception& e) {
+        wal_recovery_status_.store(WALRecoveryStatus::FAILED);
+        THEMIS_ERROR("Replication startup failed while opening WAL: {}", e.what());
+        return false;
+    }
      
     // Initialize Leader Election
     election_ = std::make_unique<LeaderElection>(node_id_, config_, wal_);
@@ -1785,6 +1870,11 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     
     // Export basic stats
     oss << stats_.toPrometheusFormat();
+
+    oss << "\n# HELP themisdb_replication_wal_recovery_status Current replication WAL recovery state (one-hot)\n"
+        << "# TYPE themisdb_replication_wal_recovery_status gauge\n"
+        << "themisdb_replication_wal_recovery_status{status=\""
+        << walRecoveryStatusName(wal_recovery_status_.load()) << "\"} 1\n";
     
     // Add cluster health metrics
     auto health = getClusterHealth();

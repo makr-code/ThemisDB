@@ -192,5 +192,16 @@ TEST(ReplicationManagerRecoveryTest, InvalidWalEntryAbortsRecovery) {
     ReplicationConfig replication_config;
     replication_config.wal_directory = wal_dir.string();
     EXPECT_THROW(WALManager manager(replication_config), std::runtime_error);
+
+    ReplicationManager manager(replication_config);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
+              std::string::npos);
+
     std::filesystem::remove_all(wal_dir);
 }

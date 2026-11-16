@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-31
+Last Updated: 2026-11-16
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -55,6 +55,29 @@ These are API defaults, not deployment recommendations or verified production SL
 The two components export their own metric text. Metric names and labels should be
 checked in the relevant header/implementation; this document does not claim that a
 server endpoint or dashboard exports them.
+
+## Replication WAL recovery and readiness
+
+`WALManager` delegates record framing, physical WAL checksums, and truncated-tail
+repair to `WALStorage`, then validates each replication entry's payload checksum and
+serialized sequence against the canonical WAL sequence. Deserialization, payload
+checksum, sequence, and physical-record corruption abort recovery; entries after the
+first invalid record are not replayed.
+
+`ReplicationManager::initialize()` succeeds only for `COMPLETE` or
+`TRUNCATED_TAIL` recovery. A truncated final physical record is removed by
+`WALStorage`; the valid prefix is replayed and the outcome remains visible as
+`TRUNCATED_TAIL`. Corrupted, timed-out, and other failed recovery outcomes block
+initialization, keep local cluster health false, and are exposed by
+`getWALRecoveryStatus()` and the one-hot
+`themisdb_replication_wal_recovery_status{status="..."}` metric. The recovery scan
+uses `ReplicationConfig::file_io_timeout_ms` (default 5,000 ms; zero disables the
+timeout).
+
+These states report startup recovery only. They do not establish end-to-end
+multi-process crash evidence, automatic failover, or topology-specific RPO/RTO
+guarantees. The module has no approved numeric lag or recovery SLO; set such targets
+only after recording a representative baseline and obtaining an operational owner.
 
 ## Slots and logical consumers
 
