@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-11-13T08:22:06.602967+00:00`
+> Generated: `2026-11-16T02:02:10.587425+00:00`
 
 ## Statistics
 
@@ -13,10 +13,10 @@
 | Modules with public plugin | 10 |
 | Modules with private plugin | 4 |
 | Modules with API contracts | 6 |
-| Documentation sources scanned | 1254 |
-| LLM Wiki source files | 8134 |
+| Documentation sources scanned | 1255 |
+| LLM Wiki source files | 8095 |
 | LLM Wiki module/API entries | 80 |
-| LLM Wiki generated | `2026-11-13T07:35:35+00:00` |
+| LLM Wiki generated | `2026-11-13T12:48:21+00:00` |
 | ai_working artifacts | 30 |
 
 ## Module Architecture Diagram
@@ -355,9 +355,9 @@ Isolated modules (no incoming/outgoing dependency): 30
 ## Knowledge Sources
 
 ### Developer LLM Wiki
-- Generated at: `2026-11-13T07:35:35+00:00`
-- Source hash: `58db3eb17cddb70a3268a40aab2a7cc294071ef4539b9061f7714638432e8991`
-- Source file count: 8134
+- Generated at: `2026-11-13T12:48:21+00:00`
+- Source hash: `cd9e4381f9fd219cbc045e7a3b9a33d03a82a83ec76f7970f3fc9235912cdf44`
+- Source file count: 8095
 - Module/API entries indexed: 80
 
 ### ai_working Artifacts
@@ -365,18 +365,18 @@ Wave/batch reports: 3
 JSON analysis artifacts: 8
 
 ### Documentation Sources
-1254 documentation files scanned from `docs/` and repository root governance files.
+1255 documentation files scanned from `docs/` and repository root governance files.
 
 ## Source Hashes
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `21321f18b38d21b7` |
+| `ARCHITECTURE.md` | `14f2ad2339141dbe` |
 | `FUTURE_ENHANCEMENTS.md` | `d9f033e9da09b940` |
 | `ROADMAP.md` | `3f051a5cb34ab117` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
 | `ai_context/MODULES_AND_NAMESPACES.md` | `bf42dba44a39f8cb` |
 | `ai_context/api_contracts/` | `bfdcd3503fc9863b` |
-| `ai_context/developer_llm_wiki/` | `345d17ac6f8c1950` |
+| `ai_context/developer_llm_wiki/` | `56a9b2e8d93378fb` |
 | `ai_working/` | `2da2d31a22a9695b` |
-| `docs/` | `64216277d454bab0` |
+| `docs/` | `1222d06adccf5a58` |
