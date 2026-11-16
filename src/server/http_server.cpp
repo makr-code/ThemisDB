@@ -8378,7 +8378,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleContentFsDelete(req);
             break;
         case Route::HybridSearchPost:
-            response = content_api_->handleHybridSearch(req);
+           {
+               // Use the live server timeout; request input cannot extend it.
+               const uint32_t timeout_ms =
+                   request_timeout_ms_live_.load(std::memory_order_relaxed);
+               const themis::query::RequestContext hybrid_request =
+                   timeout_ms == 0
+                       ? themis::query::RequestContext{}
+                       : themis::query::RequestContext::withTimeout(
+                             std::chrono::milliseconds(timeout_ms));
+               response = content_api_->handleHybridSearch(req, hybrid_request);
+           }
             break;
         case Route::FusionSearchPost:
            {

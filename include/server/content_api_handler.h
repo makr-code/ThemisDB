@@ -75,11 +75,23 @@ public:
     http::response<http::string_body> handleGetChunks(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle Hybrid Search.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Performs unbounded graph-expanded vector search for legacy callers.
+     * @param[in] req HTTP request containing query, top-k, expansion, and filter fields.
+     * @return JSON results, a validation/backend error response, or a successful empty result.
      */
     http::response<http::string_body> handleHybridSearch(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Performs graph-expanded vector search with cooperative deadline/cancellation.
+     * @param[in] req HTTP request containing query, top-k, expansion, and filter fields.
+     * @param[in] request Absolute deadline and cancellation state propagated to retrieval.
+     * @return JSON results on success; HTTP 504 without partial results when stopped.
+     * @note Embedding, graph neighbor/Dijkstra reads, whitelist scans, and sorting are
+     *       checkpoint-only; no work continues after this synchronous handler returns.
+     */
+    http::response<http::string_body> handleHybridSearch(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request);
 
     /**
      * @brief Performs an unbounded text/vector fusion search for legacy callers.

@@ -306,9 +306,23 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
 http::response<http::string_body> ContentApiHandler::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
+    return handleHybridSearch(req, ::themis::query::RequestContext{});
+}
+
+http::response<http::string_body> ContentApiHandler::handleHybridSearch(
+    const http::request<http::string_body>& req,
+    const ::themis::query::RequestContext& request
+) {
     try {
         if (!content_manager_) {
           return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto stoppedResponse = [&]() {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Hybrid search stopped: request deadline exceeded or cancelled", req);
+        };
+        if (request.shouldStop()) {
+            return stoppedResponse();
         }
         auto& content_manager = *content_manager_;
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -326,20 +340,41 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
           filters["scoring"] = body["scoring"];
         }
 
-        auto results = content_manager.searchWithExpansion(query, k, hops, filters);
+        auto stop_reason = ::themis::query::StopReason::None;
+        auto results = content_manager.searchWithExpansion(
+            query, k, hops, filters, request, &stop_reason);
+        if (stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+            return stoppedResponse();
+        }
         nlohmann::json resp = nlohmann::json::array();
+        size_t materialized = 0;
         for (const auto& result : results) {
+            if (((++materialized & 63U) == 0U) && request.shouldStop()) {
+                return stoppedResponse();
+            }
             resp.push_back({{"pk", result.first}, {"score", result.second}});
         }
         nlohmann::json out = {
             {"count",resp.size()},
             {"results", resp}
         };
-        return makeResponse(http::status::ok, out.dump(), req);
+        auto response_body = out.dump();
+        if (request.shouldStop()) {
+            return stoppedResponse();
+        }
+        return makeResponse(http::status::ok, response_body, req);
     } catch (const std::exception& e) {
+        if (request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Hybrid search stopped: request deadline exceeded or cancelled", req);
+        }
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
     } catch (...) {
         THEMIS_WARN("handleHybridSearch: unknown exception");
+        if (request.shouldStop()) {
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Hybrid search stopped: request deadline exceeded or cancelled", req);
+        }
         return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }

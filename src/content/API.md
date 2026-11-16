@@ -37,6 +37,13 @@ Primary operations include:
 - content deletion and virtual-path operations;
 - optional embedding and deduplication pipeline attachment.
 
+`searchWithExpansion(..., RequestContext, StopReason*)` is the bounded overload for
+request-aware callers. It propagates the context to KNN and checks it during graph
+expansion and result handling; embedding generation, graph neighbor/Dijkstra reads,
+whitelist scans, and sorting are checkpoint-only. A stopped request discards partial
+results and reports the stop reason through `StopReason*`. The legacy overload remains
+unbounded.
+
 Read each declaration for defaults and exact types. `Status` contains `ok` and `message`;
 ingestion returns `IngestResult`, not `Status`.
 
