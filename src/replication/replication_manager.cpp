@@ -27,6 +27,7 @@
 #include <filesystem>
 #include <random>
 #include <algorithm>
+#include <charconv>
 #include <sstream>
 #include <spdlog/spdlog.h>
 #include <iomanip>
@@ -153,6 +154,7 @@ std::string computeReplicationWalChecksum(const WALEntry& entry) {
 
 struct WalManagerRuntimeState {
     std::unique_ptr<themis::WALStorage> durability_wal;
+    std::unique_ptr<themis::WALStorage> term_wal;
     std::deque<WALEntry> wal_entries;
 };
 
@@ -632,13 +634,40 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     return entries;
 }
 
-/**
- * @brief Increment Term.
- * @return Return value.
- * @details Implements incrementTerm without additional internal calls.
- */
 uint64_t WALManager::incrementTerm() {
-    return ++current_term_;
+    std::lock_guard<std::mutex> lock(wal_mutex_);
+    const uint64_t current_term = current_term_.load();
+    if (current_term == std::numeric_limits<uint64_t>::max()) {
+        throw std::overflow_error("Replication WAL term overflow");
+    }
+
+    return persistTermLocked(current_term + 1);
+}
+
+uint64_t WALManager::updateTerm(uint64_t term) {
+    std::lock_guard<std::mutex> lock(wal_mutex_);
+    return persistTermLocked(term);
+}
+
+uint64_t WALManager::persistTermLocked(uint64_t term) {
+    const uint64_t current_term = current_term_.load();
+    if (term <= current_term) {
+        return current_term;
+    }
+
+    auto& state = walManagerState(this);
+    if (!state.term_wal) {
+        throw std::runtime_error("WAL term durability backend is not initialized");
+    }
+
+    auto append_result = state.term_wal->appendPut("current_term", std::to_string(term));
+    if (!append_result.has_value()) {
+        throw std::runtime_error("Failed to persist replication WAL term: " +
+                                 append_result.error().message());
+    }
+
+    current_term_.store(term);
+    return term;
 }
 
 /**
@@ -681,6 +710,13 @@ void WALManager::sync() {
     if (!flush_result.has_value()) {
         THEMIS_WARN("Replication WAL flush failed: {}", flush_result.error().message());
     }
+    if (state.term_wal) {
+        auto term_flush_result = state.term_wal->flush();
+        if (!term_flush_result.has_value()) {
+            THEMIS_WARN("Replication WAL term flush failed: {}",
+                        term_flush_result.error().message());
+        }
+    }
 }
 
 uint64_t WALManager::getSize() const {
@@ -690,7 +726,8 @@ uint64_t WALManager::getSize() const {
         return 0;
     }
 
-    for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory, ec)) {
+    for (const auto& entry :
+         std::filesystem::recursive_directory_iterator(config_.wal_directory, ec)) {
         if (ec) {
             THEMIS_WARN("Replication WAL size calculation failed: {}", ec.message());
             break;
@@ -772,6 +809,70 @@ void WALManager::loadFromDisk() {
     }
     state.durability_wal = std::move(storage_result.value());
     current_sequence_.store(std::max(current_sequence_.load(), state.durability_wal->lastSequence()));
+
+    auto term_wal_config = wal_config;
+    term_wal_config.dir = (fs::path(config_.wal_directory) / "raft_term").string();
+    // Election terms must be durable even when data-entry fsync is configured off.
+    term_wal_config.fsync_on_write = true;
+
+    bool invalid_term_entry = false;
+    uint64_t recovered_persisted_term = 0;
+    auto term_recovery_callback = [&invalid_term_entry, &recovered_persisted_term](
+                                      const themis::WALStorage::Entry& recovered) {
+        if (recovered.type == themis::WALStorage::EntryType::CHECKPOINT) {
+            return true;
+        }
+        if (recovered.type != themis::WALStorage::EntryType::PUT ||
+            recovered.key != "current_term") {
+            invalid_term_entry = true;
+            return false;
+        }
+
+        uint64_t term = 0;
+        const auto* begin = recovered.value.data();
+        const auto* end = begin + recovered.value.size();
+        const auto parse_result = std::from_chars(begin, end, term);
+        if (parse_result.ec != std::errc{} || parse_result.ptr != end ||
+            term <= recovered_persisted_term) {
+            invalid_term_entry = true;
+            return false;
+        }
+
+        recovered_persisted_term = term;
+        return true;
+    };
+
+    themis::WALStorage::RecoveryResult term_recovery_result;
+    auto term_storage_result = themis::WALStorage::open(
+        term_wal_config, term_recovery_callback, &term_recovery_result);
+    if (!term_storage_result.has_value()) {
+        const auto term_recovery_status =
+            invalid_term_entry
+                ? WALRecoveryStatus::CORRUPTED
+                : toReplicationRecoveryStatus(term_recovery_result.status);
+        recovery_status_ = term_recovery_status;
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL term recovery " +
+                std::string(walRecoveryStatusName(recovery_status_)) + ": " +
+                term_storage_result.error().message());
+    }
+
+    const auto term_recovery_status = toReplicationRecoveryStatus(term_recovery_result.status);
+    if (term_recovery_status != WALRecoveryStatus::COMPLETE &&
+        term_recovery_status != WALRecoveryStatus::TRUNCATED_TAIL) {
+        recovery_status_ = term_recovery_status;
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL term recovery did not complete: " +
+                std::string(walRecoveryStatusName(recovery_status_)));
+    }
+
+    state.term_wal = std::move(term_storage_result.value());
+    current_term_.store(std::max(current_term_.load(), recovered_persisted_term));
+    if (term_recovery_status == WALRecoveryStatus::TRUNCATED_TAIL) {
+        recovery_status_ = WALRecoveryStatus::TRUNCATED_TAIL;
+    }
 }
 
 void WALManager::rotateSegment() {
@@ -883,8 +984,15 @@ void LeaderElection::startElection() {
       return;
     }
     
-    // Increment term and become candidate
-    current_term_ = wal_->incrementTerm();
+    // Increment term durably before campaigning. A failed write must not start
+    // an election with a term that would be forgotten after restart.
+    try {
+        current_term_ = wal_->incrementTerm();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to persist election term for {}: {}", node_id_, e.what());
+        last_heartbeat_time_ = std::chrono::steady_clock::now();
+        return;
+    }
     role_.store(ReplicationRole::CANDIDATE);
     voted_for_ = node_id_;  // Vote for self
     
@@ -929,7 +1037,12 @@ bool LeaderElection::requestVote(
     
     // If term is newer, update and become follower
     if (term > current_term_) {
-        current_term_ = term;
+        try {
+            current_term_ = wal_->updateTerm(term);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to persist observed replication term {}: {}", term, e.what());
+            return false;
+        }
         role_.store(ReplicationRole::FOLLOWER);
         voted_for_.clear();
     }
@@ -975,7 +1088,9 @@ void LeaderElection::receiveHeartbeat(
                 current_leader_ = leader_id;
                 last_heartbeat_time_ = std::chrono::steady_clock::now();
             } else {
-                becomeFollower(term, leader_id);
+                if (!becomeFollower(term, leader_id)) {
+                    return;
+                }
             }
         }
     }
@@ -1008,14 +1123,21 @@ void LeaderElection::becomeLeader() {
  * @brief Become Follower.
  * @param[in] term Input parameter.
  * @param[in] leader_id Identifier of the leader.
+ * @return True when the newer term was persisted and follower state updated.
  * @details Calls: store(), clear(), std::chrono::steady_clock::now().
  */
-void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
-    current_term_ = term;
+bool LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
+    try {
+        current_term_ = wal_->updateTerm(term);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to persist observed replication term {}: {}", term, e.what());
+        return false;
+    }
     role_.store(ReplicationRole::FOLLOWER);
     current_leader_ = leader_id;
     voted_for_.clear();
     last_heartbeat_time_ = std::chrono::steady_clock::now();
+    return true;
 }
 
 /**
@@ -1788,14 +1910,21 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
         return false;
     }
     
+    // Persist the new term before exposing the promotion in local replica state.
+    uint64_t promotion_term = 0;
+    try {
+        promotion_term = wal_->incrementTerm();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Cannot promote replica {} because term persistence failed: {}",
+                     replica_id, e.what());
+        return false;
+    }
+
     // Step 3: Promote replica to primary role
     it->role = ReplicationRole::LEADER;
     
-    // Update current term
-    wal_->incrementTerm();
-    
     THEMIS_INFO("Replica {} promoted to LEADER (sequence: {}, term: {})",
-               replica_id, it->last_applied_sequence, wal_->getCurrentTerm());
+               replica_id, it->last_applied_sequence, promotion_term);
     
     // Step 5: Update cluster routing - notify election system
     if (election_) {

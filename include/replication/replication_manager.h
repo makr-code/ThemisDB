@@ -446,8 +446,23 @@ public:
     // Get current term
     uint64_t getCurrentTerm() const { return current_term_.load(); }
     
-    // Increment term (for leader election)
-    uint64_t incrementTerm();
+    /**
+     * @brief Increment and durably persist the election term.
+     * @return The new term, after its metadata record has been persisted.
+     * @throws std::runtime_error if term persistence is unavailable or fails.
+     * @throws std::overflow_error if the current term is already the maximum value.
+     * @note The term is persisted independently of data-entry appends so a restart
+     *       cannot forget an election that occurred before the next write.
+     */
+    [[nodiscard]] uint64_t incrementTerm();
+
+    /**
+     * @brief Persist a term learned from another node before changing local election state.
+     * @param term The observed term; values not greater than the current term are ignored.
+     * @return The current term after the update.
+     * @throws std::runtime_error if persistence is unavailable or fails.
+     */
+    [[nodiscard]] uint64_t updateTerm(uint64_t term);
     
     // Truncate WAL up to sequence (for compaction)
     void truncateBefore(uint64_t sequence);
@@ -468,6 +483,7 @@ private:
     std::atomic<uint64_t> current_sequence_{0};
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
+    uint64_t persistTermLocked(uint64_t term);
     
     // Internal file handling
     void rotateSegment();
@@ -486,10 +502,22 @@ public:
     );
     ~LeaderElection();
     
-    // Start election process
+    /**
+     * @brief Start a local election after durably advancing the term.
+     * @note If the term cannot be persisted, the node remains in its current role
+     *       and the election attempt is deferred.
+     */
     void startElection();
     
-    // Request vote from this node
+    /**
+     * @brief Evaluate a vote request, persisting a newer term before granting a vote.
+     * @param term Candidate's election term.
+     * @param candidate_id Candidate node identifier.
+     * @param last_log_sequence Candidate's last WAL sequence.
+     * @param last_log_term Candidate's last WAL term.
+     * @return True only when the candidate's log is current and the vote is granted;
+     *         false for stale terms, an outdated log, or term-persistence failure.
+     */
     bool requestVote(
         uint64_t term,
         const std::string& candidate_id,
@@ -497,7 +525,14 @@ public:
         uint64_t last_log_term
     );
     
-    // Receive heartbeat from leader
+    /**
+     * @brief Process a leader heartbeat and advance the commit index when accepted.
+     * @param term Leader's election term.
+     * @param leader_id Leader node identifier.
+     * @param leader_commit Leader's committed sequence.
+     * @note A newer term is persisted before follower state or commit-index changes.
+     *       If persistence fails, the heartbeat is ignored.
+     */
     void receiveHeartbeat(
         uint64_t term,
         const std::string& leader_id,
@@ -580,7 +615,7 @@ private:
     
     void electionLoop();
     void becomeLeader();
-    void becomeFollower(uint64_t term, const std::string& leader_id);
+    bool becomeFollower(uint64_t term, const std::string& leader_id);
 };
 
 /**
@@ -862,7 +897,8 @@ public:
     /**
      * Promote a read replica to primary
      * @param replica_id: Node ID of replica to promote
-     * @return true on success
+     * @return True on success, including durable term advancement; false if the
+     *         replica is missing, behind, or the term cannot be persisted.
      */
     bool promoteReplica(const std::string& replica_id);
     

@@ -331,6 +331,106 @@ TEST_F(WALChecksumTest, ReplaysEntriesAfterRestart) {
     EXPECT_EQ(entries[1].operation, "UPDATE");
 }
 
+TEST_F(WALChecksumTest, TermIncrementSurvivesRestartBeforeNextEntry) {
+    TempWALDir wd("/tmp/themis_wal_term_recovery_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    {
+        WALManager wal(cfg);
+        WALEntry first;
+        first.operation = "INSERT";
+        first.collection = "orders";
+        first.document_id = "o3";
+        first.data = "{\"status\":\"created\"}";
+        EXPECT_EQ(wal.append(first), 1u);
+        EXPECT_EQ(wal.incrementTerm(), 1u);
+        EXPECT_EQ(wal.getCurrentSequence(), 1u);
+    }
+
+    {
+        WALManager reopened(cfg);
+        EXPECT_EQ(reopened.getCurrentSequence(), 1u);
+        EXPECT_EQ(reopened.getCurrentTerm(), 1u);
+        EXPECT_EQ(reopened.updateTerm(3), 3u);
+        EXPECT_EQ(reopened.updateTerm(2), 3u);
+
+        WALEntry second;
+        second.operation = "UPDATE";
+        second.collection = "orders";
+        second.document_id = "o3";
+        second.data = "{\"status\":\"paid\"}";
+        EXPECT_EQ(reopened.append(second), 2u);
+
+        const auto entries = reopened.readFrom(1, 10);
+        ASSERT_EQ(entries.size(), 2u);
+        EXPECT_EQ(entries[0].term, 0u);
+        EXPECT_EQ(entries[1].term, 3u);
+        EXPECT_EQ(entries[1].sequence_number, 2u);
+    }
+
+    WALManager recovered_again(cfg);
+    EXPECT_EQ(recovered_again.getCurrentSequence(), 2u);
+    EXPECT_EQ(recovered_again.getCurrentTerm(), 3u);
+    const auto entries = recovered_again.readFrom(2, 1);
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_EQ(entries.front().data, "{\"status\":\"paid\"}");
+}
+
+TEST_F(WALChecksumTest, CorruptTermRecordBlocksReadiness) {
+    TempWALDir wd("/tmp/themis_wal_corrupt_term_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    {
+        WALManager wal(cfg);
+        EXPECT_EQ(wal.incrementTerm(), 1u);
+    }
+
+    std::string term_segment;
+    for (const auto& disk_entry :
+         std::filesystem::directory_iterator(std::filesystem::path(wd.path) / "raft_term")) {
+        if (disk_entry.path().extension() == ".log") {
+            term_segment = disk_entry.path().string();
+            break;
+        }
+    }
+    ASSERT_FALSE(term_segment.empty());
+
+    {
+        std::fstream fs(term_segment, std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(fs.is_open());
+        fs.seekg(static_cast<std::streamoff>(-8), std::ios::end);
+        std::uint8_t byte{};
+        fs.read(reinterpret_cast<char*>(&byte), 1);
+        ASSERT_TRUE(fs.good());
+        byte ^= static_cast<std::uint8_t>(0x80u);
+        fs.seekp(static_cast<std::streamoff>(-8), std::ios::end);
+        fs.write(reinterpret_cast<const char*>(&byte), 1);
+        ASSERT_TRUE(fs.good());
+    }
+
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+}
+
+TEST_F(WALChecksumTest, ObservedTermsPersistBeforeVoteAndHeartbeatStateChanges) {
+    TempWALDir wd("/tmp/themis_wal_observed_term_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    auto wal = std::make_shared<WALManager>(cfg);
+    {
+        LeaderElection election("local-node", cfg, wal);
+        EXPECT_TRUE(election.requestVote(2, "candidate-node", 2, 2));
+        EXPECT_EQ(wal->getCurrentTerm(), 2u);
+
+        election.receiveHeartbeat(3, "leader-node", 0);
+        EXPECT_EQ(election.getCurrentTerm(), 3u);
+        EXPECT_EQ(wal->getCurrentTerm(), 3u);
+    }
+
+    wal.reset();
+    WALManager recovered(cfg);
+    EXPECT_EQ(recovered.getCurrentTerm(), 3u);
+}
+
 TEST_F(WALChecksumTest, TruncatedTailIsReportedAndValidPrefixIsReplayed) {
     TempWALDir wd("/tmp/themis_wal_truncated_tail_test");
     ReplicationConfig cfg = makeConfig(wd.path);

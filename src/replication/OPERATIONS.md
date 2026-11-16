@@ -74,6 +74,13 @@ initialization, keep local cluster health false, and are exposed by
 uses `ReplicationConfig::file_io_timeout_ms` (default 5,000 ms; zero disables the
 timeout).
 
+Election terms, including higher terms learned from peers, are stored in a separate
+`raft_term` WAL below the replication WAL directory and fsynced before voting,
+accepting a higher-term heartbeat, or promoting a replica, regardless of
+`wal_sync_on_commit`. Term recovery participates in startup readiness; malformed or
+corrupted term records block initialization. The term WAL does not advance the
+data-entry LSN.
+
 These states report startup recovery only. They do not establish end-to-end
 multi-process crash evidence, automatic failover, or topology-specific RPO/RTO
 guarantees. The module has no approved numeric lag or recovery SLO; set such targets
