@@ -1351,6 +1351,12 @@ QueryEngine::executeAndEntities(
 			keys_result.error().code(), keys_result.error().context());
 	}
 	auto keys = std::move(*keys_result);
+	constexpr size_t kMaxResultSetSize = 1'000'000;
+	if (keys.size() > kMaxResultSetSize) {
+		THEMIS_WARN("executeAndEntities: result set truncated from {} to {} entries",
+			keys.size(), kMaxResultSetSize);
+		keys.resize(kMaxResultSetSize);
+	}
 	std::vector<BaseEntity> entities;
 	entities.reserve(keys.size());
 	for (size_t i = 0; i < keys.size(); ++i) {
