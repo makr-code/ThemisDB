@@ -361,16 +361,21 @@ public:
 
     /**
      * @brief Return the backing `IngestionToolbox`.
+     * @return Shared ownership of the backing toolbox; null if this bridge was moved from.
      */
     std::shared_ptr<toolbox::IngestionToolbox> toolbox() const;
 
     /**
      * @brief Return the configured vector-writer sink (may be null).
+     * @return Shared ownership of the configured sink, or null if none is configured or
+     *         this bridge was moved from.
      */
     std::shared_ptr<ingestion::IVectorWriter> vectorWriter() const;
 
     /**
      * @brief Return the configured graph-writer sink (may be null).
+     * @return Shared ownership of the configured sink, or null if none is configured or
+     *         this bridge was moved from.
      */
     std::shared_ptr<ingestion::IGraphWriter> graphWriter() const;
 
