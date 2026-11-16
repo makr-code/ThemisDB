@@ -80,6 +80,15 @@ is discarded only after the valid prefix has been replayed. Corruption, timeout,
 callback failure prevents WAL manager construction and must be treated as a startup failure, not as
 an empty successful recovery.
 
+The standalone 2PC coordinator throws from `recoverInDoubtTransactions()` when the durability check,
+WAL reconstruction, or participant identity validation fails. It records `recovery_status=failed`
+and `recovery_failed=true` in coordinator statistics, retains malformed non-final transactions in
+the `FAILED` state, and rejects new commits until recovery is explicitly rerun successfully. A
+completed pass with unresolved work reports `recovery_status=blocked` and also rejects new commits.
+A returned resolved count of zero means only that no transaction completed in that pass; callers
+must also inspect the unresolved transaction snapshot and handle exceptions as a readiness failure.
+Commit attempts are rejected while recovery is running, blocked, or failed.
+
 ### Migration and repair health
 
 - confirm the rebalancer is not blocking indefinitely,

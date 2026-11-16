@@ -1568,6 +1568,46 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
     // guard destructor removes wal_dir
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, MalformedParticipantMetadataFailsRecoveryClosed) {
+    TemporaryTransactionLog log("2pc_coord_invalid_participants");
+    const auto wal_directory = log.logPath().parent_path().string();
+    const std::string transaction_id = "invalid-participant-list";
+
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory;
+    {
+        WALManager wal(wal_config);
+        WALEntry begin_entry;
+        begin_entry.type = WALEntryType::BEGIN_TX;
+        begin_entry.transaction_id = transaction_id;
+        begin_entry.data = {
+            {"transaction_id", transaction_id},
+            {"coordinator_id", "coord-invalid"},
+            {"shards", "not-an-array"}
+        };
+        ASSERT_GT(wal.append(begin_entry).offset, 0u);
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_token_provider = testTokenProvider("coord-invalid");
+    TwoPhaseCommitCoordinator coordinator("coord-invalid", config);
+
+    EXPECT_THROW(coordinator.recoverInDoubtTransactions(), std::runtime_error);
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id),
+              CoordinatorTxnState::FAILED);
+    const auto unresolved = coordinator.getRecoverableTransactions();
+    ASSERT_EQ(unresolved.size(), 1u);
+    EXPECT_EQ(unresolved.front().state,
+              themis::transaction::RecoverableTwoPhaseState::FAILED);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "failed");
+    EXPECT_TRUE(coordinator.getStatistics()["recovery_failed"].get<bool>());
+
+    const auto outcome = coordinator.commit(
+        "must-not-start", {{"shard-a", nlohmann::json::array()}});
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
+}
+
 TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDecision) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
                           ("2pc_coord_wal_replay_" +
@@ -1638,14 +1678,19 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
     coord.registerParticipant("shard-wal", &participant);
 
     EXPECT_EQ(coord.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coord.getStatistics()["recovery_status"], "blocked");
     EXPECT_EQ(coord.getTransactionState(txn), CoordinatorTxnState::COMMIT_DECIDED);
     auto in_doubt = coord.getRecoverableTransactions();
     ASSERT_EQ(in_doubt.size(), 1u);
     EXPECT_TRUE(in_doubt.front().decision_recorded);
     EXPECT_TRUE(in_doubt.front().decision_commit);
+    EXPECT_EQ(coord.commit(
+        "blocked-until-recovery", {{"shard-wal", nlohmann::json::array()}}).result,
+        CoordinatorTxnResult::FAILURE);
 
     participant.commit_ack = true;
     EXPECT_EQ(coord.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(coord.getStatistics()["recovery_status"], "complete");
     EXPECT_EQ(coord.getTransactionState(txn), CoordinatorTxnState::COMPLETED);
     EXPECT_EQ(participant.commit_calls, 2);
 }

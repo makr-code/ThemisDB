@@ -264,6 +264,9 @@ public:
      *
      * @return Number of transactions whose phase-two acknowledgements all
      *         succeeded and whose completion record was written successfully.
+     * @throws std::runtime_error if WAL durability/replay fails or a recovered
+     *         transaction lacks valid participant identities. Callers must
+     *         keep service unavailable; a zero resolved count is not success.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -297,6 +300,9 @@ public:
 
     /**
      * @brief Return coordinator statistics as a JSON object.
+     * @return Counters plus `recovery_status` (`not_run`, `running`, `complete`,
+     *         `blocked`, or `failed`) and `recovery_failed`; failed replay remains
+     *         visible even when it could not reconstruct a transaction.
      */
     nlohmann::json getStatistics() const;
 
@@ -307,6 +313,8 @@ private:
     mutable std::timed_mutex mutex_; ///< Schuetzt Teilnehmer- und Transaktionsregister.
     std::map<std::string, ShardRPCServer::RequestHandler*> participants_; ///< Registrierte Teilnehmer nach Shard-ID.
     std::map<std::string, CoordinatorTxnRecord>            transactions_; ///< Laufende und abgeschlossene Coordinator-Records.
+    bool recovery_failed_ = false;
+    std::string recovery_status_ = "not_run";
 
     // Adapters created by registerParticipantByEndpoint() – owned by the coordinator
     std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_; ///< Eigentum an endpoint-basierten RPC-Adaptern.
