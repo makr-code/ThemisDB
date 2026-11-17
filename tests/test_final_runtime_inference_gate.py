@@ -25,6 +25,19 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
             for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
                 self.assertRegex(job, rf"\b{package}\b")
 
+    def test_build_components_gate_uses_supported_boost_runner(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "reusable-pr-build-components-gate.yml"
+        ).read_text(encoding="utf-8")
+        release_job = workflow.split("\n  release-critical-tests:", 1)[1]
+        release_job = release_job.split("\n  final-runtime-api-gate:", 1)[0]
+        self.assertIn("runs-on: ubuntu-24.04", release_job)
+        for package in ("libboost-system-dev", "libboost-filesystem-dev"):
+            self.assertRegex(release_job, rf"\b{package}\b")
+
     def test_inference_gate_uses_supported_boost_runner(self) -> None:
         workflow = (
             REPO_ROOT

@@ -672,7 +672,7 @@ TEST_F(GoldenDatasetRagTest, Rag09_GoldenRecallAt5_80Percent) {
            "  Investigate doku.db freshness or retrieval quality.";
 }
 
-// ─── RAG-10: Golden dataset source-hint gate ─────────────────────────────────
+// ─── RAG-10: Golden dataset source-document gate ─────────────────────────────
 
 TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
     if (skipIfNoDb()) return;
@@ -681,47 +681,35 @@ TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
         return;
     }
 
-    // Only evaluate entries that have a non-empty expected_source_hint
-    std::vector<const GoldenEntry*> with_hint = {};
-
-    for (const auto& e : golden_entries_) {
-        if (!e.expected_source_hint.empty()) {
-            with_hint.push_back(&e);
-        }
-    }
-
-    if (with_hint.empty()) {
-        GTEST_SKIP() << "No golden entries have an expected_source_hint — skipping RAG-10";
-    }
-
     int source_hits = 0;
-    for (const auto* entry : with_hint) {
-        const auto chunks = reader_->query(entry->question, /*top_k=*/5, /*min_score=*/0.0f);
+    for (const auto& entry : golden_entries_) {
+        ASSERT_FALSE(entry.source_document.empty())
+            << "Entry '" << entry.id << "' is missing source_document";
+        const auto chunks = reader_->query(entry.question, /*top_k=*/5, /*min_score=*/0.0f);
         bool found = std::any_of(chunks.begin(), chunks.end(),
             [&](const WikiChunk& c) {
-                return containsIgnoreCase(c.doc_id,  entry->expected_source_hint) ||
-                       containsIgnoreCase(c.section_title, entry->expected_source_hint);
+                return c.source_path == entry.source_document;
             });
         if (found) {
           ++source_hits;
         }
         else {
-            spdlog::warn("RAG-10 MISS: {} '{}' — hint '{}' not in Top-5 doc_ids",
-                         entry->id, entry->question.substr(0, 50),
-                         entry->expected_source_hint);
+            spdlog::warn("RAG-10 MISS: {} '{}' — source '{}' not in Top-5 source_paths",
+                         entry.id, entry.question.substr(0, 50),
+                         entry.source_document);
         }
     }
 
-    const int total_hinted = static_cast<int>(with_hint.size());
+    const int total_sources = static_cast<int>(golden_entries_.size());
     const double source_recall = static_cast<double>(source_hits) /
-                                  static_cast<double>(total_hinted);
-    spdlog::info("RAG-10: source-hint gate — {}/{} entries found expected source ({:.0f}%)",
-                 source_hits, total_hinted, source_recall * 100.0);
+                                  static_cast<double>(total_sources);
+    spdlog::info("RAG-10: source-document gate — {}/{} entries found expected source ({:.0f}%)",
+                 source_hits, total_sources, source_recall * 100.0);
 
     // Allow up to 30% source misses (sources may be in different doc splits)
     EXPECT_GE(source_recall, 0.70)
-        << "Source-hint Recall = " << (source_recall * 100.0)
-        << "% — below 70% gate for entries with expected_source_hint.";
+        << "Source-document Recall = " << (source_recall * 100.0)
+        << "% — below 70% gate for entries with source_document.";
 }
 
 // ─── RAG-11: Golden dataset latency gate — median < 500 ms ───────────────────

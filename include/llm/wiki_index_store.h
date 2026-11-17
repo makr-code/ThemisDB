@@ -142,8 +142,7 @@ struct WikiIndexConfig {
 class IWikiIndexReader {
 public:
     /**
-     * @brief IWiki Index Reader.
-     * @return Return value.
+     * @brief Release the reader through its interface.
      */
     virtual ~IWikiIndexReader() = default;
 
@@ -162,8 +161,7 @@ public:
 class IWikiIndexWriter {
 public:
     /**
-     * @brief IWiki Index Writer.
-     * @return Return value.
+     * @brief Release the writer through its interface.
      */
     virtual ~IWikiIndexWriter() = default;
 
