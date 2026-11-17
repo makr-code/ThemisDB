@@ -12,22 +12,20 @@
 /*
  * Vulkan Compute Backend — cross-vendor GPU support for the GPU module.
  * ======================================================================
- * Provides Vulkan-backed compute dispatch for AMD, Intel, ARM, Qualcomm,
+ * Provides Vulkan device and stream management for AMD, Intel, ARM, Qualcomm,
  * and NVIDIA hardware without requiring CUDA or HIP drivers.
  *
  * Real Vulkan calls (vkEnumeratePhysicalDevices, etc.) are gated behind
  * THEMIS_ENABLE_VULKAN.  When the define is absent (CI / no Vulkan SDK)
- * the backend falls back to CPU execution so that GPUStreamManager,
- * GPULauncher, and GPUModule continue to work without hardware.
+ * logical stream management remains available, but dispatch fails closed;
+ * callers must provide CPU fallback execution separately.
  *
  * Integration with the acceleration module
  * -----------------------------------------
- * When THEMIS_ENABLE_VULKAN is defined this backend delegates actual
- * distance/compute operations to VulkanVectorBackend from
- * acceleration/graphics_backends.h.  The GPU module layer adds:
+ * The GPU module layer adds:
  *  - Singleton ownership and thread-safe stream registration
  *  - GPULauncher::BackendFn factory (allows GPUStreamManager integration)
- *  - Stats tracking (dispatched, errors, cpu_fallbacks)
+ *  - Stats tracking (dispatched, dispatch_errors, cpu_fallbacks)
  *  - VULKAN_BACKEND feature-flag gate
  */
 
@@ -182,44 +180,32 @@ std::string VulkanComputeBackend::vendorName() const {
  * @details Calls: lock(), GPUFeatureFlags::GetInstance(), isEnabled(), GPUBackendDispatchDiagnostics::emitDiagnostic(), probeDevices().
  */
 GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
-    // Return a BackendFn that dispatches via Vulkan when available, or falls
-    // back to CPU execution.  A single lock covers the entire lambda body to
-    // avoid re-entrancy issues with std::mutex (which is not recursive).
+    static_cast<void>(device_index);
+    // This backend does not submit Vulkan command buffers yet. A single lock
+    // covers the entire lambda body to avoid re-entrancy issues with std::mutex.
     return [this](const GPULauncher::WorkItem & /*item*/) -> bool {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::VULKAN_BACKEND)) {
-            ++stats_.cpu_fallbacks;
+            ++stats_.dispatch_errors;
             GPUBackendDispatchDiagnostics::emitDiagnostic(
                 GPUDispatchErrorCode::BACKEND_NOT_ENABLED,
                 -1,
                 "VulkanComputeBackend::createBackendFn: feature_gate=VULKAN_BACKEND disabled");
-            GPUBackendDispatchDiagnostics::emitDiagnostic(
-                GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
-                -1,
-                "VulkanComputeBackend::createBackendFn: CPU fallback due to disabled VULKAN_BACKEND");
-            return true;
+            return false;
         }
         probeDevices();
 #ifdef THEMIS_ENABLE_VULKAN
         if (cached_device_count_ > 0) {
-            // Vulkan device available: record dispatch.
-            // Production path: replace with real Vulkan command buffer
-            // submission when kernel blob dispatch is wired up.
-            ++stats_.dispatched;
-            return true;
+            ++stats_.dispatch_errors;
+            return false;
         }
 #endif
-        // CPU fallback path (no Vulkan, or Vulkan present but no compute device).
-        ++stats_.cpu_fallbacks;
+        ++stats_.dispatch_errors;
         GPUBackendDispatchDiagnostics::emitDiagnostic(
             GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
             -1,
             "VulkanComputeBackend::createBackendFn: no compute-capable Vulkan device");
-        GPUBackendDispatchDiagnostics::emitDiagnostic(
-            GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED,
-            -1,
-            "VulkanComputeBackend::createBackendFn: CPU fallback due to unavailable Vulkan device");
-        return true;
+        return false;
     };
 }
 

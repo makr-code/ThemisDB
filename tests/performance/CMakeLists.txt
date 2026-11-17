@@ -46,9 +46,33 @@ foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_pmem_storage")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/phase4/pmem_storage.cpp
+        )
+    endif()
+
     if(_stem STREQUAL "test_bwtree")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/performance/phase3/bwtree.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_diskann")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/phase3/diskann.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_gunrock")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/phase3/gunrock.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_splinterdb")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/phase3/splinterdb.cpp
         )
     endif()
 

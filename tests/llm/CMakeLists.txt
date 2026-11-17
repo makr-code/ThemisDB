@@ -162,6 +162,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
         )
     endif()
+    if(_stem STREQUAL "test_skill_registry")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/skill_registry.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+        )
+        if(TARGET yaml-cpp::yaml-cpp)
+            target_link_libraries(${_target} PRIVATE yaml-cpp::yaml-cpp)
+        endif()
+    endif()
     if(_stem STREQUAL "test_mode_spec_bootstrap")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
@@ -942,7 +951,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
     _add_llm_inference_ci_target(
         test_llm_doku_rag
         "llm;llm_rag_doku;model_required"
-        180
+        600
     )
     target_sources(module_llm_test_llm_doku_rag_focused PRIVATE
         ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp

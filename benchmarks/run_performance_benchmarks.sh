@@ -57,6 +57,20 @@ run_benchmark() {
         --benchmark_out_format=json \
         --benchmark_repetitions=3 \
         --benchmark_report_aggregates_only=true; then
+        if ! python3 -c 'import json, math, sys
+with open(sys.argv[1], encoding="utf-8") as result_file:
+    result = json.load(result_file)
+measurements = result.get("benchmarks") if isinstance(result, dict) else None
+if not isinstance(measurements, list) or not measurements:
+    raise SystemExit("benchmark JSON contains no measurements")
+for row in measurements:
+    value = row.get("real_time") if isinstance(row, dict) else None
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+        raise SystemExit("benchmark JSON contains a measurement without finite numeric real_time")' "$output_file"; then
+            echo -e "${RED}[FAIL]${NC} $bench_name (missing or invalid measurement JSON)"
+            return 1
+        fi
+
         echo -e "${GREEN}[PASS]${NC} $bench_name"
         echo "  Output: $output_file"
         return 0
@@ -73,15 +87,17 @@ echo ""
 success_count=0
 fail_count=0
 skip_count=0
+VALIDATED_BENCHMARKS=()
 
 for bench in "${BENCHMARKS[@]}"; do
     if run_benchmark "$bench"; then
-        ((success_count++))
+        success_count=$((success_count + 1))
+        VALIDATED_BENCHMARKS+=("$bench")
     else
         if [ -f "$BUILD_DIR/benchmarks/$bench" ]; then
-            ((fail_count++))
+            fail_count=$((fail_count + 1))
         else
-            ((skip_count++))
+            skip_count=$((skip_count + 1))
         fi
     fi
     echo ""
@@ -105,7 +121,7 @@ combined_file="$OUTPUT_DIR/all_benchmarks_${TIMESTAMP}.json"
     echo "  \"benchmark_files\": ["
     
     first=true
-    for bench in "${BENCHMARKS[@]}"; do
+    for bench in "${VALIDATED_BENCHMARKS[@]}"; do
         result_file="$OUTPUT_DIR/${bench}_${TIMESTAMP}.json"
         if [ -f "$result_file" ]; then
             if [ "$first" = false ]; then
@@ -158,7 +174,7 @@ report_file="$OUTPUT_DIR/report_${TIMESTAMP}.txt"
     echo "====================================="
     echo ""
     
-    for bench in "${BENCHMARKS[@]}"; do
+    for bench in "${VALIDATED_BENCHMARKS[@]}"; do
         result_file="$OUTPUT_DIR/${bench}_${TIMESTAMP}.json"
         if [ -f "$result_file" ]; then
             echo "Benchmark: $bench"
@@ -177,8 +193,14 @@ report_file="$OUTPUT_DIR/report_${TIMESTAMP}.txt"
 echo "Report saved to: $report_file"
 
 # Exit with appropriate code
-if [ $fail_count -gt 0 ]; then
+if [ "$fail_count" -gt 0 ]; then
     exit 1
-else
-    exit 0
 fi
+
+# A collection of skips is not a successful benchmark run.
+if [ "$success_count" -eq 0 ]; then
+    echo "No benchmark produced a validated measurement."
+    exit 2
+fi
+
+exit 0

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-01-03
-Last Updated: 2026-10-30
+Last Updated: 2026-11-17
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -44,8 +44,110 @@ Direkte Script-Läufe (Beispiele):
 ```bash
 python3 benchmarks/hardware_scaling_benchmark.py --help
 python3 benchmarks/run_benchmark_orchestrator.py --help
-bash benchmarks/run_all_benchmarks.sh
+bash benchmarks/run_performance_benchmarks.sh
 ```
+
+`run_performance_benchmarks.sh` startet die vier konfigurierten Google-
+Benchmark-Binaries aus `$BUILD_DIR/benchmarks` (Standard: `build/benchmarks`).
+Nur nichtleere JSON-Dateien mit Messungen und numerischem `real_time` werden
+als erfolgreich aufgenommen. Fehlen alle Binaries, endet der Lauf mit Status 2;
+fehlgeschlagene Binaries oder ungültige Ausgaben ergeben Status 1.
+
+## HTTP-basierte ThemisDB-Messungen
+
+Die folgenden Runner benötigen eine laufende ThemisDB unter dem angegebenen
+HTTP(S)-Origin und Python mit `httpx`, `psutil` und `scipy`. Sie erzeugen
+isolierte Testdaten und entfernen nur ihre eigenen Datensätze. Bei Schreib-,
+Lese-, Validierungs- oder Cleanup-Fehlern wird kein Ergebnisbericht
+veröffentlicht.
+
+```powershell
+python benchmarks\complete_benchmark_suite.py --mode ycsb --endpoint http://127.0.0.1:8765 --workloads A B C F --record-count 100 --operations 200 --output-dir results\ycsb
+python benchmarks\complete_benchmark_suite.py --mode scientific --database ThemisDB --operation read --endpoint http://127.0.0.1:8765 --record-count 100 --output-dir results\scientific
+python benchmarks\run_complete_benchmarks.py --endpoint http://127.0.0.1:8765 --output results\complete.json --record-count 100 --operations 200
+python benchmarks\unified_benchmark_suite.py --endpoint http://127.0.0.1:8765 --dataset-size 100 --operations 200 --iterations 1
+```
+
+Diese Pfade messen serielle HTTP-Zugriffe inklusive Client-, Thread-Dispatch-
+und Readback-Validierungskosten. Die Daten sind synthetisch; YCSB A/B/C/F sind
+inspiriert, nicht der offizielle YCSB-Treiber. Schreibvorgänge ersetzen ganze
+Records, Read-Modify-Write ist nicht atomar. Hardwareangaben beschreiben den
+Benchmark-Client; Serverressourcen und Netzwerklatenz werden nicht gemessen.
+Die vollständige Suite enthält
+wissenschaftliche Read-/Write-Messungen und YCSB-inspirierte Workloads, aber
+keine validierten TPC-C-, TPC-H-, Sysbench- oder Wettbewerbervergleiche.
+Entsprechende Modi von `complete_benchmark_suite.py` brechen ausdrücklich ab;
+die direkten Klassen erfordern explizite Operationsadapter.
+Der Unified-Runner gibt pro Iteration und Workload `--operations` Messungen
+aus; `--warmup` bezeichnet Gruppen zu je zehn zusätzlichen Warmup-Operationen.
+Vorhandene Ergebnisdateien werden nicht überschrieben.
+
+Historische Skripte und Reports außerhalb dieser Pfade sind dadurch nicht
+automatisch validiert. `specialized_comparative_benchmarks.py` war ein nicht
+valider Vergleichsrunner mit festen Wettbewerberlatenzen, ungeprüften
+HTTP-Operationen und Sieger-/Kostenbehauptungen. Der Einstiegspunkt ist
+deaktiviert und liefert jetzt einen Fehler ohne Netzwerk- oder Report-
+Seiteneffekte. Echte spezialisierte Vergleiche bleiben offen, bis validierte
+Referenzadapter und identische Workloads nach `BENCHMARK_STANDARDS.md` vorhanden
+sind. `polyglot_benchmark_simple.sh` ist ebenfalls deaktiviert: der frühere
+Lauf ignorierte fehlgeschlagene Requests, verwendete nicht verifizierte
+Endpunkte und extrapolierte Wettbewerberwerte. Für gemessene ThemisDB-HTTP-
+Operationen siehe `complete_benchmark_suite.py`; das ist kein
+Wettbewerbervergleich. Die verknüpfte 5-GB-Shell-Kette
+(`run_all_benchmarks.sh`, `loadtest_5gb_massive.sh`,
+`stress_test_wire_vs_http.sh`, `final_5gb_benchmark.sh`) ist ebenfalls
+deaktiviert: sie nutzte ungeprüfte oder nicht vergleichbare Workloads und
+konnte Fehler als Erfolg melden. `generate_5gb_testdata_v2.sh` erzeugt
+synthetische Eingabedateien, aber keinen validierten 5-GB-Benchmark.
+`benchmark_suite.sh` ist deaktiviert, weil es Fehler als Messwerte zählte,
+p99 schätzte und feste Wettbewerberbehauptungen ausgab.
+Die Multi-Shard-RAID-Kette (`run_benchmark_simple.ps1`, `quickstart.py`,
+`run_multi_shard_raid_benchmark.py`) ist ebenfalls deaktiviert: Es gab keine
+referenzierte Compose-Konfiguration, keine nachgewiesene RAID-Topologie und
+keine validierten ThemisDB-Operationen. Die früheren Ressourcenmetriken waren
+Platzhalter. Der zugehörige Quickstart ist ein Retirement-Hinweis, kein
+ausführbarer Benchmark. Für unterstützte C++-Messungen siehe die dokumentierten
+Google-Benchmark-Binaries; sie belegen keine RAID- oder Multi-Shard-Leistung.
+
+## Wikipedia HTTP-Entity-Workload
+
+`wikipedia_stress_runner.py` lädt JSONL-Artikel tatsächlich über die ThemisDB-
+Entity-API und prüft jeden Artikel per exaktem Read-after-write. Bis zu
+`--concurrency` unabhängige Write-/Readback-Paare laufen gleichzeitig
+(Standard: `1`, also seriell); der Wert wird im Report ausgewiesen. Volltextsuche,
+Recovery und Speichernutzung werden nicht gemessen. Mit `--mode generate`
+erstellte Eingaben sind synthetisch und müssen als solche ausgewiesen werden;
+für einen Dump ist `--dataset-kind wikipedia-dump` zu setzen.
+
+```powershell
+python benchmarks\wikipedia_stress_runner.py --mode test --endpoint http://127.0.0.1:8765 --data-file C:\data\articles.jsonl --dataset-kind wikipedia-dump --max-articles 10000 --concurrency 8 --output results\wikipedia.json
+```
+
+Der Lauf entfernt nur seine eigenen temporären Entities. HTTP-, Validierungs-
+oder Cleanupfehler verhindern den Report. Eine neue Reportdatei wird exklusiv
+angelegt; bestehende Ergebnisse werden nicht überschrieben.
+
+## Vector-HTTP-Workload (ehemals LLM/NLP-Integrationstest)
+
+`llm_nlp_integration_test_suite.py` führt echte `GET /vector/index/stats`,
+`POST /vector/batch_insert`, `POST /vector/search` und
+`DELETE /vector/by-filter` Requests gegen ThemisDB aus. Die normalisierten
+Vektoren sind deterministische synthetische Testdaten; der Runner misst weder
+Embedding-Inferenz noch LLM-Aufrufe oder einen RAG-End-to-End-Pfad. Er meldet
+Insert-Batch-Latenzen, Suchlatenzen und Treffer des jeweils identischen
+Suchvektors. Der Index muss für eine verlässliche Messung leer oder anderweitig
+isoliert sein; der Runner löscht nach dem Lauf ausschließlich seine IDs mit
+einem eindeutigen Präfix.
+
+```powershell
+python benchmarks\llm_nlp_integration_test_suite.py --endpoint http://127.0.0.1:8765 --vectors 1000 --queries 1000 --batch-size 100 --k 10 --output results\vector-http.json
+```
+
+Bei einem nicht initialisierten Index wird `--dimension` (Standard: 32)
+verwendet; ein vorhandener Index bestimmt die Dimension. Der Prozess benötigt
+`httpx`. Fehler bei HTTP, Insert, Suche oder Cleanup verhindern einen
+Ergebnisbericht. Die frühere LLM/NLP-Simulationssuite und deren feste
+Erfolgsausgaben sind entfernt.
 
 ## Wave 3: Full-Function / Production-nahe Suite
 

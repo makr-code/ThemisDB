@@ -19,31 +19,11 @@
 
 #!/usr/bin/env python3
 """
-Unified Database Benchmark Suite
-==================================
-Standardized benchmarks for comparing ThemisDB against:
-- PostgreSQL (Relational)
-- MongoDB (Document)
-- Redis (Key-Value/Cache)
-- Elasticsearch (Search/Analytics)
-- Polyglot Stack (PostgreSQL + MongoDB + Redis + Elasticsearch)
-
-Based on industry standards:
-- YCSB (Yahoo Cloud Serving Benchmark)
-- TPC-C (Transaction Processing)
-- Sysbench patterns
-- Custom hybrid workloads
-
-All databases:
-- Use identical dataset
-- Execute identical workloads
-- Measured with identical metrics
-- Run in Docker containers for fairness
-
-Author: ThemisDB Team
-Date: 2025-12-04
+Serial HTTP-backed ThemisDB YCSB-inspired benchmark entry point.
+It does not run competing databases or official YCSB/TPC benchmarks.
 """
 
+import asyncio
 import requests
 import json
 import time
@@ -63,6 +43,8 @@ class UnifiedBenchmark:
     def __init__(self, iterations=5, warmup=2):
         self.iterations = iterations
         self.warmup = warmup
+        self.operations = 1000
+        self.seed = 42
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.report_dir = f"unified_benchmarks_{self.timestamp}"
         os.makedirs(self.report_dir, exist_ok=True)
@@ -594,13 +576,13 @@ class UnifiedBenchmark:
             self.collection = collection
         
         def insert(self, key, record):
-            requests.post(f"{self.url}/collection/{self.collection}", json=record, timeout=5)
+            requests.post(f"{self.url}/collection/{self.collection}", json=record, timeout=5).raise_for_status()
         
         def read(self, key):
-            requests.get(f"{self.url}/collection/{self.collection}/{key}", timeout=5)
+            requests.get(f"{self.url}/collection/{self.collection}/{key}", timeout=5).raise_for_status()
         
         def update(self, key, data):
-            requests.put(f"{self.url}/collection/{self.collection}/{key}", json=data, timeout=5)
+            requests.put(f"{self.url}/collection/{self.collection}/{key}", json=data, timeout=5).raise_for_status()
         
         def query(self, filter_dict, sort=None, limit=None):
             params = {'filter': json.dumps(filter_dict)}
@@ -608,12 +590,12 @@ class UnifiedBenchmark:
                 params['sort'] = sort
             if limit:
                 params['limit'] = limit
-            requests.get(f"{self.url}/collection/{self.collection}/query", params=params, timeout=10)
+            requests.get(f"{self.url}/collection/{self.collection}/query", params=params, timeout=10).raise_for_status()
         
         def aggregate_count(self, filter_dict):
             requests.post(f"{self.url}/collection/{self.collection}/aggregate", 
                          json={'pipeline': [{'$match': filter_dict}, {'$count': 'total'}]}, 
-                         timeout=10)
+                         timeout=10).raise_for_status()
     
     class PostgreSQLAdapter:
         def __init__(self, connection_string):
@@ -767,77 +749,61 @@ class UnifiedBenchmark:
         print(f"✓ JSON saved to: {json_file}")
     
     def run_all_benchmarks(self):
-        """Run all benchmarks against all available databases"""
-        print("\n╔════════════════════════════════════════════════════════════════════════════╗")
-        print("║              Unified Database Benchmark Suite                              ║")
-        print("║              YCSB + TPC-H + Custom Workloads                                ║")
-        print("╚════════════════════════════════════════════════════════════════════════════╝")
-        
-        # Check database availability
-        print("\nChecking database availability...")
-        available = self.check_database_availability()
-        
-        for db, status in available.items():
-            status_str = "✓ Available" if status else "✗ Not available"
-            print(f"  {db:15s}: {status_str}")
-        
-        if not any(available.values()):
-            print("\n✗ No databases available! Please start at least one database.")
-            return
-        
-        # Generate dataset
-        self.generate_unified_dataset()
-        
-        # Load data into each database
-        print("\n[Data Loading]")
-        adapters = {}
-        
-        if available['themis']:
-            print(f"  Loading data into ThemisDB...")
-            adapter = self.ThemisAdapter(self.endpoints['themis'])
-            for record in self.dataset:
-                try:
-                    adapter.insert(record['user_id'], record)
-                except:
-                    pass
-            adapters['themis'] = adapter
-            print(f"    ✓ Loaded")
-        
-        # Run workloads for each database
-        for db_name, adapter in adapters.items():
-            print(f"\n{'='*80}")
-            print(f"BENCHMARKING: {db_name.upper()}")
-            print(f"{'='*80}")
-            
-            self.results['databases'][db_name] = {}
-            
-            try:
-                self.results['databases'][db_name]['ycsb_a'] = self.workload_ycsb_a(db_name, adapter)
-                self.results['databases'][db_name]['ycsb_b'] = self.workload_ycsb_b(db_name, adapter)
-                self.results['databases'][db_name]['ycsb_c'] = self.workload_ycsb_c(db_name, adapter)
-                self.results['databases'][db_name]['ycsb_d'] = self.workload_ycsb_d(db_name, adapter)
-                self.results['databases'][db_name]['analytical'] = self.workload_analytical(db_name, adapter)
-                self.results['databases'][db_name]['concurrent_10'] = self.workload_concurrent(db_name, adapter, 10)
-            except Exception as e:
-                print(f"  ✗ Error running workloads for {db_name}: {e}")
-        
-        # Generate report
-        self.generate_report()
-        
-        print("\n╔════════════════════════════════════════════════════════════════════════════╗")
-        print("║              ✓✓✓ UNIFIED BENCHMARKS COMPLETED ✓✓✓                          ║")
-        print("╚════════════════════════════════════════════════════════════════════════════╝")
+        """Run validated ThemisDB HTTP workloads; do not report other databases."""
+        from complete_benchmark_suite import CompleteBenchmarkSuite
+
+        if self.iterations <= 0 or self.warmup < 0:
+            raise ValueError("iterations must be positive and warmup must be nonnegative")
+
+        async def run():
+            suite = CompleteBenchmarkSuite(
+                self.report_dir, endpoint=self.endpoints["themis"],
+                record_count=self.dataset_size, operations=self.operations, seed=self.seed,
+            )
+            runs = []
+            for repetition in range(self.iterations):
+                result = await suite.run_ycsb_benchmarks(
+                    ["ThemisDB"], ["A", "B", "C", "F"],
+                    warmup_operations=self.warmup * 10,
+                )
+                result["repetition"] = repetition + 1
+                runs.append(result)
+            return runs
+
+        runs = asyncio.run(run())
+        self.results = {
+            "metadata": {
+                "timestamp": self.timestamp,
+                "iterations": self.iterations,
+                "operations_per_workload_per_iteration": self.operations,
+                "warmup_operations_per_workload": self.warmup * 10,
+                "system": self.system_info,
+            },
+            "benchmark_kind": "ycsb_inspired",
+            "external_comparison_ready": False,
+            "runs": runs,
+        }
+        json_file = os.path.join(self.report_dir, "results.json")
+        with open(json_file, "x", encoding="utf-8") as output:
+            json.dump(self.results, output, indent=2, allow_nan=False)
+        print(f"Validated ThemisDB results saved to: {json_file}")
 
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description='Unified Database Benchmark Suite')
-    parser.add_argument('--iterations', type=int, default=5, help='Test iterations')
-    parser.add_argument('--warmup', type=int, default=2, help='Warmup iterations')
+    parser = argparse.ArgumentParser(description='ThemisDB HTTP YCSB-inspired benchmarks')
+    parser.add_argument('--iterations', type=int, default=5, help='Independent repetitions per workload')
+    parser.add_argument('--warmup', type=int, default=2, help='Warmup groups of 10 operations per workload')
     parser.add_argument('--dataset-size', type=int, default=10000, help='Dataset size')
+    parser.add_argument('--operations', type=int, default=1000, help='Measured operations per workload and repetition')
+    parser.add_argument('--endpoint', default='http://localhost:8765', help='ThemisDB HTTP(S) origin')
+    parser.add_argument('--seed', type=int, default=42, help='Dataset and operation seed')
     
     args = parser.parse_args()
     
     benchmark = UnifiedBenchmark(iterations=args.iterations, warmup=args.warmup)
     benchmark.dataset_size = args.dataset_size
+    benchmark.operations = args.operations
+    benchmark.endpoints["themis"] = args.endpoint
+    benchmark.seed = args.seed
     benchmark.run_all_benchmarks()

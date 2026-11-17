@@ -1635,6 +1635,9 @@ endif()
 # Dependencies.cmake.
 set(Boost_NO_BOOST_CMAKE ON)
 find_package(Boost MODULE REQUIRED COMPONENTS system filesystem)
+if(NOT TARGET Boost::headers AND TARGET Boost::boost)
+    add_library(Boost::headers ALIAS Boost::boost)
+endif()
 
 # The core Boost headers package is required for header-only utilities such as
 # boost/throw_exception.hpp, which are used by the base runtime even when the
@@ -1805,11 +1808,11 @@ if(THEMIS_ENABLE_GPU)
         message(STATUS "LAPACK gefunden")
     endif()
 
-    # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
+    # FAISS (CONFIG mode via vcpkg) is optional. Its absence disables the
+    # FAISS-backed vector-search path, not the GPU module or CPU fallback.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
-        message(WARNING "Faiss not found - GPU support will be automatically disabled.")
-        set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search" FORCE)
+        message(STATUS "Faiss not found - FAISS-backed vector search is unavailable; retaining GPU module support.")
     endif()
 endif()
 
@@ -4766,15 +4769,19 @@ if(THEMIS_ENABLE_PMEM)
 endif()
 
 if(THEMIS_ENABLE_GPU)
-    target_link_libraries(themis_core PUBLIC faiss)
-    if(UNIX AND NOT APPLE)
-        target_link_libraries(themis_core PUBLIC gfortran quadmath)
+    if(faiss_FOUND)
+        target_link_libraries(themis_core PUBLIC faiss)
+        if(UNIX AND NOT APPLE)
+            target_link_libraries(themis_core PUBLIC gfortran quadmath)
+        endif()
+        # W9-14: Expose THEMIS_HAS_FAISS so advanced_vector_index.cpp enables
+        # the production FAISS code paths (IVF+PQ, HNSW, GPU cloner).
+        target_compile_definitions(themis_core PUBLIC THEMIS_HAS_FAISS)
+        message(STATUS "FAISS found and enabled (THEMIS_HAS_FAISS)")
+    else()
+        message(STATUS "FAISS unavailable; GPU module remains enabled without FAISS-backed vector search.")
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_GPU_ENABLED)
-    # W9-14: Expose THEMIS_HAS_FAISS so advanced_vector_index.cpp enables
-    # the production FAISS code paths (IVF+PQ, HNSW, GPU cloner).
-    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_FAISS)
-    message(STATUS "FAISS found and enabled (THEMIS_HAS_FAISS)")
 elseif(hnswlib_FOUND)
     target_link_libraries(themis_core PUBLIC hnswlib::hnswlib)
     target_compile_definitions(themis_core PUBLIC THEMIS_HNSW_ENABLED)
@@ -4908,6 +4915,9 @@ endif()
 # MCP (Model Context Protocol) Support
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
+    if(TARGET themis_network)
+        target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MCP)
+    endif()
     message(STATUS "Model Context Protocol (MCP) support enabled")
     message(STATUS "  MCP Transports: stdio, SSE, WebSocket")
     message(STATUS "  MCP Components: Tools, Resources, Prompts")
@@ -5262,6 +5272,7 @@ if(THEMIS_ENABLE_LLM)
         # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
         ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
         ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+        ../src/llm/skill_registry.cpp             # Filesystem-backed Agent Skill packages
         ../src/llm/mode_spec_bootstrap.cpp        # Server bootstrap: llm.orchestrator.mode_spec_path / --mode-spec resolution
 
         # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)

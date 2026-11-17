@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -43,8 +43,16 @@ The AI inference dispatcher has its own probe cache (120 seconds), capability or
 | Requested capability unavailable | Capability selector returns `nullptr` |
 | AI precision unsupported | Try FP32 only if the candidate advertises it; otherwise continue to the next backend |
 | AI backend execution fails | Log the failure and continue through the ordered chain; return a failed result if exhausted |
+| Invalid AI vector-similarity dimensions or products | Reject before allocation or kernel dispatch when dimensions/products exceed the kernel `int` range or `input_elements` does not match |
+| AI vector-similarity validation, allocation, or kernel execution fails | Return `success == false` with an error and empty output, shape, index, and distance buffers; retain backend identity for diagnostics |
 | CUDA vector-similarity initialization or kernel fails | Fall back to CPU similarity execution |
 | Plugin path, signature, or policy validation fails | Reject the plugin before loading and record a security event |
+
+`AiHardwareDispatcher` and `BackendRegistry` are separate selectors. The former caches AI provider probes for 120 seconds and its `run()` proceeds through the ordered candidate list; the latter uses a 60-second device-discovery snapshot and a fixed backend priority. `runOn()` does not run the full AI provider chain, although the GPU vector-similarity path itself falls back once to CPU. Discovery health is snapshot evidence, not continuous device attestation.
+
+Kernel fallback retries only `DeviceLost`, `OperationTimeout`, and `SynchronizationFailed`; other errors immediately use the fallback table. Retry settings are validated and capped at eight attempts and 100 ms maximum delay. Invalid settings return `InvalidConfiguration` without calling either dispatch table. The kernel fallback dispatcher returns the final status but does not publish per-attempt telemetry; release evidence must not claim retry observability beyond that status.
+
+The existing performance-gate unit tests and dedicated-gate benchmark include proxy/simulation paths. They are useful as smoke checks only and do not establish production dispatch latency or accelerator speedup. See [PERFORMANCE_BASELINES.md](./PERFORMANCE_BASELINES.md) for the release evidence requirement.
 
 ## Test and review path
 

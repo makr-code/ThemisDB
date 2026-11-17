@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-11-16"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+AI-assisted update; exact model backend not verifiable from final document text alone.
+
 # GPU Resource and Dispatch Contract Reference
 
 This page summarizes declared GPU allocation and dispatch interfaces for
@@ -48,12 +62,24 @@ proving every implementation path meets the bounds.
 ## Fallback boundary
 
 `GPUSafeFail::executeWithFallback` invokes the supplied fallback callback only
-when fallback is enabled and a callback is present. The callback's meaning and
-whether it actually computes the workload belong to its caller. In particular,
-the current `GPUModule::submitWork` callback records fallback in enabled
-telemetry/audit surfaces and returns success; it does not execute the submitted
-work item on CPU. A generic fail-closed classification or error code does not
-prove that a CPU implementation ran or that GPU/CPU outputs are equivalent.
+when fallback is enabled and a callback is present. `GPUModule::initialize`
+accepts an optional CPU backend callback and passes it the submitted work item.
+The module reports `OkDegraded` with mode `CpuFallback` only when that callback
+returns true; missing or unsuccessful CPU fallback is reported as `Failed`.
+GPU completion is `Ok` with mode `Gpu`. A caller-provided callback must only
+return true after completing the workload; the module cannot establish
+GPU/CPU output equivalence. The default resolver selects only an enabled
+ROCm/Vulkan backend that reports an available device; it does not install a
+CPU-success callback in the GPU launcher. The current ROCm and Vulkan launcher
+wrappers fail closed until they submit a real kernel; device availability or
+device synchronization alone is not GPU success.
+
+`SubmitResult::serialize()` exposes the stable status and mode labels together
+with the legacy booleans and error. When enabled, `themis_gpu_dispatch_total`
+metrics and `DISPATCH_RESULT` audit events expose the same status/mode pair.
+An active observability span receives `gpu.execution.status` and
+`gpu.execution.mode` attributes. Fallback metrics and audit events are recorded
+only after the CPU fallback callback completes successfully.
 
 Parity must be established by the workload-specific implementation and tests.
 There is no module-wide guarantee that every failure automatically degrades to

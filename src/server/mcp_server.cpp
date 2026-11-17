@@ -3382,7 +3382,7 @@ void StdioTransport::readStdin() {
 
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
-            errors::logError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
+            errors::logError(errors::ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
             return;
         }
 

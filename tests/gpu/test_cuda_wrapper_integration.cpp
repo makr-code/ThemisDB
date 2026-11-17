@@ -13,7 +13,8 @@ TEST(CudaWrapperIntegration, StreamGuardMovementAndLifecycle) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
    CudaStreamGuard guard;
    if (!guard.isValid()) {
-       GTEST_SKIP() << "CUDA runtime is not available in this environment";
+       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                       "evidence-gap=cuda_wrapper_runtime";
    }
 
    CudaStreamGuard moved(std::move(guard));
@@ -31,7 +32,8 @@ TEST(CudaWrapperIntegration, EventGuardCreationIsDeterministic) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
    CudaEventGuard guard;
    if (!guard.isValid()) {
-       GTEST_SKIP() << "CUDA runtime is not available in this environment";
+       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                       "evidence-gap=cuda_wrapper_runtime";
    }
 
    CudaEventGuard moved(std::move(guard));
@@ -47,7 +49,9 @@ TEST(CudaWrapperIntegration, DeviceMemoryGuardAllocatesAndReleases) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
    CudaDeviceMemoryGuard guard(4096);
    if (!guard.isValid()) {
-       GTEST_SKIP() << "CUDA memory allocation is unavailable in this environment";
+       GTEST_SKIP() << "capability:cuda_memory_allocation_available=false;"
+                       "reason=cuda_memory_allocation_unavailable;"
+                       "evidence-gap=cuda_wrapper_memory_allocation";
    }
 
    EXPECT_EQ(guard.bytes, 4096u);

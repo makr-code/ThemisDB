@@ -58,6 +58,7 @@
 
 #include "acceleration/ai_hardware_dispatcher.h"
 #include <stdexcept>
+#include <utility>
 #include "acceleration/cpu_backend.h"
 #include "acceleration/compute_backend.h"
 #include "utils/logger.h"
@@ -67,6 +68,7 @@
 #include <chrono>
 #include <cstring>
 #include <filesystem>
+#include <limits>
 #include <sys/stat.h>
 #include <vector>
 
@@ -172,6 +174,25 @@ bool validateSimilarityRequest(const AiInferenceRequest &req, std::string &error
         error = "vector similarity request requires similarity_num_queries/num_vectors/dim > 0";
         return false;
     }
+    constexpr size_t max_kernel_elements = static_cast<size_t>(std::numeric_limits<int>::max());
+    if (req.similarity_num_queries > max_kernel_elements
+        || req.similarity_num_vectors > max_kernel_elements
+        || req.similarity_dim > max_kernel_elements) {
+        error = "vector similarity dimensions exceed the supported kernel range";
+        return false;
+    }
+    if (req.similarity_num_queries > max_kernel_elements / req.similarity_dim) {
+        error = "vector similarity query tensor exceeds the supported kernel element limit";
+        return false;
+    }
+    if (req.similarity_num_vectors > max_kernel_elements / req.similarity_dim) {
+        error = "vector similarity corpus tensor exceeds the supported kernel element limit";
+        return false;
+    }
+    if (req.similarity_num_queries > max_kernel_elements / req.similarity_num_vectors) {
+        error = "vector similarity distance matrix exceeds the supported kernel element limit";
+        return false;
+    }
     const size_t expected_query_elements = req.similarity_num_queries * req.similarity_dim;
     if (req.input_elements != expected_query_elements) {
         error = "vector similarity request input_elements mismatch: expected " + std::to_string(expected_query_elements)
@@ -199,19 +220,24 @@ AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch,
     AiInferenceResult result = AiInferenceResult();
     result.backend_used = backend_type;
     result.ep_used      = ep_used;
+    const auto fail = [&result](std::string error) {
+        result.success = false;
+        result.output.clear();
+        result.output_shape.clear();
+        result.topk_indices.clear();
+        result.topk_distances.clear();
+        result.error = std::move(error);
+        return std::move(result);
+    };
 
     std::string validation_error = {};
     if (!validateSimilarityRequest(req, validation_error)) {
-        result.success = false;
-        result.error   = validation_error;
-        return result;
+        return fail(std::move(validation_error));
     }
 
     ANNDistanceFn distance_launcher = dispatch.distanceLauncherFor(metricFromTaskTag(req));
     if (distance_launcher == nullptr || dispatch.launchTopK == nullptr) {
-        result.success = false;
-        result.error   = "ANN dispatch table incomplete for requested metric";
-        return result;
+        return fail("ANN dispatch table incomplete for requested metric");
     }
 
     const int num_queries = static_cast<int>(req.similarity_num_queries);
@@ -219,26 +245,27 @@ AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch,
     const int dim         = static_cast<int>(req.similarity_dim);
     const int top_k       = static_cast<int>(std::min(req.similarity_top_k, req.similarity_num_vectors));
 
-    std::vector<float> distance_matrix(req.similarity_num_queries * req.similarity_num_vectors);
-    result.topk_indices.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
-    result.topk_distances.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
+    std::vector<float> distance_matrix;
+    try {
+        distance_matrix.resize(req.similarity_num_queries * req.similarity_num_vectors);
+        result.topk_indices.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
+        result.topk_distances.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
+    } catch (const std::exception& e) {
+        return fail(std::string("vector similarity result allocation failed: ") + e.what());
+    }
 
     const auto t0 = std::chrono::steady_clock::now();
     const int distance_rc
         = distance_launcher(req.input_data, req.similarity_corpus, distance_matrix.data(), num_queries, num_vectors, dim, nullptr);
     if (distance_rc != 0) {
-        result.success = false;
-        result.error   = "distance kernel failed with code " + std::to_string(distance_rc);
-        return result;
+        return fail("distance kernel failed with code " + std::to_string(distance_rc));
     }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (backend_type == BackendType::CUDA) {
         const cudaError_t distance_cuda_error = cudaGetLastError();
         if (distance_cuda_error != cudaSuccess) {
-            result.success = false;
-            result.error   = std::string("distance kernel cudaGetLastError: ") + cudaGetErrorString(distance_cuda_error);
-            return result;
+            return fail(std::string("distance kernel cudaGetLastError: ") + cudaGetErrorString(distance_cuda_error));
         }
     }
 #endif
@@ -246,25 +273,25 @@ AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch,
     const int topk_rc = dispatch.launchTopK(distance_matrix.data(), result.topk_indices.data(), result.topk_distances.data(),
                                             num_queries, num_vectors, top_k, nullptr);
     if (topk_rc != 0) {
-        result.success = false;
-        result.error   = "top-k kernel failed with code " + std::to_string(topk_rc);
-        return result;
+        return fail("top-k kernel failed with code " + std::to_string(topk_rc));
     }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (backend_type == BackendType::CUDA) {
         const cudaError_t topk_cuda_error = cudaGetLastError();
         if (topk_cuda_error != cudaSuccess) {
-            result.success = false;
-            result.error   = std::string("top-k kernel cudaGetLastError: ") + cudaGetErrorString(topk_cuda_error);
-            return result;
+            return fail(std::string("top-k kernel cudaGetLastError: ") + cudaGetErrorString(topk_cuda_error));
         }
     }
 #endif
 
-    result.output      = result.topk_distances;
-    result.output_shape = {static_cast<int64_t>(req.similarity_num_queries), static_cast<int64_t>(top_k)};
-    result.success     = true;
+    try {
+        result.output = result.topk_distances;
+        result.output_shape = {static_cast<int64_t>(req.similarity_num_queries), static_cast<int64_t>(top_k)};
+    } catch (const std::exception& e) {
+        return fail(std::string("vector similarity output allocation failed: ") + e.what());
+    }
+    result.success      = true;
     const auto t1      = std::chrono::steady_clock::now();
     result.latency_ms  = std::chrono::duration<double, std::milli>(t1 - t0).count();
     return result;

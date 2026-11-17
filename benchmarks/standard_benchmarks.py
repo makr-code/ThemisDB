@@ -343,6 +343,8 @@ class TPCCBenchmark:
             duration_seconds: Test duration
             transaction_fn: Async function for transaction execution
         """
+        if not callable(transaction_fn):
+            raise ValueError("TPC-C-inspired measurements require an explicit transaction adapter")
         
         print(f"\nTPC-C Benchmark ({self.scale} scale):")
         print(f"  Duration: {duration_seconds} seconds")
@@ -359,19 +361,10 @@ class TPCCBenchmark:
             # Execute transaction
             tx_start = time.perf_counter()
             
-            try:
-                if transaction_fn:
-                    await transaction_fn(tx_type)
-                else:
-                    await self._simulate_transaction(tx_type)
-                
-                latency_ms = (time.perf_counter() - tx_start) * 1000
-                latencies.append(latency_ms)
-                result.successful_transactions += 1
-                
-            except Exception as e:
-                result.failed_transactions += 1
-                result.connection_errors += 1
+            await transaction_fn(tx_type)
+            latency_ms = (time.perf_counter() - tx_start) * 1000
+            latencies.append(latency_ms)
+            result.successful_transactions += 1
             
             result.total_transactions += 1
         
@@ -400,21 +393,6 @@ class TPCCBenchmark:
         print(f"  Max Latency:    {result.max_latency_ms:.2f}ms")
         
         return result
-    
-    async def _simulate_transaction(self, tx_type: TPCCTransactionType):
-        """Simulate TPC-C transaction"""
-        
-        latencies = {
-            TPCCTransactionType.NEW_ORDER: 10,      # 10ms
-            TPCCTransactionType.PAYMENT: 5,         # 5ms
-            TPCCTransactionType.ORDER_STATUS: 3,    # 3ms
-            TPCCTransactionType.DELIVERY: 20,       # 20ms (batch)
-            TPCCTransactionType.STOCK_LEVEL: 15,    # 15ms (complex query)
-        }
-        
-        latency_ms = latencies.get(tx_type, 5.0)
-        jitter = random.gauss(latency_ms / 1000, latency_ms / 5000)
-        await asyncio.sleep(max(jitter, 0.001))
     
     def _select_transaction(self) -> TPCCTransactionType:
         """Select transaction type based on distribution"""
@@ -494,6 +472,8 @@ class TPCHBenchmark:
         Args:
             query_fn: Async function for query execution
         """
+        if not callable(query_fn):
+            raise ValueError("TPC-H-inspired measurements require an explicit query adapter")
         
         print(f"\nTPC-H Benchmark (Scale Factor: {self.scale_factor}GB):")
         print(f"  Queries: 22")
@@ -512,20 +492,11 @@ class TPCHBenchmark:
             
             query_start = time.perf_counter()
             
-            try:
-                if query_fn:
-                    await query_fn(query_id)
-                else:
-                    await self._simulate_query(query_id)
-                
-                query_time = time.perf_counter() - query_start
-                query_times.append(query_time)
-                result.query_times[query_id] = query_time
-                
-                print(f" {query_time:.3f}s")
-                
-            except Exception as e:
-                print(f" ERROR: {e}")
+            await query_fn(query_id)
+            query_time = time.perf_counter() - query_start
+            query_times.append(query_time)
+            result.query_times[query_id] = query_time
+            print(f" {query_time:.3f}s")
         
         elapsed = time.perf_counter() - start_time
         result.total_time_sec = elapsed
@@ -551,32 +522,6 @@ class TPCHBenchmark:
         
         return result
     
-    async def _simulate_query(self, query_id: int):
-        """Simulate TPC-H query with complexity"""
-        
-        # TPC-H query complexities vary widely
-        # Query 1 (simple scan): ~0.5s at 1GB scale
-        # Query 13 (complex joins): ~2.0s at 1GB scale
-        
-        base_times = {
-            1: 0.5, 2: 1.0, 3: 1.5, 4: 0.8, 5: 1.2,
-            6: 0.6, 7: 1.8, 8: 2.0, 9: 1.5, 10: 1.2,
-            11: 0.9, 12: 1.1, 13: 2.0, 14: 0.7, 15: 0.8,
-            16: 1.3, 17: 1.6, 18: 1.9, 19: 1.4, 20: 1.2,
-            21: 1.7, 22: 1.1
-        }
-        
-        base_time = base_times.get(query_id, 1.0)
-        
-        # Scale factor affects query time (roughly linear)
-        scaled_time = base_time * self.scale_factor
-        
-        # Add jitter
-        jitter = random.gauss(scaled_time, scaled_time * 0.1)
-        
-        await asyncio.sleep(max(jitter, 0.1))
-
-
 # ============================================================================
 # SYSBENCH
 # ============================================================================
@@ -636,6 +581,8 @@ class SysbenchBenchmark:
                           duration_seconds: int = 60,
                           operation_fn=None) -> SysbenchBenchmarkResult:
         """Run Sysbench Workload"""
+        if not callable(operation_fn):
+            raise ValueError("Sysbench-inspired measurements require an explicit operation adapter")
         
         print(f"\nSysbench {workload.value}:")
         print(f"  Duration: {duration_seconds} seconds")
@@ -651,18 +598,10 @@ class SysbenchBenchmark:
         while time.perf_counter() - start_time < duration_seconds:
             tx_start = time.perf_counter()
             
-            try:
-                if operation_fn:
-                    await operation_fn(workload)
-                else:
-                    await self._simulate_workload(workload)
-                
-                latency_ms = (time.perf_counter() - tx_start) * 1000
-                latencies.append(latency_ms)
-                result.transactions += 1
-                
-            except Exception:
-                result.ignored_errors += 1
+            await operation_fn(workload)
+            latency_ms = (time.perf_counter() - tx_start) * 1000
+            latencies.append(latency_ms)
+            result.transactions += 1
         
         elapsed = time.perf_counter() - start_time
         
@@ -688,21 +627,6 @@ class SysbenchBenchmark:
         print(f"  Latency:        {result.avg_latency_ms:.3f}ms avg, {result.p95_latency_ms:.3f}ms p95, {result.p99_latency_ms:.3f}ms p99")
         
         return result
-    
-    async def _simulate_workload(self, workload: SysbenchWorkload):
-        """Simulate Sysbench workload"""
-        
-        latencies = {
-            SysbenchWorkload.OLTP_READ_WRITE: 2.0,
-            SysbenchWorkload.OLTP_READ_ONLY: 0.5,
-            SysbenchWorkload.OLTP_WRITE_ONLY: 5.0,
-            SysbenchWorkload.OLTP_DELETE: 3.0,
-            SysbenchWorkload.OLTP_UPDATE_INDEX: 4.0,
-        }
-        
-        latency_ms = latencies.get(workload, 2.0)
-        jitter = random.gauss(latency_ms / 1000, latency_ms / 5000)
-        await asyncio.sleep(max(jitter, 0.0001))
     
     @staticmethod
     def _percentile(sorted_data: List[float], p: float) -> float:

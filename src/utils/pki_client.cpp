@@ -418,7 +418,7 @@ static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::s
  * @brief Generate csr pem.
  * @param[in] cfg Input parameter.
  * @return Return value.
- * @details Calls: load_private_key(), pkey(), req(), X509_REQ_new(), X509_REQ_set_version(), get(), X509_REQ_get_subject_name(), empty().
+ * @details Builds an owned subject and copies it into the request before signing.
  */
 static std::string generate_csr_pem(const PKIConfig& cfg) {
     auto pkey_result = load_private_key(cfg);
@@ -438,16 +438,18 @@ static std::string generate_csr_pem(const PKIConfig& cfg) {
     X509_REQ_set_version(req.get(), 0);
 
     // Set Subject: CN=<service_id>, O=ThemisDB
-    X509_NAME* subj = X509_REQ_get_subject_name(req.get());
-    if (subj) {
-        if (!cfg.service_id.empty()) {
-            X509_NAME_add_entry_by_txt(
-                subj, "CN", MBSTRING_ASC,
-                reinterpret_cast<const unsigned char*>(cfg.service_id.c_str()), -1, -1, 0);
-        }
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> subj(X509_NAME_new(), X509_NAME_free);
+    if (!subj ||
+        (!cfg.service_id.empty() &&
+         X509_NAME_add_entry_by_txt(
+             subj.get(), "CN", MBSTRING_ASC,
+             reinterpret_cast<const unsigned char*>(cfg.service_id.c_str()), -1, -1, 0) != 1) ||
         X509_NAME_add_entry_by_txt(
-            subj, "O", MBSTRING_ASC,
-            reinterpret_cast<const unsigned char*>("ThemisDB"), -1, -1, 0);
+            subj.get(), "O", MBSTRING_ASC,
+            reinterpret_cast<const unsigned char*>("ThemisDB"), -1, -1, 0) != 1 ||
+        X509_REQ_set_subject_name(req.get(), subj.get()) != 1) {
+        std::cerr << "PKI CSR: failed to set subject\n";
+        return {};
     }
 
     // Attach public key
