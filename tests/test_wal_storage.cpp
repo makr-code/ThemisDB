@@ -19,6 +19,9 @@
 #include <string>
 #include <thread>
 #include <vector>
+#if !defined(_WIN32)
+#include <cstdlib>
+#endif
 
 namespace fs = std::filesystem;
 using namespace themis;
@@ -254,6 +257,41 @@ TEST_F(WALStorageTest, Rotation_CreatesNewSegment) {
 
     EXPECT_GT((*wal)->segmentCount(), 1u);
 }
+
+#if !defined(_WIN32)
+TEST_F(WALStorageTest, DirectoryMetadataSyncFailureRejectsOpen) {
+    ASSERT_EQ(::setenv("THEMIS_TEST_WAL_DIRECTORY_FSYNC_FAIL_ONCE", "1", 1), 0);
+
+    auto cfg = config();
+    cfg.dir = (fs::path(dir_) / "deep" / "nested").string();
+    auto wal = WALStorage::open(cfg);
+    ::unsetenv("THEMIS_TEST_WAL_DIRECTORY_FSYNC_FAIL_ONCE");
+
+    ASSERT_FALSE(wal);
+    EXPECT_TRUE(fs::exists(fs::path(cfg.dir) / WALStorage::segmentName(1)));
+
+    auto retry = WALStorage::open(cfg);
+    ASSERT_TRUE(retry.has_value()) << retry.error().message();
+}
+
+TEST_F(WALStorageTest, DirectoryMetadataSyncFailureRejectsRotatingAppend) {
+    auto cfg = config(1);
+    auto wal = WALStorage::open(cfg);
+    ASSERT_TRUE(wal.has_value());
+    ASSERT_TRUE((*wal)->appendPut("first", "durable").has_value());
+
+    ASSERT_EQ(::setenv("THEMIS_TEST_WAL_DIRECTORY_FSYNC_FAIL_ONCE", "1", 1), 0);
+    auto rejected = (*wal)->appendPut("second", "not yet durable");
+    ::unsetenv("THEMIS_TEST_WAL_DIRECTORY_FSYNC_FAIL_ONCE");
+
+    ASSERT_FALSE(rejected);
+    EXPECT_EQ((*wal)->lastSequence(), 1u);
+
+    auto retried = (*wal)->appendPut("second", "durable after retry");
+    ASSERT_TRUE(retried.has_value()) << retried.error().message();
+    EXPECT_EQ((*wal)->lastSequence(), 2u);
+}
+#endif
 
 TEST_F(WALStorageTest, Rotation_RecoveryAcrossSegments) {
     auto cfg = config(50);

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-31
+Last Updated: 2026-11-16
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -19,6 +19,8 @@ Canonical_References:
   - ../../src/replication/async_wal_shipper.cpp
   - ../../src/replication/lag_alert_manager.cpp
   - ../../tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp
+  - ../../tests/replication/test_replication_wal_process_crash.cpp
+  - ../../tests/replication/replication_wal_crash_worker.cpp
 Related_Issue: "#7373"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
@@ -55,6 +57,73 @@ These are API defaults, not deployment recommendations or verified production SL
 The two components export their own metric text. Metric names and labels should be
 checked in the relevant header/implementation; this document does not claim that a
 server endpoint or dashboard exports them.
+
+## Replication WAL recovery and readiness
+
+`WALManager` delegates record framing, physical WAL checksums, and truncated-tail
+repair to `WALStorage`, then validates each replication entry's payload checksum and
+serialized sequence against the canonical WAL sequence. Physical record sequences
+must be contiguous across retained entries, including CHECKPOINT records; a retained
+prefix may begin above sequence 1 after compaction. Deserialization, payload checksum,
+sequence gaps, unexpected DELETE records, and physical-record corruption abort
+recovery; entries after the first invalid record are not replayed. CHECKPOINT records
+are accepted as storage metadata and are not replication entries.
+
+`ReplicationManager::initialize()` succeeds only for `COMPLETE` or
+`TRUNCATED_TAIL` recovery. A truncated final physical record is removed by
+`WALStorage`; the valid prefix is replayed and the outcome remains visible as
+`TRUNCATED_TAIL`. Corrupted, timed-out, and other failed recovery outcomes block
+initialization, keep local cluster health false, and are exposed by
+`getWALRecoveryStatus()` and the one-hot
+`themisdb_replication_wal_recovery_status{status="..."}` metric. The recovery scan
+uses `ReplicationConfig::file_io_timeout_ms` (default 5,000 ms; zero disables the
+timeout).
+`ReplicationManager::isReady()` and `themisdb_replication_ready` report local
+startup readiness: true only while initialized and running after `COMPLETE` or
+`TRUNCATED_TAIL` recovery. This is not a quorum, peer-reachability, or delivery
+guarantee; callers must inspect those signals separately.
+
+Election terms, including higher terms learned from peers, are stored in a separate
+`raft_term` WAL below the replication WAL directory and fsynced before voting,
+accepting a higher-term heartbeat, or promoting a replica, regardless of
+`wal_sync_on_commit`. Term recovery participates in startup readiness; malformed or
+corrupted term records block initialization. The term WAL does not advance the
+data-entry LSN.
+
+`ReplicationManager::replicate()` uses a durable append: with
+`wal_sync_on_commit=true`, the append's fsync must succeed; with it disabled, an
+explicit flush is required before the entry becomes visible to replication readers.
+An unconfirmed flush fails the write and makes that WAL manager unavailable until
+restart and recovery. Listener notifications occur only after local durability and
+the selected replication acknowledgement condition succeed.
+On POSIX, WAL segment activation also synchronizes directory metadata (including
+the directory ancestry), and a failure blocks open or rotation before another
+append can be acknowledged. On Windows, `_commit` flushes file contents, but
+the implementation does not claim power-loss durability for a newly created
+segment's directory entry; process-crash tests do not prove that stronger
+platform guarantee.
+
+`tests/replication/test_replication_wal_process_crash.cpp` adds a POSIX
+subprocess source test that kills a real `WALManager` after term persistence
+and after zero, one, or two durable append acknowledgements. Reopen checks the
+exact acknowledged sequence, payloads, and term; a one-byte segment threshold
+also forces append rotation. This is source coverage only until the focused
+target is built and executed. It does not cover crashes inside an active I/O
+syscall, coordinator/participant decisions, network delivery, or multi-node
+history correctness.
+
+The current `ReplicationStream` has no network transport. It retries without
+advancing its acknowledged sequence, so SYNC and SEMI_SYNC writes cannot satisfy
+their follower acknowledgement condition in this configuration. Compression alone
+is not delivery or a follower ACK. ASYNC mode can acknowledge after local WAL
+durability, but does not establish a follower copy.
+
+These states report startup recovery only. They do not establish end-to-end
+multi-process crash evidence, automatic failover, or topology-specific RPO/RTO
+guarantees. The module has no approved numeric lag or recovery SLO; set such targets
+only after recording a representative baseline and obtaining an operational owner.
+Coordinator/participant decision logs are separate recovery domains; these
+replication metrics do not replace their in-doubt recovery checks.
 
 ## Slots and logical consumers
 

@@ -162,6 +162,10 @@ public:
      *         incomplete final record is truncated to the last complete record
      *         before the segment is reopened for appends. Corruption is skipped
      *         only in SkipCorrupted mode, after the affected segment is quarantined.
+     * @note POSIX segment activation fsyncs directory metadata through the
+     *       directory ancestry and fails on sync errors. On Windows, `_commit`
+     *       flushes the file but this implementation does not claim power-loss
+     *       durability for a newly created segment's directory entry.
      */
     static Result<std::unique_ptr<WALStorage>> open(
         const Config& config,

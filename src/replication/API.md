@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,6 +34,7 @@ Related issues: #7373 (documentation synchronization); #7093 and #7167 are prior
 ## Public surfaces
 
 - `ReplicationManager` uses `ReplicationConfig` and exposes replica and cluster-management behavior. The header defines `ReplicationMode` values `SYNC`, `SEMI_SYNC`, and `ASYNC`; consult its config and method declarations for exact operation semantics.
+- `ReplicationManager::replicate()` reports success only after durable local WAL append and the configured acknowledgement condition. `ASYNC` does not wait for a follower; `SYNC`/`SEMI_SYNC` require real follower ACKs. The current `ReplicationStream` has no network transport and therefore never advances its follower ACK sequence.
 - Current lifecycle and operation entry points include `initialize()`, `shutdown()`, `replicate(const WALEntry&)`, `waitForReplication(sequence, timeout_ms)`, `addReplica()`, `removeReplica()`, `addWitnessNode()`, `triggerFailover()`, `promoteToLeader()`, `demoteToFollower()`, `hasQuorum()`, and placement-policy methods.
 - `WALEntry` contains sequence/term and operation fields; `serialize()` returns bytes and `deserialize()` returns `std::optional<WALEntry>`.
 - `AsyncWalShipper` accepts `WalSegment` values. `WalShippingConfig` has in-struct defaults (1,000 ms lag, queue depth 4,096, 16 histogram buckets); `enqueueSegment()` returns false when full. Its default handler does not send bytes; a transport handler must be supplied for actual delivery.
@@ -44,6 +45,7 @@ Related issues: #7373 (documentation synchronization); #7093 and #7167 are prior
 ## Caller obligations and failure cases
 
 - Check the boolean/optional/result type actually returned by the called interface; absence of a decoded WAL entry is not a valid entry.
+- Treat local WAL durability, compression, and follower acknowledgement as separate outcomes; compression alone is not delivery.
 - Treat queue saturation as backpressure and inspect the shipper statistics rather than assuming enqueue succeeded.
 - Keep mode-specific acknowledgements, health, lag, and placement constraints explicit in caller logic.
 - Avoid relying on undocumented ordering or retry behavior; use the relevant interface and implementation as authority.

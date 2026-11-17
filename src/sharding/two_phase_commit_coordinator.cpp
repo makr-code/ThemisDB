@@ -30,6 +30,7 @@
 #include "sharding/wal_logging_helper.h"
 #include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
+#include <algorithm>
 #include <chrono>
 #include <stdexcept>
 
@@ -64,6 +65,21 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
         WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = config_.wal_directory;
         wal_cfg.sync_on_write = config_.sync_wal_writes;
+        wal_cfg.recovery_callback = [this](const WALEntry& entry) {
+            switch (entry.type) {
+            case WALEntryType::BEGIN_TX:
+            case WALEntryType::PREPARE_TX:
+            case WALEntryType::COMMIT_TX:
+            case WALEntryType::ABORT_TX:
+            case WALEntryType::CHECKPOINT:
+                break;
+            default:
+                return false;
+            }
+            themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+                recovered_wal_transactions_, entry);
+            return true;
+        };
         wal_ = std::make_unique<WALManager>(wal_cfg);
         THEMIS_INFO("2PC coordinator [{}] WAL initialised at {}",
                     coordinator_id_, config_.wal_directory);
@@ -160,6 +176,16 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
 
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
+        if (recovery_failed_ || recovery_status_ == "running" ||
+            recovery_status_ == "blocked") {
+            outcome.result = CoordinatorTxnResult::FAILURE;
+            outcome.reason = recovery_failed_
+                ? "coordinator WAL recovery has failed"
+                : (recovery_status_ == "running"
+                    ? "coordinator WAL recovery is in progress"
+                    : "coordinator WAL recovery has unresolved transactions");
+            return outcome;
+        }
         const auto it = transactions_.find(transaction_id);
         if (it != transactions_.end()) {
             if (it->second.state == CoordinatorTxnState::COMPLETED) {
@@ -215,6 +241,17 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
          * @return Return value.
          */
         std::lock_guard<std::timed_mutex> lock(mutex_);
+
+        if (recovery_failed_ || recovery_status_ == "running" ||
+            recovery_status_ == "blocked") {
+            outcome.result = CoordinatorTxnResult::FAILURE;
+            outcome.reason = recovery_failed_
+                ? "coordinator WAL recovery has failed"
+                : (recovery_status_ == "running"
+                    ? "coordinator WAL recovery is in progress"
+                    : "coordinator WAL recovery has unresolved transactions");
+            return outcome;
+        }
 
         // Detect duplicate transaction IDs
         if (transactions_.count(transaction_id)) {
@@ -412,14 +449,34 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
       return 0;
     }
 
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        if (recovery_status_ == "running") {
+            throw std::runtime_error("coordinator WAL recovery is already in progress");
+        }
+        const bool has_live_transaction = std::any_of(
+            transactions_.begin(), transactions_.end(), [](const auto& item) {
+                return item.second.state != CoordinatorTxnState::COMPLETED;
+            });
+        if (has_live_transaction &&
+            (recovery_status_ == "not_run" || recovery_status_ == "complete")) {
+            throw std::runtime_error(
+                "coordinator WAL recovery cannot run while transactions are active");
+        }
+        recovery_status_ = "running";
+        recovery_failed_ = false;
+    }
+
     THEMIS_INFO("2PC coordinator [{}] recovering from WAL…", coordinator_id_);
 
     size_t resolved = 0;
 
     try {
-        auto entries = wal_->readRange(wal_->getOldestLSN());
-        const auto recovered_wal =
-            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
+        themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovered_wal;
+        {
+            std::lock_guard<std::mutex> recovery_lock(recovery_history_mutex_);
+            recovered_wal = recovered_wal_transactions_;
+        }
 
         std::map<std::string, CoordinatorTxnRecord> recovered = {};
 
@@ -430,7 +487,10 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             rec.participant_shards = replay_txn.participants;
             rec.decision_commit = replay_txn.has_decision && replay_txn.decision_commit;
 
-            if (replay_txn.completed) {
+            if (!replay_txn.completed &&
+                (replay_txn.participants_invalid || replay_txn.participants.empty())) {
+                rec.state = CoordinatorTxnState::FAILED;
+            } else if (replay_txn.completed) {
                 rec.state = CoordinatorTxnState::COMPLETED;
             } else if (replay_txn.has_decision) {
                 rec.state = replay_txn.decision_commit
@@ -443,17 +503,38 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             recovered.emplace(txn_id, std::move(rec));
         }
 
+        const auto invalid_participant_record = std::find_if(
+            recovered.begin(), recovered.end(), [](const auto& item) {
+                return item.second.state == CoordinatorTxnState::FAILED;
+            });
+        if (invalid_participant_record != recovered.end()) {
+            {
+                std::lock_guard<std::timed_mutex> lock(mutex_);
+                for (auto& [txn_id, rec] : recovered) {
+                    if (rec.state != CoordinatorTxnState::COMPLETED) {
+                        transactions_[txn_id] = std::move(rec);
+                    }
+                }
+            }
+            throw std::runtime_error(
+                "recovered transaction " + invalid_participant_record->first +
+                " has missing or malformed participant identities");
+        }
+
         if (!wal_->flushDurable()) {
             THEMIS_ERROR("2PC coordinator [{}] cannot replay WAL decisions until "
                          "the durability check succeeds", coordinator_id_);
-            std::lock_guard<std::timed_mutex> failed_recovery_lock(mutex_);
-            for (auto& [txn_id, rec] : recovered) {
-                if (rec.state != CoordinatorTxnState::COMPLETED) {
-                    rec.state = CoordinatorTxnState::FAILED;
-                    transactions_[txn_id] = std::move(rec);
+            {
+                std::lock_guard<std::timed_mutex> failed_recovery_lock(mutex_);
+                for (auto& [txn_id, rec] : recovered) {
+                    if (rec.state != CoordinatorTxnState::COMPLETED) {
+                        rec.state = CoordinatorTxnState::FAILED;
+                        transactions_[txn_id] = std::move(rec);
+                    }
                 }
             }
-            return 0;
+            throw std::runtime_error(
+                "coordinator WAL durability check failed during recovery");
         }
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
@@ -491,13 +572,15 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                     THEMIS_ERROR("2PC coordinator [{}] could not persist conservative ABORT "
                                  "decision for txn {}; phase two was not sent",
                                  coordinator_id_, txn_id);
-                    continue;
+                    throw std::runtime_error(
+                        "could not persist conservative ABORT decision for txn " + txn_id);
                 }
             } else {
                 THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
                             coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
             }
 
+            transactions_[txn_id] = rec;
             const bool all_acknowledged = runPhase2(rec, do_commit, lock);
             nlohmann::json completion_data = {
                 {"transaction_id", txn_id},
@@ -525,7 +608,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 THEMIS_ERROR("2PC coordinator [{}] could not reacquire its state lock "
                              "after recovery RPCs for txn {}",
                              coordinator_id_, txn_id);
-                break;
+                throw std::runtime_error(
+                    "could not reacquire coordinator state lock after recovery RPCs");
             }
             transactions_[txn_id] = rec;
 
@@ -540,8 +624,28 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             }
         }
 
+        const bool unresolved = std::any_of(
+            transactions_.begin(), transactions_.end(), [](const auto& item) {
+                return item.second.state != CoordinatorTxnState::COMPLETED;
+            });
+        recovery_status_ = unresolved ? "blocked" : "complete";
     } catch (const std::exception& e) {
+        {
+            std::lock_guard<std::timed_mutex> lock(mutex_);
+            recovery_failed_ = true;
+            recovery_status_ = "failed";
+        }
         THEMIS_ERROR("2PC coordinator [{}] WAL recovery failed: {}", coordinator_id_, e.what());
+        throw;
+    } catch (...) {
+        {
+            std::lock_guard<std::timed_mutex> lock(mutex_);
+            recovery_failed_ = true;
+            recovery_status_ = "failed";
+        }
+        THEMIS_ERROR("2PC coordinator [{}] WAL recovery failed with an unknown exception",
+                     coordinator_id_);
+        throw;
     }
 
     THEMIS_INFO("2PC coordinator [{}] recovery complete – {} in-doubt txns resolved",
@@ -647,6 +751,26 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
     }
 
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
+    std::string wal_recovery_status = "disabled";
+    if (wal_) {
+        switch (wal_->getRecoveryResult().status) {
+        case themis::WALStorage::RecoveryStatus::Complete:
+            wal_recovery_status = "complete";
+            break;
+        case themis::WALStorage::RecoveryStatus::TruncatedTail:
+            wal_recovery_status = "truncated_tail";
+            break;
+        case themis::WALStorage::RecoveryStatus::Corrupted:
+            wal_recovery_status = "corrupted";
+            break;
+        case themis::WALStorage::RecoveryStatus::TimedOut:
+            wal_recovery_status = "timed_out";
+            break;
+        case themis::WALStorage::RecoveryStatus::Failed:
+            wal_recovery_status = "failed";
+            break;
+        }
+    }
     return {
         {"coordinator_id",      coordinator_id_},
         {"uptime_seconds",      static_cast<uint64_t>(
@@ -657,7 +781,10 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
         {"total_aborts",        total_aborts_.load()},
         {"total_errors",        total_errors_.load()},
         {"active_transactions", active},
-        {"completed_transactions", completed}
+        {"completed_transactions", completed},
+        {"recovery_status", recovery_status_},
+        {"recovery_failed", recovery_failed_},
+        {"wal_recovery_status", wal_recovery_status}
     };
 }
 
@@ -834,11 +961,23 @@ bool TwoPhaseCommitCoordinator::logToWAL(
         return true;
     }
 
-    return WALLoggingHelper::appendEntryWithResult(
+    std::lock_guard<std::mutex> recovery_lock(recovery_history_mutex_);
+    const auto persisted = WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
         force_sync || config_.sync_wal_writes,
         "coordinator", coordinator_id_
-    ).has_value();
+    );
+    if (!persisted) {
+        return false;
+    }
+
+    WALEntry entry;
+    entry.type = type;
+    entry.transaction_id = txn_id;
+    entry.data = data;
+    themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+        recovered_wal_transactions_, entry);
+    return true;
 }
 
 } // namespace themis::sharding

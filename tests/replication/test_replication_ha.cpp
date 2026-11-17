@@ -23,6 +23,7 @@
 #include <filesystem>
 #include <fstream>
 #include <future>
+#include <iterator>
 #include <thread>
 #include <vector>
 #include <atomic>
@@ -174,8 +175,17 @@ TEST_F(ReplicationConfigTest, ValidConfigInitializesSuccessfully) {
     ReplicationConfig cfg = makeConfig(wd.path);
 
     ReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.isReady());
     EXPECT_TRUE(mgr.initialize());
+    EXPECT_TRUE(mgr.isReady());
+    EXPECT_EQ(mgr.getWALRecoveryStatus(), WALRecoveryStatus::COMPLETE);
+    EXPECT_NE(mgr.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"complete\"} 1"),
+              std::string::npos);
+    EXPECT_NE(mgr.exportPrometheusMetrics().find("themisdb_replication_ready 1"),
+              std::string::npos);
     mgr.shutdown();
+    EXPECT_FALSE(mgr.isReady());
 }
 
 TEST_F(ReplicationConfigTest, InvalidWALCompressionLevelFails) {
@@ -227,7 +237,23 @@ TEST_F(WALChecksumTest, AppendAndReadBackVerifiesChecksum) {
     EXPECT_FALSE(entries[0].checksum.empty());
 }
 
-TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
+TEST_F(WALChecksumTest, InvalidSuppliedChecksumIsRejectedBeforeAppend) {
+    TempWALDir wd("/tmp/themis_wal_invalid_checksum_append");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    WALManager wal(cfg);
+
+    WALEntry entry;
+    entry.operation = "INSERT";
+    entry.collection = "users";
+    entry.document_id = "doc1";
+    entry.data = "{\"name\":\"Alice\"}";
+    entry.checksum = "invalid";
+
+    EXPECT_THROW(wal.append(entry), std::runtime_error);
+    EXPECT_EQ(wal.getCurrentSequence(), 0u);
+}
+
+TEST_F(WALChecksumTest, CorruptChecksumEntryAbortsRecovery) {
     TempWALDir wd("/tmp/themis_wal_corrupt_test");
     ReplicationConfig cfg = makeConfig(wd.path);
 
@@ -269,10 +295,18 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
-    WALManager reopened(cfg);
-    auto entries = reopened.readFrom(seq, 10);
-    EXPECT_EQ(entries.size(), 0u)
-        << "Corrupted WAL record should be discarded during replay recovery";
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
+              std::string::npos);
+    EXPECT_NE(manager.exportPrometheusMetrics().find("themisdb_replication_ready 0"),
+              std::string::npos);
 }
 
 TEST_F(WALChecksumTest, ReplaysEntriesAfterRestart) {
@@ -297,12 +331,350 @@ TEST_F(WALChecksumTest, ReplaysEntriesAfterRestart) {
     }
 
     WALManager reopened(cfg);
+    EXPECT_EQ(reopened.getRecoveryStatus(), WALRecoveryStatus::COMPLETE);
     auto entries = reopened.readFrom(1, 10);
     ASSERT_EQ(entries.size(), 2u);
     EXPECT_EQ(entries[0].document_id, "o1");
     EXPECT_EQ(entries[0].operation, "INSERT");
     EXPECT_EQ(entries[1].document_id, "o1");
     EXPECT_EQ(entries[1].operation, "UPDATE");
+}
+
+TEST_F(WALChecksumTest, TermIncrementSurvivesRestartBeforeNextEntry) {
+    TempWALDir wd("/tmp/themis_wal_term_recovery_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    {
+        WALManager wal(cfg);
+        WALEntry first;
+        first.operation = "INSERT";
+        first.collection = "orders";
+        first.document_id = "o3";
+        first.data = "{\"status\":\"created\"}";
+        EXPECT_EQ(wal.append(first), 1u);
+        EXPECT_EQ(wal.incrementTerm(), 1u);
+        EXPECT_EQ(wal.getCurrentSequence(), 1u);
+    }
+
+    {
+        WALManager reopened(cfg);
+        EXPECT_EQ(reopened.getCurrentSequence(), 1u);
+        EXPECT_EQ(reopened.getCurrentTerm(), 1u);
+        EXPECT_EQ(reopened.updateTerm(3), 3u);
+        EXPECT_EQ(reopened.updateTerm(2), 3u);
+
+        WALEntry second;
+        second.operation = "UPDATE";
+        second.collection = "orders";
+        second.document_id = "o3";
+        second.data = "{\"status\":\"paid\"}";
+        EXPECT_EQ(reopened.append(second), 2u);
+
+        const auto entries = reopened.readFrom(1, 10);
+        ASSERT_EQ(entries.size(), 2u);
+        EXPECT_EQ(entries[0].term, 0u);
+        EXPECT_EQ(entries[1].term, 3u);
+        EXPECT_EQ(entries[1].sequence_number, 2u);
+    }
+
+    WALManager recovered_again(cfg);
+    EXPECT_EQ(recovered_again.getCurrentSequence(), 2u);
+    EXPECT_EQ(recovered_again.getCurrentTerm(), 3u);
+    const auto entries = recovered_again.readFrom(2, 1);
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_EQ(entries.front().data, "{\"status\":\"paid\"}");
+}
+
+TEST_F(WALChecksumTest, CorruptTermRecordBlocksReadiness) {
+    TempWALDir wd("/tmp/themis_wal_corrupt_term_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    {
+        WALManager wal(cfg);
+        EXPECT_EQ(wal.incrementTerm(), 1u);
+    }
+
+    std::string term_segment;
+    for (const auto& disk_entry :
+         std::filesystem::directory_iterator(std::filesystem::path(wd.path) / "raft_term")) {
+        if (disk_entry.path().extension() == ".log") {
+            term_segment = disk_entry.path().string();
+            break;
+        }
+    }
+    ASSERT_FALSE(term_segment.empty());
+
+    {
+        std::fstream fs(term_segment, std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(fs.is_open());
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        std::uint8_t byte{};
+        fs.read(reinterpret_cast<char*>(&byte), 1);
+        ASSERT_TRUE(fs.good());
+        byte ^= static_cast<std::uint8_t>(0x80u);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
+        fs.write(reinterpret_cast<const char*>(&byte), 1);
+        ASSERT_TRUE(fs.good());
+    }
+
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+}
+
+TEST_F(WALChecksumTest, ObservedTermsPersistBeforeVoteAndHeartbeatStateChanges) {
+    TempWALDir wd("/tmp/themis_wal_observed_term_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    auto wal = std::make_shared<WALManager>(cfg);
+    {
+        LeaderElection election("local-node", cfg, wal);
+        EXPECT_TRUE(election.requestVote(2, "candidate-node", 2, 2));
+        EXPECT_EQ(wal->getCurrentTerm(), 2u);
+
+        election.receiveHeartbeat(3, "leader-node", 0);
+        EXPECT_EQ(election.getCurrentTerm(), 3u);
+        EXPECT_EQ(wal->getCurrentTerm(), 3u);
+    }
+
+    wal.reset();
+    WALManager recovered(cfg);
+    EXPECT_EQ(recovered.getCurrentTerm(), 3u);
+}
+
+TEST_F(WALChecksumTest, TruncatedTailIsReportedAndValidPrefixIsReplayed) {
+    TempWALDir wd("/tmp/themis_wal_truncated_tail_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    uint64_t sequence = 0;
+    {
+        WALManager wal(cfg);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "orders";
+        entry.document_id = "o2";
+        entry.data = "{\"status\":\"created\"}";
+        sequence = wal.append(entry);
+        ASSERT_GT(sequence, 0u);
+    }
+
+    std::string segment_path;
+    for (const auto& disk_entry : std::filesystem::directory_iterator(wd.path)) {
+        if (disk_entry.path().extension() == ".log") {
+            segment_path = disk_entry.path().string();
+            break;
+        }
+    }
+    ASSERT_FALSE(segment_path.empty());
+    {
+        std::ofstream tail(segment_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(tail.is_open());
+        const char partial_header[] = {0x34, 0x12, static_cast<char>(0xAB)};
+        tail.write(partial_header, sizeof(partial_header));
+    }
+
+    {
+        ReplicationManager recovered(cfg);
+        ASSERT_TRUE(recovered.initialize());
+        EXPECT_TRUE(recovered.isReady());
+        EXPECT_EQ(recovered.getWALRecoveryStatus(), WALRecoveryStatus::TRUNCATED_TAIL);
+        EXPECT_NE(recovered.exportPrometheusMetrics().find(
+                      "themisdb_replication_wal_recovery_status{status=\"truncated_tail\"} 1"),
+                  std::string::npos);
+        EXPECT_NE(recovered.exportPrometheusMetrics().find("themisdb_replication_ready 1"),
+                  std::string::npos);
+        const auto health = recovered.getClusterHealth();
+        ASSERT_EQ(health.size(), 1u);
+        EXPECT_TRUE(health.begin()->second);
+        recovered.shutdown();
+    }
+
+    WALManager recovered(cfg);
+    const auto entries = recovered.readFrom(sequence, 1);
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_EQ(entries.front().document_id, "o2");
+}
+
+TEST_F(WALChecksumTest, RecoveryTimeoutIsReportedAndBlocksReadiness) {
+    TempWALDir wd("/tmp/themis_wal_recovery_timeout");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    {
+        WALManager wal(cfg);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "large";
+        entry.document_id = "timeout";
+        entry.data = std::string(16 * 1024 * 1024, 'x');
+        ASSERT_GT(wal.append(entry), 0u);
+    }
+
+    cfg.file_io_timeout_ms = 1;
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::TIMED_OUT);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"timed_out\"} 1"),
+              std::string::npos);
+    EXPECT_NE(manager.exportPrometheusMetrics().find("themisdb_replication_ready 0"),
+              std::string::npos);
+}
+
+TEST_F(WALChecksumTest, InvalidEmbeddedChecksumIsReportedAsCorruption) {
+    TempWALDir wd("/tmp/themis_wal_invalid_embedded_checksum");
+    themis::WALStorage::Config storage_config;
+    storage_config.dir = wd.path;
+    auto storage = themis::WALStorage::open(storage_config);
+    ASSERT_TRUE(storage.has_value());
+
+    WALEntry entry;
+    entry.sequence_number = 1;
+    entry.term = 1;
+    entry.operation = "INSERT";
+    entry.collection = "users";
+    entry.document_id = "doc1";
+    entry.data = "{\"name\":\"Alice\"}";
+    entry.checksum = "invalid";
+    const auto serialized = entry.serialize();
+    const std::string payload(serialized.begin(), serialized.end());
+    ASSERT_TRUE((*storage)->appendPut("replication_entry", payload).has_value());
+    storage->reset();
+
+    ReplicationConfig cfg = makeConfig(wd.path);
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_FALSE(manager.isReady());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+}
+
+TEST_F(WALChecksumTest, DeleteRecordIsReportedAsCorruption) {
+    TempWALDir wd("/tmp/themis_wal_unexpected_delete_record");
+    themis::WALStorage::Config storage_config;
+    storage_config.dir = wd.path;
+    auto storage = themis::WALStorage::open(storage_config);
+    ASSERT_TRUE(storage.has_value());
+    ASSERT_TRUE((*storage)->appendDelete("replication_entry").has_value());
+    storage->reset();
+
+    ReplicationConfig cfg = makeConfig(wd.path);
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+    const auto health = manager.getClusterHealth();
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_FALSE(health.begin()->second);
+    EXPECT_NE(manager.exportPrometheusMetrics().find(
+                  "themisdb_replication_wal_recovery_status{status=\"corrupted\"} 1"),
+              std::string::npos);
+}
+
+TEST_F(WALChecksumTest, SequenceGapIsCorruptionButTrimmedPrefixIsAllowed) {
+    const auto writeEntries = [](const std::string& directory) {
+        ReplicationConfig cfg = makeConfig(directory);
+        WALManager wal(cfg);
+        for (int index = 0; index < 3; ++index) {
+            WALEntry entry;
+            entry.operation = "INSERT";
+            entry.collection = "orders";
+            entry.document_id = "doc" + std::to_string(index);
+            entry.data = "{\"value\":\"same-size\"}";
+            ASSERT_GT(wal.append(entry), 0u);
+        }
+    };
+    const auto removeFrame = [](const std::string& directory, size_t frame_index) {
+        std::filesystem::path segment;
+        for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+            if (entry.path().extension() == ".log") {
+                segment = entry.path();
+                break;
+            }
+        }
+        ASSERT_FALSE(segment.empty());
+        std::ifstream input(segment, std::ios::binary);
+        ASSERT_TRUE(input.is_open());
+        std::vector<char> bytes(
+            std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+        input.close();
+
+        constexpr size_t header_size = 21;
+        constexpr size_t trailer_size = 4;
+        const auto readU32 = [&bytes](size_t offset) {
+            return static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset])) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 1])) << 8) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 2])) << 16) |
+                   (static_cast<uint32_t>(static_cast<unsigned char>(bytes[offset + 3])) << 24);
+        };
+        size_t offset = 0;
+        for (size_t index = 0; index < frame_index; ++index) {
+            const auto frame_size = header_size + readU32(offset + 13) +
+                                    readU32(offset + 17) + trailer_size;
+            offset += frame_size;
+        }
+        const auto frame_size = header_size + readU32(offset + 13) +
+                                readU32(offset + 17) + trailer_size;
+        ASSERT_LE(offset + frame_size, bytes.size());
+        bytes.erase(bytes.begin() + static_cast<std::ptrdiff_t>(offset),
+                    bytes.begin() + static_cast<std::ptrdiff_t>(offset + frame_size));
+
+        std::ofstream output(segment, std::ios::binary | std::ios::trunc);
+        ASSERT_TRUE(output.is_open());
+        output.write(bytes.data(), static_cast<std::streamsize>(bytes.size()));
+        ASSERT_TRUE(output.good());
+    };
+
+    TempWALDir gap_dir("/tmp/themis_wal_sequence_gap");
+    writeEntries(gap_dir.path);
+    removeFrame(gap_dir.path, 1);
+    {
+        ReplicationManager manager(makeConfig(gap_dir.path));
+        EXPECT_FALSE(manager.initialize());
+        EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
+        const auto health = manager.getClusterHealth();
+        ASSERT_EQ(health.size(), 1u);
+        EXPECT_FALSE(health.begin()->second);
+    }
+
+    TempWALDir compacted_dir("/tmp/themis_wal_compacted_prefix");
+    writeEntries(compacted_dir.path);
+    removeFrame(compacted_dir.path, 0);
+    WALManager recovered(makeConfig(compacted_dir.path));
+    EXPECT_EQ(recovered.getRecoveryStatus(), WALRecoveryStatus::COMPLETE);
+    EXPECT_EQ(recovered.getCurrentSequence(), 3u);
+}
+
+TEST_F(WALChecksumTest, SerializedSequenceMismatchIsReportedAsCorruption) {
+    TempWALDir source_dir("/tmp/themis_wal_sequence_source");
+    ReplicationConfig source_config = makeConfig(source_dir.path);
+    std::vector<uint8_t> serialized;
+    {
+        WALManager source(source_config);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "users";
+        entry.document_id = "doc1";
+        entry.data = "{\"name\":\"Alice\"}";
+        ASSERT_EQ(source.append(entry), 1u);
+        auto stored = source.readFrom(1, 1);
+        ASSERT_EQ(stored.size(), 1u);
+        serialized = stored.front().serialize();
+    }
+    ASSERT_GE(serialized.size(), 8u);
+    serialized[7] = 2;
+
+    TempWALDir recovery_dir("/tmp/themis_wal_sequence_mismatch");
+    themis::WALStorage::Config storage_config;
+    storage_config.dir = recovery_dir.path;
+    auto storage = themis::WALStorage::open(storage_config);
+    ASSERT_TRUE(storage.has_value());
+    const std::string payload(serialized.begin(), serialized.end());
+    ASSERT_TRUE((*storage)->appendPut("replication_entry", payload).has_value());
+    storage->reset();
+
+    ReplicationConfig cfg = makeConfig(recovery_dir.path);
+    ReplicationManager manager(cfg);
+    EXPECT_FALSE(manager.initialize());
+    EXPECT_EQ(manager.getWALRecoveryStatus(), WALRecoveryStatus::CORRUPTED);
 }
 
 // ============================================================================
@@ -1333,6 +1705,39 @@ TEST(ReplicationStreamTest, InitialBackoffIsZero) {
     auto wal = std::make_shared<WALManager>(cfg);
     ReplicationStream stream("127.0.0.1:9999", wal, cfg);
     EXPECT_EQ(stream.getConsecutiveFailures(), 0u);
+}
+
+TEST(ReplicationStreamTest, MissingTransportNeverAdvancesAcknowledgedSequence) {
+    TempWALDir wd("/tmp/themis_stream_no_transport");
+
+    for (const bool compression_enabled : {false, true}) {
+        ReplicationConfig cfg = makeConfig(
+            (std::filesystem::path(wd.path) /
+             (compression_enabled ? "compressed" : "uncompressed")).string());
+        cfg.enable_wal_compression = compression_enabled;
+        cfg.batch_timeout_ms = 5;
+
+        auto wal = std::make_shared<WALManager>(cfg);
+        WALEntry entry;
+        entry.operation = "INSERT";
+        entry.collection = "replication";
+        entry.document_id = compression_enabled ? "compressed" : "uncompressed";
+        entry.data = "payload";
+        ASSERT_GT(wal->appendDurably(entry), 0u);
+
+        ReplicationStream stream("127.0.0.1:9999", wal, cfg);
+        stream.start();
+        const auto deadline = std::chrono::steady_clock::now() +
+                              std::chrono::seconds(1);
+        while (stream.getConsecutiveFailures() == 0 &&
+               std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        }
+        stream.stop();
+
+        EXPECT_GT(stream.getConsecutiveFailures(), 0u);
+        EXPECT_EQ(stream.getLastAckedSequence(), 0u);
+    }
 }
 
 // ============================================================================
@@ -3162,6 +3567,7 @@ TEST(CDCManagerTest, ThrowingCallbackDoesNotCrash) {
 TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     TempWALDir tmp("/tmp/themis_cdc_mgr_test");
     auto cfg = makeConfig(tmp.path);
+    cfg.wal_sync_on_commit = true;
     cfg.seed_nodes.clear();
     // Use the minimum election timeout so the single-node cluster elects
     // itself as leader quickly.
@@ -3170,31 +3576,77 @@ TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     // This test validates CDC delivery, not lease semantics.
     cfg.enable_leader_lease = false;
 
-    ReplicationManager mgr(cfg);
-    ASSERT_TRUE(mgr.initialize());
-
     auto cdc = std::make_shared<CDCManager>();
     std::vector<std::string> captured;
     cdc->subscribe("", [&captured](const WALEntry& e) {
         captured.push_back(e.document_id);
     });
-    mgr.addListener(cdc);
-
-    // Wait for the single-node cluster to elect itself leader
-    // (election_timeout_max_ms = 100 ms, add extra margin)
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
     WALEntry entry;
     entry.operation   = "INSERT";
     entry.collection  = "items";
     entry.document_id = "item-42";
     entry.data        = R"({"name":"widget"})";
-    bool ok = mgr.replicate(entry);
+    bool ok = false;
+    {
+        ReplicationManager mgr(cfg);
+        ASSERT_TRUE(mgr.initialize());
+        mgr.addListener(cdc);
 
-    mgr.shutdown();
+        // Wait for the single-node cluster to elect itself leader.
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        ok = mgr.replicate(entry);
+        mgr.shutdown();
+    }
+
     ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
     ASSERT_EQ(captured.size(), 1u);
     EXPECT_EQ(captured[0], "item-42");
+
+    WALManager reopened(cfg);
+    const auto recovered = reopened.readFrom(1, 1);
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered.front().document_id, "item-42");
+}
+
+TEST(CDCManagerTest, ReplicationManagerDoesNotPublishBeforeQuorumAcknowledgement) {
+    TempWALDir tmp("/tmp/themis_cdc_quorum_test");
+    auto cfg = makeConfig(tmp.path);
+    cfg.mode = ReplicationMode::SEMI_SYNC;
+    cfg.wal_sync_on_commit = true;
+    cfg.replication_timeout_ms = 50;
+    cfg.seed_nodes.clear();
+    cfg.election_timeout_min_ms = 50;
+    cfg.election_timeout_max_ms = 100;
+    cfg.enable_leader_lease = false;
+
+    auto cdc = std::make_shared<CDCManager>();
+    std::vector<std::string> captured;
+    cdc->subscribe("", [&captured](const WALEntry& entry) {
+        captured.push_back(entry.document_id);
+    });
+
+    WALEntry entry;
+    entry.operation = "INSERT";
+    entry.collection = "items";
+    entry.document_id = "uncommitted";
+    entry.data = R"({"name":"not-published"})";
+
+    {
+        ReplicationManager mgr(cfg);
+        ASSERT_TRUE(mgr.initialize());
+        mgr.addListener(cdc);
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+        EXPECT_FALSE(mgr.replicate(entry));
+        EXPECT_TRUE(captured.empty());
+        mgr.shutdown();
+    }
+
+    WALManager reopened(cfg);
+    const auto recovered = reopened.readFrom(1, 1);
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered.front().document_id, "uncommitted");
+    EXPECT_TRUE(captured.empty());
 }
 
 // ============================================================================
