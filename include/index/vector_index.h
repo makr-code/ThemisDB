@@ -631,9 +631,14 @@ public:
                  rotary_relational_rotations_.load(std::memory_order_relaxed) };
     }
     
-    /// KNN search with rotation-aware query.
-    /// Rotates the query vector before search.
-    /// @return Search status and results; preserves the legacy unbounded behavior.
+    /**
+     * @brief Search with positional rotation and no request deadline.
+     * @param query Query vector, whose dimension must match the configured index.
+     * @param k Maximum number of results.
+     * @param query_position Position used to rotate the query before KNN retrieval.
+     * @param whitelistPks Optional allow-list passed unchanged to KNN retrieval.
+     * @return Search status and results; preserves the legacy unbounded behavior.
+     */
     std::pair<Status, std::vector<Result>> searchWithRotation(
         const std::vector<float>& query,
         int k,
