@@ -371,19 +371,7 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
                 "RoPE is not enabled. Please configure RoPE first.", req);
         }
 
-        if (request.shouldStop()) {
-            return stopped_response();
-        }
-        if (req.body().size() > MAX_ROPE_SEARCH_BODY_SIZE) {
-            span.setStatus(false, "Request body exceeds maximum allowed size");
-            return makeErrorResponse(http::status::payload_too_large,
-                "RoPE search request body exceeds maximum allowed size", req);
-        }
-        
         auto body_json = json::parse(req.body());
-        if (request.shouldStop()) {
-            return stopped_response();
-        }
         
         // Validate required fields
         if (!body_json.contains("entity") || !body_json["entity"].is_object()) {
@@ -518,7 +506,7 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
             return makeErrorResponse(http::status::bad_request,
                 "RoPE is not enabled. Please configure RoPE first.", req);
         }
-        
+
         auto body_json = json::parse(req.body());
         
         // Validate required fields
@@ -668,8 +656,20 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
             return makeErrorResponse(http::status::bad_request,
                 "RoPE is not enabled. Please configure RoPE first.", req);
         }
-        
+
+        if (request.shouldStop()) {
+            return stopped_response();
+        }
+        if (req.body().size() > MAX_ROPE_SEARCH_BODY_SIZE) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::payload_too_large,
+                "RoPE search request body exceeds maximum allowed size", req);
+        }
+
         auto body_json = json::parse(req.body());
+        if (request.shouldStop()) {
+            return stopped_response();
+        }
         
         // Validate required fields
         if (!body_json.contains("query") || !body_json["query"].is_array()) {
