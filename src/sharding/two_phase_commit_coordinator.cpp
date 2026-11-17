@@ -624,14 +624,11 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             }
         }
 
-        {
-            std::lock_guard<std::timed_mutex> lock(mutex_);
-            const bool unresolved = std::any_of(
-                transactions_.begin(), transactions_.end(), [](const auto& item) {
-                    return item.second.state != CoordinatorTxnState::COMPLETED;
-                });
-            recovery_status_ = unresolved ? "blocked" : "complete";
-        }
+        const bool unresolved = std::any_of(
+            transactions_.begin(), transactions_.end(), [](const auto& item) {
+                return item.second.state != CoordinatorTxnState::COMPLETED;
+            });
+        recovery_status_ = unresolved ? "blocked" : "complete";
     } catch (const std::exception& e) {
         {
             std::lock_guard<std::timed_mutex> lock(mutex_);
