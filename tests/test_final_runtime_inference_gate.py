@@ -9,6 +9,22 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
+    def test_release_critical_jobs_use_matching_supported_boost_runners(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-core.yml"
+        ).read_text(encoding="utf-8")
+        build_job = workflow.split("\n  quality-test-build:", 1)[1]
+        build_job, gate_job = build_job.split("\n  quality-test-gate:", 1)
+        gate_job = re.split(r"\n  [\w-]+:", gate_job, maxsplit=1)[0]
+        self.assertIn("runs_on: ubuntu-24.04", build_job)
+        self.assertIn("runs-on: ubuntu-24.04", gate_job)
+        for job in (build_job, gate_job):
+            for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
+                self.assertRegex(job, rf"\b{package}\b")
+
     def test_inference_gate_uses_supported_boost_runner(self) -> None:
         workflow = (
             REPO_ROOT
