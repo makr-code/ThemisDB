@@ -81,6 +81,23 @@ public:
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
 
+    /**
+     * @brief Choose an equality-predicate order while observing request cancellation.
+     * @param q Query whose equality predicates are estimated.
+     * @param request Deadline and cancellation source borrowed for this call.
+     * @param stop_reason Receives the stop cause, or None when planning completes.
+     * @param maxProbePerPred Maximum index entries inspected by each estimate.
+     * @return A complete plan, or an empty plan if cancellation/deadline is observed.
+     * @note Statistics access, one index estimate, sorting, cost advice and metric
+     *       emission are synchronous; the request is checked at their boundaries.
+     */
+    Plan chooseOrderForAndQuery(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason,
+        size_t maxProbePerPred = 1000
+    ) const;
+
     // =============================
     // Serialization Advisor tuning
     // =============================
@@ -327,6 +344,13 @@ public:
                                           const std::string& remote_scope_id) const noexcept;
 
 private:
+    Plan chooseOrderForAndQueryImpl_(
+        const ConjunctiveQuery& q,
+        size_t maxProbePerPred,
+        const RequestContext* request,
+        StopReason* stop_reason
+    ) const;
+
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
 

@@ -270,4 +270,39 @@ TEST_F(AqlFulltextDeadlineTest, OptimizedEqualityIntersectionPollsAndDiscardsPar
     EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
 }
 
+TEST_F(AqlFulltextDeadlineTest, OptimizerStopsBetweenEqualityEstimates) {
+    themis::query::QueryOptimizer optimizer(*index_);
+    themis::query::ConjunctiveQuery query;
+    query.table = "articles";
+    query.predicates.push_back({"category", "even"});
+    query.predicates.push_back({"status", "published"});
+
+    const auto expected_plan = optimizer.chooseOrderForAndQuery(query);
+    themis::query::StopReason stop_reason = themis::query::StopReason::None;
+    const auto request_plan = optimizer.chooseOrderForAndQuery(
+        query, themis::query::RequestContext{}, &stop_reason);
+    ASSERT_EQ(stop_reason, themis::query::StopReason::None);
+    ASSERT_EQ(request_plan.orderedPredicates.size(),
+              expected_plan.orderedPredicates.size());
+    for (size_t i = 0; i < expected_plan.orderedPredicates.size(); ++i) {
+        EXPECT_EQ(request_plan.orderedPredicates[i].column,
+                  expected_plan.orderedPredicates[i].column);
+        EXPECT_EQ(request_plan.orderedPredicates[i].value,
+                  expected_plan.orderedPredicates[i].value);
+    }
+
+    PollState state;
+    state.stop_after = 4;  // After first estimate, before the second index estimate.
+    const themis::query::RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    stop_reason = themis::query::StopReason::None;
+    const auto plan = optimizer.chooseOrderForAndQuery(
+        query, request, &stop_reason);
+
+    EXPECT_EQ(stop_reason, themis::query::StopReason::Cancelled);
+    EXPECT_TRUE(plan.orderedPredicates.empty());
+    EXPECT_TRUE(plan.details.empty());
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
 } // namespace

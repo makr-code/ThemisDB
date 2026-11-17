@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Fourteen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Fifteen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -135,7 +135,9 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   calls and sorting remain checkpoint-only.
   Optimized equality AQL queries use request-aware sequential index-stage
   checkpoints, key intersection and entity hydration; individual index calls
-  and sorting remain synchronous, and plan selection is checkpoint-only.
+  and sorting remain synchronous. Optimizer planning polls before/after stats,
+  each equality estimate, plan sorting and cost advice; individual estimate,
+  sort, stats, cost and metrics operations cannot be interrupted.
   The non-full-text `allow_full_scan` fallback now polls during prefix
   collection, sequential predicate filtering, and entity hydration; this
   request-aware path avoids spawning worker tasks, and `allow_full_scan` does
@@ -147,6 +149,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   valid empty results, expired deadline, cancellation, and a stop during the
   full-text prefix scan, structural predicate execution, full-scan fallback,
   range-aware key processing, and optimized equality cancellation.
+  Direct planner coverage verifies cancellation between equality estimates.
   Test/build execution is not claimed until verified.
 
 **Implemented slice (2026-11-16)**
@@ -292,7 +295,9 @@ now measures overrun classification, not a hard wall-clock bound.
   structural index calls and sorting are checkpoint-only.
   The optimized equality path polls between index stages, during key
   intersection, and during sequential entity hydration; plan selection remains
-  checkpoint-only.
+  cooperatively checked between estimates and planning stages, but each
+  estimate, sort, statistics lookup, cost-advice and metrics operation remains
+  synchronous.
   parsing and other query stages remain checkpoint-only. Other HTTP search routes besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client

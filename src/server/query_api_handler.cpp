@@ -3073,10 +3073,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else if (optimize) {
                 themis::query::QueryOptimizer opt(*secondary_index_);
-                if (timedOut()) {
-                    return timeoutResponse();
+                query::StopReason planning_stop_reason = query::StopReason::None;
+                auto plan = opt.chooseOrderForAndQuery(
+                    q, query_request, &planning_stop_reason);
+                if (planning_stop_reason != query::StopReason::None) {
+                    return timeoutResponse(planning_stop_reason);
                 }
-                auto plan = opt.chooseOrderForAndQuery(q);
                 if (timedOut()) {
                     return timeoutResponse();
                 }

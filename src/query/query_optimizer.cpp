@@ -116,7 +116,57 @@ QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx,
       metrics_collector_(metrics_collector) {}
 
 QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred) const {
+	return chooseOrderForAndQueryImpl_(q, maxProbePerPred, nullptr, nullptr);
+}
+
+QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(
+	const ConjunctiveQuery& q,
+	const RequestContext& request,
+	StopReason* stop_reason,
+	size_t maxProbePerPred
+) const {
+	return chooseOrderForAndQueryImpl_(q, maxProbePerPred, &request, stop_reason);
+}
+
+QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryImpl_(
+	const ConjunctiveQuery& q,
+	size_t maxProbePerPred,
+	const RequestContext* request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		if (!request) {
+			return false;
+		}
+		observed_stop_reason = request->stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&](Plan& plan) {
+		if (observed_stop_reason == StopReason::None && request) {
+			observed_stop_reason = request->stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		plan.orderedPredicates.clear();
+		plan.details.clear();
+		return plan;
+	};
+
 	Plan plan;
+	if (shouldStop()) {
+		return stopped(plan);
+	}
 	plan.orderedPredicates.reserve(q.predicates.size());
 	plan.details.reserve(q.predicates.size());
 	bool used_planner_fallback = false;
@@ -132,12 +182,21 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		if (stats_result_buf.ok) {
 			table_stats_ptr = &stats_result_buf.value;
 		}
+		if (shouldStop()) {
+			return stopped(plan);
+		}
 	}
 
 	// Schätzung je Prädikat
 	for (const auto& p : q.predicates) {
+		if (shouldStop()) {
+			return stopped(plan);
+		}
 		bool capped = false;
 		size_t cnt = secIdx_.estimateCountEqual(q.table, p.column, p.value, maxProbePerPred, &capped);
+		if (shouldStop()) {
+			return stopped(plan);
+		}
 		std::string provenance = capped ? "secondary_index_capped" : "secondary_index";
 
 		// If the secondary index has no data for this predicate, fall back to
@@ -205,26 +264,18 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		}
 		return va.pred.column < vb.pred.column; // stabile Ordnung
 	});
-
-	for (auto i : idx) {
-	  plan.orderedPredicates.push_back(plan.details[i].pred);
+	if (shouldStop()) {
+		return stopped(plan);
 	}
 
-	// Emit plan-selection metrics for Prometheus / observability.
-	if (metrics_collector_) {
-		metrics_collector_->addCounter("query.optimizer.plan_selected", 1);
-		metrics_collector_->addCounter("query.optimizer.rewrite_count", 1);
-		// Use the most selective predicate (lowest estimated count = idx[0] after
-		// ascending sort) as the dominant cost proxy for this plan.
-		double cost_estimate = plan.details.empty() ? 0.0
-		    : static_cast<double>(plan.details[idx[0]].estimatedCount);
-		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
-		if (used_planner_fallback) {
-			metrics_collector_->addCounter(
-			    "query_planner_fallback_total", 1,
-			    {{"reason", fallback_reason},
-			     {"table", q.table.empty() ? "unknown" : q.table}});
-		}
+	for (auto i : idx) {
+	  if (shouldStop()) {
+		return stopped(plan);
+	  }
+	  plan.orderedPredicates.push_back(plan.details[i].pred);
+	}
+	if (shouldStop()) {
+		return stopped(plan);
 	}
 
 	// ---- Serialization strategy advice (Thread-Safe — GAP-2) ----
@@ -240,6 +291,9 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    : 256;
 		const auto   gpu       = probeGpu();
 		const auto   workload  = inferWorkloadType(q);
+		if (shouldStop()) {
+			return stopped(plan);
+		}
 		// THREAD-SAFE: Acquire read lock when accessing advisor_cost_model_
 		{
 			/**
@@ -251,6 +305,29 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 			plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
 			    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
 		}
+	}
+	if (shouldStop()) {
+		return stopped(plan);
+	}
+
+	// Emit plan-selection metrics only after a complete plan is ready.
+	if (metrics_collector_) {
+		metrics_collector_->addCounter("query.optimizer.plan_selected", 1);
+		metrics_collector_->addCounter("query.optimizer.rewrite_count", 1);
+		// Use the most selective predicate (lowest estimated count = idx[0] after
+		// ascending sort) as the dominant cost proxy for this plan.
+		double cost_estimate = plan.details.empty() ? 0.0
+		    : static_cast<double>(plan.details[idx[0]].estimatedCount);
+		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
+		if (used_planner_fallback) {
+			metrics_collector_->addCounter(
+			    "query_planner_fallback_total", 1,
+			    {{"reason", fallback_reason},
+			     {"table", q.table.empty() ? "unknown" : q.table}});
+		}
+	}
+	if (shouldStop()) {
+		return stopped(plan);
 	}
 
 	return plan;
