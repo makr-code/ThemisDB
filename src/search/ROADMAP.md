@@ -376,9 +376,13 @@ now measures overrun classification, not a hard wall-clock bound.
   `HybridSearch` call. The hybrid aggregator propagates it to BM25 and
   `VectorIndexManager` KNN; an ANN frontdoor/backend call or custom shard
   function that ignores its context can still delay completion and joining.
-- `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
-  `LLMClient::generate` take no context; the LLM only gets a timeout value
-  and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
+- The tensor layer now calls the request-aware
+  `TensorFingerprintGraph::findSimilar` overload, which polls during candidate
+  collection and between similarity operations and discards partial results.
+  Each TT inner-product or injected exact-similarity callback remains
+  synchronous/checkpoint-only; result sorting is checkpoint-only. `KnowledgeGraphReasoner::infer` takes no
+  context; `LLMClient::generate` only gets a timeout value and has no in-flight
+  HTTP cancel. FAISS/cuVS ANN search is one blocking call.
 - `POST /query/aql` passes a request context through full-text index scans,
   score lookups, entity hydration, and structural key-list intersection.
   The direct `executeAql(..., RequestContext)` conjunctive path now also invokes

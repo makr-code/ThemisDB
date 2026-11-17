@@ -273,10 +273,12 @@ class LayeredRetrievalIntegrationPhase4Test : public ::testing::Test {
 protected:
     void SetUp() override {
         backend_state_ = makeExactVectorBackend();
+        tensor::TensorFingerprintGraph::clearExactSimilarityFn();
     }
 
     void TearDown() override {
         AdvancedVectorIndex::setStubCallbacks({});
+        tensor::TensorFingerprintGraph::clearExactSimilarityFn();
     }
 
     static std::shared_ptr<graph::KnowledgeGraphReasoner> makeReasoner() {
@@ -472,8 +474,9 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, AppliesPerQueryGuardrailsAcrossLay
 
 // ---------------------------------------------------------------------------
 // QRY-07 slice: request context (deadline + cancellation) through the
-// orchestrator. These tests cover the orchestrator and the ANN checkpoint
-// only; tensor/graph/LLM backends remain non-interruptible mid-call.
+// orchestrator. Tensor candidate scoring now polls between synchronous
+// inner-product or injected-callback calls; graph and LLM backends remain
+// non-interruptible mid-call.
 // ---------------------------------------------------------------------------
 
 TEST_F(LayeredRetrievalIntegrationPhase4Test, PreCancelledRequestSkipsAllLayersAndNeverCallsBackends) {
@@ -503,6 +506,77 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, PreCancelledRequestSkipsAllLayersA
         EXPECT_EQ(decision.decision, LayerRoutingDecision::CANCELLED) << decision.layer_name;
     }
     EXPECT_EQ(llm_client->started.load(), 0);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, TensorCancellationDiscardsCandidatesAndReportsCancelled) {
+    auto tensor_graph = std::make_shared<tensor::TensorFingerprintGraph>();
+    ASSERT_TRUE(tensor_graph->addAdapter(
+        "cancel_query", makeTrain({1.0f, 0.9f, 0.8f}), "finance", "llama3", "tenant-a"));
+    ASSERT_TRUE(tensor_graph->addAdapter(
+        "cancel_peer_a", makeTrain({0.9f, 0.8f, 0.7f}), "finance", "llama3", "tenant-a"));
+    ASSERT_TRUE(tensor_graph->addAdapter(
+        "cancel_peer_b", makeTrain({0.8f, 0.7f, 0.6f}), "finance", "llama3", "tenant-a"));
+
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    std::size_t score_calls = 0;
+    tensor::TensorFingerprintGraph::setExactSimilarityFn(
+        [&token, &score_calls](const std::string&, const std::string&) {
+            ++score_calls;
+            token->cancel();
+            return 0.9f;
+        });
+
+    LayeredRetrievalConfig config;
+    config.ann_enabled = false;
+    config.graph_enabled = false;
+    config.llm_enabled = false;
+    LayeredRetrievalOrchestrator orchestrator(config);
+    orchestrator.setTensorGraph(tensor_graph);
+
+    LayeredRetrievalContext context;
+    context.tensor_query_key = "cancel_query";
+    context.request = query::RequestContext(token);
+    const auto result = orchestrator.execute(context);
+
+    tensor::TensorFingerprintGraph::clearExactSimilarityFn();
+
+    EXPECT_EQ(score_calls, 1U);
+    EXPECT_TRUE(result.cancelled);
+    EXPECT_TRUE(result.partial);
+    EXPECT_FALSE(result.timed_out);
+    EXPECT_TRUE(result.tensor_candidates.empty());
+    const auto tensor_decision = std::find_if(
+        result.routing_decisions.begin(), result.routing_decisions.end(),
+        [](const LayerDecisionRecord& decision) {
+            return decision.layer_name == "tensor";
+        });
+    ASSERT_NE(tensor_decision, result.routing_decisions.end());
+    EXPECT_EQ(tensor_decision->decision, LayerRoutingDecision::CANCELLED);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, TensorPreStoppedRequestSkipsSimilarityCallbacks) {
+    auto tensor_graph = std::make_shared<tensor::TensorFingerprintGraph>();
+    ASSERT_TRUE(tensor_graph->addAdapter(
+        "expired_query", makeTrain({1.0f, 0.9f, 0.8f}), "finance", "llama3", "tenant-a"));
+    ASSERT_TRUE(tensor_graph->addAdapter(
+        "expired_peer", makeTrain({0.9f, 0.8f, 0.7f}), "finance", "llama3", "tenant-a"));
+
+    std::size_t score_calls = 0;
+    tensor::TensorFingerprintGraph::setExactSimilarityFn(
+        [&score_calls](const std::string&, const std::string&) {
+            ++score_calls;
+            return 0.9f;
+        });
+    query::StopReason stop_reason = query::StopReason::None;
+    const auto results = tensor_graph->findSimilar(
+        "expired_query", 1,
+        query::RequestContext::withTimeout(std::chrono::milliseconds{-1}),
+        &stop_reason);
+    tensor::TensorFingerprintGraph::clearExactSimilarityFn();
+
+    EXPECT_TRUE(results.empty());
+    EXPECT_EQ(stop_reason, query::StopReason::DeadlineExceeded);
+    EXPECT_EQ(score_calls, 0U);
 }
 
 TEST_F(LayeredRetrievalIntegrationPhase4Test, CancelDuringLlmLayerDiscardsLateResultButKeepsEarlierLayers) {

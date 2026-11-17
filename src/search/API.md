@@ -18,12 +18,14 @@ Canonical_References:
   - "include/search/search_error_codes.h"
   - "include/index/ann_frontdoor.h"
   - "include/index/vector_index.h"
+  - "include/tensor/tensor_fingerprint_graph.h"
   - "include/themis/base/interfaces/index_interface.h"
   - "src/search/hybrid_search.cpp"
   - "src/index/index_manager.cpp"
   - "src/index/vector_index.cpp"
   - "src/index/ann_frontdoor.cpp"
   - "src/search/distributed_hybrid_search.cpp"
+  - "src/search/layered_retrieval_orchestrator.cpp"
   - "tests/search/CMakeLists.txt"
 Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
@@ -217,10 +219,15 @@ writing after a detected reset/error. An orderly TCP half-close is not treated
 as cancellation because the client may still be waiting to receive the
 response.
 
-Not complete: tensor, graph, LLM and the ANN backend call itself cannot be
-interrupted mid-call, so `execute()` can return later than the deadline by that
-backend's overrun. Timeout/cancellation enforcement must not be claimed as a
-production guarantee; see `src/search/ROADMAP.md` (QRY-07).
+The tensor layer calls the request-aware
+`TensorFingerprintGraph::findSimilar(query_key, k, request, stop_reason)`
+overload. Candidate collection and boundaries between scores poll
+cancellation/deadline and discard partial candidates. A single TT
+inner-product, injected exact-similarity callback, or result sort remains
+synchronous and checkpoint-only. Graph inference, LLM generation, and the ANN backend call
+also remain synchronous/checkpoint-only and can overrun the deadline. Overall
+timeout/cancellation enforcement is not complete; see `src/search/ROADMAP.md`
+(QRY-07).
 
 `SecondaryIndexManager::scanFulltextWithScores(..., RequestContext, stop_reason)`
 provides cooperative BM25 full-text cancellation. It polls prefix-scan callbacks

@@ -452,8 +452,10 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             [graph = tensor_graph_,
              query_key = context.tensor_query_key,
              top_k,
-             tensor_result](const query::RequestContext&) {
-                *tensor_result = graph->findSimilar(query_key, top_k);
+             tensor_result](const query::RequestContext& layer_request) {
+                query::StopReason stop_reason = query::StopReason::None;
+                *tensor_result = graph->findSimilar(
+                    query_key, top_k, layer_request, &stop_reason);
             },
             error);
         const auto latency_ms =
