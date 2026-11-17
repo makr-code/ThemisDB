@@ -582,6 +582,7 @@ TEST_F(MtlsCancellationTest, ClientAbortCancelsSearchAndReleasesHttpWorker) {
     themis::server::HttpServer server(
         server_config, storage, secondary, graph, vectors, transactions);
     ASSERT_NO_THROW(server.start());
+    const auto requests_before_search = server.requestCountForTesting();
 
     net::io_context client_ioc;
     tcp::socket client(client_ioc);
@@ -600,7 +601,13 @@ TEST_F(MtlsCancellationTest, ClientAbortCancelsSearchAndReleasesHttpWorker) {
         {"query", slow_query}, {"k", 1}, {"expand", {{"hops", 0}}}}.dump();
     request.prepare_payload();
     ASSERT_NO_THROW(http::write(client, request));
-    std::this_thread::sleep_for(100ms);
+    const auto route_deadline = Clock::now() + 5s;
+    while (server.requestCountForTesting() <= requests_before_search &&
+           Clock::now() < route_deadline) {
+        std::this_thread::sleep_for(1ms);
+    }
+    ASSERT_GT(server.requestCountForTesting(), requests_before_search)
+        << "server did not enter HTTP route dispatch for the complete search request";
 
     linger abortive_close{1, 0};
     ASSERT_EQ(::setsockopt(client.native_handle(), SOL_SOCKET, SO_LINGER,
@@ -627,7 +634,7 @@ TEST_F(MtlsCancellationTest, ClientAbortCancelsSearchAndReleasesHttpWorker) {
     EXPECT_LT(health_elapsed, 5000);
     RecordProperty(
         "qry07_disconnect_trace",
-        "plain_http_search: request_body_sent; client_abortive_close; "
+        "plain_http_search: route_dispatch_confirmed; client_abortive_close; "
         "single_worker_health=200; response_to_aborted_client_suppressed");
     RecordProperty("disconnect_health_elapsed_ms", std::to_string(health_elapsed));
 

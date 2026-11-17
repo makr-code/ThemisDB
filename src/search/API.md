@@ -211,9 +211,11 @@ HTTP `POST /vector/search` passes a server-derived `RequestContext` (deadline =
 dispatch time + `request_timeout_ms`; `0` = unbounded; never from caller headers)
 to `VectorIndexManager::searchKnn(query, k, nullptr, context, &stop_reason)` and
 polls it while slicing/serializing results; a stop returns 504 with no results.
-The HTTP session adds a borrowed peer-closure probe to this context. It is
+The HTTP session adds a borrowed peer-reset/error probe to this context. It is
 observed at cooperative polling sites, and the session suppresses response
-writing after a detected disconnect.
+writing after a detected reset/error. An orderly TCP half-close is not treated
+as cancellation because the client may still be waiting to receive the
+response.
 
 Not complete: tensor, graph, LLM and the ANN backend call itself cannot be
 interrupted mid-call, so `execute()` can return later than the deadline by that
@@ -227,7 +229,8 @@ the current prefix iteration and clears partial results. The legacy overload
 remains unbounded. The HTTP `POST /search/fulltext` endpoint derives its deadline
 from the server's live `request_timeout_ms` (zero means unbounded) and returns
 HTTP 504 for an observed stop. Synchronous RocksDB reads and sorting are
-checkpoint-only; the session peer probe is observed at cooperative poll sites.
+checkpoint-only; the session peer reset/error probe is observed at cooperative
+poll sites. An orderly TCP half-close is not treated as cancellation.
 A valid no-match query returns an empty success, distinct from
 invalid index state (HTTP 400) or an observed deadline/cancellation.
 
@@ -236,8 +239,9 @@ context is passed to the BM25 text stage and request-aware KNN vector stage,
 then polled while candidates are fused and materialized. Any observed stop
 returns HTTP 504 and discards partial fusion results; a valid empty fusion
 remains HTTP 200. RocksDB reads, synchronous ANN backend calls, sorting, and
-serialization are checkpoint-only. The session peer probe is observed only at
-cooperative poll sites; the server does not write after a detected disconnect.
+serialization are checkpoint-only. The session peer reset/error probe is
+observed only at cooperative poll sites; the server does not write after a
+detected reset/error. An orderly TCP half-close is not treated as cancellation.
 
 ## Error taxonomy
 

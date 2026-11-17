@@ -271,9 +271,6 @@ bool peerDisconnected(const void* opaque_socket) noexcept {
         char byte = 0;
         const auto received =
             ::recv(socket->native_handle(), &byte, 1, MSG_PEEK);
-        if (received == 0) {
-            return true;
-        }
         if (received == SOCKET_ERROR) {
             const auto error = WSAGetLastError();
             return error != WSAEWOULDBLOCK && error != WSAEINTR;
@@ -283,19 +280,12 @@ bool peerDisconnected(const void* opaque_socket) noexcept {
 #else
     pollfd descriptor{};
     descriptor.fd = socket->native_handle();
-    descriptor.events = POLLERR | POLLHUP;
-#ifdef POLLRDHUP
-    descriptor.events |= POLLRDHUP;
-#endif
+    descriptor.events = POLLERR;
     const auto ready = ::poll(&descriptor, 1, 0);
     if (ready <= 0) {
         return false;
     }
-    short disconnect_events = POLLERR | POLLHUP | POLLNVAL;
-#ifdef POLLRDHUP
-    disconnect_events |= POLLRDHUP;
-#endif
-    return (descriptor.revents & disconnect_events) != 0;
+    return (descriptor.revents & POLLERR) != 0;
 #endif
 }
 

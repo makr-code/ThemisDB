@@ -379,6 +379,15 @@ public:
     }
 
     /**
+     * @brief Returns the number of HTTP requests that entered route dispatch.
+     * @return Monotonic request count.
+     * @note Test helper; this method is not a stable public API contract.
+     */
+    uint64_t requestCountForTesting() const {
+        return request_count_.load(std::memory_order_relaxed);
+    }
+
+    /**
      * @brief Set Concerns.
      * @param[in] concerns Input parameter.
      * @details Calls: std::move().

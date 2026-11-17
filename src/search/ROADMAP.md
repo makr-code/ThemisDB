@@ -61,12 +61,15 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - `Session` and `SslSession` supply a borrowed native-socket cancellation probe
   to bounded `/vector/search`, `/search/fulltext`, `/search/fusion`,
   `/search/hybrid`, and `/query/aql` request contexts. The probe checks peer
-  hangup/reset state at cooperative checkpoints. When observed, partial results
-  are discarded and the session does not write a response to the closed peer.
+  reset/error state at cooperative checkpoints. Orderly TCP half-close is not
+  treated as cancellation because the client may still receive a response.
+  When reset/error is observed, partial results are discarded and the session
+  does not write a response to the failed peer.
 - Detection latency is bounded by the next backend poll; checkpoint-only
   synchronous operations can still overrun. POSIX and Windows socket polling
   are implemented, but platform-specific behavior needs integration validation.
-  The plain-HTTP abortive-close integration test is authored but not built or run.
+  The plain-HTTP abortive-close test waits for HTTP route dispatch and checks
+  single-worker recovery; it is authored but not built or run.
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
 - `VectorApiHandler::handleSearch(req, RequestContext)` added (single-argument
