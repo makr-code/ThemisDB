@@ -264,7 +264,7 @@ bool peerDisconnected(const void* opaque_socket) noexcept {
     if (ready <= 0) {
         return false;
     }
-    if ((descriptor.revents & (POLLERR | POLLHUP | POLLNVAL)) != 0) {
+    if ((descriptor.revents & POLLERR) != 0) {
         return true;
     }
     if ((descriptor.revents & POLLRDNORM) != 0) {

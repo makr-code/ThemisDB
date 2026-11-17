@@ -642,4 +642,49 @@ TEST_F(MtlsCancellationTest, ClientAbortCancelsSearchAndReleasesHttpWorker) {
     storage->close();
 }
 
+TEST_F(MtlsCancellationTest, ClientWriteHalfCloseStillReceivesResponse) {
+    const int port = findAvailablePort();
+    ASSERT_GT(port, 0);
+
+    const auto db_path = pki_->dir / "half_close_http_db";
+    themis::RocksDBWrapper::Config storage_config;
+    storage_config.db_path = db_path.string();
+    auto storage = std::make_shared<themis::RocksDBWrapper>(storage_config);
+    ASSERT_TRUE(storage->open());
+
+    auto secondary = std::make_shared<themis::SecondaryIndexManager>(*storage);
+    auto graph = std::make_shared<themis::GraphIndexManager>(*storage);
+    auto vectors = std::make_shared<themis::VectorIndexManager>(*storage);
+    auto transactions = std::make_shared<themis::TransactionManager>(
+        *storage, *secondary, *graph, *vectors);
+
+    themis::server::HttpServer::Config server_config;
+    server_config.host = "127.0.0.1";
+    server_config.port = static_cast<std::uint16_t>(port);
+    server_config.num_threads = 1;
+    server_config.enable_tls = false;
+    server_config.health_error_service_enabled = false;
+    themis::server::HttpServer server(
+        server_config, storage, secondary, graph, vectors, transactions);
+    ASSERT_NO_THROW(server.start());
+
+    net::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(net::ip::make_address("127.0.0.1"),
+                                 static_cast<std::uint16_t>(port)));
+    http::request<http::empty_body> request{
+        http::verb::get, "/health/live", 11};
+    request.set(http::field::host, "127.0.0.1");
+    http::write(client, request);
+    client.shutdown(tcp::socket::shutdown_send);
+
+    beast::flat_buffer buffer;
+    http::response<http::string_body> response;
+    http::read(client, buffer, response);
+    EXPECT_EQ(response.result(), http::status::ok);
+
+    server.stop();
+    storage->close();
+}
+
 }  // namespace themis::sharding
