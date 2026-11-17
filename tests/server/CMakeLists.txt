@@ -25,6 +25,10 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_server_${_stem}_focused")
     set(_ctest "${_stem}_server_FocusedTests")
+    if(_stem STREQUAL "test_rope_search_request_context" AND
+       NOT THEMIS_ENABLE_HTTP_SERVER)
+        continue()
+    endif()
     file(READ "${_src}" _src_contents)
     string(FIND "${_src_contents}" "BENCHMARK(" _has_benchmark_macro)
 

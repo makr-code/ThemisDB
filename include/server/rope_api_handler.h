@@ -11,6 +11,7 @@
 
 #pragma once
 #include "server/auth_middleware.h"
+#include "query/request_context.h"
 
 #include <memory>
 #include <string>
@@ -73,11 +74,26 @@ public:
     http::response<http::string_body> handleAddRelationalPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle Search Post.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Handle a RoPE search without a request deadline.
+     * @param[in] req Validated HTTP request body and target.
+     * @return HTTP response containing results or a validation/backend error.
+     * @note Preserves the legacy unbounded behavior; use the request-aware overload
+     *       for server-dispatched searches.
      */
     http::response<http::string_body> handleSearchPost(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle a RoPE search while observing deadline and client cancellation.
+     * @param[in] req Validated HTTP request body and target.
+     * @param[in] request Request context borrowed for this synchronous call.
+     * @return HTTP 504 with no partial results when stopped; otherwise the ordinary
+     *         validation, backend-error, or search response.
+     * @note Positional rotation and synchronous ANN calls are checkpoint-only;
+     *       cooperative KNN scans poll the context. The request is not retained.
+     */
+    [[nodiscard]] http::response<http::string_body> handleSearchPost(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request);
 
     /**
      * @brief Handle Batch Add Post.

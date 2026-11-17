@@ -8111,7 +8111,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::RopeSearchPost:
             if (rope_api_) {
-                response = rope_api_->handleSearchPost(req);
+                const uint32_t timeout_ms =
+                    request_timeout_ms_live_.load(std::memory_order_relaxed);
+                const auto rope_request =
+                    requestContextForTimeout(connection_request, timeout_ms);
+                response = rope_api_->handleSearchPost(req, rope_request);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
             }

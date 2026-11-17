@@ -631,13 +631,36 @@ public:
                  rotary_relational_rotations_.load(std::memory_order_relaxed) };
     }
     
-    /// KNN search with rotation-aware query
-    /// Rotates the query vector before search
+    /// KNN search with rotation-aware query.
+    /// Rotates the query vector before search.
+    /// @return Search status and results; preserves the legacy unbounded behavior.
     std::pair<Status, std::vector<Result>> searchWithRotation(
         const std::vector<float>& query,
         int k,
         size_t query_position,
         const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
+    /**
+     * @brief Search with positional rotation while observing request stop state.
+     * @param query Query vector, whose dimension must match the configured index.
+     * @param k Maximum number of results; existing legacy range behavior is retained.
+     * @param query_position Position used to rotate the query before KNN retrieval.
+     * @param whitelistPks Optional allow-list passed unchanged to KNN retrieval.
+     * @param request Absolute deadline and cancellation state; not retained.
+     * @param stop_reason Receives the stop cause, or None on completion; may be null.
+     * @return Status and ranked results. A stopped request returns no partial results;
+     *         ordinary index errors are returned through Status.
+     * @note Rotation itself and synchronous ANN backend calls are checkpoint-only;
+     *       request-aware KNN scans poll cooperatively. A stopped late result is discarded.
+     */
+    [[nodiscard]] std::pair<Status, std::vector<Result>> searchWithRotation(
+        const std::vector<float>& query,
+        int k,
+        size_t query_position,
+        const std::vector<std::string>* whitelistPks,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason
     ) const;
 
 private:

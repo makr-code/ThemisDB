@@ -603,6 +603,13 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
 http::response<http::string_body> RopeApiHandler::handleSearchPost(
     const http::request<http::string_body>& req
 ) {
+    return handleSearchPost(req, ::themis::query::RequestContext{});
+}
+
+http::response<http::string_body> RopeApiHandler::handleSearchPost(
+    const http::request<http::string_body>& req,
+    const ::themis::query::RequestContext& request
+) {
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
@@ -617,6 +624,14 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
     auto span = Tracer::startSpan("handleRopeSearchPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
+
+    const auto stopped_response = [&]() {
+        span.setAttribute("error", "request_stopped");
+        span.setStatus(false, "RoPE search stopped by request cancellation or deadline");
+        return makeErrorResponse(
+            http::status::gateway_timeout,
+            "RoPE search stopped: request deadline exceeded or cancelled", req);
+    };
     
     try {
         // Extract index_name from path
@@ -654,6 +669,7 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         // Parse query vector
         std::vector<float> query_vector = {};
 
+        std::size_t parsed_values = 0;
         for (const auto& val : body_json["query"]) {
             if (!val.is_number()) {
                 span.setStatus(false, "Invalid query element");
@@ -661,6 +677,9 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
                     "Query vector elements must be numbers", req);
             }
             query_vector.push_back(val.get<float>());
+            if ((++parsed_values & 0xFFU) == 0U && request.shouldStop()) {
+                return stopped_response();
+            }
         }
         
         size_t position = body_json["position"].get<size_t>();
@@ -674,10 +693,16 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         auto start_time = std::chrono::high_resolution_clock::now();
         
         // Perform search with rotation
-        auto [status, results] = vector_index_->searchWithRotation(query_vector, k, position);
+        auto stop_reason = ::themis::query::StopReason::None;
+        auto [status, results] = vector_index_->searchWithRotation(
+            query_vector, k, position, nullptr, request, &stop_reason);
         
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+
+        if (stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+            return stopped_response();
+        }
         
         if (!status.ok) {
             span.setStatus(false, status.message);
@@ -688,6 +713,9 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         // Build results array
         json results_array = json::array();
         for (const auto& result : results) {
+            if (request.shouldStop()) {
+                return stopped_response();
+            }
             results_array.push_back({
                 {"id", result.pk},
                 {"distance", result.distance},
@@ -703,10 +731,17 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
             {"k", k},
             {"count",results.size()}
         };
-        
+
+        if (request.shouldStop()) {
+            return stopped_response();
+        }
         span.setAttribute("rope.results_count", static_cast<int64_t>(results.size()));
         span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
+        auto response_body = response.dump();
+        if (request.shouldStop()) {
+            return stopped_response();
+        }
+        return makeResponse(http::status::ok, std::move(response_body), req);
         
     } catch (const json::exception& e) {
         span.setStatus(false, e.what());

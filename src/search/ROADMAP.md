@@ -82,6 +82,19 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   checkpoints; this does not interrupt an in-flight ANN backend call.
 - Tests: `tests/api/test_api_vector_search_deadline.cpp`.
 
+**HTTP RoPE search deadline slice (2026-11-17)**
+- `POST /api/v1/vector-index/{name}/rope/search` now receives the live server
+  timeout and session peer-disconnect context. The handler polls while parsing
+  large query vectors, then passes the context through RoPE query rotation to
+  request-aware KNN. Deadline/cancellation returns HTTP 504 with partial results
+  discarded; the legacy handler and manager overloads remain unbounded.
+- Query rotation and synchronous ANN calls remain checkpoint-only. Cooperative
+  cache/storage KNN scans poll; an observed client reset suppresses the response
+  write. This slice does not establish immediate interruption of synchronous
+  ANN work.
+- Focused manager and handler tests cover stop propagation and expired-deadline
+  status. Their build and execution remain pending.
+
 **HTTP `/search/fulltext` deadline slice (2026-11-16)**
 - `SecondaryIndexManager::scanFulltextWithScores(..., RequestContext,
   StopReason*)` preserves the legacy unbounded overload and polls BM25 prefix
@@ -382,7 +395,8 @@ now measures overrun classification, not a hard wall-clock bound.
   conversion, and the iterator polls during candidate traversal; R-tree
   candidate lookup and one distance calculation remain synchronous. Parsing
   and other query stages remain checkpoint-only. Other HTTP search routes
-  besides `POST /vector/search`, `POST /search/fulltext`,
+  besides `POST /vector/search`, `POST /api/v1/vector-index/{name}/rope/search`,
+  `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. Bounded routes receive a session-scoped
   peer probe, observed only at cooperative poll sites. The HTTP hybrid

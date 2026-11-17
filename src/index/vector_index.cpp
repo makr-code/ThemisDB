@@ -3949,12 +3949,45 @@ VectorIndexManager::searchWithRotation(
 	size_t query_position,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	return searchWithRotation(query, k, query_position, whitelistPks,
+							  ::themis::query::RequestContext{}, nullptr);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchWithRotation(
+	const std::vector<float>& query,
+	int k,
+	size_t query_position,
+	const std::vector<std::string>* whitelistPks,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	const auto stopIfRequested = [&]() {
+		const auto reason = request.stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
+
 	/**
 	 * @brief State Lock.
 	 * @param[in] index_state_mutex_ Input parameter.
 	 * @return Return value.
 	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>()};
 	}
@@ -3963,11 +3996,21 @@ VectorIndexManager::searchWithRotation(
 		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
 			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
-		auto [status, results] = searchKnn(rotated_query, static_cast<size_t>(k), whitelistPks);
+		auto [status, results] = searchKnn(
+			rotated_query, static_cast<size_t>(k), whitelistPks,
+			request, stop_reason);
+		if ((stop_reason &&
+			 *stop_reason != ::themis::query::StopReason::None) ||
+			stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		
 		// Log audit event if logger is set
 		if (status.ok) {
@@ -3978,6 +4021,9 @@ VectorIndexManager::searchWithRotation(
 		
 		return {status, results};
 	} catch (const std::exception& e) {
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		return {Status::Error(std::string("Rotation search failed: ") + e.what()), std::vector<Result>()};
 	}
 }
