@@ -238,6 +238,34 @@ public:
         size_t limit = 1000,
         bool reversed = false
     ) const;
+    /**
+     * @brief Scans a range index while cooperatively observing request stops.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param lower Optional lower bound.
+     * @param upper Optional upper bound.
+     * @param includeLower Whether to include the lower bound.
+     * @param includeUpper Whether to include the upper bound.
+     * @param limit Maximum number of keys returned.
+     * @param reversed Whether to return keys in reverse order.
+     * @param request Deadline and cancellation state polled during index iteration.
+     * @param stop_reason Receives the stop cause, or None when the scan completes.
+     * @return Status and keys; on cancellation or deadline expiry, returns an error
+     *         and no partial keys.
+     * @note Existing overload remains available for unbounded scans.
+     */
+    std::pair<Status, std::vector<std::string>> scanKeysRange(
+        std::string_view table,
+        std::string_view column,
+        const std::optional<std::string>& lower,
+        const std::optional<std::string>& upper,
+        bool includeLower,
+        bool includeUpper,
+        size_t limit,
+        bool reversed,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    ) const;
 
     // Range-Scan mit Cursor-Anker (value, pk) für effiziente Pagination über ORDER BY
     // Wenn anchor gesetzt ist, startet der Scan strikt nach (ascending) bzw. strikt vor (descending)
@@ -278,6 +306,24 @@ public:
         std::string_view table,
         std::string_view column,
         std::string_view value
+    ) const;
+    /**
+     * @brief Scans an equality index while cooperatively observing request stops.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param value Value to match.
+     * @param request Deadline and cancellation state polled during index iteration.
+     * @param stop_reason Receives the stop cause, or None when the scan completes.
+     * @return Status and matching primary keys; on cancellation or deadline expiry,
+     *         returns an error and no partial keys.
+     * @note Existing overload remains available for unbounded scans.
+     */
+    std::pair<Status, std::vector<std::string>> scanKeysEqual(
+        std::string_view table,
+        std::string_view column,
+        std::string_view value,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
     ) const;
     
     // Composite index scan: alle Spalten müssen exakt matchen

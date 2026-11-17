@@ -52,9 +52,9 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   the two `benchmark_*hybrid_search` targets. No benchmark run or threshold
   pass is asserted here.
 
-### QRY-07 timeout and cancellation status (2026-11-16)
+### QRY-07 timeout and cancellation status (2026-11-17)
 
-- [ ] **QRY-07 remains OPEN.** Sixteen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Seventeen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -281,6 +281,18 @@ now measures overrun classification, not a hard wall-clock bound.
 - Tests added to `tests/api/test_api_grpc_search_cancellation.cpp`; not built or
   run on the authoring runner (gRPC/protobuf/GoogleTest/spdlog unavailable).
 
+**Secondary-index scan slice (2026-11-17)**
+- Request-aware equality and range index scans now poll cancellation/deadline
+  during RocksDB iteration (every 64 entries), stop iteration, and discard
+  partial key lists. The legacy signatures remain unbounded and delegate through
+  an empty request context.
+- Request-aware structural-query and fallback paths (optimized and
+  non-optimized equality included) use these scans. Range reversal polls during
+  its in-memory pass. Sorting and other index families remain checkpoint-only.
+- Focused equality, range, query-propagation, and expired-deadline tests were
+  added in `tests/index/test_secondary_index_request_cancellation.cpp`; they
+  are authored but not built/run on this runner.
+
 **Remaining gaps (QRY-07 still OPEN)**
 - No production AQL engine implements cooperative cancellation; `ExecuteAQL`
   and `StreamAQL` pass a request context and poll before dispatch, after
@@ -305,14 +317,16 @@ now measures overrun classification, not a hard wall-clock bound.
   score lookups, entity hydration, and structural key-list intersection.
   The non-full-text `allow_full_scan` path polls the storage scan, sequential
   filter and entity hydration; `FULLTEXT()` remains on its indexed path.
-  Range-aware non-full-text queries poll key processing and entity hydration;
-  structural index calls and sorting are checkpoint-only.
-  The optimized equality path polls between index stages, during key
-  intersection, and during sequential entity hydration; plan selection remains
-  cooperatively checked between estimates and planning stages, but each
-  estimate, sort, statistics lookup, cost-advice and metrics operation remains
-  synchronous.
-  parsing and other query stages remain checkpoint-only. Other HTTP search routes besides `POST /vector/search`, `POST /search/fulltext`,
+  Range-aware non-full-text queries now poll equality/range index iteration,
+  key processing, and entity hydration; sorting remains checkpoint-only.
+  The optimized equality path polls within index scans and between index
+  stages, during key intersection, and during sequential entity hydration; plan
+  selection remains cooperatively checked between estimates and planning
+  stages, but each estimate, sort, statistics lookup, cost-advice and metrics
+  operation remains synchronous. Phrase, fuzzy and spatial AQL searches retain
+  their legacy synchronous implementations with pre/post stop checks. Parsing
+  and other query stages remain checkpoint-only. Other HTTP search routes
+  besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client
   disconnects during synchronous dispatch. The hybrid expansion route still

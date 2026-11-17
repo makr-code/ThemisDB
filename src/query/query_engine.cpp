@@ -1944,7 +1944,11 @@ QueryEngine::executeAndKeysSequential(
 	}
 
 	auto [base_status, base_keys] = secIdx_->scanKeysEqual(
-		table, orderedPredicates.front().column, orderedPredicates.front().value);
+		table,
+		orderedPredicates.front().column,
+		orderedPredicates.front().value,
+		request,
+		stop_reason);
 	if (shouldStop()) {
 		return stopped();
 	}
@@ -1969,7 +1973,7 @@ QueryEngine::executeAndKeysSequential(
 		}
 		const auto& predicate = orderedPredicates[predicate_index];
 		auto [status, keys] = secIdx_->scanKeysEqual(
-			table, predicate.column, predicate.value);
+			table, predicate.column, predicate.value, request, stop_reason);
 		if (shouldStop()) {
 			return stopped();
 		}
@@ -3690,6 +3694,16 @@ QueryEngine::executeAndKeysWithFallbackImpl_(
 	if (shouldStop()) {
 		return stopped();
 	}
+	if (request &&
+		(q.phrasePredicate.has_value() ||
+		 q.fuzzyPredicate.has_value() ||
+		 q.spatialPredicate.has_value())) {
+		auto result = executeAndKeys(q);
+		if (shouldStop()) {
+			return stopped();
+		}
+		return result;
+	}
 	if (request && q.fulltextPredicate.has_value()) {
 		return executeAndKeys(q, *request, effective_stop_reason);
 	}
@@ -3722,17 +3736,18 @@ QueryEngine::executeAndKeysWithFallbackImpl_(
 			size_t eff = capped ? 16 : est;
 			if (eff < bestEst) { bestEst = eff; bestIdx = i; bestCapped = capped; }
 		}
-		{
-			if (shouldStop()) {
-				return stopped();
-			}
-			auto [st, _] = secIdx_->scanKeysEqual(q.table, q.predicates[bestIdx].column, q.predicates[bestIdx].value);
-			if (shouldStop()) {
-				return stopped();
-			}
-			if (!st.ok) {
-			  missingIndex = true;
-			}
+		if (shouldStop()) {
+			return stopped();
+		}
+		const auto& best_predicate = q.predicates[bestIdx];
+		const bool has_equality_index =
+			secIdx_->hasIndex(q.table, best_predicate.column) ||
+			secIdx_->hasSparseIndex(q.table, best_predicate.column);
+		if (shouldStop()) {
+			return stopped();
+		}
+		if (!has_equality_index) {
+			missingIndex = true;
 		}
 	}
 
@@ -3775,7 +3790,10 @@ QueryEngine::executeAndKeysWithFallbackImpl_(
 			if (shouldStop()) {
 				return stopped();
 			}
-			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
+			auto keysResult = request
+				? executeAndKeysSequential(
+					q.table, plan.orderedPredicates, *request, effective_stop_reason)
+				: executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (shouldStop()) {
 				return stopped();
 			}
@@ -3791,7 +3809,10 @@ QueryEngine::executeAndKeysWithFallbackImpl_(
 		if (shouldStop()) {
 			return stopped();
 		}
-		auto result = executeAndKeys(q);
+		auto result = request
+			? executeAndKeysSequential(
+				q.table, q.predicates, *request, effective_stop_reason)
+			: executeAndKeys(q);
 		if (shouldStop()) {
 			return stopped();
 		}
@@ -4000,7 +4021,10 @@ QueryEngine::executeAndKeysRangeAware_(
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
-		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
+		auto [st, keys] = request
+			? secIdx_->scanKeysEqual(
+				q.table, p.column, p.value, *request, stop_reason)
+			: secIdx_->scanKeysEqual(q.table, p.column, p.value);
 		if (shouldStop()) {
 			return stopped();
 		}
@@ -4031,7 +4055,27 @@ QueryEngine::executeAndKeysRangeAware_(
 		child.setAttribute("range.has_upper", r.upper.has_value());
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
-		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
+		auto [st, keys] = request
+			? secIdx_->scanKeysRange(
+				q.table,
+				r.column,
+				r.lower,
+				r.upper,
+				r.includeLower,
+				r.includeUpper,
+				bigLimit(),
+				false,
+				*request,
+				stop_reason)
+			: secIdx_->scanKeysRange(
+				q.table,
+				r.column,
+				r.lower,
+				r.upper,
+				r.includeLower,
+				r.includeUpper,
+				bigLimit(),
+				false);
 		if (shouldStop()) {
 			return stopped();
 		}

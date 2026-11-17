@@ -2522,6 +2522,49 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqual(std::string_view table,
 									 std::string_view column,
 									 std::string_view value) const {
+	return scanKeysEqual(table, column, value, ::themis::query::RequestContext{});
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+SecondaryIndexManager::scanKeysEqual(
+	std::string_view table,
+	std::string_view column,
+	std::string_view value,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	using ::themis::query::StopReason;
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		observed_stop_reason = request.stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&]() {
+		const auto reason = observed_stop_reason != StopReason::None
+			? observed_stop_reason
+			: request.stopReason();
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Equality index scan cancelled"
+			: "Equality index scan deadline exceeded";
+		return std::pair<Status, std::vector<std::string>>{
+			Status::Error(message), {}};
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
+
 	// Check for regular index or sparse index
 	bool hasRegularIndex = hasIndex(table, column);
 	bool hasSparse = hasSparseIndex(table, column);
@@ -2532,27 +2575,44 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 
 	const std::string encodedVal = encodeKeyComponent(value);
 	std::vector<std::string> pks;
+	size_t scanned = 0;
+	bool cancelled_during_scan = false;
+	const auto onEntry = [&](std::string_view key, bool sparse) {
+		if ((scanned++ & 63U) == 0U && shouldStop()) {
+			cancelled_during_scan = true;
+			return false;
+		}
+		if (sparse) {
+			// Extract PK from sidx:table:column:value:PK
+			const size_t lastColon = key.rfind(':');
+			if (lastColon != std::string_view::npos) {
+				pks.emplace_back(key.substr(lastColon + 1));
+			}
+		} else {
+			pks.emplace_back(KeySchema::extractPrimaryKey(key));
+		}
+		return true;
+	};
 	
 	// Scan regular index if exists
 	if (hasRegularIndex) {
 		const std::string prefix = KeySchema::makeSecondaryIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
-			pks.emplace_back(KeySchema::extractPrimaryKey(key));
-			return true;
+		db_.scanPrefix(prefix, [&onEntry](std::string_view key, [[maybe_unused]] std::string_view val){
+			return onEntry(key, false);
 		});
 	}
 	
 	// Scan sparse index if exists (and no regular index, or as fallback)
 	if (hasSparse && !hasRegularIndex) {
 		const std::string prefix = makeSparseIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
-			// Extract PK from sidx:table:column:value:PK
-			size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) {
-				pks.emplace_back(key.substr(lastColon + 1));
-			}
-			return true;
+		db_.scanPrefix(prefix, [&onEntry](std::string_view key, [[maybe_unused]] std::string_view val){
+			return onEntry(key, true);
 		});
+	}
+
+	if (cancelled_during_scan || shouldStop()) {
+		pks.clear();
+		return stopped();
 	}
 	
 	return {Status::OK(), std::move(pks)};
@@ -2708,10 +2768,61 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
     size_t limit,
     bool reversed
 ) const {
+    return scanKeysRange(
+        table, column, lower, upper, includeLower, includeUpper, limit, reversed,
+        ::themis::query::RequestContext{});
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+SecondaryIndexManager::scanKeysRange(
+    std::string_view table,
+    std::string_view column,
+    const std::optional<std::string>& lower,
+    const std::optional<std::string>& upper,
+    bool includeLower,
+    bool includeUpper,
+    size_t limit,
+    bool reversed,
+    const ::themis::query::RequestContext& request,
+    ::themis::query::StopReason* stop_reason
+) const {
+    using ::themis::query::StopReason;
+    if (stop_reason) {
+        *stop_reason = StopReason::None;
+    }
+    StopReason observed_stop_reason = StopReason::None;
+    const auto shouldStop = [&]() {
+        observed_stop_reason = request.stopReason();
+        if (observed_stop_reason == StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = observed_stop_reason;
+        }
+        return true;
+    };
+    const auto stopped = [&]() {
+        const auto reason = observed_stop_reason != StopReason::None
+            ? observed_stop_reason
+            : request.stopReason();
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        const auto message = reason == StopReason::Cancelled
+            ? "Range index scan cancelled"
+            : "Range index scan deadline exceeded";
+        return std::pair<Status, std::vector<std::string>>{
+            Status::Error(message), {}};
+    };
+    if (shouldStop()) {
+        return stopped();
+    }
+
     if (table.empty() || column.empty()) return {Status::Error("scanKeysRange: table/column darf nicht leer sein"), std::vector<std::string>()};
     if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRange: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 
     std::vector<std::string> result;
+    std::vector<std::string> reversed_result;
     std::string startKey, endKey;
 
     // RocksDB scanRange is [start, end) - exclusive on end
@@ -2737,37 +2848,51 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
     }
 
 	uint64_t steps = 0;
+	bool cancelled_during_scan = false;
+	const auto onEntry = [&](std::string_view key, std::vector<std::string>& output) {
+        if ((steps & 63U) == 0U && shouldStop()) {
+            cancelled_during_scan = true;
+            return false;
+        }
+        const size_t lastColon = key.rfind(':');
+        if (lastColon != std::string_view::npos) {
+            output.emplace_back(key.substr(lastColon + 1));
+        }
+        ++steps;
+        return true;
+    };
 	if (!reversed) {
-		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
+		db_.scanRange(startKey, endKey, [&result, limit, &onEntry](std::string_view key, [[maybe_unused]] std::string_view value){
             if (result.size() >= limit) {
               return false;
             }
-            size_t lastColon = key.rfind(':');
-            if (lastColon != std::string_view::npos) {
-				result.emplace_back(key.substr(lastColon+1));
-            }
-			++steps;
-            return true;
+            return onEntry(key, result);
         });
     } else {
-        std::vector<std::string> tmp;
-		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
-            size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) {
-			  tmp.emplace_back(key.substr(lastColon+1));
-			}
-			++steps;
-            return true;
+		db_.scanRange(startKey, endKey, [&reversed_result, &onEntry](std::string_view key, [[maybe_unused]] std::string_view value){
+            return onEntry(key, reversed_result);
         });
-        std::reverse(tmp.begin(), tmp.end());
-        if (tmp.size() > limit) {
-          tmp.resize(limit);
+        for (size_t left = 0, right = reversed_result.size();
+             left < right / 2; ++left) {
+            if ((left & 63U) == 0U && shouldStop()) {
+                cancelled_during_scan = true;
+                break;
+            }
+            std::swap(reversed_result[left], reversed_result[right - left - 1]);
         }
-        result = std::move(tmp);
+        if (reversed_result.size() > limit) {
+          reversed_result.resize(limit);
+        }
+        result = std::move(reversed_result);
     }
 
 	// Update range scan steps metric
 	query_metrics_.range_scan_steps_total.fetch_add(steps, std::memory_order_relaxed);
+
+    if (cancelled_during_scan || shouldStop()) {
+        result.clear();
+        return stopped();
+    }
 
     return {Status::OK(), result};
 }

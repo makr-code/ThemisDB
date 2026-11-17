@@ -603,8 +603,8 @@ public:
      * @param request Deadline and cancellation source borrowed for this synchronous call.
      * @param stop_reason Receives the stop cause, or None when no stop was observed.
      * @return Matching keys, or an error without partial keys when stopped.
-     * @note Individual index scans and sorting are synchronous; polling occurs at
-     *       their boundaries and during key-list intersection.
+     * @note Equality index iteration polls every 64 entries. Sorting polls only at
+     *       operation boundaries; key-list intersection polls every 64 comparisons.
      */
     Result<std::vector<std::string>> executeAndKeysSequential(
         const std::string& table,
@@ -659,8 +659,8 @@ public:
      * @param request Absolute deadline and cancellation source.
      * @param stop_reason Receives the observed stop cause, or None if not stopped.
      * @return Matching keys, or an error without partial results when stopped.
-     * @note Full-scan collection and filtering poll cooperatively; indexed execution
-     *       paths remain synchronous except where their existing context overload polls.
+     * @note Full-scan collection/filtering and equality/range index iteration poll
+     *       cooperatively. Sorting and other index families remain checkpoint-only.
      */
     Result<std::vector<std::string>> executeAndKeysWithFallback(
         const ConjunctiveQuery& q,
@@ -676,8 +676,9 @@ public:
      * @param request Absolute deadline and cancellation source.
      * @param stop_reason Receives the observed stop cause, or None if not stopped.
      * @return Matching entities, or an error without partial results when stopped.
-     * @note Fallback scanning and entity hydration poll cooperatively; individual
-     *       synchronous storage reads cannot be interrupted.
+     * @note Fallback scanning, equality/range index iteration, and entity hydration
+     *       poll cooperatively; individual synchronous storage reads cannot be
+     *       interrupted.
      */
     Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
         const ConjunctiveQuery& q,
@@ -979,7 +980,8 @@ private:
      * @param[in] q Query containing equality/range predicates and optional ordering.
      * @param request Optional request context; when supplied, index reads and sorting
      *        are checked at stage boundaries and key intersection polls every 64
-     *        comparisons. The underlying index calls and sorting cannot be interrupted.
+     *        comparisons. Equality and range index iteration poll every 64 entries;
+     *        sorting polls only at operation boundaries.
      * @param stop_reason Receives the cancellation/deadline cause when observed.
      * @return Matching keys, or an error without partial keys when stopped.
      */
