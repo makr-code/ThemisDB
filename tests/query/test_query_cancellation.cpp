@@ -275,6 +275,7 @@ TEST_F(ExecuteAqlCancellableTest,
     ASSERT_FALSE(result);
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
     EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
 }
 
 TEST_F(ExecuteAqlCancellableTest,
@@ -313,9 +314,9 @@ TEST_F(ExecuteAqlCancellableTest,
     }
 
     StopAfterPollsState state;
-    // The full scan/hydration polls complete before geometry conversion reaches
-    // the second 64-entity batch in this fixed-size fixture.
-    state.stop_after = 23;
+    // The first 146 polls cover AQL setup, full scan, and entity hydration;
+    // poll 147 is the second 64-entity geometry-conversion checkpoint.
+    state.stop_after = 147;
     const RequestContext request(
         nullptr, std::nullopt, &stopAfterPolls, &state);
     auto stop_reason = StopReason::None;
@@ -328,6 +329,7 @@ TEST_F(ExecuteAqlCancellableTest,
     ASSERT_FALSE(result);
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
     EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
 }
 
 TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
