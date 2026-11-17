@@ -469,7 +469,7 @@ TEST_F(MtlsCancellationTest, RealHttpsShardSearchDeadlineReturnsAfterWorkerClean
     server_config.host = "127.0.0.1";
     server_config.port = static_cast<std::uint16_t>(port);
     server_config.num_threads = 1;
-    server_config.request_timeout_ms = 100;
+    server_config.request_timeout_ms = 500;
     server_config.enable_tls = true;
     server_config.tls_cert_path = pki_->cert;
     server_config.tls_key_path = pki_->key;
@@ -509,12 +509,11 @@ TEST_F(MtlsCancellationTest, RealHttpsShardSearchDeadlineReturnsAfterWorkerClean
         query::RequestContext::withTimeout(10s));
     ASSERT_TRUE(seed.success) << seed.error << " status=" << seed.http_status;
 
-    // The real TextProcessor fallback performs tokenization and per-token
-    // embedding work synchronously. A bounded request must discard its late
-    // result at ContentManager's next stop checkpoint before vector retrieval.
+    // The real TextProcessor fallback polls the request during tokenization
+    // and per-token embedding work, returning no partial vector after stop.
     std::string slow_query;
-    slow_query.reserve(2400000);
-    for (size_t i = 0; i < 400000; ++i) {
+    slow_query.reserve(5000000);
+    for (size_t i = 0; i < 1000000; ++i) {
         slow_query += "slow ";
     }
     const auto search_started = Clock::now();
@@ -542,13 +541,18 @@ TEST_F(MtlsCancellationTest, RealHttpsShardSearchDeadlineReturnsAfterWorkerClean
     const auto after_stop = executor.get(
         shard, "/health/live", query::RequestContext::withTimeout(2s));
     EXPECT_FALSE(after_stop.success);
+    EXPECT_EQ(after_stop.http_status, 0);
+    EXPECT_FALSE(after_stop.timed_out);
+    EXPECT_FALSE(after_stop.cancelled);
+    EXPECT_FALSE(after_stop.error.empty());
 
     RecordProperty(
         "qry07_trace",
         "real_https_shard: import=200; slow_search=504(server deadline); "
         "single_worker_health=200; server_stop=joined; followup_after_stop=connection_failure");
     RecordProperty("slow_search_elapsed_ms", std::to_string(search_elapsed));
-    EXPECT_GE(search_elapsed, 100);
+    EXPECT_GE(search_elapsed, 500);
+    EXPECT_LT(search_elapsed, 3000);
     storage->close();
 }
 

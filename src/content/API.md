@@ -1,6 +1,6 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-17
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `api-contract`
@@ -39,10 +39,12 @@ Primary operations include:
 
 `searchWithExpansion(..., RequestContext, StopReason*)` is the bounded overload for
 request-aware callers. It propagates the context to KNN and checks it during graph
-expansion and result handling; embedding generation, graph neighbor/Dijkstra reads,
-whitelist scans, and sorting are checkpoint-only. A stopped request discards partial
-results and reports the stop reason through `StopReason*`. The legacy overload remains
-unbounded.
+expansion and result handling. The built-in `TextProcessor` fallback polls during
+tokenization and per-token embedding generation, returning no partial vector after a
+stop. An injected synchronous embedding callback, other processor implementations,
+graph neighbor/Dijkstra reads, whitelist scans, and sorting remain checkpoint-only.
+A stopped request discards partial results and reports the stop reason through
+`StopReason*`. The legacy overload remains unbounded.
 
 Read each declaration for defaults and exact types. `Status` contains `ok` and `message`;
 ingestion returns `IngestResult`, not `Status`.

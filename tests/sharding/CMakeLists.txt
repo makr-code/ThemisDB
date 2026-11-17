@@ -645,7 +645,8 @@ foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
     )
 endforeach()
 # POSIX-only: the test uses BSD sockets (arpa/inet.h, sys/socket.h, unistd.h) for its black-hole listener.
-if(UNIX AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_mtls_client_cancellation.cpp")
+if(UNIX AND THEMIS_ENABLE_HTTP_SERVER AND
+   EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_mtls_client_cancellation.cpp")
     message(STATUS "Adding Sharding: MTLSClient in-flight cancellation focused tests (QRY-07 slice)")
     add_executable(test_mtls_client_cancellation_focused test_mtls_client_cancellation.cpp)
     target_include_directories(test_mtls_client_cancellation_focused PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)

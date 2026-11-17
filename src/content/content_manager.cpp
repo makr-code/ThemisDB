@@ -1818,8 +1818,14 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     if (it == processors_.end()) {
       return res;
     }
-    std::vector<float> q = it->second->generateEmbedding(query_text);
-    if (stopIfRequested()) {
+    std::vector<float> q;
+    if (auto* text_processor = dynamic_cast<TextProcessor*>(it->second.get())) {
+        q = text_processor->generateEmbedding(query_text, request, stop_reason);
+    } else {
+        q = it->second->generateEmbedding(query_text);
+    }
+    if (stopIfRequested() || (stop_reason &&
+                              *stop_reason != ::themis::query::StopReason::None)) {
         return res;
     }
     // Optional: Build whitelist from filters to pre-filter vector search

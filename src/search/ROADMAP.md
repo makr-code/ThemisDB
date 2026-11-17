@@ -331,16 +331,17 @@ now measures overrun classification, not a hard wall-clock bound.
   because this runner lacks Boost and GoogleTest development headers. Those TLS
   peers validate transport behavior only. An end-to-end trace is now authored
   against a real HTTPS `HttpServer`, real content/index services and
-  `RemoteExecutor`: it imports a vector-backed chunk, runs a 400k-token hybrid
-  search under a 100 ms server deadline, expects HTTP 504, verifies the
+  `RemoteExecutor`: it imports a vector-backed chunk, runs a 1M-token hybrid
+  search under a 500 ms server deadline, expects HTTP 504, verifies the
   single-threaded server handles a subsequent liveness request, stops the
   server, and verifies the endpoint is closed. Execution is pending because
   this runner lacks Boost and GoogleTest development headers. This trace only
-  verifies late-result discard and request-worker cleanup: the synchronous
-  `TextProcessor::generateEmbedding` call itself is not interruptible and may
-  finish after the deadline before the handler returns 504. It does not prove
-  immediate sub-search cancellation, and no proof exists that an HTTP client
-  disconnect stops server-side search work.
+  verifies cooperative cancellation in the built-in `TextProcessor` fallback,
+  request-worker reuse, and server shutdown. Request-aware embedding polls
+  during tokenization and per-token generation and returns no partial vector.
+  Injected embedding callbacks and other synchronous search backends remain
+  checkpoint-only; no proof exists that an HTTP client disconnect stops
+  server-side search work.
 - `DistributedHybridSearch`: the local `HybridSearch::search` call is not
   interruptible (only skipped if already stopped); a custom shard function that
   ignores its context delays the join.

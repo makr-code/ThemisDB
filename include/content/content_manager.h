@@ -277,8 +277,10 @@ public:
      * @param request Absolute deadline and cancellation state; not retained after return.
      * @param stop_reason Receives the stop reason, or None on completion; may be null.
      * @return Ranked chunk IDs and vector distances; empty when unmatched or stopped.
-     * @note Embedding generation and synchronous ANN calls are checkpoint-only. A stopped
-     *       request discards any results; operational errors retain the legacy empty result.
+     * @note The built-in TextProcessor fallback polls during tokenization and embedding.
+     *       Injected callbacks, other processor implementations, and synchronous ANN calls
+     *       remain checkpoint-only. A stopped request discards any partial results;
+     *       operational errors retain the legacy empty result.
      */
     [[nodiscard]] std::vector<std::pair<std::string, float>> searchContent(
         const std::string& query_text,
@@ -321,8 +323,10 @@ public:
      * @param request Absolute deadline and cancellation state; not retained after return.
      * @param stop_reason Receives the stop reason, or None on completion; may be null.
      * @return Ranked chunk IDs and scores; empty when unmatched or stopped.
-     * @note Graph neighbor reads, Dijkstra calls, embedding generation, whitelist scans, and
-     *       sorting are checkpoint-only. Partial results are discarded when stopped.
+     * @note Graph neighbor reads, Dijkstra calls, injected/legacy embedding providers,
+     *       whitelist scans, and sorting are checkpoint-only. The built-in TextProcessor
+     *       fallback polls during tokenization and embedding. Partial results are discarded
+     *       when stopped.
      */
     [[nodiscard]] std::vector<std::pair<std::string, float>> searchWithExpansion(
         const std::string& query_text,
