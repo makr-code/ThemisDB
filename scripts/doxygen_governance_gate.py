@@ -10,7 +10,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterable, List
+from typing import Dict, Iterable, List, Optional, Set
 
 try:
     import yaml  # type: ignore
@@ -102,6 +102,91 @@ def get_changed_files(repo_root: Path, base_ref: str) -> List[str]:
         if result.returncode == 0:
             return _normalize_paths(result.stdout.splitlines())
     return []
+
+
+def parse_changed_line_numbers(
+    diff_text: str,
+    source_lines: Optional[Dict[str, List[str]]] = None,
+) -> Dict[str, Set[int]]:
+    """Return added lines and declaration lines affected by Doxygen edits."""
+    changed: Dict[str, Set[int]] = {}
+    current_path: Optional[str] = None
+    current_line = 0
+    hunk_has_doxygen_edit = False
+
+    def include_declaration_after_doxygen_edit() -> None:
+        if current_path is None or not hunk_has_doxygen_edit:
+            return
+
+        declaration_line = current_line
+        lines = (source_lines or {}).get(current_path)
+        if lines is not None:
+            index = max(0, current_line - 1)
+            while index < len(lines):
+                candidate = lines[index].strip()
+                if candidate and not candidate.startswith(("//", "/*", "*", "*/")):
+                    declaration_line = index + 1
+                    break
+                index += 1
+        changed.setdefault(current_path, set()).add(declaration_line)
+
+    for line in diff_text.splitlines():
+        if line.startswith("diff --git "):
+            include_declaration_after_doxygen_edit()
+            current_path = None
+        elif line.startswith("+++ b/"):
+            current_path = line[6:]
+        elif line.startswith("@@"):
+            include_declaration_after_doxygen_edit()
+            hunk_has_doxygen_edit = False
+            match = re.search(r"\+(\d+)(?:,(\d+))?", line)
+            current_line = int(match.group(1)) if match else 0
+        elif current_path is not None:
+            if line.startswith("+") and not line.startswith("+++"):
+                changed.setdefault(current_path, set()).add(current_line)
+                content = line[1:].lstrip()
+                hunk_has_doxygen_edit |= content.startswith(("///", "//! ", "/**", "/*!", "* ", "*/"))
+                current_line += 1
+            elif line.startswith("-") and not line.startswith("---"):
+                content = line[1:].lstrip()
+                hunk_has_doxygen_edit |= content.startswith(("///", "//! ", "/**", "/*!", "* ", "*/"))
+            elif line.startswith(" "):
+                current_line += 1
+
+    include_declaration_after_doxygen_edit()
+    return changed
+
+
+def get_changed_line_numbers(
+    repo_root: Path,
+    base_ref: str,
+    changed_files: Iterable[str],
+) -> Optional[Dict[str, Set[int]]]:
+    files = list(changed_files)
+    if not files:
+        return {}
+
+    candidates = [
+        f"origin/{base_ref}...HEAD",
+        f"{base_ref}...HEAD",
+        base_ref,
+    ]
+    for ref in candidates:
+        result = _run(
+            ["git", "diff", "--no-ext-diff", "--unified=0", ref, "--", *files],
+            repo_root,
+        )
+        if result.returncode == 0:
+            source_lines = {}
+            for path in files:
+                file_path = repo_root / path
+                if file_path.is_file():
+                    source_lines[path] = file_path.read_text(
+                        encoding="utf-8",
+                        errors="ignore",
+                    ).splitlines()
+            return parse_changed_line_numbers(result.stdout, source_lines)
+    return None
 
 
 def _is_cpp_file(rel_path: str) -> bool:
@@ -255,6 +340,7 @@ def filter_blocking_doxygen_warnings(
     repo_root: Path,
     warnings: Iterable[str],
     changed_public_header_files: Iterable[str],
+    changed_line_numbers: Optional[Dict[str, Set[int]]] = None,
 ) -> List[str]:
     changed_headers = set(changed_public_header_files)
     if not changed_headers:
@@ -262,9 +348,38 @@ def filter_blocking_doxygen_warnings(
     blocking: List[str] = []
     for warning in warnings:
         rel_path = extract_warning_path(repo_root, warning)
-        if rel_path in changed_headers:
-            blocking.append(warning)
+        if rel_path not in changed_headers:
+            continue
+        if changed_line_numbers is not None:
+            line_match = re.search(r":(\d+):\s*(?:warning|error):", warning, re.IGNORECASE)
+            if line_match and int(line_match.group(1)) not in changed_line_numbers.get(rel_path, set()):
+                continue
+        blocking.append(warning)
     return blocking
+
+
+def filter_findings_to_changed_lines(
+    findings: Iterable[dict],
+    changed_line_numbers: Optional[Dict[str, Set[int]]],
+) -> List[dict]:
+    if changed_line_numbers is None:
+        return list(findings)
+
+    filtered = []
+    for finding in findings:
+        start_line = finding.get("line")
+        if start_line is None:
+            filtered.append(finding)
+            continue
+
+        changed_lines = changed_line_numbers.get(
+            str(finding.get("file", "")).replace("\\", "/"),
+            set(),
+        )
+        end_line = finding.get("end_line", start_line)
+        if any(start_line <= line <= end_line for line in changed_lines):
+            filtered.append(finding)
+    return filtered
 
 
 def build_coverage_command(xml_dir: Path, src_dir: Path, output_path: Path) -> list[str]:
@@ -437,14 +552,23 @@ def main() -> int:
         coverage_verify_path = artifact_dir / "doxygen-coverage-verify.txt"
 
         if changed_code_files and (changed_public_header_files or coverage_enforced):
+            changed_line_numbers = get_changed_line_numbers(
+                repo_root,
+                args.base_ref,
+                changed_public_header_files,
+            )
             scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
                 [Path(path) for path in changed_public_header_files]
             )
             structural_findings = [
-                finding for finding in scan_findings if finding.get("pattern") in BLOCKING_PATTERNS
+                finding
+                for finding in filter_findings_to_changed_lines(scan_findings, changed_line_numbers)
+                if finding.get("pattern") in BLOCKING_PATTERNS
             ]
             advisory_findings = [
-                finding for finding in scan_findings if finding.get("pattern") in ADVISORY_PATTERNS
+                finding
+                for finding in filter_findings_to_changed_lines(scan_findings, changed_line_numbers)
+                if finding.get("pattern") in ADVISORY_PATTERNS
             ]
             scope_paths = _selected_scope_paths(
                 repo_root,
@@ -511,6 +635,7 @@ def main() -> int:
                 repo_root,
                 doxygen_warnings,
                 changed_public_header_files,
+                changed_line_numbers,
             )
 
             if structural_findings or doxygen_exit_code != 0 or not xml_index_exists or blocking_doxygen_warnings:

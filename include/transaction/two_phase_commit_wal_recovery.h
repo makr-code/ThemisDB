@@ -107,6 +107,15 @@ public:
         }
     }
 
+    /**
+     * @brief Rebuild per-transaction 2PC state from validated, ordered WAL entries.
+     * @param entries WAL entries in physical sequence order; callers must reject
+     *        corruption before invoking recovery.
+     * @return Recovered transaction states; an empty input produces an empty map.
+     * @note Entries without a transaction ID are ignored. Unsupported entry
+     *       types with a transaction ID leave a default recovered record and
+     *       do not change its 2PC state.
+     */
     [[nodiscard]] static std::map<std::string, RecoveredTwoPhaseCommitTransaction>
     reconstruct(const std::vector<themis::sharding::WALEntry>& entries) {
         RecoveredTransactions result;

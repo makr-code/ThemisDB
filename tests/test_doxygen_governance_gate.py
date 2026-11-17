@@ -1,9 +1,12 @@
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from scripts.doxygen_governance_gate import (
     build_coverage_command,
     filter_blocking_doxygen_warnings,
+    filter_findings_to_changed_lines,
+    parse_changed_line_numbers,
 )
 from tools.scanners.gs3_step04_quality_cpp_doxygen import ThemisCppDoxygenPolicyRulesScan
 
@@ -63,6 +66,93 @@ class DoxygenGovernanceGateTests(unittest.TestCase):
             blocking,
             ["include/storage/rocksdb_wrapper.h:339: warning: missing @return"],
         )
+
+    def test_filter_blocking_warnings_only_checks_added_lines(self) -> None:
+        repo_root = Path("/repo")
+        warnings = [
+            "/repo/include/storage/rocksdb_wrapper.h:339: warning: missing @return",
+            "/repo/include/storage/rocksdb_wrapper.h:340: warning: missing @param",
+        ]
+
+        blocking = filter_blocking_doxygen_warnings(
+            repo_root,
+            warnings,
+            ["include/storage/rocksdb_wrapper.h"],
+            {"include/storage/rocksdb_wrapper.h": {339}},
+        )
+
+        self.assertEqual(blocking, [warnings[0]])
+
+    def test_parse_changed_line_numbers_tracks_multiple_hunks(self) -> None:
+        diff_text = """diff --git a/include/a.h b/include/a.h
+--- a/include/a.h
++++ b/include/a.h
+@@ -10,2 +10,3 @@
+ existing
++added comment
++added declaration
+ unchanged
+@@ -20,0 +22,2 @@
++/** @brief Public API. */
++ * @param value Input value.
+@@ -30 +31,0 @@
+- * @brief Removed API documentation.
+"""
+
+        source_lines = [""] * 33 + ["void existing();"]
+        self.assertEqual(
+            parse_changed_line_numbers(diff_text, {"include/a.h": source_lines}),
+            {"include/a.h": {11, 12, 22, 23, 34}},
+        )
+
+    def test_filter_findings_only_checks_added_lines(self) -> None:
+        findings = [
+            {"file": "include/a.h", "line": 10, "pattern": "missing_doxygen_comment"},
+            {"file": "include/a.h", "line": 11, "pattern": "missing_doxygen_comment"},
+        ]
+
+        self.assertEqual(
+            filter_findings_to_changed_lines(findings, {"include/a.h": {11}}),
+            [findings[1]],
+        )
+
+    def test_filter_findings_includes_changed_multiline_declarations(self) -> None:
+        finding = {
+            "file": "include/a.h",
+            "line": 10,
+            "end_line": 14,
+            "pattern": "missing_doxygen_param",
+        }
+
+        self.assertEqual(
+            filter_findings_to_changed_lines([finding], {"include/a.h": {13}}),
+            [finding],
+        )
+
+    def test_scanner_reports_full_multiline_declaration_range(self) -> None:
+        with TemporaryDirectory() as temporary_directory:
+            repo_root = Path(temporary_directory)
+            header = repo_root / "include" / "api.h"
+            header.parent.mkdir()
+            header.write_text(
+                "/**\n"
+                " * @brief Update values.\n"
+                " */\n"
+                "void update(\n"
+                "    int first,\n"
+                "    int second);\n",
+                encoding="utf-8",
+            )
+            scanner = ThemisCppDoxygenPolicyRulesScan(str(repo_root))
+
+            findings = scanner.scan_files([header])
+            missing_params = next(
+                finding for finding in findings
+                if finding.get("pattern") == "missing_doxygen_param"
+            )
+
+        self.assertEqual(missing_params["line"], 4)
+        self.assertEqual(missing_params["end_line"], 6)
 
     def test_no_changed_public_headers_skips_doxygen(self) -> None:
         """

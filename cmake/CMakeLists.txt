@@ -1629,7 +1629,11 @@ else()
     endif()
 endif()
 
-find_package(Boost REQUIRED COMPONENTS system filesystem headers)
+# CMP0167 selects Boost's config package for an unqualified lookup, but some
+# system Boost packages do not export the split boost_system component config.
+# Use CMake's FindBoost module, matching the system-package fallback in
+# Dependencies.cmake.
+find_package(Boost MODULE REQUIRED COMPONENTS system filesystem)
 
 # The core Boost headers package is required for header-only utilities such as
 # boost/throw_exception.hpp, which are used by the base runtime even when the
