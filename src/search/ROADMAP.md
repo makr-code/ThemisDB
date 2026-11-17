@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Fifteen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Sixteen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -151,6 +151,20 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   range-aware key processing, and optimized equality cancellation.
   Direct planner coverage verifies cancellation between equality estimates.
   Test/build execution is not claimed until verified.
+
+**Core gRPC AQL request-context slice (2026-11-17)**
+- `ThemisCoreServiceImpl::ExecuteAQL` and `StreamQuery` derive a cooperative
+  request context from the gRPC server deadline and cancellation state, then
+  invoke the request-aware `IQueryEngine::execute` overload with the existing
+  bind-variable JSON. Cancellation maps to gRPC `CANCELLED`; deadline expiry
+  maps to `DEADLINE_EXCEEDED`. Unary output is cleared on stop, and streaming
+  returns on a stop or failed writer call.
+- Engines that use the interface's default request-aware overload remain
+  checkpoint-only: an in-flight legacy execution cannot be interrupted, and
+  the RPC waits for it to return before discarding its result.
+- Focused core-service RPC tests cover pre-cancellation, in-flight
+  cancellation/deadline, late legacy results, and stream cleanup. Test/build
+  execution remains unverified until run with the gRPC-enabled CMake target.
 
 **Implemented slice (2026-11-16)**
 - `include/query/request_context.h`: shared `query::RequestContext`
@@ -322,7 +336,7 @@ now measures overrun classification, not a hard wall-clock bound.
   invocation cannot be interrupted mid-operation.
 - Still required for acceptance: slow-search cleanup trace (end-to-end, real
   shards), end-to-end deadline/cancellation propagation through remaining HTTP
-  and non-vector gRPC routes, and cancellation handling for the remaining
+  and gRPC routes, and cancellation handling for the remaining
   in-flight synchronous backends in the layered pipeline.
 
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
