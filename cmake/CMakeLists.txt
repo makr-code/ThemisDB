@@ -1629,12 +1629,8 @@ else()
     endif()
 endif()
 
-if(_themis_boost_mode STREQUAL "CONFIG")
-    find_package(Boost 1.70 CONFIG REQUIRED COMPONENTS system filesystem headers)
-elseif(_themis_boost_mode STREQUAL "MODULE")
-    if(NOT TARGET Boost::headers AND TARGET Boost::boost)
-        add_library(Boost::headers ALIAS Boost::boost)
-    endif()
+if(NOT TARGET Boost::headers AND TARGET Boost::boost)
+    add_library(Boost::headers ALIAS Boost::boost)
 endif()
 
 # The core Boost headers package is required for header-only utilities such as
