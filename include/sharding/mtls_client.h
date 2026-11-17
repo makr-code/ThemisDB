@@ -224,6 +224,22 @@ public:
                   const query::RequestContext& ctx);
 
     /**
+     * @brief Authenticated HTTP POST with request cancellation and deadline.
+     * @param[in] endpoint Server endpoint.
+     * @param[in] path Request path.
+     * @param[in] body JSON request body.
+     * @param[in] authorization_header Value for the Authorization header.
+     * @param[in] ctx Deadline + cancellation token for this request.
+     * @return Response; `cancelled` / `timed_out` distinguish an aborted request
+     *         from a normal transport failure.
+     */
+    Response post(const std::string& endpoint,
+                  const std::string& path,
+                  const nlohmann::json& body,
+                  const std::string& authorization_header,
+                  const query::RequestContext& ctx);
+
+    /**
      * @brief HTTP PUT (JSON body) that can be cancelled or deadline-bounded in flight.
      * @param[in] endpoint Server endpoint.
      * @param[in] path Request path.

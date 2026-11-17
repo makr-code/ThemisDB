@@ -517,6 +517,16 @@ MTLSClient::Response MTLSClient::post(const std::string& endpoint,
                               std::optional<nlohmann::json>(body), {}, ctx);
 }
 
+MTLSClient::Response MTLSClient::post(const std::string& endpoint,
+                                      const std::string& path,
+                                      const nlohmann::json& body,
+                                      const std::string& authorization_header,
+                                      const themis::query::RequestContext& ctx) {
+    return requestWithContext("POST", endpoint, path,
+                              std::optional<nlohmann::json>(body),
+                              authorization_header, ctx);
+}
+
 MTLSClient::Response MTLSClient::put(const std::string& endpoint,
                                      const std::string& path,
                                      const nlohmann::json& body,

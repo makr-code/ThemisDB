@@ -318,12 +318,20 @@ now measures overrun classification, not a hard wall-clock bound.
 - mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
   callback/wake-up registration, so transport abort latency is ~10 ms, not
   instant. Synchronous gRPC search polls its borrowed server context directly.
-- Only `MTLSClient::get/post` (and `RemoteExecutor::get/post`) are
-  cancellable. `put/del/postBinary`, the connection-pool path and all legacy
-  overloads remain synchronous and non-interruptible.
-- Transport cancellation was proven for the TLS handshake stage against a
-  black-hole peer; mid-write/mid-read abort uses the same mechanism but has no
-  dedicated test, and no end-to-end test against a real shard server exists.
+- `MTLSClient::get/post/put/del` and `RemoteExecutor::get/post/put/del` now
+  have request-context overloads. `RemoteExecutor::executeQuery` and
+  `postBinary` also propagate context, including cooperative checks while
+  base64-encoding a binary payload. The authenticated POST overload now
+  supports the same context. These direct async calls still bypass the
+  connection-pool path; legacy overloads and pool operations remain
+  non-interruptible.
+- Focused transport tests have been authored for TLS handshake cancellation,
+  stalled response reads, large-request writes against a TLS peer that does not
+  read, and PUT/DELETE/query/binary executor propagation; execution is pending
+  because this runner lacks Boost and GoogleTest development headers. Those TLS
+  peers validate transport behavior only: there is still no end-to-end
+  slow-search cleanup trace against a real ThemisDB shard server, and no proof
+  that an HTTP client disconnect stops server-side search work.
 - `DistributedHybridSearch`: the local `HybridSearch::search` call is not
   interruptible (only skipped if already stopped); a custom shard function that
   ignores its context delays the join.

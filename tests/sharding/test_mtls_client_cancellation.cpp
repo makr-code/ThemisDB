@@ -341,6 +341,16 @@ TEST_F(MtlsCancellationTest, PutAndDeleteHonorInFlightRequestDeadline) {
     EXPECT_FALSE(del.stage_timed_out);
 }
 
+TEST_F(MtlsCancellationTest, AuthenticatedPostHonorsInFlightRequestDeadline) {
+    MTLSClient client(clientConfig());
+    const auto response = client.post(
+        hole_.endpoint(), "/authenticated", {{"value", 1}}, "******",
+        query::RequestContext::withTimeout(150ms));
+    EXPECT_TRUE(response.timed_out);
+    EXPECT_FALSE(response.cancelled);
+    EXPECT_FALSE(response.stage_timed_out);
+}
+
 TEST_F(MtlsCancellationTest, RemoteExecutorPropagatesContextForPutDeleteAndBinaryPost) {
     RemoteExecutor::Config cfg;
     cfg.cert_path = pki_->cert;
