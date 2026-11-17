@@ -1,381 +1,348 @@
-"""
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wikipedia_stress_runner.py                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:43:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
-"""
-
 #!/usr/bin/env python3
-"""
-Wikipedia Stress Test - Simplified Version
-Uses synthetic Wikipedia-like data for rapid testing
-Real data will be loaded once download completes
+"""Measure ThemisDB entity writes and validated readbacks for JSONL data.
+
+The runner does not measure full-text search or recovery. Data generation is
+synthetic and is kept separate from database measurement.
 """
 
-import os
-import json
-import time
+import argparse
 import asyncio
+import json
+import logging
+import math
 import random
 import string
-from datetime import datetime, timedelta
+import time
+import uuid
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import List, Dict
-import logging
+from typing import Dict, Iterable, Iterator, List
+from urllib.parse import urlsplit
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='[%(asctime)s] %(levelname)s: %(message)s'
-)
+import httpx
+
+
+logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
 class WikipediaDataGenerator:
-    """Generate synthetic Wikipedia-like data for stress testing"""
-    
-    def __init__(self, output_dir: str = "data/wikipedia"):
+    """Generate an explicitly synthetic JSONL corpus for smoke/load input."""
+
+    def __init__(self, output_dir: str = "data/wikipedia", *, seed: int = 42):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Realistic Wikipedia statistics
+        self.random = random.Random(seed)
         self.titles = self._generate_titles()
         self.contributors = self._generate_contributors()
-    
+
     def _generate_titles(self) -> List[str]:
-        """Generate realistic Wikipedia article titles"""
         topics = [
             "History", "Science", "Technology", "Geography", "Biology",
             "Physics", "Chemistry", "Mathematics", "Literature", "Art",
             "Music", "Sports", "Medicine", "Philosophy", "Religion",
-            "Politics", "Economics", "Law", "Education", "Culture"
+            "Politics", "Economics", "Law", "Education", "Culture",
         ]
-        
         adjectives = [
             "The", "Ancient", "Modern", "Digital", "Global", "Historical",
-            "Contemporary", "Classical", "Quantum", "Computational", "Evolutionary"
+            "Contemporary", "Classical", "Quantum", "Computational", "Evolutionary",
         ]
-        
-        articles = []
-        for i in range(100000):  # Generate 100k article titles
-            topic = random.choice(topics)
-            adj = random.choice(adjectives)
-            year = random.randint(500, 2024)
-            articles.append(f"{adj} {topic} ({year})" if random.random() > 0.5 else f"{topic} {year}")
-        
-        return articles
-    
+        return [
+            f"{self.random.choice(adjectives)} {self.random.choice(topics)} "
+            f"({self.random.randint(500, 2024)})"
+            for _ in range(100000)
+        ]
+
     def _generate_contributors(self) -> List[str]:
-        """Generate realistic Wikipedia contributor names"""
-        first_names = ["John", "Mary", "Robert", "Patricia", "Michael", "Jennifer",
-                      "William", "Linda", "David", "Barbara", "Richard", "Susan"]
-        last_names = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia",
-                     "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez"]
-        
-        contributors = []
-        for i in range(10000):
-            name = f"{random.choice(first_names)} {random.choice(last_names)}"
-            contributors.append(name)
-        
-        return contributors
-    
-    def generate_articles(self, count: int = 100000) -> List[Dict]:
-        """Generate synthetic Wikipedia articles"""
-        logger.info(f"Generating {count:,} synthetic Wikipedia articles...")
-        
-        articles = []
-        base_time = datetime.now() - timedelta(days=365*15)  # 15 years of history
-        
-        for i in range(count):
-            title = random.choice(self.titles)
-            text_length = random.randint(500, 50000)  # 500 to 50KB per article
-            text = self._generate_text(text_length)
-            
-            timestamp = base_time + timedelta(hours=random.randint(0, 365*15*24))
-            
-            article = {
-                "id": i,
-                "title": title,
-                "namespace": 0,
-                "revision_id": random.randint(1000000, 9999999),
-                "timestamp": timestamp.isoformat(),
-                "contributor": random.choice(self.contributors),
-                "contributor_id": random.randint(1, 100000),
-                "comment": self._generate_comment(),
-                "text": text,
-                "size_bytes": len(text),
-                "word_count": len(text.split()),
-                "link_count": random.randint(0, 500),
-                "image_count": random.randint(0, 100),
-                "categories": self._generate_categories()
-            }
-            
-            articles.append(article)
-            
-            if (i + 1) % 10000 == 0:
-                logger.info(f"  Generated {i + 1:,} articles...")
-        
-        return articles
-    
-    def _generate_text(self, length: int) -> str:
-        """Generate realistic Wikipedia-like text"""
+        first_names = [
+            "John", "Mary", "Robert", "Patricia", "Michael", "Jennifer",
+            "William", "Linda", "David", "Barbara", "Richard", "Susan",
+        ]
+        last_names = [
+            "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia",
+            "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez",
+        ]
+        return [
+            f"{self.random.choice(first_names)} {self.random.choice(last_names)}"
+            for _ in range(10000)
+        ]
+
+    def generate_articles(self, count: int = 100000) -> Iterator[Dict]:
+        if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+            raise ValueError("article count must be a positive integer")
+        base_time = datetime.now(timezone.utc) - timedelta(days=365 * 15)
         words = [
-            "the", "be", "to", "of", "and", "a", "in", "that", "have", "i",
-            "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
-            "this", "but", "his", "by", "from", "they", "we", "say", "her", "she",
-            "or", "an", "will", "my", "one", "all", "would", "there", "their", "what",
-            "about", "which", "when", "article", "wikipedia", "history", "known",
-            "time", "year", "country", "people", "world", "work", "first", "way"
+            "the", "be", "to", "of", "and", "a", "in", "that", "have", "it",
+            "for", "not", "on", "with", "history", "known", "time", "country",
         ]
-        
-        text_words = []
-        while sum(len(w) for w in text_words) < length:
-            text_words.append(random.choice(words).capitalize() if random.random() > 0.9 else random.choice(words))
-        
-        # Format as paragraphs
-        text = " ".join(text_words)
-        paragraphs = [text[i:i+200] + "." for i in range(0, len(text), 200)]
-        return "\n\n".join(paragraphs)
-    
-    def _generate_comment(self) -> str:
-        """Generate edit comment"""
-        comments = [
-            "Fixed typo", "Added references", "Improved formatting",
-            "Updated information", "Corrected date", "Added image",
-            "Minor cleanup", "Expanded section", "Clarified wording"
-        ]
-        return random.choice(comments)
-    
-    def _generate_categories(self) -> List[str]:
-        """Generate article categories"""
-        categories = [
-            "History", "Science", "Technology", "Geography", "Biology",
-            "Society", "Culture", "Arts", "Sports", "Politics"
-        ]
-        return random.sample(categories, random.randint(1, 5))
-    
-    def save_as_jsonl(self, articles: List[Dict], filename: str = "wikipedia_articles.jsonl"):
-        """Save articles in JSONL format for streaming ingestion"""
+        for index in range(count):
+            text_length = self.random.randint(500, 50000)
+            text_words = []
+            generated_length = 0
+            while generated_length < text_length:
+                word = self.random.choice(words)
+                word = word.capitalize() if self.random.random() > 0.9 else word
+                text_words.append(word)
+                generated_length += len(word) + 1
+            article = {
+                "id": index,
+                "title": self.titles[self.random.randrange(len(self.titles))],
+                "namespace": 0,
+                "revision_id": self.random.randint(1000000, 9999999),
+                "timestamp": (
+                    base_time + timedelta(hours=self.random.randint(0, 365 * 15 * 24))
+                ).isoformat(),
+                "contributor": self.contributors[self.random.randrange(len(self.contributors))],
+                "contributor_id": self.random.randint(1, 100000),
+                "comment": "Synthetic benchmark article",
+                "text": " ".join(text_words),
+                "categories": ["Synthetic benchmark data"],
+            }
+            article["size_bytes"] = len(article["text"].encode("utf-8"))
+            article["word_count"] = len(text_words)
+            yield article
+
+    def save_as_jsonl(self, articles: Iterable[Dict], filename: str = "wikipedia_articles.jsonl"):
         output_file = self.output_dir / filename
-        logger.info(f"Saving to {output_file}...")
-        
-        with open(output_file, 'w') as f:
+        with output_file.open("x", encoding="utf-8") as output:
+            article_count = 0
             for article in articles:
-                f.write(json.dumps(article) + '\n')
-        
-        logger.info(f"Saved {len(articles):,} articles to {output_file}")
-        logger.info(f"File size: {output_file.stat().st_size / (1024**3):.2f} GB")
-        
+                output.write(json.dumps(article, ensure_ascii=False) + "\n")
+                article_count += 1
+        logger.info("Saved %s synthetic articles to %s", article_count, output_file)
         return output_file
 
 
 class WikipediaStressTest:
-    """Execute stress test with Wikipedia-like data"""
-    
-    def __init__(self, data_file: str = "data/wikipedia/wikipedia_articles.jsonl"):
+    """Measure actual ThemisDB entity ingestion and read-after-write behavior."""
+
+    def __init__(self, data_file: str, endpoint: str, *, dataset_kind: str,
+                 max_articles: int = 1000, timeout: float = 10.0,
+                 concurrency: int = 1):
+        if dataset_kind not in {"synthetic", "wikipedia-dump"}:
+            raise ValueError("dataset_kind must be synthetic or wikipedia-dump")
+        if isinstance(max_articles, bool) or not isinstance(max_articles, int) or max_articles <= 0:
+            raise ValueError("max_articles must be a positive integer")
+        if isinstance(concurrency, bool) or not isinstance(concurrency, int) or concurrency <= 0:
+            raise ValueError("concurrency must be a positive integer")
+        parsed_endpoint = urlsplit(endpoint)
+        if (parsed_endpoint.scheme not in {"http", "https"} or not parsed_endpoint.hostname or
+                parsed_endpoint.username is not None or parsed_endpoint.password is not None or
+                parsed_endpoint.path not in {"", "/"} or parsed_endpoint.query or parsed_endpoint.fragment):
+            raise ValueError("endpoint must be an HTTP(S) origin without credentials, path, query or fragment")
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("timeout must be finite and positive")
         self.data_file = Path(data_file)
-        self.results = {
-            "start_time": None,
-            "end_time": None,
-            "total_articles": 0,
-            "total_size_gb": 0,
-            "ingestion_rate": 0,  # articles/sec
-            "query_performance": {},
-            "stress_metrics": {}
-        }
-    
-    async def run_stress_test(self):
-        """Execute complete stress test"""
-        logger.info("="*80)
-        logger.info("Wikipedia Stress Test - ThemisDB v1.0.1")
-        logger.info("="*80)
-        
-        if not self.data_file.exists():
-            logger.warning(f"Data file not found: {self.data_file}")
-            logger.info("Please download Wikipedia dump first or generate synthetic data")
-            return
-        
-        self.results["start_time"] = datetime.now().isoformat()
-        
-        # Phase 1: Ingest data
-        await self._ingest_data()
-        
-        # Phase 2: Run queries
-        await self._run_queries()
-        
-        # Phase 3: Stress testing
-        await self._stress_test()
-        
-        # Phase 4: Report results
-        self._generate_report()
-        
-        self.results["end_time"] = datetime.now().isoformat()
-    
-    async def _ingest_data(self):
-        """Ingest Wikipedia articles"""
-        logger.info("\nPhase 1: Data Ingestion")
-        logger.info("-" * 80)
-        
-        start_time = time.time()
-        article_count = 0
-        total_size = 0
-        
-        logger.info(f"Streaming articles from {self.data_file}...")
-        
-        try:
-            with open(self.data_file, 'r') as f:
-                for line in f:
+        self.endpoint = endpoint.rstrip("/")
+        self.dataset_kind = dataset_kind
+        self.max_articles = max_articles
+        self.timeout = timeout
+        self.concurrency = concurrency
+
+    @staticmethod
+    def _percentile(samples: List[float], percentile: float) -> float:
+        if not samples:
+            return 0.0
+        ordered = sorted(samples)
+        index = (len(ordered) - 1) * percentile / 100
+        lower = int(index)
+        upper = min(lower + 1, len(ordered) - 1)
+        return ordered[lower] + (ordered[upper] - ordered[lower]) * (index - lower)
+
+    def _load_articles(self):
+        with self.data_file.open("r", encoding="utf-8") as source:
+            for line_number, line in enumerate(source, start=1):
+                if line_number > self.max_articles:
+                    break
+                try:
                     article = json.loads(line)
-                    article_count += 1
-                    total_size += article.get("size_bytes", 0)
-                    
-                    if article_count % 10000 == 0:
-                        elapsed = time.time() - start_time
-                        rate = article_count / elapsed
-                        logger.info(f"  Ingested {article_count:,} articles ({rate:.0f} articles/sec)")
-            
-            elapsed = time.time() - start_time
-            self.results["total_articles"] = article_count
-            self.results["total_size_gb"] = total_size / (1024**3)
-            self.results["ingestion_rate"] = article_count / elapsed
-            
-            logger.info(f"\nIngestion Complete:")
-            logger.info(f"  Articles: {article_count:,}")
-            logger.info(f"  Total Size: {total_size / (1024**3):.2f} GB")
-            logger.info(f"  Rate: {article_count / elapsed:.0f} articles/sec")
-            logger.info(f"  Duration: {elapsed:.1f} seconds")
-        
-        except Exception as e:
-            logger.error(f"Ingestion failed: {e}")
-    
-    async def _run_queries(self):
-        """Run search and analytical queries"""
-        logger.info("\nPhase 2: Query Performance")
-        logger.info("-" * 80)
-        
-        # Simulate query performance metrics
-        query_types = {
-            "full_text_search": {"latency_ms": 45, "throughput": 2200},
-            "title_search": {"latency_ms": 15, "throughput": 6667},
-            "category_filter": {"latency_ms": 120, "throughput": 833},
-            "date_range": {"latency_ms": 89, "throughput": 1124},
-            "contributor_analysis": {"latency_ms": 234, "throughput": 427},
-            "complex_faceted": {"latency_ms": 567, "throughput": 176}
+                except json.JSONDecodeError as error:
+                    raise ValueError(f"Invalid JSONL at line {line_number}: {error}") from error
+                if not isinstance(article, dict) or not isinstance(article.get("title"), str):
+                    raise ValueError(f"Article at line {line_number} must be an object with a title")
+                yield article
+
+    async def run_stress_test(self, output_file: str):
+        if not self.data_file.is_file():
+            raise FileNotFoundError(f"Dataset does not exist: {self.data_file}")
+        report_path = Path(output_file)
+        if report_path.exists():
+            raise FileExistsError(f"Report already exists: {report_path}")
+
+        collection = "wiki_bench_" + uuid.uuid4().hex
+        attempted_keys = []
+        write_latencies = []
+        read_latencies = []
+        bytes_written = 0
+        article_count = 0
+        started = time.perf_counter()
+
+        async with httpx.AsyncClient(
+            base_url=self.endpoint, timeout=self.timeout, trust_env=False
+        ) as client:
+            try:
+                articles = iter(self._load_articles())
+                article_count = 0
+
+                async def measure_article(index, article):
+                    nonlocal bytes_written
+                    key = f"article{index:020d}"
+                    entity_key = f"{collection}:{key}"
+                    serialized = json.dumps(
+                        article, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+                    )
+                    attempted_keys.append(entity_key)
+
+                    operation_start = time.perf_counter()
+                    response = await client.put(
+                        f"/entities/{entity_key}", json={"blob": serialized}
+                    )
+                    response.raise_for_status()
+                    if response.status_code not in (200, 201):
+                        raise RuntimeError(f"ThemisDB rejected article write {index}")
+                    if response.json().get("success") is not True:
+                        raise RuntimeError(f"ThemisDB did not confirm article write {index}")
+                    write_latencies.append((time.perf_counter() - operation_start) * 1000)
+                    bytes_written += len(serialized.encode("utf-8"))
+
+                    operation_start = time.perf_counter()
+                    response = await client.get(f"/entities/{entity_key}")
+                    response.raise_for_status()
+                    payload = response.json()
+                    if payload.get("key") != entity_key or payload.get("blob") != serialized:
+                        raise RuntimeError(f"Read-after-write validation failed for article {index}")
+                    read_latencies.append((time.perf_counter() - operation_start) * 1000)
+
+                while True:
+                    batch = []
+                    for _ in range(self.concurrency):
+                        try:
+                            article = next(articles)
+                        except StopIteration:
+                            break
+                        article_count += 1
+                        batch.append((article_count, article))
+                    if not batch:
+                        break
+
+                    outcomes = await asyncio.gather(
+                        *(measure_article(index, article) for index, article in batch),
+                        return_exceptions=True,
+                    )
+                    for outcome in outcomes:
+                        if isinstance(outcome, BaseException):
+                            raise outcome
+
+                if article_count == 0:
+                    raise ValueError(f"Dataset contains no articles: {self.data_file}")
+            finally:
+                cleanup_errors = []
+                for offset in range(0, len(attempted_keys), self.concurrency):
+                    batch = attempted_keys[offset:offset + self.concurrency]
+
+                    async def delete_entity(entity_key):
+                        response = await client.delete(f"/entities/{entity_key}")
+                        if response.status_code != 404:
+                            response.raise_for_status()
+
+                    outcomes = await asyncio.gather(
+                        *(delete_entity(entity_key) for entity_key in batch),
+                        return_exceptions=True,
+                    )
+                    cleanup_errors.extend(
+                        (batch[index], outcome)
+                        for index, outcome in enumerate(outcomes)
+                        if isinstance(outcome, BaseException)
+                    )
+                if cleanup_errors:
+                    failed_keys = ", ".join(key for key, _ in cleanup_errors)
+                    raise RuntimeError(f"Failed to clean up benchmark entities: {failed_keys}") from cleanup_errors[0][1]
+
+        elapsed = time.perf_counter() - started
+        report = {
+            "schema_version": 1,
+            "benchmark_kind": "themisdb_http_entity_ingest_readback",
+            "external_comparison_ready": False,
+            "dataset": {
+                "source": str(self.data_file.resolve()),
+                "kind": self.dataset_kind,
+                "articles_measured": article_count,
+                "serialized_content_bytes": bytes_written,
+            },
+            "protocol": {
+                "endpoint": self.endpoint,
+                "concurrency": self.concurrency,
+                "operations": (
+                    "up to concurrency independent PUT entity then exact GET readback pairs; "
+                    "owned entities deleted after measurement"
+                ),
+                "latency_scope": "HTTP client, network and server response",
+                "full_text_search_measured": False,
+                "recovery_or_memory_stress_measured": False,
+            },
+            "measurements": {
+                "elapsed_seconds": elapsed,
+                "write_operations": len(write_latencies),
+                "read_operations": len(read_latencies),
+                "articles_per_second": article_count / elapsed if elapsed > 0 else 0,
+                "write_latency_p50_ms": self._percentile(write_latencies, 50),
+                "write_latency_p95_ms": self._percentile(write_latencies, 95),
+                "read_latency_p50_ms": self._percentile(read_latencies, 50),
+                "read_latency_p95_ms": self._percentile(read_latencies, 95),
+            },
         }
-        
-        self.results["query_performance"] = query_types
-        
-        for query_type, metrics in query_types.items():
-            logger.info(f"{query_type:.<30} {metrics['latency_ms']:>6.0f}ms, {metrics['throughput']:>6.0f} qps")
-    
-    async def _stress_test(self):
-        """Execute stress test scenarios"""
-        logger.info("\nPhase 3: Stress Testing")
-        logger.info("-" * 80)
-        
-        scenarios = {
-            "sustained_load": {
-                "duration_sec": 300,
-                "concurrent_ops": 1000,
-                "success_rate": 99.8,
-                "p99_latency_ms": 1245
-            },
-            "spike_test": {
-                "duration_sec": 60,
-                "concurrent_ops": 5000,
-                "success_rate": 99.2,
-                "p99_latency_ms": 3421
-            },
-            "memory_test": {
-                "duration_sec": 600,
-                "peak_memory_mb": 8192,
-                "memory_stability": "stable",
-                "oom_events": 0
-            },
-            "recovery_test": {
-                "disruptions": 5,
-                "avg_recovery_sec": 3.2,
-                "data_loss_events": 0,
-                "success_rate": 100.0
-            }
-        }
-        
-        self.results["stress_metrics"] = scenarios
-        
-        for scenario, metrics in scenarios.items():
-            logger.info(f"\n{scenario}:")
-            for key, value in metrics.items():
-                logger.info(f"  {key}: {value}")
-    
-    def _generate_report(self):
-        """Generate final report"""
-        logger.info("\n" + "="*80)
-        logger.info("STRESS TEST REPORT")
-        logger.info("="*80)
-        
-        logger.info(f"\nDataset:")
-        logger.info(f"  Articles: {self.results['total_articles']:,}")
-        logger.info(f"  Size: {self.results['total_size_gb']:.2f} GB")
-        logger.info(f"  Ingestion Rate: {self.results['ingestion_rate']:.0f} articles/sec")
-        
-        logger.info(f"\nQuery Performance (top queries):")
-        sorted_queries = sorted(self.results['query_performance'].items(),
-                               key=lambda x: x[1].get('latency_ms', 0))
-        for query_type, metrics in sorted_queries[:3]:
-            logger.info(f"  {query_type}: {metrics['latency_ms']:.0f}ms, {metrics['throughput']:.0f} qps")
-        
-        logger.info(f"\nStress Test Results:")
-        logger.info(f"  ✓ All scenarios completed successfully")
-        logger.info(f"  ✓ Zero data loss events")
-        logger.info(f"  ✓ 99%+ success rates maintained")
-        
-        logger.info(f"\nConclusion:")
-        logger.info(f"  ThemisDB successfully handles Wikipedia-scale workloads")
-        logger.info(f"  Performance remains excellent under stress conditions")
-        
-        # Save report as JSON
-        report_file = Path("wikipedia_stress_test_results.json")
-        with open(report_file, 'w') as f:
-            json.dump(self.results, f, indent=2)
-        
-        logger.info(f"\nReport saved to: {report_file}")
-        logger.info("="*80)
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        with report_path.open("x", encoding="utf-8") as output:
+            json.dump(report, output, indent=2, allow_nan=False)
+        return report
 
 
 async def main():
-    """Main entry point"""
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="Wikipedia Stress Test")
-    parser.add_argument("--mode", choices=["generate", "test", "both"],
-                       default="both", help="Execution mode")
-    parser.add_argument("--articles", type=int, default=100000,
-                       help="Number of synthetic articles to generate")
-    parser.add_argument("--data-file", type=str,
-                       default="data/wikipedia/wikipedia_articles.jsonl",
-                       help="Path to Wikipedia data file")
-    
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mode", choices=["generate", "test", "both"], default="test")
+    parser.add_argument("--articles", type=int, default=1000, help="Synthetic articles to generate")
+    parser.add_argument("--data-file", type=Path, help="Input or generated JSONL path")
+    parser.add_argument("--endpoint", help="ThemisDB HTTP(S) origin")
+    parser.add_argument("--dataset-kind", choices=["synthetic", "wikipedia-dump"])
+    parser.add_argument("--max-articles", type=int, default=1000)
+    parser.add_argument("--concurrency", type=int, default=1,
+                        help="Maximum number of independent article write/read pairs in flight")
+    parser.add_argument("--timeout", type=float, default=10.0)
+    parser.add_argument("--output", type=Path, default=Path("wikipedia_stress_test_results.json"))
     args = parser.parse_args()
-    
-    if args.mode in ["generate", "both"]:
-        generator = WikipediaDataGenerator()
-        articles = generator.generate_articles(args.articles)
-        generator.save_as_jsonl(articles)
-    
-    if args.mode in ["test", "both"]:
-        stress_test = WikipediaStressTest(args.data_file)
-        await stress_test.run_stress_test()
+
+    if args.mode in {"test", "both"}:
+        if not args.endpoint or not args.data_file:
+            parser.error("--endpoint and --data-file are required for test/both mode")
+        if args.dataset_kind is None and args.mode == "test":
+            parser.error("--dataset-kind must identify synthetic or wikipedia-dump input")
+    if args.mode in {"generate", "both"}:
+        if args.articles <= 0:
+            parser.error("--articles must be positive")
+        data_file = args.data_file or Path("data/wikipedia/wikipedia_articles.jsonl")
+        generator = WikipediaDataGenerator(str(data_file.parent))
+        args.data_file = generator.save_as_jsonl(
+            generator.generate_articles(args.articles), data_file.name
+        )
+        if args.mode == "generate":
+            return
+        args.dataset_kind = "synthetic"
+    if args.max_articles <= 0 or args.timeout <= 0 or args.concurrency <= 0:
+        parser.error("--max-articles, --timeout, and --concurrency must be positive")
+
+    test = WikipediaStressTest(
+        str(args.data_file), args.endpoint, dataset_kind=args.dataset_kind,
+        max_articles=args.max_articles, timeout=args.timeout,
+        concurrency=args.concurrency,
+    )
+    report = await test.run_stress_test(str(args.output))
+    logger.info(
+        "Measured %s articles: %.2f articles/sec; write p95 %.3f ms; read p95 %.3f ms",
+        report["dataset"]["articles_measured"],
+        report["measurements"]["articles_per_second"],
+        report["measurements"]["write_latency_p95_ms"],
+        report["measurements"]["read_latency_p95_ms"],
+    )
 
 
 if __name__ == "__main__":

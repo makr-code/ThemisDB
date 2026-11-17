@@ -507,6 +507,94 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/llm/batching.md", "/docs/llm/performance.md"},
         {"llm", "batch", "size", "exceeded", "limit"}
     });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_NOT_FOUND,
+        "LLM",
+        "Error",
+        "Agent Skill was not found",
+        "The requested skill or package resource is not present in the discovered catalog.",
+        "Refresh the configured skill roots and verify the requested skill/resource name.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "not found"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_INVALID_METADATA,
+        "LLM",
+        "Error",
+        "Agent Skill metadata is invalid",
+        "The SKILL.md YAML frontmatter is missing required fields or is malformed.",
+        "Provide valid YAML frontmatter with scalar name and description fields.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "metadata", "invalid"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_DUPLICATE_NAME,
+        "LLM",
+        "Error",
+        "Agent Skill name is duplicated",
+        "More than one discovered package declares the same skill name.",
+        "Use unique skill names across all configured roots.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "duplicate"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_SIZE_LIMIT,
+        "LLM",
+        "Error",
+        "Agent Skill file exceeds its configured size limit",
+        "A skill manifest, instruction body, or resource exceeded its configured byte limit.",
+        "Reduce the file size or adjust the explicit SkillRegistry limit after review.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "size", "limit"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE,
+        "LLM",
+        "Critical",
+        "Agent Skill resource path escapes its package",
+        "A package entry or requested resource resolved through an unsafe path.",
+        "Keep skill resources within the configured package root and remove symlinks or traversal components.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "path", "traversal"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_IO_FAILED,
+        "LLM",
+        "Error",
+        "Agent Skill filesystem operation failed",
+        "The registry could not scan or read a configured package file.",
+        "Verify configured roots and file permissions, then refresh the registry.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "filesystem", "io"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_REGISTRY_NOT_INITIALIZED,
+        "LLM",
+        "Warning",
+        "Agent Skill registry has not been refreshed",
+        "No successful metadata snapshot is available for this registry.",
+        "Call SkillRegistry::refresh() and handle its result before listing or loading skills.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "registry", "refresh"}
+    });
+
+    registerError({
+        ErrorCode::ERR_LLM_SKILL_INVALID_CONTENT,
+        "LLM",
+        "Error",
+        "Agent Skill content is not valid UTF-8",
+        "A skill instruction or resource file contains invalid UTF-8.",
+        "Store skill instructions and resources as valid UTF-8 text.",
+        {"/src/llm/FUTURE_ENHANCEMENTS.md"},
+        {"llm", "skill", "utf8", "content"}
+    });
     
     // LoRA Errors
     registerError({

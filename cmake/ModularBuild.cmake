@@ -1256,6 +1256,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/subagent_factory_impl.cpp
     ../src/llm/subagent_coordinator_impl.cpp
     ../src/llm/ai_orchestrator.cpp
+    ../src/llm/skill_registry.cpp
     # Prompt Engineering Module (all components)
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
