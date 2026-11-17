@@ -246,6 +246,9 @@ struct SpatialJoinIterator::Impl {
 
                 const Coordinate centroid_b = geometryCentroid((*inner_ptr)[it->second].second);
                 const double dist = haversineDistanceM(centroid_a.x, centroid_a.y, centroid_b.x, centroid_b.y);
+                if (shouldStop()) {
+                    return false;
+                }
                 if (dist <= threshold_m) {
                     current_pair = {key_a, key_b, dist};
                     ++pairs_yielded;
@@ -257,6 +260,10 @@ struct SpatialJoinIterator::Impl {
                     }
                     return true;
                 }
+            }
+
+            if (shouldStop()) {
+                return false;
             }
 
             // Move to next outer element.
