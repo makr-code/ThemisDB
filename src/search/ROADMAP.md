@@ -84,10 +84,12 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 **HTTP RoPE search deadline slice (2026-11-17)**
 - `POST /api/v1/vector-index/{name}/rope/search` now receives the live server
-  timeout and session peer-disconnect context. The handler polls while parsing
-  large query vectors, then passes the context through RoPE query rotation to
-  request-aware KNN. Deadline/cancellation returns HTTP 504 with partial results
-  discarded; the legacy handler and manager overloads remain unbounded.
+  timeout and session peer-disconnect context. Request bodies are capped at
+  2,000,000 bytes and JSON decoding is checkpoint-only within that bound. The
+  handler polls while parsing large query vectors, then passes the context
+  through RoPE query rotation to request-aware KNN. Deadline/cancellation returns
+  HTTP 504 with partial results discarded; the legacy handler and manager
+  overloads remain unbounded.
 - Query rotation and synchronous ANN calls remain checkpoint-only. Cooperative
   cache/storage KNN scans poll; an observed client reset suppresses the response
   write. This slice does not establish immediate interruption of synchronous

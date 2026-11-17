@@ -86,10 +86,11 @@ public:
      * @brief Handle a RoPE search while observing deadline and client cancellation.
      * @param[in] req Validated HTTP request body and target.
      * @param[in] request Request context borrowed for this synchronous call.
-     * @return HTTP 504 with no partial results when stopped; otherwise the ordinary
-     *         validation, backend-error, or search response.
+     * @return HTTP 504 with no partial results when stopped, HTTP 413 when the body
+     *         exceeds 2,000,000 bytes, or the ordinary validation/backend/search response.
      * @note Positional rotation and synchronous ANN calls are checkpoint-only;
-     *       cooperative KNN scans poll the context. The request is not retained.
+     *       JSON decoding is checkpoint-only but bounded by the body-size limit.
+     *       Cooperative KNN scans poll the context. The request is not retained.
      */
     [[nodiscard]] http::response<http::string_body> handleSearchPost(
         const http::request<http::string_body>& req,

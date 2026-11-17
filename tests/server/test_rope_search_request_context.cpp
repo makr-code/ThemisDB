@@ -53,6 +53,13 @@ TEST(RopeSearchRequestContext, ExpiredRequestReturnsGatewayTimeoutWithoutResults
     const auto response_json = nlohmann::json::parse(response.body());
     EXPECT_FALSE(response_json.contains("results"));
 
+    auto oversized_request = request;
+    oversized_request.body().assign(2'000'001, ' ');
+    const auto oversized_response = handler.handleSearchPost(
+        oversized_request, themis::query::RequestContext{});
+    EXPECT_EQ(oversized_response.result(),
+              boost::beast::http::status::payload_too_large);
+
     vector_index.reset();
     storage->close();
     std::error_code error;
