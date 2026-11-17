@@ -13,9 +13,9 @@
  * ROCm/HIP Backend — feature parity with the CUDA backend.
  * =========================================================
  * Real HIP calls (hipMalloc, hipFree, hipMemset, hipStreamCreate, …) are
- * gated behind THEMIS_ENABLE_HIP.  When the define is absent (CI / no AMD
- * GPU) the backend falls back to CPU execution so that GPUStreamManager,
- * GPUMemoryPool, and GPULauncher continue to work without hardware.
+ * gated behind THEMIS_ENABLE_HIP. When the define is absent (CI / no AMD GPU),
+ * memory and stream management retain CPU-compatible behavior, but launcher
+ * dispatch fails closed until an actual HIP kernel launch is available.
  * 
  * Phase 4 Hardening (GPU Block 3):
  * - All HIP operations wrapped with CHECKED_HIP() macro
@@ -88,16 +88,12 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
                 logger->error("ROCmBackend::createBackendFn: hipSetDevice({}) failed: {}", 
                              device_index, e.what());
             }
-            // Device selection failed — fall through to CPU path.
-            return true;
+            return false;
         }
         
-        // Kernel blob dispatch: when the work item carries a non-empty args
-        // payload it is treated as a pre-compiled .hsaco kernel blob.  Full
-        // hipModuleLoad / hipModuleLaunchKernel wiring requires a real AMD
-        // device and is deferred to a hardware-enabled deployment.  For now
-        // we synchronize the device to flush any previously submitted work and
-        // signal successful dispatch.
+        // Full hipModuleLoad / hipModuleLaunchKernel wiring is not available;
+        // synchronizing the device alone does not constitute a successful
+        // dispatch.
         if (!item.args.empty()) {
             // Phase 4: Enforce timeout for HIP kernel synchronization.
             // hipDeviceSynchronize() blocks the calling thread, so a plain
@@ -118,11 +114,9 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
                     logger->error("ROCmBackend::createBackendFn: kernel SLA timeout ({}s) on device {}",
                                  kSLATimeout.count(), device_index);
                 }
-                // HIP kernel timeout — treat as degradation but continue.
-                // Note: the async thread still holds a reference; detach it
-                // so resources are released when it eventually finishes.
+                // HIP synchronization timed out; do not report GPU success.
                 sync_future.wait();  // join before returning to avoid detached-thread UB
-                return true;
+                return false;
             }
 
             try {
@@ -136,14 +130,13 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
                     logger->warn("ROCmBackend::createBackendFn: hipDeviceSynchronize() on device {} failed: {}",
                                 device_index, e.what());
                 }
-                // Continue despite sync error; return success to allow fallback path.
+                return false;
             }
         }
-        return true;
+        return false;
     };
 #else
-    // No HIP available: CPU fallback — every work item succeeds immediately.
-    return [](const GPULauncher::WorkItem&) -> bool { return true; };
+    return [](const GPULauncher::WorkItem&) -> bool { return false; };
 #endif
 }
 

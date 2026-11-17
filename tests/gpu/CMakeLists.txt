@@ -104,6 +104,17 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
             spdlog::spdlog
             Threads::Threads
         )
+    elseif(_stem STREQUAL "test_gpu_module")
+        # Keep this focused dispatch-contract test isolated from the aggregate
+        # themis_core interface: its transitive network/security dependencies
+        # are unrelated and can make the standalone test fail to link.
+        target_link_libraries(${_target} PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+            themis_geo
+            spdlog::spdlog
+            Threads::Threads
+        )
     else()
         target_link_libraries(${_target} PRIVATE
             ${TEST_LIBS}

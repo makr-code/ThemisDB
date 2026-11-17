@@ -25,27 +25,25 @@ namespace gpu {
 /**
  * @brief Vulkan compute backend for cross-vendor GPU support.
  *
- * Provides Vulkan-backed equivalents of the GPU compute features used by the
- * GPU module, enabling cross-vendor acceleration on AMD, Intel, ARM, Qualcomm,
- * and NVIDIA hardware without requiring vendor-specific drivers (CUDA/HIP).
+ * Provides Vulkan device and stream management across vendors. The launcher
+ * callable fails closed until Vulkan command-buffer submission is implemented.
  *
- *  - Compute dispatch via `GPULauncher::BackendFn`
+ *  - Fail-closed dispatch interface via `GPULauncher::BackendFn`
  *  - Named stream lifecycle (logical streams backed by Vulkan command queues)
  *  - Device availability query
  *
- * All real Vulkan calls are gated behind `THEMIS_ENABLE_VULKAN`.  When the
- * define is absent (e.g. CI without Vulkan SDK) the backend transparently falls
- * back to CPU execution so that `GPUStreamManager` and `GPULauncher` continue
- * to work correctly. Fallback and gate denials emit structured
- * `GPUBackendDispatchDiagnostics` events (`BACKEND_NOT_ENABLED`,
- * `BACKEND_NO_DEVICE_AVAILABLE`, `FALLBACK_CPU_DEGRADED`).
+ * All real Vulkan calls are gated behind `THEMIS_ENABLE_VULKAN`. When the
+ * define is absent, logical stream management remains available, but launcher
+ * dispatch returns false and leaves CPU fallback to the caller. Gate and
+ * availability failures emit structured `GPUBackendDispatchDiagnostics`
+ * events (`BACKEND_NOT_ENABLED`, `BACKEND_NO_DEVICE_AVAILABLE`).
  *
  * Integration points
  * ------------------
  * - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` that
  *   can be passed directly to `GPUStreamManager::createStream()` or
- *   `GPULauncher`.  On systems without Vulkan the returned function succeeds via
- *   the CPU path.
+ *   `GPULauncher`. The callable fails closed when it cannot submit GPU work;
+ *   CPU fallback must be provided by the caller.
  *
  * Thread safety: all public methods are protected by an internal mutex.
  */
@@ -83,6 +81,11 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide Vulkan compute backend instance.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static VulkanComputeBackend& GetInstance() {
         static VulkanComputeBackend instance;
         return instance;
@@ -93,10 +96,11 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Number of Vulkan-capable physical devices visible to the process.
+     * @brief Return the number of Vulkan-capable physical devices.
      *
      * Returns 0 when `THEMIS_ENABLE_VULKAN` is not defined or when no Vulkan
      * device is detected at runtime.
+     * @return Device count, or zero when Vulkan is disabled or no device is found.
      */
     int deviceCount() const;
 
@@ -106,10 +110,11 @@ public:
     bool isAvailable() const;
 
     /**
-     * @brief Human-readable name of the vendor for the selected device.
+     * @brief Return the selected device's human-readable vendor name.
      *
      * Returns "Unknown" when Vulkan is not available or the vendor cannot
      * be determined from the PCI vendor ID.
+     * @return Vendor name, or "Unknown" when unavailable or unrecognized.
      */
     std::string vendorName() const;
 
@@ -120,17 +125,17 @@ public:
     /**
      * @brief Create a `GPULauncher::BackendFn` backed by Vulkan compute.
      *
-     * The returned function:
-     *  - On systems **with** Vulkan: selects a compute-capable device and
-     *    dispatches the work item through the Vulkan acceleration backend.
-     *    Falls back to CPU when the Vulkan backend is not initialized.
-     *  - On systems **without** Vulkan: returns `true` immediately (CPU path).
+     * The returned function reports failure unless it submits the requested
+     * work item to Vulkan. Device availability alone is not a successful
+     * dispatch; this wrapper currently has no command-buffer submission path.
+     * It does not execute CPU fallback work.
      *
      * The function is safe to move into `GPULauncher` or
      * `GPUStreamManager::createStream()`.
      *
      * @param device_index  Vulkan physical device ordinal (0-based, ignored when
      *                      Vulkan is unavailable).
+     * @return Callable that returns true only after successful GPU dispatch.
      */
     GPULauncher::BackendFn createBackendFn(int device_index = 0);
 
@@ -144,6 +149,8 @@ public:
      * On systems without Vulkan records a virtual stream entry so that
      * `hasStream()` / `streamNames()` still work correctly.
      *
+     * @param name Unique stream name; empty names are rejected.
+     * @param device_index Target physical-device ordinal.
      * @return ok == false when a stream with @p name already exists or
      *         @p name is empty.
      */
@@ -152,6 +159,7 @@ public:
     /**
      * @brief Unregister and release a named logical compute stream.
      *
+     * @param name Name of the stream to destroy.
      * @return ok == false when no stream with @p name exists.
      */
     Result destroyStream(const std::string& name);
@@ -160,17 +168,28 @@ public:
      * @brief Block until all pending work on the named stream completes.
      *
      * On the CPU fallback path this is a no-op that returns ok == true.
+     * @param name Name of the stream to synchronize.
      * @return ok == false when the stream does not exist.
      */
     Result synchronizeStream(const std::string& name);
 
-    /** @brief Return the handle for a named stream (invalid if not found). */
+    /**
+     * @brief Return the handle for a named stream.
+     * @param name Name of the stream to look up.
+     * @return Stream handle, invalid when no stream has that name.
+     */
     StreamHandle getStream(const std::string& name) const;
 
-    /** @brief True when a stream with @p name has been created. */
+    /**
+     * @brief Check whether a named stream has been created.
+     * @param name Name of the stream to check.
+     * @return True when the stream exists.
+     */
     bool hasStream(const std::string& name) const;
 
-    /** @brief Return all registered stream names. */
+    /** @brief Return all registered stream names.
+     * @return Names of the currently registered streams.
+     */
     std::vector<std::string> streamNames() const;
 
     // -----------------------------------------------------------------------
@@ -181,7 +200,7 @@ public:
         size_t streams_destroyed = 0;  ///< destroyStream calls succeeded
         size_t dispatched        = 0;  ///< Work items dispatched successfully
         size_t dispatch_errors   = 0;  ///< Work items that failed dispatch
-        size_t cpu_fallbacks     = 0;  ///< Items routed to CPU (no Vulkan hw)
+        size_t cpu_fallbacks     = 0;  ///< CPU fallback operations performed by this backend
     };
 
     Stats getStats() const;

@@ -68,14 +68,41 @@ public:
     // Submit result
     // -----------------------------------------------------------------------
     struct SubmitResult {
-        bool        submitted   = false;
-        bool        via_gpu     = false;   ///< false = CPU fallback used
+        /** @brief Whether dispatch completed successfully or via CPU degradation. */
+        enum class ExecutionStatus {
+            Ok,         ///< GPU completed the work.
+            OkDegraded, ///< The supplied CPU fallback completed the work.
+            Failed      ///< Neither execution path completed the work.
+        };
+
+        /** @brief Execution path that produced or attempted the result. */
+        enum class ExecutionMode {
+            None,        ///< No execution path was entered.
+            Gpu,         ///< GPU dispatch was entered.
+            CpuFallback  ///< CPU fallback was entered.
+        };
+
+        bool        submitted   = false;   ///< True only when the work completed.
+        bool        via_gpu     = false;   ///< True only when GPU execution completed.
         std::string error;
+        ExecutionStatus status = ExecutionStatus::Failed; ///< Outcome classification.
+        ExecutionMode mode = ExecutionMode::None;          ///< Execution path classification.
+
+        /**
+         * @brief Serialize dispatch outcome for API and trace consumers.
+         * @return JSON with status, mode, legacy booleans, and error text.
+         */
+        [[nodiscard]] std::string serialize() const;
     };
 
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide GPU module instance.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static GPUModule& GetInstance() {
         static GPUModule inst;
         return inst;
@@ -89,10 +116,22 @@ public:
      * @brief Validate @p config and wire up internal components.
      *
      * Safe to call multiple times; re-initialises the module in place.
-     * Returns an error result if the config is invalid.
+     * Returns an error result if the config is invalid. The optional CPU
+     * backend is invoked only after GPU dispatch is unavailable or fails;
+     * without it, fallback is reported as failed rather than successful.
+     *
+     * @param config Validated resource and circuit-breaker configuration.
+     * @param backend Optional GPU backend override; an empty callback selects
+     *        the configured default backend. If no enabled hardware backend
+     *        is available, GPU dispatch remains unavailable and the explicit
+     *        CPU fallback callback is used by submitWork.
+     * @param cpu_fallback_backend Optional CPU implementation for the same work
+     *        item; it must return true only after completing the work.
+     * @return Initialization status and validation error, if any.
      */
     InitResult initialize(const GPUConfig& config,
-                          GPULauncher::BackendFn backend = nullptr);
+                          GPULauncher::BackendFn backend = nullptr,
+                          GPULauncher::BackendFn cpu_fallback_backend = nullptr);
 
     /**
      * @brief Return true if the module has been successfully initialised.
@@ -106,14 +145,17 @@ public:
     /**
      * @brief Submit a GPU work item.
      *
-     * Checks policy, circuit breaker, and VRAM availability before
-     * dispatching to the launcher backend.  Records metrics and audit event
-     * regardless of the outcome.
+     * Checks policy and safe-fail state, then dispatches through the GPU
+     * launcher or the supplied CPU fallback. A fallback is not successful
+     * unless its callback reports that it completed the work. Records
+     * status/mode metrics and an audit event when those features are enabled.
      *
      * @param caller_id  Identity of the submitting component (policy check).
      * @param tenant_id  Tenant for VRAM quota enforcement.
      * @param item       Work item (kernel_id, args, timeout).
-     * @return SubmitResult indicating success/failure and whether GPU was used.
+     * @return SubmitResult distinguishing GPU success, successful CPU
+     *         degradation, and failure. `mode` records the execution path;
+     *         `via_gpu` remains available for existing callers.
      */
     SubmitResult submitWork(const std::string&      caller_id,
                             const std::string&      tenant_id,
@@ -140,14 +182,27 @@ public:
      * @brief Release @p bytes of VRAM previously granted to @p tenant_id.
      *
      * Records a dealloc metric and audit event.
+     *
+     * @param tenant_id Tenant that owns the allocation, or empty for a
+     *        non-tenant allocation.
+     * @param bytes Number of bytes to release.
      */
     void deallocate(const std::string& tenant_id, uint64_t bytes);
 
     // -----------------------------------------------------------------------
     // Policy management (delegates to internal GPUPolicy)
     // -----------------------------------------------------------------------
+    /**
+     * @brief Grant a caller the requested GPU capability.
+     * @param caller_id Identity of the caller receiving permission.
+     * @param cap Capability to grant; defaults to all GPU operations.
+     */
     void grantCaller(const std::string& caller_id,
                      GPUPolicy::Capability cap = GPUPolicy::Capability::GPU_ANY);
+    /**
+     * @brief Revoke all GPU capabilities previously granted to a caller.
+     * @param caller_id Identity of the caller whose permissions are removed.
+     */
     void revokeCaller(const std::string& caller_id);
 
     // -----------------------------------------------------------------------
@@ -168,8 +223,16 @@ public:
      * Callers can check `GPUFeatureFlags::GetInstance().isEnabled(
      * GPUFeatureFlags::Feature::MIG_MANAGER)` before calling mutating
      * operations if they want to short-circuit early.
+     *
+     * @details The manager applies the MIG feature gate to mutating operations.
+     * @return Mutable reference to the process-wide MIG manager.
      */
     MIGManager& mig() noexcept { return MIGManager::GetInstance(); }
+    /**
+     * @brief Access the process-wide MIG partition manager as read-only.
+     * @details The manager applies the MIG feature gate to mutating operations.
+     * @return Const reference to the process-wide MIG manager.
+     */
     const MIGManager& mig() const noexcept { return MIGManager::GetInstance(); }
 
     // -----------------------------------------------------------------------
@@ -187,6 +250,7 @@ private:
     GPUAuditLog  audit_log_;
 
     std::unique_ptr<GPULauncher> launcher_;
+    GPULauncher::BackendFn cpu_fallback_backend_;
 };
 
 } // namespace gpu
