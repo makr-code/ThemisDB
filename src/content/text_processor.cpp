@@ -4,6 +4,7 @@
 #include <cctype>
 #include <climits>
 #include <cmath>
+#include <locale>
 #include <regex>
 #include <sstream>
 
@@ -248,13 +249,31 @@ std::vector<float> TextProcessor::generateEmbedding(
     std::hash<std::string> hasher;
 
     // Split text into tokens
-    std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token = {};
-    while (iss >> token) {
-        tokens.push_back(token);
-        if ((tokens.size() & 0x3FFU) == 0U && stopped()) {
+    const auto& ctype = std::use_facet<std::ctype<char>>(std::locale{});
+    size_t position = 0;
+    while (position < chunk_data.size()) {
+        if ((position & 0x3FFU) == 0U && stopped()) {
             return {};
+        }
+        while (position < chunk_data.size() &&
+               ctype.is(std::ctype_base::space, chunk_data[position])) {
+            ++position;
+            if ((position & 0x3FFU) == 0U && stopped()) {
+                return {};
+            }
+        }
+
+        const auto token_start = position;
+        while (position < chunk_data.size() &&
+               !ctype.is(std::ctype_base::space, chunk_data[position])) {
+            ++position;
+            if ((position & 0x3FFU) == 0U && stopped()) {
+                return {};
+            }
+        }
+        if (token_start < position) {
+            tokens.emplace_back(chunk_data.substr(token_start, position - token_start));
         }
     }
 

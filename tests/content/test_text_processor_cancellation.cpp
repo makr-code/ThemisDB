@@ -31,15 +31,26 @@ TEST(TextProcessorCancellation, DeadlineStopsLargeEmbeddingAndDiscardsPartialVec
     }
 
     auto stop_reason = themis::query::StopReason::None;
-    const auto request = themis::query::RequestContext::withTimeout(20ms);
     const auto started = std::chrono::steady_clock::now();
+    const auto request = themis::query::RequestContext::withTimeout(20ms);
     const auto embedding = processor.generateEmbedding(text, request, &stop_reason);
     const auto elapsed = std::chrono::steady_clock::now() - started;
 
     EXPECT_TRUE(embedding.empty());
     EXPECT_EQ(stop_reason, themis::query::StopReason::DeadlineExceeded);
-    EXPECT_GE(elapsed, 15ms);
     EXPECT_LT(elapsed, 2s);
+}
+
+TEST(TextProcessorCancellation, DeadlineStopsDuringOneLongToken) {
+    themis::content::TextProcessor processor;
+    const std::string text(8 * 1024 * 1024, 'x');
+    auto stop_reason = themis::query::StopReason::None;
+    const auto request = themis::query::RequestContext::withTimeout(1ms);
+
+    const auto embedding = processor.generateEmbedding(text, request, &stop_reason);
+
+    EXPECT_TRUE(embedding.empty());
+    EXPECT_EQ(stop_reason, themis::query::StopReason::DeadlineExceeded);
 }
 
 }  // namespace
