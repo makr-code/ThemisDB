@@ -110,6 +110,26 @@ public:
     Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
+    /**
+     * @brief Execute the selected equality plan while observing request cancellation.
+     * @param engine Query engine used for index retrieval and entity materialization.
+     * @param q Query whose predicates are represented by the plan.
+     * @param plan Planner-selected predicate order.
+     * @param request Deadline and cancellation source borrowed for this call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching entities, or an error without partial entities when stopped.
+     * @note Individual index scans and storage reads remain synchronous; the
+     *       request-aware engine path polls between stages and during intersection.
+     */
+    Result<std::vector<BaseEntity>>
+    executeOptimizedEntities(
+        QueryEngine& engine,
+        const ConjunctiveQuery& q,
+        const Plan& plan,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
+
     Result<size_t>
     executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 

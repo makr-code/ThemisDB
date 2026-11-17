@@ -595,6 +595,23 @@ public:
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
+
+    /**
+     * @brief Execute ordered equality-index predicates with cooperative cancellation.
+     * @param table Non-empty collection name.
+     * @param orderedPredicates Non-empty equality predicates in planner-selected order.
+     * @param request Deadline and cancellation source borrowed for this synchronous call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching keys, or an error without partial keys when stopped.
+     * @note Individual index scans and sorting are synchronous; polling occurs at
+     *       their boundaries and during key-list intersection.
+     */
+    Result<std::vector<std::string>> executeAndKeysSequential(
+        const std::string& table,
+        const std::vector<PredicateEq>& orderedPredicates,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
     
     /**
      * @brief Execute And Entities Sequential.
@@ -605,6 +622,23 @@ public:
     Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
+    ) const;
+
+    /**
+     * @brief Materialize ordered equality-query results with cooperative cancellation.
+     * @param table Non-empty collection name.
+     * @param orderedPredicates Non-empty equality predicates in planner-selected order.
+     * @param request Deadline and cancellation source borrowed for this synchronous call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching entities, or an error without partial entities when stopped.
+     * @note Entity hydration is sequential and polls around individual storage reads.
+     *       One storage read and deserialization operation cannot be interrupted.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
+        const std::string& table,
+        const std::vector<PredicateEq>& orderedPredicates,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
     ) const;
 
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)

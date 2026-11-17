@@ -3073,8 +3073,22 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else if (optimize) {
                 themis::query::QueryOptimizer opt(*secondary_index_);
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 auto plan = opt.chooseOrderForAndQuery(q);
-                auto result = opt.executeOptimizedEntities(engine, q, plan);
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = opt.executeOptimizedEntities(
+                    engine, q, plan, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
@@ -3098,7 +3112,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else {
                 exec_mode = "index_parallel";
-                auto result = engine.executeAndEntities(q);
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = engine.executeAndEntities(q, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {

@@ -1882,6 +1882,140 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 	}
 }
 
+Result<std::vector<std::string>>
+QueryEngine::executeAndKeysSequential(
+	const std::string& table,
+	const std::vector<PredicateEq>& orderedPredicates,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		observed_stop_reason = request.stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&]() {
+		auto reason = observed_stop_reason;
+		if (reason == StopReason::None && stop_reason) {
+			reason = *stop_reason;
+		}
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Sequential query cancelled"
+			: "Sequential query deadline exceeded";
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
+	if (table.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeAndKeysSequential: table is empty");
+	}
+	if (orderedPredicates.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeAndKeysSequential: no predicates provided");
+	}
+	if (collection_access_checker_ &&
+		!collection_access_checker_(table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + table);
+	}
+	if (shouldStop()) {
+		return stopped();
+	}
+
+	auto [base_status, base_keys] = secIdx_->scanKeysEqual(
+		table, orderedPredicates.front().column, orderedPredicates.front().value);
+	if (shouldStop()) {
+		return stopped();
+	}
+	if (!base_status.ok) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeAndKeysSequential: {}", base_status.message));
+	}
+	tbb::parallel_sort(base_keys.begin(), base_keys.end());
+	if (shouldStop()) {
+		return stopped();
+	}
+	if (base_keys.empty()) {
+		return Ok(std::vector<std::string>{});
+	}
+
+	auto current = std::move(base_keys);
+	for (size_t predicate_index = 1;
+		 predicate_index < orderedPredicates.size(); ++predicate_index) {
+		if (shouldStop()) {
+			return stopped();
+		}
+		const auto& predicate = orderedPredicates[predicate_index];
+		auto [status, keys] = secIdx_->scanKeysEqual(
+			table, predicate.column, predicate.value);
+		if (shouldStop()) {
+			return stopped();
+		}
+		if (!status.ok) {
+			return Err<std::vector<std::string>>(
+				errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				fmt::format("executeAndKeysSequential: {}", status.message));
+		}
+		if (keys.empty()) {
+			return Ok(std::vector<std::string>{});
+		}
+		tbb::parallel_sort(keys.begin(), keys.end());
+		if (shouldStop()) {
+			return stopped();
+		}
+
+		std::vector<std::string> intersection;
+		intersection.reserve(std::min(current.size(), keys.size()));
+		size_t current_index = 0;
+		size_t next_index = 0;
+		size_t comparisons_since_poll = 0;
+		while (current_index < current.size() && next_index < keys.size()) {
+			if ((comparisons_since_poll++ & 63U) == 0U && shouldStop()) {
+				return stopped();
+			}
+			if (current[current_index] < keys[next_index]) {
+				++current_index;
+			} else if (keys[next_index] < current[current_index]) {
+				++next_index;
+			} else {
+				intersection.emplace_back(current[current_index]);
+				++current_index;
+				++next_index;
+			}
+		}
+		current.swap(intersection);
+		if (current.empty()) {
+			break;
+		}
+	}
+	if (shouldStop()) {
+		return stopped();
+	}
+	return Ok(std::move(current));
+}
+
 Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntitiesSequential(const std::string& table,
 										  const std::vector<PredicateEq>& orderedPredicates) const {
@@ -1968,6 +2102,74 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
 	return Ok(std::move(out));
+}
+
+Result<std::vector<BaseEntity>>
+QueryEngine::executeAndEntitiesSequential(
+	const std::string& table,
+	const std::vector<PredicateEq>& orderedPredicates,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	const auto stopped = [&](StopReason reason) {
+		if (reason == StopReason::None) {
+			reason = request.stopReason();
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Sequential query cancelled"
+			: "Sequential query deadline exceeded";
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, message);
+	};
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	if (!db_) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"Storage backend not available");
+	}
+
+	auto keys_result = executeAndKeysSequential(
+		table, orderedPredicates, request, stop_reason);
+	if (!keys_result) {
+		if (stop_reason && *stop_reason != StopReason::None) {
+			return stopped(*stop_reason);
+		}
+		return Err<std::vector<BaseEntity>>(
+			keys_result.error().code(), keys_result.error().context());
+	}
+
+	std::vector<BaseEntity> entities;
+	entities.reserve(keys_result->size());
+	for (size_t i = 0; i < keys_result->size(); ++i) {
+		if ((i & 31U) == 0U && request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		const auto& pk = (*keys_result)[i];
+		auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
+		if (request.shouldStop()) {
+			return stopped(request.stopReason());
+		}
+		if (!blob) {
+			continue;
+		}
+		try {
+			entities.emplace_back(BaseEntity::deserialize(pk, *blob));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntitiesSequential: deserialization failed for PK={}", pk);
+		}
+	}
+	if (request.shouldStop()) {
+		return stopped(request.stopReason());
+	}
+	return Ok(std::move(entities));
 }
 
 Result<size_t>

@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-16)
 
-- [ ] **QRY-07 remains OPEN.** Thirteen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Fourteen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -133,6 +133,9 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   Non-full-text range-aware AQL queries also pass the request context through
   key processing and sequential entity hydration, while individual range-index
   calls and sorting remain checkpoint-only.
+  Optimized equality AQL queries use request-aware sequential index-stage
+  checkpoints, key intersection and entity hydration; individual index calls
+  and sorting remain synchronous, and plan selection is checkpoint-only.
   The non-full-text `allow_full_scan` fallback now polls during prefix
   collection, sequential predicate filtering, and entity hydration; this
   request-aware path avoids spawning worker tasks, and `allow_full_scan` does
@@ -143,7 +146,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 - Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
   valid empty results, expired deadline, cancellation, and a stop during the
   full-text prefix scan, structural predicate execution, full-scan fallback,
-  and range-aware key processing.
+  range-aware key processing, and optimized equality cancellation.
   Test/build execution is not claimed until verified.
 
 **Implemented slice (2026-11-16)**
@@ -287,6 +290,9 @@ now measures overrun classification, not a hard wall-clock bound.
   filter and entity hydration; `FULLTEXT()` remains on its indexed path.
   Range-aware non-full-text queries poll key processing and entity hydration;
   structural index calls and sorting are checkpoint-only.
+  The optimized equality path polls between index stages, during key
+  intersection, and during sequential entity hydration; plan selection remains
+  checkpoint-only.
   parsing and other query stages remain checkpoint-only. Other HTTP search routes besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client

@@ -359,6 +359,35 @@ QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQ
 	return Ok(result.value());
 }
 
+Result<std::vector<BaseEntity>>
+QueryOptimizer::executeOptimizedEntities(
+	QueryEngine& engine,
+	const ConjunctiveQuery& q,
+	const Plan& plan,
+	const RequestContext& request,
+	StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	auto result = engine.executeAndEntitiesSequential(
+		q.table, plan.orderedPredicates, request, stop_reason);
+	if (!result.has_value()) {
+		const size_t estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
+		const double plan_cost = static_cast<double>(estimated_rows);
+		std::string diag_msg = "Optimized entity execution failed for table '" + q.table + "'";
+		if (!plan.orderedPredicates.empty()) {
+			diag_msg += "; predicate_count: " + std::to_string(plan.orderedPredicates.size());
+		}
+		diag_msg += "; plan_cost: " + std::to_string(plan_cost);
+		diag_msg += "; estimated_rows: " + std::to_string(estimated_rows);
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			std::move(diag_msg));
+	}
+	return Ok(std::move(*result));
+}
+
 Result<size_t>
 QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);

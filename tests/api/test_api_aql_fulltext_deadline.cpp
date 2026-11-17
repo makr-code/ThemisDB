@@ -6,6 +6,8 @@
 #include <gtest/gtest.h>
 
 #include "index/secondary_index.h"
+#include "query/query_engine.h"
+#include "query/query_optimizer.h"
 #include "query/request_context.h"
 #include "server/query_api_handler.h"
 #include "storage/base_entity.h"
@@ -228,6 +230,44 @@ TEST_F(AqlFulltextDeadlineTest, CancellationDuringRangeAwareKeyProcessingDiscard
     ASSERT_EQ(response.result(), http::status::gateway_timeout);
     EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
     EXPECT_EQ(response.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, OptimizedEqualityQueryReturnsResultsAndMapsCancellation) {
+    const auto query =
+        "FOR d IN articles FILTER d.category == \"even\" AND "
+        "d.status == \"published\" RETURN d";
+    const auto response = handler_->handleQueryAql(makeRequest(query));
+    ASSERT_EQ(response.result(), http::status::ok) << response.body();
+    EXPECT_EQ(nlohmann::json::parse(response.body())["count"], 64);
+
+    auto token = std::make_shared<themis::query::QueryCancellationToken>();
+    token->cancel();
+    const auto cancelled = handler_->handleQueryAql(
+        makeRequest(query), themis::query::RequestContext(token));
+    ASSERT_EQ(cancelled.result(), http::status::gateway_timeout);
+    EXPECT_EQ(cancelled.body().find("article-"), std::string::npos);
+}
+
+TEST_F(AqlFulltextDeadlineTest, OptimizedEqualityIntersectionPollsAndDiscardsPartialResults) {
+    themis::query::QueryEngine engine(*db_, *index_);
+    themis::query::QueryOptimizer optimizer(*index_);
+    themis::query::ConjunctiveQuery query;
+    query.table = "articles";
+    query.predicates.push_back({"category", "even"});
+    query.predicates.push_back({"status", "published"});
+    const auto plan = optimizer.chooseOrderForAndQuery(query);
+
+    PollState state;
+    state.stop_after = 10;  // After both index scans, during key-list intersection.
+    const themis::query::RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    themis::query::StopReason stop_reason = themis::query::StopReason::None;
+    auto result = optimizer.executeOptimizedEntities(
+        engine, query, plan, request, &stop_reason);
+
+    EXPECT_FALSE(result);
+    EXPECT_EQ(stop_reason, themis::query::StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
 }
 
 } // namespace
