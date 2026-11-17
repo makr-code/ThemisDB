@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Canonical_References:
   - ../../include/sharding/operational_metrics.h
   - ../../include/sharding/health_monitor.h
   - ../../tests/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7381, #7494"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -64,6 +64,34 @@ The implementation surfaces these through `operational_metrics.cpp`, `prometheus
 - inspect the number of in-doubt transactions,
 - confirm that commit and abort outcomes are terminal and replayable,
 - watch for coordinator or participant timeouts as early evidence of instability.
+
+### 2PC participant WAL recovery
+
+The participant reconstructs in-doubt transaction state from the complete WAL replay stream,
+independently of the bounded in-memory range-serving cache. Terminal transaction state is retained
+only within that bounded cache; PREPARED transactions remain tracked until their durable COMMIT or
+ABORT record is replayed. Construction restores locks for recovered PREPARED transactions before
+the participant can serve requests; handlers and health checks remain fail-closed if recovery is
+incomplete. Recovery failure aborts construction, so the instance cannot report ready.
+
+Participant statistics expose `recovery_complete` and `wal_recovery_status`. The latter preserves
+the canonical WALStorage startup result as `complete` or `truncated_tail`; a truncated final record
+is discarded only after the valid prefix has been replayed. Corruption, timeout, I/O, or replay
+callback failure prevents WAL manager construction and must be treated as a startup failure, not as
+an empty successful recovery.
+
+The standalone 2PC coordinator throws from `recoverInDoubtTransactions()` when the durability check,
+WAL reconstruction, or participant identity validation fails. It records `recovery_status=failed`
+and `recovery_failed=true` in coordinator statistics, retains malformed non-final transactions in
+the `FAILED` state, and rejects new commits until recovery is explicitly rerun successfully. A
+completed pass with unresolved work reports `recovery_status=blocked` and also rejects new commits.
+A returned resolved count of zero means only that no transaction completed in that pass; callers
+must also inspect the unresolved transaction snapshot and handle exceptions as a readiness failure.
+Commit attempts are rejected while recovery is running, blocked, or failed. The coordinator builds
+its recovery state from the ordered WALStorage replay callback, before `WALManager` trims its bounded
+range-serving cache. `wal_recovery_status` preserves the canonical startup scan result, including
+`truncated_tail`; strict corruption, checksum/sequence errors, unsupported coordinator record types,
+or replay failure prevent construction.
 
 ### Migration and repair health
 

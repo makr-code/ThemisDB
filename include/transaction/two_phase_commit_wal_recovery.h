@@ -61,43 +61,66 @@ struct RecoveredTwoPhaseCommitTransaction {
 
 class TwoPhaseCommitWALRecovery {
 public:
+    using RecoveredTransactions =
+        std::map<std::string, RecoveredTwoPhaseCommitTransaction>;
+
+    /**
+     * @brief Apply one ordered WAL entry to the in-progress recovery state.
+     * @param result Transaction states accumulated from earlier entries.
+     * @param entry The next WAL entry in physical sequence order.
+     * @note Callers may stream records through this method to keep recovery
+     *       memory proportional to transaction state rather than WAL history.
+     */
+    static void applyEntry(
+        RecoveredTransactions& result,
+        const themis::sharding::WALEntry& entry
+    ) {
+        const std::string& txn_id = entry.transaction_id;
+        if (txn_id.empty()) {
+            return;
+        }
+
+        auto& rec = result[txn_id];
+        rec.transaction_id = txn_id;
+
+        switch (entry.type) {
+        case themis::sharding::WALEntryType::BEGIN_TX:
+            applyBegin(rec, entry.data);
+            break;
+
+        case themis::sharding::WALEntryType::PREPARE_TX:
+            mergeParticipants(rec, entry.data, "participants");
+            rec.has_decision = false;
+            rec.completed = false;
+            break;
+
+        case themis::sharding::WALEntryType::COMMIT_TX:
+            applyDecisionOrComplete(rec, entry.data, true);
+            break;
+
+        case themis::sharding::WALEntryType::ABORT_TX:
+            applyDecisionOrComplete(rec, entry.data, false);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    /**
+     * @brief Rebuild per-transaction 2PC state from validated, ordered WAL entries.
+     * @param entries WAL entries in physical sequence order; callers must reject
+     *        corruption before invoking recovery.
+     * @return Recovered transaction states; an empty input produces an empty map.
+     * @note Entries without a transaction ID are ignored. Unsupported entry
+     *       types with a transaction ID leave a default recovered record and
+     *       do not change its 2PC state.
+     */
     [[nodiscard]] static std::map<std::string, RecoveredTwoPhaseCommitTransaction>
     reconstruct(const std::vector<themis::sharding::WALEntry>& entries) {
-        std::map<std::string, RecoveredTwoPhaseCommitTransaction> result;
-
+        RecoveredTransactions result;
         for (const auto& entry : entries) {
-            const std::string& txn_id = entry.transaction_id;
-            if (txn_id.empty()) {
-                continue;
-            }
-
-            auto& rec = result[txn_id];
-            rec.transaction_id = txn_id;
-
-            switch (entry.type) {
-            case themis::sharding::WALEntryType::BEGIN_TX:
-                applyBegin(rec, entry.data);
-                break;
-
-            case themis::sharding::WALEntryType::PREPARE_TX:
-                // DistributedTransactionManager style: PREPARE_TX marks in-doubt.
-                // No decision yet — has_decision stays false.
-                mergeParticipants(rec, entry.data, "participants");
-                rec.has_decision  = false;
-                rec.completed     = false;
-                break;
-
-            case themis::sharding::WALEntryType::COMMIT_TX:
-                applyDecisionOrComplete(rec, entry.data, /*is_commit=*/true);
-                break;
-
-            case themis::sharding::WALEntryType::ABORT_TX:
-                applyDecisionOrComplete(rec, entry.data, /*is_commit=*/false);
-                break;
-
-            default:
-                break;
-            }
+            applyEntry(result, entry);
         }
 
         return result;

@@ -1,0 +1,57 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-17"
+Last Updated: "2026-11-17"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Optional Agent Skills
+
+This directory contains initial, read-only guidance packages:
+
+| Skill | Purpose |
+|---|---|
+| `aql-read-query` | Draft bounded read-only AQL from a verified schema. |
+| `evidence-answer` | Answer using authorized evidence and attributable sources. |
+| `graph-exploration` | Plan bounded, read-only graph exploration. |
+
+These are inert instructions, not new database tools. The existing CMake
+runtime install and ZIP staging include the `config/` directory, so these
+packages ship with that runtime payload. Their presence does not make them
+discoverable, enabled, routed or exposed to MCP automatically. To use them, a
+host application must:
+
+1. Point `SkillRegistryOptions::roots` at the deployed `agent_skills`
+   directory beneath the runtime `config/` root, or at another trusted root.
+   For custom deployments that omit the runtime config payload, copy the
+   packages to the chosen trusted root.
+   The current Linux CMake install path is
+   `/usr/etc/themisdb/agent_skills` (with a compatibility copy at
+   `/usr/bin/config/agent_skills`); Windows installs and ZIP packages use
+   `config/agent_skills` beneath their install/package root.
+2. Construct a `SkillRegistry` and call `refresh()`, handling any error.
+3. Use `list()` and `load(name)`, or explicitly call `registerSkillTools()` on
+   its `ToolRegistry` and permit the required skill tools in the active
+   `ModeSpec`. `read_skill_resource` is optional and separately allowlisted.
+4. Provide any separate retrieval, query or graph tools only when configured and
+   authorized for the caller. A skill does not register or grant those tools.
+
+The registry currently checks paths before opening files, but these operations
+are not atomic against concurrent filesystem replacement. Protect configured
+roots, package files and their parent directories from modification by
+untrusted users for the lifetime of the registry. Symlink checks alone are not
+a security boundary against a concurrent writer.
+
+Skill content is untrusted prompt input; it cannot grant permissions or execute
+scripts. In particular, an allowlisted query tool is not by itself a read-only
+authorization boundary. Existing execution, tenant and policy controls must be
+enforced separately by the host. See
+[`src/llm/ARCHITECTURE.md`](../../src/llm/ARCHITECTURE.md) and
+[`src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md).

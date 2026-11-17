@@ -443,6 +443,11 @@ struct ParsedFrontmatter {
 [[nodiscard]] ::themis::Result<SkillDescriptor> findSkill(
     const std::unordered_map<std::string, SkillDescriptor>& skills,
     std::string_view name) {
+    if (!isValidSkillName(name)) {
+        return skillError<SkillDescriptor>(
+            ErrorCode::ERR_LLM_SKILL_NOT_FOUND,
+            "requested skill name is not a valid package name");
+    }
     const auto found = skills.find(std::string(name));
     if (found == skills.end()) {
         return skillError<SkillDescriptor>(
@@ -741,7 +746,8 @@ void registerSkillTools(ToolRegistry& tools,
             return toolError(::themis::Error(
                 ErrorCode::ERR_TOOL_INVALID_INPUT, "load_skill requires a string name"));
         }
-        auto result = skills->load(args["name"].get<std::string>());
+        const auto& name = args["name"].get_ref<const std::string&>();
+        auto result = skills->load(name);
         if (!result) {
             return toolError(result.error());
         }
@@ -774,8 +780,8 @@ void registerSkillTools(ToolRegistry& tools,
                 ErrorCode::ERR_TOOL_INVALID_INPUT,
                 "read_skill_resource requires string name and path"));
         }
-        const auto name = args["name"].get<std::string>();
-        const auto path = args["path"].get<std::string>();
+        const auto& name = args["name"].get_ref<const std::string&>();
+        const auto& path = args["path"].get_ref<const std::string&>();
         auto result = skills->readResource(name, path);
         if (!result) {
             return toolError(result.error());

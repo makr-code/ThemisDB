@@ -32,17 +32,15 @@ namespace gpu {
  *    `hipStreamSynchronize`)
  *  - Kernel dispatch via `GPULauncher::BackendFn`
  *
- * All real HIP calls are gated behind `THEMIS_ENABLE_HIP`.  When the define
- * is absent (e.g. CI without AMD GPU hardware) the backend transparently falls
- * back to CPU execution so that `GPUStreamManager`, `GPUMemoryPool`, and
- * `GPULauncher` continue to work correctly.
+ * All real HIP calls are gated behind `THEMIS_ENABLE_HIP`. When the define is
+ * absent, memory and stream management retain CPU-compatible behavior, while
+ * launcher dispatch fails closed unless a HIP kernel is actually launched.
  *
  * Integration points
  * ------------------
  * - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` that
  *   can be passed directly to `GPUStreamManager::createStream()` or
- *   `GPULauncher`.  On systems without HIP the returned function succeeds via
- *   the CPU path.
+ *   `GPULauncher`. The callable does not execute CPU fallback work.
  * - `allocate(size_bytes, tag)` / `deallocate(rec)` — wraps `hipMalloc` /
  *   `hipFree` with ownership tracking.  Use these from `GPUMemoryPool` when
  *   backing a real device memory pool.
@@ -92,6 +90,11 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide ROCm backend instance.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static ROCmBackend& GetInstance() {
         static ROCmBackend instance;
         return instance;
@@ -102,10 +105,11 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Number of HIP-capable devices visible to the process.
+     * @brief Return the number of HIP-capable devices visible to the process.
      *
      * Returns 0 when `THEMIS_ENABLE_HIP` is not defined or when no device is
      * detected at runtime.
+     * @return Device count, or zero when HIP is disabled or no device is found.
      */
     int deviceCount() const;
 
@@ -121,17 +125,16 @@ public:
     /**
      * @brief Create a `GPULauncher::BackendFn` backed by HIP.
      *
-     * The returned function:
-     *  - On systems **with** HIP: selects @p device_index, then executes the
-     *    work item.  Kernel blob dispatch via `.hsaco` is a hardware-only
-     *    feature; on a device without loaded kernels the call succeeds (no-op
-     *    kernel).
-     *  - On systems **without** HIP: returns `true` immediately (CPU path).
+     * The returned function reports failure unless it actually launches the
+     * requested kernel. Device selection or synchronization alone is not a
+     * successful dispatch; this wrapper currently has no HIP kernel-launch
+     * path. It does not execute CPU fallback work.
      *
      * The function is safe to move into `GPULauncher` or
      * `GPUStreamManager::createStream()`.
      *
      * @param device_index  Target HIP device index (0-based).
+     * @return Callable that returns true only after successful GPU dispatch.
      */
     GPULauncher::BackendFn createBackendFn(int device_index = 0);
 
@@ -145,9 +148,10 @@ public:
      * On systems without HIP records a virtual stream entry so that
      * `hasStream()` / `streamNames()` still work correctly.
      *
-    * @return ok == false only when a stream with @p name already exists.
-    *         If HIP stream creation fails at runtime, a virtual stream entry
-    *         is registered so fallback execution remains available.
+     * @param name Unique non-empty stream name.
+     * @param device_index Target HIP device ordinal.
+     * @return Result indicating success; an empty or existing name fails. If
+     *         HIP stream creation fails, a virtual entry is registered.
      */
     Result createStream(const std::string& name, int device_index = 0);
 
@@ -155,6 +159,7 @@ public:
      * @brief Destroy a named HIP stream.
      *
      * Calls `hipStreamDestroy` when `THEMIS_ENABLE_HIP` is active.
+     * @param name Name of the stream to destroy.
      * @return ok == false when no stream with @p name exists.
      */
     Result destroyStream(const std::string& name);
@@ -163,18 +168,29 @@ public:
      * @brief Block until all work enqueued on the named stream completes.
      *
      * Calls `hipStreamSynchronize` when `THEMIS_ENABLE_HIP` is active.
+     * @param name Name of the stream to synchronize.
      * @return ok == false when the stream does not exist or synchronization
      *         fails.
      */
     Result synchronizeStream(const std::string& name);
 
-    /** @brief Return the handle for a named stream (invalid if not found). */
+    /**
+     * @brief Return the handle for a named stream.
+     * @param name Name of the stream to look up.
+     * @return Stream handle, invalid when no stream has that name.
+     */
     StreamHandle getStream(const std::string& name) const;
 
-    /** @brief True when a stream with @p name has been created. */
+    /**
+     * @brief Check whether a named stream has been created.
+     * @param name Name of the stream to check.
+     * @return True when the stream exists.
+     */
     bool hasStream(const std::string& name) const;
 
-    /** @brief Return all registered stream names. */
+    /** @brief Return all registered stream names.
+     * @return Names of the currently registered streams.
+     */
     std::vector<std::string> streamNames() const;
 
     // -----------------------------------------------------------------------
@@ -198,6 +214,8 @@ public:
      *
      * Calls `hipFree` on the stored pointer; safe to call with an invalid
      * record.  Clears @p rec on success.
+     * @param rec Allocation record to release and clear on success.
+     * @return Result indicating whether the allocation was released.
      */
     Result deallocate(AllocationRecord& rec);
 
@@ -209,6 +227,7 @@ public:
      *
      * @param device_ptr  Device pointer (hipMalloc result cast to uintptr_t).
      * @param size_bytes  Bytes to zero.
+     * @return Result indicating whether the memory was zeroed.
      */
     Result zeroMemory(uintptr_t device_ptr, size_t size_bytes);
 

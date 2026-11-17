@@ -968,7 +968,8 @@ JsonWikiIndexReader::JsonWikiIndexReader(std::string index_path, bool auto_load)
 void JsonWikiIndexReader::load() {
     loaded_ = false;
     chunks_.clear();
-    chunk_token_frequencies_.clear();
+    token_postings_.clear();
+    chunk_unique_term_counts_.clear();
 
     std::ifstream f(index_path_);
     if (!f.is_open()) {
@@ -994,6 +995,7 @@ void JsonWikiIndexReader::load() {
     }
 
     chunks_.reserve(chunks->size());
+    chunk_unique_term_counts_.reserve(chunks->size());
 
     for (const auto& obj : *chunks) {
         WikiChunk c;
@@ -1010,12 +1012,13 @@ void JsonWikiIndexReader::load() {
         }
         if (!c.chunk_id.empty()) {
             chunks_.push_back(std::move(c));
+            const std::size_t chunk_index = chunks_.size() - 1;
+            auto term_frequencies = tokenizeWikiText(chunks_.back().text);
+            chunk_unique_term_counts_.push_back(term_frequencies.size());
+            for (const auto& [term, frequency] : term_frequencies) {
+                token_postings_[term].push_back({chunk_index, frequency});
+            }
         }
-    }
-
-    chunk_token_frequencies_.reserve(chunks_.size());
-    for (const auto& chunk : chunks_) {
-        chunk_token_frequencies_.push_back(tokenizeWikiText(chunk.text));
     }
 
     loaded_ = true;
@@ -1038,40 +1041,51 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
         return {};
     }
 
-    struct Scored { std::size_t idx; float score; };
+    // Accumulate scores only for chunks containing query terms.
+    struct Scored {
+        std::size_t idx;
+        float score;
+    };
+    std::vector<float> scores(chunks_.size(), 0.0f);
+    std::vector<bool> has_overlap(chunks_.size(), false);
+    for (const auto& [term, query_frequency] : query_tf) {
+        const auto posting_it = token_postings_.find(term);
+        if (posting_it == token_postings_.end()) {
+            continue;
+        }
+
+        for (const auto& posting : posting_it->second) {
+            scores[posting.chunk_index] +=
+                static_cast<float>(
+                    1 + std::log(static_cast<float>(posting.term_frequency))) *
+                static_cast<float>(query_frequency);
+            has_overlap[posting.chunk_index] = true;
+        }
+    }
+
     std::vector<Scored> scored;
     scored.reserve(chunks_.size());
-
-    for (std::size_t chunk_index = 0; chunk_index < chunks_.size(); ++chunk_index) {
-        const auto& chunk_tf = chunk_token_frequencies_[chunk_index];
-        float score = 0.0f;
-        bool has_overlap = false;
-        for (const auto& [query_token, query_frequency] : query_tf) {
-            const auto term = chunk_tf.find(query_token);
-            if (term != chunk_tf.end()) {
-                has_overlap = true;
-                score += static_cast<float>(1 + std::log(static_cast<float>(term->second)))
-                    * static_cast<float>(query_frequency);
-            }
+    for (std::size_t chunk_index = 0; chunk_index < chunks_.size();
+         ++chunk_index) {
+        if (!has_overlap[chunk_index]) {
+            continue;
         }
-
-        if (!chunk_tf.empty()) {
-            score /= static_cast<float>(
-                std::sqrt(static_cast<double>(chunk_tf.size())));
-        }
-        if (has_overlap && score >= min_score) {
-            scored.push_back({chunk_index, score});
+        scores[chunk_index] /= static_cast<float>(std::sqrt(
+            static_cast<double>(chunk_unique_term_counts_[chunk_index])));
+        if (scores[chunk_index] >= min_score) {
+            scored.push_back({chunk_index, scores[chunk_index]});
         }
     }
 
     // Sort descending by score
-    std::sort(scored.begin(), scored.end(),
-              [](const Scored& a, const Scored& b){ return a.score > b.score; });
+    std::sort(
+        scored.begin(), scored.end(),
+        [](const Scored& a, const Scored& b) { return a.score > b.score; });
 
     // Build result
-    const std::size_t limit = (top_k > 0)
-                                  ? std::min(scored.size(), static_cast<std::size_t>(top_k))
-                                  : scored.size();
+    const std::size_t limit =
+        (top_k > 0) ? std::min(scored.size(), static_cast<std::size_t>(top_k))
+                    : scored.size();
 
     std::vector<WikiChunk> out;
     out.reserve(limit);

@@ -27,6 +27,7 @@
 #include <filesystem>
 #include <random>
 #include <algorithm>
+#include <charconv>
 #include <sstream>
 #include <spdlog/spdlog.h>
 #include <iomanip>
@@ -91,9 +92,71 @@ namespace {
 
 constexpr uint32_t kDefaultMaxInMemoryWalEntries = 10'000;
 
+class WALRecoveryError final : public std::runtime_error {
+public:
+    WALRecoveryError(WALRecoveryStatus status, const std::string& message)
+        : std::runtime_error(message), status_(status) {}
+
+    WALRecoveryStatus status() const noexcept { return status_; }
+
+private:
+    WALRecoveryStatus status_;
+};
+
+WALRecoveryStatus toReplicationRecoveryStatus(themis::WALStorage::RecoveryStatus status) {
+    switch (status) {
+        case themis::WALStorage::RecoveryStatus::Complete:
+            return WALRecoveryStatus::COMPLETE;
+        case themis::WALStorage::RecoveryStatus::TruncatedTail:
+            return WALRecoveryStatus::TRUNCATED_TAIL;
+        case themis::WALStorage::RecoveryStatus::Corrupted:
+            return WALRecoveryStatus::CORRUPTED;
+        case themis::WALStorage::RecoveryStatus::TimedOut:
+            return WALRecoveryStatus::TIMED_OUT;
+        case themis::WALStorage::RecoveryStatus::Failed:
+            return WALRecoveryStatus::FAILED;
+    }
+    return WALRecoveryStatus::FAILED;
+}
+
+const char* walRecoveryStatusName(WALRecoveryStatus status) {
+    switch (status) {
+        case WALRecoveryStatus::NOT_STARTED:
+            return "not_started";
+        case WALRecoveryStatus::COMPLETE:
+            return "complete";
+        case WALRecoveryStatus::TRUNCATED_TAIL:
+            return "truncated_tail";
+        case WALRecoveryStatus::CORRUPTED:
+            return "corrupted";
+        case WALRecoveryStatus::TIMED_OUT:
+            return "timed_out";
+        case WALRecoveryStatus::FAILED:
+            return "failed";
+    }
+    return "failed";
+}
+
+std::string computeReplicationWalChecksum(const WALEntry& entry) {
+    const std::string content = entry.operation + entry.collection +
+                                entry.document_id + entry.data;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
+           content.size(), hash);
+
+    std::ostringstream checksum;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        checksum << std::hex << std::setw(2) << std::setfill('0')
+                 << static_cast<int>(hash[i]);
+    }
+    return checksum.str();
+}
+
 struct WalManagerRuntimeState {
     std::unique_ptr<themis::WALStorage> durability_wal;
+    std::unique_ptr<themis::WALStorage> term_wal;
     std::deque<WALEntry> wal_entries;
+    bool durability_failed = false;
 };
 
 std::mutex g_wal_manager_state_mutex;
@@ -343,6 +406,11 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         if (entry.checksum.empty()) {
             THEMIS_WARN("WALEntry::deserialize: checksum is empty (potential corruption)");
         }
+
+        if (pos != data.size()) {
+            THEMIS_ERROR("WALEntry::deserialize: trailing bytes after serialized entry");
+            return std::nullopt;
+        }
         
         return entry;
     } catch (const std::out_of_range& e) {
@@ -478,11 +546,16 @@ WALManager::WALManager(const ReplicationConfig& config)
     : config_(config) {
     // Ensure WAL directory exists
     std::filesystem::create_directories(config_.wal_directory);
-    loadFromDisk();
+    try {
+        loadFromDisk();
+    } catch (...) {
+        eraseWalManagerState(this);
+        throw;
+    }
 }
 
 WALManager::~WALManager() {
-    sync();
+    (void)sync();
     eraseWalManagerState(this);
 }
 
@@ -493,8 +566,20 @@ WALManager::~WALManager() {
  * @details Calls: lock(), load(), empty(), SHA256(), c_str(), size(), std::setw(), std::setfill().
  */
 uint64_t WALManager::append(const WALEntry& entry) {
+    return appendImpl(entry, false);
+}
+
+uint64_t WALManager::appendDurably(const WALEntry& entry) {
+    return appendImpl(entry, true);
+}
+
+uint64_t WALManager::appendImpl(const WALEntry& entry, bool require_durability) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
+
+    if (state.durability_failed) {
+        throw std::runtime_error("Replication WAL durability is unconfirmed; reopen and recover it");
+    }
 
     if (!state.durability_wal) {
         throw std::runtime_error("WAL durability backend is not initialized");
@@ -507,21 +592,12 @@ uint64_t WALManager::append(const WALEntry& entry) {
     stored_entry.sequence_number = seq;
     stored_entry.term = current_term_.load();
 
-    // Compute checksum if not provided
+    // Compute the payload checksum locally and reject an invalid supplied checksum
+    // before appending a record that could be acknowledged but fail on restart.
     if (stored_entry.checksum.empty()) {
-        std::string content = stored_entry.operation + stored_entry.collection + 
-                             stored_entry.document_id + stored_entry.data;
-        
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
-               content.size(), hash);
-        
-        std::ostringstream oss = {};
-        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-            oss << std::hex << std::setw(2) << std::setfill('0') 
-                << static_cast<int>(hash[i]);
-        }
-        stored_entry.checksum = oss.str();
+        stored_entry.checksum = computeReplicationWalChecksum(stored_entry);
+    } else if (stored_entry.checksum != computeReplicationWalChecksum(stored_entry)) {
+        throw std::runtime_error("Replication WAL entry checksum mismatch");
     }
 
     auto serialized = stored_entry.serialize();
@@ -530,11 +606,23 @@ uint64_t WALManager::append(const WALEntry& entry) {
     std::string payload(serialized.begin(), serialized.end());
     auto append_result = state.durability_wal->appendPut(kReplicationWalEntryType, payload);
     if (!append_result.has_value()) {
+        state.durability_failed = true;
         throw std::runtime_error("Failed to append replication WAL entry: " +
                                  append_result.error().message());
     }
 
     seq = append_result.value();
+    if (require_durability && !config_.wal_sync_on_commit) {
+        const auto flush_result = state.durability_wal->flush();
+        if (!flush_result.has_value()) {
+            state.durability_failed = true;
+            THEMIS_ERROR("Replication WAL durable append failed: {}",
+                         flush_result.error().message());
+            throw std::runtime_error("Failed to confirm replication WAL durability: " +
+                                     flush_result.error().message());
+        }
+    }
+
     stored_entry.sequence_number = seq;
     current_sequence_.store(seq);
     state.wal_entries.push_back(std::move(stored_entry));
@@ -553,7 +641,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
     std::vector<WALEntry> entries;
-    if (limit == 0) {
+    if (limit == 0 || state.durability_failed) {
         return entries;
     }
     entries.reserve(limit);
@@ -571,13 +659,40 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     return entries;
 }
 
-/**
- * @brief Increment Term.
- * @return Return value.
- * @details Implements incrementTerm without additional internal calls.
- */
 uint64_t WALManager::incrementTerm() {
-    return ++current_term_;
+    std::lock_guard<std::mutex> lock(wal_mutex_);
+    const uint64_t current_term = current_term_.load();
+    if (current_term == std::numeric_limits<uint64_t>::max()) {
+        throw std::overflow_error("Replication WAL term overflow");
+    }
+
+    return persistTermLocked(current_term + 1);
+}
+
+uint64_t WALManager::updateTerm(uint64_t term) {
+    std::lock_guard<std::mutex> lock(wal_mutex_);
+    return persistTermLocked(term);
+}
+
+uint64_t WALManager::persistTermLocked(uint64_t term) {
+    const uint64_t current_term = current_term_.load();
+    if (term <= current_term) {
+        return current_term;
+    }
+
+    auto& state = walManagerState(this);
+    if (!state.term_wal) {
+        throw std::runtime_error("WAL term durability backend is not initialized");
+    }
+
+    auto append_result = state.term_wal->appendPut("current_term", std::to_string(term));
+    if (!append_result.has_value()) {
+        throw std::runtime_error("Failed to persist replication WAL term: " +
+                                 append_result.error().message());
+    }
+
+    current_term_.store(term);
+    return term;
 }
 
 /**
@@ -607,19 +722,32 @@ void WALManager::truncateBefore(uint64_t sequence) {
 
 /**
  * @brief Sync.
- * @details Calls: dir(), empty(), fs::exists(), THEMIS_WARN(), message(), fs::directory_iterator(), path(), extension().
+ * @return True only if each initialized WAL flush succeeds.
+ * @details Calls: flush(), THEMIS_ERROR(), message().
  */
-void WALManager::sync() {
+bool WALManager::sync() {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     auto& state = walManagerState(this);
-    if (!state.durability_wal) {
-        return;
+    if (!state.durability_wal || state.durability_failed) {
+        return false;
     }
 
     auto flush_result = state.durability_wal->flush();
     if (!flush_result.has_value()) {
-        THEMIS_WARN("Replication WAL flush failed: {}", flush_result.error().message());
+        THEMIS_ERROR("Replication WAL flush failed: {}", flush_result.error().message());
+        state.durability_failed = true;
+        return false;
     }
+    if (state.term_wal) {
+        auto term_flush_result = state.term_wal->flush();
+        if (!term_flush_result.has_value()) {
+            THEMIS_ERROR("Replication WAL term flush failed: {}",
+                         term_flush_result.error().message());
+            state.durability_failed = true;
+            return false;
+        }
+    }
+    return true;
 }
 
 uint64_t WALManager::getSize() const {
@@ -629,7 +757,8 @@ uint64_t WALManager::getSize() const {
         return 0;
     }
 
-    for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory, ec)) {
+    for (const auto& entry :
+         std::filesystem::recursive_directory_iterator(config_.wal_directory, ec)) {
         if (ec) {
             THEMIS_WARN("Replication WAL size calculation failed: {}", ec.message());
             break;
@@ -660,21 +789,49 @@ void WALManager::loadFromDisk() {
     wal_config.dir = config_.wal_directory;
     wal_config.rotation_threshold_bytes = config_.wal_segment_size_bytes;
     wal_config.fsync_on_write = config_.wal_sync_on_commit;
+    wal_config.recovery_timeout = std::chrono::milliseconds(config_.file_io_timeout_ms);
+    bool invalid_replication_entry = false;
+    uint64_t last_recovered_sequence = 0;
+    bool has_recovered_sequence = false;
 
-    auto recovery_callback = [this, &state](const themis::WALStorage::Entry& recovered) {
-        if (recovered.type != themis::WALStorage::EntryType::PUT) {
+    auto recovery_callback = [this, &state, &invalid_replication_entry,
+                              &last_recovered_sequence, &has_recovered_sequence](
+                                 const themis::WALStorage::Entry& recovered) {
+        if (recovered.sequence == 0 ||
+            (has_recovered_sequence &&
+             (last_recovered_sequence == std::numeric_limits<uint64_t>::max() ||
+              recovered.sequence != last_recovered_sequence + 1))) {
+            invalid_replication_entry = true;
+            THEMIS_ERROR("Non-contiguous replication WAL sequence at {}; aborting recovery",
+                         recovered.sequence);
+            return false;
+        }
+
+        if (recovered.type == themis::WALStorage::EntryType::CHECKPOINT) {
+            last_recovered_sequence = recovered.sequence;
+            has_recovered_sequence = true;
             return true;
+        }
+        if (recovered.type != themis::WALStorage::EntryType::PUT) {
+            invalid_replication_entry = true;
+            THEMIS_ERROR("Unexpected replication WAL record type at sequence {}; aborting recovery",
+                         recovered.sequence);
+            return false;
         }
 
         std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
         auto wal_entry = WALEntry::deserialize(payload);
-        if (!wal_entry) {
+        if (!wal_entry || wal_entry->sequence_number != recovered.sequence ||
+            wal_entry->checksum.empty() ||
+            wal_entry->checksum != computeReplicationWalChecksum(*wal_entry)) {
+            invalid_replication_entry = true;
             THEMIS_ERROR("Invalid replication WAL entry at sequence {}; aborting recovery",
-                        recovered.sequence);
+                         recovered.sequence);
             return false;
         }
 
-        wal_entry->sequence_number = recovered.sequence;
+        last_recovered_sequence = recovered.sequence;
+        has_recovered_sequence = true;
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
         state.wal_entries.push_back(*wal_entry);
@@ -682,14 +839,94 @@ void WALManager::loadFromDisk() {
         return true;
     };
 
-    auto storage_result = themis::WALStorage::open(wal_config, recovery_callback);
+    themis::WALStorage::RecoveryResult recovery_result;
+    auto storage_result = themis::WALStorage::open(
+        wal_config, recovery_callback, &recovery_result);
     if (!storage_result.has_value()) {
-        throw std::runtime_error("Failed to open replication WAL storage: " +
-                                 storage_result.error().message());
+        recovery_status_ = invalid_replication_entry
+                               ? WALRecoveryStatus::CORRUPTED
+                               : toReplicationRecoveryStatus(recovery_result.status);
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL recovery " +
+                std::string(walRecoveryStatusName(recovery_status_)) + ": " +
+                storage_result.error().message());
     }
 
+    recovery_status_ = toReplicationRecoveryStatus(recovery_result.status);
+    if (recovery_status_ != WALRecoveryStatus::COMPLETE &&
+        recovery_status_ != WALRecoveryStatus::TRUNCATED_TAIL) {
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL recovery did not complete: " +
+                std::string(walRecoveryStatusName(recovery_status_)));
+    }
     state.durability_wal = std::move(storage_result.value());
     current_sequence_.store(std::max(current_sequence_.load(), state.durability_wal->lastSequence()));
+
+    auto term_wal_config = wal_config;
+    term_wal_config.dir = (fs::path(config_.wal_directory) / "raft_term").string();
+    // Election terms must be durable even when data-entry fsync is configured off.
+    term_wal_config.fsync_on_write = true;
+
+    bool invalid_term_entry = false;
+    uint64_t recovered_persisted_term = 0;
+    auto term_recovery_callback = [&invalid_term_entry, &recovered_persisted_term](
+                                      const themis::WALStorage::Entry& recovered) {
+        if (recovered.type == themis::WALStorage::EntryType::CHECKPOINT) {
+            return true;
+        }
+        if (recovered.type != themis::WALStorage::EntryType::PUT ||
+            recovered.key != "current_term") {
+            invalid_term_entry = true;
+            return false;
+        }
+
+        uint64_t term = 0;
+        const auto* begin = recovered.value.data();
+        const auto* end = begin + recovered.value.size();
+        const auto parse_result = std::from_chars(begin, end, term);
+        if (parse_result.ec != std::errc{} || parse_result.ptr != end ||
+            term <= recovered_persisted_term) {
+            invalid_term_entry = true;
+            return false;
+        }
+
+        recovered_persisted_term = term;
+        return true;
+    };
+
+    themis::WALStorage::RecoveryResult term_recovery_result;
+    auto term_storage_result = themis::WALStorage::open(
+        term_wal_config, term_recovery_callback, &term_recovery_result);
+    if (!term_storage_result.has_value()) {
+        const auto term_recovery_status =
+            invalid_term_entry
+                ? WALRecoveryStatus::CORRUPTED
+                : toReplicationRecoveryStatus(term_recovery_result.status);
+        recovery_status_ = term_recovery_status;
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL term recovery " +
+                std::string(walRecoveryStatusName(recovery_status_)) + ": " +
+                term_storage_result.error().message());
+    }
+
+    const auto term_recovery_status = toReplicationRecoveryStatus(term_recovery_result.status);
+    if (term_recovery_status != WALRecoveryStatus::COMPLETE &&
+        term_recovery_status != WALRecoveryStatus::TRUNCATED_TAIL) {
+        recovery_status_ = term_recovery_status;
+        throw WALRecoveryError(
+            recovery_status_,
+            "Replication WAL term recovery did not complete: " +
+                std::string(walRecoveryStatusName(recovery_status_)));
+    }
+
+    state.term_wal = std::move(term_storage_result.value());
+    current_term_.store(std::max(current_term_.load(), recovered_persisted_term));
+    if (term_recovery_status == WALRecoveryStatus::TRUNCATED_TAIL) {
+        recovery_status_ = WALRecoveryStatus::TRUNCATED_TAIL;
+    }
 }
 
 void WALManager::rotateSegment() {
@@ -801,8 +1038,15 @@ void LeaderElection::startElection() {
       return;
     }
     
-    // Increment term and become candidate
-    current_term_ = wal_->incrementTerm();
+    // Increment term durably before campaigning. A failed write must not start
+    // an election with a term that would be forgotten after restart.
+    try {
+        current_term_ = wal_->incrementTerm();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to persist election term for {}: {}", node_id_, e.what());
+        last_heartbeat_time_ = std::chrono::steady_clock::now();
+        return;
+    }
     role_.store(ReplicationRole::CANDIDATE);
     voted_for_ = node_id_;  // Vote for self
     
@@ -847,7 +1091,12 @@ bool LeaderElection::requestVote(
     
     // If term is newer, update and become follower
     if (term > current_term_) {
-        current_term_ = term;
+        try {
+            current_term_ = wal_->updateTerm(term);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to persist observed replication term {}: {}", term, e.what());
+            return false;
+        }
         role_.store(ReplicationRole::FOLLOWER);
         voted_for_.clear();
     }
@@ -893,7 +1142,9 @@ void LeaderElection::receiveHeartbeat(
                 current_leader_ = leader_id;
                 last_heartbeat_time_ = std::chrono::steady_clock::now();
             } else {
-                becomeFollower(term, leader_id);
+                if (!becomeFollower(term, leader_id)) {
+                    return;
+                }
             }
         }
     }
@@ -926,14 +1177,21 @@ void LeaderElection::becomeLeader() {
  * @brief Become Follower.
  * @param[in] term Input parameter.
  * @param[in] leader_id Identifier of the leader.
+ * @return True when the newer term was persisted and follower state updated.
  * @details Calls: store(), clear(), std::chrono::steady_clock::now().
  */
-void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
-    current_term_ = term;
+bool LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
+    try {
+        current_term_ = wal_->updateTerm(term);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to persist observed replication term {}: {}", term, e.what());
+        return false;
+    }
     role_.store(ReplicationRole::FOLLOWER);
     current_leader_ = leader_id;
     voted_for_.clear();
     last_heartbeat_time_ = std::chrono::steady_clock::now();
+    return true;
 }
 
 /**
@@ -1017,36 +1275,13 @@ ReplicationStream::ReplicationStream(
     , follower_info_{}
     , last_acked_sequence_(0)
     , running_(false)
-    , consecutive_failures_(0)
-    , compressed_stream_(nullptr) {
+    , consecutive_failures_(0) {
     
     follower_info_.endpoint = follower_endpoint;
     follower_info_.role = ReplicationRole::FOLLOWER;
     follower_info_.last_applied_sequence = 0;
     follower_info_.last_heartbeat = std::chrono::system_clock::now();
 
-    // Build compressed stream if WAL compression is enabled
-    if (config_.enable_wal_compression) {
-        CompressedReplicationStream::CompressionConfig cc;
-        cc.compression_level    = config_.wal_compression_level;
-        cc.min_batch_size       = static_cast<uint32_t>(config_.wal_compression_min_batch_bytes);
-
-        const auto& algo = config_.wal_compression_algorithm;
-        if (algo == "lz4") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::LZ4;
-        } else if (algo == "snappy") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::SNAPPY;
-        } else if (algo == "auto") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::AUTO;
-        } else if (algo == "none") {
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
-        } else {
-            // Default (including "zstd" and unknown values) → ZSTD
-            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
-        }
-
-        compressed_stream_ = std::make_unique<CompressedReplicationStream>(follower_endpoint, cc);
-    }
 }
 
 ReplicationStream::~ReplicationStream() {
@@ -1084,27 +1319,9 @@ bool ReplicationStream::isHealthy() const {
  * @details Calls: load(), computeBackoffMs(), lk(), wait_for(), std::chrono::milliseconds(), readFrom(), empty(), sendBatch().
  */
 void ReplicationStream::streamLoop() {
-    // BATCH D ANNOTATION: Replication Acknowledgment and Consensus Semantics
-    // This loop implements a pull-based replication model with explicit acknowledgment tracking.
-    // Each cycle reads a batch of WAL entries and attempts transmission to a follower.
-    //
-    // Replication Mode Semantics:
-    // - ASYNC (fire-and-forget): sendBatch() returns true immediately after transmission;
-    //   no wait for follower acknowledgment. Follower failures don't block leader writes.
-    //   Causality: Local linearization only (leader's FIFO order).
-    // - SEMI_SYNC (leader waits for one follower ACK): sendBatch() blocks until ACK
-    //   or timeout. Guarantees at least one replica has the write before commit. Causality:
-    //   Includes acknowledged follower's vector clock in consistency decision.
-    // - SYNC (full quorum): sendBatch() requires quorum ACKs. Strongest consistency.
-    //   Causality: All replicas in quorum have identical write order (total order broadcast).
-    //
-    // Consensus Expectation (RFC 7530 / Raft consistency):
-    // - Successful sendBatch() + last_acked_sequence_.store() ensures happens-before
-    //   relationship between this send and the next follower read.
-    // - consecutive_failures_ tracks transient faults; exponential backoff avoids
-    //   network storms while maintaining eventual delivery (liveness).
-    // - Follower health status (HEALTHY/DEGRADED/FAILED) is updated on ACK receipt
-    //   and used for quorum calculations on the leader.
+    // ACK positions advance only after sendBatch confirms delivery. This stream
+    // currently has no network transport, so it remains unacknowledged and retries
+    // with backoff instead of claiming follower progress.
     
     while (running_.load()) {
         // Apply exponential backoff when the follower is not responsive
@@ -1163,47 +1380,12 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 /**
  * @brief Send Batch.
  * @param[in] entries Input parameter.
- * @return True when the operation succeeds.
- * @details Implements sendBatch without additional internal calls.
+ * @return False because this stream has no network transport to confirm delivery.
+ * @details A locally available batch is not evidence of follower receipt or application.
  */
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // BATCH D ANNOTATION: Consensus and Acknowledgment Handling
-    // This method is the critical juncture between local WAL and follower replication.
-    //
-    // Replication Acknowledgment Semantics:
-    // 1. Async Path (ASYNC mode): Returns immediately after serialization and transmission,
-    //    without waiting for follower response. Causality is local only.
-    // 2. Sync-Wait Path (SEMI_SYNC/SYNC mode): Blocks until follower ACKs the entries
-    //    (implemented in CompressedReplicationStream::sendBatch). Causality includes
-    //    follower's vector clock alignment.
-    //
-    // Timeout and Backoff Strategy:
-    // - CompressedReplicationStream handles timeouts internally; if no ACK within
-    //   replication_timeout_ms, returns false to signal failure.
-    // - streamLoop caller applies exponential backoff: base * 2^(N-1) up to max_backoff.
-    // - This prevents network storms (stability) while ensuring eventual retransmission
-    //   under quorum failure scenarios.
-    //
-    // Checksum and Integrity:
-    // - Each WALEntry includes a checksum computed during initial write.
-    // - Follower must verify checksum on ACK to ensure data integrity in transit.
-    // - Checksum mismatch triggers replay/resync at the entry level.
-    //
-    // Causality Guarantees:
-    // - If sendBatch returns true, the follower's last_applied_sequence must advance
-    //   to at least entries.back().sequence_number before next streamLoop cycle.
-    // - Sequence numbers form a total order: no gaps allowed. Duplicate ACKs are idempotent.
-    
-    // When WAL compression is configured, delegate to CompressedReplicationStream
-    // which serialises, compresses (Zstd/LZ4/Snappy), and ships the batch.
-    if (compressed_stream_) {
-        return compressed_stream_->sendBatch(entries);
-    }
-
-    // Uncompressed path: in a real deployment this would serialise the entries
-    // and transmit them via the mTLS connection to the follower endpoint.
-    // The retry/backoff logic is managed by the caller (streamLoop).
-    return true;
+    (void)entries;
+    return false;
 }
 
 // ============================================================================
@@ -1240,8 +1422,21 @@ bool ReplicationManager::initialize() {
         return false;
     }
     
-    // Initialize WAL Manager
-    wal_ = std::make_shared<WALManager>(config_);
+    // Do not start replication threads unless WAL recovery completed safely.
+    wal_recovery_status_.store(WALRecoveryStatus::NOT_STARTED);
+    try {
+        wal_ = std::make_shared<WALManager>(config_);
+        wal_recovery_status_.store(wal_->getRecoveryStatus());
+    } catch (const WALRecoveryError& e) {
+        wal_recovery_status_.store(e.status());
+        THEMIS_ERROR("Replication startup blocked by WAL recovery status {}: {}",
+                     walRecoveryStatusName(e.status()), e.what());
+        return false;
+    } catch (const std::exception& e) {
+        wal_recovery_status_.store(WALRecoveryStatus::FAILED);
+        THEMIS_ERROR("Replication startup failed while opening WAL: {}", e.what());
+        return false;
+    }
      
     // Initialize Leader Election
     election_ = std::make_unique<LeaderElection>(node_id_, config_, wal_);
@@ -1303,7 +1498,7 @@ void ReplicationManager::shutdown() {
  * @brief Replicate.
  * @param[in] entry Input parameter.
  * @return True when the operation succeeds.
- * @details Calls: load(), THEMIS_ERROR(), isLeader(), append(), size(), notifyListeners(), onWALEntryApplied(), waitForReplication().
+ * @details Calls: load(), THEMIS_ERROR(), isLeader(), appendDurably(), size(), notifyListeners(), onWALEntryApplied(), waitForReplication().
  */
 bool ReplicationManager::replicate(const WALEntry& entry) {
     if (!initialized_.load()) {
@@ -1317,8 +1512,8 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
     }
     
     try {
-        // Append to WAL
-        uint64_t seq = wal_->append(entry);
+        // Keep the entry hidden from replication readers until its local WAL is durable.
+        uint64_t seq = wal_->appendDurably(entry);
         if (seq == 0) {
             THEMIS_ERROR("WAL append failed for entry operation={} collection={}",
                          entry.operation, entry.collection);
@@ -1326,19 +1521,18 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
             return false;
         }
         
+        if (config_.mode != ReplicationMode::ASYNC) {
+            if (!waitForReplication(seq, config_.replication_timeout_ms)) {
+                return false;
+            }
+        }
+
         stats_.entries_replicated++;
         stats_.bytes_replicated += entry.data.size();
-        
-        // Notify CDC listeners about the applied WAL entry
+
         notifyListeners([&entry](IReplicationListener& l) {
             l.onWALEntryApplied(entry);
         });
-        
-        // For sync/semi-sync mode, wait for consensus from replicas
-        // This ensures quorum acknowledgment before the write is considered committed
-        if (config_.mode != ReplicationMode::ASYNC) {
-            return waitForReplication(seq, config_.replication_timeout_ms);
-        }
         
         return true;
         
@@ -1693,14 +1887,21 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
         return false;
     }
     
+    // Persist the new term before exposing the promotion in local replica state.
+    uint64_t promotion_term = 0;
+    try {
+        promotion_term = wal_->incrementTerm();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Cannot promote replica {} because term persistence failed: {}",
+                     replica_id, e.what());
+        return false;
+    }
+
     // Step 3: Promote replica to primary role
     it->role = ReplicationRole::LEADER;
     
-    // Update current term
-    wal_->incrementTerm();
-    
     THEMIS_INFO("Replica {} promoted to LEADER (sequence: {}, term: {})",
-               replica_id, it->last_applied_sequence, wal_->getCurrentTerm());
+               replica_id, it->last_applied_sequence, promotion_term);
     
     // Step 5: Update cluster routing - notify election system
     if (election_) {
@@ -1770,7 +1971,7 @@ std::map<std::string, bool> ReplicationManager::getClusterHealth() const {
     std::map<std::string, bool> health;
     
     // Add self
-    health[node_id_] = initialized_.load() && running_.load();
+    health[node_id_] = isReady();
     
     // Add all replicas
     for (const auto& replica : replicas_) {
@@ -1785,6 +1986,15 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     
     // Export basic stats
     oss << stats_.toPrometheusFormat();
+
+    oss << "\n# HELP themisdb_replication_wal_recovery_status Current replication WAL recovery state (one-hot)\n"
+        << "# TYPE themisdb_replication_wal_recovery_status gauge\n"
+        << "themisdb_replication_wal_recovery_status{status=\""
+        << walRecoveryStatusName(wal_recovery_status_.load()) << "\"} 1\n";
+
+    oss << "\n# HELP themisdb_replication_ready Whether local replication startup recovery completed safely\n"
+        << "# TYPE themisdb_replication_ready gauge\n"
+        << "themisdb_replication_ready " << (isReady() ? 1 : 0) << "\n";
     
     // Add cluster health metrics
     auto health = getClusterHealth();

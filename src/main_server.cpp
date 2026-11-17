@@ -81,6 +81,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -147,6 +148,8 @@
 #include <string_view>
 #include <thread>
 #include <atomic>
+#include <algorithm>
+#include <cctype>
 #include <functional>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -1661,9 +1664,40 @@ int main(int argc, char* argv[]) {
             }
         }
         
+    std::string local_shard_id;
+    if (cfg && cfg->contains("sharding")) {
+        local_shard_id = (*cfg)["sharding"].value("shard_id", std::string{});
+    }
+    if (const char* env_shard_id = std::getenv("SHARD_ID")) {
+        local_shard_id = env_shard_id;
+    }
+    if (local_shard_id.empty() &&
+        (!cfg || !cfg->contains("sharding") ||
+         !(*cfg)["sharding"].contains("shards") ||
+         (*cfg)["sharding"]["shards"].size() <= 1)) {
+        local_shard_id = "shard-0";
+    }
+
     // Create and start HTTP server
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         server::HttpServer::Config server_config(host, port, num_threads);
+        server_config.raid_local_shard_id = local_shard_id;
+        if (const char* cert = std::getenv("THEMIS_WAL_GRPC_CERT_PATH")) {
+            server_config.shard_rpc_tls_cert_path = cert;
+        }
+        if (const char* key = std::getenv("THEMIS_WAL_GRPC_KEY_PATH")) {
+            server_config.shard_rpc_tls_key_path = key;
+        }
+        if (const char* ca = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH")) {
+            server_config.shard_rpc_tls_ca_cert_path = ca;
+        }
+        if (const char* insecure = std::getenv("THEMIS_WAL_GRPC_ALLOW_INSECURE")) {
+            std::string value(insecure);
+            std::transform(value.begin(), value.end(), value.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+            server_config.shard_rpc_allow_insecure =
+                value == "1" || value == "true" || value == "yes" || value == "on";
+        }
         // Apply feature flags
         if (cfg && cfg->contains("features")) {
             const auto& f = (*cfg)["features"];
@@ -1924,13 +1958,31 @@ int main(int argc, char* argv[]) {
                         std::string shard_id = shard["id"].get<std::string>();
                         hash_ring->addNode(shard_id);
                         
-                        // Create ShardInfo with at least the shard_id
                         themis::sharding::ShardInfo info;
                         info.shard_id = shard_id;
                         info.is_healthy = true;
+                        if (shard.contains("endpoint") && shard["endpoint"].is_string()) {
+                            info.primary_endpoint = shard["endpoint"].get<std::string>();
+                        } else if (shard.contains("host") &&
+                                   shard["host"].is_string() &&
+                                   shard.contains("grpc_port") &&
+                                   shard["grpc_port"].is_number_integer()) {
+                            const auto grpc_port = shard["grpc_port"].get<int>();
+                            if (grpc_port > 0 && grpc_port <= 65535) {
+                                info.primary_endpoint =
+                                    shard["host"].get<std::string>() + ":" +
+                                    std::to_string(grpc_port);
+                            }
+                        }
+                        if (info.primary_endpoint.empty()) {
+                            THEMIS_WARN(
+                                "Shard {} has no valid gRPC endpoint; remote MIRROR writes to it will fail",
+                                shard_id);
+                        }
                         shard_topology->addShard(info);
                         
-                        THEMIS_INFO("  Added shard to hash ring and topology: {}", shard_id);
+                        THEMIS_INFO("  Added shard to hash ring and topology: {} (endpoint: {})",
+                                    shard_id, info.primary_endpoint);
                     }
                 }
             } else {
@@ -2418,7 +2470,25 @@ int main(int argc, char* argv[]) {
 
 #ifdef THEMIS_ENABLE_GRPC
         // Start gRPC services (WAL Apply + ThemisDB API) when available.
-        g_wal_grpc_service = std::make_unique<server::WalGrpcService>(wal_applier);
+        auto entity_replica_writer = [secondary_index](
+            const std::string& collection,
+            const std::string& uuid,
+            const std::string& data_json,
+            std::string& error) {
+            if (!secondary_index) {
+                error = "SecondaryIndexManager is not configured";
+                return false;
+            }
+            const auto entity = BaseEntity::fromJson(uuid, data_json);
+            const auto result = secondary_index->put(collection, entity);
+            if (!result.ok) {
+                error = result.message;
+                return false;
+            }
+            return true;
+        };
+        g_wal_grpc_service = std::make_unique<server::WalGrpcService>(
+            wal_applier, std::move(entity_replica_writer), local_shard_id);
         g_themisdb_grpc_service = std::make_unique<api::ThemisDBGrpcService>(db, tx_manager);
 #ifdef THEMIS_HAS_PROMETHEUS
         if (g_themisdb_grpc_service && g_config_prom_registry) {

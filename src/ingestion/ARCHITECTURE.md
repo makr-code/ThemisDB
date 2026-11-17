@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -62,20 +62,20 @@ persistence, and security properties must be checked at the concrete call site.
   filesystem workflow branch currently increments processed counters without
   handing the returned entity set to a sink.
 
-### RAG bridge integration (path-specific source evidence; 2026-11-13)
+### RAG bridge integration (path-specific source evidence; 2026-11-16)
 
-The [RAGIngestionBridge](../rag/rag_ingestion_bridge.cpp) constructs an
-`ExtractionContext` for the workflow but does not set
-`ctx.manifest.file_id` before execution. The [chunk embedding step](steps/chunk_embed_step.cpp)
-forms chunk IDs from `manifest.file_id` and the chunk sequence. If no earlier
-workflow step supplies that ID, chunks from distinct documents can receive
-the same IDs. The fallback path creates IDs from `doc_id + "#0"`; it is a
-separate path and does not repair IDs already produced by the workflow.
+The [RAGIngestionBridge](../rag/rag_ingestion_bridge.cpp) now assigns its
+collection-scoped SHA-256 document ID to `ctx.manifest.file_id` before workflow
+execution. The [chunk embedding step](steps/chunk_embed_step.cpp) forms chunk
+IDs from that manifest field and the chunk sequence. The bridge's fallback
+path continues to use `doc_id + "#0"`; it is distinct from workflow-generated
+chunk IDs. The previous truncated `std::hash` document IDs are not preserved
+and require an explicit reindex/cleanup decision.
 
-The bridge stamps `source_file_id` after the workflow, which does not repair
-the chunk ID. It also logs vector-write failures but returns a successful
-`IndexResult`; graph-writer results are discarded. Therefore that result does
-not prove all configured sinks completed. Separately,
+The bridge now returns an explicit `IndexStatus`, marks fallback as
+`DEGRADED`, reports sink failures as `PARTIAL` or `FAILED`, and includes
+confirmed vector and graph write counts. Graph relations are withheld when
+graph entities fail to write. The returned status does not establish atomicity:
 `IngestionSinkBundle::writeAll()` is ordered and fail-fast, but the inspected
 implementation does not roll back earlier sink writes. These observations
 apply to the inspected call paths, not to every ingestion workflow.

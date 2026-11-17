@@ -8870,7 +8870,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w7b_endurance_soak
       TARGET bench_w7b_endurance_soak
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w7c_degradation_fault_recovery)

@@ -48,9 +48,15 @@ The existing `ILLMPlugin` vtable and `RAGContext` layout are unchanged.
 `refresh()` to scan configured roots, then `list()` to obtain name/description
 metadata. `load(name)` reads one `SKILL.md` instruction body; `readResource()`
 reads a package-relative UTF-8 text file. Metadata, instructions and resources
-are bounded by explicit `SkillRegistryOptions` limits. Refresh publishes a
+are bounded by explicit `SkillRegistryOptions` limits. Refresh returns metadata
+only, but buffered discovery may read ahead into the instruction body; it does
+not guarantee zero body-byte I/O. Refresh publishes a
 complete snapshot atomically; failed refresh preserves the last successful
-snapshot.
+snapshot. Path validation and opening are not atomic against concurrent
+filesystem replacement: roots, package contents, and their parent directories
+must not be writable by untrusted users while the registry is in use.
+Initial opt-in guidance packages and host integration steps are documented in
+[`config/agent_skills/README.md`](../../config/agent_skills/README.md).
 
 `registerSkillTools()` optionally registers `list_skills`, `load_skill`, and
 `read_skill_resource` in the existing `ToolRegistry`. Calls continue to pass

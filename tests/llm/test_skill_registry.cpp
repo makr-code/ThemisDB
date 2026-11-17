@@ -10,6 +10,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 namespace {
 
@@ -70,21 +71,67 @@ SkillRegistryOptions optionsFor(const fs::path& root) {
     return options;
 }
 
+TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
+    const auto repo_root =
+        fs::path(__FILE__).parent_path().parent_path().parent_path();
+    auto skills = std::make_shared<SkillRegistry>(
+        optionsFor(repo_root / "config" / "agent_skills"));
+    const auto refreshed = skills->refresh();
+    ASSERT_TRUE(refreshed);
+    EXPECT_EQ(*refreshed, 3u);
+
+    ToolRegistry tools;
+    registerSkillTools(tools, skills);
+    ModeSpec mode;
+    mode.tools_allowed = {"list_skills", "load_skill", "read_skill_resource"};
+    const auto catalog = tools.invokeTool("list_skills", {}, mode);
+    ASSERT_TRUE(catalog.contains("skills"));
+    ASSERT_EQ(catalog["skills"].size(), 3u);
+    EXPECT_EQ(catalog["skills"][0]["name"], "aql-read-query");
+    EXPECT_EQ(catalog["skills"][1]["name"], "evidence-answer");
+    EXPECT_EQ(catalog["skills"][2]["name"], "graph-exploration");
+
+    for (const auto& entry : catalog["skills"]) {
+        ASSERT_TRUE(entry.contains("name"));
+        const auto loaded = tools.invokeTool(
+            "load_skill", {{"name", entry["name"]}}, mode);
+        ASSERT_TRUE(loaded.contains("instructions"));
+        EXPECT_FALSE(loaded["instructions"].get<std::string>().empty());
+    }
+
+    const auto reference = tools.invokeTool(
+        "read_skill_resource",
+        {{"name", "evidence-answer"}, {"path", "references/source-checklist.md"}},
+        mode);
+    ASSERT_TRUE(reference.contains("content"));
+    EXPECT_NE(reference["content"].get<std::string>().find("authorized scope"),
+              std::string::npos);
+
+    mode.tools_denied = {"load_skill"};
+    const auto denied =
+        tools.invokeTool("load_skill", {{"name", "aql-read-query"}}, mode);
+    EXPECT_TRUE(denied.contains("error"));
+}
+
 TEST(SkillRegistryTest, DiscoversMetadataAndLoadsInstructionsOnRequest) {
     TemporaryDirectory temporary;
-    const auto package = writeSkill(temporary.path() / "skills", "weather");
+    const auto root = temporary.path() / "skills";
+    const auto package = writeSkill(root, "weather");
+    writeSkill(root, "alpha", "Alpha instructions.\n");
     writeFile(package / "references" / "format.md", "Use Celsius.\n");
 
-    SkillRegistry registry(optionsFor(temporary.path() / "skills"));
+    SkillRegistry registry(optionsFor(root));
     const auto refresh_result = registry.refresh();
     ASSERT_TRUE(refresh_result);
-    EXPECT_EQ(*refresh_result, 1u);
+    EXPECT_EQ(*refresh_result, 2u);
 
     const auto listed = registry.list();
     ASSERT_TRUE(listed);
-    ASSERT_EQ(listed->size(), 1u);
-    EXPECT_EQ(listed->front().name, "weather");
-    EXPECT_EQ(listed->front().description, "Guide for weather.");
+    ASSERT_EQ(listed->size(), 2u);
+    EXPECT_EQ((*listed)[0].name, "alpha");
+    EXPECT_EQ((*listed)[0].description, "Guide for alpha.");
+    EXPECT_EQ((*listed)[1].name, "weather");
+    EXPECT_EQ((*listed)[1].description, "Guide for weather.");
 
     const auto document = registry.load("weather");
     ASSERT_TRUE(document);
@@ -156,6 +203,54 @@ TEST(SkillRegistryTest, InvalidManifestDoesNotReplacePreviousSnapshot) {
     ASSERT_TRUE(listed);
     ASSERT_EQ(listed->size(), 1u);
     EXPECT_EQ(listed->front().name, "valid");
+}
+
+TEST(SkillRegistryTest, ConcurrentRefreshAndReadersObserveCompleteSnapshots) {
+    TemporaryDirectory temporary;
+    const auto root = temporary.path() / "skills";
+    writeSkill(root, "alpha", "Stable instructions.\n");
+
+    SkillRegistry registry(optionsFor(root));
+    ASSERT_TRUE(registry.refresh());
+    writeSkill(root, "beta", "New instructions.\n");
+
+    std::atomic<bool> start{false};
+    std::atomic<bool> finished{false};
+    std::atomic<bool> failed{false};
+    std::thread refresher([&] {
+        while (!start.load()) {
+            std::this_thread::yield();
+        }
+        for (int attempt = 0; attempt < 32; ++attempt) {
+            const auto refreshed = registry.refresh();
+            if (!refreshed || *refreshed != 2u) {
+                failed.store(true);
+                break;
+            }
+        }
+        finished.store(true);
+    });
+
+    start.store(true);
+    while (!finished.load()) {
+        const auto listed = registry.list();
+        if (!listed || (listed->size() != 1u && listed->size() != 2u)) {
+            failed.store(true);
+            break;
+        }
+        const auto document = registry.load("alpha");
+        if (!document || document->instructions != "Stable instructions.\n") {
+            failed.store(true);
+            break;
+        }
+        std::this_thread::yield();
+    }
+    refresher.join();
+
+    EXPECT_FALSE(failed.load());
+    const auto listed = registry.list();
+    ASSERT_TRUE(listed);
+    EXPECT_EQ(listed->size(), 2u);
 }
 
 TEST(SkillRegistryTest, DuplicateFrontmatterKeysAreRejected) {
@@ -281,6 +376,47 @@ TEST(SkillRegistryTest, RejectsSymlinkedResources) {
     EXPECT_EQ(resource.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
 }
 
+TEST(SkillRegistryTest, RejectsSymlinkedPackageDirectoryDuringDiscovery) {
+    TemporaryDirectory temporary;
+    const auto root = temporary.path() / "skills";
+    const auto target = writeSkill(temporary.path() / "external", "docs");
+    fs::create_directories(root);
+
+    std::error_code error;
+    fs::create_directory_symlink(target, root / "docs", error);
+    if (error) {
+        GTEST_SKIP() << "Symlink creation is not permitted in this environment";
+    }
+
+    SkillRegistry registry(optionsFor(root));
+    const auto refreshed = registry.refresh();
+
+    ASSERT_FALSE(refreshed);
+    EXPECT_EQ(refreshed.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
+}
+
+TEST(SkillRegistryTest, RejectsSymlinkedManifestDuringDiscovery) {
+    TemporaryDirectory temporary;
+    const auto root = temporary.path() / "skills";
+    const auto package = root / "docs";
+    fs::create_directories(package);
+    const auto outside = temporary.path() / "SKILL.md";
+    writeFile(outside,
+              "---\nname: docs\ndescription: External manifest.\n---\n");
+
+    std::error_code error;
+    fs::create_symlink(outside, package / "SKILL.md", error);
+    if (error) {
+        GTEST_SKIP() << "Symlink creation is not permitted in this environment";
+    }
+
+    SkillRegistry registry(optionsFor(root));
+    const auto refreshed = registry.refresh();
+
+    ASSERT_FALSE(refreshed);
+    EXPECT_EQ(refreshed.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
+}
+
 TEST(SkillRegistryTest, RejectsManifestReplacedBySymlinkAfterRefresh) {
     TemporaryDirectory temporary;
     const auto root = temporary.path() / "skills";
@@ -302,6 +438,38 @@ TEST(SkillRegistryTest, RejectsManifestReplacedBySymlinkAfterRefresh) {
     const auto document = registry.load("docs");
     ASSERT_FALSE(document);
     EXPECT_EQ(document.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
+}
+
+TEST(SkillRegistryTest, RejectsPackageRootReplacedBySymlinkAfterRefresh) {
+    TemporaryDirectory temporary;
+    const auto root = temporary.path() / "skills";
+    writeSkill(root, "docs");
+
+    SkillRegistry registry(optionsFor(root));
+    ASSERT_TRUE(registry.refresh());
+
+    const auto external_root = temporary.path() / "external_skills";
+    const auto external_package = writeSkill(external_root, "docs");
+    writeFile(external_package / "private.md", "external content\n");
+
+    std::error_code error;
+    const auto moved_root = temporary.path() / "original_skills";
+    fs::rename(root, moved_root, error);
+    if (error) {
+        GTEST_SKIP() << "Root replacement is not permitted in this environment";
+    }
+    fs::create_directory_symlink(external_root, root, error);
+    if (error) {
+        GTEST_SKIP() << "Directory symlink creation is not permitted in this environment";
+    }
+
+    const auto document = registry.load("docs");
+    ASSERT_FALSE(document);
+    EXPECT_EQ(document.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
+
+    const auto resource = registry.readResource("docs", "private.md");
+    ASSERT_FALSE(resource);
+    EXPECT_EQ(resource.error().code(), ErrorCode::ERR_LLM_SKILL_PATH_ESCAPE);
 }
 
 TEST(SkillRegistryTest, RejectsInvalidUtf8Resources) {

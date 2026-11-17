@@ -24,9 +24,9 @@ class ToolRegistry;
 /**
  * @brief Resource limits and explicitly configured roots for skill packages.
  *
- * A package is a child directory containing a `SKILL.md`. Discovery reads
- * bounded YAML frontmatter only. The limits apply before content is returned
- * to callers.
+ * A package is a child directory containing a `SKILL.md`. Discovery parses
+ * bounded YAML frontmatter only; buffered file reads may read ahead into the
+ * instruction body. Limits apply before content is returned to callers.
  */
 struct SkillRegistryOptions {
     std::vector<std::filesystem::path> roots;
@@ -60,6 +60,9 @@ struct SkillDocument {
  *       snapshot. Concurrent readers are supported.
  * @note Package content is untrusted text. This class never executes scripts
  *       and does not grant tool or database permissions.
+ * @note Path checks and file opens are not atomic against concurrent filesystem
+ *       replacement. Configured roots, package contents, and their parents
+ *       must not be writable by untrusted users while this registry is in use.
  */
 class SkillRegistry {
 public:

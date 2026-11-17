@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-16
+Datum: 2026-11-17
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -14,7 +14,7 @@ Status: Active
 
 ## BRANCHING_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `0e5e1cd9d6791b65`
+- Hash: `bc5b076360285457`
 - Titel: ThemisDB Branching Strategy
 - Auszug:
   - > Status: Active
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `3f051a5cb34ab117`
+- Hash: `0f803551945562cf`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-11-13 (LLM application framework interoperability proposal added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
+  - **Last Updated:** 2026-11-17 (Portable Agent Skill package proposal and module interface/acceptance plan added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -338,12 +338,12 @@ Status: Active
 
 ## ai_context/api_contracts/llm.md
 - Kategorie: governance_and_docs
-- Hash: `d8a7141ab2a55ef1`
+- Hash: `ccb09f5dbc246af4`
 - Titel: LLM Module Contract
 - Auszug:
-  - Datum: 2026-10-29
-  - **Status:** Active
-  - **Module:** llm (LLM inference, model switching, context mgmt)
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-29"
 
 ## ai_context/api_contracts/storage.md
 - Kategorie: governance_and_docs
@@ -416,6 +416,15 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/LLM_SKILLS.md
+- Kategorie: governance_and_docs
+- Hash: `a7758a1a726d32ae`
+- Titel: LLM Agent Skills
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-17"
 
 ## ai_context/developer_llm_wiki/MAINTENANCE.md
 - Kategorie: governance_and_docs
@@ -713,12 +722,3 @@ Status: Active
   - **Date:** 2026-08-17
   - **Status:** COMPLETE ✅ — All deliverables implemented, verified, and committed
   - **Target Wave:** Wave B (Performance Consolidation & GA Promotion)
-
-## docs/ARCHIVED/ai-working-history/AGENT3_DELIVERY_CHECKLIST.md
-- Kategorie: governance_and_docs
-- Hash: `23c71bdd3e6ee6b9`
-- Titel: Agent 3 Delivery Checklist — Replication Module Gap Closure
-- Auszug:
-  - **Status**: ✅ **READY FOR DELIVERY**
-  - ---
-  - - [x] src/replication/async_wal_shipper.cpp

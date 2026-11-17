@@ -16,6 +16,7 @@
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/detail/two_phase_commit_contract.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <set>
@@ -25,6 +26,7 @@
 #include <mutex>
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 #include <random>
 #include <stdexcept>
 #include <system_error>
@@ -245,7 +247,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
                 applied_count.fetch_add(1, std::memory_order_relaxed);
                 return true;
             });
+        EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.recoverFromWAL(), 1u);
+        EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.getTransactionState(transaction_id),
                   ParticipantTxnState::PREPARED);
         EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
@@ -262,6 +266,137 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
     }
 
     std::filesystem::remove_all(wal_directory);
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache) {
+    TemporaryTransactionLog log("themis_participant_full_replay");
+    const auto wal_directory = log.logPath().parent_path().string();
+    const std::string transaction_id = "old-prepared-transaction";
+
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory;
+    wal_config.sync_on_write = false;
+    {
+        WALManager wal(wal_config);
+        WALEntry prepare;
+        prepare.type = WALEntryType::PREPARE_TX;
+        prepare.transaction_id = transaction_id;
+        prepare.data = {
+            {"vote", true},
+            {"operations", nlohmann::json::array({
+                nlohmann::json{{"key", "old-prepared"}}
+            })},
+            {"fencing_token", {
+                {"epoch", 1},
+                {"issuer", "coordinator"},
+                {"shard_id", "shard-full-replay"},
+                {"issued_at_ms", 1}
+            }}
+        };
+        ASSERT_GT(wal.append(prepare).offset, 0u);
+
+        for (size_t i = 0; i < 10'000; ++i) {
+            WALEntry checkpoint;
+            checkpoint.type = WALEntryType::CHECKPOINT;
+            checkpoint.data = {{"index", i}};
+            ASSERT_GT(wal.append(checkpoint).offset, 0u);
+        }
+    }
+    {
+        WALManager bounded_wal(wal_config);
+        EXPECT_FALSE(bounded_wal.read(LSN(1, 1)).has_value());
+    }
+
+    std::atomic<int> restored_lock_count{0};
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-full-replay");
+    TwoPhaseCommitParticipant participant(
+        "shard-full-replay", config,
+        [&restored_lock_count](const std::string& txn_id, const nlohmann::json&) {
+            EXPECT_EQ(txn_id, "old-prepared-transaction");
+            restored_lock_count.fetch_add(1, std::memory_order_relaxed);
+            return true;
+        });
+
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_TRUE(participant.getStatistics()["recovery_complete"].get<bool>());
+    EXPECT_EQ(participant.getTransactionState(transaction_id),
+              ParticipantTxnState::PREPARED);
+    EXPECT_EQ(participant.recoverFromWAL(), 1u);
+    EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_TRUE(participant.getStatistics()["recovery_complete"].get<bool>());
+    EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "complete");
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, PreservesTruncatedTailRecoveryStatus) {
+    TemporaryTransactionLog log("themis_participant_truncated_tail");
+    const auto wal_directory = log.logPath().parent_path().string();
+    {
+        WALManagerConfig wal_config;
+        wal_config.wal_directory = wal_directory;
+        WALManager wal(wal_config);
+        WALEntry checkpoint;
+        checkpoint.type = WALEntryType::CHECKPOINT;
+        checkpoint.data = nlohmann::json::object();
+        ASSERT_GT(wal.append(checkpoint).offset, 0u);
+    }
+
+    const auto segment_path = std::filesystem::path(wal_directory) /
+        themis::WALStorage::segmentName(1);
+    {
+        std::ofstream segment(segment_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(segment.is_open());
+        const char partial_header[] = {0x34, 0x12, static_cast<char>(0xAB)};
+        segment.write(partial_header, sizeof(partial_header));
+    }
+
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-truncated-tail");
+    TwoPhaseCommitParticipant participant("shard-truncated-tail", config);
+
+    EXPECT_TRUE(participant.onHealthCheck().is_healthy);
+    EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "truncated_tail");
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, FailedLockRestoreRollsBackPartialRestoration) {
+    TemporaryTransactionLog log("themis_participant_failed_lock_restore");
+    const auto wal_directory = log.logPath().parent_path().string();
+    {
+        WALManagerConfig wal_config;
+        wal_config.wal_directory = wal_directory;
+        WALManager wal(wal_config);
+        for (const auto* txn_id : {"a-restore", "z-fail"}) {
+            WALEntry prepare;
+            prepare.type = WALEntryType::PREPARE_TX;
+            prepare.transaction_id = txn_id;
+            prepare.data = {
+                {"vote", true},
+                {"operations", nlohmann::json::array()}
+            };
+            ASSERT_GT(wal.append(prepare).offset, 0u);
+        }
+    }
+
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-restore-failure");
+    std::set<std::string> released_transactions;
+    EXPECT_THROW(
+        TwoPhaseCommitParticipant(
+            "shard-restore-failure", config,
+            [](const std::string& txn_id, const nlohmann::json&) {
+                return txn_id != "z-fail";
+            },
+            nullptr,
+            [&released_transactions](const std::string& txn_id) {
+                released_transactions.insert(txn_id);
+            }),
+        std::runtime_error);
+    EXPECT_EQ(released_transactions,
+              (std::set<std::string>{"a-restore", "z-fail"}));
 }
 
 TEST_F(TwoPhaseCommitParticipantTest, MissingFencingTokenVotesAbortBeforeLocking) {
@@ -1434,6 +1569,127 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
     // guard destructor removes wal_dir
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, MalformedParticipantMetadataFailsRecoveryClosed) {
+    TemporaryTransactionLog log("2pc_coord_invalid_participants");
+    const auto wal_directory = log.logPath().parent_path().string();
+    const std::string transaction_id = "invalid-participant-list";
+
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory;
+    {
+        WALManager wal(wal_config);
+        WALEntry begin_entry;
+        begin_entry.type = WALEntryType::BEGIN_TX;
+        begin_entry.transaction_id = transaction_id;
+        begin_entry.data = {
+            {"transaction_id", transaction_id},
+            {"coordinator_id", "coord-invalid"},
+            {"shards", "not-an-array"}
+        };
+        ASSERT_GT(wal.append(begin_entry).offset, 0u);
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_token_provider = testTokenProvider("coord-invalid");
+    TwoPhaseCommitCoordinator coordinator("coord-invalid", config);
+
+    EXPECT_THROW(coordinator.recoverInDoubtTransactions(), std::runtime_error);
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id),
+              CoordinatorTxnState::FAILED);
+    const auto unresolved = coordinator.getRecoverableTransactions();
+    ASSERT_EQ(unresolved.size(), 1u);
+    EXPECT_EQ(unresolved.front().state,
+              themis::transaction::RecoverableTwoPhaseState::FAILED);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "failed");
+    EXPECT_TRUE(coordinator.getStatistics()["recovery_failed"].get<bool>());
+
+    const auto outcome = coordinator.commit(
+        "must-not-start", {{"shard-a", nlohmann::json::array()}});
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
+}
+
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, ReplaysTransactionsOlderThanServingCache) {
+    TemporaryTransactionLog log("2pc_coord_full_replay");
+    const auto wal_directory = log.logPath().parent_path().string();
+    const std::string transaction_id = "older-than-cache";
+    constexpr size_t filler_entries = 10'001;
+
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory;
+    wal_config.sync_on_write = false;
+    {
+        WALManager wal(wal_config);
+        WALEntry begin_entry;
+        begin_entry.type = WALEntryType::BEGIN_TX;
+        begin_entry.transaction_id = transaction_id;
+        begin_entry.data = {
+            {"transaction_id", transaction_id},
+            {"coordinator_id", "coord-full-replay"},
+            {"shards", nlohmann::json::array({"shard-old"})}
+        };
+        ASSERT_GT(wal.append(begin_entry).offset, 0u);
+
+        for (size_t i = 0; i < filler_entries; ++i) {
+            WALEntry filler;
+            filler.type = WALEntryType::CHECKPOINT;
+            filler.data = {{"ordinal", i}};
+            ASSERT_GT(wal.append(filler).offset, 0u);
+        }
+
+        const auto retained = wal.readRange(LSN{0, 0});
+        EXPECT_FALSE(std::any_of(
+            retained.begin(), retained.end(), [&](const WALEntry& entry) {
+                return entry.transaction_id == transaction_id;
+            }));
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_token_provider = testTokenProvider("coord-full-replay");
+    TwoPhaseCommitCoordinator coordinator("coord-full-replay", config);
+    TwoPhaseCommitParticipant participant(
+        "shard-old", [](const std::string&, const nlohmann::json&) { return true; });
+    coordinator.registerParticipant("shard-old", &participant);
+
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id),
+              CoordinatorTxnState::COMPLETED);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "complete");
+    EXPECT_EQ(coordinator.getStatistics()["wal_recovery_status"], "complete");
+}
+
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, PreservesTruncatedTailRecoveryStatus) {
+    TemporaryTransactionLog log("2pc_coord_truncated_tail");
+    const auto wal_directory = log.logPath().parent_path().string();
+    {
+        WALManagerConfig wal_config;
+        wal_config.wal_directory = wal_directory;
+        WALManager wal(wal_config);
+        WALEntry checkpoint;
+        checkpoint.type = WALEntryType::CHECKPOINT;
+        checkpoint.data = nlohmann::json::object();
+        ASSERT_GT(wal.append(checkpoint).offset, 0u);
+    }
+
+    const auto segment_path = std::filesystem::path(wal_directory) /
+        themis::WALStorage::segmentName(1);
+    {
+        std::ofstream segment(segment_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(segment.is_open());
+        const char partial_header[] = {0x34, 0x12, static_cast<char>(0xAB)};
+        segment.write(partial_header, sizeof(partial_header));
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_directory;
+    TwoPhaseCommitCoordinator coordinator("coord-truncated-tail", config);
+
+    EXPECT_EQ(coordinator.getStatistics()["wal_recovery_status"], "truncated_tail");
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "complete");
+}
+
 TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDecision) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
                           ("2pc_coord_wal_replay_" +
@@ -1504,15 +1760,22 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
     coord.registerParticipant("shard-wal", &participant);
 
     EXPECT_EQ(coord.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coord.getStatistics()["recovery_status"], "blocked");
     EXPECT_EQ(coord.getTransactionState(txn), CoordinatorTxnState::COMMIT_DECIDED);
     auto in_doubt = coord.getRecoverableTransactions();
     ASSERT_EQ(in_doubt.size(), 1u);
     EXPECT_TRUE(in_doubt.front().decision_recorded);
     EXPECT_TRUE(in_doubt.front().decision_commit);
+    EXPECT_EQ(coord.commit(
+        "blocked-until-recovery", {{"shard-wal", nlohmann::json::array()}}).result,
+        CoordinatorTxnResult::FAILURE);
 
     participant.commit_ack = true;
     EXPECT_EQ(coord.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(coord.getStatistics()["recovery_status"], "complete");
     EXPECT_EQ(coord.getTransactionState(txn), CoordinatorTxnState::COMPLETED);
+    EXPECT_EQ(participant.commit_calls, 2);
+    EXPECT_EQ(coord.recoverInDoubtTransactions(), 0u);
     EXPECT_EQ(participant.commit_calls, 2);
 }
 

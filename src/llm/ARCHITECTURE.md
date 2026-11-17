@@ -100,16 +100,23 @@ query optimizer or authorization checks.
 `SkillRegistry` provides read-only discovery from explicitly configured
 filesystem roots. Refresh reads bounded `SKILL.md` YAML frontmatter; `list()`
 returns only name/description metadata, while `load()` and `readResource()`
-read content only after explicit requests. `registerSkillTools()` optionally
+return instruction/resource content only after explicit requests. The stream
+used for discovery may read ahead into the instruction body, so zero body-byte
+I/O has not been established. `registerSkillTools()` optionally
 adds `list_skills`, `load_skill`, and `read_skill_resource` to an existing
 `ToolRegistry`; the active `ModeSpec` allow/deny lists remain authoritative.
 
 Skill text and resources are untrusted instructions, never permissions. The
 registry rejects malformed or duplicate package metadata, symlinks, path
-escapes, invalid UTF-8, and files over configured limits. It does not execute
-bundled scripts, persist packages in ThemisDB, select skills with embeddings,
-or create an autonomous agent graph. See the [skill interface contract](../../include/llm/skill_registry.h)
-and [LLM API contract](../../ai_context/api_contracts/llm.md).
+escapes, invalid UTF-8, and files over configured limits when observed during
+its checks. Path checking and opening are not atomic against concurrent
+replacement; configured roots, package contents and parent directories must
+not be writable by untrusted users while the registry is in use. The registry
+does not execute bundled scripts, persist packages in ThemisDB, select skills
+with embeddings, or create an autonomous agent graph. Three opt-in guidance
+packages are provided in [the Agent Skills catalog](../../config/agent_skills/README.md).
+See the [skill interface contract](../../include/llm/skill_registry.h) and
+[LLM API contract](../../ai_context/api_contracts/llm.md).
 
 ### Locality, lifecycle, and failure domains
 

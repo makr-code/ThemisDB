@@ -25,7 +25,7 @@ them owns authorization, composition, and response policy.
 | Scan untrusted queries and retrieved content for injection | `PromptInjectionDetector` / `PromptInjectionSanitizer` | Explicit APIs; callers must invoke them on the paths they own. Heuristic detection is not a safety guarantee. |
 | Authorize tenant, collection, document, and model access | Search, storage, and service access-control layers | Not enforced by `HybridRetriever`, `RAGContextAssembler`, or `RAGIngestionBridge`. Filter candidates before passing them to RAG. |
 | Apply a response policy to evaluation results | `QualityControlPipeline` / `RAGJudge` return result objects | Caller responsibility. The module does not impose a universal response gate. |
-| Handle partial ingestion writes | `RAGIngestionBridge::indexDocument()` returns `IndexResult` | Check `ok`, counts, and logs; independently verify vector/graph sink state. |
+| Handle partial ingestion writes | `RAGIngestionBridge::indexDocument()` returns explicit `IndexStatus` and confirmed sink counts | `COMPLETE`/`DEGRADED` return `ok=true`; `PARTIAL`/`FAILED` return `ok=false`. Writes are non-atomic; reconcile sink state before retrying. |
 | Verify model artifact integrity | `CrossEncoderReranker::loadModel()` | A present `.sha256` sidecar is checked. Missing sidecars warn and continue; `require_model_checksum` and `expected_model_checksum` are not enforced. Verify hashes independently. |
 | Protect telemetry and logs | Service logging and telemetry integration | The quality-control implementation logs up to the first 50 query characters. Apply redaction, access controls, and retention limits at the service boundary. |
 

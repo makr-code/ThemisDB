@@ -15,6 +15,8 @@
 #include <memory>
 #include <string>
 #include <atomic>
+#include <mutex>
+#include <unordered_map>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -45,6 +47,7 @@ struct WriteConcernConfig;
 class CollectionRedundancyManager;
 class ConsistentHashRing;
 class ShardTopology;
+class ShardRPCClient;
 }
 
 namespace utils {
@@ -59,6 +62,20 @@ struct EntityApiConfig {
     bool feature_geo = false;  // Enable geo/spatial index
     bool feature_replication = false;  // Enable replication/write concern
     bool feature_raid = false;  // Enable RAID-style redundancy via RedundancyStrategy
+
+    /** @brief This node's shard ID; empty disables local-target acknowledgement. */
+    std::string local_shard_id;
+    /** @brief Client certificate used for inter-shard mTLS. */
+    std::string shard_rpc_tls_cert_path;
+    /** @brief Client private key used for inter-shard mTLS. */
+    std::string shard_rpc_tls_key_path;
+    /** @brief CA bundle used to verify inter-shard gRPC servers. */
+    std::string shard_rpc_tls_ca_cert_path;
+    /**
+     * @brief Explicit development-only insecure override for inter-shard gRPC.
+     * Production mode rejects this setting in ShardRPCClient.
+     */
+    bool shard_rpc_allow_insecure = false;
 };
 
 class EntityApiHandler {
@@ -95,9 +112,14 @@ public:
     http::response<http::string_body> handleGet(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle Put.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief Validates and upserts one entity, then applies configured MIRROR redundancy.
+     * @param req PUT request with a `table:primary-key` key and JSON blob.
+     * @return HTTP 201 after the primary write and configured RAID operation
+     *         succeed. MIRROR with write concern ALL returns HTTP 503 when any
+     *         target does not acknowledge; because the primary may already be
+     *         committed, that response describes an indeterminate partial write.
+     * @note Replica writes use the post-encryption BaseEntity representation and
+     *       persist through the replica's SecondaryIndexManager.
      */
     http::response<http::string_body> handlePut(const http::request<http::string_body>& req);
 
@@ -145,8 +167,14 @@ private:
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
     std::shared_ptr<sharding::ConsistentHashRing> hash_ring_;
     std::shared_ptr<sharding::ShardTopology> shard_topology_;
+    mutable std::mutex raid_rpc_clients_mutex_;
+    std::unordered_map<std::string, std::shared_ptr<sharding::ShardRPCClient>>
+        raid_rpc_clients_;
 
     // Helper methods
+    [[nodiscard]] std::shared_ptr<sharding::ShardRPCClient> getRaidRpcClient(
+        const std::string& shard_id,
+        const std::string& endpoint);
     /**
      * @brief Extract Path Param.
      * @param[in] target Input parameter.

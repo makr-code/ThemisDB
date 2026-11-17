@@ -20,6 +20,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <string>
@@ -65,6 +66,27 @@ std::string findDokuDbPath() {
         }
     }
     return {};
+}
+
+struct SharedDokuIndex {
+    std::string path;
+    std::shared_ptr<JsonWikiIndexReader> reader;
+};
+
+const SharedDokuIndex& sharedDokuIndex() {
+    static const SharedDokuIndex index = [] {
+        SharedDokuIndex result;
+        result.path = findDokuDbPath();
+        if (!result.path.empty()) {
+            result.reader = std::make_shared<JsonWikiIndexReader>(result.path, /*auto_load=*/true);
+            if (!result.reader->isReady()) {
+                result.path.clear();
+                result.reader.reset();
+            }
+        }
+        return result;
+    }();
+    return index;
 }
 
 /// Probe standard locations for the golden dataset YAML.
@@ -279,16 +301,10 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
 class DokuRagTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = findDokuDbPath();
-        if (db_path_.empty()) {
-            return; // skipIfNoDb() handles the skip
-        }
-
-        reader_ = std::make_unique<JsonWikiIndexReader>(db_path_, /*auto_load=*/true);
-        if (!reader_->isReady()) {
-            db_path_.clear(); // treat as missing
-            reader_.reset();
-        } else {
+        const auto& index = sharedDokuIndex();
+        db_path_ = index.path;
+        reader_ = index.reader;
+        if (reader_) {
             spdlog::info("DokuRagTest: loaded {} chunks from {}",
                          reader_->size(), db_path_);
         }
@@ -309,7 +325,7 @@ protected:
     }
 
     std::string db_path_;
-    std::unique_ptr<JsonWikiIndexReader> reader_;
+    std::shared_ptr<JsonWikiIndexReader> reader_;
 };
 
 // ─── RAG-01: WikiIndexStore purpose ──────────────────────────────────────────
@@ -493,18 +509,9 @@ TEST_F(DokuRagTest, Rag07_QueryLatencyBelow3s) {
 class GoldenDatasetRagTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // doku.db (may be absent — golden tests skip gracefully)
-        db_path_ = findDokuDbPath();
-        if (!db_path_.empty()) {
-            reader_ = std::make_unique<JsonWikiIndexReader>(db_path_, /*auto_load=*/true);
-            if (!reader_->isReady()) {
-                db_path_.clear();
-                reader_.reset();
-            } else {
-                spdlog::info("GoldenDatasetRagTest: loaded {} chunks from {}",
-                             reader_->size(), db_path_);
-            }
-        }
+        const auto& index = sharedDokuIndex();
+        db_path_ = index.path;
+        reader_ = index.reader;
 
         // Golden dataset YAML (must always be present for RAG-12)
         golden_path_ = findGoldenDatasetPath();
@@ -525,7 +532,7 @@ bool skipIfNoDb() {
 
     std::string db_path_;
     std::string golden_path_ = {};
-    std::unique_ptr<JsonWikiIndexReader> reader_;
+    std::shared_ptr<JsonWikiIndexReader> reader_;
     std::vector<GoldenEntry> golden_entries_;
 };
 

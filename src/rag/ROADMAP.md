@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-06"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: unknown
@@ -43,6 +43,37 @@ registration, persistent storage, external telemetry, or production readiness.
   explicitly through `RebuildModelWithNewData()`.
 
 ## In Progress
+
+- [~] Evidence-first RAG ingestion and release gates for v2.5.0 → v3.0.0 (Target: Q4 2026)
+  - Source behavior now assigns `collection/SHA-256(text)` to
+    `ExtractionContext::manifest.file_id` before workflow execution. The
+    previous truncated `std::hash` IDs are intentionally not compatible;
+    migration requires rebuilding binary consumers and reindexing or cleaning
+    records under old IDs.
+  - `IndexResult` distinguishes `COMPLETE`, successful-fallback `DEGRADED`,
+    `PARTIAL`, and `FAILED`; `ok` is true only for the first two states.
+    Confirmed sink counts and stage errors are returned. A sink error overrides
+    fallback status; multi-sink writes remain non-atomic, and absent writers
+    do not prove persistence.
+  - Focused regressions cover two documents through `WorkflowEngine` and the
+    production `chunk_embed` step, fallback identifiers, and injected vector,
+    graph-entity, and graph-relation failures. Build target:
+    `module_rag_test_rag_ingestion_bridge_hardening_focused_focused`; CTest:
+    `test_rag_ingestion_bridge_hardening_focused_RagFocusedTests`.
+    Source coverage is not execution evidence; attach a successful build/test
+    run to the release change before marking this item complete.
+  - Release evidence gate: use the datasets, metrics, and thresholds in
+    [Evaluation Contract v1](./EVALUATION_CONTRACT_V1.md), including
+    Recall@10 ≥ 75%, nDCG@10 ≥ 0.65, MRR@10 ≥ 0.70, p95 ≤ 500 ms, and p99 ≤
+    1000 ms, without exceeding its regression thresholds. Current checked-in
+    synthetic smoke fixtures and conditional Recall@10 workflow do not meet
+    this gate; representative full-size datasets and complete metric
+    collection remain unavailable. Make no measured quality/latency claim
+    until a reproducible release-critical report is attached.
+  - PENTEST-Q3-002 remains OPEN: this checkout has not identified the exact
+    `rag/document_ingestion` upload path, so no traversal/root-containment
+    remediation or security test is claimed. Resolve against the confirmed
+    upload implementation in the pentest register before release sign-off.
 
 - [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-12)
   - Current source diff adds typed `RAGSourceReference` fields, exact source
@@ -165,7 +196,7 @@ registration, persistent storage, external telemetry, or production readiness.
     have not been run. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
-  - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
+  - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
   - **Run**: CTest entry `test_rag_ingestion_bridge_hardening_focused_RagFocusedTests`; historical run evidence remains dated 2026-08-24.
 - [x] Budget and truncation consistency across assembler, adaptive retrieval, and multi-step orchestration (Target: Q3 2026)
   - **Build**: standalone g++ -std=c++20, commit f94af4f0c2, 2026-08-24

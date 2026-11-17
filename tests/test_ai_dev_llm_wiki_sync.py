@@ -31,10 +31,12 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[AQL module context](AQL.md)", index)
         self.assertIn("[Graph module context](GRAPH.md)", index)
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", index)
+        self.assertIn("[LLM Agent Skills context](LLM_SKILLS.md)", index)
         self.assertIn("must not redefine project status", index)
         self.assertIn("[AQL module context](AQL.md)", modules)
         self.assertIn("[Graph module context](GRAPH.md)", modules)
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
+        self.assertIn("[LLM Agent Skills context](LLM_SKILLS.md)", modules)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
         self.assertIn("[Process module context](PROCESS.md)", modules)
@@ -183,6 +185,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "BUILD_TEST_CI_AND_OPERATIONS.md",
                 "GOVERNANCE_AND_ROADMAP.md",
                 "WIKI_DELTA_REPORT.md",
+                "LLM_SKILLS.md",
                 "AQL.md",
                 "GRAPH.md",
                 "ETHICS_AI.md",
@@ -194,6 +197,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "TEMPORAL.md",
                 "STORAGE.md",
                 "USER_STORAGE_ENCRYPTED.md",
+                ".tmp_issue_example.md",
             ):
                 (wiki_dir / name).write_text(f"# {name}\n", encoding="utf-8")
 
@@ -214,6 +218,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/TEMPORAL.md",
                 "ai_context/developer_llm_wiki/STORAGE.md",
                 "ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md",
+                "ai_context/developer_llm_wiki/LLM_SKILLS.md",
             },
         )
 

@@ -27,6 +27,7 @@
 #include "sharding/replication_coordinator.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/write_concern.h"
+#include "sharding/shard_rpc_client.h"
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
@@ -36,9 +37,9 @@
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
 #include "updates/updates_diagnostic_emitter.h"
+#include <chrono>
 #include <sstream>
 #include <algorithm>
-#include <chrono>
 
 namespace themis {
 namespace server {
@@ -101,6 +102,32 @@ EntityApiHandler::EntityApiHandler(
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
 {
+}
+
+std::shared_ptr<sharding::ShardRPCClient> EntityApiHandler::getRaidRpcClient(
+    const std::string& shard_id,
+    const std::string& endpoint
+) {
+    std::lock_guard<std::mutex> lock(raid_rpc_clients_mutex_);
+    if (const auto it = raid_rpc_clients_.find(endpoint);
+        it != raid_rpc_clients_.end()) {
+        return it->second;
+    }
+
+    sharding::ShardRPCClient::Config rpc_config;
+    rpc_config.endpoint = endpoint;
+    rpc_config.shard_id = shard_id;
+    rpc_config.timeout_ms = 5000;
+    rpc_config.enable_mtls = !config_.shard_rpc_allow_insecure;
+    rpc_config.allow_insecure = config_.shard_rpc_allow_insecure;
+    rpc_config.tls_cert_path = config_.shard_rpc_tls_cert_path;
+    rpc_config.tls_key_path = config_.shard_rpc_tls_key_path;
+    rpc_config.tls_ca_cert_path = config_.shard_rpc_tls_ca_cert_path;
+    rpc_config.tls_verify_server = true;
+
+    auto client = std::make_shared<sharding::ShardRPCClient>(rpc_config);
+    raid_rpc_clients_.emplace(endpoint, client);
+    return client;
 }
 
 EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
@@ -658,27 +685,53 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                     THEMIS_DEBUG("Applying RAID redundancy for {}:{} using mode {}", 
                                 table, pk, static_cast<int>(strategy->getConfig().mode));
                     
-                    // Create write handler that writes to shards
-                    auto write_handler = [this](const std::string& shard_id, 
-                                               const std::string& doc_id,
-                                               const std::vector<uint8_t>& data) -> bool {
-                        // For now, write to local storage with shard prefix
-                        // In a distributed setup, this would route to remote shards
-                        std::string prefixed_key = shard_id + ":" + doc_id;
+                    // Replica payload uses the post-encryption BaseEntity form
+                    // already committed through the primary index path.
+                    const auto serialized_entity = entity.toJson();
+                    const std::vector<uint8_t> data_bytes(
+                        serialized_entity.begin(), serialized_entity.end());
+
+                    // Local acknowledgements are valid only after the primary
+                    // SecondaryIndexManager::put above has succeeded.
+                    auto write_handler = [this, table, pk](
+                        const std::string& shard_id,
+                        const std::string& doc_id,
+                        const std::vector<uint8_t>& data) -> bool {
                         try {
-                            bool ok = storage_->put(prefixed_key, data);
-                            if (!ok) {
-                                THEMIS_WARN("RAID write to shard {} failed: storage->put returned false", shard_id);
+                            const auto shard = shard_topology_->getShard(shard_id);
+                            if (!shard || !shard->is_healthy) {
+                                THEMIS_WARN("RAID target shard {} is missing or unhealthy", shard_id);
+                                return false;
                             }
-                            return ok;
+
+                            if (!config_.local_shard_id.empty() &&
+                                shard_id == config_.local_shard_id) {
+                                return true;
+                            }
+                            if (shard->primary_endpoint.empty()) {
+                                THEMIS_WARN("RAID target shard {} has no configured gRPC endpoint",
+                                            shard_id);
+                                return false;
+                            }
+
+                            const auto client = getRaidRpcClient(
+                                shard_id, shard->primary_endpoint);
+                            const std::string serialized_payload(
+                                data.begin(), data.end());
+                            const auto payload =
+                                nlohmann::json::parse(serialized_payload);
+                            const auto timestamp_ns =
+                                std::chrono::duration_cast<std::chrono::nanoseconds>(
+                                    std::chrono::system_clock::now().time_since_epoch())
+                                    .count();
+                            return client->writeEntity(
+                                table, pk, payload, static_cast<uint64_t>(timestamp_ns));
                         } catch (const std::exception& e) {
-                            THEMIS_WARN("RAID write to shard {} failed: {}", shard_id, e.what());
+                            THEMIS_WARN("RAID write to shard {} for {} failed: {}",
+                                        shard_id, doc_id, e.what());
                             return false;
                         }
                     };
-                    
-                    // Convert data to bytes using the same serialized representation as the primary write
-                    std::vector<uint8_t> data_bytes(blob_str.begin(), blob_str.end());
                     
                     // Apply redundancy strategy
                     auto write_result = strategy->write(
@@ -690,12 +743,21 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         write_handler  // handler
                     );
                     
-                    // RAID is best-effort: log and record in tracing, but do not fail the request
-                    // Primary write has already been committed via secondary_index_->put()
                     if (!write_result.success) {
                         THEMIS_WARN("RAID write failed for {}: {}", key, write_result.error_message);
                         span.setAttribute("raid.success", false);
                         span.setAttribute("raid.error_message", write_result.error_message);
+                        const auto strategy_config = strategy->getConfig();
+                        if (strategy_config.mode == sharding::RedundancyMode::MIRROR &&
+                            strategy_config.write_concern == sharding::WriteConcern::ALL) {
+                            const auto error =
+                                "MIRROR write did not satisfy ALL; the primary write may "
+                                "already be committed and replica state is indeterminate: " +
+                                write_result.error_message;
+                            span.setStatus(false, error);
+                            return makeErrorResponse(
+                                http::status::service_unavailable, error, req);
+                        }
                     } else {
                         raid_applied = true;  // Only set to true when actually successful
                         span.setAttribute("raid.success", true);

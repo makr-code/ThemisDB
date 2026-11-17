@@ -61,6 +61,13 @@ Check for explicit errors from the storage engine and recovery handlers. A healt
 ### Confirm WAL and write durability
 
 Ensure the WAL path remains available and continues to flush successfully. Any failure in the write or fsync path is a direct durability issue and should be treated as production critical.
+On POSIX, WAL segment activation also fsyncs the containing directory and its
+ancestors before append can proceed; any directory open/fsync failure aborts
+open or rotation. On Windows, `_commit` flushes the segment file, but this
+implementation does not claim that the parent-directory entry is power-loss
+durable: Microsoft documents no equivalent directory flush in the supported
+Win32 path used here. Process-kill recovery tests do not establish that
+stronger Windows power-loss guarantee.
 
 For standalone `WALStorage`, inspect both the `open()` result and its optional
 `RecoveryResult`. Strict mode is the default. `recovery_timeout` is configured

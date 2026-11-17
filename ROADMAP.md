@@ -397,9 +397,10 @@ See the [LLM hybrid boundary](src/llm/ARCHITECTURE.md) and
 - [~] **P1 -- Portable Agent Skill packages:** implement the file-based MVP for
   **metadata-only, progressively disclosed** `SKILL.md` catalog and bounded
   `SkillRegistry` integration with existing LLM modes and allowlisted tools.
-  The initial implementation is present; focused build/test evidence and
-  representative performance evidence remain pending. Preserve the distinction
-  between untrusted procedural instructions and executable, authorized tools;
+  The initial implementation and three opt-in guidance packages are present;
+  race-safe path opening, zero-body-byte discovery, focused build/test evidence,
+  and representative performance evidence remain pending. Preserve the
+  distinction between untrusted procedural instructions and executable, authorized tools;
   no arbitrary bundled script execution or database persistence in the initial
   scope (Target: Q2 2027 proposal). See the
   [LLM module roadmap](src/llm/ROADMAP.md) and

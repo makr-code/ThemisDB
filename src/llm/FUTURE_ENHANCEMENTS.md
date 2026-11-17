@@ -233,7 +233,9 @@ metadata-only discovery, explicit instruction/resource loading, and opt-in
 evidence and any future persistence, embedding-based selection, package
 signing, or script-execution designs. Skills complement `ModePack`/`ModeSpec`
 and do not replace mode selection, tool authorization, or database execution.
-This plan is not a release commitment.
+Three opt-in guidance packages for read-only AQL drafting, evidence-grounded
+answers, and graph exploration are under `config/agent_skills/`. This plan is
+not a release commitment.
 
 ### Design Constraints
 
@@ -241,9 +243,10 @@ This plan is not a release commitment.
   contains a `SKILL.md` with YAML frontmatter and Markdown instructions;
   `name` and `description` are required for discovery. Keep any Themis-specific
   fields namespaced and optional so packages remain portable.
-- Apply progressive disclosure: startup/refresh reads only package metadata;
-  instruction bodies, references, and other resources are read only after an
-  explicit load request.
+- Apply progressive disclosure: startup/refresh exposes only package metadata;
+  instruction bodies, references, and other resources are returned only after
+  an explicit load request. Current buffered manifest reads can read ahead
+  into the body; zero body-byte I/O is a remaining hardening target.
 - Treat all skill metadata, instructions, and resources as untrusted input.
   Text can guide the model but cannot grant tool permissions, bypass policy,
   authorize database access, or commit effects.
@@ -285,8 +288,13 @@ the caller. Each tool must remain subject to the active mode allowlist.
   package slugs matching the directory.
   Other frontmatter is ignored rather than interpreted as policy.
 - Refresh scans configured roots atomically and returns an explicit count.
-  Listing returns sorted metadata; instruction and resource reads enforce
-  UTF-8 and configured byte limits.
+  Listing returns sorted metadata; frontmatter, instructions, and resources
+  enforce UTF-8 and configured byte limits.
+- Discovery parses the frontmatter only, but the buffered stream may read body
+  bytes into its buffer. Do not claim zero instruction-body I/O.
+- Resource path arguments must be UTF-8 package-relative strings without NUL
+  bytes; invalid encoding, absolute paths, and traversal are rejected before
+  filesystem resolution.
 - Validate the frontmatter and package directory name consistently; do not
   infer authorization from a field in the package.
 - Initially let the caller expose the catalog to the selected mode and let the
@@ -305,8 +313,9 @@ the caller. Each tool must remain subject to the active mode allowlist.
   or reference bytes are read until `load` or `readResource` is called.
 - Cover valid/invalid frontmatter, missing required fields, unsupported format,
   duplicate names, missing files, non-UTF-8 input, and each size limit.
-- Test `..` traversal, absolute paths, symlink escapes, and root replacement
-  during refresh; every out-of-root read must fail closed.
+- Test `..` traversal, absolute paths, invalid-UTF-8/NUL paths, symlink escapes,
+  and root replacement. Add race-safe file-opening coverage before treating
+  paths as secure against a concurrent untrusted filesystem writer.
 - Verify mode allow/deny controls still gate every skill tool and a skill cannot
   enable a tool denied by the mode.
 - Exercise concurrent list/load/refresh to prove readers never see partial
@@ -329,8 +338,12 @@ the caller. Each tool must remain subject to the active mode allowlist.
   injection or misleading instructions. The model's interpretation cannot
   override system policy or tool authorization.
 - Resolve configured roots and requested resources canonically. Reject
-  traversal, absolute paths, all symlinked package entries/resources, and files
-  exceeding configured limits; never fall back to another package on failure.
+  invalid-UTF-8/NUL paths, traversal, absolute paths, all symlinked package
+  entries/resources, and files exceeding configured limits; never fall back to
+  another package on failure.
+- Path checks and file opens are not atomic. Until race-safe opening is
+  implemented and tested, keep configured roots, package contents, and parent
+  directories unwritable by untrusted users throughout registry use.
 - Do not run shell commands, binaries, or scripts from a skill package.
 - Fail closed on invalid or ambiguous metadata and expose a diagnostic error
   without returning success-shaped empty instructions.

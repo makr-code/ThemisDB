@@ -154,13 +154,17 @@ WALManager::WALManager(const WALManagerConfig& config)
             std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
             WALEntry entry = WALEntry::deserialize(payload);
             entry.lsn = sequenceToLsn(recovered.sequence);
+            if (config_.recovery_callback && !config_.recovery_callback(entry)) {
+                return false;
+            }
             entries_.push_back(entry);
             trimInMemoryEntries();
             current_lsn_ = sequenceToLsn(recovered.sequence + 1);
             total_entries_++;
             total_bytes_ += payload.size();
             return true;
-        });
+        },
+        &recovery_result_);
 
     if (!open_res) {
         throw std::runtime_error(
@@ -330,6 +334,10 @@ WALManager::Statistics WALManager::getStatistics() const {
     stats.oldest_lsn = oldest_lsn_;
     stats.segments = durability_wal_ ? durability_wal_->segmentCount() : 0;
     return stats;
+}
+
+themis::WALStorage::RecoveryResult WALManager::getRecoveryResult() const {
+    return recovery_result_;
 }
 
 void WALManager::trimInMemoryEntries() {
