@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,11 +30,11 @@ Exact model backend not verifiable from final document text alone.
 
 # Replication Module Architecture
 
-## Scope, boundaries, and ownership
+## Kontext
 
 `src/replication/` owns replica coordination and promotion paths, logical replication slots/streams, asynchronous WAL shipping, conflict-resolution helpers, and replication status/lag reporting. It consumes storage log data and exposes replication events to its subscribers. Shard placement belongs to sharding; the underlying storage engine and network transport implementation are not owned here.
 
-## Components and public interfaces
+## Komponenten
 
 | Component | Public interface | Source-backed responsibility |
 |---|---|---|
@@ -49,7 +49,20 @@ the component, not a public class name. `kafka_change_stream.h` and
 inventory does not establish whether their behavior is implemented elsewhere or wired
 into the current runtime.
 
-## Data and event flow
+## Schnittstellen
+
+- `ReplicationManager` and `RaftV2` manage the local replication and consensus state.
+- `LogicalReplicationManager`, `ReplicationSlotManager`, and
+  `ReplicationEventStream` expose logical change consumption and subscriber state.
+- `AsyncWalShipper` accepts WAL segments and dispatches them through a configured
+  handler; it does not own the transport implementation.
+- Conflict-resolution and observability interfaces expose caller-invoked resolution,
+  lag alerts, and health snapshots.
+
+These interfaces are separate from shard placement and the underlying storage
+recovery contract.
+
+## Datenfluss
 
 1. Replication configuration and membership are managed through the manager/consensus surfaces.
 2. `ReplicationManager::replicate()` durably appends its WAL entry before exposing it
@@ -64,7 +77,47 @@ follower acknowledgement.
 
 The manager includes `storage/wal_storage.h`; see [`replication_manager.cpp`](replication_manager.cpp), [`logical_replication.cpp`](logical_replication.cpp), and [`async_wal_shipper.cpp`](async_wal_shipper.cpp).
 
-## Failure domains and edge cases
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    actor Client
+    participant Manager as ReplicationManager
+    participant WAL as Durable WAL
+    participant Followers as Replica streams
+    participant Listeners as Replication listeners
+
+    Client->>Manager: replicate(entry)
+    Manager->>WAL: appendDurably(entry)
+    alt WAL append or durability failure
+        WAL-->>Manager: error
+        Manager-->>Client: false
+    else local WAL durable
+        WAL-->>Manager: sequence number
+        alt ASYNC mode
+            Note over Manager,Followers: no follower acknowledgement is awaited
+            Manager->>Listeners: notify after local durability
+            Manager-->>Client: true
+        else mode requires follower acknowledgements
+            Manager->>Followers: wait for sequence acknowledgement
+            alt acknowledgement condition met
+                Followers-->>Manager: acknowledgement
+                Manager->>Listeners: notify after acknowledgement condition
+                Manager-->>Client: true
+            else timeout or insufficient acknowledgements
+                Followers-->>Manager: timeout
+                Manager-->>Client: false
+            end
+        end
+    end
+```
+
+**Kurzinterpretation:** Local durability is required before replication readers and
+listeners observe an entry. Modes requiring follower acknowledgements return success
+only after their configured acknowledgement condition; the current stream has no
+network transport to provide those acknowledgements.
+
+## Fehlerpfade und Resilienz
 
 - Replica heartbeat/election/ack timeouts and quorum requirements affect promotion or synchronous write acknowledgement according to configuration.
 - A local durable WAL append is distinct from follower delivery. Compression and a successful local serialization are not follower acknowledgements.
@@ -77,21 +130,19 @@ The manager includes `storage/wal_storage.h`; see [`replication_manager.cpp`](re
 configure path, and identify any out-of-module implementation/wiring for the two
 header-only declarations noted above.
 
-## Explicit non-goals
+## Nicht-Ziele
 
 - Owning the canonical durable-record framing, RocksDB lifecycle, or physical storage recovery; replication validates its application-level WAL payload and sequence on top of `WALStorage`.
 - Choosing shard partitions, coordinating cross-shard transactions, or implementing client-facing admin endpoints.
 - Guaranteeing a single consistency level independent of the configured mode, acknowledgement policy, and available peers.
 
-## Verified cross-module references
+## Verweise
 
 | Boundary | Evidence and link |
 |---|---|
 | Storage WAL | `replication_manager.cpp` includes `storage/wal_storage.h`; see [storage architecture](../storage/ARCHITECTURE.md). |
 | CDC/schema | `schema_cdc` is a replication-owned bridge; its public contract is [`schema_cdc.h`](../../include/replication/schema_cdc.h). |
 | Shard ownership | Partitioning and routing are outside this module; see [sharding architecture](../sharding/ARCHITECTURE.md) for the separate owner. |
-
-## References
 
 - [Module README](README.md) · [API notes](API.md) · [module roadmap](ROADMAP.md)
 - [`replication_api_contract.h`](../../include/replication/replication_api_contract.h) · [`replication_manager.h`](../../include/replication/replication_manager.h) · [`async_wal_shipper.h`](../../include/replication/async_wal_shipper.h)
