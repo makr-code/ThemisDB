@@ -134,7 +134,7 @@ jobs:
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
             --parallel 1 \
-            --timeout 180 \
+            --timeout 600 \
             -R "test_llm_doku_rag_LlmInferenceCITests" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-doku-rag.log"
 

@@ -133,6 +133,11 @@ void GPUMetrics::recordFallback(const std::string &reason) {
     incrCounter("themis_gpu_fallback_total", {{"reason", reason}});
 }
 
+void GPUMetrics::recordDispatchResult(const std::string& status, const std::string& mode) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    incrCounter("themis_gpu_dispatch_total", {{"status", status}, {"mode", mode}});
+}
+
 /**
  * @brief Record Circuit Open.
  * @details Calls: lock(), incrCounter().

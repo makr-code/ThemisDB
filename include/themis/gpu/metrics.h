@@ -35,9 +35,10 @@ namespace gpu {
  * - themis_gpu_dealloc_total           (counter)
  * - themis_gpu_fallback_total          (counter, reason=oom|circuit_open|device_unavailable)
  * - themis_gpu_circuit_open_total      (counter)
- * - themis_gpu_temperature_celsius     (gauge, device=<id>)
- * - themis_gpu_power_draw_watts        (gauge, device=<id>)
- * - themis_gpu_power_limit_watts       (gauge, device=<id>)
+ * - themis_gpu_dispatch_total          (counter, status, mode)
+ * - themis_gpu_temperature_celsius     (gauge, device ID)
+ * - themis_gpu_power_draw_watts        (gauge, device ID)
+ * - themis_gpu_power_limit_watts       (gauge, device ID)
  *
  * Thread safety: all methods are protected by an internal mutex.
  */
@@ -74,6 +75,11 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
+    /**
+     * @brief Return the process-wide GPU metrics registry.
+     * @details Function-local static initialization is thread-safe.
+     * @return Reference to the function-local singleton.
+     */
     static GPUMetrics& GetInstance() {
         static GPUMetrics inst;
         return inst;
@@ -83,12 +89,44 @@ public:
     // Record helpers
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Record a successful VRAM allocation.
+     * @param bytes Allocated byte count.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordAllocSuccess(uint64_t bytes, const std::string& tenant_id = "");
+    /**
+     * @brief Record an allocation rejected by the global limit.
+     * @param bytes Requested byte count.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordAllocFailGlobal(uint64_t bytes, const std::string& tenant_id = "");
+    /**
+     * @brief Record an allocation rejected by a tenant quota.
+     * @param bytes Requested byte count.
+     * @param tenant_id Tenant whose quota rejected the allocation.
+     */
     void recordAllocFailTenant(uint64_t bytes, const std::string& tenant_id);
+    /**
+     * @brief Record a VRAM deallocation.
+     * @param bytes Released byte count.
+     * @param tenant_id Tenant identifier, or empty for a global allocation.
+     */
     void recordDealloc(uint64_t bytes, const std::string& tenant_id = "");
+    /**
+     * @brief Record an operation that completed through CPU fallback.
+     * @param reason Reason label for the CPU fallback.
+     */
     void recordFallback(const std::string& reason = "oom");
+    /** @brief Increment the GPU circuit-breaker-open counter. */
     void recordCircuitOpen();
+
+    /**
+     * @brief Count a work dispatch by its result status and execution mode.
+     * @param status Stable result label (`ok`, `ok_degraded`, or `failed`).
+     * @param mode Stable execution path label (`gpu`, `cpu_fallback`, or `none`).
+     */
+    void recordDispatchResult(const std::string& status, const std::string& mode);
 
     /**
      * @brief Update the live VRAM gauge (must be called after each alloc/free).
@@ -143,6 +181,7 @@ public:
      * @brief Return all current metric samples.
      *
      * Suitable for serialisation into Prometheus text format or OTel OTLP.
+     * @return A point-in-time copy of the current samples.
      */
     std::vector<Sample> snapshot() const;
 
@@ -205,4 +244,3 @@ private:
 
 } // namespace gpu
 } // namespace themis
-

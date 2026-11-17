@@ -81,7 +81,8 @@ TEST_F(GPUBatchA9SafetyTest, CUDA_CHECK_ThrowsOnError) {
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; DeviceMemoryGuard allocation path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:device_memory_guard_allocation";
     }
 #if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     // Test allocation
@@ -104,7 +105,8 @@ TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardMoveSemantics) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; DeviceMemoryGuard move path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:device_memory_guard_move";
     }
 #if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     {
@@ -183,7 +185,8 @@ TEST_F(GPUBatchA9SafetyTest, KernelTimeoutGuardDetectsTimeout) {
  */
 TEST_F(GPUBatchA9SafetyTest, RAIIPreventUseAfterFree) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; RAII use-after-free path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:raii_use_after_free";
     }
     // Use RAII wrapper to allocate GPU memory
     std::unique_ptr<DeviceMemoryGuard<float>> guard_ptr;
@@ -202,7 +205,8 @@ TEST_F(GPUBatchA9SafetyTest, RAIIPreventUseAfterFree) {
  */
 TEST_F(GPUBatchA9SafetyTest, NestedRAIIGuardsNoLeaks) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; nested GPU RAII path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:nested_gpu_raii";
     }
     // This test verifies exception safety with nested scopes
     try {
@@ -415,7 +419,8 @@ TEST_F(GPUBatchA9SafetyTest, CompleteGPUCPUFallbackWorkflow) {
  */
 TEST_F(GPUBatchA9SafetyTest, RAIITimeoutFallbackIntegration) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; RAII timeout fallback integration not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:raii_timeout_fallback_integration";
     }
     try {
         {
@@ -475,7 +480,8 @@ class GPUBatchA9HardeningTest : public ::testing::Test {
  */
 TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleRAII) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; GPUMemoryHandle RAII path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:gpu_memory_handle_raii";
     }
     try {
         {
@@ -504,7 +510,8 @@ TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleRAII) {
  */
 TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleMove) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; GPUMemoryHandle move path not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:gpu_memory_handle_move";
     }
     try {
         gpu::GPUMemoryHandle<float> mem1(512);
@@ -526,7 +533,8 @@ TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleMove) {
  */
 TEST_F(GPUBatchA9HardeningTest, GPUStreamHandleLifecycle) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; GPUStreamHandle lifecycle not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:gpu_stream_handle_lifecycle";
     }
     try {
         {
@@ -552,7 +560,8 @@ TEST_F(GPUBatchA9HardeningTest, GPUStreamHandleLifecycle) {
  */
 TEST_F(GPUBatchA9HardeningTest, GPUEventHandleLifecycle) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; GPUEventHandle lifecycle not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:gpu_event_handle_lifecycle";
     }
     try {
         {
@@ -699,7 +708,8 @@ TEST_F(GPUBatchA9HardeningTest, StreamSyncWithTimeout) {
  */
 TEST_F(GPUBatchA9HardeningTest, RAIIGPUOperationSequence) {
     if (!themis::gpu::batch_a9::isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA runtime unavailable; GPU RAII operation sequence not testable";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_runtime_unavailable;"
+                        "evidence-gap:gpu_raii_operation_sequence";
     }
     try {
         {
