@@ -429,9 +429,16 @@ static Result<nlohmann::json> executeAqlImpl(
         geo::SpatialJoinIterator it(outer_geoms, inner_geoms, sj.threshold_m, cfg);
 
         nlohmann::json arr = nlohmann::json::array();
-        while (it.advance()) {
-            if (shouldStop()) {
+        while (true) {
+            const bool advanced = request
+                ? it.advance(*request, *effective_stop_reason)
+                : it.advance();
+            if (*effective_stop_reason != query::StopReason::None ||
+                shouldStop()) {
                 return stopped();
+            }
+            if (!advanced) {
+                break;
             }
             const auto& p = it.current();
             arr.push_back({

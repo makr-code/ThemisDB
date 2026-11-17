@@ -674,10 +674,11 @@ cooperative full-scan and equality/range index iteration. Cancellation returns
 returns partial rows. Phrase/fuzzy and other specialized AQL forms use
 synchronous engine calls that cannot be interrupted in flight. Spatial JOIN
 collection passes the request through its full scans and polls while parsing
-geometry batches; pair iteration checks between advances. A single iterator
-advance, geometry parse, or specialized result-formatting operation remains
-synchronous. QRY-07 remains open until those paths and the required slow-search
-cleanup trace are validated.
+geometry batches; the spatial-join iterator now polls during candidate traversal.
+R-tree construction/candidate lookup, one geometry-distance calculation, and
+other specialized result-formatting operations remain synchronous. QRY-07
+remains open until those paths and the required slow-search cleanup trace are
+validated.
 
 `executeAqlCancellable()` registers the query under a caller-assigned
 **request ID** in the process-wide `QueryCanceller` registry, then passes that

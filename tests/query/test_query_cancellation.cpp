@@ -14,6 +14,7 @@
 #include "query/query_canceller.h"
 #include "query/query_engine.h"
 #include "query/request_context.h"
+#include "geo/spatial_join.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -330,6 +331,51 @@ TEST_F(ExecuteAqlCancellableTest,
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
     EXPECT_EQ(stop_reason, StopReason::Cancelled);
     EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
+TEST(SpatialJoinRequestCancellation, StopsDuringCandidateTraversal) {
+    geo::GeometryInfo outer_point(geo::GeometryType::Point);
+    outer_point.coords.emplace_back(0.0, 0.0);
+    std::vector<std::pair<std::string, geo::GeometryInfo>> outer{
+        {"outer", outer_point}};
+    std::vector<std::pair<std::string, geo::GeometryInfo>> inner;
+    inner.reserve(128);
+    for (int i = 0; i < 128; ++i) {
+        geo::GeometryInfo inner_point(geo::GeometryType::Point);
+        inner_point.coords.emplace_back(0.000008, 0.000008);
+        inner.emplace_back("inner-" + std::to_string(i),
+                           std::move(inner_point));
+    }
+
+    geo::SpatialJoinIterator iterator(outer, inner, 1.0);
+    StopAfterPollsState state;
+    state.stop_after = 3;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    EXPECT_FALSE(iterator.advance(request, stop_reason));
+    EXPECT_TRUE(iterator.done());
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_EQ(state.polls.load(std::memory_order_relaxed), 3u);
+}
+
+TEST(SpatialJoinRequestCancellation, DistinguishesExpiredDeadline) {
+    geo::GeometryInfo point(geo::GeometryType::Point);
+    point.coords.emplace_back(0.0, 0.0);
+    const std::vector<std::pair<std::string, geo::GeometryInfo>> outer{
+        {"outer", point}};
+    const std::vector<std::pair<std::string, geo::GeometryInfo>> inner{
+        {"inner", point}};
+    geo::SpatialJoinIterator iterator(outer, inner, 1.0);
+    const RequestContext request(
+        nullptr, RequestContext::Clock::now() -
+                     std::chrono::milliseconds{1});
+    auto stop_reason = StopReason::None;
+
+    EXPECT_FALSE(iterator.advance(request, stop_reason));
+    EXPECT_TRUE(iterator.done());
+    EXPECT_EQ(stop_reason, StopReason::DeadlineExceeded);
 }
 
 TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
