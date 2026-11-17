@@ -1,18 +1,20 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-10-29"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
 > Build: `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Acceleration tests
+
+> Exact model backend not verifiable from final document text alone.
 
 Path: `tests/acceleration`
 
@@ -31,8 +33,10 @@ This directory holds the focused regression, fallback, and hardware-dispatch tes
 ## Source-aligned validation notes
 
 - The code paths under test correspond to the runtime registry and dispatch surfaces in `src/acceleration/backend_registry.cpp`, `device_manager.cpp`, `ai_hardware_dispatcher.cpp`, and the backend implementations.
-- CPU fallback, capability injection, plugin validation, and degraded runtime behavior are explicitly exercised by the test set rather than assumed.
-- Benchmark/performance gates remain hardware-dependent and are treated as benchmark evidence, not universal host-independent guarantees.
+- `test_acceleration_regression.cpp` exercises registry CPU selection and the production kernel fallback dispatcher. `test_ai_hardware_dispatcher.cpp` covers the dispatcher API, including malformed vector-similarity shapes and integer-boundary rejection.
+- `test_acceleration_failure_handling.cpp` contains simulated failure scenarios; it does not prove that production code cancels hangs, recovers from every resource failure, or logs each recovery action.
+- `test_acceleration_performance_gates.cpp` uses proxy calculations. Passing it is not evidence of production latency or speedup.
+- Benchmark results are environment-specific. The dedicated-gates benchmark uses local stubs; hardware and production-path claims require raw benchmark output, host/build metadata, and a versioned run manifest.
 
 ## Open assumptions
 

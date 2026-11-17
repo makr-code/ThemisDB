@@ -43,6 +43,7 @@
 #include "acceleration/error_codes.h"
 
 #include <cstdint>
+#include <cmath>
 #include <thread>
 #include <chrono>
 
@@ -53,6 +54,13 @@ namespace acceleration {
 // RetryPolicy
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Bounded retry settings for kernel dispatch.
+ * @note Valid settings require 1-8 attempts, delays no greater than 100 ms,
+ *       initialDelayMs <= maxDelayMs, and a finite backoffMultiplier in [1, 8].
+ *       Invalid settings return AccelerationErrorCode::InvalidConfiguration
+ *       without invoking either dispatch function.
+ */
 struct RetryPolicy {
     uint32_t maxAttempts       = 3;
 
@@ -79,10 +87,25 @@ inline bool isTransientDispatchError(int rc) noexcept {
 
 namespace detail {
 
+inline bool isValidRetryPolicy(const RetryPolicy& policy) noexcept {
+    constexpr uint32_t kMaxAttempts = 8;
+    constexpr uint32_t kMaxDelayMs = 100;
+    constexpr float kMaxBackoffMultiplier = 8.0f;
+    return policy.maxAttempts >= 1 && policy.maxAttempts <= kMaxAttempts
+        && policy.initialDelayMs <= policy.maxDelayMs && policy.maxDelayMs <= kMaxDelayMs
+        && std::isfinite(policy.backoffMultiplier)
+        && policy.backoffMultiplier >= 1.0f
+        && policy.backoffMultiplier <= kMaxBackoffMultiplier;
+}
+
 template<typename Fn, typename... Args>
 int invokeWithFallback(Fn primary, Fn fallback,
                        const RetryPolicy& policy,
                        Args... args) {
+    if (!isValidRetryPolicy(policy)) {
+        return static_cast<int>(AccelerationErrorCode::InvalidConfiguration);
+    }
+
     // ---- Case 1: primary slot is null → delegate immediately ----
     if (!primary) {
         if (!fallback) {
@@ -95,8 +118,7 @@ int invokeWithFallback(Fn primary, Fn fallback,
     uint32_t delayMs = policy.initialDelayMs;
     int rc = 0;
 
-    const uint32_t attempts = (policy.maxAttempts >= 1) ? policy.maxAttempts : 1u;
-    for (uint32_t attempt = 0; attempt < attempts; ++attempt) {
+    for (uint32_t attempt = 0; attempt < policy.maxAttempts; ++attempt) {
         rc = primary(args...);
         if (rc == 0) {
             return 0;  // Success.
@@ -108,12 +130,11 @@ int invokeWithFallback(Fn primary, Fn fallback,
         }
 
         // Transient error: wait before retrying (if more attempts remain).
-        if (attempt + 1 < attempts) {
+        if (attempt + 1 < policy.maxAttempts) {
             if (delayMs > 0) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
             }
-            const uint32_t next =
-                static_cast<uint32_t>(static_cast<float>(delayMs) * policy.backoffMultiplier);
+            const uint32_t next = static_cast<uint32_t>(static_cast<float>(delayMs) * policy.backoffMultiplier);
             delayMs = (next < policy.maxDelayMs) ? next : policy.maxDelayMs;
         }
     }
@@ -310,4 +331,3 @@ private:
 
 } // namespace acceleration
 } // namespace themis
-
