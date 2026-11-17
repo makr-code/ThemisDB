@@ -1635,6 +1635,13 @@ if(NOT TARGET Boost::headers AND TARGET Boost::boost)
     add_library(Boost::headers ALIAS Boost::boost)
 endif()
 
+# Boost.System is header-only for the supported Boost versions, but newer
+# BoostConfig packages may not export a Boost::system target.
+if(NOT TARGET Boost::system AND TARGET Boost::headers)
+    add_library(Boost::system INTERFACE IMPORTED GLOBAL)
+    target_link_libraries(Boost::system INTERFACE Boost::headers)
+endif()
+
 # The core Boost headers package is required for header-only utilities such as
 # boost/throw_exception.hpp, which are used by the base runtime even when the
 # system/filesystem components are available.
