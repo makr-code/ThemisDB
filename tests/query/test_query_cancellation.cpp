@@ -302,6 +302,34 @@ TEST_F(ExecuteAqlCancellableTest,
     EXPECT_EQ((*result)["results"].size(), 256u);
 }
 
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareSpatialJoinStopsDuringGeometryCollection) {
+    const std::string point =
+        R"({"type":"Point","coordinates":[13.45,52.55]})";
+    for (int i = 0; i < 128; ++i) {
+        BaseEntity entity("location-" + std::to_string(i));
+        entity.setField("location", point);
+        ASSERT_TRUE(sec_idx_->put("locations", entity).ok);
+    }
+
+    StopAfterPollsState state;
+    // The full scan/hydration polls complete before geometry conversion reaches
+    // the second 64-entity batch in this fixed-size fixture.
+    state.stop_after = 23;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR a IN locations FOR b IN locations "
+        "FILTER GEO_DISTANCE(a.location, b.location) <= 100 RETURN a",
+        *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+}
+
 TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
     QueryCanceller canceller;
     std::atomic<bool> query_started{false};

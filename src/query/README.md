@@ -671,11 +671,12 @@ for (auto& row : rows) {
 Conjunctive AQL execution uses the request-aware `QueryEngine` path, including
 cooperative full-scan and equality/range index iteration. Cancellation returns
 `ERR_QUERY_CANCELLED`; deadline expiry returns `ERR_QUERY_TIMEOUT`; neither
-returns partial rows. Phrase/fuzzy/spatial and other specialized AQL forms use
-synchronous engine calls that cannot be interrupted in flight.
-Spatial-pair iteration polls the request, but spatial geometry collection and
-other specialized result-formatting loops do not provide full in-flight
-cancellation. QRY-07 remains open until those paths and the required slow-search
+returns partial rows. Phrase/fuzzy and other specialized AQL forms use
+synchronous engine calls that cannot be interrupted in flight. Spatial JOIN
+collection passes the request through its full scans and polls while parsing
+geometry batches; pair iteration checks between advances. A single iterator
+advance, geometry parse, or specialized result-formatting operation remains
+synchronous. QRY-07 remains open until those paths and the required slow-search
 cleanup trace are validated.
 
 `executeAqlCancellable()` registers the query under a caller-assigned

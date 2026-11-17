@@ -300,10 +300,13 @@ now measures overrun classification, not a hard wall-clock bound.
   retain a stale per-request context. `executeAqlCancellable()` forwards its
   registered cancellation token into this path.
 - Cancellation and deadline expiry return distinct query error codes and
-  discard late/partial rows. Other specialized AQL forms remain checkpoint-only
-  around synchronous calls; this does not close QRY-07.
+  discard late/partial rows. Spatial JOIN geometry scans are now request-aware
+  and conversion polls between 64-entity batches; individual spatial-iterator
+  advances remain synchronous. Phrase/fuzzy and other specialized AQL forms
+  remain checkpoint-only around synchronous calls; this does not close QRY-07.
 - Focused source tests cover cooperative full-scan cancellation, deadline
-  classification, and successful result parity. Build/test evidence is pending.
+  classification, successful result parity, and a stopped spatial JOIN
+  collection. Build/test evidence is pending.
 
 **Remaining gaps (QRY-07 still OPEN)**
 - The gRPC `IQueryEngine` boundary still has no in-tree production implementation
@@ -338,9 +341,11 @@ now measures overrun classification, not a hard wall-clock bound.
   stages, during key intersection, and during sequential entity hydration; plan
   selection remains cooperatively checked between estimates and planning
   stages, but each estimate, sort, statistics lookup, cost-advice and metrics
-  operation remains synchronous. Phrase, fuzzy and spatial AQL searches retain
-  their legacy synchronous implementations with pre/post stop checks. Parsing
-  and other query stages remain checkpoint-only. Other HTTP search routes
+  operation remains synchronous. Phrase/fuzzy and other spatial AQL searches
+  retain their legacy synchronous implementations with pre/post stop checks.
+  Spatial JOIN collection polls during request-aware scans and geometry
+  conversion, but a single iterator advance remains synchronous. Parsing and
+  other query stages remain checkpoint-only. Other HTTP search routes
   besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
   remain unbound to a request context. No HTTP search route observes client

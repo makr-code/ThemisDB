@@ -65,18 +65,35 @@ static RuntimeReoptimizer& getReoptimizer() {
 static std::vector<std::pair<std::string, geo::GeometryInfo>>
 collectGeometries(query::QueryEngine& engine,
                   const std::string& collection,
-                  const std::string& field)
+                  const std::string& field,
+                  const query::RequestContext* request = nullptr,
+                  query::StopReason* stop_reason = nullptr)
 {
+    query::StopReason local_stop_reason = query::StopReason::None;
+    auto* effective_stop_reason = stop_reason ? stop_reason : &local_stop_reason;
+    *effective_stop_reason = query::StopReason::None;
+
     ConjunctiveQuery scan_q;
     scan_q.table = collection;
-    auto ents = engine.executeAndEntitiesWithFallback(scan_q, false);
+    auto ents = request
+        ? engine.executeAndEntitiesWithFallback(
+              scan_q, false, *request, effective_stop_reason)
+        : engine.executeAndEntitiesWithFallback(scan_q, false);
     std::vector<std::pair<std::string, geo::GeometryInfo>> out;
     if (!ents) {
       return out;
     }
     out.reserve(ents.value().size());
     std::size_t skipped = 0;
-    for (const auto& e : *ents) {
+    for (std::size_t i = 0; i < ents->size(); ++i) {
+        if (request && (i & 63U) == 0U) {
+            const auto reason = request->stopReason();
+            if (reason != query::StopReason::None) {
+                *effective_stop_reason = reason;
+                return {};
+            }
+        }
+        const auto& e = (*ents)[i];
         try {
             nlohmann::json doc = nlohmann::json::parse(e.toJson());
             if (!doc.contains(field)) { ++skipped; continue; }
@@ -95,6 +112,13 @@ collectGeometries(query::QueryEngine& engine,
             THEMIS_WARN("aql_runner::getReoptimizer: unhandled exception caught");
             ++skipped;
             // Skip documents with unparseable geometry
+        }
+    }
+    if (request) {
+        const auto reason = request->stopReason();
+        if (reason != query::StopReason::None) {
+            *effective_stop_reason = reason;
+            return {};
         }
     }
     if (skipped > 0) {
@@ -384,12 +408,18 @@ static Result<nlohmann::json> executeAqlImpl(
     if (tr.spatial_join.has_value()) {
         const auto& sj = *tr.spatial_join;
 
-        auto outer_geoms = collectGeometries(engine, sj.outer_collection, sj.outer_field);
-        if (shouldStop()) {
+        auto outer_geoms = collectGeometries(
+            engine, sj.outer_collection, sj.outer_field, request,
+            effective_stop_reason);
+        if (shouldStop() ||
+            *effective_stop_reason != query::StopReason::None) {
             return stopped();
         }
-        auto inner_geoms = collectGeometries(engine, sj.inner_collection, sj.inner_field);
-        if (shouldStop()) {
+        auto inner_geoms = collectGeometries(
+            engine, sj.inner_collection, sj.inner_field, request,
+            effective_stop_reason);
+        if (shouldStop() ||
+            *effective_stop_reason != query::StopReason::None) {
             return stopped();
         }
 
