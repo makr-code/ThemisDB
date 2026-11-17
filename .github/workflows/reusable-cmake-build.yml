@@ -1028,9 +1028,9 @@ jobs:
             if [ -n "$VALIDATION_COMMAND" ]; then
               printf '%s\n' "- Validation: ${{ steps.validation.outcome }}"
             fi
-            if command -v sccache >/dev/null 2>&1; then
+            if [ -x "${SCCACHE_PATH:-}" ] || command -v sccache >/dev/null 2>&1; then
               printf '%s\n' "" "#### sccache stats" '```'
-              sccache --show-stats || true
+              "${SCCACHE_PATH:-sccache}" --show-stats || true
               printf '%s\n' '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
