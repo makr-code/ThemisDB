@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -356,6 +356,7 @@ The P-labels below are proposed relative priorities for release readiness, not a
 - **Ownership boundary:** [`ARCHITECTURE.md`](ARCHITECTURE.md) defines query as owning parsing/planning/execution coordination, not storage/index implementation or network ingress. The work below stays within that boundary.
 - **Source evidence:** [`../../include/query/optimizer_cost_model.h`](../../include/query/optimizer_cost_model.h) exposes scan/join/selectivity estimates and table/column/index statistics, including stale-state information. [`../../include/query/query_resource_limits.h`](../../include/query/query_resource_limits.h) has row, memory, and timeout limits; [`../../include/query/query_federation.h`](../../include/query/query_federation.h) defines shard fan-out, result-byte, and timeout defaults.
 - **Test evidence:** [`../../tests/query/CMakeLists.txt`](../../tests/query/CMakeLists.txt) registers focused core tests including `QueryEngine` with `release_critical` labeling and selected query test modules. Source coverage includes parser edge cases, [`../../tests/query/test_query_resource_limits.cpp`](../../tests/query/test_query_resource_limits.cpp), [`../../tests/query/test_query_cancellation.cpp`](../../tests/query/test_query_cancellation.cpp), optimizer statistics/thread-safety, [`../../tests/query/test_query_jit_equivalence.cpp`](../../tests/query/test_query_jit_equivalence.cpp), federation hardness/routing, and continuous-query hardening. Presence and registration do **not** prove the current CI/runtime result; require run artifacts before calling a gate passed.
+- **Request-aware AQL slice (2026-11-17):** `executeAql(..., RequestContext, StopReason*)` now routes conjunctive AQL through the real request-aware `QueryEngine::executeAndEntitiesWithFallback` path; `executeAqlCancellable()` supplies its registered cancellation token to that path. Stop errors distinguish cancellation from deadline expiry and discard rows. Other specialized AQL forms remain pre/post-checkpoint-only. Focused source tests were added but are not yet build/run evidence.
 - **Benchmark evidence and limitation:** [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) records QG-1..4 and generic NG targets, while representative-hardware p95/p99 refresh remains outstanding. [`../../benchmarks/query/bench_query_dedicated_gates.cpp`](../../benchmarks/query/bench_query_dedicated_gates.cpp) explicitly uses in-process parser/planner/executor stubs: it is harness evidence, **not real-engine performance evidence**. [`../../benchmarks/query/bench_query_limit_scaling.cpp`](../../benchmarks/query/bench_query_limit_scaling.cpp) invokes `VectorizedExecutionEngine` with a synthetic row source; it is useful for that scoped limit-scaling path, not a production storage/backend workload.
 
 | Research dimension | Repository evidence | Remaining gap / planned response |

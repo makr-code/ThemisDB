@@ -129,7 +129,45 @@ static nlohmann::json entityToResultRow(const BaseEntity& entity) {
  * @return Return value.
  * @details Calls: getNlpAnalyzer(), normalizeQuery(), estimateQueryComplexity(), extractQueryHints(), suggestIndexes(), getReoptimizer(), RuntimeReoptimizer::computeQueryHash(), beginExecutionGuard().
  */
-Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& engine) {
+static Result<nlohmann::json> executeAqlImpl(
+    const std::string& aql,
+    query::QueryEngine& engine,
+    const query::RequestContext* request,
+    query::StopReason* stop_reason)
+{
+    query::StopReason local_stop_reason = query::StopReason::None;
+    auto* effective_stop_reason = stop_reason ? stop_reason : &local_stop_reason;
+    *effective_stop_reason = query::StopReason::None;
+    const auto shouldStop = [&]() {
+        if (!request) {
+            return false;
+        }
+        const auto reason = request->stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        *effective_stop_reason = reason;
+        return true;
+    };
+    const auto stopped = [&]() {
+        auto reason = *effective_stop_reason;
+        if (reason == query::StopReason::None && request) {
+            reason = request->stopReason();
+            *effective_stop_reason = reason;
+        }
+        if (reason == query::StopReason::Cancelled) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_CANCELLED,
+                "AQL request cancelled");
+        }
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_TIMEOUT,
+            "AQL request deadline exceeded");
+    };
+    if (shouldStop()) {
+        return stopped();
+    }
+
     // NLP Pre-processing (PR #317 Integration Phase 1)
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
@@ -137,6 +175,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     [[maybe_unused]] double query_complexity = nlp.estimateQueryComplexity(aql);
     auto query_hints = nlp.extractQueryHints(aql);
     auto suggested_indexes = nlp.suggestIndexes(aql);
+    if (shouldStop()) {
+        return stopped();
+    }
 
     // Adaptive re-optimization: compute query hash and start tracking
     auto& reoptimizer = getReoptimizer();
@@ -152,6 +193,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
             parseResult.error().message()
         );
     }
+    if (shouldStop()) {
+        return stopped();
+    }
     
     // Translate to internal query representation
     auto query_ptr = parseResult.value();
@@ -161,6 +205,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
             errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
             tr.error_message
         );
+    }
+    if (shouldStop()) {
+        return stopped();
     }
 
     // Q2: Structured audit event — federation request dispatch telemetry
@@ -184,6 +231,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     // Vector+Geo hybrid dispatch
     if (tr.vector_geo.has_value()) {
         auto result = engine.executeVectorGeoQuery(*tr.vector_geo);
+        if (shouldStop()) {
+            return stopped();
+        }
         if (!result) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -205,6 +255,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     // Content+Geo hybrid dispatch (FULLTEXT + PROXIMITY)
     if (tr.content_geo.has_value()) {
         auto result = engine.executeContentGeoQuery(*tr.content_geo);
+        if (shouldStop()) {
+            return stopped();
+        }
         if (!result) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -231,6 +284,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     // Disjunctive OR query
     if (tr.disjunctive.has_value()) {
         auto result = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
+        if (shouldStop()) {
+            return stopped();
+        }
         if (!result) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -252,6 +308,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         if (tv.shortestPath) {
             RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = ""; // edge_type placeholder
             auto result = engine.executeRecursivePathQuery(rq);
+            if (shouldStop()) {
+                return stopped();
+            }
             if (!result) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -292,6 +351,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
             dir,
             tv.graphName.empty() ? "default" : tv.graphName
         );
+        if (shouldStop()) {
+            return stopped();
+        }
         
         if (!result) {
             return Err<nlohmann::json>(
@@ -323,7 +385,13 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         const auto& sj = *tr.spatial_join;
 
         auto outer_geoms = collectGeometries(engine, sj.outer_collection, sj.outer_field);
+        if (shouldStop()) {
+            return stopped();
+        }
         auto inner_geoms = collectGeometries(engine, sj.inner_collection, sj.inner_field);
+        if (shouldStop()) {
+            return stopped();
+        }
 
         geo::SpatialJoinConfig cfg;
         cfg.max_pairs = sj.max_pairs;
@@ -332,6 +400,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
 
         nlohmann::json arr = nlohmann::json::array();
         while (it.advance()) {
+            if (shouldStop()) {
+                return stopped();
+            }
             const auto& p = it.current();
             arr.push_back({
                 {sj.outer_var, p.key_a},
@@ -348,6 +419,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     if (tr.join.has_value()) {
         auto& j = *tr.join;
         auto result = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
+        if (shouldStop()) {
+            return stopped();
+        }
         if (!result) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -358,6 +432,39 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         size_t row_count = rows.size();
         reopt_guard.finish(row_count);
         return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
+    }
+
+    if (request) {
+        auto entities = engine.executeAndEntitiesWithFallback(
+            tr.conjunctive_query, true, *request, effective_stop_reason);
+        if (shouldStop()) {
+            return stopped();
+        }
+        if (!entities) {
+            if (*effective_stop_reason != query::StopReason::None) {
+                return stopped();
+            }
+            return Err<nlohmann::json>(
+                entities.error().code(), entities.error().message());
+        }
+
+        nlohmann::json arr = nlohmann::json::array();
+        arr.get_ref<nlohmann::json::array_t&>().reserve(entities->size());
+        for (size_t i = 0; i < entities->size(); ++i) {
+            if ((i & 63U) == 0U && shouldStop()) {
+                return stopped();
+            }
+            arr.push_back(entityToResultRow((*entities)[i]));
+        }
+        if (shouldStop()) {
+            return stopped();
+        }
+        reopt_guard.finish(entities->size());
+        THEMIS_INFO("[audit] {{\"event\":\"federation_result_merge\","
+                    "\"result_count\":{},\"truncated\":false,"
+                    "\"query_hash\":\"{}\"}}",
+                    entities->size(), query_hash);
+        return Ok(nlohmann::json({{"type", "and"}, {"results", arr}}));
     }
 
     // Conjunctive (default) query — dispatch through the JIT hot-path compiler
@@ -411,6 +518,22 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
                 "\"query_hash\":\"{}\"}}",
                 (*jit_result).rows.size(), query_hash);
     return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
+}
+
+Result<nlohmann::json> executeAql(
+    const std::string& aql,
+    query::QueryEngine& engine)
+{
+    return executeAqlImpl(aql, engine, nullptr, nullptr);
+}
+
+Result<nlohmann::json> executeAql(
+    const std::string& aql,
+    query::QueryEngine& engine,
+    const query::RequestContext& request,
+    query::StopReason* stop_reason)
+{
+    return executeAqlImpl(aql, engine, &request, stop_reason);
 }
 
 // ── Explain helpers ───────────────────────────────────────────────────────────
@@ -1266,8 +1389,9 @@ Result<nlohmann::json> executeAqlCancellable(
         );
     }
 
-    // Execute the query through the standard pipeline.
-    auto result = executeAql(aql, engine);
+    const query::RequestContext request(token);
+    query::StopReason stop_reason = query::StopReason::None;
+    auto result = executeAql(aql, engine, request, &stop_reason);
 
     // Post-execution cancellation check: if the query was cancelled while
     // running, report the cancellation rather than a partial result.
@@ -1282,4 +1406,3 @@ Result<nlohmann::json> executeAqlCancellable(
 }
 
 } // namespace themis
-

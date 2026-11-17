@@ -54,7 +54,7 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-17)
 
-- [ ] **QRY-07 remains OPEN.** Seventeen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Eighteen bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
@@ -293,11 +293,24 @@ now measures overrun classification, not a hard wall-clock bound.
   added in `tests/index/test_secondary_index_request_cancellation.cpp`; they
   are authored but not built/run on this runner.
 
+**Request-aware AQL runner slice (2026-11-17)**
+- `executeAql(..., RequestContext, StopReason*)` now routes conjunctive AQL to
+  the production request-aware `QueryEngine::executeAndEntitiesWithFallback`
+  path. Request-scoped execution bypasses cached JIT closures so it cannot
+  retain a stale per-request context. `executeAqlCancellable()` forwards its
+  registered cancellation token into this path.
+- Cancellation and deadline expiry return distinct query error codes and
+  discard late/partial rows. Other specialized AQL forms remain checkpoint-only
+  around synchronous calls; this does not close QRY-07.
+- Focused source tests cover cooperative full-scan cancellation, deadline
+  classification, and successful result parity. Build/test evidence is pending.
+
 **Remaining gaps (QRY-07 still OPEN)**
-- No production AQL engine implements cooperative cancellation; `ExecuteAQL`
-  and `StreamAQL` pass a request context and poll before dispatch, after
-  execution, after JSON parsing and between rows, but in-tree engines are
-  checkpoint-only (running call not interrupted, late result discarded).
+- The gRPC `IQueryEngine` boundary still has no in-tree production implementation
+  overriding its request-aware method; `ExecuteAQL` and `StreamAQL` pass a
+  request context and poll before dispatch, after execution, after JSON parsing
+  and between rows, but calls remain checkpoint-only (running call not
+  interrupted, late result discarded).
 - mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
   callback/wake-up registration, so transport abort latency is ~10 ms, not
   instant. Synchronous gRPC search polls its borrowed server context directly.
@@ -315,6 +328,8 @@ now measures overrun classification, not a hard wall-clock bound.
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
 - `POST /query/aql` passes a request context through full-text index scans,
   score lookups, entity hydration, and structural key-list intersection.
+  The direct `executeAql(..., RequestContext)` conjunctive path now also invokes
+  the cooperative QueryEngine path instead of relying on the cached JIT closure.
   The non-full-text `allow_full_scan` path polls the storage scan, sequential
   filter and entity hydration; `FULLTEXT()` remains on its indexed path.
   Range-aware non-full-text queries now poll equality/range index iteration,

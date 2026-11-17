@@ -19,6 +19,7 @@
 #include "query/result_type_annotation.h"
 #include "query/query_resource_limits.h"
 #include "query/query_canceller.h"
+#include "query/request_context.h"
 #include "query/sql_parser.h"
 #include "query/mutation_executor.h"
 #include "query_engine.h"
@@ -46,6 +47,25 @@ using TraversalDirection = ::themis::query::TraversalDirection;
  * @details Translates AQL to internal query forms and invokes the proper QueryEngine method. Returns Result<nlohmann::json> for unified error handling. GAP-002: Migrated from std::pair<Status, json> to Result<json>
  */
 Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& engine);
+
+/**
+ * @brief Execute translated conjunctive AQL with request-scoped stop handling.
+ * @param aql AQL query to parse and translate.
+ * @param engine Query engine borrowed for the synchronous execution.
+ * @param request Deadline and cancellation state polled by supported execution paths.
+ * @param stop_reason Receives the observed stop cause; reset to None on entry.
+ * @return Query result, or ERR_QUERY_CANCELLED / ERR_QUERY_TIMEOUT with no partial
+ *         rows when a stop is observed.
+ * @note Conjunctive, full-text, range, and full-scan paths use request-aware engine
+ *       execution. Other AQL forms retain their synchronous implementation and are
+ *       only checked before and after execution.
+ */
+[[nodiscard]] Result<nlohmann::json> executeAql(
+    const std::string& aql,
+    query::QueryEngine& engine,
+    const query::RequestContext& request,
+    query::StopReason* stop_reason = nullptr
+);
 
 /**
  * @brief Execute SQL.

@@ -6,12 +6,14 @@
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <thread>
 
-#include "query/query_canceller.h"
 #include "query/aql_runner.h"
+#include "query/query_canceller.h"
 #include "query/query_engine.h"
+#include "query/request_context.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -19,6 +21,31 @@
 
 using namespace themis;
 using namespace themis::query;
+
+namespace {
+
+struct StopAfterPollsState {
+    std::atomic<unsigned int> polls{0};
+    unsigned int stop_after = 0;
+};
+
+bool stopAfterPolls(const void* opaque) noexcept {
+    auto* state = const_cast<StopAfterPollsState*>(
+        static_cast<const StopAfterPollsState*>(opaque));
+    const auto poll =
+        state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
+    return state->stop_after != 0 && poll >= state->stop_after;
+}
+
+bool stopOnPoll(const void* opaque) noexcept {
+    auto* state = const_cast<StopAfterPollsState*>(
+        static_cast<const StopAfterPollsState*>(opaque));
+    const auto poll =
+        state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
+    return state->stop_after != 0 && poll == state->stop_after;
+}
+
+} // namespace
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -187,6 +214,11 @@ protected:
         storage_->open();
         sec_idx_ = std::make_shared<SecondaryIndexManager>(*storage_);
         engine_ = std::make_unique<QueryEngine>(*storage_, *sec_idx_);
+        for (int i = 0; i < 256; ++i) {
+            BaseEntity entity("entity-" + std::to_string(i));
+            entity.setField("value", std::to_string(i));
+            ASSERT_TRUE(sec_idx_->put("entities", entity).ok);
+        }
     }
 
     void TearDown() override {
@@ -210,6 +242,64 @@ TEST_F(ExecuteAqlCancellableTest, SuccessfulExecution_ReturnsResult) {
         canceller
     );
     EXPECT_TRUE(static_cast<bool>(result));
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlStopsDuringFullScanAndReturnsNoPartialRows) {
+    StopAfterPollsState state;
+    state.stop_after = 8;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlRetainsTransientStopAsCancellation) {
+    StopAfterPollsState state;
+    state.stop_after = 8;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopOnPoll, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlDistinguishesExpiredDeadline) {
+    const RequestContext request(
+        nullptr, RequestContext::Clock::now() -
+                     std::chrono::milliseconds{1});
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+    EXPECT_EQ(stop_reason, StopReason::DeadlineExceeded);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlReturnsCompleteResultsWithoutStop) {
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, RequestContext{});
+
+    ASSERT_TRUE(result) << result.error().message();
+    ASSERT_TRUE(result->contains("results"));
+    EXPECT_EQ((*result)["results"].size(), 256u);
 }
 
 TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {

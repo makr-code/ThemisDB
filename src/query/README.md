@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -667,9 +667,21 @@ for (auto& row : rows) {
 
 ### Query Cancellation via Request ID
 
-`executeAqlCancellable()` wraps `executeAql()` and registers the query under a
-caller-assigned **request ID** in the process-wide `QueryCanceller` registry.
-Any other thread can cancel it at any time by calling `QueryCanceller::cancel()`.
+`executeAql()` also accepts a `RequestContext` and optional `StopReason` output.
+Conjunctive AQL execution uses the request-aware `QueryEngine` path, including
+cooperative full-scan and equality/range index iteration. Cancellation returns
+`ERR_QUERY_CANCELLED`; deadline expiry returns `ERR_QUERY_TIMEOUT`; neither
+returns partial rows. Phrase/fuzzy/spatial and other specialized AQL forms use
+synchronous engine calls that cannot be interrupted in flight.
+Spatial-pair iteration polls the request, but spatial geometry collection and
+other specialized result-formatting loops do not provide full in-flight
+cancellation. QRY-07 remains open until those paths and the required slow-search
+cleanup trace are validated.
+
+`executeAqlCancellable()` registers the query under a caller-assigned
+**request ID** in the process-wide `QueryCanceller` registry, then passes that
+token through the request-aware AQL path. Any other thread can cancel it by
+calling `QueryCanceller::cancel()`.
 
 **Header:** `include/query/query_canceller.h`
 

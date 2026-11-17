@@ -3890,10 +3890,10 @@ QueryEngine::executeAndEntitiesWithFallback(
 	StopReason key_stop_reason = StopReason::None;
 	auto keys_result = executeAndKeysWithFallback(
 		q, optimize, request, &key_stop_reason);
+	if (key_stop_reason != StopReason::None) {
+		return stopped(key_stop_reason);
+	}
 	if (!keys_result) {
-		if (key_stop_reason != StopReason::None) {
-			return stopped(key_stop_reason);
-		}
 		return Err<std::vector<BaseEntity>>(
 			keys_result.error().code(), keys_result.error().context());
 	}
