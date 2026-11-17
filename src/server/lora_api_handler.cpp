@@ -66,6 +66,12 @@ void LoRAApiHandler::setRequestAuthorizer(RequestAuthorizer authorizer) {
 }
 
 namespace {
+std::string_view
+requestTargetView(const http::request<http::string_body> &req) noexcept {
+  const auto target = req.target();
+  return {target.data(), target.size()};
+}
+
 constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
 constexpr std::string_view kJobsPrefix = "/api/v1/llm/lora/jobs/";
 constexpr std::string_view kPinsPrefix = "/api/v1/llm/lora/snapshot-pins/";
@@ -124,7 +130,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
     
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     auto method = req.method();
     const std::string_view path = target.substr(0, target.find('?'));
     const bool admin = isAdminEndpoint(path, method);
@@ -308,7 +314,8 @@ http::response<http::string_body> LoRAApiHandler::handleGetModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetModel");
     
-    std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
+    std::string model_id =
+        extractPathParameter(requestTargetView(req), "/api/v1/llm/models/");
     
     if (model_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing model_id");
@@ -347,7 +354,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
     
     try {
         // Parse query parameters
-        std::string_view target = req.target();
+        std::string_view target = requestTargetView(req);
         size_t limit = 10;
         size_t offset = 0;
         
@@ -410,7 +417,8 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDeleteModel");
     
-    std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
+    std::string model_id =
+        extractPathParameter(requestTargetView(req), "/api/v1/llm/models/");
     
     if (model_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing model_id");
@@ -562,7 +570,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetJob(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
-    const std::string_view target = req.target();
+    const std::string_view target = requestTargetView(req);
     const std::string job_id = singleSegment(target.substr(0, target.find('?')), kJobsPrefix);
     if (job_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing job_id");
@@ -581,7 +589,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegenerateAdapter(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
-    const std::string_view target = req.target();
+    const std::string_view target = requestTargetView(req);
     const std::string source_id =
         singleSegment(target.substr(0, target.find('?')), kAdaptersPrefix, "/regenerate");
     if (source_id.empty()) {
@@ -617,7 +625,7 @@ http::response<http::string_body> LoRAApiHandler::handleReleaseSnapshotPin(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
-    const std::string_view target = req.target();
+    const std::string_view target = requestTargetView(req);
     const std::string lease_id = singleSegment(target.substr(0, target.find('?')), kPinsPrefix);
     if (lease_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing lease_id");
@@ -639,7 +647,8 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetAdapter");
     
-    std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
+    std::string adapter_id = extractPathParameter(
+        requestTargetView(req), "/api/v1/llm/lora/adapters/");
     
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
@@ -688,7 +697,8 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUpdateAdapter");
     
-    std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
+    std::string adapter_id = extractPathParameter(
+        requestTargetView(req), "/api/v1/llm/lora/adapters/");
     
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
@@ -756,7 +766,8 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDeleteAdapter");
     
-    std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
+    std::string adapter_id = extractPathParameter(
+        requestTargetView(req), "/api/v1/llm/lora/adapters/");
     
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
@@ -769,7 +780,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     
     try {
         // Parse query parameters for version
-        std::string_view target = req.target();
+        std::string_view target = requestTargetView(req);
         bool delete_all = true;
         
         size_t query_pos = target.find('?');
@@ -818,7 +829,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     
     try {
         // Parse query parameters
-        std::string_view target = req.target();
+        std::string_view target = requestTargetView(req);
         size_t limit = 10;
         size_t offset = 0;
         std::string base_model_filter = {};
@@ -922,7 +933,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleLoadAdapter");
     
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string prefix = "/api/v1/llm/lora/adapters/";
     std::string suffix = "/load";
     
@@ -979,7 +990,7 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUnloadAdapter");
     
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string prefix = "/api/v1/llm/lora/adapters/";
     std::string suffix = "/unload";
     
@@ -1037,7 +1048,7 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleAdapterStatus");
     
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string prefix = "/api/v1/llm/lora/adapters/";
     std::string suffix = "/status";
     
@@ -1108,7 +1119,7 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleHotLoadStatus");
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string prefix = "/api/v1/llm/lora/adapters/";
     std::string suffix = "/load-status";
 
@@ -1719,7 +1730,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
     }
     auto& orchestrator = *orchestrator_;
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     constexpr std::string_view suffix = "/provenance";
     if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
         return createErrorResponse(http::status::bad_request, "Invalid endpoint");
@@ -1754,7 +1765,7 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
     }
     auto& orchestrator = *orchestrator_;
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     constexpr std::string_view suffix = "/provenance";
     if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
         return createErrorResponse(http::status::bad_request, "Invalid endpoint");
@@ -1799,7 +1810,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     }
     auto& orchestrator = *orchestrator_;
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     constexpr std::string_view suffix = "/audit";
     if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
         return createErrorResponse(http::status::bad_request, "Invalid endpoint");
@@ -1837,7 +1848,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     }
     auto& orchestrator = *orchestrator_;
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     constexpr std::string_view suffix = "/snapshots";
     if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
         return createErrorResponse(http::status::bad_request, "Invalid endpoint");
@@ -1875,7 +1886,7 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
     }
     auto& orchestrator = *orchestrator_;
 
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     constexpr std::string_view suffix = "/verify";
     if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
         return createErrorResponse(http::status::bad_request, "Invalid endpoint");
@@ -1898,4 +1909,3 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
 }
 
 } // namespace themis::server
-

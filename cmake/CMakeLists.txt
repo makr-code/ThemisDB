@@ -1629,7 +1629,11 @@ else()
     endif()
 endif()
 
-find_package(Boost REQUIRED COMPONENTS system filesystem headers)
+# Dependencies.cmake resolves the Boost libraries; expose its existing
+# header-only target rather than re-running BoostConfig with another component set.
+if(NOT TARGET Boost::headers AND TARGET Boost::boost)
+    add_library(Boost::headers ALIAS Boost::boost)
+endif()
 
 # The core Boost headers package is required for header-only utilities such as
 # boost/throw_exception.hpp, which are used by the base runtime even when the
