@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -74,17 +74,19 @@ quality gate, or injection control to restore throughput.
 ### Ingestion reports success but documents are absent
 
 - Inspect the returned `IndexResult`: `ok`, `doc_id`, `vector_count`, and
-  `entity_count`. `ok == true` with `vector_count == 0` can mean a vector sink
-  failed; that failure is logged but is not reflected as `ok == false`.
+  `status`, `used_fallback`, `error`, and all confirmed sink counts.
+  `PARTIAL`/`FAILED` return `ok == false`; `DEGRADED` is fallback processing,
+  not full workflow execution.
 - Check the `RAGIngestionBridge::indexDocument` start/completion/warning logs
-  for `fallback=true` and writer failures. Workflow fallback produces one
-  canonical retrieval chunk, but that does not prove that the configured sink
-  persisted it.
+  for the status and the failed sink stage. Sink writes are non-atomic, so
+  reconcile destination records before retrying; failed sink calls are reported
+  as `PARTIAL` because side effects may have occurred.
 - Confirm the vector/graph sink is connected to the expected collection and
   that any query-time authorization filter admits the source.
 - Re-index only after verifying the destination and write semantics.
-  Identical text in a collection receives the same deterministic document ID,
-  so a sink may replace prior records.
+  Identical text in a collection receives the same collection-scoped SHA-256
+  document ID, so a sink may replace prior records. The old truncated-hash IDs
+  are not preserved by the v3 identifier format.
 - Validate with `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`
   and the sink's own integration/health checks.
 
