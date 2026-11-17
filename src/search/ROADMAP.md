@@ -329,9 +329,18 @@ now measures overrun classification, not a hard wall-clock bound.
   stalled response reads, large-request writes against a TLS peer that does not
   read, and PUT/DELETE/query/binary executor propagation; execution is pending
   because this runner lacks Boost and GoogleTest development headers. Those TLS
-  peers validate transport behavior only: there is still no end-to-end
-  slow-search cleanup trace against a real ThemisDB shard server, and no proof
-  that an HTTP client disconnect stops server-side search work.
+  peers validate transport behavior only. An end-to-end trace is now authored
+  against a real HTTPS `HttpServer`, real content/index services and
+  `RemoteExecutor`: it imports a vector-backed chunk, runs a 400k-token hybrid
+  search under a 100 ms server deadline, expects HTTP 504, verifies the
+  single-threaded server handles a subsequent liveness request, stops the
+  server, and verifies the endpoint is closed. Execution is pending because
+  this runner lacks Boost and GoogleTest development headers. This trace only
+  verifies late-result discard and request-worker cleanup: the synchronous
+  `TextProcessor::generateEmbedding` call itself is not interruptible and may
+  finish after the deadline before the handler returns 504. It does not prove
+  immediate sub-search cancellation, and no proof exists that an HTTP client
+  disconnect stops server-side search work.
 - `DistributedHybridSearch`: the local `HybridSearch::search` call is not
   interruptible (only skipped if already stopped); a custom shard function that
   ignores its context delays the join.

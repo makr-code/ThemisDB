@@ -35,6 +35,13 @@
 
 #include "sharding/mtls_client.h"
 #include "sharding/remote_executor.h"
+#include "content/text_processor.h"
+#include "index/graph_index.h"
+#include "index/secondary_index.h"
+#include "index/vector_index.h"
+#include "server/http_server.h"
+#include "storage/rocksdb_wrapper.h"
+#include "transaction/transaction_manager.h"
 
 namespace themis::sharding {
 namespace {
@@ -46,6 +53,27 @@ namespace http = beast::http;
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+
+int findAvailablePort() {
+    const int fd = ::socket(AF_INET, SOCK_STREAM, 0);
+    if (fd < 0) return 0;
+    sockaddr_in address{};
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    address.sin_port = 0;
+    if (::bind(fd, reinterpret_cast<sockaddr*>(&address), sizeof(address)) != 0) {
+        ::close(fd);
+        return 0;
+    }
+    socklen_t length = sizeof(address);
+    if (::getsockname(fd, reinterpret_cast<sockaddr*>(&address), &length) != 0) {
+        ::close(fd);
+        return 0;
+    }
+    const int port = ntohs(address.sin_port);
+    ::close(fd);
+    return port;
+}
 
 struct TestPki {
     std::filesystem::path dir;
@@ -419,6 +447,109 @@ TEST_F(MtlsCancellationTest, RequestDeadlineAbortsMidWriteWithoutDetachedClientW
     EXPECT_FALSE(response.stage_timed_out);
     EXPECT_NE(response.error.find("write"), std::string::npos) << response.error;
     EXPECT_LT(elapsed, 2s);
+}
+
+TEST_F(MtlsCancellationTest, RealHttpsShardSearchDeadlineReturnsAfterWorkerCleanup) {
+    const int port = findAvailablePort();
+    ASSERT_GT(port, 0);
+
+    const auto db_path = pki_->dir / "real_http_shard_db";
+    themis::RocksDBWrapper::Config storage_config;
+    storage_config.db_path = db_path.string();
+    auto storage = std::make_shared<themis::RocksDBWrapper>(storage_config);
+    ASSERT_TRUE(storage->open());
+
+    auto secondary = std::make_shared<themis::SecondaryIndexManager>(*storage);
+    auto graph = std::make_shared<themis::GraphIndexManager>(*storage);
+    auto vectors = std::make_shared<themis::VectorIndexManager>(*storage);
+    auto transactions = std::make_shared<themis::TransactionManager>(
+        *storage, *secondary, *graph, *vectors);
+
+    themis::server::HttpServer::Config server_config;
+    server_config.host = "127.0.0.1";
+    server_config.port = static_cast<std::uint16_t>(port);
+    server_config.num_threads = 1;
+    server_config.request_timeout_ms = 100;
+    server_config.enable_tls = true;
+    server_config.tls_cert_path = pki_->cert;
+    server_config.tls_key_path = pki_->key;
+    server_config.tls_min_version = "TLSv1.2";
+    server_config.health_error_service_enabled = false;
+    themis::server::HttpServer server(
+        server_config, storage, secondary, graph, vectors, transactions);
+    ASSERT_NO_THROW(server.start());
+
+    RemoteExecutor::Config executor_config;
+    executor_config.cert_path = pki_->cert;
+    executor_config.key_path = pki_->key;
+    executor_config.ca_cert_path = pki_->cert;
+    executor_config.local_shard_id = "local";
+    executor_config.enable_signing = false;
+    executor_config.enable_circuit_breaker = false;
+    executor_config.connect_timeout_ms = 3000;
+    executor_config.request_timeout_ms = 5000;
+    executor_config.max_retries = 0;
+    RemoteExecutor executor(executor_config);
+
+    ShardInfo shard{};
+    shard.shard_id = "real_local_shard";
+    shard.primary_endpoint = "https://localhost:" + std::to_string(port);
+    shard.is_healthy = true;
+
+    themis::content::TextProcessor text_processor;
+    const auto embedding = text_processor.generateEmbedding("seed");
+    const auto seed = executor.post(
+        shard, "/content/import",
+        {{"content", {{"id", "qry07-seed"}, {"mime_type", "text/plain"}}},
+         {"chunks", {{{"id", "qry07-seed-chunk"},
+                      {"seq_num", 0},
+                      {"chunk_type", "text"},
+                      {"text", "seed"},
+                      {"embedding", embedding}}}}},
+        query::RequestContext::withTimeout(10s));
+    ASSERT_TRUE(seed.success) << seed.error << " status=" << seed.http_status;
+
+    // The real TextProcessor fallback performs tokenization and per-token
+    // embedding work synchronously. A bounded request must discard its late
+    // result at ContentManager's next stop checkpoint before vector retrieval.
+    std::string slow_query;
+    slow_query.reserve(2400000);
+    for (size_t i = 0; i < 400000; ++i) {
+        slow_query += "slow ";
+    }
+    const auto search_started = Clock::now();
+    const auto search = executor.post(
+        shard, "/search/hybrid",
+        {{"query", slow_query}, {"k", 1}, {"expand", {{"hops", 0}}}},
+        query::RequestContext::withTimeout(5s));
+    const auto search_elapsed =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            Clock::now() - search_started).count();
+
+    ASSERT_FALSE(search.success) << search.data.dump();
+    ASSERT_EQ(search.http_status, 504) << search.error;
+    EXPECT_EQ(search.data.value("status_code", 0), 504);
+    EXPECT_FALSE(search.timed_out);
+    EXPECT_FALSE(search.cancelled);
+
+    // With one server worker, a successful follow-up request demonstrates
+    // that the synchronous search handler returned and released its worker.
+    const auto health = executor.get(
+        shard, "/health/live", query::RequestContext::withTimeout(5s));
+    ASSERT_TRUE(health.success) << health.error;
+
+    server.stop();
+    const auto after_stop = executor.get(
+        shard, "/health/live", query::RequestContext::withTimeout(2s));
+    EXPECT_FALSE(after_stop.success);
+
+    RecordProperty(
+        "qry07_trace",
+        "real_https_shard: import=200; slow_search=504(server deadline); "
+        "single_worker_health=200; server_stop=joined; followup_after_stop=connection_failure");
+    RecordProperty("slow_search_elapsed_ms", std::to_string(search_elapsed));
+    EXPECT_GE(search_elapsed, 100);
+    storage->close();
 }
 
 }  // namespace themis::sharding
