@@ -1629,7 +1629,10 @@ else()
     endif()
 endif()
 
-find_package(Boost REQUIRED COMPONENTS system filesystem headers)
+find_package(Boost CONFIG QUIET COMPONENTS system filesystem headers)
+if(NOT Boost_FOUND)
+    find_package(Boost MODULE REQUIRED COMPONENTS system filesystem headers)
+endif()
 
 # The core Boost headers package is required for header-only utilities such as
 # boost/throw_exception.hpp, which are used by the base runtime even when the
