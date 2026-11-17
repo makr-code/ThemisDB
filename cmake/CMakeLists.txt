@@ -1633,6 +1633,7 @@ endif()
 # system Boost packages do not export the split boost_system component config.
 # Use CMake's FindBoost module, matching the system-package fallback in
 # Dependencies.cmake.
+set(Boost_NO_BOOST_CMAKE ON)
 find_package(Boost MODULE REQUIRED COMPONENTS system filesystem)
 
 # The core Boost headers package is required for header-only utilities such as

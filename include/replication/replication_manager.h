@@ -480,7 +480,11 @@ public:
      */
     [[nodiscard]] uint64_t updateTerm(uint64_t term);
     
-    // Truncate WAL up to sequence (for compaction)
+    /**
+     * @brief Remove in-memory WAL entries older than a sequence and checkpoint durable storage.
+     * @param sequence Entries with sequence numbers lower than this value are removed.
+     * @note A checkpoint failure is logged and does not restore already-removed in-memory entries.
+     */
     void truncateBefore(uint64_t sequence);
     
     /**
@@ -642,7 +646,7 @@ private:
 };
 
 /**
- * Replication Stream for tracking WAL delivery to a follower.
+ * @brief Track WAL delivery to a follower.
  *
  * A follower ACK is recorded only after a transport confirms delivery. No
  * network transport is currently configured, so streams retry and retain an
@@ -741,7 +745,7 @@ public:
     void shutdown();
     
     /**
-     * Replicate a write operation to all configured replicas.
+     * @brief Replicate a write operation to all configured replicas.
      *
      * Appends the WAL entry to this node's Write-Ahead Log and schedules
      * replication to followers according to the configured replication mode
@@ -924,7 +928,7 @@ public:
                           const std::vector<std::string>& peer_regions);
     
     /**
-     * Promote a read replica to primary
+     * @brief Promote a read replica to primary.
      * @param replica_id: Node ID of replica to promote
      * @return True on success, including durable term advancement; false if the
      *         replica is missing, behind, or the term cannot be persisted.
@@ -978,7 +982,7 @@ public:
     }
     
     /**
-     * Export metrics in Prometheus format
+     * @brief Export replication metrics in Prometheus format.
      * @return Prometheus-formatted metrics string
      */
     std::string exportPrometheusMetrics() const;
@@ -1407,7 +1411,7 @@ private:
 // ============================================================================
 
 /**
- * CompressedReplicationStream
+ * @brief Compress and decompress replication batches locally.
  *
  * Serializes and compresses a replication batch locally and decompresses received data.
  * This helper does not own or implement network transport.
