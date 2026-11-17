@@ -19,6 +19,7 @@ Canonical_References:
   - "include/index/ann_frontdoor.h"
   - "include/index/vector_index.h"
   - "include/tensor/tensor_fingerprint_graph.h"
+  - "include/graph/knowledge_graph_reasoner.h"
   - "include/themis/base/interfaces/index_interface.h"
   - "src/search/hybrid_search.cpp"
   - "src/index/index_manager.cpp"
@@ -224,8 +225,14 @@ The tensor layer calls the request-aware
 overload. Candidate collection and boundaries between scores poll
 cancellation/deadline and discard partial candidates. A single TT
 inner-product, injected exact-similarity callback, or result sort remains
-synchronous and checkpoint-only. Graph inference, LLM generation, and the ANN backend call
-also remain synchronous/checkpoint-only and can overrun the deadline. Overall
+synchronous and checkpoint-only. The graph layer calls request-aware
+`KnowledgeGraphReasoner::infer(subject, depth, request, stop_reason)`, which
+polls fact snapshotting, recursive rule matching, forward chaining and result
+filtering and discards the returned chain on stop. Explain-store publication
+polls between entries, although one synchronous store operation may overrun and
+completed sound derivations may remain cached. LoRA scoring, LLM generation,
+and the ANN backend call remain synchronous/checkpoint-only and can overrun the
+deadline. Overall
 timeout/cancellation enforcement is not complete; see `src/search/ROADMAP.md`
 (QRY-07).
 

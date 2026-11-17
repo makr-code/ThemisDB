@@ -34,6 +34,17 @@ struct ExactVectorBackendState {
     std::vector<std::int64_t> ids;
 };
 
+struct StopAfterPolls {
+    std::size_t stop_after = 0;
+    mutable std::atomic<std::size_t> polls{0};
+};
+
+bool cancelAfterPolls(const void* opaque) noexcept {
+    const auto* state = static_cast<const StopAfterPolls*>(opaque);
+    return state->polls.fetch_add(1, std::memory_order_relaxed) + 1 >=
+           state->stop_after;
+}
+
 std::shared_ptr<ExactVectorBackendState> makeExactVectorBackend() {
     auto state = std::make_shared<ExactVectorBackendState>();
 
@@ -577,6 +588,45 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, TensorPreStoppedRequestSkipsSimila
     EXPECT_TRUE(results.empty());
     EXPECT_EQ(stop_reason, query::StopReason::DeadlineExceeded);
     EXPECT_EQ(score_calls, 0U);
+}
+
+TEST_F(LayeredRetrievalIntegrationPhase4Test, GraphLayerPollsRequestAndDiscardsPartialInference) {
+    auto reasoner = std::make_shared<graph::KnowledgeGraphReasoner>();
+    ASSERT_TRUE((reasoner->addRule({"derive",
+                                    {{"?subject", "source", "?object"}},
+                                    {{"?subject", "derived", "?object"}}})));
+    for (std::size_t i = 0; i < 1000; ++i) {
+        reasoner->addFact({"alice", "source", "object-" + std::to_string(i)});
+    }
+
+    StopAfterPolls probe_state{2500};
+    LayeredRetrievalConfig config;
+    config.ann_enabled = false;
+    config.tensor_enabled = false;
+    config.llm_enabled = false;
+    config.layer_timeout_ms = 5000;
+    LayeredRetrievalOrchestrator orchestrator(config);
+    orchestrator.setGraphReasoner(reasoner);
+
+    LayeredRetrievalContext context;
+    context.graph_subject_id = "alice";
+    context.request = query::RequestContext(
+        nullptr, std::nullopt, &cancelAfterPolls, &probe_state);
+
+    const auto result = orchestrator.execute(context);
+
+    EXPECT_TRUE(result.cancelled);
+    EXPECT_TRUE(result.partial);
+    EXPECT_FALSE(result.timed_out);
+    EXPECT_TRUE(result.provenance.empty());
+    EXPECT_EQ(reasoner->inferenceStore().size(), 0U);
+    const auto graph_decision = std::find_if(
+        result.routing_decisions.begin(), result.routing_decisions.end(),
+        [](const LayerDecisionRecord& decision) {
+            return decision.layer_name == "graph";
+        });
+    ASSERT_NE(graph_decision, result.routing_decisions.end());
+    EXPECT_EQ(graph_decision->decision, LayerRoutingDecision::CANCELLED);
 }
 
 TEST_F(LayeredRetrievalIntegrationPhase4Test, CancelDuringLlmLayerDiscardsLateResultButKeepsEarlierLayers) {

@@ -148,10 +148,17 @@ checkpoint-only.
 
 **Execution Model:**
 1. Validate `graph_subject_id` is non-empty; skip layer if not provided
-2. Execute `KnowledgeGraphReasoner::infer(subject, max_hops)` under a wait deadline
+2. Execute request-aware `KnowledgeGraphReasoner::infer(subject, max_hops, request, stop_reason)` inline
 3. If `lora_adapter_id` is provided, apply adapter scoring via `applyLoRAScore()`
 4. Clamp results to guardrail `max_graph_edges` if enabled
 5. Emit tracing span with latency and output count
+
+Fact snapshotting, recursive condition matching, forward-chaining loops and
+result filtering poll the request. A stop discards the returned chain and
+prevents incomplete derivations from being published; explain-store publication
+polls between entries, although one synchronous store write may overrun and
+completed sound derivations may remain cached. LoRA scoring is separately
+checkpoint-only.
 
 **Fail-Safe Behavior:**
 - Timeout → TIMEOUT_SKIP with diagnostics

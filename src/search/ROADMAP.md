@@ -338,6 +338,19 @@ now measures overrun classification, not a hard wall-clock bound.
   classification, successful result parity, and a stopped spatial JOIN
   collection. Build/test evidence is pending.
 
+**Layered graph inference slice (2026-11-17)**
+- `KnowledgeGraphReasoner::infer(..., RequestContext, StopReason*)` is now
+  source-compatible with the legacy overload and polls fact snapshotting,
+  recursive rule matching, forward chaining, and result filtering. A stopped
+  call discards the returned chain. Explain-store publication polls between
+  entries after derivation completes; one synchronous write may overrun, and
+  sound derivations committed before a stop may remain cached.
+  `LayeredRetrievalOrchestrator` passes its child context to this overload.
+  LoRA scoring remains checkpoint-only.
+- Focused reasoner and layered-orchestrator tests cover mid-matching
+  cancellation, expired-deadline distinction, empty returned results, and no
+  partial explain-store writes. Build/test execution remains pending.
+
 **Remaining gaps (QRY-07 still OPEN)**
 - The gRPC `IQueryEngine` boundary still has no in-tree production implementation
   overriding its request-aware method; `ExecuteAQL` and `StreamAQL` pass a
@@ -380,9 +393,10 @@ now measures overrun classification, not a hard wall-clock bound.
   `TensorFingerprintGraph::findSimilar` overload, which polls during candidate
   collection and between similarity operations and discards partial results.
   Each TT inner-product or injected exact-similarity callback remains
-  synchronous/checkpoint-only; result sorting is checkpoint-only. `KnowledgeGraphReasoner::infer` takes no
-  context; `LLMClient::generate` only gets a timeout value and has no in-flight
-  HTTP cancel. FAISS/cuVS ANN search is one blocking call.
+  synchronous/checkpoint-only; result sorting is checkpoint-only.
+  `KnowledgeGraphReasoner::infer` polls cooperatively, but LoRA scoring remains
+  checkpoint-only. `LLMClient::generate` only gets a timeout value and has no
+  in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
 - `POST /query/aql` passes a request context through full-text index scans,
   score lookups, entity hydration, and structural key-list intersection.
   The direct `executeAql(..., RequestContext)` conjunctive path now also invokes

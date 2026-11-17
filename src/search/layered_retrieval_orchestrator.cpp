@@ -538,7 +538,8 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
              hops = config_.graph_max_hops,
              adapter_id = context.lora_adapter_id,
              chain](const query::RequestContext& layer_ctx) {
-                *chain = reasoner->infer(subject, hops);
+                query::StopReason stop_reason = query::StopReason::None;
+                *chain = reasoner->infer(subject, hops, layer_ctx, &stop_reason);
                 if (!adapter_id.empty() && !layer_ctx.shouldStop()) {
                     reasoner->applyLoRAScore(*chain, adapter_id);
                 }
