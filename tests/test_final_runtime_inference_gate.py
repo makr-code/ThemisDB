@@ -9,6 +9,21 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
+    def test_inference_gate_uses_supported_boost_runner(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-final-runtime-api.yml"
+        ).read_text(encoding="utf-8")
+        inference_job = workflow.split("  llm-docsdb-inference-gate:", 1)[1]
+        inference_job = inference_job.split("\n  final-runtime-api-gate:", 1)[0]
+        self.assertIn("runs-on: ubuntu-24.04", inference_job)
+        install_step = inference_job.split("name: Install build dependencies", 1)[1]
+        install_step = install_step.split("\n      - name:", 1)[0]
+        for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
+            self.assertRegex(install_step, rf"\b{package}\b")
+
     def test_modular_inference_targets_compile_production_embedded_llm(self) -> None:
         cmake = (REPO_ROOT / "tests" / "llm" / "CMakeLists.txt").read_text(
             encoding="utf-8"
