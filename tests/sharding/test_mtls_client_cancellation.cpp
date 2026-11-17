@@ -20,6 +20,11 @@
 #include <openssl/pem.h>
 #include <openssl/x509.h>
 
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+#include <boost/beast.hpp>
+#include <boost/beast/ssl.hpp>
+
 #include <atomic>
 #include <chrono>
 #include <cstdio>
@@ -36,6 +41,11 @@ namespace {
 
 using namespace std::chrono_literals;
 using Clock = std::chrono::steady_clock;
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace net = boost::asio;
+namespace ssl = net::ssl;
+using tcp = net::ip::tcp;
 
 struct TestPki {
     std::filesystem::path dir;
@@ -116,6 +126,71 @@ private:
     int port_ = 0;
 };
 
+/// Local TLS peer that stalls before reading a large request or mid-response.
+class StallingTlsPeer {
+public:
+    enum class Mode { DoNotReadRequest, PartialResponse };
+
+    StallingTlsPeer(const TestPki& pki, Mode mode)
+        : ssl_context_(ssl::context::tlsv12_server),
+          acceptor_(ioc_, tcp::endpoint(net::ip::make_address("127.0.0.1"), 0)),
+          mode_(mode) {
+        ssl_context_.use_certificate_chain_file(pki.cert);
+        ssl_context_.use_private_key_file(pki.key, ssl::context::pem);
+        port_ = acceptor_.local_endpoint().port();
+        worker_ = std::thread([this] { serve(); });
+    }
+
+    ~StallingTlsPeer() {
+        beast::error_code ec;
+        acceptor_.close(ec);
+        if (worker_.joinable()) worker_.join();
+    }
+
+    std::string endpoint() const {
+        return "https://127.0.0.1:" + std::to_string(port_);
+    }
+
+private:
+    void serve() {
+        beast::error_code ec;
+        tcp::socket socket(ioc_);
+        acceptor_.accept(socket, ec);
+        if (ec) return;
+        socket.set_option(net::socket_base::receive_buffer_size(1024), ec);
+        ssl::stream<tcp::socket> stream(std::move(socket), ssl_context_);
+        stream.handshake(ssl::stream_base::server, ec);
+        if (ec) return;
+
+        if (mode_ == Mode::DoNotReadRequest) {
+            std::this_thread::sleep_for(500ms);
+            return;
+        }
+
+        beast::flat_buffer request_buffer;
+        http::request<http::string_body> request;
+        http::read(stream, request_buffer, request, ec);
+        if (ec) return;
+
+        http::response<http::empty_body> response{http::status::ok, 11};
+        response.set(http::field::content_type, "application/json");
+        response.content_length(1024);
+        http::response_serializer<http::empty_body> serializer{response};
+        http::write_header(stream, serializer, ec);
+        if (!ec) {
+            net::write(stream, net::buffer("{"), ec);
+            std::this_thread::sleep_for(500ms);
+        }
+    }
+
+    net::io_context ioc_;
+    ssl::context ssl_context_;
+    tcp::acceptor acceptor_;
+    Mode mode_;
+    int port_ = 0;
+    std::thread worker_;
+};
+
 class MtlsCancellationTest : public ::testing::Test {
 protected:
     static void SetUpTestSuite() { pki_ = std::make_unique<TestPki>(); }
@@ -135,6 +210,7 @@ protected:
         c.connect_timeout_ms = 5000;
         c.request_timeout_ms = 30000;
         c.use_connection_pool = false;
+        c.verify_hostname = false;
         return c;
     }
 
@@ -247,6 +323,92 @@ TEST_F(MtlsCancellationTest, RemoteExecutorPropagatesContextIntoTransport) {
     const auto pre = executor.post(shard, "/search/hybrid", {{"q", "x"}},
                                    query::RequestContext(token));
     EXPECT_TRUE(pre.cancelled);
+}
+
+TEST_F(MtlsCancellationTest, PutAndDeleteHonorInFlightRequestDeadline) {
+    MTLSClient client(clientConfig());
+    const auto ctx = query::RequestContext::withTimeout(150ms);
+
+    const auto put = client.put(hole_.endpoint(), "/resource", {{"value", 1}}, ctx);
+    EXPECT_TRUE(put.timed_out);
+    EXPECT_FALSE(put.cancelled);
+    EXPECT_FALSE(put.stage_timed_out);
+
+    const auto del = client.del(hole_.endpoint(), "/resource",
+                                query::RequestContext::withTimeout(150ms));
+    EXPECT_TRUE(del.timed_out);
+    EXPECT_FALSE(del.cancelled);
+    EXPECT_FALSE(del.stage_timed_out);
+}
+
+TEST_F(MtlsCancellationTest, RemoteExecutorPropagatesContextForPutDeleteAndBinaryPost) {
+    RemoteExecutor::Config cfg;
+    cfg.cert_path = pki_->cert;
+    cfg.key_path = pki_->key;
+    cfg.ca_cert_path = pki_->cert;
+    cfg.local_shard_id = "local";
+    cfg.enable_signing = false;
+    cfg.max_retries = 0;
+    RemoteExecutor executor(cfg);
+
+    ShardInfo shard{};
+    shard.shard_id = "shard_x";
+    shard.primary_endpoint = hole_.endpoint();
+    shard.is_healthy = true;
+    const auto ctx = query::RequestContext::withTimeout(150ms);
+
+    const auto put = executor.put(shard, "/resource", {{"value", 1}}, ctx);
+    EXPECT_TRUE(put.timed_out);
+    const auto del = executor.del(shard, "/resource",
+                                  query::RequestContext::withTimeout(150ms));
+    EXPECT_TRUE(del.timed_out);
+    const std::uint8_t payload[] = {1, 2, 3};
+    const auto binary = executor.postBinary(shard, "/binary", payload,
+                                            sizeof(payload),
+                                            query::RequestContext::withTimeout(150ms));
+    EXPECT_TRUE(binary.timed_out);
+
+    const auto query_result = executor.executeQuery(
+        shard, "FOR d IN documents RETURN d",
+        query::RequestContext::withTimeout(150ms));
+    EXPECT_TRUE(query_result.timed_out);
+}
+
+TEST_F(MtlsCancellationTest, RequestDeadlineAbortsMidResponseAndJoinsHandlers) {
+    StallingTlsPeer peer(*pki_, StallingTlsPeer::Mode::PartialResponse);
+    MTLSClient client(clientConfig());
+
+    const auto started = Clock::now();
+    const auto response = client.get(
+        peer.endpoint(), "/slow-search",
+        query::RequestContext::withTimeout(150ms));
+    const auto elapsed = Clock::now() - started;
+
+    EXPECT_FALSE(response.success);
+    EXPECT_TRUE(response.timed_out);
+    EXPECT_FALSE(response.cancelled);
+    EXPECT_FALSE(response.stage_timed_out);
+    EXPECT_NE(response.error.find("read"), std::string::npos) << response.error;
+    EXPECT_LT(elapsed, 2s);
+}
+
+TEST_F(MtlsCancellationTest, RequestDeadlineAbortsMidWriteWithoutDetachedClientWork) {
+    StallingTlsPeer peer(*pki_, StallingTlsPeer::Mode::DoNotReadRequest);
+    MTLSClient client(clientConfig());
+    const std::string large_body(16 * 1024 * 1024, 'x');
+    const nlohmann::json body{{"payload", large_body}};
+
+    auto ctx = query::RequestContext::withTimeout(150ms);
+    const auto started = Clock::now();
+    const auto response = client.post(peer.endpoint(), "/slow-search", body, ctx);
+    const auto elapsed = Clock::now() - started;
+
+    EXPECT_FALSE(response.success);
+    EXPECT_TRUE(response.timed_out);
+    EXPECT_FALSE(response.cancelled);
+    EXPECT_FALSE(response.stage_timed_out);
+    EXPECT_NE(response.error.find("write"), std::string::npos) << response.error;
+    EXPECT_LT(elapsed, 2s);
 }
 
 }  // namespace themis::sharding

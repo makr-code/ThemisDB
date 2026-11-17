@@ -137,6 +137,19 @@ public:
     Result put(const ShardInfo& shard_info,
                const std::string& path,
                const nlohmann::json& body);
+
+    /**
+     * @brief PUT with request deadline and cancellation during transport.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] body JSON body (signed when signing is enabled).
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Result with `cancelled` / `timed_out` set when aborted.
+     */
+    Result put(const ShardInfo& shard_info,
+               const std::string& path,
+               const nlohmann::json& body,
+               const query::RequestContext& ctx);
     
     /**
      * Execute DELETE request on remote shard
@@ -145,6 +158,17 @@ public:
      * @return Result with response data or error
      */
     Result del(const ShardInfo& shard_info, const std::string& path);
+
+    /**
+     * @brief DELETE with request deadline and cancellation during transport.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Result with `cancelled` / `timed_out` set when aborted.
+     */
+    Result del(const ShardInfo& shard_info,
+               const std::string& path,
+               const query::RequestContext& ctx);
     
     /**
      * Execute query on remote shard
@@ -154,6 +178,17 @@ public:
      * @return Result with query results
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
+
+    /**
+     * @brief Execute a remote query with request cancellation and deadline.
+     * @param[in] shard_info Target shard.
+     * @param[in] query AQL query string.
+     * @param[in] ctx Deadline + cancellation token propagated to transport.
+     * @return Query result or an outcome with timeout/cancellation flags.
+     */
+    Result executeQuery(const ShardInfo& shard_info,
+                        const std::string& query,
+                        const query::RequestContext& ctx);
 
     /**
      * Transfer a raw binary payload to a remote shard via HTTP POST.
@@ -177,6 +212,21 @@ public:
                       const std::string& path,
                       const uint8_t* data,
                       std::size_t size);
+
+    /**
+     * @brief Transfer binary data with request cancellation and deadline.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] data Binary payload; may be null only when @p size is zero.
+     * @param[in] size Number of payload bytes.
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Transfer result or an outcome with timeout/cancellation flags.
+     */
+    Result postBinary(const ShardInfo& shard_info,
+                      const std::string& path,
+                      const uint8_t* data,
+                      std::size_t size,
+                      const query::RequestContext& ctx);
     
     /**
      * Check if remote executor is ready

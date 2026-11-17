@@ -103,6 +103,13 @@ RemoteExecutor::Result RemoteExecutor::put(const ShardInfo& shard_info,
     return executeRequest("PUT", shard_info, path, std::optional<nlohmann::json>(body));
 }
 
+RemoteExecutor::Result RemoteExecutor::put(const ShardInfo& shard_info,
+                                          const std::string& path,
+                                          const nlohmann::json& body,
+                                          const query::RequestContext& ctx) {
+    return executeRequest("PUT", shard_info, path, std::optional<nlohmann::json>(body), &ctx);
+}
+
 /**
  * @brief Del.
  * @param[in] shard_info Input parameter.
@@ -113,6 +120,12 @@ RemoteExecutor::Result RemoteExecutor::put(const ShardInfo& shard_info,
 RemoteExecutor::Result RemoteExecutor::del(const ShardInfo& shard_info,
                                           const std::string& path) {
     return executeRequest("DELETE", shard_info, path);
+}
+
+RemoteExecutor::Result RemoteExecutor::del(const ShardInfo& shard_info,
+                                          const std::string& path,
+                                          const query::RequestContext& ctx) {
+    return executeRequest("DELETE", shard_info, path, std::nullopt, &ctx);
 }
 
 /**
@@ -130,6 +143,15 @@ RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
     };
     
     return post(shard_info, "/api/v1/query", body);
+}
+
+RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
+                                                    const std::string& query,
+                                                    const query::RequestContext& ctx) {
+    nlohmann::json body = {
+        {"query", query}
+    };
+    return post(shard_info, "/api/v1/query", body, ctx);
 }
 
 /**
@@ -174,6 +196,59 @@ RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
     };
 
     return post(shard_info, path, body);
+}
+
+RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
+                                                   const std::string& path,
+                                                   const uint8_t* data,
+                                                   std::size_t size,
+                                                   const query::RequestContext& ctx) {
+    if (size > 0 && data == nullptr) {
+        Result result;
+        result.shard_id = shard_info.shard_id;
+        result.error = "Binary payload pointer is null";
+        return result;
+    }
+
+    static constexpr char kBase64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string encoded;
+    encoded.reserve(((size + 2) / 3) * 4);
+
+    for (std::size_t i = 0; i < size; i += 3) {
+        if ((i & 0xFFFFU) == 0U && ctx.shouldStop()) {
+            Result result;
+            result.shard_id = shard_info.shard_id;
+            result.cancelled = ctx.stopReason() == query::StopReason::Cancelled;
+            result.timed_out = ctx.stopReason() == query::StopReason::DeadlineExceeded;
+            result.error = result.cancelled ? "Request cancelled while encoding payload"
+                                            : "Request deadline exceeded while encoding payload";
+            return result;
+        }
+        const auto b0 = data[i];
+        const auto b1 = (i + 1 < size) ? data[i + 1] : std::uint8_t{0};
+        const auto b2 = (i + 2 < size) ? data[i + 2] : std::uint8_t{0};
+
+        encoded += kBase64Chars[(b0 >> 2) & 0x3F];
+        encoded += kBase64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        encoded += (i + 1 < size) ? kBase64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        encoded += (i + 2 < size) ? kBase64Chars[b2 & 0x3F] : '=';
+    }
+    if (ctx.shouldStop()) {
+        Result result;
+        result.shard_id = shard_info.shard_id;
+        result.cancelled = ctx.stopReason() == query::StopReason::Cancelled;
+        result.timed_out = ctx.stopReason() == query::StopReason::DeadlineExceeded;
+        result.error = result.cancelled ? "Request cancelled while encoding payload"
+                                        : "Request deadline exceeded while encoding payload";
+        return result;
+    }
+
+    nlohmann::json body = {
+        {"kv_state_b64", std::move(encoded)},
+        {"size", static_cast<std::uint64_t>(size)}
+    };
+    return post(shard_info, path, body, ctx);
 }
 
 bool RemoteExecutor::isReady() const {
@@ -285,9 +360,11 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
         response = ctx ? mtls_client_->post(endpoint, path, request_body, *ctx)
                        : mtls_client_->post(endpoint, path, request_body);
     } else if (method == "PUT") {
-        response = mtls_client_->put(endpoint, path, request_body);
+        response = ctx ? mtls_client_->put(endpoint, path, request_body, *ctx)
+                       : mtls_client_->put(endpoint, path, request_body);
     } else if (method == "DELETE") {
-        response = mtls_client_->del(endpoint, path);
+        response = ctx ? mtls_client_->del(endpoint, path, *ctx)
+                       : mtls_client_->del(endpoint, path);
     }
     
     auto end = std::chrono::steady_clock::now();

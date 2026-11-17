@@ -222,6 +222,32 @@ public:
                   const std::string& path,
                   const nlohmann::json& body,
                   const query::RequestContext& ctx);
+
+    /**
+     * @brief HTTP PUT (JSON body) that can be cancelled or deadline-bounded in flight.
+     * @param[in] endpoint Server endpoint.
+     * @param[in] path Request path.
+     * @param[in] body JSON request body.
+     * @param[in] ctx Deadline + cancellation token for this request.
+     * @return Response; `cancelled` / `timed_out` distinguish an aborted request
+     *         from a normal transport failure.
+     */
+    Response put(const std::string& endpoint,
+                 const std::string& path,
+                 const nlohmann::json& body,
+                 const query::RequestContext& ctx);
+
+    /**
+     * @brief HTTP DELETE that can be cancelled or deadline-bounded in flight.
+     * @param[in] endpoint Server endpoint.
+     * @param[in] path Request path.
+     * @param[in] ctx Deadline + cancellation token for this request.
+     * @return Response; `cancelled` / `timed_out` distinguish an aborted request
+     *         from a normal transport failure.
+     */
+    Response del(const std::string& endpoint,
+                 const std::string& path,
+                 const query::RequestContext& ctx);
     
     /**
      * Check if client is configured and ready
@@ -310,4 +336,3 @@ private:
 };
 
 } // namespace themis::sharding
-

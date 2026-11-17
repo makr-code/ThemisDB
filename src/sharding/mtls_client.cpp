@@ -517,6 +517,20 @@ MTLSClient::Response MTLSClient::post(const std::string& endpoint,
                               std::optional<nlohmann::json>(body), {}, ctx);
 }
 
+MTLSClient::Response MTLSClient::put(const std::string& endpoint,
+                                     const std::string& path,
+                                     const nlohmann::json& body,
+                                     const themis::query::RequestContext& ctx) {
+    return requestWithContext("PUT", endpoint, path,
+                              std::optional<nlohmann::json>(body), {}, ctx);
+}
+
+MTLSClient::Response MTLSClient::del(const std::string& endpoint,
+                                     const std::string& path,
+                                     const themis::query::RequestContext& ctx) {
+    return requestWithContext("DELETE", endpoint, path, std::nullopt, {}, ctx);
+}
+
 MTLSClient::Response MTLSClient::requestWithContext(
     const std::string& method,
     const std::string& endpoint,
@@ -556,6 +570,10 @@ MTLSClient::Response MTLSClient::requestWithContext(
                 req.method(http::verb::get);
             } else if (method == "POST") {
                 req.method(http::verb::post);
+            } else if (method == "PUT") {
+                req.method(http::verb::put);
+            } else if (method == "DELETE") {
+                req.method(http::verb::delete_);
             } else {
                 response.error = "Unsupported method for cancellable request: " + method;
                 return response;
@@ -568,7 +586,7 @@ MTLSClient::Response MTLSClient::requestWithContext(
             if (!authorization_header.empty()) {
                 req.set(http::field::authorization, authorization_header);
             }
-            if (body && method == "POST") {
+            if (body && (method == "POST" || method == "PUT")) {
                 req.body() = body->dump();
                 req.set(http::field::content_type, "application/json");
             }
@@ -786,4 +804,3 @@ nlohmann::json MTLSClient::getPoolStatistics() const {
 }
 
 } // namespace themis::sharding
-
