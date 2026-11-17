@@ -96,6 +96,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     // --- Local shard ---
     {
         ShardSearchResult local;
+        bool local_started = false;
         local.shard_id = config_.local_shard_id.empty()
                              ? "local"
                              : config_.local_shard_id;
@@ -109,13 +110,22 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 auto t_start = std::chrono::steady_clock::now();
 
                 HybridSearch::SearchStats local_stats;
+                query::StopReason local_stop = query::StopReason::None;
+                local_started = true;
                 local.results = local_search_->search(
                     text_query,
                     vector_query.empty() ? nullptr : vector_query.data(),
                     vector_query.size(),
+                    ctx,
+                    &local_stop,
                     &local_stats
                 );
-                local.success = true;
+                if (local_stop != query::StopReason::None) {
+                    local.success = false;
+                    local.stop_reason = local_stop;
+                } else {
+                    local.success = true;
+                }
 
                 auto t_end = std::chrono::steady_clock::now();
                 local.execution_time_ms =
@@ -142,7 +152,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
         }
 
         // A local shard that was never started is counted in shards_skipped only.
-        if (local.stop_reason == query::StopReason::None) {
+        if (local_started || local.stop_reason == query::StopReason::None) {
             shard_results.push_back(std::move(local));
         }
     }

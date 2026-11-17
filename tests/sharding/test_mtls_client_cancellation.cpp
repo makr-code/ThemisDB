@@ -556,4 +556,83 @@ TEST_F(MtlsCancellationTest, RealHttpsShardSearchDeadlineReturnsAfterWorkerClean
     storage->close();
 }
 
+TEST_F(MtlsCancellationTest, ClientAbortCancelsSearchAndReleasesHttpWorker) {
+    const int port = findAvailablePort();
+    ASSERT_GT(port, 0);
+
+    const auto db_path = pki_->dir / "disconnect_http_search_db";
+    themis::RocksDBWrapper::Config storage_config;
+    storage_config.db_path = db_path.string();
+    auto storage = std::make_shared<themis::RocksDBWrapper>(storage_config);
+    ASSERT_TRUE(storage->open());
+
+    auto secondary = std::make_shared<themis::SecondaryIndexManager>(*storage);
+    auto graph = std::make_shared<themis::GraphIndexManager>(*storage);
+    auto vectors = std::make_shared<themis::VectorIndexManager>(*storage);
+    auto transactions = std::make_shared<themis::TransactionManager>(
+        *storage, *secondary, *graph, *vectors);
+
+    themis::server::HttpServer::Config server_config;
+    server_config.host = "127.0.0.1";
+    server_config.port = static_cast<std::uint16_t>(port);
+    server_config.num_threads = 1;
+    server_config.request_timeout_ms = 30000;
+    server_config.enable_tls = false;
+    server_config.health_error_service_enabled = false;
+    themis::server::HttpServer server(
+        server_config, storage, secondary, graph, vectors, transactions);
+    ASSERT_NO_THROW(server.start());
+
+    net::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(net::ip::make_address("127.0.0.1"),
+                                 static_cast<std::uint16_t>(port)));
+
+    std::string slow_query;
+    slow_query.reserve(10000000);
+    for (size_t i = 0; i < 2000000; ++i) {
+        slow_query += "slow ";
+    }
+    http::request<http::string_body> request{http::verb::post, "/search/hybrid", 11};
+    request.set(http::field::host, "127.0.0.1");
+    request.set(http::field::content_type, "application/json");
+    request.body() = nlohmann::json{
+        {"query", slow_query}, {"k", 1}, {"expand", {{"hops", 0}}}}.dump();
+    request.prepare_payload();
+    ASSERT_NO_THROW(http::write(client, request));
+    std::this_thread::sleep_for(100ms);
+
+    linger abortive_close{1, 0};
+    ASSERT_EQ(::setsockopt(client.native_handle(), SOL_SOCKET, SO_LINGER,
+                           &abortive_close, sizeof(abortive_close)), 0);
+    beast::error_code close_error;
+    client.close(close_error);
+    ASSERT_FALSE(close_error);
+
+    const auto health_started = Clock::now();
+    tcp::socket health_socket(client_ioc);
+    health_socket.connect(tcp::endpoint(net::ip::make_address("127.0.0.1"),
+                                        static_cast<std::uint16_t>(port)));
+    http::request<http::empty_body> health_request{
+        http::verb::get, "/health/live", 11};
+    health_request.set(http::field::host, "127.0.0.1");
+    http::write(health_socket, health_request);
+    beast::flat_buffer health_buffer;
+    http::response<http::string_body> health_response;
+    http::read(health_socket, health_buffer, health_response);
+    const auto health_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        Clock::now() - health_started).count();
+
+    EXPECT_EQ(health_response.result(), http::status::ok);
+    EXPECT_LT(health_elapsed, 5000);
+    RecordProperty(
+        "qry07_disconnect_trace",
+        "plain_http_search: request_body_sent; client_abortive_close; "
+        "single_worker_health=200; response_to_aborted_client_suppressed");
+    RecordProperty("disconnect_health_elapsed_ms", std::to_string(health_elapsed));
+
+    server.stop();
+    storage->close();
+}
+
 }  // namespace themis::sharding

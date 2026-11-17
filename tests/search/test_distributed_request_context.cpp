@@ -347,4 +347,36 @@ TEST(DistributedRequestContextTest, LegacyOverloadStillWorks) {
     EXPECT_FALSE(stats.partial_result);
 }
 
+TEST(DistributedRequestContextTest, LocalHybridSearchReportsPreCancelledRequest) {
+    HybridSearch::Config config;
+    HybridSearch local(nullptr, nullptr, config);
+    auto token = std::make_shared<query::QueryCancellationToken>();
+    token->cancel();
+    query::StopReason stop_reason = query::StopReason::None;
+
+    const auto results = local.search(
+        "query", nullptr, 0, query::RequestContext(token), &stop_reason);
+
+    EXPECT_TRUE(results.empty());
+    EXPECT_EQ(stop_reason, query::StopReason::Cancelled);
+}
+
+TEST(DistributedRequestContextTest, LocalHybridSearchDistinguishesEmptyFromDeadline) {
+    HybridSearch::Config config;
+    HybridSearch local(nullptr, nullptr, config);
+    query::StopReason stop_reason = query::StopReason::None;
+
+    const auto empty_results =
+        local.search("query", nullptr, 0, query::RequestContext{}, &stop_reason);
+    EXPECT_TRUE(empty_results.empty());
+    EXPECT_EQ(stop_reason, query::StopReason::None);
+
+    const query::RequestContext expired(
+        nullptr, query::RequestContext::Clock::now() - 1ms);
+    const auto expired_results =
+        local.search("query", nullptr, 0, expired, &stop_reason);
+    EXPECT_TRUE(expired_results.empty());
+    EXPECT_EQ(stop_reason, query::StopReason::DeadlineExceeded);
+}
+
 }  // namespace themis

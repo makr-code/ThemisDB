@@ -37,6 +37,7 @@
 #include "content/content_processor.h"
 #include "content/mime_detector.h"
 #include "cache/semantic_cache.h"
+#include "query/request_context.h"
 #ifdef THEMIS_ENABLE_SSE
 #include "server/sse_connection_manager.h"
 #endif
@@ -659,9 +660,12 @@ private:
     /**
      * @brief Route Request.
      * @param[in] req Input parameter.
+     * @param[in] connection_request Session-scoped peer cancellation probe.
      * @return Return value.
      */
-    http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
+    http::response<http::string_body> routeRequest(
+        const http::request<http::string_body>& req,
+        const themis::query::RequestContext& connection_request);
 
 
     /**

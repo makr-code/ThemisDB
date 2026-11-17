@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -69,6 +69,13 @@ populated in the current `src/search/hybrid_search.cpp` path. The error enum
 exists as a public taxonomy, but the inspected search implementation files do
 not currently reference it. **TODO:** wire and test those diagnostics before
 describing them as active runtime signals.
+
+The request-aware overload accepts a `RequestContext` and `StopReason*`. It
+propagates the context into BM25 retrieval and `VectorIndexManager` KNN, and
+discards accumulated candidates when stopped. If an `AnnFrontdoor` or reranker
+is configured, those calls are checkpoint-only: the caller checks before and
+after the synchronous call, but cannot interrupt its in-flight backend work.
+Fusion, sorting, and result materialization are also checkpoint-only.
 
 ### ANN retrieval and index fallback
 
@@ -166,10 +173,12 @@ std::vector<HybridSearch::Result> search(
   an empty or ordinarily failed shard.
 - `setShardSearchFunction(ShardSearchFn)` replaces the default RemoteExecutor
   transport; the function must honour its context to stay cancellable.
-- **Not interruptible:** the local `HybridSearch::search` call (only skipped if
-  the context already stopped); a custom shard function that ignores its
-  context; every `RemoteExecutor`/`MTLSClient` path other than `get`/`post`
-  with a context (see `src/sharding/API.md`).
+- The local `HybridSearch::search` call receives the same context and records
+  cancellation/deadline as a failed local shard; BM25 scans and manager-backed
+  KNN poll cooperatively.
+- **Not interruptible:** an in-flight ANN frontdoor/backend call, reranker,
+  fusion/sort operation, custom shard function that ignores its context, and
+  transport paths without a request-aware overload (see `src/sharding/API.md`).
 
 ### SearchResultStream
 
@@ -202,8 +211,9 @@ HTTP `POST /vector/search` passes a server-derived `RequestContext` (deadline =
 dispatch time + `request_timeout_ms`; `0` = unbounded; never from caller headers)
 to `VectorIndexManager::searchKnn(query, k, nullptr, context, &stop_reason)` and
 polls it while slicing/serializing results; a stop returns 504 with no results.
-HTTP client-disconnect cancellation is not provided: a disconnect cannot be
-observed concurrently in synchronous handler dispatch.
+The HTTP session adds a borrowed peer-closure probe to this context. It is
+observed at cooperative polling sites, and the session suppresses response
+writing after a detected disconnect.
 
 Not complete: tensor, graph, LLM and the ANN backend call itself cannot be
 interrupted mid-call, so `execute()` can return later than the deadline by that
@@ -217,8 +227,8 @@ the current prefix iteration and clears partial results. The legacy overload
 remains unbounded. The HTTP `POST /search/fulltext` endpoint derives its deadline
 from the server's live `request_timeout_ms` (zero means unbounded) and returns
 HTTP 504 for an observed stop. Synchronous RocksDB reads and sorting are
-checkpoint-only; client disconnect cancellation is unavailable in synchronous
-handler dispatch. A valid no-match query returns an empty success, distinct from
+checkpoint-only; the session peer probe is observed at cooperative poll sites.
+A valid no-match query returns an empty success, distinct from
 invalid index state (HTTP 400) or an observed deadline/cancellation.
 
 `POST /search/fusion` also uses the server-configured request deadline. The
@@ -226,8 +236,8 @@ context is passed to the BM25 text stage and request-aware KNN vector stage,
 then polled while candidates are fused and materialized. Any observed stop
 returns HTTP 504 and discards partial fusion results; a valid empty fusion
 remains HTTP 200. RocksDB reads, synchronous ANN backend calls, sorting, and
-serialization are checkpoint-only. HTTP disconnect cancellation is not
-available in synchronous dispatch.
+serialization are checkpoint-only. The session peer probe is observed only at
+cooperative poll sites; the server does not write after a detected disconnect.
 
 ## Error taxonomy
 

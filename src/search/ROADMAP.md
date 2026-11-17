@@ -54,8 +54,19 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
 
 ### QRY-07 timeout and cancellation status (2026-11-17)
 
-- [ ] **QRY-07 remains OPEN.** Eighteen bounded slices are implemented; several
+- [ ] **QRY-07 remains OPEN.** Multiple bounded slices are implemented; several
   backends and legacy transport paths are still not interruptible (see "Remaining gaps").
+
+**HTTP peer-disconnect polling slice (2026-11-17)**
+- `Session` and `SslSession` supply a borrowed native-socket cancellation probe
+  to bounded `/vector/search`, `/search/fulltext`, `/search/fusion`,
+  `/search/hybrid`, and `/query/aql` request contexts. The probe checks peer
+  hangup/reset state at cooperative checkpoints. When observed, partial results
+  are discarded and the session does not write a response to the closed peer.
+- Detection latency is bounded by the next backend poll; checkpoint-only
+  synchronous operations can still overrun. POSIX and Windows socket polling
+  are implemented, but platform-specific behavior needs integration validation.
+  The plain-HTTP abortive-close integration test is authored but not built or run.
 
 **HTTP `/vector/search` deadline slice (2026-11-16)**
 - `VectorApiHandler::handleSearch(req, RequestContext)` added (single-argument
@@ -64,9 +75,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   unbounded; caller headers never trusted) and the handler calls request-aware
   `VectorIndexManager::searchKnn`. A stop returns 504, no results; slicing and
   serialization are polled and partial output is discarded.
-- **Not done:** HTTP client-disconnect cancellation. A disconnect cannot be
-  observed concurrently in synchronous handler dispatch, so only the deadline is
-  enforced. ANN backend calls remain checkpoint-only. QRY-07 stays OPEN.
+- The HTTP session now supplies a peer-disconnect probe to cooperative search
+  checkpoints; this does not interrupt an in-flight ANN backend call.
 - Tests: `tests/api/test_api_vector_search_deadline.cpp`.
 
 **HTTP `/search/fulltext` deadline slice (2026-11-16)**
@@ -81,8 +91,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   index remains HTTP 400. Result materialization polls and serialization has a
   post-operation checkpoint.
 - Synchronous RocksDB reads, candidate sorting, and response serialization
-  cannot be interrupted mid-call. HTTP client-disconnect cancellation remains
-  unavailable in synchronous handler dispatch; QRY-07 stays OPEN.
+  cannot be interrupted mid-call. Peer disconnect is observed at the next
+  cooperative request-context poll; QRY-07 stays OPEN.
 - Tests: `tests/api/test_api_fulltext_search_deadline.cpp` covers empty result,
   expired deadline, and a stop during an index-prefix scan. Test execution is
   not claimed until the focused target is built and run.
@@ -95,8 +105,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   top-k materialization, and response construction poll cooperatively; observed
   stops return HTTP 504 with partial results discarded. Valid empty fusion
   results remain HTTP 200.
-- Synchronous RocksDB reads, ANN calls, and sorting are checkpoint-only;
-  client-disconnect cancellation remains unavailable in synchronous dispatch.
+- Synchronous RocksDB reads, ANN calls, and sorting are checkpoint-only.
+  Peer disconnect is observed at the next cooperative request-context poll.
 - Tests: `tests/api/test_api_fusion_search_deadline.cpp` covers empty results,
   an expired deadline, and cancellation during text retrieval. Execution is not
   claimed until the focused target is built and run.
@@ -111,9 +121,10 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   uninitialized vector index, missing text processor, or base KNN status error;
   that HTTP 200 is a degraded legacy fallback, not proof of a successful search.
 - The context reaches request-aware KNN and is polled during graph expansion,
-  result filtering, and materialization. Embedding generation, vector ANN,
-  graph neighbor/Dijkstra reads, whitelist scans, and sorting are checkpoint-only;
-  client-disconnect cancellation is not observed in synchronous dispatch.
+  result filtering, and materialization. The built-in `TextProcessor` fallback
+  also polls during tokenization and embedding; injected callbacks, vector ANN,
+  graph neighbor/Dijkstra reads, whitelist scans, and sorting are checkpoint-only.
+  Peer disconnect is observed at the next cooperative request-context poll.
 - Tests: `tests/api/test_api_hybrid_search_deadline.cpp` covers empty results,
   an expired deadline, and client cancellation at dispatch. No test/build pass
   is claimed until the focused target is built and run.
@@ -143,8 +154,8 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   request-aware path avoids spawning worker tasks, and `allow_full_scan` does
   not bypass the indexed `FULLTEXT()` predicate. AQL parsing, indexed execution outside
   request-aware stages, result sorting, serialization, synchronous entity
-  reads and any individual non-polling operation remain checkpoint-only. HTTP
-  client-disconnect cancellation is unavailable during synchronous dispatch.
+  reads and any individual non-polling operation remain checkpoint-only. The
+  HTTP session supplies peer-disconnect polling to this request context.
 - Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
   valid empty results, expired deadline, cancellation, and a stop during the
   full-text prefix scan, structural predicate execution, full-scan fallback,
@@ -339,12 +350,14 @@ now measures overrun classification, not a hard wall-clock bound.
   verifies cooperative cancellation in the built-in `TextProcessor` fallback,
   request-worker reuse, and server shutdown. Request-aware embedding polls
   during tokenization and per-token generation and returns no partial vector.
-  Injected embedding callbacks and other synchronous search backends remain
-  checkpoint-only; no proof exists that an HTTP client disconnect stops
-  server-side search work.
-- `DistributedHybridSearch`: the local `HybridSearch::search` call is not
-  interruptible (only skipped if already stopped); a custom shard function that
-  ignores its context delays the join.
+  Injected embedding callbacks, ANN frontdoor/backend calls, graph reads and
+  other synchronous search backends remain checkpoint-only. The abortive-close
+  test and this HTTPS deadline trace are authored but not executed, so no
+  integration evidence is claimed yet.
+- `DistributedHybridSearch` now passes its request context into the local
+  `HybridSearch` call. The hybrid aggregator propagates it to BM25 and
+  `VectorIndexManager` KNN; an ANN frontdoor/backend call or custom shard
+  function that ignores its context can still delay completion and joining.
 - `TensorFingerprintGraph::findSimilar`, `KnowledgeGraphReasoner::infer`,
   `LLMClient::generate` take no context; the LLM only gets a timeout value
   and has no in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
@@ -368,10 +381,10 @@ now measures overrun classification, not a hard wall-clock bound.
   and other query stages remain checkpoint-only. Other HTTP search routes
   besides `POST /vector/search`, `POST /search/fulltext`,
   `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
-  remain unbound to a request context. No HTTP search route observes client
-  disconnects during synchronous dispatch. The hybrid expansion route still
-  cannot interrupt embedding generation, vector ANN, graph neighbor/Dijkstra
-  reads, whitelist scans, or sorting. gRPC `ExecuteAQL`,
+  remain unbound to a request context. Bounded routes receive a session-scoped
+  peer probe, observed only at cooperative poll sites. The HTTP hybrid
+  expansion route still cannot interrupt injected embedding callbacks, vector
+  ANN, graph neighbor/Dijkstra reads, whitelist scans, or sorting. gRPC `ExecuteAQL`,
   `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
   to their backends, but in-tree AQL engines still use the checkpoint-only
   default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;
