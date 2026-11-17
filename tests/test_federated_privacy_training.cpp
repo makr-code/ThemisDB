@@ -325,7 +325,7 @@ TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized)
     constexpr double lr = 0.25;
     constexpr int rounds = 30;
 
-    long long max_round_latency_ms = 0;
+    std::chrono::milliseconds::rep max_round_latency_ms = 0;
     for (int round = 0; round < rounds; ++round) {
         // ---- centralized update ----
         double grad_w_c = 0.0;

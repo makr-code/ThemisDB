@@ -259,6 +259,7 @@ TEST(JsonWikiIndexReader, WIS19_RejectsMalformedDocsDbEnvelope) {
     EXPECT_THROW(reader.load(), std::runtime_error);
     EXPECT_FALSE(reader.isReady());
     EXPECT_EQ(reader.size(), 0u);
+    EXPECT_TRUE(reader.query("rocksdb HNSW", 5, 0.0f).empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -367,11 +368,27 @@ TEST(JsonWikiIndexReader, WIS12_ReloadRefreshesChunks) {
     const std::string path = writeTempFile(makeMinimalJsonIndex());
     JsonWikiIndexReader reader(path, /*auto_load=*/true);
     EXPECT_EQ(reader.size(), 3u);
+    const auto before_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    ASSERT_FALSE(before_reload.empty());
 
-    // Reload must keep the same count
+    {
+        std::ofstream output(path);
+        output << R"([{
+  "chunk_id": "updated001",
+  "file_path": "docs/gpu.md",
+  "section_title": "GPU",
+  "text": "CUDA GPU acceleration"
+}])";
+    }
+
     reader.load();
-    EXPECT_EQ(reader.size(), 3u);
+    EXPECT_EQ(reader.size(), 1u);
     EXPECT_TRUE(reader.isReady());
+    const auto after_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    EXPECT_TRUE(after_reload.empty());
+    const auto updated = reader.query("CUDA GPU acceleration", 5, 0.0f);
+    ASSERT_EQ(updated.size(), 1u);
+    EXPECT_EQ(updated.front().chunk_id, "updated001");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

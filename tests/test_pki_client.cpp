@@ -339,6 +339,14 @@ TEST(PKIClientTest, GenerateCSR_WithKey_ProducesValidX509Req) {
     BIO_free(bio);
     ASSERT_NE(req, nullptr) << "OpenSSL must be able to parse the generated CSR";
 
+    const X509_NAME* subject = X509_REQ_get_subject_name(req);
+    ASSERT_NE(subject, nullptr);
+    char value[128] = {};
+    EXPECT_EQ(X509_NAME_get_text_by_NID(subject, NID_commonName, value, sizeof(value)), 19);
+    EXPECT_STREQ(value, "themis-test-service");
+    EXPECT_EQ(X509_NAME_get_text_by_NID(subject, NID_organizationName, value, sizeof(value)), 8);
+    EXPECT_STREQ(value, "ThemisDB");
+
     // Verify the CSR self-signature
     EVP_PKEY* pub = X509_REQ_get_pubkey(req);
     ASSERT_NE(pub, nullptr);
@@ -347,6 +355,43 @@ TEST(PKIClientTest, GenerateCSR_WithKey_ProducesValidX509Req) {
     X509_REQ_free(req);
 
     EXPECT_EQ(verify_rc, 1) << "CSR self-signature must be valid";
+}
+
+TEST(PKIClientTest, GenerateCSR_EmptyServiceId_OmitsCommonName) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path = "data/test_pki_csr/csr_empty_key.pem";
+    const std::string cert_path = "data/test_pki_csr/csr_empty_cert.pem";
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path = key_path;
+    const std::string csr_pem = VCCPKIClient(cfg).generateCSR();
+    ASSERT_FALSE(csr_pem.empty());
+
+    BIO* bio = BIO_new_mem_buf(csr_pem.data(), static_cast<int>(csr_pem.size()));
+    ASSERT_NE(bio, nullptr);
+    X509_REQ* req = PEM_read_bio_X509_REQ(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    ASSERT_NE(req, nullptr);
+    const X509_NAME* subject = X509_REQ_get_subject_name(req);
+    ASSERT_NE(subject, nullptr);
+    EXPECT_EQ(X509_NAME_get_index_by_NID(subject, NID_commonName, -1), -1);
+    char value[128] = {};
+    EXPECT_EQ(X509_NAME_get_text_by_NID(subject, NID_organizationName, value, sizeof(value)), 8);
+    EXPECT_STREQ(value, "ThemisDB");
+    X509_REQ_free(req);
+}
+
+TEST(PKIClientTest, GenerateCSR_InvalidServiceId_ReturnsEmpty) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path = "data/test_pki_csr/csr_invalid_key.pem";
+    const std::string cert_path = "data/test_pki_csr/csr_invalid_cert.pem";
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path = key_path;
+    cfg.service_id = std::string(65, 'a');
+    EXPECT_TRUE(VCCPKIClient(cfg).generateCSR().empty());
 }
 
 // generateCSR() must fail gracefully when no private key is configured.

@@ -1255,6 +1255,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llm_response_cache.cpp
     ../src/llm/subagent_factory_impl.cpp
     ../src/llm/subagent_coordinator_impl.cpp
+    ../src/llm/ai_orchestrator.cpp
+    ../src/llm/skill_registry.cpp
     # Prompt Engineering Module (all components)
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
@@ -2001,6 +2003,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_MCP}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/llm/mcp_tool_bridge.cpp>
     ../src/server/grpc_web_proxy_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
@@ -2726,6 +2729,9 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_network_deps}
         STATIC_MODULE
     )
+    if(THEMIS_ENABLE_MCP)
+        target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MCP)
+    endif()
     if(MSVC)
         option(THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY
             "Disable optimization of heavy HTTP handlers to reduce MSVC compiler memory usage"
@@ -3258,7 +3264,6 @@ function(themis_build_modular)
         themis_security
         themis_transaction
         themis_network
-        PARENT_SCOPE
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND THEMIS_ALL_MODULES themis_llm_api)

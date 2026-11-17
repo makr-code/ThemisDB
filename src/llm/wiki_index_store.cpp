@@ -14,7 +14,7 @@
  *
  * JsonWikiIndexReader:
  *   - Reads the Python-MVP index.json format (array of chunk objects).
- *   - Performs in-memory BM25-style TF token-overlap scoring for queries.
+ *   - Builds token postings at load time and performs in-memory TF overlap scoring.
  *   - Self-contained: no RocksDB dependency.
  *
  * @version 0.1.0
@@ -28,8 +28,8 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
-#include <chrono>
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <functional>
@@ -66,18 +66,18 @@ double applyBm25PlusFloor(double bm25_score, double delta) noexcept {
     return bm25_score + std::max(0.0, delta);
 }
 
-std::unordered_map<std::string, int> tokenizeTerms(const std::string &text) {
-  static const std::regex tok_re(R"([A-Za-z0-9_\-]+)", std::regex::ECMAScript);
-  std::unordered_map<std::string, int> term_frequencies;
-  for (auto it = std::sregex_iterator(text.begin(), text.end(), tok_re);
-       it != std::sregex_iterator(); ++it) {
-    std::string token = it->str();
-    std::transform(
-        token.begin(), token.end(), token.begin(),
-        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    ++term_frequencies[token];
-  }
-  return term_frequencies;
+std::unordered_map<std::string, int> tokenizeWikiText(const std::string& text) {
+    static const std::regex tok_re(R"([A-Za-z0-9_\-]+)", std::regex::ECMAScript);
+    std::unordered_map<std::string, int> frequencies;
+    auto it = std::sregex_iterator(text.begin(), text.end(), tok_re);
+    const auto end = std::sregex_iterator();
+    for (; it != end; ++it) {
+        std::string token = it->str();
+        std::transform(token.begin(), token.end(), token.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        ++frequencies[token];
+    }
+    return frequencies;
 }
 
 /**
@@ -1013,7 +1013,7 @@ void JsonWikiIndexReader::load() {
         if (!c.chunk_id.empty()) {
             chunks_.push_back(std::move(c));
             const std::size_t chunk_index = chunks_.size() - 1;
-            auto term_frequencies = tokenizeTerms(chunks_.back().text);
+            auto term_frequencies = tokenizeWikiText(chunks_.back().text);
             chunk_unique_term_counts_.push_back(term_frequencies.size());
             for (const auto& [term, frequency] : term_frequencies) {
                 token_postings_[term].push_back({chunk_index, frequency});
@@ -1036,8 +1036,7 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
         return {};
     }
 
-    const auto query_tf = tokenizeTerms(query_text);
-
+    const auto query_tf = tokenizeWikiText(query_text);
     if (query_tf.empty()) {
         return {};
     }
