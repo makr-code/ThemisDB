@@ -37,6 +37,12 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         continue()
     endif()
 
+    if(_stem STREQUAL "test_mcp_graph_query"
+       AND (NOT THEMIS_ENABLE_MCP OR NOT TARGET themis_network))
+        message(STATUS "Skipping ${_target}: THEMIS_ENABLE_MCP or themis_network is unavailable")
+        continue()
+    endif()
+
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -53,6 +59,10 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_mcp_graph_query")
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_MCP=1)
+        target_link_libraries(${_target} PRIVATE themis_network)
+    endif()
     if(_stem STREQUAL "test_server_phase2_focused")
         if(_server_benchmark_target)
             target_link_libraries(${_target} PRIVATE ${_server_benchmark_target})

@@ -40,8 +40,9 @@ TEST(McpGraphQueryTest, AttachedQueryEngineRetainsGraphBackend) {
         ("themis_mcp_graph_query_test_" + std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count()));
 
-    resources.database = std::make_shared<themis::RocksDBWrapper>(
-        resources.database_path.string());
+    themis::RocksDBWrapper::Config database_config;
+    database_config.db_path = resources.database_path.string();
+    resources.database = std::make_shared<themis::RocksDBWrapper>(database_config);
     ASSERT_TRUE(resources.database->open());
 
     boost::asio::io_context io_context;

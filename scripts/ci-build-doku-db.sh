@@ -133,6 +133,10 @@ WORDS_PER_TOKEN = 0.75  # rough approximation: 1 token ≈ 0.75 words
 max_words   = max(1, int(max_tokens * WORDS_PER_TOKEN))
 overlap_words = max(0, int(overlap * WORDS_PER_TOKEN))
 
+if max_tokens <= 0 or overlap < 0 or overlap_words >= max_words:
+    sys.exit("CHUNK_MAX_TOKENS must be positive and CHUNK_OVERLAP_TOKENS must "
+             "produce a non-negative overlap smaller than the chunk window")
+
 def heading_level(line: str) -> int:
     m = re.match(r'^(#{1,6})\s', line.strip())
     return len(m.group(1)) if m else 0
@@ -154,7 +158,7 @@ def split_document(text: str, source: str, max_w: int, ovlp: int):
         line = lines[i]
         lvl = heading_level(line)
         if lvl >= 1 and lvl <= 3:
-            flush(current_words[-ovlp:] if len(current_words) > ovlp else current_words)
+            flush(current_words)
             if lvl == 1:
                 heading_stack = [line.strip()]
             elif lvl == 2:
@@ -166,7 +170,7 @@ def split_document(text: str, source: str, max_w: int, ovlp: int):
         else:
             words = line.split()
             current_words.extend(words)
-            if len(current_words) >= max_w:
+            while len(current_words) >= max_w:
                 chunks.append((current_heading, " ".join(current_words[:max_w])))
                 current_words = current_words[max_w - ovlp:]
         i += 1

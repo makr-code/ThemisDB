@@ -425,7 +425,7 @@ class ScientificBenchmarkRunner:
             for _ in range(self.config.iterations_per_run):
                 await test_fn()
             
-            print(" ✓")
+            print(" done")
         
         # Main benchmark phase
         print(f"\nPHASE 2: Measurements ({self.config.repetitions} repetitions)")
@@ -440,19 +440,16 @@ class ScientificBenchmarkRunner:
             
             for iteration in range(self.config.iterations_per_run):
                 start = time.perf_counter()
-                
-                try:
-                    await test_fn()
-                except Exception as e:
-                    print(f"\n    ✗ Error in iteration {iteration}: {e}")
-                    continue
+                await test_fn()
                 
                 latency_ms = (time.perf_counter() - start) * 1000
                 
                 # Check timeout
                 if latency_ms > self.config.operation_timeout_ms:
-                    print(f"\n    ⚠ Timeout: {latency_ms:.2f}ms > {self.config.operation_timeout_ms}ms")
-                    continue
+                    raise TimeoutError(
+                        f"Operation exceeded timeout: {latency_ms:.2f}ms > "
+                        f"{self.config.operation_timeout_ms}ms"
+                    )
                 
                 sample = LatencySample(
                     operation=operation,
@@ -469,9 +466,9 @@ class ScientificBenchmarkRunner:
                 rep_mean = statistics.mean(rep_samples)
                 rep_min = min(rep_samples)
                 rep_max = max(rep_samples)
-                print(f" ✓ Mean: {rep_mean:.3f}ms, Range: [{rep_min:.3f}, {rep_max:.3f}]")
+                print(f" done. Mean: {rep_mean:.3f}ms, Range: [{rep_min:.3f}, {rep_max:.3f}]")
             else:
-                print(f" ✗ No valid samples")
+                print(" No valid samples")
         
         # Store raw samples
         key = f"{database_name}_{operation}"
@@ -499,7 +496,7 @@ class ScientificBenchmarkRunner:
         print(f"  P25:                  {analysis.p25_ms:.4f}ms")
         print(f"  P50:                  {analysis.p50_ms:.4f}ms")
         print(f"  P75:                  {analysis.p75_ms:.4f}ms")
-        print(f"  P95:                  {analysis.p95_ms:.4f}ms (SLA)")
+        print(f"  P95:                  {analysis.p95_ms:.4f}ms")
         print(f"  P99:                  {analysis.p99_ms:.4f}ms")
         print(f"  P99.9:                {analysis.p999_ms:.4f}ms")
         print()
@@ -515,13 +512,13 @@ class ScientificBenchmarkRunner:
         
         # Stability assessment
         if analysis.coeff_variation < 0.05:
-            stability = "EXCELLENT ⭐⭐⭐"
+            stability = "EXCELLENT"
         elif analysis.coeff_variation < 0.10:
-            stability = "GOOD ⭐⭐"
+            stability = "GOOD"
         elif analysis.coeff_variation < 0.20:
-            stability = "ACCEPTABLE ⭐"
+            stability = "ACCEPTABLE"
         else:
-            stability = "POOR ⚠️"
+            stability = "POOR"
         
         print(f"Stability Assessment:   {stability}")
         print()

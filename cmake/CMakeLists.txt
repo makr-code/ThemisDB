@@ -4909,6 +4909,9 @@ endif()
 # MCP (Model Context Protocol) Support
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
+    if(TARGET themis_network)
+        target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_MCP)
+    endif()
     message(STATUS "Model Context Protocol (MCP) support enabled")
     message(STATUS "  MCP Transports: stdio, SSE, WebSocket")
     message(STATUS "  MCP Components: Tools, Resources, Prompts")
@@ -5263,6 +5266,7 @@ if(THEMIS_ENABLE_LLM)
         # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
         ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
         ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+        ../src/llm/skill_registry.cpp             # Filesystem-backed Agent Skill packages
         ../src/llm/mode_spec_bootstrap.cpp        # Server bootstrap: llm.orchestrator.mode_spec_path / --mode-spec resolution
 
         # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)

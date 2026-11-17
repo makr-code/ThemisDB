@@ -142,8 +142,7 @@ struct WikiIndexConfig {
 class IWikiIndexReader {
 public:
     /**
-     * @brief IWiki Index Reader.
-     * @return Return value.
+     * @brief Release the reader through its interface.
      */
     virtual ~IWikiIndexReader() = default;
 
@@ -162,8 +161,7 @@ public:
 class IWikiIndexWriter {
 public:
     /**
-     * @brief IWiki Index Writer.
-     * @return Return value.
+     * @brief Release the writer through its interface.
      */
     virtual ~IWikiIndexWriter() = default;
 
@@ -189,6 +187,12 @@ public:
 // WikiIndexStore — production hybrid (BM25 + vector)
 // ============================================================================
 
+/**
+ * @brief Hybrid wiki index backed by full-text and vector indexes.
+ * @note The store is active only when the Phase B configuration gate is enabled.
+ *       Index initialization errors are logged; callers should check isReady()
+ *       before relying on query results.
+ */
 class WikiIndexStore : public IWikiIndexReader, public IWikiIndexWriter {
 public:
     WikiIndexStore(SecondaryIndexManager& sim,
@@ -217,6 +221,18 @@ public:
     // Evaluation API (Recall@k / MRR / p95 latency)
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Executes a query and updates retrieval-quality statistics.
+     * @param query_text Query text passed to the enabled retrieval backends; empty input is not
+     *        rejected and follows their behavior.
+     * @param top_k Maximum result count; non-positive values use the configured default.
+     * @param min_score Minimum fused score accepted in the returned results.
+     * @param relevant_doc_ids Ground-truth document IDs; duplicates count once and an empty list
+     *        skips recall/MRR updates.
+     * @return Retrieved chunks in query order; an unavailable/disabled store may return empty.
+     * @note query() records latency and total-query count after execution. If Phase B is
+     *       disabled, it returns empty before recording those metrics.
+     */
     [[nodiscard]] std::vector<WikiChunk> evaluateQuery(
         const std::string&              query_text,
         int                             top_k,
@@ -375,6 +391,11 @@ private:
 // JsonWikiIndexReader — Phase A JSON fallback
 // ============================================================================
 
+/**
+ * @brief Read-only in-memory retrieval over a JSON wiki chunk index.
+ * @note This fallback requires no RocksDB instance. Construct with auto_load=true
+ *       or call load(); a failed load throws and leaves the reader not ready.
+ */
 class JsonWikiIndexReader : public IWikiIndexReader {
 public:
     explicit JsonWikiIndexReader(std::string index_path, bool auto_load = false);
@@ -396,11 +417,16 @@ public:
 
     [[nodiscard]] bool isReady() const noexcept override;
 
+    /**
+     * @brief Returns the number of chunks loaded into memory.
+     * @return Zero before a successful load or when the index contains no valid chunks.
+     */
     [[nodiscard]] std::size_t size() const noexcept;
 
 private:
     std::string            index_path_;   ///< Path to JSON file
     std::vector<WikiChunk> chunks_;       ///< Loaded chunks
+    std::vector<std::unordered_map<std::string, int>> chunk_token_frequencies_;
     bool                   loaded_{false}; ///< Load status flag
 };
 

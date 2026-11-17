@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <limits>
 #include "acceleration/ai_hardware_dispatcher.h"
 #include "acceleration/compute_backend.h"
 
@@ -479,4 +480,60 @@ TEST(AiHardwareDispatcherFocusedTests, AH_34_VectorSimilarity_InvalidShape_Retur
     auto res = AiHardwareDispatcher::instance().runOn(BackendType::CUDA, req);
     EXPECT_FALSE(res.success);
     EXPECT_FALSE(res.error.empty());
+    EXPECT_TRUE(res.output.empty());
+    EXPECT_TRUE(res.output_shape.empty());
+    EXPECT_TRUE(res.topk_indices.empty());
+    EXPECT_TRUE(res.topk_distances.empty());
+}
+
+TEST(AiHardwareDispatcherFocusedTests, VectorSimilarity_QueryProductOverflow_ReturnsError) {
+    const float value = 1.0f;
+    AiInferenceRequest req;
+    req.task_tag = "vector_similarity_l2";
+    req.input_data = &value;
+    req.input_elements = std::numeric_limits<size_t>::max() - 1;
+    req.similarity_corpus = &value;
+    req.similarity_num_queries = std::numeric_limits<size_t>::max();
+    req.similarity_num_vectors = 1;
+    req.similarity_dim = 2;
+    req.similarity_top_k = 1;
+
+    const auto result = AiHardwareDispatcher::instance().runOn(BackendType::CPU, req);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error.find("supported kernel"), std::string::npos);
+}
+
+TEST(AiHardwareDispatcherFocusedTests, VectorSimilarity_KernelArgumentNarrowing_ReturnsError) {
+    const float value = 1.0f;
+    const size_t too_many_vectors = static_cast<size_t>(std::numeric_limits<int>::max()) + 1;
+    AiInferenceRequest req;
+    req.task_tag = "vector_similarity_l2";
+    req.input_data = &value;
+    req.input_elements = 1;
+    req.similarity_corpus = &value;
+    req.similarity_num_queries = 1;
+    req.similarity_num_vectors = too_many_vectors;
+    req.similarity_dim = 1;
+    req.similarity_top_k = 1;
+
+    const auto result = AiHardwareDispatcher::instance().runOn(BackendType::CPU, req);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error.find("supported kernel"), std::string::npos);
+}
+
+TEST(AiHardwareDispatcherFocusedTests, VectorSimilarity_DistanceMatrixLimit_ReturnsError) {
+    const float value = 1.0f;
+    AiInferenceRequest req;
+    req.task_tag = "vector_similarity_l2";
+    req.input_data = &value;
+    req.similarity_num_queries = static_cast<size_t>(std::numeric_limits<int>::max()) / 2 + 1;
+    req.input_elements = req.similarity_num_queries;
+    req.similarity_corpus = &value;
+    req.similarity_num_vectors = 2;
+    req.similarity_dim = 1;
+    req.similarity_top_k = 1;
+
+    const auto result = AiHardwareDispatcher::instance().runOn(BackendType::CPU, req);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error.find("distance matrix"), std::string::npos);
 }
