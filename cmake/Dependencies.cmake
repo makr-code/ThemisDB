@@ -544,6 +544,33 @@ option(THEMIS_ALLOW_MISSING_ROCKSDB
     "Allow CMake configure to continue without a detected RocksDB install (build of RocksDB-dependent targets may fail)."
     OFF
 )
+# Some system RocksDB package configs reference lz4::lz4 in their imported
+# target interface. Resolve that dependency before loading the RocksDB config.
+find_package(lz4 CONFIG QUIET)
+if(NOT TARGET lz4::lz4)
+    if(TARGET LZ4::lz4_shared)
+        add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+        set_property(TARGET lz4::lz4 PROPERTY
+            INTERFACE_LINK_LIBRARIES LZ4::lz4_shared
+        )
+    elseif(TARGET LZ4::lz4_static)
+        add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+        set_property(TARGET lz4::lz4 PROPERTY
+            INTERFACE_LINK_LIBRARIES LZ4::lz4_static
+        )
+    else()
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(_THEMIS_LZ4 QUIET IMPORTED_TARGET GLOBAL liblz4)
+            if(_THEMIS_LZ4_FOUND)
+                add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+                set_property(TARGET lz4::lz4 PROPERTY
+                    INTERFACE_LINK_LIBRARIES PkgConfig::_THEMIS_LZ4
+                )
+            endif()
+        endif()
+    endif()
+endif()
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
    message(STATUS "RocksDB found via CONFIG")
