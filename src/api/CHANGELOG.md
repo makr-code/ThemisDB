@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: review | validated: 2026-10-31 -->
+<!-- Status: review | validated: 2026-11-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - API Module
@@ -24,9 +24,14 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+- `OtlpExporter` now rejects zero queue/batch sizes, non-positive flush intervals, timeouts outside 1–60000 ms, retry counts outside 0–10, and initial back-off outside 1–30000 ms. Invalid configurations fail during construction instead of reaching unsafe queueing or unbounded retry timing.
+- OTLP retry back-off now saturates at 30000 ms to avoid signed overflow and keep each wait bounded.
+
 ### Documentation
 - Refreshed API module documentation against current headers, implementation, tests, and benchmark sources; marked the generated Doxygen snapshot stale.
 - `PERFORMANCE_EXPECTATIONS.md` records that several API benchmark target labels do not match their mapped benchmark cases; mapping correction remains open.
+- Reconciled the machine-readable API contract with transport-policy behavior and identified fixture/simulation tests as non-integration evidence.
 
 ### Added (Wave D — Q1 2027 operability, 2026-08-19 to 2026-09-16)
 - `tests/api/test_api_wave_d_stress.cpp`: Wave D stress, soak, and operator-hint coverage tests — high-cardinality tracing stress, exporter retry/failure resilience, 100k-request soak simulation, concurrent mixed-load soak, operator ERR_-prefix diagnostics.

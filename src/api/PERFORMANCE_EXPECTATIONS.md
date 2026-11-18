@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -65,3 +65,37 @@ Markdown scope.
 These are targets documented beside the benchmark cases, not a report of measured results. Compare
 benchmark output against the configured release baseline and environment-specific acceptance gate
 before claiming a performance pass.
+
+## Release validation protocol
+
+The v2.5.0/v3.0.0 roadmap does not treat the table above as a pass. Before release sign-off:
+
+1. Reconcile every API entry in `benchmarks/benchmark_target_mapping.json` with the benchmark case
+   it measures. Do not use mismatched labels as evidence.
+2. Configure a test-enabled release build with `THEMIS_BUILD_BENCHMARKS=ON`, then build and run the
+   focused API tests:
+
+   ```sh
+   cmake --build <build-dir> --target \
+     module_api_test_api_contracts_focused \
+     module_api_test_api_phase4_concurrency_focused \
+     module_api_test_api_degraded_mode_focused \
+     module_api_test_api_otlp_exporter_config_focused
+   ctest --test-dir <build-dir> \
+     -R '^test_api_(contracts|phase4_concurrency|degraded_mode|otlp_exporter_config)_api_FocusedTests$' \
+     --output-on-failure
+   ```
+
+3. Run mapped microbenchmarks and representative endpoint tests on pinned, recorded hardware.
+   For offered-load tests, use at least three rates up to measured saturation and repeat each
+   profile five times. Preserve the command, commit, compiler/build flags, host, raw output,
+   offered load, p50/p95/p99 latency, throughput, and error rate.
+4. Compare p95 and p99 with a dated baseline for the same workload and environment; flag a
+   regression greater than 5%. A benchmark target's success or source-comment budget is not
+   sufficient without the retained result and reviewed baseline.
+5. Run correctness, security, and route-wiring checks separately. These microbenchmarks do not
+   establish production authentication, middleware installation, optional-transport availability,
+   overload recovery, or live collector behavior.
+
+No measured API baseline or passing release result is recorded by this document. Keep the
+performance gate `[!] unverified` until the evidence bundle is attached to the release review.
