@@ -336,10 +336,7 @@ if(WIN32 AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STRE
 endif()
 
 # Dependencies
-find_package(OpenSSL CONFIG)
-if(NOT OpenSSL_FOUND)
-    find_package(OpenSSL)
-endif()
+find_package(OpenSSL MODULE)
 if(NOT OpenSSL_FOUND)
     message(WARNING "OpenSSL not found; using interface fallback targets and disabling OpenSSL-backed TSA features")
     add_library(OpenSSL::SSL INTERFACE IMPORTED)
@@ -5837,7 +5834,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     endif()
     
     # OpenSSL is optional (HTTPS support via cpp-httplib)
-    find_package(OpenSSL QUIET)
+    find_package(OpenSSL MODULE QUIET)
     if(OpenSSL_FOUND)
         target_link_libraries(themisctl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
         target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)

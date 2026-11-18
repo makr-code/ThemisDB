@@ -9,6 +9,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 
 using namespace themis;
 
@@ -70,13 +71,20 @@ std::string generate_test_certificate(int days_before_now, int days_after_now) {
     X509_gmtime_adj(X509_get_notAfter(x509), days_after_now * 24 * 3600);
     
     // Set subject
-    X509_NAME* name = X509_get_subject_name(x509);
-    X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char*)"DE", -1, -1, 0);
-    X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (unsigned char*)"ThemisDB", -1, -1, 0);
-    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char*)"test-cert", -1, -1, 0);
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+        X509_NAME_new(), X509_NAME_free);
+    if (!name) {
+        X509_free(x509);
+        EVP_PKEY_free(pkey);
+        return "";
+    }
+    X509_NAME_add_entry_by_txt(name.get(), "C", MBSTRING_ASC, (unsigned char*)"DE", -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name.get(), "O", MBSTRING_ASC, (unsigned char*)"ThemisDB", -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC, (unsigned char*)"test-cert", -1, -1, 0);
     
     // Set issuer (self-signed)
-    X509_set_issuer_name(x509, name);
+    X509_set_subject_name(x509, name.get());
+    X509_set_issuer_name(x509, name.get());
     
     // Set public key
     X509_set_pubkey(x509, pkey);

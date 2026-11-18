@@ -318,11 +318,11 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
         claims.principal = claims.san_email_addresses.front();
     } else {
         // Extract CN from Subject DN
-        X509_NAME *subj = X509_get_subject_name(cert.get());
+        const X509_NAME *subj = X509_get_subject_name(cert.get());
         int idx         = X509_NAME_get_index_by_NID(subj, NID_commonName, -1);
         if (idx >= 0) {
-            X509_NAME_ENTRY *entry = X509_NAME_get_entry(subj, idx);
-            ASN1_STRING *data      = X509_NAME_ENTRY_get_data(entry);
+            const X509_NAME_ENTRY *entry = X509_NAME_get_entry(subj, idx);
+            const ASN1_STRING *data      = X509_NAME_ENTRY_get_data(entry);
             unsigned char *utf8    = nullptr;
             int len                = ASN1_STRING_to_UTF8(&utf8, data);
             if (len > 0 && utf8) {
@@ -460,14 +460,14 @@ std::string MTLSAuthenticator::extractSubjectCN(const std::string &cert_pem) {
                                       "extractSubjectCN: failed to parse PEM: " + opensslError()));
     }
 
-    X509_NAME *subj = X509_get_subject_name(cert.get());
+    const X509_NAME *subj = X509_get_subject_name(cert.get());
     int idx         = X509_NAME_get_index_by_NID(subj, NID_commonName, -1);
     if (idx < 0) {
         return {};
     }
 
-    X509_NAME_ENTRY *entry = X509_NAME_get_entry(subj, idx);
-    ASN1_STRING *data      = X509_NAME_ENTRY_get_data(entry);
+    const X509_NAME_ENTRY *entry = X509_NAME_get_entry(subj, idx);
+    const ASN1_STRING *data      = X509_NAME_ENTRY_get_data(entry);
     unsigned char *utf8    = nullptr;
     int len                = ASN1_STRING_to_UTF8(&utf8, data);
     if (len <= 0 || !utf8) {

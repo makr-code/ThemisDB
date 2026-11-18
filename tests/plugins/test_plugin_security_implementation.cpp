@@ -12,6 +12,7 @@
 #include <openssl/x509.h>
 #include <openssl/evp.h>
 #include <sstream>
+#include <memory>
 #include <vector>
 #include <nlohmann/json.hpp>
 #include "acceleration/plugin_loader.h"
@@ -120,14 +121,16 @@ protected:
         
         X509_set_pubkey(x509, pkey);
         
-        X509_NAME* name = X509_get_subject_name(x509);
-        X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, 
+        std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+            X509_NAME_new(), X509_NAME_free);
+        X509_NAME_add_entry_by_txt(name.get(), "C", MBSTRING_ASC,
                                    reinterpret_cast<const unsigned char*>("DE"), -1, -1, 0);
-        X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC,
+        X509_NAME_add_entry_by_txt(name.get(), "O", MBSTRING_ASC,
                                    reinterpret_cast<const unsigned char*>("ThemisDB"), -1, -1, 0);
-        X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC,
+        X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC,
                                    reinterpret_cast<const unsigned char*>("ThemisDB Test CA"), -1, -1, 0);
-        X509_set_issuer_name(x509, name);
+        X509_set_subject_name(x509, name.get());
+        X509_set_issuer_name(x509, name.get());
         
         // Sign certificate
         X509_sign(x509, pkey, EVP_sha256());

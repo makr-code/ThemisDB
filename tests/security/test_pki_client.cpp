@@ -16,6 +16,7 @@ extern "C" {
 #include <filesystem>
 #include <fstream>
 #include <vector>
+#include <memory>
 #include <random>
 
 using namespace themis::utils;
@@ -39,7 +40,8 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
     bool ok = false;
     EVP_PKEY* pkey = nullptr;
     X509* x509 = nullptr;
-    X509_NAME* name = nullptr;
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+        nullptr, X509_NAME_free);
 
     RSA* rsa = RSA_new();
     BIGNUM* e = BN_new();
@@ -86,14 +88,15 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
     X509_gmtime_adj(X509_get_notAfter(x509), days_valid * 24 * 3600);
 
     // Subject/Issuer (self-signed)
-    name = X509_get_subject_name(x509);
+    name.reset(X509_NAME_new());
     if (!name) {
       goto cleanup;
     }
-    X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char*)"DE", -1, -1, 0);
-    X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (unsigned char*)"ThemisDB", -1, -1, 0);
-    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char*)"themis-test", -1, -1, 0);
-    X509_set_issuer_name(x509, name);
+    X509_NAME_add_entry_by_txt(name.get(), "C", MBSTRING_ASC, (unsigned char*)"DE", -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name.get(), "O", MBSTRING_ASC, (unsigned char*)"ThemisDB", -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC, (unsigned char*)"themis-test", -1, -1, 0);
+    X509_set_subject_name(x509, name.get());
+    X509_set_issuer_name(x509, name.get());
 
     // Public key
     if (X509_set_pubkey(x509, pkey) != 1) {

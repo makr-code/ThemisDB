@@ -558,7 +558,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             }
             
             // Extract subject name
-            X509_NAME* subject = X509_get_subject_name(tsa_x509);
+            const X509_NAME* subject = X509_get_subject_name(tsa_x509);
             if(subject){
                 TSA_BIO_ptr name_bio(BIO_new(BIO_s_mem()));
                 if(name_bio.get()){
@@ -971,7 +971,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         }
         
         // Extract subject name
-        X509_NAME* subject = X509_get_subject_name(cert.get());
+        const X509_NAME* subject = X509_get_subject_name(cert.get());
         if (!subject) {
             validation_errors_.push_back("Certificate has no subject");
             return false;

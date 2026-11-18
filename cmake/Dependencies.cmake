@@ -434,16 +434,19 @@ endif()
 # REQUIRED DEPENDENCIES (core functionality)
 # ============================================================================
 
-# First try with CONFIG package  
-find_package(OpenSSL CONFIG QUIET)
-if(NOT OpenSSL_FOUND)
-    # Try MODULE search
-    find_package(OpenSSL MODULE QUIET)
-endif()
+# Use CMake's module finder so OPENSSL_ROOT_DIR takes precedence over unrelated
+# OpenSSLConfig.cmake files found through a broad package prefix.
+find_package(OpenSSL MODULE QUIET)
 
 # If still not found, skip OpenSSL (not all features require it)
 if(OpenSSL_FOUND)
-    message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+    message(STATUS
+        "OpenSSL found: version=${OPENSSL_VERSION}; "
+        "include=${OPENSSL_INCLUDE_DIR}; "
+        "ssl=${OPENSSL_SSL_LIBRARY}; "
+        "crypto=${OPENSSL_CRYPTO_LIBRARY}; "
+        "root=${OPENSSL_ROOT_DIR}"
+    )
 else()
     message(WARNING "OpenSSL not found - some features may be disabled")
 endif()

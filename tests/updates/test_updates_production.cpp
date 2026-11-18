@@ -235,17 +235,19 @@ ManifestTestSigner createManifestTestSigner(bool expired = false) {
         throw std::runtime_error("Failed to initialize manifest test certificate");
     }
 
-    X509_NAME* subject = X509_get_subject_name(certificate.get());
-    const auto add_name_field = [subject](const char* field, const char* value) {
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> subject(
+        X509_NAME_new(), X509_NAME_free);
+    const auto add_name_field = [&subject](const char* field, const char* value) {
         return X509_NAME_add_entry_by_txt(
-            subject, field, MBSTRING_ASC,
+            subject.get(), field, MBSTRING_ASC,
             reinterpret_cast<const unsigned char*>(value), -1, -1, 0) == 1;
     };
     if (!subject
         || !add_name_field("C", "DE")
         || !add_name_field("O", "ThemisDB")
         || !add_name_field("CN", "ThemisDB Official Plugins")
-        || X509_set_issuer_name(certificate.get(), subject) != 1
+        || X509_set_subject_name(certificate.get(), subject.get()) != 1
+        || X509_set_issuer_name(certificate.get(), subject.get()) != 1
         || X509_sign(certificate.get(), signer.key.get(), EVP_sha256()) <= 0) {
         throw std::runtime_error("Failed to sign manifest test certificate");
     }
