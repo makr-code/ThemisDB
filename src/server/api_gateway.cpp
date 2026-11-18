@@ -36,9 +36,9 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 // Helper to create error responses
 namespace {
-    class Error : public std::runtime_error {
+    class GatewayError : public std::runtime_error {
     public:
-        Error(int code, const std::string& msg) 
+        GatewayError(int code, const std::string& msg)
             : std::runtime_error(msg), code_(code) {}
         int code() const { return code_; }
     private:
@@ -271,12 +271,12 @@ nlohmann::json APIGateway::executeFederatedQuery(
     federated_queries_++;
     
     if (!config_.enable_query_federation) {
-        throw Error(static_cast<int>(ErrorCode::FeatureDisabled), 
+        throw GatewayError(static_cast<int>(ErrorCode::FeatureDisabled),
                    "Query federation is not enabled");
     }
     
     if (!shard_router_) {
-        throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
+        throw GatewayError(static_cast<int>(ErrorCode::ConfigurationError),
                    "Shard router not configured for query federation");
     }
     auto& shard_router = *shard_router_;
