@@ -18,6 +18,7 @@
 #include <chrono>
 #include <exception>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <utility>
 #include <nlohmann/json.hpp>
@@ -51,6 +52,64 @@ ThemisCoreServiceImpl::ServiceInstanceFn g_core_grpc_instance_fn;
 inline std::string storageKey(const std::string& collection, const std::string& key) {
     return collection + ":" + key;
 }
+
+#if THEMIS_HAS_CORE_GRPC
+bool grpcRequestIsCancelled(const void* state) noexcept {
+    const auto* context = static_cast<const grpc::ServerContext*>(state);
+    if (!context) {
+        return false;
+    }
+    const auto deadline = context->deadline();
+    return (deadline == std::chrono::system_clock::time_point::max() ||
+            std::chrono::system_clock::now() < deadline) &&
+           context->IsCancelled();
+}
+
+query::RequestContext makeRequestContext(const grpc::ServerContext* context) {
+    using RequestContext = query::RequestContext;
+    if (!context) {
+        return {};
+    }
+
+    std::optional<RequestContext::TimePoint> deadline;
+    const auto grpc_deadline = context->deadline();
+    if (grpc_deadline != std::chrono::system_clock::time_point::max()) {
+        const auto system_now = std::chrono::system_clock::now();
+        const auto remaining = grpc_deadline > system_now
+            ? grpc_deadline - system_now
+            : std::chrono::system_clock::duration::zero();
+        const auto steady_now = RequestContext::Clock::now();
+        const auto steady_remaining =
+            std::chrono::duration_cast<RequestContext::Clock::duration>(remaining);
+        const auto maximum_remaining =
+            RequestContext::TimePoint::max() - steady_now;
+        deadline = steady_remaining >= maximum_remaining
+            ? RequestContext::TimePoint::max()
+            : steady_now + steady_remaining;
+    }
+
+    // The borrowed ServerContext remains alive throughout this synchronous RPC.
+    return RequestContext(nullptr, deadline, &grpcRequestIsCancelled, context);
+}
+
+grpc::Status aqlStopStatus(query::StopReason reason) {
+    return reason == query::StopReason::Cancelled
+        ? grpc::Status(grpc::StatusCode::CANCELLED, "AQL query cancelled")
+        : grpc::Status(grpc::StatusCode::DEADLINE_EXCEEDED,
+                       "AQL query deadline exceeded");
+}
+
+grpc::Status stopAql(query::StopReason reason, AQLResponse* response) {
+    response->set_success(false);
+    response->clear_results();
+    auto* error = response->mutable_error();
+    error->set_code(reason == query::StopReason::Cancelled ? 499 : 408);
+    error->set_message(reason == query::StopReason::Cancelled
+                           ? "AQL query cancelled"
+                           : "AQL query deadline exceeded");
+    return aqlStopStatus(reason);
+}
+#endif
 } // namespace
 
 class ThemisCoreServiceImpl::Impl {
@@ -486,7 +545,7 @@ private:
         // ── Query (AQL) ──────────────────────────────────────────────────────
 
         grpc::Status ExecuteAQL(
-            grpc::ServerContext* /*ctx*/,
+            grpc::ServerContext* ctx,
             const AQLRequest*    req,
             AQLResponse*         resp
         ) override {
@@ -516,7 +575,19 @@ private:
                 }
                 bind_vars_json = bv.dump();
             }
-            auto result = aql_engine_->execute(req->query(), bind_vars_json);
+            const auto request = makeRequestContext(ctx);
+            if (request.shouldStop()) {
+                return stopAql(request.stopReason(), resp);
+            }
+            auto stop_reason = query::StopReason::None;
+            auto result = aql_engine_->execute(
+                req->query(), bind_vars_json, request, stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return stopAql(stop_reason, resp);
+            }
+            if (request.shouldStop()) {
+                return stopAql(request.stopReason(), resp);
+            }
             const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0).count();
 
@@ -536,7 +607,7 @@ private:
         }
 
         grpc::Status StreamQuery(
-            grpc::ServerContext*                   /*ctx*/,
+            grpc::ServerContext*                   ctx,
             const AQLRequest*                      req,
             grpc::ServerWriter<QueryResult>*       writer
         ) override {
@@ -556,14 +627,35 @@ private:
                 }
                 stream_bind_vars_json = bv.dump();
             }
-            auto result = aql_engine_->execute(req->query(), stream_bind_vars_json);
+            const auto request = makeRequestContext(ctx);
+            if (request.shouldStop()) {
+                return aqlStopStatus(request.stopReason());
+            }
+            auto stop_reason = query::StopReason::None;
+            auto result = aql_engine_->execute(
+                req->query(), stream_bind_vars_json, request, stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return aqlStopStatus(stop_reason);
+            }
+            if (request.shouldStop()) {
+                return aqlStopStatus(request.stopReason());
+            }
             if (!result) {
                 return grpc::Status(grpc::StatusCode::INTERNAL, result.error().message());
             }
             QueryResult qr;
             qr.set_data(*result);
             qr.set_has_more(false);
-            writer->Write(qr);
+            if (!writer->Write(qr)) {
+                const auto reason = request.stopReason();
+                return reason == query::StopReason::None
+                    ? grpc::Status(grpc::StatusCode::CANCELLED,
+                                   "AQL stream write failed")
+                    : aqlStopStatus(reason);
+            }
+            if (request.shouldStop()) {
+                return aqlStopStatus(request.stopReason());
+            }
             return grpc::Status::OK;
         }
 

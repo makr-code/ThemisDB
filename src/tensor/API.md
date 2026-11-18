@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-17"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -52,6 +52,13 @@ Responsibilities:
 Contract notes:
 
 - `findSimilar()` excludes the query key from the result set
+- the request-aware `findSimilar(query_key, k, request, stop_reason)` overload
+  polls while collecting candidates and between per-candidate similarity
+  operations; it discards partial results and reports cancellation or deadline
+  expiry through `stop_reason`
+- each TT inner-product and injected exact-similarity callback remains
+  synchronous and checkpoint-only, as does result sorting, so one such operation
+  can overrun a deadline
 - `findSimilarByFingerprint()` returns results sorted by descending similarity
 - invalid magnitude, invalid scores, or missing candidate trains result in empty output with diagnostics rather than silent bad values
 

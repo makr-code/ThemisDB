@@ -407,6 +407,7 @@ def test_pull_request_target_allows_base_ref_only_checkout(tmp_path: Path):
 def test_core_gate_delegates_issue_permissions_to_build_components():
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
+    assert core["concurrency"]["cancel-in-progress"] is False
     assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
     rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
     assert rag["permissions"] == {"contents": "read"}
@@ -419,6 +420,16 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
         caller_permissions = caller["jobs"][f"phase{phase}_validation"]["permissions"]
         assert caller_permissions["pull-requests"] == "write"
         assert caller_permissions["issues"] == "write"
+
+
+def test_sanitizer_gates_use_supported_ubuntu_runner():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    sanitizer = yaml.safe_load(
+        (workflows / "build-sanitizer-nightly.yml").read_text(encoding="utf-8")
+    )
+    assert sanitizer["jobs"]["sanitizer-build"]["with"]["runs_on"] == "ubuntu-24.04"
+    assert sanitizer["jobs"]["sanitizer-build"]["with"]["timeout_minutes"] == "90"
+    assert sanitizer["jobs"]["tsan-build"]["with"]["runs_on"] == "ubuntu-24.04"
 
 
 def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):

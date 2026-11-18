@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
@@ -42,6 +43,21 @@ static bool hasTriple(const InferenceChain& chain,
     return false;
 }
 
+namespace {
+
+struct StopAfterPolls {
+    std::size_t stop_after = 0;
+    mutable std::atomic<std::size_t> polls{0};
+};
+
+bool cancelAfterPolls(const void* opaque) noexcept {
+    const auto* state = static_cast<const StopAfterPolls*>(opaque);
+    return state->polls.fetch_add(1, std::memory_order_relaxed) + 1 >=
+           state->stop_after;
+}
+
+}  // namespace
+
 // ─────────────────────────────────────────────────────────────────────────────
 // KGR-01: Simple one-hop transitive rule
 // ─────────────────────────────────────────────────────────────────────────────
@@ -57,6 +73,39 @@ TEST(KnowledgeGraphReasonerTest, KGR01_SimpleTransitiveRule) {
     auto chain = kgr.infer("alice", 2);
     ASSERT_FALSE(chain.empty());
     EXPECT_TRUE(hasTriple(chain, "alice", "indirectly_knows", "carol"));
+}
+
+TEST(KnowledgeGraphReasonerTest, RequestAwareInferenceDiscardsPartialDerivationsOnCancel) {
+    KnowledgeGraphReasoner kgr;
+    ASSERT_TRUE((kgr.addRule({"derive",
+                              {{"?subject", "source", "?object"}},
+                              {{"?subject", "derived", "?object"}}})));
+    for (std::size_t i = 0; i < 1000; ++i) {
+        kgr.addFact({"alice", "source", "object-" + std::to_string(i)});
+    }
+
+    StopAfterPolls probe_state{2500};
+    const themis::query::RequestContext request(
+        nullptr, std::nullopt, &cancelAfterPolls, &probe_state);
+    auto stop_reason = themis::query::StopReason::None;
+
+    const auto chain = kgr.infer("alice", 1, request, &stop_reason);
+
+    EXPECT_TRUE(chain.empty());
+    EXPECT_EQ(stop_reason, themis::query::StopReason::Cancelled);
+    EXPECT_EQ(kgr.inferenceStore().size(), 0U);
+}
+
+TEST(KnowledgeGraphReasonerTest, RequestAwareInferenceDistinguishesExpiredDeadline) {
+    KnowledgeGraphReasoner kgr;
+    auto stop_reason = themis::query::StopReason::None;
+    const auto request = themis::query::RequestContext::withTimeout(
+        std::chrono::milliseconds{-1});
+
+    const auto chain = kgr.infer("alice", 1, request, &stop_reason);
+
+    EXPECT_TRUE(chain.empty());
+    EXPECT_EQ(stop_reason, themis::query::StopReason::DeadlineExceeded);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

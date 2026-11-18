@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -42,13 +42,14 @@ telemetry. Trust transitions are:
 - Request/response byte limits and generated-field limits constrain accepted
   data. The response limit is checked after body collection, and the bounds do
   not validate code semantics.
-- JSON parsing, required implementation presence, and optional callback gates
-  reject invalid JSON syntax or returned gate errors. Typed extraction of
-  response fields and most callbacks are not wrapped in exception handling;
-  malformed field types or thrown callback exceptions can escape instead of
-  becoming a `Result` rejection. The `passed_security_checks` field and
-  `security_report` come from the provider unless amended by an enabled
-  callback; neither is independently verified by the generator.
+- JSON parsing, response shape/field types, dependency entries, required
+  implementation presence, and optional callback gates reject malformed
+  responses. Transport, C1, sandbox, and C2 callback exceptions are converted
+  to errors; CAI prompt-runner exceptions trigger an explicitly marked
+  rule-based fallback that cannot pass the acceptance helper. The
+  `passed_security_checks` field and `security_report` come from the provider
+  unless amended by an enabled callback; neither is independently verified by
+  the generator.
 - Sandbox materialization writes and reads back generated files and copies them
   to the output directory. It does not execute generated code in isolation,
   compile it, or run static analysis.
@@ -60,11 +61,10 @@ telemetry. Trust transitions are:
 
 The API has no dedicated authentication or secret-provider field. Manage
 provider authentication in the configured transport or deployment environment;
-do not place secrets in prompts, generated artifacts, or endpoint URL
-user-info. The generator's debug log includes the endpoint string and a bounded
-prefix of the description. Endpoint trace baggage strips URL path, query, and
-userinfo, but that does not redact the separate debug log. Treat log access and
-retention accordingly.
+do not place secrets in prompts or generated artifacts. Prompts and callback
+error details are not emitted in diagnostic logs or trace attributes. Endpoint
+logs and trace baggage retain only scheme, host, and port, stripping URL
+userinfo, path, query, and fragment.
 
 C2 telemetry contains generated field sizes, the provider-supplied
 `passed_security_checks` value, and the C1 score when present; it does not

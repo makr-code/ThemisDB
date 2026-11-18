@@ -18,6 +18,7 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
+#include "query/request_context.h"
 
 namespace themis {
 namespace content {
@@ -81,7 +82,7 @@ public:
     ) = 0;
     
     [[nodiscard]] virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
-    
+
     [[nodiscard]] virtual std::string getName() const = 0;
     
     [[nodiscard]] virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
@@ -92,6 +93,19 @@ public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
+    /**
+     * @brief Generate the built-in text embedding while polling request stop state.
+     * @param[in] chunk_data Input text to embed.
+     * @param[in] request Request deadline and cancellation token.
+     * @param[out] stop_reason Receives the stop reason when cancelled or expired;
+     *                         may be null when the caller only needs an empty result.
+     * @return Embedding, or an empty vector if the request stops. An injected
+     *         synchronous embedding callback is checked only before and after it runs.
+     */
+    std::vector<float> generateEmbedding(
+        const std::string& chunk_data,
+         const ::themis::query::RequestContext& request,
+         ::themis::query::StopReason* stop_reason);
     std::string getName() const override { return "TextProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::TEXT};

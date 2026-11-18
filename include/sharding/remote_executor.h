@@ -65,9 +65,17 @@ public:
         std::string shard_id;           // Target shard ID
         nlohmann::json data;            // Response data
         bool success;                   // true if request succeeded
-        std::string error;              // Error message if failed
+        /// @brief Error details when remote execution failed; empty on success.
+        std::string error;
         uint64_t execution_time_ms;     // Execution time
         int http_status;                // HTTP status code
+        /// True when the request was aborted by client cancellation (RequestContext overloads only).
+        bool cancelled = false;
+        /// True when the supplied RequestContext deadline expired (RequestContext overloads only).
+        bool timed_out = false;
+        /// True when a transport connect/request stage timeout fired while the context
+        /// was still live (RequestContext overloads only). Exclusive with `timed_out`.
+        bool stage_timed_out = false;
     };
     
     /**
@@ -76,54 +84,114 @@ public:
     explicit RemoteExecutor(const Config& config);
     
     /**
-     * Execute GET request on remote shard
+     * @brief Execute a GET request on a remote shard.
      * @param shard_info Target shard information
      * @param path Request path (e.g., "/api/v1/data/urn:themis:...")
      * @return Result with response data or error
      */
     Result get(const ShardInfo& shard_info, const std::string& path);
+
+    /**
+     * @brief GET with request deadline and cancellation, effective during the in-flight transport call.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] ctx Deadline + cancellation token; checked before the circuit breaker
+     *            and propagated into MTLSClient's asynchronous transport.
+     * @return Result with `cancelled` / `timed_out` set when aborted. A client
+     *         cancellation is not recorded as a circuit-breaker failure; a timeout is.
+     */
+    Result get(const ShardInfo& shard_info,
+               const std::string& path,
+               const query::RequestContext& ctx);
     
     /**
-     * Execute POST request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @param body Request body (JSON)
-     * @return Result with response data or error
+     * @brief Executes a POST request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @param body JSON request body.
+     * @return Result with response data, or an error when the request fails.
      */
     Result post(const ShardInfo& shard_info,
                 const std::string& path,
                 const nlohmann::json& body);
+
+    /**
+     * @brief POST with request deadline and cancellation, effective during the in-flight transport call.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] body JSON body (signed when signing is enabled).
+     * @param[in] ctx Deadline + cancellation token.
+     * @return Result with `cancelled` / `timed_out` set when aborted; see get(const ShardInfo&, const std::string&, const query::RequestContext&).
+     */
+    Result post(const ShardInfo& shard_info,
+                const std::string& path,
+                const nlohmann::json& body,
+                const query::RequestContext& ctx);
     
     /**
-     * Execute PUT request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @param body Request body (JSON)
-     * @return Result with response data or error
+     * @brief Executes a PUT request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @param body JSON request body.
+     * @return Result with response data, or an error when the request fails.
      */
     Result put(const ShardInfo& shard_info,
                const std::string& path,
                const nlohmann::json& body);
+
+    /**
+     * @brief PUT with request deadline and cancellation during transport.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] body JSON body (signed when signing is enabled).
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Result with `cancelled` / `timed_out` set when aborted.
+     */
+    Result put(const ShardInfo& shard_info,
+               const std::string& path,
+               const nlohmann::json& body,
+               const query::RequestContext& ctx);
     
     /**
-     * Execute DELETE request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @return Result with response data or error
+     * @brief Executes a DELETE request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @return Result with response data, or an error when the request fails.
      */
     Result del(const ShardInfo& shard_info, const std::string& path);
+
+    /**
+     * @brief DELETE with request deadline and cancellation during transport.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Result with `cancelled` / `timed_out` set when aborted.
+     */
+    Result del(const ShardInfo& shard_info,
+               const std::string& path,
+               const query::RequestContext& ctx);
     
     /**
-     * Execute query on remote shard
-     * Convenience method for query execution
-     * @param shard_info Target shard information
-     * @param query Query string (e.g., AQL query)
-     * @return Result with query results
+     * @brief Executes an AQL query on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param query Query string to submit to the remote query endpoint.
+     * @return Result with query data, or an error when the request fails.
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
 
     /**
-     * Transfer a raw binary payload to a remote shard via HTTP POST.
+     * @brief Execute a remote query with request cancellation and deadline.
+     * @param[in] shard_info Target shard.
+     * @param[in] query AQL query string.
+     * @param[in] ctx Deadline + cancellation token propagated to transport.
+     * @return Query result or an outcome with timeout/cancellation flags.
+     */
+    Result executeQuery(const ShardInfo& shard_info,
+                        const std::string& query,
+                        const query::RequestContext& ctx);
+
+    /**
+     * @brief Transfers a raw binary payload to a remote shard via HTTP POST.
      *
      * Intended for KV-state transfer (Phase 5 KV-Prefix Cross-Shard sharing):
      * the serialised KV cache for a shared system-prompt prefix is POSTed to
@@ -144,6 +212,21 @@ public:
                       const std::string& path,
                       const uint8_t* data,
                       std::size_t size);
+
+    /**
+     * @brief Transfer binary data with request cancellation and deadline.
+     * @param[in] shard_info Target shard.
+     * @param[in] path Request path.
+     * @param[in] data Binary payload; may be null only when @p size is zero.
+     * @param[in] size Number of payload bytes.
+     * @param[in] ctx Deadline + cancellation token propagated to mTLS transport.
+     * @return Transfer result or an outcome with timeout/cancellation flags.
+     */
+    Result postBinary(const ShardInfo& shard_info,
+                      const std::string& path,
+                      const uint8_t* data,
+                      std::size_t size,
+                      const query::RequestContext& ctx);
     
     /**
      * Check if remote executor is ready
@@ -183,7 +266,8 @@ private:
     Result executeRequest(const std::string& method,
                          const ShardInfo& shard_info,
                          const std::string& path,
-                         const std::optional<nlohmann::json>& body = std::nullopt);
+                         const std::optional<nlohmann::json>& body = std::nullopt,
+                         const query::RequestContext* ctx = nullptr);
     
     /**
      * Convert MTLSClient::Response to RemoteExecutor::Result

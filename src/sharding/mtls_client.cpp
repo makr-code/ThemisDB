@@ -326,6 +326,351 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
     return response;
 }
 
+// ---------------------------------------------------------------------------
+// Cancellable asynchronous transport
+// ---------------------------------------------------------------------------
+namespace {
+
+constexpr std::chrono::milliseconds kCancelPollInterval{10};
+constexpr std::chrono::milliseconds kShutdownBudget{1000};
+
+enum class AbortCause { None, Cancelled, DeadlineExceeded, StageTimeout };
+
+/**
+ * One HTTPS exchange as a chain of async operations on a caller-owned
+ * io_context. All state is touched only from handlers running inside
+ * io_context::run() on the calling thread, so no locking is needed. A poll
+ * timer evaluates the RequestContext and the stage deadline and aborts the
+ * pending operation; run() returns once every handler has completed.
+ */
+class CancellableExchange : public std::enable_shared_from_this<CancellableExchange> {
+public:
+    CancellableExchange(net::io_context& ioc, ssl::context& ssl_ctx,
+                        const themis::query::RequestContext& ctx,
+                        std::chrono::milliseconds connect_timeout,
+                        std::chrono::milliseconds request_timeout)
+        : resolver_(ioc), stream_(ioc, ssl_ctx), poll_(ioc), ctx_(ctx),
+          connect_timeout_(connect_timeout), request_timeout_(request_timeout) {}
+
+    void start(const std::string& host, const std::string& port,
+               http::request<http::string_body> req) {
+        req_ = std::move(req);
+        if (!SSL_set_tlsext_host_name(stream_.native_handle(), host.c_str())) {
+            ec_ = beast::error_code(static_cast<int>(::ERR_get_error()),
+                                    net::error::get_ssl_category());
+            stage_ = "sni";
+            finished_ = true;
+            return;
+        }
+        beginStage("resolve", connect_timeout_);
+        resolver_.async_resolve(host, port,
+            beast::bind_front_handler(&CancellableExchange::onResolve, shared_from_this()));
+        armPoll();
+    }
+
+    bool responseReady() const { return response_ready_; }
+    AbortCause cause() const { return cause_; }
+    const beast::error_code& ec() const { return ec_; }
+    const std::string& stage() const { return stage_; }
+    http::response<http::string_body>& response() { return res_; }
+
+private:
+    void beginStage(const char* name, std::chrono::milliseconds budget) {
+        stage_ = name;
+        stage_deadline_ = themis::query::RequestContext::Clock::now() + budget;
+    }
+
+    void armPoll() {
+        poll_.expires_after(kCancelPollInterval);
+        poll_.async_wait([self = shared_from_this()](beast::error_code ec) {
+            self->onPoll(ec);
+        });
+    }
+
+    void onPoll(beast::error_code ec) {
+        if (ec || finished_) {
+            return;
+        }
+        if (!response_ready_) {
+            switch (ctx_.stopReason()) {
+                case themis::query::StopReason::Cancelled:
+                    cause_ = AbortCause::Cancelled;
+                    break;
+                case themis::query::StopReason::DeadlineExceeded:
+                    cause_ = AbortCause::DeadlineExceeded;
+                    break;
+                case themis::query::StopReason::None:
+                    break;
+            }
+            if (cause_ == AbortCause::None &&
+                themis::query::RequestContext::Clock::now() >= stage_deadline_) {
+                cause_ = AbortCause::StageTimeout;
+            }
+            if (cause_ != AbortCause::None) {
+                abortPending();
+                return;  // pending handlers complete with operation_aborted
+            }
+        } else if (themis::query::RequestContext::Clock::now() >= stage_deadline_) {
+            abortPending();  // graceful TLS shutdown budget exhausted
+            return;
+        }
+        armPoll();
+    }
+
+    void abortPending() {
+        resolver_.cancel();
+        beast::get_lowest_layer(stream_).close();
+    }
+
+    void finish() {
+        finished_ = true;
+        poll_.cancel();
+    }
+
+    void fail(beast::error_code ec) {
+        if (!ec_) {
+            ec_ = ec;
+        }
+        finish();
+    }
+
+    void onResolve(beast::error_code ec, tcp::resolver::results_type results) {
+        if (ec) return fail(ec);
+        beginStage("connect", connect_timeout_);
+        beast::get_lowest_layer(stream_).async_connect(results,
+            beast::bind_front_handler(&CancellableExchange::onConnect, shared_from_this()));
+    }
+
+    void onConnect(beast::error_code ec, tcp::resolver::results_type::endpoint_type) {
+        if (ec) return fail(ec);
+        beginStage("handshake", connect_timeout_);
+        stream_.async_handshake(ssl::stream_base::client,
+            beast::bind_front_handler(&CancellableExchange::onHandshake, shared_from_this()));
+    }
+
+    void onHandshake(beast::error_code ec) {
+        if (ec) return fail(ec);
+        beginStage("write", request_timeout_);
+        http::async_write(stream_, req_,
+            beast::bind_front_handler(&CancellableExchange::onWrite, shared_from_this()));
+    }
+
+    void onWrite(beast::error_code ec, std::size_t) {
+        if (ec) return fail(ec);
+        beginStage("read", request_timeout_);
+        http::async_read(stream_, buffer_, res_,
+            beast::bind_front_handler(&CancellableExchange::onRead, shared_from_this()));
+    }
+
+    void onRead(beast::error_code ec, std::size_t) {
+        if (ec) return fail(ec);
+        response_ready_ = true;  // response is complete; later aborts are irrelevant
+        beginStage("shutdown", kShutdownBudget);
+        stream_.async_shutdown([self = shared_from_this()](beast::error_code) {
+            self->finish();  // truncation/abort on shutdown is ignored
+        });
+    }
+
+    tcp::resolver resolver_;
+    beast::ssl_stream<beast::tcp_stream> stream_;
+    net::steady_timer poll_;
+    themis::query::RequestContext ctx_;
+    std::chrono::milliseconds connect_timeout_;
+    std::chrono::milliseconds request_timeout_;
+    http::request<http::string_body> req_;
+    beast::flat_buffer buffer_;
+    http::response<http::string_body> res_;
+    std::chrono::steady_clock::time_point stage_deadline_{};
+    std::string stage_;
+    beast::error_code ec_;
+    AbortCause cause_ = AbortCause::None;
+    bool response_ready_ = false;
+    bool finished_ = false;
+};
+
+/// Sleep up to @p delay in short slices; returns false if ctx stopped first.
+bool sleepUnlessStopped(std::chrono::milliseconds delay,
+                        const themis::query::RequestContext& ctx) {
+    const auto until = std::chrono::steady_clock::now() + delay;
+    while (std::chrono::steady_clock::now() < until) {
+        if (ctx.shouldStop()) {
+            return false;
+        }
+        std::this_thread::sleep_for(kCancelPollInterval);
+    }
+    return !ctx.shouldStop();
+}
+
+} // namespace
+
+MTLSClient::Response MTLSClient::get(const std::string& endpoint,
+                                     const std::string& path,
+                                     const themis::query::RequestContext& ctx) {
+    return requestWithContext("GET", endpoint, path, std::nullopt, {}, ctx);
+}
+
+MTLSClient::Response MTLSClient::post(const std::string& endpoint,
+                                      const std::string& path,
+                                      const nlohmann::json& body,
+                                      const themis::query::RequestContext& ctx) {
+    return requestWithContext("POST", endpoint, path,
+                              std::optional<nlohmann::json>(body), {}, ctx);
+}
+
+MTLSClient::Response MTLSClient::post(const std::string& endpoint,
+                                      const std::string& path,
+                                      const nlohmann::json& body,
+                                      const std::string& authorization_header,
+                                      const themis::query::RequestContext& ctx) {
+    return requestWithContext("POST", endpoint, path,
+                              std::optional<nlohmann::json>(body),
+                              authorization_header, ctx);
+}
+
+MTLSClient::Response MTLSClient::put(const std::string& endpoint,
+                                     const std::string& path,
+                                     const nlohmann::json& body,
+                                     const themis::query::RequestContext& ctx) {
+    return requestWithContext("PUT", endpoint, path,
+                              std::optional<nlohmann::json>(body), {}, ctx);
+}
+
+MTLSClient::Response MTLSClient::del(const std::string& endpoint,
+                                     const std::string& path,
+                                     const themis::query::RequestContext& ctx) {
+    return requestWithContext("DELETE", endpoint, path, std::nullopt, {}, ctx);
+}
+
+MTLSClient::Response MTLSClient::requestWithContext(
+    const std::string& method,
+    const std::string& endpoint,
+    const std::string& path,
+    const std::optional<nlohmann::json>& body,
+    const std::string& authorization_header,
+    const themis::query::RequestContext& ctx) {
+    Response response;
+    response.success = false;
+
+    const auto mark_stopped = [&response](themis::query::StopReason reason,
+                                          const std::string& where) {
+        response.status_code = 0;
+        if (reason == themis::query::StopReason::Cancelled) {
+            response.cancelled = true;
+            response.error = "Request cancelled" + where;
+        } else {
+            response.timed_out = true;
+            response.error = "Request deadline exceeded" + where;
+        }
+    };
+
+    uint32_t retry_count = 0;
+    uint32_t retry_delay = config_.retry_delay_ms;
+
+    while (retry_count <= config_.max_retries) {
+        if (const auto reason = ctx.stopReason(); reason != themis::query::StopReason::None) {
+            mark_stopped(reason, " before send");
+            return response;
+        }
+
+        try {
+            auto [host, port] = parseEndpoint(endpoint);
+
+            http::request<http::string_body> req;
+            if (method == "GET") {
+                req.method(http::verb::get);
+            } else if (method == "POST") {
+                req.method(http::verb::post);
+            } else if (method == "PUT") {
+                req.method(http::verb::put);
+            } else if (method == "DELETE") {
+                req.method(http::verb::delete_);
+            } else {
+                response.error = "Unsupported method for cancellable request: " + method;
+                return response;
+            }
+            req.target(path);
+            req.version(11);
+            req.set(http::field::host, host);
+            req.set(http::field::user_agent, "ThemisDB-MTLSClient/1.0");
+            req.set(http::field::accept, "application/json");
+            if (!authorization_header.empty()) {
+                req.set(http::field::authorization, authorization_header);
+            }
+            if (body && (method == "POST" || method == "PUT")) {
+                req.body() = body->dump();
+                req.set(http::field::content_type, "application/json");
+            }
+            req.prepare_payload();
+
+            // Private executor: driven only by this thread; every handler (and
+            // the poll timer) completes before run() returns.
+            net::io_context local_ioc;
+            auto exchange = std::make_shared<CancellableExchange>(
+                local_ioc, impl_->ssl_ctx, ctx,
+                std::chrono::milliseconds(config_.connect_timeout_ms),
+                std::chrono::milliseconds(config_.request_timeout_ms));
+            exchange->start(host, port, std::move(req));
+            local_ioc.run();
+
+            if (exchange->responseReady()) {
+                auto& res = exchange->response();
+                response.status_code = res.result_int();
+                response.status_message = std::string(res.reason());
+                response.raw_body = res.body();
+                response.success = (response.status_code >= 200 && response.status_code < 300);
+                if (res[http::field::content_type] == "application/json" &&
+                    !response.raw_body.empty()) {
+                    try {
+                        response.body = nlohmann::json::parse(response.raw_body);
+                    } catch (const nlohmann::json::exception& e) {
+                        response.error = std::string("JSON parse error: ") + e.what();
+                    }
+                }
+                return response;
+            }
+
+            const std::string where = " during " + exchange->stage();
+            switch (exchange->cause()) {
+                case AbortCause::Cancelled:
+                    mark_stopped(themis::query::StopReason::Cancelled, where);
+                    return response;
+                case AbortCause::DeadlineExceeded:
+                    mark_stopped(themis::query::StopReason::DeadlineExceeded, where);
+                    return response;
+                case AbortCause::StageTimeout:
+                    response.status_code = 0;
+                    response.stage_timed_out = true;
+                    response.error = "Timeout during " + exchange->stage();
+                    return response;  // timeouts are not retried
+                case AbortCause::None:
+                    break;
+            }
+
+            response.error = "Network error: " + exchange->ec().message() + where;
+            if (retry_count < config_.max_retries) {
+                ++retry_count;
+                const auto delay = std::chrono::milliseconds(retry_delay);
+                retry_delay *= 2;
+                if (!sleepUnlessStopped(delay, ctx)) {
+                    mark_stopped(ctx.stopReason(), " during retry back-off");
+                    return response;
+                }
+                continue;
+            }
+            response.status_code = 0;
+            return response;
+        } catch (const std::exception& e) {
+            response.error = std::string("Exception: ") + e.what();
+            response.status_code = 0;
+            return response;
+        }
+    }
+
+    response.error = "Max retries exceeded";
+    response.status_code = 0;
+    return response;
+}
+
 bool MTLSClient::isReady() const {
     // Check if SSL context was initialized successfully
     // In a real implementation, we'd track initialization state
@@ -469,4 +814,3 @@ nlohmann::json MTLSClient::getPoolStatistics() const {
 }
 
 } // namespace themis::sharding
-

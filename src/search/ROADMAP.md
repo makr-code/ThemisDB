@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -16,7 +16,7 @@ Canonical_References:
   - "tests/search/CMakeLists.txt"
   - "tests/CMakeLists.txt"
   - "benchmarks/search/CMakeLists.txt"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -52,6 +52,397 @@ implementation; release status must be taken from root [`ROADMAP.md`](../../ROAD
   the two `benchmark_*hybrid_search` targets. No benchmark run or threshold
   pass is asserted here.
 
+### QRY-07 timeout and cancellation status (2026-11-17)
+
+- [ ] **QRY-07 remains OPEN.** Multiple bounded slices are implemented; several
+  backends and legacy transport paths are still not interruptible (see "Remaining gaps").
+
+**HTTP peer-disconnect polling slice (2026-11-17)**
+- `Session` and `SslSession` supply a borrowed native-socket cancellation probe
+  to bounded `/vector/search`, `/search/fulltext`, `/search/fusion`,
+  `/search/hybrid`, and `/query/aql` request contexts. The probe checks peer
+  reset/error state at cooperative checkpoints. Orderly TCP half-close is not
+  treated as cancellation because the client may still receive a response.
+  When reset/error is observed, partial results are discarded and the session
+  does not write a response to the failed peer.
+- Detection latency is bounded by the next backend poll; checkpoint-only
+  synchronous operations can still overrun. POSIX and Windows socket polling
+  are implemented, but platform-specific behavior needs integration validation.
+  The plain-HTTP abortive-close test waits for HTTP route dispatch and checks
+  single-worker recovery; it is authored but not built or run.
+
+**HTTP `/vector/search` deadline slice (2026-11-16)**
+- `VectorApiHandler::handleSearch(req, RequestContext)` added (single-argument
+  overload retained, unbounded). `HttpServer` route dispatch builds the context
+  from live `request_timeout_ms` (deadline starts at handler dispatch; `0` =
+  unbounded; caller headers never trusted) and the handler calls request-aware
+  `VectorIndexManager::searchKnn`. A stop returns 504, no results; slicing and
+  serialization are polled and partial output is discarded.
+- The HTTP session now supplies a peer-disconnect probe to cooperative search
+  checkpoints; this does not interrupt an in-flight ANN backend call.
+- Tests: `tests/api/test_api_vector_search_deadline.cpp`.
+
+**HTTP RoPE search deadline slice (2026-11-17)**
+- `POST /api/v1/vector-index/{name}/rope/search` now receives the live server
+  timeout and session peer-disconnect context. Request bodies are capped at
+  2,000,000 bytes and JSON decoding is checkpoint-only within that bound. The
+  handler polls while parsing large query vectors, then passes the context
+  through RoPE query rotation to request-aware KNN. Deadline/cancellation returns
+  HTTP 504 with partial results discarded; the legacy handler and manager
+  overloads remain unbounded.
+- Query rotation and synchronous ANN calls remain checkpoint-only. Cooperative
+  cache/storage KNN scans poll; an observed client reset suppresses the response
+  write. This slice does not establish immediate interruption of synchronous
+  ANN work.
+- Focused manager and handler tests cover stop propagation and expired-deadline
+  status. Their build and execution remain pending.
+
+**HTTP `/search/fulltext` deadline slice (2026-11-16)**
+- `SecondaryIndexManager::scanFulltextWithScores(..., RequestContext,
+  StopReason*)` preserves the legacy unbounded overload and polls BM25 prefix
+  scans and candidate/ranking loops every 64 entries plus stage boundaries.
+  Prefix iteration stops cooperatively; partial candidates/results are
+  discarded with an explicit cancellation/deadline reason.
+- `ContentApiHandler` receives the live server-configured
+  `request_timeout_ms` at dispatch (`0` means unbounded); observed stops return
+  HTTP 504. Valid no-match queries remain HTTP 200 with zero results; missing
+  index remains HTTP 400. Result materialization polls and serialization has a
+  post-operation checkpoint.
+- Synchronous RocksDB reads, candidate sorting, and response serialization
+  cannot be interrupted mid-call. Peer disconnect is observed at the next
+  cooperative request-context poll; QRY-07 stays OPEN.
+- Tests: `tests/api/test_api_fulltext_search_deadline.cpp` covers empty result,
+  expired deadline, and a stop during an index-prefix scan. Test execution is
+  not claimed until the focused target is built and run.
+
+**HTTP `/search/fusion` deadline slice (2026-11-16)**
+- `ContentApiHandler::handleFusionSearch(req, RequestContext)` preserves the
+  unbounded legacy overload. The route builds its context from the live server
+  timeout (`0` means unbounded); caller-supplied values cannot extend it.
+- The same context is passed through BM25 and request-aware KNN. Fusion,
+  top-k materialization, and response construction poll cooperatively; observed
+  stops return HTTP 504 with partial results discarded. Valid empty fusion
+  results remain HTTP 200.
+- Synchronous RocksDB reads, ANN calls, and sorting are checkpoint-only.
+  Peer disconnect is observed at the next cooperative request-context poll.
+- Tests: `tests/api/test_api_fusion_search_deadline.cpp` covers empty results,
+  an expired deadline, and cancellation during text retrieval. Execution is not
+  claimed until the focused target is built and run.
+
+**HTTP `/search/hybrid` deadline slice (2026-11-16)**
+- `ContentApiHandler::handleHybridSearch(req, RequestContext)` and
+  `ContentManager::searchWithExpansion(..., RequestContext, StopReason*)` retain
+  their unbounded legacy overloads. `HttpServer` supplies the live configured
+  request timeout (`0` means unbounded); a stop returns HTTP 504 and discards
+  partial results, while a valid no-match result remains HTTP 200. The existing
+  content-manager fallback also returns an empty result for an unavailable or
+  uninitialized vector index, missing text processor, or base KNN status error;
+  that HTTP 200 is a degraded legacy fallback, not proof of a successful search.
+- The context reaches request-aware KNN and is polled during graph expansion,
+  result filtering, and materialization. The built-in `TextProcessor` fallback
+  also polls during tokenization and embedding; injected callbacks, vector ANN,
+  graph neighbor/Dijkstra reads, whitelist scans, and sorting are checkpoint-only.
+  Peer disconnect is observed at the next cooperative request-context poll.
+- Tests: `tests/api/test_api_hybrid_search_deadline.cpp` covers empty results,
+  an expired deadline, and client cancellation at dispatch. No test/build pass
+  is claimed until the focused target is built and run.
+
+**HTTP `/query/aql` full-text deadline slice (2026-11-16)**
+- `QueryApiHandler::handleQueryAql(req, RequestContext)` receives the live
+  server-configured timeout from `HttpServer`; `0` leaves the request unbounded.
+  The existing body `timeout_ms` is an additional bound, not an extension, and
+  retains HTTP 408 when it expires before the server deadline. Server deadline
+  or cancellation returns HTTP 504 without partial output.
+- The context reaches full-text BM25 scans, score lookups and sequential entity
+  hydration. `QueryEngine` and handler paths discard stopped results. Valid
+  no-match searches remain HTTP 200 with zero results.
+- Full-text queries with structural predicates poll around equality/range index
+  reads, index sorting, and during key-list intersection. The storage/index
+  calls and sorts themselves are synchronous and only observed at checkpoints.
+  Non-full-text range-aware AQL queries also pass the request context through
+  key processing and sequential entity hydration, while individual range-index
+  calls and sorting remain checkpoint-only.
+  Optimized equality AQL queries use request-aware sequential index-stage
+  checkpoints, key intersection and entity hydration; individual index calls
+  and sorting remain synchronous. Optimizer planning polls before/after stats,
+  each equality estimate, plan sorting and cost advice; individual estimate,
+  sort, stats, cost and metrics operations cannot be interrupted.
+  The non-full-text `allow_full_scan` fallback now polls during prefix
+  collection, sequential predicate filtering, and entity hydration; this
+  request-aware path avoids spawning worker tasks, and `allow_full_scan` does
+  not bypass the indexed `FULLTEXT()` predicate. AQL parsing, indexed execution outside
+  request-aware stages, result sorting, serialization, synchronous entity
+  reads and any individual non-polling operation remain checkpoint-only. The
+  HTTP session supplies peer-disconnect polling to this request context.
+- Tests: `tests/api/test_api_aql_fulltext_deadline.cpp` covers indexed results,
+  valid empty results, expired deadline, cancellation, and a stop during the
+  full-text prefix scan, structural predicate execution, full-scan fallback,
+  range-aware key processing, and optimized equality cancellation.
+  Direct planner coverage verifies cancellation between equality estimates.
+  Test/build execution is not claimed until verified.
+
+**Core gRPC AQL request-context slice (2026-11-17)**
+- `ThemisCoreServiceImpl::ExecuteAQL` and `StreamQuery` derive a cooperative
+  request context from the gRPC server deadline and cancellation state, then
+  invoke the request-aware `IQueryEngine::execute` overload with the existing
+  bind-variable JSON. Cancellation maps to gRPC `CANCELLED`; deadline expiry
+  maps to `DEADLINE_EXCEEDED`. Unary output is cleared on stop, and streaming
+  returns on a stop or failed writer call.
+- Engines that use the interface's default request-aware overload remain
+  checkpoint-only: an in-flight legacy execution cannot be interrupted, and
+  the RPC waits for it to return before discarding its result.
+- Focused core-service RPC tests cover pre-cancellation, in-flight
+  cancellation/deadline, late legacy results, and stream cleanup. Test/build
+  execution remains unverified until run with the gRPC-enabled CMake target.
+
+**Implemented slice (2026-11-16)**
+- `include/query/request_context.h`: shared `query::RequestContext`
+  (absolute deadline + `QueryCancellationToken`), `StopReason`
+  {None, Cancelled, DeadlineExceeded}, `child(timeout)` clamping.
+- `LayeredRetrievalOrchestrator` no longer detaches worker threads. Layers run
+  inline on the caller thread; nothing runs after `execute()` returns.
+  `LayeredRetrievalContext::request` carries deadline/token (default:
+  unbounded, source compatible). Request stop is checked before each layer and
+  after each backend call; late results are discarded.
+- Distinct outcomes: `CANCELLED` (new), `TIMEOUT_SKIP`, and `FALLBACK`
+  ("ran, found nothing"). `LayeredRetrievalResult` gains `cancelled` and
+  `partial`; earlier-layer outputs are retained when later layers are skipped.
+- `AdvancedVectorIndex::search(q, k, ctx, &stop)` (checkpoint-only: pre/post
+  check around one non-interruptible backend call).
+- LLM layer derives `GenerationOptions.timeout_ms` from the remaining budget.
+- Tests: `tests/query/test_request_context.cpp`; five new cases in
+  `tests/search/test_layered_retrieval_integration_phase4.cpp` (pre-cancel,
+  mid-LLM cancel with partial retention, expired deadline vs empty result,
+  no work after `execute()`, ANN stop-vs-empty). Verified locally with an ad-hoc
+  g++ build and test-local link shims (full CMake/vcpkg build not run).
+
+**Behavior trade-off:** because workers are gone, a backend that ignores the
+context (tensor, graph, LLM, and the ANN call itself) can make `execute()`
+return later than the deadline by that backend's overrun; the caller wait is
+no longer hard-bounded. The previous `EnforcesHardDeadlineAndMarksTimeoutSkip`
+now measures overrun classification, not a hard wall-clock bound.
+
+**Slice 2 (2026-11-16): distributed fan-out + mTLS transport**
+- `DistributedHybridSearch::search(text, vec, ctx, &stats)` (legacy overload
+  unchanged). Context is checked before the local shard and before every
+  fan-out batch; once stopped, no further batch is launched
+  (`SearchStats::shards_skipped`). Each shard call receives
+  `ctx.child(shard_timeout_ms)`. All launched tasks are joined before return;
+  the `wait_for`-then-abandon path is gone. New stats distinguish
+  `shards_timed_out`, `shards_stage_timed_out`, `shards_cancelled`, `cancelled`, `deadline_exceeded` from
+  ordinary failures and from empty results; completed shards stay merged and
+  flagged `partial_result`. `setShardSearchFunction()` allows an alternative
+  transport / deterministic tests.
+- `MTLSClient::get/post(..., const RequestContext&)`: resolve, connect, TLS
+  handshake, write, read run as async Boost.Asio operations on a private
+  per-call `io_context` driven by the calling thread. A 10 ms poll timer on that
+  executor evaluates the token, the request deadline and the per-stage timeout
+  (`connect_timeout_ms` / `request_timeout_ms`) and aborts the pending operation
+  (resolver cancel + socket close); `run()` returns only after all handlers
+  finished, so no thread/socket/timer outlives the call. Responses carry
+  `cancelled` / `timed_out` (context deadline) / `stage_timed_out` (transport stage timeout, kept distinct; `SearchStats::deadline_exceeded` reflects the parent request deadline only). Stage timeouts are not retried; retry back-off
+  honours the context.
+- `RemoteExecutor::get/post(..., ctx)` propagate the context; a client
+  cancellation is not recorded as circuit-breaker failure, a timeout is.
+- Finding: the legacy sync path calls `tcp_stream::expires_after()` around
+  blocking `connect/handshake/write/read`; Beast timeouts only apply to async
+  operations, so those configured timeouts are not enforced on the legacy
+  overloads. They are unchanged here.
+- Tests: `tests/search/test_distributed_request_context.cpp` (10 cases: budget
+  clamping, pre-cancel launches nothing, cancel between batches, strict mode,
+  in-flight cooperative shard + join/cleanup, timeout vs empty, ordinary partial
+  failure, legacy overload) and `tests/sharding/test_mtls_client_cancellation.cpp`
+  (6 cases against a real black-hole TCP listener: token cancel and request
+  deadline abort a hanging TLS handshake in ~100-150 ms vs 5 s/30 s configured
+  timeouts, stage timeout, pre-cancel, refused connection is neither
+  cancelled nor timed out, RemoteExecutor propagation; registered only when
+  CMake `UNIX` is true because the test uses POSIX sockets). Built ad hoc with g++
+  and link shims; both suites also ran clean under ThreadSanitizer. Not yet run
+  through the CMake/ctest build.
+
+**Slice 3 (2026-11-16): gRPC vector and hybrid search entry points**
+- `VectorSearch`, `FilteredVectorSearch`, and `HybridSearch` derive a
+  `query::RequestContext` from the synchronous gRPC server context. The
+  context maps the gRPC wall-clock deadline to a steady-clock deadline and
+  polls `ServerContext::IsCancelled()` directly; no detached work or watcher
+  threads are created.
+- These routes call the cancellation-aware `IVectorIndex::search` overload.
+  Its source-compatible default checks before and after the legacy call,
+  discards late results, and reports cancellation separately from deadline
+  expiry. Existing index implementations remain checkpoint-only; in-flight
+  interruption requires overriding the new overload and polling the context.
+- An observed stop returns gRPC `CANCELLED` or `DEADLINE_EXCEEDED` and clears
+  response hits rather than returning a successful empty result. Hybrid AQL
+  work remains checkpoint-only.
+- Focused API tests cover legacy-index pre-cancellation and expired deadlines,
+  cooperative index polling, and gRPC route status behavior when gRPC service
+  test dependencies are available. No build/test pass is claimed here.
+
+**Slice 4 (2026-11-16): request-aware vector adapter and KNN scan**
+- `VectorIndexAdapter` overrides `IVectorIndex::search(..., request)` and
+  forwards the request to new `VectorIndexManager::searchKnn` and
+  `searchKnnEvaluated` overloads. Existing signatures and the unbounded legacy
+  behavior remain unchanged; `VectorSearchOutcome::stop_reason` distinguishes
+  cancellation and deadline from empty results and ordinary index errors.
+- Brute-force cache, whitelist, and RocksDB prefix scans poll every 64 entries;
+  evaluator candidate filtering polls every 32 candidates. An observed stop
+  discards all accumulated candidates and returns an empty result.
+- HNSW, ScaNN, DiskANN, and other synchronous ANN backend calls are
+  checkpoint-only: check before and after each backend call and discard late
+  results. They are not interrupted while running.
+- Focused deterministic coverage was added for cancellation during a large
+  cache scan and evaluator candidate filtering, plus adapter outcome
+  propagation. Build/test execution was not verified on this runner: required
+  RocksDB, fmt, spdlog, and GoogleTest development packages are unavailable;
+  no test pass is claimed.
+
+**Query-engine context slice (2026-11-16)**
+- `IQueryEngine::execute(query, bind_vars_json, RequestContext, StopReason&)`
+  added (source compatible, non-pure). Default: checkpoint-only; checks before
+  (engine not invoked if stopped) and after the legacy call; the caller discards
+  the result when a stop is observed. Engines must override it and poll
+  `RequestContext::shouldStop()` for cooperative in-flight cancellation.
+  **AQL engines that do not override it cannot be interrupted mid-call.** No
+  in-tree engine overrides it yet.
+- Wired into gRPC `FullTextSearch` and the sparse AQL stage of `HybridSearch`
+  (stop => `CANCELLED`/`DEADLINE_EXCEEDED`, hits cleared). Unary `ExecuteAQL`
+  and `StreamAQL` are wired too (see below).
+- Tests added to `tests/api/test_api_grpc_search_cancellation.cpp`; not built or
+  run on the authoring runner (gRPC/protobuf/GoogleTest/spdlog unavailable).
+
+**Secondary-index scan slice (2026-11-17)**
+- Request-aware equality and range index scans now poll cancellation/deadline
+  during RocksDB iteration (every 64 entries), stop iteration, and discard
+  partial key lists. The legacy signatures remain unbounded and delegate through
+  an empty request context.
+- Request-aware structural-query and fallback paths (optimized and
+  non-optimized equality included) use these scans. Range reversal polls during
+  its in-memory pass. Sorting and other index families remain checkpoint-only.
+- Focused equality, range, query-propagation, and expired-deadline tests were
+  added in `tests/index/test_secondary_index_request_cancellation.cpp`; they
+  are authored but not built/run on this runner.
+
+**Request-aware AQL runner slice (2026-11-17)**
+- `executeAql(..., RequestContext, StopReason*)` now routes conjunctive AQL to
+  the production request-aware `QueryEngine::executeAndEntitiesWithFallback`
+  path. Request-scoped execution bypasses cached JIT closures so it cannot
+  retain a stale per-request context. `executeAqlCancellable()` forwards its
+  registered cancellation token into this path.
+- Cancellation and deadline expiry return distinct query error codes and
+  discard late/partial rows. Spatial JOIN geometry scans are now request-aware
+  and conversion polls between 64-entity batches; its iterator polls candidate
+  traversal. R-tree candidate lookup and one distance calculation remain
+  synchronous. Phrase/fuzzy and other specialized AQL forms remain
+  checkpoint-only around synchronous calls; this does not close QRY-07.
+- Focused source tests cover cooperative full-scan cancellation, deadline
+  classification, successful result parity, and a stopped spatial JOIN
+  collection. Build/test evidence is pending.
+
+**Layered graph inference slice (2026-11-17)**
+- `KnowledgeGraphReasoner::infer(..., RequestContext, StopReason*)` is now
+  source-compatible with the legacy overload and polls fact snapshotting,
+  recursive rule matching, forward chaining, and result filtering. A stopped
+  call discards the returned chain. Explain-store publication polls between
+  entries after derivation completes; one synchronous write may overrun, and
+  sound derivations committed before a stop may remain cached.
+  `LayeredRetrievalOrchestrator` passes its child context to this overload.
+  LoRA scoring remains checkpoint-only.
+- Focused reasoner and layered-orchestrator tests cover mid-matching
+  cancellation, expired-deadline distinction, empty returned results, and no
+  partial explain-store writes. Build/test execution remains pending.
+
+**Remaining gaps (QRY-07 still OPEN)**
+- The gRPC `IQueryEngine` boundary still has no in-tree production implementation
+  overriding its request-aware method; `ExecuteAQL` and `StreamAQL` pass a
+  request context and poll before dispatch, after execution, after JSON parsing
+  and between rows, but calls remain checkpoint-only (running call not
+  interrupted, late result discarded).
+- mTLS cancellation is poll-based (10 ms tick): `QueryCancellationToken` has no
+  callback/wake-up registration, so transport abort latency is ~10 ms, not
+  instant. Synchronous gRPC search polls its borrowed server context directly.
+- `MTLSClient::get/post/put/del` and `RemoteExecutor::get/post/put/del` now
+  have request-context overloads. `RemoteExecutor::executeQuery` and
+  `postBinary` also propagate context, including cooperative checks while
+  base64-encoding a binary payload. The authenticated POST overload now
+  supports the same context. These direct async calls still bypass the
+  connection-pool path; legacy overloads and pool operations remain
+  non-interruptible.
+- Focused transport tests have been authored for TLS handshake cancellation,
+  stalled response reads, large-request writes against a TLS peer that does not
+  read, and PUT/DELETE/query/binary executor propagation; execution is pending
+  because this runner lacks Boost and GoogleTest development headers. Those TLS
+  peers validate transport behavior only. An end-to-end trace is now authored
+  against a real HTTPS `HttpServer`, real content/index services and
+  `RemoteExecutor`: it imports a vector-backed chunk, runs a 1M-token hybrid
+  search under a 500 ms server deadline, expects HTTP 504, verifies the
+  single-threaded server handles a subsequent liveness request, stops the
+  server, and verifies the endpoint is closed. Execution is pending because
+  this runner lacks Boost and GoogleTest development headers. This trace only
+  verifies cooperative cancellation in the built-in `TextProcessor` fallback,
+  request-worker reuse, and server shutdown. Request-aware embedding polls
+  during tokenization and per-token generation and returns no partial vector.
+  Injected embedding callbacks, ANN frontdoor/backend calls, graph reads and
+  other synchronous search backends remain checkpoint-only. The abortive-close
+  test and this HTTPS deadline trace are authored but not executed, so no
+  integration evidence is claimed yet.
+- `DistributedHybridSearch` now passes its request context into the local
+  `HybridSearch` call. The hybrid aggregator propagates it to BM25 and
+  `VectorIndexManager` KNN; an ANN frontdoor/backend call or custom shard
+  function that ignores its context can still delay completion and joining.
+- The tensor layer now calls the request-aware
+  `TensorFingerprintGraph::findSimilar` overload, which polls during candidate
+  collection and between similarity operations and discards partial results.
+  Each TT inner-product or injected exact-similarity callback remains
+  synchronous/checkpoint-only; result sorting is checkpoint-only.
+  `KnowledgeGraphReasoner::infer` polls cooperatively, but LoRA scoring remains
+  checkpoint-only. `LLMClient::generate` only gets a timeout value and has no
+  in-flight HTTP cancel. FAISS/cuVS ANN search is one blocking call.
+- `POST /query/aql` passes a request context through full-text index scans,
+  score lookups, entity hydration, and structural key-list intersection.
+  The direct `executeAql(..., RequestContext)` conjunctive path now also invokes
+  the cooperative QueryEngine path instead of relying on the cached JIT closure.
+  The non-full-text `allow_full_scan` path polls the storage scan, sequential
+  filter and entity hydration; `FULLTEXT()` remains on its indexed path.
+  Range-aware non-full-text queries now poll equality/range index iteration,
+  key processing, and entity hydration; sorting remains checkpoint-only.
+  The optimized equality path polls within index scans and between index
+  stages, during key intersection, and during sequential entity hydration; plan
+  selection remains cooperatively checked between estimates and planning
+  stages, but each estimate, sort, statistics lookup, cost-advice and metrics
+  operation remains synchronous. Phrase/fuzzy and other spatial AQL searches
+  retain their legacy synchronous implementations with pre/post stop checks.
+  Spatial JOIN collection polls during request-aware scans and geometry
+  conversion, and the iterator polls during candidate traversal; R-tree
+  candidate lookup and one distance calculation remain synchronous. Parsing
+  and other query stages remain checkpoint-only. Other HTTP search routes
+  besides `POST /vector/search`, `POST /api/v1/vector-index/{name}/rope/search`,
+  `POST /search/fulltext`,
+  `POST /search/fusion`, `POST /search/hybrid`, and those AQL full-text branches
+  remain unbound to a request context. Bounded routes receive a session-scoped
+  peer probe, observed only at cooperative poll sites. The HTTP hybrid
+  expansion route still cannot interrupt injected embedding callbacks, vector
+  ANN, graph neighbor/Dijkstra reads, whitelist scans, or sorting. gRPC `ExecuteAQL`,
+  `StreamAQL`, `FullTextSearch` and both stages of `HybridSearch` now pass one
+  to their backends, but in-tree AQL engines still use the checkpoint-only
+  default and cannot be interrupted mid-call. `ExecuteAQL` clears rows on stop;
+  `StreamAQL` honors `Write` failure and stops between rows. Tests for these are
+  authored but not built/run (dependencies unavailable on the runner).
+- `VectorIndexAdapter` KNN is now cooperative only in brute-force cache/storage
+  scans and evaluator candidate filtering. Synchronous HNSW/ScaNN/DiskANN
+  backend calls are pre/post checkpoints and can overrun the deadline by the
+  in-flight call duration; a late result is discarded, not interrupted.
+- `VectorIndexManager` range, rotation, and attribute pre-filter entry points,
+  and legacy `IVectorIndex` implementations that do not override the request
+  overload remain checkpoint-only or unbound. The HybridSearch AQL path is
+  request-aware at the interface boundary but remains checkpoint-only until an
+  engine overrides the context-aware overload. Storage reads, entity
+  deserialization, one vector-distance calculation, and one evaluator
+  invocation cannot be interrupted mid-operation.
+- Still required for acceptance: slow-search cleanup trace (end-to-end, real
+  shards), end-to-end deadline/cancellation propagation through remaining HTTP
+  and gRPC routes, and cancellation handling for the remaining
+  in-flight synchronous backends in the layered pipeline.
+
 The dated Phase 1–6, Wave, maturity, test-count, and performance statements
 below are historical records and require re-validation before being used as
 current status.
@@ -72,7 +463,7 @@ current status.
 - [x] Frozen retrieval/fusion/distributed contracts (HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0)
 - [x] Defined explicit error taxonomy via search_error_codes.h (32 error codes across 5 categories)
 - [x] Documented contract invariants in ARCHITECTURE.md
-- [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp), no_timeout (search_result_stream.cpp with 30s default)
+- [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp); added a 30s default `open_timeout_ms` setting to SearchResultStream (not proof of backend cancellation or QRY-07 timeout enforcement)
 - [x] Contract boundaries documented for core components (retrieval, fusion, distributed, utility, analytics)
 
 ### Phase 2 Completion Summary (2026-08-06)

@@ -24,6 +24,7 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
+#include "query/request_context.h"
 
 namespace themis {
 
@@ -190,6 +191,28 @@ public:
 
     [[nodiscard]] InferenceChain infer(std::string_view subjectId, int depth = -1) const;
 
+    /**
+     * @brief Run forward-chaining inference while observing request cancellation/deadline.
+     * @param subjectId Subject whose derived facts are returned.
+     * @param depth Maximum inference depth; non-positive uses the configured default.
+     * @param request Absolute deadline and cancellation state; not retained.
+     * @param stop_reason Receives the stop cause, or None on completion; may be null.
+     * @return Derived edges for the subject, or an empty chain when stopped.
+     * @note Fact snapshotting, rule matching, and derivation loops poll cooperatively.
+     *       The explain-store commit polls between entries; one synchronous store
+     *       operation may overrun a stop, and earlier sound entries may be cached.
+     */
+    [[nodiscard]] InferenceChain infer(
+        std::string_view subjectId,
+        int depth,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason = nullptr) const;
+
+    /**
+     * @brief Returns the stored inference explanation for a derived fact.
+     * @param fact Ground fact whose recorded derivation is requested.
+     * @return The matching inference edge, or std::nullopt when no explanation is stored.
+     */
     [[nodiscard]] std::optional<InferenceEdge> explain(const Triple& fact) const;
 
     /**
@@ -265,22 +288,28 @@ private:
      * @param[in] bindings Input parameter.
      * @param[in,out] out Input/output parameter.
      */
-    static void matchConditions(const std::vector<Triple>& conditions,
+    static bool matchConditions(const std::vector<Triple>& conditions,
                                 std::size_t cond_idx,
                                 const std::vector<Triple>& facts,
                                 Bindings bindings,
-                                std::vector<Bindings>& out);
+                                std::vector<Bindings>& out,
+                                const query::RequestContext& request,
+                                query::StopReason* stop_reason);
 
     /**
      * @brief ── Forward chaining internals ──────────────────────────────────────────
      * @param[in,out] working_set Input/output parameter.
      * @param[in,out] derived_out Input/output parameter.
      * @param[in] max_depth Input parameter.
+     * @param[in] request Request deadline and cancellation state.
+     * @param[out] stop_reason Receives the stop reason; may be null.
      */
 
-    void forwardChain(std::vector<Triple>& working_set,
-                      std::vector<InferenceEdge>& derived_out,
-                      int max_depth) const;
+    [[nodiscard]] bool forwardChain(std::vector<Triple>& working_set,
+                                    std::vector<InferenceEdge>& derived_out,
+                                    int max_depth,
+                                    const query::RequestContext& request,
+                                    query::StopReason* stop_reason) const;
 
     /**
      * @brief ── Triple helpers ──────────────────────────────────────────────────────

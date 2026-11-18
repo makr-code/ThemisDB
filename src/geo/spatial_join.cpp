@@ -197,7 +197,28 @@ struct SpatialJoinIterator::Impl {
      * @throws std::invalid_argument if an error occurs.
      * @details Calls: size(), geometryCentroid(), find(), end(), haversineDistanceM(), THEMIS_WARN(), loadCandidates().
      */
-    bool advance() {
+    bool advance(const query::RequestContext* request,
+                 query::StopReason* stop_reason) {
+        if (stop_reason) {
+            *stop_reason = query::StopReason::None;
+        }
+        const auto shouldStop = [&]() {
+            if (!request) {
+                return false;
+            }
+            const auto reason = request->stopReason();
+            if (reason == query::StopReason::None) {
+                return false;
+            }
+            if (stop_reason) {
+                *stop_reason = reason;
+            }
+            exhausted = true;
+            return true;
+        };
+        if (shouldStop()) {
+            return false;
+        }
         if (exhausted) {
             return false;
         }
@@ -214,6 +235,9 @@ struct SpatialJoinIterator::Impl {
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
             while (cand_idx < candidates.size()) {
+                if ((cand_idx & 63U) == 0U && shouldStop()) {
+                    return false;
+                }
                 const std::string &key_b = candidates[cand_idx++];
                 auto it                  = inner_key_idx.find(key_b);
                 if (it == inner_key_idx.end()) {
@@ -222,6 +246,9 @@ struct SpatialJoinIterator::Impl {
 
                 const Coordinate centroid_b = geometryCentroid((*inner_ptr)[it->second].second);
                 const double dist = haversineDistanceM(centroid_a.x, centroid_a.y, centroid_b.x, centroid_b.y);
+                if (shouldStop()) {
+                    return false;
+                }
                 if (dist <= threshold_m) {
                     current_pair = {key_a, key_b, dist};
                     ++pairs_yielded;
@@ -235,10 +262,20 @@ struct SpatialJoinIterator::Impl {
                 }
             }
 
+            if (shouldStop()) {
+                return false;
+            }
+
             // Move to next outer element.
             ++outer_idx;
             if (outer_idx < outer_ptr->size()) {
+                if (shouldStop()) {
+                    return false;
+                }
                 loadCandidates();
+                if (shouldStop()) {
+                    return false;
+                }
             } else {
                 exhausted = true;
             }
@@ -270,7 +307,13 @@ SpatialJoinIterator &SpatialJoinIterator::operator=(SpatialJoinIterator &&) noex
  * @details Implements advance without additional internal calls.
  */
 bool SpatialJoinIterator::advance() {
-    return impl_->advance();
+    return impl_->advance(nullptr, nullptr);
+}
+
+bool SpatialJoinIterator::advance(
+    const query::RequestContext& request,
+    query::StopReason& stop_reason) {
+    return impl_->advance(&request, &stop_reason);
 }
 
 const SpatialJoinPair &SpatialJoinIterator::current() const {

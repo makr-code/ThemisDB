@@ -10,11 +10,35 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_api_FocusedTests")
     set(_labels api)
 
+    if(_stem STREQUAL "test_api_grpc_search_cancellation")
+        if(NOT THEMIS_ENABLE_GRPC OR
+           NOT TARGET themis_api_proto OR
+           NOT TARGET gRPC::grpc++)
+            message(STATUS "Skipping gRPC search cancellation tests: gRPC/protobuf targets unavailable")
+            continue()
+        endif()
+    endif()
+
     if(TARGET ${_target})
         continue()
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_api_grpc_search_cancellation")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/api/themisdb_grpc_service.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            themis_api_proto
+            gRPC::grpc++
+        )
+        target_include_directories(${_target} PRIVATE
+            ${CMAKE_BINARY_DIR}/proto_generated
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_GRPC)
+        add_dependencies(${_target} themis_api_proto)
+    endif()
     if(_stem STREQUAL "test_api_degraded_mode" OR _stem STREQUAL "test_api_phase4_concurrency")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/api/api_transport_policy.cpp

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,12 +22,12 @@ per-instance `Stats` snapshot and application logs to classify failures:
 
 | Counter | Likely class | First checks |
 |---|---|---|
-| `validation_errors` | Invalid prompt, oversized serialized request, or endpoint not on configured allow-list | Description/list bounds, request limit, exact endpoint string |
+| `validation_errors` | Invalid prompt/transport limit, missing C2 callback, oversized serialized request, or endpoint not on configured allow-list | Description/list bounds, positive timeout/limits, callback presence, exact endpoint string |
 | `transport_errors` | Exhausted transport attempts or enabled C2 callback missing/failing | Endpoint reachability, timeout, callback health |
 | `http_errors` | HTTP status failure or response over configured byte limit | Provider status and returned body size |
 | `parse_errors` | Invalid JSON, oversized generated field, or missing implementation | Provider schema/version and payload structure |
-| `safety_rejections` | Enabled C1 gate unavailable, errored, non-finite, or below threshold | Callback health, score, threshold, evaluation input |
-| `sandbox_rejections` | Artifact write/read/copy or verifier failure | Directory permissions/space, artifact I/O, verifier output |
+| `safety_rejections` | Invalid C1 threshold/callback, non-finite score, or score below threshold | Callback health, score, threshold, evaluation input |
+| `sandbox_rejections` | Invalid directories, artifact write/read/copy, or verifier failure | Directory permissions/space, artifact I/O, verifier output |
 | `successes` | Generation and all enabled gates completed | Compare with request volume and failure deltas |
 
 Counters are cumulative for the generator instance and have no reset method.
@@ -46,6 +46,8 @@ thresholds.
 3. For transport failures, check DNS/routing, endpoint availability, and
    configured `timeout_ms`. The generator makes at most three attempts and
    waits 100 ms then 200 ms between them. HTTP status failures do not retry.
+   The `setLlmHttpPostFn()` route has no timeout parameter and may block
+   indefinitely; verify its own deadline or move to the timeout-aware callback.
 4. For HTTP or parse failures, inspect provider status and response format
    without logging full prompts, credentials, or generated source. Check the
    configured response limit and the source-defined field limits in

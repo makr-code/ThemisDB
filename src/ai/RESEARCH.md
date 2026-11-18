@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -46,15 +46,20 @@ system isolation or proof that code is safe.
 
 `CAIEthicsIntegration` evaluates a response through its critique/revision
 contract and the ethics evaluator, returning per-stage scores and timing. When
-no LLM function is provided, the implementation follows its rule-based path.
-Its score and acceptance criteria are policy signals, not an independent
-measure of factual correctness.
+a needed LLM callback is absent, returns empty output, or throws, the engine
+uses its rule-based path and the result records `used_rule_based_fallback`.
+An ethics evaluator status error leaves `ethics_evaluation_succeeded` false.
+`passesAcceptanceCriteria()` rejects either degraded state and invalid
+thresholds. Its score and acceptance criteria are policy signals, not an
+independent measure of factual correctness.
 
 ## Evaluation evidence
 
 - `tests/ai/test_ai_plugin_generator.cpp` uses deterministic endpoint callbacks
   to test validation, response parsing, size limits, allow-list behavior,
   optional gates, and statistics.
+- `tests/ai/test_ai_cai_ethics_integration.cpp` covers missing, empty,
+  successful, and throwing callbacks plus fallback acceptance behavior.
 - `tests/ai/test_ai_generation_soak_60min.cpp` exercises sustained behavior
   with controlled endpoint scenarios; it is not evidence of throughput or
   quality for a live provider.

@@ -159,6 +159,13 @@ public:
     template<typename FormatString, typename... Args>
     static void warn(FormatString&& fmt, Args&&... args);
 
+    /**
+     * @brief Log a formatted message at error severity.
+     * @tparam FormatString Runtime format-string type accepted by fmt.
+     * @tparam Args Types of the values used to format the message.
+     * @param fmt Format string; malformed runtime format strings may throw.
+     * @param args Values consumed by the format string.
+     */
     template<typename FormatString, typename... Args>
     static void error(FormatString&& fmt, Args&&... args);
 

@@ -1,27 +1,37 @@
 # ROADMAP — ai_working Module
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-11-06 -->
+<!-- Status: current | validated: 2026-11-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 
 ## Current Status
 
-`ai_working` is a documentation and working-artifact governance area, not a runtime module. Source review found no implementation files under `src/ai_working/`, no public headers under `include/ai_working/`, no test cases or registered target under `tests/ai_working/`, and no benchmark code or target under `benchmarks/ai_working/`. Do not infer product runtime maturity, API readiness, or performance from this module.
+`ai_working` is a documentation and working-artifact governance area, not a runtime module. Source review found no implementation files under `src/ai_working/`, no public headers under `include/ai_working/`, no C++ test target under `tests/ai_working/`, and no benchmark code or target under `benchmarks/ai_working/`. Four standard-library Python tests cover the freshness whitespace threshold and the compactor's generated trust label, unreadable-source failure, and archive-collision preservation. Do not infer product runtime maturity, API readiness, or performance from this module.
 
 | Area | Verified state | Planning maturity* |
 |---|---|---:|
 | Runtime/API | No C++ runtime, public API, or module build target | N/A |
 | Artifact lifecycle | Separate root `ai_working/` compaction/rotation and `src/ai_working/` archive flows | 2/5 |
 | Governance check | `scripts/archive_ai_working.py --check-freshness` checks nine required docs for presence, one placeholder pattern, and minimum size; it does not check factual freshness | 2/5 |
-| Tests | `tests/ai_working/CMakeLists.txt` only declares the minimum CMake version; no module tests are present | 0/5 |
+| Tests | Four focused Python tests; no C++ target, CTest registration, structural-check failure matrix, or lifecycle integration tests | 1/5 |
 | Benchmarks | README only; no benchmark implementation or measured baseline | 0/5 |
 | Security evidence | Secret scanning exists at repository level, but this module's maintenance workflow does not itself establish scan coverage for these artifacts | 1/5 |
 
 *\*Planning maturity is a qualitative 0–5 checklist (0 = no evidence, 5 = repeatable measured controls), not an audit or compliance score. Ratings describe available evidence only.*
 
-The root artifact compactor groups files by filename-derived topic, orders them by modification time, writes compact Markdown and a topic index, and applies age-based archive/cleanup operations (`scripts/ai-working-compact.py`). Its output includes generated dates and source filenames, dates, and sizes; it does not currently provide a content-hash provenance manifest. Separately, `scripts/archive_ai_working.py --archive-stale` selects every unprotected top-level Markdown file in `src/ai_working/`; the name does not imply semantic stale detection. The weekly/manual maintenance workflow runs these operations and the structural document check, but its push path filters do not include `src/ai_working/**` or `scripts/archive_ai_working.py` (`.github/workflows/maintenance-ai-working.yml`).
+The root artifact compactor groups eligible files by filename-derived topic, orders them by modification time, writes compact Markdown and an index, and applies age-based archive/cleanup operations (`scripts/ai-working-compact.py`). It includes source filenames, modification dates, and sizes but no content-hash provenance manifest. It limits inline content to 15 files of at most 12 KiB each; other content is represented by heading extraction. Read failures now terminate the command, and generated pages explicitly disclaim source-of-truth status. Archive collisions use a unique suffix rather than replacing an existing entry. Separately, `scripts/archive_ai_working.py --archive-stale` selects every unprotected top-level Markdown file in `src/ai_working/`; the name does not imply semantic stale detection.
+
+### Operational evidence and execution history
+
+| Evidence | Observed result | Boundary |
+|---|---|---|
+| [Maintenance workflow run #89](https://github.com/makr-code/ThemisDB/actions/runs/44165966484), `develop`, revision `11ea223d`, 2026-11-17 | Compaction, archive, and required-document check steps succeeded; no generated changes were committed | The wiki-sync job was skipped on this push. Success is not semantic freshness, secret-scan coverage, or proof that generated changes were pushed. Workflow artifact retention is 14 days. |
+| `ai_context/developer_llm_wiki/WIKI_STATUS.json`, generated 2026-11-17 19:54 UTC | Incremental snapshot: 8,103 sources; 0 added, 0 removed, 3 changed | Wiki health/delta metadata only; it does not report ai_working runtime or release status. |
+| Focused local test suite | 4 Python unit tests pass for whitespace counting, non-normative labeling, unreadable-source failure, and archive-collision preservation | No structural-check failure matrix, full lifecycle, interrupted operations, or performance test. |
+
+The push paths for the maintenance workflow do not include `src/ai_working/**` or `scripts/archive_ai_working.py`; this documentation change's compactor-script path does trigger the workflow, while other module-document changes rely on schedule/manual execution or another watched path. The freshness gate is structural only: missing/unreadable/placeholder docs fail, while documents under 200 non-whitespace characters warn unless strict mode is selected. No C++ invalid-input, degraded runtime, capability/trust configuration, fallback, or recovery semantics exist for this module. Each workflow push loop is bounded to three total attempts on non-fast-forward; only the compaction job treats protected-branch refusal as a warning/skip.
 
 ### Research and gap analysis
 
@@ -31,7 +41,7 @@ The research supports strengthening source traceability, evaluation, and lifecyc
 - NIST's Generative AI Profile recommends lifecycle risk management; OWASP's 2025 LLM Top 10 highlights prompt injection, sensitive information disclosure, data/model poisoning, and unbounded consumption. These become direct runtime threat requirements only if an LLM is later given access to artifacts; today the relevant controls are provenance, access/review boundaries, secret scanning, and safe archival ([NIST AI 600-1](https://doi.org/10.6028/NIST.AI.600-1); [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)).
 - NIST SP 800-92's lifecycle-oriented log-management guidance is a useful operational precedent for recording artifact movement and retention decisions, not a claim that the module is subject to that standard ([NIST SP 800-92](https://csrc.nist.gov/pubs/sp/800/92/final)).
 
-**Gap:** structural presence/length checks can pass stale content; archive selection is not semantic; no focused tests exercise the safety properties; no benchmark quantifies scale; and the generated compact files lack content-hash lineage. No current performance result or compliance percentage is available.
+**Gap:** structural presence/length checks can pass stale content; archive selection is not semantic; focused tests cover only three compactor safety properties; no benchmark quantifies scale; and generated compact files lack content-hash lineage. No current performance result or compliance percentage is available.
 
 ## In Progress
 
@@ -42,7 +52,7 @@ The research supports strengthening source traceability, evaluation, and lifecyc
 
 ### v2.5.0 — Safe, testable documentation tooling (priority: P0)
 
-- [ ] Add focused standard-library Python tests for current archive and compaction behavior, including dry-run non-mutation, same-day name collisions, protected files, empty/large inputs, and failures that must not delete or overwrite artifacts (Target: v2.5.0).
+- [~] Expand the focused standard-library Python tests for current archive and compaction behavior; current tests cover the whitespace threshold, generated authority labeling, unreadable-source failure, and collision preservation. Remaining cases include dry-run non-mutation, protected files, empty/large inputs, and archive-helper failures (Target: v2.5.0).
 - [ ] Establish a reproducible baseline for governance-check and compaction costs, and capture environment, corpus size, elapsed time, and peak memory before setting absolute performance limits (Target: v2.5.0).
 - [ ] If maintainers approve the use case, add a versioned structured artifact manifest containing normalized relative path, topic, content hash, byte size, source modification time, generation time, and lifecycle state; keep source documents authoritative and generated summaries non-normative (Target: v2.5.0).
 - [ ] Add manifest/schema and path-containment checks to the focused tests; ensure an invalid manifest or archive collision fails safely without data loss (Target: v2.5.0).
@@ -117,7 +127,7 @@ The research supports strengthening source traceability, evaluation, and lifecyc
 - [x] Active compaction and archive flows distinguished from historical artifacts.
 - [x] Existing structural freshness check limitations and missing test/benchmark targets recorded.
 - [ ] Maintainer approves scope, owner, and manifest use case before implementation.
-- [ ] Focused behavior tests and safe-failure checks pass.
+- [~] Focused tests pass for the whitespace threshold and three compactor safety properties; broader archive-helper, lifecycle, and interrupted-operation checks remain open.
 - [ ] Secret scanning, artifact provenance, and benchmark evidence are reviewed.
 - [ ] Source-of-truth docs and operations guidance are synchronized before v3.0.0 acceptance.
 
@@ -126,7 +136,11 @@ The research supports strengthening source traceability, evaluation, and lifecyc
 - No C++ implementation, public header, test case, or benchmark target exists in the scoped module directories.
 - The freshness check is structural, not semantic or date-based; `--archive-stale` does not identify semantic staleness.
 - The root artifact compactor is distinct from the `src/ai_working/` archive helper. A current CI run/result was not verified as part of this documentation task.
-- The generated wiki health snapshot is dated 2026-11-02 and reports 1,450 removed and 26 changed sources; it is a staleness signal, not current module status. Root and module source documents remain authoritative.
+- The latest checked-in wiki health snapshot is dated 2026-11-17 and reports 8,103 sources with 0 added, 0 removed, and 3 changed; this is a wiki delta signal, not current module status.
+- A local incremental wiki-sync validation on 2026-11-18 reported 3 added, 12 removed, and more than 1,100 changed sources with zero validation findings. The broad generated refresh was not retained because it would rewrite unrelated module inventories; the checked-in manifest/status therefore remain the 2026-11-17 snapshot.
+- The latest recorded maintenance run (#89) succeeded, but its wiki-sync job was skipped and its logs/reports expire after 14 days. Current evidence is a bounded snapshot, not durable execution-history storage.
+- The freshness gate does not validate links or semantic currency; a short document only warns in the scheduled workflow's default non-strict mode.
+- There are no current C++ runtime invalid/degraded/fallback/recovery states. The operational compactor does fail on unreadable input, but later-topic read failure can leave earlier generated pages changed locally; the CI commit step is not reached after command failure.
 - The performance values above are proposed test conditions/acceptance thresholds, not measured results.
 - Owners, approved release dates, target-specific release gates, and a maintainer-labeled evaluation corpus remain open assumptions.
 

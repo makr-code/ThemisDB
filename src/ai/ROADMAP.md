@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,9 +27,9 @@ serving engine, a general AI/ML framework, or an isolated code-execution sandbox
 
 | Scope | Source-verified state | Evidence limit |
 |---|---|---|
-| Runtime | Prompt validation, configurable endpoint transport, bounded request/response sizes, endpoint allow-listing, retry/backoff, structured errors, output mapping, optional safety/telemetry callbacks, and artifact materialization are present. | Materializing files and reading them back does not isolate or execute generated code. |
-| Public API | `AIPluginGenerator` exposes prompt/result/configuration types, limits, endpoint callbacks, optional gates, and seven outcome counters. | The API documents that concurrent `generatePlugin()` calls on one instance are not thread-safe. |
-| Tests | `test_ai_plugin_generator.cpp` covers deterministic transport, validation, parsing, limits, allow-listing, gates, and counters. | The endpoint callbacks do not exercise a live provider. |
+| Runtime | Prompt/configuration validation, exact endpoint allow-listing, selected-route retry/backoff, response mapping, and optional C1/C2/sandbox gates are present. | Requested capability strings are forwarded but not provider-acknowledged; artifact read-back is not code isolation. |
+| Public API | `AIPluginGenerator` exposes limits, transport callbacks, gates, seven outcome counters, and `CAIEvaluationResult` fallback/status fields. | Adding the trailing CAI status fields changes `CAIEvaluationResult` binary layout; binary consumers must rebuild. Calls on one generator instance remain unsynchronized. |
+| Tests | Focused tests cover prompt/config validation, no route failover, bounded retry, parsing, limits, gates, and both CAI degraded-state markers. | Injected endpoint callbacks do not exercise a live provider. |
 | Soak/stress | AI generation soak and high-cardinality stress test sources exist. | These use in-process stubs/simulations; they are not production-path, provider, or throughput evidence. |
 | Benchmark | `bench_ai_plugin_generator.cpp` measures validation, orchestration, and malformed-response handling using canned JSON. | It excludes model inference, provider queueing, output quality, and provider cost. |
 
@@ -46,7 +46,7 @@ cross-module work. Wave D's soak/stress sources are simulations; representative
 hardware and provider-backed evidence remain open. Do not count cross-module
 items or simulated tests as AI-module release sign-off.
 
-**Files checked for issue #7399:** `src/ai/ai_plugin_generator.cpp`,
+**Evidence reconciled for issue #7498:** `src/ai/ai_plugin_generator.cpp`,
 `src/ai/cai_ethics_integration.cpp`, `include/ai/ai_plugin_generator.h`,
 `include/ai/cai_ethics_integration.h`, all `tests/ai/test_*.cpp`, and
 `benchmarks/ai/bench_ai_plugin_generator.cpp`. The corresponding limits and
@@ -54,7 +54,7 @@ research references are recorded in [`RESEARCH.md`](./RESEARCH.md).
 
 ## v2.5.0 and v3.0.0 Research Roadmap
 
-This is the proposed module plan for issue #7399, not a release commitment. `v2.5.0` is treated as
+This is the proposed module plan for issue #7498, not a release commitment. `v2.5.0` is treated as
 the next backward-compatible MINOR target; `v3.0.0` is a strategic MAJOR target.
 Confirm active GitHub milestones before assigning implementation PRs. Effort
 estimates are engineering person-weeks and exclude shared platform work and
@@ -64,23 +64,33 @@ human review time.
 
 #### Wave 1 — Operational and contract evidence (P0, 2–3 person-weeks)
 
-- **Goal:** Close the gap between existing callbacks/counters/traces and
-  reproducible operational evidence without changing the public API.
+- **Goal:** Close the gap between callbacks/counters/traces and reproducible
+  operational evidence without changing the plugin request/response schema.
+  The additive CAI fallback-status field is explicitly called out in the
+  compatibility note below.
 - **Tasks:**
   - [ ] Reconcile the documented error taxonomy and counters with every
-    `generatePlugin()` return path; add focused regression cases for each class.
+    `generatePlugin()` return path; add focused regression cases for every
+    counter category, including callback exceptions.
   - [ ] Capture source-compatible p50/p95/p99 latency and error-rate baselines
     for validation, parsing, and orchestration separately from provider time.
   - [ ] Verify the documented timeout, retry, redaction, and thread-safety
     behavior against the implementation and runbook.
+  - [x] Reject invalid endpoint/timeout/size/gate configuration before endpoint
+    I/O and reject invalid prompt enum values.
+  - [x] Prove selected-route retry is limited to three attempts with no
+    cross-route fallback; expose CAI rule-based fallback to callers.
 - **Dependencies:** Existing focused AI test registration; runbook and tracing
   infrastructure. Reuse shared OpenTelemetry conventions rather than adding a
   second telemetry system.
 - **Risk / trade-off:** More instrumentation can add latency or expose sensitive
   data; retain bounded, redacted attributes and measure instrumentation overhead.
 - **Success metrics:** All seven outcome counters have a tested success/error
-  mapping; 100% of registered benchmark cases emit versioned results; p99
-  orchestration regression is at most 10% against the same-build baseline.
+  mapping; invalid configuration invokes no endpoint; retries never exceed
+  three attempts; fallback, ethics-evaluation-failure, and invalid-score results
+  cannot pass `passesAcceptanceCriteria()`;
+  100% of registered benchmark cases emit versioned results; p99 orchestration
+  regression is at most 10% against the same-build baseline.
 - **Validation:** `module_ai_test_ai_plugin_generator_focused`, error-path unit
   tests, benchmark result comparison, trace-attribute/redaction checks.
 
@@ -143,7 +153,9 @@ human review time.
   structured generation results, cancellation/timeouts, and verification state.
 - **Tasks:**
   - [ ] Specify a versioned request/result schema and provider contract tests,
-    including unsupported capability and partial-response behavior.
+    including explicit capability acknowledgement, unsupported capability,
+    partial-response, and degraded fallback behavior. Until this contract
+    exists, `required_capabilities` are requests only, not verified guarantees.
   - [ ] Decide whether a breaking API change is necessary; if so, document the
     migration and remove obsolete API only under the major-version policy.
   - [ ] Add contract fixtures for every supported provider adapter and make
@@ -277,7 +289,7 @@ human review time.
 - `AIPluginGenerator` provides opt-in C1/C2 callbacks; `LLMAQLHandler` inference, streaming, RAG, and chat paths belong to the `llm` module and are not evidence of in-scope `ai` runtime coverage.
 - Artifact materialization and read-back verification do not provide OS-level isolation or execute generated code.
 - The AI benchmark and sustained-load tests use callbacks/stubs; no provider-backed quality or representative-hardware performance results were verified.
-- Schema-level validation for all LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 bytes, oversized `build_dependencies` entries silently dropped.
+- Schema-level validation for LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 bytes, and malformed or oversized `build_dependencies` entries rejected.
 
 ## Historical Wave C Timeline and Dependencies (cross-module)
 
@@ -339,7 +351,7 @@ human review time.
 
 ### A3: Retry / Backoff Policy
 - [x] 3-attempt retry for transient endpoint failures
-- [x] Exponential backoff: 100 ms / 200 ms / 400 ms
+- [x] Inter-attempt backoff: 100 ms, then 200 ms (no delay after the final attempt)
 - [x] Non-retryable failures fail immediately
 - [x] Retry attempts logged at WARN level
 
@@ -348,12 +360,12 @@ human review time.
 - [x] `security_report` ≤ 64 KiB
 - [x] `version` ≤ 64 chars (default `0.1.0`)
 - [x] `manifest.description` truncated at 8 192 bytes
-- [x] Oversized `build_dependencies` entries dropped
+- [x] Malformed and oversized `build_dependencies` entries rejected
 
 ### A5: Fail-Closed Error Handling
 - [x] All error branches return structured `Error` result
 - [x] Stats struct: 7 observable counters
-- [x] Log redaction: sensitive fields bounded at 120 chars
+- [x] Diagnostics omit prompt/callback error text and redact endpoint userinfo/path/query/fragment
 - [x] Thread-safety contract documented (not thread-safe for concurrent `generatePlugin`)
 
 ### Wave A Exit Criteria
@@ -526,10 +538,14 @@ human review time.
 - MEDIUM-priority scope/documentation gaps remain tracked in `MODULE_GAPS.md`
 - Dedicated benchmark target for the AI plugin generator path is registered and tracked in benchmark docs
 - Sandbox verification now includes built-in artifact materialization, read-back verification, and optional callback enforcement
+- Capability support is not negotiated: valid `required_capabilities` values
+  are serialized but not echoed or checked against the generated manifest.
+- Malformed response shape, wrong field types, and invalid dependency entries
+  return parse errors and are covered by focused regression tests.
 
 ### Acceptance Criteria Status
 - [x] Validation-first execution path implemented and verified
-- [x] Structured error handling for all failure points
+- [x] Returned failures use structured errors, including wrong response-field types
 - [x] Hardening follow-ups complete for endpoint safety, payload validation, observability counters, benchmark coverage, and sandbox artifact verification
 - [x] API documentation complete and comprehensive
 - [x] Implementation semantics documented at function level
@@ -538,4 +554,11 @@ human review time.
 
 ## Breaking Changes
 
-No breaking API change planned. Any signature/semantic contract change requires explicit migration notes and changelog entry.
+`CAIEvaluationResult` has trailing `ethics_evaluation_succeeded` and
+`used_rule_based_fallback` fields. Existing source aggregate initializers that
+omit trailing members remain source-compatible, but the struct size/layout
+changes; binary consumers must rebuild. Treat the field addition as a
+binary-compatibility boundary and include it in release notes if shipping before
+v3.0.0. Capability negotiation remains a
+planned v3.0.0 contract change and must include a migration note if it changes
+the current request/response schema.

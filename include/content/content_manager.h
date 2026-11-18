@@ -30,6 +30,7 @@
 #include "index/vector_index.h"
 #include "index/graph_index.h"
 #include "index/secondary_index.h"
+#include "query/request_context.h"
 #include "security/encryption.h"
 #include "security/malware_scanner.h"
 
@@ -255,10 +256,38 @@ public:
      */
     std::vector<ChunkMeta> getChunkRange(const std::string& content_id, int start_seq, int count);
 
+    /**
+     * @brief Searches content vectors using an unbounded legacy request.
+     * @param query_text Text to embed for vector retrieval.
+     * @param k Maximum number of chunks to return.
+     * @param filters Optional content filters applied before and after retrieval.
+     * @return Ranked chunk IDs and vector distances; empty when unavailable or unmatched.
+     */
     std::vector<std::pair<std::string, float>> searchContent(
         const std::string& query_text,
         int k,
         const json& filters = json::object()
+    );
+
+    /**
+     * @brief Searches content vectors while observing request cancellation and deadline.
+     * @param query_text Text to embed for vector retrieval.
+     * @param k Maximum number of chunks to return.
+     * @param filters Optional content filters applied before and after retrieval.
+     * @param request Absolute deadline and cancellation state; not retained after return.
+     * @param stop_reason Receives the stop reason, or None on completion; may be null.
+     * @return Ranked chunk IDs and vector distances; empty when unmatched or stopped.
+     * @note The built-in TextProcessor fallback polls during tokenization and embedding.
+     *       Injected callbacks, other processor implementations, and synchronous ANN calls
+     *       remain checkpoint-only. A stopped request discards any partial results;
+     *       operational errors retain the legacy empty result.
+     */
+    [[nodiscard]] std::vector<std::pair<std::string, float>> searchContent(
+        const std::string& query_text,
+        int k,
+        const json& filters,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
     );
 
     std::vector<std::pair<std::string, float>> searchContentHybrid(
@@ -270,6 +299,14 @@ public:
         float rrf_k = 60.0f
     );
 
+    /**
+     * @brief Searches content and expands matches through graph neighbors without a deadline.
+     * @param query_text Text embedded for the base vector search.
+     * @param k Maximum number of chunks to return.
+     * @param expansion_hops Maximum graph traversal depth; non-positive disables expansion.
+     * @param filters Optional content filters and scoring overrides.
+     * @return Ranked chunk IDs and scores; empty when no base matches are available.
+     */
     std::vector<std::pair<std::string, float>> searchWithExpansion(
         const std::string& query_text,
         int k,
@@ -277,6 +314,35 @@ public:
         const json& filters = json::object()
     );
 
+    /**
+     * @brief Searches and graph-expands content while observing request cancellation/deadline.
+     * @param query_text Text embedded for the base vector search.
+     * @param k Maximum number of chunks to return.
+     * @param expansion_hops Maximum graph traversal depth; non-positive disables expansion.
+     * @param filters Optional content filters and scoring overrides.
+     * @param request Absolute deadline and cancellation state; not retained after return.
+     * @param stop_reason Receives the stop reason, or None on completion; may be null.
+     * @return Ranked chunk IDs and scores; empty when unmatched or stopped.
+     * @note Graph neighbor reads, Dijkstra calls, injected/legacy embedding providers,
+     *       whitelist scans, and sorting are checkpoint-only. The built-in TextProcessor
+     *       fallback polls during tokenization and embedding. Partial results are discarded
+     *       when stopped.
+     */
+    [[nodiscard]] std::vector<std::pair<std::string, float>> searchWithExpansion(
+        const std::string& query_text,
+        int k,
+        int expansion_hops,
+        const json& filters,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    );
+
+    /**
+     * @brief Deletes content and its associated chunks and index entries.
+     * @param content_id Content identifier, with or without the canonical prefix.
+     * @return Success status, or an error if deleting the content record fails.
+     * @note Missing optional vector or full-text index entries do not prevent deletion.
+     */
     [[nodiscard]] Status deleteContent(const std::string& content_id);
 
     /**
@@ -532,4 +598,3 @@ private:
 
 } // namespace content
 } // namespace themis
-

@@ -1,6 +1,6 @@
 > Author: ThemisDB Team
 > Created: 2026-10-30
-> Last Updated: 2026-10-30
+> Last Updated: 2026-11-17
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -43,6 +43,14 @@ The frozen graph taxonomy in [graph_error_taxonomy.h](../../include/graph/graph_
 - `REASONING_CONFLICT`: a constraint or inferred fact conflict needs semantic/operator review.
 
 Important edge cases include untrained RotatE scoring (throws), unknown registered entity/relation IDs (throws), empty embedding access before training (empty vector), empty/invalid ontology input, traversal depth/result truncation, timeouts, and unavailable/failed shards or devices. See [RUNBOOK.md](RUNBOOK.md) for diagnosis.
+
+`KnowledgeGraphReasoner::infer(subject, depth, request, stop_reason)` is the
+bounded overload. It polls during fact snapshotting, recursive rule matching,
+forward chaining, and result filtering; on an observed stop it returns an empty
+chain and reports `Cancelled` or `DeadlineExceeded`. Explain-store publication
+polls between entries after forward chaining completes; one synchronous store
+operation can overrun a stop, and completed sound derivations may remain
+cached. The legacy `infer(subject, depth)` overload remains unbounded.
 
 ## Contract ownership and change policy
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-06"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,8 @@ must not be treated as current `ai` release acceptance or module-owned status.
 ## Scope
 
 - Hardening of endpoint safety, payload validation, and error observability for AI plugin generation.
+- Provider capability negotiation and explicit rejection of unsupported or unacknowledged requirements.
+- Explicit provenance and acceptance behavior for deterministic CAI fallback.
 - Introduction of dedicated performance coverage for the AI generation path.
 - Isolated build, test, and security verification for generated artifacts; current artifact materialization and read-back verification do not provide operating-system isolation.
 - Provider-backed quality and performance evaluation, kept distinct from callback-only orchestration benchmarks.
@@ -40,6 +42,8 @@ must not be treated as current `ai` release acceptance or module-owned status.
 - Public API contracts in `include/ai/ai_plugin_generator.h` remain backward compatible within major line.
 - Validation and error behavior must remain deterministic and fail-closed.
 - Runtime behavior must remain bounded by timeout/retry budgets.
+- Requested capabilities must not be described as supported until a versioned provider response acknowledges them and the generated manifest is checked.
+- Any deterministic fallback must be visible to callers and must not silently pass a production acceptance gate.
 - Security-sensitive request content must not be persisted unredacted.
 
 ## Required Interfaces
@@ -48,19 +52,23 @@ must not be treated as current `ai` release acceptance or module-owned status.
 |---|---|
 | `validatePrompt` | preserve bounded, deterministic validation of description, capability, and dependency fields |
 | `generatePlugin` | preserve validation-first execution and fail-closed behavior; independently verify generated artifacts before promotion |
-| `AIPluginGenerator::Config` | retain documented endpoint allow-list, timeout, size limits, and optional gates; fixed retry count/backoff are not currently configurable |
+| `AIPluginGenerator::Config` | reject invalid endpoint/timeout/size/gate configuration before I/O; keep fixed retry count/backoff bounded and documented |
+| provider contract (v3.0.0) | version capability acknowledgement, unsupported-capability errors, and partial-response behavior; current `required_capabilities` are request-only |
+| `CAIEvaluationResult` | expose fallback provenance and ethics-evaluation status; acceptance helper rejects either degraded state |
 | benchmark integration | keep callback-based orchestration measurements separate from provider-backed latency, quality, and cost results |
 
 ## Implementation Notes
 
-- Field-level validation for `required_capabilities`/`dependencies`, configurable endpoint allow-list, request/response size limits, bounded transient retries, dedicated callback benchmark coverage, and sandbox artifact materialization are implemented in the runtime path.
+- Field-level token validation, exact endpoint allow-listing, positive request/response limits and timeout, bounded selected-route retries, callback exception handling, CAI fallback labeling, and artifact materialization are implemented in the runtime path.
+- Provider support for requested capabilities, live-provider performance, generated-code isolation, and generated artifact verification are not implemented or evidenced by the callback fixtures.
 - Remaining work is scoped in `ROADMAP.md`: verify error/counter contracts, add real isolation and artifact verification, then establish provider-backed quality/performance evidence.
 - Do not equate an optional verification callback or artifact read-back with a sandbox or proof of code safety.
 
 ## Test Strategy
 
 - Unit tests for new validation rules and schema failure cases.
-- Integration tests with deterministic endpoint fixtures (success, non-2xx, malformed JSON, oversized payload) plus negative tests for isolation and verifier failure.
+- Integration tests with deterministic endpoint fixtures (success, non-2xx, malformed JSON, oversized payload, bounded retry/no failover, invalid configuration) plus negative tests for isolation and verifier failure.
+- CAI tests for absent, empty, throwing, and successful prompt runners; every fallback path must be labeled and rejected by the acceptance helper.
 - Regression tests for existing structured error contracts.
 - Callback benchmark regression tracking in release profile, plus a separate versioned provider evaluation protocol.
 
@@ -74,6 +82,8 @@ must not be treated as current `ai` release acceptance or module-owned status.
 
 - Enforce endpoint allow-list checks before outbound calls (implemented).
 - Enforce maximum request and response size limits (implemented).
+- Do not infer provider capability support from request tokens or the provider-supplied `passed_security_checks` field.
+- Reject CAI acceptance for results marked as rule-based fallback or failed ethics evaluation (implemented); provider capability negotiation remains a v3 contract gate.
 - Materialize generated source bundles into configured directories with fail-closed read-back verification before optional callback policy execution (implemented; this is not OS-level isolation).
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.

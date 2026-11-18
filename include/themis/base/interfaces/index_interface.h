@@ -31,6 +31,7 @@
 
 #include "themis/base/export.h"
 #include "themis/base/interfaces/query_interface.h"
+#include "query/request_context.h"
 #include "utils/expected.h"
 #include <cstdint>
 #include <functional>
@@ -38,6 +39,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -162,6 +164,12 @@ struct VectorSearchResult {
         : primary_key(std::move(pk)), distance(dist) {}
 };
 
+/// @brief Results from a vector search that observed a request stop condition.
+struct VectorSearchOutcome {
+    std::vector<VectorSearchResult> results; ///< Search results; empty when stopped.
+    query::StopReason stop_reason{query::StopReason::None}; ///< None on completed search.
+};
+
 /// @brief Abstract interface for vector indexes
 /// 
 /// Vector indexes enable similarity search over high-dimensional embeddings.
@@ -191,6 +199,35 @@ public:
         const std::vector<float>& query_vector,
         uint32_t k,
         const IExpressionEvaluator* filter = nullptr) const = 0;
+
+    /// @brief Searches for nearest neighbors while observing a request deadline or cancellation.
+    /// @param query_vector Query embedding; dimension validation follows the legacy search API.
+    /// @param k Maximum number of results to return.
+    /// @param filter Optional expression evaluator, borrowed for the duration of this call.
+    /// @param request Request deadline and cancellation state; must not be retained after return.
+    /// @return Results on completion, or an empty result with a distinct stop_reason when stopped.
+    /// @note The default implementation is source-compatible and checkpoint-only: it checks
+    ///       before and after the legacy search call, discarding late results. Existing
+    ///       implementations cannot be interrupted while that call is running. An implementation
+    ///       must override this method and poll request.shouldStop() during its search to provide
+    ///       cooperative in-flight cancellation.
+    [[nodiscard]] virtual VectorSearchOutcome search(
+        const std::vector<float>& query_vector,
+        uint32_t k,
+        const IExpressionEvaluator* filter,
+        const query::RequestContext& request) const {
+        const auto initial_stop = request.stopReason();
+        if (initial_stop != query::StopReason::None) {
+            return {{}, initial_stop};
+        }
+
+        auto results = search(query_vector, k, filter);
+        const auto final_stop = request.stopReason();
+        if (final_stop != query::StopReason::None) {
+            return {{}, final_stop};
+        }
+        return {std::move(results), query::StopReason::None};
+    }
 
     /// @brief Range search (all vectors within distance threshold)
     /// @param query_vector The query vector

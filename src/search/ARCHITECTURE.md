@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,7 +22,7 @@ Canonical_References:
   - "distributed_hybrid_search.cpp"
   - "layered_retrieval_orchestrator.cpp"
   - "llm_reranker.cpp"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -30,11 +30,11 @@ Exact model backend not verifiable from final document text alone.
 
 # Search Module Architecture
 
-## Scope, boundaries, and ownership
+## Kontext
 
 `src/search/` owns search-side candidate composition, lexical/vector hybrid fusion, distributed result merging, ranking utilities, optional LLM-assisted rewriting/reranking, and result streaming. Index implementations, embedding generation, storage, and model inference are external boundaries.
 
-## Components and public interfaces
+## Komponenten
 
 | Component | Public interface | Source-backed responsibility |
 |---|---|---|
@@ -44,7 +44,14 @@ Exact model backend not verifiable from final document text alone.
 | Ranking/utilities | [`LlmReranker`](../../include/search/llm_reranker.h), [`QueryExpander`](../../include/search/query_expander.h), [`FacetedSearch`](../../include/search/faceted_search.h) | Optional query expansion, reranking, facets, analytics, and related search operations. |
 | Result delivery | [`SearchResultStream`](../../include/search/search_result_stream.h) | Cursor/page-based result access over a hybrid-search result source. |
 
-## Data and event flow
+## Schnittstellen
+
+Public search contracts are declared in the component headers above. The
+request-aware bounded retrieval contracts are summarized in the
+[search API guide](API.md); this architecture page does not define HTTP or gRPC
+wire behavior.
+
+## Datenfluss
 
 1. The caller configures and invokes local hybrid search; lexical and vector candidate sources feed a fusion/ranking step.
 2. Optional filters, expansion, or LLM reranking can transform the query or candidate order.
@@ -53,14 +60,43 @@ Exact model backend not verifiable from final document text alone.
 
 Evidence: [`hybrid_search.cpp`](hybrid_search.cpp), [`distributed_hybrid_search.cpp`](distributed_hybrid_search.cpp), [`layered_retrieval_orchestrator.cpp`](layered_retrieval_orchestrator.cpp), and [`llm_reranker.cpp`](llm_reranker.cpp).
 
-## Failure domains and edge cases
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant C as Caller
+    participant O as Layered orchestrator
+    participant A as ANN/index backend
+    participant T as Tensor graph
+    participant G as Knowledge graph
+    C->>O: execute(request context)
+    O->>A: optional request-aware search
+    O->>T: optional request-aware similarity
+    O->>G: optional request-aware inference
+    O-->>C: results and per-layer status
+```
+Kurzinterpretation: The orchestrator runs optional layers inline, propagates
+request context, and returns each layer's outcome to the caller.
+
+## Fehlerpfade und Resilienz
 
 - Missing, failed, or timed-out candidate backends can yield partial/degraded results or explicit layer decisions; inspect `SearchStats`/result metadata.
+- ANN invalid distances and over-cardinality results are bounded and reported as
+  `ANN_INVALID_BACKEND_RESULT`; an empty result after invalid candidates is
+  fail-closed, not an ordinary no-match. Missing ANN backends currently do not
+  run a flat scan: the nominal fallback is unavailable, returns no candidates,
+  and is reported as `ANN_BACKEND_UNAVAILABLE` / `fail_closed`.
 - A remote shard failure affects distributed merge completeness, not the local index's durable state.
 - A missing/throwing optional reranker leaves a distinct rerank failure/fallback path; it is not evidence that the underlying LLM service recovered.
 - Configuration and candidate limits constrain search work; stream/page failures are separate from candidate-generation failures.
+- Layered retrieval runs inline without detached work. Cooperative layers poll
+  cancellation and deadlines and discard partial output; synchronous ANN calls,
+  tensor scoring operations, graph explain-store writes, and other non-polling
+  backend calls may overrun until they return. QRY-07 remains open until all
+  affected execution paths and the required slow-search cleanup trace are
+  verified.
 
-## Explicit non-goals
+## Nicht-Ziele
 
 - Implementing the index or persistence engine.
 - Creating embeddings or owning the LLM backend lifecycle.
@@ -80,7 +116,7 @@ Evidence: [`hybrid_search.cpp`](hybrid_search.cpp), [`distributed_hybrid_search.
 | LLM callback | Search has an injected LLM reranker/client boundary; see [LLM architecture](../llm/ARCHITECTURE.md). |
 | Retrieval validator | Search result composition is distinct from the current [retrieval module architecture](../retrieval/ARCHITECTURE.md); no shared implementation is implied. |
 
-## References
+## Verweise
 
 - [Module README](README.md) · [API contract](API.md) · [layered retrieval notes](LAYERED_RETRIEVAL_ARCHITECTURE.md) · [module roadmap](ROADMAP.md)
 - [`hybrid_search.h`](../../include/search/hybrid_search.h) · [`layered_retrieval_orchestrator.h`](../../include/search/layered_retrieval_orchestrator.h)

@@ -15,6 +15,7 @@
 #include "themis/search/llm_reranker_interface.h"
 #include "themis/search/llm_reranker_factory.h"
 #include "search/search_error_codes.h"
+#include "query/request_context.h"
 
 #include <string>
 #include <vector>
@@ -165,6 +166,29 @@ public:
         const std::string& text_query,
         const float* vector_query = nullptr,
         size_t vector_dim = 0,
+        SearchStats* stats = nullptr
+    );
+
+    /**
+     * @brief Perform hybrid search while observing the request stop state.
+     * @param text_query Text for the BM25 stage; empty skips that stage.
+     * @param vector_query Optional vector query; null skips vector retrieval.
+     * @param vector_dim Number of floats in vector_query; ignored when null.
+     * @param request Absolute deadline and cancellation state; not retained.
+     * @param stop_reason Receives the observed stop cause or None; may be null.
+     * @param stats Optional per-source diagnostics.
+     * @return Fused results, or empty when stopped; a valid no-match also returns
+     *         empty and is distinguished by stop_reason remaining None.
+     * @note BM25 and VectorIndexManager scans poll cooperatively. ANN frontdoor and
+     *       reranker calls, sorting and fusion are checkpoint-only; late results
+     *       are discarded after the call returns.
+     */
+    [[nodiscard]] std::vector<Result> search(
+        const std::string& text_query,
+        const float* vector_query,
+        size_t vector_dim,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason = nullptr,
         SearchStats* stats = nullptr
     );
     
