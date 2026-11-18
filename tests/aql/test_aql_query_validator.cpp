@@ -839,3 +839,47 @@ TEST(AQLQueryValidatorPolicyTest, CollectionNameExceedingLengthLimitIsRejected) 
     EXPECT_TRUE(result.hasErrors())
         << "The validation result must have errors for an oversized collection name";
 }
+
+TEST(AQLQueryValidatorPolicyTest, TraversalDepthAtMaximumIsAccepted) {
+    AQLQueryValidator validator;
+    const auto result =
+        validator.validate("FOR v IN 0..100 OUTBOUND \"users/1\" GRAPH \"social\" RETURN v");
+
+    EXPECT_TRUE(result.is_valid);
+}
+
+TEST(AQLQueryValidatorPolicyTest, TraversalDepthAboveMaximumIsRejectedWithStableError) {
+    AQLQueryValidator validator;
+    const auto result =
+        validator.validate("FOR v IN 0..101 OUTBOUND \"users/1\" GRAPH \"social\" RETURN v");
+
+    ASSERT_TRUE(result.hasErrors());
+    ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().message,
+              "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
+    EXPECT_EQ(result.issues.front().clause, "FOR");
+}
+
+TEST(AQLQueryValidatorPolicyTest, TraversalDepthIntegerOverflowReturnsValidationError) {
+    AQLQueryValidator validator;
+    const auto result = validator.validate(
+        "FOR v IN 0..999999999999999999999999999999999999999999 OUTBOUND "
+        "\"users/1\" GRAPH \"social\" RETURN v");
+
+    ASSERT_TRUE(result.hasErrors());
+    ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().message,
+              "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
+}
+
+TEST(AQLQueryValidatorPolicyTest, TraversalMinimumDepthIntegerOverflowReturnsValidationError) {
+    AQLQueryValidator validator;
+    const auto result = validator.validate(
+        "FOR v IN 999999999999999999999999999999999999999999..100 OUTBOUND "
+        "\"users/1\" GRAPH \"social\" RETURN v");
+
+    ASSERT_TRUE(result.hasErrors());
+    ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().message,
+              "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
+}

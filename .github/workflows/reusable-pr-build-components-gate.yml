@@ -55,6 +55,25 @@ jobs:
             --parallel 1 \
             --timeout 120 2>&1 | tee /tmp/release-critical-ctest.log
 
+      - name: Build mandatory AQL capability tests
+        run: |
+          set -euo pipefail
+          cmake --build build-community-release \
+            --target \
+              module_aql_test_aql_parser_focused \
+              module_aql_test_aql_query_validator_focused \
+              module_aql_test_aql_with_clause_focused \
+              module_aql_test_aql_shortest_path_focused \
+            --parallel "$(nproc)" 2>&1 | tee /tmp/aql-capability-build.log
+
+      - name: Run mandatory AQL capability tests
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-community-release \
+            --tests-regex '^(test_aql_parser|test_aql_query_validator|test_aql_with_clause|test_aql_shortest_path)_AqlFocusedTests$' \
+            --output-on-failure --no-tests=error --timeout 120 \
+            2>&1 | tee /tmp/aql-capability-ctest.log
+
       - name: Upload release-critical triage bundle
         if: always()
         uses: actions/upload-artifact@v5
@@ -64,6 +83,8 @@ jobs:
             /tmp/release-critical-configure.log
             /tmp/release-critical-build.log
             /tmp/release-critical-ctest.log
+            /tmp/aql-capability-build.log
+            /tmp/aql-capability-ctest.log
           if-no-files-found: ignore
           retention-days: 30
 

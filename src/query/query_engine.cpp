@@ -5245,21 +5245,31 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
 		
 		if (timestamp_ms.has_value()) {
-			auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms);
+			auto [status, result] = graphIdx_->dijkstraAtTime(
+				q.start_node, q.end_node, *timestamp_ms, bfsDepth);
 			st = status;
 			pathResult = result;
 		} else if (hasTypeFilter) {
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId);
+			GraphIndexManager::PathConstraints constraints;
+			constraints.max_edge_count = bfsDepth;
+			constraints.unique_vertices = true;
+			auto [status, result] = graphIdx_->dijkstraWithConstraints(
+				q.start_node, q.end_node, constraints, q.edge_type, graphId);
 			st = status;
 			pathResult = result;
 		} else {
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node);
+			GraphIndexManager::PathConstraints constraints;
+			constraints.max_edge_count = bfsDepth;
+			constraints.unique_vertices = true;
+			auto [status, result] = graphIdx_->dijkstraWithConstraints(
+				q.start_node, q.end_node, constraints, {}, graphId);
 			st = status;
 			pathResult = result;
 		}
 		
 		// "No path found" is not an error, just an empty result
-		if (!st.ok && st.message.find("Kein Pfad gefunden") == std::string::npos) {
+		if (!st.ok && st.message.find("Kein Pfad gefunden") == std::string::npos
+			&& st.message.find("No path found") == std::string::npos) {
 			span.setStatus(false, st.message);
 			return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
@@ -5269,6 +5279,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			// Trivial path
 			allPaths.emplace_back(std::vector<std::string>{q.start_node});
 			span.setAttribute("query.path_count", static_cast<int64_t>(1));
+			span.setStatus(true);
+			return Ok(std::move(allPaths));
+		}
+		if (pathResult.path.size() > boundedDepth + 1) {
+			span.setAttribute("query.path_count", static_cast<int64_t>(0));
 			span.setStatus(true);
 			return Ok(std::move(allPaths));
 		}

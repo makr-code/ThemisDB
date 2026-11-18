@@ -14,11 +14,13 @@
 #include "aql/aql_query_builder.h"
 
 #include <algorithm>
+#include <charconv>
 #include <cctype>
 #include <regex>
 #include <set>
 #include <spdlog/spdlog.h>
 #include <sstream>
+#include <system_error>
 #include <unordered_map>
 
 #include "aql/aql_query_builder.h"
@@ -251,16 +253,32 @@ void checkMissingLimit(const std::string &upper_query, ValidationResult &result)
  * @brief Check that graph traversal depth range is valid (min <= max)
  * @param[in] query Input parameter.
  * @param[in,out] result Input/output parameter.
- * @details Calls: depth_re(), it(), begin(), end(), std::stoi(), str(), push_back(), std::to_string().
+ * @details Calls: depth_re(), it(), begin(), end(), std::from_chars(), str(), push_back(), std::to_string().
  */
 void checkTraversalDepthOrder(const std::string &query, ValidationResult &result) {
+    constexpr int kMaxTraversalDepth = 100;
     // Match patterns like "IN 3..1 OUTBOUND" or "IN 5..2 ANY"
     static const std::regex depth_re(R"(\bIN\s+(\d+)\.\.(\d+)\s+(?:OUTBOUND|INBOUND|ANY)\b)", std::regex::icase);
     std::sregex_iterator it(query.begin(), query.end(), depth_re);
     std::sregex_iterator end = {};
     for (; it != end; ++it) {
-        int min_d = std::stoi((*it)[1].str());
-        int max_d = std::stoi((*it)[2].str());
+        int min_d = 0;
+        int max_d = 0;
+        const auto parseDepth = [](const std::ssub_match &match, int &depth) {
+            const auto token = match.str();
+            const auto [end_ptr, error] = std::from_chars(token.data(), token.data() + token.size(), depth);
+            return error == std::errc{} && end_ptr == token.data() + token.size()
+                   && depth <= kMaxTraversalDepth;
+        };
+        if (!parseDepth((*it)[1], min_d) || !parseDepth((*it)[2], max_d)) {
+            result.is_valid = false;
+            result.issues.push_back(
+                {ValidationIssue::Severity::FAILURE,
+                 "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and "
+                     + std::to_string(kMaxTraversalDepth),
+                 "FOR"});
+            continue;
+        }
         if (min_d > max_d) {
             result.is_valid = false;
             result.issues.push_back({ValidationIssue::Severity::FAILURE,
@@ -591,4 +609,3 @@ ValidationResult AQLQueryValidator::validate(const AQLQueryBuilder &builder,
 
 } // namespace aql
 } // namespace themis
-

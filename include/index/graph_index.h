@@ -152,10 +152,28 @@ public:
         int maxDepth = 3
     ) const;
     
+    /// Find the shortest path whose edges are valid at the supplied timestamp.
+    /// @param startPk Start vertex primary key; must not be empty.
+    /// @param targetPk Target vertex primary key; must not be empty.
+    /// @param timestamp_ms Timestamp at which edges must be valid.
+    /// @return The shortest valid path, or an error status when no path exists.
     std::pair<Status, PathResult> dijkstraAtTime(
         std::string_view startPk,
         std::string_view targetPk,
         int64_t timestamp_ms
+    ) const;
+
+    /// Find a shortest temporally valid path with an optional edge-count bound.
+    /// @param startPk Start vertex primary key; must not be empty.
+    /// @param targetPk Target vertex primary key; must not be empty.
+    /// @param timestamp_ms Timestamp at which edges must be valid.
+    /// @param max_edge_count Non-negative maximum number of edges, or -1 for no limit.
+    /// @return The shortest valid path, or an error status for invalid input or when no path satisfies the constraints.
+    std::pair<Status, PathResult> dijkstraAtTime(
+        std::string_view startPk,
+        std::string_view targetPk,
+        int64_t timestamp_ms,
+        int max_edge_count
     ) const;
 
     // Sprint B Extended: Time-Range Queries

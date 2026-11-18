@@ -32,6 +32,10 @@ on:
       - cmake/**/*.cmake
       - cmake/**/*.txt
       - cmake/**/*.in
+      - src/aql/**
+      - include/aql/**
+      - src/query/aql_parser*
+      - include/query/aql_parser*
       - tests/*.cpp
       - tests/**/*.cpp
       - tests/CMakeLists.txt
@@ -68,6 +72,10 @@ on:
       - cmake/**/*.cmake
       - cmake/**/*.txt
       - cmake/**/*.in
+      - src/aql/**
+      - include/aql/**
+      - src/query/aql_parser*
+      - include/query/aql_parser*
       - tests/*.cpp
       - tests/**/*.cpp
       - tests/CMakeLists.txt
@@ -104,7 +112,7 @@ on:
 
 concurrency:
   group: ci-pr-gates-matrix.${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read

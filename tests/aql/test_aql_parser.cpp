@@ -534,20 +534,30 @@ TEST(AQLParserTest, TraversalNegativeMinDepthIsError) {
     EXPECT_FALSE(result.has_value());
 }
 
-// Max depth exceeding kMaxTraversalDepth (1000) must be rejected
+// Max depth exceeding kMaxTraversalDepth (100) must be rejected
 TEST(AQLParserTest, TraversalExceedingMaxDepthIsError) {
     AQLParser parser;
     auto result = parser.parse(
-        "FOR v IN 1..1001 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+        "FOR v IN 1..101 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
     EXPECT_FALSE(result.has_value());
 }
 
-// Max depth exactly at kMaxTraversalDepth (1000) must be accepted
+// Max depth exactly at kMaxTraversalDepth (100) must be accepted
 TEST(AQLParserTest, TraversalAtDepthBoundaryIsAccepted) {
     AQLParser parser;
     auto result = parser.parse(
-        "FOR v IN 1..1000 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+        "FOR v IN 1..100 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
     EXPECT_TRUE(result.has_value());
 }
 
-
+TEST(AQLParserTest, TraversalOverlongDepthIsError) {
+    AQLParser parser;
+    const auto overlong_min = parser.parse(
+        "FOR v IN 999999999999999999999999999999999999999999..2 "
+        "OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    const auto overlong_max = parser.parse(
+        "FOR v IN 1..999999999999999999999999999999999999999999 "
+        "OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_FALSE(overlong_min.has_value());
+    EXPECT_FALSE(overlong_max.has_value());
+}
