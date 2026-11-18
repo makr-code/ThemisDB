@@ -114,7 +114,7 @@ The distributed blacklist has a TBLK/v1 TCP protocol, leader push/follower pull 
   - `checkout()` timeout now throws `AuthException(PROVIDER_DEGRADED)` instead of returning `nullptr`
   - Tests: `tests/auth/test_wave7_auth_ldap_federated.cpp` (WP-01..WP-06, WA-01..WA-04)
 - [x] 2026-08-26 LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
-  - Unix/OpenLDAP path: paginated `ldap_search_ext_s` loop with `ldap_create_page_control` / `ldap_parse_page_control`; page_size=500, max_results=5000; partial results returned on pagination error with `THEMIS_WARN`
+  - Unix/OpenLDAP path: paginated `ldap_search_ext_s` loop with `ldap_create_page_control` / `ldap_parse_pageresponse_control`; page_size=500, max_results=5000; partial results returned on pagination error with `THEMIS_WARN`
 - [x] 2026-08-26 `federated_identity_manager.cpp`: Cross-provider state sync — 9 new methods implemented (Target: Q4 2026)
   - `addCrossProviderTrust` / `removeCrossProviderTrust` / `isTrustedBy` / `getCrossProviderTrusts`: in-memory trust registry protected by `trust_mutex_`
   - `cacheValidationResult` / `getCachedResult` / `evictExpiredCacheEntries` / `clearTokenCache` / `tokenCacheSize`: `std::unordered_map`-backed token validation cache with `std::chrono::system_clock` expiry; auto-populated by `validateToken()`
