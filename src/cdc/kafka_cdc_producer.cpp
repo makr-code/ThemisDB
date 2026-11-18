@@ -58,19 +58,26 @@ namespace cdc {
  */
 
 void KafkaCDCProducer::DeliveryReportCb::dr_cb(RdKafka::Message& message) {
+    std::unique_ptr<DeliveryContext> delivery_context(
+        static_cast<DeliveryContext*>(message.msg_opaque()));
     if (message.err() != RdKafka::ERR_NO_ERROR) {
         THEMIS_WARN("KafkaCDCProducer: delivery error for key='{}' topic='{}': {}",
                     message.key() ? *message.key() : "<none>",
                     message.topic_name(),
                     message.errstr());
-        ++producer_.error_total_;
-        if (producer_.metrics_) {
-            ++producer_.metrics_->kafka_error_total;
+        producer_.recordError();
+        if (delivery_context && delivery_context->advance_sequence) {
+            producer_.pending_delivery_result_.store(-1, std::memory_order_release);
         }
     } else {
         ++producer_.delivered_total_;
         if (producer_.metrics_) {
             ++producer_.metrics_->kafka_delivered_total;
+        }
+        if (delivery_context && delivery_context->advance_sequence) {
+            producer_.last_sequence_.store(delivery_context->sequence,
+                                           std::memory_order_release);
+            producer_.pending_delivery_result_.store(1, std::memory_order_release);
         }
     }
 }
@@ -106,6 +113,7 @@ bool KafkaCDCProducer::start() {
 
     if (!changefeed_) {
         THEMIS_ERROR("KafkaCDCProducer: cannot start without a valid Changefeed");
+        recordError();
         return false;
     }
 
@@ -113,10 +121,16 @@ bool KafkaCDCProducer::start() {
     std::string errstr = {};
     std::unique_ptr<RdKafka::Conf> conf(
         RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL));
+    if (!conf) {
+        THEMIS_ERROR("KafkaCDCProducer: failed to create librdkafka configuration");
+        recordError();
+        return false;
+    }
 
     auto set = [&](const std::string& key, const std::string& value) -> bool {
         if (conf->set(key, value, errstr) != RdKafka::Conf::CONF_OK) {
             THEMIS_ERROR("KafkaCDCProducer: failed to set '{}': {}", key, errstr);
+            recordError();
             return false;
         }
         return true;
@@ -167,6 +181,7 @@ bool KafkaCDCProducer::start() {
     dr_cb_ = std::make_unique<DeliveryReportCb>(*this);
     if (conf->set("dr_cb", dr_cb_.get(), errstr) != RdKafka::Conf::CONF_OK) {
         THEMIS_ERROR("KafkaCDCProducer: failed to set dr_cb: {}", errstr);
+        recordError();
         return false;
     }
 
@@ -174,11 +189,9 @@ bool KafkaCDCProducer::start() {
     producer_.reset(RdKafka::Producer::create(conf.get(), errstr));
     if (!producer_) {
         THEMIS_ERROR("KafkaCDCProducer: failed to create producer: {}", errstr);
+        recordError();
         return false;
     }
-
-    // Initialise sequence watermark from the latest already-processed event.
-    last_sequence_.store(changefeed_->getLatestSequence(), std::memory_order_relaxed);
 
     running_.store(true, std::memory_order_release);
     thread_ = std::thread(&KafkaCDCProducer::pollingThread, this);
@@ -208,6 +221,7 @@ void KafkaCDCProducer::stop() {
             THEMIS_WARN("KafkaCDCProducer: flush timed out ({}); {} message(s) may not have been delivered",
                         RdKafka::err2str(rc),
                         producer_->outq_len());
+            recordError();
         }
         producer_.reset();
     }
@@ -280,13 +294,20 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
  */
 
 bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
+    return publish(event, false);
+}
+
+bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event,
+                               bool advance_sequence) {
     if (!producer_) {
+        recordError();
         return false;
     }
 
     const std::string topic_name = topicForEvent(event);
     RdKafka::Topic* topic = getOrCreateTopic(topic_name);
     if (!topic) {
+        recordError();
         return false;
     }
 
@@ -303,6 +324,13 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
     }
     const std::string& key = event.key;
 
+    auto delivery_context = std::make_unique<DeliveryContext>();
+    delivery_context->sequence = event.sequence;
+    delivery_context->advance_sequence = advance_sequence;
+    if (advance_sequence) {
+        pending_delivery_result_.store(0, std::memory_order_release);
+    }
+
     RdKafka::ErrorCode rc = producer_->produce(
         topic,
         RdKafka::Topic::PARTITION_UA,         // automatic partition assignment
@@ -310,7 +338,7 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
         const_cast<char*>(payload.data()),
         payload.size(),
         &key,
-        nullptr);                             // no opaque
+        delivery_context.get());
 
     if (rc != RdKafka::ERR_NO_ERROR) {
         if (rc == RdKafka::ERR__QUEUE_FULL) {
@@ -323,18 +351,16 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
                 const_cast<char*>(payload.data()),
                 payload.size(),
                 &key,
-                nullptr);
+                delivery_context.get());
         }
         if (rc != RdKafka::ERR_NO_ERROR) {
             THEMIS_WARN("KafkaCDCProducer: produce failed for key='{}': {}",
                         key, RdKafka::err2str(rc));
-            ++error_total_;
-            if (metrics_) {
-              ++metrics_->kafka_error_total;
-            }
+            recordError();
             return false;
         }
     }
+    delivery_context.release();
 
     // Allow librdkafka to handle delivery reports without blocking.
     producer_->poll(0);
@@ -360,23 +386,28 @@ void KafkaCDCProducer::pollingThread() {
 
         Changefeed::ListOptions opts;
         opts.from_sequence = last_sequence_.load(std::memory_order_relaxed);
-        opts.limit         = 1000;  // Batch up to 1 000 events per poll cycle.
+        opts.limit         = 1;
 
         std::vector<Changefeed::ChangeEvent> events =
             changefeed_->listEvents(opts);
 
-        for (const auto& ev : events) {
-            if (publish(ev)) {
-                last_sequence_.store(ev.sequence, std::memory_order_relaxed);
+        if (!events.empty()) {
+            const auto& event = events.front();
+            if (publish(event, true)) {
+                while (running_.load(std::memory_order_acquire) &&
+                       pending_delivery_result_.load(std::memory_order_acquire) == 0) {
+                    producer_->poll(static_cast<int>(config_.poll_interval_ms));
+                }
             }
         }
 
-        // Give librdkafka time to service delivery reports.
         if (producer_) {
-            producer_->poll(static_cast<int>(config_.poll_interval_ms));
+            producer_->poll(0);
         }
-
-        if (events.empty()) {
+        if (events.empty() ||
+            pending_delivery_result_.load(std::memory_order_acquire) < 0 ||
+            (!events.empty() &&
+             pending_delivery_result_.load(std::memory_order_acquire) == 0)) {
             std::this_thread::sleep_for(interval);
         }
     }
@@ -391,12 +422,19 @@ KafkaProducerStats KafkaCDCProducer::getStats() const {
     s.delivered_total = delivered_total_.load(std::memory_order_relaxed);
     s.error_total     = error_total_.load(std::memory_order_relaxed);
     s.poll_cycles     = poll_cycles_.load(std::memory_order_relaxed);
+    s.delivery_capable = true;
     s.running         = running_.load(std::memory_order_relaxed);
     return s;
+}
+
+void KafkaCDCProducer::recordError() noexcept {
+    error_total_.fetch_add(1, std::memory_order_relaxed);
+    if (metrics_) {
+        metrics_->kafka_error_total.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 } // namespace cdc
 } // namespace themis
 
 #endif // THEMIS_ENABLE_KAFKA
-

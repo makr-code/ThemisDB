@@ -113,8 +113,9 @@ public:
 
     struct Stats {
         uint64_t total_events = 0;
-        uint64_t latest_sequence;
-        size_t total_size_bytes;
+        uint64_t latest_sequence = 0;
+        size_t total_size_bytes = 0;
+        uint64_t sequence_recovery_errors = 0; ///< Sequence-counter errors observed during startup recovery.
         Watermarks watermarks;  // Watermark information
     };
 
@@ -376,6 +377,8 @@ private:
      * @details Used as a crash-recovery fallback when loadInitialSequence() cannot read SEQUENCE_KEY directly.
      */
     uint64_t scanMaxSequence() const;
+
+    mutable std::atomic<uint64_t> sequence_recovery_errors_{0};
     
     /**
      * @brief Helper to wait for new events (for long-poll)

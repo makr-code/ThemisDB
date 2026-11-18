@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -40,6 +40,17 @@ authorized admin interface to access these methods.
 These are library-level structures and JSON fields. Confirm the actual
 deployment exporter, metric names, scrape endpoint, and alert thresholds in
 the service configuration before building dashboards.
+
+When an `ICDCTransport` is attached to `CDCAdmin`, its health result includes
+`delivery_capable`, `transport_healthy`, and `delivery_failure_count`.
+Kafka builds without librdkafka report `delivery_capable=false`; a Kafka
+transport that is not started reports `transport_healthy=false`. Sequence
+counter corruption recovered from retained events increments
+`sequence_recovery_error_count` and marks changefeed health unhealthy so the
+recovery is visible to operators. The Kafka poller resumes from the oldest
+retained event and advances its cursor only after a successful broker delivery
+report. Outbox events carry a relay sequence marker so a retry after event
+persistence does not create a duplicate changefeed event.
 
 ## Retention and capacity
 

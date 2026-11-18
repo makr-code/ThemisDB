@@ -244,7 +244,14 @@ HealthStatus CDCAdmin::healthCheck() {
         try {
             // Try to get watermarks - if this fails, changefeed is unhealthy
             changefeed_->getWatermarks();
+            status.sequence_recovery_error_count =
+                changefeed_->getStats().sequence_recovery_errors;
             status.changefeed_healthy = true;
+            if (status.sequence_recovery_error_count > 0) {
+                status.changefeed_healthy = false;
+                status.is_healthy = false;
+                status.message = "Changefeed recovered from sequence counter errors";
+            }
         } catch (const std::exception& e) {
             status.changefeed_healthy = false;
             status.is_healthy = false;
@@ -259,12 +266,26 @@ HealthStatus CDCAdmin::healthCheck() {
     // Check retention health
     status.retention_healthy = true;  // Assume healthy
     
-    // Get error metrics (simplified - would need access to actual metrics)
-    status.error_count = 0;
+    if (transport_) {
+        status.delivery_capable = transport_->deliveryCapable();
+        status.transport_healthy = transport_->isReady();
+        status.delivery_failure_count = transport_->deliveryFailureCount();
+        if (!status.transport_healthy) {
+            status.is_healthy = false;
+            status.message = "CDC transport is not ready";
+            if (!status.delivery_capable) {
+                status.message += " (delivery backend unavailable)";
+            }
+        }
+    }
+
+    status.error_count = status.delivery_failure_count +
+                         status.sequence_recovery_error_count;
     status.error_rate_per_sec = 0;
     status.buffer_utilization = 0.0;
-    
-    if (!status.changefeed_healthy || !status.buffer_healthy || !status.retention_healthy) {
+
+    if (!status.changefeed_healthy || !status.buffer_healthy ||
+        !status.retention_healthy || !status.transport_healthy) {
         status.is_healthy = false;
     }
     
