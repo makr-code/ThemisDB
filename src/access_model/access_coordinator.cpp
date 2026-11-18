@@ -30,6 +30,17 @@
 namespace themis {
 namespace access_model {
 
+namespace {
+
+bool exceedsAgeThreshold(const std::chrono::seconds& elapsed,
+                         uint32_t threshold_days) noexcept {
+    return elapsed.count() >= 0 &&
+           static_cast<uint64_t>(elapsed.count()) >
+               static_cast<uint64_t>(threshold_days) * 86400u;
+}
+
+}  // namespace
+
 // ============================================================================
 // § 1  AccessCoordinatorImpl: Central Tier Orchestrator
 // ============================================================================
@@ -242,8 +253,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
                 decision = "RETAIN";
             }
             // Low access count + old → demote to storage
-            else if (event.last_access_age_secs.count() >
-                     (policy_.hot_zero_access_days * 86400)) {
+            else if (exceedsAgeThreshold(event.last_access_age_secs,
+                                         policy_.hot_zero_access_days)) {
                 should_demote = true;
                 target_tier = TierLevel::STORAGE_WARM;
                 decision = "DEMOTE";

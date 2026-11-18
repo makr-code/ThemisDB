@@ -54,7 +54,12 @@ inventory is also registered in `cmake/CMakeLists.txt`.
   leaves their initialization and lifetime to the embedding application.
 - `setAgePolicy()` and `setPromotionThresholds()` reject invalid threshold
   combinations with `std::invalid_argument`; invalid updates do not replace the
-  active policy.
+  active policy. Validation also rejects a non-positive storage promotion
+  window. Age conversions use widened arithmetic, negative elapsed ages do not
+  qualify for movement, and the zero-access warm-to-cold case remains eligible
+  when its age threshold is met.
+- Before a valid age policy is set, event callbacks are observation-only:
+  they update counters but do not record transitions or queue tier operations.
 - The task queue and pending demotion-plan registry each use the configured
   `max_queue_depth`. The default is 10,000; use the two-argument factory overload
   to set a deployment-specific bound. Aggregate metrics expose current and
