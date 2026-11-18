@@ -65,7 +65,8 @@ public:
         std::string shard_id;           // Target shard ID
         nlohmann::json data;            // Response data
         bool success;                   // true if request succeeded
-        std::string error;              // Error message if failed
+        /// @brief Error details when remote execution failed; empty on success.
+        std::string error;
         uint64_t execution_time_ms;     // Execution time
         int http_status;                // HTTP status code
         /// True when the request was aborted by client cancellation (RequestContext overloads only).
@@ -83,7 +84,7 @@ public:
     explicit RemoteExecutor(const Config& config);
     
     /**
-     * Execute GET request on remote shard
+     * @brief Execute a GET request on a remote shard.
      * @param shard_info Target shard information
      * @param path Request path (e.g., "/api/v1/data/urn:themis:...")
      * @return Result with response data or error

@@ -99,7 +99,8 @@ public:
         nlohmann::json body;            // Response body (JSON)
         std::string raw_body;           // Raw response body
         bool success;                   // true if status 2xx
-        std::string error;              // Error message if failed
+        /// @brief Error details when the request failed; empty on success.
+        std::string error;
         /// True when the request was aborted because the caller's RequestContext
         /// was cancelled (only set by the RequestContext overloads).
         bool cancelled = false;
@@ -177,7 +178,7 @@ public:
                  const nlohmann::json& body);
     
     /**
-     * Perform HTTP DELETE request with mTLS
+     * @brief Perform an HTTP DELETE request with mTLS.
      * @param endpoint Server endpoint
      * @param path Request path
      * @return Response with JSON body, or error

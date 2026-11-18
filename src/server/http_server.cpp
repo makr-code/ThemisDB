@@ -250,8 +250,8 @@ namespace server {
 namespace {
 
 bool peerDisconnected(const void* opaque_socket) noexcept {
-    const auto* socket =
-        static_cast<const boost::asio::ip::tcp::socket*>(opaque_socket);
+    auto* socket = const_cast<boost::asio::ip::tcp::socket*>(
+        static_cast<const boost::asio::ip::tcp::socket*>(opaque_socket));
     if (!socket) {
         return false;
     }

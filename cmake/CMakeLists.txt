@@ -1629,12 +1629,6 @@ else()
     endif()
 endif()
 
-# CMP0167 selects Boost's config package for an unqualified lookup, but some
-# system Boost packages do not export the split boost_system component config.
-# Use CMake's FindBoost module, matching the system-package fallback in
-# Dependencies.cmake.
-set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost MODULE REQUIRED COMPONENTS system filesystem)
 if(NOT TARGET Boost::headers AND TARGET Boost::boost)
     add_library(Boost::headers ALIAS Boost::boost)
 endif()
