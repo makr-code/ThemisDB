@@ -17,7 +17,7 @@ Human_Author: "ThemisDB Team"
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Overview
+## Kontext
 
 The AI module currently centers on `AIPluginGenerator` as a focused service for plugin code generation.
 It follows a validation-first and fail-closed pipeline.
@@ -25,7 +25,25 @@ The separate `CAIEthicsIntegration` adapter combines constitutional reasoning
 with ethics scoring. Runtime gates in `LLMAQLHandler` belong to the `llm` module
 and are outside this module's implementation boundary.
 
-## Main Flow
+## Komponenten
+
+| Component | Responsibility | Evidence boundary |
+|---|---|---|
+| `AIPluginGenerator` | Validates prompts and configuration, invokes one selected transport, parses output, and applies enabled gates. | Does not establish provider capability support or execute generated code. |
+| `CAIEthicsIntegration` | Runs constitutional critique/revision and ethics scoring. | Marks rule-based fallback and evaluator failure; acceptance rejects either. |
+| Provider transport | Uses configured callback or curl to obtain a response. | No route failover; callback deadline enforcement depends on callback implementation. |
+| Artifact materialization | Writes and reads generated artifact files when sandbox gating is enabled. | Round-trip verification is not operating-system isolation. |
+
+## Schnittstellen
+
+| Contract | Behavior |
+|---|---|
+| `AIPluginGenerator::Config` | defines endpoint URL, timeout, sandbox/output artifact paths, and optional transport/policy hooks |
+| `validatePrompt` | local guardrail against malformed/oversized request text |
+| `generatePlugin` | end-to-end orchestration and error normalization |
+| `GeneratedPlugin` mapping | converts endpoint payload into typed plugin artifacts |
+
+## Datenfluss
 
 1. `generatePlugin(prompt)` receives the request.
 2. `validatePrompt(prompt)` enforces local constraints.
@@ -37,14 +55,27 @@ and are outside this module's implementation boundary.
 6. Optional sandbox gating materializes a per-run artifact bundle into `sandbox_dir`, verifies round-trip readability, copies the bundle into `output_dir`, and then invokes any configured callback policy.
 7. Mandatory fields and optional policy gates are checked before success is returned.
 
-## Core Contracts
+```mermaid
+flowchart LR
+    P[Prompt] --> V[Validate prompt and config]
+    V --> T[Invoke one selected transport]
+    T --> J[Parse and validate response]
+    J --> G[Apply enabled policy gates]
+    G --> R[Return untrusted artifact data]
+    R -. later isolated verification .-> X[Promotion boundary]
+```
 
-| Contract | Behavior |
-|---|---|
-| `AIPluginGenerator::Config` | defines endpoint URL, timeout, sandbox/output artifact paths, and optional transport/policy hooks |
-| `validatePrompt` | local guardrail against malformed/oversized request text |
-| `generatePlugin` | end-to-end orchestration and error normalization |
-| `GeneratedPlugin` mapping | converts endpoint payload into typed plugin artifacts |
+**Kurzinterpretation:** Validation and enabled gates can reject a request or
+result, but the successful return value remains untrusted source data. The
+illustrated promotion boundary is not implemented by this module.
+
+## Sequenz (kritischer Ablauf)
+
+The critical path is validation → transport → response validation → optional
+gates. Invalid local state fails before endpoint I/O. Transport retries are
+bounded to three attempts with two inter-attempt delays, and the same selected
+route is used for each attempt. A failed gate returns an error rather than a
+success-shaped partial artifact.
 
 ## Dependency Direction
 
@@ -53,7 +84,7 @@ and are outside this module's implementation boundary.
 - plugin consumers -> ai public API
 - aql runtime (`LLMAQLHandler`) -> optional Wave C C1/C2 callbacks with fail-closed enforcement when enabled
 
-## Failure Semantics
+## Fehlerpfade und Resilienz
 
 - Empty endpoint, transport errors, and non-2xx HTTP codes fail with structured errors.
 - Invalid JSON fails closed with parse-error context.
@@ -69,6 +100,25 @@ and are outside this module's implementation boundary.
 - `CAIEthicsIntegration` labels deterministic critique/revision fallback and
   ethics-evaluation failure in `CAIEvaluationResult`; its acceptance helper
   rejects either state and invalid score thresholds.
+
+## Nicht-Ziele
+
+- Provider capability negotiation or proof that requested capabilities are
+implemented.
+- Compilation, execution, or independent security verification of generated
+code.
+- OS-level isolation from writing artifacts to configured directories.
+- Cross-route failover or guaranteed wall-clock deadline enforcement for
+callback transports without their own deadline.
+- General inference serving, RAG, streaming, or model lifecycle management.
+
+## Verweise
+
+- [Module README](./README.md)
+- [Public API contract](./API.md)
+- [Implementation and focused validation](./IMPLEMENTATION.md)
+- [Security and trust boundaries](./SECURITY.md), [operations](./OPERATIONS.md)
+- [Roadmap and evidence gates](./ROADMAP.md)
 
 ## Sourcecode Verification (Module: ai/architecture)
 
