@@ -102,18 +102,25 @@ TEST(FaultInjectorTest, InvalidProbabilityIsRejected) {
     EXPECT_FALSE(fi.injectFault(spec));
 }
 
-TEST(FaultInjectorTest, NonFiniteProbabilityIsRejectedWithoutStateChange) {
+TEST(FaultInjectorTest, NonFiniteProbabilitiesAreRejectedWithoutStateChange) {
     FaultInjector fi;
     std::atomic<int> callback_count{0};
     fi.registerEventCallback([&](const FaultSpec&, bool) {
         callback_count.fetch_add(1, std::memory_order_relaxed);
     });
-    FaultSpec spec{FaultType::RANDOM_FAILURE, "n1", 0ms,
-                   std::numeric_limits<double>::quiet_NaN()};
+    const double invalid_probabilities[] = {
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::infinity(),
+        -std::numeric_limits<double>::infinity(),
+    };
 
-    EXPECT_FALSE(fi.injectFault(spec));
-    EXPECT_FALSE(fi.isFaultActive("n1", FaultType::RANDOM_FAILURE));
-    EXPECT_EQ(fi.activeFaultCount(), 0u);
+    for (const double probability : invalid_probabilities) {
+        FaultSpec spec{FaultType::RANDOM_FAILURE, "n1", 0ms, probability};
+
+        EXPECT_FALSE(fi.injectFault(spec));
+        EXPECT_FALSE(fi.isFaultActive("n1", FaultType::RANDOM_FAILURE));
+        EXPECT_EQ(fi.activeFaultCount(), 0u);
+    }
     EXPECT_EQ(callback_count.load(std::memory_order_relaxed), 0);
 }
 
