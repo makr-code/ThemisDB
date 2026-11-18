@@ -562,13 +562,13 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     cert.id = hex.get();
     
     // Extract subject
-    X509_NAME* subject = X509_get_subject_name(x509.get());
+    const X509_NAME* subject = X509_get_subject_name(x509.get());
     char subject_buf[256];
     X509_NAME_oneline(subject, subject_buf, sizeof(subject_buf));
     cert.subject = subject_buf;
     
     // Extract issuer
-    X509_NAME* issuer = X509_get_issuer_name(x509.get());
+    const X509_NAME* issuer = X509_get_issuer_name(x509.get());
     char issuer_buf[256];
     X509_NAME_oneline(issuer, issuer_buf, sizeof(issuer_buf));
     cert.issuer = issuer_buf;

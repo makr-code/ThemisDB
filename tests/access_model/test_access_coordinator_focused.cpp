@@ -20,6 +20,7 @@
 #include <atomic>
 #include <chrono>
 #include <future>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <stdexcept>
@@ -451,6 +452,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM05_DemotionPlanExecution) {
 
 TEST_F(AccessCoordinatorFocusedTest, ACM06_CorrelationIDGeneration) {
     coordinator_->start();
+    coordinator_->setAgePolicy(AgeBasedPolicy{});
     
     EvictionEvent event1{
         .key = "key_1",
@@ -569,6 +571,10 @@ TEST_F(AccessCoordinatorFocusedTest, ACM10_RejectsInvalidPolicyAndBoundsNewestFi
     invalid_policy.l1_promotion_threshold = 1;
     EXPECT_THROW(coordinator_->setAgePolicy(invalid_policy), std::invalid_argument);
 
+    invalid_policy = AgeBasedPolicy{};
+    invalid_policy.storage_promotion_window = std::chrono::seconds::zero();
+    EXPECT_THROW(coordinator_->setAgePolicy(invalid_policy), std::invalid_argument);
+
     coordinator_->setAgePolicy(AgeBasedPolicy{});
     for (int i = 0; i < 1002; ++i) {
         EvictionEvent event{
@@ -585,6 +591,24 @@ TEST_F(AccessCoordinatorFocusedTest, ACM10_RejectsInvalidPolicyAndBoundsNewestFi
     EXPECT_EQ(recent[0].key, "history_1001");
     EXPECT_EQ(recent[1].key, "history_1000");
     EXPECT_EQ(coordinator_->getRecentTransitions(2000).size(), 1000);
+}
+
+TEST_F(AccessCoordinatorFocusedTest, ACM11_LargeAgeThresholdDoesNotQueueDemotion) {
+    AgeBasedPolicy policy;
+    policy.hot_zero_access_days = std::numeric_limits<uint32_t>::max();
+    coordinator_->setAgePolicy(policy);
+
+    EvictionEvent event{
+        .key = "large-age-threshold",
+        .tier = TierLevel::L1_WORKING,
+        .access_count = 0,
+        .last_access_age_secs = std::chrono::seconds(50000ULL * 86400ULL),
+    };
+    coordinator_->onEviction(event);
+
+    const auto metrics = coordinator_->getAccessModelMetrics();
+    EXPECT_EQ(metrics.counters.demotions_initiated, 0);
+    EXPECT_EQ(metrics.counters.demotions_failed, 0);
 }
 
 TEST_F(AccessCoordinatorFocusedTest, ACM07_LatencyHistogramTracking) {

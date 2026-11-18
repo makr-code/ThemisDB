@@ -8,6 +8,8 @@
 #include <openssl/opensslv.h>
 #include "security/cms_signing.h"
 
+#include <memory>
+
 using namespace themis;
 
 // TestKeyProvider: returns PEM-encoded private key and cert for a given key_id
@@ -88,9 +90,16 @@ static std::pair<std::string,std::string> make_key_and_cert_pem() {
     X509_gmtime_adj(X509_get_notBefore(x), 0);
     X509_gmtime_adj(X509_get_notAfter(x), 60*60*24*365);
     X509_set_pubkey(x, pkey);
-    X509_NAME* name = X509_get_subject_name(x);
-    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char*)"Themis Test", -1, -1, 0);
-    X509_set_issuer_name(x, name);
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+        X509_NAME_new(), X509_NAME_free);
+    if (!name) {
+        X509_free(x);
+        EVP_PKEY_free(pkey);
+        throw std::runtime_error("X509_NAME_new failed");
+    }
+    X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC, (unsigned char*)"Themis Test", -1, -1, 0);
+    X509_set_subject_name(x, name.get());
+    X509_set_issuer_name(x, name.get());
     // Diagnostic: print key type and bits and check X509_set_pubkey result
     int pkey_type = EVP_PKEY_id(pkey);
     int pkey_bits = EVP_PKEY_bits(pkey);

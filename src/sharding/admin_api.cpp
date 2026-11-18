@@ -260,7 +260,7 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
     bool has_admin_cap = false;
 
     // Check Subject CN.
-    X509_NAME* subject = X509_get_subject_name(cert);
+    const X509_NAME* subject = X509_get_subject_name(cert);
     if (subject) {
         char cn_buf[256] = {};
         X509_NAME_get_text_by_NID(subject, NID_commonName, cn_buf, sizeof(cn_buf));
@@ -448,4 +448,3 @@ nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
 
 } // namespace sharding
 } // namespace themis
-

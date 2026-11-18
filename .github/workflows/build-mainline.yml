@@ -16,7 +16,7 @@ name: "Build: Mainline"
 
 on:
   schedule:
-    - cron: '10 6 * * *'  # Nightly 06:10 UTC (staggered from release-nightly 04:00 UTC)
+    - cron: '0 2 * * *'  # Build provider; Nightly and Packaging consume this run.
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -164,9 +164,9 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
+        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
       configure_command: >-
-        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
       build_command: >-
         export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
@@ -180,14 +180,20 @@ jobs:
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
-          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
+          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
+          cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
         else
+          if [ "${BUILD_EXIT}" -eq 0 ]; then
+            cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
+          fi
           "${SCCACHE_PATH:-sccache}" --show-stats || true;
           exit "${BUILD_EXIT}";
         fi
       validation_command: >-
-        THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --test-dir build --output-on-failure -j 1 --timeout 60 --no-tests=error --output-junit "${GITHUB_WORKSPACE}/build/ctest-results.xml"
+        set -euo pipefail;
+        THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --test-dir build --output-on-failure -j 1 --timeout 60 --no-tests=error -LE 'tier:benchmark' --output-junit "${GITHUB_WORKSPACE}/build/ctest-results.xml";
+        ctest --test-dir build -N --no-tests=error -L 'tier:benchmark'
       artifact_name: ctest-evidence-linux-${{ github.sha }}-${{ github.run_id }}
       artifact_paths: |
         build/Testing
@@ -195,6 +201,7 @@ jobs:
         build/ctest-summary.md
         build/ctest-output.txt
         build/c5-key-lifecycle-audit
+        build/benchmarks/
       artifact_retention_days: '90'
       ctest_build_directory: build
       ctest_junit_path: build/ctest-results.xml
@@ -231,7 +238,7 @@ jobs:
         run: |
           echo "  Installing macOS build dependencies via Homebrew..."
           brew update --quiet
-          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
+          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
           echo "  ✅ Homebrew packages installed"
           cmake --version
           ninja --version
@@ -261,7 +268,7 @@ jobs:
           echo "  CMake configure (macOS) — scoped to config + plugins"
           echo "──────────────────────────────────────────────"
           T0=$(date +%s)
-          OPENSSL_ROOT=$(brew --prefix openssl@3)
+          OPENSSL_ROOT=$(brew --prefix openssl)
           BREW_PREFIX=$(brew --prefix)
 
           # Conditionally enable sccache compiler launcher only when the

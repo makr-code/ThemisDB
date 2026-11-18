@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-12
-> Update Note: Maintenance/docs, nightly coverage, and benchmark tracker writes use safe manual dry-runs; scheduled/push behavior remains unchanged
+> Last Updated: 2026-11-18
+> Update Note: Nightly and Packaging now consume exact-identity packages from successful Mainline runs; incompatible lanes retain independent builds.
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -50,22 +50,42 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im
   MSVC-Lauf beobachtete C1060-Analyser-Speicherfehler bleibt separat zu verifizieren;
   die Reparaturen unterdrücken ihn nicht.
-- Linux-Release-Matrix-Lanes verwenden den über Actions-Cache persistierten lokalen
-  sccache-Speicher statt des GHA-Cache-Backends; die Auswahl wird je Plattform
-  explizit durchgereicht, damit ein `false` nicht durch einen Fallback überschrieben wird.
+- Linux-AMD64-, Linux-ARM64- und Windows-Release-Matrix-Lanes aktivieren GHA-sccache;
+  die aktive Backend-Angabe wird aus sccache-Statistiken protokolliert. macOS behält
+  seine lokale Backend-Konfiguration.
 
 ### Build-Cache-Aktualisierung (2026-11-01)
 
 | Workflow | Aktualisierter Cache-Vertrag |
 |---|---|
 | [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml) | Persistiert vcpkg-Downloads, Binary-Archive und lokalen sccache-Speicher; entfernt den nicht verwendeten Root-Installationspfad aus dem Cache. Loggt Archivanzahl/-größe und behält Archive auch bei fehlendem exakten Cache-Treffer. |
-| [release-build-matrix.yml](workflows/release-build-matrix.yml) | Windows-Configure-/Build-Befehle erhalten das aktivierte GHA-sccache-Backend vom Reusable. Linux bleibt beim lokalen Backend; Windows-Parallelitätslimits bleiben unverändert. |
+| [release-build-matrix.yml](workflows/release-build-matrix.yml) | Linux AMD64/ARM64 und Windows aktivieren GHA-sccache; das Backend wird pro Plattform aus sccache-Statistiken ausgewiesen. Windows-Parallelitätslimits bleiben unverändert. |
 | [msvc.yml](workflows/msvc.yml) | Initialisiert das vcpkg-Submodul vor Restore, cached den klassischen Installationspfad `vcpkg/installed` und bindet den Schlüssel an Submodul-Commit und Manifest-/Configuration-Hash. Aktiviert den dateibasierten Binary-Cache explizit. |
 
 Workflow-Anzahl, Trigger, Concurrency und Release-/Security-Gates werden durch
 diese Änderungen nicht geändert. Der Reusable und die MSVC-Analyse verwenden
 weiterhin getrennte Cache-Namensräume. Die Reparatur führt weder einen gemeinsamen
 Windows-Paketfeed noch einen zusätzlichen Cache-Warming-Workflow ein.
+
+### Geteilte Mainline-Release-Builds (2026-11-18)
+
+`build-mainline.yml` bleibt der vorhandene Orchestrator für Runtime- und
+Benchmark-CTest-Gates und ruft `release-build-matrix.yml` als einzigen
+plattformübergreifenden Release-Build-Provider auf. Es gibt keine zusätzliche
+Provider-Workflow-Ebene. Ein erfolgreicher Mainline-Lauf veröffentlicht
+pro-Plattform-Paketartefakte mit Manifest, Konfigurationsdigest, Toolchain-
+Provenienz und Paketchecksummen. `release-nightly.yml` und `release-mainline.yml`
+starten nach diesem Lauf per `workflow_run`; die Matrix übernimmt nur Artefakte,
+deren Source-SHA, Edition, Plattform, Toolchain, Triplet, Build-Profil und
+Konfigurationsdigest mit der angeforderten Lane übereinstimmen. Fehlt ein Artefakt
+oder passt die Identität nicht, baut die jeweilige Lane selbst.
+
+Der Reusable-CMake-Bericht trennt Configure-, Compile-, CTest- und CPack-Zeit.
+vcpkg-Restore-Zähler aus dem Configure-Log und Ports mit neu erzeugten lokalen
+Build-Logs werden separat ausgewiesen. Eine erfolgreiche sccache-Quote ist nicht
+Voraussetzung für die Reduktion: Bei identischen Eingaben laufen Nightly und
+Packaging je Plattform nur dann ohne neuen Release-Build, wenn ihr Mainline-Paket
+die vollständige Identitäts- und Prüfsummenvalidierung besteht.
 
 Zusätzlich verwenden Reusable und MSVC getrennte Restore-/Save-Schritte mit
 Run-/Attempt-Snapshot-Schlüsseln. Nur geänderte Dateiinventare werden gespeichert:
@@ -179,7 +199,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `build-mainline.yml` | Build: Mainline (all platforms/matrices; manual dry-run preserves build/tests and previews tracker updates) | active |
+| `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus runtime/benchmark CTest gates; manual dry-run preserves tests and artifacts) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (cache-free changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
@@ -230,7 +250,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 | Workflow | Purpose | Stage |
 |----------|---------|-------|
-| `release-mainline.yml` | Release: Packaging (CPack orchestration, tag-triggered) | canonical |
+| `release-mainline.yml` | Release: Packaging (validated Mainline packages on workflow_run; manual/tag lanes may build independently) | canonical |
 | `release-build-matrix.yml` | Release: Build Matrix (Multi-platform builds + isolated packaged runtime gate) | build |
 | `release-changelog.yml` | Release: Changelog (Release notes generation) | docs |
 | `release-docker-image.yml` | Release: Docker Image Consumer (Docker Hub publish) | distribution |
@@ -242,7 +262,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `release-linux-distribution.yml` | Release: Linux Distribution Consumer (Linux packages) | distribution |
 | `release-linux-distro-approval.yml` | Release: Linux Distro Approval Gate (Linux approval) | approval |
 | `release-mainline-approval.yml` | Release: GitHub Release Approval Gate (GitHub release approval) | approval |
-| `release-nightly.yml` | Release: Nightly (Daily snapshots + native Docker runtime validation before tag promotion) | automation |
+| `release-nightly.yml` | Release: Nightly (consumes validated Mainline packages; native Docker runtime validation before tag promotion) | automation |
 | `release-promote.yml` | Release: Promote (Semi-Automatic edition promotion) | automation |
 | `release-evidence-chain.yml` | Release: Evidence Chain (Hash-linked release evidence ledger + verification) | governance |
 | `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |

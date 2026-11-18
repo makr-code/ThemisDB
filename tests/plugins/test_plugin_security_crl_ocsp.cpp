@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <memory>
 
 using namespace themis::acceleration;
 
@@ -64,11 +65,17 @@ protected:
         X509_gmtime_adj(X509_get_notAfter(x), 31536000L);  // 1 year
         X509_set_pubkey(x, *out_pkey);
 
-        X509_NAME* name = X509_get_subject_name(x);
+        std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+            X509_NAME_new(), X509_NAME_free);
+        if (!name) {
+            X509_free(x);
+            return false;
+        }
         X509_NAME_add_entry_by_txt(
-            name, "CN", MBSTRING_ASC,
+            name.get(), "CN", MBSTRING_ASC,
             reinterpret_cast<const unsigned char*>(cn), -1, -1, 0);
-        X509_set_issuer_name(x, name);
+        X509_set_subject_name(x, name.get());
+        X509_set_issuer_name(x, name.get());
 
         X509_sign(x, *out_pkey, EVP_sha256());
         *out_cert = x;

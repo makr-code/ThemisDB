@@ -1,23 +1,47 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-11-18"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
 # AI in ThemisDB
 
-AI is not a separate product layer in ThemisDB; it is an operating capability that sits on top of the platform's storage, query, orchestration, and runtime contracts. The AI module exists to make intelligent generation and integration predictable: it validates input, calls configured model endpoints, interprets structured responses, and turns model output into concrete plugin or system artifacts with defined boundaries.
+The `ai` module currently provides `AIPluginGenerator` for creating plugin
+artifact data from a configured endpoint and `CAIEthicsIntegration` for
+constitutional critique/revision plus ethics scoring. It is not a general
+inference-serving, storage, query, or orchestration layer.
 
-The core challenge is not only “can a model answer,” but whether that answer can be trusted, converted into a valid implementation path, and governed by the platform's quality and safety constraints. ThemisDB addresses this by separating prompt validation, endpoint invocation, response parsing, artifact mapping, and operational diagnostics. This makes the AI layer more than a thin wrapper: it becomes a controlled integration path for generated functionality.
+The generator validates local prompt constraints, invokes one selected
+transport, parses a structured response, and optionally applies configured
+safety, sandbox-verification, and telemetry callbacks. These checks do not
+prove that generated code is correct or safe to execute.
 
 This module is tightly connected to the platform's wider architecture. It depends on the runtime model, validation rules, and infrastructure boundaries described in [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), and [ROADMAP.md](./ROADMAP.md), and it is supported by the deeper cross-platform context in [docs/compendium/docs/index.md](./../../docs/compendium/docs/index.md). That is important, because AI features are only useful when they are reliable, auditable, and consistent with product constraints.
 
-The first core capability is structured prompt evaluation and validation. Before a model call happens, the system checks that the request is well-formed, policy-compliant, and aligned with the expected integration context. This matters because unsafely generated or poorly constrained prompts can produce unstable outputs or incorrect plugin definitions. Validation is therefore a control mechanism, not just a pre-flight check.
+Before transport, the generator checks locally defined prompt and
+configuration constraints, including enum values, capability/dependency token
+syntax, endpoint selection, positive limits, and enabled-gate configuration.
+These checks do not negotiate provider capability support or enforce a general
+authorization policy.
 
-The second core capability is model endpoint execution and response normalization. The AI module invokes configured providers, receives structured results, and maps them into platform-native objects such as generated plugins or artifacts. That conversion step is essential: without it, a raw model answer remains untrusted output rather than a product-ready delivery. It also makes the process more observable and easier to debug when a provider or response format changes.
+The generator selects `endpoint_invoke_fn`, then the instance
+`setLlmHttpPostFn()` callback, then curl; a failed selected route is not
+replaced by another route. Non-HTTP transport failures get at most three
+attempts with 100 ms and 200 ms inter-attempt delays. HTTP failures are not
+retried. Curl enforces its configured timeout; injected callbacks must enforce
+their own timeout, and the instance callback has no timeout parameter.
 
-The third core capability is operational trust and failure handling. AI systems are inherently noisy, and model responses can vary in format, quality, or policy compliance. ThemisDB treats that as a runtime concern: failed generations, invalid responses, and policy violations are handled as explicit failure states rather than silently accepted output. This turns AI invocation into an operationally manageable part of the platform instead of a black-box integration.
+Transport, validation, response, and enabled-gate failures return errors.
+`CAIEthicsIntegration` marks deterministic rule-based fallback when a needed
+LLM callback is missing, empty, or throws, and its acceptance helper rejects
+marked results. These semantics make degradation visible; they do not
+establish factual correctness or universal safety.
 
 ```mermaid
 flowchart LR
@@ -28,7 +52,11 @@ flowchart LR
     E --> F[Observability and failure handling]
 ```
 
-For customers and platform operators, the value is practical: faster implementation paths, more consistent integration quality, and clearer response-to-action boundaries. AI becomes useful when it reduces time-to-delivery without making the platform harder to reason about. ThemisDB's AI module supports that by keeping generation under explicit controls, rather than pretending that model output is inherently safe or deterministic.
+The module returns untrusted generated artifacts and exposes per-instance
+outcome counters. It does not compile, execute, statically analyze, or deploy
+generated code; artifact file round-tripping is not operating-system
+isolation. Provider performance and generation quality require separate
+provider-backed validation.
 
 ThemisDB keeps this boundary clear: the AI module owns validation, model invocation, output normalization, and artifact generation semantics, while lower-level runtime, storage, and execution concerns remain in their own subsystems. This separation is critical because AI output quality and system reliability are different concerns; the platform must not confuse the two.
 

@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-12
+> Last Updated: 2026-11-18
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -320,7 +320,8 @@ Kurzbeispiele:
   Maintenance-Workflows (Labels, Milestones, Housekeeping) laufen maximal wöchentlich.
   Mehrere täglich laufende Crons in einem Workflow sind nicht zulässig; Konsolidierung auf wöchentliche Granularität erzwingen.
 - **Schedule-Staffelung**: Schedules müssen über das 24h-Fenster gestaffelt sein, um Runner-Contention zu vermeiden.
-  Referenz-Staffelung: Nightly 01:00 (wiki), 02:20 (sanitizer), 03:00 (llm/release-mainline), 04:00 (release-nightly), 05:30 (maintenance).
+  Referenz-Staffelung: Nightly 01:00 (wiki), 02:00 (Mainline-Build-Provider), 02:20 (sanitizer), 05:30 (maintenance).
+  Nightly und Packaging starten nach erfolgreichem Mainline-Abschluss per `workflow_run`, statt denselben Release-Matrix-Build erneut zu planen.
 
 ### Fail-Closed Gates und CTest-Evidenz
 - Gate-Workflows duerfen Fehler nicht mit `continue-on-error` oder `|| true` verbergen. Jede verbleibende Ausnahme muss in `tools/ci/workflow_fail_open_allowlist.json` exakt nach Workflow/Job/Step und Muster mit Begruendung, Owner und Ablaufdatum klassifiziert sein.
@@ -434,10 +435,29 @@ eigentliche Build-Source bleibt unverändert auf den angeforderten Commit gepinn
 dateibasierten vcpkg-Cache explizit, ohne NuGet-Feed. vcpkg entscheidet anhand
 der Paket-ABI, welche Archive zur aktuellen Toolchain passen. Ein vorhandenes
 Archiv ist deshalb noch kein Beleg, dass das benötigte Paket wiederverwendet wird.
-Die Linux-Release-Lanes verwenden lokalen sccache-Speicher
-(`enable_sccache_gha=false`), die Windows-Release-Lane das GHA-Backend
-(`enable_sccache_gha=true`). Windows behält die bestehenden Parallelitätslimits
+Die Linux-AMD64-, Linux-ARM64- und Windows-Release-Lanes verwenden das GHA-sccache-Backend
+(`enable_sccache_gha=true`); macOS behält seine lokale Backend-Konfiguration. Der
+Reusable meldet den tatsächlich von sccache ausgegebenen Backend-Stand statt nur
+den gewünschten Schalter. Windows behält die bestehenden Parallelitätslimits
 von zwei Jobs bei; eine Erhöhung ist nicht Bestandteil der Cache-Reparatur.
+
+### Mainline als geteilter Release-Build
+
+`build-mainline.yml` bleibt der Orchestrator der Laufzeit- und Benchmark-CTest-Gates
+und ruft den vorhandenen `release-build-matrix.yml`-Provider auf. Es wird keine
+zusätzliche Provider-Workflow-Ebene eingeführt. Nightly und Packaging reagieren auf
+einen erfolgreichen Mainline-Lauf und übernehmen je Plattform nur Pakete, deren
+Manifest Source-SHA, Edition, Build-Profil, Plattform, Architektur, Compiler,
+Triplet, Runner-Konfiguration und Konfigurationsdigest exakt bestätigt; die
+SHA-256-Prüfung validiert die Paketbytes. Fehlende oder inkompatible Artefakte
+fallen auf einen eigenen Matrix-Build zurück.
+
+Die Mainline-Artefakte enthalten außerdem die Benchmark-Binaries für die
+Benchmark-CTest-Discovery. Die Release-Build-Summary trennt Configure-, Compile-,
+CTest- und CPack-Zeit und weist vcpkg-Restores sowie Ports mit neuen lokalen
+Build-Logs separat aus. sccache-Ergebnisse sind pro Plattform zu prüfen; zwei
+frische Läufe mit identischem Source- und Konfigurationsfingerprint bleiben
+erforderlich, bevor eine verbesserte Trefferquote als nachgewiesen gilt.
 
 Für die Auswertung diese Signale getrennt erfassen:
 

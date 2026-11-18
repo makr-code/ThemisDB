@@ -43,7 +43,9 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
         self.assertIn("[MAINTENANCE.md](MAINTENANCE.md)", index)
+        self.assertIn("[AI_WORKING.md](AI_WORKING.md)", index)
         self.assertIn("[Maintenance module context](MAINTENANCE.md)", modules)
+        self.assertIn("[ai_working module context](AI_WORKING.md)", modules)
         self.assertIn("AI_Used: true", index)
         self.assertIn("[Distributed tensor module context](DISTRIBUTED_TENSOR.md)", modules)
         self.assertIn("[Temporal module context](TEMPORAL.md)", modules)
@@ -194,6 +196,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "DISTRIBUTED_TENSOR.md",
                 "PROCESS.md",
                 "MAINTENANCE.md",
+                "AI_WORKING.md",
                 "TEMPORAL.md",
                 "STORAGE.md",
                 "USER_STORAGE_ENCRYPTED.md",
@@ -215,6 +218,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
                 "ai_context/developer_llm_wiki/PROCESS.md",
                 "ai_context/developer_llm_wiki/MAINTENANCE.md",
+                "ai_context/developer_llm_wiki/AI_WORKING.md",
                 "ai_context/developer_llm_wiki/TEMPORAL.md",
                 "ai_context/developer_llm_wiki/STORAGE.md",
                 "ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md",

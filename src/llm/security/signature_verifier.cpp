@@ -165,7 +165,7 @@ SignatureVerificationResult RSA_SHA256_Verifier::verify(
             spdlog::info("RSA_SHA256_Verifier: Signature verification successful");
             
             // Extract signer identity from certificate using safer method
-            X509_NAME* name = X509_get_subject_name(cert.get());
+            const X509_NAME* name = X509_get_subject_name(cert.get());
             if (name) {
                 // Use BIO to safely convert name to string
                 std::unique_ptr<BIO, decltype(&BIO_free)> bio(
@@ -384,7 +384,7 @@ SignatureVerificationResult CertificateChainVerifier::verify(
             
             // Extract chain information
             char subject_name[256] = {0};
-            X509_NAME* name = X509_get_subject_name(cert.get());
+            const X509_NAME* name = X509_get_subject_name(cert.get());
             if (name) {
                 X509_NAME_oneline(name, subject_name, sizeof(subject_name));
                 result.signer_identity = subject_name;
@@ -867,7 +867,7 @@ SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
             spdlog::info("ECDSA_SHA256_Verifier: Signature verification successful");
             
             // Extract signer identity from certificate
-            X509_NAME* name = X509_get_subject_name(cert.get());
+            const X509_NAME* name = X509_get_subject_name(cert.get());
             if (name) {
                 std::unique_ptr<BIO, decltype(&BIO_free)> bio(
                     BIO_new(BIO_s_mem()),
@@ -1191,7 +1191,7 @@ SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
             spdlog::info("ECDSA_SHA384_Verifier: Signature verification successful");
             
             // Extract signer identity from certificate
-            X509_NAME* name = X509_get_subject_name(cert.get());
+            const X509_NAME* name = X509_get_subject_name(cert.get());
             if (name) {
                 std::unique_ptr<BIO, decltype(&BIO_free)> bio(
                     BIO_new(BIO_s_mem()),
@@ -1506,4 +1506,3 @@ std::shared_ptr<ISignatureVerifier> SignatureVerifierBuilder::build() {
 } // namespace security
 } // namespace llm
 } // namespace themis
-

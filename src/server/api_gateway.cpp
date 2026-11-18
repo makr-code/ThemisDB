@@ -261,7 +261,7 @@ http::response<http::string_body> APIGateway::handleRequest(
  * @param[in] query Input parameter.
  * @param[in] auth_context Input parameter.
  * @return Return value.
- * @throws Error if an error occurs.
+ * @throws ApiGatewayError if federation is disabled or no shard router is configured.
  * @details Calls: spdlog::info(), executeQuery(), spdlog::error(), what().
  */
 nlohmann::json APIGateway::executeFederatedQuery(

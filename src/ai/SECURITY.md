@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,25 +25,28 @@ Report vulnerabilities via project-level SECURITY.md.
 |---|---|
 | oversized or malformed prompt input | local validation rejects empty and >8192-byte description |
 | endpoint misuse or connectivity failures | explicit endpoint presence check, timeout bounds, transport error handling |
-| untrusted endpoint response | non-2xx rejected, JSON parse guarded, mandatory payload checks enforced |
-| sensitive log leakage | debug logging truncates prompt text |
+| untrusted endpoint response | non-2xx rejected; malformed JSON shape, field types, and dependency entries fail closed |
+| sensitive log leakage | prompt and callback error text are not logged; endpoint logs and trace baggage contain only scheme, host, and port |
 | partial artifact acceptance | missing mandatory implementation payload causes fail-closed error |
 
 ## Implemented Controls
 
 - Validation runs before endpoint I/O.
-- Endpoint invocation is bounded by timeout values.
+- Curl enforces the positive configured timeout; injected callbacks must enforce their own deadline, and the instance HTTP-post callback has no timeout parameter. Transport retries are bounded to three attempts on the selected route.
 - HTTP status codes are validated.
 - JSON parsing is wrapped with exception-to-error conversion.
 - Generated output is only accepted when required implementation content exists.
-- Wave C C1/C2 reference implementations are covered by dedicated tests (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), including benchmark-style acceptance checks.
+- Enabled C1/C2/sandbox callback configuration is checked before endpoint I/O; callback exceptions fail closed.
+- The C1 threshold and returned score must be finite and in `[0,1]`.
+- CAI rule-based fallback, ethics-evaluation failure, and non-finite/out-of-range scores cannot pass `passesAcceptanceCriteria()`.
 
 ## Security Gaps and Follow-ups
 
 - Field-level validation now enforces bounded/unique `required_capabilities` and `dependencies` tokens.
 - Endpoint safety now supports configurable allow-listing plus request/response size limits with fail-closed rejection.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
-- Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference/chat paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
+- `required_capabilities` values are locally syntax-checked and forwarded only; no provider acknowledgement or generated-manifest capability validation exists. Do not treat them as satisfied.
+- The AI module does not own the `LLMAQLHandler` inference/chat gates; those paths are separate `llm` module behavior.
 
 ## Planning Traceability
 

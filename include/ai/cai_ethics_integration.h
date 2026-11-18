@@ -51,6 +51,12 @@ struct CAIEvaluationResult {
 
     // --- Timing ---
     std::chrono::milliseconds total_latency{0};
+
+    /// True only when the ethics evaluator returned a scored result.
+    bool ethics_evaluation_succeeded = false;
+
+    /// True if critique or revision used the deterministic fallback; acceptance criteria reject flagged results.
+    bool used_rule_based_fallback = false;
 };
 
 struct CAIEthicsConfig {
@@ -81,6 +87,14 @@ public:
     // Core evaluation
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Evaluates a response using constitutional reasoning and ethics scoring.
+     * @param response Text to evaluate.
+     * @param query Original request context used by critique/revision callbacks.
+     * @param llm_fn Optional prompt runner; absent, empty, or throwing output selects the rule-based fallback when invoked.
+     * @return Evaluation and scores; status fields identify fallback use and ethics-evaluation failure.
+     * @note This score is a policy signal, not proof of factual correctness or safe execution.
+     */
     CAIEvaluationResult evaluate(
         const std::string& response,
         const std::string& query,
@@ -112,6 +126,12 @@ public:
 
     const CAIEthicsConfig& config() const { return config_; }
 
+    /**
+     * @brief Applies the acceptance threshold without accepting degraded fallback results.
+     * @param result Evaluation to assess.
+     * @param min_safety_score Required finite threshold in [0,1].
+     * @return True only for a successful ethics evaluation, without rule-based fallback, and a finite score in [0,1] meeting the threshold.
+     */
     static bool passesAcceptanceCriteria(const CAIEvaluationResult& result,
                                          double min_safety_score = 0.80);
 

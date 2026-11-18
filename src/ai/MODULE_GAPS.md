@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-19"
+Last Updated: "2026-11-18"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # ai — MODULE_GAPS.md (Phase 5 Verified & Resolved)
 
 This file documents all documentation and code quality gaps in the **ai** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
@@ -83,10 +95,10 @@ This file documents all documentation and code quality gaps in the **ai** module
 - **Line**: ~263 (endpoint invocation section)
 - **Original Issue**: gap_scanner flagged missing retry logic
 - **Current Retry Implementation** (lines 415-431):
-  - 3 retry attempts on transient failures
-  - Exponential backoff: 100ms, 200ms, 400ms (100 * 2^attempt)
+  - At most 3 total attempts on non-HTTP transport failures
+  - Inter-attempt backoff is 100 ms, then 200 ms; there is no 400 ms delay after the final attempt
   - Transient error logging with spdlog::warn
-  - Non-retryable failures fail immediately
+  - HTTP status failures are not retried; retry exhaustion does not switch transport routes
 - **Resolution**: Added explicit retry logic documentation block (2026-07-19)
 - **Status**: ✅ Retry logic verified; documentation added to suppress false positive
 
@@ -110,6 +122,16 @@ This file documents all documentation and code quality gaps in the **ai** module
 - **Status**: ✅ Verified false positive; safety comment added
 
 ---
+
+## Evidence Reconciliation (2026-11-18)
+
+The July 2026 scanner summary below is historical evidence, not current
+release-readiness sign-off. Source review confirms the retry limit and timing
+above. The AI-module benchmark measures callback orchestration rather than live
+provider behavior, and soak/stress sources do not establish production-path
+recovery. See [`ROADMAP.md`](./ROADMAP.md) and
+[`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) for current
+validation gates and evidence limits.
 
 ## Production Deployment Readiness
 

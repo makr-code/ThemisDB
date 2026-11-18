@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-16"
+Last Updated: "2026-11-18"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # AI Module — Wave A Closure Evidence Bundle
 
 <!-- Status: COMPLETE | validated: 2026-09-16 -->
@@ -27,7 +39,7 @@ All items were source-validated against `src/ai/ai_plugin_generator.cpp` and
 |---|---|---|
 | Core implementation | `src/ai/ai_plugin_generator.cpp` | Prompt validation, retry/backoff, structured error handling, output-field validation |
 | Ethics integration | `src/ai/cai_ethics_integration.cpp` | Principal scoring, critic-revision loop, fail-closed callbacks |
-| Public API header | `include/ai/ai_plugin_generator.h` | Config struct with allow-list, payload limits, retry policy knobs; Stats fields |
+| Public API header | `include/ai/ai_plugin_generator.h` | Config struct with allow-list and payload limits; retry limit/backoff is fixed in the implementation; Stats fields |
 | Ethics header | `include/ai/cai_ethics_integration.h` | EthicsEvaluator, CAIConfig, callback signatures with thread-safety contract |
 
 ---
@@ -69,8 +81,8 @@ All items were source-validated against `src/ai/ai_plugin_generator.cpp` and
 
 ### A3: Retry / Backoff Policy
 
-- [x] 3-attempt retry loop for transient endpoint failures — generatePlugin() lines ~415–431
-- [x] Exponential backoff: 100 ms / 200 ms / 400 ms (`100 * 2^attempt`) — generatePlugin()
+- [x] At most 3 total attempts for non-HTTP transport failures — `generatePlugin()`
+- [x] Inter-attempt backoff: 100 ms, then 200 ms; no final 400 ms delay — `generatePlugin()`
 - [x] Non-retryable failures (validation, HTTP 4xx, parse) fail immediately without retry — generatePlugin()
 - [x] Retry attempts logged at WARN level via spdlog — generatePlugin()
 
@@ -80,14 +92,14 @@ All items were source-validated against `src/ai/ai_plugin_generator.cpp` and
 - [x] `security_report` field size limit (≤ 64 KiB) — response parse path
 - [x] `version` field max length (≤ 64 chars; defaults to `0.1.0`) — response parse path
 - [x] `manifest.description` truncated at 8 192 chars — response parse path
-- [x] Oversized `build_dependencies` entries silently dropped — response parse path
+- [x] Malformed and oversized `build_dependencies` entries rejected — response parse path
 - [x] JSON structure validation (object type, required `generated_plugin` nesting) — response parse path
 
 ### A5: Fail-Closed Error Handling
 
 - [x] All error branches return structured `Error` result; no implicit success on failure — full function
 - [x] Stats struct tracking: 7 observable counters (requests, successes, failures by class) — AIPluginGenerator::Stats
-- [x] Logging redaction: sensitive fields truncated to 120 chars max — generatePlugin()
+- [x] Diagnostics omit prompt/callback error text and strip endpoint userinfo, path, query, and fragment — `generatePlugin()`
 - [x] Thread-safety contract documented: not thread-safe for concurrent generatePlugin() calls — header Doxygen
 
 ### A6: Optional Sandbox Artifact Gate
@@ -120,11 +132,11 @@ All 13 HIGH-severity scanner findings were reviewed and resolved on 2026-07-19:
 |---|---|
 | Prompt validation first-execution path implemented and source-verified | ✅ PASS |
 | Endpoint allow-list and payload size limits enforced fail-closed | ✅ PASS |
-| Retry policy (3 attempts, exponential backoff) documented and verified | ✅ PASS |
+| Retry policy (at most 3 attempts, 100/200 ms inter-attempt backoff) documented and verified | ✅ PASS |
 | Structured error handling for all failure points (validation/transport/HTTP/parse/payload) | ✅ PASS |
 | Output-field validation complete (size limits, type checks, fallbacks) | ✅ PASS |
 | Observable counters for error classes in Stats struct | ✅ PASS |
-| Logging redaction bounded (120 chars max) | ✅ PASS |
+| Prompt/callback error text omitted and endpoint credentials/URL details redacted from diagnostics | ✅ PASS |
 | Focused test coverage: constructor, validation, endpoint/error paths | ✅ PASS |
 | Benchmark target registered in release profile | ✅ PASS |
 | All HIGH-severity MODULE_GAPS.md findings resolved or documented as false positives | ✅ PASS (2026-07-19) |

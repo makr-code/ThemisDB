@@ -216,7 +216,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     ShardCertificateInfo info;
     
     // Extract subject CN
-    X509_NAME* subject = X509_get_subject_name(cert.get());
+    const X509_NAME* subject = X509_get_subject_name(cert.get());
     if (subject) {
         char cn_buf[256] = {0};
         X509_NAME_get_text_by_NID(subject, NID_commonName, cn_buf, sizeof(cn_buf));
@@ -224,7 +224,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     }
     
     // Extract issuer CN
-    X509_NAME* issuer = X509_get_issuer_name(cert.get());
+    const X509_NAME* issuer = X509_get_issuer_name(cert.get());
     if (issuer) {
         char issuer_buf[256] = {0};
         X509_NAME_get_text_by_NID(issuer, NID_commonName, issuer_buf, sizeof(issuer_buf));

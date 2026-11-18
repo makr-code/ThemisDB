@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -129,13 +130,14 @@ struct PemMaterial {
             throw std::runtime_error("failed to set certificate public key");
         }
 
-        X509_NAME* subject = X509_get_subject_name(cert);
+        std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> subject(
+            X509_NAME_new(), X509_NAME_free);
         if (!subject) {
             throw std::runtime_error("failed to configure certificate subject");
         }
         if (!common_name.empty() &&
             X509_NAME_add_entry_by_txt(
-                subject,
+                subject.get(),
                 "CN",
                 MBSTRING_ASC,
                 reinterpret_cast<const unsigned char*>(common_name.data()),
@@ -147,7 +149,7 @@ struct PemMaterial {
         if (common_name.empty() && !dns_subject_alt_names.empty()) {
             static constexpr char kTestOrganization[] = "ThemisDB Tests";
             if (X509_NAME_add_entry_by_txt(
-                    subject,
+                    subject.get(),
                     "O",
                     MBSTRING_ASC,
                     reinterpret_cast<const unsigned char*>(kTestOrganization),
@@ -157,7 +159,8 @@ struct PemMaterial {
                 throw std::runtime_error("failed to configure certificate organization");
             }
         }
-        if (X509_set_issuer_name(cert, subject) != 1) {
+        if (X509_set_subject_name(cert, subject.get()) != 1 ||
+            X509_set_issuer_name(cert, subject.get()) != 1) {
             throw std::runtime_error("failed to configure certificate issuer");
         }
 

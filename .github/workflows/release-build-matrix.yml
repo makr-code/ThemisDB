@@ -126,13 +126,15 @@ jobs:
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
           RUN_NUMBER: ${{ github.run_number }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
         run: |
           set -euo pipefail
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json
+          import hashlib
           import os
+          import re
 
           build_matrix = os.environ["BUILD_MATRIX"].strip().lower()
           os_selector = os.environ["OS_SELECTOR"].strip().lower()
@@ -223,10 +225,31 @@ jobs:
                   return "ZIP WIX"
               return "TGZ DragNDrop"
 
+          def add_release_stage_metrics(command: str) -> str:
+              for stage, pattern in (("CTEST", r"(?m)^(ctest --preset[^\n]*)$"),):
+                  match = re.search(pattern, command)
+                  if match:
+                      command = (
+                          command[: match.start()]
+                          + f"stage_start=$SECONDS\n{match.group(1)}\n"
+                          + f'echo "THEMIS_METRIC_{stage}_SECONDS=$((SECONDS-stage_start))"'
+                          + command[match.end() :]
+                      )
+              package_pattern = r"(?s)(for GEN in \$\{PACKAGE_GENERATORS\}; do\n.*?\ndone)"
+              package_match = re.search(package_pattern, command)
+              if package_match:
+                  measured = (
+                      "stage_start=$SECONDS\n"
+                      + package_match.group(1)
+                      + '\necho "THEMIS_METRIC_PACKAGING_SECONDS=$((SECONDS-stage_start))"'
+                  )
+                  command = command[: package_match.start()] + measured + command[package_match.end() :]
+              return command
+
           entries = [
               {
                   "id": "linux-amd64",
-                  "enable_sccache_gha": False,
+                  "enable_sccache_gha": True,
                   "enabled": lane_enabled("linux-amd64"),
                   "runs_on": "ubuntu-24.04",
                   "arch": "x64",
@@ -247,7 +270,7 @@ jobs:
               },
               {
                   "id": "linux-arm64",
-                  "enable_sccache_gha": False,
+                  "enable_sccache_gha": True,
                   "enabled": lane_enabled("linux-arm64"),
                   "runs_on": "ubuntu-24.04-arm",
                   "arch": "arm64",
@@ -398,6 +421,16 @@ jobs:
           done""",
                   )
               if lane_os == "macos":
+                  entry["setup_command"] = entry["setup_command"].replace("openssl@3", "openssl")
+                  entry["setup_command"] += (
+                      '\nOPENSSL_ROOT_DIR="$(brew --prefix openssl)"\n'
+                      'printf \'OPENSSL_ROOT_DIR=%s\\n\' "$OPENSSL_ROOT_DIR" >> "$GITHUB_ENV"\n'
+                  )
+                  entry["configure_command"] = entry["configure_command"].replace(
+                      "cmake --preset macos-arm64-release ${CMAKE_FLAGS}",
+                      'cmake --preset macos-arm64-release ${CMAKE_FLAGS} '
+                      '-DOPENSSL_ROOT_DIR="${OPENSSL_ROOT_DIR}"',
+                  )
                   # Xcode 15.4's libc++ lacks jthread/stop_token; use LLVM's matching headers and runtime.
                   entry["compiler"] = "homebrew-llvm"
                   entry["setup_command"] += (
@@ -437,7 +470,38 @@ jobs:
               entry["validation_command"] = "set -euo pipefail\n" + payload_gate + entry["validation_command"]
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
               entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
+              entry["validation_command"] = add_release_stage_metrics(
+                  entry["validation_command"]
+              )
               entry["validation_continue_on_error"] = False
+
+              config_signature = {
+                  "source_sha": os.environ["SOURCE_SHA"],
+                  "edition": edition,
+                  "build_type": build_type,
+                  "platform": entry["id"],
+                  "architecture": entry["arch"],
+                  "compiler": entry["compiler"],
+                  "triplet": entry["triplet"],
+                  "runner_image": entry["runs_on"],
+                  "profile": "release-packages-v1",
+                  "setup_command": entry["setup_command"],
+                  "configure_command": entry["configure_command"],
+                  "build_command": entry["build_command"],
+                  "package_generators": generators_for(lane_os),
+              }
+              config_id = hashlib.sha256(
+                  json.dumps(config_signature, sort_keys=True, separators=(",", ":")).encode()
+              ).hexdigest()
+              entry["release_manifest"] = {
+                  key: config_signature[key]
+                  for key in (
+                      "source_sha", "edition", "build_type", "platform",
+                      "architecture", "compiler", "triplet", "profile",
+                  )
+              }
+              entry["release_manifest"]["config_id"] = config_id
+              entry["release_manifest"]["configuration"] = config_signature
 
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:
@@ -454,7 +518,7 @@ jobs:
   windows-dependencies:
     name: "Prepare: Windows Release Dependencies"
     needs: prepare-release-matrix
-    if: needs.prepare-release-matrix.outputs.windows_enabled == 'true'
+    if: needs.prepare-release-matrix.outputs.windows_enabled == 'true' && github.event_name != 'workflow_run'
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       windows_dependency_mode: prepare
@@ -485,9 +549,9 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && 'consume' || 'off' }}
-      dependency_cache_key: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
-      dependency_artifact_id: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-artifact-id || '' }}
+      windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && 'consume' || 'off' }}
+      dependency_cache_key: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
+      dependency_artifact_id: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && needs.windows-dependencies.outputs.dependency-artifact-id || '' }}
       enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}
@@ -510,6 +574,10 @@ jobs:
       artifact_retention_days: ${{ matrix.artifact_retention_days }}
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
+      release_manifest_json: ${{ toJSON(matrix.release_manifest) }}
+      release_platform: ${{ matrix.id }}
+      reuse_source_run_id: "${{ github.event_name == 'workflow_run' && github.event.workflow_run.event == 'schedule' && github.event.workflow_run.name == 'Build: Mainline' && github.event.workflow_run.conclusion == 'success' && (inputs.source_sha == '' || inputs.source_sha == github.event.workflow_run.head_sha) && github.event.workflow_run.id || '' }}"
+      reuse_source_run_number: ${{ github.event.workflow_run.run_number || '' }}
       ctest_build_directory: ${{ matrix.ctest_build_directory || '' }}
       ctest_junit_path: ${{ matrix.ctest_junit_path || '' }}
       ctest_summary_path: ${{ matrix.ctest_summary_path || '' }}
