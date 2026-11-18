@@ -49,21 +49,6 @@ namespace {
 
 namespace fs = std::filesystem;
 
-static constexpr std::size_t kLogMaxLen = 120;
-
-/**
- * @brief Truncate For Log.
- * @param[in] s Input parameter.
- * @return Return value.
- * @details Calls: size(), substr().
- */
-std::string truncateForLog(const std::string& s) {
-    if (s.size() <= kLogMaxLen) {
-        return s;
-    }
-    return s.substr(0, kLogMaxLen) + "[…]";
-}
-
 /**
  * @brief Is Http Status Error Message.
  * @param[in] message Input parameter.
@@ -315,6 +300,52 @@ bool isValidPromptListToken(const std::string& token) {
     return true;
 }
 
+bool isValidPluginType(PluginType type) {
+    switch (type) {
+        case PluginType::COMPUTE_BACKEND:
+        case PluginType::BLOB_STORAGE:
+        case PluginType::IMPORTER:
+        case PluginType::EXPORTER:
+        case PluginType::HSM_PROVIDER:
+        case PluginType::EMBEDDING:
+        case PluginType::LLM_BACKEND:
+        case PluginType::AUDIO_PROCESSING:
+        case PluginType::IMAGE_GENERATION:
+        case PluginType::AGENTIC_TOOL:
+        case PluginType::INGESTION_STEP:
+        case PluginType::RESOURCE_LIMIT_POLICY:
+        case PluginType::CUSTOM:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool isValidLLMModel(LLMModel model) {
+    switch (model) {
+        case LLMModel::CODE_LLAMA:
+        case LLMModel::CODEX:
+        case LLMModel::STARCODER:
+        case LLMModel::GITHUB_COPILOT:
+        case LLMModel::CUSTOM:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool isValidSecurityLevel(SecurityLevel level) {
+    switch (level) {
+        case SecurityLevel::LOW:
+        case SecurityLevel::MEDIUM:
+        case SecurityLevel::HIGH:
+        case SecurityLevel::PARANOID:
+            return true;
+        default:
+            return false;
+    }
+}
+
 /**
  * @brief Invoke Endpoint With Curl.
  * @param[in] endpoint Input parameter.
@@ -470,6 +501,12 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
     static constexpr std::size_t kMaxCapabilityTokenLen = 128;
     static constexpr std::size_t kMaxDependencyTokenLen = 256;
 
+    if (!isValidPluginType(prompt.type) || !isValidLLMModel(prompt.llm_model) ||
+        !isValidSecurityLevel(prompt.security_level)) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: prompt contains an unsupported enum value"));
+    }
     if (prompt.description.empty()) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -562,8 +599,46 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         return tl::unexpected(vr.error());
     }
 
-    // Sanitize LLM input: strip ASCII control characters (< 0x20) except
-    // horizontal tab, newline and carriage return to prevent prompt injection.
+    const auto rejectConfiguration = [&](std::size_t& counter,
+                                         const std::string& message) -> Result<GeneratedPlugin> {
+        ++counter;
+        return tl::unexpected(Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, message));
+    };
+    if (config_.llm_endpoint.empty()) {
+        return rejectConfiguration(stat_validation_errors_,
+                                   "AIPluginGenerator: llm_endpoint must not be empty");
+    }
+    if (config_.timeout_ms <= 0) {
+        return rejectConfiguration(stat_validation_errors_,
+                                   "AIPluginGenerator: timeout_ms must be positive");
+    }
+    if (config_.max_request_body_bytes == 0 || config_.max_response_body_bytes == 0) {
+        return rejectConfiguration(stat_validation_errors_,
+                                   "AIPluginGenerator: request and response size limits must be positive");
+    }
+    if (config_.enable_c1_cai_safety_gate) {
+        if (!std::isfinite(config_.c1_min_safety_score) ||
+            config_.c1_min_safety_score < 0.0 || config_.c1_min_safety_score > 1.0) {
+            return rejectConfiguration(stat_safety_rejections_,
+                                       "AIPluginGenerator: C1 minimum safety score must be finite and in [0,1]");
+        }
+        if (!config_.c1_cai_eval_fn) {
+            return rejectConfiguration(stat_safety_rejections_,
+                                       "AIPluginGenerator: C1 safety gate enabled but c1_cai_eval_fn is not configured");
+        }
+    }
+    if (config_.enable_sandbox_gate &&
+        (config_.sandbox_dir.empty() || config_.output_dir.empty())) {
+        return rejectConfiguration(stat_sandbox_rejections_,
+                                   "AIPluginGenerator: sandbox_dir and output_dir must not be empty when sandbox gate is enabled");
+    }
+    if (config_.enable_c2_federated_telemetry && !config_.c2_federated_telemetry_fn) {
+        return rejectConfiguration(stat_validation_errors_,
+                                   "AIPluginGenerator: C2 federated telemetry enabled but c2_federated_telemetry_fn is not configured");
+    }
+
+    // Remove ASCII control characters (< 0x20) except horizontal tab, newline,
+    // and carriage return before forwarding the description to the endpoint.
     auto sanitizeText = [](const std::string& s) {
         std::string out = {};
         out.reserve(s.size());
@@ -576,39 +651,34 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     };
     const std::string safe_description = sanitizeText(prompt.description);
 
-    spdlog::debug(
-        "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
-        truncateForLog(safe_description), config_.llm_endpoint, config_.timeout_ms);
-
     // Record endpoint as baggage in redacted form: scheme+host+port only.
     // Strips path, query params, and any userinfo credentials (user:pass@host).
+    std::string redacted_endpoint;
     {
         const std::string& ep = config_.llm_endpoint;
         const auto scheme_sep = ep.find("//");
         auto host_start = (scheme_sep != std::string::npos)
                               ? scheme_sep + 2
                               : std::string::size_type{0};
-        // Strip userinfo if present: advance past 'user:pass@' within the authority segment.
-        const auto at_pos = ep.find('@', host_start);
-        if (at_pos != std::string::npos) {
-            // Ensure '@' belongs to the authority component (before the first '/' after host_start).
-            const auto first_slash = ep.find('/', host_start);
-            if (first_slash == std::string::npos || at_pos < first_slash) {
-                host_start = at_pos + 1;
-            }
-        }
+        const auto authority_end = ep.find_first_of("/?#", host_start);
+        const auto authority = ep.substr(
+            host_start, authority_end == std::string::npos ? std::string::npos
+                                                            : authority_end - host_start);
+        const auto userinfo_end = authority.rfind('@');
+        const std::string host_only = userinfo_end == std::string::npos
+                                          ? authority
+                                          : authority.substr(userinfo_end + 1);
         // Scheme prefix to prepend (e.g. "https://") so the recorded baggage is parseable.
         const std::string scheme_prefix = (scheme_sep != std::string::npos)
                                               ? ep.substr(0, scheme_sep + 2)
                                               : "";
-        const std::string authority = ep.substr(host_start);
-        const auto path_pos = authority.find('/');
-        // host_only retains the port (e.g. "host:8080") to allow routing identification.
-        const std::string host_only = (path_pos != std::string::npos)
-                                          ? authority.substr(0, path_pos)
-                                          : authority;
-        TRACE_BAGGAGE("ai.endpoint", scheme_prefix + host_only);
+        // Retain scheme, host, and port for routing identification, never userinfo or query.
+        redacted_endpoint = scheme_prefix + host_only;
+        TRACE_BAGGAGE("ai.endpoint", redacted_endpoint);
     }
+    spdlog::debug(
+        "[AIPluginGenerator] generatePlugin: endpoint='{}' timeout_ms={}",
+        redacted_endpoint, config_.timeout_ms);
 
     json request;
     request["description"] = safe_description;
@@ -639,31 +709,31 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
 
     // --- Invoke endpoint with deterministic retry logic ---
     // Transient transport failures (network, timeout, client exceptions) are retried.
-    // Retry strategy: up to 3 attempts, exponential backoff (100ms -> 200ms -> 400ms).
+    // Retry strategy: up to 3 attempts with 100 ms and 200 ms inter-attempt delays.
     // HTTP status failures fail immediately and are not retried.
     static constexpr int kMaxRetries = 3;
     Result<std::string> endpoint_result =
         tl::unexpected(Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                              "AIPluginGenerator: endpoint not attempted"));
     for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-        if (config_.endpoint_invoke_fn) {
-            endpoint_result =
-                config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms);
-        } else if (llm_http_post_fn_) {
-            try {
+        try {
+            if (config_.endpoint_invoke_fn) {
+                endpoint_result = config_.endpoint_invoke_fn(
+                    config_.llm_endpoint, request_body, config_.timeout_ms);
+            } else if (llm_http_post_fn_) {
                 endpoint_result = (*llm_http_post_fn_)(config_.llm_endpoint, request_body);
-            } catch (const std::exception& e) {
-                endpoint_result = tl::unexpected(
-                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                          std::string("AIPluginGenerator: endpoint request failed: ") + e.what()));
-            } catch (...) {
-                endpoint_result = tl::unexpected(
-                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                          "AIPluginGenerator: endpoint request failed: unknown transport exception"));
+            } else {
+                endpoint_result = invokeEndpointWithCurl(
+                    config_.llm_endpoint, request_body, config_.timeout_ms);
             }
-        } else {
-            endpoint_result =
-                invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        } catch (const std::exception& e) {
+            endpoint_result = tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      std::string("AIPluginGenerator: endpoint callback threw: ") + e.what()));
+        } catch (...) {
+            endpoint_result = tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: endpoint callback threw an unknown exception"));
         }
         if (endpoint_result) {
             break;
@@ -672,8 +742,8 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             break;
         }
         if (attempt + 1 < kMaxRetries) {
-            spdlog::warn("[AIPluginGenerator] endpoint attempt {} failed: {}; retrying",
-                         attempt + 1, endpoint_result.error().message());
+            spdlog::warn("[AIPluginGenerator] endpoint attempt {} failed; retrying",
+                         attempt + 1);
             // Exponential backoff: 100ms * 2^attempt
             std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << attempt)));
         }
@@ -682,13 +752,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             ++stat_http_errors_;
             THEMIS_AI_TRACE_EVENT("ai.plugin.generate.http_error",
-                                  {{"ai.error.type", "http"},
-                                   {"ai.error.message", endpoint_result.error().message()}});
+                                  {{"ai.error.type", "http"}});
         } else {
             ++stat_transport_errors_;
             THEMIS_AI_TRACE_EVENT("ai.plugin.generate.transport_error",
-                                  {{"ai.error.type", "transport"},
-                                   {"ai.error.message", endpoint_result.error().message()}});
+                                  {{"ai.error.type", "transport"}});
         }
         return tl::unexpected(endpoint_result.error());
     }
@@ -712,30 +780,64 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     // --- Extract generated plugin payload ---
-    // Validates JSON structure: requires object with optional "generated_plugin" nesting
-    const json& payload = (response.contains("generated_plugin") && response["generated_plugin"].is_object())
-                        ? response["generated_plugin"]
-                        : response;
+    if (!response.is_object()) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: endpoint response must be a JSON object"));
+    }
+    if (response.contains("generated_plugin") && !response["generated_plugin"].is_object()) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: generated_plugin response field must be an object"));
+    }
+    const json& payload = response.contains("generated_plugin")
+                              ? response["generated_plugin"]
+                              : response;
+
+    static constexpr std::size_t kMaxCodeSize = 1 << 20;
+    static constexpr std::size_t kMaxReportSize = 64 << 10;
+    static constexpr std::size_t kMaxNameLen = 256;
+    static constexpr std::size_t kMaxVersionLen = 64;
+    static constexpr std::size_t kMaxDescLen = 8192;
+    static constexpr std::size_t kMaxDepEntryLen = 256;
 
     GeneratedPlugin generated;
-    // Extract LLM-generated code fields with safe defaults (empty string)
-    generated.header_code = payload.value("header_code", std::string{});
-    generated.implementation_code = payload.value("implementation_code", std::string{});
-    generated.test_code = payload.value("test_code", std::string{});
-    generated.cmake_code = payload.value("cmake_code", std::string{});
-    generated.security_report = payload.value("security_report", std::string{});
-    generated.passed_security_checks = payload.value("passed_security_checks", false);
+    try {
+        generated.header_code = payload.value("header_code", std::string{});
+        generated.implementation_code = payload.value("implementation_code", std::string{});
+        generated.test_code = payload.value("test_code", std::string{});
+        generated.cmake_code = payload.value("cmake_code", std::string{});
+        generated.security_report = payload.value("security_report", std::string{});
+        generated.passed_security_checks = payload.value("passed_security_checks", false);
+        std::string raw_name = payload.value("name", std::string("generated_plugin"));
+        if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
+            raw_name = "generated_plugin";
+        }
+        generated.manifest.name = std::move(raw_name);
+        generated.manifest.version = payload.value("version", std::string("0.1.0"));
+        if (generated.manifest.version.size() > kMaxVersionLen ||
+            generated.manifest.version.empty()) {
+            generated.manifest.version = "0.1.0";
+        }
+        generated.manifest.description = payload.value("description", prompt.description);
+    } catch (const std::exception& e) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  std::string("AIPluginGenerator: invalid endpoint response field type: ") +
+                      e.what()));
+    } catch (...) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: invalid endpoint response field type"));
+    }
 
     // --- Schema-level LLM output validation ---
     // PRODUCTION REQUIREMENT: All LLM-generated fields are validated for size and structure.
     // This ensures generated code is sandboxable and won't cause downstream issues.
-    static constexpr std::size_t kMaxCodeSize   = 1 << 20;   // 1 MiB per code field
-    static constexpr std::size_t kMaxReportSize = 64 << 10;  // 64 KiB for security_report
-    static constexpr std::size_t kMaxNameLen    = 256;
-    static constexpr std::size_t kMaxVersionLen = 64;
-    static constexpr std::size_t kMaxDescLen    = 8192;
-    static constexpr std::size_t kMaxDepEntryLen = 256;
-    
     // Validate code field sizes (prevents memory exhaustion attacks)
     if (generated.implementation_code.size() > kMaxCodeSize ||
         generated.header_code.size() > kMaxCodeSize ||
@@ -759,31 +861,35 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
                   "AIPluginGenerator: LLM security_report exceeds maximum allowed size"));
     }
 
-    std::string raw_name = payload.value("name", std::string("generated_plugin"));
-    if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
-        raw_name = "generated_plugin";
-    }
-    generated.manifest.name = std::move(raw_name);
-    generated.manifest.version = payload.value("version", std::string("0.1.0"));
-    if (generated.manifest.version.size() > kMaxVersionLen || generated.manifest.version.empty()) {
-        generated.manifest.version = "0.1.0";
-    }
-    generated.manifest.description = payload.value("description", prompt.description);
     if (generated.manifest.description.size() > kMaxDescLen) {
         generated.manifest.description = generated.manifest.description.substr(0, kMaxDescLen);
     }
     generated.manifest.type = prompt.type;
 
-    if (payload.contains("build_dependencies") && payload["build_dependencies"].is_array()) {
+    if (payload.contains("build_dependencies")) {
+        if (!payload["build_dependencies"].is_array()) {
+            ++stat_parse_errors_;
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: build_dependencies response field must be an array"));
+        }
         const auto& deps_arr = payload["build_dependencies"];
         generated.build_dependencies.reserve(deps_arr.size());
         for (const auto& dep : deps_arr) {
-            if (dep.is_string()) {
-                auto dep_str = dep.get<std::string>();
-                if (dep_str.size() <= kMaxDepEntryLen) {
-                    generated.build_dependencies.push_back(std::move(dep_str));
-                }
+            if (!dep.is_string()) {
+                ++stat_parse_errors_;
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: build_dependencies entries must be strings"));
             }
+            auto dep_str = dep.get<std::string>();
+            if (dep_str.size() > kMaxDepEntryLen) {
+                ++stat_parse_errors_;
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: build_dependencies entry exceeds maximum length"));
+            }
+            generated.build_dependencies.push_back(std::move(dep_str));
         }
     }
 
@@ -797,14 +903,19 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     std::optional<double> c1_safety_score = {};
 
     if (config_.enable_c1_cai_safety_gate) {
-        if (!config_.c1_cai_eval_fn) {
-            ++stat_safety_rejections_;
-            return tl::unexpected(
-                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                      "AIPluginGenerator: C1 safety gate enabled but c1_cai_eval_fn is not configured"));
-        }
-
-        auto safety_result = config_.c1_cai_eval_fn(generated.implementation_code, safe_description);
+        auto safety_result = [&]() -> Result<double> {
+            try {
+                return config_.c1_cai_eval_fn(generated.implementation_code, safe_description);
+            } catch (const std::exception& e) {
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          std::string("AIPluginGenerator: C1 safety callback threw: ") + e.what()));
+            } catch (...) {
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: C1 safety callback threw an unknown exception"));
+            }
+        }();
         if (!safety_result) {
             ++stat_safety_rejections_;
             return tl::unexpected(
@@ -812,11 +923,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
                       "AIPluginGenerator: C1 safety evaluation failed: " +
                           safety_result.error().message()));
         }
-        if (!std::isfinite(*safety_result)) {
+        if (!std::isfinite(*safety_result) || *safety_result < 0.0 || *safety_result > 1.0) {
             ++stat_safety_rejections_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                      "AIPluginGenerator: C1 safety evaluation returned non-finite score"));
+                      "AIPluginGenerator: C1 safety evaluation returned a score outside [0,1] or non-finite"));
         }
         c1_safety_score = *safety_result;
         if (*c1_safety_score < config_.c1_min_safety_score) {
@@ -843,7 +954,19 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         }
 
         if (config_.sandbox_verify_fn) {
-            auto sandbox_result = config_.sandbox_verify_fn(generated);
+            auto sandbox_result = [&]() -> Result<void> {
+                try {
+                    return config_.sandbox_verify_fn(generated);
+                } catch (const std::exception& e) {
+                    return tl::unexpected(
+                        Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                              std::string("AIPluginGenerator: sandbox callback threw: ") + e.what()));
+                } catch (...) {
+                    return tl::unexpected(
+                        Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                              "AIPluginGenerator: sandbox callback threw an unknown exception"));
+                }
+            }();
             if (!sandbox_result) {
                 ++stat_sandbox_rejections_;
                 return tl::unexpected(
@@ -862,13 +985,6 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     if (config_.enable_c2_federated_telemetry) {
-        if (!config_.c2_federated_telemetry_fn) {
-            ++stat_transport_errors_;
-            return tl::unexpected(
-                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                      "AIPluginGenerator: C2 federated telemetry enabled but c2_federated_telemetry_fn is not configured"));
-        }
-
         json local_metrics = {
             {"implementation_code_bytes",generated.implementation_code.size()},
             {"header_code_bytes",generated.header_code.size()},
@@ -880,7 +996,19 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             local_metrics["c1_safety_score"] = *c1_safety_score;
         }
 
-        auto telemetry_result = config_.c2_federated_telemetry_fn(local_metrics);
+        auto telemetry_result = [&]() -> Result<void> {
+            try {
+                return config_.c2_federated_telemetry_fn(local_metrics);
+            } catch (const std::exception& e) {
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          std::string("AIPluginGenerator: C2 telemetry callback threw: ") + e.what()));
+            } catch (...) {
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: C2 telemetry callback threw an unknown exception"));
+            }
+        }();
         if (!telemetry_result) {
             ++stat_transport_errors_;
             return tl::unexpected(

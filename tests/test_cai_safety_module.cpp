@@ -228,6 +228,7 @@ TEST(CAISafetyModule, CAI10_AcceptanceGatePassesBenignContent) {
     CAIEvaluationResult synthetic;
     synthetic.cai_revised_score    = 0.95f;
     synthetic.ethics_overall_score = 0.95;
+    synthetic.ethics_evaluation_succeeded = true;
 
     EXPECT_TRUE(CAIEthicsIntegration::passesAcceptanceCriteria(synthetic))
         << "CAI-10: high-scoring benign result should pass the acceptance gate";

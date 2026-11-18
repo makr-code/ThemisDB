@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <sstream>
 
 namespace themis {
@@ -197,11 +198,26 @@ CAIEvaluationResult CAIEthicsIntegration::evaluate(
 {
     const auto t0 = std::chrono::steady_clock::now();
 
-    // --- 1. Run CAI critique-revision loop (rule-based path when llm_fn is empty) ---
-    // The ConstitutionalReasoningEngine::reason() accepts a void* llm_wrapper;
-    // when a prompt runner is supplied we forward its address for critique/revision
-    // completions, otherwise the engine uses its deterministic fallback path.
-    auto* llm_wrapper = llm_fn ? static_cast<void*>(&llm_fn) : nullptr;
+    // --- 1. Run CAI critique-revision loop and record deterministic fallback use. ---
+    bool used_rule_based_fallback = false;
+    std::function<std::string(const std::string&)> tracked_llm_fn =
+        [runner = std::move(llm_fn), &used_rule_based_fallback](const std::string& prompt) {
+            if (!runner) {
+                used_rule_based_fallback = true;
+                return std::string{};
+            }
+            try {
+                auto output = runner(prompt);
+                if (output.empty()) {
+                    used_rule_based_fallback = true;
+                }
+                return output;
+            } catch (...) {
+                used_rule_based_fallback = true;
+                return std::string{};
+            }
+        };
+    auto* llm_wrapper = static_cast<void*>(&tracked_llm_fn);
     llm::ConstitutionalReasoningResult cai_result =
         cai_engine_->reason(response, query, llm_wrapper);
     const auto formalized_principles = collectFormalizedPrinciples(cai_result);
@@ -228,6 +244,7 @@ CAIEvaluationResult CAIEthicsIntegration::evaluate(
     result.original_response    = cai_result.original_response;
     result.revised_response     = cai_result.revised_response;
     result.was_revised          = cai_result.was_revised;
+    result.used_rule_based_fallback = used_rule_based_fallback;
     result.cai_iterations       = cai_result.iterations;
     result.cai_original_score   = cai_result.original_score;
     result.cai_revised_score    = cai_result.revised_score;
@@ -237,6 +254,7 @@ CAIEvaluationResult CAIEthicsIntegration::evaluate(
     // Safe variant extraction: holds_alternative and std::get are always safe together
     if (std::holds_alternative<plugins::ethics::EthicsEvaluationResult>(ethics_variant)) {
         const auto& er = std::get<plugins::ethics::EthicsEvaluationResult>(ethics_variant);
+        result.ethics_evaluation_succeeded = true;
         // Note: get() is safe here because holds_alternative() already validated type
         result.ethics_overall_score    = er.overall_score;
         result.ethics_decision_quality = er.decision_quality_score;
@@ -249,8 +267,8 @@ CAIEvaluationResult CAIEthicsIntegration::evaluate(
     result.ethics_framework_principles = formalized_principles;
     result.ethics_framework_domains = formalized_domains;
     result.ethics_argument_chain_ids = argument_chain_ids;
-    // On Status error the ethics scores remain 0.0 — the caller should check
-    // safety_score() < min_safety_score.
+    // On Status error the ethics scores remain 0.0 and the result remains
+    // ineligible for acceptance.
 
     const auto t1 = std::chrono::steady_clock::now();
     result.total_latency =
@@ -296,7 +314,23 @@ bool CAIEthicsIntegration::passesAcceptanceCriteria(
     const CAIEvaluationResult& result,
     double min_safety_score)
 {
-    return result.safety_score() >= min_safety_score;
+    const auto isValidScore = [](double value) {
+        return std::isfinite(value) && value >= 0.0 && value <= 1.0;
+    };
+    const auto score = result.safety_score();
+    return result.ethics_evaluation_succeeded &&
+           !result.used_rule_based_fallback &&
+           isValidScore(min_safety_score) &&
+           isValidScore(result.cai_original_score) &&
+           isValidScore(result.cai_revised_score) &&
+           isValidScore(result.ethics_overall_score) &&
+           isValidScore(result.ethics_decision_quality) &&
+           isValidScore(result.ethics_consistency) &&
+           isValidScore(result.ethics_fairness) &&
+           isValidScore(result.ethics_alignment) &&
+           isValidScore(result.ethics_transparency) &&
+           isValidScore(score) &&
+           score >= min_safety_score;
 }
 
 // ---------------------------------------------------------------------------

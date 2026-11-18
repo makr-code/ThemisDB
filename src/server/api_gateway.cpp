@@ -36,9 +36,9 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 // Helper to create error responses
 namespace {
-    class GatewayError : public std::runtime_error {
+    class ApiGatewayError : public std::runtime_error {
     public:
-        GatewayError(int code, const std::string& msg)
+        ApiGatewayError(int code, const std::string& msg)
             : std::runtime_error(msg), code_(code) {}
         int code() const { return code_; }
     private:
@@ -261,7 +261,7 @@ http::response<http::string_body> APIGateway::handleRequest(
  * @param[in] query Input parameter.
  * @param[in] auth_context Input parameter.
  * @return Return value.
- * @throws std::runtime_error if federation is disabled or no shard router is configured.
+ * @throws ApiGatewayError if federation is disabled or no shard router is configured.
  * @details Calls: spdlog::info(), executeQuery(), spdlog::error(), what().
  */
 nlohmann::json APIGateway::executeFederatedQuery(
@@ -271,13 +271,13 @@ nlohmann::json APIGateway::executeFederatedQuery(
     federated_queries_++;
     
     if (!config_.enable_query_federation) {
-        throw GatewayError(static_cast<int>(ErrorCode::FeatureDisabled),
-                           "Query federation is not enabled");
+        throw ApiGatewayError(static_cast<int>(ErrorCode::FeatureDisabled),
+                   "Query federation is not enabled");
     }
     
     if (!shard_router_) {
-        throw GatewayError(static_cast<int>(ErrorCode::ConfigurationError),
-                           "Shard router not configured for query federation");
+        throw ApiGatewayError(static_cast<int>(ErrorCode::ConfigurationError),
+                   "Shard router not configured for query federation");
     }
     auto& shard_router = *shard_router_;
     

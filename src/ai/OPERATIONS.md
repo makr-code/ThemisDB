@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,9 @@ Before enabling generation in a deployment:
   required. An empty list skips this check.
 - Set a deployment-appropriate `timeout_ms`, `max_request_body_bytes`, and
   `max_response_body_bytes`. Defaults are 10,000 ms, 256 KiB, and 8 MiB.
+- Curl enforces `timeout_ms`; an injected `endpoint_invoke_fn` must enforce the
+  timeout it receives. `setLlmHttpPostFn()` has no timeout parameter and may
+  block indefinitely, so use it only if its implementation enforces a deadline.
 - Keep any endpoint credentials out of prompt text and endpoint URL user-info.
   The debug log prints the configured endpoint string.
 - If C1, sandbox, or C2 is enabled, configure its required callback and verify
