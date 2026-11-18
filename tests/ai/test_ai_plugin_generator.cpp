@@ -792,7 +792,7 @@ TEST(AIPluginGeneratorTest, APG37_InvalidEnumValueIsRejectedBeforeTransport) {
 
         auto prompt = validPrompt();
         if (std::string(invalid_enum) == "plugin_type") {
-            prompt.type = static_cast<PluginType>(999);
+            prompt.type = static_cast<themis::plugins::PluginType>(999);
         } else if (std::string(invalid_enum) == "llm_model") {
             prompt.llm_model = static_cast<LLMModel>(999);
         } else {

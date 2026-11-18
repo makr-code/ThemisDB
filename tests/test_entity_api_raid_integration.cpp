@@ -256,6 +256,51 @@ TEST_F(EntityApiRaidIntegrationTest, AllConcernFailsWhenReplicaEndpointIsMissing
         << "A failed ALL response must disclose that the primary may already be committed";
 }
 
+TEST_F(EntityApiRaidIntegrationTest, AllConcernFailsClosedWhenStrategyConstructionThrows) {
+    auto manager = std::make_shared<CollectionRedundancyManager>();
+    RedundancyConfig invalid_config;
+    invalid_config.mode = RedundancyMode::MIRROR;
+    invalid_config.replication_factor = 0;
+    invalid_config.write_concern = WriteConcern::ALL;
+    manager->setCollectionConfig("users", invalid_config);
+
+    EntityApiConfig config;
+    config.feature_raid = true;
+    config.local_shard_id = "shard-0";
+    EntityApiHandler handler(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        config,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        manager,
+        hash_ring_,
+        shard_topology_
+    );
+
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::put);
+    req.target("/entities/users:strategy-failure");
+    req.set(boost::beast::http::field::content_type, "application/json");
+    req.body() = R"({"key":"users:strategy-failure","blob":"{\"name\":\"Strategy failure\"}"})";
+    req.prepare_payload();
+
+    const auto response = handler.handlePut(req);
+    EXPECT_EQ(response.result(), boost::beast::http::status::service_unavailable);
+    EXPECT_NE(response.body().find("indeterminate"), std::string::npos);
+    EXPECT_TRUE(
+        storage_->get(KeySchema::makeRelationalKey("users", "strategy-failure")).has_value())
+        << "A failed ALL response must disclose that the primary may already be committed";
+}
+
 TEST_F(EntityApiRaidIntegrationTest, RaidDisabledWhenComponentsMissing) {
     // Create handler with feature enabled but no RAID components
     EntityApiConfig config;

@@ -341,11 +341,31 @@ TEST_F(ApiIntegrationTest, EntityBatch_ValidOperations_Returns200) {
     ops.push_back({{"op", "put"}, {"key", "batch_col:item2"}, {"blob", R"({"val":2})"}});
     json req = {{"operations", ops}};
     auto res = post("/entities/batch", req);
-    if (res.result() == http::status::bad_request &&
-        res.body().find("missing required field: key") != std::string::npos) {
-        GTEST_SKIP() << "Batch endpoint not routed in this build; /entities/batch handled as single-entity create";
+    ASSERT_EQ(res.result(), http::status::ok) << res.body();
+    const auto body = json::parse(res.body());
+    EXPECT_EQ(body.at("total"), 2);
+    EXPECT_EQ(body.at("succeeded"), 2);
+    EXPECT_EQ(body.at("failed"), 0);
+
+    for (const auto& operation : ops) {
+        const auto read = get("/entities/" + operation.at("key").get<std::string>());
+        ASSERT_EQ(read.result(), http::status::ok) << read.body();
+        EXPECT_EQ(json::parse(read.body()).at("blob"), operation.at("blob"));
     }
-    EXPECT_EQ(res.result(), http::status::ok) << res.body();
+
+    const json deletes = {
+        {"operations", json::array({
+            {{"op", "delete"}, {"key", "batch_col:item1"}},
+            {{"op", "delete"}, {"key", "batch_col:item2"}}
+        })}
+    };
+    const auto deleted = post("/entities/batch", deletes);
+    ASSERT_EQ(deleted.result(), http::status::ok) << deleted.body();
+    EXPECT_EQ(json::parse(deleted.body()).at("succeeded"), 2);
+    EXPECT_EQ(get("/entities/batch_col:item1").result(), http::status::not_found);
+    EXPECT_EQ(get("/entities/batch_col:item2").result(), http::status::not_found);
+    EXPECT_EQ(post("/entities/batch", json{{"operations", "invalid"}}).result(),
+              http::status::bad_request);
 }
 
 // ===========================================================================

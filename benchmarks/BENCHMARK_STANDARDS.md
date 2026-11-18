@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-08-21
-Last Updated: 2026-10-29
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -59,6 +59,8 @@ benchmark structure and registration rules.
 - Use unique temp paths for per-run artifacts.
 - Keep warmup policy explicit and outside measured loops.
 - JSON output mode should be available for baseline comparisons.
+- CTest benchmark runs must retain the Google Benchmark JSON files and emit the
+  versioned ThemisDB run manifest described below.
 
 ## 4. CMake and CTest Integration
 
@@ -112,6 +114,29 @@ The helper enforces:
 - Standard `--benchmark_min_time=0.1s` unless overridden via `MIN_TIME`.
 - Guard: the entry is silently skipped when the target is not available (avoids
   orphaned CTest entries when a benchmark is disabled by a feature flag).
+
+### 4.2 Machine-Readable Run Manifest
+
+The postprocessor writes `benchmark_run_manifest.json` beside the raw per-test
+Google Benchmark files. Raw benchmark files are not modified. The manifest is
+the canonical run-level envelope and uses this top-level contract:
+
+- `schema`: `themisdb.benchmark_run`
+- `schema_version`: integer `1`
+- `generated_at`: UTC timestamp
+- `source_format`: `google-benchmark-json`
+- `summary`: result-file, case, and target counts plus per-file status counts
+- `files`: one record per raw JSON file, with status `complete`, `no_cases`,
+  `empty`, `invalid_json`, `invalid_schema`, or `unreadable`
+- `benchmarks`: Google Benchmark case records preserved with a `themisdb` object
+  containing `source_file` and matching expectation `targets`
+- `targets`: expectation IDs, benchmark cases, parsed numeric constraint (or
+  `null`), verdict, and detail
+
+`NO_MAPPING` means the expectation declares no explicit benchmark case;
+`NOT_RUN` means an explicit mapped case has no result. `UNCHECKED` means a case
+ran but no machine-evaluable numeric constraint is declared. These statuses
+must not be converted to a passing result by manifest normalization.
 
 ## 5. Migration Rules for Existing Benchmarks
 

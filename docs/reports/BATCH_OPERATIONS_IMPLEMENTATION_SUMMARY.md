@@ -1,8 +1,26 @@
+---
+Author: unknown
+Created: 2026-02-07
+Last Updated: 2026-11-18
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
+---
+
 # Batch Operations Optimization - Implementation Summary
+
+Exact model backend not verifiable from final document text alone.
+
+This historical report's speedup figures are not measurements from the current
+HTTP benchmark.
 
 **Date:** 2026-02-07  
 **Version:** 1.5.0  
-**Status:** ✅ Implemented  
+**Implementation status:** ✅ Implemented
+
 **Branch:** copilot/optimize-batch-operations
 
 ## Overview
@@ -79,10 +97,9 @@ auto stats = optimizer.getStats();
 
 **Created:**
 - `benchmarks/benchmark_batch_operations.py`
-  - Automated performance benchmarking
-  - Tests multiple batch sizes and durability modes
-  - Generates performance comparison reports
-  - Production-ready with error handling
+  - Measures ThemisDB HTTP batch PUTs at multiple batch sizes with readback
+  - Does not select or measure durability modes or compare database products
+  - See `benchmarks/README.md` for the current runner and its measurement limits
 
 ## Integration Points
 

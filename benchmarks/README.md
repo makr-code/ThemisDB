@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-01-03
-Last Updated: 2026-11-17
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -108,6 +108,38 @@ keine validierten ThemisDB-Operationen. Die früheren Ressourcenmetriken waren
 Platzhalter. Der zugehörige Quickstart ist ein Retirement-Hinweis, kein
 ausführbarer Benchmark. Für unterstützte C++-Messungen siehe die dokumentierten
 Google-Benchmark-Binaries; sie belegen keine RAID- oder Multi-Shard-Leistung.
+
+## Batch-HTTP-Workload
+
+`benchmark_batch_operations.py` misst serielle `POST /entities/batch`-PUTs mit
+synthetischen Datensätzen. Jede Batchgröße verwendet neue Schlüssel. Der Runner
+prüft alle Batch-Zähler und jeden Datensatz per Readback und löscht anschließend
+nur die eigenen versuchten Schlüssel über Batch-Deletes. Der Server muss die
+Batch-Validierung dieses Quellstands enthalten; ältere Builds können den Request
+fälschlich mit `missing required field: key` ablehnen.
+
+```powershell
+python benchmarks\benchmark_batch_operations.py --endpoint http://127.0.0.1:8765 --items 10000 --batch-sizes 100 500 1000 5000 --output results\batch.json
+```
+
+Jeder Fall führt vor der Messung 50 Warmup-Writes, 100 sequenzielle und 200
+deterministisch zufällige Reads aus. Der Durchsatz umfasst Batch-Vorbereitung,
+HTTP und Antwortprüfung; Warmup, vollständiger Readback und Cleanup werden
+getrennt ausgewiesen. Latenzen gelten pro Request, nicht pro Entity; p95 bzw. p99
+werden erst ab 20 bzw. 100 Requests angegeben. Die Reihenfolge der Batchgrößen
+steht im Report; ein Einzellauf belegt keine stabile Vergleichsbasis. Der Runner
+benötigt `httpx`; ein Bearer-Token kann über `--token-env UMGEBUNGSVARIABLE`
+bereitgestellt werden.
+
+HTTP-, Teil-, Readback- oder Cleanupfehler verhindern den Report. Bei einem
+Timeout kann ein noch laufender Request nach dem Cleanup committen; die im
+Fehler genannte Collection muss dann gegebenenfalls geprüft und bereinigt
+werden. Ein Cleanup-Batch mit HTTP 429 wird bei ganzzahligem `Retry-After` bis
+30 Sekunden einmal wiederholt; der Lauf bleibt trotzdem fehlgeschlagen. Für
+einen dedizierten Benchmark-Server muss dessen Rate-Limit die zusätzlichen
+Warmup- und Readback-Requests erlauben; 429 bei Messung oder Readback bricht ab.
+Der Lauf misst weder RAID-Replikation noch Durability und erlaubt keinen
+Wettbewerbervergleich.
 
 ## Wikipedia HTTP-Entity-Workload
 

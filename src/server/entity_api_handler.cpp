@@ -678,10 +678,30 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         // This ensures RAID modes (MIRROR, STRIPE, PARITY, etc.) are applied at runtime
         bool raid_applied = false;
         if (redundancy_manager_ && hash_ring_ && shard_topology_ && config_.feature_raid) {
+            const auto configured_redundancy = redundancy_manager_->getConfig(table);
+            bool mirror_all_required =
+                configured_redundancy.mode == sharding::RedundancyMode::MIRROR &&
+                configured_redundancy.write_concern == sharding::WriteConcern::ALL;
+            const auto fail_mirror_all = [this, &req, &span](
+                const std::string& reason) {
+                const auto error =
+                    "MIRROR write did not satisfy ALL; the primary write may "
+                    "already be committed and replica state is indeterminate: " +
+                    reason;
+                span.setAttribute("raid.success", false);
+                span.setAttribute("raid.error_message", reason);
+                span.setStatus(false, error);
+                return makeErrorResponse(
+                    http::status::service_unavailable, error, req);
+            };
             try {
                 // Get redundancy strategy for this collection (table)
                 auto strategy = redundancy_manager_->getStrategy(table);
                 if (strategy) {
+                    const auto strategy_config = strategy->getConfig();
+                    mirror_all_required =
+                        strategy_config.mode == sharding::RedundancyMode::MIRROR &&
+                        strategy_config.write_concern == sharding::WriteConcern::ALL;
                     THEMIS_DEBUG("Applying RAID redundancy for {}:{} using mode {}", 
                                 table, pk, static_cast<int>(strategy->getConfig().mode));
                     
@@ -747,16 +767,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         THEMIS_WARN("RAID write failed for {}: {}", key, write_result.error_message);
                         span.setAttribute("raid.success", false);
                         span.setAttribute("raid.error_message", write_result.error_message);
-                        const auto strategy_config = strategy->getConfig();
-                        if (strategy_config.mode == sharding::RedundancyMode::MIRROR &&
-                            strategy_config.write_concern == sharding::WriteConcern::ALL) {
-                            const auto error =
-                                "MIRROR write did not satisfy ALL; the primary write may "
-                                "already be committed and replica state is indeterminate: " +
-                                write_result.error_message;
-                            span.setStatus(false, error);
-                            return makeErrorResponse(
-                                http::status::service_unavailable, error, req);
+                        if (mirror_all_required) {
+                            return fail_mirror_all(write_result.error_message);
                         }
                     } else {
                         raid_applied = true;  // Only set to true when actually successful
@@ -767,10 +779,15 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         THEMIS_DEBUG("RAID write successful for {}: {} shards written in {}ms", 
                                    key,write_result.written_shards.size(), write_result.latency.count());
                     }
+                } else if (mirror_all_required) {
+                    return fail_mirror_all("redundancy strategy is unavailable");
                 }
             } catch (const std::exception& e) {
-                // Log but don't fail - RAID is optional enhancement
                 THEMIS_WARN("RAID redundancy processing error: {}", e.what());
+                if (mirror_all_required) {
+                    return fail_mirror_all(
+                        std::string("RAID processing failed: ") + e.what());
+                }
             }
         }
 

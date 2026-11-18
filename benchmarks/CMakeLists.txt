@@ -2833,7 +2833,7 @@ endif()
 
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_index_rebuild.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/bench_index_rebuild.cpp")
     message(STATUS "Adding Index Rebuild benchmarks (Issue #1884)")
 
     add_executable(bench_index_rebuild
@@ -3318,7 +3318,7 @@ endif()
 # Prompt Engineering Performance Benchmarks (ROADMAP Production Readiness)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prompt_engineering/bench_prompt_engineering.cpp")
     message(STATUS "Adding prompt engineering performance benchmarks")
 
     add_executable(bench_prompt_engineering

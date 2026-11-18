@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/server/api_gateway.h`, `include/server/auth_middleware.h`, `src/server/api_gateway.cpp`, `src/server/auth_middleware.cpp`, `tests/server/test_api_gateway.cpp`
+Canonical references: `include/server/api_gateway.h`, `include/server/auth_middleware.h`, `src/server/api_gateway.cpp`, `src/server/auth_middleware.cpp`, `src/server/http_server.cpp`, `src/server/entity_api_handler.cpp`, `tests/server/test_api_gateway.cpp`, `tests/server/test_api_integration.cpp`
 Related issues: #7093, #7167
 
 # Server API contract
@@ -24,6 +24,7 @@ Related issues: #7093, #7167
 - `APIGateway::handleRequest()` receives an HTTP request and a local-handler callback and returns an HTTP response.
 - `APIGateway::Config` controls optional routing/admission features, request limits/timeouts, metrics, and API version checks. Runtime behavior depends on these settings and the dependencies supplied at construction.
 - `AuthMiddleware` exposes configuration for JWT, Kerberos, mTLS, API-key, and token paths. Authorization returns `AuthResult`, including `authorized`, user/tenant context, and a reason.
+- `POST /entities/batch` accepts an `operations` array of 1–10,000 entity `put` or `delete` operations. Processed entity/index writes are submitted in one storage batch; invalid or failed operations can be excluded, and geo-index and CDC hooks are best effort. HTTP 200 and `success: true` may still include failed operations. Callers must inspect `total`, `succeeded`, `failed`, and any `errors`. This endpoint does not by itself establish RAID replication or a particular durability mode.
 - `HttpServer` enables JWT validation when `THEMIS_JWT_JWKS_URL` is set. Both `THEMIS_JWT_EXPECTED_ISSUER` and `THEMIS_JWT_EXPECTED_AUDIENCE` are required; incomplete configuration fails server construction. `THEMIS_JWT_TENANT_CLAIM` optionally selects the signed claim mapped to `AuthResult.tenant_id` (default `tenant_id`). Without the JWKS URL, JWT validation is not enabled by this bootstrap.
 - `THEMIS_TOKEN_RAG` configures a static `rag_reader` identity with only `llm` and `data:read` scopes for deployments that need a dedicated RAG caller. Its value must differ from configured admin, readonly, and analyst tokens; a collision fails server construction.
 - `THEMIS_TOKEN_RAG_TENANT` optionally binds that static RAG identity to one configured tenant. It is trusted server configuration, not a request-header value; it has no effect unless `THEMIS_TOKEN_RAG` is set. Without it, the RAG token has no tenant scope.

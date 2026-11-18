@@ -2287,6 +2287,15 @@ HttpServer::HttpServer(
         }}
     });
 
+    // The batch schema must override the /entities prefix schema.
+    request_validator_->registerSchema("POST", "/entities/batch", {
+        {"type", "object"},
+        {"required", {"operations"}},
+        {"properties", {
+            {"operations", {{"type", "array"}}}
+        }}
+    });
+
     // PUT /entities/<key> - upsert entity body (key is in the URL path, not in the body)
     request_validator_->registerSchema("PUT", "/entities/", {
         {"type", "object"},
