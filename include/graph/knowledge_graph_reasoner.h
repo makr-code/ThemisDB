@@ -208,6 +208,11 @@ public:
         const query::RequestContext& request,
         query::StopReason* stop_reason = nullptr) const;
 
+    /**
+     * @brief Returns the stored inference explanation for a derived fact.
+     * @param fact Ground fact whose recorded derivation is requested.
+     * @return The matching inference edge, or std::nullopt when no explanation is stored.
+     */
     [[nodiscard]] std::optional<InferenceEdge> explain(const Triple& fact) const;
 
     /**

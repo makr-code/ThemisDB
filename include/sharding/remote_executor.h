@@ -104,11 +104,11 @@ public:
                const query::RequestContext& ctx);
     
     /**
-     * Execute POST request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @param body Request body (JSON)
-     * @return Result with response data or error
+     * @brief Executes a POST request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @param body JSON request body.
+     * @return Result with response data, or an error when the request fails.
      */
     Result post(const ShardInfo& shard_info,
                 const std::string& path,
@@ -128,11 +128,11 @@ public:
                 const query::RequestContext& ctx);
     
     /**
-     * Execute PUT request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @param body Request body (JSON)
-     * @return Result with response data or error
+     * @brief Executes a PUT request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @param body JSON request body.
+     * @return Result with response data, or an error when the request fails.
      */
     Result put(const ShardInfo& shard_info,
                const std::string& path,
@@ -152,10 +152,10 @@ public:
                const query::RequestContext& ctx);
     
     /**
-     * Execute DELETE request on remote shard
-     * @param shard_info Target shard information
-     * @param path Request path
-     * @return Result with response data or error
+     * @brief Executes a DELETE request on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param path Request path.
+     * @return Result with response data, or an error when the request fails.
      */
     Result del(const ShardInfo& shard_info, const std::string& path);
 
@@ -171,11 +171,10 @@ public:
                const query::RequestContext& ctx);
     
     /**
-     * Execute query on remote shard
-     * Convenience method for query execution
-     * @param shard_info Target shard information
-     * @param query Query string (e.g., AQL query)
-     * @return Result with query results
+     * @brief Executes an AQL query on a remote shard without request cancellation.
+     * @param shard_info Target shard information.
+     * @param query Query string to submit to the remote query endpoint.
+     * @return Result with query data, or an error when the request fails.
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
 
@@ -191,7 +190,7 @@ public:
                         const query::RequestContext& ctx);
 
     /**
-     * Transfer a raw binary payload to a remote shard via HTTP POST.
+     * @brief Transfers a raw binary payload to a remote shard via HTTP POST.
      *
      * Intended for KV-state transfer (Phase 5 KV-Prefix Cross-Shard sharing):
      * the serialised KV cache for a shared system-prompt prefix is POSTed to

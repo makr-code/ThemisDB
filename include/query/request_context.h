@@ -37,6 +37,12 @@ enum class StopReason : std::uint8_t {
     DeadlineExceeded,
 };
 
+/**
+ * @brief Carries a request's absolute deadline and cooperative cancellation sources.
+ * @note Context checks report cancellation and expiry; only consumers that poll
+ *       this context can interrupt ongoing work. Borrowed probe state must remain
+ *       valid for every context that retains it.
+ */
 class RequestContext {
 public:
     using Clock = std::chrono::steady_clock;
@@ -84,7 +90,16 @@ public:
     }
 
     [[nodiscard]] bool hasDeadline() const noexcept { return deadline_.has_value(); }
+    /**
+     * @brief Returns the absolute steady-clock deadline, if one is set.
+     * @return Deadline time point, or std::nullopt for an unbounded request.
+     */
     [[nodiscard]] std::optional<TimePoint> deadline() const noexcept { return deadline_; }
+
+    /**
+     * @brief Returns the shared cancellation token, if present.
+     * @return A const reference to the token pointer; its lifetime is tied to this context.
+     */
     [[nodiscard]] const std::shared_ptr<QueryCancellationToken>& token() const noexcept {
         return token_;
     }
@@ -98,6 +113,11 @@ public:
         return deadline_ && Clock::now() >= *deadline_;
     }
 
+    /**
+     * @brief Determines whether cancellation or the deadline requires stopping.
+     * @return Cancelled when a cancellation source is set, DeadlineExceeded when
+     *         expired, or None otherwise; cancellation takes precedence.
+     */
     [[nodiscard]] StopReason stopReason() const noexcept {
         if (isCancelled()) {
             return StopReason::Cancelled;
@@ -108,11 +128,19 @@ public:
         return StopReason::None;
     }
 
+    /**
+     * @brief Checks whether this request has been cancelled or has expired.
+     * @return True when stopReason() is not None.
+     */
     [[nodiscard]] bool shouldStop() const noexcept {
         return stopReason() != StopReason::None;
     }
 
-    /// Time left until the deadline (zero when expired); nullopt when unbounded.
+    /**
+     * @brief Returns the time remaining before the deadline.
+     * @return Zero when expired, positive milliseconds while active, or std::nullopt
+     *         when the request has no deadline.
+     */
     [[nodiscard]] std::optional<std::chrono::milliseconds> remaining() const noexcept {
         if (!deadline_) {
             return std::nullopt;

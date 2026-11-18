@@ -147,6 +147,13 @@ public:
         StopReason* stop_reason = nullptr
     ) const;
 
+    /**
+     * @brief Counts entities matching the predicates in a selected query plan.
+     * @param engine Query engine used to retrieve matching primary keys.
+     * @param q Query whose table and predicates are counted.
+     * @param plan Planner-selected predicate order and estimates.
+     * @return Matching entity count, or an error when index execution fails.
+     */
     Result<size_t>
     executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 

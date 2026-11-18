@@ -270,6 +270,21 @@ public:
     // Range-Scan mit Cursor-Anker (value, pk) für effiziente Pagination über ORDER BY
     // Wenn anchor gesetzt ist, startet der Scan strikt nach (ascending) bzw. strikt vor (descending)
     // dem angegebenen (value, pk) innerhalb der gegebenen Bounds.
+    /**
+     * @brief Scans a range index from a strict value-and-primary-key cursor.
+     * @param table Indexed table name; must not be empty.
+     * @param column Indexed column name; must have a range index.
+     * @param lowerValue Optional lower bound for indexed values.
+     * @param upperValue Optional upper bound for indexed values.
+     * @param includeLowerValue Whether the lower bound is inclusive.
+     * @param includeUpperValue Whether the upper bound is inclusive.
+     * @param limit Maximum number of primary keys to return.
+     * @param reversed Whether to scan in descending order.
+     * @param anchor Optional (value, primary key) cursor; results start strictly
+     *        after it in ascending order or strictly before it in descending order.
+     * @return Status and primary keys; an invalid table, column, or missing index
+     *         returns an error with no keys. An absent anchor starts at the bounds.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysRangeAnchored(
         std::string_view table,
         std::string_view column,
@@ -293,15 +308,57 @@ public:
     size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
+    /**
+     * @brief Adds or updates an entity using a caller-owned write batch.
+     * @param table Table containing the entity.
+     * @param entity Entity to write and index.
+     * @param batch Batch that receives the data and index mutations; the caller
+     *        controls when that batch is committed.
+     * @return Success status, or an error when the entity or its indexes cannot be written.
+     */
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
+
+    /**
+     * @brief Removes an entity using a caller-owned write batch.
+     * @param table Table containing the entity.
+     * @param pk Primary key of the entity to remove.
+     * @param batch Batch that receives the data and index mutations; the caller
+     *        controls when that batch is committed.
+     * @return Success status, or an error when the entity or its indexes cannot be removed.
+     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);
     
     // MVCC Transaction variants
+    /**
+     * @brief Adds or updates an entity within a caller-owned MVCC transaction.
+     * @param table Table containing the entity.
+     * @param entity Entity to write and index.
+     * @param txn Transaction that receives the data and index mutations; the caller
+     *        controls commit or rollback.
+     * @return Success status, or an error when the entity or its indexes cannot be written.
+     */
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::TransactionWrapper& txn);
+
+    /**
+     * @brief Removes an entity within a caller-owned MVCC transaction.
+     * @param table Table containing the entity.
+     * @param pk Primary key of the entity to remove.
+     * @param txn Transaction that receives the data and index mutations; the caller
+     *        controls commit or rollback.
+     * @return Success status, or an error when the entity or its indexes cannot be removed.
+     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::TransactionWrapper& txn);
 
     // Abfragen über Index = Gleichheit
     // Liefert primäre Schlüssel
+    /**
+     * @brief Finds primary keys whose indexed column equals a value.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param value Exact value to match.
+     * @return Status and matching primary keys, or an error when the equality index
+     *         is unavailable or the scan fails.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysEqual(
         std::string_view table,
         std::string_view column,
@@ -327,6 +384,14 @@ public:
     ) const;
     
     // Composite index scan: alle Spalten müssen exakt matchen
+    /**
+     * @brief Finds primary keys matching every value in a composite index.
+     * @param table Indexed table name.
+     * @param columns Composite-index columns in index order.
+     * @param values Values corresponding to @p columns; both lists must have equal size.
+     * @return Status and matching primary keys, or an error when the lists differ
+     *         or the requested composite index is unavailable.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysEqualComposite(
         std::string_view table,
         const std::vector<std::string>& columns,

@@ -337,6 +337,12 @@ public:
         ::themis::query::StopReason* stop_reason = nullptr
     );
 
+    /**
+     * @brief Deletes content and its associated chunks and index entries.
+     * @param content_id Content identifier, with or without the canonical prefix.
+     * @return Success status, or an error if deleting the content record fails.
+     * @note Missing optional vector or full-text index entries do not prevent deletion.
+     */
     [[nodiscard]] Status deleteContent(const std::string& content_id);
 
     /**
