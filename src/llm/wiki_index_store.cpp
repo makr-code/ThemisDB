@@ -14,7 +14,7 @@
  *
  * JsonWikiIndexReader:
  *   - Reads the Python-MVP index.json format (array of chunk objects).
- *   - Builds token postings at load time and performs in-memory TF overlap scoring.
+ *   - Builds token postings at load time and performs in-memory BM25 ranking.
  *   - Self-contained: no RocksDB dependency.
  *
  * @version 0.1.0
@@ -969,7 +969,8 @@ void JsonWikiIndexReader::load() {
     loaded_ = false;
     chunks_.clear();
     token_postings_.clear();
-    chunk_unique_term_counts_.clear();
+    chunk_token_counts_.clear();
+    average_chunk_token_count_ = 0.0;
 
     std::ifstream f(index_path_);
     if (!f.is_open()) {
@@ -995,7 +996,8 @@ void JsonWikiIndexReader::load() {
     }
 
     chunks_.reserve(chunks->size());
-    chunk_unique_term_counts_.reserve(chunks->size());
+    chunk_token_counts_.reserve(chunks->size());
+    std::size_t total_token_count = 0;
 
     for (const auto& obj : *chunks) {
         WikiChunk c;
@@ -1013,20 +1015,30 @@ void JsonWikiIndexReader::load() {
         if (!c.chunk_id.empty()) {
             chunks_.push_back(std::move(c));
             const std::size_t chunk_index = chunks_.size() - 1;
-            auto term_frequencies = tokenizeWikiText(chunks_.back().text);
-            chunk_unique_term_counts_.push_back(term_frequencies.size());
+            std::string searchable_text = chunks_.back().text;
+            searchable_text.append(" ").append(chunks_.back().section_title);
+            searchable_text.append(" ").append(chunks_.back().source_path);
+            const auto term_frequencies = tokenizeWikiText(searchable_text);
+            std::size_t token_count = 0;
             for (const auto& [term, frequency] : term_frequencies) {
                 token_postings_[term].push_back({chunk_index, frequency});
+                token_count += static_cast<std::size_t>(frequency);
             }
+            chunk_token_counts_.push_back(token_count);
+            total_token_count += token_count;
         }
     }
 
+    if (!chunks_.empty()) {
+        average_chunk_token_count_ =
+            static_cast<double>(total_token_count) / static_cast<double>(chunks_.size());
+    }
     loaded_ = true;
     spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",chunks_.size(), index_path_);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// JsonWikiIndexReader — query (in-memory BM25-style)
+// JsonWikiIndexReader — query (in-memory BM25)
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
@@ -1041,24 +1053,44 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
         return {};
     }
 
-    // Accumulate scores only for chunks containing query terms.
+    // Sort terms so floating-point accumulation order does not depend on hash iteration.
+    std::vector<std::pair<std::string, int>> query_terms(query_tf.begin(), query_tf.end());
+    std::sort(query_terms.begin(), query_terms.end(),
+              [](const auto& a, const auto& b) { return a.first < b.first; });
+
     struct Scored {
         std::size_t idx;
-        float score;
+        double score;
     };
-    std::vector<float> scores(chunks_.size(), 0.0f);
+    std::vector<double> scores(chunks_.size(), 0.0);
     std::vector<bool> has_overlap(chunks_.size(), false);
-    for (const auto& [term, query_frequency] : query_tf) {
+    const double document_count = static_cast<double>(chunks_.size());
+    const double average_document_length = std::max(average_chunk_token_count_, 1.0);
+    constexpr double k1 = 1.2;
+    constexpr double b = 0.75;
+    for (const auto& [term, query_frequency] : query_terms) {
         const auto posting_it = token_postings_.find(term);
         if (posting_it == token_postings_.end()) {
             continue;
         }
 
+        const double document_frequency =
+            static_cast<double>(posting_it->second.size());
+        const double inverse_document_frequency =
+            std::log(1.0 + (document_count - document_frequency + 0.5) /
+                               (document_frequency + 0.5));
+        const double query_weight =
+            1.0 + std::log(static_cast<double>(query_frequency));
         for (const auto& posting : posting_it->second) {
+            const double term_frequency =
+                static_cast<double>(posting.term_frequency);
+            const double document_length =
+                static_cast<double>(chunk_token_counts_[posting.chunk_index]);
+            const double length_normalizer =
+                k1 * (1.0 - b + b * document_length / average_document_length);
             scores[posting.chunk_index] +=
-                static_cast<float>(
-                    1 + std::log(static_cast<float>(posting.term_frequency))) *
-                static_cast<float>(query_frequency);
+                inverse_document_frequency * query_weight *
+                (term_frequency * (k1 + 1.0)) / (term_frequency + length_normalizer);
             has_overlap[posting.chunk_index] = true;
         }
     }
@@ -1070,17 +1102,23 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
         if (!has_overlap[chunk_index]) {
             continue;
         }
-        scores[chunk_index] /= static_cast<float>(std::sqrt(
-            static_cast<double>(chunk_unique_term_counts_[chunk_index])));
         if (scores[chunk_index] >= min_score) {
             scored.push_back({chunk_index, scores[chunk_index]});
         }
     }
 
-    // Sort descending by score
+    // Keep ties stable across runs and independent of the input JSON order.
     std::sort(
         scored.begin(), scored.end(),
-        [](const Scored& a, const Scored& b) { return a.score > b.score; });
+        [this](const Scored& a, const Scored& b) {
+            if (a.score != b.score) {
+                return a.score > b.score;
+            }
+            if (chunks_[a.idx].chunk_id != chunks_[b.idx].chunk_id) {
+                return chunks_[a.idx].chunk_id < chunks_[b.idx].chunk_id;
+            }
+            return a.idx < b.idx;
+        });
 
     // Build result
     const std::size_t limit =
@@ -1091,7 +1129,7 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
     out.reserve(limit);
     for (std::size_t i = 0; i < limit; ++i) {
         WikiChunk c = chunks_[scored[i].idx];
-        c.score = scored[i].score;
+        c.score = static_cast<float>(scored[i].score);
         out.push_back(std::move(c));
     }
     return out;
