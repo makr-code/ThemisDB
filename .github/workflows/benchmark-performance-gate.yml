@@ -247,7 +247,7 @@ jobs:
 
           # Prepend a run header to the report before posting
           case "${{ steps.compare.outputs.compare_status }}" in
-            PASS) STATUS_TEXT="✅ PASS — all targets within thresholds" ;;
+            PASS) STATUS_TEXT="✅ PASS — no failing targets reported; review warnings" ;;
             INCOMPLETE) STATUS_TEXT="⚠️ INCOMPLETE — some targets could not be evaluated" ;;
             *) STATUS_TEXT="❌ FAIL — comparison failed or targets exceeded thresholds" ;;
           esac
