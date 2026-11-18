@@ -208,6 +208,26 @@ on:
         required: false
         default: CMake Build
         type: string
+      release_manifest_json:
+        description: "Canonical identity for a validated release package artifact."
+        required: false
+        default: ''
+        type: string
+      release_platform:
+        description: "Platform identifier used to select a matching reusable package artifact."
+        required: false
+        default: ''
+        type: string
+      reuse_source_run_id:
+        description: "Successful Mainline run ID whose exact package artifact may be reused."
+        required: false
+        default: ''
+        type: string
+      reuse_source_run_number:
+        description: "Run number used in the source package artifact name."
+        required: false
+        default: ''
+        type: string
       timeout_minutes:
         description: "Maximum runtime for the build job in minutes."
         required: false
@@ -237,6 +257,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name || github.ref }}-${{ inputs.runs_on }}-${{ inputs.summary_title }}
@@ -297,17 +318,46 @@ jobs:
           persist-credentials: false
           sparse-checkout: |
             .github/scripts/cache-directory-fingerprint.sh
+            scripts/ci/release_build_artifact.py
             scripts/prepare-windows-dependencies.py
             triplets/x64-windows.cmake
           sparse-checkout-cone-mode: false
 
+      - name: Download candidate Mainline package
+        id: reuse_download
+        if: inputs.reuse_source_run_id != '' && inputs.release_platform != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          name: packages-${{ inputs.release_platform }}-release-${{ inputs.reuse_source_run_number }}
+          run-id: ${{ inputs.reuse_source_run_id }}
+          github-token: ${{ github.token }}
+          path: packages
+
+      - name: Validate candidate Mainline package identity
+        id: reuse_validate
+        if: steps.reuse_download.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        env:
+          RELEASE_BUILD_MANIFEST: ${{ inputs.release_manifest_json }}
+          PYTHON: ${{ runner.os == 'Windows' && 'python' || 'python3' }}
+        run: |
+          set -euo pipefail
+          expected_path="$RUNNER_TEMP/release-build-expected.json"
+          printf '%s\n' "$RELEASE_BUILD_MANIFEST" | "$PYTHON" -c \
+            'import json,sys; v=json.load(sys.stdin); v.pop("configuration",None); print(json.dumps(v))' > "$expected_path"
+          "$PYTHON" "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/ci/release_build_artifact.py" \
+            validate --packages-dir packages --expected-json "$expected_path"
+
       - name: Setup MSVC environment (Windows only)
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && steps.reuse_validate.outcome != 'success'
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
         with:
           arch: x64
 
       - name: Initialize compiler and dependency cache environment
+        if: steps.reuse_validate.outcome != 'success'
         # Cache scope is intentionally segmented by runner OS + arch + compiler + vcpkg triplet
         # and manifest/config hash so Windows/Linux/ARM/Docker lanes cannot silently reuse each
         # other's VCPKG and compiler artifacts.
@@ -413,7 +463,7 @@ jobs:
 
       - name: Restore CMake build caches
         id: restore_cmake_cache
-        if: inputs.windows_dependency_mode != 'consume'
+        if: inputs.windows_dependency_mode != 'consume' && steps.reuse_validate.outcome != 'success'
         timeout-minutes: ${{ inputs.windows_dependency_mode != 'off' && 15 || 360 }}
         uses: actions/cache/restore@v5
         with:
@@ -427,7 +477,7 @@ jobs:
           enableCrossOsArchive: false
 
       - name: Download completed Windows dependency snapshot
-        if: inputs.windows_dependency_mode == 'consume'
+        if: inputs.windows_dependency_mode == 'consume' && steps.reuse_validate.outcome != 'success'
         timeout-minutes: 30
         uses: actions/download-artifact@v5
         with:
@@ -436,7 +486,7 @@ jobs:
           merge-multiple: true
 
       - name: Restore completed Windows dependency snapshot
-        if: inputs.windows_dependency_mode == 'consume'
+        if: inputs.windows_dependency_mode == 'consume' && steps.reuse_validate.outcome != 'success'
         shell: bash
         env:
           DEPENDENCY_CACHE_KEY: ${{ inputs.dependency_cache_key }}
@@ -455,13 +505,14 @@ jobs:
 
       - name: Record restored cache inventory
         id: cache_before
+        if: steps.reuse_validate.outcome != 'success'
         shell: bash
         run: |
           fingerprint="$(bash "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/cache-directory-fingerprint.sh" "$THEMIS_SCCACHE_DIR" "$THEMIS_VCPKG_DOWNLOADS_DIR" "$THEMIS_VCPKG_CACHE_DIR")"
           echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
 
       - name: Print initial cache hit state
-        if: inputs.windows_dependency_mode != 'consume'
+        if: inputs.windows_dependency_mode != 'consume' && steps.reuse_validate.outcome != 'success'
         shell: bash
         env:
           CACHE_HIT: ${{ steps.restore_cmake_cache.outputs.cache-hit }}
@@ -478,6 +529,7 @@ jobs:
           echo "dependency cache matched key: $CACHE_MATCHED_KEY"
 
       - name: Print vcpkg cache resolution
+        if: steps.reuse_validate.outcome != 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -489,7 +541,7 @@ jobs:
           du -sh "${VCPKG_DEFAULT_BINARY_CACHE}" "${VCPKG_DOWNLOADS}" 2>/dev/null || true
 
       - name: Configure sccache environment
-        if: inputs.enable_sccache_gha
+        if: steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha
         shell: bash
         run: |
           set -euo pipefail
@@ -500,12 +552,12 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Install sccache
-        if: inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
+        if: steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
         continue-on-error: true
         uses: mozilla-actions/sccache-action@v0.0.6
 
       - name: Setup
-        if: inputs.setup_command != ''
+        if: steps.reuse_validate.outcome != 'success' && inputs.setup_command != ''
         timeout-minutes: ${{ inputs.windows_dependency_mode != 'off' && 20 || 360 }}
         shell: bash
         env:
@@ -520,7 +572,7 @@ jobs:
           bash "$script_path"
 
       - name: Ensure Ninja binary is discoverable (Linux)
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && steps.reuse_validate.outcome != 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -564,6 +616,7 @@ jobs:
           echo "$ninja_dir" >> "$GITHUB_PATH"
 
       - name: Ensure vcpkg baseline commit is available
+        if: steps.reuse_validate.outcome != 'success'
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
@@ -599,6 +652,7 @@ jobs:
 
       - name: Resolve build line defaults
         id: resolve_mode
+        if: steps.reuse_validate.outcome != 'success'
         shell: bash
         env:
           BUILD_MODE: ${{ inputs.build_mode }}
@@ -695,7 +749,7 @@ jobs:
 
       - name: Restore CMake build directory cache
         id: restore_build_dir_cache
-        if: ${{ inputs.windows_dependency_mode == 'off' && steps.resolve_mode.outputs.resolved_build_dir != '' }}
+        if: ${{ steps.reuse_validate.outcome != 'success' && inputs.windows_dependency_mode == 'off' && steps.resolve_mode.outputs.resolved_build_dir != '' }}
         uses: actions/cache@v5
         with:
           path: |
@@ -713,7 +767,7 @@ jobs:
           enableCrossOsArchive: false
 
       - name: Ensure vcpkg archive cache is available when build caches miss
-        if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' && steps.restore_cmake_cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps.reuse_validate.outcome != 'success' && steps.restore_build_dir_cache.outputs.cache-hit != 'true' && steps.restore_cmake_cache.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -722,7 +776,7 @@ jobs:
 
       - name: Prepare Windows dependencies with bounded configure
         id: dependency_prepare
-        if: inputs.windows_dependency_mode == 'prepare'
+        if: inputs.windows_dependency_mode == 'prepare' && steps.reuse_validate.outcome != 'success'
         timeout-minutes: 305
         shell: bash
         env:
@@ -738,7 +792,7 @@ jobs:
 
       - name: Save dependency snapshot before ThemisDB compile
         id: dependency_save
-        if: ${{ !cancelled() && inputs.windows_dependency_mode == 'prepare' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure') }}
+        if: ${{ !cancelled() && steps.reuse_validate.outcome != 'success' && inputs.windows_dependency_mode == 'prepare' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure') }}
         continue-on-error: true
         timeout-minutes: 30
         uses: actions/cache/save@v5
@@ -751,7 +805,7 @@ jobs:
           enableCrossOsArchive: false
 
       - name: Archive completed Windows dependency snapshot
-        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success'
+        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success' && steps.reuse_validate.outcome != 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -782,7 +836,7 @@ jobs:
           echo "cache_key=${{ steps.restore_cmake_cache.outputs.cache-primary-key }}" >> "$GITHUB_OUTPUT"
 
       - name: Seed ARM64 Thrift source cache
-        if: runner.os == 'Linux' && runner.arch == 'ARM64' && inputs.vcpkg_triplet == 'arm64-linux' && inputs.windows_dependency_mode != 'prepare'
+        if: runner.os == 'Linux' && runner.arch == 'ARM64' && inputs.vcpkg_triplet == 'arm64-linux' && inputs.windows_dependency_mode != 'prepare' && steps.reuse_validate.outcome != 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -805,7 +859,7 @@ jobs:
 
       - name: Configure
         id: configure
-        if: inputs.windows_dependency_mode != 'prepare'
+        if: inputs.windows_dependency_mode != 'prepare' && steps.reuse_validate.outcome != 'success'
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
@@ -824,6 +878,8 @@ jobs:
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
           configure_attempt_log="$RUNNER_TEMP/cmake-build-configure-attempt.log"
           configure_started="$RUNNER_TEMP/cmake-build-configure-start"
+          configure_start_epoch="$(date +%s)"
+          echo "start_epoch=$configure_start_epoch" >> "$GITHUB_OUTPUT"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
           : > "$configure_output_log"
           touch "$configure_started"
@@ -877,17 +933,58 @@ jobs:
               set -e
             fi
           fi
+          echo "duration_seconds=$(( $(date +%s) - configure_start_epoch ))" >> "$GITHUB_OUTPUT"
           exit "$status"
 
+      - name: Report vcpkg package resolution metrics
+        id: vcpkg_metrics
+        if: ${{ always() && !cancelled() && steps.configure.outcome != 'skipped' && steps.reuse_validate.outcome != 'success' }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          CONFIGURE_START_EPOCH: ${{ steps.configure.outputs.start_epoch }}
+        run: |
+          set -euo pipefail
+          metrics="$(python3 - <<'PY'
+          import os
+          import re
+          import time
+          from pathlib import Path
+
+          log_path = Path(os.environ["RUNNER_TEMP"]) / "cmake-build-configure-output.log"
+          log_text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.is_file() else ""
+          restored = sum(
+              int(count)
+              for count in re.findall(r"Restored\s+(\d+)\s+package(?:\(s\)|s)", log_text, re.IGNORECASE)
+          )
+          start_epoch = float(os.environ.get("CONFIGURE_START_EPOCH") or time.time())
+          buildtrees = Path(os.environ["WORKING_DIRECTORY"]) / "vcpkg" / "buildtrees"
+          locally_built_ports = {
+              path.parent.name
+              for path in buildtrees.glob("*/*")
+              if path.is_file()
+              and path.stat().st_mtime >= start_epoch
+              and path.name.endswith(("-out.log", "-err.log"))
+              and path.parent.name != "detect_compiler"
+          }
+          print(f"vcpkg_restored_packages={restored}")
+          print(f"vcpkg_local_build_log_ports={len(locally_built_ports)}")
+          PY
+          )"
+          printf '%s\n' "$metrics" | tee -a "$GITHUB_OUTPUT"
+          while IFS= read -r metric; do
+            echo "vcpkg metric: $metric"
+          done <<< "$metrics"
+
       - name: Report Windows dependency cache reuse
-        if: ${{ !cancelled() && inputs.windows_dependency_mode != 'off' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure' || steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
+        if: ${{ !cancelled() && steps.reuse_validate.outcome != 'success' && inputs.windows_dependency_mode != 'off' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure' || steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
         shell: bash
         run: |
           python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --metrics-only --log "$RUNNER_TEMP/cmake-build-configure-output.log" --cache "$THEMIS_VCPKG_CACHE_DIR"
 
       - name: Build
         id: build
-        if: inputs.windows_dependency_mode != 'prepare'
+        if: inputs.windows_dependency_mode != 'prepare' && steps.reuse_validate.outcome != 'success'
         continue-on-error: ${{ inputs.build_continue_on_error }}
         shell: bash
         env:
@@ -899,6 +996,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "$WORKING_DIRECTORY"
+          build_start_epoch="$(date +%s)"
           script_path="$RUNNER_TEMP/cmake-build-build.sh"
           build_output_log="$RUNNER_TEMP/cmake-build-build-output.log"
           printf '%s\n' "$BUILD_COMMAND" > "$script_path"
@@ -927,11 +1025,30 @@ jobs:
             set -o pipefail
             set -e
           fi
+          echo "duration_seconds=$(( $(date +%s) - build_start_epoch ))" >> "$GITHUB_OUTPUT"
           exit "$status"
+
+      - name: Detect active compiler cache backend
+        id: cache_backend
+        if: ${{ always() && !cancelled() && steps.reuse_validate.outcome != 'success' }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          backend=unavailable
+          if command -v sccache >/dev/null 2>&1; then
+            stats="$(sccache --show-stats 2>&1 || true)"
+            backend="$(printf '%s\n' "$stats" | sed -nE 's/^[[:space:]]*Cache location:[[:space:]]*(.*)$/\1/p' | head -n 1)"
+            if [ -z "$backend" ]; then
+              backend=unknown
+            fi
+            printf '%s\n' "$stats"
+          fi
+          echo "backend=$backend" >> "$GITHUB_OUTPUT"
+          echo "Active compiler cache backend: $backend"
 
       - name: Record updated cache inventory
         id: cache_after
-        if: ${{ !cancelled() && inputs.windows_dependency_mode == 'off' && steps.cache_before.outcome == 'success' && (steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
+        if: ${{ !cancelled() && steps.reuse_validate.outcome != 'success' && inputs.windows_dependency_mode == 'off' && steps.cache_before.outcome == 'success' && (steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
         shell: bash
         run: |
           fingerprint="$(bash "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/cache-directory-fingerprint.sh" "$THEMIS_SCCACHE_DIR" "$THEMIS_VCPKG_DOWNLOADS_DIR" "$THEMIS_VCPKG_CACHE_DIR")"
@@ -950,7 +1067,7 @@ jobs:
 
       - name: Validation
         id: validation
-        if: inputs.windows_dependency_mode != 'prepare' && steps.resolve_mode.outputs.resolved_validation_command != ''
+        if: inputs.windows_dependency_mode != 'prepare' && steps.reuse_validate.outcome != 'success' && steps.resolve_mode.outputs.resolved_validation_command != ''
         continue-on-error: ${{ inputs.validation_continue_on_error }}
         shell: bash
         env:
@@ -959,6 +1076,7 @@ jobs:
           THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
           THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
+          validation_start_epoch="$(date +%s)"
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-validation.sh"
           printf '%s\n' "$VALIDATION_COMMAND" > "$script_path"
@@ -969,7 +1087,26 @@ jobs:
           VALIDATION_EXIT=${PIPESTATUS[0]}
           set -e
           echo "validation_exit=${VALIDATION_EXIT}" >> "$GITHUB_OUTPUT"
+          echo "duration_seconds=$(( $(date +%s) - validation_start_epoch ))" >> "$GITHUB_OUTPUT"
+          while IFS='=' read -r metric value; do
+            case "$metric" in
+              THEMIS_METRIC_CTEST_SECONDS) echo "ctest_duration_seconds=$value" >> "$GITHUB_OUTPUT" ;;
+              THEMIS_METRIC_PACKAGING_SECONDS) echo "packaging_duration_seconds=$value" >> "$GITHUB_OUTPUT" ;;
+            esac
+          done < <(grep -E '^THEMIS_METRIC_(CTEST|INSTALL|PACKAGING)_SECONDS=' "$LOG_FILE" || true)
           exit "$VALIDATION_EXIT"
+
+      - name: Write validated release package identity
+        if: inputs.release_manifest_json != '' && steps.reuse_validate.outcome != 'success'
+        shell: bash
+        env:
+          RELEASE_BUILD_MANIFEST: ${{ inputs.release_manifest_json }}
+        run: |
+          set -euo pipefail
+          identity_path="${RUNNER_TEMP}/release-build-identity.json"
+          printf '%s\n' "$RELEASE_BUILD_MANIFEST" > "$identity_path"
+          python3 "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/ci/release_build_artifact.py" \
+            create --packages-dir packages --identity-json "$identity_path"
 
       - name: Validate and summarize full CTest evidence
         if: always() && inputs.ctest_junit_path != ''
@@ -1024,9 +1161,24 @@ jobs:
             printf '%s\n' "### ${{ inputs.summary_title }}"
             printf '%s\n' ""
             printf '%s\n' "- Configure: ${{ steps.configure.outcome }}"
-            printf '%s\n' "- Build: ${{ steps.build.outcome }}"
+            if [ "${{ steps.reuse_validate.outcome }}" = "success" ]; then
+              printf '%s\n' "- Build: reused and identity-validated from Mainline run ${{ inputs.reuse_source_run_number }}"
+              printf '%s\n' "- Compiler cache backend: not applicable (no compilation)"
+            else
+              printf '%s\n' "- Build: ${{ steps.build.outcome }}"
+              printf '%s\n' "- Compiler cache backend: ${{ steps.cache_backend.outputs.backend || 'unavailable' }}"
+            fi
+            printf '%s\n' "- Configure duration (seconds): ${{ steps.configure.outputs.duration_seconds || 'unavailable' }}"
+            printf '%s\n' "- Compile duration (seconds): ${{ steps.build.outputs.duration_seconds || 'unavailable' }}"
             if [ -n "$VALIDATION_COMMAND" ]; then
               printf '%s\n' "- Validation: ${{ steps.validation.outcome }}"
+              printf '%s\n' "- Validation/package duration (seconds): ${{ steps.validation.outputs.duration_seconds || 'unavailable' }}"
+              printf '%s\n' "- CTest duration (seconds): ${{ steps.validation.outputs.ctest_duration_seconds || 'not reported' }}"
+              printf '%s\n' "- Packaging duration (seconds): ${{ steps.validation.outputs.packaging_duration_seconds || 'not reported' }}"
+            fi
+            if [ "${{ steps.vcpkg_metrics.outcome }}" = "success" ]; then
+              printf '%s\n' "- vcpkg packages restored (configure log): ${{ steps.vcpkg_metrics.outputs.vcpkg_restored_packages || '0' }}"
+              printf '%s\n' "- vcpkg ports with new local build logs: ${{ steps.vcpkg_metrics.outputs.vcpkg_local_build_log_ports || '0' }}"
             fi
             if [ -x "${SCCACHE_PATH:-}" ] || command -v sccache >/dev/null 2>&1; then
               printf '%s\n' "" "#### sccache stats" '```'
