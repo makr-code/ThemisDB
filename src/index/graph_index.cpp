@@ -2229,13 +2229,110 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 }
 
 std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
-GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view targetPk, int64_t timestamp_ms) const {
+GraphIndexManager::dijkstraAtTime(
+	std::string_view startPk,
+	std::string_view targetPk,
+	int64_t timestamp_ms
+) const {
+	return dijkstraAtTime(startPk, targetPk, timestamp_ms, -1);
+}
+
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstraAtTime(
+	std::string_view startPk,
+	std::string_view targetPk,
+	int64_t timestamp_ms,
+	int max_edge_count
+) const {
 	if (!db_.isOpen()) return {Status::Error("dijkstraAtTime: Datenbank ist nicht geöffnet"), {}};
 	if (startPk.empty() || targetPk.empty()) {
 		return {Status::Error("dijkstraAtTime: start/target dürfen nicht leer sein"), {}};
 	}
+	if (max_edge_count < -1) {
+		return {Status::Error("dijkstraAtTime: max_edge_count must be >= -1"), {}};
+	}
 
 	TemporalFilter filter = TemporalFilter::at(timestamp_ms);
+
+	if (max_edge_count >= 0) {
+		struct NodeState {
+			std::string node;
+			double cost = {};
+			int edge_count = 0;
+			std::vector<std::string> path;
+
+			bool operator>(const NodeState& other) const { return cost > other.cost; }
+		};
+
+		std::priority_queue<NodeState, std::vector<NodeState>, std::greater<NodeState>> pq;
+		std::unordered_map<std::string, std::unordered_map<int, double>> best_cost_by_depth;
+		NodeState start;
+		start.node = std::string(startPk);
+		start.path.push_back(start.node);
+		pq.push(std::move(start));
+		best_cost_by_depth[std::string(startPk)][0] = 0.0;
+
+		while (!pq.empty()) {
+			NodeState current = pq.top();
+			pq.pop();
+			const auto node_costs = best_cost_by_depth.find(current.node);
+			if (node_costs != best_cost_by_depth.end()) {
+				const auto depth_cost = node_costs->second.find(current.edge_count);
+				if (depth_cost != node_costs->second.end() && current.cost > depth_cost->second) {
+					continue;
+				}
+			}
+			if (current.node == targetPk) {
+				PathResult result;
+				result.path = std::move(current.path);
+				result.totalCost = current.cost;
+				return {Status::OK(), std::move(result)};
+			}
+			if (current.edge_count >= max_edge_count) {
+				continue;
+			}
+
+			auto [status, adjacency] = outAdjacency(current.node);
+			if (!status.ok) {
+				continue;
+			}
+			for (const auto& info : adjacency) {
+				const std::string edgeKey = KeySchema::makeGraphEdgeKey(info.edgeId);
+				auto blob = db_.get(edgeKey);
+				if (!blob) {
+					continue;
+				}
+				BaseEntity edge = BaseEntity::deserialize(info.edgeId, *blob);
+				const auto valid_from = edge.getFieldAsInt("valid_from");
+				const auto valid_to = edge.getFieldAsInt("valid_to");
+				if (!filter.isValid(valid_from, valid_to)) {
+					continue;
+				}
+
+				double weight = 1.0;
+				if (const auto edgeWeight = edge.getFieldAsDouble("_weight")) {
+					weight = *edgeWeight;
+				}
+				const int next_edge_count = current.edge_count + 1;
+				const double new_cost = current.cost + weight;
+				auto& depth_costs = best_cost_by_depth[info.targetPk];
+				const auto best_it = depth_costs.find(next_edge_count);
+				if (best_it != depth_costs.end() && new_cost >= best_it->second) {
+					continue;
+				}
+				depth_costs[next_edge_count] = new_cost;
+
+				NodeState next;
+				next.node = info.targetPk;
+				next.cost = new_cost;
+				next.edge_count = next_edge_count;
+				next.path = current.path;
+				next.path.push_back(info.targetPk);
+				pq.push(std::move(next));
+			}
+		}
+		return {Status::Error("dijkstraAtTime: Kein Pfad gefunden"), {}};
+	}
 	
 	std::unordered_map<std::string, double> dist;
 	std::unordered_map<std::string, std::string> prev;
@@ -2913,6 +3010,7 @@ GraphIndexManager::dijkstraWithConstraints(
 
 	std::priority_queue<NodeState, std::vector<NodeState>, std::greater<NodeState>> pq;
 	std::unordered_map<std::string, double> best_cost;
+	std::unordered_map<std::string, std::unordered_map<int, double>> best_cost_by_depth;
 
 	NodeState start;
 	start.node = std::string(startPk);
@@ -2921,7 +3019,11 @@ GraphIndexManager::dijkstraWithConstraints(
 	start.path.push_back(std::string(startPk));
 	
 	pq.push(std::move(start));
-	best_cost[std::string(startPk)] = 0.0;
+	if (constraints.max_edge_count >= 0) {
+		best_cost_by_depth[std::string(startPk)][0] = 0.0;
+	} else {
+		best_cost[std::string(startPk)] = 0.0;
+	}
 
 	/**
 	 * @brief Type Filter.
@@ -2968,9 +3070,19 @@ GraphIndexManager::dijkstraWithConstraints(
 		}
 
 		// Skip if we found a better path to this node already
-		auto it = best_cost.find(current.node);
-		if (it != best_cost.end() && current.cost > it->second) {
-			continue;
+		if (constraints.max_edge_count >= 0) {
+			const auto node_costs = best_cost_by_depth.find(current.node);
+			if (node_costs != best_cost_by_depth.end()) {
+				const auto depth_cost = node_costs->second.find(current.edge_count);
+				if (depth_cost != node_costs->second.end() && current.cost > depth_cost->second) {
+					continue;
+				}
+			}
+		} else {
+			const auto it = best_cost.find(current.node);
+			if (it != best_cost.end() && current.cost > it->second) {
+				continue;
+			}
 		}
 
 		// Check edge count constraints
@@ -3048,14 +3160,28 @@ GraphIndexManager::dijkstraWithConstraints(
 			double new_cost = current.cost + weight;
 
 			// Check if this is a better path
-			auto best_it = best_cost.find(adj.targetPk);
-			if (best_it == best_cost.end() || new_cost < best_it->second) {
-				best_cost[adj.targetPk] = new_cost;
+			const int next_edge_count = current.edge_count + 1;
+			bool is_better = false;
+			if (constraints.max_edge_count >= 0) {
+				auto& depth_costs = best_cost_by_depth[adj.targetPk];
+				const auto best_it = depth_costs.find(next_edge_count);
+				if (best_it == depth_costs.end() || new_cost < best_it->second) {
+					depth_costs[next_edge_count] = new_cost;
+					is_better = true;
+				}
+			} else {
+				const auto best_it = best_cost.find(adj.targetPk);
+				if (best_it == best_cost.end() || new_cost < best_it->second) {
+					best_cost[adj.targetPk] = new_cost;
+					is_better = true;
+				}
+			}
+			if (is_better) {
 
 				NodeState next;
 				next.node = adj.targetPk;
 				next.cost = new_cost;
-				next.edge_count = current.edge_count + 1;
+				next.edge_count = next_edge_count;
 				next.path = current.path;
 				next.path.push_back(adj.targetPk);
 				next.visited_edges = current.visited_edges;

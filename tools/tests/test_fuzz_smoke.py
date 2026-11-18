@@ -143,6 +143,13 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             corpus.mkdir(parents=True)
             seed = corpus / "seed_select.aql"
             seed.write_text("FOR doc IN docs RETURN doc\n", encoding="utf-8")
+            overflow_seed = corpus / "seed_traversal_depth_overflow.aql"
+            overflow_seed.write_text(
+                'FOR v IN 999999999999999999999999999999999999999999..'
+                '999999999999999999999999999999999999999999 OUTBOUND '
+                '"users/1" GRAPH "social" RETURN v\n',
+                encoding="utf-8",
+            )
 
             binary = (
                 temporary_root
@@ -166,6 +173,9 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             self.assertIn("OUTPUT aql_parser/seed_select.aql", results)
             self.assertIn("harness output captured", results)
             self.assertIn("PASS aql_parser/seed_select.aql", results)
+            self.assertIn(
+                "PASS aql_parser/seed_traversal_depth_overflow.aql", results
+            )
 
     def test_sanitizer_lane_has_narrow_pr_scope_and_tsan_targets(self):
         workflow = (ROOT / ".github/workflows/build-sanitizer-nightly.yml").read_text(encoding="utf-8")

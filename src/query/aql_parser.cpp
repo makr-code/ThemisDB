@@ -11,9 +11,11 @@
 
 #include "query/aql_parser.h"
 #include "utils/error_registry.h"
+#include <charconv>
 #include <cctype>
 #include <optional>
 #include <sstream>
+#include <string_view>
 #include <algorithm>
 #include <stdexcept>
 #include <fmt/format.h>
@@ -1159,21 +1161,31 @@ private:
             // Parse min..max
             // PA-2 fix: enforce an upper bound on graph traversal depth to prevent
             // BFS/DFS from being triggered with values like INT_MAX.
-            static constexpr int kMaxTraversalDepth = 1000;
+            static constexpr int kMaxTraversalDepth = 100;
 
-            int minDepth = {};
-            try {
-                minDepth = std::stoi(current().value);
-            } catch (const std::out_of_range&) {
-                throw std::runtime_error(
-                    "Graph traversal min depth '" + current().value + "' is out of integer range");
-            } catch (const std::invalid_argument&) {
-                throw std::runtime_error(
-                    "Graph traversal min depth '" + current().value + "' is not a valid integer");
-            }
-            if (minDepth < 0) {
-                throw std::runtime_error("Graph traversal min depth must be >= 0");
-            }
+            const auto parseDepth = [this](std::string_view label) {
+                const auto& token = current().value;
+                int depth = 0;
+                const auto [end, error] =
+                    std::from_chars(token.data(), token.data() + token.size(), depth);
+                if (error != std::errc{} || end != token.data() + token.size()) {
+                    throw std::runtime_error(
+                        "Graph traversal " + std::string(label) + " depth is out of integer range");
+                }
+                if (depth < 0) {
+                    throw std::runtime_error(
+                        "Graph traversal " + std::string(label) + " depth must be >= 0");
+                }
+                if (depth > kMaxTraversalDepth) {
+                    throw std::runtime_error(
+                        "Graph traversal " + std::string(label) + " depth " +
+                        std::to_string(depth) + " exceeds limit " +
+                        std::to_string(kMaxTraversalDepth));
+                }
+                return depth;
+            };
+
+            const int minDepth = parseDepth("min");
             advance();
             // Expect '..' as two DOT tokens
             if (!match(TokenType::DOT) || peek().type != TokenType::DOT) {
@@ -1184,21 +1196,7 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth = {};
-            try {
-                maxDepth = std::stoi(current().value);
-            } catch (const std::out_of_range&) {
-                throw std::runtime_error(
-                    "Graph traversal max depth '" + current().value + "' is out of integer range");
-            } catch (const std::invalid_argument&) {
-                throw std::runtime_error(
-                    "Graph traversal max depth '" + current().value + "' is not a valid integer");
-            }
-            if (maxDepth > kMaxTraversalDepth) {
-                throw std::runtime_error(
-                    "Graph traversal max depth " + std::to_string(maxDepth) +
-                    " exceeds limit " + std::to_string(kMaxTraversalDepth));
-            }
+            const int maxDepth = parseDepth("max");
             advance();
 
             // Direction

@@ -18,7 +18,7 @@ TARGET_CORPORA = {
     "postgres_importer": "importer",
 }
 REQUIRED_SEEDS = {
-    "aql_parser": {"seed_select.aql"},
+    "aql_parser": {"seed_select.aql", "seed_traversal_depth_overflow.aql"},
     "http_parser": {"seed_get.http"},
     "wire_protocol_parser": {
         "seed_invalid_magic.bin",
