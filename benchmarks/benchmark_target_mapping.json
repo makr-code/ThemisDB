@@ -629,7 +629,7 @@
         "notes": "CommitLatency/100 (100-op transaction) measures high-percentile commit latency directly."
       },
       "TX-3": {
-        "label": "2PC Throughput",
+        "label": "Write-only transaction throughput (single thread)",
         "primary_benchmark": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "fallback_case": "BM_TransactionContention",
@@ -637,7 +637,7 @@
         "status": "mapped",
         "slo_target": "> 6 k/s",
         "measured_v134": "6.4 k/s",
-        "notes": "WriteOnlyTransaction (10 writes, 4 threads) measures commit throughput; tps counter reports k/s directly."
+        "notes": "WriteOnlyTransaction runs with one thread and performs ten entity writes per committed transaction. items_per_second and the tps counter both represent committed transactions per second."
       },
       "TX-4": {
         "label": "2PC Latenz (5 Shards)",

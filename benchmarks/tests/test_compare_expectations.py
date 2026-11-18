@@ -244,6 +244,33 @@ class ComparatorHardeningTests(unittest.TestCase):
         result.items_per_second = None
         self.assertEqual(self.verdict(text, {"BM_Read": result}).status, "UNCHECKED")
 
+    def test_transaction_write_throughput_is_measured_in_committed_transactions(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx3 = next(expectation for expectation in expectations if expectation.target_id == "TX-3")
+
+        self.assertIn("one item is one committed transaction", tx3.expectation_text)
+        self.assertEqual(tx3.constraint_unit, "k/s")
+        self.assertEqual(
+            self.verdict(tx3.expectation_text, {
+                tx3.benchmark_cases[0]: BenchmarkResult(
+                    tx3.benchmark_cases[0], items_per_second=7_000,
+                )
+            }, tx3.benchmark_cases).status,
+            "PASS",
+        )
+        self.assertEqual(
+            self.verdict(tx3.expectation_text, {
+                tx3.benchmark_cases[0]: BenchmarkResult(
+                    tx3.benchmark_cases[0], items_per_second=5_000,
+                )
+            }, tx3.benchmark_cases).status,
+            "FAIL",
+        )
+
     def test_invalid_empty_failed_files_and_unsupported_units_are_diagnosed(self):
         with workspace() as root:
             for name, content in (

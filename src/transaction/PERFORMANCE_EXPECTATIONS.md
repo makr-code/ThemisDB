@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -37,7 +37,7 @@ versehentlich Geschwisterfälle mit anderen Größen.
 |---|---|---|
 | TX-1 | <= 100 us | `TransactionBenchmarkFixture/CommitLatency/1` |
 | TX-2 | <= 5 ms | `TransactionBenchmarkFixture/CommitLatency/100` |
-| TX-3 | > 6 k/s | `TransactionBenchmarkFixture/WriteOnlyTransaction` |
+| TX-3 | > 6 k/s (items_per_second = ops/s; one item is one committed transaction) | `TransactionBenchmarkFixture/WriteOnlyTransaction` |
 | TX-4 | <= 5 ms | `TransactionBenchmarkFixture/MixedTransaction` |
 | TX-5 | <= 20 ms | `SagaBenchmarkFixture/DatabaseWriteCompensation` |
 | TX-6 | <= 1 % overhead (vs. 5 % baseline) | `DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict` |
