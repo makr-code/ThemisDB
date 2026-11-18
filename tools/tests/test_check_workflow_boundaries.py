@@ -428,6 +428,7 @@ def test_sanitizer_gates_use_supported_ubuntu_runner():
         (workflows / "build-sanitizer-nightly.yml").read_text(encoding="utf-8")
     )
     assert sanitizer["jobs"]["sanitizer-build"]["with"]["runs_on"] == "ubuntu-24.04"
+    assert sanitizer["jobs"]["sanitizer-build"]["with"]["timeout_minutes"] == "90"
     assert sanitizer["jobs"]["tsan-build"]["with"]["runs_on"] == "ubuntu-24.04"
 
 
