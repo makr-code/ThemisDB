@@ -560,6 +560,33 @@ option(THEMIS_ALLOW_MISSING_ROCKSDB
     "Allow CMake configure to continue without a detected RocksDB install (build of RocksDB-dependent targets may fail)."
     OFF
 )
+# Some system RocksDB package configs reference lz4::lz4 in their imported
+# target interface. Resolve that dependency before loading the RocksDB config.
+find_package(lz4 CONFIG QUIET)
+if(NOT TARGET lz4::lz4)
+    if(TARGET LZ4::lz4_shared)
+        add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+        set_property(TARGET lz4::lz4 PROPERTY
+            INTERFACE_LINK_LIBRARIES LZ4::lz4_shared
+        )
+    elseif(TARGET LZ4::lz4_static)
+        add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+        set_property(TARGET lz4::lz4 PROPERTY
+            INTERFACE_LINK_LIBRARIES LZ4::lz4_static
+        )
+    else()
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(_THEMIS_LZ4 QUIET IMPORTED_TARGET GLOBAL liblz4)
+            if(_THEMIS_LZ4_FOUND)
+                add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+                set_property(TARGET lz4::lz4 PROPERTY
+                    INTERFACE_LINK_LIBRARIES PkgConfig::_THEMIS_LZ4
+                )
+            endif()
+        endif()
+    endif()
+endif()
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
    message(STATUS "RocksDB found via CONFIG")
@@ -813,11 +840,12 @@ if(POLICY CMP0167)
 endif()
 
 set(_themis_boost_mode "")
-set(Boost_FOUND FALSE)
-find_package(Boost 1.70 CONFIG QUIET COMPONENTS filesystem)
-if(Boost_FOUND AND TARGET Boost::filesystem AND
-   (TARGET Boost::headers OR TARGET Boost::boost))
-    set(_themis_boost_mode "CONFIG")
+if(CMAKE_TOOLCHAIN_FILE)
+    set(Boost_FOUND FALSE)
+    find_package(Boost 1.70 CONFIG QUIET COMPONENTS filesystem)
+    if(Boost_FOUND AND TARGET Boost::filesystem)
+        set(_themis_boost_mode "CONFIG")
+    endif()
 endif()
 
 if(NOT _themis_boost_mode)
@@ -833,23 +861,39 @@ if(NOT _themis_boost_mode)
     endif()
     set(Boost_FOUND FALSE)
     set(Boost_NO_BOOST_CMAKE ON)
-    find_package(Boost 1.70 MODULE QUIET COMPONENTS system filesystem)
+    find_package(Boost 1.70 MODULE QUIET COMPONENTS filesystem)
     if(_themis_boost_no_config_was_defined)
         set(Boost_NO_BOOST_CMAKE "${_themis_saved_boost_no_config}")
     else()
         unset(Boost_NO_BOOST_CMAKE)
     endif()
     cmake_policy(POP)
-    if(Boost_FOUND AND TARGET Boost::system AND TARGET Boost::filesystem)
+    if(Boost_FOUND AND TARGET Boost::filesystem)
         set(_themis_boost_mode "MODULE")
     endif()
 endif()
 
 if(_themis_boost_mode)
+    set(_themis_boost_system_header_only FALSE)
+    if(NOT TARGET Boost::headers AND TARGET Boost::boost)
+        add_library(Boost::headers ALIAS Boost::boost)
+    endif()
+    # Boost.System has been header-only since Boost 1.69. Recent distro
+    # packages therefore omit Boost::system even though Boost headers are valid.
+    if(NOT TARGET Boost::system AND TARGET Boost::headers)
+        add_library(Boost::system INTERFACE IMPORTED GLOBAL)
+        set_property(TARGET Boost::system PROPERTY
+            INTERFACE_LINK_LIBRARIES Boost::headers)
+        set(_themis_boost_system_header_only TRUE)
+    endif()
+
     if(_themis_boost_mode STREQUAL "CONFIG")
         message(STATUS "Boost found via CONFIG: ${Boost_VERSION} (Boost_DIR=${Boost_DIR})")
     else()
         message(STATUS "Boost found via MODULE: ${Boost_VERSION}")
+    endif()
+    if(_themis_boost_system_header_only)
+        message(STATUS "Boost.System uses its header-only implementation")
     endif()
 else()
     message(FATAL_ERROR "Boost (>=1.70) not found. Ensure vcpkg is installed and the triplet matches the build (VCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}), or install system packages such as libboost-filesystem-dev and libboost-system-dev")

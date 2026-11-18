@@ -39,11 +39,13 @@ TEST(OLAPLRUCache, CacheHitOnRepeatedQuery) {
     OLAPResult r1 = engine.execute(q);
     OLAPResult r2 = engine.execute(q);
 
-    // Both results must be structurally identical
+    // An unknown collection returns the requested schema with no data rows.
+    EXPECT_EQ(r1.columns, (std::vector<std::string>{"region", "total"}));
     EXPECT_EQ(r1.columns, r2.columns);
-    EXPECT_EQ(r1.rows.size(), r2.rows.size());
-    // The second call must be at least as fast (cache hit — no re-execution cost)
-    // We just assert it did not throw and returned coherent data.
+    EXPECT_TRUE(r1.rows.empty());
+    EXPECT_TRUE(r2.rows.empty());
+    EXPECT_EQ(r1.total_rows, 0);
+    EXPECT_EQ(r2.total_rows, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -68,13 +70,16 @@ TEST(OLAPLRUCache, LRUEvictionOnCapacityOverflow) {
     // Insert a 4th query — should evict col_2 (LRU)
     engine.execute(makeSimpleQuery("col_3"));
 
-    // col_0 and col_1 were recently accessed; executing them again should hit cache
-    // (i.e., execution_time_ms from cache should be smaller than a fresh query — we
-    // simply verify they do not throw and return valid results here)
+    // Recently accessed entries remain queryable after the capacity overflow.
     OLAPResult r0 = engine.execute(makeSimpleQuery("col_0"));
     OLAPResult r1 = engine.execute(makeSimpleQuery("col_1"));
-    EXPECT_TRUE(r0.columns.empty() || !r0.columns.empty());  // valid result
-    EXPECT_TRUE(r1.columns.empty() || !r1.columns.empty());
+    const std::vector<std::string> expected_columns{"region", "total"};
+    EXPECT_EQ(r0.columns, expected_columns);
+    EXPECT_EQ(r1.columns, expected_columns);
+    EXPECT_TRUE(r0.rows.empty());
+    EXPECT_TRUE(r1.rows.empty());
+    EXPECT_EQ(r0.total_rows, 0);
+    EXPECT_EQ(r1.total_rows, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -92,9 +97,11 @@ TEST(OLAPLRUCache, TTLExpiryEvictsOnAccess) {
     // Wait for TTL to expire
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    // Should re-execute (cache miss due to TTL) without throwing
+    // The expired result is recomputed with the same empty-collection contract.
     OLAPResult r = engine.execute(q);
-    EXPECT_TRUE(r.columns.empty() || !r.columns.empty());
+    EXPECT_EQ(r.columns, (std::vector<std::string>{"region", "total"}));
+    EXPECT_TRUE(r.rows.empty());
+    EXPECT_EQ(r.total_rows, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -201,9 +208,11 @@ TEST(OLAPLRUCache, BackgroundCleanupEvictsExpiredEntries) {
     // Wait long enough for both TTL and the cleanup thread to run
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-    // A fresh execute must succeed (no stale data returned, no crash)
+    // Cleanup must leave the expired key executable with its expected result.
     OLAPResult r = engine.execute(q);
-    EXPECT_TRUE(r.columns.empty() || !r.columns.empty());
+    EXPECT_EQ(r.columns, (std::vector<std::string>{"region", "total"}));
+    EXPECT_TRUE(r.rows.empty());
+    EXPECT_EQ(r.total_rows, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -333,14 +342,16 @@ TEST(OLAPLRUCache, BoundedMemoryGrowthUnder10kUniqueQueries_Functional) {
     cfg.result_cache_ttl_ms      = 60'000;
     OLAPEngine engine(cfg);
 
+    OLAPResult last_result;
     for (int i = 0; i < kTotalQueries; ++i) {
-        OLAPResult r = engine.execute(makeSimpleQuery("col_" + std::to_string(i)));
-        ASSERT_GE(r.execution_time_ms, 0.0)
+        last_result = engine.execute(makeSimpleQuery("col_" + std::to_string(i)));
+        ASSERT_GE(last_result.execution_time_ms, 0.0)
             << "Unexpected failure at query " << i;
     }
 
-    // If we reach here without OOM or exception the cache is functionally bounded.
-    SUCCEED();
+    const auto repeated_result = engine.execute(makeSimpleQuery("col_9999"));
+    EXPECT_EQ(repeated_result.columns, last_result.columns);
+    EXPECT_EQ(repeated_result.total_rows, last_result.total_rows);
 }
 
 #endif  // defined(__linux__)

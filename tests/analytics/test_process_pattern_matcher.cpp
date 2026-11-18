@@ -71,6 +71,17 @@ protected:
             GTEST_SKIP() << "Could not open test RocksDB at " << db_path_.string();
         }
         matcher_ = std::make_unique<ProcessPatternMatcher>(*db_);
+
+        using FM = BaseEntity::FieldMap;
+        const std::vector<std::string> activities = {"A", "B", "C"};
+        for (std::size_t i = 0; i < activities.size(); ++i) {
+            const auto id = "lcs-" + std::to_string(i);
+            BaseEntity event(id, FM{{"case_id", "lcs-case"},
+                                    {"activity", activities[i]},
+                                    {"timestamp", static_cast<int64_t>(i + 1)}});
+            const auto blob = event.serialize();
+            db_->put("events:" + event.getPrimaryKey(), {blob.begin(), blob.end()});
+        }
     }
 
     void TearDown() override {
@@ -142,30 +153,28 @@ protected:
 // ============================================================================
 
 TEST_F(ProcessPatternMatcherAlgoTest, LCS_IdenticalSequences) {
-    std::vector<std::string> a = {"A", "B", "C"};
-    std::vector<std::string> b = {"A", "B", "C"};
-    // Access via computeBehavioralSimilarity which uses LCS internally
-    // We can test indirectly, but since LCS is private we use a proxy test
-    // via the vector similarity (which calls embedActivities).
-    // Direct test: identical pattern → behavioral similarity = 1.0
-    auto pat = makePattern("p", a);
-    ProcessEvent ev1, ev2, ev3;
-    ev1.activity = "A"; ev1.case_id = "x"; ev1.timestamp_ms = 1;
-    ev2.activity = "B"; ev2.case_id = "x"; ev2.timestamp_ms = 2;
-    ev3.activity = "C"; ev3.case_id = "x"; ev3.timestamp_ms = 3;
-    ProcessTrace trace;
-    trace.case_id = "x";
-    trace.events  = {ev1, ev2, ev3};
-    // We can't call the private method directly, so we verify through a
-    // high-level property: identical activities → LCS == length.
-    // We will test via the public methods in the DB fixture.
-    SUCCEED();
+    PatternMatchConfig config;
+    config.method = SimilarityMethod::BEHAVIORAL;
+    config.use_cache = false;
+    const auto [status, results] =
+        matcher_->findSimilar(makePattern("identical", {"A", "B", "C"}), config);
+
+    ASSERT_TRUE(status.ok()) << status.message;
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(results.front().metrics.path_similarity, 1.0);
+    EXPECT_DOUBLE_EQ(results.front().overall_similarity, 1.0);
 }
 
-TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptySequences) {
-    // Nothing to assert about private method without invoking it;
-    // presence test only (compilation guard).
-    SUCCEED();
+TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptyPatternAgainstNonemptyTrace) {
+    PatternMatchConfig config;
+    config.method = SimilarityMethod::BEHAVIORAL;
+    config.use_cache = false;
+    const auto [status, results] = matcher_->findSimilar(makePattern("empty", {}), config);
+
+    ASSERT_TRUE(status.ok()) << status.message;
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(results.front().overall_similarity, 0.0);
+    EXPECT_DOUBLE_EQ(results.front().metrics.path_similarity, 0.0);
 }
 
 // ============================================================================
@@ -173,16 +182,27 @@ TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptySequences) {
 // ============================================================================
 
 TEST_F(ProcessPatternMatcherAlgoTest, EmbedActivitiesNonEmpty) {
-    // We can access embedActivities only from within the class; verify by
-    // using computeVectorSimilarity indirectly via identical patterns.
-    // Pattern with activities → non-zero embedding is implied when
-    // self-similarity == 1.0.
-    SUCCEED();
+    PatternMatchConfig config;
+    config.method = SimilarityMethod::VECTOR;
+    config.use_cache = false;
+    const auto [status, results] =
+        matcher_->findSimilar(makePattern("embedded", {"A", "B", "C"}), config);
+
+    ASSERT_TRUE(status.ok()) << status.message;
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_GT(results.front().metrics.vector_similarity, 0.0);
 }
 
 TEST_F(ProcessPatternMatcherAlgoTest, CosineSimilarity_Identical) {
-    // Again private, but verifiable via vector similarity == 1.0 for same acts.
-    SUCCEED();
+    PatternMatchConfig config;
+    config.method = SimilarityMethod::VECTOR;
+    config.use_cache = false;
+    const auto [status, results] =
+        matcher_->findSimilar(makePattern("cosine", {"A", "B", "C"}), config);
+
+    ASSERT_TRUE(status.ok()) << status.message;
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(results.front().metrics.vector_similarity, 1.0);
 }
 
 // ============================================================================

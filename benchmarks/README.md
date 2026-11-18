@@ -205,6 +205,25 @@ ctest --preset vscode-windows-benchmark-smokes --output-on-failure
 
 Der Testpreset ist vom normalen Unit-Test-Preset getrennt und verwendet kein CTest-Dashboard-`-T test`. Er führt die Google-Benchmark-Smokes seriell aus; danach erzeugt `compare_expectations.py` den Report `benchmark_comparison_report.md`. Roh-JSON-Dateien und Reports liegen in `build/windows-bench-release/bench_results/current/`, vorherige Ergebnisse in `bench_results/archive/`.
 
+Das Laufmanifest `bench_results/current/manifest` ist JSON und hält für jeden
+erfassten CTest-Eintrag den Registrierungs-, Ausführungs- und JSON-Status sowie
+beobachtete Benchmarkfälle fest. Die Zuordnung zu Erwartungsfällen wird nur
+auf Basis beobachteter Namen vorgenommen; ohne Zuordnung bleibt die Ursache
+unbekannt. Registrierungen, deren Aufruf bereits durch eine CMake-Bedingung
+übersprungen wird, sind nicht im Inventar enthalten. Ein unterbrochener Lauf
+kann eine `current.lease` hinterlassen: Erst nach Prüfung, dass der zugehörige
+CTest-Prozess nicht mehr läuft, darf diese entfernt werden.
+
+Der Comparator wertet nur passende, nutzbare Messwerte aus. Qualitative oder
+baseline-relative Ziele ohne Vergleichsgrundlage und nicht verfügbare
+Perzentile bleiben `UNCHECKED`; ein fehlendes Ergebnis ist kein Nachweis,
+dass ein Benchmark nicht gebaut wurde. Ein PASS belegt nur den jeweils
+verglichenen Messpfad, nicht automatisch dessen Produktionsnähe.
+Mit `--strict-completeness` meldet der Comparator unvollständige Auswertungen
+mit Exitcode 2; ein nachgewiesener Grenzwertverstoß ergibt Exitcode 1.
+Ohne diese Option bleiben unvollständige Ergebnisse für bestehende lokale
+Aufrufer im Bericht sichtbar, ändern aber nicht den Exitcode.
+
 ## Kompatibilitaetsmatrix (Cleanup-Transition)
 
 | Altpfad | Neupfad | Status |

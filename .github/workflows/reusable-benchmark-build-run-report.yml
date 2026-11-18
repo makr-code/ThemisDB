@@ -351,6 +351,7 @@ jobs:
             --src-dir src \
             --results-dir benchmark-artifacts/results \
             --output benchmark-artifacts/comparison_report.md \
+            --strict-completeness \
             --run-id "${{ github.run_id }}" \
             --sha "${{ github.sha }}" \
             --repo "${{ github.repository }}"
@@ -358,6 +359,8 @@ jobs:
           echo "compare_exit=${COMPARE_EXIT}" >> "$GITHUB_ENV"
           if [[ ${COMPARE_EXIT} -eq 0 ]]; then
             echo "COMPARE_STATUS=PASS" >> "$GITHUB_ENV"
+          elif [[ ${COMPARE_EXIT} -eq 2 ]]; then
+            echo "COMPARE_STATUS=INCOMPLETE" >> "$GITHUB_ENV"
           else
             echo "COMPARE_STATUS=FAIL" >> "$GITHUB_ENV"
           fi

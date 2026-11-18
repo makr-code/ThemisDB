@@ -85,6 +85,78 @@ jobs:
       - name: Generate per-module test-quality inventory
         run: |
           ctest --test-dir build --show-only=json-v1 > build/ctest-tests.json
+          python3 - <<'PY'
+          import collections
+          import json
+          import re
+          from pathlib import Path
+
+          test_sources = sorted(Path("tests/analytics").glob("test_*.cpp"))
+          expected = sorted(
+              f"{path.stem}_AnalyticsFocusedTests" for path in test_sources
+          )
+          tests = json.loads(Path("build/ctest-tests.json").read_text(encoding="utf-8"))["tests"]
+          registered = [
+              test["name"] for test in tests
+              if test["name"].endswith("_AnalyticsFocusedTests")
+          ]
+          counts = collections.Counter(registered)
+          duplicates = sorted(name for name, count in counts.items() if count != 1)
+          missing = sorted(set(expected) - set(registered))
+          unexpected = sorted(set(registered) - set(expected))
+          evidence = {
+              "expected": expected,
+              "registered": registered,
+              "duplicates": duplicates,
+              "missing": missing,
+              "unexpected": unexpected,
+          }
+          Path("build/analytics-test-registration.json").write_text(
+              json.dumps(evidence, indent=2) + "\n", encoding="utf-8"
+          )
+          patterns = {
+              "EXPECT_TRUE(true)": re.compile(r"^\s*EXPECT_TRUE\s*\(\s*true\s*\)\s*;\s*(?://.*)?$"),
+              "SUCCEED": re.compile(r"^\s*SUCCEED\s*\(\s*\)\s*;\s*(?://.*)?$"),
+              "tautological empty-state assertion": re.compile(
+                  r"^\s*(?:EXPECT_TRUE|ASSERT_TRUE)\s*\(\s*"
+                  r"(?P<value>\w+(?:\.\w+)*\.empty\(\))\s*\|\|\s*"
+                  r"!(?P=value)\s*\)\s*;\s*(?://.*)?$"
+              ),
+          }
+          after = {}
+          for source in test_sources:
+              counts = {name: 0 for name in patterns}
+              for line in source.read_text(encoding="utf-8").splitlines():
+                  for name, pattern in patterns.items():
+                      counts[name] += bool(pattern.match(line))
+              after[source.as_posix()] = counts
+          assertion_inventory = {
+              "baseline": {
+                  "source": "Deep-Dive-Audit TST-02 (2026-10-31)",
+                  "trivial_assertion_total": 90,
+                  "by_file": {
+                      "tests/analytics/test_analytics_gap_closure.cpp": 84,
+                      "tests/analytics/test_process_pattern_matcher.cpp": 4,
+                      "tests/analytics/test_olap_lru_cache.cpp": 1,
+                      "tests/analytics/test_analytics_phase2_a2_connection_safety.cpp": 1,
+                  },
+              },
+              "current": {
+                  "trivial_assertion_total": sum(sum(counts.values()) for counts in after.values()),
+                  "by_file": after,
+              },
+          }
+          Path("build/analytics-assertion-inventory.json").write_text(
+              json.dumps(assertion_inventory, indent=2) + "\n", encoding="utf-8"
+          )
+          if assertion_inventory["current"]["trivial_assertion_total"] != 0:
+              raise SystemExit(f"Vacuous analytics assertions remain: {json.dumps(after)}")
+          if duplicates or missing or unexpected:
+              raise SystemExit(
+                  f"Analytics test registration mismatch: {json.dumps(evidence)}"
+              )
+          print(f"Verified {len(expected)} analytics test files are registered exactly once.")
+          PY
           python3 tools/ci/test_quality_inventory.py \
             --root . \
             --compile-commands build/compile_commands.json \
@@ -108,9 +180,18 @@ jobs:
           cmake --build build --parallel 8 --config Debug
           echo "✓ Build complete with coverage flags"
       
+      - name: Run analytics focused tests
+        id: analytics_focus_tests
+        run: |
+          set -o pipefail
+          ctest --test-dir build \
+            --tests-regex "_AnalyticsFocusedTests$" \
+            -v --output-on-failure \
+            --timeout 120 2>&1 | tee build/analytics-focused-tests.log
+          echo "status=success" >> "$GITHUB_OUTPUT"
+
       - name: Run focused tests (Tier A priority)
         id: focused_tests
-        continue-on-error: true
         run: |
           set -o pipefail
           ctest --test-dir build \
@@ -121,7 +202,6 @@ jobs:
       
       - name: Run release-critical tests (Tier A subset)
         id: critical_tests
-        continue-on-error: true
         run: |
           set -o pipefail
           ctest --test-dir build \
@@ -148,6 +228,98 @@ jobs:
           
           echo "Coverage report summary:"
           lcov --summary coverage.lcov | head -20
+
+      - name: Generate and enforce analytics coverage evidence
+        if: steps.collect_coverage.outcome == 'success'
+        run: |
+          lcov --extract coverage.lcov '*/src/analytics/*' \
+            --branch-coverage \
+            --output-file analytics-coverage.lcov
+          python3 scripts/generate_coverage_baseline.py analytics-coverage.lcov \
+            --output analytics-coverage-baseline.txt \
+            --json analytics-coverage.json
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          line_target = 70.0
+          branch_target = 60.0
+          critical_paths = [
+              "src/analytics/aggregation.cpp",
+              "src/analytics/cep_engine.cpp",
+              "src/analytics/columnar_execution.cpp",
+              "src/analytics/forecasting.cpp",
+              "src/analytics/process_mining.cpp",
+          ]
+          report = json.loads(Path("analytics-coverage.json").read_text(encoding="utf-8"))
+          module = report.get("modules", {}).get("analytics")
+          if not module:
+              raise SystemExit("No src/analytics coverage records were generated")
+
+          records = {}
+          current_path = None
+          for raw_line in Path("analytics-coverage.lcov").read_text(encoding="utf-8").splitlines():
+              if raw_line.startswith("SF:"):
+                  current_path = raw_line[3:].replace("\\", "/")
+                  records[current_path] = {"lines": [], "branches": []}
+              elif current_path and raw_line.startswith("DA:"):
+                  _, hits = raw_line[3:].split(",")[:2]
+                  records[current_path]["lines"].append(int(hits) > 0)
+              elif current_path and raw_line.startswith("BRDA:"):
+                  taken = raw_line.split(":")[1].split(",")[3]
+                  if taken != "-":
+                      records[current_path]["branches"].append(int(taken) > 0)
+              elif raw_line == "end_of_record":
+                  current_path = None
+
+          def measure(path):
+              record = next(
+                  (item for source, item in records.items()
+                   if source.endswith("/" + path) or source == path),
+                  {"lines": [], "branches": []},
+              )
+              line_total = len(record["lines"])
+              branch_total = len(record["branches"])
+              line_covered = sum(record["lines"])
+              branch_covered = sum(record["branches"])
+              return {
+                  "lines_covered": line_covered,
+                  "lines_total": line_total,
+                  "line_percent": round(100.0 * line_covered / line_total, 1) if line_total else 0.0,
+                  "branches_covered": branch_covered,
+                  "branches_total": branch_total,
+                  "branch_percent": (
+                      round(100.0 * branch_covered / branch_total, 1) if branch_total else 0.0
+                  ),
+              }
+
+          measurements = {path: measure(path) for path in critical_paths}
+          failures = [
+              path for path, data in measurements.items()
+              if data["line_percent"] < line_target or data["branch_percent"] < branch_target
+          ]
+          module_meets = (
+              module["coverage_percent"] >= line_target
+              and module["branch_coverage_percent"] >= branch_target
+          )
+          evidence = {
+              "source_commit": os.environ["GITHUB_SHA"],
+              "source_ref": os.environ["GITHUB_REF"],
+              "thresholds": {"line_percent": line_target, "branch_percent": branch_target},
+              "module": module,
+              "release_critical_paths": measurements,
+              "status": "meets_target" if module_meets and not failures else "below_target",
+              "under_target_paths": failures,
+              "exception_policy": "No exception is accepted without evidence and a named owner.",
+          }
+          Path("analytics-coverage-evidence.json").write_text(
+              json.dumps(evidence, indent=2) + "\n", encoding="utf-8"
+          )
+          print(json.dumps(evidence, indent=2))
+          if not module_meets or failures:
+              raise SystemExit("Analytics line/branch coverage thresholds were not met")
+          PY
 
       - name: Generate GPU module coverage evidence
         if: steps.collect_coverage.outcome == 'success'
@@ -380,6 +552,7 @@ jobs:
           echo "✓ HTML report generated"
       
       - name: Upload coverage artifacts
+        if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: coverage-report-${{ github.run_id }}
@@ -388,6 +561,12 @@ jobs:
             .github/coverage-baseline-latest.*
             build/test-quality-inventory-with-coverage.json
             coverage.lcov
+            analytics-coverage.lcov
+            analytics-coverage-baseline.txt
+            analytics-coverage.json
+            analytics-coverage-evidence.json
+            build/analytics-test-registration.json
+            build/analytics-assertion-inventory.json
             gpu-coverage.lcov
             gpu-coverage-baseline.txt
             gpu-coverage.json
@@ -399,12 +578,13 @@ jobs:
             gpu-release-critical-coverage-report/
             coverage-delta.json
             build/focused-tests.log
+            build/analytics-focused-tests.log
             build/release-critical-tests.log
           retention-days: 30
           if-no-files-found: warn
 
       - name: Fail workflow when required tests fail
-        if: always() && (steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
+        if: always() && (steps.analytics_focus_tests.outcome == 'failure' || steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
         run: |
           echo "::error::Focused or release-critical coverage tests failed; see their logs and the uploaded coverage artifacts."
           exit 1
@@ -496,6 +676,7 @@ jobs:
             echo "|------|--------|"
             echo "| Build | \`${BUILD_OUTCOME:-not run}\` |"
             echo "| Focused tests | \`${FOCUSED_TESTS_OUTCOME:-not run}\` |"
+            echo "| Analytics focused tests | \`${{ steps.analytics_focus_tests.outcome }}\` |"
             echo "| Release-critical tests | \`${CRITICAL_TESTS_OUTCOME:-not run}\` |"
             echo "| Coverage collection | \`${COVERAGE_OUTCOME:-not run}\` |"
             echo "| Baseline update | \`${BASELINE_UPDATE_OUTCOME:-not run}\` |"

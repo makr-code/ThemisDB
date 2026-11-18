@@ -1638,8 +1638,21 @@ else()
     endif()
 endif()
 
+# CMP0167 selects Boost's config package for an unqualified lookup, but some
+# system Boost packages do not export the split boost_system component config.
+# Use CMake's FindBoost module, matching the system-package fallback in
+# Dependencies.cmake.
+set(Boost_NO_BOOST_CMAKE ON)
+find_package(Boost MODULE REQUIRED COMPONENTS filesystem)
 if(NOT TARGET Boost::headers AND TARGET Boost::boost)
     add_library(Boost::headers ALIAS Boost::boost)
+endif()
+if(NOT TARGET Boost::system AND TARGET Boost::headers)
+    # Boost.System is header-only since Boost 1.69; newer distro packages may
+    # provide no compiled system component for FindBoost to expose.
+    add_library(Boost::system INTERFACE IMPORTED GLOBAL)
+    set_property(TARGET Boost::system PROPERTY
+        INTERFACE_LINK_LIBRARIES Boost::headers)
 endif()
 
 # The core Boost headers package is required for header-only utilities such as

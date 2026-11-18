@@ -196,7 +196,7 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark:
         }
     }
     
-    state.SetItemsProcessed(state.iterations() * 10); // 10 writes per transaction
+    state.SetItemsProcessed(state.iterations()); // One processed item represents one committed transaction.
     state.counters["tps"] = benchmark::Counter(
         state.iterations(), benchmark::Counter::kIsRate);
 }
