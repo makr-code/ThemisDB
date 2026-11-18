@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-11-17T20:21:28.032640+00:00`
+> Generated: `2026-11-18T19:44:23.740511+00:00`
 
 ## Statistics
 
@@ -12,7 +12,7 @@
 | Total relationships | 47 |
 | Modules with public plugin | 10 |
 | Modules with private plugin | 4 |
-| Modules with API contracts | 6 |
+| Modules with API contracts | 5 |
 | Documentation sources scanned | 1255 |
 | LLM Wiki source files | 8103 |
 | LLM Wiki module/API entries | 80 |
@@ -371,12 +371,12 @@ JSON analysis artifacts: 8
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `5da8e43efa356953` |
+| `ARCHITECTURE.md` | `7c566a4e2481e4f4` |
 | `FUTURE_ENHANCEMENTS.md` | `d9f033e9da09b940` |
 | `ROADMAP.md` | `0f803551945562cf` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
 | `ai_context/MODULES_AND_NAMESPACES.md` | `bf42dba44a39f8cb` |
-| `ai_context/api_contracts/` | `7331a074252f44d1` |
-| `ai_context/developer_llm_wiki/` | `df0fc8a9ba09bdcd` |
+| `ai_context/api_contracts/` | `6a6d88ed5b491368` |
+| `ai_context/developer_llm_wiki/` | `0f3a128d37f65964` |
 | `ai_working/` | `2da2d31a22a9695b` |
-| `docs/` | `9d41aaa62bc1337b` |
+| `docs/` | `34c152790a0d2dbc` |
