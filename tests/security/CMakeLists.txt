@@ -93,14 +93,25 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
         )
     endif()
 
-    themis_register_module_focused_test(
-        MODULE security
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS ${_extra_labels}
-    )
+    if(_stem STREQUAL "test_jwt_security")
+        themis_register_module_test(
+            MODULE security
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS jwt release_critical
+        )
+    else()
+        themis_register_module_focused_test(
+            MODULE security
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS ${_extra_labels}
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: security

@@ -16,7 +16,8 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
-#include <cstdlib>
+#include <functional>
+#include <random>
 #include <spdlog/spdlog.h>
 #include <thread>
 
@@ -34,6 +35,22 @@
 
 namespace themis {
 namespace auth {
+
+namespace {
+
+int retryJitterMilliseconds() {
+    // This jitter only spreads LDAP retries; it is not used for authentication or secrets.
+    thread_local std::mt19937 generator([] {
+        const auto time_seed = static_cast<std::mt19937::result_type>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        const auto thread_seed = static_cast<std::mt19937::result_type>(
+            std::hash<std::thread::id>{}(std::this_thread::get_id()));
+        return time_seed ^ thread_seed;
+    }());
+    return std::uniform_int_distribution<int>(-20, 19)(generator);
+}
+
+} // namespace
 
 // ===========================================================================
 // PooledConnection
@@ -210,7 +227,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
                     }
                 }
                 if (!fresh) {
-                    const int jitter    = (std::rand() % 40) - 20;
+                    const int jitter    = retryJitterMilliseconds();
                     const int delay_ms  = kBaseDelayMs * (1 << attempt) + jitter;
                     std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                 }
