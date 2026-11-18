@@ -137,8 +137,20 @@ public:
     // SP-initiated flow
     // ----------------------------------------------------------------
 
+    /**
+     * @brief Builds an SP-initiated AuthnRequest with a cryptographically random ID.
+     * @param[in] relay_state Optional RelayState value; omitted when empty.
+     * @return The redirect URL and its request ID for InResponseTo validation.
+     * @throws std::runtime_error if secure random generation fails; no predictable ID is used.
+     */
     AuthnRequestParams buildAuthnRequest(const std::string& relay_state = "") const;
 
+    /**
+     * @brief Builds the redirect URL for an SP-initiated AuthnRequest.
+     * @param[in] relay_state Optional RelayState value; omitted when empty.
+     * @return The IdP redirect URL.
+     * @throws std::runtime_error if secure request-ID generation fails.
+     */
     std::string buildAuthnRequestUrl(const std::string& relay_state = "") const;
 
     // ----------------------------------------------------------------

@@ -77,16 +77,18 @@ struct JWTValidatorConfig {
 class JWTValidator {
 public:
     /**
-     * @brief JWTValidator.
-     * @param[in] jwks_url Input parameter.
-     * @return Return value.
+     * @brief Constructs a validator that does not check token issuer or audience.
+     * @param[in] jwks_url JWKS endpoint used to retrieve trusted signing keys.
+     * @note This overload accepts tokens from any issuer and audience. Use the
+     *       configuration overload for fail-closed issuer and audience checks.
      */
     explicit JWTValidator(const std::string& jwks_url);
 
     /**
-     * @brief JWTValidator.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
+     * @brief Constructs a validator using explicit token-validation policy.
+     * @param[in] cfg JWKS endpoint, expected claims, and validation policy.
+     * @throws std::runtime_error if a required issuer or audience is unset or empty.
+     * @note Issuer and audience validation are required by default.
      */
     explicit JWTValidator(const JWTValidatorConfig& cfg);
     

@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
+#include "auth/detail/saml_request_id.h"
 #include "auth/saml_authenticator.h"
 #include "auth/auth_error.h"
 #include "../test_crypto_material_utils.h"
+#include <algorithm>
 #include <chrono>
 #include <stdexcept>
 #include <string>
@@ -592,6 +594,27 @@ TEST(SAMLAuthenticatorTest, BuildAuthnRequestReturnsRequestId) {
     EXPECT_FALSE(params.request_id.empty()) << "request_id must not be empty";
     // NCName-safe: starts with '_'
     EXPECT_EQ(params.request_id[0], '_') << "request_id must start with '_'";
+}
+
+TEST(SAMLAuthenticatorTest, RequestIdContains128RandomBitsInNcNameSafeFormat) {
+    const auto fixed_random_bytes = [](unsigned char* bytes, int length) {
+        std::fill_n(bytes, length, static_cast<unsigned char>(0xAB));
+        return 1;
+    };
+
+    const auto request_id = themis::auth::detail::generateSamlRequestId(+fixed_random_bytes);
+    ASSERT_EQ(request_id.size(), 33U);
+    EXPECT_EQ(request_id.front(), '_');
+    EXPECT_EQ(request_id.substr(1), "abababababababababababababababab");
+}
+
+TEST(SAMLAuthenticatorTest, RequestIdGenerationFailsClosedWhenRandomSourceFails) {
+    const auto failing_random_bytes = [](unsigned char* bytes, int length) {
+        std::fill_n(bytes, length, static_cast<unsigned char>(0xAB));
+        return 0;
+    };
+
+    EXPECT_THROW(themis::auth::detail::generateSamlRequestId(+failing_random_bytes), std::runtime_error);
 }
 
 TEST(SAMLAuthenticatorTest, BuildAuthnRequestUrlMatchesBuildAuthnRequest) {
