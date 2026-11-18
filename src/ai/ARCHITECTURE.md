@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-11-18"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Architecture - AI Module
 
 <!-- Status: current | validated: 2026-05-31 -->
@@ -7,14 +21,18 @@
 
 The AI module currently centers on `AIPluginGenerator` as a focused service for plugin code generation.
 It follows a validation-first and fail-closed pipeline.
-Wave C C1/C2 safety-gate and telemetry integrations also extend into production `LLMAQLHandler` execution paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`).
+The separate `CAIEthicsIntegration` adapter combines constitutional reasoning
+with ethics scoring. Runtime gates in `LLMAQLHandler` belong to the `llm` module
+and are outside this module's implementation boundary.
 
 ## Main Flow
 
 1. `generatePlugin(prompt)` receives the request.
 2. `validatePrompt(prompt)` enforces local constraints.
 3. Request payload is serialized to JSON.
-4. Endpoint invocation uses configured transport (`endpoint_invoke_fn`) or curl fallback.
+4. Endpoint selection is `endpoint_invoke_fn`, instance `setLlmHttpPostFn()`,
+   then curl. The selected route is retried at most three times for non-HTTP
+   failures; retries never switch routes.
 5. Response JSON is parsed and mapped into `GeneratedPlugin`.
 6. Optional sandbox gating materializes a per-run artifact bundle into `sandbox_dir`, verifies round-trip readability, copies the bundle into `output_dir`, and then invokes any configured callback policy.
 7. Mandatory fields and optional policy gates are checked before success is returned.
@@ -41,7 +59,16 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
 - Invalid JSON fails closed with parse-error context.
 - Missing mandatory `implementation_code` fails closed.
 - Validation errors are returned before any endpoint call.
+- Invalid endpoint, timeout, size-limit, enum, or enabled-gate configuration is
+  rejected before endpoint I/O. C1 thresholds and returned scores must be
+  finite values in `[0,1]`.
 - Sandbox materialization or callback verification failures reject the generated plugin fail-closed.
+- Capability tokens are syntax-validated and sent to the endpoint, but no
+  provider capability acknowledgement or generated-manifest capability
+  verification exists. A syntactically valid request is not proof of support.
+- `CAIEthicsIntegration` labels deterministic critique/revision fallback and
+  ethics-evaluation failure in `CAIEvaluationResult`; its acceptance helper
+  rejects either state and invalid score thresholds.
 
 ## Sourcecode Verification (Module: ai/architecture)
 

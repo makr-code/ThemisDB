@@ -45,7 +45,7 @@ enum class SecurityLevel {
 
 struct PluginGenerationPrompt {
     std::string description;
-    PluginType type;
+    PluginType type = PluginType::CUSTOM;
     std::vector<std::string> required_capabilities;
     std::vector<std::string> dependencies;
     LLMModel llm_model = LLMModel::CODE_LLAMA;
@@ -99,12 +99,12 @@ public:
     };
 
     struct Stats {
-        std::size_t validation_errors = 0;  ///< Prompt validation failures
-        std::size_t transport_errors = 0;   ///< CURL transport failures (all retry attempts)
-        std::size_t http_errors = 0;        ///< Non-2xx HTTP responses (not retried)
+        std::size_t validation_errors = 0;  ///< Prompt, transport-limit, or C2 configuration failures
+        std::size_t transport_errors = 0;   ///< Exhausted transport attempts or C2 callback failures
+        std::size_t http_errors = 0;        ///< Non-2xx HTTP or oversized response failures
         std::size_t parse_errors = 0;       ///< JSON parse or schema type errors
-        std::size_t safety_rejections = 0;  ///< C1 safety gate rejections
-        std::size_t sandbox_rejections = 0; ///< Sandbox gate rejections
+        std::size_t safety_rejections = 0;  ///< C1 configuration or safety gate rejections
+        std::size_t sandbox_rejections = 0; ///< Sandbox configuration or verification rejections
         std::size_t successes = 0;          ///< Successful generatePlugin() completions
     };
 
@@ -130,6 +130,7 @@ public:
     explicit AIPluginGenerator(const Config& config);
     ~AIPluginGenerator();
     
+    /// @brief Legacy instance transport callback without a timeout parameter; it must return promptly.
     using LlmHttpPostFn = std::function<std::string(
         const std::string& endpoint,
         const std::string& body
@@ -142,15 +143,20 @@ public:
     void setLlmHttpPostFn(LlmHttpPostFn fn);
 
     /**
-     * @brief Generate Plugin.
-     * @param[in] prompt Input parameter.
-     * @return Return value.
+     * @brief Validates and generates a plugin artifact from a provider response.
+     * @param prompt Request description, plugin type, model/security choices, capabilities, and dependencies.
+     * @return Generated artifact only when validation, transport, response parsing, and every enabled gate succeed.
+     * @note Invalid enums/capability tokens and invalid transport or gate configuration fail before endpoint I/O.
+     * @note Transport retries are bounded to three attempts; failure on the selected transport does not fail over.
+     * @note Injected transports must enforce their received timeout; the instance HTTP-post callback has no timeout and may block indefinitely.
+     * @note Generated capability requests are not provider-acknowledged or independently verified.
      */
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
     /**
-     * @brief Validate Prompt.
-     * @param[in] prompt Input parameter.
-     * @return Return value.
+     * @brief Validates the locally checkable prompt fields before endpoint I/O.
+     * @param prompt Prompt fields to validate.
+     * @return Success when description, enum values, capabilities, and dependencies satisfy local constraints.
+     * @note Capability strings are syntax-checked only; provider support is not negotiated by this API.
      */
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     

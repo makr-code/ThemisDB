@@ -15,8 +15,13 @@
 #include <filesystem>
 #include <fstream>
 #include <limits>
+#include <memory>
 #include <stdexcept>
+#include <sstream>
 #include <string>
+
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
 
 using namespace themis::plugins::ai;
 
@@ -277,13 +282,20 @@ TEST(AIPluginGeneratorTest, APG11_C2FederatedTelemetryReceivesMetrics) {
 
 // APG-12: C1 runtime safety-gate fails closed when callback is missing.
 TEST(AIPluginGeneratorTest, APG12_C1SafetyGateMissingCallbackFailsClosed) {
+    bool transport_called = false;
     AIPluginGenerator::Config cfg;
     cfg.enable_c1_cai_safety_gate = true;
+    cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        transport_called = true;
+        return std::string{"{}"};
+    };
 
-    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    AIPluginGenerator gen(cfg);
     auto result = gen.generatePlugin(validPrompt());
     EXPECT_FALSE(result.has_value());
     EXPECT_NE(result.error().message().find("c1_cai_eval_fn is not configured"), std::string::npos);
+    EXPECT_FALSE(transport_called);
 }
 
 // APG-13: C1 runtime safety-gate rejects non-finite evaluator outputs.
@@ -302,13 +314,22 @@ TEST(AIPluginGeneratorTest, APG13_C1SafetyGateRejectsNonFiniteScore) {
 
 // APG-14: C2 telemetry hook fails closed when callback is missing.
 TEST(AIPluginGeneratorTest, APG14_C2TelemetryMissingCallbackFailsClosed) {
+    bool transport_called = false;
     AIPluginGenerator::Config cfg;
     cfg.enable_c2_federated_telemetry = true;
+    cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        transport_called = true;
+        return std::string{"{}"};
+    };
 
-    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    AIPluginGenerator gen(cfg);
     auto result = gen.generatePlugin(validPrompt());
     EXPECT_FALSE(result.has_value());
     EXPECT_NE(result.error().message().find("c2_federated_telemetry_fn is not configured"), std::string::npos);
+    EXPECT_FALSE(transport_called);
+    EXPECT_EQ(gen.getStats().validation_errors, 1u);
+    EXPECT_EQ(gen.getStats().transport_errors, 0u);
 }
 
 // APG-15: C2 telemetry callback failures are propagated.
@@ -603,8 +624,8 @@ TEST(AIPluginGeneratorTest, APG29_OversizedManifestDescriptionTruncated) {
     EXPECT_EQ(result.value().manifest.description.size(), 8192u);
 }
 
-// APG-30: generatePlugin silently drops build_dependency entries exceeding 256 characters.
-TEST(AIPluginGeneratorTest, APG30_OversizedBuildDependencyEntryDropped) {
+// APG-30: generatePlugin rejects build_dependency entries exceeding 256 characters.
+TEST(AIPluginGeneratorTest, APG30_OversizedBuildDependencyEntryRejected) {
     auto gen = makeGeneratorWithEndpointFn(
         [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
             json payload = {
@@ -618,11 +639,10 @@ TEST(AIPluginGeneratorTest, APG30_OversizedBuildDependencyEntryDropped) {
             return payload.dump();
         });
     auto result = gen.generatePlugin(validPrompt());
-    ASSERT_TRUE(result.has_value()) << result.error().message();
-    // Only "fmt" and "spdlog" should survive; the oversized entry is dropped.
-    ASSERT_EQ(result.value().build_dependencies.size(), 2u);
-    EXPECT_EQ(result.value().build_dependencies[0], "fmt");
-    EXPECT_EQ(result.value().build_dependencies[1], "spdlog");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("build_dependencies entry exceeds"),
+              std::string::npos);
+    EXPECT_EQ(gen.getStats().parse_errors, 1u);
 }
 
 // APG-31: setLlmHttpPostFn is used when no Result-based transport override is configured.
@@ -668,6 +688,271 @@ TEST(AIPluginGeneratorTest, APG32_HttpStatusFailuresAreNotRetried) {
     EXPECT_EQ(attempts, 1);
     EXPECT_EQ(gen.getStats().http_errors, 1u);
     EXPECT_EQ(gen.getStats().transport_errors, 0u);
+}
+
+TEST(AIPluginGeneratorTest, APG33_SelectedTransportRetriesAreBoundedWithoutRouteFailover) {
+    int configured_transport_attempts = 0;
+    int instance_transport_attempts = 0;
+    AIPluginGenerator::Config cfg;
+    cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+    cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        ++configured_transport_attempts;
+        return tl::unexpected(themis::Error(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, "temporary transport failure"));
+    };
+
+    AIPluginGenerator gen(cfg);
+    gen.setLlmHttpPostFn([&](const std::string&, const std::string&) {
+        ++instance_transport_attempts;
+        return json{{"implementation_code", "int generated() { return 1; }"}}.dump();
+    });
+
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(configured_transport_attempts, 3);
+    EXPECT_EQ(instance_transport_attempts, 0);
+    EXPECT_EQ(gen.getStats().transport_errors, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG34_InvalidConfigurationDoesNotInvokeTransport) {
+    for (const auto invalid_setting : {"endpoint", "timeout", "request_limit", "response_limit"}) {
+        bool transport_called = false;
+        AIPluginGenerator::Config cfg;
+        cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+        cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+            -> themis::Result<std::string> {
+            transport_called = true;
+            return std::string{"{}"};
+        };
+        if (std::string(invalid_setting) == "endpoint") {
+            cfg.llm_endpoint.clear();
+        } else if (std::string(invalid_setting) == "timeout") {
+            cfg.timeout_ms = 0;
+        } else if (std::string(invalid_setting) == "request_limit") {
+            cfg.max_request_body_bytes = 0;
+        } else {
+            cfg.max_response_body_bytes = 0;
+        }
+
+        AIPluginGenerator gen(cfg);
+        const auto result = gen.generatePlugin(validPrompt());
+        EXPECT_FALSE(result.has_value()) << invalid_setting;
+        EXPECT_FALSE(transport_called) << invalid_setting;
+        EXPECT_EQ(gen.getStats().validation_errors, 1u) << invalid_setting;
+    }
+}
+
+TEST(AIPluginGeneratorTest, APG35_InvalidSafetyGateConfigurationDoesNotInvokeTransport) {
+    bool transport_called = false;
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = std::numeric_limits<double>::quiet_NaN();
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.9;
+    };
+    cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        transport_called = true;
+        return std::string{"{}"};
+    };
+
+    AIPluginGenerator gen(cfg);
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_FALSE(transport_called);
+    EXPECT_EQ(gen.getStats().safety_rejections, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG36_C1RejectsOutOfRangeScores) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.0;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 1.01;
+    };
+
+    AIPluginGenerator gen = makeGeneratorFromConfig(std::move(cfg));
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("outside [0,1]"), std::string::npos);
+    EXPECT_EQ(gen.getStats().safety_rejections, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG37_InvalidEnumValueIsRejectedBeforeTransport) {
+    for (const auto invalid_enum : {"plugin_type", "llm_model", "security_level"}) {
+        bool transport_called = false;
+        AIPluginGenerator::Config cfg;
+        cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+            -> themis::Result<std::string> {
+            transport_called = true;
+            return std::string{"{}"};
+        };
+        AIPluginGenerator gen(cfg);
+
+        auto prompt = validPrompt();
+        if (std::string(invalid_enum) == "plugin_type") {
+            prompt.type = static_cast<PluginType>(999);
+        } else if (std::string(invalid_enum) == "llm_model") {
+            prompt.llm_model = static_cast<LLMModel>(999);
+        } else {
+            prompt.security_level = static_cast<SecurityLevel>(999);
+        }
+
+        const auto result = gen.generatePlugin(prompt);
+        EXPECT_FALSE(result.has_value()) << invalid_enum;
+        EXPECT_NE(result.error().message().find("unsupported enum value"),
+                  std::string::npos) << invalid_enum;
+        EXPECT_FALSE(transport_called) << invalid_enum;
+    }
+}
+
+TEST(AIPluginGeneratorTest, APG38_ThrowingTransportIsRetriedAndReturnedAsError) {
+    int attempts = 0;
+    AIPluginGenerator::Config cfg;
+    cfg.endpoint_invoke_fn = [&](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        ++attempts;
+        throw std::runtime_error("provider callback failed");
+    };
+    AIPluginGenerator gen(cfg);
+
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("provider callback threw"), std::string::npos);
+    EXPECT_EQ(attempts, 3);
+    EXPECT_EQ(gen.getStats().transport_errors, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG39_ThrowingSafetyCallbackFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        throw std::runtime_error("safety callback failed");
+    };
+    AIPluginGenerator gen = makeGeneratorFromConfig(std::move(cfg));
+
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("C1 safety callback threw"), std::string::npos);
+    EXPECT_EQ(gen.getStats().safety_rejections, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG40_ThrowingSandboxAndTelemetryCallbacksFailClosed) {
+    ScopedTempDir sandbox_dir("themis_apg40_sandbox");
+    ScopedTempDir output_dir("themis_apg40_output");
+    AIPluginGenerator::Config sandbox_cfg;
+    sandbox_cfg.enable_sandbox_gate = true;
+    sandbox_cfg.sandbox_dir = sandbox_dir.path.string();
+    sandbox_cfg.output_dir = output_dir.path.string();
+    sandbox_cfg.sandbox_verify_fn = [](const GeneratedPlugin&) -> themis::Result<void> {
+        throw std::runtime_error("sandbox callback failed");
+    };
+    AIPluginGenerator sandbox_gen = makeGeneratorFromConfig(std::move(sandbox_cfg));
+
+    const auto sandbox_result = sandbox_gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(sandbox_result.has_value());
+    EXPECT_NE(sandbox_result.error().message().find("sandbox callback threw"), std::string::npos);
+    EXPECT_EQ(sandbox_gen.getStats().sandbox_rejections, 1u);
+
+    AIPluginGenerator::Config telemetry_cfg;
+    telemetry_cfg.enable_c2_federated_telemetry = true;
+    telemetry_cfg.c2_federated_telemetry_fn = [](const json&) -> themis::Result<void> {
+        throw std::runtime_error("telemetry callback failed");
+    };
+    AIPluginGenerator telemetry_gen = makeGeneratorFromConfig(std::move(telemetry_cfg));
+
+    const auto telemetry_result = telemetry_gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(telemetry_result.has_value());
+    EXPECT_NE(telemetry_result.error().message().find("C2 telemetry callback threw"),
+              std::string::npos);
+    EXPECT_EQ(telemetry_gen.getStats().transport_errors, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG41_NonObjectResponseFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        return std::string{"[]"};
+    };
+    AIPluginGenerator gen(cfg);
+
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("must be a JSON object"), std::string::npos);
+    EXPECT_EQ(gen.getStats().parse_errors, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG42_WrongResponseFieldTypeFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        return json{{"implementation_code", 42}}.dump();
+    };
+    AIPluginGenerator gen(cfg);
+
+    const auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("invalid endpoint response field type"),
+              std::string::npos);
+    EXPECT_EQ(gen.getStats().parse_errors, 1u);
+}
+
+TEST(AIPluginGeneratorTest, APG43_InvalidBuildDependencyShapeFailsClosed) {
+    for (const auto& invalid_value : {json("not-an-array"), json::array({42})}) {
+        AIPluginGenerator::Config cfg;
+        cfg.endpoint_invoke_fn = [invalid_value](const std::string&, const std::string&, long)
+            -> themis::Result<std::string> {
+            return json{{"implementation_code", "int generated() { return 1; }"},
+                        {"build_dependencies", invalid_value}}
+                .dump();
+        };
+        AIPluginGenerator gen(cfg);
+
+        const auto result = gen.generatePlugin(validPrompt());
+        EXPECT_FALSE(result.has_value());
+        EXPECT_NE(result.error().message().find("build_dependencies"),
+                  std::string::npos);
+        EXPECT_EQ(gen.getStats().parse_errors, 1u);
+    }
+}
+
+TEST(AIPluginGeneratorTest, APG44_EndpointCredentialsAndQueryAreNotLogged) {
+    std::ostringstream log_output;
+    auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(log_output);
+    auto logger = std::make_shared<spdlog::logger>("ai-endpoint-redaction-test", sink);
+    logger->set_level(spdlog::level::debug);
+    const auto previous_logger = spdlog::default_logger();
+    spdlog::set_default_logger(logger);
+
+    AIPluginGenerator::Config cfg;
+    cfg.llm_endpoint = "https://credential@example.invalid/generate?token=redacted#fragment";
+    int attempts = 0;
+    cfg.endpoint_invoke_fn = [&attempts](const std::string&, const std::string&, long)
+        -> themis::Result<std::string> {
+        if (++attempts == 1) {
+            return tl::unexpected(themis::Error(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "private-error-marker"));
+        }
+        return json{{"implementation_code", "int generated() { return 1; }"}}.dump();
+    };
+    AIPluginGenerator gen(cfg);
+    auto prompt = validPrompt();
+    prompt.description = "private-description-marker";
+    const auto result = gen.generatePlugin(prompt);
+    spdlog::set_default_logger(previous_logger);
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(attempts, 2);
+    const auto logs = log_output.str();
+    EXPECT_NE(logs.find("https://example.invalid"), std::string::npos);
+    EXPECT_EQ(logs.find("credential@"), std::string::npos);
+    EXPECT_EQ(logs.find("token=redacted"), std::string::npos);
+    EXPECT_EQ(logs.find("fragment"), std::string::npos);
+    EXPECT_EQ(logs.find("/generate"), std::string::npos);
+    EXPECT_EQ(logs.find("private-description-marker"), std::string::npos);
+    EXPECT_EQ(logs.find("private-error-marker"), std::string::npos);
 }
 
 // APG-INT-01: Full happy-path integration with a deterministic endpoint fixture.

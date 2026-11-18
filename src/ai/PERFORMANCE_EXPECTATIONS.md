@@ -1,131 +1,60 @@
-# PERFORMANCE_EXPECTATIONS - src/ai
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-11-18"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-## Scope
+> Exact model backend not verifiable from final document text alone.
 
-- Module: src/ai
-- This file defines measurable AI module performance expectations for release gating.
-- Scope includes AI plugin generation, orchestration, and experimental vector-/KI-near storage and retrieval paths.
-- Experimental logarithmic vector representations are evaluated only for vector and AI workloads; they do not redefine global database numeric semantics.
+# AI Module Performance Expectations
 
-## Benchmark Reference
+## Scope and evidence
 
-- Dedicated benchmark coverage now exists for AI generation path behavior.
-- Relevant benchmark files:
-  - benchmarks/bench_ai_plugin_generator.cpp
-  - benchmarks/bench_plugin_system.cpp
-  - benchmarks/bench_plugin_hot_plug.cpp
-- Planned benchmark expansion for logarithmic vector evaluation should include dedicated AI/vector retrieval and storage comparisons against canonical numeric baselines.
+This page covers `AIPluginGenerator` validation and local orchestration only.
+CAI callback runtime and provider inference require separate measurements.
+Vector storage, plugin lifecycle, RAG, and inference-serving claims belong to
+their owning modules.
 
-## Specific Expectations
+The registered benchmark is
+[`benchmarks/ai/bench_ai_plugin_generator.cpp`](../../benchmarks/ai/bench_ai_plugin_generator.cpp):
 
-| Target ID | Expectation | Benchmark case |
+| Case | Measured path | Excluded |
 |---|---|---|
-| AI-1 | prompt-validation-path overhead remains within release baseline budget | BM_AIPluginGeneratorValidatePrompt |
-| AI-2 | generation-orchestration error-path overhead remains bounded | BM_AIPluginGeneratorErrorPathMalformedJson |
-| AI-3 | concurrent lookup/scan pressure does not exceed release threshold | BM_ConcurrentQueries, BM_ConcurrentScans, BM_ConcurrentGetAllPlugins |
-| AI-4 | generation success-path orchestration overhead remains bounded | BM_AIPluginGeneratorGeneratePlugin |
-| AI-5 | memory overhead for plugin lifecycle path remains bounded | BM_MemoryOverhead, BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint) |
-| AI-6 | experimental logarithmic vector storage must demonstrate bounded retrieval overhead versus canonical vector baseline before promotion | planned dedicated vector retrieval benchmark mapping |
-| AI-7 | experimental logarithmic vector storage must demonstrate measurable memory-footprint benefit or cache-locality benefit versus canonical vector baseline | planned dedicated vector storage benchmark mapping |
-| AI-8 | similarity/ranking quality under logarithmic vector representation must stay within documented acceptance thresholds before any default enablement | planned benchmark + quality evaluation harness |
+| `BM_AIPluginGeneratorValidatePrompt` | local prompt validation | transport/provider |
+| `BM_AIPluginGeneratorGeneratePlugin` | local validation, canned callback, parse/map path | provider queueing/inference, output quality, cost |
+| `BM_AIPluginGeneratorErrorPathMalformedJson` | local malformed-JSON rejection | provider behavior |
 
-## Module Hard Gates (v1.0 docs baseline)
+These are callback-driven microbenchmarks, not production throughput or
+provider-latency evidence. The checked-in benchmark does not establish a CAI
+gate or live-provider baseline.
 
-| Gate ID | Expectation | Measurement |
+## Proposed release gates
+
+| Gate | Threshold / condition | Evidence |
 |---|---|---|
-| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| AG-2 | proxy lifecycle path p99 <= release threshold | p99 from mapped plugin_system and plugin_hot_plug cases |
-| AG-3 | no mapped benchmark case missing in release run | benchmark run manifest completeness |
-| AG-4 | experimental logarithmic vector path cannot be promoted without benchmark-backed comparison against Float32/Float16/BFloat16 and, where available, Int8 or other compact baselines | benchmark evidence completeness |
-| AG-5 | no default enablement of logarithmic vector path unless accuracy and latency acceptance criteria are both satisfied | paired performance + quality gate |
+| Local orchestration regression | p99 no more than 10% slower than same-build, same-hardware baseline | versioned benchmark results and environment metadata |
+| Benchmark completeness | 100% of the three registered cases emit results | release benchmark manifest |
+| Retry bound | at most 3 attempts; 100 ms then 200 ms delay; no transport-route failover | focused transport tests |
+| Invalid-state safety | invalid prompt/config/gate state must fail before endpoint I/O; no invalid or fallback result passes acceptance | focused AI tests |
+| Provider-backed performance | no numeric target is ratified yet; collect p50/p95/p99 and error rate on a versioned acceptance set | provider/model/prompt/config provenance and repeated runs |
 
-## Validation
+The p99 regression and benchmark-completeness thresholds are proposed gates
+from [`ROADMAP.md`](./ROADMAP.md); they are not current benchmark results.
+Provider-backed quality, latency, throughput, and cost targets require at
+least three repeated runs of a versioned task set and maintainer ratification
+before release enforcement.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Dedicated AI benchmark mapping is now available for prompt validation and generation-path orchestration.
-- Wave C benchmark-style acceptance checks (`CAI-BENCH-01`, `FEDERATED-BENCH-01`) are tracked in test coverage for issue scope, but they are not currently part of the production benchmark gate manifest.
-- Experimental logarithmic vector evaluation must be benchmark-driven and compared against canonical representations rather than assessed in isolation.
-- Experimental logarithmic vector paths remain opt-in until benchmark, memory, latency, and ranking-quality evidence supports broader adoption.
+## Timeout and tail-latency limits
 
-## Experimental Logarithmic Vector Evaluation
-
-The AI module will experimentally investigate whether logarithmic numeric representations improve vector- and KI-near workloads in ThemisDB.
-
-### Evaluation Scope
-
-- embedding storage
-- similarity search
-- retrieval / RAG-near paths
-- candidate generation and scoring support paths
-
-### Required Baselines
-
-Experimental results should be compared against at least:
-
-- Float32
-- Float16
-- BFloat16
-- Int8 where implemented
-- other compact vector baselines where available
-
-### Required Metrics
-
-At minimum, the evaluation should capture:
-
-- Recall@K
-- ranking quality / score drift
-- memory footprint
-- query latency (p50 / p95 / p99)
-- throughput
-- ingest / materialization overhead
-- rebuild cost where applicable
-
-### Promotion Rule
-
-The logarithmic vector path must remain experimental unless it shows a clear benchmark-backed advantage in at least one of:
-
-- memory efficiency
-- cache locality
-- retrieval latency
-- throughput
-
-while maintaining acceptable retrieval and ranking quality.
-
-## Wave C Acceptance Check Mapping (Issue Scope `#5040`)
-
-| Scope ID | Expectation | Evidence |
-|---|---|---|
-| C1-AC-1 | safety score alignment >= 0.80 with human annotators | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
-| C1-AC-2 | latency overhead <= 2.0 s per response | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
-| C1-AC-3 | false-positive rate <= 10% | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
-| C2-AC-1 | convergence >= 95% of centralized baseline | `tests/test_federated_privacy_training.cpp` (`FEDERATED-BENCH-01`) |
-| C2-AC-2 | gradient communication overhead <= 2.0 s per round | `tests/test_federated_privacy_training.cpp` (`FEDERATED-10`, `FEDERATED-BENCH-01`) |
-| C2-AC-3 | configurable epsilon-differential privacy budget | `tests/test_federated_privacy_training.cpp` (DP budget assertions in FEDERATED suite) |
-
-## Planning Traceability
-
-- Wave C strategic planning issue: `#5040`
-- Dependency planning issues: Wave A `#5038`, Wave B `#5039`
-- Architecture proposal: `docs/architecture/experimental-logarithmic-vector-storage.md`
-
-## Sourcecode Verification (Module: ai/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_ai_plugin_generator.cpp
-  - benchmarks/bench_plugin_system.cpp
-  - benchmarks/bench_plugin_hot_plug.cpp
-- Verified mapping surfaces:
-  - lifecycle and manifest handling benchmarks
-  - concurrent access benchmarks
-  - hot-plug monitoring and memory-footprint benchmarks
-  - experimental logarithmic vector work currently tracked as planned benchmark expansion
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
-  - Experimental logarithmic vector evaluation requires dedicated benchmark additions before hard release-gate enforcement can expand to those paths.
-
-## Issue Scope Traceability
-
-- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
-- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
-- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+The built-in curl transport applies `timeout_ms` to each attempt. An injected
+`endpoint_invoke_fn` receives the timeout but must enforce it itself.
+`setLlmHttpPostFn()` has no timeout parameter and may block indefinitely. The
+three-attempt retry count is bounded, but a wall-clock bound is not guaranteed
+for callbacks that ignore or cannot receive a timeout. Do not claim a bounded
+end-to-end latency baseline for those callback routes.
