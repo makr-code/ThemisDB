@@ -23,8 +23,10 @@ name: "Release: Nightly"
 # Example: VERSION=2.4.0 → v2.4.0-nightly.20260904
 
 on:
-  schedule:
-    - cron: '0 4 * * *'   # Nightly 04:00 UTC (staggered away from 03:00 cluster)  # 03:30 UTC daily
+  workflow_run:
+    workflows: ["Build: Mainline"]
+    types: [completed]
+    branches: [develop]
   workflow_dispatch:
     inputs:
       force:
@@ -109,11 +111,13 @@ jobs:
       has-changes: ${{ steps.check.outputs.has-changes }}
       last-nightly-tag: ${{ steps.check.outputs.last-nightly-tag }}
       commit-count: ${{ steps.check.outputs.commit-count }}
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Check for commits since last nightly
         id: check
@@ -180,6 +184,7 @@ jobs:
     uses: ./.github/workflows/release-build-matrix.yml
     with:
       build_matrix: community-only
+      source_sha: ${{ github.event.workflow_run.head_sha || github.sha }}
 
   generate-metadata:
     name: "Release: Generate Build Metadata"
@@ -193,6 +198,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Override RELEASE_TYPE for nightly metadata
         run: |
@@ -236,6 +243,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Download build metadata
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85

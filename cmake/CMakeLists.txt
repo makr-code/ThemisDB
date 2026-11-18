@@ -1200,10 +1200,17 @@ add_compile_definitions(
     "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
     "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
     "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
-    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
-    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
 )
 
+# Host identity is diagnostic metadata and varies between runners. Keep it on
+# the translation units that expose build information instead of changing every
+# compiler invocation (and invalidating otherwise reusable sccache entries).
+set_source_files_properties(
+    "${CMAKE_SOURCE_DIR}/src/themis/build_info.cpp"
+    "${CMAKE_SOURCE_DIR}/src/utils/build_info.cpp"
+    PROPERTIES COMPILE_DEFINITIONS
+        "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\";THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
+)
 
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
@@ -1355,8 +1362,13 @@ add_compile_definitions(
     "THEMIS_LICENSE_MAX_CORES=${THEMIS_LICENSE_MAX_CORES}"
     "THEMIS_LICENSE_MAX_STORAGE_TB=${THEMIS_LICENSE_MAX_STORAGE_TB}"
     "THEMIS_LICENSE_BUILD_ID=\"${THEMIS_LICENSE_BUILD_ID}\""
-    "THEMIS_LICENSE_BUILD_TIMESTAMP=\"${THEMIS_LICENSE_BUILD_TIMESTAMP}\""
     "THEMIS_LICENSE_SIGNATURE=\"${THEMIS_LICENSE_SIGNATURE}\""
+)
+
+set_source_files_properties(
+    "${CMAKE_SOURCE_DIR}/src/themis/license_info.cpp"
+    PROPERTIES COMPILE_DEFINITIONS
+        "THEMIS_LICENSE_BUILD_TIMESTAMP=\"${THEMIS_LICENSE_BUILD_TIMESTAMP}\""
 )
 
 # MSVC: sanitize any accidentally injected '/WX:NO' options (invalid for cl.exe)
