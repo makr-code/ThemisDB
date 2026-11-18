@@ -527,7 +527,7 @@ TEST_F(AnalyticsPhase2A2Test, StressTestConcurrentConnections) {
 // ============================================================================
 
 struct TrivialWithVector {
-    std::vector<int> data;
+    std::vector<std::shared_ptr<int>> data;
     int value{0};
     // Explicit default destructor — mirrors the pattern applied to IFNode,
     // ITree, Frame, and HoltWintersParams to close missing_dtor gaps.
@@ -539,21 +539,23 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorReleasesVector) {
     // audited.  This test verifies that a struct with an explicit ~T() = default
     // destructor correctly releases heap-allocated vector storage.
 
-    std::vector<int> leaked_tracking;
+    std::weak_ptr<int> released;
     {
         TrivialWithVector obj;
         obj.data.reserve(1024);  // Force heap allocation
         for (int i = 0; i < 512; ++i) {
-          obj.data.push_back(i);
+          auto value = std::make_shared<int>(i);
+          if (i == 0) {
+              released = value;
+          }
+          obj.data.push_back(std::move(value));
         }
         obj.value = 42;
         EXPECT_EQ(512, static_cast<int>(obj.data.size()));
         EXPECT_EQ(42, obj.value);
         // Destructor called here — must release the vector storage
     }
-    // If the destructor were missing (implicit) it would still work, but
-    // the explicit default declaration documents audited RAII intent.
-    SUCCEED();  // Test passes if no crash/sanitizer alert occurred
+    EXPECT_TRUE(released.expired());
 }
 
 TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection) {
@@ -569,10 +571,11 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection) {
         collection.push_back(std::move(item));
     }
 
-    EXPECT_EQ(100u, collection.size());
+    ASSERT_EQ(100u, collection.size());
 
     // Clear destroys all elements — each destructor releases vector storage
     collection.clear();
+    EXPECT_TRUE(collection.empty());
     EXPECT_EQ(0u, collection.size());
 }
 

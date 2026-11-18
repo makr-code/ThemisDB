@@ -333,14 +333,16 @@ TEST(OLAPLRUCache, BoundedMemoryGrowthUnder10kUniqueQueries_Functional) {
     cfg.result_cache_ttl_ms      = 60'000;
     OLAPEngine engine(cfg);
 
+    OLAPResult last_result;
     for (int i = 0; i < kTotalQueries; ++i) {
-        OLAPResult r = engine.execute(makeSimpleQuery("col_" + std::to_string(i)));
-        ASSERT_GE(r.execution_time_ms, 0.0)
+        last_result = engine.execute(makeSimpleQuery("col_" + std::to_string(i)));
+        ASSERT_GE(last_result.execution_time_ms, 0.0)
             << "Unexpected failure at query " << i;
     }
 
-    // If we reach here without OOM or exception the cache is functionally bounded.
-    SUCCEED();
+    const auto repeated_result = engine.execute(makeSimpleQuery("col_9999"));
+    EXPECT_EQ(repeated_result.columns, last_result.columns);
+    EXPECT_EQ(repeated_result.total_rows, last_result.total_rows);
 }
 
 #endif  // defined(__linux__)

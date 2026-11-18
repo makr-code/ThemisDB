@@ -159,7 +159,7 @@ jobs:
 
             echo "::group::Running ${NAME}"
             if "${BIN}" "${ARGS[@]}"; then
-              if python3 -c 'import json, pathlib, sys; data=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")); rows=data.get("benchmarks"); sys.exit(0 if isinstance(rows, list) and len(rows) > 0 else 1)' "${OUT}"; then
+              if python3 -c 'import json, pathlib, sys; data=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")); rows=data.get("benchmarks"); valid=isinstance(rows, list) and len(rows) > 0 and not any(row.get("error_occurred", False) or row.get("error_message") for row in rows); sys.exit(0 if valid else 1)' "${OUT}"; then
                 echo "  ${NAME} completed with benchmark rows"
                 RUN_COUNT=$((RUN_COUNT + 1))
               else
