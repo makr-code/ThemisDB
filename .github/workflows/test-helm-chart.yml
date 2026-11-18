@@ -12,6 +12,28 @@ on:
       - minimal
     paths:
       - "helm/themisdb/**"
+      - "config/timestamp_authority.yaml"
+      - "config/raid_entity_config.example.yaml"
+      - "config/replication.example.yaml"
+      - "config/**/*production*.yaml"
+      - "config/**/*production*.yml"
+      - "VERSION"
+      - "RELEASE_TYPE"
+      - "CMakeLists.txt"
+      - "cmake/Versions.cmake"
+      - "vcpkg.json"
+      - "debian/changelog"
+      - "clients/javascript/package.json"
+      - "clients/javascript/package-lock.json"
+      - "clients/javascript/src/index.ts"
+      - "clients/python/pyproject.toml"
+      - "clients/python/themis/__init__.py"
+      - "clients/rust/Cargo.toml"
+      - "clients/rust/Cargo.lock"
+      - "clients/ruby/themisdb.gemspec"
+      - "sdks/python/themis_llm/__init__.py"
+      - "scripts/check_config_version_integrity.py"
+      - "tests/test_config_version_integrity.py"
       - ".github/workflows/test-helm-chart.yml"
       - ".github/WORKFLOW_REGISTRY.md"
   workflow_dispatch:
@@ -24,8 +46,134 @@ permissions:
   contents: read
 
 jobs:
+  detect-changes:
+    name: "Detect Config and Helm Changes"
+    runs-on: ubuntu-latest
+    outputs:
+      integrity: ${{ steps.paths.outputs.integrity }}
+      helm: ${{ steps.paths.outputs.helm }}
+    steps:
+      - name: Checkout pull request files
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify changed files
+        id: paths
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import os
+          import subprocess
+
+          if os.environ["EVENT_NAME"] == "workflow_dispatch":
+              print("integrity=true")
+              print("helm=true")
+              raise SystemExit(0)
+
+          changed = subprocess.run(
+              ["git", "diff", "--name-only", os.environ["BASE_SHA"], os.environ["HEAD_SHA"]],
+              check=True,
+              capture_output=True,
+              text=True,
+          ).stdout.splitlines()
+          version_files = {
+              "VERSION", "RELEASE_TYPE", "CMakeLists.txt", "cmake/Versions.cmake",
+              "vcpkg.json", "debian/changelog", "helm/themisdb/Chart.yaml",
+              "helm/themisdb/values-production.yaml",
+              "clients/javascript/package.json", "clients/javascript/package-lock.json",
+              "clients/javascript/src/index.ts", "clients/python/pyproject.toml",
+              "clients/python/themis/__init__.py", "clients/rust/Cargo.toml",
+              "clients/rust/Cargo.lock", "clients/ruby/themisdb.gemspec",
+              "sdks/python/themis_llm/__init__.py",
+              "scripts/check_config_version_integrity.py",
+              "tests/test_config_version_integrity.py",
+              ".github/workflows/test-helm-chart.yml",
+          }
+          integrity = any(path.startswith("config/") or path in version_files for path in changed)
+          helm = any(path.startswith("helm/themisdb/") for path in changed)
+          print(f"integrity={'true' if integrity else 'false'}")
+          print(f"helm={'true' if helm else 'false'}")
+          PY
+
+      - name: Write change-detection summary
+        if: always()
+        run: |
+          {
+            echo "## Config and Helm Change Detection"
+            echo ""
+            echo "- **Scope:** Shipped configuration, package versions, and Helm chart changes."
+            echo "- **Result:** ${{ steps.paths.outcome }}"
+            echo "- **Next step:** Review the applicable integrity or chart validation job."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  config-version-integrity:
+    name: "Gate: Config and Package Version Integrity"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.integrity == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install YAML test dependency
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.3
+
+      - name: Lint shipped configs and write version matrix
+        id: integrity_lint
+        run: |
+          mkdir -p artifacts/config-version-integrity
+          python scripts/check_config_version_integrity.py \
+            --matrix-output artifacts/config-version-integrity/version-matrix.json \
+            2>&1 | tee artifacts/config-version-integrity/config-lint.txt
+
+      - name: Test invalid configurations and package mismatches
+        id: integrity_tests
+        if: always() && steps.integrity_lint.outcome != 'skipped'
+        run: python tests/test_config_version_integrity.py -v
+
+      - name: Upload config lint and version matrix
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: config-version-integrity-${{ github.run_id }}
+          path: artifacts/config-version-integrity/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Write integrity gate summary
+        if: always()
+        env:
+          CONFIG_STATUS: ${{ steps.integrity_lint.outcome }}
+          TEST_STATUS: ${{ steps.integrity_tests.outcome }}
+        run: |
+          {
+            echo "## Config and Package Version Integrity"
+            echo ""
+            echo "- **Scope:** Shipped examples, production config profiles, and supported package version metadata."
+            echo "- **Config lint:** ${CONFIG_STATUS}"
+            echo "- **Focused tests:** ${TEST_STATUS}"
+            echo "- **Machine-readable version matrix:** \`config-version-integrity-${{ github.run_id }}\` artifact"
+            echo "- **Next step:** Resolve any reported unsafe configuration or metadata mismatch."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   helm-chart:
     name: "Gate: Helm Chart Lint, Render, and Kind Smoke"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.helm == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -81,3 +229,27 @@ jobs:
               echo "- **Next step:** Review the failed step and rerun after remediation."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  gate-feedback:
+    name: "Gate: Config and Helm Failure Feedback"
+    needs:
+      - config-version-integrity
+      - helm-chart
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+    steps:
+      - name: Post gate failure feedback
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const gate = 'Config and Helm Integrity';
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for config lint, the package version matrix, or Helm validation details.`,
+            });

@@ -1,6 +1,6 @@
 {
   "name": "@themisdb/client",
-  "version": "0.1.0-beta.1",
+  "version": "2.4.0",
   "description": "Official JavaScript/TypeScript client for ThemisDB with transaction support",
   "type": "module",
   "main": "dist/index.js",

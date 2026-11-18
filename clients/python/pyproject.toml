@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "themisdb-client"
-version = "0.1.0b1"
+version = "2.4.0"
 description = "Python client SDK for ThemisDB with transaction support"
 readme = "README.md"
 authors = [{ name = "ThemisDB Team" }]

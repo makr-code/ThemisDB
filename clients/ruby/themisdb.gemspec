@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = 'themisdb'
-  spec.version = '1.0.0'
+  spec.version = '2.4.0'
   spec.authors = ['ThemisDB Contributors']
   spec.email = ['noreply@github.com']
 
