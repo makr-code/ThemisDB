@@ -614,9 +614,9 @@
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
         "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped",
+        "status": "proxy",
         "slo_target": "≤ 100 µs",
-        "notes": "CommitLatency/1 (single-op transaction) measures P50 commit time directly."
+        "notes": "CommitLatency/1 reports whole-iteration timing for a single-write transaction. Neither the primary nor the fallback exports per-commit P50; the SLO remains unverified."
       },
       "TX-2": {
         "label": "OCC Commit P99",
@@ -624,9 +624,9 @@
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
         "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped",
+        "status": "proxy",
         "slo_target": "≤ 5 ms",
-        "notes": "CommitLatency/100 (100-op transaction) measures high-percentile commit latency directly."
+        "notes": "CommitLatency/100 reports whole-iteration timing for a 100-write transaction. Neither the primary nor the fallback exports per-commit P99; the SLO remains unverified."
       },
       "TX-3": {
         "label": "Write-only transaction throughput (single thread)",
@@ -1702,10 +1702,10 @@
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
     "total": 203,
-    "mapped": 203,
-    "proxy": 0,
+    "mapped": 201,
+    "proxy": 2,
     "not_measurable": 0,
     "gap": 0,
-    "coverage_pct": 100.0
+    "coverage_pct": 99.0
   }
 }

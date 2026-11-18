@@ -222,6 +222,23 @@ class ComparatorHardeningTests(unittest.TestCase):
         result.repeated_sample = True
         self.assertEqual(self.verdict("≤ 2 ms", {"BM_Read": result}).status, "UNCHECKED")
 
+    def test_transaction_commit_targets_do_not_accept_iteration_averages(self):
+        source = Path(__file__).resolve().parents[2] / "src" / "transaction"
+        targets = {target.target_id: target for target in _parse_performance_expectations(
+            source / "PERFORMANCE_EXPECTATIONS.md", "transaction"
+        )}
+        with workspace() as root:
+            (root / "commit.json").write_text(json.dumps({"benchmarks": [
+                {"name": f"TransactionBenchmarkFixture/CommitLatency/{size}",
+                 "iterations": 1000, "time_unit": "us", "real_time": 1}
+                for size in (1, 100)
+            ]}), encoding="utf-8")
+            results = _load_all_results(root)
+        for target_id in ("TX-1", "TX-2"):
+            with self.subTest(target=target_id):
+                verdict = _evaluate_expectation(targets[target_id], results)
+                self.assertEqual(verdict.status, "UNCHECKED")
+
     def test_missing_cases_and_measurements_do_not_pass(self):
         result = BenchmarkResult("BM_Read", real_time_ns=1000)
         verdict = self.verdict("≤ 2 ms", {"BM_Read": result}, ["BM_Read", "BM_Missing"])

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-01-03"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "GitHub Copilot (exact model backend not recorded)"
@@ -1366,8 +1366,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
 |---------|----------------|-----------------|---------------------|----------------------|----------------------|------------------|-----------------|
-| TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `CommitLatency/1`: 37.39 us | PASS | `mapped` |
-| TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `CommitLatency/100`: 1.016 ms | PASS | `mapped` |
+| TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | Historischer Iterationswert: 37.39 µs; kein Commit-P50 | UNCHECKED | `proxy` |
+| TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | Historischer Iterationswert: 1.016 ms; kein Commit-P99 | UNCHECKED | `proxy` |
 | TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `WriteOnlyTransaction`: 6826.67 tps | PASS | `mapped` |
 | TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
 | TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `DatabaseWriteCompensation`: direkte SAGA-Kompensation ueber reale Handler (Artefakt: `bench_saga_compensation_v190.json`) | PASS (direkt) | `mapped` |
@@ -2181,7 +2181,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-3/R-4/R-5/R-6/R-7; Proxy-Cases: R-1/R-8; Gap-Ticket R-8-GAP mit Aufwand 5d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
-| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-5/TX-7/TX-8; Proxy-Cases: TX-4/TX-6; Gap-Tickets TX-4-GAP/TX-6-GAP mit Aufwand 7d |
+| Transaction | **Wave2 SLO-Matrix vollständig kartiert (2026-04-15)** | TX-1..TX-8 haben `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; TX-1/TX-2 sind Timing-Proxys ohne Commit-Perzentile. Eine Fallzuordnung belegt weder direkte Messbarkeit noch Zielerreichung. |
 | LLM | Model-backed component benchmark; performance baseline pending | `benchmarks/llm/bench_llm_real_models.cpp` (target `bench_llm_inference_performance`); token-simulation and fabricated-context results excluded; TTFT/TPOT and representative-hardware metrics remain open |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |
