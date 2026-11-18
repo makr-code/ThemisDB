@@ -536,6 +536,22 @@ else()
         message(STATUS "zstd not found - using fallback compression")
     endif()
 endif()
+
+# System RocksDB CMake packages may refer to lz4::lz4 without discovering it.
+find_package(lz4 CONFIG QUIET)
+if(NOT TARGET lz4::lz4)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(THEMIS_LZ4 QUIET IMPORTED_TARGET GLOBAL liblz4)
+        if(THEMIS_LZ4_FOUND)
+            add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+            set_target_properties(lz4::lz4 PROPERTIES
+                INTERFACE_LINK_LIBRARIES PkgConfig::THEMIS_LZ4
+            )
+        endif()
+    endif()
+endif()
+
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
 option(THEMIS_ALLOW_MISSING_ROCKSDB
     "Allow CMake configure to continue without a detected RocksDB install (build of RocksDB-dependent targets may fail)."
