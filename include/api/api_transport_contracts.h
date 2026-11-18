@@ -116,6 +116,17 @@ public:
         return versions;
     }
 
+    /**
+     * @brief Classifies a transport failure for the supplied request fields.
+     * @param method HTTP method; empty values are not validated by this default.
+     * @param path Request path; empty or oversized values are not validated by this default.
+     * @param content_type Content-Type value supplied by the adapter.
+     * @param payload_bytes Request body size in bytes.
+     * @param api_version API version value; the default does not negotiate versions.
+     * @return `None` in the default implementation. This is not a request-validity check.
+     * @note Adapters needing validation must override this method or explicitly call
+     *       `TransportContractValidator::validate()`.
+     */
     [[nodiscard]] virtual TransportFailureClass classifyFailure(
         std::string_view method,
         std::string_view path,

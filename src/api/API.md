@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -70,7 +70,26 @@ Related issues: #7093, #7167
 
 - Check payload/path bounds and API-version/content-type requirements before dispatch where the shared policy applies.
 - Treat unsupported version, malformed input, missing credentials, and unavailable adapter capability as explicit failures.
-- `ITransportContract` defaults to no capabilities; callers must inspect a concrete adapter rather than assume optional features.
-- Test boundary values and rejected requests using `tests/api/test_api_transport_hardening.cpp` and the nearest protocol test.
+- `ITransportContract::capabilities()` defaults to `None`, and its default `classifyFailure()` returns `None` without validating input. Callers must inspect a concrete adapter and use `TransportContractValidator` or an enforcing policy; the default classification is not evidence that a request is valid.
+- `TransportPolicyMiddleware` is opt-in. It checks request method/path presence and bounds, body size, a present API-version header, and Content-Type presence for non-empty POST/PUT/PATCH bodies. It does not validate the Content-Type value, header-value length, authentication, or authorization. Missing API-version headers are accepted.
+- Test boundary values against the shared implementation using `tests/api/test_api_phase4_concurrency.cpp` and the nearest protocol test; use `test_api_otlp_exporter_config.cpp` for exporter bounds. `test_api_transport_hardening.cpp` exercises a fixture adapter, not `TransportPolicyMiddleware`.
+
+## OTLP exporter configuration and recovery
+
+`OtlpExporter` is disabled by default; `enqueue()` is a no-op while disabled. When enabled and
+started, it uses a bounded queue and background flush thread. A full queue drops the oldest span
+and increments the dropped-span count. A running `stop()` drains queued spans and joins the worker; when the exporter was never started, no export
+is attempted. The current final drain can exceed `batch_size`, and `stop()` waits for its export
+and retry work. Coordinate producers before shutdown: concurrent `enqueue()` calls after stopping
+begins are not covered by a production lifecycle test and must not be assumed to be exported.
+At maximum configuration, one batch can occupy the worker for up to 16 minutes (11 × 60-second
+requests plus ten 30-second retry waits); shutdown can take longer when it drains queued data.
+
+Construction rejects a zero queue or batch size, non-positive flush interval, timeout outside
+1–60000 ms, retry count outside 0–10, and initial back-off outside 1–30000 ms. Per batch there
+are at most 11 send attempts, with exponential back-off capped at 30000 ms. Invalid endpoint or
+collector failures are reported through dropped counts/logs and do not fail the database
+operation. Monitor `droppedSpanCount()`; exporter delivery is not an audit or database durability
+signal.
 
 See `IMPLEMENTATION.md` and `MODULE_GUIDE.md` for source navigation.
