@@ -165,7 +165,7 @@ TEST_F(ProcessPatternMatcherAlgoTest, LCS_IdenticalSequences) {
     EXPECT_DOUBLE_EQ(results.front().overall_similarity, 1.0);
 }
 
-TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptySequences) {
+TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptyPatternAgainstNonemptyTrace) {
     PatternMatchConfig config;
     config.method = SimilarityMethod::BEHAVIORAL;
     config.use_cache = false;
@@ -174,7 +174,7 @@ TEST_F(ProcessPatternMatcherAlgoTest, LCS_EmptySequences) {
     ASSERT_TRUE(status.ok()) << status.message;
     ASSERT_EQ(results.size(), 1u);
     EXPECT_DOUBLE_EQ(results.front().overall_similarity, 0.0);
-    EXPECT_DOUBLE_EQ(results.front().metrics.path_similarity, 1.0);
+    EXPECT_DOUBLE_EQ(results.front().metrics.path_similarity, 0.0);
 }
 
 // ============================================================================

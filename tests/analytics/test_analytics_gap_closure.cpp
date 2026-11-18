@@ -9,7 +9,7 @@
  *  - Utilities (UT-01 to UT-15): Columnar execution, aggregation, RAII
  *  - Integration (IT-01 to IT-10): Cross-module workflows
  * 
- * Target: 86 behavior assertions; coverage is enforced by the nightly analytics gate.
+ * Target: 86 behavior tests; coverage is enforced by the nightly analytics gate.
  */
 
 #include <gtest/gtest.h>
@@ -292,7 +292,9 @@ TEST(ProcessMiningTests, PM_04_alpha_miner_algorithm) {
 TEST(ProcessMiningTests, PM_05_single_trace_discovery) {
     ProcessMiningHarness harness;
     const auto log = makeProcessLog({{"A", "B", "C"}});
-    const auto [status, model] = harness.mining().discoverProcess(log);
+    themis::MiningConfig config;
+    config.algorithm = themis::MiningAlgorithm::ALPHA;
+    const auto [status, model] = harness.mining().discoverProcess(log, config);
     ASSERT_TRUE(status.ok) << status.message;
     ASSERT_EQ(model.nodes.size(), 5U);
     EXPECT_TRUE(std::any_of(model.edges.begin(), model.edges.end(),
@@ -460,10 +462,15 @@ TEST(ProcessMiningTests, PM_15_non_conformant_traces) {
  * Verify: Trace variants correctly encoded as signatures
  */
 TEST(ProcessMiningTests, PM_16_variant_signatures) {
+    ProcessMiningHarness harness;
     const auto log = makeProcessLog({{"A", "BC"}, {"AB", "C"}, {"A", "BC"}});
-    ASSERT_EQ(log.traces[0].variant_signature, log.traces[2].variant_signature);
-    EXPECT_NE(log.traces[0].variant_signature, log.traces[1].variant_signature);
-    EXPECT_EQ(log.unique_variants, 2U);
+    const auto [status, variants] = harness.mining().analyzeVariants(log);
+    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_EQ(variants.size(), 2U);
+    EXPECT_EQ(variants[0].frequency, 2);
+    EXPECT_EQ(variants[0].activities, (std::vector<std::string>{"A", "BC"}));
+    EXPECT_EQ(variants[1].frequency, 1);
+    EXPECT_EQ(variants[1].activities, (std::vector<std::string>{"AB", "C"}));
 }
 
 /**
@@ -855,8 +862,8 @@ TEST(StreamingCEP, SC_05_event_payload_round_trip) {
 }
 
 /**
- * SC-06: Expired Window
- * Expected: auto-flushes
+ * SC-06: Watermark Boundary
+ * Expected: buffered tumbling windows close when a boundary event arrives
  */
 TEST(StreamingCEP, SC_06_expired_window) {
     themisdb::analytics::WindowConfig config;
@@ -870,6 +877,9 @@ TEST(StreamingCEP, SC_06_expired_window) {
     windows.addEvent(makeCepEvent("A", 0));
     windows.advanceWatermark(std::chrono::system_clock::time_point{
         std::chrono::milliseconds{10}});
+    EXPECT_EQ(emitted_events, 0U);
+    EXPECT_EQ(windows.getStats().windows_closed, 0U);
+    windows.addEvent(makeCepEvent("B", 10));
     EXPECT_EQ(emitted_events, 1U);
     EXPECT_EQ(windows.getStats().windows_closed, 1U);
 }
@@ -1232,8 +1242,12 @@ TEST(Utilities, UT_04_many_shards) {
     themisdb::analytics::ColumnarExecutionEngine engine;
     const auto results = engine.executeBatched(batches, pipeline);
     ASSERT_EQ(results.size(), batches.size());
-    EXPECT_TRUE(std::all_of(results.begin(), results.end(),
-                            [](const auto& result) { return result.rowCount() == 1U; }));
+    for (const auto& result : results) {
+        ASSERT_EQ(result.rowCount(), 1U);
+        const auto count = result.getColumn("count");
+        ASSERT_NE(count, nullptr);
+        EXPECT_DOUBLE_EQ(std::get<double>(count->get(0)), 2.0);
+    }
 }
 
 /**
