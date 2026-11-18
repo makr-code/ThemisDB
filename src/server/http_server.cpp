@@ -5038,7 +5038,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         path_only = path_only.substr(0, qpos);
     }
 
-    THEMIS_DEBUG("Request: {} {}", http::to_string(method), target);
+    THEMIS_DEBUG("Request: {} {}", std::string(http::to_string(method)), target);
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
