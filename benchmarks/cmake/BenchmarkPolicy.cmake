@@ -15,6 +15,15 @@ include_guard(GLOBAL)
 
 include(CMakeParseArguments)
 
+function(_themis_benchmark_json_string output value)
+    string(REPLACE "\\" "\\\\" _value "${value}")
+    string(REPLACE "\"" "\\\"" _value "${_value}")
+    string(REPLACE "\n" "\\n" _value "${_value}")
+    string(REPLACE "\r" "\\r" _value "${_value}")
+    string(REPLACE "\t" "\\t" _value "${_value}")
+    set(${output} "\"${_value}\"" PARENT_SCOPE)
+endfunction()
+
 # -----------------------------------------------------------------------------
 # themis_register_benchmark_ctest
 #
@@ -48,14 +57,6 @@ function(themis_register_benchmark_ctest)
         message(FATAL_ERROR "themis_register_benchmark_ctest requires MODULE")
     endif()
 
-    if(NOT TARGET "${TRB_TARGET}")
-        message(STATUS
-            "[benchmark-policy] Skipping CTest entry '${TRB_NAME}' — "
-            "target '${TRB_TARGET}' is not available"
-        )
-        return()
-    endif()
-
     if(NOT TRB_KIND)
         set(TRB_KIND "smoke")
     endif()
@@ -68,15 +69,54 @@ function(themis_register_benchmark_ctest)
         set(TRB_MIN_TIME "0.1s")
     endif()
 
-    # Ensure output directory exists at configure time so the benchmark can
-    # write its JSON report without failing on a missing directory.
+    string(SHA256 _id "${TRB_NAME}")
+    foreach(_field IN ITEMS TRB_NAME TRB_TARGET TRB_MODULE TRB_KIND)
+        _themis_benchmark_json_string(_json_${_field} "${${_field}}")
+    endforeach()
+    if(NOT TARGET "${TRB_TARGET}")
+        set_property(GLOBAL APPEND PROPERTY THEMIS_BENCHMARK_MANIFEST_ENTRIES
+            "{\"id\":\"${_id}\",\"test\":${_json_TRB_NAME},\"target\":${_json_TRB_TARGET},\"module\":${_json_TRB_MODULE},\"kind\":${_json_TRB_KIND},\"registration_status\":\"not_available\",\"executable\":null,\"result\":null}")
+        message(STATUS "[benchmark-policy] Skipping CTest entry '${TRB_NAME}' — target '${TRB_TARGET}' is not available")
+        return()
+    endif()
+
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+    foreach(_arg IN LISTS TRB_EXTRA_ARGS)
+        if(_arg MATCHES "^--benchmark_out(_format)?(=|$)")
+            message(FATAL_ERROR "Benchmark output arguments are owned by BenchmarkPolicy: ${_arg}")
+        endif()
+    endforeach()
+
     set(_out_dir "${CMAKE_BINARY_DIR}/bench_results/current")
-    file(MAKE_DIRECTORY "${_out_dir}")
+    string(LENGTH "${TRB_NAME}" _name_length)
+    string(TOUPPER "${TRB_NAME}" _upper_name)
+    if(TRB_NAME MATCHES "^[A-Za-z0-9_][A-Za-z0-9_.-]*$"
+       AND NOT TRB_NAME MATCHES "\\.$"
+       AND NOT _upper_name MATCHES "^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\\.|$)"
+       AND _name_length LESS 180)
+        set(_result "${_out_dir}/${TRB_NAME}.json")
+        string(TOLOWER "${TRB_NAME}" _folded_name)
+        string(SHA256 _name_key "${_folded_name}")
+        get_property(_existing GLOBAL PROPERTY "THEMIS_BENCHMARK_FILENAME_${_name_key}")
+        if(_existing)
+            message(FATAL_ERROR "Benchmark result filename collides with ${_existing}: ${TRB_NAME}")
+        endif()
+        set_property(GLOBAL PROPERTY "THEMIS_BENCHMARK_FILENAME_${_name_key}" "${TRB_NAME}")
+    else()
+        set(_result "${_out_dir}/.unsafe/${_id}.json")
+    endif()
+    _themis_benchmark_json_string(_json_executable "$<TARGET_FILE:${TRB_TARGET}>")
+    _themis_benchmark_json_string(_json_result "${_result}")
+    set_property(GLOBAL APPEND PROPERTY THEMIS_BENCHMARK_MANIFEST_ENTRIES
+        "{\"id\":\"${_id}\",\"test\":${_json_TRB_NAME},\"target\":${_json_TRB_TARGET},\"module\":${_json_TRB_MODULE},\"kind\":${_json_TRB_KIND},\"registration_status\":\"registered\",\"executable\":${_json_executable},\"result\":${_json_result}}")
 
     add_test(
         NAME    "${TRB_NAME}"
-        COMMAND $<TARGET_FILE:${TRB_TARGET}>
-            "--benchmark_out=${_out_dir}/${TRB_NAME}.json"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/benchmark_run_manifest.py"
+            run --results-dir "${_out_dir}" --id "${_id}" --timeout "${TRB_TIMEOUT}"
+            -- "$<TARGET_FILE:${TRB_TARGET}>"
+            "--benchmark_out=${_out_dir}/.manifest/${_id}-output"
             "--benchmark_out_format=json"
             "--benchmark_min_time=${TRB_MIN_TIME}"
             ${TRB_EXTRA_ARGS}
@@ -115,9 +155,13 @@ function(themis_register_benchmark_ctest)
         endif()
     endif()
 
+    if(NOT TRB_TIMEOUT MATCHES "^([0-9]+)(\\.[0-9]+)?$")
+        message(FATAL_ERROR "Benchmark TIMEOUT must be a non-negative number of seconds")
+    endif()
+    math(EXPR _ctest_timeout "${CMAKE_MATCH_1} + 16")
     set_tests_properties("${TRB_NAME}" PROPERTIES
         LABELS            "${_labels}"
-        TIMEOUT           "${TRB_TIMEOUT}"
+        TIMEOUT           "${_ctest_timeout}"
         FIXTURES_REQUIRED "themis_google_benchmark_run"
     )
 endfunction()
@@ -140,18 +184,27 @@ function(themis_register_benchmark_postprocess_ctest)
         message(FATAL_ERROR "Benchmark postprocessor not found: ${TRP_SCRIPT}")
     endif()
 
+    if(NOT TRP_RESULTS_DIR STREQUAL "${CMAKE_BINARY_DIR}/bench_results/current")
+        message(FATAL_ERROR "Benchmark postprocessor RESULTS_DIR must match the benchmark registration directory")
+    endif()
+
     if(NOT TRP_TIMEOUT)
         set(TRP_TIMEOUT 600)
     endif()
 
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
+    get_property(_entries GLOBAL PROPERTY THEMIS_BENCHMARK_MANIFEST_ENTRIES)
+    string(JOIN ",\n" _entry_json ${_entries})
+    set(_registry "${CMAKE_BINARY_DIR}/bench_results/registry-$<CONFIG>.json")
+    file(GENERATE OUTPUT "${_registry}" CONTENT "[${_entry_json}]\n")
+
     add_test(
         NAME "${TRP_NAME}_prepare"
-        COMMAND "${CMAKE_COMMAND}"
-            "-DRESULTS_DIR=${TRP_RESULTS_DIR}"
-            "-DARCHIVE_DIR=${TRP_ARCHIVE_DIR}"
-            -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PrepareBenchmarkResults.cmake"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/benchmark_run_manifest.py"
+            prepare --results-dir "${TRP_RESULTS_DIR}" --archive-dir "${TRP_ARCHIVE_DIR}"
+            --registry "${_registry}" --cmake "${CMAKE_COMMAND}"
+            --prepare-script "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PrepareBenchmarkResults.cmake"
     )
     set_tests_properties("${TRP_NAME}_prepare" PROPERTIES
         LABELS "module:benchmark_reporting;tier:benchmark;kind:setup"
@@ -161,9 +214,10 @@ function(themis_register_benchmark_postprocess_ctest)
 
     add_test(
         NAME "${TRP_NAME}"
-        COMMAND "${Python3_EXECUTABLE}" "${TRP_SCRIPT}"
-            --src-dir "${THEMIS_BENCHMARK_ROOT}/src"
-            --results-dir "${TRP_RESULTS_DIR}"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/benchmark_run_manifest.py"
+            finish --results-dir "${TRP_RESULTS_DIR}" --src-dir "${THEMIS_BENCHMARK_ROOT}/src"
+            -- "${Python3_EXECUTABLE}" "${TRP_SCRIPT}"
+            --src-dir "${THEMIS_BENCHMARK_ROOT}/src" --results-dir "${TRP_RESULTS_DIR}"
             --output "${TRP_REPORT_PATH}"
     )
     set_tests_properties("${TRP_NAME}" PROPERTIES
