@@ -548,11 +548,14 @@ static std::pair<std::string, std::string> generateSelfSignedCert() {
     X509_gmtime_adj(X509_get_notAfter(cert), 365 * 24 * 3600L);
     X509_set_pubkey(cert, pkey);
 
-    X509_NAME* name = X509_get_subject_name(cert);
-    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC,
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+        X509_NAME_new(), X509_NAME_free);
+    if (!name) { X509_free(cert); EVP_PKEY_free(pkey); return {}; }
+    X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC,
                                reinterpret_cast<const unsigned char*>("ThemisDB LoRA Test"),
                                -1, -1, 0);
-    X509_set_issuer_name(cert, name);
+    X509_set_subject_name(cert, name.get());
+    X509_set_issuer_name(cert, name.get());
 
     if (X509_sign(cert, pkey, EVP_sha256()) == 0) {
         X509_free(cert); EVP_PKEY_free(pkey); return {};
@@ -987,11 +990,14 @@ protected:
         X509_gmtime_adj(X509_getm_notBefore(x509), 0);
         X509_gmtime_adj(X509_getm_notAfter(x509), 365*24*3600);  // 1 year
         
-        X509_NAME* name = X509_get_subject_name(x509);
+        std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(
+            X509_NAME_new(), X509_NAME_free);
+        ASSERT_NE(name, nullptr);
         // X509_NAME_add_entry_by_txt requires 7 args: name, field, type, bytes, len, loc, set
-        X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASN1, 
+        X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASN1,
                                    (const unsigned char*)"Test LoRA Signer", -1, -1, 0);
-        X509_set_issuer_name(x509, name);
+        X509_set_subject_name(x509, name.get());
+        X509_set_issuer_name(x509, name.get());
         
         X509_set_pubkey(x509, pkey_);
         X509_sign(x509, pkey_, EVP_sha256());
@@ -1158,4 +1164,3 @@ TEST_F(EVPSignatureVerificationTest, Base64RoundtripWorks) {
     // Validated indirectly through signature verification tests
     EXPECT_FALSE(original.empty());
 }
-

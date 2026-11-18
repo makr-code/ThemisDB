@@ -2590,7 +2590,7 @@ std::string EnhancedPluginSecurityVerifier::getCertificateIssuer(X509 *cert) {
         return "";
     }
 
-    X509_NAME *issuer_name = X509_get_issuer_name(cert);
+    const X509_NAME *issuer_name = X509_get_issuer_name(cert);
     if (!issuer_name) {
         return "";
     }
@@ -2616,7 +2616,7 @@ std::string EnhancedPluginSecurityVerifier::getCertificateSubject(X509 *cert) {
         return "";
     }
 
-    X509_NAME *subject_name = X509_get_subject_name(cert);
+    const X509_NAME *subject_name = X509_get_subject_name(cert);
     if (!subject_name) {
         return "";
     }

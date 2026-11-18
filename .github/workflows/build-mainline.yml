@@ -231,7 +231,7 @@ jobs:
         run: |
           echo "  Installing macOS build dependencies via Homebrew..."
           brew update --quiet
-          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
+          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
           echo "  ✅ Homebrew packages installed"
           cmake --version
           ninja --version
@@ -261,7 +261,7 @@ jobs:
           echo "  CMake configure (macOS) — scoped to config + plugins"
           echo "──────────────────────────────────────────────"
           T0=$(date +%s)
-          OPENSSL_ROOT=$(brew --prefix openssl@3)
+          OPENSSL_ROOT=$(brew --prefix openssl)
           BREW_PREFIX=$(brew --prefix)
 
           # Conditionally enable sccache compiler launcher only when the

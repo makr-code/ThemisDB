@@ -336,10 +336,7 @@ if(WIN32 AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STRE
 endif()
 
 # Dependencies
-find_package(OpenSSL CONFIG)
-if(NOT OpenSSL_FOUND)
-    find_package(OpenSSL)
-endif()
+find_package(OpenSSL MODULE)
 if(NOT OpenSSL_FOUND)
     message(WARNING "OpenSSL not found; using interface fallback targets and disabling OpenSSL-backed TSA features")
     add_library(OpenSSL::SSL INTERFACE IMPORTED)

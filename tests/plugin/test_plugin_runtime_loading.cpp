@@ -120,14 +120,19 @@ struct BioDeleter {
     X509_gmtime_adj(X509_getm_notAfter(cert.get()), 24 * 60 * 60);
     X509_set_pubkey(cert.get(), key);
 
-    X509_NAME* subject = X509_get_subject_name(cert.get());
-    X509_NAME_add_entry_by_txt(subject, "CN", MBSTRING_ASC,
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> subject(
+        X509_NAME_new(), X509_NAME_free);
+    if (!subject) {
+        return nullptr;
+    }
+    X509_NAME_add_entry_by_txt(subject.get(), "CN", MBSTRING_ASC,
                                reinterpret_cast<const unsigned char*>("ThemisDB Official Plugins"), -1, -1, 0);
-    X509_NAME_add_entry_by_txt(subject, "O", MBSTRING_ASC,
+    X509_NAME_add_entry_by_txt(subject.get(), "O", MBSTRING_ASC,
                                reinterpret_cast<const unsigned char*>("ThemisDB"), -1, -1, 0);
-    X509_NAME_add_entry_by_txt(subject, "C", MBSTRING_ASC,
+    X509_NAME_add_entry_by_txt(subject.get(), "C", MBSTRING_ASC,
                                reinterpret_cast<const unsigned char*>("DE"), -1, -1, 0);
-    X509_set_issuer_name(cert.get(), subject);
+    X509_set_subject_name(cert.get(), subject.get());
+    X509_set_issuer_name(cert.get(), subject.get());
 
     if (X509_sign(cert.get(), key, EVP_sha256()) <= 0) {
         return nullptr;

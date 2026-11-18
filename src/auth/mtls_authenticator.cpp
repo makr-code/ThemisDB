@@ -318,7 +318,7 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
         claims.principal = claims.san_email_addresses.front();
     } else {
         // Extract CN from Subject DN
-        X509_NAME *subj = X509_get_subject_name(cert.get());
+        const X509_NAME *subj = X509_get_subject_name(cert.get());
         int idx         = X509_NAME_get_index_by_NID(subj, NID_commonName, -1);
         if (idx >= 0) {
             X509_NAME_ENTRY *entry = X509_NAME_get_entry(subj, idx);
@@ -460,7 +460,7 @@ std::string MTLSAuthenticator::extractSubjectCN(const std::string &cert_pem) {
                                       "extractSubjectCN: failed to parse PEM: " + opensslError()));
     }
 
-    X509_NAME *subj = X509_get_subject_name(cert.get());
+    const X509_NAME *subj = X509_get_subject_name(cert.get());
     int idx         = X509_NAME_get_index_by_NID(subj, NID_commonName, -1);
     if (idx < 0) {
         return {};
