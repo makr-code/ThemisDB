@@ -318,6 +318,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps",
             "- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries",
             "- [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates",
+            "- [AI_WORKING.md](AI_WORKING.md) — working-artifact authority boundaries, compaction/archive semantics, tests, and current workflow evidence",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -403,6 +404,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "- [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.",
             "- [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.",
             "- [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.",
+            "- [ai_working module context](AI_WORKING.md) — no runtime API; artifact lifecycle, structural checks, compactor failure behavior, test limits, and workflow evidence.",
             "",
             *lines[4:],
         ]
