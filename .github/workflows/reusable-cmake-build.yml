@@ -1103,6 +1103,7 @@ jobs:
           RELEASE_BUILD_MANIFEST: ${{ inputs.release_manifest_json }}
         run: |
           set -euo pipefail
+          rm -rf packages/_CPack_Packages
           identity_path="${RUNNER_TEMP}/release-build-identity.json"
           printf '%s\n' "$RELEASE_BUILD_MANIFEST" > "$identity_path"
           python3 "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/ci/release_build_artifact.py" \

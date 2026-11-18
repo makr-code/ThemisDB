@@ -36,6 +36,52 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_release_identity_discards_only_cpack_staging(self):
+        steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
+        script = next(item["run"] for item in steps
+                      if item.get("name") == "Write validated release package identity")
+        for unexpected in (False, True):
+            with self.subTest(unexpected=unexpected), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                subprocess.run(["git", "init", "-q", str(directory)], check=True)
+                subprocess.run(
+                    ["git", "-C", str(directory), "-c", "user.name=Test",
+                     "-c", "user.email=test@example.com", "commit", "-q",
+                     "--allow-empty", "-m", "test"], check=True,
+                )
+                sha = subprocess.check_output(
+                    ["git", "-C", str(directory), "rev-parse", "HEAD"], text=True
+                ).strip()
+                configuration = {
+                    "source_sha": sha, "edition": "community", "build_type": "Release",
+                    "platform": "linux-arm64", "architecture": "arm64", "compiler": "gcc",
+                    "triplet": "arm64-linux", "profile": "release-packages-v1",
+                }
+                identity = {**configuration, "configuration": configuration}
+                identity["config_id"] = hashlib.sha256(
+                    json.dumps(configuration, sort_keys=True, separators=(",", ":")).encode()
+                ).hexdigest()
+                packages = directory / "packages"
+                (packages / "_CPack_Packages" / "Linux").mkdir(parents=True)
+                (packages / "_CPack_Packages" / "Linux" / "staging").write_text("staging")
+                (packages / "themisdb.tar.gz").write_bytes(b"package")
+                if unexpected:
+                    (packages / "unexpected").mkdir()
+                result, _ = run_bash(
+                    script, directory, GITHUB_WORKSPACE=str(ROOT), RUNNER_TEMP=str(directory),
+                    THEMIS_CACHE_TOOLS_PREFIX="", RELEASE_BUILD_MANIFEST=json.dumps(identity),
+                )
+                self.assertEqual(result.returncode == 0, not unexpected, result.stderr)
+                self.assertFalse((packages / "_CPack_Packages").exists())
+                self.assertTrue((packages / "themisdb.tar.gz").is_file())
+                if unexpected:
+                    self.assertIn("non-regular file", result.stderr)
+                    self.assertTrue((packages / "unexpected").is_dir())
+                else:
+                    manifest = json.loads((packages / "release-build-manifest.json").read_text())
+                    self.assertEqual([item["name"] for item in manifest["packages"]],
+                                     ["themisdb.tar.gz"])
+
     def test_linux_bootstrap_retries_only_http_server_errors_and_fails_closed(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
         with tempfile.TemporaryDirectory() as temp:
