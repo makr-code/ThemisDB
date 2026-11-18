@@ -5818,7 +5818,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     endif()
     
     # OpenSSL is optional (HTTPS support via cpp-httplib)
-    find_package(OpenSSL QUIET)
+    find_package(OpenSSL MODULE QUIET)
     if(OpenSSL_FOUND)
         target_link_libraries(themisctl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
         target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
