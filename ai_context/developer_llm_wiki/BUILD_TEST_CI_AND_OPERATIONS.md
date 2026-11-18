@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-17"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-16
+Datum: 2026-11-17
 Status: Active
 
 ## .github/workflows/benchmark-gate.yml
@@ -54,7 +54,7 @@ Status: Active
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `99afecf992cab4f8`
+- Hash: `8976719f7edbfc8c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -154,7 +154,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `083ee14409216faa`
+- Hash: `b598832114093c07`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -179,7 +179,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `19eb43de4bb84eb8`
+- Hash: `99b6b923a5605133`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml

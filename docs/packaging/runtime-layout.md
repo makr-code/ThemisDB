@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-04-26"
+Last Updated: "2026-11-17"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Runtime Layout (Canonical)
 
 Diese Datei ist die zentrale Definition der Laufzeitumgebung fuer Packaging und Deployment.
@@ -6,7 +20,7 @@ Diese Datei ist die zentrale Definition der Laufzeitumgebung fuer Packaging und 
 
 - `bin/`: Server, CLI-Tools, Tests, Benchmarks, Runtime-DLLs (inkl. vcpkg-abhaengig)
 - `lib/`: optionale Bibliotheken/Archive
-- `config/`: Laufzeitkonfigurationen
+- `config/`: Laufzeitkonfigurationen, einschließlich optionaler Agent-Skill-Pakete
 - `data/`: Laufzeitdaten und optionale Dokumentationsdatenbank
 - `models/`: deploybare Laufzeitmodelle (derzeit TinyLlama-Baseline)
 - `certs/`: Zertifikatsmaterial
@@ -18,8 +32,9 @@ Diese Datei ist die zentrale Definition der Laufzeitumgebung fuer Packaging und 
 1. `cmake/packaging/RuntimeLayout.cmake` ist die maschinenlesbare Quelle fuer Komponenten, Pflichtordner und Doku-Dateien.
 2. ZIP-Packages kopieren zusaetzlich den gesamten Build-Ordner `bin/`, um alle erzeugten EXE/DLL/Test/Benchmark-Binaries mitzuliefern.
 3. Windows-Install-Regeln erfassen Runtime-DLL-Abhaengigkeiten ueber `RUNTIME_DEPENDENCY_SET` und installieren sie nach `bin/`.
-4. Einstiegsdokumente (`README.md`, `CHANGELOG.md`, `SETUP.md`, usw.) muessen im Paket-Root vorhanden sein.
-5. `scripts/setup-runtime-env.ps1` ist das Standard-Setup-Tool fuer Windows-Laufzeitvariablen.
+4. Runtime-Install und ZIP-Staging uebernehmen das komplette `config/`-Verzeichnis; enthaltene Skill-Pakete werden dadurch ausgeliefert, aber weder entdeckt noch aktiviert.
+5. Einstiegsdokumente (`README.md`, `CHANGELOG.md`, `SETUP.md`, usw.) muessen im Paket-Root vorhanden sein.
+6. `scripts/setup-runtime-env.ps1` ist das Standard-Setup-Tool fuer Windows-Laufzeitvariablen.
 
 ## Schalter fuer Test-/Benchmark-Deploy
 
@@ -40,7 +55,8 @@ Diese Datei ist die zentrale Definition der Laufzeitumgebung fuer Packaging und 
   - Binaries: `/usr/bin`
   - Libraries: `/usr/lib`
   - Includes: `/usr/include`
-  - Runtime-Daten: `/usr/data`, `/usr/config`, `/usr/models` (paketabhaengig)
+  - Runtime-Daten: `/usr/data`, `/usr/models` (paketabhaengig)
+  - Konfiguration: CMake installiert `config/` nach `/usr/etc/themisdb`; eine Kompatibilitaetskopie liegt unter `/usr/bin/config`
 - macOS TGZ/ZIP:
   - Paket-Root analog Windows-ZIP (relativer Prefix)
   - Binaries in `bin/`, Runtime-Daten in den gleichnamigen Top-Level-Ordnern

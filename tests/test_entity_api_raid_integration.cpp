@@ -38,9 +38,6 @@ using namespace themis::sharding;
 class EntityApiRaidIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-#ifdef _WIN32
-        GTEST_SKIP() << "Skipping unstable entity RAID integration tests on Windows";
-#endif
         // Create temporary directory for test database with unique suffix
         test_db_path_ = std::filesystem::temp_directory_path() / 
                        ("themis_raid_test_" + std::to_string(std::time(nullptr)) + "_" + std::to_string(getpid()));
@@ -70,10 +67,12 @@ protected:
         // Initialize RAID components
         hash_ring_ = std::make_shared<ConsistentHashRing>(100);
         hash_ring_->addNode("shard-0");
-        hash_ring_->addNode("shard-1");
-        hash_ring_->addNode("shard-2");
         
         shard_topology_ = std::make_shared<ShardTopology>();
+        ShardInfo local_shard;
+        local_shard.shard_id = "shard-0";
+        local_shard.is_healthy = true;
+        shard_topology_->addShard(local_shard);
         
         redundancy_manager_ = std::make_shared<CollectionRedundancyManager>();
         
@@ -81,7 +80,7 @@ protected:
         RedundancyConfig raid_config;
         raid_config.mode = RedundancyMode::MIRROR;
         raid_config.replication_factor = 1;
-        raid_config.write_concern = WriteConcern::MAJORITY;
+        raid_config.write_concern = WriteConcern::ALL;
         redundancy_manager_->setCollectionConfig("users", raid_config);
     }
     
@@ -154,13 +153,10 @@ TEST_F(EntityApiRaidIntegrationTest, RaidDisabledByDefault) {
 }
 
 TEST_F(EntityApiRaidIntegrationTest, RaidEnabledWithComponents) {
-#ifdef _WIN32
-    GTEST_SKIP() << "Known hang in RAID-enabled put path on Windows in current build; other RAID integration paths remain covered.";
-#endif
-
     // Create handler with RAID enabled
     EntityApiConfig config;
     config.feature_raid = true;  // Enabled
+    config.local_shard_id = "shard-0";
     
     EntityApiHandler handler(
         storage_,
@@ -199,25 +195,65 @@ TEST_F(EntityApiRaidIntegrationTest, RaidEnabledWithComponents) {
     auto value = storage_->get(KeySchema::makeRelationalKey("users", "bob"));
     EXPECT_TRUE(value.has_value());
     
-    // Verify RAID replicas were written (with shard prefix)
-    // Note: In the current implementation, replicas are written to local storage with shard prefix
-    auto shard_0_value = storage_->get("shard-0:users:bob");
-    auto shard_1_value = storage_->get("shard-1:users:bob");
-    auto shard_2_value = storage_->get("shard-2:users:bob");
-    
-    // At least some replicas should exist (depending on write concern)
-    int replica_count = 0;
-    if (shard_0_value.has_value()) {
-      replica_count++;
-    }
-    if (shard_1_value.has_value()) {
-      replica_count++;
-    }
-    if (shard_2_value.has_value()) {
-      replica_count++;
-    }
-    
-    EXPECT_GT(replica_count, 0) << "Expected at least one RAID replica to be written";
+    EXPECT_FALSE(storage_->get("shard-0:users:bob").has_value())
+        << "MIRROR writes must not create local shard-prefixed shadow records";
+}
+
+TEST_F(EntityApiRaidIntegrationTest, AllConcernFailsWhenReplicaEndpointIsMissing) {
+    auto multi_shard_ring = std::make_shared<ConsistentHashRing>(100);
+    multi_shard_ring->addNode("shard-0");
+    multi_shard_ring->addNode("shard-1");
+    auto multi_shard_topology = std::make_shared<ShardTopology>();
+    ShardInfo local_shard;
+    local_shard.shard_id = "shard-0";
+    local_shard.is_healthy = true;
+    multi_shard_topology->addShard(local_shard);
+    ShardInfo missing_endpoint_shard;
+    missing_endpoint_shard.shard_id = "shard-1";
+    missing_endpoint_shard.is_healthy = true;
+    multi_shard_topology->addShard(missing_endpoint_shard);
+
+    auto manager = std::make_shared<CollectionRedundancyManager>();
+    RedundancyConfig raid_config;
+    raid_config.mode = RedundancyMode::MIRROR;
+    raid_config.replication_factor = 2;
+    raid_config.write_concern = WriteConcern::ALL;
+    manager->setCollectionConfig("users", raid_config);
+
+    EntityApiConfig config;
+    config.feature_raid = true;
+    config.local_shard_id = "shard-0";
+    EntityApiHandler handler(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        config,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        manager,
+        multi_shard_ring,
+        multi_shard_topology
+    );
+
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::put);
+    req.target("/entities/users:partial");
+    req.set(boost::beast::http::field::content_type, "application/json");
+    req.body() = R"({"key":"users:partial","blob":"{\"name\":\"Partial\"}"})";
+    req.prepare_payload();
+
+    const auto response = handler.handlePut(req);
+    EXPECT_EQ(response.result(), boost::beast::http::status::service_unavailable);
+    EXPECT_NE(response.body().find("indeterminate"), std::string::npos);
+    EXPECT_TRUE(storage_->get(KeySchema::makeRelationalKey("users", "partial")).has_value())
+        << "A failed ALL response must disclose that the primary may already be committed";
 }
 
 TEST_F(EntityApiRaidIntegrationTest, RaidDisabledWhenComponentsMissing) {

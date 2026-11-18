@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-16"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -55,9 +55,20 @@ redaction, and access controls in the service's logging and telemetry systems.
 
 ### Ingestion health
 
-- Check `IndexResult` for each indexed document and separately verify vector
-  and graph sink state. A workflow fallback or partial sink write can still
-  return `ok == true`.
+- Check `IndexResult::status` and `ok` for every indexed document. Treat
+  `DEGRADED` as successful fallback processing, and `PARTIAL`/`FAILED` as
+  unsuccessful indexing that requires reconciliation. Inspect
+  `used_fallback`, `error`, and the confirmed vector, graph-entity, and
+  graph-relation counts; independently verify required sink state.
+- Sink writes are not atomic. A successful adapter call is not a transaction
+  receipt; failed sink calls are conservatively reported as `PARTIAL` because
+  adapters may have applied part of a batch. Do not retry blindly unless the
+  sink's overwrite/idempotency
+  semantics are known; verify existing records first. The bridge has no
+  automatic sink retry loop and performs at most one workflow fallback.
+- Deployments that omit a writer receive no persistence guarantee for that
+  sink. Zero counts alone do not distinguish an absent writer from an empty
+  workflow result.
 - Monitor ingestion timestamps and destination collection. A monitor's
   percentile does not prove that all expected source records were indexed.
 - If using `RotateHourlyAggregate()`, schedule it explicitly; the API does not

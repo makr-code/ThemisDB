@@ -1,54 +1,22 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-16T03:02:41+00:00",
+  "generated_at": "2026-11-17T19:54:35+00:00",
   "mode": "incremental",
-  "source_count": 8092,
-  "source_hash": "7df8e233a39b083b113bc1f03f056ca8383041b0b2dd4950415a5cbdc37c01fb",
+  "source_count": 8103,
+  "source_hash": "2a9c59652f5c7bd859ab803c160967428f479a5e483d772038deedba8786b6d7",
   "delta": {
-    "added_count": 2,
-    "removed_count": 5,
-    "changed_count": 26,
-    "added_preview": [
-      "docs/ARCHIVED/ai-working-history/PHASE3_IMPLEMENTATION_SUMMARY.md",
-      "docs/audit/DOCS_INVENTORY_2026-Q3.md"
-    ],
-    "removed_preview": [
-      "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
-      "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
-      "ai_context/developer_llm_wiki/INDEX.md",
-      "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
-      "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md"
-    ],
+    "added_count": 0,
+    "removed_count": 0,
+    "changed_count": 3,
+    "added_preview": [],
+    "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/benchmark-performance-gate.yml",
-      ".github/workflows/build-wave-b-transaction.yml",
-      ".github/workflows/gate-pr-core.yml",
-      ".github/workflows/gate-pr-final-runtime-api.yml",
-      ".github/workflows/gate-pr-rag-security.yml",
-      ".github/workflows/gate-pr-rag-version.yml",
-      ".github/workflows/release-build-matrix.yml",
-      ".github/workflows/reusable-cmake-build.yml",
-      "docs/code_maturity_report.md",
-      "include/llm/llama_wrapper.h",
-      "include/llm/multi_lora_manager.h",
-      "include/llm/wiki_index_store.h",
-      "include/server/vector_api_handler.h",
-      "include/training/ada_lora_adapter.h",
-      "include/training/adalora_training_pipeline.h",
-      "include/training/adalora_tt_bridge.h",
-      "include/training/incremental_lora_trainer.h",
-      "include/transaction/distributed_transaction_manager.h",
-      "include/transaction/lock_manager.h",
-      "include/transaction/transaction_manager.h",
-      "src/onnx_clip/README.md",
-      "src/onnx_clip/ROADMAP.md",
-      "src/training/FUTURE_ENHANCEMENTS.md",
-      "src/training/README.md",
-      "src/training/ROADMAP.md",
-      "src/transaction/ROADMAP.md"
+      "ai_context/developer_llm_wiki/LLM_SKILLS.md",
+      "docs/packaging/runtime-layout.md",
+      "include/server/entity_api_handler.h"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "782152d6ba7ff3c19811c156128705e43266c1c4655b4e9ca4d0b50654a0cb9c"
+  "manifest_sha256": "d0562c87b96629dc6857c016369a883527fe188e5ac94532bc0a0cfc319b9c1a"
 }

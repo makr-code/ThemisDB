@@ -40,6 +40,48 @@ else()
     message(STATUS "Replication HA focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/../test_replication_ha.cpp")
 endif()
 
+if(UNIX)
+    add_executable(replication_wal_crash_worker
+        "${CMAKE_CURRENT_LIST_DIR}/replication_wal_crash_worker.cpp"
+    )
+    target_include_directories(replication_wal_crash_worker PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(replication_wal_crash_worker PRIVATE
+        themis_core
+        Threads::Threads
+    )
+
+    add_executable(module_replication_test_replication_wal_process_crash_autofocused
+        "${CMAKE_CURRENT_LIST_DIR}/test_replication_wal_process_crash.cpp"
+    )
+    add_dependencies(module_replication_test_replication_wal_process_crash_autofocused
+        replication_wal_crash_worker
+    )
+    target_include_directories(module_replication_test_replication_wal_process_crash_autofocused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_replication_test_replication_wal_process_crash_autofocused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_replication_test_replication_wal_process_crash_autofocused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_REPLICATION_WAL_CRASH_WORKER="$<TARGET_FILE:replication_wal_crash_worker>"
+    )
+    themis_register_module_focused_test(
+        MODULE replication
+        NAME ReplicationWalProcessCrashFocusedTests
+        TARGET module_replication_test_replication_wal_process_crash_autofocused
+        TIER unit
+        TIMEOUT 120
+        LABELS replication storage crash_recovery process_kill
+    )
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_replication_chaos.cpp")
     message(STATUS "Adding Replication: Wave A Batch A-9 chaos tests")
     add_executable(module_replication_test_replication_chaos_focused

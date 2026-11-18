@@ -15,6 +15,7 @@
 #include "security/intent_classifier.h"
 
 #include <algorithm>
+#include <cmath>
 #include <string>
 
 using namespace themis::security;

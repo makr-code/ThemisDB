@@ -27,6 +27,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <memory>
@@ -73,6 +74,22 @@ enum class ReplicationMode {
     SYNC,           // Synchronous: wait for all replicas
     SEMI_SYNC,      // Semi-synchronous: wait for quorum
     ASYNC           // Asynchronous: don't wait
+};
+
+/**
+ * @brief Outcome of replaying the replication WAL during startup.
+ *
+ * A node may become ready only after complete recovery or recovery of a
+ * physically truncated final record. Corruption, timeout, and I/O failure
+ * leave replication unavailable.
+ */
+enum class WALRecoveryStatus : uint8_t {
+    NOT_STARTED,
+    COMPLETE,
+    TRUNCATED_TAIL,
+    CORRUPTED,
+    TIMED_OUT,
+    FAILED
 };
 
 /**
@@ -407,9 +424,34 @@ class WALManager {
 public:
     explicit WALManager(const ReplicationConfig& config);
     ~WALManager();
+
+    /**
+     * @brief Return the outcome of the last WAL replay.
+     * @return COMPLETE or TRUNCATED_TAIL after successful recovery. Construction
+     *         throws on CORRUPTED, TIMED_OUT, or FAILED recovery.
+     */
+    [[nodiscard]] WALRecoveryStatus getRecoveryStatus() const noexcept {
+        return recovery_status_;
+    }
     
-    // Append entry to WAL
+    /**
+     * @brief Append an entry using the configured WAL fsync policy.
+     * @param entry The entry to append; a supplied checksum must match the payload.
+     * @return The assigned WAL sequence number.
+     * @throws std::runtime_error if the WAL is unavailable, the append fails, or the checksum is invalid.
+     */
     uint64_t append(const WALEntry& entry);
+
+    /**
+     * @brief Append an entry and confirm its durability before exposing it to readers.
+     * @param entry The entry to append; a supplied checksum must match the payload.
+     * @return The assigned WAL sequence number after the configured fsync or explicit flush succeeds.
+     * @throws std::runtime_error if the WAL is unavailable, the append fails, or durability is unconfirmed.
+     * @note The WAL lock is held through the durability check so replication readers cannot observe
+     *       an entry before its durable append has completed. A failed durability check poisons
+     *       this WAL manager until it is reopened and recovered.
+     */
+    [[nodiscard]] uint64_t appendDurably(const WALEntry& entry);
     
     // Read entries starting from sequence number
     std::vector<WALEntry> readFrom(uint64_t start_sequence, uint32_t limit = 1000);
@@ -420,14 +462,38 @@ public:
     // Get current term
     uint64_t getCurrentTerm() const { return current_term_.load(); }
     
-    // Increment term (for leader election)
-    uint64_t incrementTerm();
+    /**
+     * @brief Increment and durably persist the election term.
+     * @return The new term, after its metadata record has been persisted.
+     * @throws std::runtime_error if term persistence is unavailable or fails.
+     * @throws std::overflow_error if the current term is already the maximum value.
+     * @note The term is persisted independently of data-entry appends so a restart
+     *       cannot forget an election that occurred before the next write.
+     */
+    [[nodiscard]] uint64_t incrementTerm();
+
+    /**
+     * @brief Persist a term learned from another node before changing local election state.
+     * @param term The observed term; values not greater than the current term are ignored.
+     * @return The current term after the update.
+     * @throws std::runtime_error if persistence is unavailable or fails.
+     */
+    [[nodiscard]] uint64_t updateTerm(uint64_t term);
     
-    // Truncate WAL up to sequence (for compaction)
+    /**
+     * @brief Remove in-memory WAL entries older than a sequence and checkpoint durable storage.
+     * @param sequence Entries with sequence numbers lower than this value are removed.
+     * @note A checkpoint failure is logged and does not restore already-removed in-memory entries.
+     */
     void truncateBefore(uint64_t sequence);
     
-    // Sync WAL to disk
-    void sync();
+    /**
+     * @brief Flush data and election-term WALs to durable storage.
+     * @return True only if the data WAL and any initialized term WAL flush successfully;
+     *         false if either WAL is unavailable, previously poisoned, or its flush fails.
+     * @note A failed flush marks this manager unavailable for further appends until restart.
+     */
+    [[nodiscard]] bool sync();
     
     // Get WAL size in bytes
     uint64_t getSize() const;
@@ -437,10 +503,14 @@ public:
     std::mutex& getMutex() { return wal_mutex_; }
 
 private:
+    uint64_t appendImpl(const WALEntry& entry, bool require_durability);
+
     ReplicationConfig config_;
+    WALRecoveryStatus recovery_status_ = WALRecoveryStatus::NOT_STARTED;
     std::atomic<uint64_t> current_sequence_{0};
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
+    uint64_t persistTermLocked(uint64_t term);
     
     // Internal file handling
     void rotateSegment();
@@ -459,10 +529,22 @@ public:
     );
     ~LeaderElection();
     
-    // Start election process
+    /**
+     * @brief Start a local election after durably advancing the term.
+     * @note If the term cannot be persisted, the node remains in its current role
+     *       and the election attempt is deferred.
+     */
     void startElection();
     
-    // Request vote from this node
+    /**
+     * @brief Evaluate a vote request, persisting a newer term before granting a vote.
+     * @param term Candidate's election term.
+     * @param candidate_id Candidate node identifier.
+     * @param last_log_sequence Candidate's last WAL sequence.
+     * @param last_log_term Candidate's last WAL term.
+     * @return True only when the candidate's log is current and the vote is granted;
+     *         false for stale terms, an outdated log, or term-persistence failure.
+     */
     bool requestVote(
         uint64_t term,
         const std::string& candidate_id,
@@ -470,7 +552,14 @@ public:
         uint64_t last_log_term
     );
     
-    // Receive heartbeat from leader
+    /**
+     * @brief Process a leader heartbeat and advance the commit index when accepted.
+     * @param term Leader's election term.
+     * @param leader_id Leader node identifier.
+     * @param leader_commit Leader's committed sequence.
+     * @note A newer term is persisted before follower state or commit-index changes.
+     *       If persistence fails, the heartbeat is ignored.
+     */
     void receiveHeartbeat(
         uint64_t term,
         const std::string& leader_id,
@@ -553,11 +642,15 @@ private:
     
     void electionLoop();
     void becomeLeader();
-    void becomeFollower(uint64_t term, const std::string& leader_id);
+    bool becomeFollower(uint64_t term, const std::string& leader_id);
 };
 
 /**
- * Replication Stream for streaming WAL entries to followers
+ * @brief Track WAL delivery to a follower.
+ *
+ * A follower ACK is recorded only after a transport confirms delivery. No
+ * network transport is currently configured, so streams retry and retain an
+ * acknowledged sequence of zero rather than reporting local work as delivered.
  */
 class ReplicationStream {
 public:
@@ -603,9 +696,6 @@ private:
     static constexpr uint32_t kMaxRetries = 3;
     static constexpr uint32_t kBaseBackoffMs = 100;
     static constexpr uint32_t kMaxBackoffMs = 5000;
-
-    // Compressed WAL transport (Zstd/LZ4/Snappy, configured via ReplicationConfig)
-    std::unique_ptr<CompressedReplicationStream> compressed_stream_;
 
     void streamLoop();
     bool sendBatch(const std::vector<WALEntry>& entries);
@@ -655,19 +745,24 @@ public:
     void shutdown();
     
     /**
-     * Replicate a write operation to all configured replicas.
+     * @brief Replicate a write operation to all configured replicas.
      *
      * Appends the WAL entry to this node's Write-Ahead Log and schedules
      * replication to followers according to the configured replication mode
      * (SYNC, SEMI_SYNC, or ASYNC).
      *
      * @param entry WAL entry containing operation, document, data, and checksum.
-     * @return true if entry was appended to WAL; false if this node is not
-     *         the leader, WAL append failed, or replication is not initialized.
+     * @return true if the entry is durable locally and meets the configured replication
+     *         acknowledgement condition; false if this node is not the leader, durability
+     *         is unconfirmed, a required replica acknowledgement is missing, or replication
+     *         is not initialized.
      *
-     * @note In ASYNC mode, returns true immediately without waiting for replicas.
+     * @note In ASYNC mode, returns true after local WAL durability without waiting for replicas.
      *       In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge.
      *       In SYNC mode, waits for all voting replicas.
+     * @note No listener notification is emitted for an entry that fails the configured
+     *       acknowledgement condition. This API does not provide a network transport when
+     *       no transport implementation is configured.
      */
     bool replicate(const WALEntry& entry);
     
@@ -833,9 +928,10 @@ public:
                           const std::vector<std::string>& peer_regions);
     
     /**
-     * Promote a read replica to primary
+     * @brief Promote a read replica to primary.
      * @param replica_id: Node ID of replica to promote
-     * @return true on success
+     * @return True on success, including durable term advancement; false if the
+     *         replica is missing, behind, or the term cannot be persisted.
      */
     bool promoteReplica(const std::string& replica_id);
     
@@ -860,9 +956,33 @@ public:
      * @return Health status map (node_id -> is_healthy)
      */
     std::map<std::string, bool> getClusterHealth() const;
+
+    /**
+     * @brief Report the latest local replication-WAL recovery outcome.
+     * @return Recovery status. Failed startup recovery remains visible here and
+     *         in exported metrics; the local node is not ready in that state.
+     */
+    [[nodiscard]] WALRecoveryStatus getWALRecoveryStatus() const noexcept {
+        return wal_recovery_status_.load();
+    }
+
+    /**
+     * @brief Report whether this replication manager can serve replication work.
+     * @return True only after initialization and while running, with WAL recovery
+     *         complete or a truncated final record safely repaired; false before
+     *         initialization, after shutdown, or when recovery failed.
+     * @note This is local startup readiness, not proof of peer reachability,
+     *       quorum, or end-to-end replication delivery.
+     */
+    [[nodiscard]] bool isReady() const noexcept {
+        const auto recovery_status = wal_recovery_status_.load();
+        return initialized_.load() && running_.load() &&
+               (recovery_status == WALRecoveryStatus::COMPLETE ||
+                recovery_status == WALRecoveryStatus::TRUNCATED_TAIL);
+    }
     
     /**
-     * Export metrics in Prometheus format
+     * @brief Export replication metrics in Prometheus format.
      * @return Prometheus-formatted metrics string
      */
     std::string exportPrometheusMetrics() const;
@@ -1041,6 +1161,7 @@ private:
     std::mutex manager_mutex_;
     std::atomic<bool> initialized_{false};
     std::atomic<bool> running_{false};
+    std::atomic<WALRecoveryStatus> wal_recovery_status_{WALRecoveryStatus::NOT_STARTED};
      
     // Background threads
     std::thread heartbeat_thread_;
@@ -1290,9 +1411,10 @@ private:
 // ============================================================================
 
 /**
- * CompressedReplicationStream
+ * @brief Compress and decompress replication batches locally.
  *
- * Wraps a replication batch before sending and decompresses on receive.
+ * Serializes and compresses a replication batch locally and decompresses received data.
+ * This helper does not own or implement network transport.
  * Supported algorithms: NONE, LZ4 (fast), ZSTD (best ratio), SNAPPY (fastest).
  * AUTO selects ZSTD for batches >= min_batch_size, otherwise NONE.
  */
@@ -1327,8 +1449,12 @@ public:
 
     // Construct with default compression config
     explicit CompressedReplicationStream(const std::string& endpoint);
-    // Compress entries and (in production) send over network.
-    // Returns true on success; false on compression error.
+    /**
+     * @brief Compress a batch and update local compression statistics.
+     * @param entries Entries to serialize and compress; an empty batch is a successful no-op.
+     * @return True when local compression succeeds; false on a compression error.
+     * @note This method does not send data or establish a follower acknowledgement.
+     */
     bool sendBatch(const std::vector<WALEntry>& entries);
 
     // Decompress a byte buffer received from the network.

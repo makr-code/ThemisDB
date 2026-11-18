@@ -13,6 +13,7 @@
 
 #include <functional>
 #include <memory>
+#include <string>
 
 namespace themis {
 namespace sharding {
@@ -25,13 +26,27 @@ namespace server {
 class WalGrpcService {
 public:
     using ServiceFn = std::function<void*()>;
+    using EntityWriteFn = std::function<bool(
+        const std::string& collection,
+        const std::string& uuid,
+        const std::string& data_json,
+        std::string& error)>;
 
     /**
-     * @brief Wal Grpc Service.
-     * @param[in] wal_applier Input parameter.
-     * @return Return value.
+     * @brief Creates the registered shard gRPC service.
+     * @param wal_applier Applies WAL batches; may be null when only entity
+     *        replication is configured.
+     * @param entity_write_fn Persists validated replicated entities through
+     *        the node's normal index/storage path; an empty callback disables
+     *        ReplicateData and causes it to return FAILED_PRECONDITION.
+     * @param local_shard_id This server's configured shard ID. When non-empty,
+     *        ReplicateData rejects requests addressed to another shard.
+     * @throws std::runtime_error if the non-proto service bridge fails.
      */
-    explicit WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier);
+    explicit WalGrpcService(
+        std::shared_ptr<sharding::WALApplier> wal_applier,
+        EntityWriteFn entity_write_fn = {},
+        std::string local_shard_id = {});
     ~WalGrpcService();
 
     /**
@@ -48,6 +63,8 @@ public:
 
 private:
     std::shared_ptr<sharding::WALApplier> wal_applier_;
+    EntityWriteFn entity_write_fn_;
+    std::string local_shard_id_;
 
     void* service_ptr_ = nullptr;
 

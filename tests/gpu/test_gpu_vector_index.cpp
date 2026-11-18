@@ -479,7 +479,9 @@ TEST_F(GPUVectorIndexTest, FailedBackendSwitchPreservesExistingIndexState) {
     }
 
     if (!unavailableBackend.has_value()) {
-        GTEST_SKIP() << "All non-CPU GPU backends are available in this environment";
+        GTEST_SKIP() << "capability:all_non_cpu_gpu_backends_available=true;"
+                        "reason=no_unavailable_backend_to_exercise;"
+                        "evidence-gap=gpu_vector_index_unavailable_backend_fallback";
     }
 
     EXPECT_FALSE(index.switchBackend(*unavailableBackend));
@@ -518,7 +520,9 @@ TEST_F(GPUVectorIndexTest, SuccessfulNonCpuBackendSwitchPreservesVectorCount) {
         });
 
     if (targetIt == available.end()) {
-        GTEST_SKIP() << "No non-CPU backend available in this environment";
+        GTEST_SKIP() << "capability:non_cpu_gpu_backend_available=false;"
+                        "reason=no_non_cpu_backend_available;"
+                        "evidence-gap=gpu_vector_index_backend_switch";
     }
 
     ASSERT_TRUE(index.switchBackend(*targetIt));
@@ -622,11 +626,14 @@ TEST_F(GPUVectorIndexTest, CUDAInnerProductNoFallback_FailsClosedWhenCUDAActive)
 
     GPUVectorIndex index(config);
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "CUDA unavailable and fallback disabled; initialization fail-closed as expected";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;"
+                        "reason=cuda_unavailable_with_fallback_disabled;"
+                        "evidence-gap=gpu_vector_index_cuda_fail_closed";
     }
 
     if (index.getActiveBackend() != GPUVectorIndex::Backend::CUDA) {
-        GTEST_SKIP() << "CUDA backend not active in this environment";
+        GTEST_SKIP() << "capability:cuda_backend_active=false;reason=cuda_backend_not_active;"
+                        "evidence-gap=gpu_vector_index_cuda_execution";
     }
 
     ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));

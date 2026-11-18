@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-11-13 (LLM application framework interoperability proposal added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
+**Last Updated:** 2026-11-17 (Portable Agent Skill package proposal and module interface/acceptance plan added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the 2026-10-01 manifest records C1/C2 as successful, C3 sustained-load evidence as pending, C4 compliance sign-off as in progress, and `overall_status` as open. The latest `gate-wave-closure.yml` develop run [41036260560](https://github.com/makr-code/ThemisDB/actions/runs/41036260560) succeeded structural manifest validation only; artifact `12967483854` (digest `sha256:159a15db1d236c2b6992b5ca8ede4c6f01289752bc0f76bb3d93746822f8b33e`, expires 2026-11-29) is not C3/C4 evidence. See `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md`. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **The Q3 quarterly pentest workflow run 36261285860 produced simulated results only, not an executed pentest/vendor assessment; PENTEST-Q3-001 remains HIGH OPEN and PENTEST-Q3-002/003/004 remain OPEN without verified dispositions. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -394,6 +394,17 @@ See the [LLM hybrid boundary](src/llm/ARCHITECTURE.md) and
   models. Distinguish resident adapters, per-request selection, simultaneous
   application and offline fusion; none implies the others
   (Target: Q2 2027 proposal).
+- [~] **P1 -- Portable Agent Skill packages:** implement the file-based MVP for
+  **metadata-only, progressively disclosed** `SKILL.md` catalog and bounded
+  `SkillRegistry` integration with existing LLM modes and allowlisted tools.
+  The initial implementation and three opt-in guidance packages are present;
+  race-safe path opening, zero-body-byte discovery, focused build/test evidence,
+  and representative performance evidence remain pending. Preserve the
+  distinction between untrusted procedural instructions and executable, authorized tools;
+  no arbitrary bundled script execution or database persistence in the initial
+  scope (Target: Q2 2027 proposal). See the
+  [LLM module roadmap](src/llm/ROADMAP.md) and
+  [SkillRegistry interface proposal](src/llm/FUTURE_ENHANCEMENTS.md).
 - [ ] **P1 -- Tensor abstraction layers:** qualify TT representations,
   fingerprints, adapter/package/shard summaries and exact-on-demand loads
   between retrieval, training and serving. Declare reconstruction/quality

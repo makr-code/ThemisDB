@@ -236,8 +236,11 @@ public:
     /**
      * @brief Recover state from WAL after a crash
      *
-     * Must be called before the participant starts handling requests.
-     * Re-populates the in-memory transaction map from durable WAL entries.
+     * The constructor runs this recovery synchronously before the participant
+     * can handle requests; callers may invoke it again to inspect the unresolved
+     * count without restoring locks twice. The WAL manager streams every durable
+     * record before trimming its bounded serving cache, and recovery restores
+     * locks for replayed PREPARED transactions before reporting completion.
      * In-doubt transactions (PREPARED with no COMMIT/ABORT decision) are
      * left in PREPARED state; the coordinator should re-resolve them.
      *
@@ -266,6 +269,7 @@ private:
     mutable std::mutex                         mutex_; ///< Schutz fuer Teilnehmerzustandsmap.
     std::map<std::string, ParticipantTransaction> transactions_; ///< In-Memory-Transaktionszustand.
     bool durability_failed_ = false;
+    bool recovery_complete_ = true;
 
     // WAL for durable logging
     std::unique_ptr<WALManager> wal_; ///< Optionales WAL-Backend fuer Crash-Recovery.
@@ -289,6 +293,13 @@ private:
                   const std::string& txn_id,
                   const nlohmann::json& data,
                   bool force_sync = false);
+
+    /**
+     * @brief Apply a durable record during recovery.
+     * @param entry Replayed record in WAL sequence order.
+     * @param retain_terminal Whether terminal state may be cached for idempotent RPCs.
+     */
+    void applyRecoveredEntry(const WALEntry& entry, bool retain_terminal);
 };
 
 } // namespace themis::sharding

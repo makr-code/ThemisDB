@@ -9,6 +9,50 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
+    def test_release_critical_jobs_use_matching_supported_boost_runners(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-core.yml"
+        ).read_text(encoding="utf-8")
+        build_job = workflow.split("\n  quality-test-build:", 1)[1]
+        build_job, gate_job = build_job.split("\n  quality-test-gate:", 1)
+        gate_job = re.split(r"\n  [\w-]+:", gate_job, maxsplit=1)[0]
+        self.assertIn("runs_on: ubuntu-24.04", build_job)
+        self.assertIn("runs-on: ubuntu-24.04", gate_job)
+        for job in (build_job, gate_job):
+            for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
+                self.assertRegex(job, rf"\b{package}\b")
+
+    def test_build_components_gate_uses_supported_boost_runner(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "reusable-pr-build-components-gate.yml"
+        ).read_text(encoding="utf-8")
+        release_job = workflow.split("\n  release-critical-tests:", 1)[1]
+        release_job = release_job.split("\n  final-runtime-api-gate:", 1)[0]
+        self.assertIn("runs-on: ubuntu-24.04", release_job)
+        for package in ("libboost-system-dev", "libboost-filesystem-dev"):
+            self.assertRegex(release_job, rf"\b{package}\b")
+
+    def test_inference_gate_uses_supported_boost_runner(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-final-runtime-api.yml"
+        ).read_text(encoding="utf-8")
+        inference_job = workflow.split("  llm-docsdb-inference-gate:", 1)[1]
+        inference_job = inference_job.split("\n  final-runtime-api-gate:", 1)[0]
+        self.assertIn("runs-on: ubuntu-24.04", inference_job)
+        install_step = inference_job.split("name: Install build dependencies", 1)[1]
+        install_step = install_step.split("\n      - name:", 1)[0]
+        for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
+            self.assertRegex(install_step, rf"\b{package}\b")
+
     def test_modular_inference_targets_compile_production_embedded_llm(self) -> None:
         cmake = (REPO_ROOT / "tests" / "llm" / "CMakeLists.txt").read_text(
             encoding="utf-8"
@@ -51,13 +95,36 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         inference_step = workflow.split("name: Run TinyLlama inference tests", 1)[1]
         inference_step = inference_step.split("\n      - name:", 1)[0]
         self.assertIn("--verbose", inference_step)
-        self.assertIn("--timeout 120", inference_step)
+        self.assertIn("--timeout 600", inference_step)
         self.assertIn("ctest-tinyllama.log", inference_step)
 
         artifact_step = workflow.split("name: Upload LLM/docs.db gate artifacts", 1)[1]
         artifact_step = artifact_step.split("\n  final-runtime-api-gate:", 1)[0]
         self.assertIn("if: always()", artifact_step)
         self.assertIn("Testing/Temporary/LastTest.log", artifact_step)
+
+    def test_docs_db_rag_timeout_matches_ctest_registration(self) -> None:
+        cmake = (REPO_ROOT / "tests" / "llm" / "CMakeLists.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertRegex(
+            cmake,
+            re.compile(
+                r"_add_llm_inference_ci_target\(\s*test_llm_doku_rag\s+"
+                r'"[^"]+"\s+600\s*\)',
+                re.DOTALL,
+            ),
+        )
+
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-final-runtime-api.yml"
+        ).read_text(encoding="utf-8")
+        rag_step = workflow.split("name: Run docs.db RAG inference tests", 1)[1]
+        rag_step = rag_step.split("\n      - name:", 1)[0]
+        self.assertIn("--timeout 600", rag_step)
 
     def test_status_workflow_concurrency_is_scoped_by_operation_and_target(self) -> None:
         workflow = (

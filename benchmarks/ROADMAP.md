@@ -23,6 +23,26 @@ Exact model backend not verifiable from final document text alone.
   - [x] Define domain-specific YCSB/ANN-Benchmarks/VectorDBBench/ClickBench/LDBC SNB evidence requirements in `BENCHMARK_STANDARDS.md`.
   - [x] MSVC runner: process CPU/peak memory/I/O, run manifest, case filtering, repetitions, bounded execution and error-aware JSON acceptance; verified with importer smoke runs.
   - [x] Python YCSB-inspired A/B/C/F canonical HTTP adapter and CLI: corrected F mix, seeded operation selection, readback validation, p50/p95/p99 and owned cleanup. Twenty focused tests pass; isolated Community Debug live smokes completed all four workloads (100 records/200 operations each) with optional server-PID phase CPU/I/O and memory snapshots. No upstream conformance or production performance is claimed.
+  - [x] Central complete/unified Python entry points use validated ThemisDB HTTP reads and writes for YCSB-inspired and scientific measurements; errors abort publication.
+  - [x] Wikipedia JSONL runner measures actual ThemisDB entity PUT/readback latency and throughput with owned cleanup; canned query/stress success metrics removed.
+  - [x] Wikipedia runner supports bounded concurrent entity write/readback pairs, reports configured concurrency, and keeps serial mode as the default.
+  - [x] Former LLM/NLP simulation runner replaced by a ThemisDB vector HTTP workload with synthetic vectors, verified search self-matches and owned cleanup; no LLM/embedding/RAG claims.
+  - [x] `specialized_comparative_benchmarks.py` disabled after removing fabricated competitor metrics, unchecked API calls, and unsupported winner/operational-cost claims; validated competitor drivers remain open.
+  - [x] `polyglot_benchmark_simple.sh` disabled after removing unchecked HTTP calls and extrapolated competitor results; validated polyglot comparison remains open.
+  - [x] Retired the linked 5GB shell load/stress coordinator after removing unsupported endpoints, false-success handling, incompatible database workloads, and canned conclusions.
+  - [x] `benchmark_suite.sh` disabled after removing swallowed operation failures, average-derived p99 estimates, and unsupported comparative conclusions.
+  - [x] `run_performance_benchmarks.sh` now validates nonempty Google Benchmark measurements, excludes invalid outputs, and returns nonzero when no executable measurement succeeds.
+  - [x] Retired the Multi-Shard RAID PowerShell/Python entry points and quickstart because the Compose target was absent, RAID was not configured, HTTP operations were unverified, and resource metrics were placeholders.
+  - [?] Implement a real local multi-process MIRROR benchmark (Target: Q4 2026).
+    - Scope: start three isolated ThemisDB instances on separate loopback ports and data directories; configure MIRROR, replication factor 3 and write concern ALL. RAID parity, failover and recovery are outside this first scope.
+    - Blockers: `EntityApiHandler::handlePut` currently writes RAID shard-prefixed data to local storage and treats RAID failures as best effort. The server's `WalGrpcService` implements `ApplyWalBatch`, not `ReplicateData`; the existing `ShardRPCClient::writeEntity` alone does not provide a server-side replica write path.
+    - Local diagnostic, 2026-11-17: three healthy processes configured for MIRROR/RF=3/ALL each logged a three-shard repair scan. One PUT returned HTTP 201; the originating instance returned HTTP 200 on readback, but both other instances returned HTTP 404. The scan is only indirect evidence of RAID initialization, not proof that ALL was enforced. This is a correctness failure, not a benchmark result.
+    - Runtime prerequisite: wire authenticated inter-shard writes to the actual replica persistence/index path, preserve existing security and entity semantics, and return success only after all three replicas acknowledge. On failure or timeout after a local commit, report an indeterminate partial state, not a rollback.
+    - Correctness gate: for each successful benchmark write, read and compare its payload on all three distinct instances. Any failed write, failed or mismatched readback, unexpected topology, startup failure or cleanup failure prevents a successful result.
+    - Measurement: report successful operation counts, errors, wall-clock throughput, and request-latency p50/p95/p99 with explicit units; distinguish measured requests from verification and report unavailable metrics as unavailable. Do not claim RAID levels other than MIRROR or external comparability.
+    - Verification: cover missing/failed replicas, partial writes and mismatched readback, then execute a real three-process integration run with the selected server build. Use per-run owned directories and stop only processes started by the benchmark; preserve diagnostic evidence on failure.
+  - [ ] Implement server-backed Wikipedia full-text/query and recovery scenarios against verified APIs before reporting those dimensions.
+  - [ ] Implement and validate database-backed TPC-C, TPC-H, Sysbench and cross-database comparison drivers; the central entry points do not claim these results.
   - [ ] Integrate pinned reference drivers/adapters and dataset/query/ground-truth checksums; validate operation semantics and correctness before claiming external comparability.
   - [ ] Collect server-scoped resources, storage footprint and request latency histograms; keep client cost and setup/index build separate.
   - [ ] Complete the 273-binary resource pass; triage native crashes, hardware-dependent measurement errors and the gossip network/scalability timeout. The interrupted baseline pass is incomplete.
@@ -106,6 +126,8 @@ Exact model backend not verifiable from final document text alone.
 
 ## Breaking Changes
 - Python YCSB now rejects missing operation adapters rather than simulating database operations. YCSB suite callers must supply `operation_adapters`; old adapter-free demo/full-suite invocations intentionally stop.
+- Central complete/unified Python runners now require a ThemisDB HTTP endpoint and emit only measured scientific/YCSB-inspired results. The complete runner requires a new output path; unvalidated TPC-C/TPC-H/Sysbench/full modes stop instead of generating simulated results. Unified JSON uses `runs`, with `--operations` per workload and repetition; prior reports and schema are not interchangeable.
 - `standard_benchmarks_integration.py` CLI now requires `--endpoint`, `--workload` and `--output` and runs only the canonical HTTP YCSB-inspired path. Workloads D/E are not supported by this adapter. Optional `--server-pid` observes a verified local listening process; no SDK namespace encoding is used.
+- `llm_nlp_integration_test_suite.py` now runs only ThemisDB vector insert/search HTTP measurements over synthetic vectors. Its previous mock LLM/NLP scenarios and fixed-success outputs are removed; this runner does not measure embedding generation or RAG.
 - Unverified YCSB expectation/ratio fields are now `null`; industry-grade comparisons are no longer emitted. Consumers must not interpret missing reference evidence as zero performance.
 - Wave 4 additions remain additive.

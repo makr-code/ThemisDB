@@ -139,9 +139,9 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "Build: Mainline faster compile feedback lane"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "Fast-path dependencies installed"
+        set -euo pipefail; echo "Build: Mainline faster compile feedback lane"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "Fast-path dependencies installed"
       configure_command: >-
-        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build-fast -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build-fast -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
       build_command: >-
         export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
@@ -164,13 +164,13 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
+        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
       configure_command: >-
-        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
       build_command: >-
         export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
-        sccache --show-stats || true;
+        "${SCCACHE_PATH:-sccache}" --show-stats || true;
         BUILD_LOG="$(mktemp)";
         BUILD_EXIT_FILE="$(mktemp)";
         trap 'rm -f "${BUILD_LOG}" "${BUILD_EXIT_FILE}"' EXIT;
@@ -183,7 +183,7 @@ jobs:
           cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
         else
-          sccache --show-stats || true;
+          "${SCCACHE_PATH:-sccache}" --show-stats || true;
           exit "${BUILD_EXIT}";
         fi
       validation_command: >-
@@ -431,9 +431,9 @@ jobs:
             fi
           }
 
-          build_target test_config_file_watcher_focused ConfigFileWatcherFocusedTests
-          build_target test_plugin_hot_plug_focused PluginHotPlugFocusedTests
-          build_target test_plugin_hot_reload_enhanced_focused PluginHotReloadEnhancedFocusedTests
+          build_target module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests
+          build_target module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests
+          build_target module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests
 
           SECS=$(( $(date +%s) - T0 ))
           echo "  ✅ kqueue-scoped targets built in ${SECS}s (${BUILD_WARN} target(s) with warnings)"

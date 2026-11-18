@@ -1,10 +1,9 @@
 /*
  * Unit tests for the ROCm/HIP backend (rocm_backend.h / rocm_backend.cpp).
  *
- * All tests are designed to run on CI without AMD GPU hardware.  When HIP is
- * not available the backend transparently falls back to CPU execution and the
- * tests verify that the fallback path behaves correctly.  On a machine with a
- * real HIP-capable GPU the same tests exercise the actual HIP code paths.
+ * The tests run on CPU-only CI and verify that unsupported or unimplemented
+ * HIP dispatch fails closed. Stream and memory management have separate
+ * CPU-compatible behavior tests.
  */
 
 #include <gtest/gtest.h>
@@ -64,19 +63,19 @@ TEST_F(ROCmBackendTest, CreateBackendFn_ReturnsCallable) {
     ASSERT_TRUE(fn != nullptr);
 }
 
-TEST_F(ROCmBackendTest, CreateBackendFn_WorkItemWithNoArgs_Succeeds) {
+TEST_F(ROCmBackendTest, CreateBackendFn_WorkItemWithNoArgs_DoesNotReportGpuSuccess) {
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "hip_test_kernel";
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 }
 
-TEST_F(ROCmBackendTest, CreateBackendFn_WorkItemWithArgs_Succeeds) {
+TEST_F(ROCmBackendTest, CreateBackendFn_WorkItemWithArgs_DoesNotReportGpuSuccess) {
     auto fn = backend().createBackendFn(0);
     GPULauncher::WorkItem item;
     item.kernel_id = "hip_kernel_with_args";
     item.args      = {0x01, 0x02, 0x03};
-    EXPECT_TRUE(fn(item));
+    EXPECT_FALSE(fn(item));
 }
 
 TEST_F(ROCmBackendTest, CreateBackendFn_CanBePassedToGPULauncher) {
@@ -86,7 +85,7 @@ TEST_F(ROCmBackendTest, CreateBackendFn_CanBePassedToGPULauncher) {
     GPULauncher::WorkItem item;
     item.kernel_id = "hip_launcher_test";
     auto result = launcher.submit(std::move(item)).get();
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
     EXPECT_EQ(result.kernel_id, "hip_launcher_test");
 }
 
@@ -199,7 +198,7 @@ TEST_F(ROCmBackendTest, ZeroMemory_ZeroSize_Succeeds) {
 // ---------------------------------------------------------------------------
 
 TEST(ROCmStreamManagerIntegrationTest,
-     StreamManager_WithROCmBackend_WorkItemSucceeds) {
+     StreamManager_WithROCmBackend_UnimplementedDispatchFailsClosed) {
     auto& sm = GPUStreamManager::GetInstance();
     // Wire the ROCm backend into the stream manager.
     auto backend_fn = ROCmBackend::GetInstance().createBackendFn(0);
@@ -208,22 +207,21 @@ TEST(ROCmStreamManagerIntegrationTest,
     GPULauncher::WorkItem item;
     item.kernel_id = "hip_integrated_kernel";
     auto result = sm.submit("hip_integrated", std::move(item)).get();
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
 
     sm.destroyStream("hip_integrated");
 }
 
 TEST(ROCmStreamManagerIntegrationTest,
-     StreamManager_NullBackend_UsesROCmFallback) {
-    // When no backend is provided, GPUStreamManager now uses the ROCm backend
-    // (which falls back to CPU when HIP is unavailable).
+     StreamManager_NullBackend_FailsClosedWithoutKernelDispatch) {
+    // The default ROCm backend must not report CPU or no-op execution as GPU success.
     auto& sm = GPUStreamManager::GetInstance();
     sm.createStream({"rocm_default"});
 
     GPULauncher::WorkItem item;
     item.kernel_id = "rocm_default_kernel";
     auto result = sm.submit("rocm_default", std::move(item)).get();
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
 
     sm.destroyStream("rocm_default");
 }
@@ -283,21 +281,19 @@ TEST_F(ROCmBackendTest, HipAllocation_MultipleRecords_Tracking) {
     EXPECT_EQ(stats_after.bytes_allocated, 0u);
 }
 
-// Test HIP timeout enforcement (Phase 4: KernelSLAGuard)
-TEST_F(ROCmBackendTest, HipKernelTimeout_EnforcedInBackendFn) {
-    // Create a stream with the ROCm backend function (which includes timeout enforcement)
+// A device synchronization without a kernel launch is not a successful dispatch.
+TEST_F(ROCmBackendTest, HipKernelWithoutLaunch_ReportsFailure) {
     auto backend_fn = backend().createBackendFn(0);
     EXPECT_TRUE(backend_fn != nullptr);
     
-    // Create a work item with non-empty args to trigger synchronization
     GPULauncher::WorkItem item;
     item.kernel_id = "phase4_timeout_test";
-    item.args.push_back(0x01);  // Non-empty args trigger sync
+    item.args.push_back(0x01);
     
-    // The backend function should complete without hanging
-    // (timeout is enforced within createBackendFn)
+    // Synchronizing an existing device without launching the requested kernel
+    // must not be reported as a successful GPU dispatch.
     bool success = backend_fn(item);
-    EXPECT_TRUE(success);
+    EXPECT_FALSE(success);
 }
 
 // Test stream synchronization timeout (Phase 4: timeout enforcement)

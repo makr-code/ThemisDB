@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -19,6 +19,7 @@ Canonical_References:
   - "../../include/llm/model_router.h"
   - "../../include/llm/prompt_policy.h"
   - "../../include/llm/streaming_handler.h"
+  - "../../include/llm/skill_registry.h"
   - "../../include/llm/lora_framework/training_snapshot.h"
   - "../../include/llm/lora_framework/adapter_provenance.h"
   - "../../include/storage/mvcc_snapshot_pins.h"
@@ -93,6 +94,29 @@ snapshot pinning is supported, bound its lifetime and report stale/expired
 evidence; do not infer a global cross-shard snapshot from independent reads.
 LLM planning supplies candidate requests, not a replacement for the trusted
 query optimizer or authorization checks.
+
+### Optional Agent Skill packages
+
+`SkillRegistry` provides read-only discovery from explicitly configured
+filesystem roots. Refresh reads bounded `SKILL.md` YAML frontmatter; `list()`
+returns only name/description metadata, while `load()` and `readResource()`
+return instruction/resource content only after explicit requests. The stream
+used for discovery may read ahead into the instruction body, so zero body-byte
+I/O has not been established. `registerSkillTools()` optionally
+adds `list_skills`, `load_skill`, and `read_skill_resource` to an existing
+`ToolRegistry`; the active `ModeSpec` allow/deny lists remain authoritative.
+
+Skill text and resources are untrusted instructions, never permissions. The
+registry rejects malformed or duplicate package metadata, symlinks, path
+escapes, invalid UTF-8, and files over configured limits when observed during
+its checks. Path checking and opening are not atomic against concurrent
+replacement; configured roots, package contents and parent directories must
+not be writable by untrusted users while the registry is in use. The registry
+does not execute bundled scripts, persist packages in ThemisDB, select skills
+with embeddings, or create an autonomous agent graph. Three opt-in guidance
+packages are provided in [the Agent Skills catalog](../../config/agent_skills/README.md).
+See the [skill interface contract](../../include/llm/skill_registry.h) and
+[LLM API contract](../../ai_context/api_contracts/llm.md).
 
 ### Locality, lifecycle, and failure domains
 

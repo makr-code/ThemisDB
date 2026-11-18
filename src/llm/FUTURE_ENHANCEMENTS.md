@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-02-21"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-17"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -222,6 +222,140 @@ runtime guarantee, approved provider matrix, or release commitment.
 - Separate optional persistent workflow/approval state from transient KV-cache
   state and from committed database effects; no exactly-once external-effect
   guarantee follows from inference or checkpoint persistence.
+
+## Portable Agent Skill Packages (MVP; Remaining Work Proposed)
+
+### Scope
+
+The initial filesystem-backed `SkillRegistry` implementation provides
+metadata-only discovery, explicit instruction/resource loading, and opt-in
+`ToolRegistry` integration. Remaining work includes representative performance
+evidence and any future persistence, embedding-based selection, package
+signing, or script-execution designs. Skills complement `ModePack`/`ModeSpec`
+and do not replace mode selection, tool authorization, or database execution.
+Three opt-in guidance packages for read-only AQL drafting, evidence-grounded
+answers, and graph exploration are under `config/agent_skills/`. This plan is
+not a release commitment.
+
+### Design Constraints
+
+- Follow the open Agent Skills directory convention: one package directory
+  contains a `SKILL.md` with YAML frontmatter and Markdown instructions;
+  `name` and `description` are required for discovery. Keep any Themis-specific
+  fields namespaced and optional so packages remain portable.
+- Apply progressive disclosure: startup/refresh exposes only package metadata;
+  instruction bodies, references, and other resources are returned only after
+  an explicit load request. Current buffered manifest reads can read ahead
+  into the body; zero body-byte I/O is a remaining hardening target.
+- Treat all skill metadata, instructions, and resources as untrusted input.
+  Text can guide the model but cannot grant tool permissions, bypass policy,
+  authorize database access, or commit effects.
+- Keep authorization in the active `ModeSpec` and trusted executor. A skill's
+  suggested tool list is descriptive only; `tools_allowed` and `tools_denied`
+  remain authoritative.
+- The first implementation is read-only and filesystem-backed. Do not execute
+  bundled scripts, persist skill packages in the database, add automatic
+  vector/embedding selection, or introduce a general agent graph runtime.
+- Discovery roots are explicit configuration. Reject ambiguous package names
+  and paths that escape a canonical package root; bound metadata and resource
+  sizes before reading them.
+
+### Required Interfaces
+
+The initial internal contract is implemented as follows:
+
+| Type / operation | Contract |
+|---|---|
+| `SkillDescriptor` | Stable package name, short description, and canonical package root; contains no instruction body. |
+| `SkillDocument` | A validated `SkillDescriptor` plus the `SKILL.md` instruction body returned only by explicit load. |
+| `SkillRegistry::refresh()` | Scan configured roots and atomically replace the in-memory metadata snapshot; return the number of packages or a typed error for malformed packages and duplicate names. |
+| `SkillRegistry::list()` | Return the current metadata snapshot without opening instruction bodies or reference files; fail until a successful refresh. |
+| `SkillRegistry::load(name)` | Load and validate the selected package's `SKILL.md`, subject to configured byte and format limits. |
+| `SkillRegistry::readResource(name, relative_path)` | Read a package-relative resource only after canonical-path containment checks and resource-size validation. |
+
+Use the repository's `Result<T>` error convention with distinct not-found,
+invalid-metadata, duplicate-name, size-limit, path-escape, I/O, uninitialized,
+and invalid-content errors. Registry refresh publishes one complete snapshot;
+readers observe either the previous or new snapshot, never a partial scan.
+Integrate these operations as opt-in built-in tools (for example
+`list_skills`, `load_skill`, and `read_skill_resource`) only when registered by
+the caller. Each tool must remain subject to the active mode allowlist.
+
+### Implementation Notes
+
+- The implemented initial metadata contract requires scalar `name` and
+  `description`; top-level metadata keys must be unique, and names are lowercase
+  package slugs matching the directory.
+  Other frontmatter is ignored rather than interpreted as policy.
+- Refresh scans configured roots atomically and returns an explicit count.
+  Listing returns sorted metadata; frontmatter, instructions, and resources
+  enforce UTF-8 and configured byte limits.
+- Discovery parses the frontmatter only, but the buffered stream may read body
+  bytes into its buffer. Do not claim zero instruction-body I/O.
+- Resource path arguments must be UTF-8 package-relative strings without NUL
+  bytes; invalid encoding, absolute paths, and traversal are rejected before
+  filesystem resolution.
+- Validate the frontmatter and package directory name consistently; do not
+  infer authorization from a field in the package.
+- Initially let the caller expose the catalog to the selected mode and let the
+  model request a matching skill through the loading tool. Do not claim
+  automatic intent routing or embedding search.
+- Support Markdown references as inert text resources. Scripts may be shipped
+  by an upstream package but ThemisDB must not execute them in this scope.
+- Keep discovery and reads outside database transactions and avoid logging
+  skill bodies or resource contents.
+- Preserve compatibility: existing mode packs, tool plugins, MCP bridging,
+  and inference call signatures require no changes to use the registry.
+
+### Test Strategy
+
+- Verify metadata-only discovery for multiple packages and prove that no body
+  or reference bytes are read until `load` or `readResource` is called.
+- Cover valid/invalid frontmatter, missing required fields, unsupported format,
+  duplicate names, missing files, non-UTF-8 input, and each size limit.
+- Test `..` traversal, absolute paths, invalid-UTF-8/NUL paths, symlink escapes,
+  and root replacement. Add race-safe file-opening coverage before treating
+  paths as secure against a concurrent untrusted filesystem writer.
+- Verify mode allow/deny controls still gate every skill tool and a skill cannot
+  enable a tool denied by the mode.
+- Exercise concurrent list/load/refresh to prove readers never see partial
+  registry state.
+- Confirm compatibility by loading existing mode packs and running existing
+  tool/inference contract tests unchanged.
+
+### Performance Targets
+
+- Benchmark metadata-only discovery with 1,000 package directories on a
+  documented release-CI storage profile; proposed p95 target is <= 100 ms.
+- Assert zero instruction-body and resource bytes are loaded during discovery;
+  report scan time, package count, metadata bytes, and hardware/storage profile.
+- Do not make the latency target a release gate until a reproducible baseline
+  exists and maintainers approve the tested storage profile.
+
+### Security / Reliability
+
+- Treat package content as untrusted prompt input; it may contain prompt
+  injection or misleading instructions. The model's interpretation cannot
+  override system policy or tool authorization.
+- Resolve configured roots and requested resources canonically. Reject
+  invalid-UTF-8/NUL paths, traversal, absolute paths, all symlinked package
+  entries/resources, and files exceeding configured limits; never fall back to
+  another package on failure.
+- Path checks and file opens are not atomic. Until race-safe opening is
+  implemented and tested, keep configured roots, package contents, and parent
+  directories unwritable by untrusted users throughout registry use.
+- Do not run shell commands, binaries, or scripts from a skill package.
+- Fail closed on invalid or ambiguous metadata and expose a diagnostic error
+  without returning success-shaped empty instructions.
+- Keep content out of routine logs, traces, and metrics; record package identity
+  and outcome only if existing privacy policy permits.
+
+### References
+
+- [Agent Skills open format](https://github.com/agentskills/agentskills)
+- [Anthropic: Equipping agents with Agent Skills](https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agent-skills)
+- ThemisDB mode and tool contracts: `include/llm/ai_orchestrator.h`
+- ThemisDB LLM trust and authority boundaries: `ARCHITECTURE.md`
 
 ## RAG-Readiness Audit Backlog (2026-09-23)
 

@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 
 #include "server/wal_grpc_service.h"
@@ -108,7 +109,23 @@ protected:
             return true;
         });
 
-        service_ = std::make_unique<themis::server::WalGrpcService>(wal_applier_);
+        auto entity_write_fn = [this](
+            const std::string& collection,
+            const std::string& uuid,
+            const std::string& data_json,
+            std::string& error) {
+            std::lock_guard<std::mutex> lock(mu_);
+            try {
+                replicated_entities_[collection + ":" + uuid] =
+                    nlohmann::json::parse(data_json).dump();
+                return true;
+            } catch (const std::exception& e) {
+                error = e.what();
+                return false;
+            }
+        };
+        service_ = std::make_unique<themis::server::WalGrpcService>(
+            wal_applier_, std::move(entity_write_fn), "test-shard");
         auto* svc = service_->service();
         ASSERT_NE(svc, nullptr) << "gRPC stubs not generated; build with THEMIS_ENABLE_GRPC and protoc";
 
@@ -150,6 +167,7 @@ protected:
     std::shared_ptr<WALApplier> wal_applier_;
     std::mutex mu_;
     std::set<std::string> applied_;
+    std::unordered_map<std::string, std::string> replicated_entities_;
 #endif
 };
 
@@ -221,6 +239,57 @@ TEST_F(WalGrpcApplyTest, RejectsMissingPayload) {
     grpc::ClientContext ctx;
     auto status = stub_->ApplyWalBatch(&ctx, req, &resp);
     EXPECT_EQ(status.error_code(), grpc::StatusCode::INVALID_ARGUMENT);
+#endif
+}
+
+TEST_F(WalGrpcApplyTest, ReplicateDataPersistsValidatedEntity) {
+#if __has_include("sharding/shard_rpc.grpc.pb.h")
+    themis::sharding::proto::ReplicateRequest req;
+    req.set_shard_id("test-shard");
+    auto* entity = req.add_entities();
+    entity->set_collection("users");
+    entity->set_uuid("alice");
+    entity->set_data(R"({"name":"Alice"})");
+
+    themis::sharding::proto::ReplicateResponse resp;
+    grpc::ClientContext ctx;
+    const auto status = stub_->ReplicateData(&ctx, req, &resp);
+    ASSERT_TRUE(status.ok()) << status.error_message();
+    EXPECT_TRUE(resp.success());
+    EXPECT_EQ(resp.replicated_count(), 1u);
+    EXPECT_EQ(replicated_entities_.at("users:alice"), R"({"name":"Alice"})");
+#endif
+}
+
+TEST_F(WalGrpcApplyTest, RejectsMalformedOrMisroutedReplicaEntity) {
+#if __has_include("sharding/shard_rpc.grpc.pb.h")
+    themis::sharding::proto::ReplicateRequest malformed;
+    malformed.set_shard_id("test-shard");
+    auto* invalid_entity = malformed.add_entities();
+    invalid_entity->set_collection("users");
+    invalid_entity->set_uuid("alice");
+    invalid_entity->set_data("{");
+
+    themis::sharding::proto::ReplicateResponse malformed_response;
+    grpc::ClientContext malformed_context;
+    const auto malformed_status =
+        stub_->ReplicateData(&malformed_context, malformed, &malformed_response);
+    EXPECT_EQ(malformed_status.error_code(), grpc::StatusCode::INVALID_ARGUMENT);
+
+    themis::sharding::proto::ReplicateRequest misrouted;
+    misrouted.set_shard_id("another-shard");
+    auto* entity = misrouted.add_entities();
+    entity->set_collection("users");
+    entity->set_uuid("bob");
+    entity->set_data(R"({"name":"Bob"})");
+
+    themis::sharding::proto::ReplicateResponse misrouted_response;
+    grpc::ClientContext misrouted_context;
+    const auto misrouted_status =
+        stub_->ReplicateData(&misrouted_context, misrouted, &misrouted_response);
+    EXPECT_EQ(misrouted_status.error_code(), grpc::StatusCode::PERMISSION_DENIED);
+    EXPECT_EQ(replicated_entities_.count("users:alice"), 0u);
+    EXPECT_EQ(replicated_entities_.count("users:bob"), 0u);
 #endif
 }
 

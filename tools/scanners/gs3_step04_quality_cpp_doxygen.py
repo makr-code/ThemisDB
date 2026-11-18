@@ -240,6 +240,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_comment",
                     f"Public declaration '{info['name']}' is missing a Doxygen comment",
                     signature,
+                    decl.end_line,
                 )
                 continue
 
@@ -251,6 +252,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_brief",
                     f"Doxygen comment for '{info['name']}' is missing @brief",
                     signature,
+                    decl.end_line,
                 )
 
             missing_params = [param for param in info["params"] if not self._has_param_doc(doc, param)]
@@ -262,6 +264,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_param",
                     f"Doxygen comment for '{info['name']}' is missing @param for: {', '.join(missing_params)}",
                     signature,
+                    decl.end_line,
                 )
 
             missing_tparams = [
@@ -275,6 +278,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_tparam",
                     f"Doxygen comment for '{info['name']}' is missing @tparam for: {', '.join(missing_tparams)}",
                     signature,
+                    decl.end_line,
                 )
 
             if info["needs_return"] and "@return" not in doc.lower():
@@ -285,6 +289,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_return",
                     f"Doxygen comment for '{info['name']}' is missing @return",
                     signature,
+                    decl.end_line,
                 )
 
             if self._needs_throws_doc(lines, decl, signature) and not self._has_throws_doc(doc):
@@ -295,6 +300,7 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_throws",
                     f"Doxygen comment for '{info['name']}' is missing @throws/@exception",
                     signature,
+                    decl.end_line,
                 )
 
             if decl.has_body and not self._has_details_doc(doc):
@@ -305,20 +311,31 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "missing_doxygen_details",
                     f"Doxygen comment for '{info['name']}' is missing @details",
                     signature,
+                    decl.end_line,
                 )
 
-    def _append(self, file_rel: str, line: int, severity: str, pattern: str, description: str, context: str) -> None:
-        self.gaps.append(
-            {
-                "file": file_rel,
-                "line": line,
-                "category": "cpp_doxygen_policy_rules",
-                "severity": severity,
-                "pattern": pattern,
-                "description": description,
-                "context": context[:180],
-            }
-        )
+    def _append(
+        self,
+        file_rel: str,
+        line: int,
+        severity: str,
+        pattern: str,
+        description: str,
+        context: str,
+        end_line: Optional[int] = None,
+    ) -> None:
+        finding = {
+            "file": file_rel,
+            "line": line,
+            "category": "cpp_doxygen_policy_rules",
+            "severity": severity,
+            "pattern": pattern,
+            "description": description,
+            "context": context[:180],
+        }
+        if end_line is not None:
+            finding["end_line"] = end_line
+        self.gaps.append(finding)
 
     def _collect_declarations(self, lines: List[str]) -> List[_Decl]:
         decls: List[_Decl] = []

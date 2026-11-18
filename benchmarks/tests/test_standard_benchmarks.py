@@ -1,5 +1,6 @@
 """Regression tests for the database-backed YCSB measurement contract."""
 
+import asyncio
 import contextlib
 import io
 import json
@@ -14,12 +15,20 @@ from unittest.mock import patch
 
 import httpx
 import psutil
+import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from standard_benchmarks import YCSBBenchmark, YCSBWorkload
+from complete_benchmark_suite import CompleteBenchmarkSuite, main as complete_main
+from scientific_benchmark_runner import ScientificBenchmarkRunner, ScientificConfig
+from run_complete_benchmarks import BenchmarkExecutor, main as executor_main
+from standard_benchmarks import (
+    TPCCBenchmark, TPCHBenchmark, SysbenchBenchmark, SysbenchWorkload,
+    YCSBBenchmark, YCSBWorkload,
+)
 from standard_benchmarks_integration import StandardBenchmarkRunner, main, _process_snapshot, _server_resource_report
 from ycsb.themisdb_adapter import ThemisDBYCSBAdapter
+from unified_benchmark_suite import UnifiedBenchmark
 
 
 class YCSBAdapterContractTests(unittest.IsolatedAsyncioTestCase):
@@ -182,6 +191,91 @@ class YCSBSuiteContractTests(unittest.IsolatedAsyncioTestCase):
             self.assertFalse(output.exists())
 
 
+class CentralBenchmarkContractTests(unittest.IsolatedAsyncioTestCase):
+    def test_existing_themis_adapter_rejects_http_errors(self):
+        response = requests.Response()
+        response.status_code = 503
+        response.url = "http://benchmark.test"
+        adapter = UnifiedBenchmark.ThemisAdapter("http://benchmark.test")
+        for method, operation in (
+            ("post", lambda: adapter.insert("key", {})),
+            ("get", lambda: adapter.read("key")),
+            ("put", lambda: adapter.update("key", {})),
+            ("get", lambda: adapter.query({})),
+            ("post", lambda: adapter.aggregate_count({})),
+        ):
+            with self.subTest(method=method), patch(
+                f"unified_benchmark_suite.requests.{method}", return_value=response
+            ):
+                with self.assertRaises(requests.HTTPError):
+                    operation()
+
+    async def test_unbacked_standard_workloads_are_rejected(self):
+        cases = (
+            TPCCBenchmark("ThemisDB").run_benchmark(duration_seconds=1),
+            TPCHBenchmark("ThemisDB").run_benchmark(),
+            SysbenchBenchmark("ThemisDB").run_workload(
+                SysbenchWorkload.OLTP_READ_ONLY, duration_seconds=1
+            ),
+        )
+        for operation in cases:
+            with self.assertRaisesRegex(ValueError, "explicit .* adapter"):
+                await operation
+
+    async def test_scientific_failure_does_not_store_partial_samples(self):
+        config = ScientificConfig(warmup_runs=0, repetitions=1, iterations_per_run=2)
+        runner = ScientificBenchmarkRunner(config)
+        calls = 0
+
+        async def operation():
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise ConnectionError("database failed")
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(ConnectionError, "database failed"):
+                await runner.run_benchmark("ThemisDB", "read", operation)
+        self.assertEqual(runner.results, {})
+        self.assertEqual(runner.analyses, {})
+
+    async def test_scientific_timeout_does_not_store_samples(self):
+        config = ScientificConfig(
+            warmup_runs=0, repetitions=1, iterations_per_run=2, operation_timeout_ms=0
+        )
+        runner = ScientificBenchmarkRunner(config)
+
+        async def operation():
+            return None
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(TimeoutError, "exceeded timeout"):
+                await runner.run_benchmark("ThemisDB", "read", operation)
+        self.assertEqual(runner.results, {})
+
+    async def test_scientific_output_supports_windows_legacy_encoding(self):
+        config = ScientificConfig(warmup_runs=1, repetitions=1, iterations_per_run=2)
+        runner = ScientificBenchmarkRunner(config)
+
+        async def operation():
+            return None
+
+        with io.TextIOWrapper(io.BytesIO(), encoding="cp1252") as output:
+            with contextlib.redirect_stdout(output):
+                result = await runner.run_benchmark("ThemisDB", "read", operation)
+        self.assertEqual(result.sample_count, 2)
+
+    async def test_complete_cli_rejects_unavailable_mode(self):
+        with tempfile.TemporaryDirectory() as output_directory:
+            arguments = ["complete_benchmark_suite.py", "--mode", "tpcc",
+                         "--output-dir", output_directory]
+            with patch.object(sys, "argv", arguments), contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaises(SystemExit) as failure:
+                    await complete_main()
+            self.assertEqual(failure.exception.code, 1)
+            self.assertEqual(list(Path(output_directory).iterdir()), [])
+
+
 class ServerResourceContractTests(unittest.TestCase):
     def test_real_process_snapshots_and_phase_deltas(self):
         process = psutil.Process(os.getpid())
@@ -324,6 +418,121 @@ class ThemisDBAdapterContractTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(report["external_comparison_ready"])
         self.assertIsNone(report["server_resources"])
         self.assertEqual(self.entities, {})
+
+    async def test_complete_suite_runs_real_http_workloads_and_cleans_up(self):
+        with tempfile.TemporaryDirectory() as output_directory:
+            suite = CompleteBenchmarkSuite(
+                output_directory, endpoint="http://benchmark.test",
+                record_count=2, operations=3, seed=17,
+            )
+            with patch("httpx.Client", return_value=self.client), contextlib.redirect_stdout(io.StringIO()):
+                report = await suite.run_ycsb_benchmarks(["ThemisDB"], ["C", "A"])
+            self.assertEqual([result["total_operations"] for result in report["results"]], [3, 3])
+            self.assertFalse(report["external_comparison_ready"])
+            self.assertEqual(sum(request.method == "DELETE" for request in self.requests), 4)
+            self.assertEqual(self.entities, {})
+
+    async def test_complete_scientific_measures_http_reads(self):
+        with tempfile.TemporaryDirectory() as output_directory:
+            suite = CompleteBenchmarkSuite(
+                output_directory, endpoint="http://benchmark.test", record_count=1,
+            )
+            with patch("httpx.Client", return_value=self.client), contextlib.redirect_stdout(io.StringIO()):
+                report = await suite.run_scientific_benchmark(
+                    "ThemisDB", operation="read", repetitions=1,
+                    warmup_runs=0, iterations_per_run=2,
+                )
+            self.assertEqual(report["analysis"]["sample_count"], 2)
+            self.assertFalse(report["protocol"]["outliers_removed"])
+            self.assertNotIn("network_latency_ms", report["hardware"])
+            self.assertEqual(report["hardware"]["scope"], "benchmark client host")
+            self.assertEqual([request.method for request in self.requests], ["PUT", "GET", "GET", "GET", "DELETE"])
+            self.assertEqual(self.entities, {})
+
+    async def test_complete_cli_failure_does_not_export(self):
+        self.reject_after_write = True
+        with tempfile.TemporaryDirectory() as output_directory:
+            arguments = ["complete_benchmark_suite.py", "--mode", "ycsb",
+                         "--endpoint", "http://benchmark.test", "--workloads", "C",
+                         "--record-count", "1", "--operations", "1",
+                         "--output-dir", output_directory]
+            with patch.object(sys, "argv", arguments), patch("httpx.Client", return_value=self.client):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    with self.assertRaises(SystemExit) as failure:
+                        await complete_main()
+            self.assertEqual(failure.exception.code, 1)
+            self.assertEqual(list(Path(output_directory).iterdir()), [])
+            self.assertEqual(self.entities, {})
+
+    async def test_unified_entry_point_runs_only_validated_http_workloads(self):
+        with tempfile.TemporaryDirectory() as output_directory:
+            with patch("unified_benchmark_suite.os.makedirs"):
+                suite = UnifiedBenchmark(iterations=1, warmup=0)
+            suite.report_dir = output_directory
+            suite.dataset_size = 1
+            suite.operations = 2
+            suite.endpoints["themis"] = "http://benchmark.test"
+            with patch("httpx.Client", return_value=self.client), contextlib.redirect_stdout(io.StringIO()):
+                await asyncio.to_thread(suite.run_all_benchmarks)
+            report = json.loads((Path(output_directory) / "results.json").read_text(encoding="utf-8"))
+            self.assertFalse(report["external_comparison_ready"])
+            self.assertEqual(
+                [item["workload"] for item in report["runs"][0]["results"]],
+                ["A", "B", "C", "F"],
+            )
+            self.assertEqual(self.entities, {})
+
+    async def test_unified_entry_point_does_not_report_failed_http_load(self):
+        self.reject_after_write = True
+        with tempfile.TemporaryDirectory() as output_directory:
+            with patch("unified_benchmark_suite.os.makedirs"):
+                suite = UnifiedBenchmark(iterations=1, warmup=0)
+            suite.report_dir = output_directory
+            suite.dataset_size = 1
+            suite.operations = 2
+            suite.endpoints["themis"] = "http://benchmark.test"
+            with patch("httpx.Client", return_value=self.client), contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaises(httpx.HTTPStatusError):
+                    await asyncio.to_thread(suite.run_all_benchmarks)
+            self.assertFalse((Path(output_directory) / "results.json").exists())
+            self.assertEqual(self.entities, {})
+
+    async def test_complete_executor_reports_only_database_backed_results(self):
+        client_type = type(self.client)
+        transport = self.client._transport
+
+        def client_factory(**kwargs):
+            return client_type(transport=transport, **kwargs)
+
+        with tempfile.TemporaryDirectory() as output_directory:
+            executor = BenchmarkExecutor(
+                output_directory, endpoint="http://benchmark.test",
+                record_count=1, operations=2, repetitions=1,
+                warmup_runs=0, iterations_per_run=2,
+            )
+            with patch("httpx.Client", side_effect=client_factory), contextlib.redirect_stdout(io.StringIO()):
+                report = await executor.run_all_benchmarks()
+            self.assertEqual(report["status"], "complete")
+            self.assertEqual(report["scientific"]["read"]["analysis"]["sample_count"], 2)
+            self.assertEqual(report["scientific"]["write"]["analysis"]["sample_count"], 2)
+            self.assertEqual(len(report["ycsb_inspired"]["results"]), 4)
+            self.assertNotIn("compliance", report)
+            self.assertEqual(self.entities, {})
+
+    async def test_complete_executor_failure_does_not_publish_report(self):
+        self.reject_after_write = True
+        with tempfile.TemporaryDirectory() as output_directory:
+            output = Path(output_directory) / "result.json"
+            arguments = ["run_complete_benchmarks.py", "--endpoint", "http://benchmark.test",
+                         "--output", str(output), "--record-count", "1",
+                         "--operations", "2", "--repetitions", "1",
+                         "--warmup-runs", "0", "--iterations-per-run", "2"]
+            with patch.object(sys, "argv", arguments), patch("httpx.Client", return_value=self.client):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    with self.assertRaises(httpx.HTTPStatusError):
+                        await executor_main()
+            self.assertFalse(output.exists())
+            self.assertEqual(self.entities, {})
 
 
 if __name__ == "__main__":

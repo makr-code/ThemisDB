@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-13 -->
+<!-- Last Updated: 2026-11-17 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -264,6 +264,7 @@ This plan is a research-backed proposal, not a release commitment. It separates 
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 - [ ] Qualify smaller local-model/tokenizer/quantization capabilities and approved local model/LoRA routing before expanding optional provider adapters (Target: Q2 2027 proposal).
 - [ ] Specify bounded native retrieval/tool/prompt-planning loops, locality/egress policy and aggregate resource admission without framework dependencies in core (Target: Q2 2027 proposal).
+- [~] Implement the file-based Agent Skill MVP with metadata-only discovery, explicit instruction/resource loading, and mode-scoped tool access; representative performance evidence remains pending (Target: Q2 2027 proposal; design and phase gates below).
 - [ ] Integrate tokenizer-exact final RAG admission and verify ordinary database availability and p95/p99 under concurrent native inference (Target: Q2 2027 proposal).
 - [ ] Qualify AdaLoRA artifact promotion and Multi-LoRA request activation/
   composition separately, including base compatibility, cache validity,
@@ -307,6 +308,59 @@ mixed-workload baselines and owner approval. See
 [`ARCHITECTURE.md`](ARCHITECTURE.md) and
 [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md); none of these targets asserts
 current end-to-end enforcement or new external-provider support.
+
+### Portable Agent Skill Packages (MVP; Target: Q2 2027 proposal)
+
+The file-based MVP now provides metadata-only discovery results, explicit
+instruction and resource loading, and opt-in tools gated by the active mode's
+existing allowlist. Buffered discovery may read ahead into instruction bodies;
+zero body-byte I/O remains unverified. Skill text remains untrusted guidance,
+not authority to invoke tools.
+This implementation does not execute bundled scripts or persist packages in
+ThemisDB. Three opt-in basic guidance packages are available under
+`config/agent_skills/`. The latency target and default enablement remain
+proposals.
+
+- **Phase 1 — Design / API Contract**
+  - [x] Define `SKILL.md` metadata, package layout, registry operations, byte
+    limits, and typed errors; use the existing mode/tool boundary without
+    changing inference or plugin APIs.
+- **Phase 2 — Core Implementation**
+  - [~] Add read-only directory discovery that parses metadata only, with
+    explicit instruction/resource loading and opt-in `ToolRegistry` tools.
+    Remove buffered body read-ahead to meet the zero-body-byte I/O target.
+- **Phase 3 — Error Handling & Edge Cases**
+  - [~] Reject malformed/duplicate metadata, invalid encoding, oversized
+    content, traversal, and observed symlinked package entries; publish refresh
+    snapshots only after a complete successful scan. Path validation and file
+    opening are not atomic against concurrent filesystem replacement; roots
+    and their parents must be protected from untrusted writers.
+  - [x] Revalidate the manifest path at load time so a post-refresh symlink
+    replacement fails closed.
+- **Phase 4 — Tests**
+  - [~] Add focused discovery, loading, resource isolation, mode allowlist,
+    invalid-input, symlink, and shipped-package regression tests; compile and
+    execute the test target before marking the phase complete.
+- **Phase 5 — Performance / Hardening**
+  - [ ] Benchmark metadata-only discovery for 1,000 packages; proposed target
+    is p95 <= 100 ms on documented release-CI storage, with zero
+    instruction/resource bytes loaded during discovery. Keep the latency target
+    provisional until a reproducible baseline and hardware profile are approved.
+- **Phase 6 — Documentation & Acceptance**
+  - [~] Document the supported format subset, package trust model, limits, and
+    mode integration; publish focused test evidence before default enablement.
+
+**Acceptance:** discovery returns names/descriptions without reading instruction
+bodies or references (not yet demonstrated; buffered read-ahead remains);
+content loads only through an explicit registry request;
+only tools allowed by the active mode can execute; invalid or out-of-root
+resources observed during validation fail closed when package roots and parents
+are protected from untrusted modification; skills cannot grant permissions or
+execute bundled scripts; existing mode packs and inference callers remain
+compatible. The
+initial implementation is filesystem-backed and read-only; database
+materialization, vector-based catalog selection, dependency graphs, package
+signing, and script execution require separate designs and approval.
 
 ### Wave 2-B: RAII & Resource Safety (Target: Q4 2026)
 

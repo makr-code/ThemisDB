@@ -15601,6 +15601,13 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         )
     endif()
 
+    if(target_name STREQUAL "test_llm_skill_registry")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/skill_registry.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+        )
+    endif()
+
     if(target_name STREQUAL "test_llm_mcp_orchestrator_bridge")
         target_sources(${target_name} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
@@ -15661,6 +15668,10 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
     endif()
 
+    if(target_name STREQUAL "test_llm_skill_registry" AND TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
+    endif()
+
     if(target_name STREQUAL "test_llm_mcp_orchestrator_bridge" AND TARGET yaml-cpp::yaml-cpp)
         target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
     endif()
@@ -15710,6 +15721,14 @@ if(THEMIS_ENABLE_LLM)
         LlmAiOrchestratorFocusedTests
         "llm;ai;orchestrator;pipeline;unit"
         "AiOrchestrator: YAML pipeline modes (ask/edit/rag/agentic/ethics/multi_agent), ToolRegistry, mode dispatch"
+    )
+
+    add_llm_focused_test(
+        test_llm_skill_registry
+        llm/test_skill_registry.cpp
+        LlmSkillRegistryFocusedTests
+        "llm;skills;tool_registry;unit"
+        "Agent Skill package discovery, bounded loading, resource isolation, and mode allowlist integration"
     )
 
     add_llm_focused_test(

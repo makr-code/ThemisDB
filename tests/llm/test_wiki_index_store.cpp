@@ -24,6 +24,7 @@
  *  WIS-17: WikiRagSource empty wiki → Success with zero candidates
  *  WIS-18: JsonWikiIndexReader loads the docs.db metadata envelope
  *  WIS-19: JsonWikiIndexReader rejects malformed envelopes and clears stale data
+ *  WIS-20: JsonWikiIndexReader preserves term-frequency scoring with cached postings
  */
 
 #include <gtest/gtest.h>
@@ -34,6 +35,7 @@
 #include "rag/modular_rag_pipeline.h"
 
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <functional>
 #include <sstream>
@@ -257,6 +259,7 @@ TEST(JsonWikiIndexReader, WIS19_RejectsMalformedDocsDbEnvelope) {
     EXPECT_THROW(reader.load(), std::runtime_error);
     EXPECT_FALSE(reader.isReady());
     EXPECT_EQ(reader.size(), 0u);
+    EXPECT_TRUE(reader.query("rocksdb HNSW", 5, 0.0f).empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -324,6 +327,26 @@ TEST(JsonWikiIndexReader, WIS10_BM25PositiveScore) {
     EXPECT_GT(results[0].score, 0.0f);
 }
 
+TEST(JsonWikiIndexReader, WIS20_CachedPostingsPreserveTermFrequencyScores) {
+  const std::string path = writeTempFile(R"([
+  {"chunk_id":"first","text":"alpha alpha beta"},
+  {"chunk_id":"second","text":"alpha beta beta beta gamma"}
+])");
+  JsonWikiIndexReader reader(path, /*auto_load=*/true);
+
+  const auto results = reader.query("alpha alpha beta", 10, 0.0f);
+
+  ASSERT_EQ(results.size(), 2u);
+  EXPECT_EQ(results[0].chunk_id, "first");
+  EXPECT_EQ(results[1].chunk_id, "second");
+  const float first_score =
+      static_cast<float>(((1.0 + std::log(2.0)) * 2.0 + 1.0) / std::sqrt(2.0));
+  const float second_score =
+      static_cast<float>((2.0 + 1.0 + std::log(3.0)) / std::sqrt(3.0));
+  EXPECT_NEAR(results[0].score, first_score, 1e-6f);
+  EXPECT_NEAR(results[1].score, second_score, 1e-6f);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // WIS-11: Vector path not applicable for JsonWikiIndexReader (no-op check)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -345,11 +368,27 @@ TEST(JsonWikiIndexReader, WIS12_ReloadRefreshesChunks) {
     const std::string path = writeTempFile(makeMinimalJsonIndex());
     JsonWikiIndexReader reader(path, /*auto_load=*/true);
     EXPECT_EQ(reader.size(), 3u);
+    const auto before_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    ASSERT_FALSE(before_reload.empty());
 
-    // Reload must keep the same count
+    {
+        std::ofstream output(path);
+        output << R"([{
+  "chunk_id": "updated001",
+  "file_path": "docs/gpu.md",
+  "section_title": "GPU",
+  "text": "CUDA GPU acceleration"
+}])";
+    }
+
     reader.load();
-    EXPECT_EQ(reader.size(), 3u);
+    EXPECT_EQ(reader.size(), 1u);
     EXPECT_TRUE(reader.isReady());
+    const auto after_reload = reader.query("RocksDB HNSW", 5, 0.0f);
+    EXPECT_TRUE(after_reload.empty());
+    const auto updated = reader.query("CUDA GPU acceleration", 5, 0.0f);
+    ASSERT_EQ(updated.size(), 1u);
+    EXPECT_EQ(updated.front().chunk_id, "updated001");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

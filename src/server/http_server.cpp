@@ -1395,6 +1395,11 @@ HttpServer::HttpServer(
     entity_config.feature_geo = true; // Enable geo if spatial_index exists
     entity_config.feature_replication = (replication_coordinator_ != nullptr);
     entity_config.feature_raid = (redundancy_manager_ != nullptr && hash_ring_ != nullptr && shard_topology_ != nullptr);
+    entity_config.local_shard_id = config_.raid_local_shard_id;
+    entity_config.shard_rpc_tls_cert_path = config_.shard_rpc_tls_cert_path;
+    entity_config.shard_rpc_tls_key_path = config_.shard_rpc_tls_key_path;
+    entity_config.shard_rpc_tls_ca_cert_path = config_.shard_rpc_tls_ca_cert_path;
+    entity_config.shard_rpc_allow_insecure = config_.shard_rpc_allow_insecure;
     
     entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
         storage_,

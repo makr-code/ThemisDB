@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-11-17"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # LLM Module Contract
 
 Datum: 2026-10-29
@@ -27,6 +41,32 @@ The existing `ILLMPlugin` vtable and `RAGContext` layout are unchanged.
 | `modelRegistry()` | `themis::llm` | N/A (accessor) | IModelRegistry* (borrowed, global) | None | ✅ Lock-free accessor | Global registry; append-only after init | Internal API |
 | `contextManager()` | `themis::llm::IInferenceEngine` | N/A (accessor) | IContextManager* (borrowed) | None | ✅ Provides ref to context controller | Borrowed ref; valid for engine lifetime | Internal; context is stateful |
 | `cancel()` | `themis::llm::IInferenceEngine` | CancellationToken (or call without param) | void (inference aborted, partial result may be available) | None | ✅ Thread-safe (signal-based) | N/A (cancellation only) | P0 (interrupt path) |
+
+### Optional Agent Skill package API
+
+`themis::llm::SkillRegistry` is an opt-in, read-only filesystem catalog. Call
+`refresh()` to scan configured roots, then `list()` to obtain name/description
+metadata. `load(name)` reads one `SKILL.md` instruction body; `readResource()`
+reads a package-relative UTF-8 text file. Metadata, instructions and resources
+are bounded by explicit `SkillRegistryOptions` limits. Refresh returns metadata
+only, but buffered discovery may read ahead into the instruction body; it does
+not guarantee zero body-byte I/O. Refresh publishes a
+complete snapshot atomically; failed refresh preserves the last successful
+snapshot. Path validation and opening are not atomic against concurrent
+filesystem replacement: roots, package contents, and their parent directories
+must not be writable by untrusted users while the registry is in use.
+Initial opt-in guidance packages and host integration steps are documented in
+[`config/agent_skills/README.md`](../../config/agent_skills/README.md).
+
+`registerSkillTools()` optionally registers `list_skills`, `load_skill`, and
+`read_skill_resource` in the existing `ToolRegistry`. Calls continue to pass
+through its active `ModeSpec` tool allow/deny checks. Skills cannot grant
+permissions, execute scripts, access database state, or commit effects. Errors
+use these distinct codes: `ERR_LLM_SKILL_NOT_FOUND`,
+`ERR_LLM_SKILL_INVALID_METADATA`, `ERR_LLM_SKILL_DUPLICATE_NAME`,
+`ERR_LLM_SKILL_SIZE_LIMIT`, `ERR_LLM_SKILL_PATH_ESCAPE`,
+`ERR_LLM_SKILL_IO_FAILED`, `ERR_LLM_SKILL_REGISTRY_NOT_INITIALIZED`, and
+`ERR_LLM_SKILL_INVALID_CONTENT`.
 
 ## Model Registration & Switching
 

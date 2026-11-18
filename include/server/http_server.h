@@ -260,6 +260,16 @@ public:
         bool feature_llm_query_enhancement = false; // Enterprise: Include LLM context in queries
         bool feature_cdc = false;
         bool feature_timeseries = false;
+        /** @brief Local shard ID used to acknowledge only persisted local MIRROR writes. */
+        std::string raid_local_shard_id;
+        /** @brief Client certificate for inter-shard mTLS. */
+        std::string shard_rpc_tls_cert_path;
+        /** @brief Client private key for inter-shard mTLS. */
+        std::string shard_rpc_tls_key_path;
+        /** @brief CA bundle for inter-shard gRPC server verification. */
+        std::string shard_rpc_tls_ca_cert_path;
+        /** @brief Explicit development-only insecure inter-shard transport override. */
+        bool shard_rpc_allow_insecure = false;
     bool feature_pii_manager = false; // PII mappings persistence (RocksDB CF + API handler)
     bool feature_update_checker = false; // GitHub update checker subsystem
         // SSE/CDC streaming config

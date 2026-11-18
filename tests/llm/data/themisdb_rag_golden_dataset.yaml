@@ -30,6 +30,11 @@
 version: 3
 dataset_name: themisdb_rag_golden_dataset
 created: "2026-08-24"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 description: >
   Scientific golden dataset for ThemisDB RAG quality gating.
   v3: questions never contain expected_keywords; every entry carries
@@ -945,14 +950,14 @@ entries:
   - id: RAG-GD-076
     category: sharding
     question: "What field in the background synchronisation thread is now read via an atomic primitive to prevent partially-visible integer updates?"
-    expected_keywords: [raw integer, atomic integer]
+    expected_keywords: [background_sync_interval_ms_]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
     min_recall_score: 0.70
     source_document: src/sharding/ROADMAP.md
     source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
-    indexed_at: 2026-08-24
+    indexed_at: 2026-11-17
 
   - id: RAG-GD-077
     category: sharding
@@ -1341,14 +1346,14 @@ entries:
   - id: RAG-GD-109
     category: search
     question: "How many test files and how many total test cases were produced by the search module Phase-4 test expansion?"
-    expected_keywords: [7 focused, 7 new test]
+    expected_keywords: [7 test files, 128+ test cases]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
     min_recall_score: 0.70
     source_document: src/search/ROADMAP.md
     source_section: Phase 4 Completion Summary
-    indexed_at: 2026-08-24
+    indexed_at: 2026-11-17
 
   - id: RAG-GD-110
     category: sharding

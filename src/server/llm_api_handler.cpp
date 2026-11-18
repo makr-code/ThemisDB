@@ -47,6 +47,12 @@
 namespace themis::server {
 
 namespace {
+std::string_view
+requestTargetView(const http::request<http::string_body> &req) noexcept {
+  const auto target = req.target();
+  return {target.data(), target.size()};
+}
+
     template <typename T>
     T json_value_to(const json& value) {
         return value.get<T>();
@@ -167,7 +173,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         static constexpr std::string_view kOpenAIModels = "/v1/models";
         
         // Delegate to LoRAApiHandler for LoRA-specific paths
-        std::string_view target = req.target();
+        std::string_view target = requestTargetView(req);
         if (lora_handler_ && target.starts_with(kLoraPrefix)) {
             return lora_handler_->handleRequest(req);
         }
@@ -1263,7 +1269,7 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
     auto span = Tracer::startSpan("handleModelInfo");
     
     // Extract model_id from path
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string model_id = std::string(target.substr(target.find_last_of('/') + 1));
     
     // Get model info from LLMPluginManager
@@ -2134,7 +2140,7 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
     auto span = Tracer::startSpan("handleGetFeedback");
     
     // Extract feedback ID from path
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     std::string prefix = "/api/v1/llm/feedback/";
     
     if (!target.starts_with(prefix)) {
@@ -2191,7 +2197,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
     auto span = Tracer::startSpan("handleListFeedback");
     
     // Parse query parameters
-    std::string_view target = req.target();
+    std::string_view target = requestTargetView(req);
     size_t limit = 100;
     std::string type_filter = {};
     std::string status_filter = {};

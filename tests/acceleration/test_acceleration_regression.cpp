@@ -32,6 +32,7 @@
 #include "acceleration/kernel_fallback_dispatcher.h"
 
 #include <cmath>
+#include <atomic>
 #include <limits>
 #include <vector>
 
@@ -494,6 +495,98 @@ TEST(DispatcherRuntimeFallback, Geo_CPUFallback_Haversine_ParisToLondon) {
     EXPECT_NEAR(dist, 340.f, 15.f);  // Paris→London ≈ 340 km
 
     cpu.shutdown();
+}
+
+namespace {
+
+std::atomic<int> primary_dispatch_calls{0};
+
+int alwaysTransientL2(const float*, const float*, float*, int, int, int, void*) {
+    ++primary_dispatch_calls;
+    return static_cast<int>(AccelerationErrorCode::DeviceLost);
+}
+
+int alwaysSuccessfulL2(const float*, const float*, float*, int, int, int, void*) {
+    ++primary_dispatch_calls;
+    return 0;
+}
+
+int alwaysPermanentFailureL2(const float*, const float*, float*, int, int, int, void*) {
+    ++primary_dispatch_calls;
+    return static_cast<int>(AccelerationErrorCode::InvalidInputShape);
+}
+
+} // namespace
+
+TEST(DispatcherRuntimeFallback, TransientFailuresAreBoundedBeforeCpuFallback) {
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+
+    ANNKernelDispatch primary;
+    primary.launchL2Distance = alwaysTransientL2;
+    RetryPolicy policy;
+    policy.maxAttempts = 3;
+    policy.initialDelayMs = 0;
+    policy.maxDelayMs = 0;
+    ANNKernelFallbackDispatcher dispatcher(primary, cpu.populateANNDispatch(), policy);
+
+    const float query[] = {1.0f, 0.0f};
+    const float vectors[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    float distances[2] = {};
+    primary_dispatch_calls = 0;
+
+    const int rc = dispatcher.launchL2Distance(query, vectors, distances, 1, 2, 2, nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(primary_dispatch_calls.load(), 3);
+    EXPECT_NEAR(distances[0], 0.0f, 1e-5f);
+    EXPECT_NEAR(distances[1], 2.0f, 1e-5f);
+
+    cpu.shutdown();
+}
+
+TEST(DispatcherRuntimeFallback, PermanentFailureFallsBackWithoutRetry) {
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+
+    ANNKernelDispatch primary;
+    primary.launchL2Distance = alwaysPermanentFailureL2;
+    RetryPolicy policy;
+    policy.maxAttempts = 3;
+    policy.initialDelayMs = 0;
+    policy.maxDelayMs = 0;
+    ANNKernelFallbackDispatcher dispatcher(primary, cpu.populateANNDispatch(), policy);
+
+    const float query[] = {1.0f, 0.0f};
+    const float vectors[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    float distances[2] = {};
+    primary_dispatch_calls = 0;
+
+    const int rc = dispatcher.launchL2Distance(query, vectors, distances, 1, 2, 2, nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(primary_dispatch_calls.load(), 1);
+    EXPECT_NEAR(distances[0], 0.0f, 1e-5f);
+    EXPECT_NEAR(distances[1], 2.0f, 1e-5f);
+
+    cpu.shutdown();
+}
+
+TEST(DispatcherRuntimeFallback, InvalidRetryPolicyFailsBeforeDispatch) {
+    ANNKernelDispatch primary;
+    primary.launchL2Distance = alwaysSuccessfulL2;
+    RetryPolicy policy;
+    policy.maxAttempts = 9;
+    policy.initialDelayMs = 0;
+    policy.maxDelayMs = 0;
+    ANNKernelFallbackDispatcher dispatcher(primary, ANNKernelDispatch{}, policy);
+    const float query[] = {1.0f};
+    const float vectors[] = {1.0f};
+    float distance = -1.0f;
+    primary_dispatch_calls = 0;
+
+    const int rc = dispatcher.launchL2Distance(query, vectors, &distance, 1, 1, 1, nullptr);
+    EXPECT_EQ(rc, static_cast<int>(AccelerationErrorCode::InvalidConfiguration));
+    EXPECT_EQ(primary_dispatch_calls.load(), 0);
+    EXPECT_FLOAT_EQ(distance, -1.0f);
 }
 
 // =============================================================================

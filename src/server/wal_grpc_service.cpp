@@ -47,9 +47,12 @@ themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
 class WalGrpcService::Impl {
 public:
 #if THEMIS_HAS_SHARD_GRPC
-    Impl(std::shared_ptr<sharding::WALApplier> wal_applier)
+    Impl(
+        std::shared_ptr<sharding::WALApplier> wal_applier,
+        WalGrpcService::EntityWriteFn entity_write_fn,
+        std::string local_shard_id)
         : wal_applier_(std::move(wal_applier))
-        , service_(wal_applier_) {}
+        , service_(wal_applier_, std::move(entity_write_fn), std::move(local_shard_id)) {}
 
     /**
      * @brief Get.
@@ -66,8 +69,13 @@ private:
          * @param[in] wal_applier Input parameter.
          * @return Return value.
          */
-        explicit ServiceImpl(std::shared_ptr<sharding::WALApplier> wal_applier)
-            : wal_applier_(std::move(wal_applier)) {}
+        ServiceImpl(
+            std::shared_ptr<sharding::WALApplier> wal_applier,
+            WalGrpcService::EntityWriteFn entity_write_fn,
+            std::string local_shard_id)
+            : wal_applier_(std::move(wal_applier))
+            , entity_write_fn_(std::move(entity_write_fn))
+            , local_shard_id_(std::move(local_shard_id)) {}
 
         grpc::Status ApplyWalBatch(
             grpc::ServerContext* /*context*/,
@@ -96,6 +104,82 @@ private:
             if (!result.success) {
                 return grpc::Status(grpc::StatusCode::INTERNAL, "Apply failed");
             }
+            return grpc::Status::OK;
+        }
+
+        grpc::Status ReplicateData(
+            grpc::ServerContext* /*context*/,
+            const themis::sharding::proto::ReplicateRequest* request,
+            themis::sharding::proto::ReplicateResponse* response
+        ) override {
+            if (!entity_write_fn_) {
+                return grpc::Status(
+                    grpc::StatusCode::FAILED_PRECONDITION,
+                    "Entity replication persistence is not configured");
+            }
+            if (!local_shard_id_.empty() &&
+                request->shard_id() != local_shard_id_) {
+                return grpc::Status(
+                    grpc::StatusCode::PERMISSION_DENIED,
+                    "ReplicateData request targets a different shard");
+            }
+            if (request->entities_size() == 0) {
+                return grpc::Status(
+                    grpc::StatusCode::INVALID_ARGUMENT,
+                    "ReplicateData requires at least one entity");
+            }
+
+            for (const auto& entity : request->entities()) {
+                if (entity.collection().empty() || entity.uuid().empty() ||
+                    entity.data().empty()) {
+                    response->set_success(false);
+                    response->set_error(
+                        "Replicated entity requires collection, uuid, and data");
+                    return grpc::Status(
+                        grpc::StatusCode::INVALID_ARGUMENT,
+                        response->error());
+                }
+
+                try {
+                    const auto payload = nlohmann::json::parse(entity.data());
+                    if (!payload.is_object()) {
+                        response->set_success(false);
+                        response->set_error("Replicated entity data must be a JSON object");
+                        return grpc::Status(
+                            grpc::StatusCode::INVALID_ARGUMENT,
+                            response->error());
+                    }
+                } catch (const nlohmann::json::exception& e) {
+                    response->set_success(false);
+                    response->set_error(std::string("Invalid replicated entity JSON: ") + e.what());
+                    return grpc::Status(
+                        grpc::StatusCode::INVALID_ARGUMENT,
+                        response->error());
+                }
+
+                std::string error;
+                bool persisted = false;
+                try {
+                    persisted = entity_write_fn_(
+                        entity.collection(), entity.uuid(), entity.data(), error);
+                } catch (const std::exception& e) {
+                    error = e.what();
+                } catch (...) {
+                    error = "Unknown persistence error";
+                }
+                if (!persisted) {
+                    response->set_success(false);
+                    response->set_error(error.empty()
+                        ? "Replica persistence callback rejected the entity"
+                        : error);
+                    return grpc::Status(
+                        grpc::StatusCode::INTERNAL,
+                        response->error());
+                }
+                response->set_replicated_count(response->replicated_count() + 1);
+            }
+
+            response->set_success(true);
             return grpc::Status::OK;
         }
 
@@ -196,6 +280,8 @@ private:
         }
 
         std::shared_ptr<sharding::WALApplier> wal_applier_;
+        WalGrpcService::EntityWriteFn entity_write_fn_;
+        std::string local_shard_id_;
     };
 
     std::shared_ptr<sharding::WALApplier> wal_applier_;
@@ -203,12 +289,20 @@ private:
 #endif // THEMIS_HAS_SHARD_GRPC
 };
 
-WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier)
-    : wal_applier_(std::move(wal_applier)) {
+WalGrpcService::WalGrpcService(
+    std::shared_ptr<sharding::WALApplier> wal_applier,
+    EntityWriteFn entity_write_fn,
+    std::string local_shard_id)
+    : wal_applier_(std::move(wal_applier))
+    , entity_write_fn_(std::move(entity_write_fn))
+    , local_shard_id_(std::move(local_shard_id)) {
 #if THEMIS_HAS_SHARD_GRPC
-    impl_ = std::make_unique<Impl>(wal_applier_);
+    impl_ = std::make_unique<Impl>(
+        wal_applier_, entity_write_fn_, local_shard_id_);
 #else
     (void)wal_applier_;
+    (void)entity_write_fn_;
+    (void)local_shard_id_;
     ServiceFn fn;
     {
         /**

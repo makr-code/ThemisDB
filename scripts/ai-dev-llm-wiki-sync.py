@@ -24,11 +24,7 @@ OPS_MD = WIKI_ROOT / "BUILD_TEST_CI_AND_OPERATIONS.md"
 GOV_MD = WIKI_ROOT / "GOVERNANCE_AND_ROADMAP.md"
 SOURCES_JSON = WIKI_ROOT / "SOURCE_MANIFEST.json"
 GENERATED_WIKI_SOURCES = {
-    str(INDEX_MD),
-    str(MODULES_MD),
-    str(OPS_MD),
-    str(GOV_MD),
-    str(DELTA_MD),
+    path.as_posix() for path in (INDEX_MD, MODULES_MD, OPS_MD, GOV_MD, DELTA_MD)
 }
 
 ROOT_DOCS = [
@@ -155,6 +151,8 @@ def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
     unique_files: Dict[str, Path] = {}
     for file_path in files:
         r = rel(file_path, repo_root)
+        if Path(r).name.startswith(".tmp_"):
+            continue
         if r in GENERATED_WIKI_SOURCES:
             continue
         if r.startswith(EXCLUDE_PREFIXES):
@@ -311,6 +309,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts",
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.",
+            "- [LLM Agent Skills context](LLM_SKILLS.md) — opt-in package format, registry behavior, host integration and security limits.",
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
             "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
@@ -395,6 +394,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.",
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.",
+            "- [LLM Agent Skills context](LLM_SKILLS.md) — opt-in package format, registry behavior, host integration and security limits.",
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
             "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",

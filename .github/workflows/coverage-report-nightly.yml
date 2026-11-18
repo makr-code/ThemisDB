@@ -68,6 +68,11 @@ jobs:
           cmake -S . -B build \
             -DTHEMIS_ENABLE_COVERAGE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_GPU=ON \
+            -DTHEMIS_GPU_AUTO_DETECT=OFF \
+            -DTHEMIS_ENABLE_CUDA=OFF \
+            -DTHEMIS_ENABLE_HIP=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
@@ -107,31 +112,34 @@ jobs:
         id: focused_tests
         continue-on-error: true
         run: |
+          set -o pipefail
           ctest --test-dir build \
             --label-regex "focused" \
             -v --output-on-failure \
-            --timeout 30
+            --timeout 30 2>&1 | tee build/focused-tests.log
           echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Run release-critical tests (Tier A subset)
         id: critical_tests
         continue-on-error: true
         run: |
+          set -o pipefail
           ctest --test-dir build \
             --label-regex "release_critical" \
             -v --output-on-failure \
-            --timeout 30
+            --timeout 30 2>&1 | tee build/release-critical-tests.log
           echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Collect coverage data
         id: collect_coverage
-        if: steps.focused_tests.outcome != 'failure'
+        if: always() && steps.coverage_build.outcome == 'success'
         run: |
           echo "Collecting .gcda files..."
           find build -name "*.gcda" -o -name "*.profraw" | wc -l
           
           echo "Generating lcov report..."
           lcov --capture \
+            --branch-coverage \
             --directory build \
             --output-file coverage.lcov \
             --exclude '/usr/*' \
@@ -140,6 +148,160 @@ jobs:
           
           echo "Coverage report summary:"
           lcov --summary coverage.lcov | head -20
+
+      - name: Generate GPU module coverage evidence
+        if: steps.collect_coverage.outcome == 'success'
+        run: |
+          lcov --extract coverage.lcov '*/src/gpu/*' \
+            --branch-coverage \
+            --output-file gpu-coverage.lcov
+          python3 scripts/generate_coverage_baseline.py gpu-coverage.lcov \
+            --output gpu-coverage-baseline.txt \
+            --json gpu-coverage.json
+          lcov --extract coverage.lcov \
+            '*/src/gpu/gpu_module.cpp' \
+            '*/src/gpu/safe_fail.cpp' \
+            '*/src/gpu/metrics.cpp' \
+            '*/src/gpu/audit_log.cpp' \
+            --branch-coverage \
+            --output-file gpu-release-critical-coverage.lcov
+          python3 scripts/generate_coverage_baseline.py gpu-release-critical-coverage.lcov \
+            --output gpu-release-critical-coverage-baseline.txt \
+            --json gpu-release-critical-coverage.json
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          module_report = json.loads(Path("gpu-coverage.json").read_text(encoding="utf-8"))
+          critical_report = json.loads(
+              Path("gpu-release-critical-coverage.json").read_text(encoding="utf-8")
+          )
+          gpu = module_report.get("modules", {}).get("gpu")
+          critical = critical_report.get("modules", {}).get("gpu")
+          if not gpu or not critical:
+              raise SystemExit("No src/gpu coverage records were generated")
+          line_target = 70.0
+          branch_target = 60.0
+          module_meets_target = (
+              gpu["coverage_percent"] >= line_target
+              and gpu["branch_coverage_percent"] >= branch_target
+          )
+          critical_paths = [
+              "src/gpu/gpu_module.cpp",
+              "src/gpu/safe_fail.cpp",
+              "src/gpu/metrics.cpp",
+              "src/gpu/audit_log.cpp",
+          ]
+
+          def measure_paths(lcov_path, paths):
+              records = {}
+              current_path = None
+              for raw_line in Path(lcov_path).read_text(encoding="utf-8").splitlines():
+                  if raw_line.startswith("SF:"):
+                      current_path = raw_line[3:]
+                      records[current_path] = {"lines": [], "branches": []}
+                  elif current_path and raw_line.startswith("DA:"):
+                      _, hits = raw_line[3:].split(",")[:2]
+                      records[current_path]["lines"].append(int(hits) > 0)
+                  elif current_path and raw_line.startswith("BRDA:"):
+                      taken = raw_line.split(":")[1].split(",")[3]
+                      if taken != "-":
+                          records[current_path]["branches"].append(int(taken) > 0)
+                  elif raw_line == "end_of_record":
+                      current_path = None
+
+              measurements = {}
+              for path in paths:
+                  matching = next(
+                      (record for source, record in records.items()
+                       if source.replace("\\", "/").endswith("/" + path)),
+                      {"lines": [], "branches": []},
+                  )
+                  line_count = len(matching["lines"])
+                  branch_count = len(matching["branches"])
+                  line_covered = sum(matching["lines"])
+                  branch_covered = sum(matching["branches"])
+                  line_percent = 100.0 * line_covered / line_count if line_count else 0.0
+                  branch_percent = (
+                      100.0 * branch_covered / branch_count if branch_count else 0.0
+                  )
+                  meets_target = line_percent >= line_target and branch_percent >= branch_target
+                  measurements[path] = {
+                      "lines_covered": line_covered,
+                      "lines_total": line_count,
+                      "coverage_percent": round(line_percent, 1),
+                      "branches_covered": branch_covered,
+                      "branches_total": branch_count,
+                      "branch_coverage_percent": round(branch_percent, 1),
+                      "threshold_status": "meets_target" if meets_target else "below_target",
+                  }
+              return measurements
+
+          critical_measurements = measure_paths("gpu-release-critical-coverage.lcov", critical_paths)
+          critical_meets_target = all(
+              measurement["threshold_status"] == "meets_target"
+              for measurement in critical_measurements.values()
+          )
+          under_target_paths = [
+              path for path, measurement in critical_measurements.items()
+              if measurement["threshold_status"] == "below_target"
+          ]
+          manifest = {
+              "source_commit": os.environ["GITHUB_SHA"],
+              "source_ref": os.environ["GITHUB_REF"],
+              "coverage_scope": "src/gpu/",
+              "execution_lane": "CPU-only; GPU module enabled; CUDA/HIP/Vulkan disabled",
+              "hardware_backend_enabled": False,
+              "module_thresholds": {
+                  "line_percent": line_target,
+                  "branch_percent": branch_target,
+              },
+              "measured": gpu,
+              "module_threshold_status": (
+                  "meets_target" if module_meets_target else "below_target"
+              ),
+              "release_critical": {
+                  "paths": critical_paths,
+                  "path_measurements": critical_measurements,
+                  "thresholds": {
+                      "line_percent": line_target,
+                      "branch_percent": branch_target,
+                  },
+                  "module_aggregate": critical,
+                  "threshold_status": (
+                      "meets_target" if critical_meets_target else "below_target"
+                  ),
+                  "path_specific_exceptions": [
+                      {
+                          "path": path,
+                          "status": "unapproved",
+                          "owner_issue": 7492,
+                          "description": (
+                                "This release-critical path is below target; "
+                                "a maintainer-approved exception has not been recorded."
+                          ),
+                      }
+                      for path in under_target_paths
+                  ],
+              },
+          }
+          Path("gpu-coverage-evidence.json").write_text(
+              json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+          mkdir -p gpu-coverage-report
+          genhtml gpu-coverage.lcov --branch-coverage \
+            --output-directory gpu-coverage-report \
+            --title "ThemisDB GPU Module Coverage" \
+            --show-details \
+            --legend
+          mkdir -p gpu-release-critical-coverage-report
+          genhtml gpu-release-critical-coverage.lcov --branch-coverage \
+            --output-directory gpu-release-critical-coverage-report \
+            --title "ThemisDB GPU Release-Critical Coverage" \
+            --show-details \
+            --legend
       
       - name: Generate baseline metrics
         run: |
@@ -226,7 +388,18 @@ jobs:
             .github/coverage-baseline-latest.*
             build/test-quality-inventory-with-coverage.json
             coverage.lcov
+            gpu-coverage.lcov
+            gpu-coverage-baseline.txt
+            gpu-coverage.json
+            gpu-coverage-evidence.json
+            gpu-coverage-report/
+            gpu-release-critical-coverage.lcov
+            gpu-release-critical-coverage-baseline.txt
+            gpu-release-critical-coverage.json
+            gpu-release-critical-coverage-report/
             coverage-delta.json
+            build/focused-tests.log
+            build/release-critical-tests.log
           retention-days: 30
           if-no-files-found: warn
 
