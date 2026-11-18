@@ -331,7 +331,7 @@ jobs:
         with:
           name: packages-${{ inputs.release_platform }}-release-${{ inputs.reuse_source_run_number }}
           run-id: ${{ inputs.reuse_source_run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
           path: packages
 
       - name: Validate candidate Mainline package identity
@@ -972,7 +972,9 @@ jobs:
           PY
           )"
           printf '%s\n' "$metrics" | tee -a "$GITHUB_OUTPUT"
-          echo "$metrics" | sed 's/^/vcpkg metric: /'
+          while IFS= read -r metric; do
+            echo "vcpkg metric: $metric"
+          done <<< "$metrics"
 
       - name: Report Windows dependency cache reuse
         if: ${{ !cancelled() && steps.reuse_validate.outcome != 'success' && inputs.windows_dependency_mode != 'off' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure' || steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}

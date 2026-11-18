@@ -121,7 +121,7 @@ jobs:
     name: "Release: Mark Pending State"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
     permissions:
       contents: read
       issues: write
@@ -155,7 +155,7 @@ jobs:
   preflight-release-policy:
     name: "Validate: Preflight Release Policy"
     runs-on: ubuntu-24.04
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
     permissions:
       contents: read
       issues: write

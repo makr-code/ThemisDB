@@ -88,6 +88,23 @@ class ReleaseBuildArtifactTests(unittest.TestCase):
                 package_dir, {**self.expected_identity, "source_sha": "b" * 40}
             )
 
+    def test_manifest_rejects_mismatched_configuration_digest(self) -> None:
+        package_dir = self.root / "packages"
+        self.create_package(package_dir)
+
+        with self.assertRaisesRegex(ValueError, "identity mismatch for config_id"):
+            validate_manifest(
+                package_dir,
+                {**self.expected_identity, "config_id": "b" * 64},
+            )
+
+        manifest_path = package_dir / MANIFEST_NAME
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["configuration"]["runner_image"] = "different-runner"
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "configuration digest mismatch"):
+            validate_manifest(package_dir, self.expected_identity)
+
     def test_manifest_rejects_changed_package_bytes(self) -> None:
         package_dir = self.root / "packages"
         self.create_package(package_dir)

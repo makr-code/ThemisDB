@@ -111,7 +111,7 @@ jobs:
       has-changes: ${{ steps.check.outputs.has-changes }}
       last-nightly-tag: ${{ steps.check.outputs.last-nightly-tag }}
       commit-count: ${{ steps.check.outputs.commit-count }}
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
     steps:
       - name: Checkout
         uses: actions/checkout@v5

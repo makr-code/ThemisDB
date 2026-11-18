@@ -508,7 +508,7 @@ jobs:
   windows-dependencies:
     name: "Prepare: Windows Release Dependencies"
     needs: prepare-release-matrix
-    if: needs.prepare-release-matrix.outputs.windows_enabled == 'true'
+    if: needs.prepare-release-matrix.outputs.windows_enabled == 'true' && github.event_name != 'workflow_run'
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       windows_dependency_mode: prepare
@@ -539,9 +539,9 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && 'consume' || 'off' }}
-      dependency_cache_key: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
-      dependency_artifact_id: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-artifact-id || '' }}
+      windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && 'consume' || 'off' }}
+      dependency_cache_key: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
+      dependency_artifact_id: ${{ matrix.id == 'windows-amd64' && github.event_name != 'workflow_run' && needs.windows-dependencies.outputs.dependency-artifact-id || '' }}
       enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}
@@ -566,7 +566,7 @@ jobs:
       summary_title: ${{ matrix.summary_title }}
       release_manifest_json: ${{ toJSON(matrix.release_manifest) }}
       release_platform: ${{ matrix.id }}
-      reuse_source_run_id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.name == 'Build: Mainline' && github.event.workflow_run.conclusion == 'success' && (inputs.source_sha == '' || inputs.source_sha == github.event.workflow_run.head_sha) && github.event.workflow_run.id || '' }}
+      reuse_source_run_id: "${{ github.event_name == 'workflow_run' && github.event.workflow_run.event == 'schedule' && github.event.workflow_run.name == 'Build: Mainline' && github.event.workflow_run.conclusion == 'success' && (inputs.source_sha == '' || inputs.source_sha == github.event.workflow_run.head_sha) && github.event.workflow_run.id || '' }}"
       reuse_source_run_number: ${{ github.event.workflow_run.run_number || '' }}
       ctest_build_directory: ${{ matrix.ctest_build_directory || '' }}
       ctest_junit_path: ${{ matrix.ctest_junit_path || '' }}
