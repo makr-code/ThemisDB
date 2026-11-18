@@ -55,6 +55,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "query/request_context.h"
 #include "observability/alertmanager.h"
 #include "observability/provenance_store.h"
 #include "performance/phase3/bao.h"
@@ -129,6 +130,7 @@
 #include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
+#include <poll.h>
 #endif // !_WIN32
 
 /**
@@ -246,6 +248,54 @@ namespace themis {
 namespace server {
 
 namespace {
+
+bool peerDisconnected(const void* opaque_socket) noexcept {
+    auto* socket = const_cast<boost::asio::ip::tcp::socket*>(
+        static_cast<const boost::asio::ip::tcp::socket*>(opaque_socket));
+    if (!socket) {
+        return false;
+    }
+
+#ifdef _WIN32
+    WSAPOLLFD descriptor{};
+    descriptor.fd = socket->native_handle();
+    descriptor.events = POLLRDNORM;
+    const auto ready = WSAPoll(&descriptor, 1, 0);
+    if (ready <= 0) {
+        return false;
+    }
+    if ((descriptor.revents & POLLERR) != 0) {
+        return true;
+    }
+    if ((descriptor.revents & POLLRDNORM) != 0) {
+        char byte = 0;
+        const auto received =
+            ::recv(socket->native_handle(), &byte, 1, MSG_PEEK);
+        if (received == SOCKET_ERROR) {
+            const auto error = WSAGetLastError();
+            return error != WSAEWOULDBLOCK && error != WSAEINTR;
+        }
+    }
+    return false;
+#else
+    pollfd descriptor{};
+    descriptor.fd = socket->native_handle();
+    descriptor.events = POLLERR;
+    const auto ready = ::poll(&descriptor, 1, 0);
+    if (ready <= 0) {
+        return false;
+    }
+    return (descriptor.revents & POLLERR) != 0;
+#endif
+}
+
+themis::query::RequestContext requestContextForTimeout(
+    const themis::query::RequestContext& connection_request,
+    uint32_t timeout_ms) {
+    return timeout_ms == 0
+               ? connection_request
+               : connection_request.child(std::chrono::milliseconds(timeout_ms));
+}
 
 void shutdownQueryResources(
     const std::shared_ptr<VectorIndexManager>& vector_index,
@@ -4963,7 +5013,8 @@ namespace {
  * @details Calls: emplace(), std::string(), name_string(), value(), Tracer::startSpanFromHeaders(), setAttribute(), http::to_string(), method().
  */
 http::response<http::string_body> HttpServer::routeRequest(
-    const http::request<http::string_body>& req
+    const http::request<http::string_body>& req,
+    const themis::query::RequestContext& connection_request
 ) {
     // Create root span for this HTTP request.
     // If the caller supplied a W3C traceparent header, the new span becomes
@@ -4987,7 +5038,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         path_only = path_only.substr(0, qpos);
     }
 
-    THEMIS_DEBUG("Request: {} {}", http::to_string(method), target);
+    THEMIS_DEBUG("Request: {} {}", std::string(http::to_string(method)), target);
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
@@ -6786,7 +6837,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                     return res;
                 }
             }
-            response = query_api_->handleQueryAql(req);
+            // Use the live server timeout; request body values may only tighten it.
+            const uint32_t timeout_ms =
+                request_timeout_ms_live_.load(std::memory_order_relaxed);
+            const auto aql_request =
+                requestContextForTimeout(connection_request, timeout_ms);
+            response = query_api_->handleQueryAql(req, aql_request);
             recordContinuousLearningQueryTelemetry(req, response, start, true);
             break;
         }
@@ -6981,7 +7037,13 @@ http::response<http::string_body> HttpServer::routeRequest(
            {
                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
-                   response = vector_api_->handleSearch(req);
+                   // Server-configured cooperative deadline starting at handler dispatch.
+                   // 0 disables the timeout (unbounded); caller headers are never trusted.
+                   const uint32_t timeout_ms =
+                       request_timeout_ms_live_.load(std::memory_order_relaxed);
+                   const auto vector_request =
+                       requestContextForTimeout(connection_request, timeout_ms);
+                   response = vector_api_->handleSearch(req, vector_request);
                } else {
                    response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
                }
@@ -8054,7 +8116,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::RopeSearchPost:
             if (rope_api_) {
-                response = rope_api_->handleSearchPost(req);
+                const uint32_t timeout_ms =
+                    request_timeout_ms_live_.load(std::memory_order_relaxed);
+                const auto rope_request =
+                    requestContextForTimeout(connection_request, timeout_ms);
+                response = rope_api_->handleSearchPost(req, rope_request);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
             }
@@ -8374,13 +8440,35 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleContentFsDelete(req);
             break;
         case Route::HybridSearchPost:
-            response = content_api_->handleHybridSearch(req);
+           {
+               // Use the live server timeout; request input cannot extend it.
+               const uint32_t timeout_ms =
+                   request_timeout_ms_live_.load(std::memory_order_relaxed);
+               const auto hybrid_request =
+                   requestContextForTimeout(connection_request, timeout_ms);
+               response = content_api_->handleHybridSearch(req, hybrid_request);
+           }
             break;
         case Route::FusionSearchPost:
-            response = content_api_->handleFusionSearch(req);
+           {
+               // Use the live server timeout; request input cannot extend it.
+               const uint32_t timeout_ms =
+                   request_timeout_ms_live_.load(std::memory_order_relaxed);
+               const auto fusion_request =
+                   requestContextForTimeout(connection_request, timeout_ms);
+               response = content_api_->handleFusionSearch(req, fusion_request);
+           }
             break;
         case Route::FulltextSearchPost:
-            response = content_api_->handleFulltextSearch(req);
+           {
+               // Server-configured cooperative deadline starting at handler dispatch.
+               // 0 disables the timeout (unbounded); caller headers are never trusted.
+               const uint32_t timeout_ms =
+                   request_timeout_ms_live_.load(std::memory_order_relaxed);
+               const auto fulltext_request =
+                   requestContextForTimeout(connection_request, timeout_ms);
+               response = content_api_->handleFulltextSearch(req, fulltext_request);
+           }
             break;
         case Route::ContentFilterSchemaGet:
             response = content_api_->handleContentFilterSchemaGet(req);
@@ -14747,6 +14835,8 @@ void HttpServer::Session::processRequest() {
     if (!server_) {
         return;
     }
+    const themis::query::RequestContext connection_request(
+        nullptr, std::nullopt, &peerDisconnected, &socket_);
     try {
 #ifdef THEMIS_ENABLE_WEBSOCKET
         // Check for WebSocket upgrade request
@@ -14895,7 +14985,7 @@ void HttpServer::Session::processRequest() {
         }
 
         // Route request to appropriate handler
-        response_ = server_->routeRequest(request_);
+        response_ = server_->routeRequest(request_, connection_request);
     } catch (const std::exception& e) {
         // Final safety net: catch any exception that escaped routeRequest
         THEMIS_ERROR("Exception in Session::processRequest: {}", e.what());
@@ -14910,6 +15000,10 @@ void HttpServer::Session::processRequest() {
         response_.prepare_payload();
     }
     
+    if (connection_request.isCancelled()) {
+        return;
+    }
+
     // Send response
     doWrite();
 }
@@ -15148,6 +15242,8 @@ void HttpServer::SslSession::onRead(
  * @details Calls: websocket::is_upgrade(), ws_target(), target(), find(), substr(), api::WsChangeHandler::isChangeStreamPath(), ws_handler(), get().
  */
 void HttpServer::SslSession::processRequest() {
+    const themis::query::RequestContext connection_request(
+        nullptr, std::nullopt, &peerDisconnected, &stream_.next_layer());
     try {
 #ifdef THEMIS_ENABLE_WEBSOCKET
         // Check for WebSocket upgrade request
@@ -15295,7 +15391,7 @@ void HttpServer::SslSession::processRequest() {
         }
 
         // Route request to appropriate handler
-        response_ = server_->routeRequest(request_);
+        response_ = server_->routeRequest(request_, connection_request);
         
         // Add HSTS header for HTTPS connections
         if (server_->config_.enable_tls) {
@@ -15315,6 +15411,10 @@ void HttpServer::SslSession::processRequest() {
         response_.prepare_payload();
     }
     
+    if (connection_request.isCancelled()) {
+        return;
+    }
+
     doWrite();
 }
 

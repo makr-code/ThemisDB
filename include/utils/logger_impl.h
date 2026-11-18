@@ -20,7 +20,8 @@ namespace utils {
 template<typename FormatString, typename... Args>
 void Logger::trace(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::trace)) {
-        logger_->trace(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::trace, message);
         auto& metrics = metricsStorage();
         metrics.trace_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -30,7 +31,8 @@ void Logger::trace(FormatString&& fmt, Args&&... args) {
 template<typename FormatString, typename... Args>
 void Logger::debug(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::debug)) {
-        logger_->debug(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::debug, message);
         auto& metrics = metricsStorage();
         metrics.debug_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -40,7 +42,8 @@ void Logger::debug(FormatString&& fmt, Args&&... args) {
 template<typename FormatString, typename... Args>
 void Logger::info(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::info)) {
-        logger_->info(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::info, message);
         auto& metrics = metricsStorage();
         metrics.info_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -50,7 +53,8 @@ void Logger::info(FormatString&& fmt, Args&&... args) {
 template<typename FormatString, typename... Args>
 void Logger::warn(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::warn)) {
-        logger_->warn(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::warn, message);
         auto& metrics = metricsStorage();
         metrics.warn_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -60,7 +64,8 @@ void Logger::warn(FormatString&& fmt, Args&&... args) {
 template<typename FormatString, typename... Args>
 void Logger::error(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::err)) {
-        logger_->error(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::err, message);
         auto& metrics = metricsStorage();
         metrics.error_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -70,7 +75,8 @@ void Logger::error(FormatString&& fmt, Args&&... args) {
 template<typename FormatString, typename... Args>
 void Logger::critical(FormatString&& fmt, Args&&... args) {
     if (logger_ && logger_->should_log(spdlog::level::critical)) {
-        logger_->critical(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        const auto message = fmt::vformat(fmt::string_view(fmt), fmt::make_format_args(args...));
+        logger_->log(spdlog::level::critical, message);
         auto& metrics = metricsStorage();
         metrics.critical_count.fetch_add(1, std::memory_order_relaxed);
         metrics.total_count.fetch_add(1, std::memory_order_relaxed);

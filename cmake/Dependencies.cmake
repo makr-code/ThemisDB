@@ -539,6 +539,22 @@ else()
         message(STATUS "zstd not found - using fallback compression")
     endif()
 endif()
+
+# System RocksDB CMake packages may refer to lz4::lz4 without discovering it.
+find_package(lz4 CONFIG QUIET)
+if(NOT TARGET lz4::lz4)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(THEMIS_LZ4 QUIET IMPORTED_TARGET GLOBAL liblz4)
+        if(THEMIS_LZ4_FOUND)
+            add_library(lz4::lz4 INTERFACE IMPORTED GLOBAL)
+            set_target_properties(lz4::lz4 PROPERTIES
+                INTERFACE_LINK_LIBRARIES PkgConfig::THEMIS_LZ4
+            )
+        endif()
+    endif()
+endif()
+
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
 option(THEMIS_ALLOW_MISSING_ROCKSDB
     "Allow CMake configure to continue without a detected RocksDB install (build of RocksDB-dependent targets may fail)."
@@ -797,12 +813,11 @@ if(POLICY CMP0167)
 endif()
 
 set(_themis_boost_mode "")
-if(CMAKE_TOOLCHAIN_FILE)
-    set(Boost_FOUND FALSE)
-    find_package(Boost 1.70 CONFIG QUIET COMPONENTS system filesystem)
-    if(Boost_FOUND AND TARGET Boost::system AND TARGET Boost::filesystem)
-        set(_themis_boost_mode "CONFIG")
-    endif()
+set(Boost_FOUND FALSE)
+find_package(Boost 1.70 CONFIG QUIET COMPONENTS filesystem)
+if(Boost_FOUND AND TARGET Boost::filesystem AND
+   (TARGET Boost::headers OR TARGET Boost::boost))
+    set(_themis_boost_mode "CONFIG")
 endif()
 
 if(NOT _themis_boost_mode)
@@ -838,6 +853,15 @@ if(_themis_boost_mode)
     endif()
 else()
     message(FATAL_ERROR "Boost (>=1.70) not found. Ensure vcpkg is installed and the triplet matches the build (VCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}), or install system packages such as libboost-filesystem-dev and libboost-system-dev")
+endif()
+
+if(NOT TARGET Boost::system AND (TARGET Boost::headers OR TARGET Boost::boost))
+    add_library(Boost::system INTERFACE IMPORTED GLOBAL)
+    if(TARGET Boost::headers)
+        set_property(TARGET Boost::system PROPERTY INTERFACE_LINK_LIBRARIES Boost::headers)
+    else()
+        set_property(TARGET Boost::system PROPERTY INTERFACE_LINK_LIBRARIES Boost::boost)
+    endif()
 endif()
 
 find_package(Threads REQUIRED)

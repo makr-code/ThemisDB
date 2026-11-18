@@ -2522,6 +2522,49 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqual(std::string_view table,
 									 std::string_view column,
 									 std::string_view value) const {
+	return scanKeysEqual(table, column, value, ::themis::query::RequestContext{});
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+SecondaryIndexManager::scanKeysEqual(
+	std::string_view table,
+	std::string_view column,
+	std::string_view value,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	using ::themis::query::StopReason;
+	if (stop_reason) {
+		*stop_reason = StopReason::None;
+	}
+	StopReason observed_stop_reason = StopReason::None;
+	const auto shouldStop = [&]() {
+		observed_stop_reason = request.stopReason();
+		if (observed_stop_reason == StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = observed_stop_reason;
+		}
+		return true;
+	};
+	const auto stopped = [&]() {
+		const auto reason = observed_stop_reason != StopReason::None
+			? observed_stop_reason
+			: request.stopReason();
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		const auto message = reason == StopReason::Cancelled
+			? "Equality index scan cancelled"
+			: "Equality index scan deadline exceeded";
+		return std::pair<Status, std::vector<std::string>>{
+			Status::Error(message), {}};
+	};
+	if (shouldStop()) {
+		return stopped();
+	}
+
 	// Check for regular index or sparse index
 	bool hasRegularIndex = hasIndex(table, column);
 	bool hasSparse = hasSparseIndex(table, column);
@@ -2532,27 +2575,44 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 
 	const std::string encodedVal = encodeKeyComponent(value);
 	std::vector<std::string> pks;
+	size_t scanned = 0;
+	bool cancelled_during_scan = false;
+	const auto onEntry = [&](std::string_view key, bool sparse) {
+		if ((scanned++ & 63U) == 0U && shouldStop()) {
+			cancelled_during_scan = true;
+			return false;
+		}
+		if (sparse) {
+			// Extract PK from sidx:table:column:value:PK
+			const size_t lastColon = key.rfind(':');
+			if (lastColon != std::string_view::npos) {
+				pks.emplace_back(key.substr(lastColon + 1));
+			}
+		} else {
+			pks.emplace_back(KeySchema::extractPrimaryKey(key));
+		}
+		return true;
+	};
 	
 	// Scan regular index if exists
 	if (hasRegularIndex) {
 		const std::string prefix = KeySchema::makeSecondaryIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
-			pks.emplace_back(KeySchema::extractPrimaryKey(key));
-			return true;
+		db_.scanPrefix(prefix, [&onEntry](std::string_view key, [[maybe_unused]] std::string_view val){
+			return onEntry(key, false);
 		});
 	}
 	
 	// Scan sparse index if exists (and no regular index, or as fallback)
 	if (hasSparse && !hasRegularIndex) {
 		const std::string prefix = makeSparseIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
-			// Extract PK from sidx:table:column:value:PK
-			size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) {
-				pks.emplace_back(key.substr(lastColon + 1));
-			}
-			return true;
+		db_.scanPrefix(prefix, [&onEntry](std::string_view key, [[maybe_unused]] std::string_view val){
+			return onEntry(key, true);
 		});
+	}
+
+	if (cancelled_during_scan || shouldStop()) {
+		pks.clear();
+		return stopped();
 	}
 	
 	return {Status::OK(), std::move(pks)};
@@ -2708,10 +2768,61 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
     size_t limit,
     bool reversed
 ) const {
+    return scanKeysRange(
+        table, column, lower, upper, includeLower, includeUpper, limit, reversed,
+        ::themis::query::RequestContext{});
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+SecondaryIndexManager::scanKeysRange(
+    std::string_view table,
+    std::string_view column,
+    const std::optional<std::string>& lower,
+    const std::optional<std::string>& upper,
+    bool includeLower,
+    bool includeUpper,
+    size_t limit,
+    bool reversed,
+    const ::themis::query::RequestContext& request,
+    ::themis::query::StopReason* stop_reason
+) const {
+    using ::themis::query::StopReason;
+    if (stop_reason) {
+        *stop_reason = StopReason::None;
+    }
+    StopReason observed_stop_reason = StopReason::None;
+    const auto shouldStop = [&]() {
+        observed_stop_reason = request.stopReason();
+        if (observed_stop_reason == StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = observed_stop_reason;
+        }
+        return true;
+    };
+    const auto stopped = [&]() {
+        const auto reason = observed_stop_reason != StopReason::None
+            ? observed_stop_reason
+            : request.stopReason();
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        const auto message = reason == StopReason::Cancelled
+            ? "Range index scan cancelled"
+            : "Range index scan deadline exceeded";
+        return std::pair<Status, std::vector<std::string>>{
+            Status::Error(message), {}};
+    };
+    if (shouldStop()) {
+        return stopped();
+    }
+
     if (table.empty() || column.empty()) return {Status::Error("scanKeysRange: table/column darf nicht leer sein"), std::vector<std::string>()};
     if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRange: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 
     std::vector<std::string> result;
+    std::vector<std::string> reversed_result;
     std::string startKey, endKey;
 
     // RocksDB scanRange is [start, end) - exclusive on end
@@ -2737,37 +2848,51 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
     }
 
 	uint64_t steps = 0;
+	bool cancelled_during_scan = false;
+	const auto onEntry = [&](std::string_view key, std::vector<std::string>& output) {
+        if ((steps & 63U) == 0U && shouldStop()) {
+            cancelled_during_scan = true;
+            return false;
+        }
+        const size_t lastColon = key.rfind(':');
+        if (lastColon != std::string_view::npos) {
+            output.emplace_back(key.substr(lastColon + 1));
+        }
+        ++steps;
+        return true;
+    };
 	if (!reversed) {
-		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
+		db_.scanRange(startKey, endKey, [&result, limit, &onEntry](std::string_view key, [[maybe_unused]] std::string_view value){
             if (result.size() >= limit) {
               return false;
             }
-            size_t lastColon = key.rfind(':');
-            if (lastColon != std::string_view::npos) {
-				result.emplace_back(key.substr(lastColon+1));
-            }
-			++steps;
-            return true;
+            return onEntry(key, result);
         });
     } else {
-        std::vector<std::string> tmp;
-		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
-            size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) {
-			  tmp.emplace_back(key.substr(lastColon+1));
-			}
-			++steps;
-            return true;
+		db_.scanRange(startKey, endKey, [&reversed_result, &onEntry](std::string_view key, [[maybe_unused]] std::string_view value){
+            return onEntry(key, reversed_result);
         });
-        std::reverse(tmp.begin(), tmp.end());
-        if (tmp.size() > limit) {
-          tmp.resize(limit);
+        for (size_t left = 0, right = reversed_result.size();
+             left < right / 2; ++left) {
+            if ((left & 63U) == 0U && shouldStop()) {
+                cancelled_during_scan = true;
+                break;
+            }
+            std::swap(reversed_result[left], reversed_result[right - left - 1]);
         }
-        result = std::move(tmp);
+        if (reversed_result.size() > limit) {
+          reversed_result.resize(limit);
+        }
+        result = std::move(reversed_result);
     }
 
 	// Update range scan steps metric
 	query_metrics_.range_scan_steps_total.fetch_add(steps, std::memory_order_relaxed);
+
+    if (cancelled_during_scan || shouldStop()) {
+        result.clear();
+        return stopped();
+    }
 
     return {Status::OK(), result};
 }
@@ -3126,8 +3251,40 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::string_view table,
 	std::string_view column,
 	std::string_view query,
-	size_t limit
+	size_t limit,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
 ) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	size_t work_since_poll = 0;
+	auto pollStop = [&]() {
+		const auto reason = request.stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	auto pollPeriodically = [&]() {
+		return (++work_since_poll & 63U) == 0U && pollStop();
+	};
+	auto stopped = [&]() {
+		const auto reason = stop_reason
+			? *stop_reason
+			: request.stopReason();
+		const char* message = reason == ::themis::query::StopReason::Cancelled
+			? "Fulltext search cancelled"
+			: "Fulltext search deadline exceeded";
+		return std::pair<Status, std::vector<FulltextResult>>{
+			Status::Error(message), std::vector<FulltextResult>()};
+	};
+	if (pollStop()) {
+		return stopped();
+	}
 	if (!hasFulltextIndex(table, column)) {
 		return {Status::Error("computeBM25Scores_: Kein Fulltext-Index für " + std::string(table) + "." + std::string(column)), std::vector<FulltextResult>()};
 	}
@@ -3181,15 +3338,25 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	
 	if (tokens.empty()) {
+		if (pollStop()) {
+			return stopped();
+		}
 		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// For each token, get PKs from inverted index (doc frequency sets)
 	for (const auto& token : tokens) {
+		if (pollStop()) {
+			return stopped();
+		}
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
-		
-		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val) {
+		bool scan_stopped = false;
+		db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
+			if (pollPeriodically()) {
+				scan_stopped = true;
+				return false;
+			}
 			// Extract PK from ftidx:table:column:token:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
@@ -3197,25 +3364,40 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 			return true;
 		});
+		if (scan_stopped || pollStop()) {
+			return stopped();
+		}
 		
 		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
 	if (tokenResults.empty()) {
+		if (pollStop()) {
+			return stopped();
+		}
 		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
 	std::sort(tokenResults.begin(), tokenResults.end(),
 	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
+	if (pollStop()) {
+		return stopped();
+	}
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
+		if (pollStop()) {
+			return stopped();
+		}
 		std::unordered_set<std::string> intersection = {};
 
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
 		for (const auto& pk : intersectionSet) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			if (tokenResults[i].count(pk)) {
 				intersection.insert(pk);
 			}
@@ -3234,6 +3416,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 		normalizedPhrases.reserve(phrases.size());
 		for (auto ph : phrases) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			if (config.normalize_umlauts) {
 			  ph = utils::Normalizer::normalizeUmlauts(ph);
 			}
@@ -3245,6 +3430,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			auto pkey = KeySchema::makeRelationalKey(table, pk);
 			auto blob = db_.get(pkey);
 			bool keep = false;
@@ -3262,6 +3450,9 @@ SecondaryIndexManager::computeBM25Scores_(
 						std::transform(field.begin(), field.end(), field.begin(), [](unsigned char c){ return std::tolower(c); });
 						bool allFound = true;
 						for (const auto& ph : normalizedPhrases) {
+							if (pollPeriodically()) {
+								return stopped();
+							}
 							if (field.find(ph) == std::string::npos) { allFound = false; break; }
 						}
 						keep = allFound;
@@ -3275,9 +3466,17 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 		}
 		for (const auto& pk : toErase) {
+		  if (pollPeriodically()) {
+			return stopped();
+		  }
 		  intersectionSet.erase(pk);
 		}
-		if (intersectionSet.empty()) return {Status::OK(), std::vector<FulltextResult>()};
+		if (intersectionSet.empty()) {
+			if (pollStop()) {
+				return stopped();
+			}
+			return {Status::OK(), std::vector<FulltextResult>()};
+		}
 	}
 
 	// BM25 Ranking über die Schnittmenge berechnen
@@ -3287,11 +3486,17 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::unordered_set<std::string> universe;
 	size_t universe_hint = 0;
 	for (const auto& s : tokenResults) {
+		if (pollStop()) {
+			return stopped();
+		}
 		universe_hint += s.size();
 	}
 	universe.reserve(universe_hint);
 	for (const auto& s : tokenResults) {
 		for (const auto& pk : s) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 		  universe.insert(pk);
 		}
 	}
@@ -3303,6 +3508,9 @@ SecondaryIndexManager::computeBM25Scores_(
 	docLen.reserve(universe.size());
 	double totalLen = 0.0;
 	for (const auto& pk : universe) {
+		if (pollPeriodically()) {
+			return stopped();
+		}
 		const std::string dkey = makeFulltextDocLenKey(table, column, pk);
 		auto v = db_.get(dkey);
 		double dl = 0.0;
@@ -3320,6 +3528,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	dfs.reserve(tokens.size());
 	for (const auto& s : tokenResults) {
+	  if (pollPeriodically()) {
+		return stopped();
+	  }
 	  dfs.emplace_back(static_cast<double>(s.size()));
 	}
 
@@ -3332,10 +3543,16 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
+		if (pollPeriodically()) {
+			return stopped();
+		}
 		const auto itLen = docLen.find(pk);
 		double dl = (itLen != docLen.end()) ? itLen->second : 0.0;
 		double s = 0.0;
 		for (size_t i = 0; i < tokens.size(); ++i) {
+			if (pollPeriodically()) {
+				return stopped();
+			}
 			const auto& token = tokens[i];
 			const double df = std::max(1.0, dfs[i]);
 			// IDF wie BM25 mit +1 Stabilisierung
@@ -3359,10 +3576,16 @@ SecondaryIndexManager::computeBM25Scores_(
 		scored.emplace_back(FulltextResult{pk, s});
 	}
 
+	if (pollStop()) {
+		return stopped();
+	}
 	// Sortieren nach Score absteigend
 	std::sort(scored.begin(), scored.end(), [](const FulltextResult& a, const FulltextResult& b){
 		return a.score > b.score;
 	});
+	if (pollStop()) {
+		return stopped();
+	}
 
 	// Top-k Ergebnisse extrahieren
 	std::vector<FulltextResult> finalResults = {};
@@ -3410,6 +3633,18 @@ SecondaryIndexManager::scanFulltextWithScores(
 	size_t limit
 ) const {
 	return computeBM25Scores_(table, column, query, limit);
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<SecondaryIndexManager::FulltextResult>>
+SecondaryIndexManager::scanFulltextWithScores(
+	std::string_view table,
+	std::string_view column,
+	std::string_view query,
+	size_t limit,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	return computeBM25Scores_(table, column, query, limit, request, stop_reason);
 }
 
 // Phrase search: exact phrase matching with position awareness

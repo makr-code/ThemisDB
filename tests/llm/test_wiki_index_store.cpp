@@ -24,7 +24,9 @@
  *  WIS-17: WikiRagSource empty wiki → Success with zero candidates
  *  WIS-18: JsonWikiIndexReader loads the docs.db metadata envelope
  *  WIS-19: JsonWikiIndexReader rejects malformed envelopes and clears stale data
- *  WIS-20: JsonWikiIndexReader preserves term-frequency scoring with cached postings
+ *  WIS-20: JsonWikiIndexReader ranks rare query terms above generic overlap
+ *  WIS-21: JsonWikiIndexReader indexes section and source-path metadata
+ *  WIS-22: JsonWikiIndexReader applies deterministic ties, top_k, and min_score
  */
 
 #include <gtest/gtest.h>
@@ -327,24 +329,44 @@ TEST(JsonWikiIndexReader, WIS10_BM25PositiveScore) {
     EXPECT_GT(results[0].score, 0.0f);
 }
 
-TEST(JsonWikiIndexReader, WIS20_CachedPostingsPreserveTermFrequencyScores) {
+TEST(JsonWikiIndexReader, WIS20_RareTermsImproveBM25Ranking) {
   const std::string path = writeTempFile(R"([
-  {"chunk_id":"first","text":"alpha alpha beta"},
-  {"chunk_id":"second","text":"alpha beta beta beta gamma"}
+  {"chunk_id":"generic-a","text":"database storage database storage common filler"},
+  {"chunk_id":"generic-b","text":"database storage database storage common filler"},
+  {"chunk_id":"rare-target","text":"database storage raretoken"}
 ])");
   JsonWikiIndexReader reader(path, /*auto_load=*/true);
 
-  const auto results = reader.query("alpha alpha beta", 10, 0.0f);
+  const auto results = reader.query("database storage raretoken", 10, 0.0f);
 
-  ASSERT_EQ(results.size(), 2u);
-  EXPECT_EQ(results[0].chunk_id, "first");
-  EXPECT_EQ(results[1].chunk_id, "second");
-  const float first_score =
-      static_cast<float>(((1.0 + std::log(2.0)) * 2.0 + 1.0) / std::sqrt(2.0));
-  const float second_score =
-      static_cast<float>((2.0 + 1.0 + std::log(3.0)) / std::sqrt(3.0));
-  EXPECT_NEAR(results[0].score, first_score, 1e-6f);
-  EXPECT_NEAR(results[1].score, second_score, 1e-6f);
+  ASSERT_EQ(results.size(), 3u);
+  EXPECT_EQ(results[0].chunk_id, "rare-target");
+}
+
+TEST(JsonWikiIndexReader, WIS21_SearchesSectionAndSourcePathMetadata) {
+  const std::string path = writeTempFile(R"([
+  {"chunk_id":"general","source_path":"docs/general.md","section_title":"Overview","text":"General details."},
+  {"chunk_id":"planner","source_path":"src/search/query_planner.md","section_title":"Query Planner","text":"General details."}
+])");
+  JsonWikiIndexReader reader(path, /*auto_load=*/true);
+
+  const auto results = reader.query("query planner", 5, 0.0f);
+
+  ASSERT_FALSE(results.empty());
+  EXPECT_EQ(results[0].chunk_id, "planner");
+}
+
+TEST(JsonWikiIndexReader, WIS22_DeterministicTiesAndFilters) {
+  const std::string path = writeTempFile(R"([
+  {"chunk_id":"zeta","text":"same common phrase"},
+  {"chunk_id":"alpha","text":"same common phrase"}
+])");
+  JsonWikiIndexReader reader(path, /*auto_load=*/true);
+
+  const auto limited = reader.query("same", 1, 0.0f);
+  ASSERT_EQ(limited.size(), 1u);
+  EXPECT_EQ(limited[0].chunk_id, "alpha");
+  EXPECT_TRUE(reader.query("same", 10, limited[0].score + 1.0f).empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

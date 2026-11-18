@@ -12,6 +12,7 @@
 
 #include "storage/tensor_train_decomposer.h"
 #include "tensor/tensor_compat.h"
+#include "query/request_context.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -143,6 +144,24 @@ public:
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilar(const std::string& query_key, std::size_t k) const;
+
+    /**
+     * @brief Find similar adapters while observing request cancellation and deadline.
+     * @param query_key Storage key of the query adapter; must be registered.
+     * @param k Maximum number of results; zero returns an empty result.
+     * @param request Absolute deadline and cancellation state; not retained.
+     * @param stop_reason Receives the stop cause, or None on completion; may be null.
+     * @return Sorted top-k results, or empty when the query is invalid or stopped.
+     * @note Candidate collection and inter-score boundaries poll cooperatively.
+     *       Each TT inner-product, injected exact-similarity callback, and result sort
+     *       is synchronous and checkpoint-only; partial results are discarded if the
+     *       request stops.
+     */
+    [[nodiscard]] std::vector<SimilarityResult>
+        findSimilar(const std::string& query_key,
+                    std::size_t k,
+                    const query::RequestContext& request,
+                    query::StopReason* stop_reason = nullptr) const;
 
     /**
      * @brief Find the top-k adapters most similar to the given raw fingerprint.

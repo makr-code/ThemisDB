@@ -1462,13 +1462,35 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 
 std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
-									  const std::vector<std::string>* whitelist) const {
+									  const std::vector<std::string>* whitelist,
+									  const ::themis::query::RequestContext* request,
+									  ::themis::query::StopReason* stop_reason) const {
 	/**
 	 * @brief State Lock.
 	 * @param[in] index_state_mutex_ Input parameter.
 	 * @return Return value.
 	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	const auto stopRequested = [&]() {
+		if (!request) {
+			return false;
+		}
+		const auto reason = request->stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	if (stopRequested()) {
+		return {};
+	}
+
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	const size_t cache_size = cache_.size();
 	const std::string object_prefix = objectName_ + ':';
@@ -1514,7 +1536,11 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	};
 
 	if (whitelist && !whitelist->empty()) {
-		for (const auto& pk : *whitelist) {
+		for (size_t i = 0; i < whitelist->size(); ++i) {
+			if ((i % 64) == 0 && stopRequested()) {
+				return {};
+			}
+			const auto& pk = (*whitelist)[i];
 			auto it = cache_.find(pk);
 			if (it != cache_.end() && it->second.size() == expected_dim) {
 				consider(pk, it->second);
@@ -1558,7 +1584,11 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		// fall back to scanning storage to build candidates on-the-fly.
 		if (cache_.empty()) {
 			const std::string& prefix = object_prefix;
+			size_t scanned = 0;
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+				if ((scanned++ % 64) == 0 && stopRequested()) {
+					return false;
+				}
 				std::string pk = KeySchema::extractPrimaryKey(key);
 				std::vector<uint8_t> bytes(value.begin(), value.end());
 				try {
@@ -1609,6 +1639,9 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				}
 				return true;
 			});
+			if (stopRequested()) {
+				return {};
+			}
 		} else {
 			// Cache-blocking optimization for 1536D vectors
 			// Process cache entries in blocks to improve temporal locality
@@ -1618,7 +1651,11 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			
 			std::vector<const std::pair<const std::string, std::vector<float>>*> cache_ptrs;
 			cache_ptrs.reserve(cache_size);
+			size_t scanned = 0;
 			for (const auto& entry : cache_) {
+				if ((scanned++ % 64) == 0 && stopRequested()) {
+					return {};
+				}
 				cache_ptrs.push_back(&entry);
 			}
 			
@@ -1649,6 +1686,9 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				// Process current block
 				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
 				for (size_t i = block_start; i < block_end; ++i) {
+					if ((i % 64) == 0 && stopRequested()) {
+						return {};
+					}
 					const auto& [pk, vec] = *cache_ptrs[i];
 					if (vec.size() == expected_dim) {
 						consider(pk, vec);
@@ -1673,6 +1713,42 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
+	return searchKnnImpl_(query, k, whitelist, nullptr, nullptr);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k,
+							  const std::vector<std::string>* whitelist,
+							  const ::themis::query::RequestContext& request,
+							  ::themis::query::StopReason* stop_reason) const {
+	return searchKnnImpl_(query, k, whitelist, &request, stop_reason);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnImpl_(const std::vector<float>& query, size_t k,
+								   const std::vector<std::string>* whitelist,
+								   const ::themis::query::RequestContext* request,
+								   ::themis::query::StopReason* stop_reason) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	const auto stopIfRequested = [&]() {
+		if (!request) {
+			return false;
+		}
+		const auto reason = request->stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
+
 	/**
 	 * @brief State Lock.
 	 * @param[in] index_state_mutex_ Input parameter.
@@ -1683,12 +1759,27 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
+
+	const auto bruteForce = [&]() {
+		::themis::query::StopReason brute_force_stop = ::themis::query::StopReason::None;
+		auto results = bruteForceSearch_(query, k, whitelist, request, &brute_force_stop);
+		if (brute_force_stop != ::themis::query::StopReason::None) {
+			if (stop_reason) {
+				*stop_reason = brute_force_stop;
+			}
+			return std::pair<Status, std::vector<Result>>{Status::OK(), {}};
+		}
+		if (stopIfRequested()) {
+			return std::pair<Status, std::vector<Result>>{Status::OK(), {}};
+		}
+		return std::pair<Status, std::vector<Result>>{Status::OK(), std::move(results)};
+	};
     
 	// Deterministic correctness path for Phase 1 encryption: use brute-force to avoid
 	// potential approximation variance in HNSW and ensure consistent ranking under COSINE.
 	// Applies when vector encryption is enabled (Phase 1).
 	if (isVectorEncryptionEnabled()) {
-		return {Status::OK(), bruteForceSearch_(query, k, whitelist)};
+		return bruteForce();
 	}
 
 #ifdef THEMIS_HNSW_ENABLED
@@ -1714,8 +1805,14 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			
 			// Phase 4: Record query start time
 			auto query_start = std::chrono::steady_clock::now();
-			
+
+			if (stopIfRequested()) {
+				return {Status::OK(), {}};
+			}
 			auto topk = appr->searchKnn(q.data(), static_cast<size_t>(k));
+			if (stopIfRequested()) {
+				return {Status::OK(), {}};
+			}
 			
 			// Phase 4: Record query statistics
 			if (hnsw_optimizer_ && hnsw_optimizer_->isEnabled()) {
@@ -1732,7 +1829,11 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			std::vector<Result> out = {};
 
 			out.reserve(topk.size());
+			size_t visited = 0;
 			while (!topk.empty()) {
+				if ((visited++ % 64) == 0 && stopIfRequested()) {
+					return {Status::OK(), {}};
+				}
 				auto p = topk.top();
 				topk.pop();
 				size_t id = p.second;
@@ -1740,6 +1841,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				if (idToPk_.size() > id) out.push_back({idToPk_[id], d});
 			}
 			std::reverse(out.begin(), out.end()); // kleinste Distanz zuerst
+			if (stopIfRequested()) {
+				return {Status::OK(), {}};
+			}
 			return {Status::OK(), std::move(out)};
 		} catch (...) {
 			THEMIS_WARN("searchKnn: HNSW-Suche fehlgeschlagen, Fallback auf Brute-Force");
@@ -1755,7 +1859,15 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			  normalizeL2(q);
 			}
 
-			std::unordered_set<std::string> wl(whitelist->begin(), whitelist->end());
+			std::unordered_set<std::string> wl;
+			wl.reserve(whitelist->size());
+			size_t whitelist_scanned = 0;
+			for (const auto& pk : *whitelist) {
+				if ((whitelist_scanned++ % 64) == 0 && stopIfRequested()) {
+					return {Status::OK(), {}};
+				}
+				wl.insert(pk);
+			}
 			// Optimierte Prefilter-Parameter für Memory-Bandwidth-Constraints
 			int initialFactor = 2;           // k * initialFactor (reduziert von 3)
 			int minCandidatesFloor = 16;     // Untergrenze (reduziert von 32)
@@ -1779,8 +1891,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			if (!prefilterEnabled) {
 				// Prefilter deaktiviert → exakter (langsamer) Brute-Force über Whitelist
 				THEMIS_INFO("searchKnn: Prefilter deaktiviert, Brute-Force über Whitelist");
-				auto bf = bruteForceSearch_(query, k, whitelist);
-				return {Status::OK(), std::move(bf)};
+				return bruteForce();
 			}
 
 			// Starte mit konfigurierter Kandidatenanzahl und wachse bis ausreichend Treffer
@@ -1797,11 +1908,21 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			std::unordered_set<std::string> seen;
 
 			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
+				if (stopIfRequested()) {
+					return {Status::OK(), {}};
+				}
 				auto top = appr->searchKnn(q.data(), candidateCount);
+				if (stopIfRequested()) {
+					return {Status::OK(), {}};
+				}
 				std::vector<Result> tmp = {};
 
 				tmp.reserve(top.size());
+				size_t visited = 0;
 				while (!top.empty()) {
+					if ((visited++ % 64) == 0 && stopIfRequested()) {
+						return {Status::OK(), {}};
+					}
 					auto p = top.top();
 					top.pop();
 					size_t id = p.second;
@@ -1813,17 +1934,30 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 						}
 					}
 				}
-				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
+				for (size_t i = 0; i < tmp.size() / 2; ++i) {
+					if ((i % 64) == 0 && stopIfRequested()) {
+						return {Status::OK(), {}};
+					}
+					std::swap(tmp[i], tmp[tmp.size() - 1 - i]);
+				} // kleinste Distanz zuerst
 				
 				// Early termination if we have enough candidates
 				if (tmp.size() >= k) {
-					filtered.insert(filtered.end(), tmp.begin(), tmp.begin() + k);
+					for (size_t i = 0; i < k; ++i) {
+						if ((i % 64) == 0 && stopIfRequested()) {
+							return {Status::OK(), {}};
+						}
+						filtered.push_back(tmp[i]);
+					}
 					break;
 				}
 
-				for (const auto& r : tmp) {
-					if (seen.insert(r.pk).second) {
-						filtered.push_back(r);
+				for (size_t i = 0; i < tmp.size(); ++i) {
+					if ((i % 64) == 0 && stopIfRequested()) {
+						return {Status::OK(), {}};
+					}
+					if (seen.insert(tmp[i].pk).second) {
+						filtered.push_back(tmp[i]);
 						if (filtered.size() >= k) {
 						  break;
 						}
@@ -1838,18 +1972,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				if (filtered.size() > k) {
 				  filtered.resize(k);
 				}
+				if (stopIfRequested()) {
+					return {Status::OK(), {}};
+				}
 				return {Status::OK(), std::move(filtered)};
 			}
 			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
 			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force",filtered.size(), k);
-			auto bf = bruteForceSearch_(query, k, whitelist);
-			return {Status::OK(), std::move(bf)};
+			return bruteForce();
 		} catch (...) {
 			THEMIS_WARN("searchKnn: HNSW-Whitelist-Suche fehlgeschlagen, Fallback auf Brute-Force");
 			// weiter unten erfolgt Brute-Force
 		}
 	}
 #endif
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
 	// Alternative ANN backend (ScaNN / DiskANN)
 	if ((ann_backend_ && (!whitelist || whitelist->empty()))) {
 		auto* ann_backend = ann_backend_.get();
@@ -1858,29 +1997,45 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		if (metric_ == Metric::COSINE) {
 		  normalizeL2(q);
 		}
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		auto raw = ann_backend->search(q.data(), expected_dim, static_cast<int>(k));
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		std::vector<Result> out = {};
 
 		out.reserve(raw.size());
+		size_t visited = 0;
 		for (const auto& r : raw) {
+			if ((visited++ % 64) == 0 && stopIfRequested()) {
+				return {Status::OK(), {}};
+			}
 			size_t idx = static_cast<size_t>(r.id);
 			if (id_to_pk_snapshot.size() > idx) {
 				out.push_back({id_to_pk_snapshot[idx], r.distance});
 			}
+		}
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
 		}
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann",out.size());
 		return {Status::OK(), std::move(out)};
 	}
 
 	// Fallback oder Whitelist-Fall: Brute-Force
-	auto results = bruteForceSearch_(query, k, whitelist);
+	auto [status, results] = bruteForce();
+	if (!status.ok) {
+		return {status, {}};
+	}
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
 	if ((results.size() >= 10 || (whitelist && !whitelist->empty()))) {
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",results.size());
 	}
 	
-	return {Status::OK(), std::move(results)};
+	return {status, std::move(results)};
 }
 
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
@@ -1891,27 +2046,90 @@ VectorIndexManager::searchKnnEvaluated(
 	size_t candidateMultiplier,
 	const std::vector<std::string>* whitelist
 ) const {
+	return searchKnnEvaluatedImpl_(query, k, evaluator, candidateMultiplier,
+								   whitelist, nullptr, nullptr);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnEvaluated(
+	const std::vector<float>& query,
+	size_t k,
+	const IExpressionEvaluator* evaluator,
+	size_t candidateMultiplier,
+	const std::vector<std::string>* whitelist,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	return searchKnnEvaluatedImpl_(query, k, evaluator, candidateMultiplier,
+								   whitelist, &request, stop_reason);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnEvaluatedImpl_(
+	const std::vector<float>& query,
+	size_t k,
+	const IExpressionEvaluator* evaluator,
+	size_t candidateMultiplier,
+	const std::vector<std::string>* whitelist,
+	const ::themis::query::RequestContext* request,
+	::themis::query::StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	const auto stopIfRequested = [&]() {
+		if (!request) {
+			return false;
+		}
+		const auto reason = request->stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
+
 	if (!evaluator || k == 0) {
-		return searchKnn(query, k, whitelist);
+		return searchKnnImpl_(query, k, whitelist, request, stop_reason);
 	}
 
 	const std::string evaluator_type = evaluator->get_expression_type();
 	if (evaluator_type != "themis_json_context_v1") {
 		THEMIS_WARN("searchKnnEvaluated: unsupported evaluator type '{}', falling back to unfiltered search", evaluator_type);
-		return searchKnn(query, k, whitelist);
+		return searchKnnImpl_(query, k, whitelist, request, stop_reason);
 	}
 
 	const size_t safe_multiplier = std::max<size_t>(1, candidateMultiplier);
 	const size_t candidate_count = std::max(k, k * safe_multiplier);
-	auto [status, candidates] = searchKnn(query, candidate_count, whitelist);
+	::themis::query::StopReason candidate_stop = ::themis::query::StopReason::None;
+	auto [status, candidates] = searchKnnImpl_(
+		query, candidate_count, whitelist, request, &candidate_stop);
+	if (candidate_stop != ::themis::query::StopReason::None) {
+		if (stop_reason) {
+			*stop_reason = candidate_stop;
+		}
+		return {status, {}};
+	}
 	if (!status.ok) {
 		return {status, std::vector<Result>()};
+	}
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
 	}
 
 	std::vector<Result> filtered = {};
 
 	filtered.reserve(std::min(k, candidates.size()));
-	for (const auto& candidate : candidates) {
+	for (size_t i = 0; i < candidates.size(); ++i) {
+		if ((i % 32) == 0 && stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
+		const auto& candidate = candidates[i];
 		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
 		if (!entity_blob.has_value()) {
 			continue;
@@ -1936,6 +2154,9 @@ VectorIndexManager::searchKnnEvaluated(
 				break;
 			}
 		}
+	}
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
 	}
 
 	return {Status::OK(), std::move(filtered)};
@@ -3728,12 +3949,45 @@ VectorIndexManager::searchWithRotation(
 	size_t query_position,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	return searchWithRotation(query, k, query_position, whitelistPks,
+							  ::themis::query::RequestContext{}, nullptr);
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchWithRotation(
+	const std::vector<float>& query,
+	int k,
+	size_t query_position,
+	const std::vector<std::string>* whitelistPks,
+	const ::themis::query::RequestContext& request,
+	::themis::query::StopReason* stop_reason
+) const {
+	if (stop_reason) {
+		*stop_reason = ::themis::query::StopReason::None;
+	}
+	const auto stopIfRequested = [&]() {
+		const auto reason = request.stopReason();
+		if (reason == ::themis::query::StopReason::None) {
+			return false;
+		}
+		if (stop_reason) {
+			*stop_reason = reason;
+		}
+		return true;
+	};
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
+
 	/**
 	 * @brief State Lock.
 	 * @param[in] index_state_mutex_ Input parameter.
 	 * @return Return value.
 	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	if (stopIfRequested()) {
+		return {Status::OK(), {}};
+	}
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>()};
 	}
@@ -3742,11 +3996,21 @@ VectorIndexManager::searchWithRotation(
 		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
 			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
-		auto [status, results] = searchKnn(rotated_query, static_cast<size_t>(k), whitelistPks);
+		auto [status, results] = searchKnn(
+			rotated_query, static_cast<size_t>(k), whitelistPks,
+			request, stop_reason);
+		if ((stop_reason &&
+			 *stop_reason != ::themis::query::StopReason::None) ||
+			stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		
 		// Log audit event if logger is set
 		if (status.ok) {
@@ -3757,6 +4021,9 @@ VectorIndexManager::searchWithRotation(
 		
 		return {status, results};
 	} catch (const std::exception& e) {
+		if (stopIfRequested()) {
+			return {Status::OK(), {}};
+		}
 		return {Status::Error(std::string("Rotation search failed: ") + e.what()), std::vector<Result>()};
 	}
 }

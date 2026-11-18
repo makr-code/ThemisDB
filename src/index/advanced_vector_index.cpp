@@ -441,6 +441,25 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
 #endif
 }
 
+AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(
+    const float* query, size_t k,
+    const query::RequestContext& ctx,
+    query::StopReason* stop) {
+    auto reason = ctx.stopReason();
+    if (reason != query::StopReason::None) {
+        if (stop) *stop = reason;
+        return SearchResult{};
+    }
+    SearchResult result = search(query, k);
+    reason = ctx.stopReason();
+    if (reason != query::StopReason::None) {
+        if (stop) *stop = reason;
+        return SearchResult{};
+    }
+    if (stop) *stop = query::StopReason::None;
+    return result;
+}
+
 std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
     [[maybe_unused]] const float* queries,
     [[maybe_unused]] size_t num_queries,

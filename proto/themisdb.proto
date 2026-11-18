@@ -64,26 +64,43 @@ service ThemisDBService {
     // ── Query / AQL ─────────────────────────────────────────────────────────
 
     // Execute an AQL query and return all results in one response
-    // (mirrors POST /query/aql).
+    // (mirrors POST /query/aql). Honors client cancellation (CANCELLED) and the
+    // gRPC deadline (DEADLINE_EXCEEDED); rows are cleared on stop. Legacy
+    // synchronous engines are checkpoint-only (not interrupted mid-call).
     rpc ExecuteAQL(AQLQueryRequest) returns (AQLQueryResponse);
 
     // Execute an AQL query and stream result rows one at a time
     // (mirrors the planned /v2/query/stream SSE endpoint).
-    // Each streamed message is one AQLRow from the result set.
+    // Each streamed message is one AQLRow from the result set. Stops with
+    // CANCELLED / DEADLINE_EXCEEDED before/after execution and between rows;
+    // legacy synchronous engines are checkpoint-only (not interrupted mid-call).
     rpc StreamAQL(AQLQueryRequest) returns (stream AQLRow);
 
     // ── Vector search ───────────────────────────────────────────────────────
 
     // k-nearest-neighbour search (mirrors POST /vector/search).
+    // Server cancellation returns CANCELLED; request deadline expiry returns
+    // DEADLINE_EXCEEDED. Legacy vector-index implementations are checked before
+    // and after their existing search call, so they may overrun a stop condition;
+    // indexes must implement cooperative context polling to stop in-flight work.
     rpc VectorSearch(VectorSearchRequest) returns (VectorSearchResponse);
 
     // Vector search with attribute filter (mirrors POST /vector/by-filter).
+    // Cancellation and deadline status semantics match VectorSearch.
     rpc FilteredVectorSearch(FilteredVectorSearchRequest) returns (VectorSearchResponse);
 
     // Hybrid dense+sparse search (mirrors POST /search/hybrid).
+    // Cancellation and deadline status semantics match VectorSearch; AQL and
+    // legacy vector-index calls remain checkpoint-only unless their backend
+    // cooperatively polls the request context.
     rpc HybridSearch(HybridSearchRequest) returns (HybridSearchResponse);
 
     // Full-text search (mirrors POST /search/fulltext).
+    // Cancellation and deadline status semantics match VectorSearch: a stop
+    // observed before, during (cooperative AQL engines only) or after the AQL call
+    // yields CANCELLED / DEADLINE_EXCEEDED with no hits. AQL engines that do not
+    // override the context-aware IQueryEngine::execute cannot be interrupted
+    // mid-call; their result is discarded once the stop is observed.
     rpc FullTextSearch(FullTextSearchRequest) returns (FullTextSearchResponse);
 
     // ── Health ──────────────────────────────────────────────────────────────

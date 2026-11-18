@@ -11,6 +11,7 @@
 
 #pragma once
 #include "server/auth_middleware.h"
+#include "query/request_context.h"
 
 #include <memory>
 #include <string>
@@ -62,6 +63,25 @@ public:
      * search, including on subsequent cursor pages.
      */
     http::response<http::string_body> handleSearch(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Search nearest neighbors under a cooperative request deadline/cancellation context.
+     * @param[in] req Borrowed HTTP request; same contract as the single-argument overload.
+     * @param[in] request Server-derived absolute deadline and optional cancellation state.
+     * It is never derived from request headers or body. A context without a deadline
+     * (timeout 0) is unbounded. Not retained after return.
+     * @return Same responses as the single-argument overload, except HTTP 504 with an
+     * error body and no results when @p request stops before or during the search, or
+     * while results are sliced/serialized. Partial output is discarded.
+     * @note The context is polled by VectorIndexManager::searchKnn (cache/storage scans
+     * poll; synchronous ANN backend calls are checkpoint-only) and between result
+     * serialization steps. Client-disconnect cancellation is NOT observed: dispatch is
+     * synchronous, so a disconnect cannot be seen concurrently by this handler.
+     * Validation, authorization and policy checks precede the search and keep their statuses.
+     */
+    http::response<http::string_body> handleSearch(
+        const http::request<http::string_body>& req,
+        const ::themis::query::RequestContext& request);
 
     /**
      * @brief Handle Batch Insert.

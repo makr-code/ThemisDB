@@ -81,6 +81,23 @@ public:
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
 
+    /**
+     * @brief Choose an equality-predicate order while observing request cancellation.
+     * @param q Query whose equality predicates are estimated.
+     * @param request Deadline and cancellation source borrowed for this call.
+     * @param stop_reason Receives the stop cause, or None when planning completes.
+     * @param maxProbePerPred Maximum index entries inspected by each estimate.
+     * @return A complete plan, or an empty plan if cancellation/deadline is observed.
+     * @note Statistics access, one index estimate, sorting, cost advice and metric
+     *       emission are synchronous; the request is checked at their boundaries.
+     */
+    Plan chooseOrderForAndQuery(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason,
+        size_t maxProbePerPred = 1000
+    ) const;
+
     // =============================
     // Serialization Advisor tuning
     // =============================
@@ -110,6 +127,33 @@ public:
     Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
+    /**
+     * @brief Execute the selected equality plan while observing request cancellation.
+     * @param engine Query engine used for index retrieval and entity materialization.
+     * @param q Query whose predicates are represented by the plan.
+     * @param plan Planner-selected predicate order.
+     * @param request Deadline and cancellation source borrowed for this call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching entities, or an error without partial entities when stopped.
+     * @note Individual index scans and storage reads remain synchronous; the
+     *       request-aware engine path polls between stages and during intersection.
+     */
+    Result<std::vector<BaseEntity>>
+    executeOptimizedEntities(
+        QueryEngine& engine,
+        const ConjunctiveQuery& q,
+        const Plan& plan,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
+
+    /**
+     * @brief Counts entities matching the predicates in a selected query plan.
+     * @param engine Query engine used to retrieve matching primary keys.
+     * @param q Query whose table and predicates are counted.
+     * @param plan Planner-selected predicate order and estimates.
+     * @return Matching entity count, or an error when index execution fails.
+     */
     Result<size_t>
     executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
@@ -307,6 +351,13 @@ public:
                                           const std::string& remote_scope_id) const noexcept;
 
 private:
+    Plan chooseOrderForAndQueryImpl_(
+        const ConjunctiveQuery& q,
+        size_t maxProbePerPred,
+        const RequestContext* request,
+        StopReason* stop_reason
+    ) const;
+
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
 

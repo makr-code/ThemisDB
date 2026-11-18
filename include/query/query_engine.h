@@ -24,6 +24,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
+#include "query/request_context.h"
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
@@ -497,6 +498,25 @@ public:
      * @return Return value.
      */
     Result<std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
+
+    /**
+     * @brief Execute a query with cooperative deadline and cancellation.
+     * @param q Query to execute; full-text and range/order queries use request-aware
+     *        retrieval, while other query forms use the legacy path with entry/exit
+     *        stop checks.
+     * @param request Absolute deadline and cancellation source; borrowed cancellation
+     *        state must remain valid until this synchronous call returns.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Materialized entities, or an error with no partial entities when stopped.
+     * @note Full-text scans and range/order key processing poll cooperatively. Range
+     *       index calls, sorting, individual storage reads, and other query forms
+     *       remain synchronous or checkpoint-only.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntities(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
     
     /**
      * @brief Execute And Keys.
@@ -504,6 +524,22 @@ public:
      * @return Return value.
      */
     Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
+
+    /**
+     * @brief Execute a full-text key query with cooperative deadline and cancellation.
+     * @param q Query to execute; must contain a full-text predicate for cooperative
+     *        scan polling. Other query forms use the legacy path with stop checkpoints.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching keys, or an error with no partial keys when stopped.
+     * @note Structural key-list intersection polls cooperatively. Individual index
+     *       reads and sorting are synchronous/checkpoint-only.
+     */
+    Result<std::vector<std::string>> executeAndKeys(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
 
     /**
      * @brief Execute And Count.
@@ -559,6 +595,23 @@ public:
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
+
+    /**
+     * @brief Execute ordered equality-index predicates with cooperative cancellation.
+     * @param table Non-empty collection name.
+     * @param orderedPredicates Non-empty equality predicates in planner-selected order.
+     * @param request Deadline and cancellation source borrowed for this synchronous call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching keys, or an error without partial keys when stopped.
+     * @note Equality index iteration polls every 64 entries. Sorting polls only at
+     *       operation boundaries; key-list intersection polls every 64 comparisons.
+     */
+    Result<std::vector<std::string>> executeAndKeysSequential(
+        const std::string& table,
+        const std::vector<PredicateEq>& orderedPredicates,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
     
     /**
      * @brief Execute And Entities Sequential.
@@ -571,6 +624,23 @@ public:
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
 
+    /**
+     * @brief Materialize ordered equality-query results with cooperative cancellation.
+     * @param table Non-empty collection name.
+     * @param orderedPredicates Non-empty equality predicates in planner-selected order.
+     * @param request Deadline and cancellation source borrowed for this synchronous call.
+     * @param stop_reason Receives the stop cause, or None when no stop was observed.
+     * @return Matching entities, or an error without partial entities when stopped.
+     * @note Entity hydration is sequential and polls around individual storage reads.
+     *       One storage read and deserialization operation cannot be interrupted.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
+        const std::string& table,
+        const std::vector<PredicateEq>& orderedPredicates,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
+
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)
     Result<std::vector<std::string>> executeAndKeysWithFallback(
         const ConjunctiveQuery& q,
@@ -580,6 +650,41 @@ public:
     Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
         const ConjunctiveQuery& q,
         bool optimize = true
+    ) const;
+
+    /**
+     * @brief Execute an AND query with request-aware fallback scanning.
+     * @param q Query to execute; missing indexes use a cooperative sequential scan.
+     * @param optimize Whether to choose the existing optimized indexed path.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the observed stop cause, or None if not stopped.
+     * @return Matching keys, or an error without partial results when stopped.
+     * @note Full-scan collection/filtering and equality/range index iteration poll
+     *       cooperatively. Sorting and other index families remain checkpoint-only.
+     */
+    Result<std::vector<std::string>> executeAndKeysWithFallback(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
+    ) const;
+
+    /**
+     * @brief Materialize an AND query with request-aware fallback scanning.
+     * @param q Query to execute; missing indexes use a cooperative sequential scan.
+     * @param optimize Whether to choose the existing optimized indexed path.
+     * @param request Absolute deadline and cancellation source.
+     * @param stop_reason Receives the observed stop cause, or None if not stopped.
+     * @return Matching entities, or an error without partial results when stopped.
+     * @note Fallback scanning, equality/range index iteration, and entity hydration
+     *       poll cooperatively; individual synchronous storage reads cannot be
+     *       interrupted.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext& request,
+        StopReason* stop_reason = nullptr
     ) const;
     
     // Join/LET/COLLECT Support (MVP) - Declared in cpp to avoid header dependency
@@ -857,19 +962,52 @@ private:
      * @param[in] q Input parameter.
      * @return Return value.
      */
-    std::vector<std::string> fullScanAndFilter_(const ConjunctiveQuery& q) const;
+    std::vector<std::string> fullScanAndFilter_(
+        const ConjunctiveQuery& q,
+        const RequestContext* request = nullptr,
+        StopReason* stop_reason = nullptr
+    ) const;
+    Result<std::vector<std::string>> executeAndKeysWithFallbackImpl_(
+        const ConjunctiveQuery& q,
+        bool optimize,
+        const RequestContext* request,
+        StopReason* stop_reason
+    ) const;
 
     // Range-Unterstützung
     /**
      * @brief Execute And Keys Range Aware.
-     * @param[in] q Input parameter.
-     * @return Return value.
+     * @param[in] q Query containing equality/range predicates and optional ordering.
+     * @param request Optional request context; when supplied, index reads and sorting
+     *        are checked at stage boundaries and key intersection polls every 64
+     *        comparisons. Equality and range index iteration poll every 64 entries;
+     *        sorting polls only at operation boundaries.
+     * @param stop_reason Receives the cancellation/deadline cause when observed.
+     * @return Matching keys, or an error without partial keys when stopped.
      */
-    Result<std::vector<std::string>> executeAndKeysRangeAware_(const ConjunctiveQuery& q) const;
+    Result<std::vector<std::string>> executeAndKeysRangeAware_(
+        const ConjunctiveQuery& q,
+        const RequestContext* request = nullptr,
+        StopReason* stop_reason = nullptr
+    ) const;
     /**
-     * @brief Execute And Entities Range Aware.
-     * @param[in] q Input parameter.
-     * @return Return value.
+     * @brief Materialize range-aware results while observing request cancellation.
+     * @param q Query containing range predicates and/or ordering.
+     * @param request Deadline and cancellation source used by key retrieval and hydration.
+     * @param stop_reason Receives the stop cause when observed.
+     * @return Entities, or an error with partial entities discarded on stop.
+     * @note Individual index operations and storage reads remain synchronous; polling
+     *       occurs at stage boundaries and during candidate processing/hydration.
+     */
+    Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(
+        const ConjunctiveQuery& q,
+        const RequestContext& request,
+        StopReason* stop_reason
+    ) const;
+    /**
+     * @brief Execute the legacy unbounded range-aware entity path.
+     * @param q Query containing range predicates and/or ordering.
+     * @return Matching entities, or an execution error.
      */
     Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const;
 };

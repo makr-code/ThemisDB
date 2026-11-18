@@ -492,7 +492,7 @@ ErrorContext makeErrorContext(ErrorCode code,
  * @brief Log Error With Context.
  * @param[in] ctx Input parameter.
  * @param[in] logger Input parameter.
- * @details Calls: spdlog::get(), spdlog::default_logger(), critical(), toFormattedString(), error(), warn(), info(), debug().
+ * @details Resolves the default logger and writes the formatted message at the severity selected by ctx.
  */
 void logErrorWithContext(const ErrorContext& ctx,
                          std::shared_ptr<spdlog::logger> logger) {
@@ -507,25 +507,35 @@ void logErrorWithContext(const ErrorContext& ctx,
         return; // Silently fail if no logger available
     }
     
+    const auto log_message = [&logger](const spdlog::level::level_enum level,
+                                       const char* prefix,
+                                       const std::string& text) {
+        auto message = std::string(prefix);
+        message += text;
+        logger->log(spdlog::source_loc{},
+                    level,
+                    spdlog::string_view_t(message.data(), message.size()));
+    };
+
     // Log at appropriate level based on severity
     switch (ctx.severity) {
         case ErrorSeverity::Fatal:
-            logger->critical("Error: {}", ctx.toFormattedString());
+            log_message(spdlog::level::critical, "Error: ", ctx.toFormattedString());
             break;
         case ErrorSeverity::Error:
-            logger->error("Error: {}", ctx.toFormattedString());
+            log_message(spdlog::level::err, "Error: ", ctx.toFormattedString());
             break;
         case ErrorSeverity::Warning:
-            logger->warn("Warning: {}", ctx.toFormattedString());
+            log_message(spdlog::level::warn, "Warning: ", ctx.toFormattedString());
             break;
         case ErrorSeverity::Degraded:
-            logger->info("Degraded: {}", ctx.toFormattedString());
+            log_message(spdlog::level::info, "Degraded: ", ctx.toFormattedString());
             break;
     }
     
     // Also try to log as structured JSON if supported
     try {
-        logger->debug("Error context JSON: {}", ctx.toJSON());
+        log_message(spdlog::level::debug, "Error context JSON: ", ctx.toJSON());
     } catch (...) {
         // Silently ignore JSON logging failures
     }

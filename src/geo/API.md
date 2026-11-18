@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-17"
 Status: "review"
 Source_Level: "L1"
 SOT_Domain: "api-contract"
@@ -67,6 +67,12 @@ handling described by that header.
 - Optional features may return explicit unsupported statuses, such as raster
   queries when raster support is not compiled. GPU availability is also
   conditional; see [`IMPLEMENTATION.md`](./IMPLEMENTATION.md).
+- `SpatialJoinIterator::advance(request, stop_reason)` is additive; existing
+  `advance()` callers retain their behavior. The request-aware overload polls
+  candidate traversal and sets `stop_reason` to distinguish cancellation or
+  deadline expiry from normal exhaustion. R-tree construction/candidate lookup
+  and each geometry-distance calculation are synchronous checkpoints, not
+  interruptible operations.
 
 ## API change validation
 
