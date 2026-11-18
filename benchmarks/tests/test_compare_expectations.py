@@ -5,6 +5,7 @@ import contextlib
 import io
 import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -19,12 +20,8 @@ from compare_expectations import (
 
 @contextlib.contextmanager
 def workspace():
-    root = Path.cwd() / ".compare-expectations-test-work"
-    root.mkdir()
-    try:
-        yield root
-    finally:
-        shutil.rmtree(root)
+    with tempfile.TemporaryDirectory(prefix="themis-benchmark-comparator-") as root:
+        yield Path(root)
 
 
 class BenchmarkResultAggregationTests(unittest.TestCase):

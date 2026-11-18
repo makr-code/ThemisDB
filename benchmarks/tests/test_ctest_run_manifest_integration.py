@@ -6,9 +6,9 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import unittest
-import uuid
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -20,8 +20,9 @@ RUNNER = POLICY.with_name("benchmark_run_manifest.py")
 class CTestManifestIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.work = ROOT / "benchmarks" / "tests" / (".manifest-integration-" + uuid.uuid4().hex)
-        cls.work.mkdir()
+        cls.temporary_directory = tempfile.TemporaryDirectory(prefix="themis-benchmark-manifest-")
+        cls.addClassCleanup(cls.temporary_directory.cleanup)
+        cls.work = Path(cls.temporary_directory.name)
         cls.addClassCleanup(shutil.rmtree, cls.work, ignore_errors=True)
         cls.build = cls.work / "build"
         cls.src = cls.work / "src"
