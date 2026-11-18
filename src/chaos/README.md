@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -50,9 +50,8 @@ Out of scope:
 
 - active faults are process-local and keyed by configured fault identity dimensions.
 - scheduler execution depends on configured wake strategy and tick behavior.
-- `injectFault()` returns `false` for empty target IDs or probabilities below 0
-  or above 1; it does not sample probabilities and does not reject NaN with its
-  current range comparisons.
+- `injectFault()` returns `false` for empty target IDs and non-finite or
+  out-of-range probabilities; it does not sample probabilities.
 - The runtime does not enforce the contract's recommended queue, duration, tick,
   identifier-size, or callback-count bounds.
 - Callbacks run synchronously; recovery callbacks run while the injector mutex is

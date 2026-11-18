@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,7 +38,7 @@ No method in this API performs real network or disk manipulation.
 | Method | Behavior and edge cases |
 |---|---|
 | `FaultInjector(std::string injector_id = "default")` | Creates an empty process-local registry. `id()` returns the supplied identifier. |
-| `bool injectFault(const FaultSpec&)` | Returns false for empty target ID or probability `< 0` / `> 1`; otherwise inserts or replaces the target/type entry and returns true unless a callback throws. Probability is not sampled here. Callback exceptions propagate; NaN is not rejected by the current comparisons. |
+| `bool injectFault(const FaultSpec&)` | Returns false for empty target ID or a non-finite/out-of-range probability; rejected input leaves registry state unchanged and invokes no callbacks. Otherwise inserts or replaces the target/type entry and returns true unless a callback throws. Probability is not sampled here. |
 | `bool recoverFault(const std::string& target_node_id)` | Removes every matching target entry; false if none matched. Recovery callbacks run synchronously while the registry mutex is held and before each removal. |
 | `bool recoverFault(const std::string& target_node_id, FaultType)` | Removes one target/type entry; false if absent. Callback exception propagates before erase. |
 | `bool isFaultActive(const std::string&) const` and typed overload | Reports whether a matching non-expired entry exists. Expired entries may remain stored until a pruning operation. |

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -22,8 +22,8 @@ Report vulnerabilities via project-level [SECURITY.md](../../SECURITY.md).
 real network or disk manipulation, cross-process communication, or persistent
 audit logging. This is a simulator boundary, not an authorization control.
 
-The runtime rejects an empty target ID and probabilities below 0 or above 1
-during `injectFault()`. It does not enforce the contract's recommended queue,
+The runtime rejects an empty target ID and non-finite or out-of-range
+probabilities during `injectFault()`. It does not enforce the contract's recommended queue,
 duration, tick, identifier-size, or callback-count limits. Callback registration
 is unsynchronized, callbacks are not exception-isolated, and recovery callbacks
 run under the injector mutex.

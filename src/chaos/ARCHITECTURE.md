@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -31,8 +31,8 @@ network or disk I/O.
 
 ## Implementation limits and failure behavior
 
-- Injection rejects an empty target ID and probability values below 0 or above
-  1; the current comparisons do not reject NaN. Probability is not sampled.
+- Injection rejects an empty target ID and non-finite or out-of-range
+  probability values. Probability is not sampled.
 - Recommended duration, tick, pending-entry, identifier, and callback limits in
   `chaos_contract.h` are not enforced by this runtime.
 - The condition-variable strategy still processes entries at the tick cadence;

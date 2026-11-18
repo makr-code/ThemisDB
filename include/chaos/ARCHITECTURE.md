@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -28,9 +28,8 @@ tick or condition-variable wake strategy, but the queue has no enforced capacity
 
 ## Runtime enforcement visible in source
 
-- `injectFault()` rejects an empty target ID and probabilities below 0 or above
-  1; it does not sample the probability or reject NaN with its current
-  comparisons.
+- `injectFault()` rejects an empty target ID and non-finite or out-of-range
+  probabilities; it does not sample the probability.
 - The runtime does not enforce the contract's recommended duration, tick,
   queue-size, identifier-size, or callback-count bounds.
 - `stop()` joins the worker and retains pending entries; `clearPending()` clears

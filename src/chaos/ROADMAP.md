@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-06
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -30,9 +30,9 @@ network, disk, process, or cluster behavior, and state is not persistent.
 
 **Verified from source (not runtime measurements):**
 
-- `injectFault()` rejects only an empty target ID and probabilities `< 0` or
-  `> 1`; it does not sample `FaultSpec::probability`, and NaN passes those
-  comparisons. `schedule()` does not perform equivalent descriptor validation.
+- `injectFault()` rejects an empty target ID and non-finite or out-of-range
+  probabilities; it does not sample `FaultSpec::probability`.
+  `schedule()` does not perform equivalent descriptor validation.
 - Contract recommendations for duration, tick interval, ID/description length,
   pending queue size, and callback count are not enforced. The scheduler queue
   is unbounded and is scanned linearly on every tick.
@@ -49,16 +49,28 @@ network, disk, process, or cluster behavior, and state is not persistent.
   here**. `tests/integration/test_chaos_fault_soak.cpp` and
   `test_chaos_highcardinality_stress.cpp` use stub/simulation classes, not the
   live runtime, and are not runtime soak evidence.
-- Benchmark sources include release-gate and microbenchmark scenarios, but no
-  actual results or enforced thresholds are verified. `bench_chaos_stress` is
-  omitted because `benchmarks/CMakeLists.txt` checks for
-  `bench_chaos_stress.cpp` at the benchmark root while the source is in
-  `benchmarks/chaos/`.
+- Benchmark sources include release-gate, stress, and microbenchmark scenarios,
+  but no actual results or enforced thresholds are verified. Stress benchmark
+  discovery is wired; target build and run evidence remain outstanding.
 
 **Measured evidence:** none reviewed for runtime soak, performance, or
 representative hardware. Existing values in benchmark source (including 5 µs
 p99 and 100k ops/s) are code-declared hypotheses, not measured results,
 release gates, or hardware-independent guarantees.
+
+**Validation gates for this hardening target:**
+
+- **Input safety:** `test_chaos_framework` must prove NaN and out-of-range
+  probabilities return false without registry mutation or callback dispatch;
+  [0.0, 1.0] boundary acceptance remains covered by the focused suite.
+- **Runtime/recovery:** run the live-runtime lifecycle, callback, concurrency,
+  and scheduler-timing suites; retain CI outcomes. Stub-only soak sources do not
+  satisfy this gate.
+- **Performance:** build and run the stress, release-gate, and microbenchmark
+  targets on identified hardware; retain p50/p95/p99, throughput, queue depth,
+  and resource use. A numeric release threshold remains blocked until a
+  representative baseline, variance policy, and threshold-failure test are
+  reviewed and recorded.
 
 **Local evidence references:** [contract](../../include/chaos/chaos_contract.h),
 [public API](../../include/chaos/chaos_framework.h),
@@ -118,12 +130,13 @@ when scope and dependencies are confirmed.
 - **Priority:** P1, after Wave A. **Provisional effort:** 4–6 engineer-weeks
   (planning estimate; not measured or approved schedule).
 - **Goal:** close safety gaps between the documented contract and runtime.
-- **Tasks:** [ ] decide and enforce finite probability validation (including
-  NaN); [ ] enforce or explicitly revise recommended descriptor, timing, queue,
-  and callback bounds; [ ] reconcile runtime failures with the declared
-  `ChaosFailureClass` taxonomy; [ ] define exception, callback, and scheduler
-  worker failure semantics; [ ] make callback registration/concurrent use
-  semantics safe and specify recovery callback lock behavior.
+- **Tasks:** [x] reject non-finite/out-of-range probability without state or
+  callback side effects; [ ] enforce or explicitly revise recommended
+  descriptor, timing, queue, and callback bounds; [ ] reconcile runtime
+  failures with the declared `ChaosFailureClass` taxonomy; [ ] define exception,
+  callback, and scheduler worker failure semantics; [ ] make callback
+  registration/concurrent use semantics safe and specify recovery callback
+  lock behavior.
 - **Dependencies:** Wave A source/test baseline; API compatibility and error
   semantics decision; review of lock ordering and callback lifecycle.
 - **Risk / trade-off:** rejection limits or callback semantics may break existing
@@ -214,9 +227,9 @@ status, not a claim that prior historical wave batches passed.
 4. **Phase 4 — Live-runtime tests:** [ ] run and retain CI evidence; replace
    stub-only soak/stress claims with live-runtime coverage where appropriate
    (v2.5.0 Wave A).
-5. **Phase 5 — Performance and scale:** [ ] repair benchmark discovery, gather
-   representative p95/p99 baselines, then decide measured thresholds
-   (v2.5.0 Wave C).
+5. **Phase 5 — Performance and scale:** [x] wire stress benchmark discovery;
+   [ ] build/run targets and gather representative p95/p99 baselines, then
+   decide measured thresholds (v2.5.0 Wave C).
 6. **Phase 6 — Governance and acceptance:** [ ] complete scenario controls,
    evidence retention, review, and release handoff only after prior gates
    (strategic v3.0.0 Wave D).
@@ -229,8 +242,9 @@ status, not a claim that prior historical wave batches passed.
   infer pass status from registrations or source.
 - [ ] Resolve descriptor, queue, callback, exception, and scheduler-worker
   safety semantics; validate with live-runtime tests and sanitizers.
-- [ ] Repair benchmark target discovery; run and retain repeatable
-  representative-hardware measurements and verify threshold enforcement.
+- [x] Repair benchmark target discovery.
+- [ ] Run and retain repeatable representative-hardware measurements and verify
+  threshold enforcement.
 - [ ] Complete isolated-scenario recovery/abort validation and independent
   security/architecture review. Do not treat this checklist as production
   authorization for the optional server integration.
@@ -240,14 +254,14 @@ status, not a claim that prior historical wave batches passed.
 - Faults are labels/state for consumers to query; no real infrastructure fault
   is enacted, probability is not sampled, and state is neither distributed nor
   persisted.
-- NaN probability passes the current range comparisons. Recommended contract
-  bounds are not enforced. Callback registration is unsynchronized, recovery
-  callbacks run under the injector mutex, callback exceptions are uncaught, and
+- Recommended contract bounds are not enforced. Callback registration is
+  unsynchronized, recovery callbacks run under the injector mutex, callback
+  exceptions are uncaught, and
   scheduler worker exceptions can escape.
 - Scheduler queue capacity is unbounded and every tick scans the queue. No
   built-in metrics, traces, alerts, or persistent audit trail exist.
-- Benchmark root-path check omits `bench_chaos_stress`; declared thresholds in
-  release-gate/microbenchmark sources have not been verified by actual runs.
+- Benchmark target discovery is wired, but declared thresholds in stress,
+  release-gate, and microbenchmark sources have not been verified by actual runs.
 - The integration soak and high-cardinality stress source files use stubs, so
   they do not prove live-runtime soak, scalability, or recovery behavior.
 - Optional server integration remains unresolved and is not suitable to
@@ -258,4 +272,4 @@ status, not a claim that prior historical wave batches passed.
 No approved breaking-change plan is evidenced. Validate API compatibility
 before enforcing new limits or changing callback/error semantics; document any
 contract break with migration notes and the applicable release/changelog entry.
-Target issue: [#7408](https://github.com/makr-code/ThemisDB/issues/7408).
+Target issue: [#7506](https://github.com/makr-code/ThemisDB/issues/7506).

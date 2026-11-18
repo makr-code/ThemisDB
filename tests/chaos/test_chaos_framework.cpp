@@ -23,6 +23,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <thread>
 
 using namespace themis::chaos;
@@ -99,6 +100,21 @@ TEST(FaultInjectorTest, InvalidProbabilityIsRejected) {
     FaultInjector fi;
     FaultSpec spec{FaultType::RANDOM_FAILURE, "n1", 0ms, 1.5};
     EXPECT_FALSE(fi.injectFault(spec));
+}
+
+TEST(FaultInjectorTest, NonFiniteProbabilityIsRejectedWithoutStateChange) {
+    FaultInjector fi;
+    std::atomic<int> callback_count{0};
+    fi.registerEventCallback([&](const FaultSpec&, bool) {
+        callback_count.fetch_add(1, std::memory_order_relaxed);
+    });
+    FaultSpec spec{FaultType::RANDOM_FAILURE, "n1", 0ms,
+                   std::numeric_limits<double>::quiet_NaN()};
+
+    EXPECT_FALSE(fi.injectFault(spec));
+    EXPECT_FALSE(fi.isFaultActive("n1", FaultType::RANDOM_FAILURE));
+    EXPECT_EQ(fi.activeFaultCount(), 0u);
+    EXPECT_EQ(callback_count.load(std::memory_order_relaxed), 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
