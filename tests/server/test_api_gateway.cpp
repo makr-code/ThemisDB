@@ -18,6 +18,7 @@
 #include "server/load_shedder.h"
 #include <chrono>
 #include <memory>
+#include <stdexcept>
 
 using namespace themis::server;
 
@@ -136,16 +137,28 @@ TEST_F(APIGatewayTest, UpdateConfig) {
 }
 
 /**
- * @brief Test query federation (without shard router)
+ * @brief Test that disabled federation rejects queries.
  */
-TEST_F(APIGatewayTest, FederatedQueryWithoutRouter) {
+TEST_F(APIGatewayTest, FederatedQueryDisabled) {
     AuthContext auth_ctx;
     auth_ctx.user_id = "test-user";
     
-    // Should throw error because query federation is not enabled
     EXPECT_THROW(
         gateway_->executeFederatedQuery("FOR doc IN collection RETURN doc", auth_ctx),
-        std::exception
+        std::runtime_error
+    );
+}
+
+TEST_F(APIGatewayTest, FederatedQueryWithoutRouter) {
+    APIGateway::Config config;
+    config.enable_query_federation = true;
+    gateway_->updateConfig(config);
+
+    AuthContext auth_ctx;
+    auth_ctx.user_id = "test-user";
+    EXPECT_THROW(
+        gateway_->executeFederatedQuery("FOR doc IN collection RETURN doc", auth_ctx),
+        std::runtime_error
     );
 }
 
