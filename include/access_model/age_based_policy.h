@@ -42,8 +42,9 @@ enum class DataHotnessLevel {
 
 /**
  * @brief Thresholds for age-based tier decisions and access-driven promotion.
- * @note isValid() checks selected threshold ordering; zero age thresholds may
- *       disable individual predicates but are not accepted in all combinations.
+ * @note isValid() checks threshold ordering and requires a positive storage
+ *       promotion window. A zero age threshold disables predicates that define
+ *       zero as disabled; the L1/L2/L3 age thresholds must remain ordered.
  */
 struct AgeBasedPolicy {
 
@@ -71,7 +72,10 @@ struct AgeBasedPolicy {
 
     uint64_t storage_promotion_threshold = 3;
 
-    std::chrono::seconds storage_promotion_window{86400};  // 24 hours
+    /**
+     * @brief Storage promotion window; it must have a positive duration.
+     */
+    std::chrono::seconds storage_promotion_window{86400};
 
     uint64_t cache_warmup_grace_period_ms = 0;
 
@@ -86,7 +90,8 @@ struct AgeBasedPolicy {
         if (l1_zero_access_days == 0) {
           return false;
         }
-        return seconds_since_access > (l1_zero_access_days * 86400u);
+        return static_cast<uint64_t>(seconds_since_access) >
+               static_cast<uint64_t>(l1_zero_access_days) * 86400u;
     }
 
     /**
@@ -98,7 +103,8 @@ struct AgeBasedPolicy {
         if (l2_zero_access_days == 0) {
           return false;
         }
-        return seconds_since_access > (l2_zero_access_days * 86400u);
+        return static_cast<uint64_t>(seconds_since_access) >
+               static_cast<uint64_t>(l2_zero_access_days) * 86400u;
     }
 
     /**
@@ -110,10 +116,13 @@ struct AgeBasedPolicy {
     bool shouldDemoteHotToWarm(uint32_t seconds_since_access,
                                uint32_t seconds_since_write) const noexcept {
         if (hot_zero_access_days > 0 &&
-            seconds_since_access > (hot_zero_access_days * 86400u)) {
+            static_cast<uint64_t>(seconds_since_access) >
+                static_cast<uint64_t>(hot_zero_access_days) * 86400u) {
             return true;
         }
-        if (hot_to_warm_days > 0 && seconds_since_write > (hot_to_warm_days * 86400u)) {
+        if (hot_to_warm_days > 0 &&
+            static_cast<uint64_t>(seconds_since_write) >
+                static_cast<uint64_t>(hot_to_warm_days) * 86400u) {
             return true;
         }
         return false;
@@ -128,11 +137,13 @@ struct AgeBasedPolicy {
     bool shouldDemoteWarmToCold(uint32_t seconds_since_access,
                                 uint32_t seconds_since_write) const noexcept {
         if (warm_zero_access_days > 0 &&
-            seconds_since_access > (warm_zero_access_days * 86400u)) {
+            static_cast<uint64_t>(seconds_since_access) >
+                static_cast<uint64_t>(warm_zero_access_days) * 86400u) {
             return true;
         }
         if (warm_to_cold_days > 0 &&
-            seconds_since_write > (warm_to_cold_days * 86400u)) {
+            static_cast<uint64_t>(seconds_since_write) >
+                static_cast<uint64_t>(warm_to_cold_days) * 86400u) {
             return true;
         }
         return false;
@@ -149,47 +160,47 @@ struct AgeBasedPolicy {
 
 
     /**
-     * @brief Should Promote L1 To L2.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Determine whether an old, low-access L1 entry qualifies for L2.
+     * @param[in] access_count Observed accesses; must be below the L2 threshold.
+     * @param[in] time_since_last_access Non-negative elapsed time since access.
+     * @return true when both policy conditions are met; false for negative age.
      */
     bool shouldPromoteL1ToL2(uint64_t access_count,
                              const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Should Promote L2 To L3.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Determine whether an old, low-access L2 entry qualifies for L3.
+     * @param[in] access_count Observed accesses; must be below the L3 threshold.
+     * @param[in] time_since_last_access Non-negative elapsed time since access.
+     * @return true when both policy conditions are met; false for negative age.
      */
     bool shouldPromoteL2ToL3(uint64_t access_count,
                              const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Should Promote L3 To Storage.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Determine whether an unaccessed, old L3 entry qualifies for storage.
+     * @param[in] access_count Observed accesses; must be zero.
+     * @param[in] time_since_last_access Non-negative elapsed time since access.
+     * @return true when both policy conditions are met; false for negative age.
      */
     bool shouldPromoteL3ToStorage(uint64_t access_count,
                                   const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Should Promote Storage Warm To Cold.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Determine whether an old, low-access warm entry qualifies for cold.
+     * @param[in] access_count Observed accesses; zero is always treated as no access.
+     * @param[in] time_since_last_access Non-negative elapsed time since access.
+     * @return true when both policy conditions are met; false for negative age.
      */
     bool shouldPromoteStorageWarmToCold(
         uint64_t access_count,
         const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Should Demote Storage Cold.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Determine whether an unaccessed, old cold entry meets the archival rule.
+     * @param[in] access_count Observed accesses; must be zero.
+     * @param[in] time_since_last_access Non-negative elapsed time since access.
+     * @return true when both policy conditions are met; false for negative age.
      */
     bool shouldDemoteStorageCold(
         uint64_t access_count,
@@ -210,28 +221,28 @@ struct AgeBasedPolicy {
     bool shouldPromoteStorageWarmToL3Cache(uint64_t access_count) const;
 
     /**
-     * @brief Classify Hotness.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return Return value.
+     * @brief Classify data by access count and non-negative elapsed age.
+     * @param[in] access_count Observed accesses in the policy window.
+     * @param[in] time_since_last_access Elapsed age; negative values classify cold.
+     * @return The matching hotness category.
      */
     DataHotnessLevel classifyHotness(
         uint64_t access_count,
         const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Recommend Tier For Data.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return Return value.
+     * @brief Recommend placement from the configured access and age thresholds.
+     * @param[in] access_count Observed accesses in the policy window.
+     * @param[in] time_since_last_access Non-negative elapsed age; negative is invalid.
+     * @return Recommended tier, or UNKNOWN when the elapsed age is invalid.
      */
     TierLevel recommendTierForData(
         uint64_t access_count,
         const std::chrono::seconds& time_since_last_access) const;
 
     /**
-     * @brief Is Valid.
-     * @return True when the operation succeeds.
+     * @brief Validate access thresholds, age ordering, and the storage window.
+     * @return true for a consistent policy with a positive storage window.
      */
     bool isValid() const;
 

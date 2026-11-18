@@ -50,7 +50,16 @@ can therefore delay shutdown.
 `setAgePolicy()` throws `std::invalid_argument` and leaves the current policy
 unchanged when `AgeBasedPolicy::isValid()` fails. `setPromotionThresholds()`
 also throws if the resulting policy is invalid; by itself it does not activate
-event-handler decisions.
+event-handler decisions. Validation requires non-zero, descending access
+thresholds, ordered cache age thresholds, increasing hot-to-warm/warm-to-cold
+storage ages, and a positive `storage_promotion_window`. Negative elapsed-age
+inputs never qualify for movement, and age comparisons are overflow-safe.
+The storage-window field is validated and serialized as configuration but is
+not currently used by coordinator event decisions. `recommendTierForData()`
+returns `TierLevel::UNKNOWN` for negative elapsed age; do not perform a
+transition from an UNKNOWN recommendation. Until a valid policy is set,
+event callbacks update observation metrics only and do not record or schedule
+transitions.
 
 `EvictionListener::onCacheEvicted` carries key, source tier, size, access count,
 age since access, and reason. `PromotionListener::onStorageAccess` carries key,
@@ -91,6 +100,11 @@ returns a `DemotionResult`, including a failed result if a tier operation fails.
 The tier operations are sequential and do not provide backend rollback,
 cross-tier atomicity, retry, or deduplication. Applications must verify adapter
 semantics and reconcile the reported partial-demotion case.
+
+This module coordinates data placement; it does not grant user permissions or
+enforce authentication, authorization, or tenant isolation. The embedding
+application must authorize requests before emitting events or invoking the
+coordinator.
 
 ## Compatibility and validation
 
