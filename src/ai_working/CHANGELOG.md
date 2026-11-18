@@ -1,6 +1,6 @@
 # Changelog — ai_working Module
 
-<!-- Status: current | validated: 2026-10-31 -->
+<!-- Status: current | validated: 2026-11-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 <!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
 <!-- Exact model backend not verifiable from final document text alone. -->
@@ -11,6 +11,8 @@ The format follows Keep a Changelog conventions.
 ## [Unreleased]
 
 ### Changed
+- Made compacted pages explicitly non-normative, made unreadable input fail compaction, and selected a unique archive name on collisions; added focused Python tests (2026-11-18).
+- Reconciled current module evidence with maintenance run #89 and the 2026-11-17 wiki status snapshot; documented test, workflow, and evidence-retention limits (2026-11-18).
 - Added a research-backed, release-separated v2.5.0/v3.0.0 roadmap with explicit waves, dependencies, risks, effort estimates, and measurable validation targets (2026-11-06).
 - Aligned future enhancements and performance expectations to the roadmap; documented that proposed discovery and performance gates are not measured results (2026-11-06).
 - Validated module documentation against the current source, build scaffold, archival helper, and maintenance workflow (2026-10-31).

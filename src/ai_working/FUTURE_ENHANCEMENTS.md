@@ -1,6 +1,6 @@
 # Future Enhancements — ai_working Module
 
-<!-- Status: current | validated: 2026-11-06 -->
+<!-- Status: current | validated: 2026-11-18 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 <!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
 <!-- Exact model backend not verifiable from final document text alone. -->
@@ -38,7 +38,8 @@
 
 ## Test Strategy
 
-- Add focused standard-library Python tests for protected files, dry-run non-mutation, duplicate-name collisions, empty and oversized inputs, deterministic ordering, malformed manifest data, path containment, and safe failure.
+- Existing focused tests in `tests/ai_working/test_compact.py` verify that generated pages disclaim normative authority, unreadable sources fail, and archive collisions do not overwrite existing entries. Run them with `python -m unittest discover -s tests/ai_working -p 'test_*.py'`; they are not registered with CTest.
+- Extend standard-library Python coverage for protected files, dry-run non-mutation, empty and oversized inputs, deterministic ordering, malformed manifest data, path containment, and interrupted operations.
 - Verify repeated manifest generation over unchanged inputs yields equivalent manifest data and that every indexed path resolves inside the repository.
 - For v3.0.0, use at least 50 maintainer-reviewed discovery queries with gold source paths; target at least 90% overall top-5 source recall and at least 80% per topic. Keep any answer-generation evaluation separate and require citations that resolve to authoritative sources.
 - Run the repository's configured secret-scanning check on changed active and archived artifacts; review rather than silently suppress findings.

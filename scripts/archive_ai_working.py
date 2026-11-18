@@ -129,7 +129,7 @@ def _is_placeholder(content: str) -> bool:
 
 def _substantive_chars(content: str) -> int:
     """Count non-whitespace characters."""
-    return len(content.replace(" ", "").replace("\n", "").replace("\t", ""))
+    return sum(not char.isspace() for char in content)
 
 
 # ---------------------------------------------------------------------------
