@@ -169,7 +169,7 @@ jobs:
       issues: write
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      runs_on: ubuntu-24.04
       shell: bash
       enable_sccache_gha: false
       fetch_depth: '0'
@@ -267,7 +267,7 @@ jobs:
       issues: write
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      runs_on: ubuntu-24.04
       shell: bash
       enable_sccache_gha: false
       fetch_depth: '0'
