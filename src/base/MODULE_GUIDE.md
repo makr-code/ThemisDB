@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,3 +38,38 @@ For maintainers changing shared runtime helpers, resource pools, module loading,
 5. Update `API.md` for caller-visible semantics and `IMPLEMENTATION.md` for changed runtime invariants. No build or test run is implied by these instructions.
 
 See `ARCHITECTURE.md`, `ROADMAP.md`, and `SECURITY.md` for wider module context.
+
+## Validation contract
+
+Use the configured release profile and include all required toolchain/dependency
+options. A focused resource-pool check is:
+
+```sh
+cmake -S . -B <build-dir> -DCMAKE_BUILD_TYPE=Debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build <build-dir> --target module_base_test_resource_pools_focused
+ctest --test-dir <build-dir> --output-on-failure -R '^test_resource_pools_base_FocusedTests$'
+```
+
+For degraded reload paths, build `module_base_test_base_reload_regression_focused`
+and run `ctest --test-dir <build-dir> --output-on-failure -R '^BaseReloadRegressionFocusedTests$'`.
+For sandbox/WASM and registry failure/degraded paths, build
+`module_base_test_base_future_enhancements_focused` and run
+`ctest --test-dir <build-dir> --output-on-failure -R '^test_base_future_enhancements_base_FocusedTests$'`.
+Run the separately registered soak test only when the longer validation window is
+available: `ctest --test-dir <build-dir> --output-on-failure -R '^test_base_soak_base_FocusedTests$'`.
+
+Configure and build the release benchmark smoke targets with:
+
+```sh
+cmake -S . -B <bench-build> -DCMAKE_BUILD_TYPE=Release -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build <bench-build> --target bench_base_hot_paths bench_base_wasm_sandbox
+ctest --test-dir <bench-build> --output-on-failure -R '^bench_base_(hot_paths|wasm_sandbox)$'
+```
+
+These CTest entries are smoke runs. Their GATE-BASE labels and thresholds are
+definitions, not measurements. A performance pass requires reproducible
+release-profile runs on declared representative hardware, comparison with
+`benchmarks/baselines/base/wave_d_baselines.json`, variance/context records, and
+human sign-off. The workflows inspected do not consume these base gates for CI
+comparison; CMake registration or a local benchmark smoke run alone must not be
+reported as a release pass.

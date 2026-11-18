@@ -106,8 +106,7 @@ BufferHandle BufferPool::acquire(std::size_t bytes) noexcept {
             return BufferHandle{};
         }
         live_handles_.fetch_add(1, std::memory_order_relaxed);
-        // pool_ = nullptr signals OS-fallback path in BufferHandle::release().
-        return BufferHandle{p, bytes, SlabClass::B128, nullptr, true};
+        return BufferHandle{p, bytes, SlabClass::B128, this, true};
     }
 
     Slab& s = slabs_[idx];
@@ -163,6 +162,15 @@ void BufferPool::release(void* data, SlabClass slab) noexcept {
         // Free list full — discard excess to avoid unbounded growth.
         std::free(data);
     }
+}
+
+void BufferPool::releaseFallback(void* data) noexcept {
+    if (!data) {
+        return;
+    }
+
+    live_handles_.fetch_sub(1, std::memory_order_relaxed);
+    std::free(data);
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -87,10 +87,14 @@ interface target that links module targets; it is not the base source list.
    restoration from the previous path.
 5. Registry requests accept HTTP or HTTPS; plain HTTP is permitted with a
    warning, so transport encryption is not universal.
-6. Buffer-pool requests above 4 KiB use the system allocator; both pool sources
-   are registered in modular and monolithic builds.
+6. Buffer-pool requests above 4 KiB use the system allocator and remain included
+   in `current_live` until release; the pool must outlive all handles it issues.
+   Both pool sources are registered in modular and monolithic builds.
 7. `AdaptiveConnectionPool` represents integer slots rather than live
-   connections. `ResourcePoolManager` owns connection and buffer pools only;
+   connections. Its constructor rejects `min_size > max_size` and capacities
+   outside the `int` slot-ID range; releasing a slot that is not currently
+   acquired, including a duplicate release, throws `std::invalid_argument`.
+   `ResourcePoolManager` owns connection and buffer pools only;
    the header's thread-pool/leak-detection design goals are not implemented in
    the inspected class/source (`leak_timeout` is unused).
 

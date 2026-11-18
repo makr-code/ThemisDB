@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-16"
+Last Updated: "2026-11-18"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
 <!-- Status: current | validated: 2026-10-31 -->
@@ -9,6 +21,11 @@ All notable changes to the base module are documented here.
 The format is based on Keep a Changelog.
 
 ## [Unreleased]
+
+### Changed — Resource-pool contract hardening (2026-11-18)
+- `AdaptiveConnectionPool` rejects `min_size > max_size`, capacities beyond the `int` slot-ID range, and invalid or duplicate slot releases; in-use statistics now reflect successfully acquired slots.
+- The private tracking state changes `AdaptiveConnectionPool` object layout. Consumers constructing the type across a shared-library boundary must rebuild and relink; release managers must approve the ABI change's major-version target before publication.
+- Oversized `BufferPool` handles now decrement live-handle accounting on release. The pool must still outlive every handle issued from it.
 
 ### Added — Wave D delivery (2026-09-16)
 - **Distributed tracing**: `include/themis/base/trace_context.h` integrated into

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <limits>
 #include <stdexcept>
 
 namespace themis::resource {
@@ -23,6 +24,15 @@ AdaptiveConnectionPool::AdaptiveConnectionPool()
 
 AdaptiveConnectionPool::AdaptiveConnectionPool(const Config& cfg)
     : cfg_(cfg) {
+    if (cfg_.min_size > cfg_.max_size) {
+        throw std::invalid_argument(
+            "AdaptiveConnectionPool: min_size must not exceed max_size");
+    }
+    if (cfg_.max_size > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        throw std::invalid_argument(
+            "AdaptiveConnectionPool: max_size exceeds the slot ID range");
+    }
+
     /**
      * @brief Lk.
      * @param[in] mutex_ Input parameter.
@@ -43,8 +53,9 @@ AdaptiveConnectionPool::~AdaptiveConnectionPool() {
  */
 
 void AdaptiveConnectionPool::growLocked(std::size_t count) {
-    const std::size_t cap = std::min(pool_size_ + count, cfg_.max_size);
-    const std::size_t to_add = cap - pool_size_;
+    const std::size_t to_add =
+        std::min(count, cfg_.max_size - pool_size_);
+    const std::size_t cap = pool_size_ + to_add;
     for (std::size_t i = 0; i < to_add; ++i) {
         available_slots_.push_back(next_id_++);
     }
@@ -113,12 +124,17 @@ bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slo
     cumulative_wait_ms_ += wait_ms;
     ++wait_samples_;
 
-    slot_id = available_slots_.back();
+    const int acquired_slot_id = available_slots_.back();
+    if (!in_use_slots_.insert(acquired_slot_id).second) {
+        throw std::logic_error(
+            "AdaptiveConnectionPool: slot is already marked in use");
+    }
     available_slots_.pop_back();
+    slot_id = acquired_slot_id;
     ++total_acquires_;
 
     // Update peak utilization.
-    const double util = static_cast<double>(pool_size_ - available_slots_.size() ) /
+    const double util = static_cast<double>(in_use_slots_.size()) /
                         static_cast<double>(pool_size_);
     if (util > peak_utilization_) {
         peak_utilization_ = util;
@@ -150,10 +166,17 @@ bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slo
 void AdaptiveConnectionPool::release(int slot_id) {
     std::lock_guard<std::mutex> lk(mutex_);
 
+    const auto in_use = in_use_slots_.find(slot_id);
+    if (in_use == in_use_slots_.end()) {
+        throw std::invalid_argument(
+            "AdaptiveConnectionPool: slot is not currently acquired");
+    }
+
     available_slots_.push_back(slot_id);
+    in_use_slots_.erase(in_use);
 
     // Adaptive scale-down: if utilisation < 20 % for idle_shrink_periods.
-    const double util = static_cast<double>(pool_size_ - available_slots_.size() ) /
+    const double util = static_cast<double>(in_use_slots_.size()) /
                         static_cast<double>(pool_size_);
     if (util < 0.20) {
         ++idle_periods_;
@@ -199,7 +222,7 @@ std::size_t AdaptiveConnectionPool::in_use() const noexcept {
      * @return Return value.
      */
     std::lock_guard<std::mutex> lk(mutex_);
-    return pool_size_ - available_slots_.size() ;
+    return in_use_slots_.size();
 }
 
 AdaptiveConnectionPool::Statistics
@@ -213,7 +236,7 @@ AdaptiveConnectionPool::statistics() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
     st.pool_size          = pool_size_;
     st.available          = available_slots_.size();
-    st.in_use             = pool_size_ - available_slots_.size() ;
+    st.in_use             = in_use_slots_.size();
     st.total_acquires     = total_acquires_;
     st.total_timeouts     = total_timeouts_;
     st.scale_up_events    = scale_up_events_;

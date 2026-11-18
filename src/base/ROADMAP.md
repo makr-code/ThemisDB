@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-27"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -21,6 +21,14 @@ Exact model backend not verifiable from final document text alone.
 ## Current Status
 
 Production runtime foundations exist for secure module loading, sandboxing, dependency handling, hot reload, registry client integration, and plugin runtime composition.
+
+The generic resource-pool contracts now reject `AdaptiveConnectionPool`
+configurations with `min_size > max_size` or `max_size` outside the integer slot
+ID range, reject unacquired or duplicate slot releases, and keep oversized
+`BufferPool` fallback handles in `current_live` statistics until release. Focused regression cases are in
+`tests/base/test_resource_pools.cpp`. `BufferPool` still requires its owner to
+outlive every issued handle; this precondition is documented but not enforced
+after pool destruction.
 
 ## In Progress
 
@@ -83,11 +91,15 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 - wasm execution paths require an injected WasmRuntime for execution; test source coverage and module-local CMake registration are present, but the current base C++ test targets could not be configured because the diagnostic CMake run stopped at the missing `fmt` dependency.
 - `tests/CMakeLists.txt` discovers module CMake files with `CONFIGURE_DEPENDS` and adds `tests/base/`. Base `test_*.cpp` targets are focused unit tests; the focused soak target has a 7200-second timeout. The helper labels tests with `module:base`, `tier:unit`/`tier:soak`, `kind:focused`, and `focus`; the local file adds `base` and `soak`. Registration does not establish build or test success.
 - `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are registered in modular `THEMIS_BASE_SOURCES` and the monolithic core source list; focused coverage is in `tests/base/test_resource_pools.cpp`. The sources pass a direct C++ syntax check, but the CMake test target remains unbuilt because configuration is blocked by missing `fmt`.
+- Invalid `AdaptiveConnectionPool` size configuration previously allowed unsigned underflow in `growLocked()`; construction now rejects `min_size > max_size` and capacities outside the `int` slot-ID range. Slot release now validates the acquired-ID invariant, and oversized buffer fallback release decrements `current_live`. These paths have focused regression tests; CMake registration alone does not establish that they built or passed.
+- `BufferHandle` retains a non-owning pointer to its originating `BufferPool`. Destroying the pool while any issued handle is live remains unsupported and can invalidate that handle; callers must release handles before pool destruction.
 - GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step. Wave D delivers `benchmarks/baselines/base/wave_d_baselines.json` with defined thresholds; wiring the comparison step into CI is tracked as a post-Wave-D follow-up. p95/p99 values on representative hardware are a prerequisite for closing the benchmark Program-Level Success Criterion (see ROADMAP.md §Program-Level Success Criteria).
 
 ## Breaking Changes
 
-No breaking base-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+- `AdaptiveConnectionPool` now rejects `min_size > max_size` during construction and rejects releasing a slot that is not currently acquired from that pool. These failure cases are observable exceptions rather than silent state corruption.
+- The private acquired-slot tracking state changes `AdaptiveConnectionPool` object layout. Consumers that construct this type across a shared-library boundary must rebuild and relink; release managers must assign this ABI change to an approved major-version target before publication.
+- `BufferPool` oversized-allocation accounting is corrected without changing the public handle API.
 
 ## Program Execution Model — Wave Context
 
