@@ -169,7 +169,7 @@ jobs:
       issues: write
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      runs_on: ubuntu-24.04
       shell: bash
       enable_sccache_gha: false
       fetch_depth: '0'
@@ -255,7 +255,7 @@ jobs:
         build-sanitizer/CMakeCache.txt
       artifact_retention_days: '10'
       summary_title: "Build: Sanitizer Nightly — Critical Path Validation"
-      timeout_minutes: '45'
+      timeout_minutes: '90'
 
   tsan-build:
     if: >-
@@ -267,7 +267,7 @@ jobs:
       issues: write
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      runs_on: ubuntu-24.04
       shell: bash
       enable_sccache_gha: false
       fetch_depth: '0'

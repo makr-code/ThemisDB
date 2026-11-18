@@ -6,12 +6,15 @@
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <thread>
 
-#include "query/query_canceller.h"
 #include "query/aql_runner.h"
+#include "query/query_canceller.h"
 #include "query/query_engine.h"
+#include "query/request_context.h"
+#include "geo/spatial_join.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -19,6 +22,31 @@
 
 using namespace themis;
 using namespace themis::query;
+
+namespace {
+
+struct StopAfterPollsState {
+    std::atomic<unsigned int> polls{0};
+    unsigned int stop_after = 0;
+};
+
+bool stopAfterPolls(const void* opaque) noexcept {
+    auto* state = const_cast<StopAfterPollsState*>(
+        static_cast<const StopAfterPollsState*>(opaque));
+    const auto poll =
+        state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
+    return state->stop_after != 0 && poll >= state->stop_after;
+}
+
+bool stopOnPoll(const void* opaque) noexcept {
+    auto* state = const_cast<StopAfterPollsState*>(
+        static_cast<const StopAfterPollsState*>(opaque));
+    const auto poll =
+        state->polls.fetch_add(1, std::memory_order_relaxed) + 1;
+    return state->stop_after != 0 && poll == state->stop_after;
+}
+
+} // namespace
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -187,6 +215,11 @@ protected:
         storage_->open();
         sec_idx_ = std::make_shared<SecondaryIndexManager>(*storage_);
         engine_ = std::make_unique<QueryEngine>(*storage_, *sec_idx_);
+        for (int i = 0; i < 256; ++i) {
+            BaseEntity entity("entity-" + std::to_string(i));
+            entity.setField("value", std::to_string(i));
+            ASSERT_TRUE(sec_idx_->put("entities", entity).ok);
+        }
     }
 
     void TearDown() override {
@@ -210,6 +243,139 @@ TEST_F(ExecuteAqlCancellableTest, SuccessfulExecution_ReturnsResult) {
         canceller
     );
     EXPECT_TRUE(static_cast<bool>(result));
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlStopsDuringFullScanAndReturnsNoPartialRows) {
+    StopAfterPollsState state;
+    state.stop_after = 8;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlRetainsTransientStopAsCancellation) {
+    StopAfterPollsState state;
+    state.stop_after = 8;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopOnPoll, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlDistinguishesExpiredDeadline) {
+    const RequestContext request(
+        nullptr, RequestContext::Clock::now() -
+                     std::chrono::milliseconds{1});
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+    EXPECT_EQ(stop_reason, StopReason::DeadlineExceeded);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareAqlReturnsCompleteResultsWithoutStop) {
+    auto result = executeAql(
+        "FOR x IN entities RETURN x", *engine_, RequestContext{});
+
+    ASSERT_TRUE(result) << result.error().message();
+    ASSERT_TRUE(result->contains("results"));
+    EXPECT_EQ((*result)["results"].size(), 256u);
+}
+
+TEST_F(ExecuteAqlCancellableTest,
+       RequestAwareSpatialJoinStopsDuringGeometryCollection) {
+    const std::string point =
+        R"({"type":"Point","coordinates":[13.45,52.55]})";
+    for (int i = 0; i < 128; ++i) {
+        BaseEntity entity("location-" + std::to_string(i));
+        entity.setField("location", point);
+        ASSERT_TRUE(sec_idx_->put("locations", entity).ok);
+    }
+
+    StopAfterPollsState state;
+    // The first 146 polls cover AQL setup, full scan, and entity hydration;
+    // poll 147 is the second 64-entity geometry-conversion checkpoint.
+    state.stop_after = 147;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    auto result = executeAql(
+        "FOR a IN locations FOR b IN locations "
+        "FILTER GEO_DISTANCE(a.location, b.location) <= 100 RETURN a",
+        *engine_, request, &stop_reason);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_CANCELLED);
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_GE(state.polls.load(std::memory_order_relaxed), state.stop_after);
+}
+
+TEST(SpatialJoinRequestCancellation, StopsDuringCandidateTraversal) {
+    geo::GeometryInfo outer_point(geo::GeometryType::Point);
+    outer_point.coords.emplace_back(0.0, 0.0);
+    std::vector<std::pair<std::string, geo::GeometryInfo>> outer{
+        {"outer", outer_point}};
+    std::vector<std::pair<std::string, geo::GeometryInfo>> inner;
+    inner.reserve(128);
+    for (int i = 0; i < 128; ++i) {
+        geo::GeometryInfo inner_point(geo::GeometryType::Point);
+        inner_point.coords.emplace_back(0.000008, 0.000008);
+        inner.emplace_back("inner-" + std::to_string(i),
+                           std::move(inner_point));
+    }
+
+    geo::SpatialJoinIterator iterator(outer, inner, 1.0);
+    StopAfterPollsState state;
+    state.stop_after = 3;
+    const RequestContext request(
+        nullptr, std::nullopt, &stopAfterPolls, &state);
+    auto stop_reason = StopReason::None;
+
+    EXPECT_FALSE(iterator.advance(request, stop_reason));
+    EXPECT_TRUE(iterator.done());
+    EXPECT_EQ(stop_reason, StopReason::Cancelled);
+    EXPECT_EQ(state.polls.load(std::memory_order_relaxed), 3u);
+}
+
+TEST(SpatialJoinRequestCancellation, DistinguishesExpiredDeadline) {
+    geo::GeometryInfo point(geo::GeometryType::Point);
+    point.coords.emplace_back(0.0, 0.0);
+    const std::vector<std::pair<std::string, geo::GeometryInfo>> outer{
+        {"outer", point}};
+    const std::vector<std::pair<std::string, geo::GeometryInfo>> inner{
+        {"inner", point}};
+    geo::SpatialJoinIterator iterator(outer, inner, 1.0);
+    const RequestContext request(
+        nullptr, RequestContext::Clock::now() -
+                     std::chrono::milliseconds{1});
+    auto stop_reason = StopReason::None;
+
+    EXPECT_FALSE(iterator.advance(request, stop_reason));
+    EXPECT_TRUE(iterator.done());
+    EXPECT_EQ(stop_reason, StopReason::DeadlineExceeded);
 }
 
 TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {

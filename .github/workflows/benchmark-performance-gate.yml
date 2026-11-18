@@ -156,6 +156,7 @@ jobs:
             --src-dir src \
             --results-dir benchmark-artifacts/results \
             --output benchmark-artifacts/comparison_report.md \
+            --strict-completeness \
             --run-id "${{ github.run_id }}" \
             --sha "${{ github.sha }}" \
             --repo "${{ github.repository }}"
@@ -163,6 +164,8 @@ jobs:
           echo "compare_exit=${COMPARE_EXIT}" >> "$GITHUB_OUTPUT"
           if [[ ${COMPARE_EXIT} -eq 0 ]]; then
             echo "compare_status=PASS" >> "$GITHUB_OUTPUT"
+          elif [[ ${COMPARE_EXIT} -eq 2 ]]; then
+            echo "compare_status=INCOMPLETE" >> "$GITHUB_OUTPUT"
           else
             echo "compare_status=FAIL" >> "$GITHUB_OUTPUT"
           fi
@@ -243,7 +246,12 @@ jobs:
           fi
 
           # Prepend a run header to the report before posting
-          HEADER="### Run \`${{ github.run_id }}\` — ${{ steps.compare.outputs.compare_status == 'FAIL' && '❌ FAIL — performance regressions detected' || '✅ PASS — all targets within thresholds' }}"$'\n\n'
+          case "${{ steps.compare.outputs.compare_status }}" in
+            PASS) STATUS_TEXT="✅ PASS — no failing targets reported; review warnings" ;;
+            INCOMPLETE) STATUS_TEXT="⚠️ INCOMPLETE — some targets could not be evaluated" ;;
+            *) STATUS_TEXT="❌ FAIL — comparison failed or targets exceeded thresholds" ;;
+          esac
+          HEADER="### Run \`${{ github.run_id }}\` — ${STATUS_TEXT}"$'\n\n'
           HEADER+="SHA: \`${{ github.sha }}\` | Trigger: \`${{ github.event_name }}\`"$'\n\n'
           HEADER+="---"$'\n\n'
 

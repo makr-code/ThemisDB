@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-04-15"
+Last Updated: "2026-11-18"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # SLO-zu-Benchmark-Matrix — Replication / Sharding / Transaction (Wave2, v1.9.0)
 
 > **Wave2 Benchmark Alignment Issue** — Aufgebaut gemäß Akzeptanzkriterien:
@@ -155,8 +169,8 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
-| TX-1 | ≤ 100 µs OCC Commit P50 | `mapped` | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
-| TX-2 | ≤ 5 ms OCC Commit P99 | `mapped` | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `bench_transaction_throughput.cpp` |
+| TX-1 | ≤ 100 µs OCC Commit P50 | `proxy` | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
+| TX-2 | ≤ 5 ms OCC Commit P99 | `proxy` | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `bench_transaction_throughput.cpp` |
 | TX-3 | > 6 k/s 2PC Throughput | `mapped` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `bench_transaction_throughput.cpp` |
 | TX-4 | ≤ 5 ms 2PC Latenz (5 Shards) | `mapped` ✅ | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | `bench_transaction_throughput.cpp` |
 | TX-5 | ≤ 20 ms SAGA Compensation | `mapped` | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `bench_saga_compensation.cpp` |
@@ -164,7 +178,9 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 | TX-7 | < 5 % False Positive Rate | `mapped` | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `bench_transaction_throughput.cpp` |
 | TX-8 | > 90 % Low-Contention Success | `mapped` | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `bench_transaction_throughput.cpp` |
 
-**Direkt messbare SLOs:** TX-1, TX-2, TX-3, TX-4, TX-5, TX-6, TX-7, TX-8 (8/8 = 100%) ✅
+**Messlücke:** TX-1/TX-2 haben keinen direkten Messpfad für das jeweilige
+Commit-Perzentil. Die verknüpften Fälle exportieren nur Iterations-Timing;
+auch Wiederholungsaggregate sind kein Nachweis für P50/P99 einzelner Commits.
 
 ---
 

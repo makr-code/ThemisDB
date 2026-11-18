@@ -731,6 +731,13 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
 http::response<http::string_body> QueryApiHandler::handleQueryAql(
     const http::request<http::string_body>& req
 ) {
+    return handleQueryAql(req, query::RequestContext{});
+}
+
+http::response<http::string_body> QueryApiHandler::handleQueryAql(
+    const http::request<http::string_body>& req,
+    const query::RequestContext& request_context
+) {
     auto span = Tracer::startSpan("POST /query/aql");
     if (!storage_ || !secondary_index_) {
         span.setStatus(false, "query_dependencies_unavailable");
@@ -813,9 +820,26 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             ? std::optional<std::chrono::steady_clock::time_point>{
                 resource_limit_start + std::chrono::milliseconds(resource_limits.timeout_ms)}
             : std::nullopt;
-        const auto timedOut = [&timeout_deadline]() {
-            return timeout_deadline.has_value() &&
-                   std::chrono::steady_clock::now() >= *timeout_deadline;
+        const auto query_request = resource_limits.timeout_ms > 0
+            ? request_context.child(std::chrono::milliseconds(resource_limits.timeout_ms))
+            : request_context;
+        const auto timedOut = [&]() {
+            return request_context.shouldStop() ||
+                   (timeout_deadline.has_value() &&
+                    std::chrono::steady_clock::now() >= *timeout_deadline);
+        };
+        const auto timeoutResponse = [&](query::StopReason observed =
+                                             query::StopReason::None) {
+            if (request_context.shouldStop() ||
+                observed == query::StopReason::Cancelled) {
+                span.setStatus(false, "AQL request deadline or cancellation observed");
+                return makeErrorResponse(http::status::gateway_timeout,
+                    "AQL request deadline or cancellation observed", req);
+            }
+            span.setStatus(false, "query timeout");
+            return makeErrorResponse(http::status::request_timeout,
+                "query exceeded timeout of " +
+                    std::to_string(resource_limits.timeout_ms) + " ms", req);
         };
         
         // Parse AQL query
@@ -832,6 +856,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             return makeErrorResponse(http::status::bad_request, error_msg, req);
         }
         parseSpan.setStatus(true);
+        if (timedOut()) {
+            return timeoutResponse();
+        }
 
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
         if (*parse_result && (*parse_result)->traversal == nullptr) {
@@ -2267,8 +2294,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (timedOut()) {
                     bfsSpan.setStatus(false, "timeout");
                     span.setStatus(false, "Traversal timed out");
-                    return makeErrorResponse(http::status::request_timeout,
-                        "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
+                    return timeoutResponse();
                 }
                 // Frontier-Size Limit Check (Soft Limit)
                 if (qnodes.size() > max_frontier_size) {
@@ -2805,8 +2831,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (fallback_scan_timed_out) {
                             joinSpan.setStatus(false, "timeout");
                             span.setStatus(false, "LET fallback scan timed out");
-                            return makeErrorResponse(http::status::request_timeout,
-                                "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
+                            return timeoutResponse();
                         }
                     } catch (const std::exception& ex) {
                         THEMIS_ERROR("LET projection fallback failed: {}", ex.what());
@@ -2995,9 +3020,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             res = std::make_pair(QueryExecStatus::OK(), std::vector<themis::BaseEntity>{});
         } else {
         
-        if (allow_full_scan) {
+        if (allow_full_scan && !q.fulltextPredicate.has_value()) {
             exec_mode = "full_scan_fallback";
-            auto result = engine.executeAndEntitiesWithFallback(q, optimize);
+            query::StopReason stop_reason = query::StopReason::None;
+            auto result = engine.executeAndEntitiesWithFallback(
+                q, optimize, query_request, &stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return timeoutResponse(stop_reason);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
+            }
             if (!result) {
                 res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
             } else {
@@ -3007,7 +3040,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
             if (q.fulltextPredicate.has_value()) {
                 exec_mode = "fulltext";
-                auto result = engine.executeAndEntities(q);
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = engine.executeAndEntities(q, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
@@ -3018,7 +3058,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // nutze direkt die range-fähige Engine-Logik (Optimizer unterstützt nur Gleichheit).
             else if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
                 exec_mode = "index_rangeaware";
-                auto result = engine.executeAndEntities(q);
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = engine.executeAndEntities(q, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
@@ -3026,8 +3073,24 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else if (optimize) {
                 themis::query::QueryOptimizer opt(*secondary_index_);
-                auto plan = opt.chooseOrderForAndQuery(q);
-                auto result = opt.executeOptimizedEntities(engine, q, plan);
+                query::StopReason planning_stop_reason = query::StopReason::None;
+                auto plan = opt.chooseOrderForAndQuery(
+                    q, query_request, &planning_stop_reason);
+                if (planning_stop_reason != query::StopReason::None) {
+                    return timeoutResponse(planning_stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = opt.executeOptimizedEntities(
+                    engine, q, plan, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
@@ -3051,7 +3114,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else {
                 exec_mode = "index_parallel";
-                auto result = engine.executeAndEntities(q);
+                query::StopReason stop_reason = query::StopReason::None;
+                auto result = engine.executeAndEntities(q, query_request, &stop_reason);
+                if (stop_reason != query::StopReason::None) {
+                    return timeoutResponse(stop_reason);
+                }
+                if (timedOut()) {
+                    return timeoutResponse();
+                }
                 if (!result) {
                     res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
@@ -3099,7 +3169,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             scoreSpan.setAttribute("table", q.table);
             scoreSpan.setAttribute("column", ft.column);
             scoreSpan.setAttribute("limit", static_cast<int64_t>(ft.limit));
-            auto [st, results] = secondary_index_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
+            query::StopReason stop_reason = query::StopReason::None;
+            auto [st, results] = secondary_index_->scanFulltextWithScores(
+                q.table, ft.column, ft.query, ft.limit, query_request, &stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return timeoutResponse(stop_reason);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
+            }
             if (!st.ok) {
                 scoreSpan.setStatus(false, st.message);
                 return makeErrorResponse(http::status::internal_server_error, std::string("Failed to fetch fulltext scores: ") + st.message, req);
@@ -3108,6 +3186,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             fulltextScoreByPk.reserve(results.size());
             for (const auto& r : results) {
               fulltextScoreByPk.emplace(r.pk, r.score);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
             }
             scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
             scoreSpan.setStatus(true);
@@ -3122,6 +3203,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                   return sa > sb;
                 }
             });
+            if (timedOut()) {
+                  return timeoutResponse();
+            }
         }
 
         if (!use_cursor && (*parse_result) && (*parse_result)->limit) {
@@ -3440,13 +3524,24 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             scoreSpan.setAttribute("table", q.table);
             scoreSpan.setAttribute("column", ft.column);
             scoreSpan.setAttribute("limit", static_cast<int64_t>(ft.limit));
-            auto [st, results] = secondary_index_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
+            query::StopReason stop_reason = query::StopReason::None;
+            auto [st, results] = secondary_index_->scanFulltextWithScores(
+                q.table, ft.column, ft.query, ft.limit, query_request, &stop_reason);
+            if (stop_reason != query::StopReason::None) {
+                return timeoutResponse(stop_reason);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
+            }
             if (!st.ok) {
                 scoreSpan.setStatus(false, st.message);
                 return makeErrorResponse(http::status::internal_server_error, std::string("Failed to fetch fulltext scores: ") + st.message, req);
             }
             for (const auto& r : results) {
               fulltextScoreByPk.emplace(r.pk, r.score);
+            }
+            if (timedOut()) {
+                return timeoutResponse();
             }
             scoreSpan.setAttribute("count", static_cast<int64_t>(results.size()));
             scoreSpan.setStatus(true);
@@ -3826,13 +3921,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     span.setStatus(true);
 
         // Enforce per-query resource limits on the standard result path.
-        if (resource_limits.timeout_ms > 0) {
-            auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - resource_limit_start).count();
-            if (elapsed_ms >= static_cast<long long>(resource_limits.timeout_ms)) {
-                return makeErrorResponse(http::status::request_timeout,
-                    "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
-            }
+        if (timedOut()) {
+            return timeoutResponse();
         }
         if (resource_limits.max_rows > 0 && sliced.size() > resource_limits.max_rows) {
             return makeErrorResponse(http::status::bad_request,
@@ -3841,6 +3931,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
         // Serialise once; reuse for both memory check and final response.
         std::string response_body_str = response_body.dump();
+        if (timedOut()) {
+            return timeoutResponse();
+        }
         if (resource_limits.max_memory_bytes > 0 &&
             response_body_str.size() > resource_limits.max_memory_bytes) {
             return makeErrorResponse(http::status::bad_request,

@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "query/request_context.h"
 #include "utils/geo/ewkb.h"
 
 #include <cstddef>
@@ -54,6 +55,19 @@ public:
      * @return None.
      */
     bool advance();
+
+    /**
+     * @brief Advance while cooperatively observing request cancellation/deadline.
+     * @param request Request stop state to poll; must remain valid for this call.
+     * @param stop_reason Output reset to None on entry and set if the request stops.
+     * @return True when a pair is yielded; false on exhaustion or a stop.
+     * @note Check stop_reason to distinguish cancellation/deadline from normal
+     *       exhaustion. R-tree construction, candidate lookup, and one geometry
+     *       distance calculation remain synchronous and cannot be interrupted.
+     */
+    [[nodiscard]] bool advance(
+        const query::RequestContext& request,
+        query::StopReason& stop_reason);
 
     /**
      * @brief Current.

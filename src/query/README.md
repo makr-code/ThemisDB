@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,7 +30,7 @@ Related milestone: `DOC-WEEKLY-2026-44`
 
 ---
 
-## Module Purpose
+## Zweck
 
 The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. AQL is based on ArangoDB's query language but significantly extended to support multiple query paradigms including relational, document, graph, vector, spatial, and timeseries models. It translates AQL queries into optimized execution plans and executes them across all data models with hybrid query support. AQL mutations Phase 1-5 complete.
 
@@ -109,6 +109,19 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 - Index structures and maintenance (handled by index module)
 - Network protocol handling (handled by server module)
 - Authentication decisions are provided by caller context; query execution enforces collection access checks when configured
+
+## Quickstart (Build/Run)
+
+From the repository root, configure and build with the Community system-package
+preset:
+
+```bash
+cmake --preset community-release
+cmake --build --preset community-release
+```
+
+See the [build guide](../../docs/guides/BUILD_REPRODUCIBILITY_CI_INTEGRATION.md)
+for environment prerequisites and reproducible-build details.
 
 ## Key Components
 
@@ -522,6 +535,16 @@ Query String
 Return Results
 ```
 
+```mermaid
+flowchart LR
+    A[AQL input] --> B[Parse and validate]
+    B --> C[Translate and optimize]
+    C --> D[Execute plan]
+    D --> E[Rows or structured error]
+```
+Kurzinterpretation: The pipeline validates input, creates an optimized plan,
+executes it, and returns rows or a structured error.
+
 ### Thread Safety Model
 
 - **Parser/Translator**: NOT thread-safe, create per-query or use mutex
@@ -540,7 +563,7 @@ Return Results
 6. **Execute**: Run optimized plan with short-circuit evaluation
 7. **Learn**: Update statistics for adaptive optimization
 
-## Integration Points
+## Integrationsueberblick
 
 ### Storage Module Integration
 
@@ -591,7 +614,12 @@ std::string query = R"(
 auto result = llm_handler.execute(query);
 ```
 
-## API Reference
+## API/CLI Einstieg
+
+The primary C++ entry point is `executeAql()` in
+[`include/query/aql_runner.h`](../../include/query/aql_runner.h). This module
+does not provide a standalone query CLI; applications invoke the runner or
+`QueryEngine` through their server or embedded integration.
 
 ### Basic Query Execution
 
@@ -667,9 +695,23 @@ for (auto& row : rows) {
 
 ### Query Cancellation via Request ID
 
-`executeAqlCancellable()` wraps `executeAql()` and registers the query under a
-caller-assigned **request ID** in the process-wide `QueryCanceller` registry.
-Any other thread can cancel it at any time by calling `QueryCanceller::cancel()`.
+`executeAql()` also accepts a `RequestContext` and optional `StopReason` output.
+Conjunctive AQL execution uses the request-aware `QueryEngine` path, including
+cooperative full-scan and equality/range index iteration. Cancellation returns
+`ERR_QUERY_CANCELLED`; deadline expiry returns `ERR_QUERY_TIMEOUT`; neither
+returns partial rows. Phrase/fuzzy and other specialized AQL forms use
+synchronous engine calls that cannot be interrupted in flight. Spatial JOIN
+collection passes the request through its full scans and polls while parsing
+geometry batches; the spatial-join iterator now polls during candidate traversal.
+R-tree construction/candidate lookup, one geometry-distance calculation, and
+other specialized result-formatting operations remain synchronous. QRY-07
+remains open until those paths and the required slow-search cleanup trace are
+validated.
+
+`executeAqlCancellable()` registers the query under a caller-assigned
+**request ID** in the process-wide `QueryCanceller` registry, then passes that
+token through the request-aware AQL path. Any other thread can cancel it by
+calling `QueryCanceller::cancel()`.
 
 **Header:** `include/query/query_canceller.h`
 
@@ -1068,7 +1110,7 @@ engine->dropQuery("my_query");
 - NLP-enhanced optimization (v1.5.0+)
 - Distributed query planning (v1.5.0+)
 
-## Related Documentation
+## Verweise
 
 - [Storage Module](../storage/README.md) - Data persistence and transaction coordination
 - [Index Module](../index/README.md) - Index structures for efficient query execution

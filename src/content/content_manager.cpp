@@ -1784,7 +1784,31 @@ std::vector<ChunkMeta> ContentManager::getChunkRange(const std::string& content_
 std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     const std::string& query_text, int k, const json& filters
 ) {
+    return searchContent(query_text, k, filters, ::themis::query::RequestContext{});
+}
+
+std::vector<std::pair<std::string, float>> ContentManager::searchContent(
+    const std::string& query_text, int k, const json& filters,
+    const ::themis::query::RequestContext& request,
+    ::themis::query::StopReason* stop_reason
+) {
     std::vector<std::pair<std::string, float>> res;
+    if (stop_reason) {
+        *stop_reason = ::themis::query::StopReason::None;
+    }
+    auto stopIfRequested = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == ::themis::query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+    if (stopIfRequested()) {
+        return res;
+    }
     if (!vector_index_ || vector_index_->getDimension() <= 0) {
       return res;
     }
@@ -1794,14 +1818,30 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     if (it == processors_.end()) {
       return res;
     }
-    std::vector<float> q = it->second->generateEmbedding(query_text);
+    std::vector<float> q;
+    if (auto* text_processor = dynamic_cast<TextProcessor*>(it->second.get())) {
+        q = text_processor->generateEmbedding(query_text, request, stop_reason);
+    } else {
+        q = it->second->generateEmbedding(query_text);
+    }
+    if (stopIfRequested() || (stop_reason &&
+                              *stop_reason != ::themis::query::StopReason::None)) {
+        return res;
+    }
     // Optional: Build whitelist from filters to pre-filter vector search
     std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
+    if (stopIfRequested()) {
+        return res;
+    }
     if (hasSearchFilterConstraints(filters) && whitelist.empty()) {
         return res;
     }
     const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
-    auto [st, results] = vector_index_->searchKnn(q, static_cast<size_t>(k), wptr);
+    auto [st, results] = vector_index_->searchKnn(
+        q, static_cast<size_t>(k), wptr, request, stop_reason);
+    if (stopIfRequested()) {
+        return res;
+    }
     if (!st.ok) {
       return res;
     }
@@ -1928,9 +1968,32 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
 std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     const std::string& query_text, int k, int expansion_hops, const json& filters
 ) {
+    return searchWithExpansion(
+        query_text, k, expansion_hops, filters, ::themis::query::RequestContext{});
+}
+
+std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
+    const std::string& query_text, int k, int expansion_hops, const json& filters,
+    const ::themis::query::RequestContext& request,
+    ::themis::query::StopReason* stop_reason
+) {
+    if (stop_reason) {
+        *stop_reason = ::themis::query::StopReason::None;
+    }
+    auto stopIfRequested = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == ::themis::query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+
     // 1) Basissuche (Vector Top-K)
-    auto base = searchContent(query_text, k, filters);
-    if (base.empty()) {
+    auto base = searchContent(query_text, k, filters, request, stop_reason);
+    if (stopIfRequested() || base.empty()) {
       return base;
     }
 
@@ -1971,6 +2034,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     };
 
     for (const auto& [pk, dist] : base) {
+        if (stopIfRequested()) {
+            return {};
+        }
         double sim = toSim(dist);
         double score = alpha * sim; // basis ohne Graphanteil
         auto it = bestScore.find(pk);
@@ -1985,21 +2051,34 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
         std::unordered_set<std::string> seen = {};
 
         while (!q.empty()) {
+            if (stopIfRequested()) {
+                return {};
+            }
             QItem qi = q.front(); q.pop();
             if (qi.hop >= expansion_hops) {
               continue;
             }
             auto [st, neigh] = graph_index_->outNeighbors(qi.node);
+            if (stopIfRequested()) {
+                return {};
+            }
             if (!st.ok) {
               continue;
             }
             int nextHop = qi.hop + 1;
+            size_t neighbors_since_poll = 0;
             for (const auto& nb : neigh) {
+                if (((++neighbors_since_poll & 63U) == 0U) && stopIfRequested()) {
+                    return {};
+                }
                 // optional: allow revisits if better path from different origin
                 // Compute Dijkstra distance from origin to nb (weighted graph)
                 double distCost = 0.0;
                 if (beta != 0.0) {
                     auto pr = graph_index_->dijkstra(qi.origin, nb);
+                    if (stopIfRequested()) {
+                        return {};
+                    }
                     if (pr.first.ok) {
                         distCost = pr.second.totalCost;
                     } else {
@@ -2021,20 +2100,53 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     // 3) Ergebnisse zusammenstellen und nach Score sortieren
     std::vector<std::pair<std::string, float>> out;
     out.reserve(bestScore.size());
+    size_t results_since_poll = 0;
     for (const auto& kv : bestScore) {
+        if (((++results_since_poll & 63U) == 0U) && stopIfRequested()) {
+            return {};
+        }
         out.emplace_back(kv.first, static_cast<float>(kv.second));
+    }
+    if (stopIfRequested()) {
+        return {};
     }
     // Optional: Post-Filter gegen erlaubte Whitelist (sichert, dass Expansion nicht aus Filters ausbricht)
     try {
         std::vector<std::string> allow = buildChunkWhitelist(*storage_, filters);
+        if (stopIfRequested()) {
+            return {};
+        }
         if (!allow.empty()) {
-            std::unordered_set<std::string> allowed(allow.begin(), allow.end());
-            out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
+            std::unordered_set<std::string> allowed;
+            allowed.reserve(allow.size());
+            size_t allowed_checks = 0;
+            for (const auto& id : allow) {
+                if (((++allowed_checks & 63U) == 0U) && stopIfRequested()) {
+                    return {};
+                }
+                allowed.insert(id);
+            }
+            size_t output_index = 0;
+            for (const auto& item : out) {
+                if (((++results_since_poll & 63U) == 0U) && stopIfRequested()) {
+                    return {};
+                }
+                if (allowed.find(item.first) != allowed.end()) {
+                    out[output_index++] = item;
+                }
+            }
+            out.resize(output_index);
         }
     } catch (...) {
     }
 
+    if (stopIfRequested()) {
+        return {};
+    }
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
+    if (stopIfRequested()) {
+        return {};
+    }
     if (out.size() > static_cast<size_t>(k)) {
       out.resize(static_cast<size_t>(k));
     }

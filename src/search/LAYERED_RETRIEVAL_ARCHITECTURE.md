@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-17"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,7 +15,7 @@ Canonical_References:
   - "src/search/layered_retrieval_orchestrator.cpp"
   - "tests/search/test_layered_retrieval_integration_phase4.cpp"
   - "tests/search/CMakeLists.txt"
-Related_Issue: "#7378"
+Related_Issue: "#7489"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -26,11 +26,13 @@ Exact model backend not verifiable from final document text alone.
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · LAYERED_RETRIEVAL_SLA.md -->
 
 > **Evidence boundary:** Runtime stages and configuration are documented from
-> the header and implementation. The per-layer deadline is a wait deadline:
-> the implementation detaches a worker thread on timeout and does not cancel
-> the backend operation. It therefore is not a hard resource/cancellation
-> guarantee. Performance and availability figures in related historical notes
-> are assumptions until measured and recorded.
+> the header and implementation. Layers execute inline on the caller thread
+> with a request-scoped deadline and cancellation token; no detached work
+> continues after `execute()` returns. Cooperative backends can stop at their
+> polling points, while synchronous backends can overrun a deadline until the
+> current operation returns. This is not a hard wall-clock bound.
+> Performance and availability figures in related historical notes are
+> assumptions until measured and recorded.
 
 ## Overview
 
@@ -112,9 +114,14 @@ Final Answer + Diagnostics
 **Execution Model:**
 1. Validate `tensor_query_key` is non-empty; skip layer if not provided
 2. Clamp `top_k` to guardrail `max_tensor_candidates` if enabled
-3. Execute `TensorFingerprintGraph::findSimilar(query_key, top_k)` under a wait deadline
+3. Execute request-aware `TensorFingerprintGraph::findSimilar(query_key, top_k, request, stop_reason)` inline
 4. Return adapted candidates with similarity scores
 5. Emit tracing span with latency and output count
+
+Candidate collection and boundaries between similarity operations poll the
+request context and discard partial candidates on stop. One TT inner-product or
+injected exact-similarity callback, and result sorting, are synchronous and
+checkpoint-only.
 
 **Fail-Safe Behavior:**
 - Timeout → TIMEOUT_SKIP with diagnostics
@@ -141,10 +148,17 @@ Final Answer + Diagnostics
 
 **Execution Model:**
 1. Validate `graph_subject_id` is non-empty; skip layer if not provided
-2. Execute `KnowledgeGraphReasoner::infer(subject, max_hops)` under a wait deadline
+2. Execute request-aware `KnowledgeGraphReasoner::infer(subject, max_hops, request, stop_reason)` inline
 3. If `lora_adapter_id` is provided, apply adapter scoring via `applyLoRAScore()`
 4. Clamp results to guardrail `max_graph_edges` if enabled
 5. Emit tracing span with latency and output count
+
+Fact snapshotting, recursive condition matching, forward-chaining loops and
+result filtering poll the request. A stop discards the returned chain and
+prevents incomplete derivations from being published; explain-store publication
+polls between entries, although one synchronous store write may overrun and
+completed sound derivations may remain cached. LoRA scoring is separately
+checkpoint-only.
 
 **Fail-Safe Behavior:**
 - Timeout → TIMEOUT_SKIP with diagnostics
@@ -211,26 +225,25 @@ Final Answer + Diagnostics
 
 ### Per-Layer Deadline Enforcement
 
-Each layer is wrapped in a **wait deadline** (configured via `LayeredRetrievalConfig::layer_timeout_ms`):
+Each layer runs inline with a child request context whose deadline is clamped
+to `LayeredRetrievalConfig::layer_timeout_ms`:
 
 ```cpp
-runWithDeadline(
-    [backend, inputs]() { /* layer execution */ },
-    timeout_duration,
-    error_string
-);
+runLayer(request, layer_timeout, layer_function, error_string);
 ```
 
 **Implementation:**
-- Each layer spawns its execution in a detached thread
-- Main thread waits for completion or deadline
-- On timeout, the detached thread continues in the background; the operation is
-  not cancelled and may continue consuming backend resources
-- Layer marked as TIMEOUT_SKIP; chain continues
+- No worker thread is spawned; all layer work completes before `execute()` returns
+- The child context shares the caller cancellation token and clamps its deadline
+- Request-aware backends may poll and stop cooperatively; non-polling synchronous
+  operations cannot be interrupted until they return
+- A late layer result is discarded and the layer is marked `TIMEOUT_SKIP` or
+  `CANCELLED`; previously completed layer outputs may remain
 
-**Default Wait Deadline:** 50ms per layer (configurable; does not bound detached work)
+**Default Layer Deadline:** 50ms per layer (configurable; does not preempt a synchronous call)
 
-**Total Latency Budget:** Up to 200ms for full 4-layer chain at default 50ms per layer
+**Total Caller Wait:** May exceed 200ms for a full 4-layer chain when a
+synchronous backend operation overruns its layer deadline.
 
 ### Thread Safety Model
 
@@ -360,7 +373,7 @@ struct LayeredRetrievalConfig {
 ### Deployment Topologies
 
 **Option A: Full 4-Layer Pipeline (default config)**
-- All layers enabled, 50ms wait deadline per layer (timed-out work is not cancelled)
+- All layers enabled, 50ms child deadline per layer (cooperative backends poll; synchronous calls can overrun)
 - Suitable for high-quality retrieval, e.g. high-value customer queries
 - Expected latency: 150–250ms (accounting for variance)
 

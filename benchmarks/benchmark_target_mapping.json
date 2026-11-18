@@ -614,9 +614,9 @@
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
         "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped",
+        "status": "proxy",
         "slo_target": "≤ 100 µs",
-        "notes": "CommitLatency/1 (single-op transaction) measures P50 commit time directly."
+        "notes": "CommitLatency/1 reports whole-iteration timing for a single-write transaction. Neither the primary nor the fallback exports per-commit P50; the SLO remains unverified."
       },
       "TX-2": {
         "label": "OCC Commit P99",
@@ -624,12 +624,12 @@
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
         "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped",
+        "status": "proxy",
         "slo_target": "≤ 5 ms",
-        "notes": "CommitLatency/100 (100-op transaction) measures high-percentile commit latency directly."
+        "notes": "CommitLatency/100 reports whole-iteration timing for a 100-write transaction. Neither the primary nor the fallback exports per-commit P99; the SLO remains unverified."
       },
       "TX-3": {
-        "label": "2PC Throughput",
+        "label": "Write-only transaction throughput (single thread)",
         "primary_benchmark": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "fallback_case": "BM_TransactionContention",
@@ -637,7 +637,7 @@
         "status": "mapped",
         "slo_target": "> 6 k/s",
         "measured_v134": "6.4 k/s",
-        "notes": "WriteOnlyTransaction (10 writes, 4 threads) measures commit throughput; tps counter reports k/s directly."
+        "notes": "WriteOnlyTransaction runs with one thread and performs ten entity writes per committed transaction. items_per_second and the tps counter both represent committed transactions per second."
       },
       "TX-4": {
         "label": "2PC Latenz (5 Shards)",
@@ -1702,10 +1702,10 @@
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
     "total": 203,
-    "mapped": 203,
-    "proxy": 0,
+    "mapped": 201,
+    "proxy": 2,
     "not_measurable": 0,
     "gap": 0,
-    "coverage_pct": 100.0
+    "coverage_pct": 99.0
   }
 }

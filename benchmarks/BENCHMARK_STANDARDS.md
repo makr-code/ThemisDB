@@ -89,6 +89,14 @@ benchmark structure and registration rules.
   collisions when a target has multiple smoke registrations. Previous result
   directories are preserved under `bench_results/archive/`; the final report is
   `benchmark_comparison_report.md` in the current run directory.
+- Registered runs also retain a JSON `manifest` in the current result directory.
+  It records registration, execution and JSON outcomes and maps expected cases
+  only when their names are observed. Unknown mappings do not establish why a
+  case is missing; targets whose registration call was skipped by CMake are not
+  inventoried. Unsafe CTest names use a separate hashed result path.
+- Incomplete or non-numeric comparisons are not performance passes. The
+  comparator's `--strict-completeness` option returns 2 for incomplete evidence;
+  without it, exit status remains compatible with existing local workflows.
 - This comparison step evaluates cases documented in
   `src/*/PERFORMANCE_EXPECTATIONS.md`. It does not execute or analyze ordinary
   unit tests, and an expectation missing from the JSON is reported as `NOT_RUN`.

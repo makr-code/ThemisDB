@@ -921,7 +921,30 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
             if (page_cookie) { ber_bvfree(page_cookie); page_cookie = nullptr; }
             if (resp_ctrls) {
                 ber_int_t total_count = 0;
+#ifdef _WIN32
                 ldap_parse_page_control(ld, resp_ctrls, &total_count, &page_cookie);
+#else
+                LDAPControl* page_response =
+                    ldap_control_find(LDAP_CONTROL_PAGEDRESULTS, resp_ctrls, nullptr);
+                if (page_response) {
+                    struct berval response_cookie{0, nullptr};
+                    const int parse_rc = ldap_parse_pageresponse_control(
+                        ld, page_response, &total_count, &response_cookie);
+                    if (parse_rc == LDAP_SUCCESS) {
+                        page_cookie = ber_bvdup(&response_cookie);
+                        ldap_memfree(response_cookie.bv_val);
+                        if (!page_cookie) {
+                            spdlog::warn("[LDAP] Could not retain pagination cookie "
+                                         "for user '{}'; returning partial results.",
+                                         username);
+                        }
+                    } else {
+                        spdlog::warn("[LDAP] Could not parse pagination response "
+                                     "for user '{}' (rc={}); returning partial results.",
+                                     username, ldap_err2string(parse_rc));
+                    }
+                }
+#endif
                 ldap_controls_free(resp_ctrls);
             }
             ldap_msgfree(result);

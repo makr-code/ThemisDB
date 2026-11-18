@@ -37,6 +37,7 @@
 #include "content/content_processor.h"
 #include "content/mime_detector.h"
 #include "cache/semantic_cache.h"
+#include "query/request_context.h"
 #ifdef THEMIS_ENABLE_SSE
 #include "server/sse_connection_manager.h"
 #endif
@@ -388,6 +389,15 @@ public:
     }
 
     /**
+     * @brief Returns the number of HTTP requests that entered route dispatch.
+     * @return Monotonic request count.
+     * @note Test helper; this method is not a stable public API contract.
+     */
+    uint64_t requestCountForTesting() const {
+        return request_count_.load(std::memory_order_relaxed);
+    }
+
+    /**
      * @brief Set Concerns.
      * @param[in] concerns Input parameter.
      * @details Calls: std::move().
@@ -669,9 +679,12 @@ private:
     /**
      * @brief Route Request.
      * @param[in] req Input parameter.
+     * @param[in] connection_request Session-scoped peer cancellation probe.
      * @return Return value.
      */
-    http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
+    http::response<http::string_body> routeRequest(
+        const http::request<http::string_body>& req,
+        const themis::query::RequestContext& connection_request);
 
 
     /**

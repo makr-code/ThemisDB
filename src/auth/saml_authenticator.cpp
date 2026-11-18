@@ -10,6 +10,7 @@
 
 
 #include "auth/saml_authenticator.h"
+#include "auth/detail/saml_request_id.h"
 
 #include <algorithm>
 #include <cstring>
@@ -18,11 +19,11 @@
 #include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#include <openssl/rand.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/x509.h>
 #include <pugixml.hpp>
-#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <zlib.h>
@@ -114,18 +115,11 @@ void SAMLAuthenticator::setClockForTesting(std::function<std::chrono::system_clo
 /**
  * @brief Generate Request Id.
  * @return Return value.
- * @details Calls: local_gen(), local_rd(), std::setfill(), std::setw(), dist(), str().
+ * @throws std::runtime_error if the cryptographic random-number generator fails.
+ * @details Encodes 128 random bits as an NCName-safe underscore-prefixed hexadecimal identifier.
  */
 std::string SAMLAuthenticator::generateRequestId() {
-    // SAML IDs must be NCName-safe: start with '_' + 32 hex chars
-    static std::random_device local_rd;
-    static std::mt19937_64 local_gen(local_rd());
-    std::uniform_int_distribution<uint64_t> dist;
-
-    std::ostringstream oss = {};
-    oss << '_';
-    oss << std::hex << std::setfill('0') << std::setw(16) << dist(local_gen) << std::setw(16) << dist(local_gen);
-    return oss.str();
+    return detail::generateSamlRequestId(RAND_bytes);
 }
 
 std::string SAMLAuthenticator::buildAuthnRequestXml(const std::string &request_id,
@@ -246,6 +240,12 @@ std::string SAMLAuthenticator::urlEncode(const std::string &input) {
     return oss.str();
 }
 
+/**
+ * @brief Builds an SP-initiated SAML AuthnRequest with a cryptographically random request ID.
+ * @param[in] relay_state Optional RelayState value; omitted when empty.
+ * @return The redirect URL and the request ID required for InResponseTo validation.
+ * @throws std::runtime_error if secure random bytes cannot be generated; no predictable ID is used.
+ */
 AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string &relay_state) const {
     const std::string request_id    = generateRequestId();
     const std::string issue_instant = formatDateTime(clock_());
@@ -260,6 +260,12 @@ AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string &relay
     return {url, request_id};
 }
 
+/**
+ * @brief Builds the redirect URL for an SP-initiated SAML AuthnRequest.
+ * @param[in] relay_state Optional RelayState value; omitted when empty.
+ * @return The IdP redirect URL.
+ * @throws std::runtime_error if secure request-ID generation fails.
+ */
 std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string &relay_state) const {
     return buildAuthnRequest(relay_state).url;
 }

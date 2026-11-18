@@ -29,6 +29,7 @@ inline constexpr std::string_view kRouteFlatBruteForce = "ANN_ROUTE_FLAT_BRUTE_F
 inline constexpr std::string_view kRouteUnknown = "ANN_ROUTE_UNKNOWN";
 
 inline constexpr std::string_view kFallbackBackendUnavailable = "ANN_BACKEND_UNAVAILABLE";
+inline constexpr std::string_view kFallbackInvalidBackendResult = "ANN_INVALID_BACKEND_RESULT";
 inline constexpr std::string_view kFallbackDistributedPartialFailure = "ANN_DISTRIBUTED_PARTIAL_FAILURE";
 inline constexpr std::string_view kFallbackDistributedAllShardsFailed = "ANN_DISTRIBUTED_ALL_SHARDS_FAILED";
 

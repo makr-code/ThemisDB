@@ -148,24 +148,66 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     size_t vector_dim,
     SearchStats* stats
 ) {
+    return search(text_query, vector_query, vector_dim,
+                  query::RequestContext{}, nullptr, stats);
+}
+
+std::vector<HybridSearch::Result> HybridSearch::search(
+    const std::string& text_query,
+    const float* vector_query,
+    size_t vector_dim,
+    const query::RequestContext& request,
+    query::StopReason* stop_reason,
+    SearchStats* stats
+) {
+    if (stop_reason) {
+        *stop_reason = query::StopReason::None;
+    }
+    const auto stopIfRequested = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+
     std::vector<Result> bm25_results;
     std::vector<Result> vector_results;
     bool bm25_ok = false;
     bool vector_ok = false;
+
+    if (stopIfRequested()) {
+        return {};
+    }
     
     // BM25 fulltext search
     if (!text_query.empty() && fulltext_index_) {
         try {
+            query::StopReason backend_stop = query::StopReason::None;
             auto [status, ft_results] = fulltext_index_->scanFulltextWithScores(
                 config_.default_table,
                 config_.default_column, 
                 text_query,
-                config_.k_bm25
+                config_.k_bm25,
+                request,
+                &backend_stop
             );
+            if (backend_stop != query::StopReason::None) {
+                if (stop_reason) {
+                    *stop_reason = backend_stop;
+                }
+                return {};
+            }
             
             if (status.ok) {
                 bm25_results.reserve(ft_results.size());
                 for (size_t i = 0; i < ft_results.size(); ++i) {
+                    if ((i & 0x3FU) == 0U && stopIfRequested()) {
+                        return {};
+                    }
                     const auto& ft_result = ft_results[i];
                     Result r = Result();
                     r.document_id = ft_result.pk;
@@ -185,6 +227,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     
     // Vector ANN search
     if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
+        if (stopIfRequested()) {
+            return {};
+        }
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
             if (ann_frontdoor_) {
@@ -195,9 +240,15 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     static_cast<int>(config_.k_vector),
                     context
                 );
+                if (stopIfRequested()) {
+                    return {};
+                }
 
                 vector_results.reserve(frontdoor_result.candidates.size());
                 for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
+                    if ((i & 0x3FU) == 0U && stopIfRequested()) {
+                        return {};
+                    }
                     const auto& candidate = frontdoor_result.candidates[i];
                     Result r = Result();
                     r.document_id = std::to_string(candidate.id);
@@ -211,14 +262,22 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     vector_index_ != nullptr &&
                     (frontdoor_result.strategy_used == index::AnnStrategy::FLAT_BRUTE_FORCE ||
                      frontdoor_result.strategy_used == index::AnnStrategy::HNSW)) {
+                    query::StopReason backend_stop = query::StopReason::None;
                     auto [status, vec_results] = vector_index_->searchKnn(
-                        query_vec,
-                        config_.k_vector
-                    );
+                        query_vec, config_.k_vector, nullptr, request, &backend_stop);
+                    if (backend_stop != query::StopReason::None) {
+                        if (stop_reason) {
+                            *stop_reason = backend_stop;
+                        }
+                        return {};
+                    }
 
                     if (status.ok) {
                         vector_results.reserve(vec_results.size());
                         for (size_t i = 0; i < vec_results.size(); ++i) {
+                            if ((i & 0x3FU) == 0U && stopIfRequested()) {
+                                return {};
+                            }
                             const auto& vec_result = vec_results[i];
                             Result r = Result();
                             r.document_id = vec_result.pk;
@@ -237,14 +296,22 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 THEMIS_DEBUG("Vector search returned {} results via AnnFrontdoor",
                              vector_results.size());
             } else {
+                query::StopReason backend_stop = query::StopReason::None;
                 auto [status, vec_results] = vector_index_->searchKnn(
-                    query_vec,
-                    config_.k_vector
-                );
+                    query_vec, config_.k_vector, nullptr, request, &backend_stop);
+                if (backend_stop != query::StopReason::None) {
+                    if (stop_reason) {
+                        *stop_reason = backend_stop;
+                    }
+                    return {};
+                }
 
                 if (status.ok) {
                     vector_results.reserve(vec_results.size());
                     for (size_t i = 0; i < vec_results.size(); ++i) {
+                        if ((i & 0x3FU) == 0U && stopIfRequested()) {
+                            return {};
+                        }
                         const auto& vec_result = vec_results[i];
                         Result r = Result();
                         r.document_id = vec_result.pk;
@@ -259,6 +326,10 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 } else {
                     THEMIS_WARN("Vector search failed: {}", status.message);
                 }
+            }
+
+            if (stopIfRequested()) {
+                return {};
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("Vector search exception: {}", e.what());
@@ -293,6 +364,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     if (config_.normalize_scores || !config_.use_rrf) {
         normalizeScores(bm25_results, true);
         normalizeScores(vector_results, false);
+    }
+    if (stopIfRequested()) {
+        return {};
     }
     
     // Fuse results – wrapped in a safety-net catch to guarantee search() never throws
@@ -343,6 +417,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
         // LLM re-ranking: optional Phase-3 post-processing step
         if (reranker_ && !fused.empty() && !text_query.empty()) {
+            if (stopIfRequested()) {
+                return {};
+            }
             std::vector<LlmRerankCandidate> candidates = {};
 
             candidates.reserve(fused.size());
@@ -355,6 +432,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             }
 
             auto reranked = reranker_->rerank(text_query, candidates);
+            if (stopIfRequested()) {
+                return {};
+            }
 
             // Rebuild Result list in LLM-determined order, updating hybrid_score
             std::vector<Result> reranked_results = {};
@@ -375,10 +455,10 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 }
             }
             THEMIS_INFO("LLM re-ranker: {} -> {} results",fused.size(),reranked_results.size());
-            return reranked_results;
+            return stopIfRequested() ? std::vector<Result>{} : reranked_results;
         }
 
-        return fused;
+        return stopIfRequested() ? std::vector<Result>{} : fused;
     } catch (const std::exception& e) {
         THEMIS_ERROR("HybridSearch fusion exception (returning empty): {}", e.what());
         return {};

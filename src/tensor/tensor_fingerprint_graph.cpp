@@ -310,7 +310,30 @@ TensorFingerprintGraph::findSimilarByFingerprint(
 std::vector<SimilarityResult>
 TensorFingerprintGraph::findSimilar(const std::string& query_key,
                                      std::size_t        k) const {
-    if (k == 0) return {};
+    return findSimilar(query_key, k, query::RequestContext{}, nullptr);
+}
+
+std::vector<SimilarityResult>
+TensorFingerprintGraph::findSimilar(
+        const std::string& query_key,
+        std::size_t k,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason) const {
+    if (stop_reason) {
+        *stop_reason = query::StopReason::None;
+    }
+    const auto stopIfRequested = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+
+    if (stopIfRequested() || k == 0) return {};
 
     storage::TTTrain query_train;
     std::vector<std::pair<std::string, FingerprintEntry>> candidates;
@@ -326,6 +349,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
         if (it_train == trains_.end()) return {};
         query_train = it_train->second;
 
+        if (stopIfRequested()) return {};
         const auto it_query_self = train_self_ip_.find(query_key);
         if (it_query_self != train_self_ip_.end()) {
             query_self_ip = it_query_self->second;
@@ -333,15 +357,19 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
             query_self_ip =
                 storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
         }
+        if (stopIfRequested()) return {};
 
         candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
         for (const auto& [key, entry] : entries_) {
+            if (stopIfRequested()) return {};
             if (key == query_key) {
               continue;
             }
             candidates.emplace_back(key, entry);
+            if (stopIfRequested()) return {};
         }
     }
+    if (stopIfRequested()) return {};
     if (!std::isfinite(query_self_ip) || query_self_ip <= 0.0) {
         // CRITICAL-1: Emit diagnostic before silent return
         emitFingerprintDiagnostic(
@@ -359,6 +387,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
     std::size_t comparisons = 0;
     if (exact_similarity_fn) {
         for (const auto& [key, entry] : candidates) {
+            if (stopIfRequested()) return {};
             double score = 0.0;
             try {
                 score = static_cast<double>(exact_similarity_fn(query_key, key));
@@ -370,6 +399,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                     key);
                 continue;
             }
+            if (stopIfRequested()) return {};
             if (!std::isfinite(score)) {
                 // CRITICAL-1: Emit diagnostic for invalid score
                 emitFingerprintDiagnostic(
@@ -396,6 +426,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
          */
         std::shared_lock lock(mutex_);
         for (const auto& [key, entry] : candidates) {
+            if (stopIfRequested()) return {};
             const auto it_train = trains_.find(key);
             if (it_train == trains_.end()) {
                 // CRITICAL-1: Emit diagnostic when referenced train not found
@@ -415,6 +446,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 other_self_ip =
                     storage::TensorTrainDecomposer::innerProduct(other_train, other_train);
             }
+            if (stopIfRequested()) return {};
 
             if (!std::isfinite(other_self_ip) || other_self_ip <= 0.0) {
                 // CRITICAL-1: Emit diagnostic for invalid other self inner product
@@ -427,6 +459,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 
             const double cross_ip =
                 storage::TensorTrainDecomposer::innerProduct(query_train, other_train);
+            if (stopIfRequested()) return {};
             const double denom = std::sqrt(query_self_ip * other_self_ip);
             if (!std::isfinite(cross_ip) || !std::isfinite(denom) || denom <= 0.0) {
                 // CRITICAL-1: Emit diagnostic for invalid cross product or denominator
@@ -450,13 +483,16 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
         }
     }
 
+    if (stopIfRequested()) return {};
     std::sort(results.begin(), results.end(),
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
+    if (stopIfRequested()) return {};
     if (results.size() > k) {
       results.resize(k);
     }
+    if (stopIfRequested()) return {};
 
     {
         /**
@@ -531,4 +567,3 @@ TensorFingerprintGraph::stats() const noexcept {
 
 } // namespace tensor
 } // namespace themis
-

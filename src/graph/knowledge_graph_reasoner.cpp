@@ -333,21 +333,47 @@ void KnowledgeGraphReasoner::clearFacts() {
     return {resolve(pattern.subject), resolve(pattern.predicate), resolve(pattern.object)};
 }
 
-/*static*/ void KnowledgeGraphReasoner::matchConditions(const std::vector<Triple> &conditions, std::size_t cond_idx,
-                                                        const std::vector<Triple> &facts, Bindings bindings,
-                                                        std::vector<Bindings> &out) {
+/*static*/ bool KnowledgeGraphReasoner::matchConditions(
+        const std::vector<Triple>& conditions,
+        std::size_t cond_idx,
+        const std::vector<Triple>& facts,
+        Bindings bindings,
+        std::vector<Bindings>& out,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason) {
+    const auto stopped = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+    if (stopped()) {
+        return false;
+    }
+
     if (cond_idx >= conditions.size()) {
         out.push_back(std::move(bindings));
-        return;
+        return !stopped();
     }
 
     const Triple &pattern = conditions[cond_idx];
     for (const auto &fact : facts) {
+        if (stopped()) {
+            return false;
+        }
         Bindings candidate = bindings;
         if (unify(pattern, fact, candidate)) {
-            matchConditions(conditions, cond_idx + 1, facts, std::move(candidate), out);
+            if (!matchConditions(conditions, cond_idx + 1, facts,
+                                 std::move(candidate), out, request, stop_reason)) {
+                return false;
+            }
         }
     }
+    return !stopped();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -362,13 +388,34 @@ void KnowledgeGraphReasoner::clearFacts() {
 // Forward-chaining core
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std::vector<InferenceEdge> &derived_out,
-                                          int max_depth) const {
+bool KnowledgeGraphReasoner::forwardChain(
+        std::vector<Triple>& working_set,
+        std::vector<InferenceEdge>& derived_out,
+        int max_depth,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason) const {
+    const auto stopped = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+    if (stopped()) {
+        return false;
+    }
+
     // Track which triples are already known to avoid cycles.
     std::unordered_set<std::string> known = {};
 
     known.reserve(working_set.size() * 2);
     for (const auto &t : working_set) {
+        if (stopped()) {
+            return false;
+        }
         known.insert(tripleKey(t));
     }
 
@@ -380,18 +427,38 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
     std::shared_lock rules_lock(rules_mutex_);
 
     for (int hop = 0; hop < max_depth; ++hop) {
+        if (stopped()) {
+            derived_out.clear();
+            return false;
+        }
         std::vector<Triple> new_this_hop;
 
         for (const auto &rule : rules_) {
+            if (stopped()) {
+                derived_out.clear();
+                return false;
+            }
             // Find all binding sets satisfying all conditions.
             std::vector<Bindings> all_bindings;
-            matchConditions(rule.conditions, 0, working_set, {}, all_bindings);
+            if (!matchConditions(rule.conditions, 0, working_set, {},
+                                 all_bindings, request, stop_reason)) {
+                derived_out.clear();
+                return false;
+            }
 
             for (const auto &binds : all_bindings) {
+                if (stopped()) {
+                    derived_out.clear();
+                    return false;
+                }
                 // Derive all conclusions.
                 std::vector<Triple> conclusions;
                 bool all_ground = true;
                 for (const auto &conclusion_pat : rule.conclusions) {
+                    if (stopped()) {
+                        derived_out.clear();
+                        return false;
+                    }
                     Triple derived_triple = ground(conclusion_pat, binds);
                     if (!derived_triple.isGround()) {
                         all_ground = false;
@@ -407,10 +474,18 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
                 std::vector<Triple> premises = {};
 
                 for (const auto &cond : rule.conditions) {
+                    if (stopped()) {
+                        derived_out.clear();
+                        return false;
+                    }
                     premises.push_back(ground(cond, binds));
                 }
 
                 for (auto &conclusion : conclusions) {
+                    if (stopped()) {
+                        derived_out.clear();
+                        return false;
+                    }
                     const auto key = tripleKey(conclusion);
                     if (known.count(key)) {
                         continue; // already in working set
@@ -424,9 +499,6 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
                     edge.rule_id  = rule.id;
                     edge.premises = premises;
 
-                    // Persist in store for explain().
-                    inference_store_.store(conclusion, rule.id, premises);
-
                     derived_out.push_back(std::move(edge));
                 }
             }
@@ -437,9 +509,27 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
         }
 
         for (auto &t : new_this_hop) {
+            if (stopped()) {
+                derived_out.clear();
+                return false;
+            }
             working_set.push_back(std::move(t));
         }
     }
+
+    // Defer explain-store writes until derivation computation is complete.
+    if (stopped()) {
+        derived_out.clear();
+        return false;
+    }
+    for (const auto& edge : derived_out) {
+        if (stopped()) {
+            derived_out.clear();
+            return false;
+        }
+        inference_store_.store(edge.fact, edge.rule_id, edge.premises);
+    }
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -447,10 +537,35 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
 // ─────────────────────────────────────────────────────────────────────────────
 
 InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int depth) const {
+    return infer(subjectId, depth, query::RequestContext{}, nullptr);
+}
+
+InferenceChain KnowledgeGraphReasoner::infer(
+        std::string_view subjectId,
+        int depth,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason) const {
+    if (stop_reason) {
+        *stop_reason = query::StopReason::None;
+    }
+    const auto stopped = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+
     const int hops = (depth <= 0) ? max_hops_ : std::max(1, std::min(depth, kHardMaxHops));
 
     InferenceChain chain;
     chain.subject_id = std::string(subjectId);
+    if (stopped()) {
+        return {};
+    }
 
     // Snapshot base facts.
     std::vector<Triple> working_set;
@@ -461,21 +576,37 @@ InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int dep
          * @return Return value.
          */
         std::shared_lock lock(facts_mutex_);
-        working_set = base_facts_;
+        working_set.reserve(base_facts_.size());
+        for (const auto& fact : base_facts_) {
+            if (stopped()) {
+                return {};
+            }
+            working_set.push_back(fact);
+        }
     }
 
     if (working_set.empty()) {
-        return chain;
+        return stopped() ? InferenceChain{} : chain;
     }
 
     std::vector<InferenceEdge> all_derived;
-    forwardChain(working_set, all_derived, hops);
+    if (!forwardChain(working_set, all_derived, hops, request, stop_reason) ||
+        stopped()) {
+        return {};
+    }
 
     // Filter to those involving the requested subject.
-    for (auto &edge : all_derived) {
+    for (std::size_t i = 0; i < all_derived.size(); ++i) {
+        if ((i & 0x3FU) == 0U && stopped()) {
+            return {};
+        }
+        auto& edge = all_derived[i];
         if (edge.fact.subject == subjectId) {
             chain.edges.push_back(std::move(edge));
         }
+    }
+    if (stopped()) {
+        return {};
     }
 
     return chain;
@@ -517,7 +648,8 @@ void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) 
         }
 
         std::vector<InferenceEdge> derived;
-        forwardChain(working_set, derived, 1); // single incremental hop
+        static_cast<void>(forwardChain(
+            working_set, derived, 1, query::RequestContext{}, nullptr)); // single incremental hop
 
     } else { // DELETE
         // Remove from base facts.

@@ -4,6 +4,7 @@
 #include <cctype>
 #include <climits>
 #include <cmath>
+#include <locale>
 #include <regex>
 #include <sstream>
 
@@ -192,9 +193,36 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
  * @details Calls: embedding_fn_(), embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin().
  */
 std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_data) {
+    return generateEmbedding(chunk_data, ::themis::query::RequestContext{}, nullptr);
+}
+
+std::vector<float> TextProcessor::generateEmbedding(
+    const std::string& chunk_data,
+    const ::themis::query::RequestContext& request,
+    ::themis::query::StopReason* stop_reason) {
+    if (stop_reason) {
+        *stop_reason = ::themis::query::StopReason::None;
+    }
+    const auto stopped = [&]() {
+        const auto reason = request.stopReason();
+        if (reason == ::themis::query::StopReason::None) {
+            return false;
+        }
+        if (stop_reason) {
+            *stop_reason = reason;
+        }
+        return true;
+    };
+    if (stopped()) {
+        return {};
+    }
+
     // If a real embedding backend has been injected, delegate to it.
+    // The injected callback is synchronous; only the boundary checks can be
+    // honored unless the provider supplies its own cancellable API.
     if (embedding_fn_) {
-        return embedding_fn_(chunk_data);
+        auto embedding = embedding_fn_(chunk_data);
+        return stopped() ? std::vector<float>{} : embedding;
     }
 
     // PERMANENT FALLBACK NOTE:
@@ -221,11 +249,32 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
     std::hash<std::string> hasher;
 
     // Split text into tokens
-    std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token = {};
-    while (iss >> token) {
-        tokens.push_back(token);
+    const auto& ctype = std::use_facet<std::ctype<char>>(std::locale{});
+    size_t position = 0;
+    while (position < chunk_data.size()) {
+        if ((position & 0x3FFU) == 0U && stopped()) {
+            return {};
+        }
+        while (position < chunk_data.size() &&
+               ctype.is(std::ctype_base::space, chunk_data[position])) {
+            ++position;
+            if ((position & 0x3FFU) == 0U && stopped()) {
+                return {};
+            }
+        }
+
+        const auto token_start = position;
+        while (position < chunk_data.size() &&
+               !ctype.is(std::ctype_base::space, chunk_data[position])) {
+            ++position;
+            if ((position & 0x3FFU) == 0U && stopped()) {
+                return {};
+            }
+        }
+        if (token_start < position) {
+            tokens.emplace_back(chunk_data.substr(token_start, position - token_start));
+        }
     }
 
     if (tokens.empty()) {
@@ -234,6 +283,9 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
 
     // Generate embedding components with better distribution
     for (size_t i = 0; i < tokens.size(); i++) {
+        if ((i & 0xFFU) == 0U && stopped()) {
+            return {};
+        }
         size_t token_hash = hasher(tokens[i]);
 
         // Use different hash seeds for better differentiation
@@ -249,6 +301,9 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
                 float phase  = static_cast<float>((combined_hash + dim) % 360) * 3.14159f / 180.0f;
                 embedding[dim] += std::sin(phase) * weight;
             }
+        }
+        if (stopped()) {
+            return {};
         }
     }
 

@@ -629,8 +629,7 @@ TEST(ExecuteDistributedTest, ExecutionTimingCaptured) {
 // ============================================================================
 
 TEST(LocalShardExecutorTest, RoundTrip) {
-    // Create a real OLAPEngine (it needs data to return non-empty results,
-    // but we just verify the executor wrapper works without crashing).
+    // An unknown collection returns its requested columns with no data rows.
     themis::analytics::OLAPEngine engine;
 
     LocalShardExecutor exec(engine);
@@ -641,9 +640,10 @@ TEST(LocalShardExecutorTest, RoundTrip) {
     m.name = "s"; m.field = "v"; m.function = Measure::Function::Sum;
     q.measures = {m};
 
-    // Should not throw
     OLAPResult r = exec.execute("shard_test", q);
-    EXPECT_TRUE(r.columns.empty() || !r.columns.empty()); // any result is fine
+    EXPECT_EQ(r.columns, (std::vector<std::string>{"dim", "s"}));
+    EXPECT_TRUE(r.rows.empty());
+    EXPECT_EQ(r.total_rows, 0);
 }
 
 // ============================================================================

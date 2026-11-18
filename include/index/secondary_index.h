@@ -13,6 +13,7 @@
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/index_compression.h"
+#include "query/request_context.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -163,6 +164,27 @@ public:
         std::string pk;
         double score;
     };
+    /**
+     * @brief Searches an indexed field with BM25 scoring and cooperative request stops.
+     * @param table Indexed table name.
+     * @param column Indexed text column name.
+     * @param query Text to tokenize and match; all resulting tokens are required.
+     * @param limit Maximum number of scored results to return.
+     * @param request Deadline/cancellation source polled throughout retrieval loops.
+     * @param stop_reason Receives the observed stop cause; reset to None on entry.
+     * @return Status and top-scored matches, or an error with no matches when stopped
+     *         or when the index/query operation fails.
+     * @note A stop is cooperative; synchronous storage reads and result sorting are
+     *       not interrupted while in progress. Existing overload remains unbounded.
+     */
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextWithScores(
+        std::string_view table,
+        std::string_view column,
+        std::string_view query,
+        size_t limit,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    ) const;
     std::pair<Status, std::vector<FulltextResult>> scanFulltextWithScores(
         std::string_view table,
         std::string_view column,
@@ -216,10 +238,53 @@ public:
         size_t limit = 1000,
         bool reversed = false
     ) const;
+    /**
+     * @brief Scans a range index while cooperatively observing request stops.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param lower Optional lower bound.
+     * @param upper Optional upper bound.
+     * @param includeLower Whether to include the lower bound.
+     * @param includeUpper Whether to include the upper bound.
+     * @param limit Maximum number of keys returned.
+     * @param reversed Whether to return keys in reverse order.
+     * @param request Deadline and cancellation state polled during index iteration.
+     * @param stop_reason Receives the stop cause, or None when the scan completes.
+     * @return Status and keys; on cancellation or deadline expiry, returns an error
+     *         and no partial keys.
+     * @note Existing overload remains available for unbounded scans.
+     */
+    std::pair<Status, std::vector<std::string>> scanKeysRange(
+        std::string_view table,
+        std::string_view column,
+        const std::optional<std::string>& lower,
+        const std::optional<std::string>& upper,
+        bool includeLower,
+        bool includeUpper,
+        size_t limit,
+        bool reversed,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    ) const;
 
     // Range-Scan mit Cursor-Anker (value, pk) für effiziente Pagination über ORDER BY
     // Wenn anchor gesetzt ist, startet der Scan strikt nach (ascending) bzw. strikt vor (descending)
     // dem angegebenen (value, pk) innerhalb der gegebenen Bounds.
+    /**
+     * @brief Scans a range index from a strict value-and-primary-key cursor.
+     * @param table Indexed table name; must not be empty.
+     * @param column Indexed column name; must have a range index.
+     * @param lowerValue Optional lower bound for indexed values.
+     * @param upperValue Optional upper bound for indexed values.
+     * @param includeLowerValue Whether the lower bound is inclusive.
+     * @param includeUpperValue Whether the upper bound is inclusive.
+     * @param limit Maximum number of primary keys to return.
+     * @param reversed Whether to scan in descending order.
+     * @param anchor Optional (value, primary key) cursor; results start strictly
+     *        after it in ascending order or strictly before it in descending order.
+     * @return Status and primary keys; an invalid table, column, or missing index
+     *         returns an error with no keys. An absent anchor starts at the bounds.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysRangeAnchored(
         std::string_view table,
         std::string_view column,
@@ -243,22 +308,90 @@ public:
     size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
+    /**
+     * @brief Adds or updates an entity using a caller-owned write batch.
+     * @param table Table containing the entity.
+     * @param entity Entity to write and index.
+     * @param batch Batch that receives the data and index mutations; the caller
+     *        controls when that batch is committed.
+     * @return Success status, or an error when the entity or its indexes cannot be written.
+     */
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
+
+    /**
+     * @brief Removes an entity using a caller-owned write batch.
+     * @param table Table containing the entity.
+     * @param pk Primary key of the entity to remove.
+     * @param batch Batch that receives the data and index mutations; the caller
+     *        controls when that batch is committed.
+     * @return Success status, or an error when the entity or its indexes cannot be removed.
+     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);
     
     // MVCC Transaction variants
+    /**
+     * @brief Adds or updates an entity within a caller-owned MVCC transaction.
+     * @param table Table containing the entity.
+     * @param entity Entity to write and index.
+     * @param txn Transaction that receives the data and index mutations; the caller
+     *        controls commit or rollback.
+     * @return Success status, or an error when the entity or its indexes cannot be written.
+     */
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::TransactionWrapper& txn);
+
+    /**
+     * @brief Removes an entity within a caller-owned MVCC transaction.
+     * @param table Table containing the entity.
+     * @param pk Primary key of the entity to remove.
+     * @param txn Transaction that receives the data and index mutations; the caller
+     *        controls commit or rollback.
+     * @return Success status, or an error when the entity or its indexes cannot be removed.
+     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::TransactionWrapper& txn);
 
     // Abfragen über Index = Gleichheit
     // Liefert primäre Schlüssel
+    /**
+     * @brief Finds primary keys whose indexed column equals a value.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param value Exact value to match.
+     * @return Status and matching primary keys, or an error when the equality index
+     *         is unavailable or the scan fails.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysEqual(
         std::string_view table,
         std::string_view column,
         std::string_view value
     ) const;
+    /**
+     * @brief Scans an equality index while cooperatively observing request stops.
+     * @param table Indexed table name.
+     * @param column Indexed column name.
+     * @param value Value to match.
+     * @param request Deadline and cancellation state polled during index iteration.
+     * @param stop_reason Receives the stop cause, or None when the scan completes.
+     * @return Status and matching primary keys; on cancellation or deadline expiry,
+     *         returns an error and no partial keys.
+     * @note Existing overload remains available for unbounded scans.
+     */
+    std::pair<Status, std::vector<std::string>> scanKeysEqual(
+        std::string_view table,
+        std::string_view column,
+        std::string_view value,
+        const ::themis::query::RequestContext& request,
+        ::themis::query::StopReason* stop_reason = nullptr
+    ) const;
     
     // Composite index scan: alle Spalten müssen exakt matchen
+    /**
+     * @brief Finds primary keys matching every value in a composite index.
+     * @param table Indexed table name.
+     * @param columns Composite-index columns in index order.
+     * @param values Values corresponding to @p columns; both lists must have equal size.
+     * @return Status and matching primary keys, or an error when the lists differ
+     *         or the requested composite index is unavailable.
+     */
     std::pair<Status, std::vector<std::string>> scanKeysEqualComposite(
         std::string_view table,
         const std::vector<std::string>& columns,
@@ -499,7 +632,9 @@ private:
         std::string_view table,
         std::string_view column,
         std::string_view query,
-        size_t limit
+        size_t limit,
+        const ::themis::query::RequestContext& request = {},
+        ::themis::query::StopReason* stop_reason = nullptr
     ) const;
     
     // Prüft ob Feld-Wert NULL/leer ist (für Sparse-Index)

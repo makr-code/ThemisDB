@@ -35,6 +35,7 @@ Exact model backend not verifiable from final document text alone.
 | Document | Purpose |
 |---|---|
 | `FULL_DEEP_DIVE_AUDIT_2026-10-31.md` | Full deep-dive audit of source and docs (73 modules, 79 calibrated findings, doc-vs-code drift matrix) |
+| [`DELTA_AUDIT_2026-11-18.md`](DELTA_AUDIT_2026-11-18.md) · [Evidence index](DELTA_AUDIT_2026-11-18_EVIDENZINDEX.md) | Commit-pinned follow-up for all 79 historical findings; separates implementation, execution, and acceptance for DB core and the hybrid profile. No release sign-off. |
 | `BENCHMARK_MODULE_COVERAGE.json` | Source/CMake/CTest and evidence-status inventory for all 73 source modules |
 | `ROADMAP.md` | Audit-derived production-readiness roadmap (WS1–WS11, milestones M0–M4, traceability matrix); non-normative for release status |
 | `TEST_QUALITY_INVENTORY.md` | Baseline v1 test-quality inventory (snapshot 2026-11-09) for issue #7820; generated from `develop` at `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`, with metrics sourced from `test_quality_baseline_v1.json` (4,258 test sources; all 1,018 C++ files under `tests/legacy/` pending per-file disposition) |

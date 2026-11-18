@@ -16,6 +16,7 @@
 #include <optional>
 #include "utils/expected.h"
 #include "utils/logger.h"
+#include "query/request_context.h"
 
 namespace themis {
 
@@ -110,6 +111,54 @@ public:
         return execute(query);
     }
     
+    /**
+     * @brief Execute a query with bind variables, a request context and stop reporting.
+     *
+     * @param query          AQL query string.
+     * @param bind_vars_json Named bind variables as JSON object string (see the
+     *                       two-argument overload).
+     * @param request        Deadline / cancellation context of the calling request.
+     * @param[out] stop_reason Set to StopReason::None when the call completed
+     *                       without observing a stop; otherwise the observed
+     *                       reason (cancellation takes precedence over deadline).
+     * @return Query output or error. When @p stop_reason is not None the caller
+     *         MUST discard the returned value (success or error) and report the
+     *         stop instead; no partial output may be surfaced.
+     *
+     * @warning The default implementation is checkpoint-only. It checks @p request
+     *          before delegating to the two-argument @c execute() and again after it
+     *          returns; a stop is observed only at those two points and a running
+     *          call is NOT interrupted. If a stop is observed before the call,
+     *          the engine is not invoked. If observed after, the (possibly
+     *          successful) result is returned unchanged with @p stop_reason set
+     *          and must be discarded by the caller. Engines that need cooperative
+     *          in-flight cancellation or deadline enforcement MUST override this
+     *          method and poll @c request.shouldStop() during execution.
+     *          Engines that do not override it cannot be interrupted mid-call.
+     *          Implementations must not retain @p request after this synchronous
+     *          call returns; its cancellation probe may be borrowed from the caller.
+     *
+     * @note Source compatible: existing implementations need no change.
+     */
+    [[nodiscard]] virtual Result<std::string> execute(
+        const std::string& query,
+        const std::string& bind_vars_json,
+        const query::RequestContext& request,
+        query::StopReason& stop_reason)
+    {
+        stop_reason = request.stopReason();
+        if (stop_reason != query::StopReason::None) {
+            return Err<std::string>(
+                stop_reason == query::StopReason::Cancelled
+                    ? errors::ErrorCode::ERR_QUERY_CANCELLED
+                    : errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "query stopped before execution");
+        }
+        auto result = execute(query, bind_vars_json);
+        stop_reason = request.stopReason();
+        return result;
+    }
+
     /**
      * @brief Validate a query without executing it
      * 

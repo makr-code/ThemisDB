@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,9 +35,9 @@ versehentlich Geschwisterfälle mit anderen Größen.
 
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| TX-1 | <= 100 us | `TransactionBenchmarkFixture/CommitLatency/1` |
-| TX-2 | <= 5 ms | `TransactionBenchmarkFixture/CommitLatency/100` |
-| TX-3 | > 6 k/s | `TransactionBenchmarkFixture/WriteOnlyTransaction` |
+| TX-1 | P50 <= 100 us | `TransactionBenchmarkFixture/CommitLatency/1` |
+| TX-2 | P99 <= 5 ms | `TransactionBenchmarkFixture/CommitLatency/100` |
+| TX-3 | > 6 k/s (items_per_second = ops/s; one item is one committed transaction) | `TransactionBenchmarkFixture/WriteOnlyTransaction` |
 | TX-4 | <= 5 ms | `TransactionBenchmarkFixture/MixedTransaction` |
 | TX-5 | <= 20 ms | `SagaBenchmarkFixture/DatabaseWriteCompensation` |
 | TX-6 | <= 1 % overhead (vs. 5 % baseline) | `DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict` |
@@ -45,6 +45,7 @@ versehentlich Geschwisterfälle mit anderen Größen.
 | TX-8 | > 90 % | `TransactionBenchmarkFixture/OccOptimisticPut` |
 
 ## Validierung
+- TX-1/TX-2: `CommitLatency` exportiert nur das Timing der gesamten Iteration (Transaktionsstart, Schreibvorgänge und Commit); die separat gemessene Commit-Dauer wird nicht ausgegeben. Die verknüpften Fälle sind Proxys. Weder der Iterationsmittelwert noch Aggregate über Wiederholungsläufe belegen P50/P99 einzelner Commits.
 - Erwartungswerte sind erst erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar ausgeführt wurden und die Zielwerte erreichen; dieser Audit hat keine Benchmarks ausgeführt.
 - Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
 

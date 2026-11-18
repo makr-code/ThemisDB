@@ -18,7 +18,8 @@
 //                   AND a VectorIndexManager is registered.
 //   4. SCANN        when dataset_size <= scann_max_elements (global backend).
 //   5. DISKANN      when diskann_available && global backend supports DiskANN.
-//   6. FLAT_BRUTE_FORCE as safe fallback (via VectorIndexManager or global backend).
+//   6. FLAT_BRUTE_FORCE is the nominal fallback route; when no executable
+//      backend exists the current implementation returns empty and fail-closes.
 //
 // Hot/cold tiering:
 //   When a TieredIndexManager is registered, the frontdoor resolves the
@@ -34,6 +35,7 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <exception>
 #include <limits>
@@ -379,6 +381,24 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         : context.confidence_threshold_key;
     result.is_distributed   = plan.distributed;
     result.distributed_merge_policy = kDistributedMergePolicy;
+    bool invalid_backend_result = false;
+    const auto mark_invalid_backend_result = [&result]() {
+        const auto invalid_result_code =
+            std::string(observability::reason_codes::ann::kFallbackInvalidBackendResult);
+        if (!result.fallback_reason_code.empty() &&
+            result.fallback_reason_code != invalid_result_code) {
+            if (!result.routing_reason.empty()) {
+                result.routing_reason += ";";
+            }
+            result.routing_reason += " additional_fallback_reason=" +
+                                     result.fallback_reason_code;
+        }
+        result.estimated_recall = 0.0;
+        result.fallback_mode = result.candidates.empty()
+            ? std::string(observability::reason_codes::fallback_mode::kFailClosed)
+            : std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+        result.fallback_reason_code = invalid_result_code;
+    };
 
     switch (strategy) {
 
@@ -431,7 +451,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             const int attempts = std::max(0, config_.distributed_retry_attempts) + 1;
             for (int attempt = 0; attempt < attempts; ++attempt) {
                 try {
-                    const auto partial = executeSearch(*backend, query_vector, dim, k);
+                    const auto partial = executeSearch(
+                        *backend, query_vector, dim, k, &invalid_backend_result);
                     for (const auto& candidate : partial) {
                         auto it = best_distance_by_id.find(candidate.id);
                         if (it == best_distance_by_id.end() || candidate.distance < it->second) {
@@ -486,11 +507,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         }
 
         if (result.shards_succeeded == 0) {
-            if (config_.distributed_allow_partial_results) {
-                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
-            } else {
-                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
-            }
+            result.estimated_recall = 0.0;
+            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
             result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackDistributedAllShardsFailed);
         }
         break;
@@ -498,15 +516,22 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
     // ------------------------------------------------------------------
     case AnnStrategy::HNSW: {
-        // Prefer scope-specific backend; fall back to VectorIndexManager.
+        // Prefer the scope backend; the nominal flat fallback is unavailable
+        // when no backend has been registered.
         if (!context.scope_id.empty()) {
             if (auto backend = resolveBackend(context.scope_id); backend) {
-                result.candidates = executeSearch(*backend, query_vector, dim, k);
+                result.candidates = executeSearch(
+                    *backend, query_vector, dim, k, &invalid_backend_result);
                 break;
             }
         }
-        // Use VectorIndexManager (HNSW + brute-force fallback)
+        // No backend can execute the requested route or the nominal flat fallback.
         result.candidates = bruteForceSearch(query_vector, dim, k, context);
+        result.strategy_used = AnnStrategy::FLAT_BRUTE_FORCE;
+        result.estimated_recall = 0.0;
+        result.routing_reason_code = strategyReasonCode(AnnStrategy::FLAT_BRUTE_FORCE);
+        result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
+        result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackBackendUnavailable);
         break;
     }
 
@@ -517,19 +542,21 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     case AnnStrategy::DISKANN: {
         if (!context.scope_id.empty()) {
             if (auto backend = resolveBackend(context.scope_id); backend) {
-                result.candidates = executeSearch(*backend, query_vector, dim, k);
+                result.candidates = executeSearch(
+                    *backend, query_vector, dim, k, &invalid_backend_result);
                 break;
             }
         }
         if (auto global = resolveBackend(""); global) {
-            result.candidates = executeSearch(*global, query_vector, dim, k);
+            result.candidates = executeSearch(
+                *global, query_vector, dim, k, &invalid_backend_result);
         } else {
-            // No backend — degrade gracefully to brute force
+            // No backend — the nominal brute-force fallback is unavailable.
             result.candidates = bruteForceSearch(query_vector, dim, k, context);
             result.strategy_used    = AnnStrategy::FLAT_BRUTE_FORCE;
-            result.estimated_recall = recallEstimate(AnnStrategy::FLAT_BRUTE_FORCE);
+            result.estimated_recall = 0.0;
             result.routing_reason_code = strategyReasonCode(AnnStrategy::FLAT_BRUTE_FORCE);
-            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
             result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackBackendUnavailable);
         }
         break;
@@ -541,18 +568,55 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     default: {
         // Try scope-specific or global backend first (may itself be brute force)
         if (auto backend = resolveBackend(context.scope_id); backend) {
-            result.candidates = executeSearch(*backend, query_vector, dim, k);
+            result.candidates = executeSearch(
+                *backend, query_vector, dim, k, &invalid_backend_result);
         } else if (auto global = resolveBackend(""); global) {
-            result.candidates = executeSearch(*global, query_vector, dim, k);
+            result.candidates = executeSearch(
+                *global, query_vector, dim, k, &invalid_backend_result);
         } else {
+            result.estimated_recall = 0.0;
             result.candidates = bruteForceSearch(query_vector, dim, k, context);
-            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
             result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackBackendUnavailable);
         }
         break;
     }
 
     } // end switch
+
+    if (invalid_backend_result) {
+        mark_invalid_backend_result();
+    }
+
+    // ─── ANN result validation — Phase B gate (Target: Q3 2026) ─────────────
+    // Final top-k trim is expected after distributed shard merging.
+    if (result.candidates.size() > top_k) {
+        spdlog::warn("[AnnFrontdoor] merged {} candidates for top_k={}; truncating "
+                     "(correlation_id={})",
+                     result.candidates.size(), top_k, result.correlation_id);
+        result.candidates.resize(top_k);
+    }
+
+    // Validate the final merged result too; backend-level validation below
+    // prevents invalid distances from entering distributed merge comparisons.
+    {
+        const std::size_t before_range_filter = result.candidates.size();
+        result.candidates.erase(
+            std::remove_if(result.candidates.begin(), result.candidates.end(),
+                           [](const AnnSearchResult& r) {
+                               return !std::isfinite(r.distance) || r.distance < 0.0f;
+                           }),
+            result.candidates.end());
+        const std::size_t removed = before_range_filter - result.candidates.size() ;
+        if (removed > 0) {
+            invalid_backend_result = true;
+            mark_invalid_backend_result();
+            spdlog::warn("[AnnFrontdoor] range check: removed {} candidate(s) with "
+                         "invalid distance (non-finite or negative) (correlation_id={})",
+                         removed, result.correlation_id);
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     observability::emitLayerDecisionLog(
         observability::telemetry::layers::kAnn,
@@ -566,38 +630,6 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         !result.candidates.empty());
 
     emitRouteMetric(result);
-
-    // ─── ANN result validation — Phase B gate (Target: Q3 2026) ─────────────
-    // Cardinality check: candidates must not exceed the requested top-k.
-    // A backend returning more than k results is a contract violation; truncate
-    // defensively and log a warning so the issue is visible in production.
-    if (result.candidates.size() > top_k) {
-        spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
-                     "but top_k={} was requested; truncating (correlation_id={})",
-                     result.candidates.size(), top_k, result.correlation_id);
-        result.candidates.resize(top_k);
-    }
-
-    // Range check: distance values must be non-negative (NaN / negative distances
-    // indicate backend bugs or uninitialised memory).  Remove invalid entries
-    // and log a warning so the caller's tensor layer sees a clean candidate list.
-    {
-        const std::size_t before_range_filter = result.candidates.size();
-        result.candidates.erase(
-            std::remove_if(result.candidates.begin(), result.candidates.end(),
-                           [](const AnnSearchResult& r) {
-                               // NaN check: NaN != NaN; negative distance also invalid.
-                               return !(r.distance >= 0.0f);
-                           }),
-            result.candidates.end());
-        const std::size_t removed = before_range_filter - result.candidates.size() ;
-        if (removed > 0) {
-            spdlog::warn("[AnnFrontdoor] range check: removed {} candidate(s) with "
-                         "invalid distance (NaN or negative) (correlation_id={})",
-                         removed, result.correlation_id);
-        }
-    }
-    // ─────────────────────────────────────────────────────────────────────────
 
     return result;
 }
@@ -628,13 +660,34 @@ std::vector<AnnSearchResult> AnnFrontdoor::executeSearch(
     IAnnIndex&   backend,
     const float* query,
     std::size_t  dim,
-    int          k) const {
+    int          k,
+    bool*        invalid_result) const {
     auto results = backend.search(query, dim, k);
+    const auto requested = static_cast<std::size_t>(std::max(k, 0));
+    const auto before_validation = results.size();
+    results.erase(
+        std::remove_if(results.begin(), results.end(),
+                       [](const AnnSearchResult& candidate) {
+                           return !std::isfinite(candidate.distance) ||
+                                  candidate.distance < 0.0f;
+                       }),
+        results.end());
+    const bool invalid_distance = results.size() != before_validation;
+    const bool invalid_cardinality = results.size() > requested;
+    if (invalid_result != nullptr && (invalid_distance || invalid_cardinality)) {
+        *invalid_result = true;
+    }
     // Sort by ascending distance (some backends return unsorted)
     std::sort(results.begin(), results.end(),
               [](const AnnSearchResult& a, const AnnSearchResult& b) {
+                  if (a.distance == b.distance) {
+                      return a.id < b.id;
+                  }
                   return a.distance < b.distance;
               });
+    if (results.size() > requested) {
+        results.resize(requested);
+    }
     return results;
 }
 

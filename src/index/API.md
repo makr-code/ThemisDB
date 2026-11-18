@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-17"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -76,6 +76,12 @@ methods are not interchangeable. Evaluator-aware behavior is restricted by
 the header's JSON-context contract; unsupported evaluator types can fall back
 to the unfiltered search path. Do not use a search filter as an authorization
 boundary.
+
+`searchWithRotation(..., RequestContext, StopReason*)` is the bounded RoPE
+variant. It checks stop state before and after positional rotation, then passes
+the context to KNN and discards results when stopped. Rotation and synchronous
+ANN backend calls are checkpoint-only; cooperative cache/storage scans poll.
+The legacy overload remains unbounded.
 
 ## `GPUVectorIndex`
 

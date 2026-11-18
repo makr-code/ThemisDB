@@ -99,6 +99,13 @@ VectorApiHandler::VectorApiHandler(
 http::response<http::string_body> VectorApiHandler::handleSearch(
     const http::request<http::string_body>& req
 ) {
+    return handleSearch(req, ::themis::query::RequestContext{});
+}
+
+http::response<http::string_body> VectorApiHandler::handleSearch(
+    const http::request<http::string_body>& req,
+    const ::themis::query::RequestContext& request
+) {
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
@@ -221,8 +228,21 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         size_t want_k = use_cursor ? (k + offset + 1) : k;
 
         // Perform k-NN search (ggf. mit erweitertem k für Pagination)
-        auto [status, results] = vector_index_->searchKnn(queryVector, want_k);
-        
+        auto stopped_response = [&]() {
+            span.setAttribute("error", "request_deadline_exceeded");
+            span.setStatus(false, "Vector search stopped by request deadline");
+            return makeErrorResponse(http::status::gateway_timeout,
+                "Vector search stopped: request deadline exceeded or cancelled", req);
+        };
+
+        auto stop_reason = ::themis::query::StopReason::None;
+        auto [status, results] = vector_index_->searchKnn(
+            queryVector, want_k, nullptr, request, &stop_reason);
+
+        if (stop_reason != ::themis::query::StopReason::None || request.shouldStop()) {
+            return stopped_response();
+        }
+
         if (!status.ok) {
             span.setStatus(false, status.message);
             return makeErrorResponse(http::status::internal_server_error,
@@ -235,6 +255,9 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             size_t start = std::min(offset, results.size());
             size_t end = std::min(results.size(), start + k);
             for (size_t i = start; i < end; ++i) {
+                if (request.shouldStop()) {
+                    return stopped_response();
+                }
                 items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
             }
             bool has_more = results.size() > end;
@@ -246,19 +269,36 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             if (has_more) {
               response["next_cursor"] = std::to_string(end);
             }
+            if (request.shouldStop()) {
+                return stopped_response();
+            }
             span.setAttribute("vector.results_count", static_cast<int64_t>(end - start));
             span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
+            auto response_body = response.dump();
+            if (request.shouldStop()) {
+                return stopped_response();
+            }
+            return makeResponse(http::status::ok, std::move(response_body), req);
         } else {
             // Legacy Format
             json resultJson = json::array();
             for (const auto& result : results) {
+                if (request.shouldStop()) {
+                    return stopped_response();
+                }
                 resultJson.push_back({{"pk", result.pk}, {"distance", result.distance}});
             }
             json response = {{"results", resultJson}, {"k", k}, {"count",results.size()}};
+            if (request.shouldStop()) {
+                return stopped_response();
+            }
             span.setAttribute("vector.results_count", static_cast<int64_t>(results.size()));
             span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
+            auto response_body = response.dump();
+            if (request.shouldStop()) {
+                return stopped_response();
+            }
+            return makeResponse(http::status::ok, std::move(response_body), req);
         }
 
     } catch (const json::exception& e) {
@@ -1047,5 +1087,4 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
 
 } // namespace server
 } // namespace themis
-
 

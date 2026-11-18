@@ -20,6 +20,7 @@
 // IQueryEngine and IVectorIndex live in the base interface headers.
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/index_interface.h"
+#include "query/request_context.h"
 
 // Conditionally compile the real service implementation when the protobuf
 // stubs generated from proto/themisdb.proto are available on the include path.
@@ -53,6 +54,7 @@
 #include <cmath>
 #include <exception>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -227,6 +229,91 @@ const char* grpcStatusCodeLabel(grpc::StatusCode code) {
         case grpc::StatusCode::DATA_LOSS: return "data_loss";
         default: return "other";
     }
+}
+
+bool grpcRequestIsCancelled(const void* state) noexcept {
+    const auto* context = static_cast<const grpc::ServerContext*>(state);
+    return context && context->IsCancelled();
+}
+
+themis::query::RequestContext makeRequestContext(
+    const grpc::ServerContext* context) {
+    using RequestContext = themis::query::RequestContext;
+    if (!context) {
+        return {};
+    }
+
+    std::optional<RequestContext::TimePoint> deadline;
+    const auto grpc_deadline = context->deadline();
+    if (grpc_deadline != std::chrono::system_clock::time_point::max()) {
+        const auto system_now = std::chrono::system_clock::now();
+        const auto remaining = grpc_deadline > system_now
+            ? grpc_deadline - system_now
+            : std::chrono::system_clock::duration::zero();
+        const auto steady_now = RequestContext::Clock::now();
+        const auto steady_remaining =
+            std::chrono::duration_cast<RequestContext::Clock::duration>(remaining);
+        const auto maximum_remaining =
+            RequestContext::TimePoint::max() - steady_now;
+        deadline = steady_remaining >= maximum_remaining
+            ? RequestContext::TimePoint::max()
+            : steady_now + steady_remaining;
+    }
+
+    // The synchronous handler polls ServerContext directly. This avoids a watcher
+    // thread and keeps the borrowed gRPC context alive until all index work returns.
+    return RequestContext(nullptr, deadline, &grpcRequestIsCancelled, context);
+}
+
+template <typename Response>
+grpc::Status stopGrpcSearch(
+    themis::query::StopReason reason,
+    Response* response) {
+    if (reason == themis::query::StopReason::None) {
+        return grpc::Status::OK;
+    }
+
+    response->set_success(false);
+    response->clear_hits();
+    auto* error = response->mutable_error();
+    if (reason == themis::query::StopReason::Cancelled) {
+        error->set_code(499);
+        error->set_message("search cancelled");
+        return grpc::Status(grpc::StatusCode::CANCELLED, "search cancelled");
+    }
+
+    error->set_code(408);
+    error->set_message("search deadline exceeded");
+    return grpc::Status(grpc::StatusCode::DEADLINE_EXCEEDED,
+                        "search deadline exceeded");
+}
+
+template <typename Response>
+grpc::Status stopGrpcSearch(
+    const themis::query::RequestContext& request,
+    Response* response) {
+    return stopGrpcSearch(request.stopReason(), response);
+}
+
+/// Distinct cancellation / deadline status for AQL RPCs (reason must not be None).
+grpc::Status aqlStopStatus(themis::query::StopReason reason) {
+    return reason == themis::query::StopReason::Cancelled
+        ? grpc::Status(grpc::StatusCode::CANCELLED, "AQL query cancelled")
+        : grpc::Status(grpc::StatusCode::DEADLINE_EXCEEDED,
+                       "AQL query deadline exceeded");
+}
+
+/// Unary ExecuteAQL stop: discard every row and report the stop.
+grpc::Status stopGrpcAql(themis::query::StopReason reason,
+                         themis::api::AQLQueryResponse* response) {
+    response->set_success(false);
+    response->clear_rows();
+    auto* error = response->mutable_error();
+    error->set_code(reason == themis::query::StopReason::Cancelled ? 499 : 408);
+    error->set_message(reason == themis::query::StopReason::Cancelled
+                           ? "AQL query cancelled"
+                           : "AQL query deadline exceeded");
+    return aqlStopStatus(reason);
 }
 #endif
 
@@ -901,7 +988,7 @@ private:
         // ── AQL ────────────────────────────────────────────────────────────
 
         grpc::Status ExecuteAQL(
-            grpc::ServerContext*       /*ctx*/,
+            grpc::ServerContext*       ctx,
             const AQLQueryRequest*     req,
             AQLQueryResponse*          resp
         ) override {
@@ -933,7 +1020,21 @@ private:
                                     "AQL engine not wired into this service instance");
             }
 
-            auto result = aql_engine_->execute(req->query());
+            // Borrowed ServerContext is polled synchronously; no worker thread.
+            const auto request_context = makeRequestContext(ctx);
+            if (request_context.shouldStop()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
+
+            auto stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(req->query(), "{}", request_context, stop_reason);
+            if (stop_reason != themis::query::StopReason::None) {
+                // Result (success or error) is discarded; nothing partial is surfaced.
+                return stopGrpcAql(stop_reason, resp);
+            }
+            if (request_context.shouldStop()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
             if (!result) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -944,11 +1045,21 @@ private:
             }
 
             resp->set_success(true);
+            // Poll between rows; on stop all rows are cleared.
+            const auto stopped = [&]() -> bool {
+                return request_context.shouldStop();
+            };
 #if THEMIS_HAS_JSON
             try {
                 const auto json = nlohmann::json::parse(*result);
+                if (stopped()) {
+                    return stopGrpcAql(request_context.stopReason(), resp);
+                }
                 if (json.is_array()) {
                     for (const auto& element : json) {
+                        if (stopped()) {
+                            return stopGrpcAql(request_context.stopReason(), resp);
+                        }
                         auto* row = resp->add_rows();
                         row->set_data(element.dump());
                         row->set_has_more(false);
@@ -958,23 +1069,12 @@ private:
                     row->set_data(*result);
                     row->set_has_more(false);
                 }
-            } catch (const nlohmann::json::exception&) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
-            } catch (const std::string&) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
-            } catch (const char*) {
-                // Fall back to raw payload when response is not valid JSON.
-                auto* row = resp->add_rows();
-                row->set_data(*result);
-                row->set_has_more(false);
             } catch (...) {
                 // Fall back to raw payload when response is not valid JSON.
+                resp->clear_rows();
+                if (stopped()) {
+                    return stopGrpcAql(request_context.stopReason(), resp);
+                }
                 auto* row = resp->add_rows();
                 row->set_data(*result);
                 row->set_has_more(false);
@@ -984,6 +1084,9 @@ private:
             row->set_data(*result);
             row->set_has_more(false);
 #endif
+            if (stopped()) {
+                return stopGrpcAql(request_context.stopReason(), resp);
+            }
             return grpc::Status::OK;
             });
         }
@@ -1012,43 +1115,73 @@ private:
                                     "inject one via ThemisDBGrpcServiceFactory");
             }
 
-            auto result = aql_engine_->execute(req->query());
+            const auto request_context = makeRequestContext(ctx);
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
+
+            auto stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(req->query(), "{}", request_context, stop_reason);
+            if (stop_reason != themis::query::StopReason::None) {
+                return aqlStopStatus(stop_reason);
+            }
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
             if (!result) {
                 return mapThemisErrorToGrpcStatus(result.error());
             }
 
+            const auto write_failed = grpc::Status(
+                grpc::StatusCode::CANCELLED, "AQL stream write failed");
+            const auto write_failure_status = [&]() {
+                const auto reason = request_context.stopReason();
+                return reason == themis::query::StopReason::None
+                    ? write_failed
+                    : aqlStopStatus(reason);
+            };
+
             // Stream each element of the JSON result array as a separate row.
 #if THEMIS_HAS_JSON
+            nlohmann::json json;
+            bool is_json = true;
             try {
-                const auto json = nlohmann::json::parse(*result);
-                if (json.is_array()) {
-                    for (const auto& element : json) {
-                        if (ctx->IsCancelled()) {
-                            return grpc::Status(grpc::StatusCode::CANCELLED,
-                                                "client cancelled streaming request");
-                        }
-                        AQLRow row;
-                        row.set_data(element.dump());
-                        writer->Write(row);
-                    }
-                } else {
-                    // Non-array result: emit as a single row
-                    AQLRow row;
-                    row.set_data(*result);
-                    writer->Write(row);
-                }
+                json = nlohmann::json::parse(*result);
             } catch (const nlohmann::json::parse_error&) {
-                // Result is not JSON; emit as-is in a single row
+                is_json = false;  // Not JSON; emit as-is in a single row
+            }
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
+            if (is_json && json.is_array()) {
+                for (const auto& element : json) {
+                    if (request_context.shouldStop()) {
+                        return aqlStopStatus(request_context.stopReason());
+                    }
+                    AQLRow row;
+                    row.set_data(element.dump());
+                    if (!writer->Write(row)) {
+                        return write_failure_status();
+                    }
+                }
+            } else {
                 AQLRow row;
                 row.set_data(*result);
-                writer->Write(row);
+                if (!writer->Write(row)) {
+                    return write_failure_status();
+                }
             }
 #else
             // JSON library not available; emit entire result as one row
             AQLRow row;
             row.set_data(*result);
-            writer->Write(row);
+            if (!writer->Write(row)) {
+                return write_failure_status();
+            }
 #endif
+            if (request_context.shouldStop()) {
+                return aqlStopStatus(request_context.stopReason());
+            }
             return grpc::Status::OK;
             });
         }
@@ -1056,11 +1189,16 @@ private:
         // ── Vector search ──────────────────────────────────────────────────
 
         grpc::Status VectorSearch(
-            grpc::ServerContext*           /*ctx*/,
+            grpc::ServerContext*           ctx,
             const VectorSearchRequest*     req,
             VectorSearchResponse*          resp
         ) override {
             return withRpcMetrics("VectorSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             if (!vector_index_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1093,9 +1231,20 @@ private:
                                     "storage backend not wired into this service instance");
             }
 
-            const auto hits = vector_index_->search(embedding, k);
+            const auto search = vector_index_->search(
+                embedding, k, nullptr, request_context);
+            if (auto stop = stopGrpcSearch(search.stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             resp->set_success(true);
-            for (const auto& hit : hits) {
+            for (const auto& hit : search.results) {
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 auto* h = resp->add_hits();
                 h->set_collection(req->collection());
                 h->set_key(hit.primary_key);
@@ -1107,16 +1256,24 @@ private:
                     }
                 }
             }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
 
         grpc::Status FilteredVectorSearch(
-            grpc::ServerContext*                  /*ctx*/,
+            grpc::ServerContext*                  ctx,
             const FilteredVectorSearchRequest*    req,
             VectorSearchResponse*                 resp
         ) override {
             return withRpcMetrics("FilteredVectorSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             if (!vector_index_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1517,12 +1674,24 @@ private:
                 vector_filter_evaluator =
                     std::make_unique<JsonClauseFilterEvaluator>(key_filters, req->collection());
             }
-            const auto hits = vector_index_->search(embedding, k, vector_filter_evaluator.get());
+            const auto search = vector_index_->search(
+                embedding, k, vector_filter_evaluator.get(), request_context);
 #else
-            const auto hits = vector_index_->search(embedding, k, nullptr);
+            const auto search = vector_index_->search(
+                embedding, k, nullptr, request_context);
 #endif
+            if (auto stop = stopGrpcSearch(search.stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             resp->set_success(true);
-            for (const auto& hit : hits) {
+            for (const auto& hit : search.results) {
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 bool include_hit = true;
                 std::string doc_body = {};
                 bool has_doc_body = false;
@@ -1662,16 +1831,24 @@ private:
                     }
                 }
             }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
 
         grpc::Status HybridSearch(
-            grpc::ServerContext*       /*ctx*/,
+            grpc::ServerContext*       ctx,
             const HybridSearchRequest* req,
             HybridSearchResponse*      resp
         ) override {
             return withRpcMetrics("HybridSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
+
             // Hybrid search combines dense vector + sparse BM25 text search.
             // Implementation strategy when an AQL engine is wired:
             //   1. Execute a FULLTEXT AQL query for the sparse component.
@@ -1728,8 +1905,18 @@ private:
                 const std::vector<float> embedding(
                     req->dense_vector().values().begin(),
                     req->dense_vector().values().end());
-                const auto dense_hits = vector_index_->search(embedding, k);
-                for (const auto& hit : dense_hits) {
+                const auto dense_search = vector_index_->search(
+                    embedding, k, nullptr, request_context);
+                if (auto stop = stopGrpcSearch(dense_search.stop_reason, resp); !stop.ok()) {
+                    return stop;
+                }
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
+                for (const auto& hit : dense_search.results) {
+                    if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                        return stop;
+                    }
                     auto* h = resp->add_hits();
                     h->set_collection(req->collection());
                     h->set_key(hit.primary_key);
@@ -1746,7 +1933,14 @@ private:
                     "FOR doc IN " + req->collection() +
                     " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->sparse_query()) + "')"
                     " LIMIT " + std::to_string(k) + " RETURN doc";
-                auto result = aql_engine_->execute(aql);
+                themis::query::StopReason sparse_stop = themis::query::StopReason::None;
+                auto result = aql_engine_->execute(aql, "{}", request_context, sparse_stop);
+                if (auto stop = stopGrpcSearch(sparse_stop, resp); !stop.ok()) {
+                    return stop;
+                }
+                if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                    return stop;
+                }
                 if (result) {
                     const float sparse_weight = 1.0f - alpha;
 #if THEMIS_HAS_JSON
@@ -1780,16 +1974,23 @@ private:
                 }
             }
 
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }
 
         grpc::Status FullTextSearch(
-            grpc::ServerContext*           /*ctx*/,
+            grpc::ServerContext*           ctx,
             const FullTextSearchRequest*   req,
             FullTextSearchResponse*        resp
         ) override {
             return withRpcMetrics("FullTextSearch", [&]() -> grpc::Status {
+            const auto request_context = makeRequestContext(ctx);
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             if (!aql_engine_) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1825,7 +2026,14 @@ private:
                 " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->query()) + "')"
                 " LIMIT " + std::to_string(limit) + " RETURN doc";
 
-            auto result = aql_engine_->execute(aql);
+            themis::query::StopReason stop_reason = themis::query::StopReason::None;
+            auto result = aql_engine_->execute(aql, "{}", request_context, stop_reason);
+            if (auto stop = stopGrpcSearch(stop_reason, resp); !stop.ok()) {
+                return stop;
+            }
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             if (!result) {
                 resp->set_success(false);
                 auto* err = resp->mutable_error();
@@ -1841,6 +2049,9 @@ private:
                 const auto json = nlohmann::json::parse(*result);
                 if (json.is_array()) {
                     for (const auto& element : json) {
+                        if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                            return stop;
+                        }
                         auto* h = resp->add_hits();
                         h->set_collection(req->collection());
                         // Best-effort: extract _key from the document JSON
@@ -1860,6 +2071,9 @@ private:
                             "valid JSON ({}); degraded mode, no hits emitted", e.what());
             }
 #endif
+            if (auto stop = stopGrpcSearch(request_context, resp); !stop.ok()) {
+                return stop;
+            }
             return grpc::Status::OK;
             });
         }

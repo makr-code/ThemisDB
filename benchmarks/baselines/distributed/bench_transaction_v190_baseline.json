@@ -4,7 +4,7 @@
   "branch": "main",
   "commit": "pending-first-run",
   "timestamp": "2026-04-15T00:00:00Z",
-  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 with all cases now directly mapped. TX-4 uses TwoPhaseCommitFixture/TwoPhaseCommitLatency (5 in-process shard mocks). TX-6 uses DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict + _LockOrder.",
+  "description": "v1.9.0 SLO baseline template for the Transaction module. TX-1 and TX-2 have timing proxies, not per-commit percentiles. TX-4 uses TwoPhaseCommitFixture/TwoPhaseCommitLatency (5 in-process shard mocks). TX-6 uses DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict + _LockOrder.",
   "slo_module": "transaction",
   "wave": "Wave2",
   "run_command": "bench_transaction_throughput --benchmark_out=bench_transaction_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
@@ -17,7 +17,8 @@
       "primary_case_arg": 1,
       "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
       "slo_target": "≤ 100 µs",
-      "status": "mapped",
+      "status": "proxy",
+      "note": "The benchmark reports whole-iteration timing, not per-commit P50.",
       "measured_real_time_us": null,
       "slo_met": null
     },
@@ -27,7 +28,8 @@
       "primary_case_arg": 100,
       "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
       "slo_target": "≤ 5 ms",
-      "status": "mapped",
+      "status": "proxy",
+      "note": "The benchmark reports whole-iteration timing, not per-commit P99.",
       "measured_real_time_us": null,
       "slo_met": null
     },

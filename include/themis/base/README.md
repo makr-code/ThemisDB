@@ -58,6 +58,7 @@ Abstract interface for query execution and expression evaluation.
 **Key Types:**
 - `IExpressionEvaluator`: Evaluates filter expressions against row data
 - `IQueryEngine`: Executes queries and returns result sets
+  - `execute(query, bind_vars_json, RequestContext, StopReason&)`: context-aware overload. Default is checkpoint-only (checks before/after the legacy call; caller discards the result on stop). Engines that do not override it cannot be interrupted mid-call; override and poll `RequestContext::shouldStop()` for cooperative cancellation (QRY-07 remains open).
 - `QueryResult`: Standard result container
 - `IQueryEngineFactory`: Factory for creating query engines
 

@@ -410,6 +410,16 @@ public:
      */
     void load();
 
+    /**
+     * @brief Retrieve matching chunks with in-memory BM25 ranking.
+     * @param query_text Query terms; matching is case-insensitive and includes chunk text,
+     *        section titles, and source paths.
+     * @param top_k Maximum number of results; non-positive values return all qualifying
+     *        results.
+     * @param min_score Minimum BM25 score required for a result.
+     * @return Matching chunks in descending score order, with chunk ID as a deterministic
+     *         tie-breaker; empty when the reader is unloaded or no terms match.
+     */
     [[nodiscard]] std::vector<WikiChunk> query(
         const std::string& query_text,
         int   top_k,
@@ -431,9 +441,10 @@ private:
 
     std::string            index_path_;   ///< Path to JSON file
     std::vector<WikiChunk> chunks_;       ///< Loaded chunks
-    // Posting indices and normalization counts are rebuilt with chunks_ by load().
+    // Posting indices and document lengths are rebuilt with chunks_ by load().
     std::unordered_map<std::string, std::vector<TokenPosting>> token_postings_;
-    std::vector<std::size_t> chunk_unique_term_counts_;
+    std::vector<std::size_t> chunk_token_counts_;
+    double                 average_chunk_token_count_{0.0};
     bool                   loaded_{false}; ///< Load status flag
 };
 
