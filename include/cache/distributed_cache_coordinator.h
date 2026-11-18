@@ -178,11 +178,13 @@ private:
      * @param[in] fd Input parameter.
      * @param[in,out] channel_out Input/output parameter.
      * @param[in,out] payload_out Input/output parameter.
+     * @param[out] type_out RESP pub/sub frame type.
      * @return True when the operation succeeds.
      */
     static bool readPubSubMessage(SocketFd fd,
                                   std::string& channel_out,
-                                  std::string& payload_out);
+                                  std::string& payload_out,
+                                  std::string& type_out);
 
     /**
      * @brief Dispatch Message.
@@ -218,11 +220,20 @@ private:
     std::atomic<bool>  pub_ok_{false};  // D-3: atomic for lock-free reads in isConnected()
 
     std::atomic<bool>  coordinator_ready_{false};
+    mutable std::mutex publish_status_mutex_;
+    uint64_t publish_sequence_ = 0;
+    uint64_t latest_publish_status_sequence_ = 0;
+    uint64_t latest_invalidation_status_sequence_ = 0;
+    bool publish_degraded_ = false;
+    bool invalidation_degraded_ = false;
 
     // Subscriber thread
     std::thread        sub_thread_;
     std::atomic<bool>  stop_{false};
     std::atomic<bool>  sub_connected_{false};
+
+    uint64_t beginPublishStatusUpdate();
+    void recordPublishStatus(uint64_t sequence, bool success, bool invalidation);
 
     // Callbacks
     mutable std::mutex callbacks_mutex_;
@@ -237,6 +248,7 @@ private:
     uint64_t messages_published_  = 0;  ///< guarded by stats_mutex_
     uint64_t messages_received_   = 0;  ///< guarded by stats_mutex_
     uint64_t publish_errors_      = 0;  ///< guarded by stats_mutex_
+    uint64_t invalidation_errors_ = 0;  ///< guarded by stats_mutex_
     uint64_t reconnect_count_     = 0;  ///< guarded by stats_mutex_
 
 public:
@@ -248,11 +260,12 @@ public:
 
     /**
      * @brief Set Redis Publish Bridge Fn.
-     * @param[in] fn Input parameter.
+     * @param[in] fn Test bridge callback.
+     * @details Retained as a test hook; it cannot make an unavailable Redis
+     *          transport ready or report successful publication.
      */
     static void setRedisPublishBridgeFn(RedisPublishBridgeFn fn);
 };
 
 } // namespace cache
 } // namespace themis
-

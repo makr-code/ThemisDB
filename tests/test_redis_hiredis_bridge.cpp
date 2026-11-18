@@ -2,11 +2,10 @@
  * @file test_redis_hiredis_bridge.cpp
  * @brief Unit tests for RedisCacheCoordinator RedisPublishFn bridge (STUB #42).
  *
- * Verifies that the RedisPublishFn injection works correctly in
- * non-hiredis builds (THEMIS_ENABLE_REDIS not defined):
- *   RCC-HR-01  No fn set           → publish_errors_ incremented (no-op fallback).
- *   RCC-HR-02  Fn returns true     → messages_published_ incremented.
- *   RCC-HR-03  Fn throws exception → fail-closed; publish_errors_ incremented.
+ * Verifies that no-hiredis builds fail closed even if a test bridge is set:
+ *   RCC-HR-01  No fn set           → publish_errors_ incremented.
+ *   RCC-HR-02  Fn returns true     → transport remains unavailable.
+ *   RCC-HR-03  Fn throws exception → fail-closed; bridge is not invoked.
  *
  * Tests run in builds WITHOUT THEMIS_ENABLE_REDIS.  In hiredis builds the
  * injected fn is never reached and the tests are skipped.
@@ -53,9 +52,8 @@ TEST_F(RedisHiredisBridgeTest, NoFnIncrementsPublishErrors) {
 }
 
 // ── RCC-HR-02 ────────────────────────────────────────────────────────────────
-// An injected fn returning true causes messages_published_ to be incremented
-// rather than publish_errors_.
-TEST_F(RedisHiredisBridgeTest, SuccessFnIncrementsMessagesPublished) {
+// An injected fn cannot claim delivery when hiredis is unavailable.
+TEST_F(RedisHiredisBridgeTest, BridgeCannotOverrideMissingHiredis) {
 #ifdef THEMIS_ENABLE_REDIS
     GTEST_SKIP() << "THEMIS_ENABLE_REDIS is ON — hiredis path active; skip.";
 #endif
@@ -73,23 +71,27 @@ TEST_F(RedisHiredisBridgeTest, SuccessFnIncrementsMessagesPublished) {
     coord.publishEntry("k1", nlohmann::json{{"v", 42}}, 30, "t1");
     coord.publishInvalidation("k*", "t1");
 
-    EXPECT_EQ(call_count, 2) << "fn should be called once per publish";
+    EXPECT_EQ(call_count, 0) << "unavailable transport must not invoke a delivery bridge";
 
     auto stats = coord.getStats();
-    EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{2});
-    EXPECT_EQ(stats.value("publish_errors",     uint64_t{0}), uint64_t{0});
+    EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{0});
+    EXPECT_EQ(stats.value("publish_errors", uint64_t{0}), uint64_t{2});
+    EXPECT_EQ(stats.value("invalidation_errors", uint64_t{0}), uint64_t{1});
+    EXPECT_FALSE(stats.value("ready", true));
+    EXPECT_FALSE(stats.value("dependency_available", true));
 }
 
 // ── RCC-HR-03 ────────────────────────────────────────────────────────────────
-// If the injected fn throws, the call must be fail-closed: no exception must
-// escape and publish_errors_ must be incremented.
-TEST_F(RedisHiredisBridgeTest, ThrowingFnIsFailClosed) {
+// A throwing injected fn is never called when hiredis is unavailable.
+TEST_F(RedisHiredisBridgeTest, ThrowingFnCannotOverrideMissingHiredis) {
 #ifdef THEMIS_ENABLE_REDIS
     GTEST_SKIP() << "THEMIS_ENABLE_REDIS is ON — hiredis path active; skip.";
 #endif
 
+    int call_count = 0;
     RedisCacheCoordinator::setRedisPublishFn(
-        [](const std::string&, const std::string&) -> bool {
+        [&call_count](const std::string&, const std::string&) -> bool {
+            ++call_count;
             throw std::runtime_error("simulated transport error");
         });
 
@@ -99,7 +101,11 @@ TEST_F(RedisHiredisBridgeTest, ThrowingFnIsFailClosed) {
     EXPECT_NO_THROW(coord.publishEntry("k1", {}, 10, "t"));
     EXPECT_NO_THROW(coord.publishInvalidation("k*", "t"));
 
+    EXPECT_EQ(call_count, 0);
     auto stats = coord.getStats();
     EXPECT_GE(stats.value("publish_errors", uint64_t{0}), uint64_t{2});
     EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{0});
+    EXPECT_EQ(stats.value("invalidation_errors", uint64_t{0}), uint64_t{1});
+    EXPECT_FALSE(stats.value("ready", true));
+    EXPECT_FALSE(stats.value("dependency_available", true));
 }
