@@ -22,6 +22,24 @@
 namespace themis {
 namespace access_model {
 
+namespace {
+
+bool hasReachedAgeThreshold(const std::chrono::seconds& elapsed,
+                            uint32_t threshold_days) noexcept {
+    return elapsed.count() >= 0 &&
+           static_cast<uint64_t>(elapsed.count()) >=
+               static_cast<uint64_t>(threshold_days) * 86400u;
+}
+
+bool isYoungerThanAgeThreshold(const std::chrono::seconds& elapsed,
+                               uint32_t threshold_days) noexcept {
+    return elapsed.count() >= 0 &&
+           static_cast<uint64_t>(elapsed.count()) <
+               static_cast<uint64_t>(threshold_days) * 86400u;
+}
+
+}  // namespace
+
 // ============================================================================
 // § 1  Unified Age Policy Logic
 // ============================================================================
@@ -34,6 +52,8 @@ std::string AgeBasedPolicy::describe() const {
         << "  l3_promotion_threshold=" << l3_promotion_threshold << " accesses,\n"
         << "  storage_promotion_threshold=" << storage_promotion_threshold
         << " accesses,\n"
+        << "  storage_promotion_window=" << storage_promotion_window.count()
+        << " seconds,\n"
         << "  l1_zero_access_days=" << l1_zero_access_days << " days,\n"
         << "  l2_zero_access_days=" << l2_zero_access_days << " days,\n"
         << "  l3_to_storage_days=" << l3_to_storage_days << " days,\n"
@@ -62,7 +82,7 @@ bool AgeBasedPolicy::shouldPromoteL1ToL2(
         return false;  // Still hot in L1
     }
 
-    if (time_since_last_access.count() < (l1_zero_access_days * 86400)) {
+    if (!hasReachedAgeThreshold(time_since_last_access, l1_zero_access_days)) {
         return false;  // Too recently accessed
     }
 
@@ -80,7 +100,7 @@ bool AgeBasedPolicy::shouldPromoteL2ToL3(
         return false;  // Still warm in L2
     }
 
-    if (time_since_last_access.count() < (l2_zero_access_days * 86400)) {
+    if (!hasReachedAgeThreshold(time_since_last_access, l2_zero_access_days)) {
         return false;  // Too recently accessed
     }
 
@@ -98,7 +118,7 @@ bool AgeBasedPolicy::shouldPromoteL3ToStorage(
         return false;  // Still has some access
     }
 
-    if (time_since_last_access.count() < (l3_to_storage_days * 86400)) {
+    if (!hasReachedAgeThreshold(time_since_last_access, l3_to_storage_days)) {
         return false;  // Too recently accessed
     }
 
@@ -112,11 +132,12 @@ bool AgeBasedPolicy::shouldPromoteStorageWarmToCold(
     // 1. No recent accesses AND
     // 2. Data is old enough
     
-    if (access_count >= (storage_promotion_threshold / 10)) {
+    if (access_count != 0 &&
+        access_count >= (storage_promotion_threshold / 10)) {
         return false;  // Still has some warmth
     }
 
-    if (time_since_last_access.count() < (warm_zero_access_days * 86400)) {
+    if (!hasReachedAgeThreshold(time_since_last_access, warm_zero_access_days)) {
         return false;  // Too recently accessed
     }
 
@@ -134,7 +155,7 @@ bool AgeBasedPolicy::shouldDemoteStorageCold(
         return false;  // Still has potential value
     }
 
-    if (time_since_last_access.count() < (warm_to_cold_days * 86400)) {
+    if (!hasReachedAgeThreshold(time_since_last_access, warm_to_cold_days)) {
         return false;  // Too recently accessed
     }
 
@@ -154,7 +175,7 @@ bool AgeBasedPolicy::shouldPromoteStorageWarmToL3Cache(
     // Promote Storage_Warm → L3 Cache if:
     // 1. Access count exceeds cache promotion threshold
     
-    return access_count >= storage_promotion_threshold * 2;
+    return access_count / 2 >= storage_promotion_threshold;
 }
 
 // ============================================================================
@@ -167,19 +188,19 @@ DataHotnessLevel AgeBasedPolicy::classifyHotness(
     // Classify data hotness based on access frequency and recency
 
     // HOT: Very recent with high frequency
-    if (time_since_last_access.count() < (hot_zero_access_days * 86400) &&
+    if (isYoungerThanAgeThreshold(time_since_last_access, hot_zero_access_days) &&
         access_count >= l1_promotion_threshold) {
         return DataHotnessLevel::HOT;
     }
 
     // WARM: Moderate age and moderate frequency
-    if (time_since_last_access.count() < (warm_zero_access_days * 86400) &&
+    if (isYoungerThanAgeThreshold(time_since_last_access, warm_zero_access_days) &&
         access_count >= (l1_promotion_threshold / 2)) {
         return DataHotnessLevel::WARM;
     }
 
     // COOL: Older data with low frequency
-    if (time_since_last_access.count() < (l3_to_storage_days * 86400)) {
+    if (isYoungerThanAgeThreshold(time_since_last_access, l3_to_storage_days)) {
         return DataHotnessLevel::COOL;
     }
 
@@ -190,6 +211,10 @@ DataHotnessLevel AgeBasedPolicy::classifyHotness(
 TierLevel AgeBasedPolicy::recommendTierForData(
     uint64_t access_count,
     const std::chrono::seconds& time_since_last_access) const {
+    if (time_since_last_access.count() < 0) {
+        return TierLevel::UNKNOWN;
+    }
+
     // Recommend optimal tier placement based on data age and access pattern
 
     DataHotnessLevel hotness = classifyHotness(access_count, time_since_last_access);
@@ -225,6 +250,12 @@ TierLevel AgeBasedPolicy::recommendTierForData(
 // ============================================================================
 
 bool AgeBasedPolicy::isValid() const {
+    if (storage_promotion_window <= std::chrono::seconds::zero()) {
+        THEMIS_WARN(
+            "Invalid AgeBasedPolicy: storage promotion window must be positive");
+        return false;
+    }
+
     // Ensure thresholds are consistent and non-zero
     if (l1_promotion_threshold == 0 || l2_promotion_threshold == 0 ||
         l3_promotion_threshold == 0 || storage_promotion_threshold == 0) {
@@ -256,9 +287,9 @@ bool AgeBasedPolicy::isValid() const {
     // Storage age progression should be consistent
     if (!(hot_to_warm_days < warm_to_cold_days)) {
         THEMIS_WARN(
-            "Invalid AgeBasedPolicy: storage age not in order hot={}, "
-            "warm={}, cold={}",
-            hot_to_warm_days, warm_to_cold_days, warm_to_cold_days);
+            "Invalid AgeBasedPolicy: storage age thresholds not in increasing "
+            "order (hot_to_warm={}, warm_to_cold={})",
+            hot_to_warm_days, warm_to_cold_days);
         return false;
     }
 
@@ -277,6 +308,8 @@ std::string AgeBasedPolicy::toJson() const {
         << "  \"l3_promotion_threshold\": " << l3_promotion_threshold << ",\n"
         << "  \"storage_promotion_threshold\": " << storage_promotion_threshold
         << ",\n"
+        << "  \"storage_promotion_window_seconds\": "
+        << storage_promotion_window.count() << ",\n"
         << "  \"l1_zero_access_days\": " << l1_zero_access_days << ",\n"
         << "  \"l2_zero_access_days\": " << l2_zero_access_days << ",\n"
         << "  \"l3_to_storage_days\": " << l3_to_storage_days << ",\n"

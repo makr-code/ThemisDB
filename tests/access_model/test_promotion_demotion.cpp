@@ -9,6 +9,8 @@
 #include <gtest/gtest.h>
 
 #include <chrono>
+#include <cstdint>
+#include <limits>
 #include <memory>
 
 #include "access_model/age_based_policy.h"
@@ -130,6 +132,59 @@ TEST_F(PromotionDemotionTest, APD_09_L1DemotionAtBoundaryRequiresOneMoreSecond) 
         << "An entry exactly one day old has not exceeded the threshold.";
     EXPECT_TRUE(policy.shouldDemoteL1ToL2(86401))
         << "An entry one second beyond the threshold is eligible for demotion.";
+}
+
+TEST_F(PromotionDemotionTest, APD_10_LargeAgeThresholdDoesNotWrap) {
+    AgeBasedPolicy policy;
+    policy.l1_zero_access_days = std::numeric_limits<uint32_t>::max();
+    policy.hot_zero_access_days = std::numeric_limits<uint32_t>::max();
+
+    EXPECT_FALSE(policy.shouldDemoteL1ToL2(
+        std::numeric_limits<uint32_t>::max()));
+    EXPECT_FALSE(policy.shouldDemoteHotToWarm(
+        std::numeric_limits<uint32_t>::max(), 0));
+}
+
+TEST_F(PromotionDemotionTest, APD_11_NegativeAgeDoesNotQualifyForMovement) {
+    const AgeBasedPolicy policy;
+    const auto negative_age = std::chrono::seconds(-1);
+
+    EXPECT_FALSE(policy.shouldPromoteL1ToL2(0, negative_age));
+    EXPECT_FALSE(policy.shouldPromoteL2ToL3(0, negative_age));
+    EXPECT_FALSE(policy.shouldPromoteL3ToStorage(0, negative_age));
+    EXPECT_FALSE(policy.shouldPromoteStorageWarmToCold(0, negative_age));
+    EXPECT_FALSE(policy.shouldDemoteStorageCold(0, negative_age));
+    EXPECT_EQ(policy.classifyHotness(100, negative_age), DataHotnessLevel::COLD);
+    EXPECT_EQ(policy.recommendTierForData(100, negative_age), TierLevel::UNKNOWN);
+}
+
+TEST_F(PromotionDemotionTest, APD_12_ZeroAccessCanQualifyForWarmToCold) {
+    AgeBasedPolicy policy;
+    const auto old_age = std::chrono::seconds(45 * 86400);
+
+    EXPECT_TRUE(policy.shouldPromoteStorageWarmToCold(0, old_age));
+    EXPECT_FALSE(policy.shouldPromoteStorageWarmToCold(1, old_age));
+}
+
+TEST_F(PromotionDemotionTest, APD_13_DoubledThresholdDoesNotOverflow) {
+    AgeBasedPolicy policy;
+    policy.storage_promotion_threshold =
+        std::numeric_limits<uint64_t>::max();
+
+    EXPECT_FALSE(policy.shouldPromoteStorageWarmToL3Cache(
+        std::numeric_limits<uint64_t>::max()));
+}
+
+TEST_F(PromotionDemotionTest, APD_14_RejectsNonPositiveStoragePromotionWindow) {
+    AgeBasedPolicy policy;
+
+    EXPECT_TRUE(policy.isValid());
+    EXPECT_NE(policy.toJson().find("storage_promotion_window_seconds"),
+              std::string::npos);
+    policy.storage_promotion_window = std::chrono::seconds::zero();
+    EXPECT_FALSE(policy.isValid());
+    policy.storage_promotion_window = std::chrono::seconds(-1);
+    EXPECT_FALSE(policy.isValid());
 }
 
 // APD-06: Hot→warm storage demotion decision

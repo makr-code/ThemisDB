@@ -135,6 +135,7 @@ jobs:
       - name: Run AI working compaction
         id: compact_run
         run: |
+          set -o pipefail
           python scripts/ai-working-compact.py ${{ steps.opts.outputs.flags }} \
             2>&1 | tee /tmp/compact_run.log
           echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"

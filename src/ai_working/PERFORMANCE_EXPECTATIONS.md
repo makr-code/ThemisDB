@@ -1,6 +1,6 @@
 # PERFORMANCE_EXPECTATIONS — ai_working Module
 
-<!-- Status: current | validated: 2026-10-31 -->
+<!-- Status: current | validated: 2026-11-18 -->
 <!-- Links: README.md · ROADMAP.md -->
 <!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
 <!-- Exact model backend not verifiable from final document text alone. -->
