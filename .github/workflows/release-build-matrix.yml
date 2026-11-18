@@ -403,6 +403,11 @@ jobs:
                       '\nOPENSSL_ROOT_DIR="$(brew --prefix openssl)"\n'
                       'printf \'OPENSSL_ROOT_DIR=%s\\n\' "$OPENSSL_ROOT_DIR" >> "$GITHUB_ENV"\n'
                   )
+                  entry["configure_command"] = entry["configure_command"].replace(
+                      "cmake --preset macos-arm64-release ${CMAKE_FLAGS}",
+                      'cmake --preset macos-arm64-release ${CMAKE_FLAGS} '
+                      '-DOPENSSL_ROOT_DIR="${OPENSSL_ROOT_DIR}"',
+                  )
                   # Xcode 15.4's libc++ lacks jthread/stop_token; use LLVM's matching headers and runtime.
                   entry["compiler"] = "homebrew-llvm"
                   entry["setup_command"] += (
