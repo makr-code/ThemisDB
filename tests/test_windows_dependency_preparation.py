@@ -36,6 +36,65 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
     def named(self, name):
         return next(step for step in self.steps if step["name"] == name)
 
+    def test_boost_locale_overlay_fixes_strict_source_group(self):
+        overlay = ROOT / "ports/boost-locale"
+        configuration = json.loads((ROOT / "vcpkg-configuration.json").read_text())
+        self.assertIn("ports", configuration["overlay-ports"])
+        self.assertIn("PATCHES fix-header-source-group.patch",
+                      (overlay / "portfile.cmake").read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp)
+            (source / "include/boost/locale").mkdir(parents=True)
+            (source / "src").mkdir()
+            (source / "include/boost/locale.hpp").touch()
+            (source / "include/boost/locale/example.hpp").touch()
+            (source / "src/example.cpp").touch()
+            (source / "CMakeLists.txt").write_text(
+                """cmake_minimum_required(VERSION 3.20)
+project(locale_source_group LANGUAGES CXX)
+file(GLOB_RECURSE headers include/*.hpp)
+add_library(boost_locale src/example.cpp ${headers})
+function(source_group)
+  if("${ARGV0}" STREQUAL "TREE")
+    set(root "${ARGV1}")
+    list(FIND ARGN "FILES" files_index)
+    math(EXPR files_index "${files_index} + 1")
+    list(SUBLIST ARGN ${files_index} -1 grouped_files)
+    foreach(file IN LISTS grouped_files)
+      cmake_path(ABSOLUTE_PATH file BASE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" NORMALIZE)
+      cmake_path(IS_PREFIX root "${file}" NORMALIZE within_root)
+      if(NOT within_root)
+        message(FATAL_ERROR "source outside source_group tree: ${file}")
+      endif()
+    endforeach()
+  endif()
+  _source_group(${ARGV})
+endfunction()
+get_target_property(sources boost_locale SOURCES)
+set(sources_src ${sources})
+list(FILTER sources_src INCLUDE REGEX "^src/")
+set(sources_inc ${sources})
+list(FILTER sources_inc EXCLUDE REGEX "^src/")
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX "sources" FILES ${sources_src})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/include/boost/locale" PREFIX "headers" FILES ${sources_inc})
+source_group("headers" FILES "include/boost/locale.hpp")
+list(FIND sources "${CMAKE_CURRENT_SOURCE_DIR}/include/boost/locale.hpp" header_index)
+if(header_index EQUAL -1)
+  message(FATAL_ERROR "public header removed from target")
+endif()
+"""
+            )
+            configure = ["cmake", "-S", str(source), "-B", str(source / "build")]
+            before = subprocess.run(configure, capture_output=True, text=True)
+            self.assertNotEqual(before.returncode, 0)
+            self.assertIn("source outside source_group tree", before.stderr)
+            subprocess.run(
+                ["git", "apply", str(overlay / "fix-header-source-group.patch")],
+                cwd=source, check=True, capture_output=True, text=True,
+            )
+            after = subprocess.run(configure, capture_output=True, text=True)
+            self.assertEqual(after.returncode, 0, after.stdout + after.stderr)
+
     def plan(self, selector="all", edition="community", build_type="Release", concurrency="2",
              ref="", source_sha=""):
         command = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]

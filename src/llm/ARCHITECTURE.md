@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -113,8 +113,11 @@ its checks. Path checking and opening are not atomic against concurrent
 replacement; configured roots, package contents and parent directories must
 not be writable by untrusted users while the registry is in use. The registry
 does not execute bundled scripts, persist packages in ThemisDB, select skills
-with embeddings, or create an autonomous agent graph. Three opt-in guidance
-packages are provided in [the Agent Skills catalog](../../config/agent_skills/README.md).
+with embeddings, or create an autonomous agent graph. Some packages can be
+paired with separately registered native tools; `asset-impact-analysis` uses
+the opt-in `analyze_asset_impact` executor, which requires host-bound graph,
+edge-type, metric, and caller-scope configuration. The skill itself grants no
+access. See [the Agent Skills catalog](../../config/agent_skills/README.md).
 See the [skill interface contract](../../include/llm/skill_registry.h) and
 [LLM API contract](../../ai_context/api_contracts/llm.md).
 

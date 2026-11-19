@@ -41,6 +41,45 @@ std::string getModelPath() {
 
 #ifdef THEMIS_ENABLE_LLM
 
+namespace {
+
+class ScopedDefaultLlamaPlugin {
+public:
+    ScopedDefaultLlamaPlugin() = default;
+    ScopedDefaultLlamaPlugin(const ScopedDefaultLlamaPlugin&) = delete;
+    ScopedDefaultLlamaPlugin& operator=(const ScopedDefaultLlamaPlugin&) = delete;
+
+    ~ScopedDefaultLlamaPlugin() {
+        if (registered_here_) {
+            llm::LLMPluginManager::instance().unregisterPlugin("llamacpp");
+        }
+    }
+
+    bool ensureRegistered(const std::string& model_path, std::string& error_message) {
+        auto& manager = llm::LLMPluginManager::instance();
+        if (manager.getDefaultPlugin() != nullptr) {
+            return true;
+        }
+
+        registered_here_ = llm::createLlamaWrapper(
+            "llamacpp", model_path, llm::json::object());
+        if (!registered_here_ || manager.getDefaultPlugin() == nullptr) {
+            error_message = "Failed to register llama.cpp benchmark backend";
+            return false;
+        }
+        return true;
+    }
+
+    bool registeredHere() const noexcept {
+        return registered_here_;
+    }
+
+private:
+    bool registered_here_ = false;
+};
+
+} // namespace
+
 class RealLLMBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
@@ -59,7 +98,21 @@ public:
 
         model_id_ = "benchmark_model_" + std::to_string(reinterpret_cast<uintptr_t>(this));
         auto& manager = llm::LLMPluginManager::instance();
-        loaded_model_ = manager.loadModel(model_id_, model_path_);
+        if (!backend_.ensureRegistered(model_path_, error_message_)) {
+            ready_ = false;
+            return;
+        }
+
+        if (backend_.registeredHere()) {
+            const auto* plugin = manager.getDefaultPlugin();
+            loaded_model_ = plugin != nullptr && plugin->isModelLoaded();
+        } else {
+            const auto* plugin = manager.getDefaultPlugin();
+            loaded_model_ = plugin != nullptr && plugin->isModelLoaded();
+            if (!loaded_model_) {
+                loaded_model_ = manager.loadModel(model_id_, model_path_);
+            }
+        }
         ready_ = loaded_model_;
         if (!ready_) {
             error_message_ = "Failed to load model via LLMPluginManager::loadModel";
@@ -68,7 +121,7 @@ public:
 
     void TearDown(const ::benchmark::State& state) override {
         (void)state;
-        if (loaded_model_) {
+        if (loaded_model_ && !backend_.registeredHere()) {
             auto& manager = llm::LLMPluginManager::instance();
             manager.unloadModel(model_id_);
         }
@@ -88,6 +141,7 @@ protected:
     std::string error_message_ = {};
     std::string model_id_ = {};
     std::string model_path_ = {};
+    ScopedDefaultLlamaPlugin backend_;
 };
 
 BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& state) {
@@ -214,6 +268,24 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
     }
 
     auto& manager = llm::LLMPluginManager::instance();
+    std::string registration_error;
+    ScopedDefaultLlamaPlugin backend;
+    if (!backend.ensureRegistered(model_path, registration_error)) {
+        state.SkipWithError(registration_error.c_str());
+        return;
+    }
+
+    if (backend.registeredHere()) {
+        if (auto* plugin = manager.getDefaultPlugin()) {
+            plugin->unloadModel();
+        }
+    } else if (const auto* plugin = manager.getDefaultPlugin();
+               plugin != nullptr && plugin->isModelLoaded()) {
+        state.SkipWithError(
+            "Cannot benchmark model loading while another default model is already loaded");
+        return;
+    }
+
     for (auto _ : state) {
         std::string model_id = "load_test_" + std::to_string(static_cast<unsigned long long>(state.iterations()));
         bool loaded = manager.loadModel(model_id, model_path);

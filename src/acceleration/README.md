@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-10-29"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "GitHub Copilot"
@@ -44,7 +44,7 @@ The acceleration module manages capability-driven backend selection, runtime dis
 | `plugin_loader.cpp` | dynamic plugin loading path |
 | `plugin_security.cpp` | plugin trust validation and deny-path diagnostics |
 | `shader_integrity.cpp` | shader and kernel validation before runtime execution |
-| `multi_gpu_backend.cpp` | multi-device fan-out and merge behavior |
+| `multi_gpu_backend.cpp` | per-instance CUDA/HIP/Vulkan/CPU selection, per-device shard fan-out, global merge, and explicit CPU fallback |
 | `nccl_vector_backend.cpp` | NCCL collective/vector backend implementation |
 | `rccl_vector_backend.cpp` | RCCL collective/backend implementation |
 | `vllm_resource_manager.cpp` | shared resource lease/state management for vLLM |
@@ -67,6 +67,8 @@ Out of scope:
 
 - Runtime behavior depends on hardware, driver state, and build-feature configuration.
 - If discovery produces no healthy accelerator snapshot, the module emits a synthetic CPU fallback device and keeps backend selection fail-closed.
+- `MultiGPUVectorBackend` selects one backend family per instance (`AUTO`, CUDA, HIP, Vulkan, or CPU); each shard reports the backend actually used and whether it fell back to CPU.
+- Vulkan physical-device enumeration does not guarantee compute execution: missing or invalid SPIR-V causes the shard to use CPU only when CPU fallback is enabled.
 - Some backend combinations remain deployment-specific and require hardware-in-the-loop validation rather than universal local correctness claims.
 - Advanced plugin and multi-device scenarios continue to require explicit benchmark and regression evidence before release sign-off.
 

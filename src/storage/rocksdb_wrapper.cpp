@@ -3375,4 +3375,16 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
     return std::string_view(s.data(),s.size());
 }
 
+std::string RocksDBWrapper::SafeIterator::statusMessage() const {
+    if (!iterator_) {
+        return "Iterator is not initialized";
+    }
+#if THEMIS_ROCKSDB_HEADERS_AVAILABLE
+    const auto status = iterator_->status();
+    return status.ok() ? std::string{} : status.ToString();
+#else
+    return "RocksDB iterator support is unavailable";
+#endif
+}
+
 } // namespace themis

@@ -139,6 +139,7 @@ public:
 
     VkPhysicalDeviceProperties deviceProps{};
     VkPhysicalDeviceMemoryProperties memoryProps{};
+    uint32_t physicalDeviceIndex = 0;
     std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
     // MoltenVK / Apple M-series capability probe
@@ -351,7 +352,7 @@ public:
      * @return True when the operation succeeds.
      * @details Calls: vkEnumeratePhysicalDevices(), devs(), data(), min(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceMemoryProperties(), vkEnumerateDeviceExtensionProperties(), exts().
      */
-    bool selectPhysicalDevice() {
+    bool selectPhysicalDevice(int requestedDeviceIndex) {
         uint32_t count = 0;
         vkEnumeratePhysicalDevices(instance, &count, nullptr);
         if (count == 0) {
@@ -371,30 +372,45 @@ public:
         VkPhysicalDeviceProperties bestProps{};
         int bestScore = std::numeric_limits<int>::min();
 
-        for (const auto& d : devs) {
-            VkPhysicalDeviceProperties p;
-            vkGetPhysicalDeviceProperties(d, &p);
-
-            int score = 0;
-            if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-                score = (p.vendorID != vendor_id::NVIDIA) ? 30 : 20;
-            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
-                score = (p.vendorID != vendor_id::NVIDIA) ? 12 : 10;
-            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) {
-                score = 5;
-            } else {
-                score = 1; // CPU or other
+        if (requestedDeviceIndex >= 0) {
+            if (static_cast<size_t>(requestedDeviceIndex) >= devs.size()) {
+                return false;
             }
+            bestDevice = devs[static_cast<size_t>(requestedDeviceIndex)];
+            physicalDeviceIndex = static_cast<uint32_t>(requestedDeviceIndex);
+            vkGetPhysicalDeviceProperties(bestDevice, &bestProps);
+            if (bestProps.deviceType == VK_PHYSICAL_DEVICE_TYPE_CPU) {
+                return false;
+            }
+        } else {
+            for (size_t deviceIndex = 0; deviceIndex < devs.size(); ++deviceIndex) {
+                const auto& d = devs[deviceIndex];
+                VkPhysicalDeviceProperties p;
+                vkGetPhysicalDeviceProperties(d, &p);
 
-            if (score > bestScore) {
-                bestScore  = score;
-                bestDevice = d;
-                bestProps  = p;
+                int score = 0;
+                if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+                    score = (p.vendorID != vendor_id::NVIDIA) ? 30 : 20;
+                } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
+                    score = (p.vendorID != vendor_id::NVIDIA) ? 12 : 10;
+                } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) {
+                    score = 5;
+                } else {
+                    score = 1; // CPU or other
+                }
+
+                if (score > bestScore) {
+                    bestScore  = score;
+                    bestDevice = d;
+                    bestProps  = p;
+                    physicalDeviceIndex = static_cast<uint32_t>(deviceIndex);
+                }
             }
         }
 
         if (bestDevice == VK_NULL_HANDLE) {
             bestDevice = devs[0];
+            physicalDeviceIndex = 0;
             vkGetPhysicalDeviceProperties(bestDevice, &bestProps);
         }
 
@@ -1166,6 +1182,67 @@ void VulkanVectorBackend::setCompileGLSLFn(CompileGLSLFn fn) {
 VulkanVectorBackend::VulkanVectorBackend()
     : initialized_(false), impl_(std::make_unique<VulkanVectorBackendImpl>()) {}
 
+VulkanVectorBackend::VulkanVectorBackend(int device_index)
+    : initialized_(false), requestedDeviceIndex_(device_index),
+      impl_(std::make_unique<VulkanVectorBackendImpl>()) {}
+
+std::vector<int> VulkanVectorBackend::availableDeviceIndices() {
+#ifdef THEMIS_ENABLE_VULKAN
+    struct InstanceOwner {
+        VkInstance instance = VK_NULL_HANDLE;
+        ~InstanceOwner() {
+            if (instance != VK_NULL_HANDLE) {
+                vkDestroyInstance(instance, nullptr);
+            }
+        }
+    } owner;
+
+    VkApplicationInfo appInfo{};
+    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pApplicationName = "ThemisDB device probe";
+    appInfo.apiVersion = VK_API_VERSION_1_0;
+
+    VkInstanceCreateInfo createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo = &appInfo;
+    if (vkCreateInstance(&createInfo, nullptr, &owner.instance) != VK_SUCCESS) {
+        return {};
+    }
+
+    uint32_t deviceCount = 0;
+    if (vkEnumeratePhysicalDevices(owner.instance, &deviceCount, nullptr) != VK_SUCCESS ||
+        deviceCount == 0) {
+        return {};
+    }
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    if (vkEnumeratePhysicalDevices(owner.instance, &deviceCount, devices.data()) != VK_SUCCESS) {
+        return {};
+    }
+
+    std::vector<int> availableIndices;
+    availableIndices.reserve(devices.size());
+    for (size_t index = 0; index < devices.size(); ++index) {
+        VkPhysicalDeviceProperties properties{};
+        vkGetPhysicalDeviceProperties(devices[index], &properties);
+        if (properties.deviceType != VK_PHYSICAL_DEVICE_TYPE_CPU) {
+            availableIndices.push_back(static_cast<int>(index));
+        }
+    }
+    return availableIndices;
+#else
+    return {};
+#endif
+}
+
+int VulkanVectorBackend::detectDeviceCount() noexcept {
+    try {
+        return static_cast<int>(VulkanVectorBackend::availableDeviceIndices().size());
+    } catch (...) {
+        return 0;
+    }
+}
+
 VulkanVectorBackend::~VulkanVectorBackend() {
     shutdown();
 }
@@ -1364,7 +1441,7 @@ bool VulkanVectorBackend::initialize() {
         metrics_.recordError("vkCreateInstance_failed");
         return false;
     }
-    if (!impl_->selectPhysicalDevice()) {
+    if (requestedDeviceIndex_ < -1 || !impl_->selectPhysicalDevice(requestedDeviceIndex_)) {
         std::cerr << "[Vulkan] No suitable physical device found" << std::endl;
         impl_->cleanup();
         metrics_.recordInitFailure();
@@ -1381,6 +1458,10 @@ bool VulkanVectorBackend::initialize() {
 
     // Attempt to find compiled shaders in common locations
     const std::vector<std::string> shaderDirs = {
+#ifdef THEMIS_VULKAN_VECTOR_SHADER_DIR
+        THEMIS_VULKAN_VECTOR_SHADER_DIR,
+#endif
+        "share/themis/shaders/vector_index",
         "shaders/vector_index",
         "../shaders/vector_index",
         "./shaders",
@@ -1413,8 +1494,8 @@ bool VulkanVectorBackend::initialize() {
 
     metrics_.recordInitSuccess();
     metrics_.recordInitDuration(initSeconds);
-    metrics_.setDeviceCount(1);
-    metrics_.setActiveDeviceIndex(0);
+    metrics_.setDeviceCount(static_cast<uint32_t>(VulkanVectorBackend::detectDeviceCount()));
+    metrics_.setActiveDeviceIndex(impl_->physicalDeviceIndex);
 
     // Expose device-local memory to metrics
     for (uint32_t i = 0; i < impl_->memoryProps.memoryHeapCount; ++i) {

@@ -75,6 +75,7 @@ protected:
 
 TEST_F(IncrementalLoRADbTrainingTest, TrainsOnExactlyTheSamplesReadFromCollection) {
     auto config = makeConfig();
+    config.validation_split = 0.0f;
     themis::training::IncrementalLoRATrainer trainer(config, "", query_engine_.get());
 
     const auto result = trainer.train(themis::training::TrainingMode::INITIAL);

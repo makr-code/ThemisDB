@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,6 +50,17 @@ Tensor output is advisory; exact graph validation remains on paths that require
 truth-bearing results. Category-C work must not be routed to a GPU path. This
 policy prioritizes explainable downgrade behavior over choosing a path from
 learned latency or quality predictions.
+
+Distributed summary-first uses the caller-supplied
+`ExecutionEligibility::shard_summary_confidence` as a gate, not as a score
+computed by this module. The value must be finite and in `[0, 1]` and meet
+`PlannerConfig::min_shard_summary_confidence`; otherwise the planner returns
+direct exact graph with `ShardSummaryConfidenceInvalid` or
+`ShardSummaryLowConfidence`. Invalid policy ranges or missing policy identifiers
+also return exact graph with `InvalidPlannerConfiguration`. Passing the threshold
+does not validate the source or calibration of the confidence value. Missing
+confidence is represented by an invalid default and cannot pass even when the
+minimum is configured as zero.
 
 ## Benchmark model and interpretation
 

@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-18
+Datum: 2026-11-19
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -311,12 +311,12 @@ Status: Active
 
 ## ai_context/api_contracts/api.md
 - Kategorie: governance_and_docs
-- Hash: `34ede531ed63f64f`
+- Hash: `6a270650f4cd5a86`
 - Titel: API Module Contract
 - Auszug:
-  - Datum: 2026-10-29
-  - **Status:** Active
-  - **Module:** api (HTTP/gRPC/GraphQL transport)
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-29"
 
 ## ai_context/api_contracts/auth.md
 - Kategorie: governance_and_docs
@@ -338,7 +338,7 @@ Status: Active
 
 ## ai_context/api_contracts/llm.md
 - Kategorie: governance_and_docs
-- Hash: `ccb09f5dbc246af4`
+- Hash: `14383af68b29aa7f`
 - Titel: LLM Module Contract
 - Auszug:
   - ---
@@ -383,7 +383,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `c1cd8f093de14d6a`
+- Hash: `0da159f87bbb69a4`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -428,7 +428,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/LLM_SKILLS.md
 - Kategorie: governance_and_docs
-- Hash: `f4e2b53dc8c49140`
+- Hash: `da65d61c8654080f`
 - Titel: LLM Agent Skills
 - Auszug:
   - ---

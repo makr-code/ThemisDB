@@ -156,76 +156,6 @@ interface OllamaPullProgress {
 }
 
 // ---------------------------------------------------------------------------
-// Workspace config constants
-// ---------------------------------------------------------------------------
-
-const BRIDGE_SECTION_BEGIN = "<!-- OLLAMA-BRIDGE-SECTION:BEGIN -->";
-const BRIDGE_SECTION_END   = "<!-- OLLAMA-BRIDGE-SECTION:END -->";
-
-/**
- * Content injected into .github/copilot-instructions.md between the sentinel
- * markers. Replaces any existing bridge section on re-run.
- */
-const COPILOT_INSTRUCTIONS_BRIDGE_SECTION = `${BRIDGE_SECTION_BEGIN}
-
-## 9) Ollama Delegation Bridge — AI Agent Instructions
-
-The repository ships a VS Code extension at \`tools/copilot-ollama-router/\` that
-routes code-generation tasks to a **local Ollama model** instead of Copilot
-cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
-MUST follow these rules when working on ThemisDB:
-
-### 9.1 When to use local Ollama (via \`@ollama\` chat participant)
-
-Use \`@ollama\` for all of the following:
-
-| Task | Example prompt |
-|---|---|
-| C++ boilerplate / class scaffolding | \`@ollama Generate a RAII wrapper for FILE*\` |
-| Unit test generation | \`@ollama Write GTest cases for KnowledgeGraphRetriever::neighbours()\` |
-| Refactoring | \`@ollama Refactor this function to use std::expected\` |
-| Documentation / Doxygen comments | \`@ollama Add Doxygen docs to LLMPluginManager::loadModel()\` |
-| CMakeLists.txt edits | \`@ollama Add a new test target for test_foo.cpp\` |
-| Repetitive code patterns | \`@ollama Implement getters/setters for all fields in struct X\` |
-
-### 9.2 When to use Copilot cloud (standard chat)
-
-Use the normal Copilot chat (no \`@ollama\`) for:
-
-- Security review and vulnerability analysis
-- Architecture and design decisions
-- Complex multi-file debugging
-- Code review with quality judgement
-- Any task requiring up-to-date knowledge (CVEs, new APIs)
-
-When a normal Copilot chat request clearly matches a local category
-(boilerplate, tests, refactoring, documentation, CMake/build-system, or C++ code generation),
-the request should be rewritten to start with \`@ollama /local\` before submission.
-
-### 9.3 ThemisDB-specific routing rules (always enforced)
-
-- **C++ files** (\`.cpp\`, \`.hpp\`, \`.h\`, \`.cc\`) → always \`@ollama /local\`
-- **Security / audit** prompts → always standard Copilot (cloud)
-- **CMakeLists.txt / build system** → \`@ollama\`
-- **ROADMAP.md / FUTURE_ENHANCEMENTS.md updates** → standard Copilot
-
-### 9.4 Delegation mode configuration
-
-Set in VS Code \`settings.json\` (workspace or user):
-
-\`\`\`jsonc
-{
-  "copilotOllamaRouter.delegationMode": "auto",
-  "copilotOllamaRouter.defaultModel": "deepseek-coder-v2:16b",
-  "copilotOllamaRouter.reasoningModel": "qwen2.5-coder:14b",
-  "copilotOllamaRouter.copilotReviewEnabled": true,
-  "copilotOllamaRouter.themisDbRules": true
-}
-\`\`\`
-
-${BRIDGE_SECTION_END}`;
-
-// ---------------------------------------------------------------------------
 // Workspace config generator
 // ---------------------------------------------------------------------------
 
@@ -259,8 +189,7 @@ export class ModelSetupManager {
   // ---------------------------------------------------------------------------
 
   /**
-   * Idempotently writes/updates the three workspace config files consumed by
-   * VS Code and GitHub Copilot:
+   * Idempotently writes/updates the optional router's two VS Code config files:
    *
    *   - `.vscode/settings.json`         — adds missing `copilotOllamaRouter.*` keys
    *                                        and `github.copilot.chat.*.instructions`
@@ -268,10 +197,6 @@ export class ModelSetupManager {
    *                                        are preserved.
    *   - `.vscode/extensions.json`        — adds `makr-code.copilot-ollama-router`
    *                                        to `recommendations` if not present.
-   *   - `.github/copilot-instructions.md` — inserts/replaces only the sentinel-
-   *                                        delimited bridge section; all other
-   *                                        content is left untouched.
-   *
    * Safe to call multiple times.
    */
   async generateWorkspaceConfig(): Promise<WorkspaceConfigResult> {
@@ -304,12 +229,9 @@ export class ModelSetupManager {
 
     const root = folders[0].uri.fsPath;
     const vscodeDirPath = path.join(root, ".vscode");
-    const githubDirPath = path.join(root, ".github");
-
     const previews = await Promise.all([
       this.previewVscodeSettings(vscodeDirPath, result.skipped),
       this.previewExtensionsJson(vscodeDirPath, result.skipped),
-      this.previewCopilotInstructions(githubDirPath),
     ]);
 
     result.previews = previews.filter(
@@ -466,44 +388,6 @@ export class ModelSetupManager {
       beforeContent: raw,
       afterContent: JSON.stringify(existing, null, 2) + "\n",
       changed,
-    };
-  }
-
-  // ---------------------------------------------------------------------------
-  // .github/copilot-instructions.md — preview sentinel-marker update
-  // ---------------------------------------------------------------------------
-
-  private async previewCopilotInstructions(
-    githubDirPath: string
-  ): Promise<WorkspaceFilePreview> {
-    const filePath = path.join(githubDirPath, "copilot-instructions.md");
-
-    let content = "";
-    if (fs.existsSync(filePath)) {
-      content = fs.readFileSync(filePath, "utf8");
-    }
-
-    const beginIdx = content.indexOf(BRIDGE_SECTION_BEGIN);
-    const endIdx   = content.indexOf(BRIDGE_SECTION_END);
-
-    let updated: string;
-
-    if (beginIdx !== -1 && endIdx !== -1 && endIdx > beginIdx) {
-      // Section already exists — replace only what is between the markers
-      const before = content.slice(0, beginIdx);
-      const after  = content.slice(endIdx + BRIDGE_SECTION_END.length);
-      updated = before + COPILOT_INSTRUCTIONS_BRIDGE_SECTION + after;
-    } else {
-      // First run — append the section (preserve any existing content)
-      const separator = content.endsWith("\n") ? "\n" : "\n\n";
-      updated = content + separator + COPILOT_INSTRUCTIONS_BRIDGE_SECTION + "\n";
-    }
-
-    return {
-      filePath,
-      beforeContent: content,
-      afterContent: updated,
-      changed: updated !== content,
     };
   }
 

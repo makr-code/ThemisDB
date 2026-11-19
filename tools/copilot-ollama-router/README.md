@@ -1,3 +1,12 @@
+<!--
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Exact model backend not verifiable from final document text alone.
+-->
+
 # Copilot ↔ Ollama Router
 
 A VS Code extension that routes Copilot chat requests to a **local Ollama model** for
@@ -18,10 +27,13 @@ for security reviews, architecture decisions, and complex debugging.
 | Architecture decision | ☁️ Copilot (cloud) |
 | Complex debugging | ☁️ Copilot (cloud) |
 
-**ThemisDB-specific rules** (enabled by default):
+**Optional ThemisDB-specific override** (when enabled in the extension settings):
 
-- C++ code generation → always Ollama (`codellama`)
-- Security / audit prompts → always Copilot cloud
+- C++ code generation can be routed to the configured Ollama model.
+- Security / audit prompts are routed to Copilot cloud by the extension.
+
+The extension is opt-in. Repository instructions do not require its installation,
+configuration, or use for any task.
 
 ---
 
@@ -35,6 +47,9 @@ for security reviews, architecture decisions, and complex debugging.
 ---
 
 ## Quick Start
+
+These routes apply only when the developer explicitly invokes the extension;
+normal Copilot chat does not require or automatically use the router.
 
 ```bash
 # 1. Install dependencies

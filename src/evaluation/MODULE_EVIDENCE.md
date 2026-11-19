@@ -1,18 +1,19 @@
 # Evaluation Module - Build and Test Evidence
 
-> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
-> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> **Update provenance (2026-11-19):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
-<!-- Historical execution evidence below; current scoped source audit: 2026-10-31 -->
+<!-- Historical execution evidence below; current scoped source audit: 2026-11-19 -->
 <!-- Issue: #5643 (Development Status 2026-07-18) -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · README.md · PRODUCTION_REQUIREMENTS.md -->
 
-## Current Source and Registration Review (2026-10-31, issue #7344)
+## Current Source and Registration Review (2026-11-19, issue #7515)
 
 This section records source/CMake presence only. No build, test, or benchmark was
-run for the documentation-only update; none of the registrations below is
-presented as a passing execution result.
+run for the 2026-10-31 documentation-only update; none of the registrations
+below is presented as a passing execution result. The planner confidence gate
+added for issue #7515 is recorded separately below.
 
 - `src/evaluation/CMakeLists.txt` lists five sources in `themis_evaluation`:
   `benchmark_matrix.cc`, `hardware_profile.cc`, `retrieval_metrics.cc`,
@@ -62,6 +63,21 @@ completed benchmark runs. See [ROADMAP.md](./ROADMAP.md) and [AUDIT.md](./AUDIT.
 The dated evidence and blocker notes below are retained as historical records.
 Their 2026-07/2026-08 environment state and target inventory must not be read as
 current validation results.
+
+## Issue #7515 Planner Contract Update (2026-11-19)
+
+- `QueryPlanner` now rejects incomplete/out-of-range `PlannerConfig` values with
+  `InvalidPlannerConfiguration` and a direct exact-graph decision.
+- Distributed summary-first now requires finite caller-supplied confidence in
+  `[0, 1]` meeting `min_shard_summary_confidence`; invalid and low values use
+  distinct typed fallback reasons and direct exact graph.
+- Focused planner regressions cover below-threshold, exact-threshold, NaN
+  confidence, and invalid configuration cases. The source compiled and a
+  standalone smoke check passed; the registered GTest suite was not run because
+  GTest is unavailable in this environment.
+- No benchmark was run. Existing `benchmarks/evaluation` cases remain stub
+  benchmarks, and the planner microbenchmarks measure path-selection cost only;
+  neither supplies end-to-end retrieval-quality evidence.
 
 ## Evidence Summary
 

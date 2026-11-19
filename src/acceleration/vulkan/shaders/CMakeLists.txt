@@ -196,3 +196,17 @@ install(FILES ${GEO_SHADERS}
 )
 
 message(STATUS "Vulkan Geospatial shaders will be compiled to: ${GEO_SHADER_OUTPUT_DIR}")
+
+# Keep the production Vulkan backend and its runtime shader path in sync with
+# the generated Vector Index SPIR-V files. The dependency also ensures the
+# shader artifacts exist before the backend library is linked.
+if(TARGET themis_base)
+    set(_themis_vulkan_shader_consumer themis_base)
+elseif(TARGET themis_core)
+    set(_themis_vulkan_shader_consumer themis_core)
+endif()
+if(_themis_vulkan_shader_consumer AND TARGET vulkan_vector_index_shaders)
+    target_compile_definitions(${_themis_vulkan_shader_consumer} PRIVATE
+        THEMIS_VULKAN_VECTOR_SHADER_DIR="${VECTOR_SHADER_OUTPUT_DIR}")
+    add_dependencies(${_themis_vulkan_shader_consumer} vulkan_vector_index_shaders)
+endif()

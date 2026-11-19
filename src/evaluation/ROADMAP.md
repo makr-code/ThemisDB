@@ -1,11 +1,11 @@
 # Evaluation Module Roadmap
 
-> **Update provenance (2026-11-06):** AI_Used: true; AI_Models: unknown;
-> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> **Update provenance (2026-11-19):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
 <!-- Source level: level1 · SOT domain: module-behavior -->
-<!-- Last Updated: 2026-11-06 · Issue: #7417 · Milestone: DOC-WEEKLY-2026-45 -->
+<!-- Last Updated: 2026-11-19 · Issue: #7515 · Milestone: v2.5.0→v3.0.0 evidence hardening -->
 
 ## Current Status
 
@@ -58,6 +58,11 @@ does not relax them.
   measurement inputs: the module does not validate truth, authenticate or
   authorize, establish provenance, enforce caller decisions, or persist/rebuild
   artifacts. Those are explicit boundary limitations, not assumed capabilities.
+- `QueryPlanner` validates planner policy ranges and requires distributed
+  summary confidence to be finite, in `[0, 1]`, and at least the configured
+  minimum before selecting summary-first. Invalid policy or confidence selects
+  direct exact graph with a typed reason; this path-selection contract does not
+  authenticate or calibrate caller-supplied confidence.
 - `StorageStrategyAssessor` is owned by `distributed_tensor`, not this module.
   Keep that external component outside all evaluation-module feature and
   performance claims.
@@ -135,7 +140,12 @@ and root release-governance alignment.
    responsibilities to this library.
 4. Consider an integrated evaluation API only after consumers, target ownership,
    dependency/linkage and stable public-header responsibilities are known.
-5. Establish release gates from measured data and agreed corpus/workloads;
+5. Promote the distributed-confidence planner contract only with a major-version
+   compatibility plan: `ExecutionEligibility` gains a required confidence
+   signal, old callers fall back to exact graph, and all precompiled consumers
+   must be rebuilt. This source/ABI change must not be described as backward
+   compatible with the previous planner contract.
+6. Establish release gates from measured data and agreed corpus/workloads;
    statistical outputs and benchmark tool features alone are not quality
    evidence.
 
@@ -147,7 +157,7 @@ claims about current execution.
 
 | Requirement | Testable acceptance intent | Evidence boundary |
 |---|---|---|
-| Explicit, safe planning | Exercise all five `ExecutionPath` cases, each applicable `FallbackReason`, stale/missing/rebuilding artifacts, forced exact/CPU, missing manifests, and failure inputs; verify exact fallback is explicit. | Header enums and CMake registration alone do not prove behavior or consumer enforcement. |
+| Explicit, safe planning | Exercise all five `ExecutionPath` cases, each applicable `FallbackReason`, stale/missing/rebuilding artifacts, forced exact/CPU, missing manifests, malformed policy ranges, and invalid/low shard confidence; verify exact fallback is explicit. | Header enums and CMake registration alone do not prove behavior or consumer enforcement. |
 | Exactness and CPU-only Category C | Runtime tests reject/escalate truth-bearing approximate/bounded paths and reject GPU dispatch for Category C; test bypass/policy-version cases. | `approximation_rules.h` defines the contract; callers still enforce returned decisions. |
 | Metric input integrity | Test documented invalid-input `MetricErrorKind` cases, numeric range/finite behavior, duplicates, empty/missing truth, and summary-first failures. Validate supplied labels separately at the dataset boundary. | Calculations cannot prove label truth, representativeness, or provenance. |
 | Summary-first safety | On a declared test corpus with known misses, require **0 unrecovered summary-first false negatives** in the tested scenarios; every miss must trigger exact fallback or explicit failure. | Proposed invariant for evaluated scenarios, not a universal guarantee; exact fallback is caller/consumer behavior. |

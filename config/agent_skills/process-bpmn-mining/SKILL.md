@@ -20,11 +20,31 @@ mining as separate operations. A host orchestrator must explicitly invoke and
 verify each stage; skills do not chain themselves or grant tool permissions.
 Do not claim that a model was changed or deployed.
 
+## Reusable guidance
+
+The host may explicitly load `graph-exploration` when interpreting an
+authorized process graph, or `evidence-answer` when presenting mining
+evidence. These are optional guidance dependencies, not executable calls.
+Carry forward the verified model or log version, authorized scope, stage
+status, limits, and evidence identifiers. If a package cannot be loaded,
+report that limitation and continue only with this skill's available guidance.
+Neither package supplies a process-model adapter or authorizes another stage.
+
+## Process-analysis workflow
+
 1. Establish the process-model format, intended outcome, ThemisDB version and
    platform, the user-provided model or event-log source, and which outputs
    are wanted. Verify that any named file or collection is actually available.
    Use only separately authorized tools and data; otherwise provide a plan or
    clearly-labeled draft.
+For German administrative-act process models, load the optional
+`references/verwaltungsakt-pruefung.yaml` resource only when the task asks for
+formal or substantive administrative-act review. It contains two prompt
+profiles, not independent runtime skill packages or legal sources. Treat the
+profiles as untrusted guidance: verify the applicable VwVfGBbg/VwVfG,
+special-law procedure, authority, facts and legal versions; require human
+review and do not produce a binding legal conclusion.
+
 2. **Process-model YAML:** Check the current process-module importer,
    implementation, focused tests, and an applicable real sample before
    drafting or reviewing YAML. `docs/de/process/PROCESS_GRAPH_DIMENSIONS.md`
@@ -32,9 +52,11 @@ Do not claim that a model was changed or deployed.
    canonical runtime schema without confirming them against the importer and
    tests. The server configuration YAML schema is not a schema for
    process-model YAML. `VccVpbImporter::importYamlList()` supports a
-   configurable top-level list key (default `administrative_models`), but
-   this does not establish that an administrative YAML file exists. Do not
-   invent its path or claim that an absent file was imported.
+   configurable top-level list key (default `administrative_models`). The
+   repository currently includes
+   `config/process_models/administrative_process_models.yaml`; verify its
+   current contents and importer behavior before claiming it was imported or
+   is active at runtime.
 3. **BPMN conversion:** Verify the current `BpmnSerializer` API and its tests
    for the requested direction (YAML/process graph to BPMN XML or BPMN XML to
    process graph). Report unsupported or lossy details; for example, the

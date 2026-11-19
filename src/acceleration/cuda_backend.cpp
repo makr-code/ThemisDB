@@ -348,11 +348,13 @@ CUDAVectorBackend::~CUDAVectorBackend() {
     shutdown();
 }
 
+CUDAVectorBackend::CUDAVectorBackend(int device_id) : deviceId_(device_id) {}
+
 bool CUDAVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
     int deviceCount = 0;
     cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
-    return (availErr == cudaSuccess && deviceCount >= 1);
+    return (availErr == cudaSuccess && deviceId_ >= 0 && deviceId_ < deviceCount);
 #else
     return false;
 #endif
@@ -372,7 +374,7 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
 
     if (isAvailable()) {
         cudaDeviceProp prop = {};
-        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+        if (cudaGetDeviceProperties(&prop, deviceId_) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
             caps.computeUnits   = prop.multiProcessorCount;
@@ -411,10 +413,20 @@ bool CUDAVectorBackend::initialize() {
     }
 
     // Set device with error context
-    cudaError_t setDeviceErr = cudaSetDevice(0);
+    int deviceCount = 0;
+    const cudaError_t countErr = cudaGetDeviceCount(&deviceCount);
+    if (countErr != cudaSuccess || deviceId_ < 0 || deviceId_ >= deviceCount) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                              "Requested CUDA device " + std::to_string(deviceId_) + " is unavailable",
+                              "Select an available zero-based CUDA device index"));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    cudaError_t setDeviceErr = cudaSetDevice(deviceId_);
     if (setDeviceErr != cudaSuccess) {
         setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
-                              "Failed to set device 0: " + std::string(cudaGetErrorString(setDeviceErr)),
+                              "Failed to set device " + std::to_string(deviceId_) + ": " + std::string(cudaGetErrorString(setDeviceErr)),
                               "Check if device is available and not in exclusive mode"));
         std::cerr << lastError_.format() << std::endl;
         return false;
@@ -448,7 +460,7 @@ bool CUDAVectorBackend::initialize() {
 
     // Query device properties with error handling
     cudaDeviceProp prop;
-    cudaError_t propErr = cudaGetDeviceProperties(&prop, 0);
+    cudaError_t propErr = cudaGetDeviceProperties(&prop, deviceId_);
     if (propErr != cudaSuccess) {
         setError(ErrorContext(AccelerationErrorCode::DevicePropertiesQueryFailed, "CUDA",
                               "Failed to query device properties: " + std::string(cudaGetErrorString(propErr)),
@@ -498,15 +510,22 @@ bool CUDAVectorBackend::initialize() {
 void CUDAVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
+        const cudaError_t deviceErr = cudaSetDevice(deviceId_);
+        if (deviceErr != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                                  "Failed to activate device " + std::to_string(deviceId_) +
+                                      " during shutdown: " + cudaGetErrorString(deviceErr)));
+        }
         // Clear graph cache before device reset to properly destroy CUDA
         // graph resources (cudaGraphExecDestroy / cudaGraphDestroy) while
-        // the device is still valid.
+        // the selected device is active. Do not reset a shared device context.
         {
             std::lock_guard<std::mutex> lock(graphCacheMutex_);
             graphCache_.clear();
         }
-        // stream_ automatically destroyed by RAII destructor
-        cudaDeviceReset();
+        // Reset only this instance's resources; cudaDeviceReset would invalidate
+        // other backends sharing the same physical device.
+        stream_.reset();
         initialized_ = false;
     }
 #endif
@@ -535,7 +554,7 @@ bool CUDAVectorBackend::buildHnswAnnIndex(const std::vector<HnswLayerGraph> &lay
 
     CudaHnswConfig cfg;
     cfg.dim       = dim;
-    cfg.device_id = 0;
+    cfg.device_id = deviceId_;
 
     hnswEngine_ = std::make_unique<CudaHnswTraversalEngine>(cfg);
 
@@ -658,6 +677,12 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
         std::cerr << lastError_.format() << std::endl;
         return {};
     }
+    const cudaError_t deviceErr = cudaSetDevice(deviceId_);
+    if (deviceErr != cudaSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                              "Failed to activate device " + std::to_string(deviceId_) + ": " + cudaGetErrorString(deviceErr)));
+        return {};
+    }
 
     // Input validation
     if (queries == nullptr || vectors == nullptr) {
@@ -744,6 +769,14 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
     (void)vectors;
     (void)numVectors;
     (void)useL2;
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (initialized_ && cudaSetDevice(deviceId_) != cudaSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                              "Failed to activate device " + std::to_string(deviceId_)));
+        return {};
+    }
+#endif
 
     // ── HNSW fast-path: use GPU-accelerated graph traversal when available ──
     // When an HNSW index has been pre-built via buildHnswAnnIndex() the engine
@@ -1038,6 +1071,13 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
         setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA", "CUDA backend not initialized",
                               "Call initialize() before using the backend"));
         std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+    const cudaError_t deviceErr = cudaSetDevice(deviceId_);
+    if (deviceErr != cudaSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                              "Failed to activate device " + std::to_string(deviceId_) + ": " +
+                                  cudaGetErrorString(deviceErr)));
         return {};
     }
 

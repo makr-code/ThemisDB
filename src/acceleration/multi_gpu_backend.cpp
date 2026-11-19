@@ -13,13 +13,19 @@
 
 #include <algorithm>
 #include <cassert>
+#include <future>
 #include <iostream>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
+#include <unordered_set>
 #include <vector>
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/cuda_backend.h"
+#include "acceleration/graphics_backends.h"
+#include "acceleration/hip_backend.h"
 #include "acceleration/nccl_vector_backend.h"
 #include "acceleration/rccl_vector_backend.h"
 
@@ -38,22 +44,123 @@ namespace acceleration {
 // Static helper
 // =============================================================================
 
-int MultiGPUVectorBackend::detectGPUCount() noexcept {
+namespace {
+
+std::vector<int> availableDeviceIds(MultiGPUDeviceBackend backend) {
+    std::vector<int> deviceIds;
+    switch (backend) {
+        case MultiGPUDeviceBackend::CUDA:
 #ifdef THEMIS_ENABLE_CUDA
-    int count = 0;
-    if (cudaGetDeviceCount(&count) == cudaSuccess) {
-        return count;
-    }
-    return 0;
-#elif defined(THEMIS_ENABLE_HIP)
-    int count = 0;
-    if (hipGetDeviceCount(&count) == hipSuccess) {
-        return count;
-    }
-    return 0;
+            {
+                int count = 0;
+                if (cudaGetDeviceCount(&count) == cudaSuccess) {
+                    for (int deviceId = 0; deviceId < count; ++deviceId) {
+                        deviceIds.push_back(deviceId);
+                    }
+                }
+            }
 #else
-    return 0;
+            break;
 #endif
+            break;
+        case MultiGPUDeviceBackend::HIP:
+#ifdef THEMIS_ENABLE_HIP
+            {
+                int count = 0;
+                if (hipGetDeviceCount(&count) == hipSuccess) {
+                    for (int deviceId = 0; deviceId < count; ++deviceId) {
+                        deviceIds.push_back(deviceId);
+                    }
+                }
+            }
+#endif
+            break;
+        case MultiGPUDeviceBackend::VULKAN:
+            deviceIds = VulkanVectorBackend::availableDeviceIndices();
+            break;
+        case MultiGPUDeviceBackend::AUTO:
+        case MultiGPUDeviceBackend::CPU:
+            break;
+    }
+    return deviceIds;
+}
+
+MultiGPUDeviceBackend resolveAutoBackend(size_t minimumDeviceCount = 1) {
+    const auto requiredDevices = std::max<size_t>(1, minimumDeviceCount);
+    MultiGPUDeviceBackend bestBackend = MultiGPUDeviceBackend::CPU;
+    size_t bestDeviceCount = 0;
+    for (const auto backend : {MultiGPUDeviceBackend::CUDA,
+                               MultiGPUDeviceBackend::HIP,
+                               MultiGPUDeviceBackend::VULKAN}) {
+        const auto deviceCount = availableDeviceIds(backend).size();
+        if (deviceCount >= requiredDevices) {
+            return backend;
+        }
+        if (deviceCount > bestDeviceCount) {
+            bestDeviceCount = deviceCount;
+            bestBackend = backend;
+        }
+    }
+    return bestBackend;
+}
+
+const char* backendName(MultiGPUDeviceBackend backend) noexcept {
+    switch (backend) {
+        case MultiGPUDeviceBackend::AUTO: return "AUTO";
+        case MultiGPUDeviceBackend::CPU: return "CPU";
+        case MultiGPUDeviceBackend::CUDA: return "CUDA";
+        case MultiGPUDeviceBackend::HIP: return "HIP";
+        case MultiGPUDeviceBackend::VULKAN: return "Vulkan";
+    }
+    return "Unknown";
+}
+
+std::unique_ptr<IVectorBackend> createDeviceBackend(MultiGPUDeviceBackend backend, int deviceId) {
+    switch (backend) {
+        case MultiGPUDeviceBackend::CPU:
+            return std::make_unique<CPUVectorBackend>();
+        case MultiGPUDeviceBackend::CUDA:
+#ifdef THEMIS_ENABLE_CUDA
+            return std::make_unique<CUDAVectorBackend>(deviceId);
+#else
+            (void)deviceId;
+            return nullptr;
+#endif
+        case MultiGPUDeviceBackend::HIP: {
+#ifdef THEMIS_ENABLE_HIP
+            HIPVectorBackend::HIPConfig config;
+            config.deviceId = deviceId;
+            return std::make_unique<HIPVectorBackend>(config);
+#else
+            (void)deviceId;
+            return nullptr;
+#endif
+        }
+        case MultiGPUDeviceBackend::VULKAN:
+            return std::make_unique<VulkanVectorBackend>(deviceId);
+        case MultiGPUDeviceBackend::AUTO:
+            break;
+    }
+    return nullptr;
+}
+
+} // namespace
+
+int MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend backend) noexcept {
+    try {
+        if (backend == MultiGPUDeviceBackend::AUTO) {
+            backend = resolveAutoBackend();
+        }
+        return static_cast<int>(availableDeviceIds(backend).size());
+    } catch (...) {
+        return 0;
+    }
+}
+
+int MultiGPUVectorBackend::detectGPUCount() noexcept {
+    return std::max({detectDeviceCount(MultiGPUDeviceBackend::CUDA),
+                     detectDeviceCount(MultiGPUDeviceBackend::HIP),
+                     detectDeviceCount(MultiGPUDeviceBackend::VULKAN)});
 }
 
 // =============================================================================
@@ -68,9 +175,10 @@ class MultiGPUVectorBackend::Impl {
     // Shard descriptors (built at initialize())
     std::vector<ShardDescriptor> shardDescs;
 
-    // Per-shard CPU sub-backends (used for actual compute; replaced by GPU
-    // backends in future when CUDA kernels are available in the acceleration layer)
-    std::vector<std::unique_ptr<CPUVectorBackend>> subBackends;
+    // Each shard owns its backend and serializes access to backend-local streams.
+    std::vector<std::unique_ptr<IVectorBackend>> subBackends;
+    std::vector<std::unique_ptr<std::mutex>> shardMutexes;
+    MultiGPUDeviceBackend resolvedBackend = MultiGPUDeviceBackend::CPU;
 
     // Active communication backend
     CommBackend activeComm = CommBackend::CPU;
@@ -97,63 +205,105 @@ class MultiGPUVectorBackend::Impl {
      * @details Calls: empty(), push_back(), MultiGPUVectorBackend::detectGPUCount(), size(), resize(), clear(), reserve(), std::move().
      */
     bool initialize() {
-        // Determine actual device IDs to use
-        std::vector<int> deviceIds = config.deviceIds;
-        if (deviceIds.empty()) {
-            for (int i = 0; i < config.numDevices; ++i) {
-                deviceIds.push_back(i);
-            }
-        }
-
-        // Clamp to available GPU count
-        int gpuCount = MultiGPUVectorBackend::detectGPUCount();
-        if (gpuCount > 0 && deviceIds.size() > static_cast<size_t>(gpuCount)) {
-            std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size() << " devices but only " << gpuCount
-                      << " visible; clamping.\n";
-            deviceIds.resize(static_cast<size_t>(gpuCount));
-        }
-
-        if (deviceIds.empty()) {
-            std::cerr << "MultiGPUVectorBackend: no devices available.\n";
+        shutdown();
+        if (config.numDevices <= 0 || config.minDevices < 0) {
             return false;
         }
 
-        // Build shard descriptors (ranges assigned later at search time based on
-        // numVectors; here we just record device IDs)
-        shardDescs.clear();
-        shardDescs.reserve(deviceIds.size());
-        for (int devId : deviceIds) {
-            ShardDescriptor sd;
-            sd.deviceId = devId;
-            sd.startIdx = 0;
-            sd.endIdx   = 0;
-            shardDescs.push_back(sd);
+        const size_t requestedDeviceCount = config.deviceIds.empty()
+            ? static_cast<size_t>(config.numDevices)
+            : config.deviceIds.size();
+        resolvedBackend = config.deviceBackend == MultiGPUDeviceBackend::AUTO
+            ? resolveAutoBackend(requestedDeviceCount)
+            : config.deviceBackend;
+        const auto availableIds = availableDeviceIds(resolvedBackend);
+
+        std::vector<int> requestedIds = config.deviceIds;
+        if (requestedIds.empty()) {
+            requestedIds.reserve(static_cast<size_t>(config.numDevices));
+            for (int index = 0; index < config.numDevices; ++index) {
+                requestedIds.push_back(index < static_cast<int>(availableIds.size())
+                    ? availableIds[static_cast<size_t>(index)]
+                    : index);
+            }
+        }
+        if (requestedIds.empty()) {
+            return false;
         }
 
-        // Initialise per-shard sub-backends (CPU fallback)
-        subBackends.clear();
-        subBackends.reserve(shardDescs.size());
-        for (size_t i = 0; i < shardDescs.size(); ++i) {
-            auto sb = std::make_unique<CPUVectorBackend>();
-            if (!sb->initialize()) {
-                if (!config.allowCPUFallback) {
-                    std::cerr << "MultiGPUVectorBackend: sub-backend init failed for device " << shardDescs[i].deviceId
-                              << "\n";
+        std::unordered_set<int> uniqueIds;
+        uniqueIds.reserve(requestedIds.size());
+        for (const int deviceId : requestedIds) {
+            if (deviceId < 0 || !uniqueIds.insert(deviceId).second) {
+                return false;
+            }
+        }
+
+        shardDescs.reserve(requestedIds.size());
+        subBackends.reserve(requestedIds.size());
+        shardMutexes.reserve(requestedIds.size());
+        std::vector<int> activeAcceleratorIds;
+        for (const int deviceId : requestedIds) {
+            const bool hasAccelerator = resolvedBackend != MultiGPUDeviceBackend::CPU &&
+                std::find(availableIds.begin(), availableIds.end(), deviceId) != availableIds.end();
+            if (!hasAccelerator && resolvedBackend != MultiGPUDeviceBackend::CPU &&
+                !config.allowCPUFallback) {
+                shutdown();
+                return false;
+            }
+
+            auto shardBackend = hasAccelerator ? resolvedBackend : MultiGPUDeviceBackend::CPU;
+            auto backend = createDeviceBackend(shardBackend, deviceId);
+            bool cpuFallback =
+                (config.deviceBackend == MultiGPUDeviceBackend::AUTO &&
+                 resolvedBackend == MultiGPUDeviceBackend::CPU) ||
+                (resolvedBackend != MultiGPUDeviceBackend::CPU && !hasAccelerator);
+            const bool backendInitialized = backend && backend->initialize();
+            if (!backendInitialized) {
+                if (!config.allowCPUFallback || shardBackend == MultiGPUDeviceBackend::CPU) {
+                    shutdown();
                     return false;
                 }
-                std::cerr << "MultiGPUVectorBackend: warning — sub-backend init failed "
-                             "for device "
-                          << shardDescs[i].deviceId << "; retaining CPU fallback.\n";
+                if (backend) {
+                    backend->shutdown();
+                }
+                shardBackend = MultiGPUDeviceBackend::CPU;
+                cpuFallback = true;
+                backend = createDeviceBackend(shardBackend, deviceId);
+                if (!backend || !backend->initialize()) {
+                    shutdown();
+                    return false;
+                }
             }
-            subBackends.push_back(std::move(sb));
+
+            ShardDescriptor descriptor;
+            descriptor.deviceId = deviceId;
+            descriptor.backend = shardBackend;
+            descriptor.cpuFallback = cpuFallback;
+            shardDescs.push_back(descriptor);
+            subBackends.push_back(std::move(backend));
+            shardMutexes.push_back(std::make_unique<std::mutex>());
+            if (shardBackend == resolvedBackend && shardBackend != MultiGPUDeviceBackend::CPU) {
+                activeAcceleratorIds.push_back(deviceId);
+            }
         }
 
-        // Initialise communication backend
-        initCommBackend(deviceIds);
-
-        std::cout << "MultiGPUVectorBackend: initialised with " << shardDescs.size()
-                  << " shards (comm=" << commBackendName() << ").\n";
+        initCommBackend(activeAcceleratorIds);
         initialized = true;
+        const auto countBackend = [this](MultiGPUDeviceBackend backend) {
+            return std::count_if(shardDescs.begin(), shardDescs.end(),
+                [backend](const ShardDescriptor& shard) { return shard.backend == backend; });
+        };
+        const auto fallbackCount = std::count_if(shardDescs.begin(), shardDescs.end(),
+            [](const ShardDescriptor& shard) { return shard.cpuFallback; });
+        std::cout << "MultiGPUVectorBackend: initialized " << shardDescs.size()
+                  << " shards (selected=" << backendName(resolvedBackend)
+                  << ", CUDA=" << countBackend(MultiGPUDeviceBackend::CUDA)
+                  << ", HIP=" << countBackend(MultiGPUDeviceBackend::HIP)
+                  << ", Vulkan=" << countBackend(MultiGPUDeviceBackend::VULKAN)
+                  << ", CPU=" << countBackend(MultiGPUDeviceBackend::CPU)
+                  << ", fallbacks=" << fallbackCount
+                  << ", comm=" << commBackendName() << ").\n";
         return true;
     }
 
@@ -162,7 +312,13 @@ class MultiGPUVectorBackend::Impl {
      * @details Calls: clear(), reset().
      */
     void shutdown() {
+        for (auto& backend : subBackends) {
+            if (backend) {
+                backend->shutdown();
+            }
+        }
         subBackends.clear();
+        shardMutexes.clear();
         shardDescs.clear();
 #ifdef THEMIS_ENABLE_NCCL
         if (ncclBackend) {
@@ -210,6 +366,68 @@ class MultiGPUVectorBackend::Impl {
         return ranges;
     }
 
+    std::vector<float> computeShard(size_t shardIndex, const ShardDescriptor& shard,
+                                    const float* queries, size_t numQueries, size_t dim,
+                                    const float* vectors, bool useL2) {
+        const auto shardSize = shard.numVectors();
+        const auto* shardVectors = vectors + shard.startIdx * dim;
+        std::vector<float> distances;
+        try {
+            std::lock_guard<std::mutex> lock(*shardMutexes[shardIndex]);
+            distances = subBackends[shardIndex]->computeDistances(
+                queries, numQueries, dim, shardVectors, shardSize, useL2);
+        } catch (const std::exception& error) {
+            std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                      << " computeDistances failed: " << error.what() << '\n';
+        }
+        if (distances.size() == numQueries * shardSize) {
+            return distances;
+        }
+        if (!config.allowCPUFallback || shard.backend == MultiGPUDeviceBackend::CPU) {
+            return {};
+        }
+
+        CPUVectorBackend fallback;
+        if (!fallback.initialize()) {
+            return {};
+        }
+        std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                  << " execution failed; using CPU fallback.\n";
+        return fallback.computeDistances(queries, numQueries, dim, shardVectors, shardSize, useL2);
+    }
+
+    std::vector<std::vector<std::pair<uint32_t, float>>> searchShard(
+        size_t shardIndex, const ShardDescriptor& shard,
+        const float* queries, size_t numQueries, size_t dim, const float* vectors,
+        size_t localK, bool useL2) {
+        const auto shardSize = shard.numVectors();
+        const auto* shardVectors = vectors + shard.startIdx * dim;
+        std::vector<std::vector<std::pair<uint32_t, float>>> results;
+        try {
+            std::lock_guard<std::mutex> lock(*shardMutexes[shardIndex]);
+            results = subBackends[shardIndex]->batchKnnSearch(
+                queries, numQueries, dim, shardVectors, shardSize, localK, useL2);
+        } catch (const std::exception& error) {
+            std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                      << " batchKnnSearch failed: " << error.what() << '\n';
+        }
+        if (results.size() == numQueries) {
+            return results;
+        }
+        if (!config.allowCPUFallback || shard.backend == MultiGPUDeviceBackend::CPU) {
+            return {};
+        }
+
+        CPUVectorBackend fallback;
+        if (!fallback.initialize()) {
+            return {};
+        }
+        std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                  << " search failed; using CPU fallback.\n";
+        return fallback.batchKnnSearch(
+            queries, numQueries, dim, shardVectors, shardSize, localK, useL2);
+    }
+
     /**
      * @brief ------------------------------------------------------------------------- computeDistances — per-shard distance computation + global concat -------------------------------------------------------------------------
      * @param[in] queries Input parameter.
@@ -227,6 +445,9 @@ class MultiGPUVectorBackend::Impl {
         if (!initialized || subBackends.empty()) {
             return {};
         }
+        if (numQueries == 0 || numVectors == 0 || dim == 0 || queries == nullptr || vectors == nullptr) {
+            return {};
+        }
 
         // Build per-call ranges without mutating shared state
         const auto ranges = buildRanges(numVectors);
@@ -234,17 +455,36 @@ class MultiGPUVectorBackend::Impl {
         // Output: [numQueries × numVectors]
         std::vector<float> result(numQueries * numVectors, 0.0f);
 
-        for (size_t s = 0; s < ranges.size(); ++s) {
-            const auto &shard = ranges[s];
-            size_t shardSize  = shard.numVectors();
+        std::vector<std::future<std::vector<float>>> shardFutures(ranges.size());
+        for (size_t shardIndex = 0; shardIndex < ranges.size(); ++shardIndex) {
+            if (ranges[shardIndex].numVectors() == 0) {
+                continue;
+            }
+            shardFutures[shardIndex] = std::async(std::launch::async, [this, shardIndex, &ranges,
+                queries, numQueries, dim, vectors, useL2]() {
+                return computeShard(shardIndex, ranges[shardIndex], queries, numQueries,
+                                    dim, vectors, useL2);
+            });
+        }
+
+        for (size_t shardIndex = 0; shardIndex < ranges.size(); ++shardIndex) {
+            const auto& shard = ranges[shardIndex];
+            const size_t shardSize = shard.numVectors();
             if (shardSize == 0) {
                 continue;
             }
 
-            const float *shardVectors = vectors + shard.startIdx * dim;
-
-            auto shardDists
-                = subBackends[s]->computeDistances(queries, numQueries, dim, shardVectors, shardSize, useL2);
+            std::vector<float> shardDists;
+            try {
+                shardDists = shardFutures[shardIndex].get();
+            } catch (const std::exception& error) {
+                std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                          << " worker failed: " << error.what() << '\n';
+                return {};
+            }
+            if (shardDists.size() != numQueries * shardSize) {
+                return {};
+            }
 
             // Copy shard results into the global output at the correct column offsets
             for (size_t q = 0; q < numQueries; ++q) {
@@ -275,24 +515,51 @@ class MultiGPUVectorBackend::Impl {
         std::vector<std::vector<std::pair<uint32_t, float>>> merged(numQueries);
 
         // Fan out to each shard
-        for (size_t s = 0; s < ranges.size(); ++s) {
-            const auto &shard = ranges[s];
-            size_t shardSize  = shard.numVectors();
+        if (numQueries == 0) {
+            return merged;
+        }
+        if (queries == nullptr || vectors == nullptr || dim == 0 || numVectors == 0 || k == 0) {
+            return merged;
+        }
+
+        std::vector<std::future<std::vector<std::vector<std::pair<uint32_t, float>>>>> shardFutures(ranges.size());
+        for (size_t shardIndex = 0; shardIndex < ranges.size(); ++shardIndex) {
+            const size_t shardSize = ranges[shardIndex].numVectors();
             if (shardSize == 0) {
                 continue;
             }
+            const size_t localK = std::min(k, shardSize);
+            shardFutures[shardIndex] = std::async(std::launch::async, [this, shardIndex, &ranges,
+                queries, numQueries, dim, vectors, localK, useL2]() {
+                return searchShard(shardIndex, ranges[shardIndex], queries, numQueries,
+                                   dim, vectors, localK, useL2);
+            });
+        }
 
-            const float *shardVectors = vectors + shard.startIdx * dim;
-
-            // k_local: search for min(k, shardSize) locally
-            size_t kLocal = std::min(k, shardSize);
-
-            auto shardResults
-                = subBackends[s]->batchKnnSearch(queries, numQueries, dim, shardVectors, shardSize, kLocal, useL2);
+        for (size_t shardIndex = 0; shardIndex < ranges.size(); ++shardIndex) {
+            const auto& shard = ranges[shardIndex];
+            const size_t shardSize = shard.numVectors();
+            if (shardSize == 0) {
+                continue;
+            }
+            std::vector<std::vector<std::pair<uint32_t, float>>> shardResults;
+            try {
+                shardResults = shardFutures[shardIndex].get();
+            } catch (const std::exception& error) {
+                std::cerr << "MultiGPUVectorBackend: shard " << shard.deviceId
+                          << " worker failed: " << error.what() << '\n';
+                return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
+            }
+            if (shardResults.size() != numQueries) {
+                return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
+            }
 
             // Remap shard-local indices to global indices
             for (size_t q = 0; q < numQueries; ++q) {
                 for (auto &[localIdx, dist] : shardResults[q]) {
+                    if (localIdx >= shardSize) {
+                        return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
+                    }
                     uint32_t globalIdx = static_cast<uint32_t>(shard.startIdx) + localIdx;
                     merged[q].emplace_back(globalIdx, dist);
                 }
@@ -329,7 +596,12 @@ class MultiGPUVectorBackend::Impl {
      * @details Calls: NCCLVectorBackend::isNCCLAvailable(), RCCLVectorBackend::isRCCLAvailable(), size(), initialize(), reset().
      */
     void initCommBackend(const std::vector<int> &deviceIds) {
-        (void)deviceIds;
+        activeComm = CommBackend::CPU;
+        if (deviceIds.size() < 2 ||
+            (resolvedBackend != MultiGPUDeviceBackend::CUDA &&
+             resolvedBackend != MultiGPUDeviceBackend::HIP)) {
+            return;
+        }
         CommBackend target = config.commBackend;
 
         if (target == CommBackend::AUTO) {
@@ -432,7 +704,20 @@ MultiGPUVectorBackend::MultiGPUVectorBackend(const Config &config) : pImpl_(std:
 MultiGPUVectorBackend::~MultiGPUVectorBackend() = default;
 
 bool MultiGPUVectorBackend::isAvailable() const noexcept {
-    return detectGPUCount() >= pImpl_->config.minDevices;
+    const auto requestedBackend = pImpl_->config.deviceBackend;
+    if (requestedBackend == MultiGPUDeviceBackend::CPU) {
+        return pImpl_->config.numDevices >= pImpl_->config.minDevices;
+    }
+    const auto requiredDevices = pImpl_->config.minDevices > 0
+        ? static_cast<size_t>(pImpl_->config.minDevices)
+        : size_t{1};
+    const auto backend = requestedBackend == MultiGPUDeviceBackend::AUTO
+        ? resolveAutoBackend(requiredDevices)
+        : requestedBackend;
+    if (backend == MultiGPUDeviceBackend::CPU) {
+        return pImpl_->config.minDevices == 0;
+    }
+    return detectDeviceCount(backend) >= pImpl_->config.minDevices;
 }
 
 BackendCapabilities MultiGPUVectorBackend::getCapabilities() const {
@@ -445,7 +730,18 @@ BackendCapabilities MultiGPUVectorBackend::getCapabilities() const {
     caps.supportedPrecisions     = PrecisionMode::FP32;
     caps.supportedMetrics
         = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
-    caps.deviceName = "Multi-GPU (" + std::to_string(pImpl_->shardDescs.size()) + " shards)";
+    const auto backend = pImpl_->initialized ? pImpl_->resolvedBackend
+        : (pImpl_->config.deviceBackend == MultiGPUDeviceBackend::AUTO
+            ? resolveAutoBackend() : pImpl_->config.deviceBackend);
+    const auto cpuFallbackCount = static_cast<size_t>(std::count_if(
+        pImpl_->shardDescs.begin(), pImpl_->shardDescs.end(),
+        [](const ShardDescriptor& shard) { return shard.cpuFallback; }));
+    caps.deviceName = "Multi-device " + std::string(backendName(backend)) +
+        " (" + std::to_string(pImpl_->shardDescs.size()) + " shards";
+    if (cpuFallbackCount > 0) {
+        caps.deviceName += ", " + std::to_string(cpuFallbackCount) + " CPU fallbacks";
+    }
+    caps.deviceName += ")";
     return caps;
 }
 

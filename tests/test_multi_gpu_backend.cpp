@@ -1,7 +1,9 @@
 #include "acceleration/multi_gpu_backend.h"
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/graphics_backends.h"
 #include <gtest/gtest.h>
+#include <limits>
 #include <algorithm>
 #include <cmath>
 #include <numeric>
@@ -42,6 +44,7 @@ protected:
     // allowCPUFallback=true ensures each shard initialises even without CUDA.
     MultiGPUVectorBackend::Config makeConfig(int n) const {
         MultiGPUVectorBackend::Config cfg;
+        cfg.deviceBackend   = MultiGPUDeviceBackend::CPU;
         cfg.numDevices      = n;
         cfg.minDevices      = 0;   // always "available" in unit tests
         cfg.allowCPUFallback = true;
@@ -124,6 +127,156 @@ TEST_F(MultiGPUBackendTest, ShardDeviceIdsMatchConfig) {
     const auto& shds = backend.shards();
     for (int i = 0; i < 3; ++i) {
         EXPECT_EQ(shds[static_cast<size_t>(i)].deviceId, i);
+    }
+}
+
+TEST_F(MultiGPUBackendTest, ExplicitCpuBackendCreatesCpuShards) {
+    auto config = makeConfig(3);
+    MultiGPUVectorBackend backend(config);
+
+    ASSERT_TRUE(backend.isAvailable());
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().size(), 3u);
+    for (const auto& shard : backend.shards()) {
+        EXPECT_EQ(shard.backend, MultiGPUDeviceBackend::CPU);
+        EXPECT_FALSE(shard.cpuFallback);
+    }
+}
+
+TEST_F(MultiGPUBackendTest, UnavailableCudaDeviceUsesConfiguredCpuFallback) {
+    auto config = makeConfig(1);
+    config.deviceBackend = MultiGPUDeviceBackend::CUDA;
+    config.deviceIds = {std::numeric_limits<int>::max()};
+    config.allowCPUFallback = true;
+    config.minDevices = 0;
+    MultiGPUVectorBackend backend(config);
+
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().size(), 1u);
+    EXPECT_EQ(backend.shards().front().backend, MultiGPUDeviceBackend::CPU);
+    EXPECT_TRUE(backend.shards().front().cpuFallback);
+
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+    auto actual = backend.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    auto expected = cpu.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    ASSERT_EQ(actual.size(), expected.size());
+    for (size_t index = 0; index < actual.size(); ++index) {
+        EXPECT_NEAR(actual[index], expected[index], 1e-5f);
+    }
+}
+
+TEST_F(MultiGPUBackendTest, UnavailableCudaDeviceFailsWhenFallbackDisabled) {
+    auto config = makeConfig(1);
+    config.deviceBackend = MultiGPUDeviceBackend::CUDA;
+    config.deviceIds = {std::numeric_limits<int>::max()};
+    config.allowCPUFallback = false;
+    config.minDevices = 0;
+    MultiGPUVectorBackend backend(config);
+
+    EXPECT_FALSE(backend.initialize());
+    EXPECT_EQ(backend.activeDeviceCount(), 0);
+}
+
+TEST_F(MultiGPUBackendTest, AutoBackendSelectsFirstAvailableAccelerator) {
+    const auto expectedBackend = MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::CUDA) > 0
+        ? MultiGPUDeviceBackend::CUDA
+        : (MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::HIP) > 0
+            ? MultiGPUDeviceBackend::HIP
+            : MultiGPUDeviceBackend::VULKAN);
+    if (MultiGPUVectorBackend::detectDeviceCount(expectedBackend) == 0) {
+        GTEST_SKIP() << "No CUDA, HIP, or Vulkan compute device is available";
+    }
+
+    MultiGPUVectorBackend::Config config;
+    config.deviceBackend = MultiGPUDeviceBackend::AUTO;
+    config.numDevices = 1;
+    config.minDevices = 1;
+    config.allowCPUFallback = true;
+    MultiGPUVectorBackend backend(config);
+
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().size(), 1u);
+    EXPECT_TRUE(backend.shards().front().backend == expectedBackend ||
+                backend.shards().front().cpuFallback);
+}
+
+TEST_F(MultiGPUBackendTest, CudaDeviceSelectionMatchesCpuResultsWhenAvailable) {
+    if (MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::CUDA) == 0) {
+        GTEST_SKIP() << "CUDA is not compiled or no CUDA device is available";
+    }
+
+    MultiGPUVectorBackend::Config config;
+    config.deviceBackend = MultiGPUDeviceBackend::CUDA;
+    config.numDevices = 1;
+    config.deviceIds = {0};
+    config.minDevices = 1;
+    config.allowCPUFallback = false;
+    MultiGPUVectorBackend backend(config);
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().front().backend, MultiGPUDeviceBackend::CUDA);
+
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+    const auto actual = backend.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    const auto expected = cpu.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    ASSERT_EQ(actual.size(), expected.size());
+    for (size_t index = 0; index < actual.size(); ++index) {
+        EXPECT_NEAR(actual[index], expected[index], 1e-4f);
+    }
+}
+
+TEST_F(MultiGPUBackendTest, HipDeviceSelectionMatchesCpuResultsWhenAvailable) {
+    if (MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::HIP) == 0) {
+        GTEST_SKIP() << "HIP is not compiled or no HIP device is available";
+    }
+
+    MultiGPUVectorBackend::Config config;
+    config.deviceBackend = MultiGPUDeviceBackend::HIP;
+    config.numDevices = 1;
+    config.deviceIds = {0};
+    config.minDevices = 1;
+    config.allowCPUFallback = false;
+    MultiGPUVectorBackend backend(config);
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().front().backend, MultiGPUDeviceBackend::HIP);
+
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+    const auto actual = backend.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    const auto expected = cpu.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    ASSERT_EQ(actual.size(), expected.size());
+    for (size_t index = 0; index < actual.size(); ++index) {
+        EXPECT_NEAR(actual[index], expected[index], 1e-4f);
+    }
+}
+
+TEST_F(MultiGPUBackendTest, VulkanDeviceSelectionPreservesVectorResults) {
+    const auto deviceIndices = VulkanVectorBackend::availableDeviceIndices();
+    if (deviceIndices.empty()) {
+        GTEST_SKIP() << "No Vulkan compute device is available";
+    }
+
+    auto config = makeConfig(1);
+    config.deviceBackend = MultiGPUDeviceBackend::VULKAN;
+    config.deviceIds = {deviceIndices.front()};
+    config.minDevices = 1;
+    config.allowCPUFallback = true;
+    MultiGPUVectorBackend backend(config);
+
+    ASSERT_TRUE(backend.initialize());
+    ASSERT_EQ(backend.shards().size(), 1u);
+    EXPECT_EQ(backend.shards().front().deviceId, deviceIndices.front());
+    EXPECT_TRUE(backend.shards().front().backend == MultiGPUDeviceBackend::VULKAN ||
+                backend.shards().front().cpuFallback);
+
+    CPUVectorBackend cpu;
+    ASSERT_TRUE(cpu.initialize());
+    const auto actual = backend.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    const auto expected = cpu.computeDistances(query.data(), 1, dim, vectors.data(), numVectors, true);
+    ASSERT_EQ(actual.size(), expected.size());
+    for (size_t index = 0; index < actual.size(); ++index) {
+        EXPECT_NEAR(actual[index], expected[index], 1e-4f);
     }
 }
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,7 @@ vulnerability reporting follows the root `SECURITY.md` process.
 | Submitted callable to worker | The callable is trusted in-process code. | It runs with the process's privileges; the pool provides no sandbox or privilege separation. |
 | Queue and timeout configuration | The host supplies limits appropriate to its workload. | Limits are per primitive instance, and poorly chosen capacities/timeouts can still exhaust host resources or propagate overload. |
 | Metrics to operator | The host interprets snapshots and exports them if needed. | Metrics are in memory only; there is no built-in durable audit trail or exporter. |
-| Shutdown boundary | The host coordinates producers, consumers, and object lifetimes. | Shutdown rejects new work but does not cancel an executing callable or guarantee a timed-out drain completes all queued work. |
+| Shutdown boundary | The host coordinates producers, consumers, and object lifetimes. | Shutdown rejects new work and workers finish accepted queued items; it does not cancel a running callable, and a stuck callable can block worker join indefinitely. |
 
 ## Controls present in source
 

@@ -312,6 +312,11 @@ private:
 class CUDAVectorBackend : public IVectorBackend {
 public:
     CUDAVectorBackend() = default;
+    /**
+     * @brief Construct a backend bound to a specific CUDA device.
+     * @param device_id Zero-based CUDA device index; initialize() fails when it is unavailable.
+     */
+    explicit CUDAVectorBackend(int device_id);
     ~CUDAVectorBackend() override;
     
     // IComputeBackend interface
@@ -422,6 +427,7 @@ public:
 
 private:
     bool   initialized_  = false;
+    int    deviceId_     = 0;
     size_t maxBatchSize_ = 512;  ///< Max queries per HNSW kernel launch (pool size)
 
     // HNSW-based ANN engine — present in both CUDA and non-CUDA builds;

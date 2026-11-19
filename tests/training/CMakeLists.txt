@@ -22,8 +22,12 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    set(_training_test_libs ${TEST_LIBS})
+    if(_stem STREQUAL "test_incremental_lora_db_training")
+        list(REMOVE_ITEM _training_test_libs GTest::gmock gmock::gmock)
+    endif()
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        ${_training_test_libs}
         themis_core
         spdlog::spdlog
         Threads::Threads

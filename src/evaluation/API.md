@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -56,6 +56,28 @@ and returns a `PlannerDecision`, including its selected `ExecutionPath`, any
 not an executor. Force-exact leads to direct exact graph; missing distributed
 manifests also lead to the exact path. Tensor freshness and resource eligibility
 gates affect whether tensor-assisted paths can be selected.
+
+The planner rejects invalid configuration ranges or missing policy identifiers
+with `InvalidPlannerConfiguration` and selects the exact path. Distributed
+summary-first additionally requires a caller-supplied finite
+`shard_summary_confidence` in `[0, 1]` that meets
+`PlannerConfig::min_shard_summary_confidence`; low or invalid confidence selects
+the exact path with a specific fallback reason. A valid confidence value is
+still caller-supplied evidence, not proof that shard summaries are truthful.
+The default confidence is invalid, so callers must explicitly provide it to
+select Path 5, even when the configured minimum is zero.
+Configuration requires positive `max_staleness_ms` and `max_rank_cap`,
+finite `min_residual_threshold` and `min_shard_summary_confidence` in `[0, 1]`,
+and non-empty `policy_version` and `staleness_threshold_key`.
+
+### Compatibility and migration
+
+Adding `shard_summary_confidence` changes the layout of the public
+`ExecutionEligibility` struct, so precompiled consumers must be rebuilt. Callers
+that request distributed summary-first must explicitly set the confidence;
+omitting it now selects exact graph rather than Path 5. Treat this as a major
+version contract change and do not claim binary compatibility with an earlier
+planner ABI.
 
 `makeDefaultQueryPlanner(observer)` returns an owning `unique_ptr<QueryPlanner>`.
 The optional `PlannerObserver*` is non-owning and must outlive the planner.

@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Source level:** Level 1 — module implementation
 **SOT domain:** architecture-governance
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `cmake/CMakeLists.txt`
@@ -11,11 +11,11 @@ AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot Coding Agent
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
 
-## Overview
+## Kontext
 
 The module's public contracts are in `include/distributed_tensor/`; its
 implementation sources are listed in `src/distributed_tensor/CMakeLists.txt`.
@@ -28,7 +28,7 @@ is a public-header requirement. Consumers linking the CMake target inherit the
 feature requirement; direct users of the installed headers must select C++20
 themselves.
 
-## Component ownership
+## Komponenten
 
 | Area | Public interface | Implementation sources in the module target |
 |---|---|---|
@@ -37,12 +37,18 @@ themselves.
 | Integrity and recovery | `integrity_verification.h`, `recovery_manager.h` | `integrity_verification.cc`, `recovery_manager.cc` |
 | Infrastructure and in-process training jobs | `tensor_infrastructure.h`, `tensor_training_coordinator.h` | `tensor_infrastructure.cc`, `tensor_training_coordinator.cc` |
 | Storage strategy | `tensor_storage_strategy.h` | `src/tensor_storage_strategy.cc` |
-| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, manifest store, checkpoint, snapshot-update worker, and shard-summary sources listed in CMake |
+| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, RocksDB-backed manifest store, checkpoint, snapshot-update worker, and shard-summary sources listed in CMake |
 
 This table highlights component groups; the CMake file is the authoritative
 complete target source list.
 
-## Data flow and configuration
+## Schnittstellen
+
+The module exposes placement, retrieval, integrity, recovery, manifest-store,
+and training-coordinator interfaces described below. It does not own a shard
+payload transport or distributed manifest consensus interface.
+
+## Datenfluss
 
 The public interfaces expose these composable steps; they do not establish an
 end-to-end network execution pipeline:
@@ -63,6 +69,11 @@ end-to-end network execution pipeline:
    network transport.
 5. Integrity and recovery APIs operate on the supplied manifest/receipt and
    recovery request; they do not turn placement plans into network operations.
+6. `ManifestStore` persists validated manifest metadata in the caller-provided
+   RocksDB database. WAL-backed synchronous batches make acknowledged manifest
+   writes durable across process restart; corrupt records fail store opening.
+   The store does not replicate metadata across nodes, and does not persist
+   shard payloads or provide a network recovery protocol.
 
 Configuration is supplied through API values rather than a module configuration
 file:
@@ -112,7 +123,42 @@ module CMake configuration or the reviewed public headers; treat them as
 unverified until a canonical integration contract or implementation reference
 is identified.
 
-## Verification boundaries
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+  participant Caller
+  participant Store as ManifestStore
+  participant DB as RocksDB
+  Caller->>Store: store(valid manifest)
+  Store->>DB: version check + synchronous WAL batch
+  DB-->>Store: durable commit status
+  Store-->>Caller: success only after commit
+  Caller->>Store: reopen after restart
+  Store->>DB: scan and validate records and keys
+  DB-->>Store: persisted state or corruption/error
+```
+
+**Kurzinterpretation:** The successful return follows a synchronous local
+commit; startup rejects unreadable or invalid persisted records. Neither step
+replicates state or shard payloads to another node.
+
+## Fehlerpfade und Resilienz
+
+An empty database path is rejected. Database-open failures and persisted
+records that fail schema, manifest, or key validation prevent store creation.
+Writes return failure on database read/commit errors, and malformed records
+are not served by read paths. These guarantees are local to the configured
+RocksDB instance.
+
+## Nicht-Ziele
+
+This module currently does not implement remote shard fetching, manifest
+consensus, multi-node replication, or distributed training execution. Placement
+plans must be applied by the caller, and RocksDB durability alone does not
+establish cluster recovery.
+
+## Verweise
 
 Source registration is not evidence that tests passed or that the module is
 enabled in a production workflow. See [`README.md`](README.md) for the current

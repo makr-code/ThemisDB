@@ -61,7 +61,7 @@ public:
         std::size_t min_threads       = 1;    ///< Number of workers started immediately and kept alive until shutdown.
         std::size_t max_threads       = 0;    ///< Upper bound for allocation/clamping; `0` defaults to `4 * hardware_concurrency()`.
         std::size_t max_queue_depth   = 1000; ///< Maximum pending task count before submitters wait.
-        long        idle_timeout_ms   = 1000; ///< Worker wait interval before re-checking the queue; not a retirement timer.
+        long        idle_timeout_ms   = 1000; ///< Positive worker wait interval before re-checking the queue; not a retirement timer.
     };
 
     /**
@@ -84,6 +84,7 @@ public:
     /**
      * @brief Construct a pool with an explicit configuration.
      * @param cfg Worker-count and queue-capacity settings.
+     * @throws std::invalid_argument if `idle_timeout_ms` is not positive.
      */
     explicit WorkStealingThreadPool(const Config& cfg);
 
@@ -109,8 +110,8 @@ public:
      * @brief Submit a work item to the bounded dispatch queue.
      * @param item Work item to move into the pool.
      * @param timeout Maximum time to wait for queue capacity.
-     * @return `true` on success, or `false` if shutdown is in progress or the
-     *         queue stays full until `timeout` elapses.
+     * @return `true` on success, or `false` if the callable is empty, shutdown
+     *         is in progress, or the queue stays full until `timeout` elapses.
      */
     bool submit(WorkItem item,
                 std::chrono::milliseconds timeout = std::chrono::seconds(5));
@@ -120,7 +121,8 @@ public:
      * @param fn Callable to execute.
      * @param name Optional diagnostic label.
      * @param timeout Maximum time to wait for queue capacity.
-     * @return Same result semantics as `submit(WorkItem, timeout)`.
+     * @return Same result semantics as `submit(WorkItem, timeout)`; an empty
+     *         callable is rejected without being queued.
      */
     bool submit(std::function<void()> fn, std::string name = {},
                 std::chrono::milliseconds timeout = std::chrono::seconds(5));
@@ -139,8 +141,11 @@ public:
     [[nodiscard]] Statistics statistics() const noexcept;
 
     /**
-     * @brief Stop accepting work, drain pending items, wake workers, and join them.
-     * @param drain_timeout Maximum time to wait for queue drain before forcing the wake/join sequence.
+     * @brief Stop accepting work, drain accepted items, wake workers, and join them.
+     * @param drain_timeout Maximum time to wait for the queue to drain before
+     *        joining workers. If the timeout expires, workers still finish
+     *        accepted queued items before exiting; running callables are not
+     *        interrupted, so shutdown can exceed this duration.
      */
     void shutdown(std::chrono::milliseconds drain_timeout = std::chrono::seconds(30));
 

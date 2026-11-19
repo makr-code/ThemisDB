@@ -72,7 +72,7 @@ TEST_F(Phi3IntegrationTest, Phi3TrainingConfigExists) {
         << "phi3_lora_training.yaml should exist in config directory";
 }
 
-TEST_F(Phi3IntegrationTest, DefaultConfigHasPhi3Settings) {
+TEST_F(Phi3IntegrationTest, DefaultConfigUsesTinyLlama) {
     fs::path config_path = "config/default_model_config.yaml";
     if (!fs::exists(config_path)) {
         GTEST_SKIP() << "Config file not found";
@@ -83,15 +83,16 @@ TEST_F(Phi3IntegrationTest, DefaultConfigHasPhi3Settings) {
         ASSERT_TRUE(config["default_llm"]) << "Config should have default_llm section";
         
         auto llm = config["default_llm"];
-        EXPECT_TRUE(llm["model_id"]);
-        EXPECT_TRUE(llm["model_name"]);
+        EXPECT_EQ(llm["model_id"].as<std::string>(), "tinyllama");
+        EXPECT_EQ(llm["model_name"].as<std::string>(), "TinyLlama 1.1B Chat");
         EXPECT_EQ(llm["format"].as<std::string>(), "gguf");
-        EXPECT_EQ(llm["quantization"].as<std::string>(), "Q4_K_M");
+        EXPECT_EQ(llm["quantization"].as<std::string>(), "Q4_0");
+        EXPECT_EQ(llm["storage"]["model_filename"].as<std::string>(), "default.gguf");
         
-        // Check Phi-3 specific architecture
+        // Check TinyLlama's Llama-compatible architecture
         ASSERT_TRUE(llm["architecture"]);
         auto arch = llm["architecture"];
-        EXPECT_EQ(arch["model_type"].as<std::string>(), "phi3");
+        EXPECT_EQ(arch["model_type"].as<std::string>(), "llama");
         EXPECT_EQ(arch["attention_type"].as<std::string>(), "grouped_query_attention");
         
         // Check LoRA target modules
@@ -99,20 +100,19 @@ TEST_F(Phi3IntegrationTest, DefaultConfigHasPhi3Settings) {
         auto targets = llm["lora_target_modules"];
         EXPECT_GT(targets.size(), 0) << "Should have LoRA target modules defined";
         
-        // Verify Phi-3 specific modules are present
-        bool has_qkv_proj = false;
-        bool has_gate_up_proj = false;
+                bool has_q_proj = false;
+                bool has_gate_proj = false;
         for (const auto& module : targets) {
             std::string mod_name = module.as<std::string>();
-            if (mod_name == "qkv_proj") {
-              has_qkv_proj = true;
+                        if (mod_name == "q_proj") {
+                            has_q_proj = true;
             }
-            if (mod_name == "gate_up_proj") {
-              has_gate_up_proj = true;
+                        if (mod_name == "gate_proj") {
+                            has_gate_proj = true;
             }
         }
-        EXPECT_TRUE(has_qkv_proj) << "Should have qkv_proj (Phi-3 specific)";
-        EXPECT_TRUE(has_gate_up_proj) << "Should have gate_up_proj (Phi-3 specific)";
+                EXPECT_TRUE(has_q_proj) << "Should have q_proj (TinyLlama)";
+                EXPECT_TRUE(has_gate_proj) << "Should have gate_proj (TinyLlama)";
         
     } catch (const std::exception& e) {
         FAIL() << "Failed to parse config: " << e.what();

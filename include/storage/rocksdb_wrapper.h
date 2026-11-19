@@ -622,6 +622,10 @@ public:
         /// @brief Get the current value.
         /// @return View of the current value.
         std::string_view value() const;
+        /// @brief Return the current RocksDB iterator error, if any.
+        /// @return Empty string when the iterator is healthy; otherwise its status.
+        /// @note A default-constructed or moved-from iterator reports an explicit error.
+        [[nodiscard]] std::string statusMessage() const;
 
         // Check if iterator is usable
         explicit operator bool() const { return iterator_ != nullptr; }

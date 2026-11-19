@@ -57,15 +57,16 @@ endif()
 
 # EPIC 3 Distributed Tensor — tests and benchmarks
 
-# ── Phase A ManifestStore tests (Phase A advisory-only store, MS-01..12) ──────
+# ── Phase A ManifestStore tests (durability, recovery, MS-01..20) ─────────────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
-    message(STATUS "Adding EPIC3: Phase A ManifestStore tests (MS-01..12)")
+    message(STATUS "Adding EPIC3: Phase A ManifestStore tests (MS-01..20)")
 
     add_executable(test_manifest_store_phase_a
         test_manifest_store_phase_a.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/tensor_artifact_classes.cc
     )
 
     target_include_directories(test_manifest_store_phase_a PRIVATE
@@ -76,9 +77,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
     )
 
     target_link_libraries(test_manifest_store_phase_a PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
+        GTest::gtest_main
+        themis_storage
+        themis_base
         Threads::Threads
     )
 
@@ -99,7 +100,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
         add_test(NAME ManifestStorePhaseATests COMMAND test_manifest_store_phase_a)
     endif()
 
-    message(STATUS "  ManifestStore: store/get/list/evict, freshness, metrics, concurrency (MS-01..12)")
+    message(STATUS "  ManifestStore: persistence/restart, corruption, freshness, metrics, concurrency (MS-01..20)")
 else()
     message(STATUS "EPIC3 ManifestStore tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 endif()

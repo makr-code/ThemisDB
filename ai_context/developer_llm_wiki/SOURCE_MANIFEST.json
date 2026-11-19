@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-18T20:18:13+00:00",
-  "source_count": 8105,
+  "generated_at": "2026-11-19T08:31:39+00:00",
+  "source_count": 8110,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -56,9 +56,9 @@
     {
       "path": ".github/workflows/build-mainline.yml",
       "category": "build_test_ci",
-      "size": 35168,
-      "sha256": "2a3b69362b241e448e8456848b80ec14197bc8304dcd4387d3780c96f7b47f9a",
-      "modified_utc": "2026-11-18T14:18:46+00:00"
+      "size": 35691,
+      "sha256": "bcdc0f849b4f448a7ed9e626925bd0a75e1eb32e5176861a0d9daedae99e3e07",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": ".github/workflows/build-ollama-router.yml",
@@ -588,9 +588,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 57770,
-      "sha256": "7bd119c43d4698aad322231b655861185c734022ed6bf6338df861078d516918",
-      "modified_utc": "2026-11-18T14:18:46+00:00"
+      "size": 58882,
+      "sha256": "cf7740a5e68df74e2f64e9fdec8bf4fc0521d5031fe0e35d2db1cbabf18d5a80",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -686,9 +686,9 @@
     {
       "path": ".github/workflows/test-helm-chart.yml",
       "category": "build_test_ci",
-      "size": 2335,
-      "sha256": "5013849e465ce6ebf3278f7d05f186fcb3ca1bb07c0e12dcdf94c82239205d55",
-      "modified_utc": "2026-11-13T11:08:06+00:00"
+      "size": 9284,
+      "sha256": "ff5307da506a98b5ac2823217fca4d0a2044800e631c01c13213a1beabaa5fd4",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": ".github/workflows/wave-a-gpu-ci-execution.yml",
@@ -959,9 +959,9 @@
     {
       "path": "ai_context/api_contracts/api.md",
       "category": "governance_and_docs",
-      "size": 5359,
-      "sha256": "34ede531ed63f64fbd307ef2c84471c25bb0c610ae217b465ac941466e6aa545",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 7799,
+      "sha256": "6a270650f4cd5a86c71c88ee43c349be4a2c0c88a3fcf97b67f7cc2c6f14af4d",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": "ai_context/api_contracts/auth.md",
@@ -980,9 +980,9 @@
     {
       "path": "ai_context/api_contracts/llm.md",
       "category": "governance_and_docs",
-      "size": 8232,
-      "sha256": "ccb09f5dbc246af413f0726d738db8b53f81817e6fc5a770e26f8dab0ef94ae6",
-      "modified_utc": "2026-11-17T19:36:49+00:00"
+      "size": 11615,
+      "sha256": "14383af68b29aa7f910de9785a21aefb65e437a2ca3ed2999c8e6d8a77d58aef",
+      "modified_utc": "2026-11-19T08:27:45+00:00"
     },
     {
       "path": "ai_context/api_contracts/storage.md",
@@ -1015,9 +1015,9 @@
     {
       "path": "ai_context/developer_llm_wiki/AQL.md",
       "category": "governance_and_docs",
-      "size": 5708,
-      "sha256": "c1cd8f093de14d6a7d0d120493be8bc02cda4f800de51f66a360681bd94c655e",
-      "modified_utc": "2026-11-13T12:32:44+00:00"
+      "size": 6070,
+      "sha256": "0da159f87bbb69a4c53c241f6ebe1de45b532ffd4bddc2f42d2b83413f4d9b9c",
+      "modified_utc": "2026-11-18T20:44:39+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
@@ -1050,9 +1050,9 @@
     {
       "path": "ai_context/developer_llm_wiki/LLM_SKILLS.md",
       "category": "governance_and_docs",
-      "size": 5463,
-      "sha256": "f4e2b53dc8c49140a73cecc6d3eb50962b962199be3389e4f9c2ff70c6554b7e",
-      "modified_utc": "2026-11-18T20:18:03+00:00"
+      "size": 6769,
+      "sha256": "da65d61c8654080f8fcb07538d4aa6472589c1b91a62cca62e66c24b429ca772",
+      "modified_utc": "2026-11-19T08:31:26+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/MAINTENANCE.md",
@@ -16947,9 +16947,9 @@
     {
       "path": "docs/README.md",
       "category": "governance_and_docs",
-      "size": 2656,
-      "sha256": "4dedd84658d764a5b2dfb41cf9da730f442a67eefd42c9d16d850e8c672e1891",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 3170,
+      "sha256": "80359a889af1656c97cd40b8ae9dd73c6d39c6a114167ba13f0db0c7c0e5c92e",
+      "modified_utc": "2026-11-19T08:06:37+00:00"
     },
     {
       "path": "docs/RELEASE_ARTIFACT_LOCATIONS.md",
@@ -20972,9 +20972,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2318996,
-      "sha256": "30284042aeb9dda085efee1a576fe8706f9618f4a915fd05e89ed5d2057ef53c",
-      "modified_utc": "2026-11-18T18:25:56+00:00"
+      "size": 2319391,
+      "sha256": "077ed8b91992782933de435c6e6671cb49489d8ae2f0b56639b853b262d67241",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -22330,9 +22330,9 @@
     {
       "path": "docs/de/analytics/PROCESS_MINING_SUMMARY.md",
       "category": "governance_and_docs",
-      "size": 16692,
-      "sha256": "1998d436b7db77c80753c8f9e7c938a94d3a5ddbc7c70cd177338b2bbef4c47e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 17331,
+      "sha256": "0cab3947fd6b64901bbac31d50ab879f26299390874e23bbc13c19bfbe0d951e",
+      "modified_utc": "2026-11-18T20:39:04+00:00"
     },
     {
       "path": "docs/de/analytics/README.md",
@@ -29946,9 +29946,9 @@
     {
       "path": "docs/deployment/RUNTIME_DEPENDENCIES.md",
       "category": "governance_and_docs",
-      "size": 4026,
-      "sha256": "dbf99a57669f137b7b0ea17ebec10f41333502ec65c3d62a90e76c02264bbc20",
-      "modified_utc": "2026-11-09T03:03:01+00:00"
+      "size": 4984,
+      "sha256": "802a69b3ea4133915f7c73c3622fe61c6e623ac0ec4e5653f5dcbc5e700535cc",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "docs/development/CMAKE_VSCODE_SETUP.md",
@@ -38316,6 +38316,13 @@
       "modified_utc": "2026-11-01T06:39:19+00:00"
     },
     {
+      "path": "docs/showcases/BIMSCHG_VERWALTUNGSVERFAHREN.md",
+      "category": "governance_and_docs",
+      "size": 53058,
+      "sha256": "86490d5d749af264f49b87796784b03b013611183623d8dc33870b573a897b88",
+      "modified_utc": "2026-11-19T08:02:10+00:00"
+    },
+    {
       "path": "docs/stable_diffusion/API.md",
       "category": "governance_and_docs",
       "size": 90,
@@ -39858,9 +39865,9 @@
     {
       "path": "include/api/api_transport_contracts.h",
       "category": "modules_and_api",
-      "size": 7774,
-      "sha256": "11c7933d9ffbdebf1f37f84eada4b5c716a2c0793c3c34efad69121d0f7d0263",
-      "modified_utc": "2026-09-18T18:19:14+00:00"
+      "size": 8294,
+      "sha256": "4f97a3bdb7e207afa3796d920367093092842806014c824b5aef22e3a235e8a7",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": "include/api/api_transport_policy.h",
@@ -39977,9 +39984,9 @@
     {
       "path": "include/api/otlp_exporter.h",
       "category": "modules_and_api",
-      "size": 7299,
-      "sha256": "d2728b27958770ba12c87f5e2220f9273dd220e7b2956184ad38e38589a8555c",
-      "modified_utc": "2026-09-18T18:19:14+00:00"
+      "size": 7681,
+      "sha256": "f4425ec64f1e6aa16c40f2bf1c2a9392f16f9ce51a2a540f33139f9938286e41",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": "include/api/persisted_queries.h",
@@ -40565,16 +40572,16 @@
     {
       "path": "include/base/buffer_pool.h",
       "category": "modules_and_api",
-      "size": 7035,
-      "sha256": "cdb31d4ad3e44e520ae261d4960f7a1c848d53a2082a9934b6e796001aa89db4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8500,
+      "sha256": "aed0e0ca775b20c3deba26916669b485bc116af25a4c9a76cff0bf006687a0a0",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/base/resource_pool_manager.h",
       "category": "modules_and_api",
-      "size": 7009,
-      "sha256": "7372ee70ef790e1a6ed632544bf4e962b1318b5fe73083d28d3bcb74d3ae474e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8152,
+      "sha256": "a0217a2364e92f9bb48819019044cada2f349e3fa9b67cd21dbb4c601a7140c8",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/cache/adaptive_query_cache.h",
@@ -40684,9 +40691,9 @@
     {
       "path": "include/cache/distributed_cache_coordinator.h",
       "category": "modules_and_api",
-      "size": 8556,
-      "sha256": "c49e020469462e2a10b7ce0686bf65a116a88b640e143804b568f28d2b7dcb4a",
-      "modified_utc": "2026-09-18T18:19:14+00:00"
+      "size": 9012,
+      "sha256": "41e870c0b9dd111c092f3cccc7c349d04cf374e1b2596469158b327218c82699",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/cache/distributed_eviction.h",
@@ -40775,9 +40782,9 @@
     {
       "path": "include/cache/redis_cache_coordinator.h",
       "category": "modules_and_api",
-      "size": 7861,
-      "sha256": "bbce10fefa59d83d116e735a49a2802bb45defe188985faea67a6210349ab5a3",
-      "modified_utc": "2026-09-18T18:19:14+00:00"
+      "size": 8245,
+      "sha256": "2766a81ff13e25e050582384441ace8c74d25b4d1374ed40312f9c3cab776d87",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/cache/redis_tls_config.h",
@@ -41006,16 +41013,16 @@
     {
       "path": "include/chaos/chaos_contract.h",
       "category": "modules_and_api",
-      "size": 9731,
-      "sha256": "8835d08a0030fd0ed7688464036e8af3ff2893441b9fd0eee8947f5c1b7a7f7f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9820,
+      "sha256": "8363a8b8ff197b881852bbc12fba4e601cbe114652fed1542ec7ad627b0e1aa6",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/chaos/chaos_framework.h",
       "category": "modules_and_api",
-      "size": 9868,
-      "sha256": "4193a9837eeead2df26931b0f8b64a95689c031f7cdbf6b3462f29bee0320bad",
-      "modified_utc": "2026-09-18T18:19:15+00:00"
+      "size": 9860,
+      "sha256": "8a2b948a7058d32a7a9495f3f7a93b78e5fc9daec6b5bce80c4cb68105911d1f",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "include/chimera/batch_executor.hpp",
@@ -43393,9 +43400,9 @@
     {
       "path": "include/index/graph_index.h",
       "category": "modules_and_api",
-      "size": 16581,
-      "sha256": "ec13a6f46581eab610dab44a3d61393c6b5db7955abd20168cb7635168250fd9",
-      "modified_utc": "2026-11-18T19:02:17+00:00"
+      "size": 18466,
+      "sha256": "0e20fbb7b582646cbf05cc5b2ebb13a96ad440adff6c529d6b6b15f58b06cee6",
+      "modified_utc": "2026-11-19T08:31:26+00:00"
     },
     {
       "path": "include/index/hnsw_layer_optimizer.h",
@@ -43972,6 +43979,13 @@
       "modified_utc": "2026-09-18T18:34:57+00:00"
     },
     {
+      "path": "include/llm/asset_impact_analysis_tool.h",
+      "category": "modules_and_api",
+      "size": 13482,
+      "sha256": "cb332696ac2c33d473137041237de57aa2038f805deb813f4d59148fe688cae3",
+      "modified_utc": "2026-11-19T08:29:00+00:00"
+    },
+    {
       "path": "include/llm/async_inference_engine.h",
       "category": "modules_and_api",
       "size": 11574,
@@ -44098,6 +44112,13 @@
       "modified_utc": "2026-09-18T18:34:57+00:00"
     },
     {
+      "path": "include/llm/detail/default_model_path.h",
+      "category": "modules_and_api",
+      "size": 4865,
+      "sha256": "d675cda39437ee51e0a860e7bee3b1c91f1ba51e64c3a812549e17a65e2fd317",
+      "modified_utc": "2026-11-19T06:41:26+00:00"
+    },
+    {
       "path": "include/llm/distributed_training_coordinator.h",
       "category": "modules_and_api",
       "size": 21086,
@@ -44121,9 +44142,9 @@
     {
       "path": "include/llm/embedded_llm.h",
       "category": "modules_and_api",
-      "size": 10193,
-      "sha256": "1fa14358e0262cbaf83dbeb689dbe46c5e1a8f42d21b61369342b42ad2d35cfa",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 10238,
+      "sha256": "3def5d27ae371b7317b16df2a9612c32c56bc7cb48a3309c8746ec316fee614f",
+      "modified_utc": "2026-11-19T06:17:20+00:00"
     },
     {
       "path": "include/llm/ethical_guidelines_manager.h",
@@ -45419,6 +45440,13 @@
       "size": 2467,
       "sha256": "da2ffd8f48139a97b134293112d6420b1a47863ae378a9075e2bc42e418515b9",
       "modified_utc": "2026-09-18T19:32:04+00:00"
+    },
+    {
+      "path": "include/llm/timeseries_analysis_tool.h",
+      "category": "modules_and_api",
+      "size": 10794,
+      "sha256": "f69cd0b537f58fff95fff2c96a2a5010675d56a9b1efd6fab7fb6a9d0785845e",
+      "modified_utc": "2026-11-18T20:30:38+00:00"
     },
     {
       "path": "include/llm/token_quota_manager.h",
@@ -47544,9 +47572,9 @@
     {
       "path": "include/query/functions/function_registry.h",
       "category": "modules_and_api",
-      "size": 22279,
-      "sha256": "e78a657b8bdbb2acc8244190f8c48e34f3d8d70209858ef3c09d4c85b11c4a7b",
-      "modified_utc": "2026-09-18T18:35:04+00:00"
+      "size": 23650,
+      "sha256": "58110b3015a30cc2b6841e49a23cae474bc68e83193193f1ebfd24e3f492dc74",
+      "modified_utc": "2026-11-18T20:43:11+00:00"
     },
     {
       "path": "include/query/functions/geo_functions.h",
@@ -47733,9 +47761,9 @@
     {
       "path": "include/query/let_evaluator.h",
       "category": "modules_and_api",
-      "size": 6125,
-      "sha256": "81037fc98d461a5b203f2618289ae055a14e1e8b681455abd8a180c614942293",
-      "modified_utc": "2026-09-18T18:35:06+00:00"
+      "size": 7209,
+      "sha256": "11d3d7c1545c25f58d102628d299fa3d031c8f678524cc2395749481e769ebca",
+      "modified_utc": "2026-11-18T20:43:11+00:00"
     },
     {
       "path": "include/query/llm_generate_operator.h",
@@ -51695,9 +51723,9 @@
     {
       "path": "include/storage/rocksdb_wrapper.h",
       "category": "modules_and_api",
-      "size": 36806,
-      "sha256": "5196f060095a4df0c6e24e2b1615ec459406565338575284bb6d951a992a62dd",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 37108,
+      "sha256": "2d9f9e94c23cc28d16556b4ffaadd1315e726e26b3b16d2869a4e94f3a63947d",
+      "modified_utc": "2026-11-19T08:24:07+00:00"
     },
     {
       "path": "include/storage/schema_dead_weight_detector.h",
@@ -54472,6 +54500,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "scripts/check_config_version_integrity.py",
+      "category": "build_test_ci",
+      "size": 17752,
+      "sha256": "5999c09107b82d5ca07392dbdab27b0ac6de446fc7eb1377a9a9500ade3c585f",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
+    },
+    {
       "path": "scripts/check_module_direct_doxygen.py",
       "category": "build_test_ci",
       "size": 28443,
@@ -55265,9 +55300,9 @@
     {
       "path": "src/api/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 28096,
-      "sha256": "c7fffaf0cc92a05fd2737bd638bdfd63d46f756d29ace1e5554d59d71a57eb45",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 31349,
+      "sha256": "7d9ddb85d8997ac492379eea5c65341d71bf8c7f5810c73056d40a90b30fbe73",
+      "modified_utc": "2026-11-19T05:35:48+00:00"
     },
     {
       "path": "src/aql/FUTURE_ENHANCEMENTS.md",
@@ -55321,16 +55356,16 @@
     {
       "path": "src/base/README.md",
       "category": "modules_and_api",
-      "size": 6698,
-      "sha256": "36245f3e8a703907983ba35fca04f9f9de4980358e71087e3d4790debad848c4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8617,
+      "sha256": "f20f7e0e59076829953a591a5db27025dda8f62864937ba29e7f04cf755c1b41",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "src/base/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 28916,
-      "sha256": "8bda7bd7b42ad04889dace883626a9232fc2c4a6604f2fe125d3f3a974ee9e03",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 30603,
+      "sha256": "dfe591f5130c8887acb8eea2121f1bf50ff11545fe7dd83d04c6330073b0871b",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "src/cache/FUTURE_ENHANCEMENTS.md",
@@ -55377,23 +55412,23 @@
     {
       "path": "src/chaos/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 1358,
-      "sha256": "ecb9eae34e7efd3c37197853ffeb4fbe49d6a100d64e2b967b4afe96f708f93f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3076,
+      "sha256": "feb26983b825d9555c9fb0dddcbe4a78d83a49e6f9a1baf58eef2fba3feb3156",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "src/chaos/README.md",
       "category": "modules_and_api",
-      "size": 2903,
-      "sha256": "98e2bb4ed69d15321d7830f8700681dc1fd0b0e80e01ccd71746257fcd9b31bc",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4548,
+      "sha256": "1a9a5ec497fa5002f4803518b9f0e485ea98f7a789e8dfb3fee4121720ee87d5",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "src/chaos/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 15077,
-      "sha256": "bce2be9fd7ddbdd416f876bab73706986af9d904406b42c6106c717dd37dcfa6",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 15757,
+      "sha256": "761b8b23dd0ab51461744e305d124446ceac3379f5298e3658ab88b0ae349480",
+      "modified_utc": "2026-11-19T06:22:16+00:00"
     },
     {
       "path": "src/chimera/FUTURE_ENHANCEMENTS.md",
@@ -55874,9 +55909,9 @@
     {
       "path": "src/llm/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 20951,
-      "sha256": "8d2cb6d3caf30e87fa48db8a9026f65d770d5967524dc0cc5d8608090ee2e051",
-      "modified_utc": "2026-11-17T19:36:49+00:00"
+      "size": 24226,
+      "sha256": "f8ea59f7112c0a8c721bda63fed160bab9d56dfef745f4e74e0589b572e3a5fa",
+      "modified_utc": "2026-11-19T08:28:34+00:00"
     },
     {
       "path": "src/llm/README.md",
@@ -55888,9 +55923,9 @@
     {
       "path": "src/llm/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 62950,
-      "sha256": "66a6b9c1fee3c8eafbdcaa6dfa3051704e26e6c2fe6cf0f28ac6a95f48e0ccc0",
-      "modified_utc": "2026-11-17T19:36:49+00:00"
+      "size": 63308,
+      "sha256": "40ab3aa52c97537585ca464831e87936b2aae65f6c7c9361133b6e2b02bce774",
+      "modified_utc": "2026-11-19T08:27:59+00:00"
     },
     {
       "path": "src/llm/grammars/README.md",

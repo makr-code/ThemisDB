@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/storage/storage_engine.h`, `include/storage/mvcc_store.h`, `include/storage/wal_storage.h`, `include/storage/streaming_ingest_manager.h`, `src/storage/storage_engine.cpp`, `src/storage/wal_storage.cpp`, `src/storage/streaming_ingest_manager.cpp`, `src/replication/replication_manager.cpp`
+Canonical references: `include/storage/storage_engine.h`, `include/storage/mvcc_store.h`, `include/storage/wal_storage.h`, `include/storage/streaming_ingest_manager.h`, `include/storage/rocksdb_wrapper.h`, `src/storage/storage_engine.cpp`, `src/storage/wal_storage.cpp`, `src/storage/streaming_ingest_manager.cpp`, `src/replication/replication_manager.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -26,10 +26,12 @@ Related milestone: DOC-WEEKLY-2026-W45
 - `MVCCStore` writes timestamped versions, offers transaction-aware history writes, and exposes snapshot/version-read operations. Its constructor takes an already-open `RocksDBWrapper`; a null clock causes an internal HLC to be created.
 - `WALStorage::open()` returns a result containing the WAL instance and accepts an optional `RecoveryResult*` output. Its `status` is `Complete`, `TruncatedTail`, `Corrupted`, `TimedOut`, or `Failed`. The default `RecoveryMode` is `Strict`; `Config::recovery_timeout` is in milliseconds, zero means unlimited, and a negative duration is rejected.
 - `StreamingIngestManager::ingestBatch()` admits its entire input batch or none. It returns the accepted batch size, zero when DROP discards all events for insufficient capacity, or an error on rejection/timeout.
+- `RocksDBWrapper::SafeIterator::statusMessage()` returns an empty string for a healthy iterator or the underlying RocksDB iterator error; an uninitialized or moved-from iterator reports an explicit error.
 
 ## Contract details callers must preserve
 
 - Inspect and propagate `Result` errors instead of treating failed reads, writes, or replay as success.
+- Prefix/range scans that require completeness must check `SafeIterator::statusMessage()` after iteration; an invalid iterator position alone can also mean normal end-of-range.
 - A WAL delete is represented as a delete/tombstone entry. `WALStorage::Config::fsync_on_write` defaults to true but is configurable.
 - In Strict recovery, mid-log corruption, timeout, callback abort, and I/O errors fail `open()`. Only an incomplete tail is truncated: a short final header must match the WAL magic prefix, and an incomplete record is not accepted as a tail if a later complete record is found. `SkipCorrupted` is an explicit override that quarantines the corrupt segment under `<wal_dir>/quarantine` and can return successful open with status `Corrupted`; it does not convert callback aborts or I/O errors into success.
 - Replication recovery returns false from its WAL callback when `WALEntry::deserialize` fails, so invalid serialized replication entries fail startup rather than being silently skipped.

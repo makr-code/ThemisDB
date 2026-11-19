@@ -467,6 +467,16 @@ def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain
     assert ";nuget," not in scripts
 
 
+def test_mainline_cmake_commands_preserve_disabled_sccache_backend():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "build-mainline.yml"
+    commands = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["with"]
+    for command_name in ("configure_command", "build_command"):
+        assert "export SCCACHE_GHA_ENABLED=true" not in commands[command_name]
+    assert "export SCCACHE_GHA_ENABLED=false" in commands["build_command"]
+    assert 'echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"' in commands["build_command"]
+    assert '"${SCCACHE_PATH:-sccache}" --stop-server || true' in commands["build_command"]
+
+
 @pytest.mark.parametrize("stage", ["Configure", "Build"])
 @pytest.mark.parametrize("retry_status", [0, 9])
 @pytest.mark.parametrize("nested_error", [False, True])

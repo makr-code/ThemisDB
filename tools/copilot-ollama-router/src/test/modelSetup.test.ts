@@ -36,8 +36,9 @@ describe("ModelSetupManager.generateWorkspaceConfig", () => {
     const mgr = new ModelSetupManager("http://localhost:11434");
 
     const first = await mgr.generateWorkspaceConfig();
-    assert.equal(first.modifiedFiles.length, 3);
+    assert.equal(first.modifiedFiles.length, 2);
     assert.equal(first.skipped.length, 0);
+    assert.equal(fs.existsSync(path.join(tmpRoot, ".github")), false);
 
     const second = await mgr.generateWorkspaceConfig();
     assert.equal(second.modifiedFiles.length, 0);
@@ -71,5 +72,19 @@ describe("ModelSetupManager.generateWorkspaceConfig", () => {
     assert.equal(merged["copilotOllamaRouter.delegationMode"], "auto");
     assert.equal(merged["copilotOllamaRouter.contextTokenBudget"], 2048);
     assert.ok(Array.isArray(merged["github.copilot.chat.codeGeneration.instructions"]));
+  });
+
+  it("does not modify repository Copilot instructions", async () => {
+    const githubDir = path.join(tmpRoot, ".github");
+    fs.mkdirSync(githubDir, { recursive: true });
+    const instructionsPath = path.join(githubDir, "copilot-instructions.md");
+    const original = "# Project instructions\n\nUse the selected assistant.\n";
+    fs.writeFileSync(instructionsPath, original, "utf8");
+
+    const mgr = new ModelSetupManager("http://localhost:11434");
+    const result = await mgr.generateWorkspaceConfig();
+
+    assert.equal(fs.readFileSync(instructionsPath, "utf8"), original);
+    assert.equal(result.modifiedFiles.some((file) => file === instructionsPath), false);
   });
 });

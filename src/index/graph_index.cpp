@@ -823,6 +823,131 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	return {Status::OK(), std::move(order)};
 }
 
+std::pair<GraphIndexManager::Status, GraphIndexManager::BoundedTraversalResult>
+GraphIndexManager::boundedBfs(
+	std::string_view startPk,
+	std::string_view graphId,
+	int maxDepth,
+	std::size_t maxVertices,
+	std::size_t maxEdges,
+	std::chrono::milliseconds timeout,
+	std::string_view edgeType
+) const {
+	constexpr std::size_t max_key_component_bytes = 1024;
+	constexpr std::size_t max_edge_type_bytes = 128;
+	constexpr std::size_t max_vertices_limit = 4096;
+	constexpr std::size_t max_edges_limit = 65536;
+	constexpr std::size_t max_edge_document_bytes = 64 * 1024;
+	constexpr auto max_timeout = std::chrono::seconds(30);
+
+	const auto validComponent = [](std::string_view value, std::size_t maxBytes) {
+		return !value.empty() && value.size() <= maxBytes &&
+			value.find(':') == std::string_view::npos &&
+			value.find('\0') == std::string_view::npos;
+	};
+	if (!db_.isOpen()) {
+		return {Status::Error("boundedBfs: database is not open"), {}};
+	}
+	if (!validComponent(startPk, max_key_component_bytes) ||
+		!validComponent(graphId, max_key_component_bytes) ||
+		(!edgeType.empty() && !validComponent(edgeType, max_edge_type_bytes)) ||
+		maxDepth < 0 || maxDepth > 8 ||
+		maxVertices == 0 || maxVertices > max_vertices_limit ||
+		maxEdges == 0 || maxEdges > max_edges_limit ||
+		timeout.count() <= 0 || timeout > max_timeout) {
+		return {Status::Error("boundedBfs: invalid input or work limit"), {}};
+	}
+
+	auto iteratorResult = db_.newSafeIterator();
+	if (!iteratorResult) {
+		return {Status::Error("boundedBfs: could not create graph index iterator"), {}};
+	}
+	auto iterator = std::move(iteratorResult.value());
+
+	BoundedTraversalResult result;
+	result.nodes.push_back({std::string(startPk), 0});
+	std::unordered_set<std::string> visited;
+	visited.insert(std::string(startPk));
+	const auto startedAt = std::chrono::steady_clock::now();
+	const auto deadline = startedAt + timeout;
+
+	for (std::size_t currentIndex = 0; currentIndex < result.nodes.size(); ++currentIndex) {
+		const auto currentVertexId = result.nodes[currentIndex].vertexId;
+		const auto currentDepth = result.nodes[currentIndex].depth;
+		if (currentDepth >= static_cast<std::size_t>(maxDepth)) {
+			continue;
+		}
+
+		const std::string prefix = "graph:out:" + std::string(graphId) + ":" +
+			currentVertexId + ":";
+		iterator.Seek(prefix);
+		while (iterator.Valid() && iterator.key().starts_with(prefix)) {
+			if (std::chrono::steady_clock::now() >= deadline) {
+				return {Status::Error("boundedBfs: traversal deadline exceeded"), {}};
+			}
+			if (++result.edgesExamined > maxEdges) {
+				return {Status::Error("boundedBfs: edge examination limit exceeded"), {}};
+			}
+
+			const auto edgeKey = iterator.key();
+			const std::string edgeId(edgeKey.substr(prefix.size()));
+			const std::string targetPk(iterator.value());
+			if (!validComponent(edgeId, max_key_component_bytes) ||
+				!validComponent(targetPk, max_key_component_bytes)) {
+				return {Status::Error("boundedBfs: malformed graph adjacency entry"), {}};
+			}
+
+			const std::string edgeStorageKey =
+				"edge:" + std::string(graphId) + ":" + edgeId;
+			const auto edgeBlob = db_.get(edgeStorageKey);
+			if (!edgeBlob || edgeBlob->size() > max_edge_document_bytes) {
+				return {Status::Error("boundedBfs: edge document is missing or exceeds 64 KiB"), {}};
+			}
+
+			BaseEntity edge(edgeId);
+			try {
+				edge = BaseEntity::deserialize(edgeId, *edgeBlob);
+			} catch (const std::exception&) {
+				return {Status::Error("boundedBfs: edge document is invalid"), {}};
+			}
+			const auto storedId = edge.getFieldAsString("id");
+			const auto fromPk = edge.getFieldAsString("_from");
+			const auto toPk = edge.getFieldAsString("_to");
+			if (!storedId || *storedId != edgeId || !fromPk || *fromPk != currentVertexId ||
+				!toPk || *toPk != targetPk) {
+				return {Status::Error("boundedBfs: edge document does not match its adjacency entry"), {}};
+			}
+			if (!edgeType.empty()) {
+				const auto storedType = edge.getFieldAsString("_type");
+				if (!storedType || *storedType != edgeType) {
+					iterator.Next();
+					continue;
+				}
+			}
+
+			if (visited.insert(targetPk).second) {
+				if (result.nodes.size() >= maxVertices) {
+					return {Status::Error("boundedBfs: vertex limit exceeded"), {}};
+				}
+				result.nodes.push_back({
+					targetPk,
+					currentDepth + 1
+				});
+			}
+			iterator.Next();
+		}
+
+		const auto iteratorError = iterator.statusMessage();
+		if (!iteratorError.empty()) {
+			return {Status::Error("boundedBfs: graph index scan failed: " + iteratorError), {}};
+		}
+		if (std::chrono::steady_clock::now() >= deadline) {
+			return {Status::Error("boundedBfs: traversal deadline exceeded"), {}};
+		}
+	}
+	return {Status::OK(), std::move(result)};
+}
+
 // BFS with edge type filtering and graph scope (server-side)
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view edge_type, std::string_view graph_id) const {

@@ -27,4 +27,6 @@ metadata:
    excluded for missing locations. Means are not time-weighted; counts alone
    do not establish regular sampling or complete coverage.
 4. Report unavailable tools, invalid inputs, and read or limit errors
-   explicitly. Do not retry with broader scope or claim an atomic snapshot.
+   explicitly. The native comparison tool rejects malformed matching stored
+   records/chunks, but cannot prove that the source contains every expected
+   measurement. Do not retry with broader scope or claim an atomic snapshot.

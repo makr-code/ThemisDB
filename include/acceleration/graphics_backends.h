@@ -211,7 +211,25 @@ public:
         bool useL2)>;
 
     VulkanVectorBackend();
+    /**
+     * @brief Construct a backend bound to a Vulkan physical-device index.
+     * @param device_index Zero-based Vulkan physical-device index; initialize() fails if unavailable.
+     */
+    explicit VulkanVectorBackend(int device_index);
     ~VulkanVectorBackend() override;
+
+    /**
+     * @brief Count physical Vulkan devices visible to the current process.
+     * @return Device count, or zero when Vulkan is unavailable.
+     */
+    [[nodiscard]] static int detectDeviceCount() noexcept;
+
+    /**
+     * @brief Enumerate Vulkan compute-capable physical-device indices.
+     * @return Physical-device indices in Vulkan enumeration order; CPU devices
+     *         are omitted. An empty vector indicates that no usable device was found.
+     */
+    [[nodiscard]] static std::vector<int> availableDeviceIndices();
     
     const char* name() const noexcept override { return "Vulkan"; }
     BackendType type() const noexcept override { return BackendType::VULKAN; }
@@ -397,6 +415,7 @@ private:
         return fn;
     }
     bool initialized_ = false;
+    int requestedDeviceIndex_ = -1;  ///< -1 preserves automatic best-device selection.
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
     metrics::BackendMetrics metrics_{"vulkan"};

@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-17 -->
+<!-- Last Updated: 2026-11-19 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -265,6 +265,8 @@ This plan is a research-backed proposal, not a release commitment. It separates 
 - [ ] Qualify smaller local-model/tokenizer/quantization capabilities and approved local model/LoRA routing before expanding optional provider adapters (Target: Q2 2027 proposal).
 - [ ] Specify bounded native retrieval/tool/prompt-planning loops, locality/egress policy and aggregate resource admission without framework dependencies in core (Target: Q2 2027 proposal).
 - [~] Implement the file-based Agent Skill MVP with metadata-only discovery, explicit instruction/resource loading, and mode-scoped tool access; representative performance evidence remains pending (Target: Q2 2027 proposal; design and phase gates below).
+- [~] Add host-side skill delegation contexts with exact permission attenuation, fixed principal/tenant, monotonic expiry, and shared aggregate budgets; ToolRegistry/RAG enforcement is a separate follow-up (Target: Q2 2027 proposal).
+- [~] Add opt-in native cross-model skill executors beginning with `asset-impact-analysis`: graph-scoped outgoing traversal plus host-bound TSStore window comparison; focused CTest execution remains pending (Target: Q2 2027 proposal).
 - [ ] Integrate tokenizer-exact final RAG admission and verify ordinary database availability and p95/p99 under concurrent native inference (Target: Q2 2027 proposal).
 - [ ] Qualify AdaLoRA artifact promotion and Multi-LoRA request activation/
   composition separately, including base compatibility, cache validity,
@@ -317,9 +319,10 @@ existing allowlist. Buffered discovery may read ahead into instruction bodies;
 zero body-byte I/O remains unverified. Skill text remains untrusted guidance,
 not authority to invoke tools.
 This implementation does not execute bundled scripts or persist packages in
-ThemisDB. Three opt-in basic guidance packages are available under
-`config/agent_skills/`. The latency target and default enablement remain
-proposals.
+ThemisDB. Guidance packages under `config/agent_skills/` remain inert; the
+separately registered `analyze_asset_impact` executor is an opt-in native
+graph/time-series tool and is not activated by package presence. The latency
+target and default enablement remain proposals.
 
 - **Phase 1 — Design / API Contract**
   - [x] Define `SKILL.md` metadata, package layout, registry operations, byte

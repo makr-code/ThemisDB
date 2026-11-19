@@ -305,11 +305,26 @@ int main() {
     auto e_dist = e_full;
     e_dist.distributed_multi_shard   = true;
     e_dist.shard_manifests_available = true;
+    e_dist.shard_summary_confidence  = cfg.min_shard_summary_confidence;
     const auto p5_stats = benchmarkPath(*planner, e_dist, f_none, cfg, N);
     std::printf("[Path 5 — Distributed]\n");
     std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
                 p5_stats.avg_ns, p5_stats.p50_ns, p5_stats.p95_ns, p5_stats.p99_ns);
     std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p5_stats.min_ns, p5_stats.max_ns);
+
+    // --- Path 4: Distributed summary confidence below threshold ---
+    std::printf("Running Path 4 (Distributed low-confidence fallback) benchmark...\n");
+    auto e_dist_low_confidence = e_dist;
+    e_dist_low_confidence.shard_summary_confidence =
+        cfg.min_shard_summary_confidence - 0.01;
+    const auto p4_confidence_stats =
+        benchmarkPath(*planner, e_dist_low_confidence, f_none, cfg, N);
+    std::printf("[Path 4 — Distributed low-confidence fallback]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p4_confidence_stats.avg_ns, p4_confidence_stats.p50_ns,
+                p4_confidence_stats.p95_ns, p4_confidence_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n",
+                p4_confidence_stats.min_ns, p4_confidence_stats.max_ns);
 
     // --- Decision Distribution and Fallback Analysis ---
     std::printf("======================================================================\n");
@@ -341,10 +356,12 @@ int main() {
     
     const double max_p95 = std::max({p1_stats.p95_ns, p2_stats.p95_ns,
                                       p4_stale_stats.p95_ns, p4_exact_stats.p95_ns,
-                                      p4_gap_stats.p95_ns, p5_stats.p95_ns});
+                                      p4_gap_stats.p95_ns, p5_stats.p95_ns,
+                                      p4_confidence_stats.p95_ns});
     const double max_p99 = std::max({p1_stats.p99_ns, p2_stats.p99_ns,
                                       p4_stale_stats.p99_ns, p4_exact_stats.p99_ns,
-                                      p4_gap_stats.p99_ns, p5_stats.p99_ns});
+                                      p4_gap_stats.p99_ns, p5_stats.p99_ns,
+                                      p4_confidence_stats.p99_ns});
     
     if (max_p95 > P95_REGRESSION_NS) {
         std::printf("❌ REGRESSION DETECTED: max p95 latency %.1f ns exceeds threshold %.1f ns\n",

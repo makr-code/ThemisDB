@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,7 +35,9 @@ The host application owns deployment, telemetry export, and alerting.
   immediately; `max_threads` does not trigger growth. `idle_timeout_ms` is a
   wait interval, not worker retirement.
 - Coordinate scheduler and pool limits with upstream retry behavior. A bounded
-  queue does not bound retries initiated outside the module.
+  queue does not bound retries initiated outside the module. The module does not
+  retry failed tasks or route them to a fallback; any host retry policy must be
+  bounded and account for duplicate side effects.
 
 ## Monitoring responsibilities
 
@@ -55,8 +57,11 @@ does not set universal thresholds.
 During normal operation, keep task captures alive through execution and handle
 both queue boundaries explicitly. At shutdown, stop producers, stop new
 scheduler admissions, coordinate the scheduler consumer, then drain and join
-the pool before destroying state referenced by tasks. Pool `shutdown()` uses a
-best-effort drain timeout; task bodies are not forcibly cancelled.
+the pool before destroying state referenced by tasks. Pool `shutdown()` rejects
+new work and workers finish accepted queued items before exiting. Its
+`drain_timeout` bounds only the initial queue-drain wait; joining a worker that
+is executing a non-terminating callable can exceed the timeout indefinitely.
+Task bodies are not forcibly cancelled.
 
 After changes to queue limits, thread counts, server wiring, or worker behavior:
 
