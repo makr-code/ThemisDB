@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import tempfile
@@ -36,6 +37,59 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_fast_compile_uses_system_packages_without_vcpkg_checkout(self):
+        lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
+        self.assertIs(lane["submodules"], False)
+        configure = shlex.split(lane["configure_command"])
+        self.assertIn("-DCMAKE_TOOLCHAIN_FILE=", configure)
+        self.assertEqual(
+            [arg for arg in configure if arg.startswith("-DCMAKE_TOOLCHAIN_FILE")],
+            ["-DCMAKE_TOOLCHAIN_FILE="],
+        )
+
+    @unittest.skipUnless(shutil.which("cmake") and shutil.which("ninja"), "requires CMake and Ninja")
+    def test_fast_compile_toolchain_survives_regeneration_with_empty_vcpkg_directory(self):
+        lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
+        toolchain_arg = next(
+            arg for arg in shlex.split(lane["configure_command"])
+            if arg.startswith("-DCMAKE_TOOLCHAIN_FILE=")
+        )
+        preflight = (ROOT / "CMakeLists.txt").read_text().split(
+            "# Preflight for externally provided toolchain file", 1
+        )[1].split("# Default parallelism", 1)[0]
+        dependencies = (ROOT / "cmake/Dependencies.cmake").read_text().split(
+            'set(THEMIS_VCPKG_INSTALL_RETRY_COUNT', 1
+        )[0]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            (directory / "vcpkg").mkdir()
+            source = directory / "CMakeLists.txt"
+            source.write_text(
+                "cmake_minimum_required(VERSION 3.20)\nproject(FastCompile NONE)\n"
+                + preflight + dependencies
+                + '\nadd_custom_target(themis_base COMMAND "${CMAKE_COMMAND}" -E echo fast-ok)\n'
+            )
+            build = directory / "build"
+            for args in ([], [toolchain_arg]):
+                result = subprocess.run(
+                    ["cmake", "-S", str(directory), "-B", str(build), "-G", "Ninja", *args],
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                if not args:
+                    self.assertIn(
+                        str(directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"),
+                        (build / "CMakeCache.txt").read_text(),
+                    )
+            source.write_text(source.read_text() + "\n")
+            result = subprocess.run(
+                ["cmake", "--build", str(build), "--target", "themis_base"],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("fast-ok", result.stdout)
+            self.assertRegex((build / "CMakeCache.txt").read_text(), r"(?m)^CMAKE_TOOLCHAIN_FILE:[^=]+=$")
+
     def test_release_identity_discards_only_cpack_staging(self):
         steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
         script = next(item["run"] for item in steps
