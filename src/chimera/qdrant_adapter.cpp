@@ -400,56 +400,11 @@ Result<std::string> QdrantAdapter::insert_vector(
     }
 
 #ifdef THEMIS_CHIMERA_QDRANT
-    try {
-        // Upsert point via gRPC UpsertPoints RPC.
-        // This implements:
-        // 1. Create a PointStruct with the vector data and a generated point ID
-        // 2. Create UpsertPointsRequest with the collection name and point list
-        // 3. Execute UpsertPoints RPC via the stub
-        // 4. Return the point ID on success
-        //
-        // Note: Full implementation requires proto-generated qdrant stubs.
-        // For now, we follow the pattern and generate an ID locally.
-        
-        if (!grpc_client_) {
-            return Result<std::string>::err(
-                ErrorCode::INTERNAL_ERROR,
-                "gRPC client not initialized"
-            );
-        }
-        
-        // Generate unique ID for this vector point
-        const std::string point_id = generate_id();
-        
-        // In production with full Qdrant gRPC stubs:
-        // grpc::ClientContext context;
-        // context.set_deadline(
-        //     std::chrono::system_clock::now() +
-        //     std::chrono::seconds(30)
-        // );
-        // auto request = std::make_unique<qdrant::UpsertPointsRequest>();
-        // request->set_collection_name(collection);
-        // auto point = request->add_points();
-        // point->set_id(std::stoull(point_id));
-        // for (float val : vector.data) {
-        //     point->mutable_vector()->add_data(val);
-        // }
-        // qdrant::UpsertPointsResponse response;
-        // auto status = stub_->UpsertPoints(&context, *request, &response);
-        // if (!status.ok()) {
-        //     return Result<std::string>::err(
-        //         ErrorCode::INTERNAL_ERROR,
-        //         "Qdrant UpsertPoints RPC failed: " + status.error_message()
-        //     );
-        // }
-        
-        return Result<std::string>::ok(point_id);
-    } catch (const std::exception& ex) {
-        return Result<std::string>::err(
-            ErrorCode::INTERNAL_ERROR,
-            std::string("Qdrant insert_vector failed: ") + ex.what()
-        );
-    }
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant vector persistence is unavailable: generated gRPC operation stubs "
+        "are not implemented."
+    );
 #else
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -464,27 +419,28 @@ Result<std::string> QdrantAdapter::insert_vector(
  * @param[in] collection Input parameter.
  * @param[in] vectors Input parameter.
  * @return Return value.
- * @details Calls: err(), lock(), push_back(), generate_id(), ok(), size().
+ * @details Non-empty input fails explicitly because no backend write is performed.
  */
 Result<size_t> QdrantAdapter::batch_insert_vectors(
     const std::string& collection,
     const std::vector<Vector>& vectors
 ) {
-    if (!connected_) {
+    if (collection.empty()) {
         return Result<size_t>::err(
-            ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            ErrorCode::INVALID_ARGUMENT,
+            "Collection name must not be empty"
         );
     }
 
-    {
-        std::unique_lock<std::mutex> lock(batch_mutex_);
-        for (const auto& v : vectors) {
-            vector_queue_.push_back({collection, v, generate_id()});
-        }
+    if (vectors.empty()) {
+        return Result<size_t>::ok(0);
     }
 
-    return Result<size_t>::ok(vectors.size());
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant vector batch insertion is unavailable until queued vectors "
+        "can be persisted by the backend."
+    );
 }
 
 Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
@@ -522,70 +478,11 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
     }
 
 #ifdef THEMIS_CHIMERA_QDRANT
-    try {
-        // Execute KNN search via gRPC Search RPC with payload filter.
-        // This implements:
-        // 1. Create SearchPointsRequest with collection name, query vector, and top k
-        // 2. Optionally apply payload filter from the filters map
-        // 3. Execute Search RPC via the stub
-        // 4. Iterate through results and extract vectors with their similarity scores
-        // 5. Return vector of (Vector, distance) pairs
-        //
-        // Note: Full implementation requires proto-generated qdrant stubs.
-        // For now, we provide the framework and return empty results.
-        
-        if (!grpc_client_) {
-            return Result<std::vector<std::pair<Vector, double>>>::err(
-                ErrorCode::INTERNAL_ERROR,
-                "gRPC client not initialized"
-            );
-        }
-        
-        // In production with full Qdrant gRPC stubs:
-        // grpc::ClientContext context;
-        // context.set_deadline(
-        //     std::chrono::system_clock::now() +
-        //     std::chrono::seconds(30)
-        // );
-        // auto request = std::make_unique<qdrant::SearchPointsRequest>();
-        // request->set_collection_name(collection);
-        // request->set_limit(static_cast<uint64_t>(k));
-        // for (float val : query_vector.data) {
-        //     request->add_vector(val);
-        // }
-        // 
-        // // Optionally apply payload filters
-        // if (!filters.empty()) {
-        //     auto filter = request->mutable_filter();
-        //     // Map filters to Qdrant PayloadFilter (complex logic omitted for brevity)
-        //     // for (const auto& [key, value] : filters) {
-        //     //     add_filter_condition(filter, key, value);
-        //     // }
-        // }
-        // 
-        // qdrant::SearchResponse response;
-        // auto status = stub_->Search(&context, *request, &response);
-        // if (!status.ok()) {
-        //     return Result<...>::err(
-        //         ErrorCode::INTERNAL_ERROR,
-        //         "Qdrant Search RPC failed: " + status.error_message()
-        //     );
-        // }
-        // 
-        // std::vector<std::pair<Vector, double>> results;
-        // for (const auto& scored_point : response.result()) {
-        //     Vector result_vec = extract_vector_from_point(scored_point.vectors().data());
-        //     results.emplace_back(result_vec, scored_point.score());
-        // }
-        
-        std::vector<std::pair<Vector, double>> results;
-        return Result<std::vector<std::pair<Vector, double>>>::ok(std::move(results));
-    } catch (const std::exception& ex) {
-        return Result<std::vector<std::pair<Vector, double>>>::err(
-            ErrorCode::INTERNAL_ERROR,
-            std::string("Qdrant search_vectors failed: ") + ex.what()
-        );
-    }
+    return Result<std::vector<std::pair<Vector, double>>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant vector search is unavailable: generated gRPC operation stubs "
+        "are not implemented."
+    );
 #else
     return Result<std::vector<std::pair<Vector, double>>>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -622,61 +519,11 @@ Result<bool> QdrantAdapter::create_index(
     }
 
 #ifdef THEMIS_CHIMERA_QDRANT
-    try {
-        // Create collection with VectorParams (size, distance metric) via gRPC.
-        // This implements:
-        // 1. Create CreateCollectionRequest with collection name
-        // 2. Set VectorParams with vector size and distance metric (e.g., Cosine)
-        // 3. Optionally parse index_params for additional configuration
-        // 4. Execute CreateCollection RPC via the stub
-        // 5. Return true on success
-        //
-        // Note: Full implementation requires proto-generated qdrant stubs.
-        // For now, we provide the framework.
-        
-        if (!grpc_client_) {
-            return Result<bool>::err(
-                ErrorCode::INTERNAL_ERROR,
-                "gRPC client not initialized"
-            );
-        }
-        
-        // In production with full Qdrant gRPC stubs:
-        // grpc::ClientContext context;
-        // context.set_deadline(
-        //     std::chrono::system_clock::now() +
-        //     std::chrono::seconds(30)
-        // );
-        // auto request = std::make_unique<qdrant::CreateCollectionRequest>();
-        // request->set_collection_name(collection);
-        // 
-        // auto vectors_config = request->mutable_vectors_config();
-        // auto vector_params = vectors_config->mutable_params();
-        // vector_params->set_size(static_cast<uint32_t>(dimensions));
-        // 
-        // // Default to Cosine distance; can be overridden via index_params
-        // // qdrant::Distance distance = qdrant::Distance::Cosine;
-        // // if (index_params.count("distance_metric")) {
-        // //     // Parse distance metric from index_params
-        // // }
-        // vector_params->set_distance(qdrant::Distance::Cosine);
-        // 
-        // qdrant::CreateCollectionResponse response;
-        // auto status = stub_->CreateCollection(&context, *request, &response);
-        // if (!status.ok()) {
-        //     return Result<bool>::err(
-        //         ErrorCode::INTERNAL_ERROR,
-        //         "Qdrant CreateCollection RPC failed: " + status.error_message()
-        //     );
-        // }
-        
-        return Result<bool>::ok(true);
-    } catch (const std::exception& ex) {
-        return Result<bool>::err(
-            ErrorCode::INTERNAL_ERROR,
-            std::string("Qdrant create_index failed: ") + ex.what()
-        );
-    }
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Qdrant collection creation is unavailable: generated gRPC operation "
+        "stubs are not implemented."
+    );
 #else
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -979,24 +826,12 @@ Result<SystemMetrics> QdrantAdapter::get_metrics() const {
 }
 
 bool QdrantAdapter::has_capability(Capability cap) const {
-    switch (cap) {
-        case Capability::VECTOR_SEARCH:
-            return true;
-        case Capability::BATCH_OPERATIONS:
-            return true;
-        case Capability::CONNECTION_POOLING:
-            return true;
-        default:
-            return false;
-    }
+    (void)cap;
+    return false;
 }
 
 std::vector<Capability> QdrantAdapter::get_capabilities() const {
-    return {
-        Capability::VECTOR_SEARCH,
-        Capability::BATCH_OPERATIONS,
-        Capability::CONNECTION_POOLING
-    };
+    return {};
 }
 
 // ---------------------------------------------------------------------------
@@ -1082,9 +917,13 @@ Result<BatchStatistics> QdrantAdapter::flush() {
     BatchStatistics stats;
     {
         std::unique_lock<std::mutex> lock(batch_mutex_);
-        stats.rows_processed = vector_queue_.size();
-        stats.rows_committed = vector_queue_.size();
-        vector_queue_.clear();
+        if (!vector_queue_.empty()) {
+            return Result<BatchStatistics>::err(
+                ErrorCode::NOT_IMPLEMENTED,
+                "Qdrant vector batch flush is unavailable; pending vectors "
+                "were retained."
+            );
+        }
     }
     return Result<BatchStatistics>::ok(std::move(stats));
 }

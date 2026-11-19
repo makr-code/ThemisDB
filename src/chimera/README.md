@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -32,7 +32,11 @@ For an intended Chimera-enabled build, configure with `-DTHEMIS_BUILD_CHIMERA=ON
 
 ## Limitations
 
-The retry helper currently does not classify by concrete error code; batch execution is adapter-specific; transaction helper state does not establish distributed atomicity. The dedicated CHIMERA benchmark file contains local stubs. See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), and [`SECURITY.md`](SECURITY.md).
+`connect()` requires a non-empty `themisdb://` authority and empty options, then marks the adapter's local execution state connected; it does not establish a network connection. Non-empty options return `UNSUPPORTED` instead of being silently ignored. Without injected engine components, data operations use instance-local in-memory stores. An injected engine path without the required compile-time dispatch returns `NOT_IMPLEMENTED`.
+
+The retry helper classifies concrete error codes; category flags default off, explicit error-code allowlists are exclusive, and retrying requires the caller to declare an operation idempotent. It bounds retry count and backoff delay, but does not impose an operation deadline. Transactions record local metadata and do not provide rollback of stored operations or distributed atomicity; MongoDB transaction handles and Neo4j transaction placeholders are not advertised as database transactions. Vendor capabilities are withheld when their driver is not compiled in. Qdrant's generated gRPC operation stubs are absent, so vector and batch capabilities are not advertised and writes/search/index creation return `NOT_IMPLEMENTED`. Legacy enum aliases that collide with unrelated tokens are not advertised.
+
+The checked-in C++ adapter benchmark uses the in-process adapter; dedicated router/merge benchmarks use stubs. Neither is release evidence for live-backend performance. See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), and [`SECURITY.md`](SECURITY.md).
 
 ## Canonical references
 

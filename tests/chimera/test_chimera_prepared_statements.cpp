@@ -75,14 +75,24 @@ protected:
 // ---------------------------------------------------------------------------
 
 TEST_F(ChimeraPreparedStatementTest, HasPreparedStatementsCapability) {
+#if defined(CHIMERA_PREPARED_STATEMENTS_CAPABILITY_ALIASED)
+    EXPECT_FALSE(adapter_.has_capability(prepared_statements_capability()));
+#else
     EXPECT_TRUE(adapter_.has_capability(prepared_statements_capability()));
+#endif
 }
 
 TEST_F(ChimeraPreparedStatementTest, GetCapabilitiesIncludesPreparedStatements) {
     const auto caps = adapter_.get_capabilities();
+#if defined(CHIMERA_PREPARED_STATEMENTS_CAPABILITY_ALIASED)
+    EXPECT_EQ(std::find(caps.begin(), caps.end(),
+                        prepared_statements_capability()),
+              caps.end());
+#else
     EXPECT_NE(std::find(caps.begin(), caps.end(),
                         prepared_statements_capability()),
               caps.end());
+#endif
 }
 
 TEST_F(ChimeraPreparedStatementTest, DynamicCastToIPreparedStatementAdapterSucceeds) {

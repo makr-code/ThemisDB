@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -23,6 +23,7 @@ Exact model backend not verifiable from final document text alone.
 | `test_themisdb_adapter.cpp` | ThemisDB adapter API and selected engine-injection guard behavior; default fixture uses the in-process adapter path. |
 | `test_chimera_streaming.cpp` | Result-stream and stream configuration behavior. |
 | `test_chimera_prepared_statements.cpp` | Prepared statements, binding, execution, statistics, and escaping cases. |
+| `test_chimera_retry.cpp` | Concrete error classification, idempotency opt-in, invalid policies, retry exhaustion, and backoff cap. |
 | `test_mongodb_adapter_phase2.cpp` | MongoDB adapter edge cases, including unavailable/unsupported paths. |
 | `test_chimera_highcardinality_stress.cpp` | High-volume/concurrency exercises over local router/fallback stubs; not production adapter coverage. |
 
@@ -30,15 +31,15 @@ Exact model backend not verifiable from final document text alone.
 
 ## Build and registration
 
-`THEMIS_BUILD_CHIMERA` defaults to `OFF`. Under that option, root `tests/CMakeLists.txt` declares ThemisDB adapter, streaming, and prepared-statement focused executables. Other helper registrations seek local or `external/chimera` test sources. The helper also appends local adapter implementation paths absent from the current `src/chimera/` inventory; no configure was run to determine whether targets resolve successfully. The local `tests/chimera/CMakeLists.txt` describes a glob-based focused-test recipe, but the inspected CMake files do not show it being added via `add_subdirectory(chimera)`; registration through that fragment is uncertain.
+The root `tests/CMakeLists.txt` auto-discovers `tests/chimera/CMakeLists.txt` when the test suite is enabled and GTest is found. That fragment registers globbed `test_*.cpp` files as `module_chimera_<stem>_focused`; the retry test also compiles `src/chimera/retry_executor.cpp`. The root file separately declares additional adapter/stream/prepared targets under `THEMIS_BUILD_CHIMERA=ON`. Other CHIMERA helper registrations use local and external source paths; their resolution is configuration-dependent.
 
 ### Quickstart
 
-Configure with `-DTHEMIS_BUILD_CHIMERA=ON` and the required external checkout, then inspect the generated build/CTest inventory. If present, `ThemisDBAdapterFocusedTests` is a root-CMake target; build it with `cmake --build <build-dir> --target ThemisDBAdapterFocusedTests` and run the discovered test names with CTest. This guide does not claim that configure, target generation, or tests succeeded in the current environment.
+Configure the project with `-DTHEMIS_BUILD_TESTS=ON`, then inspect generated targets with `cmake --build <build-dir> --target help` and registered tests with `ctest --test-dir <build-dir> -N`. The focused retry commands are `cmake --build <build-dir> --target module_chimera_test_chimera_retry_focused` and `ctest --test-dir <build-dir> -R test_chimera_retry_ChimeraFocusedTests --output-on-failure`. The full configure attempted for issue #7511 stopped at the missing required fmt package, before test-target generation.
 
 ## Running status
 
-No build, test discovery, or test execution was performed for this update. Do not treat this inventory as pass evidence. Check the generated targets for the selected checkout/configuration before invoking a test.
+The changed retry and ThemisDB adapter translation units compiled with GNU 13.3.0 and C++20. Project configure did not complete because fmt was unavailable, so no focused GTest target was built or executed. Do not treat source presence or translation-unit compilation as test or release-pass evidence.
 
 ## References
 

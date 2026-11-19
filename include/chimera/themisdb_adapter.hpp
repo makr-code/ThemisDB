@@ -117,6 +117,16 @@ public:
     );
     
     // Connection Management
+    /**
+     * @brief Enables the adapter's local in-process execution state.
+     * @param[in] connection_string Must use the `themisdb://` scheme and contain
+     *            a non-empty, whitespace-free authority.
+     * @param[in] options Must be empty; options are not applied by this adapter.
+     * @return Success when local execution is enabled; INVALID_ARGUMENT for a
+     *         malformed URI or UNSUPPORTED for non-empty options.
+     * @note This method does not establish a network connection. Without
+     *       injected engines, operations use instance-local in-memory stores.
+     */
     Result<bool> connect(
         const std::string& connection_string,
         const std::map<std::string, std::string>& options = {}
@@ -299,7 +309,8 @@ private:
     themis::GraphIndexManager*  graph_index_   = nullptr;
 
     // ── Connection pool (optional) ───────────────────────────────────────────
-    // When non-null, has_capability(CONNECTION_POOLING) returns true.
+    // When non-null, connection-pool support can be advertised only if the
+    // selected CHIMERA enum has a distinct CONNECTION_POOLING token.
     std::function<void*()> connection_pool_acquire_fn_;
 
     // ── In-memory simulation collections ────────────────────────────────────

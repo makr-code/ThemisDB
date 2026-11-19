@@ -202,7 +202,7 @@ std::string ThemisDBAdapter::generate_id() {
 // Connection Management
 Result<bool> ThemisDBAdapter::connect(
     const std::string& connection_string,
-    const std::map<std::string, std::string>& /*options*/
+    const std::map<std::string, std::string>& options
 ) {
     if (connection_string.empty()) {
         return Result<bool>::err(
@@ -214,8 +214,15 @@ Result<bool> ThemisDBAdapter::connect(
     if (!is_valid_connection_string(connection_string)) {
         return Result<bool>::err(
             ErrorCode::INVALID_ARGUMENT,
-            "Invalid ThemisDB connection string: must start with "
-            "themisdb://"
+            "Invalid ThemisDB connection string: expected "
+            "themisdb://<authority>"
+        );
+    }
+
+    if (!options.empty()) {
+        return Result<bool>::err(
+            ErrorCode::UNSUPPORTED,
+            "The in-process ThemisDB adapter does not support connection options"
         );
     }
 
@@ -1474,31 +1481,23 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         [[fallthrough]];
         case Capability::DOCUMENT_STORE:
         [[fallthrough]];
-        case Capability::FULL_TEXT_SEARCH:
-        [[fallthrough]];
-        case Capability::TRANSACTIONS:
-        [[fallthrough]];
-        case Capability::DISTRIBUTED_QUERIES:
-        [[fallthrough]];
-        case Capability::GEOSPATIAL_QUERIES:
-        [[fallthrough]];
-        case Capability::TIME_SERIES:
-        [[fallthrough]];
         case Capability::BATCH_OPERATIONS:
-        [[fallthrough]];
-        case Capability::SECONDARY_INDEXES:
         [[fallthrough]];
         case Capability::ASYNC_OPERATIONS:
         [[fallthrough]];
         case Capability::STREAMING_RESULTS:
+#if !defined(CHIMERA_PREPARED_STATEMENTS_CAPABILITY_ALIASED)
         [[fallthrough]];
         case Capability::PREPARED_STATEMENTS:
+#endif
             return true;
+#if !defined(CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED)
         case Capability::CONNECTION_POOLING:
             // Resolved: returns true when a connection-pool provider has been
             // injected via setConnectionPool().  Without injection the adapter
             // operates in direct-call mode (no pool).
             return static_cast<bool>(connection_pool_acquire_fn_);
+#endif
         default:
             return false;
     }
@@ -1510,21 +1509,19 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::VECTOR_SEARCH,
         Capability::GRAPH_TRAVERSAL,
         Capability::DOCUMENT_STORE,
-        Capability::FULL_TEXT_SEARCH,
-        Capability::TRANSACTIONS,
-        Capability::DISTRIBUTED_QUERIES,
-        Capability::GEOSPATIAL_QUERIES,
-        Capability::TIME_SERIES,
         Capability::BATCH_OPERATIONS,
-        Capability::SECONDARY_INDEXES,
         Capability::ASYNC_OPERATIONS,
         Capability::STREAMING_RESULTS,
+#if !defined(CHIMERA_PREPARED_STATEMENTS_CAPABILITY_ALIASED)
         Capability::PREPARED_STATEMENTS
+#endif
     };
+#if !defined(CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED)
     // Include CONNECTION_POOLING only when a pool provider has been injected.
     if (connection_pool_acquire_fn_) {
         caps.push_back(Capability::CONNECTION_POOLING);
     }
+#endif
     return caps;
 }
 
@@ -1549,7 +1546,26 @@ void ThemisDBAdapter::setConnectionPool(std::function<void*()> acquire_fn) {
 bool ThemisDBAdapter::is_valid_connection_string(
     const std::string& connection_string
 ) {
-    return connection_string.rfind("themisdb://", 0) == 0;
+    constexpr std::string_view scheme = "themisdb://";
+    if (connection_string.rfind(scheme, 0) != 0) {
+        return false;
+    }
+
+    const std::string_view connection{connection_string};
+    const auto authority_start = scheme.size();
+    const auto authority_end = connection.find_first_of("/?#", authority_start);
+    const auto authority = connection.substr(
+        authority_start,
+        authority_end == std::string_view::npos
+            ? std::string_view::npos
+            : authority_end - authority_start
+    );
+    return !authority.empty() &&
+           std::none_of(
+               authority.begin(),
+               authority.end(),
+               [](unsigned char character) { return std::isspace(character) != 0; }
+           );
 }
 
 /**
@@ -2144,4 +2160,3 @@ std::vector<Scalar> ThemisDBPreparedStatement::build_positional_params() const {
 }
 
 } // namespace chimera
-
