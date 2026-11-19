@@ -922,6 +922,14 @@ jobs:
             echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
             BUILD_DIR="${{ steps.resolve_mode.outputs.resolved_build_dir }}"
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
+              toolchain_file=""
+              if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
+                toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' "$BUILD_DIR/CMakeCache.txt" | tail -n 1)"
+              fi
+              if [[ "$toolchain_file" == */vcpkg/scripts/buildsystems/vcpkg.cmake && ! -f "$toolchain_file" ]]; then
+                echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain"
+                git -C "$GITHUB_WORKSPACE" submodule update --init -- vcpkg
+              fi
               # Reuse cached configure options; rerunning the preset would re-enable the launcher.
               # Nested vcpkg configures also inherit launcher environment variables.
               unset CMAKE_C_COMPILER_LAUNCHER CMAKE_CXX_COMPILER_LAUNCHER
@@ -1016,6 +1024,14 @@ jobs:
             echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
             unset CMAKE_C_COMPILER_LAUNCHER CMAKE_CXX_COMPILER_LAUNCHER
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
+              toolchain_file=""
+              if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
+                toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' "$BUILD_DIR/CMakeCache.txt" | tail -n 1)"
+              fi
+              if [[ "$toolchain_file" == */vcpkg/scripts/buildsystems/vcpkg.cmake && ! -f "$toolchain_file" ]]; then
+                echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain"
+                git -C "$GITHUB_WORKSPACE" submodule update --init -- vcpkg
+              fi
               cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi
             set +e
