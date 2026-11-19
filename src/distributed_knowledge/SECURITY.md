@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Contributors"
 
 # Security - Distributed Knowledge Module
 
-<!-- Status: current | source review: 2026-10-31; not a security assessment -->
+<!-- Status: current | source review: 2026-11-19; not a security assessment -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -27,25 +27,25 @@ Security in distributed_knowledge focuses on cross-shard federation boundaries, 
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| unauthorized federation actions | component-specific policy/trust callbacks where exposed and configured; caller-side authorization remains required |
+| unauthorized capability announcements | inbound announcement trust policy is mandatory; caller-side peer authentication/authorization remains required |
 | privacy leakage through cross-shard payloads | privacy-aware federation interfaces and controls |
-| replay/duplicate summary propagation | deduplication controls in feedback synchronization |
-| timeout-driven merge instability | bounded merge behavior with partial-failure semantics |
-| malformed distributed payload ingestion | validation and structured rejection behavior |
+| replay/duplicate summary propagation | bounded in-memory deduplication; restart/eviction may permit replays |
+| timeout-driven merge instability | caller-provided timeout results and partial/all-timeout failure semantics; no remote deadline enforcement or cancellation |
+| malformed distributed payload ingestion | unsupported capability domain values reject; other JSON fields are not a complete schema-validation boundary |
 
 ## Implemented Security Controls
 
-- selected federation, distillation, and feedback paths expose policy, bounded-policy, cross-border, or trust callbacks; these controls are component-specific and several are optional, not a uniform gate on every operation.
-- component-specific invalid values and unsafe state transitions can be rejected explicitly; JSON conversion helpers may default missing fields and are not a complete schema-validation boundary.
-- deduplication and timeout handling bound some repeat/latency cases; the module does not implement a retry protocol.
+- `GossipAdapterPublisher` requires a configured `IFederationTrustPolicy` for inbound dispatch and rejects unsupported domain names. This callback is not peer authentication; `AlwaysPermitTrustPolicy` permits all inputs.
+- selected federation, distillation, and feedback paths expose component-specific policy/privacy controls; these do not form a uniform gate on every operation or validate all payload fields.
+- feedback deduplication bounds the local cache, not replay lifetime; timeout metadata is caller-supplied, and the module does not implement cancellable remote requests or a retry protocol.
 - module observability surfaces support incident analysis.
 - the module does not authenticate remote senders or encrypt serialized payloads; the integrating service owns transport security and authorization.
 
 ## Security Follow-ups
 
-- continue hardening threat-model parity across all federation paths.
-- keep validation and rejection taxonomy deterministic under stress.
-- extend privacy-budget and policy diagnostics for operator workflows.
+- integrate authenticated transport and explicit input authorization at the host boundary.
+- add real multi-shard failure tests and durable replay/recovery controls before claiming synchronization or convergence.
+- keep the trust-policy callback and local counters observable at the host boundary; no built-in rejected-announcement counter exists.
 
 ## Sourcecode Verification (Module: distributed_knowledge/security)
 
@@ -56,6 +56,6 @@ Security in distributed_knowledge focuses on cross-shard federation boundaries, 
   - src/distributed_knowledge/federated_distillation_coordinator.cpp
   - src/distributed_knowledge/adapter_capability_announcement.cpp
 - Verified controls:
-  - component-specific privacy checks and optional policy/trust/cross-border callbacks
-  - deduplicated and bounded cross-shard synchronization behavior
-  - explicit structured failure behavior for unsafe distributed inputs
+  - mandatory configured trust decision before inbound capability callback dispatch
+  - component-specific privacy, policy, cross-border, and bounded-cache controls
+  - explicit limits: no peer authentication, transport encryption, durable dedup, automatic retries, or restart recovery

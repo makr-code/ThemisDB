@@ -1,14 +1,14 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-11-17
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `api-contract`
 **Canonical source references:** [ContentManager API](../../include/content/content_manager.h), [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [processor API](../../include/content/content_processor.h), [scoped AbuseDetector/ArchiveProcessor contract](../../include/content/content_api_contract.h), [contract tests](../../tests/content/test_content_contract_hardening_focused.cpp)
-**Related issue:** #7109
+**Related issue:** #7109, #7508
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -116,6 +116,39 @@ documented `AbuseDetector` and `ArchiveProcessor` behavior and defines its own e
 codes. It does not freeze or specify every `ContentManager` API. Apply the declaration
 relevant to the API being called; do not assume these error enums are interchangeable.
 
+### Validation contract and unsupported controls
+
+`ContentValidator::validate()` rejects empty input, an invalid supplied filename,
+undetectable/generic MIME when MIME enforcement is enabled, oversized input, detected
+magic-byte mismatches, and policy violations when a `ContentPolicy` is supplied. Text
+limits use the smaller of `max_content_size` and `max_text_length`. Inputs shorter than
+four bytes pass the magic-byte helper because there is not enough data to check.
+
+`ContentValidationConfig` also serializes `check_for_malware`, `scan_for_pii`,
+`check_for_abuse`, `enable_schema_validation`, schema path, and timeout fields, but
+`ContentValidator::validate()` does not run those scans/schema checks or enforce those
+timeouts. `ContentValidationConfig::fromJson()` deserializes these values but does not
+establish that the requested capability is available or enforce a complete configuration
+range policy. Its `malware_checked` result remains false. Setting these fields is not
+evidence that a detector ran or that a payload was scanned; deployments requiring these
+controls must verify and invoke their separately wired security components. A successful
+validator result means only the checks actually described above passed.
+
+### VersionManager contract
+
+`VersionManager` is a standalone in-process helper; current source does not establish
+integration with `ContentManager` or durable storage. It retains metadata and full
+content snapshots in memory, so its history is lost when the object/process is destroyed.
+`createVersion()` stores the caller-supplied hash and size without checking them against a
+payload. `createVersionWithContent()` stores the complete snapshot and computes a
+heuristic line delta; the delta is not a documented reversible representation.
+
+`getContent()` returns `nullopt` for missing versions, metadata-only entries, and
+zero-length snapshots, so callers cannot distinguish the latter two through that method.
+There is no rollback API or thread-safety guarantee. Deleting the highest numbered
+version permits that number to be reused by the next create call. Do not use this helper
+as a durable, concurrent, monotonic audit/version store.
+
 ## Compatibility and validation
 
 The content header overview describes compatibility expectations and compile-time
@@ -123,7 +156,8 @@ dependencies. Before changing a public declaration, check its users and tests. E
 focused contract coverage includes
 [`test_content_contract_hardening_focused.cpp`](../../tests/content/test_content_contract_hardening_focused.cpp),
 [`test_content_embedding_pipeline.cpp`](../../tests/content/test_content_embedding_pipeline.cpp),
-and [`test_content_security.cpp`](../../tests/content/test_content_security.cpp).
+[`test_content_security.cpp`](../../tests/content/test_content_security.cpp), and
+[`test_content_version_manager.cpp`](../../tests/content/test_content_version_manager.cpp).
 
 ## Sources
 
@@ -136,7 +170,10 @@ and [`test_content_security.cpp`](../../tests/content/test_content_security.cpp)
 - [Manager implementation](content_manager.cpp),
   [embedding adapter](content_manager_embedding.cpp), and
   [async worker implementation](async_ingestion_worker.cpp).
+- [VersionManager declaration](../../include/content/version_manager.h) and
+  [implementation](version_manager.cpp).
 - [Contract tests](../../tests/content/test_content_contract_hardening_focused.cpp),
   [embedding tests](../../tests/content/test_content_embedding_pipeline.cpp), and
-  [security tests](../../tests/content/test_content_security.cpp).
+  [security tests](../../tests/content/test_content_security.cpp), plus the
+  [versioning tests](../../tests/content/test_content_version_manager.cpp).
 - [Module architecture](ARCHITECTURE.md) and [roadmap](ROADMAP.md).

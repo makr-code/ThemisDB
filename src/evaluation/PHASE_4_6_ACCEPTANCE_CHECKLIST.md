@@ -1,7 +1,7 @@
 # Evaluation Module - Phase 4-6 Acceptance Checklist
 
-> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
-> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> **Update provenance (2026-11-19):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
 > **Historical planning artifact (issue #5643, 2026-08-08):** The target lists,
@@ -11,6 +11,11 @@
 > [IMPLEMENTATION.md](./IMPLEMENTATION.md),
 > [MODULE_EVIDENCE.md](./MODULE_EVIDENCE.md), and the current test/benchmark
 > `CMakeLists.txt` files. No tests or benchmarks were run for issue #7344.
+>
+> **Current status (issue #7515):** `ROADMAP.md` remains M1 because current
+> build, end-to-end quality, and production-path benchmark evidence is not
+> established. Completion wording, checkmarks, and placeholders below are
+> historical template content, not current acceptance results.
 
 <!-- Status: 2026-08-08 — Checklist prepared for Phase 4-6 execution -->
 <!-- Issue: #5643 (Development Status) -->
@@ -20,7 +25,9 @@
 
 This document defines the concrete acceptance criteria for Phases 4, 5, and 6 of the Evaluation Module hardening. Once the build environment is set up (see JUSTIFIED_GAP.md), all items can be executed sequentially to generate the required executable evidence for issue #5643 closure.
 
-**Phase 3** (Error Handling) is already ✅ **COMPLETE AND VERIFIED** via code audit (2026-08-08). This checklist covers Phases 4, 5, and 6 only.
+**Phase 3** had a source-code audit recorded on 2026-08-08; that historical
+audit is not current executable validation. This checklist covers the historic
+Phase 4-6 execution plan only.
 
 ## Phase 4: Tests - Acceptance Criteria
 
@@ -334,7 +341,7 @@ Create a comprehensive acceptance summary in a new file `src/evaluation/PHASE_6_
 ```markdown
 # Evaluation Module - Phase 6 Acceptance Evidence
 
-<!-- Status: 2026-08-08T12:34:56Z — Phases 3-6 COMPLETE -->
+<!-- Historical template, not verified evidence: Phases 3-6 COMPLETE -->
 <!-- Issue: #5643 (Development Status) -->
 
 ## Executive Summary

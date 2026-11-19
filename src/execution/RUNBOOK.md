@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -52,13 +52,14 @@ not assume these snapshots are already present in dashboards.
 
 ## Slow or incomplete shutdown
 
-**Symptoms:** teardown waits for the configured drain timeout or queued work
-does not complete.
+**Symptoms:** teardown exceeds the configured drain timeout or does not return.
 
 1. Check whether a task is still running; the pool cannot interrupt it.
 2. Check whether new submissions are still reaching the pool. Once shutdown
    begins, new submissions should fail.
-3. Treat the drain timeout as best effort, not proof that every queued task ran.
+3. Treat the drain timeout as the initial queue-drain wait, not a hard shutdown
+   deadline. Workers finish accepted queued tasks before exiting, but joining a
+   worker blocked in a callable can exceed the timeout indefinitely.
    `waitAll()` can observe an empty queue while a worker is still executing.
 4. Do not destroy objects captured by task callables until the owning pool has
    completed its join.

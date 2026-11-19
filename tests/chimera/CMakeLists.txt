@@ -43,6 +43,10 @@ foreach(_src IN LISTS CHIMERA_MODULE_TEST_SOURCES)
         list(APPEND _chimera_impl_sources "${THEMIS_ROOT_DIR}/src/chimera/transaction.cpp")
     endif()
 
+    if(_stem MATCHES "retry")
+        list(APPEND _chimera_impl_sources "${THEMIS_ROOT_DIR}/src/chimera/retry_executor.cpp")
+    endif()
+
     if(_stem MATCHES "mongo")
         list(APPEND _chimera_impl_sources "${THEMIS_ROOT_DIR}/src/chimera/mongodb_adapter.cpp")
     endif()

@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -21,7 +21,8 @@ Exact model backend not verifiable from final document text alone.
 - External connections, credentials, TLS, authentication, and authorization depend on the selected adapter and its compiled driver path. Do not infer these controls from the common adapter interface.
 - `MongoDBAdapter` masks credentials in its stored connection string; that alone is not a comprehensive secret-handling review. Neo4j and Qdrant have separate connection implementations and compile-time guards.
 - `THEMISDB_ENGINE_AVAILABLE` controls engine-specific dispatch code. Simulation behavior is not a substitute for testing the production engine path.
-- Retry policies can amplify load if incorrectly configured. Current `RetryExecutor::should_retry` does not inspect the concrete error code, so selective retry semantics are not established.
+- Retry policies can amplify load if incorrectly configured. `RetryExecutor` classifies concrete error codes, defaults category retries off, rejects invalid backoff settings, and requires callers to assert idempotency before a retry. Attempts and per-delay backoff are bounded, but the callable has no enforced deadline; do not use retries as a substitute for operation timeouts.
+- Older external capability enums alias `PREPARED_STATEMENTS` to `SHARDING` and `CONNECTION_POOLING` to `REPLICATION`. Those aliases are not reported as distinct capabilities to avoid implying support for unrelated operations. Vendor adapters likewise omit connection-pooling capability because the local code does not establish a provider-backed pool.
 - `THEMIS_BUILD_CHIMERA` defaults to `OFF`; enabling the option does not establish a secure deployment configuration.
 
 ## Required review before deployment

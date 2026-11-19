@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-11-19T05:39:26.579846+00:00`
+> Generated: `2026-11-19T09:02:10.285095+00:00`
 
 ## Statistics
 
@@ -371,12 +371,12 @@ JSON analysis artifacts: 8
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `82c7c20953188441` |
+| `ARCHITECTURE.md` | `9002eaf7b99cde05` |
 | `FUTURE_ENHANCEMENTS.md` | `d9f033e9da09b940` |
-| `ROADMAP.md` | `0f803551945562cf` |
+| `ROADMAP.md` | `d97d35910d151e40` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
 | `ai_context/MODULES_AND_NAMESPACES.md` | `bf42dba44a39f8cb` |
 | `ai_context/api_contracts/` | `c4c27a53a56816cb` |
 | `ai_context/developer_llm_wiki/` | `282011384eb8187c` |
 | `ai_working/` | `2da2d31a22a9695b` |
-| `docs/` | `3c144823b07c9cd3` |
+| `docs/` | `d9735296d3362aa9` |

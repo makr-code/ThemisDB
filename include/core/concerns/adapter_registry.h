@@ -188,8 +188,12 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Set Trust Policy.
-     * @param[in] policy Input parameter.
+     * @brief Selects whether plugin loading requires an adjacent SHA-256 digest.
+     * @param[in] policy Must be `kTrustAll` or `kRequireSignature`.
+     * @throws std::invalid_argument if `policy` is not a supported enumerator;
+     *         the previously configured policy remains unchanged.
+     * @note `kRequireSignature` checks file integrity only; it does not
+     *       authenticate the plugin publisher.
      */
     void setTrustPolicy(AdapterTrustPolicy policy);
 

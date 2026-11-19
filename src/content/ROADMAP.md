@@ -1,12 +1,12 @@
 # Content Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-11-06 -->
+<!-- Status: current | validated: 2026-11-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md -->
 <!--
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: themisdb-doc-orchestrator
+AI_Contributor: GitHub Copilot
 Human_Review: false
 Human_Author: ThemisDB Contributors
 Exact model backend not verifiable from final document text alone.
@@ -35,6 +35,10 @@ These pointers preserve historical tracking context only; they do not assert cur
 ## Planned Features
 
 - [ ] Reconcile manager/server/plugin format routes with the public processor inventory and define which paths are required versus optional (v2.5.0, Wave 1).
+- [ ] Reject invalid processor-chain configuration instead of silently using defaults; enforce approved retry-attempt and total-delay ceilings and test both transient and permanent failures (v2.5.0, Wave 1).
+- [ ] Make validation capability results truthful: requested but unavailable malware, PII, abuse, schema, and timeout checks must fail configuration or be explicitly reported as not run (v2.5.0, Wave 1).
+- [ ] Add source-backed versioning contract tests for empty snapshots, metadata-only hashes/sizes, deleted latest versions, and loss of process-local history; decide durable/thread-safe semantics before any audit or rollback claim (v3.0.0, provisional).
+- [ ] Require candidate-SHA correctness/safety evidence and production-path benchmark manifests no older than 14 days at release sign-off (v2.5.0, Wave 3).
 - [ ] Replace benchmark-source/expectation ambiguity with measured, reproducible production-path evidence before claiming content performance gates (v2.5.0, Wave 2).
 - [ ] Revalidate security, soak, and Wave A–D completion evidence against current tests and CI before module readiness sign-off (v2.5.0, Wave 3).
 - [ ] Establish a reviewed public API and migration plan before selecting any v3.0.0 breaking changes.
@@ -48,10 +52,12 @@ These pointers preserve historical tracking context only; they do not assert cur
   - [ ] Trace required format routes from caller/server/plugin through manager dispatch and persistence; record optional dependency/feature-flag conditions.
   - [ ] Define acceptance for each selected application/use case from the traced input-to-output path; before making an extraction or embedding quality claim, use an approved task-specific labeled corpus, protocol, and metric, otherwise state that quality is unevaluated.
   - [ ] Add or refine focused integration regressions for each agreed required route, stream lifetime/buffering boundary, and structured failure path.
+  - [ ] Add negative configuration/capability tests and require invalid requested checks to fail closed or report an explicit not-run/degraded outcome.
+  - [ ] Bound retries by an approved maximum-attempt and total-delay policy; verify actual attempt counts and confirm `AsyncIngestionConfig::retry_attempts` is implemented or removed through approved migration.
   - [ ] Update route and limitation documentation only after code and tests support the behavior.
 - **Dependencies:** Content/API owner chooses required formats and deployments; optional processor dependencies are available in the chosen CI configuration.
 - **Risk / trade-off:** Broadening routing may change behavior for callers who currently receive stored metadata or a structured failure; keep scope to explicitly approved routes.
-- **Measurable success:** 100% of the agreed required routes and use cases have a named source path and focused test exercising that path; no public inventory item is described as end-to-end support solely because a class/header exists. Every extraction/embedding quality claim has an approved task-specific labeled corpus, protocol, metric, and recorded result; otherwise it is explicitly marked unevaluated.
+- **Measurable success:** 100% of the agreed required routes and use cases have a named source path and focused test exercising that path; no public inventory item is described as end-to-end support solely because a class/header exists. Invalid requested capabilities/configuration never silently resolve to a success/default, and measured attempts/delay remain within the approved ceilings. Every extraction/embedding quality claim has an approved task-specific labeled corpus, protocol, metric, and recorded result; otherwise it is explicitly marked unevaluated.
 - **Validation:** **Tests:** run focused content tests plus the project release-profile content selection; demonstrate the actual manager/caller path, not helper-only mirrors. **Bench:** no performance claim in this wave without an approved workload. **Quality evaluation:** define task-specific labels/metrics and record results before any quality statement; otherwise report quality as unevaluated. **Security:** cover MIME/size/policy rejection and ensure failures do not fall through to a different processor. **Governance:** review use-case acceptance, corpus approval, API compatibility, and changelog requirements for any behavior change.
 - **Effort:** 2–4 engineer-weeks, assuming a bounded required-format list and existing CI dependencies.
 - **Unknown assumptions:** Which processor families are contractual for 2.5.0; whether the caller/plugin paths outside `ContentManager` are in release scope; which optional libraries are available on supported CI platforms.
@@ -75,12 +81,12 @@ These pointers preserve historical tracking context only; they do not assert cur
 
 - **Goal:** Reconcile the historical Wave A–D claims with executable current evidence and close only the release-critical gaps confirmed by that review.
 - **Tasks:**
-  - [ ] Map each claimed security, failure, soak, observability, and runbook criterion to current implementation, test source, registration, and a dated passing CI artifact.
+  - [ ] Map each claimed security, failure, soak, observability, and runbook criterion to current implementation, test source, registration, and a passing CI artifact from the candidate SHA, executed within 14 days of sign-off.
   - [ ] Replace stale/missing evidence references and classify simulations, helper tests, non-release-critical soak tests, and unverified claims accurately.
-  - [ ] Obtain content-owner, security, operations, and release sign-off against the repository release checklist.
+  - [ ] Obtain content-owner, security, operations, and release sign-off against the repository release checklist; missing or stale evidence remains pending and blocks promotion.
 - **Dependencies:** Waves 1–2 evidence; current CI artifacts; maintainers who own the security and operations gates.
 - **Risk / trade-off:** Evidence reconciliation may downgrade historical completion claims or expose implementation work beyond the 2.5.0 window; do not retain a green status just to meet a date.
-- **Measurable success:** 100% of content release checklist items are either linked to current source plus passing evidence or explicitly tracked as open with an owner; zero unresolved critical/high content security findings at sign-off; no unsupported performance or end-to-end claims remain.
+- **Measurable success:** 100% of content release checklist items are either linked to current source plus passing evidence from the candidate SHA within 14 days of sign-off or explicitly tracked as open with an owner; zero unresolved critical/high content security findings at sign-off; no unsupported performance or end-to-end claims remain.
 - **Validation:** **Tests:** release-profile content test report includes executed/pass/fail/skip counts; soak evidence is labeled with its actual scope and gate status. **Bench:** attach Wave 2 manifests or explicitly mark unmeasured cases as non-gates. **Security:** review MIME, size, archive, policy, dependency-degradation, and diagnostic paths against the content threat model. **Governance:** approval and evidence links recorded in the release sign-off; follow root `ROADMAP.md`, `RELEASE_STRATEGY.md`, and `VERSIONING.md`.
 - **Effort:** 1–3 engineer-weeks after source/CI evidence is accessible; remediation discovered in the audit is additional.
 - **Unknown assumptions:** Availability and retention of historical CI artifacts; current security review criteria; whether all existing runbook and telemetry references remain valid.

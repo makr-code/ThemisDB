@@ -48,11 +48,15 @@ struct HealthStatus {
     bool changefeed_healthy = true;
     bool buffer_healthy = true;
     bool retention_healthy = true;
+    bool transport_healthy = true; ///< True when an attached transport is ready.
+    bool delivery_capable = false; ///< True when the configured backend can deliver events.
     
     // Metrics
     double buffer_utilization = 0.0;  // 0.0 to 1.0
     uint64_t error_count = 0;
     uint64_t error_rate_per_sec = 0;
+    uint64_t delivery_failure_count = 0; ///< Cumulative failures reported by the transport.
+    uint64_t sequence_recovery_error_count = 0; ///< Startup sequence-counter recovery errors.
     
     nlohmann::json toJson() const {
         return {
@@ -61,12 +65,16 @@ struct HealthStatus {
             {"components", {
                 {"changefeed", changefeed_healthy},
                 {"buffer", buffer_healthy},
-                {"retention", retention_healthy}
+                {"retention", retention_healthy},
+                {"transport", transport_healthy}
             }},
             {"metrics", {
                 {"buffer_utilization", buffer_utilization},
                 {"error_count", error_count},
-                {"error_rate_per_sec", error_rate_per_sec}
+                {"error_rate_per_sec", error_rate_per_sec},
+                {"delivery_capable", delivery_capable},
+                {"delivery_failure_count", delivery_failure_count},
+                {"sequence_recovery_error_count", sequence_recovery_error_count}
             }}
         };
     }

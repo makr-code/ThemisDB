@@ -223,3 +223,22 @@ TEST(AdapterRegistryTest, AR_11_NullptrAdapterThrows) {
         std::invalid_argument
     );
 }
+
+// ---------------------------------------------------------------------------
+// AR_12 — timed-out drain leaves the new adapter installed
+// ---------------------------------------------------------------------------
+TEST(AdapterRegistryTest, AR_12_DrainTimeoutKeepsReplacementAndOldHandleUsable) {
+    AdapterRegistry reg;
+    reg.registerAdapter<IFakeAlpha>("alpha", std::make_shared<FakeAlphaImpl>(10));
+    auto old_handle = reg.resolve<IFakeAlpha>();
+    ASSERT_NE(old_handle, nullptr);
+
+    const bool drained = reg.hotSwap<IFakeAlpha>(
+        std::make_shared<FakeAlphaImpl>(99));
+
+    EXPECT_FALSE(drained);
+    EXPECT_EQ(old_handle->value(), 10);
+    auto current = reg.resolve<IFakeAlpha>();
+    ASSERT_NE(current, nullptr);
+    EXPECT_EQ(current->value(), 99);
+}

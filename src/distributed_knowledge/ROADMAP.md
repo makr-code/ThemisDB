@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,24 +15,27 @@ Human_Author: "ThemisDB Contributors"
 # Distributed Knowledge Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | source/configuration review: 2026-10-31; no build or tests run -->
+<!-- Status: evidence reconciliation | reviewed: 2026-11-19; no local build or tests run -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Source/header surfaces exist for capability exchange, federated coordination,
-cross-shard retrieval merge, feedback synchronization, and federated
-distillation. However, the current module library source list omits the
-distillation implementation, so its availability through
-`themis_distributed_knowledge` is unconfirmed.
+The source set provides in-process capability callbacks, federated aggregation,
+merge of already-fetched shard responses, feedback synchronization callbacks,
+and distillation callbacks. It does not implement a graph store or graph-sync
+protocol, peer transport/authentication, durable state, retry loops, or
+restart recovery. `GossipAdapterPublisher` rejects unknown domain strings and
+requires an explicitly configured inbound trust policy before dispatch.
+`federated_distillation_coordinator.cpp` is included in the production library;
+production linkage still requires a successful build/test run.
 
-Q3 2026 baseline update (2026-07-28; test-source inventory checked 2026-10-31):
-- Core module implementation complete with 5 key federation surfaces
-- Current test-source inventory: 107 GoogleTest declarations across 9 translation units, including the five component-focused suites and four supplemental suites; source presence is not evidence that tests were built or run.
+Evidence reconciliation (2026-11-19):
+- The module has five implementation surfaces in the library target; no live graph synchronization implementation is present.
+- Current test-source inventory: 110 GoogleTest declarations across 9 translation units; this is static source evidence, not proof that tests were built or run.
 - Test targets follow module test pattern: `module_distributed_knowledge_test_<base>_focused`
   (filename `test_<base>_focused.cpp` → stem stripped of `_focused` → target appends `_focused`)
-- Component-focused suites exercise public headers; contract-hardening and high-cardinality stress sources include mock/simulated behavior. This audit did not verify compilation.
-- Evidence gathering in progress for hardening priorities
+- Component-focused suites exercise local APIs; contract-hardening and high-cardinality stress sources include mocks/stubs. None establish real shard-topology behavior.
+- No benchmark run artifact or representative-hardware p95/p99 baseline is available in this audit.
 
 ## In Progress
 
@@ -94,9 +97,11 @@ Q3 2026 baseline update (2026-07-28; test-source inventory checked 2026-10-31):
   - Reference: Updated method docs in cross_shard_feedback_sync.h/cpp
 - [x] complete hardening for aggregation, merge, and sync coordinator internals (Target: Q4 2026) — `MergeHardeningPolicy` + `DistillationBoundedPolicy` added to API contract; trust-gate ACA-TRUST-01..05 tests added 2026-08-24
 - [x] align distillation and feedback behavior to bounded runtime contracts (Target: Q4 2026) — `DistillationBoundedPolicy` with FAIL_CLOSED enforcement wired into `FederatedDistillationCoordinator` via `setBoundedPolicy()` 2026-08-24; enforced in `broadcastToStudents()` before any broadcast
+- [x] include `federated_distillation_coordinator.cpp` in `themis_distributed_knowledge` (Target: v2.5.0) — production library source list and focused-test fallback now agree
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior for unsafe federation and trust-gate violations (Target: Q4 2026) — `IFederationTrustPolicy` + `AlwaysPermitTrustPolicy` + `DKErrorCode::TRUST_GATE_REJECTED` added 2026-08-24
+- [x] enforce configured trust policy before inbound capability dispatch and reject unsupported domain values (Target: v2.5.0) — missing/rejecting policy throws before callback; unknown domains no longer map silently to `GENERAL`
 - [x] unify diagnostics for timeout, dedup, and partial-shard merge failures (Target: Q4 2026) — `DistributedKnowledgeDiagnosticEmitter` + `DKDiagnosticEvent` model added; `test_dk_diagnostics_focused.cpp` (DKD-01..14) added 2026-08-24
 
 ### Phase 4: Tests
@@ -115,7 +120,7 @@ Q3 2026 baseline update (2026-07-28; test-source inventory checked 2026-10-31):
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed_knowledge module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
-- [x] focused test infrastructure created (current source inventory: 107 test declarations across 9 translation units; execution status not established by this source audit)
+- [x] focused test infrastructure created (current source inventory: 110 test declarations across 9 translation units; execution status not established by this source audit)
 - [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
   - Contract header, 16 focused tests (DKC-01..16), 6 release-gate benchmarks (DKRG-01..06)
 
@@ -125,12 +130,14 @@ Q3 2026 baseline update (2026-07-28; test-source inventory checked 2026-10-31):
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] focused test suite created for all module surfaces (ACA, LFC, FRM, CSS, FDC test families)
-- [ ] remaining hardening tasks closed for timeout/policy/dedup edge paths
-- [ ] release benchmark stabilization complete
+- [x] inbound capability dispatch fails closed for missing/rejecting trust policy and unsupported domain values
+- [ ] execute the complete focused suite against the production library and preserve reproducible test artifacts
+- [ ] validate real three-shard partial/all-timeout behavior and cancellation-aware timeout semantics
+- [ ] establish representative-hardware p95/p99 baselines with no missing mapped benchmark cases
 
 ## Test Evidence (Q3 2026 Deliverable)
 
-**Focused Test Sources:** Created starting 2026-07-28; current source inventory checked 2026-10-31
+**Focused Test Sources:** Created starting 2026-07-28; current source inventory checked 2026-11-19
 
 Test source location: `tests/distributed_knowledge/test_*.cpp`
 
@@ -138,7 +145,7 @@ Test coverage by module surface:
 
 | Surface | Test File | Tests | Coverage |
 |---------|-----------|-------|----------|
-| Adapter Capability Announcement | test_adapter_capability_announcement_focused.cpp | 16 declarations (ACA-01..ACA-10, inbound dispatch, and 5 trust-policy cases) | Gossip publish, domain types, inbound dispatch, trust-policy behavior |
+| Adapter Capability Announcement | test_adapter_capability_announcement_focused.cpp | 19 declarations (ACA-01..ACA-10, inbound dispatch, 5 trust-policy cases, and 3 fail-closed cases) | Gossip publish, domain types, inbound dispatch, trust-policy behavior |
 | LoRA Federation Coordinator | test_lora_federation_coordinator_focused.cpp | LFC-01..LFC-12 (12) | Aggregation requests, state machine, timeout handling |
 | Federated RAG Merger | test_federated_rag_merger_focused.cpp | FRM-01..FRM-12 (12) | Merge requests, dedup, partial failure, top-K truncation |
 | Cross-Shard Feedback Sync | test_cross_shard_feedback_sync_focused.cpp | CSS-01..CSS-12 (12) | Feedback events, batching, dedup, replay detection, privacy filtering |
@@ -148,7 +155,7 @@ Test coverage by module surface:
 | LLM/RAG context | test_distributed_knowledge_llm_focused.cpp | 7 | RAG merger configuration, merge, context formatting, and timeout path |
 | High-cardinality stress | test_distributed_knowledge_highcardinality_stress.cpp | 3 | In-process stub/simulation stress only; not real shard or module-runtime validation |
 
-**Total source declarations: 107 across 9 files.** This is a static count from the test sources, not a passing-test result.
+**Total source declarations: 110 across 9 files.** This is a static count from the test sources, not a passing-test result.
 
 Test registration pattern: `module_distributed_knowledge_<stem>_focused`
 CTest tier: unit
@@ -159,14 +166,26 @@ Target registration is configured through the `test_*.cpp` glob in `tests/distri
 
 ## Known Issues and Limitations
 
-- behavior remains sensitive to shard availability, timeout configuration, and policy gates.
-- selected partial-failure and replay-edge flows require continued hardening.
-- benchmark coverage should continue expanding beyond current federation core paths.
-- `src/distributed_knowledge/CMakeLists.txt` does not list `federated_distillation_coordinator.cpp` in the `themis_distributed_knowledge` source set. The test subdirectory has a fallback reference when that target is absent, and the top-level test configuration also references the source; intended production-library ownership remains unresolved.
+- No graph synchronization, peer transport, durable federation state, automatic retry, or restart recovery exists in this module.
+- `FederatedRAGMerger` consumes already-fetched results; positive `shard_timeout_ms` does not enforce per-shard deadlines. The LoRA timeout overload cannot cancel unfinished work and is not a guaranteed wall-clock deadline.
+- LoRA silently ignores stale/future/duplicate submissions; feedback policy rejection drops the item, and callback delivery is best effort. Feedback dedup and counters are process-local.
+- Distillation callback failure may leave partial delivery after privacy budget is charged; no automatic retry/reconciliation contract exists.
+- Mock-only contract/stress tests and local-helper benchmarks are not real topology or production-performance evidence.
 
 ## Breaking Changes
 
-No breaking distributed_knowledge contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+Inbound capability dispatch now fails closed without an explicit trust policy; callers that previously dispatched directly must configure one. Unknown domain strings now throw instead of being silently coerced to `GENERAL`. The `AlwaysPermitTrustPolicy` must be explicitly installed and is not production authorization.
+
+## v2.5.0 -> v3.0.0 Coordination Gates
+
+The v2.5.0 baseline is limited to the in-process component behavior above.
+v3.0.0 sign-off requires all gates in
+[`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md): linked
+production-library tests, fail-closed capability trust and invalid-input
+tests, real partial/all-timeout shard integration, operator-visible degraded
+outcomes, and pinned same-hardware p95/p99 evidence. Graph synchronization,
+bounded cancellation, and durable recovery remain release blockers until
+implemented and tested; documentation alone does not close those gates.
 
 ## Program Execution Model — Wave Context
 

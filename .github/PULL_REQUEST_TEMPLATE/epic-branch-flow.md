@@ -12,9 +12,7 @@ assignees: ""
 
 - EPIC issue: <!-- e.g. #5518 -->
 - Sub-issue(s): <!-- e.g. #5467, #5468 -->
-- Flow type:
-  - [ ] Feature branch -> EPIC branch
-  - [ ] EPIC branch -> develop
+- Flow type: Feature branch -> EPIC branch / EPIC branch -> develop
 
 ## Branch Routing (Required)
 
@@ -35,9 +33,7 @@ assignees: ""
 ## Risk and Rollback
 
 - Risk level:
-  - [ ] Low
-  - [ ] Medium
-  - [ ] High
+  Low / Medium / High
 - Rollback plan:
 
 ## Validation Evidence

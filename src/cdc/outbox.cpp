@@ -13,9 +13,11 @@
 
 #include <chrono>
 #include <cstdio>
+#include <limits>
 #include <rocksdb/utilities/transaction.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <stdexcept>
+#include <unordered_set>
 
 #include "utils/logger.h"
 
@@ -333,6 +335,22 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit, OutboxState fil
 
 size_t OutboxRelay::relayOnce() {
     std::vector<OutboxRecord> pending = scanRecords(config_.batch_size, OutboxState::PENDING, /*all_states=*/false);
+    if (pending.empty()) {
+        return 0;
+    }
+
+    Changefeed::ListOptions event_options;
+    event_options.limit = std::numeric_limits<size_t>::max();
+    const auto existing_events = changefeed_.listEvents(event_options);
+    std::unordered_set<uint64_t> relayed_outbox_sequences;
+    for (const auto& event : existing_events) {
+        if (event.metadata.is_object() &&
+            event.metadata.contains("_cdc_outbox_sequence") &&
+            event.metadata["_cdc_outbox_sequence"].is_number_unsigned()) {
+            relayed_outbox_sequences.insert(
+                event.metadata["_cdc_outbox_sequence"].get<uint64_t>());
+        }
+    }
 
     size_t published = 0;
     for (OutboxRecord &rec : pending) {
@@ -349,9 +367,15 @@ size_t OutboxRelay::relayOnce() {
             }
             event.timestamp_ms = rec.created_at_ms;
 
-            changefeed_.recordEvent(event);
+            if (relayed_outbox_sequences.find(rec.outbox_sequence) ==
+                relayed_outbox_sequences.end()) {
+                event.metadata["_cdc_outbox_sequence"] = rec.outbox_sequence;
+                changefeed_.recordEvent(event);
+                relayed_outbox_sequences.insert(rec.outbox_sequence);
+            }
 
             rec.state           = OutboxState::PUBLISHED;
+            rec.failure_reason.clear();
             auto now            = std::chrono::system_clock::now();
             rec.published_at_ms = static_cast<int64_t>(
                 std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
@@ -484,4 +508,3 @@ uint64_t OutboxRelay::totalFailed() const {
 
 } // namespace cdc
 } // namespace themis
-

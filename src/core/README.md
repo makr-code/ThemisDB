@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -177,8 +177,11 @@ Provides secure initialization routines for cryptographic components and key man
 
 ### Thread Safety
 
-- **ConcernsContext**: Immutable after construction, thread-safe access
-- **Logger/Tracer/Metrics Adapters**: Thread-safe implementations
+- **ConcernsContext**: Runtime replacement is supported. Use `resolve<T>()` owning
+  handles when access may overlap a replacement; references returned by named
+  accessors are not lifetime handles across replacement or destruction.
+  Thread-safety depends on the access path.
+- **Logger/Tracer/Metrics Adapters**: Thread-safety depends on the selected adapter implementation.
 - **Cache**: Thread-safe with internal locking (implementation-dependent)
 
 ### Initialization Flow

@@ -19,6 +19,7 @@ Describe which GA / release promotion needs final human authorization.
 
 ## Required Payload
 
+<!-- Each checkbox below is a required action for this sign-off request. -->
 - [ ] Create or update a request payload under `docs/governance/ga_signoff_requests/`
 - [ ] Use `docs/governance/templates/GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml` as the schema baseline
 - [ ] Keep CI-owned placeholders (`__GITHUB_ACTOR__`, `__GITHUB_REVIEW_SUBMITTED_AT__`, `__GITHUB_REF__`, `__GITHUB_SHA__`) intact unless a maintainer will finalize via `workflow_dispatch`

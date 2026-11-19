@@ -33,6 +33,7 @@ Describe the release or publication lane that needs human approval before public
 
 ## Release Evidence Checklist
 
+<!-- Each checkbox below is a required action for this release review. -->
 - [ ] Release notes and changelog are complete and reviewed
 - [ ] Artifact checksums were generated and verified
 - [ ] GPG/signing evidence is attached or linked

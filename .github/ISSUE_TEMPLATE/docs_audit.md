@@ -45,29 +45,33 @@ Describe the current (incorrect or incomplete) state of the documentation.
 
 Describe what the documentation should say or cover after fixing this issue.
 
-## Gap Type
+## Gap Type (select all that apply; not a task checklist)
 
-<!-- Check all that apply -->
-- [ ] **Inaccurate** – Documentation describes something that no longer exists or works differently
-- [ ] **Missing** – Feature or module has no documentation at all
-- [ ] **Stale** – Documentation references outdated versions, paths, or APIs
-- [ ] **Broken Link** – One or more hyperlinks in the document are dead
-- [ ] **Incomplete** – Documentation exists but is missing important sections
-- [ ] **Translation** – Documentation is missing in one or more supported languages (DE/EN/FR/ES/JA)
-- [ ] **Tier Violation** – Secondary/Tertiary document conflicts with Primary source
+- **Inaccurate** – Documentation describes something that no longer exists or works differently
+- **Missing** – Feature or module has no documentation at all
+- **Stale** – Documentation references outdated versions, paths, or APIs
+- **Broken Link** – One or more hyperlinks in the document are dead
+- **Incomplete** – Documentation exists but is missing important sections
+- **Translation** – Documentation is missing in one or more supported languages (DE/EN/FR/ES/JA)
+- **Tier Violation** – Secondary/Tertiary document conflicts with Primary source
 
-## Acceptance Criteria
+## Acceptance Criteria / Copilot Tasks
 
 - [ ] Documentation accurately reflects the current implementation
 - [ ] All internal links are valid
 - [ ] Code examples are tested and runnable
 - [ ] Content is reviewed by at least one other contributor
-- [ ] If applicable: German and English versions are in sync
 - [ ] Tier precedence check passed (`Primary > Secondary > Tertiary`)
 - [ ] Issue is assigned to the correct docs milestone
-- [ ] Release-gate evidence is linked when the SOT domain is `build-test` or `release-versioning`
-- [ ] Private-plugin findings do not leak confidential repository paths, URLs, or implementation details into public docs
-- [ ] If AI coding context is affected: `AI_WIKI_INTEGRATION_PLAYBOOK.md` and `ai_context/developer_llm_wiki/*` references are reviewed for sync and drift
+
+## Conditional Checks
+
+Add these as acceptance criteria only when they apply:
+
+- German and English versions are in sync.
+- Release-gate evidence is linked when the SOT domain is `build-test` or `release-versioning`.
+- Private-plugin findings do not leak confidential repository paths, URLs, or implementation details into public docs.
+- If AI coding context is affected, review `AI_WIKI_INTEGRATION_PLAYBOOK.md` and `ai_context/developer_llm_wiki/*` references for sync and drift.
 
 ## Additional Context
 

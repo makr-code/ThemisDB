@@ -2,6 +2,7 @@
 #include "cdc/cdc_admin.h"
 #include "cdc/changefeed.h"
 #include "cdc/cdc_error.h"
+#include "cdc/kafka_cdc_producer.h"
 #include <memory>
 #include <rocksdb/utilities/transaction_db.h>
 #include <atomic>
@@ -97,6 +98,27 @@ TEST_F(CDCAdminTest, BasicHealthCheck) {
     EXPECT_TRUE(health.changefeed_healthy);
     EXPECT_FALSE(health.message.empty());
 }
+
+#ifndef THEMIS_ENABLE_KAFKA
+TEST_F(CDCAdminTest, MissingKafkaBackendFailsHealthReadiness) {
+    KafkaCDCProducer producer(changefeed.get());
+    admin->setTransport(&producer);
+
+    EXPECT_FALSE(producer.start());
+    const HealthStatus health = admin->healthCheck();
+
+    EXPECT_FALSE(health.is_healthy);
+    EXPECT_FALSE(health.transport_healthy);
+    EXPECT_FALSE(health.delivery_capable);
+    EXPECT_EQ(health.delivery_failure_count, 1u);
+    EXPECT_EQ(health.error_count, 1u);
+
+    const auto json = health.toJson();
+    EXPECT_FALSE(json["components"]["transport"].get<bool>());
+    EXPECT_FALSE(json["metrics"]["delivery_capable"].get<bool>());
+    EXPECT_EQ(json["metrics"]["delivery_failure_count"].get<uint64_t>(), 1u);
+}
+#endif
 
 TEST_F(CDCAdminTest, DiagnosticsExport) {
     addTestEvents(10);

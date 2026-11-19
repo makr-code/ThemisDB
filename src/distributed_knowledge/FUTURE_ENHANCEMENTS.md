@@ -1,54 +1,99 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-11-19"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Distributed Knowledge Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | evidence reconciliation: 2026-11-19 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
 
-- hardening and refinement of cross-shard federation workflows
-- expansion of deterministic reliability under timeout and partial-failure pressure
-- stricter benchmark-backed guardrails for aggregation, merge, and sync hot paths
-- v2.x federation roadmap aligned with Phase 2-3 hardening (Q4 2026)
+- v2.5.0 is an in-process coordination baseline for capability announcements,
+  LoRA aggregation, RAG result merging, feedback callbacks, and distillation.
+- v3.0.0 is a release target, not a claim that graph synchronization, transport,
+  durable replication, or recovery already exists.
+- Source of truth: `include/distributed_knowledge/*.h`,
+  `src/distributed_knowledge/*.cpp`, focused tests under
+  `tests/distributed_knowledge/`, and mapped benchmark sources under
+  `benchmarks/distributed_knowledge/`.
 
 ## Design Constraints
 
-- distributed contracts remain backward compatible within major release line.
-- privacy/policy/trust gates remain explicit and fail closed.
-- shard timeout and partial-response handling remain bounded and observable.
-- federated state transitions remain auditable and diagnosable.
+- Missing or rejecting capability trust policy and unknown capability domains
+  must not dispatch inbound announcements.
+- Privacy, participant, and policy limits must fail closed where implemented;
+  no default or `AlwaysPermitTrustPolicy` setting is production authorization.
+- Partial results, callback skips, in-memory state, and non-cancellable timeout
+  behavior must be visible to callers and operators.
+- Do not claim network synchronization, durable delivery, bounded retries, or
+  restart recovery without source, tests, and operational evidence for each.
 
 ## Required Interfaces
 
 | Interface | Requirement |
 |---|---|
-| capability interfaces | deterministic cross-shard announcement behavior |
-| federation interfaces | bounded aggregation intake and round semantics |
-| merge interfaces | stable partial-failure-aware cross-shard merge contracts |
-| sync/distillation interfaces | privacy-aware synchronization and policy-governed distillation |
+| `GossipAdapterPublisher` | mandatory inbound `IFederationTrustPolicy`; reject unsupported domains before callback dispatch |
+| `LoRAFederationCoordinator` | preserve participant/privacy gates and expose ignored stale/future/duplicate submissions as a documented limitation until a result-bearing API is designed |
+| `FederatedRAGMerger` | report queried/responded counts and distinguish partial results from all-timeout failure; caller owns fan-out and deadlines |
+| `CrossShardFeedbackSync` | expose best-effort callback failures and bounded process-local dedup behavior; no delivery guarantee |
+| `FederatedDistillationCoordinator` | keep policy/privacy checks before dispatch and document partial callback failure and in-memory round state |
 
 ## Implementation Notes
 
-- tighten parity of policy/privacy behavior across all federation workflows.
-- standardize diagnostics for timeout, replay/dedup, and trust-gate rejections.
-- expand resilience tests for sustained multi-shard mixed capability states.
-- broaden benchmark depth to additional distillation and governance paths.
+- Keep `federated_distillation_coordinator.cpp` in the
+  `themis_distributed_knowledge` production library source set; tests must link
+  the library rather than silently compiling a separate implementation copy.
+- Add real three-shard integration coverage: one failed/timed-out shard must
+  produce an explicitly partial response; all three unavailable must fail.
+- Add cancellation-aware timeout semantics before treating
+  `triggerAggregation(timeout_ms)` as a hard wall-clock limit.
+- Add durable round and dedup recovery only with an explicit persistence
+  contract, replay/idempotency behavior, and restart tests.
 
 ## Test Strategy
 
-- unit and integration suites for federation and merge execution paths.
-- regressions for timeout, dedup, policy, and partial-shard failure scenarios.
-- deterministic stress runs across shard permutation and topology cases.
-- release-profile benchmark runs for mapped distributed_knowledge targets.
+- Run all registered `module_distributed_knowledge_*_focused` tests against the
+  production library in the `community-release` profile.
+- Assert zero callback dispatch for unknown domains, absent trust policy, and
+  rejecting trust policy; verify invalid configuration throws.
+- Exercise RAG with three supplied responses (one failed and all failed), plus
+  feedback callback failure, policy rejection, duplicate replay, and cache
+  eviction. Label all in-process tests as component evidence, not topology
+  evidence.
+- Keep the explicitly stubbed high-cardinality suite out of release-runtime
+  evidence; add integration/chaos tests before making live-topology claims.
 
 ## Performance Targets
 
-- aggregation and merge hot paths remain within regression budgets.
-- concurrent cross-shard behavior remains stable at p95/p99.
-- benchmark manifests for mapped distributed_knowledge targets reach no-missing-case status.
+- For each production-path benchmark, collect p50/p95/p99 in five independent
+  release-profile runs and require p95 and p99 regression no greater than 10%
+  against a pinned same-hardware baseline.
+- Require zero missing mapped cases and retain commit, compiler, build profile,
+  hardware, workload, and comparison artifacts.
+- Treat `bench_dk_release_gates` as local in-memory/mock evidence only; it does
+  not satisfy a live shard-fan-out performance gate.
 
 ## Security / Reliability
 
-- maintain strict policy/privacy/trust gating for cross-shard actions.
-- preserve explicit failure signaling for degraded shard/dependency states.
-- enforce bounded merge/sync behavior under pressure.
-- keep diagnostics actionable for production federation incidents.
+- The integrating service must authenticate peers and authorize aggregation
+  inputs; the module's JSON and trust-policy callback do not authenticate a
+  transport.
+- Keep invalid policy/privacy inputs fail-closed and expose partial, skipped,
+  or rejected outcomes rather than interpreting them as successful delivery.
+- No automatic retry or recovery loop is currently implemented. Any future
+  retry must have a finite attempt/deadline budget and observable terminal
+  status; any recovery must prove idempotency and restart behavior.
+- Do not approve v3.0.0 graph-synchronization or recovery claims until
+  source-backed implementation, real failure-path tests, runbooks, and
+  reproducible performance evidence exist.

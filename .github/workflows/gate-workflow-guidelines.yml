@@ -113,7 +113,10 @@ jobs:
                       cwd='.'
                   )
               changed_files = [f for f in result.stdout.split('\n') if f.startswith('.github/workflows/')]
-              workflows = [f for f in changed_files if f.endswith('.yml')]
+              workflows = [
+                  f for f in changed_files
+                  if f.endswith('.yml') and os.path.isfile(f)
+              ]
               if not workflows:
                   # No workflow files changed or diff unavailable – fall back to all
                   workflows = glob.glob('.github/workflows/*.yml')

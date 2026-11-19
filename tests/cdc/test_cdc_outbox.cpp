@@ -12,6 +12,7 @@
 #include <chrono>
 #include <thread>
 #include <stdexcept>
+#include <cstdio>
 
 using namespace themis;
 using namespace themis::cdc;
@@ -22,15 +23,17 @@ namespace fs = std::filesystem;
 class OutboxTest : public ::testing::Test {
 protected:
     void SetUp() override {
-#ifdef _WIN32
-        GTEST_SKIP() << "Skipping CDC outbox focused tests on Windows due to fixture crash in current runtime.";
-#endif
-        test_db_path_ = "/tmp/test_outbox_" + std::to_string(
-            std::chrono::steady_clock::now().time_since_epoch().count());
+        test_db_path_ = (fs::temp_directory_path() /
+            ("test_outbox_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()))).string();
         if (fs::exists(test_db_path_)) {
             fs::remove_all(test_db_path_);
         }
 
+        openDatabaseAndComponents();
+    }
+
+    void openDatabaseAndComponents() {
         RocksDBWrapper::Config cfg;
         cfg.db_path              = test_db_path_;
         cfg.memtable_size_mb     = 16;
@@ -50,6 +53,15 @@ protected:
         relay_cfg.batch_size        = 50;
         relay_cfg.max_relay_attempts = 3;
         relay_ = std::make_unique<OutboxRelay>(raw_db_, nullptr, *changefeed_, relay_cfg);
+    }
+
+    void reopenDatabaseAndComponents() {
+        relay_.reset();
+        writer_.reset();
+        changefeed_.reset();
+        db_->close();
+        db_.reset();
+        openDatabaseAndComponents();
     }
 
     void TearDown() override {
@@ -269,6 +281,68 @@ TEST_F(OutboxTest, TotalRelayedAndFailedCounters) {
     relay_->relayOnce();
     EXPECT_EQ(relay_->totalRelayed(), uint64_t(1));
     EXPECT_EQ(relay_->totalFailed(),  uint64_t(0));
+}
+
+TEST_F(OutboxTest, PendingRecordRecoversAfterDatabaseRestart) {
+    rocksdb::WriteOptions wo;
+    auto* txn = raw_db_->BeginTransaction(wo);
+    OutboxRecord rec = makeRecord("recovery:1");
+    writer_->writeToOutbox(txn, rec);
+    ASSERT_TRUE(txn->Commit().ok());
+    delete txn;
+
+    reopenDatabaseAndComponents();
+
+    EXPECT_EQ(relay_->relayOnce(), 1u);
+    EXPECT_EQ(relay_->relayOnce(), 0u);
+    EXPECT_EQ(relay_->listRecords(OutboxState::PUBLISHED).size(), 1u);
+    ASSERT_EQ(changefeed_->listEvents().size(), 1u);
+}
+
+TEST_F(OutboxTest, RetryAfterPersistedEventIsIdempotent) {
+    rocksdb::WriteOptions wo;
+    auto* txn = raw_db_->BeginTransaction(wo);
+    OutboxRecord rec = makeRecord("retry:1");
+    writer_->writeToOutbox(txn, rec);
+    ASSERT_TRUE(txn->Commit().ok());
+    delete txn;
+
+    Changefeed::ChangeEvent already_relayed;
+    already_relayed.key = rec.key;
+    already_relayed.value = rec.value;
+    already_relayed.type = rec.event_type;
+    already_relayed.metadata = {{"_cdc_outbox_sequence", rec.outbox_sequence}};
+    changefeed_->recordEvent(already_relayed);
+
+    EXPECT_EQ(relay_->relayOnce(), 1u);
+    EXPECT_EQ(changefeed_->listEvents().size(), 1u);
+    EXPECT_EQ(relay_->listRecords(OutboxState::PUBLISHED).size(), 1u);
+}
+
+TEST_F(OutboxTest, FailedRelayRetainsPendingRecordForRetry) {
+    rocksdb::WriteOptions wo;
+    auto* txn = raw_db_->BeginTransaction(wo);
+    OutboxRecord rec = makeRecord("retry:invalid-metadata");
+    rec.metadata = "invalid";
+    writer_->writeToOutbox(txn, rec);
+    ASSERT_TRUE(txn->Commit().ok());
+    delete txn;
+
+    EXPECT_EQ(relay_->relayOnce(), 0u);
+    auto pending = relay_->listRecords(OutboxState::PENDING);
+    ASSERT_EQ(pending.size(), 1u);
+    EXPECT_EQ(pending.front().relay_attempts, 1);
+    EXPECT_FALSE(pending.front().failure_reason.empty());
+
+    pending.front().metadata = nlohmann::json::object();
+    char db_key[64];
+    std::snprintf(db_key, sizeof(db_key), "cdc_outbox:%020llu",
+                  static_cast<unsigned long long>(pending.front().outbox_sequence));
+    ASSERT_TRUE(raw_db_->Put(rocksdb::WriteOptions{}, db_key,
+                             pending.front().toJson().dump()).ok());
+
+    EXPECT_EQ(relay_->relayOnce(), 1u);
+    EXPECT_EQ(relay_->listRecords(OutboxState::PUBLISHED).size(), 1u);
 }
 
 // ===== Maintenance Tests =====

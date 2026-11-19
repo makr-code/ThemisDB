@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,9 +50,12 @@ Despite the thread-pool type name, the live implementation currently operates as
 
 **Behavioral contract:**
 - `enqueue()` waits for `queue_.size() < max_queue_depth` until timeout.
+- `enqueue()` rejects an empty callable, undefined priority, or negative SLA
+  before waiting for capacity.
 - `enqueue()` assigns a new id, records the deadline, and returns that id on success.
 - `dequeue()` waits for non-empty queue until timeout, then pops the earliest deadline entry.
-- `reportCompletion()` increments completion counters and classifies whether the completion happened before the recorded deadline.
+- `reportCompletion()` counts a completion only for an accepted id that has not
+  already been reported, and classifies whether it met the recorded deadline.
 - `shutdown()` flips the shutdown flag and wakes enqueue/dequeue waiters.
 
 **Important live-implementation notes:**
@@ -75,7 +78,9 @@ Despite the thread-pool type name, the live implementation currently operates as
 - `submit()` waits for queue capacity and then pushes into the shared dispatch queue.
 - `tryGetWork()` currently reads **only** from `dispatch_queue_`; reserved per-thread queues are not yet a live data path.
 - `workerLoop()` waits up to `idle_timeout_ms` for new work, executes it, and records completion/failure latency.
-- `shutdown()` waits for the queue to drain, wakes all workers, joins them, and clears the worker list.
+- `shutdown()` rejects new work, waits up to the drain timeout, then wakes and
+  joins workers. Workers finish accepted queued work before exiting; running
+  callables are not interrupted, so joining may exceed the timeout.
 
 **Important live-implementation notes:**
 - There is no elastic worker growth or shrinkage during steady-state execution.
@@ -140,11 +145,13 @@ sequenceDiagram
 | Failure case | Current behavior |
 |---|---|
 | scheduler full before caller timeout | `enqueue()` returns `0` after timeout |
+| invalid scheduler input | empty callable, undefined priority, or negative SLA returns `0` |
 | scheduler shut down | `enqueue()` returns `0`; `dequeue()` returns `false` once the queue is empty |
 | scheduler overload beyond shed threshold | incoming LOW-priority item is rejected and `total_shed_` increments |
 | thread-pool queue full before caller timeout | `submit()` returns `false` |
 | task throws exception | worker catches the exception, increments `failed_`, and continues servicing later work |
-| thread-pool shutdown | new submissions are rejected; workers are woken and joined |
+| invalid pool input/configuration | empty callable is rejected; non-positive `idle_timeout_ms` throws `std::invalid_argument` at construction |
+| thread-pool shutdown | new submissions are rejected; accepted queue items finish before workers exit; a stuck callable can block join indefinitely |
 
 **Concurrency model:**
 

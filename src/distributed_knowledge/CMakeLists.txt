@@ -3,7 +3,7 @@
 # Library target: themis_distributed_knowledge
 # Version: Session 1 (2026-04-19)
 #
-# Sources: 4 implementation files for the Distributed Knowledge Federation module.
+# Sources: 5 implementation files for the Distributed Knowledge Federation module.
 # Dependencies: nlohmann_json (header-only), themis_core (for governance + llm headers).
 
 cmake_minimum_required(VERSION 3.16)
@@ -13,6 +13,7 @@ add_library(themis_distributed_knowledge
     lora_federation_coordinator.cpp
     federated_rag_merger.cpp
     cross_shard_feedback_sync.cpp
+    federated_distillation_coordinator.cpp
     ../governance/cross_border_transfer.cpp
     ../llm/decision_record_yaml_processor.cpp
 )

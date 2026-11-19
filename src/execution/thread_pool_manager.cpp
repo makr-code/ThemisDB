@@ -22,6 +22,9 @@ WorkStealingThreadPool::WorkStealingThreadPool()
 
 WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
     : cfg_(cfg) {
+    if (cfg_.idle_timeout_ms <= 0) {
+        throw std::invalid_argument("idle_timeout_ms must be positive");
+    }
     if (cfg_.max_threads == 0) {
         cfg_.max_threads =
             std::max<std::size_t>(4 * std::thread::hardware_concurrency(), 4);
@@ -66,7 +69,7 @@ WorkStealingThreadPool::~WorkStealingThreadPool() {
  */
 bool WorkStealingThreadPool::submit(WorkItem item,
                                     std::chrono::milliseconds timeout) {
-    if (shutdown_.load(std::memory_order_acquire)) {
+    if (shutdown_.load(std::memory_order_acquire) || !item.fn) {
         return false;
     }
 
@@ -123,14 +126,14 @@ bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) 
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Run the worker loop until shutdown is requested.
+ * @brief Run the worker loop until shutdown is requested and accepted work drains.
  * @param[in] thread_idx Worker index used for reserved per-thread bookkeeping.
  */
 void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
     const auto idle_timeout =
         std::chrono::milliseconds(cfg_.idle_timeout_ms);
 
-    while (!shutdown_.load(std::memory_order_acquire)) {
+    while (true) {
         WorkItem work{[] {}};
         bool     got = tryGetWork(thread_idx, work);
 
@@ -151,6 +154,9 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
         }
 
         if (!got) {
+            if (shutdown_.load(std::memory_order_acquire)) {
+                break;
+            }
             continue;
         }
 

@@ -31,10 +31,14 @@ assignees: []
 - Doxygen artifact: {{DOXYGEN_PATH}}
 - Compliance report: {{COMPLIANCE_REPORT_PATH}}
 
-## What needs to be done
+## Acceptance Criteria / Copilot Tasks
+<!-- Populate with concrete, applicable task-list items (- [ ] ...). These are
+     the tasks Copilot receives when this issue is delegated. -->
 {{IMPLEMENTATION_TASKS}}
+{{ACCEPTANCE_CRITERIA}}
 
 ## Validation
+
 - Repro command: {{VALIDATION_REPRO}}
 - Gate check: {{VALIDATION_GATE}}
 - Success condition: {{VALIDATION_SUCCESS}}
@@ -43,9 +47,6 @@ assignees: []
 
 ## Merge Gate
 - Merge erst nach vollstaendig erfuellen Akzeptanzkriterien und Maintainer-Freigabe.
-
-## Acceptance criteria
-{{ACCEPTANCE_CRITERIA}}
 
 ## Notes
 - Risk/constraint: {{RISK_CONSTRAINT}}

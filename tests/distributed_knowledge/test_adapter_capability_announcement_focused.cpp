@@ -282,6 +282,7 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
 
 TEST_F(AdapterCapabilityAnnouncementTest, InboundAnnouncementIsDeserializedAndDispatched) {
     GossipAdapterPublisher publisher("local-shard", make_gossip_fn());
+    publisher.setTrustPolicy(std::make_shared<AlwaysPermitTrustPolicy>());
     std::vector<AdapterCapabilityAnnouncement> received;
     publisher.setAnnouncementCallback(
         [&received](const AdapterCapabilityAnnouncement& announcement) {
@@ -309,6 +310,58 @@ TEST_F(AdapterCapabilityAnnouncementTest, InboundAnnouncementIsDeserializedAndDi
         std::chrono::duration_cast<std::chrono::milliseconds>(
             received.front().announced_at.time_since_epoch()).count(),
         1234);
+}
+
+TEST_F(AdapterCapabilityAnnouncementTest, InboundAnnouncementFailsClosedWithoutTrustPolicy) {
+    GossipAdapterPublisher publisher("local-shard", make_gossip_fn());
+    size_t dispatch_count = 0;
+    publisher.setAnnouncementCallback(
+        [&dispatch_count](const AdapterCapabilityAnnouncement&) { ++dispatch_count; });
+
+    EXPECT_THROW(publisher.handleInboundMessage(json{
+        {"shard_id", "remote-shard"},
+        {"adapter_id", "adapter-remote"},
+        {"domain_type", "GENERAL"}
+    }), std::runtime_error);
+    EXPECT_EQ(dispatch_count, 0U);
+}
+
+TEST_F(AdapterCapabilityAnnouncementTest, UnknownInboundDomainIsRejectedBeforeDispatch) {
+    GossipAdapterPublisher publisher("local-shard", make_gossip_fn());
+    publisher.setTrustPolicy(std::make_shared<AlwaysPermitTrustPolicy>());
+    size_t dispatch_count = 0;
+    publisher.setAnnouncementCallback(
+        [&dispatch_count](const AdapterCapabilityAnnouncement&) { ++dispatch_count; });
+
+    EXPECT_THROW(publisher.handleInboundMessage(json{
+        {"shard_id", "remote-shard"},
+        {"adapter_id", "adapter-remote"},
+        {"domain_type", "UNRECOGNIZED"}
+    }), std::invalid_argument);
+    EXPECT_EQ(dispatch_count, 0U);
+}
+
+TEST_F(AdapterCapabilityAnnouncementTest, RejectingTrustPolicyBlocksInboundDispatch) {
+    class RejectPolicy final : public IFederationTrustPolicy {
+    public:
+        TrustDecision evaluateTrustGate(
+            const AdapterCapabilityAnnouncement&) const noexcept override {
+            return TrustDecision::REJECT;
+        }
+    };
+
+    GossipAdapterPublisher publisher("local-shard", make_gossip_fn());
+    publisher.setTrustPolicy(std::make_shared<RejectPolicy>());
+    size_t dispatch_count = 0;
+    publisher.setAnnouncementCallback(
+        [&dispatch_count](const AdapterCapabilityAnnouncement&) { ++dispatch_count; });
+
+    EXPECT_THROW(publisher.handleInboundMessage(json{
+        {"shard_id", "remote-shard"},
+        {"adapter_id", "adapter-remote"},
+        {"domain_type", "GENERAL"}
+    }), std::runtime_error);
+    EXPECT_EQ(dispatch_count, 0U);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

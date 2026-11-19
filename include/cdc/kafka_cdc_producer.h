@@ -99,6 +99,7 @@ struct KafkaProducerStats {
     uint64_t delivered_total{0};    ///< cdc_kafka_delivered_total
     uint64_t error_total{0};        ///< cdc_kafka_error_total
     uint64_t poll_cycles{0};        ///< number of poll() iterations
+    bool     delivery_capable{false}; ///< true when built with librdkafka
     bool     running{false};        ///< true while background thread is active
 };
 
@@ -123,6 +124,14 @@ public:
     bool start() override;
 
     void stop() override;
+
+    [[nodiscard]] bool deliveryCapable() const noexcept override { return true; }
+    [[nodiscard]] bool isReady() const noexcept override {
+        return running_.load(std::memory_order_acquire);
+    }
+    [[nodiscard]] uint64_t deliveryFailureCount() const noexcept override {
+        return error_total_.load(std::memory_order_relaxed);
+    }
 
     // ── Manual publish ─────────────────────────────────────────────────────
 
@@ -159,6 +168,11 @@ private:
         KafkaCDCProducer& producer_;
     };
 
+    struct DeliveryContext {
+        uint64_t sequence{0};
+        bool advance_sequence{false};
+    };
+
     // ── Members ────────────────────────────────────────────────────────────
 
     Changefeed* changefeed_;
@@ -175,11 +189,15 @@ private:
     std::thread        thread_;
 
     std::atomic<uint64_t> last_sequence_{0};
+    std::atomic<int> pending_delivery_result_{0};
 
     // Prometheus counters (mirrored in CDCMetrics when metrics_ != null)
     std::atomic<uint64_t> delivered_total_{0};
     std::atomic<uint64_t> error_total_{0};
     std::atomic<uint64_t> poll_cycles_{0};
+
+    void recordError() noexcept;
+    bool publish(const Changefeed::ChangeEvent& event, bool advance_sequence);
 
     /**
      * @brief Get Or Create Topic.
@@ -204,7 +222,13 @@ public:
     bool start() override {
         StartFn fn;
         { std::lock_guard<std::mutex> lk(s_start_fn_mutex_()); fn = s_start_fn_(); }
-        if (fn) { try { return fn(); } catch (...) { return false; } }
+        if (fn) {
+            try {
+                if (fn()) { return true; }
+            } catch (...) {
+            }
+        }
+        error_total_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
 
@@ -213,11 +237,27 @@ public:
     bool publish(const Changefeed::ChangeEvent& event) override {
         PublishFn fn;
         { std::lock_guard<std::mutex> lk(s_publish_fn_mutex_()); fn = s_publish_fn_(); }
-        if (fn) { try { return fn(event); } catch (...) { return false; } }
+        if (fn) {
+            try {
+                if (fn(event)) { return true; }
+            } catch (...) {
+            }
+        }
+        error_total_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
 
-    KafkaProducerStats getStats() const { return {}; }
+    [[nodiscard]] bool deliveryCapable() const noexcept override { return false; }
+    [[nodiscard]] bool isReady() const noexcept override { return false; }
+    [[nodiscard]] uint64_t deliveryFailureCount() const noexcept override {
+        return error_total_.load(std::memory_order_relaxed);
+    }
+
+    KafkaProducerStats getStats() const {
+        KafkaProducerStats stats;
+        stats.error_total = error_total_.load(std::memory_order_relaxed);
+        return stats;
+    }
 
     // -----------------------------------------------------------------------
     // Injectable bridge (STUB #98)
@@ -270,6 +310,8 @@ private:
      * @details Implements s_publish_fn_ without additional internal calls.
      */
     static PublishFn&    s_publish_fn_()         { static PublishFn f; return f; }
+
+    std::atomic<uint64_t> error_total_{0};
 };
 
 #endif // THEMIS_ENABLE_KAFKA

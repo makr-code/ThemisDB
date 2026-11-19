@@ -160,11 +160,11 @@ private:
     bool initCRL();
 
     /**
-     * @brief X509 Name To String.
-     * @param[in,out] name Input/output parameter.
-     * @return Return value.
+     * @brief Format a borrowed X509 name without modifying it.
+     * @param[in] name X509 name, or nullptr.
+     * @return RFC 2253 name, or an empty string on failure.
      */
-    static std::string x509NameToString(void* name);
+    static std::string x509NameToString(const void* name);
     /**
      * @brief Serial To Hex.
      * @param[in,out] serial Input/output parameter.

@@ -32,6 +32,7 @@
 #pragma once
 
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <string>
 
@@ -102,10 +103,12 @@ enum class FallbackReason : uint16_t {
     CategoryCSubpathDetected = 500, ///< ACL / provenance / transaction path detected.
     ForceExact              = 501, ///< force_exact flag set on query context.
     ForceCpu                = 502, ///< force_cpu flag set on query context.
+    InvalidPlannerConfiguration = 503, ///< Configuration is incomplete or outside its valid range.
 
     // Distributed / shard
     ShardSummaryLowConfidence = 600, ///< Shard summary confidence below threshold.
     ShardManifestMissing      = 601, ///< Shard manifest unavailable.
+    ShardSummaryConfidenceInvalid = 602, ///< Shard summary confidence is non-finite or outside [0, 1].
 };
 
 // ---------------------------------------------------------------------------
@@ -189,6 +192,11 @@ struct ExecutionEligibility {
     // Distributed / sharding signals (Path 5)
     bool distributed_multi_shard{false};  ///< Query spans ≥ 2 shards; activate Path 5.
     bool shard_manifests_available{false};///< All required shard manifests are reachable.
+    /// @brief Caller-supplied shard-summary confidence; must be finite and in [0, 1].
+    /// @note Path 5 requires this value to meet the configured minimum; invalid
+    ///       or missing confidence defaults to an invalid value; invalid or
+    ///       insufficient confidence forces the exact-graph fallback.
+    double shard_summary_confidence{std::numeric_limits<double>::quiet_NaN()};
 
     [[nodiscard]] bool isGpuEligible(KernelCategory category) const noexcept {
         if (force_cpu) {
@@ -266,6 +274,16 @@ public:
     QueryPlanner(QueryPlanner&&)                 = delete;
     QueryPlanner& operator=(QueryPlanner&&)      = delete;
 
+    /**
+     * @brief Select a retrieval path from caller-supplied eligibility signals.
+     * @param eligibility Runtime hardware, readiness, and distributed confidence.
+     * @param freshness Tensor artifact freshness state.
+     * @param config Policy thresholds and identifiers; invalid settings force
+     *        the exact-graph path with an explicit fallback reason.
+     * @return Selected path and its machine-readable fallback reason.
+     * @note Path 5 requires finite shard confidence in [0, 1] meeting the
+     *       configured minimum; a decision does not execute or validate retrieval.
+     */
     [[nodiscard]] virtual PlannerDecision selectPath(
         const ExecutionEligibility&     eligibility,
         const TensorArtifactFreshness&  freshness,

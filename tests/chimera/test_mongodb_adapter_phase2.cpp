@@ -47,4 +47,9 @@ TEST(MongoDBAdapterPhase2, UnsupportedVectorPathReturnsNotImplemented) {
     EXPECT_EQ(result.error_code, ErrorCode::NOT_IMPLEMENTED);
 }
 
+TEST(MongoDBAdapterPhase2, TransactionMetadataIsNotReportedAsDatabaseCapability) {
+    MongoDBAdapter adapter;
+    EXPECT_FALSE(adapter.has_capability(Capability::TRANSACTIONS));
+}
+
 } // namespace chimera

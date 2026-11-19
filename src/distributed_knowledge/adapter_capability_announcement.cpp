@@ -62,14 +62,33 @@ void GossipAdapterPublisher::handleInboundMessage(const nlohmann::json& payload)
     auto announcement = AdapterCapabilityAnnouncement::fromJson(payload);
 
     AnnouncementCallback cb;
+    std::shared_ptr<const IFederationTrustPolicy> trust_policy;
     {
         std::lock_guard<std::mutex> lk(mutex_);
         cb = on_announcement_;
+        trust_policy = trust_policy_;
+    }
+
+    if (!trust_policy) {
+        throw std::runtime_error("inbound capability announcement rejected: trust policy is not configured");
+    }
+    if (trust_policy->evaluateTrustGate(announcement) != TrustDecision::PERMIT) {
+        throw std::runtime_error("inbound capability announcement rejected by trust policy");
     }
 
     if (cb) {
         cb(announcement);
     }
+}
+
+/**
+ * @brief Sets the trust policy applied to inbound announcements.
+ * @param[in] trust_policy Policy to apply; a null pointer disables inbound dispatch.
+ */
+void GossipAdapterPublisher::setTrustPolicy(
+    std::shared_ptr<const IFederationTrustPolicy> trust_policy) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    trust_policy_ = std::move(trust_policy);
 }
 
 /**

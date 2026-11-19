@@ -658,6 +658,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND (TH
     if(THEMIS_ENABLE_HIP)
         target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_HIP=1)
     endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_VULKAN=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_gpu_training_cycle)
     

@@ -1,9 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-09"
-Last Updated: "2026-10-09"
+Last Updated: "2026-11-19"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Pull Request
 
@@ -41,22 +48,17 @@ Status: "active"
 
 ## Type of Change
 
-- [ ] Bug fix (non-breaking)
-- [ ] New feature (non-breaking)
-- [ ] Refactoring (non-breaking)
-- [ ] Documentation
-- [ ] Breaking change (requires MAJOR version bump — see [VERSIONING.md](../VERSIONING.md))
-- [ ] Security fix
-- [ ] Other:
+Select all that apply: bug fix (non-breaking), new feature (non-breaking), refactoring (non-breaking), documentation, breaking change (requires MAJOR version bump — see [VERSIONING.md](../VERSIONING.md)), security fix, other (specify).
 
 ## Breaking Change Checklist
 
-<!-- Only fill out if "Breaking change" is checked above -->
+<!-- Only applies to breaking changes. Copy applicable work items into the
+     checklist below so the task gate does not treat irrelevant items as tasks. -->
 
-- [ ] MAJOR version bump planned in `VERSION` and `CMakeLists.txt`
-- [ ] Migration guide added in `docs/migration/`
-- [ ] Announcement prepared for GitHub Discussions (≥ 2 weeks before release)
-- [ ] CHANGELOG `### Removed` / `### Changed` section updated
+- Plan the MAJOR version bump in `VERSION` and `CMakeLists.txt`.
+- Add a migration guide in `docs/migration/`.
+- Prepare the GitHub Discussions announcement (≥ 2 weeks before release).
+- Update the CHANGELOG `### Removed` / `### Changed` section.
 
 ## Testing
 
@@ -65,35 +67,23 @@ Status: "active"
 - [ ] Manual testing performed
 - [ ] Benchmarks run (if performance-sensitive change)
 
-## Security Tiering Impact (Required for Runtime Changes)
+## Security Tiering Impact (for Runtime Changes)
 
 <!-- Reference model: ARCHITECTURE.md -> Security & Hardening Tiering Model -->
 
-- Impacted tier(s):
-  - [ ] T0 Trusted Core
-  - [ ] T1 Security & Platform Services
-  - [ ] T2 Data Plane Engines
-  - [ ] T3 Interface & Protocol Edge
-  - [ ] T4 Managed Extension Runtime
-  - [ ] T5 Plugin Boundary
-  - [ ] N/A (docs-only / non-runtime)
+- Impacted tier(s): T0 Trusted Core / T1 Security & Platform Services / T2 Data Plane Engines / T3 Interface & Protocol Edge / T4 Managed Extension Runtime / T5 Plugin Boundary / N/A (docs-only / non-runtime)
 
-- [ ] Trust-boundary crossings documented in PR description (example: T3 -> T2, T5 -> T4 brokered call)
-- [ ] Boundary controls validated for affected T3/T4/T5 paths (AuthN/AuthZ, validation, rate limits, audit)
-- [ ] Boundary-focused tests added/updated or explicit N/A rationale provided
-- [ ] If trust level/privilege increased, security maintainer approval is attached
+For runtime changes, copy applicable trust-boundary, control-validation, test, and security-approval work into the checklist below.
 
 ## 📚 Research & Knowledge (wenn applicable)
 
-- [ ] Diese PR basiert auf wissenschaftlichen Paper(s) oder Best Practices?
-  - Falls JA: Research-Dateien in `/docs/research/` angelegt?
-  - Falls JA: Im Modul-README unter "Wissenschaftliche Grundlagen" verlinkt?
-  - Falls JA: In `/docs/research/implementation_influence/` eingetragen?
+Based on scientific papers or best practices? Yes / No.
 
 **Relevante Quellen:**
-- [ ] Paper: <!-- docs/research/papers/<file>.md -->
-- [ ] Best Practice: <!-- docs/research/best_practices/<file>.md -->
-- [ ] Architecture Decision: <!-- docs/research/architecture_decisions/adr_<NNN>.md -->
+- Paper: <!-- docs/research/papers/<file>.md -->
+- Best Practice: <!-- docs/research/best_practices/<file>.md -->
+- Architecture Decision: <!-- docs/research/architecture_decisions/adr_<NNN>.md -->
+- If applicable, add research files, module README links, and implementation-influence entries as tasks in the checklist below.
 
 ## AI-Generated Code (KI-generierter Code)
 
@@ -131,16 +121,18 @@ Status: "active"
 
 ## Release Readiness Gate (Required for release-scoped changes)
 
-- [ ] Release readiness reviewed with `.github/prompts/release-readiness-check.prompt.md` for branch transition scope
-- [ ] Branch governance validated against `BRANCHING_STRATEGY.md` and `RELEASE_STRATEGY.md`
-- [ ] Versioning/changelog impact validated against `VERSIONING.md` and `CHANGELOG.md`
+For release-scoped changes, add the applicable review steps to the checklist below:
+
+- Review release readiness with `.github/prompts/release-readiness-check.prompt.md` for branch transition scope.
+- Validate branch governance against `BRANCHING_STRATEGY.md` and `RELEASE_STRATEGY.md`.
+- Validate versioning/changelog impact against `VERSIONING.md` and `CHANGELOG.md`.
 
 ## Checklist
 
 - [ ] Code follows project style guidelines (clang-format / clang-tidy)
 - [ ] Self-review completed
 - [ ] Documentation updated (if needed)
-- [ ] CHANGELOG.md updated under `[Unreleased]`
+- [ ] Update CHANGELOG.md under `[Unreleased]`
 - [ ] No new warnings introduced
 - [ ] Security-sensitive paths reviewed by security maintainer (if applicable)
 
@@ -152,4 +144,3 @@ Status: "active"
 - [ ] Gap Scanner: no new `high` findings in the same categories (or explicitly approved)
 - [ ] Gap Scanner delta report attached (baseline vs current), not only absolute totals
 - [ ] New `unknown` scanner findings triaged (fixed, re-categorized, or justified)
-

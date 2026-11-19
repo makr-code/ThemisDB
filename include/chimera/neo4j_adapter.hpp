@@ -124,7 +124,12 @@ public:
         const std::map<std::string, Scalar>& updates
     ) override;
 
-    // Transaction operations (supported via Neo4j sessions)
+    // Transaction operations are unsupported until sessions are bound to graph operations.
+    /**
+     * @brief Begin a transaction bound to graph operations.
+     * @param options Transaction options; currently unused.
+     * @return `CONNECTION_ERROR` when disconnected; otherwise `NOT_IMPLEMENTED`.
+     */
     Result<std::string> begin_transaction(
         const TransactionOptions& options = {}
     ) override;

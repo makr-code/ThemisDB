@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,18 +14,18 @@ Human_Author: "ThemisDB Contributors"
 
 # Audit Report - Distributed Knowledge Module
 
-<!-- Status: current | validated: 2026-10-31 (source/configuration inspection; no build or tests run) -->
+<!-- Status: current | reviewed: 2026-11-19 (source/docs inspection; no local build or tests run) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
 
 | Metric | Result |
 |---|---|
-| Build registration | module target registered; source-list discrepancy noted below |
+| Build registration | module target lists five implementation files, including distillation; successful build not verified |
 | Source set size | 5 implementation files in src/distributed_knowledge |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | not assessed by this source-only documentation audit |
+| Focused test presence | 110 declarations in 9 sources; execution not verified |
+| Open hardening findings | graph-sync, topology, callback-recovery, and performance evidence gaps |
+| Critical blockers | release sign-off blocked pending runtime and baseline artifacts |
 
 ## Verified Files
 
@@ -39,31 +39,30 @@ Human_Author: "ThemisDB Contributors"
 
 ### Open
 
-0. [DK-AUD-00] distillation implementation source is not listed in the module library target.
-- Severity: unresolved build-integration question.
-- Evidence: `src/distributed_knowledge/CMakeLists.txt` lists capability, LoRA, RAG, and feedback sources but omits `federated_distillation_coordinator.cpp`; the source exists and is referenced by test configurations.
-- Action: confirm the intended production-library target ownership and update build wiring or documentation accordingly. This audit did not build the target.
+0. [DK-AUD-00] production-library source registration is corrected but remains unbuilt in this review.
+- Severity: validation required.
+- Evidence: `src/distributed_knowledge/CMakeLists.txt` now lists `federated_distillation_coordinator.cpp`; focused tests previously had a direct-source fallback when the library target was absent.
+- Action: build the library and run the FDC focused target linked against it; source registration alone is not link evidence.
 
 1. [DK-AUD-01] timeout and partial-shard merge edge parity remains active.
-- Severity: medium
-- Evidence: roadmap/future retain hardening tasks for timeout and degraded shard paths.
-- Action: close remaining deterministic merge and timeout regressions.
+- Severity: high release risk
+- Evidence: `FederatedRAGMerger` only merges supplied results and does not enforce per-shard deadlines; the LoRA `std::async` timeout overload cannot cancel unfinished work. No live graph/shard synchronization protocol exists.
+- Action: add real topology tests and cancellation-aware deadline behavior before claiming graph sync or bounded timeout behavior.
 
 2. [DK-AUD-02] replay/dedup and trust-gate diagnostics need further tightening.
-- Severity: medium
-- Evidence: active follow-up work for policy/replay observability and rejection taxonomy.
-- Action: unify diagnostics across feedback sync, trust gates, and distillation policy checks.
+- Severity: high release risk
+- Evidence: feedback dedup is bounded and in-memory; distillation charges budget before synchronous callbacks and can leave partial delivery if a callback throws. No retry/recovery contract is implemented.
+- Action: define observable terminal state and idempotent reconciliation before adding retries or recovery.
 
 3. [DK-AUD-03] benchmark breadth still centers on core federation scenarios.
-- Severity: low
-- Evidence: mapped benchmark set is valid but should grow for extended governance workflows.
-- Action: add broader benchmark depth for additional distillation and edge-path scenarios.
+- Severity: high release risk
+- Evidence: `bench_dk_release_gates` uses local in-memory/mock cases; no representative-hardware p95/p99 artifact or pinned baseline was verified.
+- Action: satisfy DKG-1..DKG-4 in `PERFORMANCE_EXPECTATIONS.md` with reproducible production-path artifacts.
 
 ### Closed
 
-- core distributed federation runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
+- inbound capability dispatch rejects unknown domains and requires an explicit trust policy before callback dispatch.
+- module docs now distinguish in-process component evidence from graph-sync, topology, durability, and performance evidence.
 
 ## Compliance Snapshot
 

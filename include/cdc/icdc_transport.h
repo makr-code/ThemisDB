@@ -43,6 +43,25 @@ public:
     [[nodiscard]] virtual bool start() = 0;
 
     /**
+     * @brief Reports whether this build has a real delivery backend.
+     * @return True when the configured transport can deliver to its backend;
+     *         false for unavailable or compile-time stub backends.
+     */
+    [[nodiscard]] virtual bool deliveryCapable() const noexcept { return true; }
+
+    /**
+     * @brief Reports whether the transport is started and ready to accept events.
+     * @return True when publish operations can currently be attempted.
+     */
+    [[nodiscard]] virtual bool isReady() const noexcept { return true; }
+
+    /**
+     * @brief Returns the cumulative number of transport delivery failures.
+     * @return Failure count since this transport instance was created.
+     */
+    [[nodiscard]] virtual uint64_t deliveryFailureCount() const noexcept { return 0; }
+
+    /**
      * @brief Stop.
      */
     virtual void stop() = 0;

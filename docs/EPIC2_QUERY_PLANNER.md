@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-25"
+Last Updated: "2026-11-19"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # EPIC 2.5 Query Planner
 
 <!-- Status: current | cpu-gpu boundaries integrated | validated: 2026-07-06 -->
@@ -172,20 +186,28 @@ Exact graph traversal (CPU)
 ### Path 5 — Distributed Summary-First + Exact-On-Demand
 
 **Condition**: query spans multiple shards; summary-first retrieval is used to reduce
-cross-shard traffic; exact graph loading is triggered per shard on demand.
+cross-shard traffic. The planner selects this path only when manifests are
+available and its caller-supplied shard-summary confidence is finite, in `[0, 1]`,
+and at least the configured threshold. Missing, invalid, or low planner confidence
+selects Path 4 for the whole query.
 
 ```
 Shard-local summary retrieval (per shard, summary-first)
   → Fragment assembly and merge (distributed planner)
-  → Exact graph loading per shard on demand (if summary confidence < threshold)
+  → Per-shard exact-on-demand handling (owned by the downstream executor)
   → Graph-verified final merge
   → Return distributed result
 ```
 
 **Planner gates**:
 - Query is distributed across ≥ 2 shards.
-- Shard manifests are available and within freshness bounds.
-- Exact-on-demand triggers when shard summary confidence < policy threshold.
+- Shard manifests are reported available by the caller; this decision function
+  does not fetch manifests or validate their freshness.
+- The caller supplies one planner-level confidence value, which must be finite,
+  in `[0, 1]`, and meet `PlannerConfig::min_shard_summary_confidence`.
+- Per-shard exact-on-demand after Path 5 is selected is downstream executor
+  behavior; `selectPath()` returns a decision and does not execute or recover a
+  shard request.
 - Cross-shard FK validation (via `CrossShardForeignKeyValidator`) is enforced
   during the 2PC prepare phase when graph consistency is required.
 
@@ -274,7 +296,8 @@ fail-closed (request rejected, not silently downgraded).
 | Dijkstra pair count > 1 000 | CPU exact Dijkstra; not an error |
 | Tensor artifact stale / missing | Path 4 (exact graph); log artifact age |
 | Tensor residual below threshold | Path 4; log residual value |
-| Shard summary confidence below threshold | Trigger exact-on-demand for that shard |
+| Planner-level shard summary confidence missing, invalid, or below threshold | Path 4 exact graph for the whole query; report the typed fallback reason |
+| Per-shard confidence below threshold after Path 5 selection | Downstream executor owns exact-on-demand handling; it is not performed by `QueryPlanner` |
 | Module gap threshold exceeded at runtime | Block path; downgrade to CPU-only tier |
 | ACL / provenance / transaction sub-path detected | Force Category C (CPU-only) |
 
@@ -297,7 +320,7 @@ forbidden (see ADR E2-005).
 - [x] Implement `DefaultQueryPlanner::selectPath()` using the five canonical paths above (`src/evaluation/src/query_planner.cc`)
 - [x] `TensorArtifactFreshness::isFresh()` and `staleness_reason()` are inline in the header (Phase 1)
 - [x] `ExecutionEligibility::isGpuEligible()` enforces Category A / B / C boundaries (Phase 1 + Phase 2)
-- [x] Distributed Path 5 gates (`distributed_multi_shard`, `shard_manifests_available`) wired into `selectPath()`
+- [x] Distributed Path 5 gates (`distributed_multi_shard`, manifests, and validated summary confidence) wired into `selectPath()`
 - [x] `makeDefaultQueryPlanner()` factory function declared in header and defined in `.cc`
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
@@ -307,6 +330,7 @@ forbidden (see ADR E2-005).
 - [x] Every fallback carries a non-None `FallbackReason` from the defined trigger table
 - [x] Module gap threshold blocker: `index_buffer_safety_ok == false` → `ModuleGapThreshold` fallback
 - [x] Partial shard loss (missing manifests): `ShardManifestMissing` → Path 4 fallback
+- [x] Invalid policy configuration and missing/invalid/low summary confidence select exact graph with typed fallback reasons
 - [x] Stale / low-quality tensor artifacts map to specific reason codes (TensorArtifactStale, TensorResidualLow, TensorRebuildInProgress, TensorRankCapExceeded)
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 

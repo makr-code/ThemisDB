@@ -30,6 +30,8 @@ on:
       - 'tests/**/*distributed_knowledge*.hh'
       - 'tests/**/*distributed_knowledge*.hpp'
       - 'tests/**/*distributed_knowledge*.hxx'
+      - 'tests/distributed_knowledge/**/*.cpp'
+      - 'tests/distributed_knowledge/CMakeLists.txt'
       - 'benchmarks/distributed_knowledge/**/*.c'
       - 'benchmarks/distributed_knowledge/**/*.cc'
       - 'benchmarks/distributed_knowledge/**/*.cpp'
@@ -69,6 +71,8 @@ on:
       - 'tests/**/*distributed_knowledge*.hh'
       - 'tests/**/*distributed_knowledge*.hpp'
       - 'tests/**/*distributed_knowledge*.hxx'
+      - 'tests/distributed_knowledge/**/*.cpp'
+      - 'tests/distributed_knowledge/CMakeLists.txt'
       - 'benchmarks/distributed_knowledge/**/*.c'
       - 'benchmarks/distributed_knowledge/**/*.cc'
       - 'benchmarks/distributed_knowledge/**/*.cpp'
@@ -132,8 +136,15 @@ jobs:
       preset: community-release
       configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
       build_targets: >-
-        module_distributed_knowledge_test_dk_contract_hardening_focused
         module_distributed_knowledge_test_adapter_capability_announcement_focused
+        module_distributed_knowledge_test_cross_shard_feedback_sync_focused
+        module_distributed_knowledge_test_dk_contract_hardening_focused
+        module_distributed_knowledge_test_dk_diagnostics_focused
+        module_distributed_knowledge_test_distributed_knowledge_highcardinality_stress_focused
+        module_distributed_knowledge_test_distributed_knowledge_llm_focused
+        module_distributed_knowledge_test_federated_distillation_coordinator_focused
+        module_distributed_knowledge_test_federated_rag_merger_focused
+        module_distributed_knowledge_test_lora_federation_coordinator_focused
         bench_dk_release_gates
       validation_mode: none
       artifact_name: dk-build-tree-${{ github.run_number }}

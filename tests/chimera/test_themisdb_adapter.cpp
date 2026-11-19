@@ -83,11 +83,25 @@ TEST_F(ThemisDBConnectionTest, ConnectWithValidUri) {
     EXPECT_TRUE(adapter.is_connected());
 }
 
-TEST_F(ThemisDBConnectionTest, ConnectWithOptionsSucceeds) {
+TEST_F(ThemisDBConnectionTest, ConnectRejectsUnsupportedOptions) {
     auto result = adapter.connect("themisdb://localhost:7777",
                                   {{"timeout", "5000"}, {"pool_size", "10"}});
-    EXPECT_TRUE(result.is_ok());
-    EXPECT_TRUE(adapter.is_connected());
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::UNSUPPORTED);
+    EXPECT_FALSE(adapter.is_connected());
+}
+
+TEST_F(ThemisDBConnectionTest, ConnectRejectsMissingAuthority) {
+    for (const auto* connection_string : {
+             "themisdb://",
+             "themisdb:///database",
+             "themisdb://   "
+         }) {
+        const auto result = adapter.connect(connection_string);
+        EXPECT_TRUE(result.is_err());
+        EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
+        EXPECT_FALSE(adapter.is_connected());
+    }
 }
 
 TEST_F(ThemisDBConnectionTest, DisconnectAfterConnect) {
@@ -714,8 +728,25 @@ TEST_F(ThemisDBCapabilityTest, HasDocumentStoreCapability) {
     EXPECT_TRUE(adapter.has_capability(Capability::DOCUMENT_STORE));
 }
 
-TEST_F(ThemisDBCapabilityTest, HasTransactionCapability) {
-    EXPECT_TRUE(adapter.has_capability(Capability::TRANSACTIONS));
+TEST_F(ThemisDBCapabilityTest, TransactionMetadataDoesNotClaimAtomicTransactions) {
+    EXPECT_FALSE(adapter.has_capability(Capability::TRANSACTIONS));
+}
+
+TEST_F(ThemisDBCapabilityTest, UnsupportedFeaturesAreNotAdvertised) {
+    const auto unsupported = {
+        Capability::FULL_TEXT_SEARCH,
+        Capability::DISTRIBUTED_QUERIES,
+        Capability::GEOSPATIAL_QUERIES,
+        Capability::TIME_SERIES,
+        Capability::SECONDARY_INDEXES,
+        Capability::TRANSACTIONS
+    };
+    const auto capabilities = adapter.get_capabilities();
+    for (const auto capability : unsupported) {
+        EXPECT_FALSE(adapter.has_capability(capability));
+        EXPECT_EQ(std::find(capabilities.begin(), capabilities.end(), capability),
+                  capabilities.end());
+    }
 }
 
 TEST_F(ThemisDBCapabilityTest, ConnectionPoolingNotAvailableWithoutInjection) {
@@ -732,22 +763,34 @@ TEST_F(ThemisDBCapabilityTest, GetCapabilitiesExcludesConnectionPoolingWithoutIn
 }
 
 TEST_F(ThemisDBCapabilityTest, ConnectionPoolingAvailableAfterInjection) {
-    // After injecting a pool provider, has_capability() must return true.
+    // A provider cannot be reported distinctly when the selected enum aliases
+    // CONNECTION_POOLING to REPLICATION.
     adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
+#if defined(CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED)
+    EXPECT_FALSE(adapter.has_capability(connection_pooling_capability()));
+#else
     EXPECT_TRUE(adapter.has_capability(connection_pooling_capability()));
+#endif
 }
 
 TEST_F(ThemisDBCapabilityTest, GetCapabilitiesIncludesConnectionPoolingAfterInjection) {
     adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
     auto caps = adapter.get_capabilities();
     auto it = std::find(caps.begin(), caps.end(), connection_pooling_capability());
+#if defined(CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED)
+    EXPECT_EQ(it, caps.end())
+        << "A legacy REPLICATION alias must not advertise CONNECTION_POOLING";
+#else
     EXPECT_NE(it, caps.end())
         << "CONNECTION_POOLING must appear in get_capabilities() when a pool is injected";
+#endif
 }
 
 TEST_F(ThemisDBCapabilityTest, ConnectionPoolingDisabledAfterNullInjection) {
     adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
+#if !defined(CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED)
     ASSERT_TRUE(adapter.has_capability(connection_pooling_capability()));
+#endif
     // Removing the pool reverts the capability.
     adapter.setConnectionPool(nullptr);
     EXPECT_FALSE(adapter.has_capability(connection_pooling_capability()));

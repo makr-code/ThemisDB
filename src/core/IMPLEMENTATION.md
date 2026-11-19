@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,5 +48,7 @@ Internal implementations live under `src/core/`; public contracts are in `includ
 ## Failure and compatibility notes
 
 Factory validation errors throw `std::runtime_error`; null runtime replacements and invalid registry registration throw `std::invalid_argument`. `AdapterRegistry::hotSwap()` can return `false` after the 100 ms drain window while old shared handles remain live. Plugin loader failures return `false`. Preserve these distinct failure modes when adding wrappers or translating errors.
+
+`hotSwap()` publishes the replacement before waiting for old handles; `false` reports a drain timeout and does not roll back that replacement. `ICircuitBreaker::call()` uses its fallback only when a request is denied; an exception from the operation is recorded and rethrown, with no automatic retry. Plugin admission defaults to `kTrustAll`; `kRequireSignature` validates an adjacent digest but does not authenticate a publisher, and Core does not currently enforce a stricter production policy.
 
 The plugin ABI is versioned independently by `kPluginAbiVersion`; breaking ABI changes require coordinated host/plugin updates. See [`API.md`](API.md), [`MODELING.md`](MODELING.md), and [`MODULE_EVIDENCE.md`](MODULE_EVIDENCE.md).

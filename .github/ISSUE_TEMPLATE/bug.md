@@ -31,16 +31,15 @@ What actually happened.
 
 **Target Version:**
 
-## Acceptance Criteria
+## Acceptance Criteria / Copilot Tasks
 
-<!-- Add task-list items below. The Copilot dispatcher extracts these as the
-     fix checklist when delegating this issue to the Coding Agent.
-     This issue will be automatically queued for the Copilot Coding Agent
-     after creation. Add the label `blocked` to pause automatic delegation. -->
+<!-- Add only concrete, applicable work items as task-list checkboxes. The Copilot
+     dispatcher treats checkboxes in the issue body as implementation tasks.
+     This issue will be automatically queued for the Copilot Coding Agent after
+     creation. Add the label `blocked` to pause automatic delegation. -->
 
 - [ ] Root cause identified and fixed.
 - [ ] Regression test added to prevent recurrence.
-- [ ] 
 
 ## Environment
 

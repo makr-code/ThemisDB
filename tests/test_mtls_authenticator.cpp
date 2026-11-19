@@ -99,8 +99,8 @@ TEST(MTLSAuthenticatorTest, Authenticate_ValidChain_ReturnsClaims) {
 
     // Subject: CN=test-client, O=ThemisDB Test, C=US
     EXPECT_EQ(claims.principal, "test-client");
-    EXPECT_FALSE(claims.subject_dn.empty());
-    EXPECT_FALSE(claims.issuer_dn.empty());
+    EXPECT_EQ(claims.subject_dn, "C=US,O=ThemisDB Test,CN=test-client");
+    EXPECT_EQ(claims.issuer_dn, "C=US,O=ThemisDB Test,CN=ThemisDB Test CA");
     EXPECT_FALSE(claims.fingerprint_sha256.empty());
     EXPECT_EQ(claims.fingerprint_sha256.size(), 64u);
     EXPECT_FALSE(claims.isExpired());

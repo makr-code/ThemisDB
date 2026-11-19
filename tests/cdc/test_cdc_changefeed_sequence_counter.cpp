@@ -50,9 +50,10 @@ static rocksdb::TransactionDB* openDB(const std::string& path,
 class SequenceCounterTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = "/tmp/test_seq_counter_" +
-                   std::to_string(std::chrono::steady_clock::now()
-                                      .time_since_epoch().count());
+        db_path_ = (fs::temp_directory_path() /
+                    ("test_seq_counter_" +
+                     std::to_string(std::chrono::steady_clock::now()
+                                        .time_since_epoch().count()))).string();
         fs::create_directories(db_path_);
         db_.reset(openDB(db_path_, /*with_merge_operator=*/true));
         Changefeed::RetentionPolicy rp;
@@ -96,9 +97,9 @@ TEST(SequenceMergeOperatorFactory, ReturnsNamedOperator) {
 // ===========================================================================
 
 TEST(SequenceMergeOperatorSemantics, MergesFromAbsent) {
-    const std::string path = "/tmp/test_seq_merge_absent_" +
-                             std::to_string(std::chrono::steady_clock::now()
-                                                .time_since_epoch().count());
+    const std::string path = (fs::temp_directory_path() /
+        ("test_seq_merge_absent_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     fs::create_directories(path);
 
     {
@@ -124,9 +125,9 @@ TEST(SequenceMergeOperatorSemantics, MergesFromAbsent) {
 }
 
 TEST(SequenceMergeOperatorSemantics, MergesOnTopOfBinaryBase) {
-    const std::string path = "/tmp/test_seq_merge_bin_base_" +
-                             std::to_string(std::chrono::steady_clock::now()
-                                                .time_since_epoch().count());
+    const std::string path = (fs::temp_directory_path() /
+        ("test_seq_merge_bin_base_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     fs::create_directories(path);
 
     {
@@ -159,9 +160,9 @@ TEST(SequenceMergeOperatorSemantics, MergesOnTopOfBinaryBase) {
 TEST(SequenceMergeOperatorSemantics, MergesOnTopOfLegacyStringBase) {
     // The operator must handle an existing decimal-string value for
     // backward compatibility with databases written by the old code.
-    const std::string path = "/tmp/test_seq_merge_str_base_" +
-                             std::to_string(std::chrono::steady_clock::now()
-                                                .time_since_epoch().count());
+    const std::string path = (fs::temp_directory_path() /
+        ("test_seq_merge_str_base_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     fs::create_directories(path);
 
     {
@@ -300,9 +301,9 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
 // ===========================================================================
 
 TEST(SequenceCounterCrashRecovery, ContinuesAfterReopen) {
-    const std::string path = "/tmp/test_seq_recovery_" +
-                             std::to_string(std::chrono::steady_clock::now()
-                                                .time_since_epoch().count());
+    const std::string path = (fs::temp_directory_path() /
+        ("test_seq_recovery_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     fs::create_directories(path);
 
     uint64_t last_seq = 0;
@@ -364,9 +365,9 @@ TEST_F(SequenceCounterTest, ClearResetsSequenceToZero) {
 // ===========================================================================
 
 TEST(SequenceCounterLegacyInit, LoadsLegacyStringFormatOnConstruction) {
-    const std::string path = "/tmp/test_seq_legacy_" +
-                             std::to_string(std::chrono::steady_clock::now()
-                                                .time_since_epoch().count());
+    const std::string path = (fs::temp_directory_path() /
+        ("test_seq_legacy_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     fs::create_directories(path);
 
     // Write a legacy decimal-string sequence counter without merge operator
@@ -391,4 +392,36 @@ TEST(SequenceCounterLegacyInit, LoadsLegacyStringFormatOnConstruction) {
     }
 
     fs::remove_all(path);
+}
+
+TEST_F(SequenceCounterTest, CorruptLegacyCounterIsCountedAndRecoveredFromEvents) {
+    feed_.reset();
+
+    Changefeed::ChangeEvent persisted_event;
+    persisted_event.sequence = 7;
+    persisted_event.type = Changefeed::ChangeEventType::EVENT_PUT;
+    persisted_event.key = "recovered";
+    persisted_event.value = "{}";
+    persisted_event.timestamp_ms = 1;
+    ASSERT_TRUE(db_->Put(rocksdb::WriteOptions{},
+                         "changefeed:00000000000000000007",
+                         persisted_event.toJson().dump()).ok());
+    ASSERT_TRUE(db_->Put(rocksdb::WriteOptions{},
+                         "changefeed_sequence", "7-corrupt").ok());
+
+    Changefeed::RetentionPolicy rp;
+    rp.enabled = false;
+    feed_ = std::make_unique<Changefeed>(
+        db_.get(), db_->DefaultColumnFamily(), rp);
+
+    EXPECT_EQ(feed_->getLatestSequence(), 7u);
+    EXPECT_EQ(feed_->getStats().sequence_recovery_errors, 1u);
+
+    std::string repaired_value;
+    ASSERT_TRUE(db_->Get(rocksdb::ReadOptions{}, "changefeed_sequence",
+                         &repaired_value).ok());
+    ASSERT_EQ(repaired_value.size(), sizeof(uint64_t));
+    uint64_t repaired_sequence = 0;
+    std::memcpy(&repaired_sequence, repaired_value.data(), sizeof(repaired_sequence));
+    EXPECT_EQ(repaired_sequence, 7u);
 }

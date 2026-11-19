@@ -25,6 +25,8 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
+
 #include "query_planner.h"
 
 // Pull in the DefaultQueryPlanner implementation via the factory.
@@ -363,6 +365,7 @@ TEST_F(QueryPlannerTest, Distributed_SelectedWhenMultiShard) {
     auto e                        = makeFullEligibility();
     e.distributed_multi_shard     = true;
     e.shard_manifests_available   = true;
+    e.shard_summary_confidence    = 0.90;
     const auto d = planner_->selectPath(e, makeNoArtifact(), config_);
 
     EXPECT_EQ(d.path, ExecutionPath::DistributedSummaryFirstExactOnDemand);
@@ -381,13 +384,86 @@ TEST_F(QueryPlannerTest, Distributed_FallsBackToExactGraphWhenManifestsMissing) 
     EXPECT_EQ(d.fallback_reason, FallbackReason::ShardManifestMissing);
 }
 
+TEST_F(QueryPlannerTest, Distributed_FallsBackWhenSummaryConfidenceIsBelowThreshold) {
+    auto e                        = makeFullEligibility();
+    e.distributed_multi_shard     = true;
+    e.shard_manifests_available   = true;
+    e.shard_summary_confidence    = 0.79;
+    const auto d = planner_->selectPath(e, makeNoArtifact(), config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::ShardSummaryLowConfidence);
+}
+
+TEST_F(QueryPlannerTest, Distributed_AcceptsConfidenceAtThreshold) {
+    auto e                        = makeFullEligibility();
+    e.distributed_multi_shard     = true;
+    e.shard_manifests_available   = true;
+    e.shard_summary_confidence    = config_.min_shard_summary_confidence;
+    const auto d = planner_->selectPath(e, makeNoArtifact(), config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::DistributedSummaryFirstExactOnDemand);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::None);
+}
+
+TEST_F(QueryPlannerTest, Distributed_AcceptsExplicitZeroWhenThresholdIsZero) {
+    auto config = config_;
+    config.min_shard_summary_confidence = 0.0;
+    auto e                        = makeFullEligibility();
+    e.distributed_multi_shard     = true;
+    e.shard_manifests_available   = true;
+    e.shard_summary_confidence    = 0.0;
+    const auto d = planner_->selectPath(e, makeNoArtifact(), config);
+
+    EXPECT_EQ(d.path, ExecutionPath::DistributedSummaryFirstExactOnDemand);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::None);
+}
+
+TEST_F(QueryPlannerTest, Distributed_FallsBackOnInvalidConfidence) {
+    for (const double confidence : {
+             -0.01,
+             1.01,
+             std::numeric_limits<double>::infinity(),
+             std::numeric_limits<double>::quiet_NaN()}) {
+        auto e                        = makeFullEligibility();
+        e.distributed_multi_shard     = true;
+        e.shard_manifests_available   = true;
+        e.shard_summary_confidence    = confidence;
+        const auto d = planner_->selectPath(e, makeNoArtifact(), config_);
+
+        EXPECT_EQ(d.path, ExecutionPath::DirectExactGraph);
+        EXPECT_EQ(d.fallback_reason, FallbackReason::ShardSummaryConfidenceInvalid);
+    }
+}
+
+TEST_F(QueryPlannerTest, Distributed_FallsBackWhenConfidenceIsMissing) {
+    auto e                        = makeFullEligibility();
+    e.distributed_multi_shard     = true;
+    e.shard_manifests_available   = true;
+    const auto d = planner_->selectPath(e, makeNoArtifact(), config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::ShardSummaryConfidenceInvalid);
+}
+
 TEST_F(QueryPlannerTest, Distributed_TakesPrecedenceOverNormalPaths) {
     auto e                      = makeFullEligibility();
     e.distributed_multi_shard   = true;
     e.shard_manifests_available = true;
+    e.shard_summary_confidence  = 0.90;
     // Even with a fresh tensor artifact, distributed path wins.
     const auto d = planner_->selectPath(e, makeFreshArtifact(), config_);
     EXPECT_EQ(d.path, ExecutionPath::DistributedSummaryFirstExactOnDemand);
+}
+
+TEST_F(QueryPlannerTest, InvalidPlannerConfigFallsBackToExactGraph) {
+    auto config = config_;
+    config.min_shard_summary_confidence = std::numeric_limits<double>::quiet_NaN();
+    const auto d = planner_->selectPath(
+        makeFullEligibility(), makeNoArtifact(), config);
+
+    EXPECT_EQ(d.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::InvalidPlannerConfiguration);
 }
 
 // --- Category C fail-closed enforcement ---
@@ -596,6 +672,7 @@ TEST(PlannerObserver, ObserverWithDistributedPath5) {
     auto e = makeFullEligibility();
     e.distributed_multi_shard   = true;
     e.shard_manifests_available = true;
+    e.shard_summary_confidence  = 0.90;
     const auto f = makeNoArtifact();
     const auto c = makeDefaultConfig();
 
@@ -749,4 +826,3 @@ TEST_F(QueryPlannerTest, NoSilentFallback_AllFallbacksHaveReason) {
         }
     }
 }
-

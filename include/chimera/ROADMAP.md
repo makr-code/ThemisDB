@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -18,7 +18,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Current state
 
-Headers declare adapter, retry, batch, transaction, streaming, and prepared-statement surfaces. `database_adapter.hpp` selects an external header when available and otherwise defines a minimal fallback shim. Therefore API details and enum compatibility depend on the actual include path and must be checked in the configured build.
+Headers declare adapter, retry, batch, transaction, streaming, and prepared-statement surfaces. `database_adapter.hpp` selects an external header when available and otherwise defines a minimal fallback shim. The checked-in external v0.0.37 header has no unique prepared-statement or connection-pool capability tokens; local aliases exist for compilation but are not reported as distinct capabilities. The retry policy requires an idempotency assertion and classifies concrete error codes, but an operation deadline remains undefined.
 
 ## Candidate work
 
