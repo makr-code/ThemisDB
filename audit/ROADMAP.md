@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-19
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -243,9 +243,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
     geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.
-- [~] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Rückgabe von `activateSpareIfNeeded()`
-  (`src/failover/auto_failover_manager.cpp:613-614`) wird geprüft; fehlgeschlagene Aktivierung blockiert den Abschluss
-  und liefert eine Fehlermeldung. Status `Degraded` und externe Alarmierung bleiben offen.
+- [x] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Fehlgeschlagene Aktivierung blockiert den Failover-Abschluss,
+  setzt `DEGRADED`, liefert einen Fehlerstatus, emittiert `FAILOVER_DEGRADED` über registrierte Callbacks und schreibt
+  das Diagnose-Log `SPARE_ACTIVATION_FAILED`; `degraded_failovers` erfasst den Ausgang. Kein Prometheus-Export wird
+  behauptet; externe Sichtbarkeit hängt von der Deployment-Integration ab. Evidenz: `tests/failover/test_failover_wave_a_fencing.cpp`
+  (`FO_Promote_05` bis `_08`), registriert als `test_failover_wave_a_fencing_failover_FocusedTests`.
 - [ ] **P1 · DIS-15 – Quorum/Fencing im Modul erzwingen** (Target: M2) – Epoch-/Term-Fencing-Token bei jeder
   schreibenden Failover-Aktion; Ablehnung ohne Quorum; nicht nur Deployment-Empfehlung.
 - [ ] **P1 · DIS-04 – Release-Gate Shard-gRPC** (Target: M1) – Produktionspakete müssen mit `THEMIS_HAS_SHARD_GRPC=1`

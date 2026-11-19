@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,7 @@ The inspected failover runtime does not publish named Prometheus metrics or crea
 |---|---|---|
 | Current state, in-progress flag, last result, failing nodes | `AutoFailoverManager::getState()`, `isFailoverInProgress()`, `getLastFailoverResult()`, `getFailingNodes()` | Verify the detected failure and the current operation before submitting another request. |
 | Failover success/failure, duration, retry/recovery totals | `AutoFailoverManager::getStatistics()` | Investigate sustained failures or retry growth; confirm success with a healthy replica and quorum. |
+| Required spare activation failure / degraded outcome | `getState() == DEGRADED`, `getLastFailoverResult()`, `getStatistics().degraded_failovers`, `FAILOVER_DEGRADED` callback, and `SPARE_ACTIVATION_FAILED` error log | Treat the promoted replica as reduced-capacity service. Do not assume failover completed or retry blindly; reconcile spare state and follow the runbook before further failover actions. |
 | Queue depth, dropped-full requests, queue-pressure events | `AutoFailoverManager::getStatistics()` and `QUEUE_PRESSURE` callbacks | Stop duplicate submissions; repair slow dependencies before retrying. |
 | Quorum/partition/fencing and node lifecycle events | Registered `FailoverEventCallback` and `spdlog` messages | Treat quorum uncertainty, log append failure, or split-brain risk as promotion blockers. |
 | DR state, result, failed step, and duration | `DisasterRecoveryManager::getState()`, `getStatistics()`, and `DisasterRecoveryResult::step_results` | Stop at the failed step and reconcile completed mutations before recovery resumes. |
