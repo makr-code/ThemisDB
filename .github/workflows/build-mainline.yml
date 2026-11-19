@@ -180,6 +180,14 @@ jobs:
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
+          toolchain_file="";
+          if [ -f build/CMakeCache.txt ]; then
+            toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' build/CMakeCache.txt | tail -n 1)";
+          fi
+          if [[ "${toolchain_file}" == */vcpkg/scripts/buildsystems/vcpkg.cmake && ! -f "${toolchain_file}" ]]; then
+            echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain";
+            git -C "${GITHUB_WORKSPACE}" submodule update --init -- vcpkg;
+          fi
           cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
           cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
