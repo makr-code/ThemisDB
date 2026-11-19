@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Applies to:** All pull requests to ThemisDB  
-> **Last Updated:** 2026-08-18
+> **Last Updated:** 2026-11-19
 
 ---
 
@@ -39,6 +39,7 @@ The target version must match one of these patterns:
 | Hotfix | `v2.4.1` | Critical patches to a stable release |
 
 See [VERSIONING.md §1](../../VERSIONING.md#1-version-format) for full SemVer rules.
+If an active GitHub milestone includes a parenthetical label, include that label in the target (for example, `v3.0.0 (M2 / Multi-Node Beta)`). The version-targeting gate validates the SemVer portion and preserves the full milestone name.
 
 ### 1.3 Active Milestones
 

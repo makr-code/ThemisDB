@@ -21,7 +21,8 @@ Human_Author: "ThemisDB Team"
 
 <!-- Select the version this PR targets. Must be an existing GitHub milestone.
      See docs/governance/PR_VERSION_TARGETING.md for guidance.
-     Valid formats: v2.4.0, v2.4.1, v2.5.0-alpha1, v2.5.0-beta1, v2.5.0-rc1, [Unreleased]
+     Valid formats: v2.4.0, v2.4.1, v2.5.0-alpha1, v2.5.0-beta1, v2.5.0-rc1, [Unreleased].
+     If an active milestone includes a parenthetical label, use its full name (e.g. v3.0.0 (M2 / Multi-Node Beta)).
      
      Selection criteria:
      - Features: assign to next planned MINOR (e.g., v2.5.0-alpha1)
