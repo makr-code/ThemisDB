@@ -484,13 +484,13 @@ std::string MTLSAuthenticator::extractSubjectCN(const std::string &cert_pem) {
 // ============================================================================
 
 /**
- * @brief X509 Name To String.
- * @param[in,out] name_ptr Input/output parameter.
- * @return Return value.
+ * @brief Format a borrowed X509 name without modifying it.
+ * @param[in] name_ptr X509 name, or nullptr.
+ * @return RFC 2253 name, or an empty string on failure.
  * @details Calls: bio(), BIO_new(), BIO_s_mem(), X509_NAME_print_ex(), get(), BIO_get_mem_ptr(), std::string().
  */
-std::string MTLSAuthenticator::x509NameToString(void *name_ptr) {
-    X509_NAME *name = static_cast<X509_NAME *>(name_ptr);
+std::string MTLSAuthenticator::x509NameToString(const void *name_ptr) {
+    const X509_NAME *name = static_cast<const X509_NAME *>(name_ptr);
     if (!name) {
         return {};
     }
