@@ -73,6 +73,7 @@ Public types are declared in `themis::plugins::ethics` (including types in `incl
 - Evaluator construction with custom weights throws `std::invalid_argument` unless every weight is finite and non-negative and the total is finite and positive; accepted weights are normalized.
 - `fairness_score` is a source-diversity proxy based on named argument school IDs, not an outcome-level population or subgroup fairness finding. Empty school IDs are excluded and duplicates do not inflate distinct-school evidence.
 - With no named argument schools, evaluation remains available but reports `fairness_score == 0`, `fairness_evidence_available == 0`, and zero evidence counts in `detailed_metrics`. Consumers must inspect these metrics before interpreting the fairness score.
+- `DiscourseOrchestrator::runEbene1()` rejects plans with empty/duplicate school IDs or non-finite/unequal `initial_weight` before inference starts. Its positive per-school timeout classifies late output as `ABSTAIN` but does not cancel the callback; callbacks using `std::async` can delay function return. It is not a hard end-to-end deadline.
 
 ### Runtime Characteristics
 

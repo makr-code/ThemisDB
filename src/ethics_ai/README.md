@@ -108,6 +108,8 @@ The fairness dimension is a limited source-diversity proxy: it counts non-empty 
 
 The focused validation gate is `test_ethics_ai_policy_evaluation_focused_EthicsAiFocusedTests` (`module_ethics_ai_test_ethics_ai_policy_evaluation_focused_focused`). Release performance claims require a reproducible evaluator benchmark recording workload size, build/compiler, hardware, and P50/P95/P99 latency and throughput against an owner-approved baseline. No numerical latency threshold is claimed until such a baseline and threshold are reviewed; these in-tree tests do not validate the external canonical plugin.
 
+`DiscourseOrchestrator::runEbene1()` rejects plans with empty or duplicate school IDs and requires finite `initial_weight == 1/N` before starting callbacks. Its configured positive per-school timeout classifies late results as `ABSTAIN`; it does not cancel the callback. Since callbacks run via `std::async`, a callback that does not return can delay function return while its future is destroyed. This is not a hard end-to-end deadline or bounded recovery mechanism; callback cancellation and bounded execution remain release blockers.
+
 ## Sourcecode Verification (Module: ethics_ai/readme)
 
 - Principal runtime files inspected:

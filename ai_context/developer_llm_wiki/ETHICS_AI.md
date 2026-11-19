@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -64,6 +64,12 @@ production LDM wiring against that canonical plugin.
   before setting the initialized flag; that load returns an error which is
   ignored. After successful initialization, callers must explicitly invoke
   `loadPhilosophyProfiles(path)` and handle its result.
+- `DiscourseOrchestrator::runEbene1()` rejects empty/duplicate school IDs and
+  non-finite or unequal `initial_weight` before launching callbacks. Timeout
+  settings must be positive. Timeout marks a late school result as ABSTAIN but
+  does not cancel the callback; destruction of an unfinished `std::async`
+  future may delay return, so this is not a hard deadline or bounded recovery
+  guarantee.
 
 These are observations about the checked-in parent-repository sources only.
 They are not recommendations to enable deterministic fallback inference in

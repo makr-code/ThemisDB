@@ -18,8 +18,11 @@
 #include "ethics_ai/mirror_school_handler.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <limits>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -164,6 +167,57 @@ TEST(EthicsAiLdmContract, EAL02_EqualWeightContract_InitialWeight) {
         << "initial_weight must equal 1/N (equal-weight contract)";
 }
 
+TEST(EthicsAiLdmContract, RejectsInvalidEbene1PlansBeforeInference) {
+    DiscourseOrchestrator orchestrator(nullptr, {});
+    MirrorSchoolPolicy policy;
+
+    DiscourseOrchestratorPlan plan;
+    plan.ebene1_school_ids = {"kant", "rawls"};
+    plan.initial_weight = 0.6;
+    EXPECT_THROW(orchestrator.runEbene1(plan, "test dilemma", policy), std::invalid_argument);
+
+    plan.initial_weight = std::numeric_limits<double>::quiet_NaN();
+    EXPECT_THROW(orchestrator.runEbene1(plan, "test dilemma", policy), std::invalid_argument);
+
+    plan.initial_weight = 0.5;
+    plan.ebene1_school_ids = {"kant", "kant"};
+    EXPECT_THROW(orchestrator.runEbene1(plan, "test dilemma", policy), std::invalid_argument);
+
+    plan.ebene1_school_ids = {"kant", ""};
+    EXPECT_THROW(orchestrator.runEbene1(plan, "test dilemma", policy), std::invalid_argument);
+}
+
+TEST(EthicsAiLdmContract, RejectsNonPositiveSchoolTimeout) {
+    DiscourseOrchestrator orchestrator(nullptr, {});
+    EXPECT_THROW(orchestrator.setSchoolTimeoutMs(0), std::invalid_argument);
+    EXPECT_THROW(orchestrator.setSchoolTimeoutMs(-1), std::invalid_argument);
+}
+
+TEST(EthicsAiLdmContract, ValidPlanPreservesAllSchoolResults) {
+    DiscourseOrchestrator orchestrator(nullptr, {});
+    orchestrator.setLLMInferenceFn([](const std::string& school_id, const std::string&) {
+        DiscourseRoundOutput output;
+        output.school_id = school_id;
+        output.schema_valid = true;
+        output.ldm_verdict = DiscourseVerdict::PERMIT;
+        output.verdict = "PERMIT";
+        return output;
+    });
+
+    DiscourseOrchestratorPlan plan;
+    plan.ebene1_school_ids = {"kant", "rawls"};
+    plan.initial_weight = 0.5;
+    const auto results = orchestrator.runEbene1(plan, "test dilemma", {});
+
+    ASSERT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].school_id, "kant");
+    EXPECT_EQ(results[1].school_id, "rawls");
+    EXPECT_DOUBLE_EQ(results[0].initial_weight, 0.5);
+    EXPECT_DOUBLE_EQ(results[1].initial_weight, 0.5);
+    EXPECT_EQ(results[0].ldm_verdict, DiscourseVerdict::PERMIT);
+    EXPECT_EQ(results[1].ldm_verdict, DiscourseVerdict::PERMIT);
+}
+
 // ============================================================================
 // EAL-03: inject timeout-stub LLM → school with timed_out=true has
 //         ldm_verdict=ABSTAIN; school still in participating_schools
@@ -183,8 +237,8 @@ TEST(EthicsAiLdmContract, EAL03_Ebene1_AbstainFailClosed_OnTimeout) {
     orch.setLLMInferenceFn([](const std::string& school_id,
                                const std::string& /*dilemma*/)
                                -> DiscourseRoundOutput {
-        // Simulate a blocking call (well beyond any reasonable timeout).
-        std::this_thread::sleep_for(std::chrono::seconds(60));
+        // The configured threshold classifies this as timeout; it does not cancel the callback.
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
         DiscourseRoundOutput out;
         out.school_id   = school_id;
         out.ldm_verdict = DiscourseVerdict::PERMIT;
@@ -195,10 +249,14 @@ TEST(EthicsAiLdmContract, EAL03_Ebene1_AbstainFailClosed_OnTimeout) {
 
     MirrorSchoolPolicy policy;  // Mirror inactive (default OFF).
 
+    const auto started = std::chrono::steady_clock::now();
     const auto results = orch.runEbene1(plan, "test dilemma", policy);
+    const auto elapsed = std::chrono::steady_clock::now() - started;
 
     // All schools must be present (EU AI Act Art. 13).
     EXPECT_EQ(results.size(), plan.ebene1_school_ids.size());
+    EXPECT_GE(elapsed, std::chrono::milliseconds(20))
+        << "Timing out does not cancel an in-flight inference callback";
 
     // All schools must have timed_out=true and ABSTAIN.
     for (const auto& out : results) {

@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <future>
 #include <functional>
 #include <mutex>
@@ -27,6 +28,7 @@
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -161,8 +163,11 @@ void DiscourseOrchestrator::setLLMInferenceFn(LLMInferenceFn fn)
     impl_->inference_fn = std::move(fn);
 }
 
-void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms) noexcept
+void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms)
 {
+    if (timeout_ms <= 0) {
+        throw std::invalid_argument("DiscourseOrchestrator school timeout must be positive");
+    }
     impl_->timeout_ms = timeout_ms;
 }
 
@@ -191,14 +196,20 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
     const int         timeout_ms = impl_->timeout_ms;
     const auto        infer      = impl_->effectiveInferenceFn();
 
-    // --- Equal-weight contract audit ---
-    // Verify that plan.initial_weight == 1/N (process-integrity guard).
+    std::unordered_set<std::string> unique_school_ids;
+    unique_school_ids.reserve(N);
+    for (const auto& school_id : plan.ebene1_school_ids) {
+        if (school_id.empty() || !unique_school_ids.insert(school_id).second) {
+            throw std::invalid_argument(
+                "DiscourseOrchestrator::runEbene1: school IDs must be non-empty and unique");
+        }
+    }
+
+    // Reject invalid or unequal plan weights before launching any inference.
     const double expected_w0 = 1.0 / static_cast<double>(N);
-    // Allow floating-point tolerance of 1e-9.
-    if (std::abs(w0 - expected_w0) > 1e-9) {
-        // LDM_EQUAL_WEIGHT_VIOLATION: log as audit event, do not abort.
-        // In production, this would emit a structured audit log entry.
-        // (Audit logging integration is deferred to LDM-2 wiring, Q1 2027.)
+    if (!std::isfinite(w0) || w0 <= 0.0 || std::abs(w0 - expected_w0) > 1e-9) {
+        throw std::invalid_argument(
+            "DiscourseOrchestrator::runEbene1: initial_weight must equal 1/N");
     }
 
     // --- Launch one future per school ---

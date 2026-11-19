@@ -100,7 +100,8 @@ DiscourseMode::LAYERED_FAST     (planning/helper APIs present; integration incom
 - invalid profile or school selection paths fail with structured status/error states.
 - missing storage/context inputs produce explicit non-silent failure behavior.
 - lifecycle misuse (uninitialized plugin paths) fails deterministically.
-- **LDM:** LLM timeout in Ebene-1 → school receives `ABSTAIN` (fail-closed); never silent drop.
+- **LDM:** `runEbene1()` rejects empty/duplicate school IDs and invalid/non-equal `initial_weight` before inference starts.
+- **LDM:** The positive per-school wait threshold maps a late callback result to `ABSTAIN`, but does not cancel the callback. With `std::async`, destroying an unfinished future may block until its task completes, so this is not a hard deadline or bounded recovery guarantee.
 - **LDM:** a caller-supplied unavailable `LegalGrounding` results in empty grounding and an unavailable flag; no retrieval occurs in the builder.
 - **LDM:** All N schools ABSTAIN → `DISSENT` MetaVerdict; never silently promoted to `SELECTION_ONLY`.
 
