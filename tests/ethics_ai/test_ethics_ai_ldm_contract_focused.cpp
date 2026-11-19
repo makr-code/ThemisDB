@@ -218,6 +218,50 @@ TEST(EthicsAiLdmContract, ValidPlanPreservesAllSchoolResults) {
     EXPECT_EQ(results[1].ldm_verdict, DiscourseVerdict::PERMIT);
 }
 
+TEST(EthicsAiLdmContract, InvalidInferenceOutputFailsClosedAsAbstain) {
+    const std::vector<DiscourseRoundOutput> invalid_outputs = [] {
+        std::vector<DiscourseRoundOutput> outputs;
+
+        DiscourseRoundOutput invalid_schema;
+        invalid_schema.ldm_verdict = DiscourseVerdict::PERMIT;
+        invalid_schema.verdict = "PERMIT";
+        outputs.push_back(invalid_schema);
+
+        DiscourseRoundOutput invalid_confidence;
+        invalid_confidence.schema_valid = true;
+        invalid_confidence.ldm_verdict = DiscourseVerdict::PERMIT;
+        invalid_confidence.verdict = "PERMIT";
+        invalid_confidence.confidence = std::numeric_limits<float>::quiet_NaN();
+        outputs.push_back(invalid_confidence);
+
+        DiscourseRoundOutput inconsistent_verdict;
+        inconsistent_verdict.schema_valid = true;
+        inconsistent_verdict.ldm_verdict = DiscourseVerdict::PERMIT;
+        inconsistent_verdict.verdict = "PROHIBIT";
+        outputs.push_back(inconsistent_verdict);
+
+        return outputs;
+    }();
+
+    for (const auto& invalid_output : invalid_outputs) {
+        DiscourseOrchestrator orchestrator(nullptr, {});
+        orchestrator.setLLMInferenceFn([invalid_output](const std::string&, const std::string&) {
+            return invalid_output;
+        });
+
+        DiscourseOrchestratorPlan plan;
+        plan.ebene1_school_ids = {"kant"};
+        plan.initial_weight = 1.0;
+        const auto results = orchestrator.runEbene1(plan, "test dilemma", {});
+
+        ASSERT_EQ(results.size(), 1u);
+        EXPECT_EQ(results.front().ldm_verdict, DiscourseVerdict::ABSTAIN);
+        EXPECT_EQ(results.front().verdict, "ABSTAIN");
+        EXPECT_FALSE(results.front().schema_valid);
+        EXPECT_FALSE(results.front().timed_out);
+    }
+}
+
 // ============================================================================
 // EAL-03: inject timeout-stub LLM → school with timed_out=true has
 //         ldm_verdict=ABSTAIN; school still in participating_schools

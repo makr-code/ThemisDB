@@ -87,7 +87,8 @@ public:
      * @param plan Plan containing at least one unique, non-empty school ID and a finite initial weight equal to 1/N.
      * @param dilemma_text Dilemma text passed to each configured inference callback.
      * @param mirror_policy Mirror policy retained for API compatibility; Ebene-1 does not consume it.
-     * @return One result per planned school, including ABSTAIN results for callback errors or timeout classification.
+     * @return One result per planned school; callback errors, invalid schema/verdict/confidence, and timeout
+     *         classification fail closed as ABSTAIN.
      * @throws std::invalid_argument if the plan is empty, has invalid school IDs, or violates the equal-weight contract.
      * @note The per-school wait threshold does not guarantee prompt function return when a callback ignores the
      *       timeout because callback cancellation is not supported.

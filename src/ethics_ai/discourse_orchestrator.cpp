@@ -82,6 +82,40 @@ DiscourseRoundOutput stubLLMInference(const std::string& school_id,
     return out;
 }
 
+bool isValidInferenceOutput(const DiscourseRoundOutput& output)
+{
+    if (!output.schema_valid || !std::isfinite(output.confidence) ||
+        output.confidence < 0.0f || output.confidence > 1.0f || output.timed_out) {
+        return false;
+    }
+
+    switch (output.ldm_verdict) {
+        case DiscourseVerdict::PROHIBIT:
+            return output.verdict == "PROHIBIT";
+        case DiscourseVerdict::PERMIT:
+            return output.verdict == "PERMIT";
+        case DiscourseVerdict::CONDITIONAL:
+            return output.verdict == "CONDITIONAL";
+        case DiscourseVerdict::ABSTAIN:
+            return output.verdict == "ABSTAIN";
+    }
+    return false;
+}
+
+DiscourseRoundOutput abstainResult(const std::string& school_id,
+                                   double initial_weight,
+                                   bool timed_out)
+{
+    DiscourseRoundOutput output;
+    output.school_id = school_id;
+    output.ldm_verdict = DiscourseVerdict::ABSTAIN;
+    output.verdict = "ABSTAIN";
+    output.initial_weight = initial_weight;
+    output.timed_out = timed_out;
+    output.schema_valid = false;
+    return output;
+}
+
 /**
  * @brief Cluster Majority Verdict.
  * @param[in] outputs Input parameter.
@@ -235,31 +269,21 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
         if (status == std::future_status::ready) {
             try {
                 DiscourseRoundOutput out = futures[i].get();
+                if (!isValidInferenceOutput(out)) {
+                    results.push_back(abstainResult(sid, w0, false));
+                    continue;
+                }
                 out.school_id     = sid;   // guarantee correct school_id
                 out.initial_weight = w0;   // equal-weight contract
                 results.push_back(std::move(out));
             } catch (...) {
-                // LLM inference threw — treat as timeout (fail-closed).
-                DiscourseRoundOutput out;
-                out.school_id      = sid;
-                out.ldm_verdict    = DiscourseVerdict::ABSTAIN;
-                out.verdict        = "ABSTAIN";
-                out.initial_weight = w0;
-                out.timed_out      = true;
-                out.schema_valid   = false;
-                results.push_back(std::move(out));
+                // Inference errors fail closed but are not mislabeled as timeouts.
+                results.push_back(abstainResult(sid, w0, false));
             }
         } else {
             // Future did not complete within timeout → fail-closed ABSTAIN.
             // Error: LDM_LLM_TIMEOUT — school stays in results for EU AI Act Art. 13.
-            DiscourseRoundOutput out;
-            out.school_id      = sid;
-            out.ldm_verdict    = DiscourseVerdict::ABSTAIN;
-            out.verdict        = "ABSTAIN";
-            out.initial_weight = w0;
-            out.timed_out      = true;
-            out.schema_valid   = false;
-            results.push_back(std::move(out));
+            results.push_back(abstainResult(sid, w0, true));
             // Note: the underlying future is abandoned; its thread will eventually
             // finish and the result will be discarded.
         }
