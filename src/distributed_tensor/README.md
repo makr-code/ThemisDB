@@ -1,6 +1,6 @@
 # Distributed Tensor Module
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -89,6 +89,27 @@ Additional implementation sources, including delta-log, manifest-store,
 checkpoint, snapshot-update, and shard-summary components, are listed directly
 in the module CMake file. This table is an orientation aid, not a complete source
 inventory.
+
+## Manifest persistence guarantees
+
+The internal `ManifestStore` uses the project's RocksDB-backed
+`RocksDBWrapper`; callers must provide a non-empty database directory. It does
+not maintain an in-memory-only production mode. Manifest updates and eviction
+batches are written through the RocksDB WAL with synchronous commits, so a
+successful write is acknowledged only after the commit is synced. On open, all
+stored manifest records are parsed, validated, and checked against their
+storage keys; database-open or record-validation errors fail construction
+closed. Read and eviction paths also fail closed rather than serving malformed
+records.
+
+The durable metadata includes manifest identity, version, placement, integrity
+fields, and creation time used by freshness decisions. This is local persistent
+metadata, not shard-payload replication: the module still has no built-in
+network transport or multi-node recovery protocol. The nightly coverage
+workflow publishes module-level summaries and LCOV data, but the
+distributed-tensor release-critical path 70% line / 60% branch thresholds are
+not currently enforced. Their measured status and any path-specific exception
+remain unverified; no exception has been approved.
 
 ## Status and limitations
 

@@ -116,7 +116,6 @@ DeltaWindow makeDeltaWindow(const std::string& artifact_id,
 class SnapshotUpdateWorkerTest : public ::testing::Test {
  protected:
   SnapshotBasedUpdateWorker worker_;
-  ManifestStore store_;
 
   void SetUp() override {
     // Initialize worker before tests

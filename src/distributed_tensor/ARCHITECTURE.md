@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Source level:** Level 1 — module implementation
 **SOT domain:** architecture-governance
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `cmake/CMakeLists.txt`
@@ -37,7 +37,7 @@ themselves.
 | Integrity and recovery | `integrity_verification.h`, `recovery_manager.h` | `integrity_verification.cc`, `recovery_manager.cc` |
 | Infrastructure and in-process training jobs | `tensor_infrastructure.h`, `tensor_training_coordinator.h` | `tensor_infrastructure.cc`, `tensor_training_coordinator.cc` |
 | Storage strategy | `tensor_storage_strategy.h` | `src/tensor_storage_strategy.cc` |
-| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, manifest store, checkpoint, snapshot-update worker, and shard-summary sources listed in CMake |
+| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, RocksDB-backed manifest store, checkpoint, snapshot-update worker, and shard-summary sources listed in CMake |
 
 This table highlights component groups; the CMake file is the authoritative
 complete target source list.
@@ -63,6 +63,11 @@ end-to-end network execution pipeline:
    network transport.
 5. Integrity and recovery APIs operate on the supplied manifest/receipt and
    recovery request; they do not turn placement plans into network operations.
+6. `ManifestStore` persists validated manifest metadata in the caller-provided
+   RocksDB database. WAL-backed synchronous batches make acknowledged manifest
+   writes durable across process restart; corrupt records fail store opening.
+   The store does not replicate metadata across nodes, and does not persist
+   shard payloads or provide a network recovery protocol.
 
 Configuration is supplied through API values rather than a module configuration
 file:
