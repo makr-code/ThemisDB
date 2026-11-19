@@ -24,6 +24,13 @@ Status: Active
 - The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
 - The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
 - CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
+
+## LLM real-model CI lane
+
+- The scheduled/manual `.github/workflows/build-llm-inference.yml` lane prepares TinyLlama through the reusable model cache and the SHA256-pinned downloader.
+- The verified model is passed to the inference, embedding, LoRA adapter, RAG, AdaLoRA, and Wiki Phase B suites. Each test invocation enforces an `llm` skip budget of zero, and the final report fails if any required suite is skipped or unsuccessful.
+- A passing run is evidence only for those executed suites; it does not establish Vision/Whisper coverage, the repository-wide `GTEST_SKIP` target, or a successful run until workflow evidence exists.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`

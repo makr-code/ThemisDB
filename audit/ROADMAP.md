@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-19
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -331,6 +331,11 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - Gepinnte Mini-Modelle (Hash im Repo, Download über `.github/workflows/reusable-llm-model-cache.yml`) für
     Embedding, Generierung, LoRA, Vision, Whisper.
   - Exit: `GTEST_SKIP` in `tests/llm` von 258 auf ≤ 20, jeder verbleibende Skip mit Begründung und Ticket.
+  - Code-Fortschritt (2026-11-19, noch kein Ausführungsbeleg): TinyLlama wird in der wiederverwendbaren Cache-Lane
+    gegen den gepinnten SHA256 geprüft; die geplante LLM-Lane führt Embedding-, Generierungs-, LoRA-Fehlerpfad-,
+    Wiki-Phase-B-, RAG- und AdaLoRA-Tests mit Skip-Budget 0 aus und muss bei übersprungenen Jobs fehlschlagen.
+  - Weiter offen: erfolgreicher CI-Lauf samt Artefakt, echte Vision-/Whisper-Modelltests und der Modul-Gesamtwert
+    `GTEST_SKIP` ≤ 20. Diese Änderung allein schließt AI-03 nicht.
 - [ ] **P1 · AI-07/AI-09 – Zentrale Admission Control** (Target: M3 · 2027-04-30)
   - Managed inference now has explicit model routing, a process-wide non-queueing cap of 8 active calls,
     a 4096 generated-token limit, a combined 1 MiB input byte limit, and overload HTTP 429 with `Retry-After: 1`.

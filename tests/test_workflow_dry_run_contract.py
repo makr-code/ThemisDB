@@ -226,6 +226,67 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertTrue(llm["jobs"]["run-rag-suite"]["steps"])
         self.assertTrue(llm["jobs"]["run-adalora-suite"]["steps"])
 
+    def test_llm_real_model_lane_uses_verified_cache_and_fails_closed(self) -> None:
+        llm = load_workflow("build-llm-inference.yml")
+        cache = load_workflow("reusable-llm-model-cache.yml")
+
+        model_setup = llm["jobs"]["setup-and-download"]
+        self.assertEqual(
+            model_setup["uses"], "./.github/workflows/reusable-llm-model-cache.yml"
+        )
+        self.assertIs(model_setup["with"]["publish_model_artifact"], True)
+        self.assertEqual(model_setup["with"]["llm_model"], "tinyllama")
+
+        cache_triggers = cache.get(True, cache.get("on", {}))
+        cache_inputs = cache_triggers["workflow_call"]["inputs"]
+        self.assertIs(cache_inputs["publish_model_artifact"]["default"], False)
+        cache_prepare = cache["jobs"]["prepare"]
+        self.assertIn(
+            "scripts/ci-download-tinyllama.sh",
+            cache_prepare["steps"][1]["run"],
+        )
+        self.assertIn("MODEL_SCRIPT_HASH", cache_prepare["steps"][1]["run"])
+        self.assertIn(
+            "scripts/ci-download-tinyllama.sh",
+            (ROOT / ".github" / "scripts" / "prepare-llm-model-cache.sh").read_text(
+                encoding="utf-8"
+            ),
+        )
+
+        build_steps = llm["jobs"]["build-with-llm-tests"]["steps"]
+        build_command = next(step["run"] for step in build_steps if step.get("name") == "Build")
+        for target in (
+            "module_llm_test_real_embeddings_focused",
+            "module_llm_test_lora_adapters_focused",
+            "module_llm_test_wiki_index_store_phase_b_focused",
+        ):
+            self.assertIn(target, build_command)
+        build_step_names = {step.get("name") for step in build_steps}
+        self.assertIn("Test reusable TinyLlama cache integrity", build_step_names)
+        self.assertIn("Test LLM skip-budget enforcement", build_step_names)
+
+        for job_name in ("run-inference-suite", "run-rag-suite", "run-adalora-suite"):
+            with self.subTest(job=job_name):
+                job = llm["jobs"][job_name]
+                self.assertIn("scripts/ci-check-llm-skip-budget.sh", "\n".join(
+                    step.get("run", "") for step in job["steps"]
+                ))
+        inference_steps = {
+            step.get("name") for step in llm["jobs"]["run-inference-suite"]["steps"]
+        }
+        self.assertIn("Run real embedding provider tests", inference_steps)
+        self.assertIn("Run real-model LoRA adapter failure tests", inference_steps)
+        self.assertIn("Run WikiIndexStore Phase B integration tests", inference_steps)
+        self.assertIn("setup-and-download", llm["jobs"]["run-rag-suite"]["needs"])
+
+        report = llm["jobs"]["report"]
+        fail_closed = next(
+            step for step in report["steps"]
+            if step.get("name") == "Fail if a required suite did not succeed"
+        )
+        self.assertEqual(fail_closed["if"], "always()")
+        self.assertIn('!= "success"', fail_closed["run"])
+
     def test_pr_gate_feedback_permissions_are_scoped_to_mutating_jobs(self) -> None:
         workflow_permissions = {"contents": "read"}
         issue_and_pr_permissions = {
