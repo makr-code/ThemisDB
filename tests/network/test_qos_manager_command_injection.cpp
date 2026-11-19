@@ -21,8 +21,9 @@
 
 #if defined(__linux__)
 #include <filesystem>
+#include <fstream>
+#include <stdlib.h>
 #include <system_error>
-#include <unistd.h>
 #endif
 
 using namespace themis::network;
@@ -125,20 +126,45 @@ TEST_F(QoSManagerCommandInjectionTest, ShellMetacharactersRejected) {
 
 #if defined(__linux__)
 TEST_F(QoSManagerCommandInjectionTest, ShellPayloadIsNotExecuted) {
-    const auto marker = std::filesystem::temp_directory_path() /
-                        ("qos_manager_injection_" + std::to_string(::getpid()));
+    auto temp_path = std::filesystem::temp_directory_path();
+    auto unique_dir_template = (temp_path / "qos_manager_injection_XXXXXX").string();
+    const char* created_dir = ::mkdtemp(unique_dir_template.data());
+    ASSERT_NE(created_dir, nullptr);
+
+    struct TempDirectoryCleanup {
+        std::filesystem::path path;
+        ~TempDirectoryCleanup() {
+            std::error_code cleanup_error;
+            std::filesystem::remove_all(path, cleanup_error);
+        }
+    } cleanup{created_dir};
+
+    const auto marker = cleanup.path / "marker";
+    {
+        std::ofstream marker_probe(marker);
+        ASSERT_TRUE(marker_probe.good());
+    }
     std::error_code error;
     std::filesystem::remove(marker, error);
+    ASSERT_FALSE(error);
+
+    std::string quoted_marker{"'"};
+    for (const char character : marker.string()) {
+        if (character == '\'') {
+            quoted_marker += "'\\''";
+        } else {
+            quoted_marker += character;
+        }
+    }
+    quoted_marker += '\'';
 
     TcConfig config;
     config.enabled = true;
-    config.interface_name = "eth0; touch '" + marker.string() + "' #";
+    config.interface_name = "eth0; touch " + quoted_marker + " #";
     config.total_rate_bps = 1'000'000;
 
     EXPECT_FALSE(manager_.configureTc(config));
     EXPECT_FALSE(std::filesystem::exists(marker));
-
-    std::filesystem::remove(marker, error);
 }
 #endif
 
