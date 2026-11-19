@@ -13,8 +13,13 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
+#include <memory>
+#include <mutex>
 #include <optional>
+#include <stdexcept>
 #include <nlohmann/json.hpp>
+#include "distributed_knowledge/distributed_knowledge_api_contract.h"
 #include "governance/gdpr_subject_rights.h"
 
 namespace themis::distributed_knowledge {
@@ -112,6 +117,13 @@ struct AdapterCapabilityAnnouncement {
         };
     }
 
+    /**
+     * @brief Deserializes an announcement without treating unknown domains as GENERAL.
+     * @param j JSON object containing announcement fields; an omitted domain defaults to GENERAL.
+     * @return The decoded announcement.
+     * @throws std::invalid_argument if the domain name is not supported.
+     * @throws nlohmann::json::exception if a field has an incompatible JSON type.
+     */
     [[nodiscard]] static AdapterCapabilityAnnouncement fromJson(const nlohmann::json& j) {
         AdapterCapabilityAnnouncement a;
         a.shard_id                  = j.value("shard_id", "");
@@ -139,7 +151,9 @@ struct AdapterCapabilityAnnouncement {
         else if (dt == "LEGAL")            a.domain_type = AdapterDomainType::LEGAL;
         else if (dt == "MEDICAL")          a.domain_type = AdapterDomainType::MEDICAL;
         else if (dt == "CUSTOM")           a.domain_type = AdapterDomainType::CUSTOM;
-        else                               a.domain_type = AdapterDomainType::GENERAL;
+        else if (dt != "GENERAL") {
+            throw std::invalid_argument("AdapterCapabilityAnnouncement: unsupported domain_type");
+        }
 
         const auto ms = j.value<int64_t>("announced_at_ms", 0);
         a.announced_at = std::chrono::system_clock::time_point(
@@ -175,10 +189,19 @@ public:
     void announce(AdapterCapabilityAnnouncement announcement);
 
     /**
-     * @brief Handle Inbound Message.
-     * @param[in] payload Input parameter.
+     * @brief Validates and dispatches an inbound capability announcement.
+     * @param payload JSON announcement; unsupported domain values are rejected.
+     * @throws std::invalid_argument if the domain value is unsupported.
+     * @throws std::runtime_error if no trust policy is configured or it rejects the announcement.
+     * @throws nlohmann::json::exception if a field has an incompatible JSON type.
      */
     void handleInboundMessage(const nlohmann::json& payload);
+
+    /**
+     * @brief Sets the required inbound announcement trust policy.
+     * @param trust_policy Policy used before dispatch; nullptr leaves inbound dispatch fail-closed.
+     */
+    void setTrustPolicy(std::shared_ptr<const IFederationTrustPolicy> trust_policy);
 
     /**
      * @brief Set Announcement Callback.
@@ -198,6 +221,7 @@ private:
     std::string                          local_shard_id_;
     std::function<void(nlohmann::json)>  gossip_message_fn_;
     AnnouncementCallback                 on_announcement_;
+    std::shared_ptr<const IFederationTrustPolicy> trust_policy_;
     mutable std::mutex                   mutex_;
     std::optional<AdapterCapabilityAnnouncement> last_announcement_;
     size_t                               erase_count_{0}; ///< DK-OR: GDPR erase ops

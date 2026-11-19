@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,7 @@ frozen entity/federation contract and error taxonomy are in
 
 | Header and primary type | Contract summary |
 |---|---|
-| `adapter_capability_announcement.h` — `GossipAdapterPublisher` | Serializes capability announcements; sets local shard ID/time; accepts inbound JSON and calls an optional consumer. |
+| `adapter_capability_announcement.h` — `GossipAdapterPublisher` | Serializes local announcements; inbound JSON is deserialized, requires an explicitly configured `IFederationTrustPolicy`, and dispatches only after that policy permits it. Unknown domain names are rejected rather than mapped to `GENERAL`. |
 | `lora_federation_coordinator.h` — `LoRAFederationCoordinator` | Accepts current-round `EncryptedGradient` records and produces a `GlobalAdapterDelta` after participant, policy, and privacy checks. `EncryptedGradient::data` is an opaque JSON value; the type does not encrypt it. |
 | `federated_rag_merger.h` — `FederatedRAGMerger` | Merges already-fetched `ShardRetrievalResult` values with RRF, score-weighted, or round-robin strategy; optionally deduplicates and truncates. |
 | `cross_shard_feedback_sync.h` — `CrossShardFeedbackSync` | Publishes anonymized-origin feedback summaries through a supplied gossip callback and handles inbound JSON with dedup and optional policy checks. |
@@ -38,16 +38,22 @@ frozen entity/federation contract and error taxonomy are in
 
 1. Validate configuration before constructing the component; constructors may
    throw `std::invalid_argument`.
-2. Set explicit participant limits, timeouts, policy callbacks, and privacy
+2. Configure an inbound capability trust policy with `setTrustPolicy()` before
+   calling `handleInboundMessage()`. Missing policies and rejected announcements
+   throw `std::runtime_error`; unknown `domain_type` values throw
+   `std::invalid_argument`. An omitted domain remains `GENERAL`. The provided
+   `AlwaysPermitTrustPolicy` is explicitly permissive and is not authentication
+   or production authorization.
+3. Set explicit participant limits, timeouts, policy callbacks, and privacy
    bounds appropriate to the deployment. Do not treat defaults as production
    approval; see [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md).
-3. Handle exceptions at the service boundary. In particular, RAG merge can
+4. Handle exceptions at the service boundary. In particular, RAG merge can
    throw when all supplied results time out; aggregation can reject insufficient
    participants or an exhausted privacy budget; distillation can reject policy
    or budget violations.
-4. Do not infer success from a publish counter alone. Feedback dispatch is
+5. Do not infer success from a publish counter alone. Feedback dispatch is
    callback-based and gossip exceptions are counted as skipped publishes.
-5. Treat JSON serialization as schema transport, not authentication,
+6. Treat JSON serialization as schema transport, not authentication,
    authorization, or encryption.
 
 ## Stable shared contract
@@ -64,3 +70,21 @@ fields, and exact exception behavior before integration. This summary does not
 replace Doxygen declarations. For implementation and test guidance, see
 [IMPLEMENTATION.md](./IMPLEMENTATION.md) and
 [MODULE_GUIDE.md](./MODULE_GUIDE.md).
+
+## Consistency and runtime boundary
+
+These are in-process components, not a graph synchronization or distributed
+transport implementation. The module does not fetch remote shard results,
+authenticate peers, persist rounds, or recover pending state after restart.
+`FederatedRAGMerger` merges results already fetched by its caller; its timeout
+configuration does not perform fan-out, enforce per-shard deadlines, or retry.
+LoRA submissions for non-current rounds and duplicate shard IDs are silently
+ignored. Feedback policy rejection is counted and dropped; feedback dedup state
+is bounded and in-memory. These outcomes must be surfaced by the integrating
+service and are not equivalent to durable delivery or convergence.
+
+`IFederationTrustPolicy` is invoked for inbound capability announcements by
+`GossipAdapterPublisher`; it does not authenticate the transport and is not
+automatically applied to the other coordinator APIs. The host remains
+responsible for authentication, authorization of aggregation inputs, durable
+delivery, monitoring export, and restart/recovery.

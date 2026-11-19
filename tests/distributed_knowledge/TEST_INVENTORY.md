@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-28"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -18,7 +18,7 @@ Human_Author: "ThemisDB Contributors"
 
 **Historical origin:** Q3 2026 test infrastructure (created 2026-07-28)
 
-**Current source count:** 107 GoogleTest declarations across 9 translation units. Static source inventory only; no build or test result is implied.
+**Current source count:** 110 GoogleTest declarations across 9 translation units. Static source inventory only; no build or test result is implied.
 
 **Test Pattern:** `module_distributed_knowledge_<stem>_focused`
 
@@ -28,7 +28,7 @@ Human_Author: "ThemisDB Contributors"
 
 | Source file | Cases | Scope / limitation |
 |---|---:|---|
-| `test_adapter_capability_announcement_focused.cpp` | 16 | 10 ACA cases, inbound dispatch, and 5 trust-policy cases |
+| `test_adapter_capability_announcement_focused.cpp` | 19 | 10 ACA cases, inbound dispatch, 5 trust-policy cases, and 3 fail-closed cases |
 | `test_lora_federation_coordinator_focused.cpp` | 12 | LoRA coordinator |
 | `test_federated_rag_merger_focused.cpp` | 12 | RAG merger |
 | `test_cross_shard_feedback_sync_focused.cpp` | 12 | Feedback synchronization |
@@ -37,7 +37,7 @@ Human_Author: "ThemisDB Contributors"
 | `test_dk_diagnostics_focused.cpp` | 14 | Diagnostic emitter and merge-policy semantics |
 | `test_distributed_knowledge_llm_focused.cpp` | 7 | RAG merge and prompt-context path |
 | `test_distributed_knowledge_highcardinality_stress.cpp` | 3 | In-process stubs; not a real-shard or module-runtime stress result |
-| **Total** | **107** | Static declarations in current test sources |
+| **Total** | **110** | Static declarations in current test sources |
 
 ## Test Suite Details
 
@@ -60,6 +60,9 @@ Human_Author: "ThemisDB Contributors"
 | ACA-09 | EmptyAdapterIdHandling | Edge case: empty adapter ID handling |
 | ACA-10 | MultiplePublishersForSameShard | Multiple publishers for same shard |
 | — | InboundAnnouncementIsDeserializedAndDispatched | Inbound JSON is parsed and callback invoked |
+| — | InboundAnnouncementFailsClosedWithoutTrustPolicy | Missing trust configuration prevents callback dispatch |
+| — | UnknownInboundDomainIsRejectedBeforeDispatch | Unsupported domain throws before callback dispatch |
+| — | RejectingTrustPolicyBlocksInboundDispatch | Rejecting trust policy prevents callback dispatch |
 | — | AlwaysPermitAllowsAll | Always-permit trust policy result |
 | — | CustomPolicyCanRejectAnnouncement | Custom trust policy rejection |
 | — | TrustDecisionEnumValuesAreDistinct | Trust decision values |

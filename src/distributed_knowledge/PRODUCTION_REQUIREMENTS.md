@@ -1,4 +1,18 @@
-> **Status:** 2026-06-01 – mit aktuellem Distributed_knowledge-Code (`federated_rag_merger.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-11-19"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Status:** Review 2026-11-19 – Anforderungen und tatsächlich implementierte Modulgrenzen sind getrennt ausgewiesen.
 
 # ThemisDB Distributed_knowledge Module - Production Requirements
 
@@ -24,8 +38,22 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Federated-
 ## Verbindliche Sicherheitsanforderungen
 
 - Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
+- Fehler in sicherheitskritischen Pfaden werden explizit signalisiert; die aktuellen C++ APIs verwenden je nach Pfad Exceptions, Rückgabewerte oder lokale Zähler und bieten keinen einheitlichen Fehlercode für jeden Vorgang.
 - Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+
+## Implementierungsgrenze und Freigabevorbehalt
+
+Die Anforderungen in diesem Dokument sind Integrations- und Release-Gates; sie
+werden nicht alle durch `distributed_knowledge` selbst erzwungen. Der aktuelle
+Modulcode implementiert weder Graph-Synchronisierung noch Peer-Transport,
+Transport-Authentifizierung, dauerhafte Zustände, automatische Retries oder
+Restart-Recovery. `FederatedRAGMerger` verarbeitet bereits vom Aufrufer
+gelieferte Ergebnisse und führt selbst keine Autorisierung der Remote-Abfrage
+durch. `GossipAdapterPublisher` verlangt für eingehende Capability-Meldungen
+eine konfigurierte Trust-Policy; `AlwaysPermitTrustPolicy` ist kein
+Produktions-Autorisierungsmechanismus. Die Integrationsschicht muss nicht
+erfüllte Gates fail-closed behandeln und darf diese Modul-APIs nicht als
+Nachweis einer Ende-zu-Ende-Sicherheits- oder Konsistenzgarantie ausgeben.
 
 ## Betriebsgrenzen
 
