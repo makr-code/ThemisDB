@@ -26,12 +26,12 @@ DIS-05 and is not declared canonical by this ADR.
 
 ## Context
 
-Both named coordinators use
-`include/sharding/detail/two_phase_commit_contract.h` for prepare, decision-persistence,
-and phase-two ordering. They retain separate participant transports, transaction lifecycles,
-WAL formats, and recovery behavior. `TwoPhaseCommitCoordinator` can re-drive a recorded
-decision from its WAL; `CrossShardTransactionCoordinator::recoverFromWAL()` restores state
-and reports resume candidates without automatically re-driving phase two.
+The named coordinators previously used
+`include/sharding/detail/two_phase_commit_contract.h` for ordering but retained separate
+participant dispatch, decision WAL, and recovery. The implementation now gives
+`TwoPhaseCommitCoordinator` ownership of CrossShard 2PC participant dispatch and decision
+replay. `CrossShardTransactionCoordinator` retains the public prepare/commit/abort lifecycle,
+SSI validation, and all non-2PC protocols.
 
 ## Decision
 
@@ -39,8 +39,12 @@ and reports resume candidates without automatically re-driving phase two.
   phase two; when WAL is configured, recovery re-drives unresolved decisions.
 - Retain `CrossShardTransactionCoordinator` as the multi-protocol facade for 3PC, SAGA,
   Percolator, Calvin, and its associated transaction lifecycle and validation behavior.
-- The CrossShard 2PC call path must converge on the canonical 2PC coordinator through an
-  explicit adapter; it must not evolve as a second independent 2PC implementation.
+- The CrossShard 2PC call path converges on the canonical coordinator through private staged
+  prepare/commit/abort adapter operations. It does not write 2PC decisions to
+  `TransactionWAL` or replay those decisions through CrossShard recovery.
+- Canonical BEGIN records persist participant endpoints for restart-time phase-two dispatch.
+  CrossShard startup first replays the canonical 2PC WAL. Unresolved legacy CrossShard 2PC
+  records without a canonical decision record fail startup; there is no second-WAL fallback.
 - Do not remove the CrossShard public API or its non-2PC protocols as part of this decision.
   Any API removal requires a separately reviewed migration and compatibility plan.
 - This selection does not unify the coordinators' persisted WAL formats or claim
@@ -49,29 +53,27 @@ and reports resume candidates without automatically re-driving phase two.
 
 ## Implementation and verification gates
 
-The codebase does not yet satisfy the adapter decision: the CrossShard 2PC path still runs
-its own participant and persistence callbacks through the shared execution helper. Before
-counting DIS-05 complete, the implementation must:
+The adapter implementation is present, but DIS-05 remains in progress until focused build,
+test, and platform evidence passes. Remaining gates:
 
-1. Define how the adapter preserves participant operation payloads, fencing tokens, and
-   CrossShard validation/lifecycle requirements.
-2. Resolve how existing CrossShard WAL/snapshot state maps to the canonical coordinator's
-   durable decision and replay behavior. Do not treat this as resolved by the choice of
-   coordinator; coordinate with the DIS-06 recovery contract where needed.
-3. Add production-path contract tests for both public entry points covering successful
-   commit, prepare rejection/abort, decision-write failure, participant timeout or
-   acknowledgement failure, duplicate delivery, and relevant empty-input boundaries.
-4. Verify that phase two never starts before the selected decision is durably recorded and
-   that a failed COMMIT acknowledgement is never rewritten as ABORT.
+1. Verify payload preservation, matching coordinator-issuer fencing tokens, SSI validation,
+   and the public CrossShard lifecycle with tests.
+2. Keep legacy CrossShard 2PC records fail-closed and document the operator migration path;
+   this does not establish a general cross-coordinator recovery format or close DIS-06.
+3. Complete production-path contract tests for both public entry points, including a
+   decision-write failure injection, timeout/acknowledgement failure, duplicate delivery,
+   and empty-input boundaries.
+4. Verify that phase two never starts before a durable decision and a failed COMMIT
+   acknowledgement is never rewritten as ABORT.
 5. Record exact focused build/test commands and results. Do not claim unrun platforms pass.
 
 ## Consequences
 
 - `TwoPhaseCommitCoordinator` is the recommended direct 2PC entry point.
 - `CrossShardTransactionCoordinator` remains appropriate for its additional protocol and
-  lifecycle features, but its 2PC execution is not yet a completed adapter.
-- Until the adapter and recovery gates pass, DIS-05 remains in progress and the existing
-  CrossShard 2PC path must not be described as fully consolidated.
+  lifecycle features; its 2PC lifecycle is a facade over the canonical coordinator.
+- DIS-05 remains in progress pending the listed tests and validation evidence. Do not describe
+  the work as release-ready or claim an untested platform passes.
 
 ## Canonical references
 
@@ -80,7 +82,7 @@ counting DIS-05 complete, the implementation must:
 - `include/sharding/two_phase_commit_coordinator.h` and
   `src/sharding/two_phase_commit_coordinator.cpp` — canonical standalone coordinator.
 - `include/sharding/cross_shard_transaction.h` and
-  `src/sharding/cross_shard_transaction.cpp` — retained multi-protocol facade and current
-  adapter gap.
+  `src/sharding/cross_shard_transaction.cpp` — retained multi-protocol facade and canonical
+  2PC adapter.
 - `tests/test_two_phase_commit.cpp` and `tests/sharding/CMakeLists.txt` — focused contract
   coverage and test registration.

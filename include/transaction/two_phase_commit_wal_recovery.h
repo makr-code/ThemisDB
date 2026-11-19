@@ -49,6 +49,7 @@ struct RecoveredTwoPhaseCommitTransaction {
     bool                     participants_invalid = false; ///< Durable participant identity metadata is malformed.
 
     std::vector<std::string> participants;
+    std::map<std::string, std::string> participant_endpoints;
 
     std::string coordinator_id;
 
@@ -146,6 +147,27 @@ private:
         mergeParticipants(rec, data, "shards");
         mergeParticipants(rec, data, "regions");
         mergeParticipants(rec, data, "participants");
+
+        if (data.contains("participant_endpoints")) {
+            const auto& endpoints = data["participant_endpoints"];
+            if (!endpoints.is_object()) {
+                rec.participants_invalid = true;
+                return;
+            }
+            for (auto it = endpoints.begin(); it != endpoints.end(); ++it) {
+                if (it.key().empty() || !it.value().is_string() ||
+                    it.value().get<std::string>().empty()) {
+                    rec.participants_invalid = true;
+                    continue;
+                }
+                if (std::find(rec.participants.begin(), rec.participants.end(),
+                              it.key()) == rec.participants.end()) {
+                    rec.participants_invalid = true;
+                    continue;
+                }
+                rec.participant_endpoints[it.key()] = it.value().get<std::string>();
+            }
+        }
     }
 
     /**

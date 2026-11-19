@@ -58,17 +58,16 @@ hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
 
-The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
-`include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
-configured decision-record callback succeeds, phase-two failure remains an error/in-doubt
-transaction and must not be rewritten as ABORT. Crash durability depends on enabling the
-coordinator's persistence backend. Their public lifecycle, transports, and coordinator-specific
-WAL/recovery paths remain separate: DIS-05 has selected `TwoPhaseCommitCoordinator` as canonical,
-but the CrossShard adapter and recovery migration remain open; the independent DIS-06 recovery
-boundary is not addressed here. `TwoPhaseCommitCoordinator` can re-drive WAL decisions when configured;
-`CrossShardTransactionCoordinator::recoverFromWAL()` only restores state and reports resume
-candidates, not automatic phase-two re-drive. This decision covers only the named pair, not
-repo-wide 2PC convergence.
+`TwoPhaseCommitCoordinator` is the canonical direct 2PC coordinator and the sole 2PC decision/WAL
+owner for the DIS-05 pair. `CrossShardTransactionCoordinator` retains its public prepare/commit/
+abort lifecycle, SSI validation, and other protocols, while delegating 2PC participant calls and
+decision handling to the canonical coordinator. Prepare failure selects ABORT; after the durable
+decision write, phase-two failure remains in-doubt and must not be rewritten as ABORT. When
+persistence is enabled, canonical BEGIN entries retain participant endpoints for restart-time
+phase-two replay. Unresolved legacy CrossShard-only 2PC records fail startup instead of falling
+back to the old WAL. CrossShard `TransactionWAL` and snapshots remain for non-2PC protocols.
+The independent DIS-06 recovery boundary and third `DistributedTransactionCoordinator` surface
+remain outside this named-pair consolidation.
 `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`) is a third
 2PC-capable public surface with separate transaction, endpoint, and recovery paths; it remains
 outside DIS-05.

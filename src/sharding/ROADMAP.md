@@ -46,7 +46,9 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 
 > **DIS-05 decision (2026-11-19):** `TwoPhaseCommitCoordinator` is selected as the canonical
 > direct 2PC coordinator. `CrossShardTransactionCoordinator` remains the multi-protocol facade,
-> but its 2PC adapter and recovery migration are not implemented. See the accepted
+> and now delegates 2PC participant calls, durable decisions, and replay to it. Canonical BEGIN
+> records retain endpoint mappings; unresolved legacy CrossShard-only 2PC records fail startup
+> without fallback. Focused validation and remaining recovery-edge tests are still open. See the accepted
 > [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md) and root
 > [`ROADMAP.md`](../../ROADMAP.md) for current status. This decision is not a release-readiness
 > or recovery sign-off.
@@ -152,7 +154,7 @@ open/in-progress work here.
 
 ## In Progress
 
-- [~] Migrate the CrossShard 2PC path to the canonical `TwoPhaseCommitCoordinator` through an explicit adapter; first define decision-WAL ownership and recovery mapping, then add public-path parity tests (DIS-05; Target: M2)
+- [~] Verify the CrossShard 2PC adapter to canonical `TwoPhaseCommitCoordinator`: payload/fencing parity, durable decision ordering, endpoint restoration, legacy-record fail-closed behavior, and both public-path regression coverage (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)

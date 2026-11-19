@@ -30,6 +30,10 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 
+namespace themis::sharding {
+class TwoPhaseCommitCoordinator;
+}
+
 namespace sharding {
 enum class TransactionProtocol;
 enum class TransactionWALEntryType;
@@ -202,17 +206,17 @@ struct CrossShardTransactionConfig {
     std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl"; ///< Absolute transaction log path.
     
     // Persistence settings (Phase 2.3.3 - Transaction Durability)
-    bool enable_persistence = false; ///< Enable WAL/snapshot persistence backend.
-    std::string data_dir;            ///< Base directory for WAL and snapshots.
+    bool enable_persistence = false; ///< Enable persistence for the protocol-owned WAL backends.
+    std::string data_dir;            ///< Base directory; canonical 2PC WAL is stored in its 2pc-coordinator-wal subdirectory.
     uint64_t snapshot_interval = 1000; ///< Snapshot cadence in operation count.
     size_t max_snapshots = 10;       ///< Maximum retained snapshots.
 
     // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
-    std::string coordinator_id; ///< Actual coordinator node identifier.
+    std::string coordinator_id; ///< Actual coordinator node identifier; must match fencing-token issuer for 2PC.
     std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
-        fencing_token_provider; ///< Current per-shard write credential; absent blocks writes.
+        fencing_token_provider; ///< Current per-shard write credential; 2PC rejects missing, zero-epoch, wrong-shard, or wrong-issuer tokens.
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
@@ -326,9 +330,14 @@ public:
     );
     
     /**
-     * @brief Prepare transaction (2PC/3PC phase 1)
-     * @param transaction_id Transaction ID
-     * @return true if all participants prepared successfully
+     * @brief Run phase one for a 2PC or 3PC transaction.
+     * @param transaction_id Existing active transaction ID with at least one participant.
+     * @return True when every participant votes to prepare and any SERIALIZABLE
+     *         validation succeeds. False on invalid state, validation failure,
+     *         participant rejection, timeout, or unresolved canonical 2PC state.
+     * @note For 2PC, TwoPhaseCommitCoordinator owns the durable transaction
+     *       record, participant RPCs, and recovery. This facade retains the
+     *       separate prepare/commit lifecycle and mirrors its observable state.
      */
     bool prepare(const std::string& transaction_id);
     
@@ -337,18 +346,24 @@ public:
      * @param transaction_id Existing transaction ID in ACTIVE or PREPARED state.
      * @return True only after all participants acknowledge COMMIT. False when
      *         prepare selects ABORT or when decision persistence/phase two fails.
-     * @note A phase-two failure after COMMIT selection leaves the transaction
-     *       UNKNOWN and is never converted into ABORT. The current WAL/snapshot
-     *       backend records resume candidates but does not automatically
-     *       re-drive phase two; unresolved decisions require external recovery.
+     * @note For 2PC, the canonical coordinator durably records the decision and
+     *       re-drives phase two during startup recovery when its WAL is enabled.
+     *       A phase-two failure after COMMIT selection leaves the transaction
+     *       UNKNOWN and is never converted into ABORT. Other protocols retain
+     *       their CrossShard WAL/snapshot recovery behavior.
      */
     bool commit(const std::string& transaction_id);
     
     /**
-     * @brief Select and broadcast an ABORT decision for an active transaction.
-     * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or PREPARED state.
+     * @brief Select and broadcast an ABORT decision for an abortable transaction.
+     * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or
+     *        PREPARED state; a 2PC transaction in UNKNOWN may be retried only
+     *        when the canonical coordinator has not selected COMMIT.
      * @return True when the ABORT decision and all participant acknowledgements complete.
      *         False on an invalid state, timeout, persistence failure, or missing acknowledgement.
+     * @note 2PC decisions and phase-two recovery are owned by
+     *       TwoPhaseCommitCoordinator; other protocol WAL records remain owned
+     *       by this coordinator.
      */
     bool abort(const std::string& transaction_id);
 
@@ -374,14 +389,18 @@ public:
     [[nodiscard]] std::string recoveryCoordinatorName() const override;
 
     /**
-     * @brief Return the durable backend used by this coordinator.
+     * @brief Return this facade's non-2PC durable backend status.
      * @return "WAL/snapshot" when persistence is enabled, otherwise "disabled".
+     * @note 2PC uses the canonical TwoPhaseCommitCoordinator WAL and is not
+     *       described by this backend name.
      */
     [[nodiscard]] std::string recoveryBackendName() const override;
 
     /**
-     * @brief Snapshot current in-doubt transactions using the shared state model.
-     * @return Normalized non-final transaction list for global recovery orchestration.
+     * @brief Snapshot in-doubt transactions from all protocols managed here.
+     * @return Normalized non-final transaction list, including canonical 2PC
+     *         records and non-2PC CrossShard records, for global recovery
+     *         orchestration.
      */
     [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
     getRecoverableTransactions() const override;
@@ -760,6 +779,8 @@ private:
     // Phase 2.3.3: WAL and Snapshot infrastructure
     std::unique_ptr<TransactionWAL> transaction_wal_; ///< WAL backend for durability/recovery.
     std::unique_ptr<TransactionSnapshotManager> snapshot_manager_; ///< Snapshot backend for recovery acceleration.
+    std::unique_ptr<themis::sharding::TwoPhaseCommitCoordinator> canonical_2pc_coordinator_;
+    std::map<std::string, std::string> canonical_2pc_endpoints_;
     std::atomic<uint64_t> operations_since_snapshot_{0}; ///< Operation count since last snapshot.
     LSN last_applied_lsn_{0, 0}; ///< Last WAL LSN applied during recovery.
     
