@@ -1148,6 +1148,15 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
     EXPECT_EQ(abort_calls, 0);
     EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-phase-two-failure"),
               themisdb::sharding::TransactionState::UNKNOWN);
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cross-2pc-endpoint-replacement",
+        themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+    EXPECT_FALSE(coordinator.addParticipant(
+        "txn-cross-2pc-endpoint-replacement",
+        "shard-a",
+        "inproc://replacement-must-wait",
+        {"write"}));
 }
 
 TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnknown) {

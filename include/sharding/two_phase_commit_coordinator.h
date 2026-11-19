@@ -153,10 +153,6 @@ public:
         /// How long to wait for a participant's PREPARE vote before aborting
         std::chrono::milliseconds prepare_timeout{30000};
 
-        /// Optional phase-two RPC timeouts; unset values inherit prepare_timeout.
-        std::optional<std::chrono::milliseconds> commit_timeout;
-        std::optional<std::chrono::milliseconds> abort_timeout;
-
         /// Sync non-mandatory WAL writes; BEGIN and decision records are always synced.
         bool sync_wal_writes = true;
 
@@ -166,6 +162,10 @@ public:
 
         /// Optional handler for explicitly configured in-process test endpoints.
         ShardRPCClient::InProcessResponseHandler in_process_response_handler;
+
+        /// Optional phase-two RPC timeouts; unset values inherit prepare_timeout.
+        std::optional<std::chrono::milliseconds> commit_timeout;
+        std::optional<std::chrono::milliseconds> abort_timeout;
     };
 
     /**
