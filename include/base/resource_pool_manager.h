@@ -36,6 +36,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <unordered_set>
 #include <vector>
 
 namespace themis::resource {
@@ -68,9 +69,11 @@ public:
     AdaptiveConnectionPool();
 
     /**
-     * @brief Adaptive Connection Pool.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
+     * @brief Create a bounded pool of generic integer slots.
+     * @param cfg Pool sizing and scaling policy; `min_size` must not exceed
+     *        `max_size`, which is limited by the integer slot ID range.
+     * @throws std::invalid_argument if `min_size` exceeds `max_size` or
+     *         `max_size` exceeds the representable slot ID count.
      */
     explicit AdaptiveConnectionPool(const Config& cfg);
 
@@ -81,16 +84,21 @@ public:
     AdaptiveConnectionPool& operator=(const AdaptiveConnectionPool&) = delete;
 
     /**
-     * @brief Acquire.
-     * @param[in] timeout Input parameter.
-     * @param[in,out] slot_id Identifier of the slot.
-     * @return True when the operation succeeds.
+     * @brief Acquire an available slot, waiting up to the requested duration.
+     * @param timeout Maximum time to wait; zero performs an immediate check.
+     * @param[out] slot_id Set to the acquired slot ID only when this returns true.
+     * @return `true` when a slot is acquired, or `false` when the wait times out.
+     * @throws std::runtime_error if the pool is shut down before or during the wait.
+     * @throws std::bad_alloc if acquired-slot tracking cannot be allocated; no
+     *         slot is consumed and `slot_id` is unchanged.
      */
     bool acquire(std::chrono::milliseconds timeout, int& slot_id);
 
     /**
-     * @brief Release.
-     * @param[in] slot_id Identifier of the slot.
+     * @brief Return a slot acquired from this pool.
+     * @param slot_id Identifier returned by a successful acquire on this pool.
+     * @throws std::invalid_argument if the slot is not currently acquired,
+     *         including a duplicate release.
      */
     void release(int slot_id);
 
@@ -137,6 +145,7 @@ private:
     std::condition_variable   cv_;
 
     std::vector<int>          available_slots_;  ///< Free-list of slot IDs.
+    std::unordered_set<int>   in_use_slots_;     ///< IDs returned by acquire but not release.
     std::size_t               pool_size_ = 0;    ///< Total allocated slots.
     int                       next_id_   = 0;    ///< Monotonically increasing slot ID.
 
@@ -180,9 +189,10 @@ public:
     ResourcePoolManager();
 
     /**
-     * @brief Resource Pool Manager.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
+     * @brief Create connection-slot and buffer pools from the supplied config.
+     * @param cfg Configuration for both owned pools and saturation reporting.
+     * @throws std::invalid_argument if the connection-pool minimum exceeds its maximum.
+     * @throws std::bad_alloc if owned pool storage cannot be allocated.
      */
     explicit ResourcePoolManager(const Config& cfg);
 

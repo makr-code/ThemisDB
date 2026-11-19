@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,9 @@ For developers changing shared runtime resources and module lifecycle facilities
 
 - `BufferPool` provides slab-backed buffers through move-only `BufferHandle`; the declared slab classes range from 128 B through 4 KiB.
 - `AdaptiveConnectionPool` manages generic integer slots and provides timed acquisition, release, shutdown, scaling, and statistics; it does not own connection objects.
+- `AdaptiveConnectionPool` rejects `min_size > max_size` and capacities beyond the `int` slot-ID range; each acquired ID must be returned exactly once, and unacquired or duplicate releases throw `std::invalid_argument`. `in_use()` and statistics derive from tracked acquired IDs rather than subtracting potentially inconsistent counts.
 - `ResourcePoolManager` owns only connection-slot and buffer pools. Although its header describes a thread-pool facade and includes `leak_timeout`, the class has no thread-pool member and the implementation does not read that field or reclaim timed-out borrows.
+- `BufferPool` tracks oversized system-allocator fallback handles in `current_live` until release. Handles retain a non-owning pool pointer, so the pool must outlive every issued handle; destruction with outstanding handles is unsupported.
 - The canonical loader is `src/themis/module_loader.cpp`; `src/base/module_loader.cpp` is a deprecated legacy copy. `hot_reload_manager.cpp` implements reload behavior declared under `include/themis/base/`.
 - `buffer_pool.cpp` and `resource_pool_manager.cpp` implement the two public headers under `include/base/`. Both are registered in `THEMIS_BASE_SOURCES` in `cmake/ModularBuild.cmake` and in the monolithic core through `cmake/MiscellaneousFeatures.cmake`.
 
@@ -35,6 +37,7 @@ For developers changing shared runtime resources and module lifecycle facilities
 
 - Release buffer handles through their ownership contract; `BufferHandle` is move-only and releases automatically by default.
 - `BufferPool::acquire()` is `noexcept`; requests outside slab classes may use the allocator fallback described in its header.
+- A failed or timed-out connection acquisition does not produce a releasable slot ID. An unacquired or already released ID is rejected rather than changing the free-list or utilization statistics.
 - A connection acquisition can time out (`acquire()` returns false); shutdown and capacity are observable states, not successful acquisition.
 - Keep module load/reload stages and result outcomes explicit. Do not claim that a candidate became active when the reload result reports failure.
 

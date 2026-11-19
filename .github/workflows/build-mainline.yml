@@ -141,7 +141,7 @@ jobs:
       setup_command: >-
         set -euo pipefail; echo "Build: Mainline faster compile feedback lane"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "Fast-path dependencies installed"
       configure_command: >-
-        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build-fast -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build-fast -G Ninja -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
       build_command: >-
         export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
@@ -180,6 +180,14 @@ jobs:
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
+          toolchain_file="";
+          if [ -f build/CMakeCache.txt ]; then
+            toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' build/CMakeCache.txt | tail -n 1)";
+          fi
+          if [[ "${toolchain_file}" == */vcpkg/scripts/buildsystems/vcpkg.cmake && ! -f "${toolchain_file}" ]]; then
+            echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain";
+            git -C "${GITHUB_WORKSPACE}" submodule update --init -- vcpkg;
+          fi
           cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
           cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;

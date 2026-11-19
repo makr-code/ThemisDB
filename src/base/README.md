@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Base Module
 
-## Purpose and boundary
+## Zweck
 
 The base area groups module lifecycle and sandbox facilities with general
 resource-pool utilities. It does not own plugin-specific business behavior.
@@ -32,7 +32,7 @@ Out of scope: plugin-specific business logic, a universal host-side policy,
 application-specific management commands/metrics, or unverified production
 guarantees.
 
-## Quick start
+## Quickstart (Build/Run)
 
 For callers using the declared resource-pool API:
 
@@ -50,6 +50,24 @@ if (!buffer.valid()) {
 files are registered in both the modular base target and the monolithic core
 source list.
 
+For the focused pool regression test, configure and build the registered target:
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build build --target module_base_test_resource_pools_focused
+ctest --test-dir build --output-on-failure -R '^test_resource_pools_base_FocusedTests$'
+```
+
+The root build may require the repository's configured third-party dependencies;
+module-local registration does not guarantee that configuration or execution
+will succeed.
+
+## API/CLI Einstieg
+
+The base module exposes lifecycle interfaces under `include/themis/base/` and
+resource-pool interfaces under `include/base/`. There is no base-specific CLI.
+The relevant public entry points and implementation boundaries are listed below.
+
 ## Source and interface map
 
 | Surface | Current source / interface | Responsibility |
@@ -61,6 +79,26 @@ source list.
 | Remote registry and experiments | `include/themis/base/remote_registry_client.h`, `ab_test_manager.h`; corresponding `src/base/*.cpp` | Registry intake and A/B test lifecycle support. |
 | Resource pools | `include/base/buffer_pool.h`, `resource_pool_manager.h`; `src/base/buffer_pool.cpp`, `resource_pool_manager.cpp` | Slab-backed buffer handles and generic connection-slot/resource-pool coordination. |
 
+## Integrationsueberblick
+
+The module exposes lifecycle and resource-pool facilities to callers; optional
+sandbox and WASM behavior depends on explicit configuration and runtime support.
+
+```mermaid
+flowchart LR
+    Caller["Host / caller"] --> Loader["Module loader"]
+    Loader --> Checks["Artifact and policy checks"]
+    Loader -. "configured and supported" .-> Sandbox["Sandbox / WASM facilities"]
+    Caller --> Reload["Hot-reload API"]
+    Caller --> Pools["Buffer and slot pools"]
+    Runtime["Injected WASM runtime"] -. "required for execution" .-> Sandbox
+```
+
+**Interpretation:** The diagram shows available integration surfaces, not an
+automatic end-to-end pipeline. Callers coordinate reload and pool operations;
+sandbox and WASM execution are conditional, and WASM execution requires an
+injected runtime.
+
 `src/base/` currently contains ten `.cpp` files. In modular mode,
 `cmake/ModularBuild.cmake` uses `THEMIS_BASE_SOURCES` to create the shared
 `themis_base` target. That list includes the lifecycle, sandbox, registry,
@@ -71,7 +109,9 @@ core registers the same two resource-pool sources through
 `cmake/MiscellaneousFeatures.cmake`. In modular mode `themis_core` is an
 interface target that links module targets; it is not the base source list.
 
-## Runtime flow and limits
+## Known Limitations
+
+### Runtime flow and limits
 
 1. The loader checks a candidate artifact and its metadata/policy before
    activation; dependency graph analysis is available to callers as a separate
@@ -87,14 +127,18 @@ interface target that links module targets; it is not the base source list.
    restoration from the previous path.
 5. Registry requests accept HTTP or HTTPS; plain HTTP is permitted with a
    warning, so transport encryption is not universal.
-6. Buffer-pool requests above 4 KiB use the system allocator; both pool sources
-   are registered in modular and monolithic builds.
+6. Buffer-pool requests above 4 KiB use the system allocator and remain included
+   in `current_live` until release; the pool must outlive all handles it issues.
+   Both pool sources are registered in modular and monolithic builds.
 7. `AdaptiveConnectionPool` represents integer slots rather than live
-   connections. `ResourcePoolManager` owns connection and buffer pools only;
+   connections. Its constructor rejects `min_size > max_size` and capacities
+   outside the `int` slot-ID range; releasing a slot that is not currently
+   acquired, including a duplicate release, throws `std::invalid_argument`.
+   `ResourcePoolManager` owns connection and buffer pools only;
    the header's thread-pool/leak-detection design goals are not implemented in
    the inspected class/source (`leak_timeout` is unused).
 
-## Build and test evidence
+### Build and test evidence
 
 - `cmake/ModularBuild.cmake` declares the `themis_base` library target in
   modular mode; `cmake/CMakeLists.txt` makes `themis_core` a compatibility
@@ -117,6 +161,8 @@ interface target that links module targets; it is not the base source list.
 - `tests/base/test_resource_pools.cpp` is registered by the module's
   `test_*.cpp` glob. Registration establishes test discovery, not compilation
   or execution success.
+
+## Verweise
 
 See [API.md](API.md), [ARCHITECTURE.md](ARCHITECTURE.md),
 [MODULE_GUIDE.md](MODULE_GUIDE.md), [ROADMAP.md](ROADMAP.md), and

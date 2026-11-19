@@ -81,10 +81,13 @@ public:
     ~FaultInjector();
 
     /**
-     * @brief Inject a fault.
-     * @param[in] fault Input parameter.
-     * @return True when the operation succeeds.
-     * @details If the same node + type is already active, the existing entry is updated in-place (last-writer-wins) and true is returned.
+     * @brief Record a process-local simulated fault for a target.
+     * @param fault Fault descriptor; target_node_id must be non-empty and
+     *        probability must be finite and within [0.0, 1.0].
+     * @return True when the registry is updated; false for invalid target or
+     *         probability, without changing registry state or invoking callbacks.
+     * @note Probability is stored but not sampled. Re-injecting the same
+     *       target/type replaces its descriptor; callback exceptions propagate.
      */
     bool injectFault(const FaultSpec& fault);
 

@@ -4632,7 +4632,7 @@ endif()
 # Validates: FaultInjector throughput, concurrent stress, scheduler overhead
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/bench_chaos_stress.cpp")
     message(STATUS "Adding chaos framework extended stress benchmarks")
 
     add_executable(bench_chaos_stress

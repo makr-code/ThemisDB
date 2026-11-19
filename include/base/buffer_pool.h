@@ -47,6 +47,16 @@ class BufferHandle {
 public:
     BufferHandle() = default;
 
+    /**
+     * @brief Wrap an allocated buffer with its release policy.
+     * @param data Buffer address; null represents an invalid handle.
+     * @param size Buffer capacity in bytes.
+     * @param slab Slab class used to return the buffer to its pool.
+     * @param pool Non-owning pool pointer; a null pointer frees the buffer directly.
+     * @param auto_release If true, destruction releases the buffer automatically.
+     * @note A non-null pool must outlive this handle. With auto-release disabled,
+     *       the caller must explicitly call release() to return or free the buffer.
+     */
     explicit BufferHandle(void* data, std::size_t size, SlabClass slab,
                           class BufferPool* pool, bool auto_release = true) noexcept
         : data_(data), size_(size), slab_(slab), pool_(pool),
@@ -94,6 +104,8 @@ public:
     void release() noexcept;
 
 private:
+    friend class BufferPool;
+
     void*        data_         = nullptr;
     std::size_t  size_         = 0;
     SlabClass    slab_         = SlabClass::B128;
@@ -122,9 +134,9 @@ public:
     BufferPool();
 
     /**
-     * @brief Buffer Pool.
-     * @param[in] config Input parameter.
-     * @return Return value.
+     * @brief Create a pool with the requested slab preallocation and cache cap.
+     * @param config Per-class preallocation and maximum cached-free-block count.
+     * @throws std::bad_alloc if allocating slab free-list capacity fails.
      */
     explicit BufferPool(const Config& config);
 
@@ -133,12 +145,20 @@ public:
 
     ~BufferPool();
 
+    /**
+     * @brief Acquire a buffer from a slab class or the system allocator.
+     * @param bytes Requested capacity; values above 4 KiB use the system allocator.
+     * @return A valid owning handle, or an invalid handle after shutdown or allocation failure.
+     * @note The pool must outlive every handle acquired from it.
+     */
     [[nodiscard]] BufferHandle acquire(std::size_t bytes) noexcept;
 
     /**
-     * @brief Release.
-     * @param[in,out] data Input/output parameter.
-     * @param[in] slab Input parameter.
+     * @brief Return a live allocation to its owning pool.
+     * @param data Address of an allocation currently owned by this pool.
+     * @param slab Slab class used by the allocation.
+     * @note Passing a foreign or already released pointer violates the caller
+     *       contract; handles returned by acquire() perform the matching release.
      * @note Exception safety: noexcept.
      */
     void release(void* data, SlabClass slab) noexcept;
@@ -166,6 +186,10 @@ public:
     static constexpr std::size_t kMaxSlabSize = 4096;
 
 private:
+    friend class BufferHandle;
+
+    void releaseFallback(void* data) noexcept;
+
     // Per-slab-class state.
     struct Slab {
         std::mutex            lock = {};
@@ -209,11 +233,14 @@ inline BufferHandle::~BufferHandle() {
 
 inline void BufferHandle::release() noexcept {
     if (data_ && pool_) {
-        pool_->release(data_, slab_);
+        if (size_ > BufferPool::kMaxSlabSize) {
+            pool_->releaseFallback(data_);
+        } else {
+            pool_->release(data_, slab_);
+        }
         data_ = nullptr;
         pool_ = nullptr;
     } else if (data_ && !pool_) {
-        // OS-fallback path: the pool pointer is null for oversized allocations.
         std::free(data_);
         data_ = nullptr;
     }

@@ -30,9 +30,9 @@ readiness conclusion is asserted.
   files are present.
 - `bench_chaos_release_gates` and `bench_chaos_microbenchmarks` have conditional
   CMake target definitions and benchmark CTest registrations.
-- The `bench_chaos_stress.cpp` source exists under `benchmarks/chaos/`, but its
-  CMake condition checks `benchmarks/bench_chaos_stress.cpp` at the wrong path.
-  The condition is false in this checkout, so that target is not added.
+- The `bench_chaos_stress.cpp` source exists under `benchmarks/chaos/`; the
+  CMake source condition now checks that path. Build and execution evidence for
+  the target is still required.
 - `THEMIS_CHAOS_ADMIN` defaults to `OFF`; CMake conditionally adds the handler
   source. However, the compile definition is scoped to `themis_server` while
   the guarded route/handler sources belong to module targets; additionally,

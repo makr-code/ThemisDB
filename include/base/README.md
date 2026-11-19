@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,11 +22,16 @@ pools; the module lifecycle interfaces are under `include/themis/base/`.
 | [`buffer_pool.h`](buffer_pool.h) | `themis::resource::BufferPool` and move-only `BufferHandle`; six slab size classes through 4 KiB, with allocator fallback for larger requests. |
 | [`resource_pool_manager.h`](resource_pool_manager.h) | `themis::resource::AdaptiveConnectionPool` (generic integer slots) and `ResourcePoolManager` (connection and buffer pools). |
 
+`AdaptiveConnectionPool` pools integer slots, not connection objects. It rejects
+`min_size > max_size` or `max_size` exceeds the integer slot ID range; each
+acquired slot must be released once, and releasing an unacquired or
+already-released ID throws `std::invalid_argument`.
 `ResourcePoolManager` does not expose a thread-pool member or leak-reclamation
-path in the inspected class/implementation. The header's stated thread-pool
-facade and leak-detection design goals are not implemented there; its
-`Config::leak_timeout` field is unused. `AdaptiveConnectionPool` pools integer
-slots, not connection objects.
+path; its `Config::leak_timeout` field is unused.
+
+`BufferPool` returns move-only handles and tracks oversized allocator-fallback
+handles in `current_live` until release. A pool must outlive every handle it
+issues.
 
 These are not module-loader or sandbox headers. See
 [`../../src/base/API.md`](../../src/base/API.md) for a cross-surface summary
@@ -36,14 +41,14 @@ registration caveats.
 ## Build integration status
 
 The matching implementation files exist at `src/base/buffer_pool.cpp` and
-`src/base/resource_pool_manager.cpp`, but neither appears in
-`THEMIS_BASE_SOURCES`, the explicit source list used to create `themis_base` in
-modular mode, or in the monolithic `THEMIS_CORE_SOURCES` list inspected. In
-modular mode, `themis_core` is a compatibility interface that links module
-targets; it is not the source list for the base library. The headers and source
-files therefore establish the declared API and implementation, not that these
-symbols are linked into either build mode. The modular library target is named
-`themis_base` (underscore), not `themis-base`.
+`src/base/resource_pool_manager.cpp`. Both are included in `THEMIS_BASE_SOURCES`
+in `cmake/ModularBuild.cmake` and in the monolithic core source list in
+`cmake/MiscellaneousFeatures.cmake`. In modular mode, `themis_core` is a
+compatibility interface that links module targets; it is not the source list
+for the base library. These CMake entries establish source registration, not
+that a particular configuration successfully compiled or linked the symbols.
+The modular library target is named `themis_base` (underscore), not
+`themis-base`.
 
 `tests/CMakeLists.txt` discovers module CMake files with `CONFIGURE_DEPENDS`
 and adds `tests/base/`. That file registers `test_*.cpp` sources as focused

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,8 +34,8 @@ process, or cluster operations. The system under test must explicitly query
 - Tests control the process using the injector and scheduler APIs; the fault
   descriptors themselves do not cause application behavior.
 - A `FaultType` is a label for test logic. For example, `DISK_FAILURE` does not
-  intercept disk I/O. Probability comparisons reject values below 0 or above 1,
-  but NaN passes those comparisons; probability is not sampled by this runtime.
+  intercept disk I/O. `injectFault()` rejects non-finite and out-of-range
+  probability values; probability is not sampled by this runtime.
 - All timing is process-local and uses `std::chrono::steady_clock`; restart
   discards registry and queue state.
 - The relevant research question is whether consumers observe the intended

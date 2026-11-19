@@ -757,7 +757,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "7c566a4e2481e4f4"
+      "sha256_prefix": "82c7c20953188441"
     },
     {
       "category": "governance",
@@ -2517,7 +2517,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "30284042aeb9dda0"
+      "sha256_prefix": "077ed8b919927829"
     },
     {
       "category": "docs",
@@ -7030,14 +7030,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-18T19:44:23.740511+00:00",
+  "generated_at": "2026-11-19T05:39:26.579846+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-17\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-18\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 8103,
-    "wiki_generated_at": "2026-11-17T19:54:35+00:00",
-    "wiki_source_hash": "2a9c59652f5c7bd859ab803c160967428f479a5e483d772038deedba8786b6d7"
+    "source_count": 8105,
+    "wiki_generated_at": "2026-11-18T20:18:13+00:00",
+    "wiki_source_hash": "83ef1603a03dda553a1ec6b0bf8eb8e1a785e150872ca91b1e97190571e8a55b"
   },
   "modules": [
     {
@@ -8965,15 +8965,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "7c566a4e2481e4f4",
+    "ARCHITECTURE.md": "82c7c20953188441",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
     "ROADMAP.md": "0f803551945562cf",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "6a6d88ed5b491368",
-    "ai_context/developer_llm_wiki/": "0f3a128d37f65964",
+    "ai_context/api_contracts/": "c4c27a53a56816cb",
+    "ai_context/developer_llm_wiki/": "282011384eb8187c",
     "ai_working/": "2da2d31a22a9695b",
-    "docs/": "34c152790a0d2dbc"
+    "docs/": "3c144823b07c9cd3"
   },
   "statistics": {
     "ai_working_artifact_count": 30,

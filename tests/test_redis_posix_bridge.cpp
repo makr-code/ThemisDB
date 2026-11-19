@@ -2,14 +2,13 @@
  * @file test_redis_posix_bridge.cpp
  * @brief Unit tests for RedisCacheCoordinator RedisPublishBridgeFn (STUB #61).
  *
- * Verifies the RedisPublishBridgeFn injection in non-POSIX builds
- * (THEMIS_POSIX_SOCKETS not defined):
+ * Verifies that the RedisPublishBridgeFn cannot claim delivery when the
+ * coordinator transport is unavailable (missing hiredis or on Windows):
  *   RCC-POX-01  No fn set           → publish_errors_ incremented (no-op fallback).
- *   RCC-POX-02  Fn returns true     → messages_published_ incremented.
+ *   RCC-POX-02  Fn returns true     → transport remains unavailable.
  *   RCC-POX-03  Fn throws exception → fail-closed; publish_errors_ incremented.
  *
- * Tests run in builds WITHOUT THEMIS_POSIX_SOCKETS.  On POSIX hosts (Linux/macOS)
- * the full socket path is active and the tests are skipped.
+ * Tests run unless the hiredis profile is enabled on a POSIX platform.
  */
 
 #include <gtest/gtest.h>
@@ -29,10 +28,10 @@ protected:
 };
 
 // ── RCC-POX-01 ───────────────────────────────────────────────────────────────
-// With no fn registered the non-POSIX stub increments publish_errors_.
+// With no fn registered the unavailable-transport path increments publish_errors_.
 TEST_F(RedisPosixBridgeTest, NoFnIncrementsPublishErrors) {
-#if defined(THEMIS_POSIX_SOCKETS)
-    GTEST_SKIP() << "THEMIS_POSIX_SOCKETS is ON — full socket path active; skip.";
+#if !defined(_WIN32) && defined(THEMIS_ENABLE_REDIS)
+    GTEST_SKIP() << "Redis transport is available; skip unavailable-transport test.";
 #endif
     RedisCacheCoordinator::setRedisPublishBridgeFn({});  // ensure clean state
 
@@ -51,18 +50,16 @@ TEST_F(RedisPosixBridgeTest, NoFnIncrementsPublishErrors) {
 }
 
 // ── RCC-POX-02 ───────────────────────────────────────────────────────────────
-// Injected fn returning true increments messages_published_.
-TEST_F(RedisPosixBridgeTest, SuccessFnIncrementsMessagesPublished) {
-#if defined(THEMIS_POSIX_SOCKETS)
-    GTEST_SKIP() << "THEMIS_POSIX_SOCKETS is ON — full socket path active; skip.";
+// An injected fn cannot claim cross-node delivery without a supported transport.
+TEST_F(RedisPosixBridgeTest, BridgeCannotOverrideUnavailableTransport) {
+#if !defined(_WIN32) && defined(THEMIS_ENABLE_REDIS)
+    GTEST_SKIP() << "Redis transport is available; skip unavailable-transport test.";
 #endif
 
     int call_count = 0;
     RedisCacheCoordinator::setRedisPublishBridgeFn(
-        [&](const std::string& channel, const std::string& payload) -> bool {
+        [&](const std::string&, const std::string&) -> bool {
             ++call_count;
-            EXPECT_FALSE(channel.empty())  << "channel must not be empty";
-            EXPECT_FALSE(payload.empty())  << "payload must not be empty";
             return true;
         });
 
@@ -72,22 +69,27 @@ TEST_F(RedisPosixBridgeTest, SuccessFnIncrementsMessagesPublished) {
     coord.publishEntry("mykey", nlohmann::json{{"data", "hello"}}, 120, "t1");
     coord.publishInvalidation("mykey", "t1");
 
-    EXPECT_EQ(call_count, 2) << "fn must be called once per publish";
+    EXPECT_EQ(call_count, 0) << "unavailable transport must not invoke a delivery bridge";
 
     auto stats = coord.getStats();
-    EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{2});
-    EXPECT_EQ(stats.value("publish_errors",     uint64_t{0}), uint64_t{0});
+    EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{0});
+    EXPECT_EQ(stats.value("publish_errors", uint64_t{0}), uint64_t{2});
+    EXPECT_EQ(stats.value("invalidation_errors", uint64_t{0}), uint64_t{1});
+    EXPECT_FALSE(stats.value("ready", true));
+    EXPECT_FALSE(stats.value("dependency_available", true));
 }
 
 // ── RCC-POX-03 ───────────────────────────────────────────────────────────────
 // Throwing fn is fail-closed: no exception escapes, publish_errors_ incremented.
 TEST_F(RedisPosixBridgeTest, ThrowingFnIsFailClosed) {
-#if defined(THEMIS_POSIX_SOCKETS)
-    GTEST_SKIP() << "THEMIS_POSIX_SOCKETS is ON — full socket path active; skip.";
+#if !defined(_WIN32) && defined(THEMIS_ENABLE_REDIS)
+    GTEST_SKIP() << "Redis transport is available; skip unavailable-transport test.";
 #endif
 
+    int call_count = 0;
     RedisCacheCoordinator::setRedisPublishBridgeFn(
-        [](const std::string&, const std::string&) -> bool {
+        [&call_count](const std::string&, const std::string&) -> bool {
+            ++call_count;
             throw std::runtime_error("simulated socket error");
         });
 
@@ -97,7 +99,10 @@ TEST_F(RedisPosixBridgeTest, ThrowingFnIsFailClosed) {
     EXPECT_NO_THROW(coord.publishEntry("k1", {}, 10, "t"));
     EXPECT_NO_THROW(coord.publishInvalidation("k*", "t"));
 
+    EXPECT_EQ(call_count, 0);
     auto stats = coord.getStats();
     EXPECT_GE(stats.value("publish_errors", uint64_t{0}), uint64_t{2});
     EXPECT_EQ(stats.value("messages_published", uint64_t{0}), uint64_t{0});
+    EXPECT_FALSE(stats.value("ready", true));
+    EXPECT_FALSE(stats.value("dependency_available", true));
 }

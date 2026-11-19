@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,7 +23,7 @@ This page describes cache-specific production configuration and observability fo
 - Set explicit count, entry-size, total-size, TTL, and per-tenant resource limits appropriate to the workload. Defaults are implementation defaults, not a production sizing decision.
 - Decide whether tenant isolation is mandatory. `AdaptiveQueryCache::Config::enable_tenant_isolation` defaults to false; when enabled, tenant context must be used consistently for key generation, reads, writes, stats, and invalidation.
 - Configure and validate RocksDB storage paths for L3 and persistent caches. Plan disk capacity, permissions, backup/retention, and ownership with the storage operator.
-- For Redis or remote coordination, configure the endpoint, authentication and secret source, timeouts/reconnect behavior, peer set, and expected degraded-mode behavior. Do not assume coordination is enabled or connected from object construction alone.
+- For Redis or remote coordination, configure the endpoint, authentication and secret source, timeouts/reconnect behavior, peer set, and expected degraded-mode behavior. Redis coordinator builds require the hiredis dependency profile (`THEMIS_ENABLE_REDIS`) and supported socket transport. Do not assume coordination is enabled or connected from object construction alone.
 - Set alert thresholds and minimum request count for the hit-rate/latency SLO monitor based on the deployment's own baseline.
 
 ## Signals to inspect
@@ -35,6 +35,7 @@ This page describes cache-specific production configuration and observability fo
 | Tenant counts, quotas, eviction and isolation activity | tenant stats APIs and `CacheHitRateSloMonitor::recordTenantEvictionRate()` | Investigate quota pressure and tenant-scoped incidents. |
 | Hit-rate and latency violations | `CacheHitRateSloMonitor` status/result and alert IDs | Detect sustained regressions; alerting requires the configured alert manager/integration. |
 | Replication publish/receive errors, reconnects, fanout retries/drops/failures | Coordinator `getStats()` | Detect partial propagation; local completion does not prove remote delivery. |
+| Redis dependency, connection, publish and invalidation failures | `cache.redis.dependency_unavailable`, `cache.redis.connection_failure`, `cache.redis.publish_error`, `cache.redis.invalidation_error`; coordinator health `ready`, `status`, and `failure_reason` | A missing hiredis dependency or disconnected Redis coordinator reports not-ready; a failed invalidation is counted and never reported as a successful publish. |
 | Warmup loaded/skipped/error counts and duration | `AdaptiveQueryCache::WarmupResult` | Confirm warmup outcome and identify bad records or quota limits. |
 
 Use counters with their sampling interval and request volume. A zero hit rate with no evaluated requests is not a measured SLO breach; the monitor configuration includes `min_requests`.
@@ -43,6 +44,7 @@ Use counters with their sampling interval and request volume. A zero hit rate wi
 
 1. Review resource bounds and backend availability after config/deployment changes.
 2. Check cache health, per-tier counters, and coordinator state during rollout and after dependency incidents.
+   - An enabled Redis coordinator with `failure_reason` of `hiredis_unavailable` or `redis_connection_unavailable` makes cache health unhealthy; restore the build dependency or Redis connectivity before relying on cross-node invalidation.
 3. Validate mapped performance cases against the release baseline using [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) and the [benchmark runbook](../../benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md).
 4. Preserve raw benchmark JSON, manifest comparison, hardware/runtime context, and regression follow-up evidence.
 5. Confirm invalidation and tenant-isolation regressions remain covered by focused tests before changing related configuration.
