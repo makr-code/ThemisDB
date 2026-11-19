@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -49,19 +49,25 @@ integration behavior. Public signatures remain defined by the
 ## Edge cases that affect callers
 
 - Scheduler and pool admission timeout results (`0` and `false`) combine
-  overload, timeout, and shutdown; callers must inspect context/metrics rather
-  than assuming one cause.
+  invalid input, overload, timeout, and shutdown; callers must inspect
+  context/metrics rather than assuming one cause.
+- Scheduler admission rejects empty callables, invalid `SLAPriority` values,
+  and negative SLA durations. Zero SLA is accepted as an immediate deadline.
+- Pool submission rejects empty callables. Pool construction rejects a
+  non-positive `idle_timeout_ms`; `max_queue_depth == 0` remains a valid
+  configuration that rejects all submissions.
 - Scheduler SLA time starts before waiting for admission. A past deadline does
   not remove an entry; it can still be dequeued.
 - An unreported accepted scheduler id remains in `pending_deadlines_`. Unknown
-  and duplicate completion reports increase `completed_total`; report once for
-  each known id if the ratio is used as an SLA signal.
+  and duplicate completion reports are ignored; report once for each known id
+  if the ratio is used as an SLA signal.
 - `waitAll()` polls queue emptiness and `queued_count_`; the count drops when a
   worker pops an item, before that callable finishes. Therefore `waitAll()`
   returning `true` is not proof that all callables have completed.
-- Pool shutdown waits up to `drain_timeout`, then wakes and joins workers.
-  Running callables are not interrupted, and the timeout is not a guarantee
-  that every queued callable has run.
+- Pool shutdown rejects new work and workers finish accepted queued items
+  before exiting. `drain_timeout` bounds only the initial queue-drain wait;
+  running callables are not interrupted, so joining workers can exceed the
+  timeout indefinitely if a callable does not return.
 - A throwing task increments `failed`; the module does not log the exception or
   expose the exception object to the submitter.
 

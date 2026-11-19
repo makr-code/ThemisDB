@@ -268,6 +268,71 @@ TEST(Phase3ResourcePooling, ThreadPoolInitialization) {
     pool.shutdown();
 }
 
+TEST(Phase3ResourcePooling, ThreadPoolRejectsEmptyTasksAndInvalidWaitConfig) {
+    WorkStealingThreadPool pool;
+    EXPECT_FALSE(pool.submit(std::function<void()>{}));
+    pool.shutdown();
+
+    WorkStealingThreadPool::Config cfg;
+    cfg.idle_timeout_ms = 0;
+    EXPECT_THROW(WorkStealingThreadPool invalid_pool(cfg), std::invalid_argument);
+}
+
+TEST(Phase3ResourcePooling, ShutdownCompletesAcceptedQueuedTasksAfterDrainTimeout) {
+    WorkStealingThreadPool::Config cfg;
+    cfg.min_threads = 1;
+    cfg.max_threads = 1;
+    cfg.max_queue_depth = 2;
+    WorkStealingThreadPool pool(cfg);
+
+    std::atomic<bool> task_started{false};
+    std::atomic<bool> release_task{false};
+    std::atomic<int> completed{0};
+    ASSERT_TRUE(pool.submit([&] {
+        task_started.store(true, std::memory_order_release);
+        while (!release_task.load(std::memory_order_acquire)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        completed.fetch_add(1, std::memory_order_relaxed);
+    }));
+
+    const auto start_deadline = std::chrono::steady_clock::now() +
+                                std::chrono::seconds(1);
+    while (!task_started.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < start_deadline) {
+        std::this_thread::yield();
+    }
+    if (!task_started.load(std::memory_order_acquire)) {
+        release_task.store(true, std::memory_order_release);
+        FAIL() << "worker did not start the blocking task";
+    }
+
+    const bool first_queued =
+        pool.submit([&] { completed.fetch_add(1, std::memory_order_relaxed); });
+    const bool second_queued =
+        pool.submit([&] { completed.fetch_add(1, std::memory_order_relaxed); });
+    if (!first_queued || !second_queued) {
+        release_task.store(true, std::memory_order_release);
+    }
+    ASSERT_TRUE(first_queued);
+    ASSERT_TRUE(second_queued);
+
+    std::thread shutdown_thread([&] {
+        pool.shutdown(std::chrono::milliseconds(0));
+    });
+    const auto shutdown_deadline = std::chrono::steady_clock::now() +
+                                   std::chrono::seconds(1);
+    while (!pool.is_shutdown() &&
+           std::chrono::steady_clock::now() < shutdown_deadline) {
+        std::this_thread::yield();
+    }
+    release_task.store(true, std::memory_order_release);
+    shutdown_thread.join();
+
+    EXPECT_EQ(completed.load(std::memory_order_relaxed), 3);
+    EXPECT_EQ(pool.statistics().completed, 3u);
+}
+
 /**
  * @test ThreadPoolWorkDispatch
  * @brief Validates work dispatch to thread pool.

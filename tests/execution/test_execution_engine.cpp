@@ -90,8 +90,39 @@ TEST(ExecutionEngine, UnknownCompletionIdIsIgnored) {
     scheduler.reportCompletion(424242u);
 
     const auto metrics = scheduler.metrics();
-    EXPECT_EQ(metrics.completed_total, 1u);
+    EXPECT_EQ(metrics.completed_total, 0u);
     EXPECT_EQ(metrics.completed_in_sla, 0u);
+
+    scheduler.shutdown();
+}
+
+TEST(ExecutionEngine, InvalidEnqueueInputsAreRejected) {
+    QueryScheduler scheduler;
+
+    EXPECT_EQ(scheduler.enqueue({}, SLAPriority::HIGH, 50, "empty"), 0u);
+    EXPECT_EQ(scheduler.enqueue([] {}, static_cast<SLAPriority>(-1), 50, "priority"), 0u);
+    EXPECT_EQ(scheduler.enqueue([] {}, SLAPriority::MEDIUM, -1, "negative-sla"), 0u);
+    EXPECT_EQ(scheduler.size(), 0u);
+    EXPECT_EQ(scheduler.metrics().total_enqueued, 0u);
+
+    scheduler.shutdown();
+}
+
+TEST(ExecutionEngine, DuplicateCompletionReportIsIgnored) {
+    QueryScheduler scheduler;
+    const auto id = scheduler.enqueue([] {}, SLAPriority::MEDIUM, 50, "once");
+    ASSERT_NE(id, 0u);
+
+    QueryEntry entry;
+    ASSERT_TRUE(scheduler.dequeue(entry, std::chrono::milliseconds(200)));
+    EXPECT_EQ(entry.id, id);
+
+    scheduler.reportCompletion(id);
+    scheduler.reportCompletion(id);
+
+    const auto metrics = scheduler.metrics();
+    EXPECT_EQ(metrics.completed_total, 1u);
+    EXPECT_EQ(metrics.completed_in_sla, 1u);
 
     scheduler.shutdown();
 }
