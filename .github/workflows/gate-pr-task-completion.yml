@@ -1,0 +1,30 @@
+name: "Gate: PR Task Completion"
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-pr-task-completion-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  task-completion:
+    name: "Validate: PR Task Completion"
+    uses: ./.github/workflows/reusable-pr-task-completion.yml
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    secrets:
+      copilot-token: ${{ secrets.COPILOT_GITHUB_TOKEN }}
