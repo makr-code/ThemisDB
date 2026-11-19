@@ -125,6 +125,17 @@ snapshot; those are the adapter's responsibility. The receiver's local
 `readVerified()` API can inspect the persisted stream only for the exact,
 still-current verified manifest. It is not a network read or cutover API.
 
+Do not wire a production scanner by hashing MVCC base keys directly. The
+current routing surfaces do not define one canonical mapping: the consistent
+ring hashes a supplied key with FNV-1a/mix, while URN routing hashes the UUID
+through `URN::hash()` (xxHash when available, otherwise `std::hash`). MVCC
+enumeration plus per-key timestamp reads also does not provide an atomic
+keyspace snapshot. Snapshot pins preserve versions for keys already found;
+they do not make concurrent key enumeration atomic. Until routing publishes a
+shared stable key-to-token contract and storage can enumerate/read one
+consistent snapshot (including tombstone semantics), production export wiring
+must remain disabled.
+
 The destination exposes dedicated PREPARE, stream, verify and abort RPCs only
 when configured with a `ShardTransferStore`, verified client certificates and
 explicit transfer identity bindings. The store requires a durable assignment

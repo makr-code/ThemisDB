@@ -229,6 +229,10 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     Der bisherige `StreamSession`-Pfad bleibt ohne Transport fail-closed.
   - Offen: Deployment-Verdrahtung des Storage-Exports, Schreibquieszenz, autoritativer
     gefenceter Cutover, Recovery bei verlorener Cutover-Bestätigung und Release-Evidenz.
+    Vor Storage-Wiring außerdem einen stabilen gemeinsamen Key-to-Token-Vertrag
+    (Ring-Key und URN-Routing unterscheiden sich derzeit) sowie atomare
+    MVCC-Schlüsselraumerfassung mit Tombstone-Semantik nachweisen; GC-Pins allein
+    machen Enumerierung plus Einzelreads nicht zu einem konsistenten Snapshot.
     Details: [Sharding API](../src/sharding/API.md#shard-transfer-dis-03).
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
