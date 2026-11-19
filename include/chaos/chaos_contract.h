@@ -36,7 +36,8 @@ namespace chaos {
 // § 1  Fault descriptor constraints
 //
 // Current v1.x runtime guarantees:
-//   - injectFault() rejects empty node_id and probability outside [0.0, 1.0].
+//   - injectFault() rejects empty node_id and non-finite or out-of-range
+//     probability values.
 //   - schedule()/scheduleIn() accept entries without additional range checks.
 //
 // Additional constants in this section are frozen interoperability guardrails
@@ -53,7 +54,8 @@ inline constexpr std::size_t kMaxNodeIdBytes = 512;
 inline constexpr std::size_t kMaxDescriptionBytes = 4096;
 
 /// Valid probability range for RANDOM_FAILURE faults: [0.0, 1.0].
-/// Values outside this range are rejected by injectFault() with a false return.
+/// Non-finite values and values outside this range are rejected by
+/// injectFault() with a false return.
 inline constexpr double kMinProbability = 0.0;
 inline constexpr double kMaxProbability = 1.0;
 
@@ -98,8 +100,9 @@ inline constexpr std::size_t kMaxPendingEntries = 4096;
  * component (FaultInjector vs ChaosScheduler).
  */
 enum class ChaosFailureClass : int {
-    /// Input is structurally malformed (empty node_id, probability out of range,
-    /// tick_interval out of bounds, null injector pointer, …).
+    /// Input is structurally malformed (empty node_id, non-finite or
+    /// out-of-range probability, tick_interval out of bounds, null injector
+    /// pointer, …).
     MalformedDescriptor = 1,
 
     /// The operation was attempted on a component that is not in a valid state
@@ -123,7 +126,8 @@ enum class ChaosFailureClass : int {
 // § 4  Fail-closed contract
 //
 // Current v1.x fail-closed behavior is limited to:
-//   a) injectFault(): return false on empty node_id or probability out of range.
+//   a) injectFault(): return false on empty node_id or non-finite/out-of-range
+//      probability.
 //   b) recoverFault(): return false if no matching active fault exists.
 //   c) schedule()/scheduleIn(): always queue; entries fire only while RUNNING.
 //

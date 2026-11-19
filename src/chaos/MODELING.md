@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -77,10 +77,8 @@ The normative recommended limits in
 [chaos_contract.h](../../include/chaos/chaos_contract.h)—including tick,
 duration, pending-entry, and callback limits—are not all enforced by
 [chaos_framework.cpp](chaos_framework.cpp). The runtime rejects an empty target
-ID and probabilities less than zero or greater than one at injection time, but
-callers should provide a finite probability in range; NaN is not rejected by
-those comparisons. Scheduler enqueue operations do not validate descriptors or
-impose a queue capacity.
+ID and non-finite or out-of-range probabilities at injection time. Scheduler
+enqueue operations do not validate descriptors or impose a queue capacity.
 
 For test design and evidence, see [RESEARCH.md](RESEARCH.md) and
 [IMPLEMENTATION.md](IMPLEMENTATION.md).

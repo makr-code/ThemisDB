@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -14,25 +14,12 @@ Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Chaos Module
 
-## Module Purpose
+## Zweck
 
 The module provides an in-process fault registry and time-driven scheduler for
 test consumers. A fault descriptor is state recorded by the module; consumer
 code must implement and verify any associated simulated effect. The module does
 not perform network or disk manipulation.
-
-## Relevant Interfaces
-
-| Interface / File | Role |
-|---|---|
-| [`include/chaos/chaos_framework.h`](../../include/chaos/chaos_framework.h) | `FaultInjector`, `ChaosScheduler`, and fault/schedule types |
-| [`include/chaos/chaos_contract.h`](../../include/chaos/chaos_contract.h) | v1.x contract and recommended interoperability bounds |
-| `chaos_framework.cpp` | Registry and scheduler implementation |
-
-## Operations
-
-- [RUNBOOK.md](RUNBOOK.md) — simulated-fault diagnosis and cleanup
-- [OPERATIONS.md](OPERATIONS.md) — supported signals and safety boundary
 
 ## Scope
 
@@ -46,28 +33,80 @@ Out of scope:
 - direct OS/network sabotage beyond modeled simulation semantics
 - non-chaos business workflows outside resilience simulation boundaries
 
-## Runtime Behavior and Limits
+## Quickstart (Build/Run)
+
+Configure a test-enabled debug build, then build and run the focused injector
+test:
+
+```sh
+cmake -S . -B build-chaos -DCMAKE_BUILD_TYPE=Debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build build-chaos --target test_chaos_framework_focused
+ctest --test-dir build-chaos --output-on-failure -R '^ChaosFrameworkFocusedTests$'
+```
+
+These commands exercise the in-process registry test; they do not enable or
+validate the optional HTTP admin routes or perform real fault injection.
+
+## API/CLI Einstieg
+
+| Interface / File | Role |
+|---|---|
+| [`include/chaos/chaos_framework.h`](../../include/chaos/chaos_framework.h) | `FaultInjector`, `ChaosScheduler`, and fault/schedule types |
+| [`include/chaos/chaos_contract.h`](../../include/chaos/chaos_contract.h) | v1.x contract and recommended interoperability bounds |
+| `chaos_framework.cpp` | Registry and scheduler implementation |
+
+There is no standalone chaos CLI. Consumers create a `FaultInjector`, inspect
+or recover recorded states, and may compose it with `ChaosScheduler` for
+tick-driven scenario activation. See [API.md](API.md) for validation,
+callback, and exception semantics.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    test[Test or integration consumer] -->|inject / query / recover| injector[FaultInjector]
+    scheduler[ChaosScheduler] -->|due entry on tick| injector
+    injector -->|synchronous event| callback[Registered callback]
+    injector -->|process-local state| registry[(In-memory fault registry)]
+    callback --> consumer[Consumer-defined simulated effect]
+```
+Kurzinterpretation: The framework records fault state and emits synchronous
+events; only consumer code can implement an associated simulated effect. It
+does not manipulate network, disk, or other processes.
+
+## Known Limitations
 
 - active faults are process-local and keyed by configured fault identity dimensions.
 - scheduler execution depends on configured wake strategy and tick behavior.
-- `injectFault()` returns `false` for empty target IDs or probabilities below 0
-  or above 1; it does not sample probabilities and does not reject NaN with its
-  current range comparisons.
+- `injectFault()` returns `false` for empty target IDs and non-finite or
+  out-of-range probabilities; it does not sample probabilities.
 - The runtime does not enforce the contract's recommended queue, duration, tick,
   identifier-size, or callback-count bounds.
 - Callbacks run synchronously; recovery callbacks run while the injector mutex is
   held, and callback exceptions are not caught.
+- The condition-variable strategy still processes entries on the configured
+  tick; enqueue notifications do not bypass that wait. `stop()` joins the worker
+  but retains pending entries until `clearPending()` is called.
+- HTTP admin routes are not a verified supported integration. The source and
+  build-definition limitations are recorded in [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Sourcecode Verification (Module: chaos/readme)
+## Source evidence
 
-- Verified files:
-  - src/chaos/chaos_framework.cpp
-- Verified behavior surfaces:
-  - fault registration/recovery, expiry, and active-state inspection
-  - scheduler-managed deferred fault injection on tick checks
-  - synchronous callback dispatch and process-local state
-- Note:
-  - server source contains guarded admin HTTP code, but its compile-definition
-    scope and `ChaosScheduler` construction are unresolved; see `ARCHITECTURE.md`
-  - benchmark build status is documented in `../../benchmarks/chaos/README.md`
-  - roadmap completion statements are not evidence of executed tests or benchmark results
+The implementation is in [`chaos_framework.cpp`](chaos_framework.cpp); public
+declarations are in [`chaos_framework.h`](../../include/chaos/chaos_framework.h).
+Focused test registration is in
+[`tests/chaos/CMakeLists.txt`](../../tests/chaos/CMakeLists.txt). Benchmark
+source and target status are recorded in
+[`benchmarks/chaos/README.md`](../../benchmarks/chaos/README.md). Roadmap
+completion statements are not evidence that tests or benchmarks were executed.
+
+## Verweise
+
+- [Architecture](ARCHITECTURE.md)
+- [API contract](API.md)
+- [Operations](OPERATIONS.md)
+- [Runbook](RUNBOOK.md)
+- [Developer guide](MODULE_GUIDE.md)
+- [Roadmap](ROADMAP.md)
+- [Performance expectations](PERFORMANCE_EXPECTATIONS.md)
+- [Benchmark evidence](../../benchmarks/chaos/README.md)

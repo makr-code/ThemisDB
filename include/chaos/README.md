@@ -63,9 +63,8 @@ injector.injectFault({themis::chaos::FaultType::NODE_FAILURE, "node-1"});
 ## Configuration Notes
 
 - `FaultSpec::duration = 0ms` creates a permanent fault until recovery.
-- `FaultSpec::probability` is intended to be within `[0.0, 1.0]`. The runtime
-  rejects ordinary out-of-range values but its current comparisons do not
-  reject NaN; callers should supply a finite value.
+- `FaultSpec::probability` must be finite and within `[0.0, 1.0]`; invalid
+  values are rejected by `injectFault()` without changing registry state.
 - `ChaosSchedulerConfig::tick_interval` controls wake/check cadence.
 - `ChaosSchedulerConfig::wake_strategy` controls polling vs condvar wakeups.
 

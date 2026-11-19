@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,9 +30,9 @@ contributors changing registry, callback, or scheduling behavior.
   expiry.
 - A positive duration expires against `steady_clock`; zero and negative
   durations are effectively permanent until explicit recovery.
-- Validation in `injectFault()` rejects an empty target and a probability
-  outside `[0, 1]`. It does not enforce the recommended descriptor limits in
-  the contract; NaN also passes the current range comparisons.
+- Validation in `injectFault()` rejects an empty target and a non-finite or
+  out-of-range probability. It does not enforce the recommended descriptor
+  limits in the contract.
 - The scheduler owns one worker thread, uses the selected tick strategy to
   find due entries, and delegates activation to `FaultInjector`.
 - `stop()` joins the worker but retains unfired entries. `clearPending()` is a

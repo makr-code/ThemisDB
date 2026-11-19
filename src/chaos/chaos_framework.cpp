@@ -23,6 +23,7 @@
 #include "chaos/chaos_framework.h"
 
 #include <algorithm>
+#include <cmath>
 #include <stdexcept>
 
 namespace themis::chaos {
@@ -78,7 +79,8 @@ bool FaultInjector::injectFault(const FaultSpec &fault) {
     if (fault.target_node_id.empty()) {
         return false;
     }
-    if (fault.probability < 0.0 || fault.probability > 1.0) {
+    if (!std::isfinite(fault.probability) ||
+        fault.probability < 0.0 || fault.probability > 1.0) {
         return false;
     }
 

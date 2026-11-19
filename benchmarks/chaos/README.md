@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-18
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -20,7 +20,7 @@ thresholds.
 
 | Source | CMake target | Build wiring status |
 |---|---|---|
-| `bench_chaos_stress.cpp` | `bench_chaos_stress` | **TODO:** `benchmarks/CMakeLists.txt` tests for `bench_chaos_stress.cpp` at the benchmark root, but the file is under `chaos/`; the condition is false for this checkout, so this target is not added. |
+| `bench_chaos_stress.cpp` | `bench_chaos_stress` | CMake checks `chaos/bench_chaos_stress.cpp` and adds the target when present; build and execution evidence is still required. |
 | `bench_chaos_release_gates.cpp` | `bench_chaos_release_gates` | Added when this source exists; CMake also registers the target with benchmark CTest registration. |
 | `bench_chaos_microbenchmarks.cpp` | `bench_chaos_microbenchmarks` | Added when this source exists; CMake also registers the target with benchmark CTest registration. |
 

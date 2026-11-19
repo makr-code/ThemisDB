@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,7 +48,7 @@ Run fault injection only in an explicitly approved test/staging process with an 
 
 ## Invalid injection or scheduler failure
 
-- `injectFault()` returns false for an empty target ID or probability outside `[0, 1]`; correct the descriptor instead of retrying unchanged input.
+- `injectFault()` returns false for an empty target ID or non-finite/out-of-range probability; correct the descriptor instead of retrying unchanged input.
 - A repeated injection for the same target/type updates that active entry, including its expiry. Check the new duration before resubmitting.
 - Verify a scheduler's non-null injector and running state. Queue entries have no enforced capacity limit in the current runtime; keep test schedules bounded by the caller.
 
