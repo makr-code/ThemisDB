@@ -15,11 +15,14 @@
 #include <unordered_map>
 #include <memory>
 #include <optional>
+#include <functional>
+#include <utility>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
 
 namespace themis {
     class SecondaryIndexManager;
+    class ProcessMining;
 }
 
 namespace themis {
@@ -36,6 +39,26 @@ public:
      */
     void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) {
         secondary_idx_mgr_ = mgr;
+    }
+
+    /**
+     * @brief Provide the process-mining engine used by Process Mining AQL functions.
+     * @param engine Borrowed engine pointer; it must outlive evaluations using this evaluator.
+     *        A null pointer leaves engine-dependent functions unavailable.
+     */
+    void setProcessMining(themis::ProcessMining* engine) noexcept {
+        process_mining_ = engine;
+    }
+
+    using CollectionAccessChecker = std::function<bool(const std::string&)>;
+
+    /**
+     * @brief Configure collection authorization for functions evaluated by this instance.
+     * @param checker Callback that returns true only when the requested collection is readable.
+     *        An empty callback means no additional collection check is installed.
+     */
+    void setCollectionAccessChecker(CollectionAccessChecker checker) {
+        collection_access_checker_ = std::move(checker);
     }
 
     /**
@@ -86,6 +109,8 @@ private:
 
     // Optional secondary index manager for FULLTEXT/PHRASE/FUZZY AQL functions
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
+    themis::ProcessMining* process_mining_ = nullptr;
+    CollectionAccessChecker collection_access_checker_;
 
     /**
      * @brief Helper: Evaluiert Field Access (z.

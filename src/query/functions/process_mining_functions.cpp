@@ -14,6 +14,8 @@
 #include <array>
 #include <cmath>
 #include <cctype>
+#include <cstdint>
+#include <limits>
 #include <nlohmann/json.hpp>
 #include <set>
 #include <optional>
@@ -436,34 +438,96 @@ EventLog buildEventLogFromScanner(const FunctionContext& ctx,
     return log;
 }
 
-EventLog getEventLogFromContext(const FunctionContext& ctx, const json& config = json::object()) {
+std::optional<std::string> validateEventLogJson(const json& event_log);
+
+bool isInt64Json(const json& value) {
+    if (value.is_number_unsigned()) {
+        return value.get<std::uint64_t>() <=
+               static_cast<std::uint64_t>(std::numeric_limits<std::int64_t>::max());
+    }
+    return value.is_number_integer();
+}
+
+std::optional<std::string> collectionAccessError(
+    const FunctionContext& ctx,
+    const std::string& collection) {
+    try {
+        if (!ctx.canAccessCollection(collection)) {
+            return "access denied to collection '" + collection + "'";
+        }
+    } catch (const std::exception& e) {
+        return "access check failed for collection '" + collection + "': " + e.what();
+    }
+    return std::nullopt;
+}
+
+std::optional<EventLog> getEventLogFromContext(
+    const FunctionContext& ctx,
+    const json& config,
+    std::string& error) {
+    if (!config.is_object()) {
+        error = "event log configuration must be an object";
+        return std::nullopt;
+    }
+
     if (config.contains("event_log") && config["event_log"].is_object()) {
+        if (const auto validation_error = validateEventLogJson(config["event_log"])) {
+            error = *validation_error;
+            return std::nullopt;
+        }
         return parseEventLog(config["event_log"]);
     }
 
     const auto context_log = ctx.getVariable("pm_event_log");
     if (context_log.is_object()) {
+        if (const auto validation_error = validateEventLogJson(context_log)) {
+            error = *validation_error;
+            return std::nullopt;
+        }
         return parseEventLog(context_log);
     }
 
     const auto& current = ctx.currentDocument();
     if (current.is_object() && current.contains("traces")) {
+        if (const auto validation_error = validateEventLogJson(current)) {
+            error = *validation_error;
+            return std::nullopt;
+        }
         return parseEventLog(current);
     }
 
     const auto log_cfg = config.contains("event_log_config") && config["event_log_config"].is_object()
         ? parseEventLogConfig(config["event_log_config"])
         : parseEventLogConfig(config);
+    if (config.contains("collection") && !config["collection"].is_string()) {
+        error = "collection must be a string";
+        return std::nullopt;
+    }
     const auto collection = config.value("collection", std::string{"events"});
+    if (collection.empty()) {
+        error = "collection must not be empty";
+        return std::nullopt;
+    }
+    if (const auto access_error = collectionAccessError(ctx, collection)) {
+        error = *access_error;
+        return std::nullopt;
+    }
+
+    if (ctx.hasCollectionScanner()) {
+        return buildEventLogFromScanner(ctx, collection, log_cfg);
+    }
 
     if (auto* pm = ctx.getProcessMining(); pm != nullptr) {
         auto [status, log] = pm->extractEventLog(collection, log_cfg);
         if (status.ok) {
             return log;
         }
+        error = status.message;
+        return std::nullopt;
     }
 
-    return buildEventLogFromScanner(ctx, collection, log_cfg);
+    error = "no ProcessMining engine or collection scanner is available";
+    return std::nullopt;
 }
 
 /**
@@ -733,6 +797,34 @@ EventLog parseEventLog(const json& j) {
     return log;
 }
 
+std::optional<std::string> validateEventLogJson(const json& event_log) {
+    if (!event_log.is_object() || !event_log.contains("traces") ||
+        !event_log["traces"].is_array()) {
+        return "event log must contain a traces array";
+    }
+
+    for (const auto& trace : event_log["traces"]) {
+        if (!trace.is_object() || !trace.contains("case_id") ||
+            !trace["case_id"].is_string() || trace["case_id"].get<std::string>().empty() ||
+            !trace.contains("events") || !trace["events"].is_array()) {
+            return "each trace must have a non-empty case_id and an events array";
+        }
+        for (const auto& event : trace["events"]) {
+            if (!event.is_object() || !event.contains("activity") ||
+                !event["activity"].is_string() || event["activity"].get<std::string>().empty() ||
+                !event.contains("timestamp_ms") || !isInt64Json(event["timestamp_ms"])) {
+                return "each event must have a non-empty activity and integer timestamp_ms";
+            }
+        }
+    }
+    return std::nullopt;
+}
+
+bool hasDiscoveredProcessShape(const json& model) {
+    return model.is_object() && model.contains("nodes") && model["nodes"].is_array() &&
+           model.contains("edges") && model["edges"].is_array();
+}
+
 /**
  * @brief Discovered Process To Json.
  * @param[in] proc Input parameter.
@@ -867,17 +959,24 @@ json PmFindSimilarFunction::execute(
     if (args.empty() || !args[0].is_object()) {
         return makeError("PM_FIND_SIMILAR: pattern argument must be an object");
     }
+    if (args.size() > 1 && !args[1].is_object()) {
+        return makeError("PM_FIND_SIMILAR: config argument must be an object");
+    }
 
     const auto pattern = parseProcessPattern(args[0]);
     const auto config = args.size() > 1 && args[1].is_object() ? args[1] : json::object();
     const auto threshold = std::clamp(config.value("threshold", 0.7), 0.0, 1.0);
     const auto limit = static_cast<std::size_t>(std::max(0, config.value("limit", 10)));
-    const auto log = getEventLogFromContext(ctx, config);
+    std::string log_error;
+    const auto log = getEventLogFromContext(ctx, config, log_error);
+    if (!log) {
+        return makeError("PM_FIND_SIMILAR: " + log_error);
+    }
     const auto method = parseSimilarityMethod(config);
 
     std::vector<std::pair<double, json>> ranked;
-    ranked.reserve(log.traces.size());
-    for (const auto& trace : log.traces) {
+    ranked.reserve(log->traces.size());
+    for (const auto& trace : log->traces) {
         const auto graph_similarity = computeGraphSimilarity(pattern, trace);
         const auto vector_similarity = computeVectorSimilarity(pattern, trace);
         const auto behavioral_similarity = computeBehavioralSimilarity(pattern, trace);
@@ -932,8 +1031,12 @@ json PmCompareIdealFunction::execute(
         return makeError("PM_COMPARE_IDEAL: expected case_id string and ideal_model object");
     }
 
-    const auto log = getEventLogFromContext(ctx);
-    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    std::string log_error;
+    const auto log = getEventLogFromContext(ctx, json::object(), log_error);
+    if (!log) {
+        return makeError("PM_COMPARE_IDEAL: " + log_error);
+    }
+    const auto* trace = findTraceByCaseId(*log, args[0].get<std::string>());
     if (trace == nullptr) {
         return makeError("PM_COMPARE_IDEAL: case not found");
     }
@@ -945,14 +1048,18 @@ json PmHasPatternFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
     if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
-        return false;
+        return makeError("PM_HAS_PATTERN: expected case_id string and pattern object");
     }
 
     const auto threshold = args.size() > 2 && args[2].is_number()
         ? std::clamp(args[2].get<double>(), 0.0, 1.0)
         : 0.8;
-    const auto log = getEventLogFromContext(ctx);
-    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    std::string log_error;
+    const auto log = getEventLogFromContext(ctx, json::object(), log_error);
+    if (!log) {
+        return makeError("PM_HAS_PATTERN: " + log_error);
+    }
+    const auto* trace = findTraceByCaseId(*log, args[0].get<std::string>());
     if (trace == nullptr) {
         return false;
     }
@@ -973,34 +1080,69 @@ json PmExtractLogFunction::execute(
         return makeError("PM_EXTRACT_LOG: missing or invalid collection argument (string required)");
     }
     const std::string collection = args[0].get<std::string>();
+    if (collection.empty()) {
+        return makeError("PM_EXTRACT_LOG: collection must not be empty");
+    }
 
-    // Parse config (optional second argument)
+    if (args.size() > 1 && !args[1].is_object()) {
+        return makeError("PM_EXTRACT_LOG: config must be an object");
+    }
+
     EventLogConfig config;
     config.case_id_field   = "case_id";
     config.activity_field  = "activity";
     config.timestamp_field = "timestamp";
     if (args.size() > 1 && args[1].is_object()) {
         const json& cfg = args[1];
-        if (cfg.contains("case_id_field")   && cfg["case_id_field"].is_string())
+        if (cfg.contains("case_id_field") && !cfg["case_id_field"].is_string()) {
+            return makeError("PM_EXTRACT_LOG: case_id_field must be a string");
+        }
+        if (cfg.contains("activity_field") && !cfg["activity_field"].is_string()) {
+            return makeError("PM_EXTRACT_LOG: activity_field must be a string");
+        }
+        if (cfg.contains("timestamp_field") && !cfg["timestamp_field"].is_string()) {
+            return makeError("PM_EXTRACT_LOG: timestamp_field must be a string");
+        }
+        if (cfg.contains("start_time") && !isInt64Json(cfg["start_time"])) {
+            return makeError("PM_EXTRACT_LOG: start_time must be an integer");
+        }
+        if (cfg.contains("end_time") && !isInt64Json(cfg["end_time"])) {
+            return makeError("PM_EXTRACT_LOG: end_time must be an integer");
+        }
+        if (cfg.contains("case_id_field"))
             config.case_id_field   = cfg["case_id_field"].get<std::string>();
-        if (cfg.contains("activity_field")   && cfg["activity_field"].is_string())
+        if (cfg.contains("activity_field"))
             config.activity_field  = cfg["activity_field"].get<std::string>();
-        if (cfg.contains("timestamp_field")  && cfg["timestamp_field"].is_string())
+        if (cfg.contains("timestamp_field"))
             config.timestamp_field = cfg["timestamp_field"].get<std::string>();
-        if (cfg.contains("start_time") && cfg["start_time"].is_number_integer())
+        if (cfg.contains("start_time"))
             config.start_time = cfg["start_time"].get<int64_t>();
-        if (cfg.contains("end_time") && cfg["end_time"].is_number_integer())
+        if (cfg.contains("end_time"))
             config.end_time = cfg["end_time"].get<int64_t>();
     }
 
-    ProcessMining* pm = ctx.getProcessMining();
-    if (!pm) {
-        return makeError("PM_EXTRACT_LOG: no ProcessMining engine available in this context");
+    if (config.case_id_field.empty() || config.activity_field.empty() ||
+        config.timestamp_field.empty()) {
+        return makeError("PM_EXTRACT_LOG: event field names must not be empty");
+    }
+    if (config.start_time && config.end_time && *config.start_time > *config.end_time) {
+        return makeError("PM_EXTRACT_LOG: start_time must not exceed end_time");
+    }
+    if (const auto access_error = collectionAccessError(ctx, collection)) {
+        return makeError("PM_EXTRACT_LOG: " + *access_error);
     }
 
-    auto [status, log] = pm->extractEventLog(collection, config);
-    if (!status.ok) {
-        return makeError("PM_EXTRACT_LOG: extraction failed — " + status.message);
+    EventLog log;
+    if (ctx.hasCollectionScanner()) {
+        log = buildEventLogFromScanner(ctx, collection, config);
+    } else if (ProcessMining* pm = ctx.getProcessMining(); pm != nullptr) {
+        auto [status, extracted_log] = pm->extractEventLog(collection, config);
+        if (!status.ok) {
+            return makeError("PM_EXTRACT_LOG: extraction failed — " + status.message);
+        }
+        log = std::move(extracted_log);
+    } else {
+        return makeError("PM_EXTRACT_LOG: no ProcessMining engine or collection scanner is available");
     }
 
     // Serialize EventLog → JSON (canonical format expected by PM_* consumers)
@@ -1053,8 +1195,12 @@ json PmExtractTraceFunction::execute(
         return makeError("PM_EXTRACT_TRACE: case_id must be a string");
     }
 
-    const auto log = getEventLogFromContext(ctx);
-    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    std::string log_error;
+    const auto log = getEventLogFromContext(ctx, json::object(), log_error);
+    if (!log) {
+        return makeError("PM_EXTRACT_TRACE: " + log_error);
+    }
+    const auto* trace = findTraceByCaseId(*log, args[0].get<std::string>());
     if (trace == nullptr) {
         return makeError("PM_EXTRACT_TRACE: case not found");
     }
@@ -1067,8 +1213,7 @@ json PmExtractTraceFunction::execute(
 // args[0]: event log JSON (produced by PM_EXTRACT_LOG or inline)
 // args[1]: optional config JSON (algorithm, thresholds, ...)
 //
-// Delegates to ProcessMining::discoverProcess() when engine is available.
-// Falls back to a structural placeholder only when no engine or event log is injected.
+// Delegates to ProcessMining::discoverProcess() when an engine is available.
 // ============================================================================
 
 json PmDiscoverProcessFunction::execute(
@@ -1079,23 +1224,16 @@ json PmDiscoverProcessFunction::execute(
         return makeError("PM_DISCOVER_PROCESS: missing or invalid event_log argument");
     }
 
+    if (const auto validation_error = validateEventLogJson(args[0])) {
+        return makeError("PM_DISCOVER_PROCESS: " + *validation_error);
+    }
+    if (args.size() > 1 && !args[1].is_object()) {
+        return makeError("PM_DISCOVER_PROCESS: config must be an object");
+    }
+
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-        // No engine injected: return a structural placeholder with correct shape
-        // so callers can still inspect the contract in offline/test contexts.
-        json result;
-        result["id"]              = "";
-        result["name"]            = "stub_model";
-        result["activities_count"] = 0;
-        result["edges_count"]     = 0;
-        result["nodes"]           = json::array();
-        result["edges"]           = json::array();
-        result["fitness"]         = 0.0;
-        result["precision"]       = 0.0;
-        result["generalization"]  = 0.0;
-        result["simplicity"]      = 0.0;
-        result["_stub"]           = true;
-        return result;
+        return makeError("PM_DISCOVER_PROCESS: no ProcessMining engine available in this context");
     }
 
     const EventLog log = parseEventLog(args[0]);
@@ -1122,21 +1260,44 @@ json PmVariantsFunction::execute(
     const FunctionContext& ctx) const {
 
     if (args.empty() || !args[0].is_object()) {
-        return json::array();
+        return makeError("PM_VARIANTS: event_log must be an object");
+    }
+    if (const auto validation_error = validateEventLogJson(args[0])) {
+        return makeError("PM_VARIANTS: " + *validation_error);
     }
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-        return json::array();
+        return makeError("PM_VARIANTS: no ProcessMining engine available in this context");
     }
 
     const EventLog log = parseEventLog(args[0]);
-    const int top_n = (args.size() >= 2 && args[1].is_number_integer())
-                      ? args[1].get<int>() : 20;
+    int top_n = 20;
+    if (args.size() >= 2) {
+        if (!args[1].is_number_integer()) {
+            return makeError("PM_VARIANTS: top_n must be an integer");
+        }
+        if (args[1].is_number_unsigned()) {
+            const auto requested_top_n = args[1].get<std::uint64_t>();
+            if (requested_top_n > static_cast<std::uint64_t>(std::numeric_limits<int>::max())) {
+                return makeError("PM_VARIANTS: top_n must be between 0 and INT_MAX");
+            }
+            top_n = static_cast<int>(requested_top_n);
+        } else {
+            const auto requested_top_n = args[1].get<std::int64_t>();
+            if (requested_top_n < 0 || requested_top_n > std::numeric_limits<int>::max()) {
+                return makeError("PM_VARIANTS: top_n must be between 0 and INT_MAX");
+            }
+            top_n = static_cast<int>(requested_top_n);
+        }
+        if (top_n < 0) {
+            return makeError("PM_VARIANTS: top_n must be between 0 and INT_MAX");
+        }
+    }
 
     auto [status, variants] = pm->analyzeVariants(log, top_n);
     if (!status.ok) {
-        return json::array();
+        return makeError("PM_VARIANTS: " + status.message);
     }
 
     json result = json::array();
@@ -1196,19 +1357,16 @@ json PmConformanceFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    json result;
-    result["fitness"]        = 0.0;
-    result["precision"]      = 0.0;
-    result["generalization"] = 0.0;
-    result["simplicity"]     = 0.0;
-
-    if (args.size() < 2 || !args[0].is_object() || !args[1].is_object()) {
-        return result;
+    if (args.size() < 2 || !args[0].is_object() || !hasDiscoveredProcessShape(args[1])) {
+        return makeError("PM_CONFORMANCE: expected a valid event log and process model");
+    }
+    if (const auto validation_error = validateEventLogJson(args[0])) {
+        return makeError("PM_CONFORMANCE: " + *validation_error);
     }
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-        return result;
+        return makeError("PM_CONFORMANCE: no ProcessMining engine available in this context");
     }
 
     const EventLog log         = parseEventLog(args[0]);
@@ -1216,9 +1374,10 @@ json PmConformanceFunction::execute(
 
     auto [status, cr] = pm->checkConformance(log, model);
     if (!status.ok) {
-        return result;
+        return makeError("PM_CONFORMANCE: " + status.message);
     }
 
+    json result;
     result["fitness"]             = cr.fitness;
     result["precision"]           = cr.precision;
     result["consumed_tokens"]     = cr.consumed_tokens;
@@ -1245,13 +1404,16 @@ json PmDeviationsFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.size() < 2) {
-      return json::array();
+    if (args.size() < 2 || !args[0].is_object() || !hasDiscoveredProcessShape(args[1])) {
+      return makeError("PM_DEVIATIONS: expected a valid event log and process model");
+    }
+    if (const auto validation_error = validateEventLogJson(args[0])) {
+      return makeError("PM_DEVIATIONS: " + *validation_error);
     }
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-      return json::array();
+      return makeError("PM_DEVIATIONS: no ProcessMining engine available in this context");
     }
 
     const EventLog log         = parseEventLog(args[0]);
@@ -1259,7 +1421,7 @@ json PmDeviationsFunction::execute(
 
     auto [status, cr] = pm->checkConformance(log, model);
     if (!status.ok) {
-      return json::array();
+      return makeError("PM_DEVIATIONS: " + status.message);
     }
 
     json result = json::array();
@@ -1281,32 +1443,43 @@ json PmBottlenecksFunction::execute(
     const FunctionContext& ctx) const {
 
     if (args.empty() || !args[0].is_object()) {
-      return json::array();
+      return makeError("PM_BOTTLENECKS: event_log must be an object");
+    }
+    if (const auto validation_error = validateEventLogJson(args[0])) {
+      return makeError("PM_BOTTLENECKS: " + *validation_error);
     }
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-      return json::array();
+      return makeError("PM_BOTTLENECKS: no ProcessMining engine available in this context");
     }
 
     // Derive a process model first, then enhance with performance, then detect bottlenecks.
     const EventLog log = parseEventLog(args[0]);
-    const double threshold = (args.size() >= 2 && args[1].is_number())
-                             ? args[1].get<double>() : 0.9;
+    double threshold = 0.9;
+    if (args.size() >= 2) {
+        if (!args[1].is_number()) {
+            return makeError("PM_BOTTLENECKS: threshold must be numeric");
+        }
+        threshold = args[1].get<double>();
+        if (!std::isfinite(threshold) || threshold < 0.0 || threshold > 1.0) {
+            return makeError("PM_BOTTLENECKS: threshold must be in [0, 1]");
+        }
+    }
 
     auto [dstatus, process] = pm->discoverProcess(log, MiningConfig{});
     if (!dstatus.ok) {
-      return json::array();
+      return makeError("PM_BOTTLENECKS: process discovery failed: " + dstatus.message);
     }
 
     auto [estatus, enhanced] = pm->enhanceWithPerformance(process, log);
     if (!estatus.ok) {
-      return json::array();
+      return makeError("PM_BOTTLENECKS: performance enhancement failed: " + estatus.message);
     }
 
     auto [bstatus, bottlenecks] = pm->detectBottlenecks(enhanced, threshold);
     if (!bstatus.ok) {
-      return json::array();
+      return makeError("PM_BOTTLENECKS: detection failed: " + bstatus.message);
     }
 
     json result = json::array();
@@ -1350,19 +1523,22 @@ json PmExportBpmnFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.empty() || !args[0].is_object()) {
-        return std::string("<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"/>");
+    if (args.empty() || !hasDiscoveredProcessShape(args[0])) {
+        return makeError("PM_EXPORT_BPMN: expected a valid process model");
     }
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-        return std::string("<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"/>");
+        return makeError("PM_EXPORT_BPMN: no ProcessMining engine available in this context");
     }
 
     const DiscoveredProcess model = parseDiscoveredProcess(args[0]);
     auto [status, bpmn] = pm->exportToBPMN(model);
-    if (!status.ok || bpmn.empty()) {
-        return std::string("<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"/>");
+    if (!status.ok) {
+        return makeError("PM_EXPORT_BPMN: " + status.message);
+    }
+    if (bpmn.empty()) {
+        return makeError("PM_EXPORT_BPMN: engine returned empty BPMN output");
     }
     return bpmn;
 }

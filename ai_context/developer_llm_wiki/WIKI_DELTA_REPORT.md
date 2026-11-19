@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,14 +14,14 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-11-17
+Datum: 2026-11-18
 Status: Active
 
 ## Summary
 
 - Added: 0
 - Removed: 0
-- Changed: 3
+- Changed: 1
 
 ## Added
 
@@ -34,5 +34,3 @@ Status: Active
 ## Changed
 
 - ai_context/developer_llm_wiki/LLM_SKILLS.md
-- docs/packaging/runtime-layout.md
-- include/server/entity_api_handler.h

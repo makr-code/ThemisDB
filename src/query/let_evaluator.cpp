@@ -489,6 +489,12 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             if (secondary_idx_mgr_) {
                 ctx.setSecondaryIndexManager(secondary_idx_mgr_);
             }
+            if (process_mining_) {
+                ctx.setProcessMining(process_mining_);
+            }
+            if (collection_access_checker_) {
+                ctx.setCollectionAccessChecker(collection_access_checker_);
+            }
             
             // Call the function through registry
             return registry.call(funcName, evaluatedArgs, ctx);

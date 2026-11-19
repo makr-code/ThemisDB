@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,6 +28,7 @@ This page is for callers and maintainers integrating the AQL parser and query ex
 - `AQLParser::parse(const std::string&)` returns `Result<std::shared_ptr<Query>>`. The header also declares transaction-block, DDL, mutation, and schema-DDL parse methods with typed results.
 - `ParserScopeContext` registers collections, tracks scopes, and exposes `validateCollectionAccess()` as `Result<bool>`.
 - `QueryEngine` exposes typed `Result<T>` execution methods for query forms including traversal, conjunction/disjunction, joins, grouping, and vector/geospatial operations. Consult the declaration for the exact method and result type.
+- Process-mining functions are evaluated in AQL `LET` expressions with a query-local `ProcessMining` engine when the `QueryEngine` has a RocksDB backend. Collection-reading functions use the query's collection-access policy; an unavailable engine, denied collection, or mining failure returns an explicit function error rather than a placeholder result.
 
 ## Caller obligations and failure handling
 
@@ -35,6 +36,7 @@ This page is for callers and maintainers integrating the AQL parser and query ex
 - Treat parsing, scope validation, and execution as distinct calls. The headers do not promise that every caller automatically invokes every validation helper.
 - Use the matching parse/execution method for the requested query form; do not infer support from a similarly named AST node alone.
 - Add regression coverage for malformed input and error propagation on the changed method.
+- Do not interpret a Process Mining function error as an empty event log, empty variant list, or valid empty BPMN document.
 
 ## Validation references
 

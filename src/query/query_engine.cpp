@@ -61,6 +61,7 @@
 #endif
 
 #include "query/parallel_scan.h"
+#include "analytics/process_mining.h"
 #include <algorithm>
 #include <array>
 #include <functional>
@@ -4472,6 +4473,35 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	}
 	
 	std::vector<nlohmann::json> results;
+
+	// A query-local engine keeps the borrowed ProcessMining pointer valid for every
+	// LET evaluation without introducing shared mutable state on QueryEngine.
+	std::unique_ptr<themis::ProcessMining> process_mining;
+	if (db_ != nullptr && !let_nodes.empty()) {
+		process_mining = std::make_unique<themis::ProcessMining>(*db_);
+	}
+
+	std::function<bool(const std::string&, const std::string&)> access_checker;
+	std::string access_caller_id;
+	{
+		std::lock_guard<std::mutex> lock(config_mutex_);
+		access_checker = collection_access_checker_;
+		access_caller_id = collection_access_caller_id_;
+	}
+	const auto configureLetEvaluator = [&](query::LetEvaluator& evaluator) {
+		if (secIdx_) {
+			evaluator.setSecondaryIndexManager(secIdx_);
+		}
+		if (process_mining) {
+			evaluator.setProcessMining(process_mining.get());
+		}
+		if (access_checker) {
+			evaluator.setCollectionAccessChecker(
+				[access_checker, access_caller_id](const std::string& collection) {
+					return access_checker(collection, access_caller_id);
+				});
+		}
+	};
 	
 	// Phase 4.1: Initialize context with parent CTEs if provided
 	EvaluationContext initial_context = {};
@@ -4652,9 +4682,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				
 					// Process LET bindings using LetEvaluator to ensure nested references resolve correctly
 					query::LetEvaluator letEval;
-					if (secIdx_) {
-					  letEval.setSecondaryIndexManager(secIdx_);
-					}
+					configureLetEvaluator(letEval);
 					nlohmann::json currentDoc;
 					currentDoc.emplace(build_for.variable, build_doc);
 					currentDoc.emplace(probe_for.variable, doc);
@@ -4769,9 +4797,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			if (depth >= for_nodes.size()) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
-				if (secIdx_) {
-				  letEval.setSecondaryIndexManager(secIdx_);
-				}
+				configureLetEvaluator(letEval);
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
 				std::vector<std::pair<std::string, nlohmann::json>> sorted_bindings;
 				sorted_bindings.reserve(ctx.bindings.size());

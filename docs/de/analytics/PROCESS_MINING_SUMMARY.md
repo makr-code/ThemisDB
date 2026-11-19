@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2025-12-24"
+Last Updated: "2026-11-18"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Process Mining in AQL - Implementation Summary
 
 **Version**: 1.0  
@@ -19,12 +33,9 @@ Dieses Dokument fasst die Implementierung von Process Mining in AQL zusammen und
 ## ✅ Erreichte Ziele
 
 ### 1. AQL-Integration ✅
-**Status**: Design Complete, Implementation Pending
+**Status**: Partial runtime integration
 
-Process Mining ist nun vollständig in AQL integrierbar durch:
-- 15+ neue AQL-Funktionen
-- Nahtlose Integration mit bestehenden AQL-Queries
-- Kombinierbarkeit mit FOR-Schleifen, FILTER, etc.
+Die registrierten Process-Mining-Funktionen laufen in RocksDB-basierten AQL-`LET`-Ausdrücken mit einem query-lokalen `ProcessMining`-Kontext. Collection-Reads beachten die konfigurierte Collection-Access-Policy; fehlende Engines, verweigerte Zugriffe und Mining-Fehler liefern explizite Funktionsfehler statt Platzhalter- oder Leer-Ergebnisse. Der Windows-Pfad in `src/analytics/process_mining.cpp` meldet weiterhin „not supported“; die AQL-Anbindung allein bedeutet daher keine plattformübergreifende Process-Mining-Unterstützung.
 
 ### 2. Ideal-Prozess-Vergleich ✅
 **Status**: API Designed

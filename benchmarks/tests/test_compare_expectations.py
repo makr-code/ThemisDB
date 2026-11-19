@@ -44,6 +44,26 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
     def test_inline_benchmark_macro_is_normalized(self):
         self.assertEqual(_split_benchmark_cases("`BENCHMARK(FuncName)`"), ["FuncName"])
 
+    def test_inline_unprefixed_case_names_are_explicit_mappings(self):
+        self.assertEqual(
+            _split_benchmark_cases("`BenchCapacityPressureNotification`, `Fixture/Case`"),
+            ["BenchCapacityPressureNotification", "Fixture/Case"],
+        )
+
+    def test_combined_benchmark_target_id_maps_its_cases(self):
+        expectation = Expectation(
+            "importers", "BM_Importer_A / BM_Importer_B", "synthetic payload", [],
+        )
+        results = {
+            "BM_Importer_A/100": BenchmarkResult("BM_Importer_A/100"),
+            "BM_Importer_B/100": BenchmarkResult("BM_Importer_B/100"),
+        }
+
+        verdict = _evaluate_expectation(expectation, results)
+
+        self.assertEqual(verdict.status, "UNCHECKED")
+        self.assertEqual(len(verdict.matched_results), 2)
+
     def test_table_without_case_column_is_not_reported_as_not_run(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             expectation_file = Path(temporary_directory) / "PERFORMANCE_EXPECTATIONS.md"
@@ -120,6 +140,37 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
         self.assertEqual(result.iterations, 100)
         self.assertEqual(result.real_time_ns, 3000.0)
         self.assertEqual(result.cpu_time_ns, 2000.0)
+
+    def test_single_repetition_index_is_a_valid_single_measurement(self):
+        with workspace() as root:
+            result_file = root / "single.json"
+            result_file.write_text(json.dumps({"benchmarks": [{
+                "name": "BM_Read", "run_type": "iteration", "repetitions": 1,
+                "repetition_index": 0, "real_time": 1.0, "time_unit": "us",
+            }]}), encoding="utf-8")
+            results = _load_all_results(root)
+
+        self.assertFalse(results["BM_Read"].repeated_sample)
+        op, value, unit = _parse_constraint("≤ 2 us")
+        expectation = Expectation("module", "T-1", "≤ 2 us", ["BM_Read"],
+                      op, value, unit)
+        self.assertEqual(_evaluate_expectation(expectation, results).status, "PASS")
+
+    def test_aggregate_only_case_is_observed_but_never_passes_threshold(self):
+        with workspace() as root:
+            result_file = root / "aggregate.json"
+            result_file.write_text(json.dumps({"benchmarks": [{
+                "name": "BM_Read/repeats:5_mean", "run_name": "BM_Read",
+                "run_type": "aggregate", "aggregate_name": "mean",
+                "repetitions": 5, "real_time": 1.0, "time_unit": "us",
+            }]}), encoding="utf-8")
+            results = _load_all_results(root)
+
+        self.assertIn("BM_Read", results)
+        op, value, unit = _parse_constraint("≤ 2 us")
+        expectation = Expectation("module", "T-1", "≤ 2 us", ["BM_Read"],
+                      op, value, unit)
+        self.assertEqual(_evaluate_expectation(expectation, results).status, "UNCHECKED")
 
     def test_benchmark_preflight_errors_are_not_counted_as_measurements(self):
         with workspace() as temporary_directory:
@@ -377,13 +428,14 @@ class ComparatorHardeningTests(unittest.TestCase):
             diagnostics = []
             with contextlib.redirect_stderr(io.StringIO()):
                 results = _load_all_results(root, diagnostics)
-            self.assertNotIn("BM_Partial", results)
+            self.assertIn("BM_Partial", results)
+            self.assertNotIn("BM_Error", results)
             self.assertIsNone(results["BM_Units"].real_time_ns)
             self.assertIsNone(results["BM_NaN"].real_time_ns)
             self.assertIsNone(results["BM_Inf"].real_time_ns)
             joined = "\n".join(diagnostics)
             for term in ("bad.json", "empty.json", "wrong.json", "BM_Error",
-                         "discarded", "unsupported time unit", "invalid real_time"):
+                         "unsupported time unit", "invalid real_time"):
                 self.assertIn(term, joined)
 
     def test_duplicate_percentiles_are_not_chosen_by_iteration_count(self):
@@ -543,16 +595,13 @@ class ComparatorHardeningTests(unittest.TestCase):
             try:
                 (archived / "escape.json").symlink_to(root / "outside.json")
             except OSError as exc:
-                if getattr(exc, "winerror", None) == 1314:
-                    self.skipTest("Creating symlinks requires Windows Developer Mode or privileges")
-                raise
+                self.skipTest(f"Symlink creation is unavailable: {exc}")
             test["result"] = "escape.json"
             (archived / "manifest").write_text(json.dumps({
                 "status": "finished", "tests": [test]}), encoding="utf-8")
             diagnostics = []
             self.assertEqual(_load_all_results(archived, diagnostics), {})
             self.assertTrue(diagnostics)
-
     def test_strict_completeness_exit_codes(self):
         with workspace() as root:
             src = root / "src"

@@ -163,7 +163,14 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         )
     endif()
     if(_stem STREQUAL "test_skill_registry")
+        if(TARGET themis_timeseries AND NOT THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
+            target_link_libraries(${_target} PRIVATE themis_timeseries)
+            target_compile_definitions(${_target} PRIVATE THEMIS_TEST_NATIVE_TIMESERIES_SKILL)
+        elseif(NOT THEMIS_BUILD_MODULAR AND NOT THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
+            target_compile_definitions(${_target} PRIVATE THEMIS_TEST_NATIVE_TIMESERIES_SKILL)
+        endif()
         target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/tests/test_gtest_main.cpp
             ${THEMIS_ROOT_DIR}/src/llm/skill_registry.cpp
             ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
         )
@@ -477,7 +484,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     set(_gmock_link "")
 
     set(_llm_test_libs ${TEST_LIBS})
-    if(_stem STREQUAL "test_gpu_lora_integration")
+    if(_stem STREQUAL "test_skill_registry")
+        list(REMOVE_ITEM _llm_test_libs GTest::gtest_main GTest::gmock)
+    elseif(_stem STREQUAL "test_gpu_lora_integration")
         set(_llm_test_libs GTest::gtest_main)
     endif()
 

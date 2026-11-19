@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-17
+Datum: 2026-11-18
 Status: Active
 
 ## Curated module contexts
@@ -257,7 +257,7 @@ Status: Active
 
 ## include/access_model/age_based_policy.h
 - Kategorie: modules_and_api
-- Hash: `a1b18a500a9c3afe`
+- Hash: `7713f39670d962ee`
 - Titel: (binary or unreadable)
 
 ## include/access_model/promotion_demotion.h
@@ -267,12 +267,12 @@ Status: Active
 
 ## include/ai/ai_plugin_generator.h
 - Kategorie: modules_and_api
-- Hash: `46ee3aed0f3a7026`
+- Hash: `cd95bd6407ce8f0c`
 - Titel: (binary or unreadable)
 
 ## include/ai/cai_ethics_integration.h
 - Kategorie: modules_and_api
-- Hash: `d78630a0551e6439`
+- Hash: `0230d714a1fdf7a4`
 - Titel: (binary or unreadable)
 
 ## include/analytics/aggregation.h

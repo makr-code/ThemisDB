@@ -27,14 +27,14 @@ Exact model backend not verifiable from final document text alone.
 
 ## Specific Expectations
 
-| Target ID | Benchmark-source workload | Declared target |
-|---|---|---|
-| FRG-01 | Mock heartbeat message work (no network send) | p99 ≤ 500 µs |
-| FRG-02 | Deterministic in-memory mock election (no network consensus) | p99 ≤ 5 ms |
-| FRG-03 | Fixed-size mock state-sync message construction | p99 ≤ 200 µs |
-| FRG-04 | Synthetic health predicate evaluation | p99 ≤ 100 µs |
-| FRG-05 | Mock in-flight buffer occupancy check | p99 ≤ 50 µs |
-| FRG-06 | Atomic epoch increment (mock persist; no storage I/O) | p99 ≤ 1 ms |
+| Target ID | Benchmark case | Benchmark-source workload | Declared target |
+|---|---|---|---|
+| FRG-01 | `BM_FRG01_HeartbeatSendOverhead` | Mock heartbeat message work (no network send) | p99 ≤ 500 µs |
+| FRG-02 | `BM_FRG02_ElectionDecision` | Deterministic in-memory mock election (no network consensus) | p99 ≤ 5 ms |
+| FRG-03 | `BM_FRG03_StateSyncSerialize` | Fixed-size mock state-sync message construction | p99 ≤ 200 µs |
+| FRG-04 | `BM_FRG04_HealthCheckEvaluation` | Synthetic health predicate evaluation | p99 ≤ 100 µs |
+| FRG-05 | `BM_FRG05_InFlightBufferCheck` | Mock in-flight buffer occupancy check | p99 ≤ 50 µs |
+| FRG-06 | `BM_FRG06_EpochIncrementPersist` | Atomic epoch increment (mock persist; no storage I/O) | p99 ≤ 1 ms |
 
 ## Additional declared thresholds
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-17
+Datum: 2026-11-18
 Status: Active
 
 ## .github/workflows/benchmark-gate.yml
@@ -24,7 +24,7 @@ Status: Active
 
 ## .github/workflows/benchmark-performance-gate.yml
 - Kategorie: build_test_ci
-- Hash: `1e33467911fc22b8`
+- Hash: `8e6a4182f3878296`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-thematic-suites.yml
@@ -39,7 +39,7 @@ Status: Active
 
 ## .github/workflows/build-clang-fast.yml
 - Kategorie: build_test_ci
-- Hash: `e3dc5830b7156750`
+- Hash: `7d5985d376be02c2`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-content-regression.yml
@@ -54,7 +54,7 @@ Status: Active
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `8976719f7edbfc8c`
+- Hash: `2a3b69362b241e44`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -64,12 +64,12 @@ Status: Active
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `e840eaa2420ff43b`
+- Hash: `3a215515d9ae0c0d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
 - Kategorie: build_test_ci
-- Hash: `8401a6ac0204e17a`
+- Hash: `904fdcb9fe301ca7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-b-llm-benchmarks.yml
@@ -109,7 +109,7 @@ Status: Active
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `8313f3467cbee3f0`
+- Hash: `30baed213b68c90b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml
@@ -154,7 +154,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `b598832114093c07`
+- Hash: `e6959306c65069e3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -179,7 +179,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `99b6b923a5605133`
+- Hash: `a2ccf0ac464fb452`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
@@ -264,7 +264,7 @@ Status: Active
 
 ## .github/workflows/maintenance-ai-working.yml
 - Kategorie: build_test_ci
-- Hash: `e9606d43689bdb36`
+- Hash: `d640d7edd4a934ff`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-architecture-ci.yml
@@ -339,7 +339,7 @@ Status: Active
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `1166ab293a019a6d`
+- Hash: `16fc9e94adba012f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -379,12 +379,12 @@ Status: Active
 
 ## .github/workflows/release-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `5935f657c1d2ae8e`
+- Hash: `cedb6f723ecc52b5`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `47c1810f80f6d231`
+- Hash: `1dfd2df4871ae65e`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-promote.yml

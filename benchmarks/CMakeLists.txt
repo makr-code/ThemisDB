@@ -7051,7 +7051,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_index_rebuild
       TARGET bench_index_rebuild
       MODULE "index_rebuild"
-      TIMEOUT 120
+      TIMEOUT 600
     )
   endif()
   # Module: ingestion_dedicated (1)

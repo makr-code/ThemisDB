@@ -42,8 +42,8 @@ tensor-module fingerprint graph or production bridges.
 | TENP-2 | tensor fingerprint graph concurrent-read and metadata/export paths remain bounded | BM_TFG_ConcurrentReads, BM_TFG_NodeCount, BM_TFG_ExportPersistedGraph |
 | TENP-3 | tensor fingerprint fixture insert/similarity/storage-ratio paths remain bounded | FingerprintInsertFixture/BM_FingerprintInsert, FindSimilarFixture/BM_FindSimilar_100K, StorageReductionFixture/BM_StorageReductionRatio |
 | TENP-4 | tensor dedup snapshot/replay throughput paths remain bounded | BM_TDM_SnapshotRestoreRoundTrip, BM_TDM_JournalReplayThroughput |
-| TENP-5 | tensor release hot-path gates remain bounded | BM_TRNRG01..BM_TRNRG06 (TRNRG gates) |
-| TENP-6 | tensor dedicated wave gates remain bounded | BM_TN_BM_01..BM_TN_BM_04 (TN-BM gates) |
+| TENP-5 | tensor release hot-path gates remain bounded | BM_TRNRG01_MatMul128, BM_TRNRG02_TensorReshape, BM_TRNRG03_ElementWiseAdd, BM_TRNRG04_DtypeConversion, BM_TRNRG05_DeviceSelection, BM_TRNRG06_SliceViewCreation |
+| TENP-6 | tensor dedicated wave gates remain bounded | BM_TN_BM_01_TensorInsertP95, BM_TN_BM_02_GraphQueryP95, BM_TN_BM_03_DedupThroughput, BM_TN_BM_04_BridgeRoutingP99 |
 
 ## Module Hard Gates (v1.0 docs baseline)
 

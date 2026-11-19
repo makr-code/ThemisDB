@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "query/aql_parser.h"
 #include "query/query_engine.h"
+#include "query/functions/process_mining_functions.h"
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -12,6 +13,11 @@ using namespace themis::query;
 
 class AQLSTQueryEngineTest : public ::testing::Test {
 protected:
+    static void SetUpTestSuite() {
+        themis::query::functions::registerProcessMiningFunctions(
+            themis::query::functions::FunctionRegistry::instance());
+    }
+
     void SetUp() override {
 #ifdef _WIN32
         GTEST_SKIP() << "Skipping unstable AQL ST query engine tests on Windows";
@@ -54,6 +60,102 @@ protected:
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<QueryEngine> engine;
 };
+
+TEST_F(AQLSTQueryEngineTest, ProcessMiningFunctionsRunThroughLetEvaluator) {
+    BaseEntity seed("seed");
+    seed.setField("value", std::string("once"));
+    ASSERT_TRUE(secIdx->put("seeds", seed).ok);
+
+    for (int case_index = 0; case_index < 3; ++case_index) {
+        for (int activity_index = 0; activity_index < 3; ++activity_index) {
+            BaseEntity event(
+                "event-" + std::to_string(case_index) + "-" + std::to_string(activity_index));
+            event.setField("case_id", "case-" + std::to_string(case_index));
+            event.setField("activity", std::string(1, static_cast<char>('A' + activity_index)));
+            event.setField("timestamp", static_cast<int64_t>((activity_index + 1) * 1000));
+            ASSERT_TRUE(secIdx->put("events", event).ok);
+        }
+    }
+
+    auto collection = std::make_shared<LiteralExpr>(
+        LiteralValue(std::string("events")));
+    auto extract_log = std::make_shared<FunctionCallExpr>(
+        "PM_EXTRACT_LOG",
+        std::vector<std::shared_ptr<Expression>>{collection});
+    auto discover = std::make_shared<FunctionCallExpr>(
+        "PM_DISCOVER_PROCESS",
+        std::vector<std::shared_ptr<Expression>>{std::make_shared<VariableExpr>("event_log")});
+    auto conformance = std::make_shared<FunctionCallExpr>(
+        "PM_CONFORMANCE",
+        std::vector<std::shared_ptr<Expression>>{
+            std::make_shared<VariableExpr>("event_log"),
+            std::make_shared<VariableExpr>("model")});
+    auto export_bpmn = std::make_shared<FunctionCallExpr>(
+        "PM_EXPORT_BPMN",
+        std::vector<std::shared_ptr<Expression>>{std::make_shared<VariableExpr>("model")});
+
+    std::vector<LetNode> lets{
+        LetNode{"event_log", extract_log},
+        LetNode{"model", discover},
+        LetNode{"conformance", conformance},
+        LetNode{"bpmn", export_bpmn}
+    };
+    std::vector<ForNode> fors(1);
+    fors[0].variable = "seed";
+    fors[0].collection = "seeds";
+
+    auto result_expr = std::make_shared<ObjectConstructExpr>(
+        std::vector<std::pair<std::string, std::shared_ptr<Expression>>>{
+            {"event_count", std::make_shared<FieldAccessExpr>(
+                std::make_shared<VariableExpr>("event_log"), "total_events")},
+            {"model", std::make_shared<VariableExpr>("model")},
+            {"conformance", std::make_shared<VariableExpr>("conformance")},
+            {"bpmn", std::make_shared<VariableExpr>("bpmn")}
+        });
+    auto result = engine->executeJoin(
+        fors, {}, lets, std::make_shared<ReturnNode>(result_expr), nullptr, nullptr);
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ(result->size(), 1u);
+    const auto& output = result->front();
+    EXPECT_EQ(output["event_count"], 9);
+    ASSERT_TRUE(output["model"].is_object()) << output.dump();
+    EXPECT_FALSE(output["model"].contains("error")) << output.dump();
+    ASSERT_TRUE(output["conformance"].is_object()) << output.dump();
+    EXPECT_TRUE(output["conformance"].contains("fitness")) << output.dump();
+    ASSERT_TRUE(output["bpmn"].is_string()) << output.dump();
+    EXPECT_NE(output["bpmn"].get<std::string>().find("definitions"), std::string::npos);
+}
+
+TEST_F(AQLSTQueryEngineTest, ProcessMiningCollectionReadHonorsAccessPolicy) {
+    BaseEntity seed("seed");
+    seed.setField("value", std::string("once"));
+    ASSERT_TRUE(secIdx->put("seeds", seed).ok);
+    engine->setCollectionAccessChecker(
+        [](const std::string& collection, const std::string&) {
+            return collection != "events";
+        },
+        "test-user");
+
+    auto extract_log = std::make_shared<FunctionCallExpr>(
+        "PM_EXTRACT_LOG",
+        std::vector<std::shared_ptr<Expression>>{
+            std::make_shared<LiteralExpr>(LiteralValue(std::string("events")))});
+    std::vector<LetNode> lets{LetNode{"event_log", extract_log}};
+    std::vector<ForNode> fors(1);
+    fors[0].variable = "seed";
+    fors[0].collection = "seeds";
+
+    auto result = engine->executeJoin(
+        fors, {}, lets,
+        std::make_shared<ReturnNode>(std::make_shared<VariableExpr>("event_log")),
+        nullptr, nullptr);
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ(result->size(), 1u);
+    ASSERT_TRUE(result->front().is_object());
+    EXPECT_TRUE(result->front().contains("error")) << result->front().dump();
+}
 
 // FILTER with ST_*: ST_Within(ST_GeomFromGeoJSON(doc.geom), ST_GeomFromText("POLYGON(...))")
 TEST_F(AQLSTQueryEngineTest, Filter_ST_Within_GeoJSON_Field)

@@ -26,12 +26,12 @@ Exact model backend not verifiable from final document text alone. -->
 | CAC-6 | cache warmup and stats collection paths remain bounded | BM_WarmupFromLog, BM_Cache_GetStats |
 | CAC-7 | embedding cache query/eviction paths remain within release baseline budget | BM_EmbeddingCache_Query_WithIndex, BM_EmbeddingCache_Eviction |
 | CAC-8 | embedding cache batch and cost-savings paths remain bounded | BM_EmbeddingCache_BatchStore, BM_EmbeddingCache_CostSavings |
-| CAP-1 | single-listener eviction event emission remains within the manifest gate | BenchEvictionEventEmissionSingleListener |
-| CAP-2 | eviction event delivery remains within the manifest gate at configured listener counts | BenchEvictionEventEmissionMultipleListeners/1, /5, /10 |
-| CAP-3 | capacity-pressure notification remains within the manifest gate | BenchCapacityPressureNotification |
-| CAP-4 | listener registration remains within the manifest gate | BenchListenerRegistration |
-| CAP-5 | promotion-decision path remains within the manifest gate | BenchPromotionDecisionLatency |
-| CAP-6 | cache-to-storage feedback path remains within the manifest gate | BenchCacheStorageFeedbackLatency |
+| CAP-1 | single-listener eviction event emission remains within the manifest gate | `BenchEvictionEventEmissionSingleListener` |
+| CAP-2 | eviction event delivery remains within the manifest gate at configured listener counts | `BenchEvictionEventEmissionMultipleListeners/1`, `BenchEvictionEventEmissionMultipleListeners/5`, `BenchEvictionEventEmissionMultipleListeners/10` |
+| CAP-3 | capacity-pressure notification remains within the manifest gate | `BenchCapacityPressureNotification` |
+| CAP-4 | listener registration remains within the manifest gate | `BenchListenerRegistration` |
+| CAP-5 | promotion-decision path remains within the manifest gate | `BenchPromotionDecisionLatency` |
+| CAP-6 | cache-to-storage feedback path remains within the manifest gate | `BenchCacheStorageFeedbackLatency` |
 
 ## Module Hard Gates (v1.0 docs baseline)
 

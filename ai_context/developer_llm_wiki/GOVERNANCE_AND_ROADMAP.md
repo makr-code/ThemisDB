@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-17
+Datum: 2026-11-18
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -372,6 +372,15 @@ Status: Active
   - Status: Active
   - Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
 
+## ai_context/developer_llm_wiki/AI_WORKING.md
+- Kategorie: governance_and_docs
+- Hash: `7523242d05bf6e08`
+- Titel: ai_working — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-18"
+
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
 - Hash: `c1cd8f093de14d6a`
@@ -419,7 +428,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/LLM_SKILLS.md
 - Kategorie: governance_and_docs
-- Hash: `a7758a1a726d32ae`
+- Hash: `f4e2b53dc8c49140`
 - Titel: LLM Agent Skills
 - Auszug:
   - ---
@@ -713,12 +722,3 @@ Status: Active
   - **Document Version:** 1.0.0
   - **Status:** Detailed Planning
   - **Target:** Wave B Exit Criteria (Q3-Q4 2026)
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `a4adf5ac2db03141`
-- Titel: Access Model Phase 5-6 Implementation Summary
-- Auszug:
-  - **Date:** 2026-08-17
-  - **Status:** COMPLETE ✅ — All deliverables implemented, verified, and committed
-  - **Target Wave:** Wave B (Performance Consolidation & GA Promotion)

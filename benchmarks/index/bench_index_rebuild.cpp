@@ -34,8 +34,6 @@ namespace {
 class RebuildFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
-        if (setup_done_) return;
-
         db_path_ = "bench_rebuild_db";
         cleanupTestDB(db_path_);
 
@@ -80,7 +78,6 @@ public:
         }
 
         std::cout << "Setup complete.\n";
-        setup_done_ = true;
     }
 
     void TearDown(const ::benchmark::State& state) override {
@@ -95,7 +92,6 @@ protected:
     std::string db_path_ = {};
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::unique_ptr<themis::SecondaryIndexManager> secondary_;
-    static inline bool setup_done_ = false;
 };
 
 // --- Rebuild Benchmarks ---

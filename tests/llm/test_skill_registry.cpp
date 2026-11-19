@@ -1,5 +1,9 @@
 #include "llm/ai_orchestrator.h"
 #include "llm/skill_registry.h"
+#ifdef THEMIS_TEST_NATIVE_TIMESERIES_SKILL
+#include "llm/timeseries_analysis_tool.h"
+#include "storage/base_entity.h"
+#endif
 
 #include <gtest/gtest.h>
 
@@ -11,6 +15,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <tuple>
 
 namespace {
 
@@ -72,13 +77,22 @@ SkillRegistryOptions optionsFor(const fs::path& root) {
 }
 
 TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
+    constexpr const char* expected_names[] = {
+        "aql-mutation-draft", "aql-plan-analysis", "aql-query-review",
+        "aql-read-query", "evidence-answer", "file-edit",
+        "file-import-planning", "file-inspection", "graph-exploration",
+        "hybrid-search-diagnostics", "log-analysis", "process-bpmn-mining",
+        "rag-evaluation", "rag-retrieval", "themisdb-yaml-config",
+        "timeseries-window-analysis", "trace-correlation",
+    };
+    constexpr auto expected_count = sizeof(expected_names) / sizeof(expected_names[0]);
     const auto repo_root =
         fs::path(__FILE__).parent_path().parent_path().parent_path();
     auto skills = std::make_shared<SkillRegistry>(
         optionsFor(repo_root / "config" / "agent_skills"));
     const auto refreshed = skills->refresh();
     ASSERT_TRUE(refreshed);
-    EXPECT_EQ(*refreshed, 3u);
+    EXPECT_EQ(*refreshed, expected_count);
 
     ToolRegistry tools;
     registerSkillTools(tools, skills);
@@ -86,13 +100,11 @@ TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
     mode.tools_allowed = {"list_skills", "load_skill", "read_skill_resource"};
     const auto catalog = tools.invokeTool("list_skills", {}, mode);
     ASSERT_TRUE(catalog.contains("skills"));
-    ASSERT_EQ(catalog["skills"].size(), 3u);
-    EXPECT_EQ(catalog["skills"][0]["name"], "aql-read-query");
-    EXPECT_EQ(catalog["skills"][1]["name"], "evidence-answer");
-    EXPECT_EQ(catalog["skills"][2]["name"], "graph-exploration");
-
-    for (const auto& entry : catalog["skills"]) {
+    ASSERT_EQ(catalog["skills"].size(), expected_count);
+    for (std::size_t i = 0; i < expected_count; ++i) {
+        const auto& entry = catalog["skills"][i];
         ASSERT_TRUE(entry.contains("name"));
+        EXPECT_EQ(entry["name"], expected_names[i]);
         const auto loaded = tools.invokeTool(
             "load_skill", {{"name", entry["name"]}}, mode);
         ASSERT_TRUE(loaded.contains("instructions"));
@@ -112,6 +124,85 @@ TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
         tools.invokeTool("load_skill", {{"name", "aql-read-query"}}, mode);
     EXPECT_TRUE(denied.contains("error"));
 }
+
+#ifdef THEMIS_TEST_NATIVE_TIMESERIES_SKILL
+TEST(SkillRegistryTest, NativeTimeseriesToolReadsScopedDataWithOptionalGeo) {
+    TemporaryDirectory temporary;
+    themis::RocksDBWrapper::Config config;
+    config.db_path = (temporary.path() / "data").string();
+    config.enable_blobdb = false;
+    auto db = std::make_shared<themis::RocksDBWrapper>(config);
+    ASSERT_TRUE(db->open());
+    auto store = std::make_shared<themis::TSStore>(db->getRawDB());
+    const auto putEntity = [&](const char* collection, const char* key, std::string_view document) {
+        const auto entity = themis::BaseEntity::fromJson(key, document);
+        return db->put(themis::KeySchema::makeRelationalKey(collection, key), entity.serialize());
+    };
+    ASSERT_TRUE(putEntity("assets", "finance", "{}"));
+    ASSERT_TRUE(putEntity("assets", "local", R"({"location":{"type":"Point","coordinates":[10,50]}})"));
+    ASSERT_TRUE(putEntity("assets", "remote", R"({"location":{"type":"Point","coordinates":[20,50]}})"));
+    ASSERT_TRUE(putEntity("outside", "secret", "{}"));
+    const std::tuple<const char*, int, double> samples[] = {
+        {"local", 1000, 20.0}, {"local", 1999, 40.0}, {"local", 2000, 50.0},
+        {"local", 3000, 999.0}, {"finance", 2000, 75.0}, {"secret", 2000, 99.0},
+    };
+    for (const auto& [entity, timestamp, value] : samples) {
+        themis::TSStore::DataPoint point{};
+        point.metric = "reading";
+        point.entity = entity;
+        point.timestamp_ms = timestamp;
+        point.value = value;
+        ASSERT_TRUE(store->putDataPoint(point));
+    }
+
+    ToolRegistry tools;
+    themis::llm::registerTimeseriesAnalysisTool(tools, db, store, "assets", "reading");
+    ModeSpec mode;
+    auto invoke = [&](const themis::llm::json& args) {
+        return tools.invokeTool("compare_timeseries_windows", args, mode);
+    };
+    themis::llm::json args = {
+        {"baseline_start_ms", 1000}, {"current_start_ms", 2000}, {"duration_ms", 1000}
+    };
+    EXPECT_TRUE(invoke(args).contains("error"));
+    mode.tools_allowed = {"compare_timeseries_windows"};
+    auto result = invoke(args);
+    ASSERT_FALSE(result.contains("error")) << result.dump();
+    ASSERT_EQ(result["entities"].size(), 3u);
+    EXPECT_EQ(result["entities"][0]["entity"], "finance");
+    EXPECT_TRUE(result["entities"][0]["delta"].is_null());
+    EXPECT_EQ(result["entities"][0]["current_mean"], 75.0);
+    EXPECT_EQ(result["entities"][1]["baseline_count"], 2u);
+    EXPECT_EQ(result["entities"][1]["baseline_mean"], 30.0);
+    EXPECT_EQ(result["entities"][1]["current_count"], 1u);
+    EXPECT_EQ(result["entities"][1]["delta"], 20.0);
+
+    args["geo"] = {{"lon", 10}, {"lat", 50}, {"radius_m", 1000}};
+    result = invoke(args);
+    ASSERT_FALSE(result.contains("error")) << result.dump();
+    ASSERT_EQ(result["entities"].size(), 1u);
+    EXPECT_EQ(result["entities"][0]["entity"], "local");
+    EXPECT_EQ(result["entities"][0]["distance_m"], 0.0);
+    EXPECT_EQ(result["missing_location"], 1u);
+    args["collection"] = "outside";
+    EXPECT_TRUE(invoke(args).contains("error"));
+    args.erase("collection");
+    args["current_start_ms"] = 1999;
+    EXPECT_TRUE(invoke(args).contains("error"));
+    args["current_start_ms"] = 2000;
+    args["geo"]["radius_m"] = 1'000'001;
+    EXPECT_TRUE(invoke(args).contains("error"));
+    args["geo"]["radius_m"] = 1000;
+    ASSERT_TRUE(putEntity("assets", "invalid", R"({"location":{"type":"Point","coordinates":[10,95]}})"));
+    EXPECT_TRUE(invoke(args).contains("error"));
+    args.erase("geo");
+    for (int i = 0; i < 61; ++i) {
+        ASSERT_TRUE(putEntity("assets", ("extra" + std::to_string(i)).c_str(), "{}"));
+    }
+    const auto limited = invoke(args);
+    EXPECT_EQ(limited.value("error", ""), "Entity collection exceeds the 64-document analysis limit");
+}
+#endif
 
 TEST(SkillRegistryTest, DiscoversMetadataAndLoadsInstructionsOnRequest) {
     TemporaryDirectory temporary;

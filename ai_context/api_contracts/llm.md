@@ -68,6 +68,35 @@ use these distinct codes: `ERR_LLM_SKILL_NOT_FOUND`,
 `ERR_LLM_SKILL_IO_FAILED`, `ERR_LLM_SKILL_REGISTRY_NOT_INITIALIZED`, and
 `ERR_LLM_SKILL_INVALID_CONTENT`.
 
+### Optional native time series comparison
+
+With the built-in TSStore available, call `registerTimeseriesAnalysisTool()`
+from [`timeseries_analysis_tool.h`](../../include/llm/timeseries_analysis_tool.h)
+and allow `compare_timeseries_windows` in the active mode. This is separate
+from loading the skill package. The host fixes the collection and metric;
+the entity document's primary key must match the TSStore entity ID.
+This direct storage path does not run Query Engine or HTTP authorization:
+authorize the entire bound collection and the corresponding series in the
+bound store for the caller before registration, and keep the registry scoped
+to that caller. No existing host or endpoint enables the tool by default.
+
+The tool accepts non-negative integer epoch milliseconds for
+`baseline_start_ms` and `current_start_ms`, and `duration_ms` (1 ms through
+31 days). The baseline must end no later than the current window starts.
+Both windows are half-open. Optional `geo: {lon, lat, radius_m}` selects
+stored JSON documents with a two-coordinate GeoJSON `location` Point inside
+the radius (at most 1,000 km). Missing locations are counted and skipped;
+invalid locations fail the request. Without `geo`, location is not read.
+
+The response contains per-entity sample counts, unweighted sample means,
+`delta` (current minus baseline), and optional `distance_m`. Empty windows
+have count zero and a null mean; a missing mean also makes the delta null.
+The tool fails rather than returning truncated results beyond 64 documents
+or 4,096 samples per entity and window. Geo reads also cap each document at
+64 KiB. These limits are not execution deadlines or storage I/O budgets.
+Reads are synchronous and not atomic across the two windows; results reflect
+the samples returned by TSStore, which can skip unreadable records.
+
 ## Model Registration & Switching
 
 | Operation | Contract | Notes |

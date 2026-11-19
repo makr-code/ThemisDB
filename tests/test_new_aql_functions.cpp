@@ -494,21 +494,17 @@ TEST_F(NewAQLFunctionsTest, PmPredictEndUsesCaseIdMap) {
     EXPECT_TRUE(unknown["predicted_end"].is_null());
 }
 
-TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {
+TEST_F(NewAQLFunctionsTest, PmExportBpmnWithoutEngineReturnsError) {
     auto& reg = FunctionRegistry::instance();
     
-    // Test PM_EXPORT_BPMN returns XML string even without an engine
     json model = {
         {"nodes", json::array()},
         {"edges", json::array()}
     };
     
     auto result = reg.call("PM_EXPORT_BPMN", {model}, ctx);
-    EXPECT_TRUE(result.is_string());
-    std::string xml = result.get<std::string>();
-    // Without an injected engine the function returns a minimal BPMN envelope
-    EXPECT_TRUE(xml.find("definitions") != std::string::npos ||
-                xml.find("<?xml") != std::string::npos);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("error"));
 }
 
 // ============================================================================
@@ -693,26 +689,44 @@ TEST_F(PmFunctionEngineTest, ExportBpmnWithRealModel) {
                 xml.find("<?xml") != std::string::npos);
 }
 
-TEST_F(PmFunctionEngineTest, DiscoverProcessWithoutEngineReturnsStub) {
+TEST_F(PmFunctionEngineTest, DiscoverProcessWithoutEngineReturnsError) {
     auto& reg = FunctionRegistry::instance();
     FunctionContext no_engine_ctx;  // No ProcessMining injected
     const json log = makeSimpleEventLog();
 
     const json result = reg.call("PM_DISCOVER_PROCESS", {log}, no_engine_ctx);
     ASSERT_TRUE(result.is_object());
-    // Stub result must carry _stub=true and correct shape
-    EXPECT_TRUE(result.value("_stub", false));
-    EXPECT_EQ(result.value("activities_count", -1), 0);
+    EXPECT_TRUE(result.contains("error"));
 }
 
-TEST_F(PmFunctionEngineTest, VariantsWithoutEngineReturnsEmptyArray) {
+TEST_F(PmFunctionEngineTest, VariantsWithoutEngineReturnsError) {
     auto& reg = FunctionRegistry::instance();
     FunctionContext no_engine_ctx;
     const json log = makeSimpleEventLog();
 
     const json result = reg.call("PM_VARIANTS", {log}, no_engine_ctx);
-    ASSERT_TRUE(result.is_array());
-    EXPECT_EQ(result.size(), 0u);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("error"));
+}
+
+TEST_F(PmFunctionEngineTest, MiningFunctionsWithoutEngineReturnErrors) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext no_engine_ctx;
+    const json log = makeSimpleEventLog();
+    const json model = {
+        {"nodes", json::array()},
+        {"edges", json::array()}
+    };
+
+    for (const auto& result : {
+             reg.call("PM_EXTRACT_LOG", {"events"}, no_engine_ctx),
+             reg.call("PM_CONFORMANCE", {log, model}, no_engine_ctx),
+             reg.call("PM_DEVIATIONS", {log, model}, no_engine_ctx),
+             reg.call("PM_BOTTLENECKS", {log}, no_engine_ctx),
+             reg.call("PM_EXPORT_BPMN", {model}, no_engine_ctx)}) {
+        EXPECT_TRUE(result.is_object()) << result.dump();
+        EXPECT_TRUE(result.contains("error")) << result.dump();
+    }
 }
 
 #endif // !_WIN32

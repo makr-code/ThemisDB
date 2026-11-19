@@ -2,13 +2,8 @@
 """
 compare_expectations.py — ThemisDB Benchmark Expectation Comparator
 
-Parses every src/<module>/PERFORMANCE_EXPECTATIONS.md file, extracts the
-"Specific Expectations" table (Target ID | Expectation | Benchmark case),
-then looks up matching benchmark results in the provided results directory
-(Google Benchmark JSON output) and emits a Markdown comparison report.
-
-Usage:
-    python3 benchmarks/compare_expectations.py \
+    if data.get("error_occurred") or data.get("error"):
+        diagnose("Benchmark file reports a run-level error; all results discarded")
         --src-dir src \
         --results-dir benchmarks/results \
         --output benchmark_comparison_report.md
@@ -192,6 +187,10 @@ def _split_benchmark_cases(raw: str) -> list[str]:
             normalized_code = _normalise_macro(code.strip())
             if normalized_code != code.strip():
                 result.append(normalized_code)
+            elif (re.fullmatch(r"[A-Za-z_]\w*(?:/[A-Za-z0-9_.:-]+)*", code.strip())
+                and not code.strip().startswith("benchmarks/")
+                and not code.strip().endswith((".cpp", ".cc", ".cxx"))):
+                result.append(code.strip())
             else:
                 append_explicit_cases(code, allow_bare_identifier=True)
 
@@ -222,7 +221,6 @@ def _parse_performance_expectations(path: Path, module: str) -> list[Expectation
         ):
             in_specific_table = True
             header_seen = False
-            col_target_id, col_expectation, col_benchmark = 0, None, None
             threshold_cols = []
             continue
 
@@ -352,7 +350,7 @@ def _time_to_ns(value: float, unit: str) -> Optional[float]:
 
 def _load_benchmark_json(
     path: Path, diagnostics: Optional[list[str]] = None,
-    expected_cases: Optional[list[str]] = None,
+    expected_cases: Optional[dict[str, str]] = None,
 ) -> dict[str, BenchmarkResult]:
     """Load a Google Benchmark JSON file, return {case_name: BenchmarkResult}."""
     def diagnose(message: str) -> None:
@@ -375,16 +373,11 @@ def _load_benchmark_json(
         return {}
     if expected_cases is not None:
         names = [bm.get("name") for bm in data["benchmarks"] if isinstance(bm, dict)]
-        if sorted(names, key=str) != sorted(expected_cases):
+        if sorted(names, key=str) != sorted(expected_cases, key=str):
             diagnose("Result cases do not match the finished manifest; file discarded")
             return {}
-    errors = [bm for bm in data["benchmarks"]
-              if isinstance(bm, dict) and bm.get("error_occurred")]
-    if data.get("error_occurred") or data.get("error") or errors:
-        for bm in errors:
-            diagnose(f"{bm.get('name', '<unnamed>')}: benchmark error: "
-                     f"{bm.get('error_message', 'unspecified error')}")
-        diagnose("Failed benchmark run; all results from this file discarded")
+    if data.get("error_occurred") or data.get("error"):
+        diagnose("Benchmark file reports a run-level error; all results discarded")
         return {}
 
     def number(value: object) -> Optional[float]:
@@ -403,10 +396,23 @@ def _load_benchmark_json(
             continue
         if str(bm.get("label", "")).strip().casefold() == "synthetic":
             continue
+        if expected_cases is not None and expected_cases.get(bm["name"]) == "error":
+            diagnose(f"{bm['name']}: failed case excluded by the run manifest")
+            continue
         if bm.get("error_occurred", False):
             diagnose(f"{bm['name']}: benchmark error: {bm.get('error_message', 'unspecified error')}")
             continue
         if bm.get("run_type") == "aggregate":
+            run_name = bm.get("run_name")
+            if isinstance(run_name, str) and run_name:
+                _merge_result(results, BenchmarkResult(
+                    name=run_name,
+                    time_unit=str(bm.get("time_unit", "ns")),
+                    repeated_sample=True,
+                    invalid_measurement=True,
+                ))
+            else:
+                diagnose("Aggregate result missing its canonical run_name")
             continue
         name: str = bm.get("name", "")
         time_unit = bm.get("time_unit")
@@ -458,8 +464,7 @@ def _load_benchmark_json(
             items_per_second=number(bm.get("items_per_second")),
             time_unit=time_unit,
             percentile_time_ns=percentiles,
-            repeated_sample=("repetition_index" in bm or
-                             (number(bm.get("repetitions")) or 0) > 1),
+            repeated_sample=(number(bm.get("repetitions")) or 0) > 1,
         )
         if real_ns is None and cpu_ns is None and result.items_per_second is None and not percentiles:
             diagnose(f"{name}: no usable measurements")
@@ -478,7 +483,7 @@ def _load_all_results(
     """
     combined: dict[str, BenchmarkResult] = {}
     manifest_path = results_dir / "manifest"
-    approved: Optional[dict[Path, list[str]]] = None
+    approved: Optional[dict[Path, dict[str, str]]] = None
     if manifest_path.exists():
         approved = {}
         try:
@@ -505,13 +510,21 @@ def _load_all_results(
                         diagnostics.append(f"Manifest result outside results directory or not JSON: {raw_path}")
                     continue
                 cases = test.get("cases")
+                case_statuses = {
+                    case["name"]: case["status"]
+                    for case in cases
+                    if isinstance(case, dict) and isinstance(case.get("name"), str)
+                    and case.get("name") and case.get("status") in ("observed", "error")
+                } if isinstance(cases, list) else {}
                 usable = (test.get("execution_status") == "completed"
                           and test.get("json_status") == "valid"
                           and isinstance(cases, list)
                           and all(isinstance(case, dict)
                                   and isinstance(case.get("name"), str)
                                   and case["name"]
-                                  and case.get("status") == "observed" for case in cases))
+                                  and case.get("status") in ("observed", "error")
+                                  for case in cases)
+                          and len(case_statuses) == len(cases))
                 if not usable or path in approved:
                     rejected.add(path)
                     approved.pop(path, None)
@@ -521,7 +534,7 @@ def _load_all_results(
                             f"(execution={test.get('execution_status')}, JSON={test.get('json_status')})"
                         )
                 elif path not in rejected:
-                    approved[path] = [case["name"] for case in cases]
+                    approved[path] = case_statuses
         except (OSError, UnicodeError, json.JSONDecodeError, ValueError, RuntimeError) as exc:
             approved = {}
             if diagnostics is not None:
@@ -720,6 +733,10 @@ def _evaluate_expectation(
     case_names = exp.benchmark_cases
     if not case_names and re.fullmatch(r"BM_[A-Za-z0-9_]+", exp.target_id):
         case_names = [exp.target_id]
+    elif not case_names:
+        target_cases = _split_benchmark_cases(exp.target_id)
+        if len(target_cases) > 1 and all(case.startswith("BM_") for case in target_cases):
+            case_names = target_cases
     verdict.benchmark_cases = case_names
 
     if not case_names:

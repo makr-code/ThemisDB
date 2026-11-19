@@ -1,22 +1,20 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-17T19:54:35+00:00",
+  "generated_at": "2026-11-18T20:18:13+00:00",
   "mode": "incremental",
-  "source_count": 8103,
-  "source_hash": "2a9c59652f5c7bd859ab803c160967428f479a5e483d772038deedba8786b6d7",
+  "source_count": 8105,
+  "source_hash": "83ef1603a03dda553a1ec6b0bf8eb8e1a785e150872ca91b1e97190571e8a55b",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 3,
+    "changed_count": 1,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "ai_context/developer_llm_wiki/LLM_SKILLS.md",
-      "docs/packaging/runtime-layout.md",
-      "include/server/entity_api_handler.h"
+      "ai_context/developer_llm_wiki/LLM_SKILLS.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "d0562c87b96629dc6857c016369a883527fe188e5ac94532bc0a0cfc319b9c1a"
+  "manifest_sha256": "94d3af579883b73edc0d3fc9010a61404606741e03c0ded42abea75668c0a836"
 }

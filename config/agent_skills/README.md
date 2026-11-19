@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-17"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,19 +14,35 @@ Exact model backend not verifiable from final document text alone.
 
 # Optional Agent Skills
 
-This directory contains initial, read-only guidance packages:
+This directory contains initial, opt-in guidance packages. They are inert
+instructions, not database tools:
 
 | Skill | Purpose |
 |---|---|
+| `aql-mutation-draft` | Draft narrowly scoped AQL mutation candidates without executing them. |
+| `aql-plan-analysis` | Interpret AQL plans without confusing estimates with measurements. |
+| `aql-query-review` | Review AQL scope, syntax evidence, and operational risk. |
 | `aql-read-query` | Draft bounded read-only AQL from a verified schema. |
 | `evidence-answer` | Answer using authorized evidence and attributable sources. |
+| `file-edit` | Make minimal, authorized file edits and report validation. |
+| `file-import-planning` | Plan flat-file mappings, dry runs, and reconciliation without importing data. |
+| `file-inspection` | Inspect authorized files without executing their contents. |
 | `graph-exploration` | Plan bounded, read-only graph exploration. |
+| `hybrid-search-diagnostics` | Diagnose candidate retrieval, fusion, and reranking failures. |
+| `log-analysis` | Analyze authorized logs while protecting sensitive data. |
+| `process-bpmn-mining` | Relate process-model YAML, BPMN graphs, and mining evidence. |
+| `rag-evaluation` | Assess retrieval and answer quality against labeled evidence. |
+| `rag-retrieval` | Plan evidence-grounded retrieval through authorized RAG tools. |
+| `themisdb-yaml-config` | Draft and review ThemisDB YAML against verified schemas and samples. |
+| `timeseries-window-analysis` | Compare native time series windows with an optional radius filter. |
+| `trace-correlation` | Reconstruct request paths from authorized spans and logs. |
 
-These are inert instructions, not new database tools. The existing CMake
-runtime install and ZIP staging include the `config/` directory, so these
-packages ship with that runtime payload. Their presence does not make them
-discoverable, enabled, routed or exposed to MCP automatically. To use them, a
-host application must:
+The mutation skill only drafts a candidate; it never executes a query or
+grants write permission. Skills do not automatically invoke other skills.
+The existing CMake runtime install and ZIP staging include the `config/`
+directory, so these packages ship with that runtime payload. Their presence
+does not make them discoverable, enabled, routed or
+exposed to MCP automatically. To use them, a host application must:
 
 1. Point `SkillRegistryOptions::roots` at the deployed `agent_skills`
    directory beneath the runtime `config/` root, or at another trusted root.

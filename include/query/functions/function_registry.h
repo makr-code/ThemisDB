@@ -209,6 +209,35 @@ public:
      * @details Calls: std::move().
      */
     void setCollectionScanner(CollectionScanner scanner) { collection_scanner_ = std::move(scanner); }
+    using CollectionAccessChecker = std::function<bool(const std::string& collection)>;
+
+    /**
+     * @brief Configure the collection authorization policy for this function context.
+     * @param checker Callback that checks whether the requested collection is readable.
+     *        An empty callback removes the additional check.
+     */
+    void setCollectionAccessChecker(CollectionAccessChecker checker) {
+        collection_access_checker_ = std::move(checker);
+    }
+
+    /**
+     * @brief Check whether this function context may read a collection.
+     * @param collection Collection name requested by an AQL function.
+     * @return True when access is allowed. If no checker is configured, access is allowed.
+     * @throws std::exception when the configured access policy cannot complete its check.
+     */
+    [[nodiscard]] bool canAccessCollection(const std::string& collection) const {
+        return !collection_access_checker_ || collection_access_checker_(collection);
+    }
+
+    /**
+     * @brief Report whether a collection scanner is configured.
+     * @return True when scanCollection() can query a collection; false otherwise.
+     */
+    [[nodiscard]] bool hasCollectionScanner() const noexcept {
+        return static_cast<bool>(collection_scanner_);
+    }
+
     std::vector<nlohmann::json> scanCollection(
         const std::string& collection,
         const std::function<bool(const nlohmann::json&)>& predicate) const
@@ -288,6 +317,7 @@ private:
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
     themis::ProcessMining* process_mining_ = nullptr;
     CollectionScanner collection_scanner_;
+    CollectionAccessChecker collection_access_checker_;
     AdminModelLoadFn admin_model_load_fn_;
     AdminModelListFn admin_model_list_fn_;
     RegisterTaskFn register_task_fn_;

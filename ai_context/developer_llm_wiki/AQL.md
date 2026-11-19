@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -60,6 +60,11 @@ do not override root release status.
   validation mode.
 - Parsing is not execution, semantic correctness against live data, or
   authorization. Apply host policy at every query execution or tool boundary.
+- Core AQL `LET` function execution belongs to `query`: Process Mining functions
+  receive a query-local engine and collection-access callback from
+  `QueryEngine::executeJoin()`. Collection-read denial and mining failures are
+  function errors, not empty-result fallbacks; this does not remove the
+  platform-specific Process Mining implementation limitations.
 - `POST /api/v1/llm/aql/rag` is the current authenticated HTTP composition of
   `LLMAQLHandler::executeRAG()`: it uses the live server storage/index managers,
   exact collection policy, and tenant context from the successful access check.
