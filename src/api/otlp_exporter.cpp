@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include "utils/logger.h"
 
+#include <algorithm>
 #include <chrono>
 #include <curl/curl.h>
 #include <iomanip>
@@ -38,6 +39,10 @@ using json = nlohmann::json;
 // ---------------------------------------------------------------------------
 
 namespace {
+
+constexpr int kMaxOtlpTimeoutMs = 60'000;
+constexpr int kMaxExportRetries = 10;
+constexpr int kMaxRetryDelayMs = 30'000;
 
 /**
  * @brief Curl Write Callback.
@@ -102,7 +107,27 @@ static constexpr int kStatusError = 2;
 // Construction / destruction
 // ---------------------------------------------------------------------------
 
-OtlpExporter::OtlpExporter(OtlpExporterConfig config) : config_(std::move(config)) {}
+OtlpExporter::OtlpExporter(OtlpExporterConfig config) : config_(std::move(config)) {
+    if (config_.max_queue_size == 0) {
+        throw std::invalid_argument("OtlpExporter: max_queue_size must be greater than zero");
+    }
+    if (config_.batch_size == 0) {
+        throw std::invalid_argument("OtlpExporter: batch_size must be greater than zero");
+    }
+    if (config_.timeout_ms < 1 || config_.timeout_ms > kMaxOtlpTimeoutMs) {
+        throw std::invalid_argument("OtlpExporter: timeout_ms must be in [1, 60000]");
+    }
+    if (config_.flush_interval_ms < 1) {
+        throw std::invalid_argument("OtlpExporter: flush_interval_ms must be greater than zero");
+    }
+    if (config_.max_export_retries < 0 || config_.max_export_retries > kMaxExportRetries) {
+        throw std::invalid_argument("OtlpExporter: max_export_retries must be in [0, 10]");
+    }
+    if (config_.retry_initial_delay_ms < 1
+        || config_.retry_initial_delay_ms > kMaxRetryDelayMs) {
+        throw std::invalid_argument("OtlpExporter: retry_initial_delay_ms must be in [1, 30000]");
+    }
+}
 
 OtlpExporter::~OtlpExporter() {
     stop();
@@ -468,8 +493,8 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
     // Policy:
     //   • max_attempts  = 1 + config_.max_export_retries  (first attempt is
     //                     attempt 0; retries start at attempt 1)
-    //   • Initial delay = config_.retry_initial_delay_ms (default: 50 ms)
-    //   • Back-off      = delay_ms *= 2 after each failed attempt
+    //   • Initial delay = config_.retry_initial_delay_ms (default: 100 ms)
+    //   • Back-off      = delay_ms *= 2 after each failed attempt, capped at 30000 ms
     //   • Retriable errors: CURLE_COULDNT_CONNECT, CURLE_OPERATION_TIMEDOUT,
     //                       CURLE_SEND_ERROR, CURLE_RECV_ERROR, HTTP 429, 503
     //   • Non-retriable : configuration errors, auth failures (4xx except 429)
@@ -483,7 +508,9 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
             THEMIS_INFO("OtlpExporter: retry attempt {}/{} after {}ms back-off (ERR_OTLP_EXPORT_RETRY)",
                         attempt, config_.max_export_retries, delay_ms);
             std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-            delay_ms *= 2;
+            delay_ms = delay_ms >= kMaxRetryDelayMs / 2
+                ? kMaxRetryDelayMs
+                : delay_ms * 2;
         }
 
         std::string response_body = {};

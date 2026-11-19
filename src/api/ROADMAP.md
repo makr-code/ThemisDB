@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,12 +15,20 @@ Exact model backend not verifiable from final document text alone.
 # API Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: review | validated: 2026-11-06 -->
+<!-- Status: review | validated: 2026-11-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing middleware, and OTLP export integration.
+
+### Evidence boundary (reviewed 2026-11-18)
+
+- `TransportPolicyMiddleware` is an opt-in HTTP-handler decorator, not a global listener filter. It rejects the request conditions listed in `API.md`; route installation, authentication, and authorization remain host responsibilities.
+- `ITransportContract` defaults `capabilities()` to `None` and `classifyFailure()` to `None`; the latter is not a request validator. Consumers must use `TransportContractValidator` or an enforcing adapter policy.
+- `test_api_phase4_concurrency.cpp` exercises the shared validator and policy; `test_api_degraded_mode.cpp` uses fixture adapters, and `test_api_wave_d_stress.cpp` simulates exporter/soak behavior. Those latter tests are not production transport or live-collector integration evidence.
+- The OTLP exporter now rejects unsafe queue/batch/timing/retry configuration at construction and caps retries/back-off. Endpoint reachability and production deployment wiring remain operator/integration checks.
+- No dated, representative benchmark result has been established by this review. Benchmark source budgets and synthetic test results are not release-performance passes.
 
 ## In Progress
 
@@ -36,16 +44,16 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 ### Short-term (3-6 months)
 - [x] complete remaining API surface specification and contract consistency tasks (Target: Q4 2026)
   - Evidence: api_transport_contracts.h, api_error_taxonomy.h, api_transport_policy.h/cpp
-- [x] strengthen degraded-mode handling for optional transport features (Target: Q4 2026)
-  - Evidence: `tests/api/test_api_degraded_mode.cpp` covers capability unavailability, transient degradation, policy+degraded composition, and concurrent mixed traffic.
+- [~] strengthen degraded-mode handling for optional transport features (Target: Q4 2026)
+  - Evidence: `tests/api/test_api_degraded_mode.cpp` covers fixture capability unavailability, transient errors, policy composition, and mixed traffic. Production optional-transport availability/recovery remains an integration gap; no generic fallback is claimed.
 - [x] extend integration diagnostics for protocol-level failure classes (Target: Q4 2026)
   - Evidence: `DegradedModeDiagnosticsTest/AllFailureClassesHaveActionableMessages` validates that every failure class produces an ERR_-prefixed actionable message for operator triage
 
 ### Mid-term (6-12 months)
 - [x] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
   - Evidence: `benchmarks/api/bench_api_transport.cpp` + `benchmarks/api/bench_api_release_gates.cpp` + `benchmarks/server/bench_api_endpoints.cpp` cover mock transport helpers, policy gates, and server endpoint loops.
-- [x] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
-  - Evidence: gate cases GATE-API-01..06 and sustained/mixed loops exist in `benchmarks/api/bench_api_release_gates.cpp`; Wave D soak scenarios are in `tests/api/test_api_wave_d_stress.cpp`. Target-label mapping and measured baseline status remain unverified; see `PERFORMANCE_EXPECTATIONS.md`.
+- [!] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
+  - Evidence: gate cases GATE-API-01..06 and sustained/mixed loops exist in `benchmarks/api/bench_api_release_gates.cpp`; no dated result establishes a baseline, and target-label mapping remains mismatched. See `PERFORMANCE_EXPECTATIONS.md`.
 - [x] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
   - Evidence: fail-closed transport policy middleware, bounded gRPC startup lock reacquisition timeout, and explicit GraphQL WS protocol error responses for malformed/pre-init/unknown message types.
 
@@ -78,8 +86,8 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for API parsing/execution/serialization hot paths (Target: Q4 2026)
   - Evidence: `benchmarks/api/bench_api_release_gates.cpp` — GATE-API-01..06 with documented target budgets; see `PERFORMANCE_EXPECTATIONS.md` for mapping caveat and baseline-validation limits.
-- [x] validate p95/p99 envelopes under representative concurrency profiles (Target: Q4 2026)
-  - Evidence: `BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes` benchmarks establishing sequential and mixed-type throughput baselines
+- [!] validate p95/p99 envelopes under representative concurrency profiles (Target: Q4 2026)
+  - Evidence: `BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, and `BM_PolicyMixedRequestTypes` provide benchmark cases, but no measured p95/p99 result is recorded.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core API docs aligned to source-verifiable behavior
@@ -90,14 +98,14 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 - [x] core transport adapter surfaces documented and source-verified
 - [x] security and failure handling documented at module level
 - [~] benchmark inventory and mapping caveat documented in `PERFORMANCE_EXPECTATIONS.md`; target-label reconciliation remains open
-- [x] remaining API hardening items closed (protocol hardening + concurrency tests complete)
+- [!] shared protocol hardening and concurrency regressions are complete, but production route/auth, rate-limiter, allow-list, and exporter lifecycle evidence remains open; see Wave 2/3.
 - [!] benchmark cases and commented target budgets exist; a passing release-baseline result and semantic target-map reconciliation are not established by this documentation review
 - [x] Phase 1: transport-surface contracts locked (api_transport_contracts.h)
 - [x] Phase 2: hardening deltas closed — TransportPolicyMiddleware enforces 5 canonical rules
 - [x] Phase 3: error taxonomy unified — ApiErrorTaxonomy covers all 9 failure classes
 - [x] Phase 4: concurrency/edge regressions expanded (14 tests in test_api_phase4_concurrency.cpp)
-- [x] Phase 5: release-gate benchmarks locked (GATE-API-01..06 in bench_api_release_gates.cpp)
-- [x] Q4 2026 degraded-mode hardening covered in `tests/api/test_api_degraded_mode.cpp`; per-file test counts are not used as status evidence.
+- [~] Phase 5: benchmark cases and candidate budgets are defined; target-map reconciliation and a passing baseline remain open.
+- [~] Q4 2026 fixture-level degraded-mode cases exist in `tests/api/test_api_degraded_mode.cpp`; production optional-transport availability/recovery remains an integration gap.
 
 ## Known Issues and Limitations
 
@@ -108,18 +116,18 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 ## Research Assessment and v2.5.0 / v3.0.0 Wave Plan
 
-**Assessment date:** 2026-11-06. This is a module-level proposal, not a release commitment; root `ROADMAP.md` and release governance remain authoritative.
+**Assessment date:** 2026-11-18. This is a module-level proposal, not a release commitment; root `ROADMAP.md` and release governance remain authoritative.
 
 ### Current maturity and evidence-based gaps
 
-**Overall maturity: 3/5 — integrated adapter layer with focused contract and resilience tests; not yet release-qualified by reproducible, representative API performance and security evidence.** The scale is an engineering assessment: 1=concept, 2=partial implementation, 3=integrated and focused-tested, 4=measured and security-validated, 5=operationally qualified.
+**Overall maturity: 3/5 — integrated adapter layer with focused contract tests and bounded exporter configuration; not yet release-qualified by reproducible, representative API performance, production route-wiring, and security evidence.** The scale is an engineering assessment: 1=concept, 2=partial implementation, 3=integrated and focused-tested, 4=measured and security-validated, 5=operationally qualified.
 
 | Area | Assessment | Repository evidence and gap |
 |---|---|---|
 | Performance and scale | Partial | `benchmarks/api/bench_api_transport.cpp` and `bench_api_release_gates.cpp` cover helper/policy paths; `benchmarks/server/bench_api_endpoints.cpp` covers in-process endpoint cases. The six GATE-API budgets are source comments, not measured passes. `PERFORMANCE_EXPECTATIONS.md` documents both the unrelated target mappings and lack of an archived baseline result. These do not establish end-to-end capacity or tail latency under offered load. |
 | Application scenarios and usability | Integrated, with compatibility gaps | GraphQL, gRPC, WebSocket, and tracing/export surfaces exist. The GraphQL parser documents unsupported inline fragments and directives; `IGRPCBridge` has no concrete implementation. The API boundary does not own HTTP routing, authentication, query execution, or storage, so end-to-end behavior depends on `server`, `auth`, `query`, and CDC integration. |
 | Security and resilience | Strong request-validation foundation; controls need verification | Shared transport policy and protocol handlers reject malformed/unsupported input where installed; gRPC TLS startup fails closed, WebSocket CDC checks authorization, and the OTLP queue is bounded. `src/api/SECURITY.md` says production HTTP route installation is unverified; `include/api/SECURITY.md` records uncapped active rate-limiter keys and an unverified `QueryAllowList` call site. Production GraphQL limit/introspection configuration also needs call-site verification. OWASP API4/API5 make resource consumption and function-level authorization explicit API risks; control coverage must be verified at the integrated entry point, not inferred from helper tests. |
-| Governance and maintainability | Contracts and focused tests exist; evidence traceability is incomplete | `api_transport_contracts.h` and `api_error_taxonomy.h` define shared contracts, and `tests/api/CMakeLists.txt` registers focused tests. Benchmark labels need reconciliation and the generated Doxygen snapshot is stale (`IMPLEMENTATION_SUMMARY.md`). Optional protocol build flags and the API/server ownership split need to remain visible in validation. |
+| Governance and maintainability | Contracts and focused tests exist; evidence traceability is incomplete | `api_transport_contracts.h` and `api_error_taxonomy.h` define shared contracts, and `tests/api/CMakeLists.txt` registers focused tests. The default `ITransportContract::classifyFailure()` returns `None` without validation; the helper is not safe as a validity decision. Benchmark labels need reconciliation and the generated Doxygen snapshot is stale (`IMPLEMENTATION_SUMMARY.md`). Optional protocol build flags and the API/server ownership split need to remain visible in validation. |
 | Architecture and operations | Clear boundary; deployment-dependent | `ARCHITECTURE.md` keeps transport adaptation separate from server routing and query/storage behavior. Optional gRPC/WebSocket support and telemetry integration vary by build/deployment. OpenTelemetry's HTTP conventions recommend duration and active-request signals; instrumentation must avoid sensitive or unbounded-cardinality attributes. |
 
 The existing roadmap's Wave D section says p95/p99 baselines exist, while the source-oriented `PERFORMANCE_EXPECTATIONS.md` says benchmark runs and target mappings do not establish a passing release baseline. Until a dated, reproducible result artifact is linked, treat the baseline and release-gate status as **[!] unverified**, not as a measured pass.
@@ -170,6 +178,7 @@ These are engineering standards and systems research, not a claim that the modul
   - [ ] Define ownership and emit/test request-duration and active-request signals for API-owned adapters, using OpenTelemetry HTTP semantic conventions where applicable (Target: v2.5.0).
   - [ ] Ensure exporter queue depth, retries, and dropped-span counts are observable and documented with operator actions; keep metric attributes low-cardinality and exclude payloads, query strings, and client identifiers (Target: v2.5.0).
   - [ ] Validate protocol capability and configuration reporting for enabled/disabled gRPC, WebSocket, and OTLP builds (Target: v2.5.0).
+  - [ ] Bound stop-time exporter draining by the configured batch size and verify producer shutdown, enqueue races, and retry exhaustion with lifecycle tests (Target: v2.5.0).
 - **Dependencies:** Wave 1 baseline; coordination with `src/server/` and `src/observability/` for listener-owned metrics and existing telemetry conventions.
 - **Risk / trade-off:** Added signals consume CPU and storage; avoid raw labels and establish sampling/aggregation rules before broad rollout.
 - **Success metrics:** Integration tests observe the documented signals for every enabled transport; no sensitive or per-request identifier is used as a metric attribute; tracing/metrics add no more than 5% p95 latency over the Wave 1 baseline under the same profile.
@@ -221,6 +230,11 @@ Any public breaking change below requires consumer inventory, an approved migrat
 ### Assumptions, open questions, and residual risks
 
 - No production traffic mix, representative hardware configuration, or dated raw API benchmark result was found in the scoped source/test/benchmark review; Wave 1 must establish these before committing absolute latency or capacity SLOs.
+- The degraded-mode and Wave D tests use local fixture/simulation adapters; they establish deterministic modeled behavior, not recovery of a production transport or a live OTLP collector.
+- Transport validation does not enforce the declared 8192-byte header-value constant or validate Content-Type values. The shared policy is opt-in and does not provide authentication/authorization. Production-route coverage remains a server/auth integration gate.
+- `ITransportContract::classifyFailure()` has a default `None` result for any input. Until a compatibility-reviewed contract change, callers must not treat that default as validation; use `TransportContractValidator::validate()` or the configured middleware.
+- OTLP endpoint/TLS/auth configuration is not fully validated at construction. A bad collector endpoint causes telemetry loss, reported by dropped counts/logs, without failing database requests; deployment health must monitor this separately.
+- The OTLP worker's final stop-time drain can exceed `batch_size`; `stop()` joins after synchronous retry work, and concurrent enqueue during shutdown is not covered by a production lifecycle test. Callers must stop producers first; bounded shutdown remains a Wave 3 release gate.
 - The roadmap's prior statement that representative p95/p99 baselines exist is not supported by the benchmark source and performance-expectations document reviewed here; a linked result artifact is required to resolve the discrepancy.
 - HTTP routing and general authentication are owned outside `api`; production route installation of transport/auth middleware, GraphQL safe-limit configuration, and allow-list enforcement remain to be verified with `server` and `auth`. Optional gRPC/WebSocket support also means build-profile coverage is required.
 - The required OpenAPI/API inventory scope and whether `IGRPCBridge` has external consumers are not established by this review. Resolve both with the owning teams before Wave 4/5 contract decisions.
@@ -228,7 +242,7 @@ Any public breaking change below requires consumer inventory, an approved migrat
 
 ## Breaking Changes
 
-No breaking API module contract is planned for v2.5.0. The v3.0.0 waves may propose contract changes only after consumer inventory, API design approval, and migration notes; any approved change must be recorded in the changelog before merge.
+No public API signature change is planned for v2.5.0. Invalid OTLP exporter settings that could cause unsafe queue behavior or non-bounded waits now fail construction; deployments must use the documented configuration ranges. The v3.0.0 waves may propose public contract changes only after consumer inventory, API design approval, and migration notes; any approved change must be recorded in the changelog before merge.
 
 ## Program Execution Model — Wave Context
 
@@ -238,8 +252,8 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `api`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — Evidence: tests/api/test_api_wave_d_stress.cpp (WaveDStressTest suite); ERR_OTLP_-prefixed messages in src/api/otlp_exporter.cpp
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — Evidence: WaveDSoakTest::SoakSimulation_100kRequests_NoBoundedResourceLeak and SoakSimulation_ConcurrentMixedLoad_NoLeak in tests/api/test_api_wave_d_stress.cpp
+- [~] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — Evidence: `tests/api/test_api_wave_d_stress.cpp` contains bounded simulations and `src/api/otlp_exporter.cpp` emits ERR_OTLP_-prefixed diagnostics; live-collector integration remains unverified.
+- [!] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — Evidence: `SoakSimulation_100kRequests_NoBoundedResourceLeak` and `SoakSimulation_ConcurrentMixedLoad_NoLeak` exercise test fixtures, not production API handlers.
 - [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — Evidence: docs/API_TRANSPORT_RUNBOOK.md (GraphQL, gRPC, WebSocket, OTLP, ERR_ codes, alerting thresholds, escalation path)
 
 ### Cross-Wave Requirements
@@ -248,6 +262,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — Evidence: retry-with-backoff loop in OtlpExporter::flushBatch drops spans to dropped_count_ (never silently discards); queue overflow drops oldest span with WARN log.
+- [~] Exporter failure paths expose drops and queue overflow, but stop-time drain/lifecycle behavior and live-collector recovery remain unverified (Target: Q1 2027) — Evidence: `OtlpExporter::flushBatch()` counts/logs failed spans and `enqueue()` warns on queue overflow; see Known Issues and Wave 3.
 - [!] Representative-hardware p95/p99 baseline evidence is not verified (Target: Q1 2027) — API benchmark sources and soak tests exist, but no dated, reproducible result artifact was found in the reviewed scope; see `PERFORMANCE_EXPECTATIONS.md` and Wave 1.
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — Evidence: docs/API_TRANSPORT_RUNBOOK.md provides diagnosis commands, ERR_-prefixed remediation steps, Prometheus alert rules, and escalation path.

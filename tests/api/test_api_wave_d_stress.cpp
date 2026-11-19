@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <deque>
@@ -262,10 +263,8 @@ TEST(WaveDStressTest, ExporterRetryBackoffSimulation)
     struct MockTransport {
         int call_count{0};
         int fail_for_n_calls{2}; // fail first 2, succeed on 3rd
-        int last_delay_ms{0};
 
-        bool send(int delay_ms) {
-            last_delay_ms = delay_ms;
+        bool send() {
             ++call_count;
             return call_count > fail_for_n_calls;
         }
@@ -273,22 +272,25 @@ TEST(WaveDStressTest, ExporterRetryBackoffSimulation)
 
     MockTransport transport;
     const int kMaxRetries = 3;
-    int       delay_ms    = 50;  // mirrors OtlpExporterConfig::retry_initial_delay_ms default
+    const int kMaxAttempts = 1 + kMaxRetries;
+    int       delay_ms     = 100; // mirrors OtlpExporterConfig::retry_initial_delay_ms default
+    std::vector<int> retry_delays;
 
     int exported = 0;
     int dropped  = 0;
     const int kBatchSize = 42;
 
-    for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+    for (int attempt = 0; attempt < kMaxAttempts; ++attempt) {
         if (attempt > 0) {
-            delay_ms *= 2; // exponential back-off
+            retry_delays.push_back(delay_ms);
+            delay_ms = std::min(delay_ms * 2, 30000); // capped exponential back-off
         }
-        const bool ok = transport.send(delay_ms);
+        const bool ok = transport.send();
         if (ok) {
             exported = kBatchSize;
             break;
         }
-        if (attempt + 1 == kMaxRetries) {
+        if (attempt + 1 == kMaxAttempts) {
             dropped = kBatchSize;
         }
     }
@@ -300,9 +302,8 @@ TEST(WaveDStressTest, ExporterRetryBackoffSimulation)
     EXPECT_EQ(dropped, 0)
         << "No spans should be dropped when a retry eventually succeeds";
 
-    // Verify back-off: last delay must be strictly greater than initial delay
-    EXPECT_GT(transport.last_delay_ms, 50)
-        << "Back-off delay must grow with each retry";
+    EXPECT_EQ(retry_delays, (std::vector<int>{100, 200}))
+        << "The simulated retry waits must match the configured initial delay and doubling policy";
 }
 
 /**
@@ -322,14 +323,15 @@ TEST(WaveDStressTest, ExporterAllRetriesExhausted)
 
     AlwaysFailTransport transport;
     const int kMaxRetries = 3;
+    const int kMaxAttempts = 1 + kMaxRetries;
     const int kBatchSize  = 10;
     int dropped           = 0;
     int exported          = 0;
-    int delay_ms          = 50;
+    int delay_ms          = 100;
 
-    for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+    for (int attempt = 0; attempt < kMaxAttempts; ++attempt) {
         if (attempt > 0) {
-          delay_ms *= 2;
+            delay_ms = std::min(delay_ms * 2, 30000);
         }
         const bool ok = transport.send();
         if (ok) {
@@ -341,7 +343,7 @@ TEST(WaveDStressTest, ExporterAllRetriesExhausted)
         dropped = kBatchSize;
     }
 
-    EXPECT_EQ(transport.call_count, kMaxRetries)
+    EXPECT_EQ(transport.call_count, kMaxAttempts)
         << "All retry attempts must be exhausted before declaring a batch dropped";
     EXPECT_EQ(dropped, kBatchSize)
         << "Entire batch must be counted as dropped after all retries fail";

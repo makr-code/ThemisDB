@@ -89,10 +89,10 @@ struct OtlpExporterConfig {
     std::string endpoint       = "http://localhost:4318/v1/traces";
     std::string service_name   = "themisdb";
     std::string service_version;
-    int         timeout_ms     = 5000;
-    size_t      max_queue_size = 8192;
-    size_t      batch_size     = 64;
-    int         flush_interval_ms = 5000;
+    int         timeout_ms     = 5000; ///< Must be in [1, 60000] ms.
+    size_t      max_queue_size = 8192; ///< Must be greater than zero.
+    size_t      batch_size     = 64;   ///< Must be greater than zero.
+    int         flush_interval_ms = 5000; ///< Must be greater than zero.
 
     // TLS (leave empty to use plain HTTP)
     std::string tls_ca_cert;
@@ -109,9 +109,9 @@ struct OtlpExporterConfig {
     // On a retriable error (HTTP 429/503 or a curl transport error), the
     // exporter retries up to `max_export_retries` times before dropping the
     // batch.  The wait before retry i (1-based) is:
-    //   delay = retry_initial_delay_ms * 2^(i-1)   (100 ms, 200 ms, 400 ms …)
-    int max_export_retries     = 3;   ///< Number of retry attempts after initial failure (0 = no retries).
-    int retry_initial_delay_ms = 100; ///< Initial retry back-off delay in milliseconds (>= 1); doubled each attempt.
+    //   delay = min(retry_initial_delay_ms * 2^(i-1), 30000 ms)
+    int max_export_retries     = 3;   ///< Retries after the first attempt; must be in [0, 10].
+    int retry_initial_delay_ms = 100; ///< Initial back-off in ms; must be in [1, 30000], then capped at 30000 ms.
 };
 
 struct SpanData {
@@ -129,6 +129,15 @@ struct SpanData {
 
 class OtlpExporter {
 public:
+    /**
+     * @brief Creates a bounded asynchronous OTLP exporter.
+     * @param config Endpoint, queue, timeout, and retry settings. Queue and
+     *        batch sizes must be positive; timeout must be 1–60000 ms,
+     *        retries 0–10, and initial back-off 1–30000 ms.
+     * @throws std::invalid_argument if a queue, batch, timeout, flush, or retry
+     *         setting is outside its supported range. No worker or network
+     *         resource is created when construction fails.
+     */
     explicit OtlpExporter(OtlpExporterConfig config = {});
     ~OtlpExporter();
 
@@ -221,4 +230,3 @@ private:
 
 } // namespace api
 } // namespace themis
-

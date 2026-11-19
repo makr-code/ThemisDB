@@ -3,7 +3,7 @@
 
 # Server configuration
 server:
-  host: "0.0.0.0"
+  host: "127.0.0.1"
   port: 8765
   worker_threads: 8
 
@@ -19,8 +19,8 @@ storage:
 
 # Replication configuration (leader/primary side)
 replication:
-  # Enable WALShipper for this node (primary/leader)
-  shipper_enabled: true
+  # Enable only after valid mTLS credentials and replica endpoints are configured.
+  shipper_enabled: false
   
   # Primary node ID
   primary_id: "primary-node-01"
@@ -40,19 +40,18 @@ replication:
   compression: "zstd"
   compression_level: 3            # 1-22 for Zstd, 1-12 for LZ4
   
-  # mTLS configuration (optional, required in production)
-  # Leave commented for dev/testing without mTLS
-  # cert_path: "/path/to/client.crt"
-  # key_path: "/path/to/client.key"
-  # ca_cert_path: "/path/to/ca.crt"
+  # mTLS is required for all remote replica endpoints.
+  cert_path: "/etc/themisdb/pki/replication-client.crt"
+  key_path: "/etc/themisdb/pki/replication-client.key"
+  ca_cert_path: "/etc/themisdb/pki/ca.crt"
   
   # Replica endpoints
   replicas:
     - replica_id: "replica-node-01"
-      endpoint: "http://localhost:8766"  # HTTP apply endpoint on replica
+      endpoint: "replica-01.example.com:8766"
       
     - replica_id: "replica-node-02"
-      endpoint: "http://localhost:8767"  # Second replica
+      endpoint: "replica-02.example.com:8767"
 
 # For replica/follower nodes:
 # Set shipper_enabled: false and ensure /api/v1/wal/apply endpoint is accessible

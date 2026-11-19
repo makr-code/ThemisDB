@@ -887,7 +887,7 @@ export class Transaction {
   }
 }
 
-export const version = "0.0.0-alpha.0";
+export const version = "2.4.0";
 
 function decodeEntity<T>(payload: Record<string, unknown>): T {
   if ("entity" in payload) {

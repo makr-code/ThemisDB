@@ -19,11 +19,11 @@ timestamp_authority:
   
   # TSA server URL (must support RFC 3161 Time-Stamp Protocol)
   # Common free TSAs:
-  #   - FreeTSA:     https://freetsa.org/tsr (self-signed cert)
   #   - DigiCert:    https://timestamp.digicert.com
+  #   - FreeTSA:     https://freetsa.org/tsr (requires explicit trust configuration)
   #   - Sectigo:     http://timestamp.sectigo.com
   #   - DFN-Verein:  http://zeitstempel.dfn.de (Germany)
-  url: "https://freetsa.org/tsr"
+  url: "https://timestamp.digicert.com"
   
   # Hash algorithm for message imprint
   # Options: SHA256, SHA384, SHA512
@@ -60,8 +60,8 @@ timestamp_authority:
   
   # Verify TSA certificate
   # true = verify TSA certificate (recommended for production)
-  # false = skip verification (useful for self-signed certs like FreeTSA)
-  verify_tsa_cert: false
+  # Do not disable certificate verification for self-signed or untrusted TSAs.
+  verify_tsa_cert: true
   
   # Optional: Policy OID (TSA-specific)
   # Some TSAs require a specific policy OID
