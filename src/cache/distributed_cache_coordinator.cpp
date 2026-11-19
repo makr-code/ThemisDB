@@ -48,7 +48,7 @@ namespace cache {
 // LOCK ORDER — must always be acquired in this canonical sequence to prevent
 // circular lock ordering and deadlock throughout this translation unit:
 //
-// Non-POSIX (no THEMIS_POSIX_SOCKETS) path:
+// Fallback transport path:
 //   1. s_redis_bridge_fn_mutex  (static bridge fn; file-scope, non-instance)
 //   2. stats_mutex_             (per-instance counters: messages_published_,
 //                                publish_errors_, etc.)
@@ -60,10 +60,10 @@ namespace cache {
 //   3. callbacks_mutex_         (callback slots)
 //
 // Rules:
-//  - s_redis_bridge_fn_mutex / pub_mutex_ and stats_mutex_ are NEVER held
-//    simultaneously in this file. The bridge lock is always acquired and
-//    released in its own scope before stats_mutex_ is taken (sequential, not
-//    nested). This eliminates all circular_lock_ordering risk.
+//  - publish_status_mutex_ is always acquired in isolation and is never nested
+//    with a connection, stats, or callback mutex.
+//  - s_redis_bridge_fn_mutex is used only by the bridge setter; publish paths
+//    do not acquire it. pub_mutex_ is released before stats_mutex_ is acquired.
 //  - callbacks_mutex_ is always acquired in isolation; it is never taken while
 //    stats_mutex_ or pub_mutex_ is held.
 // ============================================================================
@@ -74,6 +74,13 @@ namespace cache {
 namespace {
 std::mutex s_redis_bridge_fn_mutex;
 RedisCacheCoordinator::RedisPublishBridgeFn s_redis_bridge_fn;
+
+void recordRedisMetric(const char* name) noexcept {
+    try {
+        observability::MetricsCollector::getInstance().addCounter(name, 1);
+    } catch (...) {
+    }
+}
 } // namespace
 
 /**
@@ -86,30 +93,40 @@ void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
     s_redis_bridge_fn = std::move(fn);
 }
 
-#if !defined(THEMIS_POSIX_SOCKETS)
+uint64_t RedisCacheCoordinator::beginPublishStatusUpdate() {
+    std::lock_guard<std::mutex> lk(publish_status_mutex_);
+    return ++publish_sequence_;
+}
+
+void RedisCacheCoordinator::recordPublishStatus(uint64_t sequence, bool success, bool invalidation) {
+    std::lock_guard<std::mutex> lk(publish_status_mutex_);
+    if (sequence >= latest_publish_status_sequence_) {
+        latest_publish_status_sequence_ = sequence;
+        publish_degraded_ = !success;
+    }
+    if (invalidation && sequence >= latest_invalidation_status_sequence_) {
+        latest_invalidation_status_sequence_ = sequence;
+        invalidation_degraded_ = !success;
+    }
+}
+
+#if !defined(THEMIS_POSIX_SOCKETS) || !defined(THEMIS_ENABLE_REDIS)
 
 // PERMANENT FALLBACK NOTE:
-// Purpose: Provide link-compatible no-op implementations of RedisCacheCoordinator
-//   on platforms that do not have POSIX socket support (e.g., some embedded or
-//   Windows SDK builds without POSIX compatibility shims).  The coordinator
-//   object is constructible; all publish/subscribe operations are accepted
-//   silently but no data is transmitted to Redis.  publish_errors_ is
-//   incremented on every call so metrics dashboards can detect the no-op mode.
-// Activation: THEMIS_POSIX_SOCKETS is not defined.  On Linux and macOS this
-//   symbol is always defined; this block is compiled only on Windows/other
-//   platforms where <sys/socket.h> is not available.
+// Purpose: Keep Redis coordination unavailable unless both the Redis dependency
+//   profile and platform socket support are available.
+// Activation: THEMIS_ENABLE_REDIS is not defined or POSIX sockets are unavailable.
 // Production Delta: Cache invalidation pub/sub is completely disabled; all
 //   distributed cache nodes operate as independent local caches.  A write to
 //   one node is never propagated to other nodes via Redis pub/sub; stale reads
-//   will occur in a multi-node deployment.  publish_errors_ monotonically
-//   increases so any cache-miss alerting threshold will trip.
-// This block is PERMANENT for non-POSIX builds – it is a platform safety net, not a
-//   temporary stub.  Ensure THEMIS_POSIX_SOCKETS is set (or use the Winsock shim) on
-//   all supported build targets to activate the full POSIX implementation.
+//   will occur in a multi-node deployment. Readiness is false and each publish
+//   increments observable failure counters; injected test bridges cannot claim
+//   delivery when the configured transport is unavailable.
 
 RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig &config) : config_(config) {
-    THEMIS_DEBUG("RedisCacheCoordinator: POSIX socket support unavailable – "
-                 "network pub/sub disabled (no-op stub)");
+    recordRedisMetric("cache.redis.dependency_unavailable");
+    THEMIS_WARN("RedisCacheCoordinator: Redis transport unavailable; build with hiredis support "
+                "and POSIX sockets before configuring distributed coordination");
 }
 
 RedisCacheCoordinator::~RedisCacheCoordinator() = default;
@@ -120,98 +137,37 @@ RedisCacheCoordinator::~RedisCacheCoordinator() = default;
  * @param[in] result Input parameter.
  * @param[in] ttl_seconds Input parameter.
  * @param[in] tenant_id Identifier of the tenant.
- * @details Calls: lk(), fn(), dump(), THEMIS_WARN().
+ * @details Records a fail-closed publish error because the transport is unavailable.
  */
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
-    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
-    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
-    // after s_redis_bridge_fn_mutex has been fully released. These two mutexes
-    // are intentionally NEVER held simultaneously (sequential, not nested),
-    // eliminating the circular_lock_ordering risk flagged at HIGH severity.
-    RedisPublishBridgeFn fn;
+    (void)key;
+    (void)result;
+    (void)ttl_seconds;
+    (void)tenant_id;
     {
-        std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
-        fn = s_redis_bridge_fn;
-    } // s_redis_bridge_fn_mutex released here
-
-    if (fn) {
-        const std::string channel = config_.channel_prefix + ":entries";
-        nlohmann::json payload = {
-            {"type", "ENTRY_PUT"}, {"key", key},
-            {"tenant_id", tenant_id}, {"ttl_seconds", ttl_seconds},
-            {"result", result}
-        };
-        bool ok = false;
-        try {
-            ok = fn(channel, payload.dump());
-        } catch (const std::string&) {
-            ok = false;
-        } catch (const char*) {
-            ok = false;
-        } catch (...) {
-            THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
-            ok = false;
-        }
-        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        if (ok) {
-            ++messages_published_;
-        } else {
-            ++publish_errors_;
-        }
-    } else {
-        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     }
+    recordRedisMetric("cache.redis.publish_error");
 }
 
 /**
  * @brief Publish Invalidation.
  * @param[in] pattern Input parameter.
  * @param[in] tenant_id Identifier of the tenant.
- * @details Calls: lk(), fn(), dump(), THEMIS_WARN().
+ * @details Records a fail-closed invalidation error because the transport is unavailable.
  */
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
-    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
-    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
-    // after s_redis_bridge_fn_mutex has been fully released (sequential, not
-    // nested), eliminating the circular_lock_ordering risk flagged at HIGH severity.
-    RedisPublishBridgeFn fn;
+    (void)pattern;
+    (void)tenant_id;
     {
-        std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
-        fn = s_redis_bridge_fn;
-    } // s_redis_bridge_fn_mutex released here
-
-    if (fn) {
-        const std::string channel = config_.channel_prefix + ":invalidations";
-        nlohmann::json payload = {
-            {"type", "INVALIDATE"}, {"key", pattern}, {"tenant_id", tenant_id}
-        };
-        bool ok = false;
-        try {
-            ok = fn(channel, payload.dump());
-        } catch (const std::string&) {
-            ok = false;
-        } catch (const char*) {
-            ok = false;
-        } catch (...) {
-            THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
-            ok = false;
-        }
-        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        if (ok) {
-            ++messages_published_;
-        } else {
-            ++publish_errors_;
-        }
-    } else {
-        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
+        ++invalidation_errors_;
     }
+    recordRedisMetric("cache.redis.publish_error");
+    recordRedisMetric("cache.redis.invalidation_error");
 }
 
 void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
@@ -245,9 +201,17 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
      * @return Return value.
      */
     std::lock_guard<std::mutex> lk(stats_mutex_);
-    return {{"name", "RedisCacheCoordinator"},          {"connected", false},
-            {"channel_prefix", config_.channel_prefix}, {"messages_published", messages_published_},
-            {"messages_received", messages_received_},  {"publish_errors", publish_errors_},
+    return {{"name", "RedisCacheCoordinator"},
+            {"connected", false},
+            {"ready", false},
+            {"dependency_available", false},
+            {"status", "dependency_unavailable"},
+            {"failure_reason", "hiredis_unavailable"},
+            {"channel_prefix", config_.channel_prefix},
+            {"messages_published", messages_published_},
+            {"messages_received", messages_received_},
+            {"publish_errors", publish_errors_},
+            {"invalidation_errors", invalidation_errors_},
             {"reconnect_count", reconnect_count_}};
 }
 
@@ -360,7 +324,7 @@ void RedisCacheCoordinator::subscriberSession(SocketFd) {}
  * @return True when the operation succeeds.
  * @details Implements readPubSubMessage without additional internal calls.
  */
-bool RedisCacheCoordinator::readPubSubMessage(SocketFd, std::string &, std::string &) {
+bool RedisCacheCoordinator::readPubSubMessage(SocketFd, std::string &, std::string &, std::string &) {
     return false;
 }
 
@@ -467,16 +431,22 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
         return;
     }
 
-    if (!redisPublish(entryChannel(), payload)) {
+    const uint64_t publish_sequence = beginPublishStatusUpdate();
+    const bool publish_ok = redisPublish(entryChannel(), payload);
+    if (!publish_ok) {
         // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
         // stats_mutex_ is acquired here only after pub_mutex_ has been fully
         // released, maintaining the canonical sequential (not nested) ordering.
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        ++publish_errors_;
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            ++publish_errors_;
+        }
+        recordRedisMetric("cache.redis.publish_error");
     } else {
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++messages_published_;
     }
+    recordPublishStatus(publish_sequence, publish_ok, false);
 }
 
 /**
@@ -503,16 +473,24 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
         payload    = msg.dump();
     }
 
-    if (!redisPublish(invalidationChannel(), payload)) {
+    const uint64_t publish_sequence = beginPublishStatusUpdate();
+    const bool publish_ok = redisPublish(invalidationChannel(), payload);
+    if (!publish_ok) {
         // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
         // stats_mutex_ is acquired here only after pub_mutex_ has been fully
         // released, maintaining the canonical sequential (not nested) ordering.
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        ++publish_errors_;
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            ++publish_errors_;
+            ++invalidation_errors_;
+        }
+        recordRedisMetric("cache.redis.publish_error");
+        recordRedisMetric("cache.redis.invalidation_error");
     } else {
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++messages_published_;
     }
+    recordPublishStatus(publish_sequence, publish_ok, true);
 }
 
 // ---------------------------------------------------------------------------
@@ -544,11 +522,11 @@ void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] Invalidation
 // ---------------------------------------------------------------------------
 
 bool RedisCacheCoordinator::isConnected() const {
-    return sub_connected_.load() && pub_ok_;
+    return sub_connected_.load() && pub_ok_.load();
 }
 
 nlohmann::json RedisCacheCoordinator::getStats() const {
-    uint64_t pub, recv, err, reconn;
+    uint64_t pub, recv, err, invalidation_err, reconn;
     {
         /**
          * @brief Lk.
@@ -559,13 +537,32 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
         pub    = messages_published_;
         recv   = messages_received_;
         err    = publish_errors_;
+        invalidation_err = invalidation_errors_;
         reconn = reconnect_count_;
     }
+    const bool connected = isConnected();
+    bool degraded = false;
+    bool invalidation_degraded = false;
+    {
+        std::lock_guard<std::mutex> status_lock(publish_status_mutex_);
+        degraded = publish_degraded_ || invalidation_degraded_;
+        invalidation_degraded = invalidation_degraded_;
+    }
+    const bool ready = connected && !degraded;
     return {{"name", name()},
-            {"connected", isConnected()},
+            {"connected", connected},
+            {"ready", ready},
+            {"dependency_available", true},
+            {"status", !connected ? "disconnected" : degraded ? "degraded" : "ready"},
+            {"failure_reason", !connected
+                                   ? "redis_connection_unavailable"
+                                   : degraded ? (invalidation_degraded ? "invalidation_publish_failed"
+                                                                       : "publish_failed")
+                                              : ""},
             {"messages_published", pub},
             {"messages_received", recv},
             {"publish_errors", err},
+            {"invalidation_errors", invalidation_err},
             {"reconnect_count", reconn},
             {"host", config_.host},
             {"port", static_cast<int>(config_.port)},
@@ -753,11 +750,13 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
     pub_fd_ = tcpConnect();
     if (pub_fd_ == kInvalidSocket) {
         THEMIS_WARN("RedisCacheCoordinator: publisher TCP connect to {}:{} failed", config_.host, config_.port);
+        recordRedisMetric("cache.redis.connection_failure");
         return false;
     }
 
     if (!redisHandshake(pub_fd_)) {
         closeSocket(pub_fd_);
+        recordRedisMetric("cache.redis.connection_failure");
         return false;
     }
 
@@ -806,6 +805,7 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
+            recordRedisMetric("cache.redis.connection_failure");
             continue;
         }
         std::string reply = {};
@@ -813,9 +813,17 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
+            recordRedisMetric("cache.redis.connection_failure");
             continue;
         }
-        return !reply.empty() && reply[0] != '-';
+        if (reply.empty() || reply[0] != ':') {
+            return false;
+        }
+        try {
+            return std::stoll(reply.substr(1)) > 0;
+        } catch (const std::exception&) {
+            return false;
+        }
     }
 
     THEMIS_WARN("RedisCacheCoordinator: PUBLISH failed after {} attempts", kMaxPublishRetries + 1);
@@ -845,6 +853,7 @@ void RedisCacheCoordinator::subscriberLoop() {
         try {
             auto &mc = observability::MetricsCollector::getInstance();
             mc.addCounter("cache.redis.reconnect", 1);
+            mc.addCounter("cache.redis.connection_failure", 1);
         } catch (const std::exception &ex) {
             THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
         } catch (const std::string &ex) {
@@ -895,12 +904,25 @@ void RedisCacheCoordinator::subscriberLoop() {
             continue;
         }
 
-        // Consume SUBSCRIBE confirmation replies (one per channel)
-        for (int i = 0; i < 2 && !stop_.load(); ++i) {
-            std::string ch, payload;
-            if (!readPubSubMessage(fd, ch, payload)) {
-                break;
+        const auto readSubscriptionAck = [this, fd](const std::string& expected_channel) {
+            std::string ack_channel;
+            std::string ack_payload;
+            std::string ack_type;
+            return readPubSubMessage(fd, ack_channel, ack_payload, ack_type)
+                   && ack_type == "subscribe" && ack_channel == expected_channel;
+        };
+        if (stop_.load()
+            || !readSubscriptionAck(entryChannel())
+            || !readSubscriptionAck(invalidationChannel())) {
+            closeSocket(fd);
+            if (!stop_.load()) {
+                notifyReconnect("subscriber SUBSCRIBE acknowledgment failed", backoff_ms);
             }
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
+            continue;
         }
 
         // Successful connection – reset back-off
@@ -915,6 +937,12 @@ void RedisCacheCoordinator::subscriberLoop() {
 
         sub_connected_.store(false);
         closeSocket(fd);
+        {
+            std::lock_guard<std::mutex> publisher_lock(pub_mutex_);
+            closeSocket(pub_fd_);
+            pub_ok_.store(false);
+            coordinator_ready_.store(false, std::memory_order_release);
+        }
 
         if (!stop_.load()) {
             notifyReconnect("subscriber connection lost", backoff_ms);
@@ -933,9 +961,12 @@ void RedisCacheCoordinator::subscriberLoop() {
  */
 void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
     while (!stop_.load()) {
-        std::string channel, payload;
-        if (!readPubSubMessage(fd, channel, payload)) {
+        std::string channel, payload, type;
+        if (!readPubSubMessage(fd, channel, payload, type)) {
             break; // connection dropped
+        }
+        if (type != "message") {
+            continue;
         }
         if (!channel.empty() && !payload.empty()) {
             dispatchMessage(channel, payload);
@@ -951,9 +982,13 @@ void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
  * @return True when the operation succeeds.
  * @details Calls: clear(), readLine(), empty(), std::stoll(), substr(), THEMIS_WARN(), what(), resize().
  */
-bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_out, std::string &payload_out) {
+bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd,
+                                              std::string &channel_out,
+                                              std::string &payload_out,
+                                              std::string &type_out) {
     channel_out.clear();
     payload_out.clear();
+    type_out.clear();
 
     // A Redis pub/sub message is a RESP array:
     //   *3\r\n
@@ -968,8 +1003,8 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         if (line.empty())
             return false;
         if (line[0] == ':') {
-            // Integer reply (subscribe confirmation) – treat as empty string
-            out.clear();
+            // Integer reply (subscribe confirmation).
+            out = line.substr(1);
             return true;
         }
         if (line[0] != '$')
@@ -1020,11 +1055,10 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         THEMIS_WARN("RESP: invalid array count '{}': {}", hdr.substr(1), e.what());
         return false;
     }
-    if (count < 3)
+    if (count != 3)
         return false;
 
-    std::string type_field = {};
-    if (!readBulkString(type_field))
+    if (!readBulkString(type_out))
         return false;
     if (!readBulkString(channel_out))
         return false;
@@ -1032,8 +1066,17 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         return false;
 
     // If this is a subscribe/unsubscribe confirmation, clear payload
-    if (type_field == "subscribe" || type_field == "unsubscribe" || type_field == "psubscribe"
-        || type_field == "punsubscribe") {
+    if (type_out == "subscribe" || type_out == "unsubscribe" || type_out == "psubscribe"
+        || type_out == "punsubscribe") {
+        if (type_out == "subscribe") {
+            try {
+                if (std::stoll(payload_out) <= 0) {
+                    return false;
+                }
+            } catch (const std::exception&) {
+                return false;
+            }
+        }
         payload_out.clear();
     }
 

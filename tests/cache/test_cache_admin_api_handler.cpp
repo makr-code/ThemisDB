@@ -49,6 +49,22 @@ static std::string base64Encode(const std::string& input) {
     return out;
 }
 
+class DegradedCacheCoordinator final : public themis::cache::ICacheCoordinator {
+public:
+    void publishEntry(const std::string&, const json&, int, const std::string&) override {}
+    void publishInvalidation(const std::string&, const std::string&) override {}
+    void subscribeEntries(EntryCallback) override {}
+    void subscribeInvalidations(InvalidationCallback) override {}
+    bool isConnected() const override { return true; }
+    std::string name() const override { return "DegradedCacheCoordinator"; }
+    json getStats() const override {
+        return {{"ready", true},
+                {"status", "degraded"},
+                {"invalidation_errors", 1},
+                {"failure_reason", "invalidation_publish_failed"}};
+    }
+};
+
 // ---------------------------------------------------------------------------
 // Fixture
 // ---------------------------------------------------------------------------
@@ -726,13 +742,36 @@ TEST_F(CacheAdminApiHandlerTest, HealthCoordinatorConnectedFalseWhenOffline) {
     auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
     auto res = handler_->handleHealth(req);
 
-    EXPECT_EQ(res.result(), http::status::ok);
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
     json body = json::parse(res.body());
 
     ASSERT_TRUE(body.contains("coordinator"));
     EXPECT_TRUE(body["coordinator"]["enabled"].get<bool>());
     EXPECT_FALSE(body["coordinator"]["connected"].get<bool>());
+    EXPECT_FALSE(body["coordinator"]["ready"].get<bool>());
     EXPECT_TRUE(body["coordinator"].contains("name"));
+    EXPECT_TRUE(body["coordinator"]["stats"].contains("dependency_available"));
+#if defined(THEMIS_ENABLE_REDIS)
+    EXPECT_TRUE(body["coordinator"]["stats"]["dependency_available"].get<bool>());
+#else
+    EXPECT_FALSE(body["coordinator"]["stats"]["dependency_available"].get<bool>());
+    EXPECT_EQ(body["coordinator"]["stats"]["failure_reason"], "hiredis_unavailable");
+#endif
+    EXPECT_FALSE(body["healthy"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthReportsUnhealthyAfterInvalidationFailure) {
+    cache_->setCoordinator(std::make_shared<DegradedCacheCoordinator>());
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    const json body = json::parse(res.body());
+    EXPECT_TRUE(body["coordinator"]["connected"].get<bool>());
+    EXPECT_FALSE(body["coordinator"]["ready"].get<bool>());
+    EXPECT_EQ(body["coordinator"]["stats"]["failure_reason"], "invalidation_publish_failed");
+    EXPECT_FALSE(body["healthy"].get<bool>());
 }
 
 // ---------------------------------------------------------------------------

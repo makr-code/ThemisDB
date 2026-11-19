@@ -147,6 +147,13 @@ private:
 #endif
     std::thread        sub_thread_;
     std::atomic<bool>  running_{false};
+    std::atomic<bool>  sub_connected_{false};
+    mutable std::mutex publish_status_mutex_;
+    uint64_t publish_sequence_ = 0;
+    uint64_t latest_publish_status_sequence_ = 0;
+    uint64_t latest_invalidation_status_sequence_ = 0;
+    bool publish_degraded_ = false;
+    bool invalidation_degraded_ = false;
 
     // ------------------------------------------------------------------
     // Registered callbacks
@@ -162,11 +169,15 @@ private:
     uint64_t messages_published_ = 0;
     uint64_t messages_received_  = 0;
     uint64_t publish_errors_     = 0;
+    uint64_t invalidation_errors_ = 0;
     uint64_t reconnect_count_    = 0;
 
     // ------------------------------------------------------------------
     // Internal helpers
     // ------------------------------------------------------------------
+
+    uint64_t beginPublishStatusUpdate();
+    void recordPublishStatus(uint64_t sequence, bool success, bool invalidation);
 
     /**
      * @brief Connect Publish.
@@ -228,7 +239,9 @@ private:
 
     /**
      * @brief Set Redis Publish Fn.
-     * @param[in] fn Input parameter.
+     * @param[in] fn Test bridge callback.
+     * @details Retained as a test hook; it cannot make an unavailable Redis
+     *          transport ready or report successful publication.
      */
     static void setRedisPublishFn(RedisPublishFn fn);
 };

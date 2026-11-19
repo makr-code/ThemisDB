@@ -1928,10 +1928,20 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
          */
         std::lock_guard<std::mutex> lk(coordinator_mutex_);
         if (coordinator_) {
-            bool coord_connected  = coordinator_->isConnected();
-            health["coordinator"] = {{"enabled", true}, {"connected", coord_connected}, {"name", coordinator_->name()}};
-            if (!coord_connected) {
-                health["warnings"].push_back("Cache coordinator disconnected: " + coordinator_->name());
+            const auto coordinator_stats = coordinator_->getStats();
+            const bool coord_connected = coordinator_->isConnected();
+            const bool coord_ready = coord_connected
+                                     && coordinator_stats.value("ready", coord_connected)
+                                     && coordinator_stats.value("status", std::string{}) != "degraded"
+                                     && coordinator_stats.value("status", std::string{}) != "disconnected";
+            health["coordinator"] = {{"enabled", true},
+                                     {"connected", coord_connected},
+                                     {"ready", coord_ready},
+                                     {"name", coordinator_->name()},
+                                     {"stats", coordinator_stats}};
+            if (!coord_ready) {
+                health["healthy"] = false;
+                health["warnings"].push_back("Cache coordinator not ready: " + coordinator_->name());
             }
         } else {
             health["coordinator"] = {{"enabled", false}};

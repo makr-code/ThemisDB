@@ -2,8 +2,15 @@
 
 > Author: GitHub Copilot
 > Created: 2026-11-03
-> Last Updated: 2026-11-03
+> Last Updated: 2026-11-18
 > Status: active
+> AI_Used: true
+> AI_Models: "unknown"
+> AI_Contributor: "GitHub Copilot"
+> Human_Review: false
+> Human_Author: "ThemisDB Team"
+
+Exact model backend not verifiable from final document text alone.
 
 Release builds are not evidence that the installed server can load its libraries.
 The release pipeline validates **each final package** on a separate runner, and
@@ -64,6 +71,18 @@ Only run these checks on trusted artifacts: they execute the supplied binaries.
 Reports contain version output, Linux library resolution, health responses,
 startup logs and explicit errors, and are retained as workflow artifacts even
 when validation fails. A missing package/server or an empty selection fails.
+
+Redis-backed cache coordination is optional at build time but requires hiredis
+(`THEMIS_ENABLE_REDIS`) and supported socket transport. If a Redis coordinator
+is configured in a build without that dependency, it remains disconnected and
+cache readiness reports unhealthy with `dependency_available: false` and
+`failure_reason: hiredis_unavailable`; it does not claim cross-node invalidation
+succeeded. With hiredis present, Redis connection loss and failed/undelivered
+invalidations are exposed through coordinator health/stats and the
+`cache.redis.connection_failure`, `cache.redis.publish_error`, and
+`cache.redis.invalidation_error` counters. Deployments requiring cross-node
+invalidation must gate traffic on coordinator readiness as well as server
+startup.
 
 Package startup uses an isolated temporary database and a generated JSON config
 with a loopback bind address, free port and two workers. It does not enable
