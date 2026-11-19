@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -53,12 +53,14 @@ applicability are summarized in [RESEARCH.md](RESEARCH.md).
 **Current maturity: bounded, component-level runtime primitives; end-to-end
 execution readiness is not yet demonstrated.** The scheduler has bounded
 admission and earliest-deadline-first dequeue. The pool has bounded submission,
-a fixed worker set, graceful-shutdown logic, and exception accounting. Tests
-cover focused scheduler behavior and pool integration. However, the pool does
-not perform active stealing or elasticity, the server only constructs and
-tears down the primitives, and the stress/benchmark harnesses use local models.
-There is no production-runtime performance baseline, cancellation/expiry
-contract, or module-owned telemetry export.
+a fixed worker set, graceful drain of accepted work, and exception accounting.
+Invalid scheduler entries and invalid pool wait configuration fail closed;
+unknown/duplicate completion reports do not inflate SLA metrics. Focused
+regression tests cover these cases. However, the pool does not perform active
+stealing or elasticity, the server only constructs and tears down the
+primitives, and the stress/benchmark harnesses use local models. There is no
+production-runtime performance baseline, cancellation/expiry contract, or
+module-owned telemetry export.
 
 ### Version objectives
 
@@ -153,7 +155,7 @@ range, not a delivery commitment.
 - Work stealing, elasticity, and cancellation increase algorithmic complexity and alter lifecycle/ordering contracts. Prefer the fixed-worker central queue if measured workload gains do not justify those costs.
 - The candidate 10%/5% targets in Wave 4 are proposed decision thresholds, not existing release commitments; confirm or revise them against Wave 1 measurement variance before implementation.
 - The v2.5.0/v3.0.0 release association is inferred from root enhancement governance; dates, exact scope, integration owner, hardware matrix, and API/ABI policy remain unconfirmed.
-- `ai_context/developer_llm_wiki/` has no curated execution-module context in its current index. Its `WIKI_STATUS.json` was generated on 2026-11-02 and reports a large source delta; refresh and verify that compiled context before treating it as current release evidence.
+- `ai_context/developer_llm_wiki/` has no curated execution-module context in its current index. `WIKI_STATUS.json` was regenerated on 2026-11-18 with one changed source and no added/removed entries; this health signal does not substitute for the missing execution-specific page.
 
 ## Implementation Phases
 
@@ -170,11 +172,14 @@ range, not a delivery commitment.
 ### Phase 3: Error Handling & Edge Cases
 - [x] Reject scheduler and thread-pool submissions after shutdown begins (Target: Q3 2026)
 - [x] Return explicit failure (`0` / `false`) on queue-capacity timeout and low-priority shedding (Target: Q3 2026)
+- [x] Reject empty tasks, invalid scheduler priorities, negative scheduler SLAs, and non-positive pool idle wait configuration; ignore unknown/duplicate completion reports (Target: v2.5.0 Wave 2)
+- [x] Keep accepted pool queue items executable after shutdown begins, including when the initial drain wait expires (Target: v2.5.0 Wave 2)
 - [ ] Decide and implement stale-query eviction/cancellation behavior instead of retaining expired entries until dequeue (Target: Q1 2027)
 
 ### Phase 4: Tests
 - [x] Keep scheduler behavior and metrics coverage in `tests/execution/` (Target: Q3 2026)
 - [x] Keep thread-pool behavior coverage in `tests/integration/test_resource_pooling.cpp` (Target: Q3 2026)
+- [x] Cover invalid admission inputs, idempotent completion accounting, invalid pool wait configuration, and queued-work shutdown draining (Target: v2.5.0 Wave 2)
 - [x] Retain the high-cardinality local-model simulation with its non-production scope explicit (Target: Q4 2026)
 - [ ] Add production-runtime capacity stress tests for `QueryScheduler` and `WorkStealingThreadPool` (Target: Q1 2027)
 - [ ] Add focused tests for any future true-steal and elastic-scaling implementation before enabling those behaviors (Target: Q1 2027)
@@ -209,6 +214,8 @@ range, not a delivery commitment.
 - The thread pool does not currently push work into per-thread deques or perform active stealing.
 - `max_threads` and `idle_timeout_ms` do not yet provide elastic scaling behavior.
 - No built-in cancellation, stale-query eviction, or external metrics exporter exists.
+- Admission return values still combine invalid input, shutdown, overload, and timeout; there is no structured rejection reason.
+- A worker executing a non-terminating callable can block pool shutdown indefinitely. `drain_timeout` is not a hard shutdown deadline.
 
 ## Breaking Changes
 

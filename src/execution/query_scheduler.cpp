@@ -45,7 +45,12 @@ std::uint64_t QueryScheduler::enqueue(
     long                  sla_ms,
     std::string           name,
     std::chrono::milliseconds timeout) {
-    if (shutdown_.load(std::memory_order_acquire)) {
+    if (shutdown_.load(std::memory_order_acquire) ||
+        !execute ||
+        (priority != SLAPriority::HIGH &&
+         priority != SLAPriority::MEDIUM &&
+         priority != SLAPriority::LOW) ||
+        sla_ms < 0) {
         return 0;
     }
 
@@ -163,14 +168,16 @@ void QueryScheduler::reportCompletion(
     std::uint64_t query_id,
     std::chrono::steady_clock::time_point completion_time) {
     std::lock_guard<std::mutex> lk(mutex_);
-    ++completed_total_;
     auto it = pending_deadlines_.find(query_id);
-    if (it != pending_deadlines_.end()) {
-        if (completion_time <= it->second) {
-            ++completed_in_sla_;
-        }
-        pending_deadlines_.erase(it);
+    if (it == pending_deadlines_.end()) {
+        return;
     }
+
+    ++completed_total_;
+    if (completion_time <= it->second) {
+        ++completed_in_sla_;
+    }
+    pending_deadlines_.erase(it);
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,8 +27,10 @@ It applies to:
 
 - **MUST:** configure finite queue limits (`max_queue_depth`, `shed_threshold`) appropriate for the deployment workload; the scheduler is intentionally bounded.
 - **MUST:** configure finite caller timeouts for scheduler admission and thread-pool submission paths; overload signaling is timeout-based.
-- **MUST:** treat `enqueue() == 0` and `submit() == false` as fail-closed overload or shutdown signals and handle them explicitly upstream.
+- **MUST:** treat `enqueue() == 0` and `submit() == false` as fail-closed invalid-input, overload, timeout, or shutdown signals and handle them explicitly upstream; the return value does not identify the cause.
 - **MUST:** invoke `shutdown()` during controlled teardown so blocked waiters are released and workers are joined.
+- **MUST:** provide a positive `idle_timeout_ms`; pool construction rejects zero or negative values.
+- **MUST:** submit non-empty callables, use a defined `SLAPriority`, and provide non-negative scheduler SLA durations.
 - **MUST:** call `reportCompletion()` for dequeued queries if SLA-compliance metrics are used for operational decisions.
 - **MUST NOT:** assume the pool grows beyond `min_threads` at runtime in the current implementation.
 - **MUST NOT:** assume queued scheduler entries are auto-expired or auto-cancelled after their SLA window elapses.
@@ -45,7 +47,7 @@ It applies to:
 | `WorkStealingThreadPool::Config::min_threads` | number of workers started at construction and kept until shutdown |
 | `WorkStealingThreadPool::Config::max_threads` | allocation/clamping bound; not an active runtime growth target today |
 | `WorkStealingThreadPool::Config::max_queue_depth` | hard capacity gate for task submission waits |
-| `WorkStealingThreadPool::Config::idle_timeout_ms` | worker wait interval before re-checking the queue; not a retirement timer |
+| `WorkStealingThreadPool::Config::idle_timeout_ms` | positive worker wait interval before re-checking the queue; not a retirement timer |
 
 ## Operational Requirements
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -55,9 +55,10 @@ scheduler to the pool. The consumer owns that handoff and its failure policy.
 `QueryEntry` and `WorkItem` own their `std::function` callables. Captures inside
 those callables retain their usual C++ lifetime rules: do not capture references
 to objects that can be destroyed before execution completes. Shutdown is not a
-cancellation mechanism for running callables. Pool shutdown has a best-effort
-queue drain timeout; after that timeout, completion of all queued work is not
-guaranteed.
+cancellation mechanism for running callables. Pool shutdown rejects new work
+and workers finish accepted queued items before exiting. The drain timeout only
+bounds the initial queue-drain wait; joining a worker executing a
+non-terminating callable can exceed the timeout indefinitely.
 
 Both primitives are non-copyable and own synchronization state. Their public
 headers document the exact API and default timeout values:

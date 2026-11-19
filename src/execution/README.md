@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-21
-**Last Updated:** 2026-11-06
+**Last Updated:** 2026-11-19
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
@@ -129,17 +129,20 @@ production runtime code (see [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATI
 ## Runtime Behavior and Limits
 
 ### QueryScheduler
-- `enqueue()` returns `0` when the scheduler is shutting down, when capacity does not free up before the caller timeout, or when a LOW-priority entry is shed at/above `Config::shed_threshold`.
+- `enqueue()` returns `0` when the callable is empty, the priority is not a defined `SLAPriority`, `sla_ms` is negative, the scheduler is shutting down, capacity does not free up before the caller timeout, or a LOW-priority entry is shed at/above `Config::shed_threshold`. The return value does not identify which rejection occurred.
 - Dequeue order is driven by the computed absolute deadline first and by monotonically increasing query id second; the `SLAPriority` label is tracked for metrics and shedding decisions, not for a separate priority bucket implementation.
 - `Config::urgent_window_ms` and `Config::default_sla_ms` remain reserved compatibility fields in the current implementation and are not consulted by `enqueue()` or `dequeue()`.
+- Zero SLA is accepted and produces a deadline at enqueue time; a negative SLA is rejected. Unknown or duplicate `reportCompletion()` ids are ignored and do not affect completion metrics.
 - SLA compliance metrics are only meaningful when callers invoke `reportCompletion()` for executed query ids.
 
 ### WorkStealingThreadPool
 - The pool starts `Config::min_threads` workers during construction and keeps them alive until shutdown.
 - `Config::max_threads` currently bounds internal queue allocation and clamps `min_threads`; it does not trigger elastic worker growth at runtime.
 - `submit()` blocks until queue capacity is available or the caller timeout expires.
+- Empty callables are rejected. Construction throws `std::invalid_argument` if `idle_timeout_ms` is zero or negative, avoiding a non-blocking worker wait loop.
 - `waitAll()` polls for an empty dispatch queue and zero pending-item count; it does not guarantee that completed tasks reported their own higher-level side effects.
-- Worker task exceptions are caught, counted in `Statistics::failed`, and do not terminate the pool.
+- `shutdown()` rejects new work and workers finish all already accepted queued items before exiting. `drain_timeout` only bounds the initial queue-drain wait; joining a worker still running a non-terminating callable can take unbounded time.
+- Worker task exceptions are caught, counted in `Statistics::failed`, and do not terminate the pool. Tasks are not retried or redirected to a fallback; any retry policy belongs to the host and must be bounded.
 
 ## Integration Notes
 

@@ -84,7 +84,7 @@ public:
         std::uint64_t total_dequeued    = 0; ///< Total successful dequeue operations.
         std::uint64_t total_shed        = 0; ///< Total LOW-priority entries rejected at the shed threshold.
         std::uint64_t completed_in_sla  = 0; ///< Number of reported completions that met their recorded deadline.
-        std::uint64_t completed_total   = 0; ///< Number of completion reports received.
+        std::uint64_t completed_total   = 0; ///< Number of unique accepted ids with completion reports.
         double       sla_compliance_pct = 0.0; ///< Completion percentage within SLA, or 0 when no completions were reported.
         double       avg_enqueue_us     = 0.0; ///< Average successful enqueue latency in microseconds.
         double       avg_dequeue_us     = 0.0; ///< Average successful dequeue latency in microseconds.
@@ -122,12 +122,14 @@ public:
     /**
      * @brief Enqueue a query for later execution.
      * @param execute Callable owned by the queued entry.
-     * @param priority Caller-provided SLA label used for metrics and shedding.
-     * @param sla_ms Relative SLA budget in milliseconds; converted to an absolute deadline at enqueue time.
+     * @param priority Valid `SLAPriority` label used for metrics and shedding.
+     * @param sla_ms Non-negative relative SLA budget in milliseconds; converted to an absolute deadline at enqueue time.
      * @param name Optional diagnostic name stored with the queued entry.
      * @param timeout Maximum time to wait for queue capacity before rejecting the submission.
      * @return A non-zero query id on success, or `0` if shutdown is in progress,
-     *         the wait for capacity times out, or a LOW-priority entry is shed.
+     *         the callable is empty, the priority is invalid, the SLA is
+     *         negative, the wait for capacity times out, or a LOW-priority
+     *         entry is shed.
      */
     [[nodiscard]] std::uint64_t enqueue(
         QueryEntry::ExecuteFn execute,
@@ -151,8 +153,9 @@ public:
      * @param query_id Identifier returned by `enqueue()`.
      * @param completion_time Completion timestamp used for SLA accounting.
      *
-     * Missing ids are ignored. Callers that rely on `Metrics::completed_total`
-     * and `Metrics::sla_compliance_pct` must invoke this method explicitly.
+     * Unknown ids and duplicate reports are ignored. Callers that rely on
+     * `Metrics::completed_total` and `Metrics::sla_compliance_pct` must invoke
+     * this method once for each accepted id.
      */
     void reportCompletion(
         std::uint64_t query_id,

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,10 +25,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `src/execution/AUDIT.md`, `src/execution/CHANGELOG.md`, `src/execution/FUTURE_ENHANCEMENTS.md`, `src/execution/MODULE_GAPS.md`, `src/execution/PERFORMANCE_EXPECTATIONS.md`, `src/execution/PRODUCTION_REQUIREMENTS.md`, and `src/execution/SECURITY.md`: restored the required execution governance document set.
 
 ### Changed
+- `QueryScheduler` rejects empty callables, undefined priorities, and negative SLAs; unknown and duplicate completion reports no longer inflate SLA metrics.
+- `WorkStealingThreadPool` rejects empty tasks and non-positive idle wait configuration, and workers finish accepted queued work before exiting during shutdown.
+- `src/execution/API.md`, `src/execution/README.md`, `src/execution/ARCHITECTURE.md`, `src/execution/IMPLEMENTATION.md`, and operational docs: synchronized invalid-input, completion-accounting, and shutdown timeout semantics; recorded the remaining unbounded join risk.
 - `src/execution/README.md`, `src/execution/ARCHITECTURE.md`, and `src/execution/ROADMAP.md`: clarified lifecycle-only server wiring, focused test registration, and pending validation/maintainer gates.
 - `src/execution/AUDIT.md`, `src/execution/MODULE_GAPS.md`, `src/execution/PERFORMANCE_EXPECTATIONS.md`, and related governance documents: replaced stale missing-file claims and distinguished benchmark harnesses from production-runtime evidence.
 - `src/execution/FEATURES.md`: replaced malformed, unsupported capability claims with source-aligned scope and limitations.
-- No source or public API code changed in this documentation update.
+- Added focused regressions for invalid scheduler inputs, idempotent completion accounting, invalid pool configuration, and accepted-task draining after the shutdown drain timeout.
 
 ## [1.0.0] — 2026-08-08
 
