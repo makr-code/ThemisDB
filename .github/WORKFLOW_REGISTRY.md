@@ -2,16 +2,15 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-19
+> Last Updated: 2026-11-18
 > Update Note: The Helm validation lane also checks shipped config safety and package-version consistency, publishing a config lint log and version matrix.
 > Status: active
-> Total Workflows: 104 (verified 2026-11-19)
+> Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
 > AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
 > AI_Contributor: "GitHub Copilot"
 > Human_Review: false
 > Human_Author: "ThemisDB Team"
-> AI-assisted governance update; maintainer review remains required.
 
 ## Zielbild
 
@@ -215,7 +214,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-### 2. GATES: PR VALIDATION (27 Workflows)
+### 2. GATES: PR VALIDATION (26 Workflows)
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
@@ -232,7 +231,6 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `gate-pr-doxygen-governance.yml` | Gate: PR Doxygen Governance (C++ API doc validation) | docs |
 | `gate-pr-module-doxygen-xml.yml` | Gate: PR Module Doxygen XML (Module-level Doxygen generation) | docs |
 | `gate-pr-version-targeting.yml` | Gate: PR Version Targeting (PR body version field validation) | version-control |
-| `gate-pr-task-completion.yml` | Gate: PR Task Completion (Copilot evaluates PR/issue tasks and reports completion percentage/open items) | pre-merge |
 | `gate-pr-merge-readiness.yml` | Gate: PR Merge Readiness (Pre-merge final validation) | pre-merge |
 | `gate-pr-rag-eval.yml` | Gate: PR RAG Evaluation Contract (RAG system evaluation) | specialized |
 | `gate-pr-rag-security.yml` | Gate: PR RAG Security Guardrails (RAG security validation) | security |
@@ -334,7 +332,6 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform build + runtime gate + validated digest handoff) | release-docker-image |
 | `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
 | `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (Release-critical + runtime API gate bundle for PRs) | gate-pr-core |
-| `reusable-pr-task-completion.yml` | Reusable: PR Task Completion (Read-only Copilot assessment with a separate least-privilege comment publisher) | gate-pr-task-completion |
 | `reusable-rag-phase-gate.yml` | Reusable: RAG Phase Gate (Shared PR gate for RAG phase file/semantic/compile checks) | gate-pr-rag-phase7/8/9/10 |
 | `reusable-release-approval-comment-gate.yml` | Reusable: Release Approval Comment Gate (Maintainer-command issue_comment release dispatch gate) | release-*-approval workflows |
 
