@@ -234,6 +234,10 @@ TEST(EthicsAiLdmContract, InvalidInferenceOutputFailsClosedAsAbstain) {
         invalid_confidence.confidence = std::numeric_limits<float>::quiet_NaN();
         outputs.push_back(invalid_confidence);
 
+        auto out_of_range_confidence = invalid_confidence;
+        out_of_range_confidence.confidence = 1.01f;
+        outputs.push_back(out_of_range_confidence);
+
         DiscourseRoundOutput inconsistent_verdict;
         inconsistent_verdict.schema_valid = true;
         inconsistent_verdict.ldm_verdict = DiscourseVerdict::PERMIT;
@@ -260,6 +264,24 @@ TEST(EthicsAiLdmContract, InvalidInferenceOutputFailsClosedAsAbstain) {
         EXPECT_FALSE(results.front().schema_valid);
         EXPECT_FALSE(results.front().timed_out);
     }
+}
+
+TEST(EthicsAiLdmContract, CallbackReportedTimeoutRemainsObservable) {
+    DiscourseOrchestrator orchestrator(nullptr, {});
+    orchestrator.setLLMInferenceFn([](const std::string&, const std::string&) {
+        DiscourseRoundOutput output;
+        output.timed_out = true;
+        return output;
+    });
+
+    DiscourseOrchestratorPlan plan;
+    plan.ebene1_school_ids = {"kant"};
+    plan.initial_weight = 1.0;
+    const auto results = orchestrator.runEbene1(plan, "test dilemma", {});
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results.front().ldm_verdict, DiscourseVerdict::ABSTAIN);
+    EXPECT_TRUE(results.front().timed_out);
 }
 
 // ============================================================================

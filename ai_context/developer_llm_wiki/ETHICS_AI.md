@@ -67,10 +67,11 @@ production LDM wiring against that canonical plugin.
 - `DiscourseOrchestrator::runEbene1()` rejects empty/duplicate school IDs and
   non-finite or unequal `initial_weight` before launching callbacks. Timeout
   settings must be positive. Callback errors and invalid schema/verdict/
-  confidence results fail closed as ABSTAIN. Timeout marks a late school
-  result as ABSTAIN but does not cancel the callback; destruction of an
-  unfinished `std::async` future may delay return, so this is not a hard
-  deadline or bounded recovery guarantee.
+  confidence results fail closed as ABSTAIN; callback-reported and
+  orchestrator-classified timeouts also set `timed_out`. An orchestrator
+  timeout marks a late school result as ABSTAIN but does not cancel the
+  callback; destruction of an unfinished `std::async` future may delay return,
+  so this is not a hard deadline or bounded recovery guarantee.
 
 These are observations about the checked-in parent-repository sources only.
 They are not recommendations to enable deterministic fallback inference in

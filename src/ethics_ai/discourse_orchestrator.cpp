@@ -85,7 +85,7 @@ DiscourseRoundOutput stubLLMInference(const std::string& school_id,
 bool isValidInferenceOutput(const DiscourseRoundOutput& output)
 {
     if (!output.schema_valid || !std::isfinite(output.confidence) ||
-        output.confidence < 0.0f || output.confidence > 1.0f || output.timed_out) {
+        output.confidence < 0.0f || output.confidence > 1.0f) {
         return false;
     }
 
@@ -269,6 +269,10 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
         if (status == std::future_status::ready) {
             try {
                 DiscourseRoundOutput out = futures[i].get();
+                if (out.timed_out) {
+                    results.push_back(abstainResult(sid, w0, true));
+                    continue;
+                }
                 if (!isValidInferenceOutput(out)) {
                     results.push_back(abstainResult(sid, w0, false));
                     continue;
