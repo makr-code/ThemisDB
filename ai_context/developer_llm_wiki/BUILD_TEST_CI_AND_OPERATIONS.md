@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-18"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,8 +14,16 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-17
+Datum: 2026-11-18
 Status: Active
+
+## Config and package version integrity gate
+
+- Canonical CI entry point: [`.github/workflows/test-helm-chart.yml`](../../.github/workflows/test-helm-chart.yml).
+- Config and supported package metadata changes run the fail-closed checker at [`scripts/check_config_version_integrity.py`](../../scripts/check_config_version_integrity.py); its focused regressions are in [`tests/test_config_version_integrity.py`](../../tests/test_config_version_integrity.py).
+- The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
+- The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
+- CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

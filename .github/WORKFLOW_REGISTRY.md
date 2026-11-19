@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-11-18
-> Update Note: Nightly and Packaging now consume exact-identity packages from successful Mainline runs; incompatible lanes retain independent builds.
+> Update Note: The Helm validation lane also checks shipped config safety and package-version consistency, publishing a config lint log and version matrix.
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -226,7 +226,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `gate-pr-hash-sbom.yml` | Gate: PR Core [Hash & SBOM Integrity] (Supply chain security) | compliance |
 | `gate-pr-plugin-boundary.yml` | Gate: PR Core [Plugin Boundary] (Plugin boundary enforcement) | compliance |
 | `gate-pr-primary-doc-structure.yml` | Gate: PR Primary Doc Structure (README/ARCHITECTURE validation) | docs |
-| `test-helm-chart.yml` | Gate: Helm Chart (lint, rendered profile tests, and Kind smoke) | deployment |
+| `test-helm-chart.yml` | Gate: Helm Chart (config/version integrity, lint, rendered profile tests, and Kind smoke) | deployment |
 | `gate-pr-doc-metadata.yml` | Gate: PR Doc Metadata (Markdown metadata & governance) | docs |
 | `gate-pr-doxygen-governance.yml` | Gate: PR Doxygen Governance (C++ API doc validation) | docs |
 | `gate-pr-module-doxygen-xml.yml` | Gate: PR Module Doxygen XML (Module-level Doxygen generation) | docs |

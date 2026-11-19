@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            __init__.py                                        ║
-  Version:         0.0.47                                             ║
+  Version:         2.4.0                                              ║
   Last Modified:   2026-04-15 18:43:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -44,7 +44,7 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "0.1.0b1"
+__version__ = "2.4.0"
 
 _DEFAULT_METADATA_PATH = "/_admin/cluster/topology"
 _HEALTH_PATH = "/health"

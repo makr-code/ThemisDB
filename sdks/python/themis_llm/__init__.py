@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            __init__.py                                        ║
-  Version:         0.0.47                                             ║
+  Version:         2.4.0                                              ║
   Last Modified:   2026-04-15 18:48:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -19,7 +19,7 @@
 
 """ThemisDB LLM Python SDK - Client library for LLM operations."""
 
-__version__ = '1.3.0'
+__version__ = '2.4.0'
 
 from .client import ThemisLLMClient
 from .models import (

@@ -780,6 +780,7 @@ Implementierungshinweis:
   - Betrifft: `gate-pr-core.yml`, `gate-pr-*.yml`, `compliance-governance-gates.yml`, `gate-*.yml`
 - Jeder PR-Workflow muss `concurrency` mit `cancel-in-progress: true` setzen.
 - `paths:` muss für PR-Workflows eng begrenzt sein — kein `src/**` oder `include/**` als einziges Muster.
+- `test-helm-chart.yml` owns the shipped configuration and package-version integrity gate: config or supported package metadata changes run the fail-closed lint/tests and publish their log plus machine-readable version matrix; Helm changes run the chart checks.
 - Einzige all-path Ausnahme: `gate-pr-file-size.yml` muss jeden PR prüfen, damit neue große Dateien unabhängig von Pfad und Dateiendung erkannt werden; der Job bleibt leichtgewichtig und sein Status ist branch-protection-pflichtig.
 
 ## PR Governance for AI-Generated Changes
