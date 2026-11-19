@@ -1,7 +1,7 @@
 # Evaluation Module Performance Expectations
 
-> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
-> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> **Update provenance (2026-11-19):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
 > **Evidence status (2026-10-31):** Numeric values and gate language in this
@@ -74,11 +74,12 @@ a live cluster.
 - **p99:** ≤ 1000 µs (pathological edge case with all safety checks active)
 
 **Measurement strategy:**
-- The source runs six fixed eligibility/freshness cases (ANN-only,
-  ANN-plus-tensor, stale-tensor fallback, force-exact, module-gap fallback, and
-  distributed selection), repeats `QueryPlanner::selectPath()` calls, and
-  reports avg/p50/p95/p99/min/max for each case. It has no direct Path 3 latency
-  case and does not execute downstream ANN, tensor, graph, or distributed
+- The source runs seven fixed eligibility/freshness cases (ANN-only,
+  ANN-plus-tensor, stale-tensor fallback, force-exact, module-gap fallback,
+  distributed selection at the confidence threshold, and distributed
+  low-confidence exact fallback), repeats `QueryPlanner::selectPath()` calls,
+  and reports avg/p50/p95/p99/min/max for each case. It has no direct Path 3
+  latency case and does not execute downstream ANN, tensor, graph, or distributed
   retrieval.
 - Its final nonzero regression check compares maximum p95 with 800 µs. It prints
   p99 and a 1 ms limit but does not fail on p99. These source-level checks are

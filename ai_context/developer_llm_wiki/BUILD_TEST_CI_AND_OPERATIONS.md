@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-18
+Datum: 2026-11-19
 Status: Active
 
 ## Config and package version integrity gate
@@ -24,6 +24,18 @@ Status: Active
 - The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
 - The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
 - CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
+
+## Evaluation module build and evidence boundary
+
+- Module contracts and status are documented in
+  [`src/evaluation/README.md`](../../src/evaluation/README.md) and
+  [`src/evaluation/MODULE_EVIDENCE.md`](../../src/evaluation/MODULE_EVIDENCE.md).
+- `tests/evaluation/CMakeLists.txt` registers focused component tests; the
+  planner GTest target in `tests/epic2_evaluation/CMakeLists.txt` is conditional
+  on its library and GTest dependencies. Registration does not mean tests ran.
+- `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp` measures stubs;
+  planner microbenchmarks measure path selection, not end-to-end retrieval
+  quality. Neither is production quality/performance evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

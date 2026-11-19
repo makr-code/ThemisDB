@@ -5,8 +5,8 @@
 
 # Changelog - Evaluation Module
 
-> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
-> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> **Update provenance (2026-11-19):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
 All notable changes to the evaluation module are documented here.
@@ -15,6 +15,11 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- Distributed planner routing now validates policy ranges and requires an
+  explicit finite shard-summary confidence before selecting Path 5. This
+  changes the public `ExecutionEligibility` layout; consumers must rebuild and
+  set the confidence signal, and the change is not binary-compatible with the
+  earlier planner ABI.
 - Documentation-only synchronization for issue #7344: corrected module
   source/target, include, test and benchmark descriptions to match the checked-in
   headers, implementations and CMake registrations. No code or runtime behavior

@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <string>
 #include <string_view>
 
@@ -40,6 +41,19 @@ namespace evaluation {
 // ---------------------------------------------------------------------------
 
 namespace {
+
+[[nodiscard]] bool isValidPlannerConfig(const PlannerConfig& config) noexcept {
+    return config.max_staleness_ms > 0
+        && std::isfinite(config.min_residual_threshold)
+        && config.min_residual_threshold >= 0.0
+        && config.min_residual_threshold <= 1.0
+        && config.max_rank_cap > 0
+        && std::isfinite(config.min_shard_summary_confidence)
+        && config.min_shard_summary_confidence >= 0.0
+        && config.min_shard_summary_confidence <= 1.0
+        && !config.policy_version.empty()
+        && !config.staleness_threshold_key.empty();
+}
 
 /**
  * @brief True when the ANN path is structurally eligible.
@@ -278,9 +292,8 @@ public:
      * planner logic in microseconds.
      *
      * @note Distributed Path 5 is only eligible when distributed mode signals
-     *       are set; it is not evaluated in the normal 1–4 fallback chain.
-     *       Callers may request Path 5 explicitly by setting eligibility signals
-     *       that disable paths 1–3 while marking `distributed_multi_shard`.
+     *       are set, manifests are available, and summary confidence meets the
+     *       configured threshold. Missing or invalid confidence selects Path 4.
      *
      * @param eligibility   Runtime hardware and module-readiness signals.
      * @param freshness     Tensor artifact freshness state.
@@ -309,6 +322,19 @@ PlannerDecision DefaultQueryPlanner::selectPath(
 {
     // Capture start time for observability latency measurement.
     const auto t0 = std::chrono::steady_clock::now();
+
+    // Invalid policy must not select an approximate or distributed path.
+    if (!isValidPlannerConfig(config)) {
+        const PlannerDecision d =
+            makeDirectExactGraphDecision(FallbackReason::InvalidPlannerConfiguration, config);
+        if (observer_) {
+            const auto us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
+            observer_->onDecision(d, us);
+        }
+        return d;
+    }
 
     // ------------------------------------------------------------------
     // Hard overrides (fail-closed — evaluated before any path logic)
@@ -343,6 +369,14 @@ PlannerDecision DefaultQueryPlanner::selectPath(
         if (!eligibility.shard_manifests_available) {
             // Manifests missing → cannot use summary-first → exact graph fallback.
             d = makeDirectExactGraphDecision(FallbackReason::ShardManifestMissing, config);
+        } else if (!std::isfinite(eligibility.shard_summary_confidence)
+                   || eligibility.shard_summary_confidence < 0.0
+                   || eligibility.shard_summary_confidence > 1.0) {
+            d = makeDirectExactGraphDecision(
+                FallbackReason::ShardSummaryConfidenceInvalid, config);
+        } else if (eligibility.shard_summary_confidence
+                   < config.min_shard_summary_confidence) {
+            d = makeDirectExactGraphDecision(FallbackReason::ShardSummaryLowConfidence, config);
         } else {
             d = makeDistributedDecision(config);
         }
