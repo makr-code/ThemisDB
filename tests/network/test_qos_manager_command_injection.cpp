@@ -19,6 +19,12 @@
 #include <string_view>
 #include <vector>
 
+#if defined(__linux__)
+#include <filesystem>
+#include <system_error>
+#include <unistd.h>
+#endif
+
 using namespace themis::network;
 using TcConfig = QoSManager::TcConfig;
 
@@ -116,6 +122,25 @@ TEST_F(QoSManagerCommandInjectionTest, ShellMetacharactersRejected) {
         expectRejected(name);
     }
 }
+
+#if defined(__linux__)
+TEST_F(QoSManagerCommandInjectionTest, ShellPayloadIsNotExecuted) {
+    const auto marker = std::filesystem::temp_directory_path() /
+                        ("qos_manager_injection_" + std::to_string(::getpid()));
+    std::error_code error;
+    std::filesystem::remove(marker, error);
+
+    TcConfig config;
+    config.enabled = true;
+    config.interface_name = "eth0; touch '" + marker.string() + "' #";
+    config.total_rate_bps = 1'000'000;
+
+    EXPECT_FALSE(manager_.configureTc(config));
+    EXPECT_FALSE(std::filesystem::exists(marker));
+
+    std::filesystem::remove(marker, error);
+}
+#endif
 
 /**
  * @brief Test: Common SQL injection patterns are rejected
