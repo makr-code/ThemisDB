@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -14,6 +14,7 @@ Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../include/sharding/epoch_fencing.h
   - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/two_phase_commit_participant.h
   - ../../include/sharding/shard_rpc_client.h
   - ../../include/sharding/shard_rpc_client_adapter.h
@@ -42,6 +43,13 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
+
+> **DIS-05 decision (2026-11-19):** `TwoPhaseCommitCoordinator` is selected as the canonical
+> direct 2PC coordinator. `CrossShardTransactionCoordinator` remains the multi-protocol facade,
+> but its 2PC adapter and recovery migration are not implemented. See the accepted
+> [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md) and root
+> [`ROADMAP.md`](../../ROADMAP.md) for current status. This decision is not a release-readiness
+> or recovery sign-off.
 
 > **Status evidence note (2026-11-01):** Historical completion checkboxes below are not current
 > release evidence. The follow-up ran only the standalone SH-BM-01..04 stub harness; a configured
@@ -144,6 +152,7 @@ open/in-progress work here.
 
 ## In Progress
 
+- [~] Migrate the CrossShard 2PC path to the canonical `TwoPhaseCommitCoordinator` through an explicit adapter; first define decision-WAL ownership and recovery mapping, then add public-path parity tests (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)

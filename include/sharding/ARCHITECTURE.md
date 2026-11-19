@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-01
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -14,6 +14,7 @@ Canonical_References:
   - ../../src/sharding/ARCHITECTURE.md
   - detail/two_phase_commit_contract.h
   - ../../tests/test_two_phase_commit.cpp
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../ROADMAP.md
   - sharding_api_contract.h
   - shard_router.h
@@ -125,7 +126,7 @@ than applying either prefix module-wide.
 
 - Routing headers expose deterministic shard-selection contracts that higher layers can embed without depending on coordinator internals.
 - `cross_shard_transaction.h` is part of the stable contract because distributed wait-for reporting and deadlock detection must be visible across module boundaries.
-- The DIS-05 pair (`CrossShardTransactionCoordinator` and `TwoPhaseCommitCoordinator`) uses the same execution contract: prepare failure selects ABORT; the configured decision-record callback must succeed before phase two; a phase-two failure is unresolved and cannot reverse the selected decision. Crash durability depends on each coordinator's configured persistence. The standalone coordinator re-drives WAL decisions when WAL recovery is configured; CrossShard WAL/snapshot recovery restores state and reports candidates but does not automatically re-drive phase two. Their transaction lifecycles, transports, WAL formats, and recovery remain separate (DIS-05 closed; DIS-06 recovery boundary not addressed).
+- DIS-05 selects `TwoPhaseCommitCoordinator` as the canonical direct 2PC coordinator; `CrossShardTransactionCoordinator` remains the multi-protocol facade. Both currently use the same execution contract: prepare failure selects ABORT; the configured decision-record callback must succeed before phase two; a phase-two failure is unresolved and cannot reverse the selected decision. However, CrossShard still has its own 2PC callback path and its WAL/snapshot recovery only restores state and reports candidates; it does not automatically re-drive phase two. The adapter and authoritative recovery migration remain open; this is not a completed DIS-05 consolidation. See `audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`. DIS-06 remains a separate recovery boundary.
 - `DistributedTransactionCoordinator` is another 2PC-capable public surface, not covered by DIS-05; this change does not establish repo-wide 2PC convergence.
 - Consensus, quorum, and WAL headers remain public so embedders can swap or compose deployment-specific coordination strategies.
 - Repair/recovery and metrics headers provide explicit degraded-state visibility instead of hiding operational transitions inside implementation-only types.

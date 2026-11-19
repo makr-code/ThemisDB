@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-17"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Transaction Coordinators — Architecture Reference
 
-<!-- Status: review | Issues: #5372 (unification planning), #5373 (DIS-05), #7552 | Target: Q3 2026 (v2.0.0) -->
+<!-- Status: review | Issues: #5372 (unification planning), #5373 (DIS-05), #7552 | Decision accepted: 2026-11-19 -->
 <!-- SOT: coordinator implementation and contracts; this document is a level-4 explanatory derivative -->
 
 ## 1. Overview
@@ -43,8 +43,10 @@ Source inspection currently finds five classes implementing this recovery interf
 `TwoPhaseCommitCoordinator`, `CrossShardTransactionCoordinator`,
 `DistributedTransactionCoordinator`, `GlobalTransactionManager`, and
 `DistributedTransactionManager`. The table below compares only three of them and is not an
-exhaustive inventory. The canonical-coordinator decision remains open under
-[DIS-05](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+exhaustive inventory. The canonical-coordinator selection is recorded in
+[`ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md):
+`TwoPhaseCommitCoordinator` is canonical for direct 2PC. The adapter migration remains open
+under [DIS-05](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 
 | Class | Header | Namespace | Primary Protocol |
 |---|---|---|---|
@@ -65,7 +67,15 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The pr
 > A transaction started with coordinator A can still only be fully recovered by coordinator A;
 > cross-coordinator recovery tooling is planned for v3.0.0 (see §7 below).
 
-> **DIS-05 status (2026-11-01):** `CrossShardTransactionCoordinator` and
+> **DIS-05 status (2026-11-19):** The maintainer selected `TwoPhaseCommitCoordinator` as the
+> canonical direct 2PC coordinator. `CrossShardTransactionCoordinator` remains the multi-protocol
+> facade, but still has its own 2PC participant and persistence callbacks: the shared helper is
+> not a completed adapter. The decision does not unify the two WAL formats or their recovery.
+> The adapter must define an authoritative durable decision/recovery path before implementation
+> can be counted complete. See the accepted
+> [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md).
+>
+> **Prior execution-contract work (2026-11-01):** `CrossShardTransactionCoordinator` and
 > `TwoPhaseCommitCoordinator` now share coordinator-side 2PC phase ordering and failure
 > semantics through `include/sharding/detail/two_phase_commit_contract.h`. This does not
 > unify their transports, transaction lifecycles, WAL formats, or recovery. `CrossShardTransactionCoordinator`'s
@@ -94,23 +104,27 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The pr
 
 ### 2.2 Use-Case Guide — When to Use Which Coordinator
 
-The two DIS-05 coordinators are not different 2PC semantic choices: both use the same
-prepare → configured decision record → phase-two contract. Choose between them based on
-the surrounding API, participant transport, and additional protocol/lifecycle capabilities.
-This shared contract does not include `DistributedTransactionCoordinator`.
+`TwoPhaseCommitCoordinator` is the selected canonical direct 2PC entry point. The CrossShard
+2PC implementation currently shares the phase contract but is not yet an adapter. Keep using
+`CrossShardTransactionCoordinator` when its broader protocol/lifecycle features are required;
+do not infer that its WAL/recovery behavior is interchangeable with the canonical coordinator.
+`DistributedTransactionCoordinator` is outside this decision.
 
 | Scenario | Recommended Coordinator |
 |---|---|
-| Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` |
-| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator` (its 2PC path uses the shared contract) |
+| Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` (canonical direct 2PC) |
+| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator`; its 2PC adapter migration remains open |
 | Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
-| New code / greenfield | No canonical default is selected; choose by required API and lifecycle, follow the active caller/module contract, do not assume common WAL or recovery behavior, and track DIS-05 |
+| New direct 2PC code / greenfield | `TwoPhaseCommitCoordinator`; do not assume its WAL/recovery is interchangeable with another coordinator |
 
 ### 2.3 Known Limitations
 
 - **No cross-coordinator recovery (CC-5):** A transaction begun with coordinator A cannot
   be recovered by coordinator B.  Recovery tooling that reads all three WAL formats is
   planned for v3.0.0 (see §7).
+- **DIS-05 adapter is not implemented:** The canonical choice is accepted, but
+  `CrossShardTransactionCoordinator` still executes its own 2PC callback path. Adapter
+  implementation must settle durable-decision ownership and replay mapping before rollout.
 - **Incompatible WAL formats (CC-5):** The three coordinators write different JSON schemas
   to their respective WAL backends (see §5 for full specification).  A single unified WAL
   format is a v3.0.0 goal.

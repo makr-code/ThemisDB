@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-19
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -202,12 +202,18 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 
 ### WS2 – Distributed Consistency & HA
 
-- [ ] **P0 · DIS-05 – Ein kanonischer 2PC-Koordinator** (Target: ADR 2026-12-15 · Umsetzung M2)
-  - ADR: `CrossShardTransactionCoordinator` vs. `TwoPhaseCommitCoordinator` – einen als kanonisch festlegen
-    (Kriterien: durable Decision-Log, Presumed-Abort, Timeout-/Retry-Semantik, Testabdeckung).
-  - Alle Aufrufer migrieren; der zweite Koordinator wird entfernt (kein Kompatibilitäts-Alias, Legacy-Verbot beachten).
-  - Fehlerfälle: Koordinator-Crash vor/nach Decision-Write, Participant-Timeout, doppelte Nachrichten.
-  - Tests: bestehende Modelltests auf kanonischen Koordinator umstellen; Prozess-Crash-Varianten aus STO-07.
+- [~] **P0 · DIS-05 – Ein kanonischer 2PC-Koordinator** (Target: ADR 2026-12-15 · Umsetzung M2)
+  - [x] Entscheidung: `TwoPhaseCommitCoordinator` ist kanonisch für direktes 2PC;
+    `CrossShardTransactionCoordinator` bleibt die Multi-Protokoll-Fassade. Siehe
+    [`ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`](ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md).
+  - [ ] CrossShard-2PC über einen expliziten Adapter auf den kanonischen Koordinator
+    migrieren; WAL-/Recovery-Vertrag vor dem Umschalten festlegen. Kein zweiter
+    2PC-Implementierungspfad, keine stillen Fallbacks und keine API-Entfernung ohne
+    separat geprüften Migrationsplan.
+  - [ ] Fehlerfälle: Koordinator-Crash vor/nach Decision-Write, Participant-Timeout,
+    doppelte Nachrichten und Wiederholung der ausgewählten Entscheidung.
+  - [ ] Beide öffentlichen Aufrufpfade mit Erfolg, Abbruch, Decision-Write-Fehler,
+    Phase-2-Fehler und Grenzfällen testen; Prozess-Crash-Varianten mit STO-07 abstimmen.
 - [ ] **P0 · DIS-06 – Recovery-Vertrag** (Target: M2 · 2027-04-30)
   - Ein Dokument plus Code-Durchsetzung: Decision-Log durable **vor** COMMIT-ACK; In-Doubt-Auflösung beim Start
     (blockierend, mit Metrik); Participant-WAL und Replikations-WAL nutzen den fail-closed Recovery-Status aus STO-01.
@@ -617,7 +623,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 ### Phase 1 – Design / API-Vertrag (2026-11-01 – 2026-12-15)
 
 - [x] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifiziert und mit der Quelle abgeglichen (STO-01, 2026-11-02); Implementierungs- und Evidenz-Gates bleiben teilweise offen.
-- [ ] ADR „Kanonischer 2PC-Koordinator“ inkl. Migrationsplan der Aufrufer (DIS-05) (Target: 2026-12-15)
+- [x] ADR „Kanonischer 2PC-Koordinator“: `TwoPhaseCommitCoordinator` ausgewählt;
+  Adapter-/Recovery-Migration bleibt offen (DIS-05) — `audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md` (2026-11-19)
 - [ ] Recovery-Vertrag Koordinator/Participant/Replikation als ein Dokument (DIS-06) (Target: 2026-12-15)
 - [ ] Produktionsmodus-Vertrag: kanonische Werteliste und Katalog aller Guards (SEC-14, SEC-01, DIS-01, DIS-02, SEC-10) (Target: 2026-11-20)
 - [ ] Fehlercodes `QueryMemoryLimitExceeded`, `TransportNotConfigured`, `NotConfigured` und Degraded-Statusschema für Ergebnisse (QRY-01, QRY-03, QRY-04, DIS-03, DIS-08) (Target: 2026-12-15)
@@ -753,7 +760,7 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 | Stub-Backends im Produktionsmodus gesperrt | SEC-10 | Start ohne echtes Backend schlägt fehl | Modell/Backend bereitstellen oder Feature deaktivieren |
 | Fehlende optionale Abhängigkeiten (Kafka, Redis) → `readiness=false` | STO-02, STO-03 | Pods werden nicht ready | Abhängigkeiten bauen/konfigurieren oder Feature deaktivieren |
 | Helm-Produktionsprofil (PDB, NetworkPolicy, ServiceMonitor) | OPS-08, OPS-09, OPS-16 | Neue Ressourcen, Netzwerk restriktiver | NetworkPolicy-Regeln für Clients ergänzen |
-| Zweiter 2PC-Koordinator entfernt | DIS-05 | API-Entfernung für interne Aufrufer | Migration laut ADR |
+| CrossShard-2PC-Adapter auf kanonischen Koordinator | DIS-05 | Keine API-Entfernung; Multi-Protokoll-Fassade bleibt | Adapter- und Recovery-Migration laut ADR |
 
 ---
 
