@@ -4,6 +4,7 @@
 #include "llm/lora_framework/gpu_memory.h"
 #include "llm/lora_framework/paged_optimizer.h"
 #include <chrono>
+#include <exception>
 #include <vector>
 #include <memory>
 #include <cassert>
@@ -125,6 +126,8 @@ static bool vulkan_available() {
 // Training Step Simulation (Forward + Backward + Optimizer)
 // ============================================================================
 
+// GPULoRALayer::forward accepts [rows, hidden], so each benchmark flattens
+// batch and sequence into the row dimension.
 static void run_training_step(GPULoRALayer& layer, const GPUTensor& input, const GPUTensor& target) {
     // Forward pass
     auto output = layer.forward(input);
@@ -149,10 +152,11 @@ static void BM_TrainingCycle_CPU_Baseline(benchmark::State& state) {
     
     // Create layer on CPU
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cpu(), false);
+    const auto flattened_batch_size = batch_size * seq_len;
     
     // Create input and target tensors on CPU
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cpu());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cpu());
+    GPUTensor input({flattened_batch_size, HIDDEN_DIM}, Device::cpu());
+    GPUTensor target({flattened_batch_size, HIDDEN_DIM}, Device::cpu());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -210,10 +214,11 @@ static void BM_TrainingCycle_CUDA(benchmark::State& state) {
     
     // Create layer on CUDA
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
+    const auto flattened_batch_size = batch_size * seq_len;
     
     // Create input and target tensors on CUDA
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor input({flattened_batch_size, HIDDEN_DIM}, Device::cuda());
+    GPUTensor target({flattened_batch_size, HIDDEN_DIM}, Device::cuda());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -278,10 +283,11 @@ static void BM_TrainingCycle_HIP(benchmark::State& state) {
     
     // Create layer on HIP
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::hip(), true);
+    const auto flattened_batch_size = batch_size * seq_len;
     
     // Create input and target tensors on HIP
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::hip());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::hip());
+    GPUTensor input({flattened_batch_size, HIDDEN_DIM}, Device::hip());
+    GPUTensor target({flattened_batch_size, HIDDEN_DIM}, Device::hip());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -323,7 +329,7 @@ BENCHMARK(BM_TrainingCycle_HIP)
 // Vulkan Training Cycle Benchmarks
 // ============================================================================
 
-static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
+static void BM_TrainingCycle_Vulkan(benchmark::State& state) try {
     if (!vulkan_available()) {
         state.SkipWithError("Vulkan not available");
         return;
@@ -334,10 +340,11 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
     
     // Create layer on Vulkan
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::vulkan(), true);
+    const auto flattened_batch_size = batch_size * seq_len;
     
     // Create input and target tensors on Vulkan
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::vulkan());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::vulkan());
+    GPUTensor input({flattened_batch_size, HIDDEN_DIM}, Device::vulkan());
+    GPUTensor target({flattened_batch_size, HIDDEN_DIM}, Device::vulkan());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -366,6 +373,10 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
         state.iterations() / 1000.0, benchmark::Counter::kIsRate);
     
     state.SetLabel("Vulkan");
+} catch (const std::exception& error) {
+    state.SkipWithError(error.what());
+} catch (...) {
+    state.SkipWithError("Vulkan training benchmark failed with an unknown exception");
 }
 
 BENCHMARK(BM_TrainingCycle_Vulkan)
@@ -390,10 +401,11 @@ static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
     
     // Create layer on CUDA
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
+    const auto flattened_batch_size = batch_size * seq_len;
     
     // Create input and target tensors on CUDA
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor input({flattened_batch_size, HIDDEN_DIM}, Device::cuda());
+    GPUTensor target({flattened_batch_size, HIDDEN_DIM}, Device::cuda());
     input.fill(0.5f);
     target.fill(0.3f);
     

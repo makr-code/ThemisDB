@@ -629,7 +629,8 @@ endif()
 # ============================================================================
 
 # 1. End-to-End Training Cycle Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND
+   THEMIS_ENABLE_GPU AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP OR THEMIS_ENABLE_VULKAN))
     message(STATUS "Adding GPU Training Cycle benchmarks")
     
     add_executable(bench_gpu_training_cycle
@@ -657,6 +658,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND (TH
     endif()
     if(THEMIS_ENABLE_HIP)
         target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_VULKAN=1)
     endif()
 
     themis_apply_benchmark_release_flags(bench_gpu_training_cycle)
