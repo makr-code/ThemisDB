@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot coding agent"
+AI_Contributor: "GitHub Copilot coding agent; OpenAI assistant"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
 Source_Level: "level1"
@@ -20,8 +20,12 @@ Canonical_References:
   - "aql_runner.cpp"
   - "query_engine.cpp"
   - "query_federation.cpp"
+  - "continuous_query_engine.cpp"
+  - "parallel_executor.cpp"
+  - "query_canceller.cpp"
+  - "../../tests/query/CMakeLists.txt"
 Related_Issue: "#7167 (closes #7091)"
-Related_Milestone: "DOC-WEEKLY-2026-W44"
+Related_Milestone: "DOC-WEEKLY-2026-W47"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -59,6 +63,46 @@ supplies a version.
 4. Results are returned as JSON or through result-stream abstractions. Cache and federation paths are optional parts of this flow, not mandatory stages for every query.
 
 The flow is visible in [`aql_runner.cpp`](aql_runner.cpp), [`query_engine.cpp`](query_engine.cpp), and [`query_federation.cpp`](query_federation.cpp).
+
+## Concurrency and lock ownership
+
+- **Continuous queries:** In [`continuous_query_engine.cpp`](continuous_query_engine.cpp),
+  `injectTuple()` owns only `inject_mutex_`; `tickOnce()` drains into a local deque
+  under that mutex, releases it, then acquires `registry_mutex_` for registry
+  processing, plan evaluation, and result fan-out. These two mutexes are not
+  nested. Subscriber `ResultQueue` objects have their own mutex; `pop()` waits
+  on the queue condition variable, not the registry mutex. Evaluation still
+  holds `registry_mutex_`, so registry operations can block behind a tick.
+- **Parallel execution:** In [`parallel_executor.cpp`](parallel_executor.cpp),
+  `parallelScan()` owns a per-call task group and per-morsel result buckets,
+  merged after the task-group wait. Its non-TBB fallback protects the pending
+  task list with `tasks_mutex_`, swaps work into a local list, and invokes tasks
+  outside that lock. This avoids holding the queue lock during filter execution;
+  it does not bound the filter's runtime.
+- **Cancellation registry:** [`query_canceller.cpp`](query_canceller.cpp) uses
+  a timed mutex with a 200 ms acquisition budget. Registration on contention
+  returns a usable token that is not registered for request-ID cancellation;
+  `cancel()` returns false and `unregisterQuery()` returns without removal if
+  acquisition times out. These are registry-access limits, not execution deadlines.
+
+### Timeout and shutdown limits
+
+The watchdogs in `query_engine.cpp::tbbWaitWithTimeout()` and
+`parallel_executor.cpp::waitWithTimeout()` request task-group cancellation, but
+still call `tg.wait()`: active work must return. The subsequent 1 s watchdog-join
+budget does not bound that task wait or interrupt a blocking filter/backend call.
+`parallelScan()` can return partial results after timeout-driven cancellation.
+
+For continuous queries, `stopLoop()` waits up to 5 s for loop completion before
+detaching its join watcher. The destructor uses `loop_stop_complete_`, rather
+than thread joinability, to decide whether to acquire the registry mutex and
+cancel subscriber queues. Skipping that cleanup avoids reacquiring the registry
+on an incomplete shutdown; detachment is not proof of worker termination or
+lifetime safety. These protections do not eliminate all blocking.
+
+Source-level regression evidence and focused registrations are listed in the
+[query test inventory](../../tests/query/README.md#focused-concurrency-regressions);
+their existence is not a test-pass claim.
 
 ## Failure domains and edge cases
 
