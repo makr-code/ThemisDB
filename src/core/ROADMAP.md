@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,10 @@ Human_Author: "unknown"
 Core runtime foundations are delivered: `ConcernsContext`, observability/caching/security concern interfaces, runtime concern replacement APIs, production adapters (spdlog, OpenTelemetry-family tracers, Prometheus, Redis cache path), and plugin-based adapter loading via dlopen/LoadLibrary (Issue #1706). Adapter metadata-digest validation and optional SHA-256 plugin-file integrity checks are available; these checks do not authenticate a publisher (see [`TRUST.md`](TRUST.md)).
 
 The module is **feature-capable but not yet evidence-complete for release-level performance, concurrency, and plugin-trust claims**. The scoped benchmark target currently measures index/query/storage paths rather than Core concerns; focused tests exist, but `test_core_highcardinality_stress.cpp` exercises local stand-in types rather than Core implementations. `AdapterRegistry` defaults to `kTrustAll`, and its optional adjacent SHA-256 digest is not publisher authentication. These gaps are the basis for the milestone plan below, not evidence that the underlying paths are failing.
+
+`AdapterRegistry::hotSwap()` publishes the replacement before waiting for old handles; a drain timeout returns `false` without rolling the replacement back. `ICircuitBreaker::call()` invokes its fallback only when the breaker denies a request; an operation exception is recorded and rethrown. Neither behavior implies automatic retry or recovery.
+
+`AdapterRegistry::setTrustPolicy()` now rejects enum values other than `kTrustAll` and `kRequireSignature`; this prevents an invalid trust state from taking the permissive loader path. It does not change the explicit `kTrustAll` default or provide publisher authentication.
 
 ## In Progress
 
@@ -59,8 +63,8 @@ The module is **feature-capable but not yet evidence-complete for release-level 
 
 ### Phase 4: Tests
 - [x] Focused module test registration in `tests/core/CMakeLists.txt` (`module_core_<test_stem>_focused`)
-- [x] `tests/core/test_adapter_registry_focused.cpp` — 10 tests (AR_01..AR_10) (Implemented: 2026-07-28)
-- [x] `tests/core/test_circuit_breaker_focused.cpp` — 8 tests (CB_01..CB_08) (Implemented: 2026-07-28)
+- [x] `tests/core/test_adapter_registry_focused.cpp` — focused registration, invalid-input, and concurrency cases (AR_01..AR_12)
+- [x] `tests/core/test_circuit_breaker_focused.cpp` — focused state, fallback, and exception cases (CB_01..CB_09)
 - [x] `tests/core/test_concerns_context_focused.cpp` — 18 tests (CCT_01..CCT_18) (Implemented: 2026-07-28)
 - [~] Refresh focused build/test execution evidence for current cycle (Target: v2.5.0)
 
@@ -125,7 +129,7 @@ This plan is a module-level proposal, not a release-date commitment. v2.5.0 is t
 |---|---|---|
 | Performance and scaling | `ConcernsContext::resolve<T>()` and `AdapterRegistry::resolve<T>()` use shared locks; hot-swap waits up to 100 ms. `benchmarks/core/bench_core_performance.cpp` contains no Core concern cases. | No direct Core latency, throughput, allocation, or memory baseline. Do not infer Core performance from the current benchmark target. |
 | Usability and interoperability | Interfaces cover logging, tracing, metrics, caching, secrets, feature flags, audit, and circuit breaking. Context propagation has helper APIs and `ContextPropagation::propagate()`. | Thread-local context does not cross arbitrary boundaries automatically; the caller must propagate headers/context. W3C malformed/absent/versioned-header behavior needs conformance evidence. |
-| Security and resilience | Plugin loading has ABI checks and optional adjacent SHA-256 checking. `TRUST.md` documents that the digest is not publisher authentication; registry trust defaults to `kTrustAll`. | No trusted signer identity/key lifecycle, provenance gate, or plugin isolation is established. Existing high-cardinality stress cases use stubs rather than Core adapters. |
+| Security and resilience | Plugin loading has ABI checks and optional adjacent SHA-256 checking. `TRUST.md` documents that the digest is not publisher authentication; registry trust defaults to `kTrustAll`. Adapter registration allows an omitted validator and rejects API versions below, but not above, `kCurrentApiVersion`. | No trusted signer identity/key lifecycle, provenance gate, or plugin isolation is established. Registration does not require capability validation or bound future API versions. Existing high-cardinality stress cases use stubs rather than Core adapters. |
 | Governance and maintainability | Focused tests are auto-discovered by `tests/core/CMakeLists.txt`; module docs separate API, trust, operations, test evidence, and roadmap. | Registration is not execution evidence. Historical `FUTURE_ENHANCEMENTS.md` v1.x targets and illustrative thresholds must not be treated as current release commitments. |
 | Operational readiness | `ConcernsContext` exposes health/readiness, flush, and shutdown; Core runbook material assigns deployment and dependency operation to consuming services. | No Core-specific benchmark artifact, live-backend recovery evidence, or sustained production-path soak result is currently asserted. |
 

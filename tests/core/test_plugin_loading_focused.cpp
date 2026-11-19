@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 #include <thread>
 #include <vector>
 
@@ -153,4 +154,15 @@ TEST(PluginLoadingTest, PL_08_ConcurrentLoadFromPluginBadPathNoCrash) {
 
     // Registry must be in a valid state after concurrent failures
     EXPECT_EQ(reg.count(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// PL_09 — an invalid enum value is rejected rather than becoming permissive
+// ---------------------------------------------------------------------------
+TEST(PluginLoadingTest, PL_09_InvalidTrustPolicyThrows) {
+    AdapterRegistry reg;
+
+    EXPECT_THROW(
+        reg.setTrustPolicy(static_cast<AdapterTrustPolicy>(255)),
+        std::invalid_argument);
 }

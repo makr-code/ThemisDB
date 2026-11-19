@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,6 +34,7 @@ The active, evidence-backed plan is [`ROADMAP.md`](ROADMAP.md#v250-v300-research
 - **v2.5.0:** Direct Core performance baselines; concurrency and trace-context contract validation; explicit plugin trust policy and bounded-cardinality tests; production-path fault recovery and soak evidence.
 - **v3.0.0:** Versioned concern/API contracts with migration guidance; signed plugin provenance and trust-root lifecycle; measured bottleneck optimization; release-grade resilience and governance evidence.
 - Wave dependencies, proposed effort, risks, validation, and measurable exit criteria are maintained only in the module roadmap to avoid a second schedule source.
+- The historical `Test Strategy`, `Performance Targets`, and `Security / Reliability` sections below are backlog proposals, not evidence of currently enforced gates or measured performance. Use the v2.5.0/v3.0.0 gates in `ROADMAP.md` for current release planning.
 
 ## 2026-07-28 Sync Snapshot (Issue #5638)
 

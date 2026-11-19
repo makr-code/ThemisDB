@@ -3,6 +3,7 @@
 #include "core/concerns/noop_implementations.h"
 
 #include <atomic>
+#include <stdexcept>
 #include <string>
 
 using namespace themis::core::concerns;
@@ -203,4 +204,26 @@ TEST(CircuitBreakerTest, CB_08_StateObservableViaGetState) {
     EXPECT_TRUE(noop.allowRequest());
     noop.recordFailure();
     EXPECT_EQ(noop.getState(), ICircuitBreaker::State::CLOSED);
+}
+
+// ---------------------------------------------------------------------------
+// CB_09 — a thrown operation is rethrown; fallback is only used when blocked
+// ---------------------------------------------------------------------------
+TEST(CircuitBreakerTest, CB_09_ThrowingCallRecordsFailureAndRethrows) {
+    auto cb = makeBreaker(/*threshold=*/1);
+    bool fallback_called = false;
+
+    EXPECT_THROW(
+        cb.call(
+            []() -> int { throw std::runtime_error("operation failed"); },
+            [&] { fallback_called = true; return -1; }),
+        std::runtime_error);
+    EXPECT_FALSE(fallback_called);
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+
+    const int result = cb.call(
+        [] { return 42; },
+        [&] { fallback_called = true; return -1; });
+    EXPECT_TRUE(fallback_called);
+    EXPECT_EQ(result, -1);
 }
