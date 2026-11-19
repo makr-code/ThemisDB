@@ -216,6 +216,17 @@ public:
         return vs; // std::map iterates in ascending key order
     }
 
+    /**
+     * @brief Validate an object document against a registered schema version.
+     * @param[in] document_id Identifier copied into the validation report.
+     * @param[in] document_body Document JSON; non-object values are rejected.
+     * @param[in] version Registered schema key; numeric order has no migration
+     *            semantics.
+     * @return A report with field violations, or an error if the version is
+     *         unregistered or the body is not an object.
+     * @note Checks required fields and declared JSON types only; unknown fields
+     *       are accepted, and defaults are informational.
+     */
     Result<ValidationReport> validate(
         const DocumentId&     document_id,
         const nlohmann::json& document_body,
