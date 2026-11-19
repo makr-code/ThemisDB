@@ -1,14 +1,14 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `module-behavior`
 **Canonical source references:** [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [manager API](../../include/content/content_manager.h), [processor chain](../../include/content/processor_chain_config.h), [streaming tests](../../tests/content/test_content_streaming_ingestion.cpp), [architecture](ARCHITECTURE.md)
-**Related issue:** #7109
+**Related issue:** #7109, #7508
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -57,15 +57,34 @@ See [architecture](ARCHITECTURE.md).
 
 ### Stages and failures
 
-`ProcessorChainConfig` resolves exact MIME configuration before category configuration,
-then global defaults. Stages default to enabled. `StageConfig` defaults to zero retries,
-100 ms retry delay, and `continue_on_error == false`; actual stage execution and result
-reporting remain implementation-specific. A retry limit of `n` means at most `n + 1`
-attempts in the shared retry helper.
+`ProcessorChainConfig` resolves an exact MIME entry before a category entry, then the
+global default; selected entries replace rather than merge. Stage defaults are enabled,
+zero retries, 100 ms delay, and `continue_on_error == false`. Its JSON parser silently
+ignores wrong-typed stage fields, non-object entries, and unknown category names; an
+invalid retry value can therefore leave a stage at its default instead of reporting a
+configuration error. Negative `max_retries` values are accepted but execute zero
+attempts. The parser and public mutable fields also impose no retry/delay ceiling.
 
-Do not convert required-stage errors into silent success. If adding a fallback, ensure
-the public result distinguishes success, skip/degradation, attempt count, and failure
-context; check existing `IngestResult::StageOutcome` behavior before extending it.
+The manager's shared retry helper makes `1 + max_retries` attempts for non-negative
+values and sleeps `retry_delay_ms` before retries only when that value is positive. There
+is no hard total-attempt or elapsed-time cap. In current raw-blob handling this helper is
+used for HTML/Markdown chunk generation (not the initial extraction call) and storage.
+`continue_on_error` can mark those extraction outcomes skipped and continue; storage
+failure still returns an unsuccessful ingestion result. An initial HTML/Markdown
+extraction error is logged but does not receive a stage outcome. These paths are bounded
+only by the provided integer configuration, not by a safety ceiling.
+
+`AsyncIngestionConfig::retry_attempts` is parsed/configurable but is not consumed by the
+worker loop: a thrown processing exception marks the job failed after one call. There is
+no worker retry/recovery loop or `DEGRADED` job status. Do not promise retries, recovery,
+or a persistent degraded state from this setting.
+
+These permissive parser semantics and unbounded-by-policy stage settings are current
+release blockers. Invalid configuration must not be represented as successfully applied.
+Until runtime validation is implemented and tested, validate configuration externally
+and do not treat ignored fields or a successful job wrapper as evidence that an optional
+stage ran. Any future fallback must expose success, skipped/degraded state, attempt
+count, and failure context in the caller-visible result.
 
 ## Extension contract
 
