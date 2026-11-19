@@ -9,6 +9,7 @@
  */
 
 #include "llm/docs_assistant.h"
+#include "llm/detail/default_model_path.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/prompt_safety_utils.h"
@@ -16,7 +17,6 @@
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <sstream>
 #include <cctype>
@@ -48,38 +48,8 @@ namespace {
  * @details Calls: std::getenv(), std::string(), empty(), candidate(), dir(), std::filesystem::is_directory(), std::filesystem::exists(), string().
  */
 std::string resolveDefaultModelPathFromEnv() {
-    constexpr std::array<const char*, 3> kModelEnvVars = {
-        "THEMIS_DEMO_LLM_MODEL_PATH",
-        "THEMIS_LLM_DEFAULT_MODEL_PATH",
-        "THEMIS_MODEL_DIR"
-    };
-
-    for (const auto* env_name : kModelEnvVars) {
-        const char* value = std::getenv(env_name);
-        if (!value || std::string(value).empty()) {
-            continue;
-        }
-
-        std::string candidate(value);
-        // THEMIS_MODEL_DIR may point to a directory. In that case try phi4 first.
-        if (env_name == std::string("THEMIS_MODEL_DIR")) {
-            std::filesystem::path dir(candidate);
-            std::error_code ec = {};
-            if (std::filesystem::is_directory(dir, ec)) {
-                auto preferred = dir / "phi4.gguf";
-                if (std::filesystem::exists(preferred, ec)) {
-                    return preferred.string();
-                }
-            }
-        }
-
-        std::error_code ec = {};
-        if (std::filesystem::exists(candidate, ec)) {
-            return candidate;
-        }
-    }
-
-    return "";
+    const auto model_path = detail::resolveDefaultModelPath();
+    return model_path.has_value() ? model_path->string() : std::string{};
 }
 
 /**
@@ -649,7 +619,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
                 EmbeddedLLM::Config cfg;
                 cfg.model_path = model_path;
                 cfg.model_id = impl_->config.llm_model_id.empty() ? "default" : impl_->config.llm_model_id;
-                cfg.n_ctx = 4096;
+                cfg.n_ctx = 2048;
                 // n_batch must equal n_ctx so the context can accept prompts up to
                 // n_ctx tokens in a single llama_decode call. Setting it smaller
                 // triggers GGML_ASSERT(n_tokens_all <= cparams.n_batch) for typical

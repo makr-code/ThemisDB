@@ -17,11 +17,10 @@
  */
 
 #include "llm/llm_client.h"
+#include "llm/detail/default_model_path.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include <spdlog/spdlog.h>
-#include <array>
-#include <filesystem>
 
 namespace themis::llm {
 
@@ -29,43 +28,22 @@ namespace {
 
 bool tryBootstrapDefaultLLMBackend() {
     auto& manager = LLMPluginManager::instance();
-    if (manager.getDefaultPlugin() != nullptr) {
-        return true;
-    }
-
-    // Pre-register the backend when LLM support is compiled in and a model path
-    // is configured. This avoids the default keyword fallback masking a valid
-    // runtime backend that has not been registered yet.
 #if defined(THEMIS_ENABLE_LLM)
-    if (themis::llm::createLlamaWrapper("llamacpp", "", nlohmann::json::object())) {
-        if (manager.getDefaultPlugin() != nullptr) {
+    const auto model_path = detail::resolveDefaultModelPath();
+    ILLMPlugin* default_plugin = manager.getDefaultPlugin();
+    if (default_plugin != nullptr) {
+        if (default_plugin->isModelLoaded()) {
             return true;
         }
+        return model_path.has_value() && manager.loadModel("default", model_path->string());
     }
 
-    const std::array<const char*, 2> model_envs = {
-        "THEMIS_DEMO_LLM_MODEL_PATH",
-        "THEMIS_LLM_DEFAULT_MODEL_PATH"
-    };
-
-    for (const char* env_name : model_envs) {
-        const char* env_value = std::getenv(env_name);
-        if (!env_value || env_value[0] == '\0') {
-            continue;
-        }
-
-        const std::filesystem::path model_path(env_value);
-        if (!std::filesystem::exists(model_path)) {
-            spdlog::warn("DefaultLLMClient: {} points to a missing model path '{}'",
-                         env_name, model_path.string());
-            continue;
-        }
-
-        if (themis::llm::createLlamaWrapper("llamacpp", "", nlohmann::json::object()) &&
-            manager.loadModel("default", model_path.string())) {
-            return true;
-        }
+    if (!model_path.has_value()) {
+        spdlog::debug("DefaultLLMClient: no configured model and models/default.gguf is absent");
+        return false;
     }
+    return themis::llm::createLlamaWrapper(
+        "llamacpp", model_path->string(), nlohmann::json::object());
 #endif
 
     return manager.getDefaultPlugin() != nullptr;

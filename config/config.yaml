@@ -652,6 +652,10 @@ llm:
   # warnings but continue to start.  Set to true to make a missing/failed
   # LLM a hard startup error.
   required: false
+  model_path: "models/default.gguf"
+  model_id: "tinyllama"
+  auto_download: false
+  context_size: 2048
   default_plugin: "llamacpp"
   plugin_paths:
     - "./plugins"
@@ -663,10 +667,9 @@ llm_plugins:
     type: "llama.cpp"
     enabled: true
 
-    # Default model: TinyLlama 1.1B (GGUF, Q4_0)
-    # Download: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+    # Default local text model: TinyLlama 1.1B GGUF.
     model:
-      path: "models/tinyllama-1.1b-q4_0.gguf"
+      path: "models/default.gguf"
       id: "tinyllama"
       auto_load: true
 
@@ -687,7 +690,7 @@ llm_plugins:
 
     # Context and threading
     context:
-      n_ctx: 4096
+      n_ctx: 2048
       n_batch: 512
       n_threads: 4
 

@@ -25,7 +25,7 @@ llm:
   required: false  # If true, server won't start if LLM init fails
   
   # Model Configuration
-  model_path: "models/tinyllama-1.1b-q4_0.gguf"  # Path to GGUF model file
+  model_path: "models/default.gguf"  # Default local TinyLlama GGUF
   model_id: "tinyllama"  # Identifier for this model
   
   # Performance Settings

@@ -64,7 +64,8 @@ protected:
             for (auto& root : {std::filesystem::path("./models"),
                                 std::filesystem::path("../models"),
                                 std::filesystem::path("../../models")}) {
-                for (auto& name : {"tinyllama.gguf",
+                for (auto& name : {"default.gguf",
+                                   "tinyllama.gguf",
                                    "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
                                    "tinyllama-1.1b-chat-v1.0.gguf"}) {
                     auto candidate = root / name;

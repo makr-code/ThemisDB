@@ -9,29 +9,28 @@
 
 models:
   # ---------------------------------------------------------------------------
-  # Phi-3 Models (Microsoft - Recommended Default)
+  # TinyLlama (ThemisDB default local text model)
   # ---------------------------------------------------------------------------
-  - name: phi-3-mini-4k-instruct
+  - name: tinyllama-1.1b-chat
     version: "1.0"
     type: instruction
     format: gguf
-    size: 3.8B
-    quantization: Q4_K_M
+    size: 1.1B
+    quantization: Q4_0
     sources:
-      huggingface: microsoft/Phi-3-mini-4k-instruct-gguf
-      ollama: phi3:mini-4k
-      local: models/default/phi-3-mini-4k-instruct-q4.gguf
+      huggingface: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+      ollama: tinyllama:1.1b
+      local: models/default.gguf
     parameters:
-      context_length: 4096
-      max_tokens: 2048
+      context_length: 2048
+      max_tokens: 512
       temperature: 0.7
       top_p: 0.95
       top_k: 40
       repeat_penalty: 1.1
     gpu:
-      layers_offload: 24  # Full offload for 2GB VRAM
+      layers_offload: 0
       vram_required_mb: 2048
-      cuda_compute_capability: "7.0"
     lazy_loading:
       enabled: true
       priority: high  # Default model - highest priority
@@ -39,21 +38,24 @@ models:
       pin_to_memory: true
       preload_on_startup: false
     architecture:
-      model_type: "phi3"
+      model_type: "llama"
       attention_type: "grouped_query_attention"
       num_attention_heads: 32
-      num_key_value_heads: 8  # GQA ratio: 4:1
-      hidden_size: 3072
-      intermediate_size: 8192
+      num_key_value_heads: 4
+      hidden_size: 2048
+      intermediate_size: 5632
     lora_target_modules:
-      - qkv_proj      # Phi-3 combined Q/K/V
-      - o_proj        # Output projection
-      - gate_up_proj  # Combined gate/up (MLP)
-      - down_proj     # Down projection (MLP)
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
     loras:
       - themis-help-v1
       - code-assistant-v1
-    recommended: true  # Recommended as default model
+    recommended: true
     license: MIT
     
   - name: phi-3-mini-128k-instruct

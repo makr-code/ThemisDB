@@ -78,6 +78,7 @@
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/detail/default_model_path.h"
 #include "llm/docs_assistant.h"
 #include "llm/rag_helpers.h"
 #include "rag/rag_provider.h"
@@ -5465,42 +5466,26 @@ http::response<http::string_body> HttpServer::routeRequest(
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
                 auto tryBootstrapDefaultModel = [&plugin_mgr]() -> bool {
-                    const std::array<const char*, 2> env_names = {
-                        "THEMIS_DEMO_LLM_MODEL_PATH",
-                        "THEMIS_LLM_DEFAULT_MODEL_PATH"
-                    };
-
-                    for (const auto* env_name : env_names) {
-                        const char* env_value = std::getenv(env_name);
-                        if (!env_value || env_value[0] == '\0') {
-                            continue;
-                        }
-
-                        const std::string model_path = env_value;
-                        if (!std::filesystem::exists(model_path)) {
-                            THEMIS_WARN("LLM bootstrap skipped: {} points to missing path '{}'",
-                                        env_name, model_path);
-                            continue;
-                        }
-
-                        try {
-                            THEMIS_INFO("LLM bootstrap: trying to load default model from {}='{}'",
-                                        env_name, model_path);
-                            // Register plugin backend first; loadModel below performs
-                            // the single authoritative model-load operation.
-                            if (!themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
-                                continue;
-                            }
-                            if (plugin_mgr.loadModel("default", model_path)) {
-                                THEMIS_INFO("LLM bootstrap: default model loaded successfully");
-                                return true;
-                            }
-                        } catch (const std::exception& e) {
-                            THEMIS_WARN("LLM bootstrap from {} failed: {}", env_name, e.what());
-                        }
+                    const auto model_path = themis::llm::detail::resolveDefaultModelPath();
+                    if (!model_path.has_value()) {
+                        THEMIS_WARN("LLM bootstrap skipped: no configured model or models/default.gguf found");
+                        return false;
                     }
 
-                    return false;
+                    if (auto* default_plugin = plugin_mgr.getDefaultPlugin()) {
+                        if (default_plugin->isModelLoaded()) {
+                            return true;
+                        }
+                        return plugin_mgr.loadModel("default", model_path->string());
+                    }
+
+                    try {
+                        return themis::llm::createLlamaWrapper(
+                            "llamacpp", model_path->string(), json::object());
+                    } catch (const std::exception& e) {
+                        THEMIS_WARN("LLM bootstrap from '{}' failed: {}", model_path->string(), e.what());
+                        return false;
+                    }
                 };
 
                 if (path_only == "/api/v1/llm/ready" && method == http::verb::get) {

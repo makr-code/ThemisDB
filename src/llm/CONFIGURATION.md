@@ -18,7 +18,7 @@ Exact model backend not verifiable from final document text alone.
 <!-- Links: README.md · ARCHITECTURE.md · OPERATIONS.md -->
 
 Version: 1.0 (Phase 6)
-Last Updated: 2026-08-17
+Last Updated: 2026-11-19
 Module Path: src/llm/
 
 ---
@@ -106,8 +106,17 @@ export THEMIS_LLM_PREFIX_CACHE_SIZE_MB=256
 #### Model Management
 
 ```bash
-# Model directory path (default: ./models)
+# Explicit GGUF file override (highest priority)
+export THEMIS_LLM_DEFAULT_MODEL_PATH=/path/to/model.gguf
+
+# Model directory override; the configured filename or default.gguf is selected
+export THEMIS_MODEL_DIR=/path/to/models
+
+# Alias for model-directory deployments
 export THEMIS_LLM_MODEL_PATH=/path/to/models
+
+# Without an explicit path, ThemisDB uses ./models/default.gguf when present.
+# This is the packaged TinyLlama 1.1B open-weight default.
 
 # Pre-load models on initialization (comma-separated)
 export THEMIS_LLM_PRELOAD_MODELS="llama2-7b,mistral-7b"

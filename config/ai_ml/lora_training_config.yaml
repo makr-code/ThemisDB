@@ -32,10 +32,10 @@ adapters:
     enabled: true
     
     # Base model: TinyLlama 1.1B (matches default inference model in config.yaml)
-    # Download: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+    # Default artifact: models/default.gguf
     base_model:
       name: tinyllama-1.1b
-      path: models/tinyllama-1.1b-q4_0.gguf
+      path: models/default.gguf
       type: llama
       
     # LoRA hyperparameters

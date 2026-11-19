@@ -32,8 +32,8 @@ public:
         std::string model_path = "models/default.gguf";
         std::string model_id = "default";
         int n_gpu_layers = 0;          // 0 = CPU only
-        int n_ctx = 4096;              // Context size
-        int n_batch = 4096;
+        int n_ctx = 2048;              // TinyLlama default context; explicit configs may override.
+        int n_batch = 2048;
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
         bool enable_streaming = false; // Default: no streaming

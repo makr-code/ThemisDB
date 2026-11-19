@@ -131,6 +131,7 @@
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
+#include "llm/detail/default_model_path.h"
 #include "llm/model_downloader.h"
 #include "llm/ai_orchestrator.h"
 #include "llm/mode_spec_bootstrap.h"
@@ -1522,7 +1523,12 @@ int main(int argc, char* argv[]) {
             if (llm_enabled) {
                 try {
                     themis::llm::EmbeddedLLM::Config llm_config;
-                    llm_config.model_path = llm_cfg.value("model_path", std::string("models/default.gguf"));
+                    const auto default_model_path =
+                        themis::llm::detail::resolveDefaultModelPath();
+                    const std::string fallback_model_path = default_model_path.has_value()
+                        ? default_model_path->string()
+                        : std::string("models/default.gguf");
+                    llm_config.model_path = llm_cfg.value("model_path", fallback_model_path);
                     llm_config.model_id = llm_cfg.value("model_id", std::string("default"));
                     llm_config.n_gpu_layers = llm_cfg.value("gpu_layers", 0);
                     llm_config.n_ctx = llm_cfg.value("context_size", 4096);
@@ -1539,13 +1545,14 @@ int main(int argc, char* argv[]) {
                     if (const char* env_ctx = std::getenv("THEMIS_CONTEXT_SIZE")) {
                         llm_config.n_ctx = std::atoi(env_ctx);
                     }
-                    if (const char* env_model_dir = std::getenv("THEMIS_MODEL_DIR")) {
-                        llm_config.model_path = std::string(env_model_dir) + "/" + 
-                            std::filesystem::path(llm_config.model_path).filename().string();
+                    if (const auto model_override =
+                            themis::llm::detail::resolveModelPathOverride(
+                                {}, llm_config.model_path)) {
+                        llm_config.model_path = model_override->string();
                     }
                     
                     // Auto-download model if not present
-                    bool auto_download = llm_cfg.value("auto_download", true);
+                    bool auto_download = llm_cfg.value("auto_download", false);
                     if (const char* env_disable = std::getenv("THEMIS_DISABLE_AUTO_DOWNLOAD")) {
                         if (std::string(env_disable) == "1" || std::string(env_disable) == "true") {
                             auto_download = false;
@@ -1559,7 +1566,7 @@ int main(int argc, char* argv[]) {
                         try {
                             // Configure download from Ollama
                             themis::llm::ModelDownloadConfig dl_config;
-                            dl_config.model_name = llm_cfg.value("ollama_model", std::string("phi3:mini-4k"));
+                            dl_config.model_name = llm_cfg.value("ollama_model", std::string("tinyllama:1.1b"));
                             dl_config.ollama_url = llm_cfg.value("ollama_url", std::string("http://localhost:11434"));
                             
                             // Override with environment variable if set
