@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -14,11 +14,11 @@ Exact model backend not verifiable from final document text alone.
 
 # Architecture - Ethics AI Module
 
-<!-- Status: current | source review: 2026-10-31 -->
+<!-- Status: current | source review: 2026-11-19 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
-## Overview
+## Kontext
 
 The ethics_ai module composes philosophy profile ingestion, argument persistence, discourse orchestration, context assembly, evaluation, and plugin lifecycle wiring into a coherent ethics reasoning runtime for ThemisDB.
 
@@ -28,7 +28,7 @@ Root `ROADMAP.md` designates the external `plugins/themisdb_ethic_ai/` submodule
 
 The fixed `ETHICS_AI_SOURCES` list compiles 12 translation units, including the LDM helper implementations; compilation does not imply runtime wiring. `EthicsAIPlugin` delegates to `EthicalDiscourseEngine`, and the plugin decision flow does not call `EthicsSelectionRouter`, `DiscourseOrchestrator`, `MetaVerdictBuilder`, or `MirrorSchoolHandler`. Without an injected inference callback, the orchestrator ignores dilemma text and produces deterministic synthetic output from `school_id.size() % 3` (the source comment describes this as hash-based); the mirror helper also has a deterministic fallback. Ebene-2 creates cluster summaries and tension-axis records without the described multi-round cluster dialogue, and `MetaVerdictBuilder` ignores its cluster-position input and uses unit vote counts. The current plugin entrypoint does not inject a real LLM callback or legal retriever. The source directory contains additional `.cpp` files outside the fixed target list and does not contain `cluster_discourse_engine.cpp`.
 
-## Main Execution Planes
+## Komponenten
 
 ### 1. Profile and Configuration Plane
 - profile loading, validation, and registry/index operations
@@ -63,7 +63,7 @@ The fixed `ETHICS_AI_SOURCES` list compiles 12 translation units, including the 
 - supplied mirror outputs are copied to `MetaVerdict.minority_dissent`
 - default inference is deterministic stub output, not a live LLM call
 
-## Core Contracts
+## Schnittstellen
 
 | Contract | Behavior |
 |---|---|
@@ -75,36 +75,63 @@ The fixed `ETHICS_AI_SOURCES` list compiles 12 translation units, including the 
 | evaluation/ops contract | explicit scoring, metrics, and plugin lifecycle surfaces |
 | legal grounding input | `MetaVerdictBuilder` accepts a caller-supplied `LegalGrounding`; it does not retrieve legal documents itself |
 
-## LDM Discourse Mode Overview
+## Datenfluss
 
-```
-DiscourseMode::SELECTION_ONLY   (RouterConfig default)
-  └─ EthicsSelectionRouter: Top-N pre-selection
-  └─ Selection router returns selected candidates; debate execution is handled separately by the existing discourse engine
-
-DiscourseMode::LAYERED_FULL     (planning/helper APIs present; integration incomplete)
-  └─ Ebene-1: all N schools, parallel, equal w₀=1/N         O(N)
-  └─ Ebene-2: cluster-majority summaries + tension-axis records (not multi-round dialogue)
-  └─ Ebene-3: counts supplied non-ABSTAIN outputs; accepts grounding as input
-  └─ Mirror: helper runs supplied mirror IDs; default output is deterministic stub
-  └─ MetaVerdict: convergence_score + cross_cultural_flag + minority_dissent
-
-DiscourseMode::LAYERED_FAST     (planning/helper APIs present; integration incomplete)
-  └─ Ebene-1: all N schools parallel (identical to LAYERED_FULL)
-  └─ no full cluster map is created by the router plan
-  └─ Ebene-3 helper can assemble a MetaVerdict from supplied Ebene-1 outputs and grounding
+```mermaid
+flowchart LR
+    Caller --> Plugin[EthicsAIPlugin]
+    Plugin --> Engine[EthicalDiscourseEngine]
+    Engine --> Decision[Decision or Status]
+    Router[EthicsSelectionRouter] --> Plan[Discourse plan]
+    Plan --> Orchestrator[DiscourseOrchestrator helper]
+    Orchestrator --> Builder[MetaVerdictBuilder helper]
+    Plugin -. current decision flow does not call .-> Router
 ```
 
-## Failure Semantics
+Kurzinterpretation: The solid path is the current in-tree plugin decision flow. The lower path represents separately available LDM planning/helpers; the dotted edge records that these helpers are not integrated into the plugin decision path.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant Plugin as EthicsAIPlugin
+    participant Engine as EthicalDiscourseEngine
+    Caller->>Plugin: makeDecision(dilemma, schools, category, use_rag)
+    alt plugin is not initialized
+        Plugin-->>Caller: Status::Error
+    else plugin is initialized
+        Plugin->>Engine: makeDecision(...)
+        alt no philosophy schools
+            Engine-->>Plugin: Status::Error
+        else at least one school
+            Engine-->>Plugin: EthicalDecision or Status
+        end
+        Plugin-->>Caller: result
+    end
+```
+
+Kurzinterpretation: The plugin rejects calls before initialization; the engine rejects an empty school list. Successful calls follow `EthicalDiscourseEngine`; this sequence does not invoke the LDM helpers.
+
+## Fehlerpfade und Resilienz
 
 - invalid profile or school selection paths fail with structured status/error states.
 - missing storage/context inputs produce explicit non-silent failure behavior.
 - lifecycle misuse (uninitialized plugin paths) fails deterministically.
-- **LDM:** LLM timeout in Ebene-1 → school receives `ABSTAIN` (fail-closed); never silent drop.
+- **LDM:** `runEbene1()` rejects empty/duplicate school IDs and invalid/non-equal `initial_weight` before inference starts.
+- **LDM:** The positive per-school wait threshold maps a late callback result to `ABSTAIN`, but does not cancel the callback. With `std::async`, destroying an unfinished future may block until its task completes, so this is not a hard deadline or bounded recovery guarantee.
 - **LDM:** a caller-supplied unavailable `LegalGrounding` results in empty grounding and an unavailable flag; no retrieval occurs in the builder.
 - **LDM:** All N schools ABSTAIN → `DISSENT` MetaVerdict; never silently promoted to `SELECTION_ONLY`.
 
-## Sourcecode Verification (Module: ethics_ai/architecture)
+## Nicht-Ziele
+
+- This in-tree reference architecture does not establish behavior of the canonical external plugin in `plugins/themisdb_ethic_ai/`.
+- The existing helper APIs and deterministic fixtures do not establish production LLM inference, legal retrieval, or a full multi-round LDM pipeline.
+- Source-defined benchmark targets are not measured performance evidence or proof of a release threshold.
+
+## Verweise
+
+Root [`ROADMAP.md`](../../ROADMAP.md) owns aggregate maturity status; module [`ROADMAP.md`](ROADMAP.md), [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md), and [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) describe in-tree evidence and open validation gates.
 
 - Verified files:
   - src/ethics_ai/ethics_ai_plugin.cpp

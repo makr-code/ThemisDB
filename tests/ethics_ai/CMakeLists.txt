@@ -15,6 +15,12 @@ foreach(_src IN LISTS ETHICS_AI_MODULE_TEST_SOURCES)
 
     add_executable(${_target} "${_src}")
 
+    if(_stem STREQUAL "test_ethics_ai_policy_evaluation_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        )
+    endif()
+
     # Compile the LDM implementation sources directly into the test target so
     # focused tests have no dependency on the full ethics_ai_plugin shared library.
     target_sources(${_target} PRIVATE

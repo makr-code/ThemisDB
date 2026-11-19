@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -64,6 +64,14 @@ production LDM wiring against that canonical plugin.
   before setting the initialized flag; that load returns an error which is
   ignored. After successful initialization, callers must explicitly invoke
   `loadPhilosophyProfiles(path)` and handle its result.
+- `DiscourseOrchestrator::runEbene1()` rejects empty/duplicate school IDs and
+  non-finite or unequal `initial_weight` before launching callbacks. Timeout
+  settings must be positive. Callback errors and invalid schema/verdict/
+  confidence results fail closed as ABSTAIN; callback-reported and
+  orchestrator-classified timeouts also set `timed_out`. An orchestrator
+  timeout marks a late school result as ABSTAIN but does not cancel the
+  callback; destruction of an unfinished `std::async` future may delay return,
+  so this is not a hard deadline or bounded recovery guarantee.
 
 These are observations about the checked-in parent-repository sources only.
 They are not recommendations to enable deterministic fallback inference in
@@ -85,9 +93,11 @@ when the root benchmark build is enabled and its benchmark/core targets exist.
 Its fixtures use a mock registry and deterministic inference, not a live LLM or
 legal database. The plugin benchmark is sourced from
 [`bench_ethics_ai_plugin.cpp`](../../benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp);
-its root CMake target guard must match that nested path. A source-declared
-threshold or registered benchmark is not a measured result or a release gate
-without a recorded run and threshold-enforcing job.
+the root CMake existence guard and executable source both reference the nested
+`ethics_ai/` path. Generated target presence still depends on a benchmark-enabled
+configuration with Google Benchmark available; source registration alone is not
+a measured result or a release gate without a recorded run and
+threshold-enforcing job.
 
 ## Source priority
 

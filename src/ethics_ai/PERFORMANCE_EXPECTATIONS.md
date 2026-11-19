@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -20,7 +20,7 @@ This file maps named benchmark cases to the `ethics_ai` paths they exercise. A b
 
 ## Runtime benchmark cases
 
-Source: `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`. The root `benchmarks/CMakeLists.txt` has a separate conditional creation/CTest-registration block for `bench_ethics_ai_plugin`; it checks for `bench_ethics_ai_plugin.cpp` at the `benchmarks/` root before compiling the nested source. With the checked-in paths that existence guard is false, so the block skips this target. The benchmark suite itself is added only when `THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark is found.
+Source: `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`. The root `benchmarks/CMakeLists.txt` has a conditional creation/CTest-registration block for `bench_ethics_ai_plugin`; its source existence guard and executable source both point to the nested `ethics_ai/bench_ethics_ai_plugin.cpp` path. Target creation is gated by `THEMIS_BUILD_BENCHMARKS=ON`, Google Benchmark discovery, and source presence; CTest registration is conditional on the target. In this environment Google Benchmark is not discoverable, so generated target presence and compilation remain unverified. A source guard or benchmark case is not a measured result.
 
 | Path | Source-defined benchmark case(s) |
 |---|---|
@@ -54,3 +54,11 @@ The source does not define `BM_LDM_EndToEnd_Full`, an Ebene-2/full-cluster bench
 - Benchmark source identifiers and CMake registration conditions were inspected on 2026-10-31. The plugin benchmark block's current root-path guard does not match its nested source path; the LDM target is dependency-gated.
 - No benchmark binary was run for this documentation update; no hardware baseline is claimed.
 - For current implementation limitations, see `ARCHITECTURE.md` and `ROADMAP.md`.
+
+## Evaluator evidence gates
+
+The in-tree evaluator's focused safety gate is `test_ethics_ai_policy_evaluation_focused_EthicsAiFocusedTests`. It must verify that 100% of tested non-finite, negative, zero-sum, or overflowing weight configurations are rejected; all tested non-finite/out-of-range decision scores return `Status::Error`; and fairness evidence counts match the distinct non-empty school IDs actually present on arguments. Missing school evidence must be explicitly unavailable, not represented by a positive fairness score.
+
+The existing source-diversity score is not a fairness outcome measure. A v3.0.0 fairness claim requires a versioned, independently reviewed dataset and methodology, with subgroup/cultural coverage, uncertainty, limitations, and sensitivity/holdout results; profile counts or source-diversity proxy values are insufficient.
+
+No measured evaluator latency baseline is currently asserted. Before a performance claim, run a reproducible evaluator workload with 0, 1, 10, 100, and 1,000 arguments, include at least 1,000 warm-up and 10,000 timed evaluations per workload size across five repetitions, and record source revision, compiler/build flags, hardware, and P50/P95/P99 latency and throughput. The corresponding numerical regression threshold remains unset until owners approve it against the recorded baseline; no benchmark result or CI threshold enforcement is implied by this protocol.
