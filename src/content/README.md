@@ -86,6 +86,20 @@ Out of scope:
 - large/complex payload behavior depends on configured limits and pipeline settings.
 - degraded processor dependencies produce structured runtime failure behavior.
 
+## Installation
+
+The content module is built as part of ThemisDB; this directory does not define a
+separate package installation procedure. Follow the [root build instructions](../../README.md).
+Optional processor availability depends on the build flags and dependencies listed in
+the [public-header overview](../../include/content/README.md#build-conditionals).
+
+## Usage
+
+Use the public interfaces under [`include/content/`](../../include/content/README.md).
+The public-header overview contains caller examples; the [API contract](API.md) documents
+result and failure semantics. In particular, inspect ingestion stage outcomes and do not
+assume every public format processor is dispatched by `ContentManager`.
+
 ## Current ContentManager integration boundary (source-checked 2026-10-31)
 
 The public processor inventory is not a map of direct `ContentManager` dispatch. In the
