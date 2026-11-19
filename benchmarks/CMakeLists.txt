@@ -629,7 +629,7 @@ endif()
 # ============================================================================
 
 # 1. End-to-End Training Cycle Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/bench_gpu_training_cycle.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP OR THEMIS_ENABLE_VULKAN))
     message(STATUS "Adding GPU Training Cycle benchmarks")
     
     add_executable(bench_gpu_training_cycle
@@ -5037,7 +5037,7 @@ endif()
 # LLM+RAID Pipeline Benchmarks (Phase 3 + Phase 6 Distributed Inference Cases)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp" AND NOT TARGET bench_llm_raid_pipeline)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_raid_pipeline.cpp" AND NOT TARGET bench_llm_raid_pipeline)
     message(STATUS "Adding LLM+RAID pipeline benchmarks (Phase 3 LoRA/RAID + Phase 6 Distributed Inference)")
 
     add_executable(bench_llm_raid_pipeline

@@ -129,6 +129,11 @@ public:
     bool valid() const { return stream_ != nullptr; }
     
     hipStream_t get() const { return stream_; }
+
+    /** @brief Destroy the owned stream and clear its handle without throwing. */
+    void reset() noexcept { destroy(); }
+
+    void reset() noexcept { destroy(); }
     
     /**
      * @brief Release.

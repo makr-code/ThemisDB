@@ -759,8 +759,19 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
 
 Result<std::vector<TSStore::DataPoint>>
 TSStore::query(const QueryOptions& options) const {
+    return queryInternal(options, false);
+}
+
+Result<std::vector<TSStore::DataPoint>>
+TSStore::queryStrict(const QueryOptions& options) const {
+    return queryInternal(options, true);
+}
+
+Result<std::vector<TSStore::DataPoint>>
+TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) const {
     auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.query");
+    span.setAttribute("strict_decode", fail_on_decode_error);
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
         span.setAttribute("entity", *options.entity);
@@ -785,6 +796,11 @@ TSStore::query(const QueryOptions& options) const {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
         it.reset(db_->NewIterator(read_opts));
+    }
+    if (!it) {
+        return Err<std::vector<DataPoint>>(
+            errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+            "Failed to create time-series query iterator");
     }
     
     size_t count = 0;
@@ -829,6 +845,11 @@ TSStore::query(const QueryOptions& options) const {
                 }
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to parse data point at key {}: {}", key, e.what());
+                if (fail_on_decode_error) {
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                        fmt::format("Failed to parse matching data point at key {}: {}", key, e.what()));
+                }
             }
             
             it->Next();
@@ -860,6 +881,11 @@ TSStore::query(const QueryOptions& options) const {
                 nlohmann::json chunk_meta = nlohmann::json::parse(it->value().ToString());
                 
                 if (!chunk_meta.contains("compression") || chunk_meta["compression"] != "gorilla") {
+                    if (fail_on_decode_error) {
+                        return Err<std::vector<DataPoint>>(
+                            errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                            "Matching time-series chunk has unsupported compression metadata at " + key);
+                    }
                     it->Next();
                     continue;
                 }
@@ -870,6 +896,11 @@ TSStore::query(const QueryOptions& options) const {
                 size_t pos2 = key.find(':', pos1);
                 size_t pos3 = (pos2 != std::string::npos) ? key.find(':', pos2 + 1) : std::string::npos;
                 if (pos2 == std::string::npos || pos3 == std::string::npos) {
+                    if (fail_on_decode_error) {
+                        return Err<std::vector<DataPoint>>(
+                            errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                            "Malformed matching time-series chunk key: " + key);
+                    }
                     it->Next();
                     continue;
                 }
@@ -900,6 +931,11 @@ TSStore::query(const QueryOptions& options) const {
                     raw_data = chunk_meta["data"]["bytes"].get<std::vector<uint8_t>>();
                 } else {
                     THEMIS_WARN("Chunk {} has unsupported data field encoding", key);
+                    if (fail_on_decode_error) {
+                        return Err<std::vector<DataPoint>>(
+                            errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                            "Matching time-series chunk has unsupported data encoding at " + key);
+                    }
                     it->Next();
                     continue;
                 }
@@ -910,6 +946,11 @@ TSStore::query(const QueryOptions& options) const {
                     if (pos4 == std::string::npos) {
                         // Malformed chunk key — log a warning and skip.
                         THEMIS_WARN("Malformed encrypted chunk key (missing last_ts): {}", key);
+                        if (fail_on_decode_error) {
+                            return Err<std::vector<DataPoint>>(
+                                errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                "Malformed encrypted time-series chunk key: " + key);
+                        }
                         it->Next();
                         continue;
                     }
@@ -925,10 +966,20 @@ TSStore::query(const QueryOptions& options) const {
                  * @return Return value.
                  * @details Use GorillaSIMDDecoder which dispatches at runtime to the best available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls back to the scalar GorillaDecoder on other platforms.
                  */
+                if (fail_on_decode_error && raw_data.empty()) {
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                        "Empty Gorilla chunk at " + key);
+                }
                 GorillaSIMDDecoder decoder(raw_data);
                 std::vector<std::pair<int64_t, double>> chunk_points;
                 chunk_points.reserve(128); // typical gorilla_batch_size
                 decoder.decodeAll(chunk_points);
+                if (fail_on_decode_error && decoder.hasError()) {
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                        "Gorilla decoder rejected matching chunk at " + key);
+                }
 
                 // Extract tags/metadata from chunk
                 nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
@@ -959,6 +1010,11 @@ TSStore::query(const QueryOptions& options) const {
                 
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to decode Gorilla chunk at key {}: {}", key, e.what());
+                if (fail_on_decode_error) {
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                        fmt::format("Failed to decode matching Gorilla chunk at key {}: {}", key, e.what()));
+                }
             }
             
             it->Next();

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -68,6 +68,26 @@ use these distinct codes: `ERR_LLM_SKILL_NOT_FOUND`,
 `ERR_LLM_SKILL_IO_FAILED`, `ERR_LLM_SKILL_REGISTRY_NOT_INITIALIZED`, and
 `ERR_LLM_SKILL_INVALID_CONTENT`.
 
+### Host-side skill permission attenuation
+
+`themis::llm::SkillDelegationContext` is an additive host-side primitive. A
+trusted host creates a root from authenticated principal/tenant identifiers,
+the effective exact action/resource grants, a monotonic expiry, and aggregate
+tool-call/candidate/content-byte ceilings. `attenuate()` preserves identity
+and shares the same budget while allowing only a subset of exact grants and an
+expiry no later than its parent. Wildcard permissions are rejected. Budget
+charges are atomic across all three dimensions and cannot be reset by copying
+or deriving a context. Invalid root identifiers, expiries, or wildcard grants
+return `ERR_UTIL_INVALID_ARGUMENT`; attempted permission or expiry escalation
+returns `ERR_QUERY_ACCESS_DENIED`.
+Budget operations synchronize concurrent charges across descendants. Expired
+contexts deny capability checks, new derivations, and budget consumption.
+
+This type is not yet connected to `ToolRegistry`, native skill executors, or
+RAG. Its existence does not authorize or constrain existing tool calls; a host
+must not expose root creation to skill text, model output, or tool arguments.
+The host remains responsible for creating roots only after authorization.
+
 ### Optional native time series comparison
 
 With the built-in TSStore available, call `registerTimeseriesAnalysisTool()`
@@ -94,8 +114,37 @@ have count zero and a null mean; a missing mean also makes the delta null.
 The tool fails rather than returning truncated results beyond 64 documents
 or 4,096 samples per entity and window. Geo reads also cap each document at
 64 KiB. These limits are not execution deadlines or storage I/O budgets.
-Reads are synchronous and not atomic across the two windows; results reflect
-the samples returned by TSStore, which can skip unreadable records.
+Reads are synchronous and not atomic across the two windows. The tool uses
+`TSStore::queryStrict()` so malformed matching raw records or compressed chunks
+return an error rather than being silently skipped; this does not establish a
+snapshot or detect valid-but-missing source measurements.
+
+### Optional native graph and time-series asset impact analysis
+
+With the built-in TSStore available, call `registerAssetImpactAnalysisTool()`
+from [`asset_impact_analysis_tool.h`](../../include/llm/asset_impact_analysis_tool.h)
+and allow `analyze_asset_impact` in the active mode. This is separate from
+loading `asset-impact-analysis`. The host binds one graph ID, one outgoing
+edge type, one metric, and caller-authorized graph and time-series sources;
+none can be selected by tool arguments. Authorize the complete bound graph
+and its associated series before registration, and keep the registry
+principal-scoped. No existing host or endpoint enables this tool by default.
+
+The tool compares two non-overlapping half-open time windows for the start
+asset and up to three outgoing graph levels. It returns no partial traversal:
+it fails if the traversal exceeds 64 vertices, 256 examined adjacency entries,
+or the cooperative 500 ms graph deadline. Each node document is limited to
+64 KiB and each window to 4,096 samples per asset. Optional GeoJSON Point
+filtering uses a radius up to 1,000 km; missing locations are skipped and
+counted, while malformed location data fails the request. Empty windows
+produce null means; `delta` is null unless both means exist.
+
+`GraphIndexManager::boundedBfs()` uses graph-scoped persisted adjacency keys
+and reports iterator errors through `RocksDBWrapper::SafeIterator`. These
+limits do not make reads atomic across graph and time-series storage, interrupt
+a synchronous RocksDB operation, or replace host authorization. TSStore reads
+use `queryStrict()` to reject malformed matching records/chunks; empty but
+valid windows remain successful with null means.
 
 ## Model Registration & Switching
 

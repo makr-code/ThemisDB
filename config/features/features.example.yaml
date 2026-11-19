@@ -31,10 +31,10 @@ llm:
   enabled: false
   
   # LLM-specific settings (only used if enabled=true)
-  model_path: "./models/llama-2-7b.gguf"
-  context_size: 4096
+  model_path: "./models/default.gguf"
+  context_size: 2048
   batch_size: 512
-  gpu_layers: 35  # Number of layers to offload to GPU (requires THEMIS_ENABLE_CUDA=ON)
+  gpu_layers: 0  # Portable CPU default; deployments may explicitly offload layers.
   
 gpu:
   # Compile-time flag: THEMIS_ENABLE_GPU

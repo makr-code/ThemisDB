@@ -8,6 +8,8 @@
 #include <memory>
 #include <cassert>
 
+using namespace themis::llm::lora;
+
 // ===== Phase 5 GPU Performance Gate Configuration =====
 
 namespace gpu_gates {
@@ -151,8 +153,8 @@ static void BM_TrainingCycle_CPU_Baseline(benchmark::State& state) {
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cpu(), false);
     
     // Create input and target tensors on CPU
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cpu());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cpu());
+    GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cpu());
+    GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cpu());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -212,8 +214,8 @@ static void BM_TrainingCycle_CUDA(benchmark::State& state) {
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
     
     // Create input and target tensors on CUDA
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -280,8 +282,8 @@ static void BM_TrainingCycle_HIP(benchmark::State& state) {
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::hip(), true);
     
     // Create input and target tensors on HIP
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::hip());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::hip());
+    GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::hip());
+    GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::hip());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -336,8 +338,8 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::vulkan(), true);
     
     // Create input and target tensors on Vulkan
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::vulkan());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::vulkan());
+    GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::vulkan());
+    GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::vulkan());
     input.fill(0.5f);
     target.fill(0.3f);
     
@@ -392,8 +394,8 @@ static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
     
     // Create input and target tensors on CUDA
-    GPUTensor input({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
-    GPUTensor target({batch_size, seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
+    GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
     input.fill(0.5f);
     target.fill(0.3f);
     

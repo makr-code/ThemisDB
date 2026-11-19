@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-18
+Datum: 2026-11-19
 Status: Active
 
 ## Config and package version integrity gate
@@ -24,7 +24,6 @@ Status: Active
 - The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
 - The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
 - CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
-
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`
@@ -62,7 +61,7 @@ Status: Active
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `2a3b69362b241e44`
+- Hash: `bcdc0f849b4f448a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml

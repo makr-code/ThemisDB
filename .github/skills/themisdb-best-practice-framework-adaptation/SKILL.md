@@ -1,15 +1,9 @@
 ---
-name: "ThemisDB Best-Practice Framework Adaptation"
+name: themisdb-best-practice-framework-adaptation
 description: "Review and adapt a scoped ThemisDB architecture or GitHub Actions framework using shallow hierarchies, reusable workflows, separation of concerns, and appropriate OOP boundaries."
+disable-model-invocation: true
 argument-hint: "Scope (module, workflow, or paths) and requested outcome"
-agent: "agent"
-AI_Used: true
-AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
-Human_Review: false
-Human_Author: "ThemisDB Team"
 ---
-
 > Exact model backend not verifiable from final document text alone.
 
 Review and, when requested, adapt the specified ThemisDB framework or scope to fit the repository's established best practices. Treat the current repository architecture and governance as the baseline; do not impose a generic framework or perform a broad rewrite.

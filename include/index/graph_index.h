@@ -24,6 +24,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <functional>
+#include <chrono>
 #include <memory>
 
 namespace themis {
@@ -64,6 +65,16 @@ public:
         std::string message;
         static Status OK() { return {}; }
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+    };
+
+    struct BoundedTraversalNode {
+        std::string vertexId;
+        std::size_t depth = 0;
+    };
+
+    struct BoundedTraversalResult {
+        std::vector<BoundedTraversalNode> nodes;
+        std::size_t edgesExamined = 0;
     };
 
     explicit GraphIndexManager(RocksDBWrapper& db);
@@ -242,6 +253,32 @@ public:
         int maxDepth,
         std::string_view edge_type,
         std::string_view graph_id
+    ) const;
+
+    /**
+     * @brief Traverse outgoing edges in one property graph with explicit work limits.
+     * @param startPk Start vertex ID; non-empty, at most 1024 bytes, and must not contain ':'.
+     * @param graphId Graph scope used by the persisted property-graph keys; same key limits apply.
+     * @param maxDepth Maximum number of edges from the start vertex, from 0 through 8.
+     * @param maxVertices Maximum returned vertices, including the start, from 1 through 4096.
+     * @param maxEdges Maximum adjacency entries examined, from 1 through 65536.
+     * @param timeout Maximum cooperative traversal duration, from 1 ms through 30 s.
+     * @param edgeType Optional exact `_type` filter; an empty value accepts every edge type.
+     * @return Breadth-first ordered vertices with their minimum depth and examined-edge count,
+     *         or an error when validation, storage reads, iterator status, or a work limit fails.
+     * @note Limit and timeout failures return no partial result. The timeout is checked between
+     *       storage operations and cannot interrupt an individual synchronous RocksDB read.
+     *       Results are not a database snapshot; callers must keep the database open for the
+     *       duration of the call. This traversal does not enforce caller authorization.
+     */
+    [[nodiscard]] std::pair<Status, BoundedTraversalResult> boundedBfs(
+        std::string_view startPk,
+        std::string_view graphId,
+        int maxDepth,
+        std::size_t maxVertices,
+        std::size_t maxEdges,
+        std::chrono::milliseconds timeout,
+        std::string_view edgeType = {}
     ) const;
 
     // Dijkstra: Kürzester Pfad von start zu target

@@ -1,12 +1,17 @@
 #include "llm/ai_orchestrator.h"
+#include "llm/skill_delegation_context.h"
 #include "llm/skill_registry.h"
 #ifdef THEMIS_TEST_NATIVE_TIMESERIES_SKILL
+#include "index/graph_index.h"
+#include "index/property_graph.h"
+#include "llm/asset_impact_analysis_tool.h"
 #include "llm/timeseries_analysis_tool.h"
 #include "storage/base_entity.h"
 #endif
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <filesystem>
@@ -16,12 +21,17 @@
 #include <string>
 #include <thread>
 #include <tuple>
+#include <vector>
 
 namespace {
 
 namespace fs = std::filesystem;
 using themis::errors::ErrorCode;
 using themis::llm::ModeSpec;
+using themis::llm::SkillBudgetLimits;
+using themis::llm::SkillBudgetUsage;
+using themis::llm::SkillDelegationContext;
+using themis::llm::SkillPermissionSet;
 using themis::llm::SkillRegistry;
 using themis::llm::SkillRegistryOptions;
 using themis::llm::ToolRegistry;
@@ -76,13 +86,166 @@ SkillRegistryOptions optionsFor(const fs::path& root) {
     return options;
 }
 
+TEST(SkillDelegationContextTest, ChildCanOnlyRemoveExactPermissions) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    SkillPermissionSet parent_permissions{
+        {"read", "collection:cases"},
+        {"read", "collection:reports"},
+    };
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", parent_permissions, expiry,
+        SkillBudgetLimits{4, 100, 4096});
+    ASSERT_TRUE(root);
+
+    SkillPermissionSet child_permissions{{"read", "collection:cases"}};
+    auto child = root->attenuate(child_permissions, expiry);
+    ASSERT_TRUE(child);
+    EXPECT_EQ(child->principalId(), "principal-1");
+    EXPECT_EQ(child->tenantId(), "tenant-1");
+    EXPECT_TRUE(child->allows("read", "collection:cases"));
+    EXPECT_FALSE(child->allows("read", "collection:reports"));
+    EXPECT_FALSE(child->allows("write", "collection:cases"));
+
+    auto grandchild = child->attenuate(
+        SkillPermissionSet{{"read", "collection:cases"}}, expiry);
+    ASSERT_TRUE(grandchild);
+    auto escalated_grandchild = child->attenuate(
+        SkillPermissionSet{{"read", "collection:reports"}}, expiry);
+    ASSERT_FALSE(escalated_grandchild);
+    EXPECT_EQ(escalated_grandchild.error().code(),
+              ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST(SkillDelegationContextTest, RejectsPermissionAndExpiryExpansion) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"read", "collection:cases"}}, expiry,
+        SkillBudgetLimits{4, 100, 4096});
+    ASSERT_TRUE(root);
+
+    auto extra_permission = root->attenuate(
+        SkillPermissionSet{{"read", "collection:cases"},
+                           {"write", "collection:cases"}},
+        expiry);
+    ASSERT_FALSE(extra_permission);
+    EXPECT_EQ(extra_permission.error().code(),
+              ErrorCode::ERR_QUERY_ACCESS_DENIED);
+
+    auto later_expiry = root->attenuate(
+        SkillPermissionSet{{"read", "collection:cases"}},
+        expiry + std::chrono::seconds(1));
+    ASSERT_FALSE(later_expiry);
+    EXPECT_EQ(later_expiry.error().code(),
+              ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST(SkillDelegationContextTest, RejectsInvalidRootIdentityAndWildcardGrant) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto missing_identity = SkillDelegationContext::createRoot(
+        "", "tenant-1", {}, expiry, SkillBudgetLimits{});
+    ASSERT_FALSE(missing_identity);
+    EXPECT_EQ(missing_identity.error().code(),
+              ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
+
+    auto wildcard = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"read", "collection:*"}}, expiry,
+        SkillBudgetLimits{});
+    ASSERT_FALSE(wildcard);
+    EXPECT_EQ(wildcard.error().code(), ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
+
+    auto expired = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", {},
+        SkillDelegationContext::TimePoint::min(), SkillBudgetLimits{});
+    ASSERT_FALSE(expired);
+    EXPECT_EQ(expired.error().code(), ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
+}
+
+TEST(SkillDelegationContextTest, DescendantsShareAtomicNonResettableBudget) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", {}, expiry,
+        SkillBudgetLimits{2, 4, 10});
+    ASSERT_TRUE(root);
+    auto child = root->attenuate({}, expiry);
+    ASSERT_TRUE(child);
+
+    EXPECT_TRUE(child->consumeBudget(SkillBudgetUsage{1, 3, 7}));
+    EXPECT_FALSE(root->consumeBudget(SkillBudgetUsage{1, 2, 4}));
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 1);
+    EXPECT_EQ(root->remainingBudget().max_candidates, 1);
+    EXPECT_EQ(root->remainingBudget().max_content_bytes, 3);
+
+    EXPECT_TRUE(root->consumeBudget(SkillBudgetUsage{1, 1, 3}));
+    EXPECT_FALSE(child->consumeBudget(SkillBudgetUsage{1, 0, 0}));
+    EXPECT_EQ(child->remainingBudget().max_tool_calls, 0);
+    EXPECT_EQ(child->remainingBudget().max_candidates, 0);
+    EXPECT_EQ(child->remainingBudget().max_content_bytes, 0);
+}
+
+TEST(SkillDelegationContextTest, ConcurrentDescendantsCannotOverspendBudget) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", {}, expiry,
+        SkillBudgetLimits{64, 64, 64});
+    ASSERT_TRUE(root);
+    auto child = root->attenuate({}, expiry);
+    ASSERT_TRUE(child);
+
+    std::atomic_size_t accepted{0};
+    std::vector<std::thread> workers;
+    workers.reserve(8);
+    for (std::size_t worker = 0; worker < 8; ++worker) {
+        workers.emplace_back([&child, &accepted] {
+            for (std::size_t attempt = 0; attempt < 50; ++attempt) {
+                if (child->consumeBudget(SkillBudgetUsage{1, 1, 1})) {
+                    accepted.fetch_add(1, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+    for (auto& worker : workers) {
+        worker.join();
+    }
+
+    EXPECT_EQ(accepted.load(std::memory_order_relaxed), 64);
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 0);
+    EXPECT_EQ(root->remainingBudget().max_candidates, 0);
+    EXPECT_EQ(root->remainingBudget().max_content_bytes, 0);
+}
+
+TEST(SkillDelegationContextTest, ExpiredContextCannotAuthorizeOrConsumeBudget) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::milliseconds(1);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"read", "collection:cases"}}, expiry,
+        SkillBudgetLimits{2, 4, 10});
+    ASSERT_TRUE(root);
+
+    std::this_thread::sleep_until(expiry + std::chrono::milliseconds(1));
+    EXPECT_FALSE(root->isActive());
+    EXPECT_FALSE(root->allows("read", "collection:cases"));
+    EXPECT_FALSE(root->consumeBudget(SkillBudgetUsage{1, 1, 1}));
+    auto child = root->attenuate({}, expiry);
+    ASSERT_FALSE(child);
+    EXPECT_EQ(child.error().code(), ErrorCode::ERR_QUERY_ACCESS_DENIED);
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 2);
+}
+
 TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
     constexpr const char* expected_names[] = {
         "aql-mutation-draft", "aql-plan-analysis", "aql-query-review",
-        "aql-read-query", "evidence-answer", "file-edit",
+        "aql-read-query", "asset-impact-analysis", "evidence-answer", "file-edit",
         "file-import-planning", "file-inspection", "graph-exploration",
         "hybrid-search-diagnostics", "log-analysis", "process-bpmn-mining",
-        "rag-evaluation", "rag-retrieval", "themisdb-yaml-config",
+        "rag-evaluation", "rag-retrieval", "similar-case-research", "themisdb-yaml-config",
         "timeseries-window-analysis", "trace-correlation",
     };
     constexpr auto expected_count = sizeof(expected_names) / sizeof(expected_names[0]);
@@ -201,6 +364,163 @@ TEST(SkillRegistryTest, NativeTimeseriesToolReadsScopedDataWithOptionalGeo) {
     }
     const auto limited = invoke(args);
     EXPECT_EQ(limited.value("error", ""), "Entity collection exceeds the 64-document analysis limit");
+}
+#endif
+
+#ifdef THEMIS_TEST_NATIVE_TIMESERIES_SKILL
+TEST(SkillRegistryTest, NativeAssetImpactToolCombinesScopedGraphAndTimeSeries) {
+    TemporaryDirectory temporary;
+    themis::RocksDBWrapper::Config config;
+    config.db_path = (temporary.path() / "data").string();
+    config.enable_blobdb = false;
+    auto db = std::make_shared<themis::RocksDBWrapper>(config);
+    ASSERT_TRUE(db->open());
+
+    constexpr auto graphId = "assets";
+    constexpr auto edgeType = "DEPENDS_ON";
+    constexpr auto metric = "temperature";
+    auto graph = std::make_shared<themis::GraphIndexManager>(*db);
+    themis::PropertyGraphManager propertyGraph(*db);
+    const auto addNode = [&](const char* id, const char* document) {
+        const auto node = themis::BaseEntity::fromJson(id, document);
+        return propertyGraph.addNode(node, graphId);
+    };
+    ASSERT_TRUE(addNode(
+        "root", R"({"id":"root","location":{"type":"Point","coordinates":[10,50]}})").ok);
+    ASSERT_TRUE(addNode(
+        "pump", R"({"id":"pump","location":{"type":"Point","coordinates":[10.001,50]}})").ok);
+    ASSERT_TRUE(addNode(
+        "remote", R"({"id":"remote","location":{"type":"Point","coordinates":[12,50]}})").ok);
+
+    const auto addEdge = [&](const char* id, const char* from, const char* to,
+                             const char* type, const char* scope) {
+        themis::BaseEntity edge(id);
+        edge.setField("id", id);
+        edge.setField("_from", from);
+        edge.setField("_to", to);
+        edge.setField("_type", type);
+        return propertyGraph.addEdge(edge, scope);
+    };
+    ASSERT_TRUE(addEdge("root-pump", "root", "pump", edgeType, graphId).ok);
+    ASSERT_TRUE(addEdge("pump-remote", "pump", "remote", edgeType, graphId).ok);
+    ASSERT_TRUE(addEdge("foreign", "root", "remote", edgeType, "other-graph").ok);
+
+    auto store = std::make_shared<themis::TSStore>(db->getRawDB());
+    const auto addPoint = [&](const char* entity, int64_t timestamp, double value) {
+        themis::TSStore::DataPoint point{};
+        point.metric = metric;
+        point.entity = entity;
+        point.timestamp_ms = timestamp;
+        point.value = value;
+        return store->putDataPoint(point);
+    };
+    ASSERT_TRUE(addPoint("root", 1000, 10.0));
+    ASSERT_TRUE(addPoint("root", 2000, 15.0));
+    ASSERT_TRUE(addPoint("pump", 1000, 20.0));
+    ASSERT_TRUE(addPoint("pump", 2000, 30.0));
+    ASSERT_TRUE(addPoint("remote", 2000, 50.0));
+
+    ToolRegistry tools;
+    themis::llm::registerAssetImpactAnalysisTool(
+        tools, db, graph, store, graphId, edgeType, metric);
+    ModeSpec mode;
+    themis::llm::json args = {
+        {"start_asset_id", "root"}, {"max_depth", 2},
+        {"baseline_start_ms", 1000}, {"current_start_ms", 2000},
+        {"duration_ms", 1000}
+    };
+    EXPECT_TRUE(tools.invokeTool("analyze_asset_impact", args, mode).contains("error"));
+
+    mode.tools_allowed = {"analyze_asset_impact"};
+    auto result = tools.invokeTool("analyze_asset_impact", args, mode);
+    ASSERT_FALSE(result.contains("error")) << result.dump();
+    ASSERT_EQ(result["assets"].size(), 3u);
+    EXPECT_EQ(result["edges_examined"], 2u);
+    const auto pump = std::find_if(
+        result["assets"].begin(), result["assets"].end(),
+        [](const auto& asset) { return asset["asset_id"] == "pump"; });
+    ASSERT_NE(pump, result["assets"].end());
+    EXPECT_EQ((*pump)["depth"], 1u);
+    EXPECT_EQ((*pump)["baseline_mean"], 20.0);
+    EXPECT_EQ((*pump)["current_mean"], 30.0);
+    EXPECT_EQ((*pump)["delta"], 10.0);
+    const auto remote = std::find_if(
+        result["assets"].begin(), result["assets"].end(),
+        [](const auto& asset) { return asset["asset_id"] == "remote"; });
+    ASSERT_NE(remote, result["assets"].end());
+    EXPECT_EQ((*remote)["baseline_count"], 0u);
+    EXPECT_TRUE((*remote)["baseline_mean"].is_null());
+    EXPECT_TRUE((*remote)["delta"].is_null());
+
+    args["geo"] = {{"lon", 10}, {"lat", 50}, {"radius_m", 1000}};
+    result = tools.invokeTool("analyze_asset_impact", args, mode);
+    ASSERT_FALSE(result.contains("error")) << result.dump();
+    ASSERT_EQ(result["assets"].size(), 2u);
+    EXPECT_EQ(result["missing_location"], 0u);
+
+    args["max_depth"] = 4;
+    EXPECT_TRUE(tools.invokeTool("analyze_asset_impact", args, mode).contains("error"));
+
+    themis::TSStore::QueryOptions strictOptions;
+    strictOptions.metric = metric;
+    strictOptions.entity = "root";
+    strictOptions.from_timestamp_ms = 1500;
+    strictOptions.to_timestamp_ms = 1500;
+    strictOptions.limit = 4;
+    const std::string corruptKey = "ts:temperature:root:00000000000000001500";
+    ASSERT_TRUE(db->put(corruptKey, std::vector<uint8_t>{'{' }));
+    const auto compatibleQuery = store->query(strictOptions);
+    ASSERT_TRUE(compatibleQuery);
+    EXPECT_TRUE(compatibleQuery->empty());
+    const auto strictQuery = store->queryStrict(strictOptions);
+    EXPECT_FALSE(strictQuery);
+
+    strictOptions.entity = "pump";
+    strictOptions.from_timestamp_ms = 1000;
+    strictOptions.to_timestamp_ms = 1999;
+    const std::string corruptChunkKey =
+        "tsc:temperature:pump:00000000000000001000:00000000000000001999";
+    ASSERT_TRUE(db->put(corruptChunkKey, std::vector<uint8_t>{'{' }));
+    const auto compatibleChunkQuery = store->query(strictOptions);
+    ASSERT_TRUE(compatibleChunkQuery);
+    EXPECT_EQ(compatibleChunkQuery->size(), 1u);
+    const auto strictChunkQuery = store->queryStrict(strictOptions);
+    EXPECT_FALSE(strictChunkQuery);
+
+    strictOptions.entity = "remote";
+    const auto corruptPayload = themis::llm::json{
+        {"compression", "gorilla"},
+        {"data", std::vector<uint8_t>{0x47, 0x4f, 0xff}}
+    }.dump();
+    const std::string corruptPayloadKey =
+        "tsc:temperature:remote:00000000000000001000:00000000000000001999";
+    ASSERT_TRUE(db->put(
+        corruptPayloadKey,
+        std::vector<uint8_t>(corruptPayload.begin(), corruptPayload.end())));
+    const auto compatiblePayloadQuery = store->query(strictOptions);
+    ASSERT_TRUE(compatiblePayloadQuery);
+    EXPECT_TRUE(compatiblePayloadQuery->empty());
+    const auto strictPayloadQuery = store->queryStrict(strictOptions);
+    EXPECT_FALSE(strictPayloadQuery);
+
+    strictOptions.entity = "empty";
+    const auto emptyPayload = themis::llm::json{
+        {"compression", "gorilla"},
+        {"data", std::vector<uint8_t>{}}
+    }.dump();
+    const std::string emptyPayloadKey =
+        "tsc:temperature:empty:00000000000000001000:00000000000000001999";
+    ASSERT_TRUE(db->put(
+        emptyPayloadKey,
+        std::vector<uint8_t>(emptyPayload.begin(), emptyPayload.end())));
+    const auto compatibleEmptyQuery = store->query(strictOptions);
+    ASSERT_TRUE(compatibleEmptyQuery);
+    EXPECT_TRUE(compatibleEmptyQuery->empty());
+    const auto strictEmptyQuery = store->queryStrict(strictOptions);
+    EXPECT_FALSE(strictEmptyQuery);
+
+    args["max_depth"] = 2;
+    EXPECT_TRUE(tools.invokeTool("analyze_asset_impact", args, mode).contains("error"));
 }
 #endif
 

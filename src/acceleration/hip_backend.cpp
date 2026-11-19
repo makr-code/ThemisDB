@@ -610,7 +610,13 @@ bool HIPVectorBackend::initialize() {
  */
 void HIPVectorBackend::shutdown() {
     if (impl_->initialized) {
-        // stream automatically destroyed by RAII
+        const hipError_t deviceErr = hipSetDevice(impl_->deviceId);
+        if (deviceErr != hipSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "HIP",
+                                  "Failed to activate device " + std::to_string(impl_->deviceId) +
+                                      " during shutdown: " + hipGetErrorString(deviceErr)));
+        }
+        impl_->stream.reset();
         impl_->initialized = false;
     }
 }
@@ -642,6 +648,13 @@ std::vector<float> HIPVectorBackend::computeDistances(
 
     if (!impl_->initialized) {
         std::cerr << "HIP backend not initialized" << std::endl;
+        return {};
+    }
+    const hipError_t deviceErr = hipSetDevice(impl_->deviceId);
+    if (deviceErr != hipSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "HIP",
+                              "Failed to activate device " + std::to_string(impl_->deviceId) + ": " +
+                                  hipGetErrorString(deviceErr)));
         return {};
     }
     
@@ -734,6 +747,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
 ) {
     if (!impl_->initialized) {
         std::cerr << "HIP backend not initialized" << std::endl;
+        return {};
+    }
+    const hipError_t deviceErr = hipSetDevice(impl_->deviceId);
+    if (deviceErr != hipSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "HIP",
+                              "Failed to activate device " + std::to_string(impl_->deviceId) + ": " +
+                                  hipGetErrorString(deviceErr)));
         return {};
     }
 

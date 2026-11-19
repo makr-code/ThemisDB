@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-10-29"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "GitHub Copilot"
@@ -24,7 +24,7 @@ The acceleration module provides the runtime selection, capability probing, and 
 | Device capability probing | `device_manager.cpp` | enumerates devices, caches the result, synthesizes a CPU fallback when necessary |
 | AI routing | `ai_hardware_dispatcher.cpp` | routes AI inference requests to the best available backend or CPU fallback |
 | Backend implementations | `cuda_backend.cpp`, `hip_backend.cpp`, `opencl_backend.cpp`, `cpu_backend.cpp`, `vulkan_backend_full.cpp` | backend-specific execution paths and runtime gating |
-| Multi-device coordination | `multi_gpu_backend.cpp`, `nccl_vector_backend.cpp`, `rccl_vector_backend.cpp` | fan-out / reduce / distributed coordination |
+| Multi-device coordination | `multi_gpu_backend.cpp`, `nccl_vector_backend.cpp`, `rccl_vector_backend.cpp` | backend-specific per-device execution, bounded shard fan-out, global index merge, and CUDA/HIP collectives where available |
 | Security and integrity | `plugin_loader.cpp`, `plugin_security.cpp`, `shader_integrity.cpp` | trust checks and runtime guardrails |
 | Resource management | `vllm_resource_manager.cpp`, `tensor_core_matmul.cpp` | quota and resource-state management |
 
@@ -36,12 +36,30 @@ The acceleration module provides the runtime selection, capability probing, and 
 4. AI and compute dispatch paths prefer the highest-capability healthy device and degrade to CPU fallback when necessary.
 5. Security and integrity checks guard plugin and shader paths before execution proceeds.
 
+## Multi-device vector execution
+
+`MultiGPUVectorBackend::Config::deviceBackend` selects one homogeneous backend
+family per instance: `AUTO` prefers CUDA, then HIP, Vulkan, and CPU; callers may
+also select a backend explicitly. CUDA and HIP IDs use their runtime numbering.
+Vulkan IDs are physical-device indices from Vulkan enumeration, with CPU-type
+Vulkan devices excluded from accelerator selection.
+
+The backend creates one owned `IVectorBackend` per shard. Corpus vectors are
+partitioned into contiguous ranges; distance computation and local top-k search
+run concurrently, then results are merged in original corpus-index order. A
+failed or unavailable accelerator shard falls back to CPU only when
+`allowCPUFallback` is enabled. `ShardDescriptor` records the backend that
+actually executes and whether fallback occurred. CUDA/HIP communication may use
+NCCL/RCCL when configured and available; Vulkan and CPU shards use the host-side
+merge path.
+
 ## Safety and fallback model
 
 - The baseline fallback is CPU; empty or unhealthy discovery snapshots produce a synthetic `CPU Fallback` device.
 - `getBestDevice()` filters out unhealthy backends first and only falls back to CPU when no healthy alternative exists.
 - Fail-closed behavior is the preferred design for invalid or partial backend states; runtime errors are not silently ignored.
 - Performance and feature availability remain hardware- and build-dependent. Any throughput claim should be treated as benchmark evidence, not a guarantee for all hosts.
+- Vulkan multi-device selection is execution evidence only when SPIR-V pipelines initialize and shard descriptors report Vulkan; device enumeration with CPU fallback is not Vulkan performance evidence.
 
 ## Boundary expectations
 
@@ -57,6 +75,10 @@ The architecture described here is consistent with the current runtime implement
 - `src/acceleration/backend_registry.cpp`
 - `src/acceleration/device_manager.cpp`
 - `src/acceleration/ai_hardware_dispatcher.cpp`
+- `src/acceleration/multi_gpu_backend.cpp`
+- `src/acceleration/graphics_backends.cpp`
+- `src/acceleration/cuda_backend.cpp`
+- `src/acceleration/hip_backend.cpp`
 - `src/acceleration/plugin_loader.cpp`
 - `src/acceleration/plugin_security.cpp`
 - `src/acceleration/shader_integrity.cpp`

@@ -1231,9 +1231,18 @@ public:
             return false;
         }
 
-        const std::string selected_filter = selected_sample_ids == nullptr
-            ? std::string{}
-            : " FILTER sample._key IN " + nlohmann::json(*selected_sample_ids).dump();
+        std::string selected_filter;
+        if (selected_sample_ids != nullptr) {
+            selected_filter = " FILTER ";
+            bool first_id = true;
+            for (const auto& id : *selected_sample_ids) {
+                if (!first_id) {
+                    selected_filter += " OR ";
+                }
+                selected_filter += "sample._key == " + nlohmann::json(id).dump();
+                first_id = false;
+            }
+        }
         const size_t query_limit = selected_sample_ids == nullptr
             ? config_.max_training_samples
             : selected_ids.size();

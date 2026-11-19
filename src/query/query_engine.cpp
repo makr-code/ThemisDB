@@ -3487,15 +3487,21 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(
 
 	// Predicate evaluation helper – called from both sequential and parallel paths.
 	// q and compareValues are captured by reference; each invocation is independent.
+	const auto extractPredicateField = [](const BaseEntity& entity, const std::string& column) {
+		if (column == "_key") {
+			return std::optional<std::string>{entity.getPrimaryKey()};
+		}
+		return entity.extractField(column);
+	};
 	auto matchesPredicates = [&]([[maybe_unused]] const BaseEntity& e) -> bool {
 		for (const auto& p : q.predicates) {
-			auto v = e.extractField(p.column);
+			auto v = extractPredicateField(e, p.column);
 			if (!v || *v != p.value) {
 			  return false;
 			}
 		}
 		for (const auto& r : q.rangePredicates) {
-			auto v = e.extractField(r.column);
+			auto v = extractPredicateField(e, r.column);
 			if (!v) {
 			  return false;
 			}

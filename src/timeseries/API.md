@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,7 +22,7 @@ Exact model backend not verifiable from final document text alone.
 
 | Need | Interface | Contract detail |
 |---|---|---|
-| Store, write, range query, aggregation | [`TSStore`](../../include/timeseries/tsstore.h) | `DataPoint` timestamps are milliseconds. Writes and queries return `Result` values; inspect errors rather than treating an empty query as failure. |
+| Store, write, range query, aggregation | [`TSStore`](../../include/timeseries/tsstore.h) | `DataPoint` timestamps are milliseconds. Writes and queries return `Result` values; use `queryStrict()` when malformed matching records must fail instead of being skipped. |
 | Buffer single-point writes | [`TSAutoBuffer`](../../include/timeseries/ts_auto_buffer.h) | Store pointer is non-owning. `start()` enables background flushing; `stop()` joins and flushes remaining points. `push()` can return `BUFFER_FULL` or `INVALID_INPUT`. |
 | Encode/decode | [`GorillaEncoder` and `GorillaDecoder`](../../include/timeseries/gorilla.h) | Timestamp/value codec; decode errors must be checked before accepting a complete chunk. |
 | Retention cleanup | [`RetentionManager`](../../include/timeseries/retention.h) | Configure per-metric durations; `apply()` deletes expired data and returns a count. Async cleanup is opt-in. |
@@ -40,6 +40,10 @@ Exact model backend not verifiable from final document text alone.
 - Propagate `Result` errors from writes, queries, and decoding. In particular,
   do not retry permanent input/format errors as if they were transient
   backpressure.
+- The compatibility `query()` API may skip malformed raw records or compressed
+  chunks. Use `queryStrict()` for analyses that require decode failures to abort
+  the read; it returns a storage-corruption error rather than a success-shaped
+  incomplete result. This strictness does not provide snapshot isolation.
 - The frozen taxonomy in
   [`timeseries_api_contract.h`](../../include/timeseries/timeseries_api_contract.h)
   classifies hard, lifecycle, backpressure, and transient errors. Check the

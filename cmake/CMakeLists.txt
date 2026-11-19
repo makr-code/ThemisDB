@@ -3932,6 +3932,76 @@ if(THEMIS_BUILD_MODULAR)
 
     # Call the modular build function to create all module targets
     themis_build_modular()
+    if(THEMIS_ENABLE_VULKAN AND TARGET themis_base AND
+       EXISTS "${THEMIS_ROOT_DIR}/src/acceleration/vulkan/shaders/CMakeLists.txt")
+        add_subdirectory(
+            "${THEMIS_ROOT_DIR}/src/acceleration/vulkan/shaders"
+            "${CMAKE_BINARY_DIR}/vulkan_shaders")
+        if(NOT TARGET vulkan_vector_index_shaders)
+            set(_themis_vector_shader_compiler "")
+            set(_themis_vector_shader_compiler_kind "glslc")
+            if(DEFINED Vulkan_GLSLC_EXECUTABLE AND EXISTS "${Vulkan_GLSLC_EXECUTABLE}")
+                set(_themis_vector_shader_compiler "${Vulkan_GLSLC_EXECUTABLE}")
+            elseif(DEFINED Vulkan_GLSLANG_VALIDATOR_EXECUTABLE AND
+                   EXISTS "${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}")
+                set(_themis_vector_shader_compiler "${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}")
+                set(_themis_vector_shader_compiler_kind "glslangValidator")
+            else()
+                find_program(_themis_vector_shader_compiler glslc)
+                if(NOT _themis_vector_shader_compiler)
+                    find_program(_themis_vector_shader_compiler glslangValidator)
+                    set(_themis_vector_shader_compiler_kind "glslangValidator")
+                endif()
+            endif()
+
+            if(_themis_vector_shader_compiler)
+                set(_themis_vector_shader_source_dir
+                    "${THEMIS_ROOT_DIR}/src/acceleration/vulkan/shaders")
+                set(_themis_vector_shader_output_dir
+                    "${CMAKE_BINARY_DIR}/shaders/vector_index")
+                file(MAKE_DIRECTORY "${_themis_vector_shader_output_dir}")
+                set(_themis_vector_shader_outputs)
+                foreach(_themis_shader IN ITEMS
+                        l2_distance cosine_distance inner_product_distance
+                        batch_search topk_selection)
+                    set(_themis_shader_source
+                        "${_themis_vector_shader_source_dir}/${_themis_shader}.comp")
+                    set(_themis_shader_output
+                        "${_themis_vector_shader_output_dir}/${_themis_shader}.comp.spv")
+                    if(_themis_vector_shader_compiler_kind STREQUAL "glslc")
+                        add_custom_command(
+                            OUTPUT "${_themis_shader_output}"
+                            COMMAND "${_themis_vector_shader_compiler}" -o
+                                    "${_themis_shader_output}" "${_themis_shader_source}"
+                            DEPENDS "${_themis_shader_source}"
+                            COMMENT "Compiling Vulkan Vector Index shader: ${_themis_shader}.comp"
+                            VERBATIM)
+                    else()
+                        add_custom_command(
+                            OUTPUT "${_themis_shader_output}"
+                            COMMAND "${_themis_vector_shader_compiler}" -V -o
+                                    "${_themis_shader_output}" "${_themis_shader_source}"
+                            DEPENDS "${_themis_shader_source}"
+                            COMMENT "Compiling Vulkan Vector Index shader: ${_themis_shader}.comp"
+                            VERBATIM)
+                    endif()
+                    list(APPEND _themis_vector_shader_outputs "${_themis_shader_output}")
+                endforeach()
+                add_custom_target(vulkan_vector_index_shaders
+                    DEPENDS ${_themis_vector_shader_outputs})
+                install(FILES ${_themis_vector_shader_outputs}
+                    DESTINATION share/themis/shaders/vector_index
+                    COMPONENT shaders)
+            else()
+                message(WARNING "No GLSL compiler found; Vulkan Vector Index will require precompiled SPIR-V")
+            endif()
+        endif()
+        if(TARGET vulkan_vector_index_shaders)
+            target_compile_definitions(themis_base PRIVATE
+                THEMIS_VULKAN_VECTOR_SHADER_DIR="${CMAKE_BINARY_DIR}/shaders/vector_index")
+            add_dependencies(themis_base vulkan_vector_index_shaders)
+        endif()
+    endif()
     if(TARGET themis_sharding AND TARGET themis_shard_proto)
         target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
     endif()

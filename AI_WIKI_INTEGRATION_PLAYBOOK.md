@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-28"
+Last Updated: "2026-11-19"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AI Wiki Integration Playbook fuer ThemisDB
 
 Datum: 2026-07-28
@@ -205,40 +219,20 @@ Regeln:
 - Knowledge-Aenderungen in nachvollziehbaren Commits
 - Kein ungepruefter Massenrewrite
 
-### Ollama lokal/remote-im-LAN als Offline-AI
+### Optionaler Ollama-Router
 
 Rolle:
-- Primärer Inference- und Coding-Beschleuniger fuer wiederholbare technische Aufgaben
-- Erstellung/Update von Wiki-Seiten aus lokalen Quellen
-- Cross-Linking und Strukturpflege im Compiled Layer
+- Optionaler Inference- und Coding-Beschleuniger fuer Aufgaben, bei denen der
+  Nutzer ausdruecklich ein konfiguriertes lokales Modell auswaehlt
+- Keine verpflichtende Delegation und kein automatisches Umleiten von Aufgaben
 
-Konfiguration:
-- Endpoint gemaess Repo-Setup: http://192.168.178.106:11434
-- Delegation-Modus vorzugsweise auto mit klaren Routing-Regeln
-
-ThemisDB-Routingregeln (verbindlich):
-- C/C++ Dateien: an @ollama /local delegieren
-- CMake/Build-System-Themen: an @ollama delegieren
-- Security/Audit/Architektur-Entscheidungen: Standard-Copilot (Cloud) priorisieren
-- ROADMAP/FUTURE_ENHANCEMENTS Governance-Updates: Standard-Copilot
-
-Empfohlene Ollama-Modelle nach Zweck:
-- qwen2.5-coder:14b fuer C/C++-Implementierungs- und Refactor-Aufgaben
-- deepseek-coder-v2:16b fuer groessere CMake-/Massenrefactor-Themen (ohne Tool-Use)
-- gemma4:latest fuer Agent-Chat/Tooling mit breiter Aufgabenabdeckung
-- phi4:latest fuer Reasoning-Textarbeit ohne Tool-Use
-
-Inference-Aufgaben fuer Ollama (priorisiert):
-- API-nahe Boilerplate und strukturelle C++-Generierung
-- Unit-Test-Generierung und Edge-Case-Listen
-- Doxygen-Kommentarentwuerfe
-- CMake-Target-Erweiterungen
-- Konsolidierung wiederkehrender Pattern in Modulcode
-
-Nicht an Ollama delegieren:
-- Sicherheitskritische Endbewertung
-- Release-Go/No-Go Entscheidungen
-- Governance-Policy-Aenderungen ohne Human-Review
+Nutzungsregeln:
+- Der Nutzer waehlt Modell und Ziel ausdruecklich; bei nicht verfuegbarer
+  Bridge wird die Aufgabe ohne Umleitung im aktuellen Arbeitsablauf fortgesetzt.
+- Vor einer Datenuebertragung an einen separaten Endpoint muss der Nutzer
+  Kontextumfang und Ziel kennen und freigeben.
+- Sicherheits-, Governance- und Release-Entscheidungen benoetigen unabhaengige
+  Evidenz und menschliche Pruefung; keine Modellwahl ersetzt diese Freigabe.
 
 ## 6.2 Online-Werkzeuge (Erweiterung)
 
@@ -316,7 +310,7 @@ Regeln:
 1. Ingest-Template und Query-Persist-Regel verpflichtend machen
 2. Konfliktregister ai_context/KNOWLEDGE_CONFLICTS.md einfuehren
 3. Nightly-Lint fuer Stale Claims und Widersprueche etablieren
-4. Ollama-Routing fuer Inference-Tasks operationalisieren
+4. Optionalen lokalen Modell-Router nur bei Nutzerbedarf dokumentieren
 
 ### 8.3 Phase 3 (ab Woche 5)
 
@@ -346,8 +340,10 @@ Qualitaetsziel:
 2. Nach jeder relevanten Erkenntnis: Entscheidung/Ergebnis in Wiki persistieren
 3. Bei Widerspruch zwischen Seiten: Konflikt markieren, nicht still ueberbuegeln
 4. Bei fehlender Evidenz: Claim als unsicher kennzeichnen
-5. Fuer C/C++ und CMake-Heavy-Arbeit: Ollama-Inference zuerst nutzen, danach Human-Review
-6. Fuer Security/Governance/Release-Entscheidung: Cloud-Review + Human-Signoff verpflichtend
+5. Lokale Modell-Delegation nur nach ausdruecklicher Auswahl und bewusster
+   Kontextfreigabe verwenden; sie ist keine Voraussetzung fuer Coding-Aufgaben
+6. Fuer Security/Governance/Release-Entscheidungen: Evidenz und Human-Signoff
+   sicherstellen; das ist unabhaengig von einer bestimmten Modellroute
 7. Branch-Governance strikt einhalten (develop/community/military etc. nach Regelwerk)
 8. Keine Legacy- oder Stub-Pfade ohne explizite menschliche Freigabe
 
@@ -371,7 +367,8 @@ Risiko:
 - Ueberdelegation an lokale Modelle bei sicherheitskritischen Themen
 
 Gegenmassnahme:
-- Harte Routingregel: Security/Audit/Go-NoGo niemals rein lokal final entscheiden
+- Keine Modellroute als alleinige Entscheidungsinstanz fuer Security/Audit/Go-No-Go;
+  Evidenz und menschliche Pruefung bleiben erforderlich
 
 ---
 
@@ -383,7 +380,7 @@ Go-Live-Checkliste:
 - ai_context/KNOWLEDGE_LINT_REPORT.md vorhanden
 - ai_context/KNOWLEDGE_CONFLICTS.md vorhanden
 - Pilotmodule benannt
-- Ollama-Routing-Regeln dokumentiert
+- Optionalen Modell-Router dokumentiert, falls er im Pilot eingesetzt wird
 - Lint-Minimum aktiv
 - Reviewer-Rolle benannt
 

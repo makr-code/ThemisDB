@@ -24078,7 +24078,7 @@ endif()
 # Connector Mode API - ConnectorModeApiTests
 # Integration tests that start a live themis_server and verify the
 # full HTTP connector-mode API (model load, inference, RAG, LoRA, PII).
-# Requires: config/config_with_llm.yaml, models/tinyllama-1.1b-q4_0.gguf
+# Requires: config/config_with_llm.yaml, models/default.gguf
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/connector/test_connector_mode_api.cpp")

@@ -5466,17 +5466,14 @@ http::response<http::string_body> HttpServer::routeRequest(
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
                 auto tryBootstrapDefaultModel = [&plugin_mgr]() -> bool {
+                    if (auto* default_plugin = plugin_mgr.getDefaultPlugin()) {
+                        return default_plugin->isModelLoaded();
+                    }
+
                     const auto model_path = themis::llm::detail::resolveDefaultModelPath();
                     if (!model_path.has_value()) {
                         THEMIS_WARN("LLM bootstrap skipped: no configured model or models/default.gguf found");
                         return false;
-                    }
-
-                    if (auto* default_plugin = plugin_mgr.getDefaultPlugin()) {
-                        if (default_plugin->isModelLoaded()) {
-                            return true;
-                        }
-                        return plugin_mgr.loadModel("default", model_path->string());
                     }
 
                     try {

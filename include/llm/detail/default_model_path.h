@@ -45,8 +45,8 @@ inline std::optional<std::filesystem::path> resolveModelPathOverride(
     };
 
     constexpr std::array<const char*, 2> kModelPathOverrides = {
-        "THEMIS_LLM_DEFAULT_MODEL_PATH",
         "THEMIS_DEMO_LLM_MODEL_PATH",
+        "THEMIS_LLM_DEFAULT_MODEL_PATH",
     };
     for (const char* name : kModelPathOverrides) {
         const char* value = std::getenv(name);

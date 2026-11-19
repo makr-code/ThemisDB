@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: unknown
@@ -12,7 +12,7 @@ Human_Author: ThemisDB Team
 
 [docs](README.md) > [de](de/README.md) > [index](README.md)
 
-**Datum:** 2026-10-31  
+**Datum:** 2026-11-19
 **Status:** active  
 **Primary (Quelle der Wahrheit):** `docs/README.md`, `docs/de/README.md`, `docs/en/README.md`  
 **Bezug / Reference:** Root navigation for maintained documentation in `docs/`.
@@ -43,6 +43,13 @@ Use these links for day-to-day product usage and operations:
 - API entry point: [api/API_REFERENCE.md](api/API_REFERENCE.md)
 - Architecture overview: [de/architecture/ARCHITECTURE_OVERVIEW.md](de/architecture/ARCHITECTURE_OVERVIEW.md)
 - Operations and monitoring: [en/operations/MONITORING_SETUP_GUIDE.md](en/operations/MONITORING_SETUP_GUIDE.md)
+
+## Showcases
+
+- [Lebenszyklusmodell einer BImSchG-Anlage — Brandenburg](showcases/BIMSCHG_VERWALTUNGSVERFAHREN.md) — fiktiver End-to-End-Fall von Projektidee und Bauleitplanung bis Genehmigung, Überwachung und Stilllegung; mit [strukturiertem Demo-Datensatz](showcases/bimschg-brandenburg-demo.json),
+  [Verwaltungsakt-Prozessgraph](showcases/bimschg-verwaltungsakt-bpmn.json) und
+  [formellen/materiellen LLM-Prüfprofilen](../config/agent_skills/process-bpmn-mining/references/verwaltungsakt-pruefung.yaml).
+- [VIS5ThDB-Frontend-Roadmap — kanonischer Ort](showcases/BIMSCHG_VIS5THDB_FRONTEND_ROADMAP.md) — Analyse und eigenständige Umsetzung werden im VIS5ThDB-Repository geführt; hier bleibt der Verweis zum Behörden-Frontend für Überwachung und Aktenführung.
 
 ## Navigation
 

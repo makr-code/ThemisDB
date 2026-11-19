@@ -519,9 +519,6 @@ static void BM_MultiGPUBackend_DistanceComputation(benchmark::State& state) {
                                    // runs in non-GPU CI environments using CPU sub-backends
     cfg.allowCPUFallback = true;
     cfg.commBackend     = MultiGPUVectorBackend::CommBackend::CPU;
-    for (int i = 0; i < numShards; ++i) {
-        cfg.deviceIds.push_back(i);
-    }
 
     MultiGPUVectorBackend backend(cfg);
     if (!backend.initialize()) {
@@ -540,14 +537,26 @@ static void BM_MultiGPUBackend_DistanceComputation(benchmark::State& state) {
         benchmark::DoNotOptimize(distances);
     }
 
-    backend.shutdown();
-
-    state.SetItemsProcessed(
-        static_cast<int64_t>(state.iterations()) *
-        static_cast<int64_t>(numQueries) *
-        static_cast<int64_t>(numVectors));
     state.counters["shards"]  = numShards;
+    state.counters["distances_per_iteration"] =
+        static_cast<double>(numQueries) * static_cast<double>(numVectors);
     state.counters["backend"] = static_cast<int>(BackendType::MULTI_GPU);
+    size_t cpuFallbackShards = 0;
+    size_t cudaShards = 0;
+    size_t hipShards = 0;
+    size_t vulkanShards = 0;
+    for (const auto& shard : backend.shards()) {
+        cpuFallbackShards += shard.cpuFallback ? 1U : 0U;
+        cudaShards += shard.backend == MultiGPUDeviceBackend::CUDA ? 1U : 0U;
+        hipShards += shard.backend == MultiGPUDeviceBackend::HIP ? 1U : 0U;
+        vulkanShards += shard.backend == MultiGPUDeviceBackend::VULKAN ? 1U : 0U;
+    }
+    state.counters["cpu_fallback_shards"] = static_cast<double>(cpuFallbackShards);
+    state.counters["cuda_shards"] = static_cast<double>(cudaShards);
+    state.counters["hip_shards"] = static_cast<double>(hipShards);
+    state.counters["vulkan_shards"] = static_cast<double>(vulkanShards);
+
+    backend.shutdown();
 }
 
 BENCHMARK(BM_MultiGPUBackend_DistanceComputation)

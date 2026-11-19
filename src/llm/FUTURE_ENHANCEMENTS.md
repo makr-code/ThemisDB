@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-02-21"
-Last Updated: "2026-11-17"
+Created: "2025-02-21"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -233,9 +233,10 @@ metadata-only discovery, explicit instruction/resource loading, and opt-in
 evidence and any future persistence, embedding-based selection, package
 signing, or script-execution designs. Skills complement `ModePack`/`ModeSpec`
 and do not replace mode selection, tool authorization, or database execution.
-Three opt-in guidance packages for read-only AQL drafting, evidence-grounded
-answers, and graph exploration are under `config/agent_skills/`. This plan is
-not a release commitment.
+Opt-in guidance packages are under `config/agent_skills/`; they remain inert.
+The `asset-impact-analysis` package can be paired with a separately registered,
+host-authorized graph and time-series executor. This plan is not a release
+commitment.
 
 ### Design Constraints
 
@@ -281,6 +282,16 @@ Integrate these operations as opt-in built-in tools (for example
 `list_skills`, `load_skill`, and `read_skill_resource`) only when registered by
 the caller. Each tool must remain subject to the active mode allowlist.
 
+The additive `SkillDelegationContext` primitive carries an exact
+action/resource allowlist, fixed principal and tenant, monotonic expiry, and
+shared aggregate tool-call/candidate/content-byte limits. Child contexts may
+remove permissions and shorten expiry but cannot change identity, extend
+expiry, add grants, or reset the shared budget. Root creation must remain in a
+trusted host after authorization; skill content, model output, and tool
+arguments are not authority sources. This primitive is not yet enforced by
+ToolRegistry, native skill executors, or RAG and must not be described as
+end-to-end authorization.
+
 ### Implementation Notes
 
 - The implemented initial metadata contract requires scalar `name` and
@@ -318,6 +329,8 @@ the caller. Each tool must remain subject to the active mode allowlist.
   paths as secure against a concurrent untrusted filesystem writer.
 - Verify mode allow/deny controls still gate every skill tool and a skill cannot
   enable a tool denied by the mode.
+- Verify delegation rejects added capabilities and later expiry, preserves
+  principal/tenant identity, and shares atomic budget charges across descendants.
 - Exercise concurrent list/load/refresh to prove readers never see partial
   registry state.
 - Confirm compatibility by loading existing mode packs and running existing
@@ -356,6 +369,74 @@ the caller. Each tool must remain subject to the active mode allowlist.
 - [Anthropic: Equipping agents with Agent Skills](https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agent-skills)
 - ThemisDB mode and tool contracts: `include/llm/ai_orchestrator.h`
 - ThemisDB LLM trust and authority boundaries: `ARCHITECTURE.md`
+
+## Native Asset Impact Analysis (Opt-in)
+
+### Scope
+
+Provide a read-only executor that follows one host-bound outgoing property
+graph relation from a start asset and compares a trusted TSStore metric over
+two time windows for every reached asset. It is domain-neutral: asset IDs may
+represent engineering equipment, financial entities, or other time-series
+sources. Optional GeoJSON Point filtering is independent of the metric domain.
+
+### Design Constraints
+
+- The host binds and authorizes one graph ID, edge type, metric, RocksDB
+  wrapper, graph manager, and TSStore before registration.
+- Package loading does not register or allow the tool. `ModeSpec` remains the
+  tool authorization boundary, and the executor accepts no query text.
+- Traverse only outgoing edges matching the bound type and graph ID. Return
+  errors rather than incomplete traversal results when any hard limit or
+  integrity check fails.
+- Treat graph and time-series reads as synchronous, non-atomic observations;
+  never claim snapshot consistency or causal proof.
+
+### Required Interfaces
+
+- `GraphIndexManager::boundedBfs()` scans a graph-scoped adjacency prefix,
+  verifies edge documents, and bounds depth, vertices, examined edges, and
+  cooperative traversal time.
+- `registerAssetImpactAnalysisTool()` registers `analyze_asset_impact` only
+  when the host opts in; the active mode must separately allow it.
+- The tool accepts a start asset, depth, two non-overlapping windows, duration,
+  and optional geo radius. Graph ID, edge type, metric, and collection scope
+  are not user-selectable.
+
+### Implementation Notes
+
+The current executor enforces depth <= 3, 64 vertices, 256 examined adjacency
+entries, a cooperative 500 ms graph-traversal deadline, 64 KiB node documents,
+and 4,096 samples per window per asset. The start asset is returned at depth
+zero. Means are unweighted sample means; empty windows have null means and
+delta. Geo filtering accepts a radius up to 1,000 km, skips and counts missing
+locations, and fails on malformed locations. The graph timeout cannot interrupt
+an individual synchronous RocksDB call.
+
+### Test Strategy
+
+`tests/graph/test_graph_bounded_bfs.cpp` covers graph/type scope, depth, and
+fail-closed work limits. `tests/llm/test_skill_registry.cpp` covers the native
+tool, mode allowlisting, time-window comparison, optional geo filtering, and
+strict failure on malformed matching time-series records against RocksDB and
+TSStore. The focused CTest must be built and executed before marking this item
+validated.
+
+### Performance Targets
+
+The executor is capped at 64 assets, 256 examined adjacency entries, and
+4,096 samples in each window per asset. The graph traversal has a cooperative
+500 ms deadline. These caps bound logical work; they do not establish a hard
+wall-clock bound for individual storage operations or an aggregate end-to-end
+latency SLO.
+
+### Security / Reliability
+
+Bind the graph and TSStore to the same caller scope; do not reuse a registry
+across principals. Missing/malformed node or edge data, iterator failures,
+invalid samples, invalid locations, and work-limit exhaustion return errors,
+not empty or partial success. Host authorization and mode allowlists remain
+mandatory; graph traversal itself is not authorization.
 
 ## RAG-Readiness Audit Backlog (2026-09-23)
 

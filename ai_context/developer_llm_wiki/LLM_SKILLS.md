@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-17"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,6 +36,21 @@ The process/BPMN skill keeps model YAML, BPMN conversion, and mining as
 separately verified host-orchestrated stages. It records the conflicting AQL
 implementation claims, the Windows stub, and the absence of an assumed
 administrative YAML file; it does not claim automatic model changes.
+The similar-case research skill coordinates only separately authorized
+retrieval and document-read capabilities; it does not provide an executor,
+automatically fuse search paths, or establish source completeness.
+Some skill bodies name optional reusable guidance dependencies. They are
+advisory text, not registry-validated dependencies: hosts explicitly load
+selected packages and remain responsible for authorization, budgets, and
+propagating errors and provenance.
+
+`SkillDelegationContext` provides a separate host-side attenuation primitive:
+exact action/resource grants, fixed principal and tenant, monotonic expiry,
+and atomic aggregate tool-call/candidate/content-byte accounting shared by
+derived contexts. It rejects wildcard grants, added permissions, and later
+child expiry. It is not currently wired into `ToolRegistry`, native executors,
+or RAG; it is not evidence that existing tool calls are authorized by this
+context.
 
 ## Trust and deployment boundaries
 
@@ -73,17 +88,31 @@ These paths describe current packaging behavior, not a default registry root.
 collection and metric; optional geography does not restrict supported source
 domains. See the [tool contract](../api_contracts/llm.md).
 
+## Native graph and time-series tool
+
+`asset-impact-analysis` can invoke the separately registered, read-only
+`analyze_asset_impact` tool. The host fixes the authorized graph ID, outgoing
+edge type, metric, and principal scope; the tool accepts a start asset and
+bounded time-window/depth arguments. Traversal overflow or storage errors fail
+the whole request rather than returning a partial graph. Optional GeoJSON
+radius filtering is also bounded. Graph and TSStore reads are synchronous and
+do not share a snapshot. See the
+[tool contract](../api_contracts/llm.md) and
+[package instructions](../../config/agent_skills/asset-impact-analysis/SKILL.md).
+
 ## Focused coverage
 
 `tests/llm/test_skill_registry.cpp` covers registry validation, snapshot
 behavior, optional tool policy, concurrency, and discovery/loading of the
 shipped packages. With the built-in time series module it also checks the
-native comparison against RocksDB and TSStore. The CTest entry is
-`test_skill_registry_LlmFocusedTests`.
+native comparison and asset impact tool against RocksDB and TSStore. The CTest
+entry is `test_skill_registry_LlmFocusedTests`. The bounded graph API coverage
+is registered as `test_graph_bounded_bfs_GraphFocusedTests`.
 
 ## Canonical sources
 
 - [`SkillRegistry` API](../../include/llm/skill_registry.h)
+- [`SkillDelegationContext` API](../../include/llm/skill_delegation_context.h)
 - [LLM architecture](../../src/llm/ARCHITECTURE.md)
 - [LLM API contract](../api_contracts/llm.md)
 - [Skill package catalog and host setup](../../config/agent_skills/README.md)
@@ -99,8 +128,10 @@ native comparison against RocksDB and TSStore. The CTest entry is
 - [BPMN and process mining skill](../../config/agent_skills/process-bpmn-mining/SKILL.md)
 - [RAG retrieval skill](../../config/agent_skills/rag-retrieval/SKILL.md)
 - [RAG evaluation skill](../../config/agent_skills/rag-evaluation/SKILL.md)
+- [Similar case research skill](../../config/agent_skills/similar-case-research/SKILL.md)
 - [ThemisDB YAML configuration skill](../../config/agent_skills/themisdb-yaml-config/SKILL.md)
 - [Time series window analysis skill](../../config/agent_skills/timeseries-window-analysis/SKILL.md)
+- [Asset impact analysis skill](../../config/agent_skills/asset-impact-analysis/SKILL.md)
 - [Trace correlation skill](../../config/agent_skills/trace-correlation/SKILL.md)
 - [Runtime layout](../../docs/packaging/runtime-layout.md)
 - [Runtime layout definition](../../cmake/packaging/RuntimeLayout.cmake)

@@ -11,21 +11,30 @@ set(_THEMIS_VULKAN_SDK_HINTS
     $ENV{VULKAN_SDK}/Bin
 )
 
-find_program(GLSLANG_VALIDATOR glslangValidator
-    HINTS
-        ${_THEMIS_VULKAN_SDK_HINTS}
-    PATHS
-        /usr/bin
-        /usr/local/bin
-)
+if(DEFINED Vulkan_GLSLANG_VALIDATOR_EXECUTABLE AND
+   EXISTS "${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}")
+    set(GLSLANG_VALIDATOR "${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}")
+else()
+    find_program(GLSLANG_VALIDATOR glslangValidator
+        HINTS
+            ${_THEMIS_VULKAN_SDK_HINTS}
+        PATHS
+            /usr/bin
+            /usr/local/bin
+    )
+endif()
 
-find_program(GLSLC glslc
-    HINTS
-        ${_THEMIS_VULKAN_SDK_HINTS}
-    PATHS
-        /usr/bin
-        /usr/local/bin
-)
+if(DEFINED Vulkan_GLSLC_EXECUTABLE AND EXISTS "${Vulkan_GLSLC_EXECUTABLE}")
+    set(GLSLC "${Vulkan_GLSLC_EXECUTABLE}")
+else()
+    find_program(GLSLC glslc
+        HINTS
+            ${_THEMIS_VULKAN_SDK_HINTS}
+        PATHS
+            /usr/bin
+            /usr/local/bin
+    )
+endif()
 
 # Prefer glslc over glslangValidator
 if(GLSLC)

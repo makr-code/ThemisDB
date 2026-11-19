@@ -255,7 +255,8 @@ def _parse_performance_expectations(path: Path, module: str) -> list[Expectation
             }
             _bench_keywords = {
                 "benchmark", "benchmark case", "benchmark cases", "benchmark name",
-                "benchmark-fall", "bench", "bench case", "case", "test case",
+                "direct benchmark case", "benchmark-fall", "bench", "bench case",
+                "case", "test case",
             }
             for idx, header in enumerate(cols):
                 h = header.lower().strip()

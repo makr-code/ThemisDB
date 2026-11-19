@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,6 +38,28 @@ Most operation methods return results directly. Callers must validate the inputs
 - `EnhancedPluginSecurityVerifier` rejects hash-only authorization and requires pinned signer identity at signature verification levels; `allowUnsigned` cannot bypass the policy.
 - `DeviceManager::probeDevices()` returns a cached vector of `DeviceCapabilityInfo`; `refresh()` performs immediate re-enumeration. `getBestDevice()` chooses the healthy accelerator with the most reported free VRAM, otherwise CPU fallback. Its cache TTL is 60 seconds.
 
+## Multi-device vector execution
+
+`MultiGPUVectorBackend::Config::deviceBackend` selects one homogeneous backend
+family per instance: `AUTO` prefers CUDA, then HIP, Vulkan, and CPU; explicit
+selection is also supported. When `deviceIds` is empty, the first `numDevices`
+available IDs for that backend are selected. Supplied IDs must be unique and
+non-negative; Vulkan IDs are physical-device indices, while CUDA/HIP IDs use
+their runtime numbering. `minDevices` controls `isAvailable()` and
+`allowCPUFallback` controls per-shard fallback after device absence, backend
+initialization failure, or runtime operation failure.
+
+Each shard owns one backend instance and a contiguous corpus range. Distance
+results are merged by original vector offset. KNN results are computed locally,
+remapped to global vector indices, then sorted and trimmed to `k`. Shard work is
+fanned out concurrently, while calls to an individual backend instance are
+serialized. `shards()` reports the actual backend and CPU-fallback state;
+`activeDeviceCount()` is the active shard count, including CPU-fallback shards.
+CUDA/HIP collectives are used only when their backend is selected and at least
+two accelerator shards initialize; otherwise the merge is host-side. A failed
+shard returns an empty result if fallback is disabled or the fallback operation
+also fails. `shutdown()` must not race with compute calls.
+
 ## AI dispatcher API
 
 `AiHardwareDispatcher::run(AiInferenceRequest&)` returns `AiInferenceResult`, including `success`, `error`, `backend_used`, `ep_used`, output tensor/shape, and latency. The request's host FP32 input pointer and `input_elements` must describe valid caller-owned storage for the duration of the call. `runOn()` requests one backend directly; it does not provide the retry chain of `run()`.
@@ -54,6 +76,10 @@ Capability selectors may return `nullptr`; inference may return a failed result 
 
 - [Backend and registry declarations](../../include/acceleration/compute_backend.h)
 - [Device manager declaration](../../include/acceleration/device_manager.h)
+- [Multi-device backend declaration](../../include/acceleration/multi_gpu_backend.h)
+- [CUDA backend declaration](../../include/acceleration/cuda_backend.h)
+- [HIP backend declaration](../../include/acceleration/hip_backend.h)
+- [Vulkan backend declaration](../../include/acceleration/vulkan_backend.h)
 - [AI dispatcher request/result](../../include/acceleration/ai_hardware_dispatcher.h)
 - [Plugin interface](../../include/acceleration/plugin_loader.h)
 

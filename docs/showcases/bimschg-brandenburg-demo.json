@@ -1,0 +1,1597 @@
+{
+  "schema_version": "0.4",
+  "dataset_id": "showcase-bimschg-brandenburg-havelgrund",
+  "fictional": true,
+  "generated_on": "2026-11-19",
+  "provenance": {
+    "AI_Used": true,
+    "AI_Models": "unknown",
+    "AI_Contributor": "GitHub Copilot",
+    "Human_Review": false,
+    "Human_Author": "ThemisDB Team",
+    "note": "Exact model backend not verifiable from final document text alone."
+  },
+  "disclaimer": "Fall-, Personen-, Unternehmens-, Orts-, Termin-, Messwert-, Fristen- und Betragsangaben sind fiktiv. Die Rechtsquellen- und Rechtsprechungsmetadaten verweisen auf reale öffentliche Quellen; Geltung, Rechtsstand, Anwendbarkeit und Übertragbarkeit sind für den Einzelfall fachlich zu prüfen. Anlagenziffer, Zuständigkeit, Rechtsbehelfsroute und Gebühren sind keine rechtliche Feststellung.",
+  "scenario": {
+    "id": "case-bim-2026-0042",
+    "lifecycle_start": "2024-01-15",
+    "lifecycle_end": "2032-09-30",
+    "aktenzeichen": "LFU-BIM-2026-0042",
+    "name": "Biomasseanlage Havelgrund",
+    "state": "Brandenburg",
+    "municipality": "Fiktive Gemeinde Havelgrund",
+    "district": "Fiktiver Landkreis Havelgrund",
+    "competent_authority": {
+      "party_id": "authority-lfu-brandenburg",
+      "name": "Landesamt für Umwelt Brandenburg",
+      "unit": "Genehmigungsverfahrensstelle nach Standortzuständigkeit",
+      "assignment_status": "STANDORTABHAENGIG_ZU_VALIDIEREN"
+    },
+    "procedure_dependencies": [
+      {
+        "id": "dependency-plan-before-permit",
+        "prerequisite_id": "planning-bplan-01",
+        "dependent_id": "proc-main-formal",
+        "relationship": "PLANUNGSRECHTLICHE_VORAUSSETZUNG",
+        "condition": "NUR_WENN_DIE_PLANUNGSRECHTLICHE_ZULAESSIGKEIT_DAVON_ABHAENGT",
+        "status": "FIKTIV_ERFUELLT",
+        "note": "Kein allgemeingültiger Zwang zu einem neuen B-Plan; die konkrete planungsrechtliche Situation entscheidet."
+      },
+      {
+        "id": "dependency-separate-water-approval",
+        "prerequisite_id": "approval-water-01",
+        "dependent_id": "facility-havelgrund-biomass-01",
+        "relationship": "SEPARATE_ZULASSUNG_WENN_ERFORDERLICH",
+        "condition": "WASSERRECHTLICHER_TATBESTAND",
+        "status": "OFFEN"
+      }
+    ],
+    "planning_path": {
+      "requirement": "FIKTIVE_DEMOANNAHME_NEUER_B_PLAN_ERFORDERLICH",
+      "real_case_rule": "Nicht jede Anlage benötigt einen neuen B-Plan; vorhandene Planung sowie §§ 34/35 BauGB sind standortbezogen zu prüfen.",
+      "land_use_plan": {
+        "id": "planning-fnp-01",
+        "planning_authority_id": "authority-municipality",
+        "status": "FIKTIV_GEAENDERT_UND_BEKANNT_GEMACHT",
+        "decision_date": "2025-11-18",
+        "document_id": "doc-fnp-resolution"
+      },
+      "development_plan": {
+        "id": "planning-bplan-01",
+        "plan_name": "B-Plan „Energie- und Wärmeversorgung Havelgrund“ (fiktiv)",
+        "planning_authority_id": "authority-municipality",
+        "status": "FIKTIV_IN_KRAFT",
+        "procedure_start": "2024-06-03",
+        "environmental_report_document_id": "doc-bplan-environment-report",
+        "public_participation_id": "planning-public-01",
+        "authority_participation_id": "planning-authority-participation-01",
+        "council_resolution_date": "2025-10-21",
+        "effective_notice_date": "2025-11-18",
+        "note": "Fiktiver kommunaler Planungsprozess; keine echte Satzung und keine Aussage über reale Zulässigkeit."
+      }
+    },
+    "planning_hierarchy": [
+      {
+        "id": "planning-level-federal-spatial",
+        "level": "BUNDESRAUMORDNUNG",
+        "instruments": ["ROG", "Bundesraumordnungsplan Hochwasserschutz, falls räumlich einschlägig"],
+        "status": "RAEUMLICHE_BETROFFENHEIT_OFFEN",
+        "binding_effect": "JEWEILIGE_NORM_UND_ADRESSATENKREIS_PRUEFEN"
+      },
+      {
+        "id": "planning-level-federal-sectoral",
+        "level": "BUNDESFACHPLANUNG",
+        "instrument": "NABEG oder anderes sektorales Fachplanungsrecht",
+        "trigger": "NUR_BEI_EINSCHLAEGIGEM_VORHABEN",
+        "status": "IM_BIOMASSE_DEMO_NICHT_AUSGELOEST"
+      },
+      {
+        "id": "planning-level-state-regional",
+        "level": "LANDES_UND_REGIONALPLANUNG",
+        "instruments": ["LEP HR", "einschlaegiger Regionalplan"],
+        "status": "GIS_UND_TEXTLICHE_ZIELPRUEFUNG_OFFEN",
+        "legal_effect": "ZIELE_UND_GRUNDSAETZE_SEPARAT_ERFASSEN"
+      },
+      {
+        "id": "planning-level-fnp",
+        "level": "KOMMUNALE_VORBEREITENDE_BAULEITPLANUNG",
+        "instrument": "FNP",
+        "planning_object_id": "planning-fnp-01",
+        "status": "FIKTIV_GEAENDERT"
+      },
+      {
+        "id": "planning-level-bplan",
+        "level": "KOMMUNALE_VERBINDLICHE_BAULEITPLANUNG",
+        "instrument": "B-Plan",
+        "planning_object_id": "planning-bplan-01",
+        "status": "FIKTIV_IN_KRAFT"
+      }
+    ],
+    "geospatial_basis": {
+      "site_geometry": {
+        "geometry": null,
+        "geometry_type": "MULTIPOLYGON",
+        "crs": "EPSG:25833",
+        "status": "NICHT_ERFASST",
+        "reason": "Fiktiver Ort ohne reale Flurstuecksgeometrie; keine echten Geodaten-Overlays behauptet."
+      },
+      "overlay_status": "NICHT_AUSGEFUEHRT_GEOMETRIE_FEHLT",
+      "layer_registry": [
+        {
+          "id": "layer-lep-hr",
+          "topic": "LANDESPLANUNG",
+          "source_url": "https://gl.berlin-brandenburg.de/landesplanung/landesentwicklungsplan-hauptstadtregion-berlin-brandenburg-lep-hr/",
+          "source_metadata_url": null,
+          "scale_or_resolution": "PLANFESTLEGUNGSKARTE_1:300000",
+          "legal_effect": "ZIELE_GRUNDSAETZE_UND_NACHRICHTLICHE_UEBERNAHMEN_SEPARIEREN",
+          "data_vintage": "METADATEN_UND_GUELTIGKEIT_AM_ABFRAGEDATUM_PRUEFEN",
+          "license": "METADATEN_PRUEFEN",
+          "overlay_status": "NICHT_AUSGEFUEHRT"
+        },
+        {
+          "id": "layer-brandenburg-protected-areas",
+          "topic": "NATURSCHUTZ_SCHUTZGEBIETE",
+          "source_url": "https://lfu.brandenburg.de/lfu/de/aufgaben/natur/naturschutzfachdaten/kartenanwendung/",
+          "source_metadata_url": null,
+          "scale_or_resolution": "DATENSATZMETADATEN_PRUEFEN",
+          "legal_effect": "GEOMETRIE_MIT_RECHTSVERORDNUNG_ODER_SCHUTZANORDNUNG_ABGLEICHEN",
+          "data_vintage": "DATENSATZMETADATEN_PRUEFEN",
+          "license": "IN_DER_REGEL_DATENLIZENZ_DEUTSCHLAND_NAMENSNENNUNG_2_0_KONKRETE_METADATEN_MASSGEBLICH",
+          "attribution": "QUELLANGABE_GEMAESS_DATENSATZMETADATEN",
+          "overlay_status": "NICHT_AUSGEFUEHRT"
+        },
+        {
+          "id": "layer-brandenburg-geoportal",
+          "topic": "BASISKARTEN_FACHGEODATEN",
+          "source_url": "https://geoportal.brandenburg.de/",
+          "source_metadata_url": null,
+          "scale_or_resolution": "JE_LAYER_METADATEN_PRUEFEN",
+          "legal_effect": "JE_LAYER_KLASSIFIZIEREN",
+          "data_vintage": "JE_LAYER_METADATEN_PRUEFEN",
+          "license": "JE_LAYER_METADATEN_PRUEFEN",
+          "overlay_status": "NICHT_AUSGEFUEHRT"
+        }
+      ],
+      "required_layer_metadata": [
+        "provider",
+        "metadata_url",
+        "crs",
+        "scale_or_resolution",
+        "valid_from",
+        "valid_to",
+        "updated_at",
+        "license",
+        "attribution",
+        "legal_effect",
+        "quality"
+      ]
+    },
+    "environmental_screening": {
+      "uvpg": {
+        "project_type_and_threshold_basis": "UVPG_ANLAGE_1",
+        "screening_criteria": "UVPG_PARAGRAPH_7_AND_ANLAGE_3",
+        "status": "DEMOANNAHME_UVP_PFLICHTIG_FACHLICH_NICHT_VALIDIERT",
+        "decision_document_id": "doc-uvp-screening-decision",
+        "gis_role": "EVIDENZ_UND_PRUEFANLASS_KEINE_AUTOMATISCHE_ENTSCHEIDUNG"
+      },
+      "nature_assessments": [
+        {
+          "id": "nature-natura2000-screening",
+          "type": "NATURA_2000",
+          "legal_basis": "BNatSchG § 34",
+          "status": "ERFORDERLICHKEIT_UND_UNTERSUCHUNGSRAUM_OFFEN"
+        },
+        {
+          "id": "nature-species-assessment",
+          "type": "BESONDERER_ARTENSCHUTZ",
+          "legal_basis": "BNatSchG § 44",
+          "status": "SAISONALER_ERHEBUNGSBEDARF_OFFEN"
+        },
+        {
+          "id": "nature-impact-regulation",
+          "type": "EINGRIFFSREGELUNG",
+          "legal_basis": "BNatSchG §§ 14-17",
+          "status": "VERMEIDUNG_AUSGLEICH_UND_ERSETZUNG_OFFEN"
+        }
+      ],
+      "decision_owner": "ZUSTAENDIGE_BEHOERDE_NACH_RECHTSMATERIE",
+      "automated_result_permitted": false
+    },
+    "procedure": {
+      "id": "proc-main-formal",
+      "type": "FOERMLICH",
+      "assumption": "Fiktiver Showcase-Pfad mit angenommener UVP-Pflicht und Öffentlichkeitsbeteiligung.",
+      "administrative_act_process_model": {
+        "id": "bimschg_verwaltungsakt_pruefung",
+        "artifact": "bimschg-verwaltungsakt-bpmn.json",
+        "version": "1.0.0",
+        "lifecycle_state": "DRAFT",
+        "automated_legal_conclusion": false
+      },
+      "4_bimschv_entry": null,
+      "classification_status": "FACHLICH_ZU_VALIDIEREN",
+      "uvp_status": "IM_DEMO_ANGENOMMEN",
+      "ied_status": "NICHT_GEPRUEFT",
+      "legal_as_of": "2026-11-19"
+    },
+    "facility": {
+      "id": "facility-havelgrund-biomass-01",
+      "operator_id": "party-bioenergie-havelgrund",
+      "name": "Biomasseanlage Havelgrund",
+      "type": "BIOMASSE_ENERGIEANLAGE",
+      "site": {
+        "municipality": "Fiktive Gemeinde Havelgrund",
+        "district": "Fiktiver Landkreis Havelgrund",
+        "coordinates": null,
+        "coordinates_status": "NICHT_ERFASST"
+      },
+      "technical_parameters": {
+        "thermal_input_mw": 62,
+        "capacity_status": "FIKTIVER_TESTWERT",
+        "fuel": "Holzhackschnitzel",
+        "operating_hours_per_year": 7200
+      },
+      "permit_classification": {
+        "annex_4_bimschv_item": null,
+        "procedure_marker": "G",
+        "ied_marker": null,
+        "status": "DEMO_ANNAHME_KEINE_RECHTLICHE_EINORDNUNG",
+        "decision_document_id": "doc-uvp-screening-decision"
+      },
+      "lifecycle_status": "BETRIEB"
+    },
+    "scenario_branches": [
+      {
+        "id": "branch-formal-main",
+        "procedure_id": "proc-main-formal",
+        "purpose": "Förmliches Genehmigungsverfahren mit UVP-Beteiligung; Klagepfad bleibt eigenständig.",
+        "active": true
+      },
+      {
+        "id": "branch-simplified-remedy-example",
+        "procedure_id": "proc-alternative-simplified",
+        "purpose": "Getrennter hypothetischer Widerspruchspfad; keine Aussage zur Statthaftigkeit in einem konkreten Fall.",
+        "active": false
+      }
+    ]
+  },
+  "parties": [
+    {
+      "id": "party-bioenergie-havelgrund",
+      "type": "JURISTISCHE_PERSON",
+      "display_name": "Bioenergie Havelgrund GmbH (fiktiv)",
+      "roles": ["ANTRAGSTELLER", "BETREIBER"],
+      "privacy_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "party-operator-agent",
+      "type": "NATUERLICHE_PERSON",
+      "display_name": "M. Beispiel (pseudonymisiert)",
+      "roles": ["BEVOLLMAECHTIGTE_PERSON"],
+      "privacy_class": "PERSONENBEZOGEN"
+    },
+    {
+      "id": "party-neighbour-01",
+      "type": "NATUERLICHE_PERSON",
+      "display_name": "Nachbarperson 01 (pseudonymisiert)",
+      "roles": ["NACHBARSCHAFT", "EINWENDER", "KLAGEFUEHRENDE_PERSON"],
+      "privacy_class": "BESONDERS_ZU_SCHUETZEN"
+    },
+    {
+      "id": "party-neighbour-02",
+      "type": "NATUERLICHE_PERSON",
+      "display_name": "Nachbarperson 02 (pseudonymisiert)",
+      "roles": ["BESCHWERDEFUEHRENDE_PERSON"],
+      "privacy_class": "BESONDERS_ZU_SCHUETZEN"
+    },
+    {
+      "id": "party-association",
+      "type": "VEREINIGUNG",
+      "display_name": "Bürgerinitiative Havelgrund (fiktiv; Anerkennungsstatus nicht unterstellt)",
+      "roles": ["OEFFENTLICHKEIT", "STELLUNGNAHME"],
+      "privacy_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "authority-lfu-brandenburg",
+      "type": "BEHOERDE",
+      "display_name": "Landesamt für Umwelt Brandenburg",
+      "roles": ["GENEHMIGUNGSBEHOERDE", "UEBERWACHUNGSBEHOERDE"],
+      "jurisdiction_status": "STANDORTABHAENGIG_ZU_VALIDIEREN"
+    },
+    {
+      "id": "authority-municipality",
+      "type": "BEHOERDE",
+      "display_name": "Gemeinde Havelgrund (fiktiv)",
+      "roles": ["KOMMUNALE_PLANUNGSTRAEGERIN"],
+      "jurisdiction_status": "PLANUNGSHOHEIT_NUR_FUER_FIKTIVEN_DEMOFALL"
+    },
+    {
+      "id": "authority-regional-planning",
+      "type": "BEHOERDE",
+      "display_name": "Gemeinsame Landesplanungsabteilung Berlin-Brandenburg",
+      "roles": ["RAUMORDNUNG_WENN_ERFORDERLICH"],
+      "jurisdiction_status": "RAUMBEDEUTSAMKEIT_UND_ZUSTAENDIGKEIT_ZU_PRUEFEN"
+    },
+    {
+      "id": "authority-lower-water",
+      "type": "BEHOERDE",
+      "display_name": "Untere Wasserbehörde des fiktiven Landkreises Havelgrund",
+      "roles": ["FACHBEHOERDE"],
+      "subject_areas": ["WASSER", "GRUNDWASSER"],
+      "participation_reason": "Fiktive fachliche Betroffenheit; Zuständigkeit im Fall prüfen."
+    },
+    {
+      "id": "authority-nature",
+      "type": "BEHOERDE",
+      "display_name": "Untere Naturschutzbehörde des fiktiven Landkreises Havelgrund",
+      "roles": ["FACHBEHOERDE"],
+      "subject_areas": ["NATURSCHUTZ", "ARTENSCHUTZ"],
+      "participation_reason": "Fiktive fachliche Betroffenheit; Zuständigkeit im Fall prüfen."
+    },
+    {
+      "id": "authority-building",
+      "type": "BEHOERDE",
+      "display_name": "Untere Bauaufsichtsbehörde des fiktiven Landkreises Havelgrund",
+      "roles": ["FACHBEHOERDE"],
+      "subject_areas": ["BAUORDNUNG", "BRANDSCHUTZ"],
+      "participation_reason": "Fiktive fachliche Betroffenheit; Zuständigkeit im Fall prüfen."
+    }
+  ],
+  "alternative_procedure": {
+    "id": "proc-alternative-simplified",
+    "type": "VEREINFACHT",
+    "purpose": "Isolierter Verfahrenspfad zur Darstellung eines möglichen Widerspruchseingangs.",
+    "status": "HYPOTHETISCH_NICHT_TEIL_DES_HAUPTFALLS",
+    "remedy_route": "AUS_RECHTSBEHELFSBELEHRUNG_UND_RECHTSLAGE_ZU_PRUEFEN"
+  },
+  "documents": [
+    {
+      "id": "doc-idea-note",
+      "type": "PROJEKTIDEE",
+      "version": 1,
+      "created_at": "2024-01-15T10:00:00+01:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "KONZEPTSTAND_1",
+      "access_class": "PROJEKTINTERN"
+    },
+    {
+      "id": "doc-site-screening",
+      "type": "STANDORTVARIANTENPRUEFUNG",
+      "version": 1,
+      "created_at": "2024-03-20T10:00:00+01:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "FIKTIV_ABGESCHLOSSEN",
+      "access_class": "PROJEKTINTERN"
+    },
+    {
+      "id": "doc-geospatial-baseline",
+      "type": "GEODATEN_UND_STANDORTGRUNDLAGEN",
+      "version": 1,
+      "created_at": "2024-03-20T10:00:00+01:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "GEOMETRIE_UND_LAYERDATEN_OFFEN",
+      "access_class": "PROJEKTINTERN"
+    },
+    {
+      "id": "doc-nature-screening",
+      "type": "NATURSCHUTZ_UND_UVP_SCREENING",
+      "version": 1,
+      "created_at": "2024-03-20T10:00:00+01:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "FACHLICHE_ERHEBUNGEN_OFFEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-bplan-draft",
+      "type": "B_PLAN_ENTWURF",
+      "version": 2,
+      "created_at": "2025-05-12T10:00:00+02:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_ZUR_BETEILIGUNG",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-bplan-effective-notice",
+      "type": "B_PLAN_INKRAFTTRETENSBEKANNTMACHUNG",
+      "version": 1,
+      "created_at": "2025-11-18T09:00:00+01:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_BEKANNT_GEMACHT",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-bplan-environment-report",
+      "type": "B_PLAN_UMWELTBERICHT",
+      "version": 1,
+      "created_at": "2025-05-12T10:00:00+02:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_ZUR_BETEILIGUNG",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-bplan-public-notice",
+      "type": "B_PLAN_BEKANNTMACHUNG",
+      "version": 1,
+      "created_at": "2025-05-12T10:00:00+02:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_VERÖFFENTLICHT",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-bplan-resolution",
+      "type": "B_PLAN_SATZUNGSBESCHLUSS",
+      "version": 1,
+      "created_at": "2025-10-21T18:00:00+02:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_BESCHLOSSEN",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-fnp-resolution",
+      "type": "FNP_AENDERUNG_BEKANNTMACHUNG",
+      "version": 1,
+      "created_at": "2025-11-18T09:00:00+01:00",
+      "created_by": "authority-municipality",
+      "status": "FIKTIV_BEKANNT_GEMACHT",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-application",
+      "type": "GENEHMIGUNGSANTRAG",
+      "version": 1,
+      "created_at": "2026-03-16T10:12:00+01:00",
+      "submitted_by": "party-bioenergie-havelgrund",
+      "status": "EINGEGANGEN",
+      "access_class": "VERFAHRENSAKTE",
+      "supersedes": null
+    },
+    {
+      "id": "doc-missing-documents-request",
+      "type": "NACHFORDERUNG",
+      "version": 1,
+      "created_at": "2026-04-04T09:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "ZUGESTELLT",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-completeness-notice",
+      "type": "VOLLSTAENDIGKEITSVERMERK",
+      "version": 1,
+      "created_at": "2026-04-23T12:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "GEPRUEFT",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-uvp-screening-decision",
+      "type": "UVP_FESTSTELLUNG",
+      "version": 1,
+      "created_at": "2026-04-30T12:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "DEMO_ANNAHME_UVP_PFLICHTIG",
+      "access_class": "VEROEFFENTLICHUNG_NACH_PRUEFUNG"
+    },
+    {
+      "id": "doc-public-notice",
+      "type": "OEFFENTLICHE_BEKANNTMACHUNG",
+      "version": 1,
+      "created_at": "2026-05-04T09:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "VEROEFFENTLICHT",
+      "access_class": "OEFFENTLICH"
+    },
+    {
+      "id": "doc-water-opinion",
+      "type": "FACHSTELLUNGNAHME",
+      "version": 1,
+      "created_at": "2026-06-02T14:00:00+02:00",
+      "created_by": "authority-lower-water",
+      "subject_area": "WASSER",
+      "status": "EINGEGANGEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-nature-opinion",
+      "type": "FACHSTELLUNGNAHME",
+      "version": 1,
+      "created_at": "2026-06-06T14:00:00+02:00",
+      "created_by": "authority-nature",
+      "subject_area": "NATURSCHUTZ",
+      "status": "EINGEGANGEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-objection-01",
+      "type": "EINWENDUNG",
+      "version": 1,
+      "created_at": "2026-06-15T16:20:00+02:00",
+      "created_by": "party-neighbour-01",
+      "status": "FRISTGERECHT_EINGEGANGEN_DEMO",
+      "access_class": "PERSONENBEZOGEN"
+    },
+    {
+      "id": "doc-hearing-record",
+      "type": "EROERTERUNGSPROTOKOLL",
+      "version": 1,
+      "created_at": "2026-07-14T16:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "ENTWURF",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-permit",
+      "type": "GENEHMIGUNGSBESCHEID",
+      "version": 1,
+      "created_at": "2026-09-10T12:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "FIKTIV_ERLASSEN",
+      "access_class": "OEFFENTLICHE_FASSUNG_SEPARAT",
+      "legal_remedy_notice": "FIKTIV; durch fachkundige Stelle zu validieren."
+    },
+    {
+      "id": "doc-fee-notice",
+      "type": "GEBUEHRENBESCHEID",
+      "version": 1,
+      "created_at": "2026-09-10T12:05:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "FIKTIV_ERLASSEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-inspection-2028",
+      "type": "UEBERWACHUNGSBERICHT",
+      "version": 1,
+      "created_at": "2028-04-18T15:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "status": "FIKTIV_ABGESCHLOSSEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-order-2028",
+      "type": "NACHTRAEGLICHE_ANORDNUNG",
+      "version": 1,
+      "created_at": "2028-05-08T12:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "legal_basis": ["BImSchG § 17"],
+      "status": "FIKTIV_ERLASSEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-change-notice-2029",
+      "type": "AENDERUNGSANZEIGE",
+      "version": 1,
+      "created_at": "2029-01-15T10:00:00+01:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "legal_basis": ["BImSchG § 15"],
+      "status": "EINGEGANGEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-change-permit-2029",
+      "type": "AENDERUNGSGENEHMIGUNG",
+      "version": 1,
+      "created_at": "2029-08-20T12:00:00+02:00",
+      "created_by": "authority-lfu-brandenburg",
+      "legal_basis": ["BImSchG § 16"],
+      "status": "FIKTIV_ERLASSEN",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-shutdown-plan",
+      "type": "STILLLEGUNGS_UND_NACHSORGEPLAN",
+      "version": 1,
+      "created_at": "2031-06-30T10:00:00+02:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "EINGEREICHT",
+      "access_class": "VERFAHRENSAKTE"
+    },
+    {
+      "id": "doc-site-closeout",
+      "type": "NACHSORGE_ABSCHLUSSBERICHT",
+      "version": 1,
+      "created_at": "2032-09-30T12:00:00+02:00",
+      "created_by": "party-bioenergie-havelgrund",
+      "status": "BEHOERDLICHE_PRUEFUNG_OFFEN",
+      "access_class": "VERFAHRENSAKTE"
+    }
+  ],
+  "participation": [
+    {
+      "id": "part-water-01",
+      "procedure_id": "proc-main-formal",
+      "authority_id": "authority-lower-water",
+      "subject_area": "WASSER",
+      "request_date": "2026-05-04",
+      "opinion_document_id": "doc-water-opinion",
+      "handling_status": "IN_BESCHEID_ZU_WUERDIGEN"
+    },
+    {
+      "id": "part-nature-01",
+      "procedure_id": "proc-main-formal",
+      "authority_id": "authority-nature",
+      "subject_area": "NATURSCHUTZ",
+      "request_date": "2026-05-04",
+      "opinion_document_id": "doc-nature-opinion",
+      "handling_status": "IN_BESCHEID_ZU_WUERDIGEN"
+    },
+    {
+      "id": "part-building-01",
+      "procedure_id": "proc-main-formal",
+      "authority_id": "authority-building",
+      "subject_area": "BAUORDNUNG",
+      "request_date": "2026-05-04",
+      "opinion_document_id": null,
+      "handling_status": "ANTWORT_OFFEN",
+      "note": "Fiktive Beteiligung; Zuständigkeit und separate Zulassungen sind fallabhängig."
+    }
+  ],
+  "planning_authority_participation": [
+    {
+      "id": "planning-authority-participation-01",
+      "planning_id": "planning-bplan-01",
+      "authority_id": "authority-lfu-brandenburg",
+      "subject_area": "IMMISSIONSSCHUTZ",
+      "request_date": "2025-05-12",
+      "opinion_document_id": null,
+      "status": "STELLUNGNAHME_IN_DEMO_ANGENOMMEN_EINGEGANGEN",
+      "legal_basis": "BauGB § 4 (konkrete Fassung und Verfahrensschritt fallbezogen zu prüfen)"
+    },
+    {
+      "id": "planning-authority-participation-regional-01",
+      "planning_id": "planning-bplan-01",
+      "authority_id": "authority-regional-planning",
+      "subject_area": "RAUMORDNUNG",
+      "request_date": "2025-05-12",
+      "opinion_document_id": null,
+      "status": "BETEILIGUNG_BEDINGT_UND_FIKTIV",
+      "legal_basis": "Raumordnungsrecht; Erforderlichkeit im Einzelfall prüfen"
+    }
+  ],
+  "planning_participation": {
+    "id": "planning-public-01",
+    "planning_id": "planning-bplan-01",
+    "planning_authority_id": "authority-municipality",
+    "notice_document_id": "doc-bplan-public-notice",
+    "plan_document_id": "doc-bplan-draft",
+    "environment_report_document_id": "doc-bplan-environment-report",
+    "display_start": "2025-05-19",
+    "display_end": "2025-06-20",
+    "periods_are": "FIKTIVE_TESTDATEN_KEINE_FRISTVORGABE",
+    "statements": [
+      {
+        "id": "planning-statement-01",
+        "submitter_id": "party-neighbour-01",
+        "received_at": "2025-06-10T11:00:00+02:00",
+        "topics": ["LAERM", "VERKEHR"],
+        "status": "FIKTIV_IN_ABWAEGUNG_EINGESTELLT"
+      },
+      {
+        "id": "planning-statement-02",
+        "submitter_id": "party-association",
+        "received_at": "2025-06-16T11:00:00+02:00",
+        "topics": ["NATURSCHUTZ", "UMWELTBERICHT"],
+        "status": "FIKTIV_IN_ABWAEGUNG_EINGESTELLT",
+        "recognition_status": "NICHT_UNTERSTELLT"
+      }
+    ],
+    "balancing_record": {
+      "document_id": null,
+      "status": "FIKTIVE_ABWAEGUNG_IM_PLANVERFAHREN"
+    }
+  },
+  "authority_tasks": [
+    {
+      "id": "task-idea-screening",
+      "lifecycle_phase": "IDEE_UND_STANDORT",
+      "responsible_party_id": "party-bioenergie-havelgrund",
+      "authority_id": null,
+      "trigger": "PROJEKTIDEE",
+      "task": "Varianten und Standortrestriktionen zusammentragen; informelle Vorberatung anfragen.",
+      "legal_basis": null,
+      "deadline_rule": null,
+      "status": "FIKTIV_ABGESCHLOSSEN",
+      "evidence_document_ids": ["doc-idea-note", "doc-site-screening"]
+    },
+    {
+      "id": "task-geospatial-baseline",
+      "lifecycle_phase": "STANDORT_UND_GEOBASIS",
+      "responsible_party_id": "party-bioenergie-havelgrund",
+      "authority_id": null,
+      "trigger": "STANDORTVARIANTEN_ERFASST",
+      "task": "Geometrien und Planungs-/Fachlayer mit Quelle, Rechtswirkung, Stand, Maßstab, Lizenz und Unsicherheit zusammentragen.",
+      "legal_basis": ["ROG", "BauGB", "UVPG", "BNatSchG; jeweilige Anwendbarkeit prüfen"],
+      "deadline_rule": null,
+      "status": "GEODATEN_OVERLAY_OFFEN",
+      "evidence_document_ids": ["doc-geospatial-baseline"]
+    },
+    {
+      "id": "task-federal-spatial-screen",
+      "lifecycle_phase": "BUNDESRAUMORDNUNG",
+      "responsible_party_id": "party-bioenergie-havelgrund",
+      "authority_id": null,
+      "trigger": "STANDORTVARIANTE",
+      "task": "Räumliche Betroffenheit einschlägiger Bundesraumordnungspläne und deren Bindungswirkung für den Vorhabentyp prüfen.",
+      "legal_basis": ["ROG"],
+      "deadline_rule": "FALLBEZOGEN",
+      "status": "OFFEN",
+      "evidence_document_ids": ["doc-geospatial-baseline"]
+    },
+    {
+      "id": "task-state-regional-planning",
+      "lifecycle_phase": "LANDES_UND_REGIONALPLANUNG",
+      "responsible_party_id": "authority-regional-planning",
+      "authority_id": "authority-regional-planning",
+      "trigger": "RAUMBEDEUTSAMKEIT_UND_PLANBEZUG",
+      "task": "LEP HR und einschlägigen Regionalplan textlich und kartografisch auf Ziele, Grundsätze und Verfahrensbedarf prüfen.",
+      "legal_basis": ["ROG", "LEP HR", "einschlaegiger Regionalplan"],
+      "deadline_rule": "FALLBEZOGEN",
+      "status": "PRUEFUNG_OFFEN",
+      "evidence_document_ids": ["doc-geospatial-baseline"]
+    },
+    {
+      "id": "task-environmental-screening",
+      "lifecycle_phase": "UVP_UND_NATURSCHUTZ",
+      "responsible_party_id": "party-bioenergie-havelgrund",
+      "authority_id": null,
+      "trigger": "VORHABENART_UND_STANDORT",
+      "task": "UVPG-Screening und eigenständige Natura-2000-, Artenschutz- und Eingriffsprüfungen mit fachlichen Erhebungen vorbereiten; behördliche Feststellung getrennt führen.",
+      "legal_basis": ["UVPG § 7 und Anlage 3", "BNatSchG §§ 14-17, 34, 44"],
+      "deadline_rule": "VOR_ZULASSUNGSENTSCHEIDUNG_NACH_ANWENDBARKEIT",
+      "status": "FACHLICHE_ERHEBUNGEN_OFFEN",
+      "evidence_document_ids": ["doc-nature-screening", "doc-uvp-screening-decision"]
+    },
+    {
+      "id": "task-bplan-process",
+      "lifecycle_phase": "BAULEITPLANUNG",
+      "responsible_party_id": "authority-municipality",
+      "authority_id": "authority-municipality",
+      "trigger": "PLANUNGSRECHTLICHE_DEMOPRUEFUNG",
+      "task": "Fiktive FNP-Änderung und B-Plan-Aufstellung einschließlich Umweltprüfung und Beteiligung führen.",
+      "legal_basis": ["BauGB §§ 1-4", "BauGB §§ 8-10"],
+      "deadline_rule": "VERFAHRENSABHAENGIG_KEINE_DEMOFRIST_ALS_RECHT",
+      "status": "FIKTIV_IN_KRAFT",
+      "evidence_document_ids": ["doc-bplan-draft", "doc-bplan-environment-report", "doc-bplan-public-notice", "doc-bplan-resolution", "doc-bplan-effective-notice", "doc-fnp-resolution"]
+    },
+    {
+      "id": "task-regional-planning-check",
+      "lifecycle_phase": "RAUMORDNUNG",
+      "responsible_party_id": "authority-regional-planning",
+      "authority_id": "authority-regional-planning",
+      "trigger": "RAUMBEDEUTSAMKEIT_ZU_PRUEFEN",
+      "task": "Erforderlichkeit eines Raumordnungsverfahrens bzw. einer Raumverträglichkeitsprüfung prüfen.",
+      "legal_basis": ["ROG", "Landesplanungsvertrag Berlin-Brandenburg", "GROVerfV"],
+      "deadline_rule": "NUR_NACH_ZUSTAENDIGKEITS_UND_ANWENDBARKEITSPRUEFUNG",
+      "status": "NICHT_ABSCHLIESSEND_GEPRUEFT",
+      "evidence_document_ids": []
+    },
+    {
+      "id": "task-bimschg-permit",
+      "lifecycle_phase": "BIMSCHG_GENEHMIGUNG",
+      "responsible_party_id": "authority-lfu-brandenburg",
+      "authority_id": "authority-lfu-brandenburg",
+      "trigger": "GENEHMIGUNGSBEDUERFTIGKEIT",
+      "task": "Anlagenziffer, Verfahren, UVP/IED, Beteiligungen und Genehmigungsvoraussetzungen im Einzelfall feststellen.",
+      "legal_basis": ["BImSchG", "4. BImSchV", "9. BImSchV", "UVPG"],
+      "deadline_rule": "AUS_RECHTSSTAND_UND_VERFAHRENSART_ABLEITEN",
+      "status": "FIKTIV_ABGESCHLOSSEN",
+      "evidence_document_ids": ["doc-application", "doc-uvp-screening-decision", "doc-permit"]
+    },
+    {
+      "id": "task-water-authorization",
+      "lifecycle_phase": "SEPARATE_ZULASSUNGEN",
+      "responsible_party_id": "authority-lower-water",
+      "authority_id": "authority-lower-water",
+      "trigger": "WASSERRECHTLICHER_TATBESTAND_ZU_PRUEFEN",
+      "task": "Erforderlichkeit, Antrag und Entscheidung einer separaten wasserrechtlichen Zulassung klären.",
+      "legal_basis": ["WHG", "Landeswasserrecht"],
+      "deadline_rule": null,
+      "status": "OFFEN",
+      "evidence_document_ids": []
+    },
+    {
+      "id": "task-monitoring",
+      "lifecycle_phase": "BETRIEB_UND_UEBERWACHUNG",
+      "responsible_party_id": "authority-lfu-brandenburg",
+      "authority_id": "authority-lfu-brandenburg",
+      "trigger": "GENEHMIGUNG_UND_BETRIEB",
+      "task": "Risikoorientierte Routine- und anlassbezogene Überwachung nach Fallzuständigkeit durchführen.",
+      "legal_basis": ["BImSchG § 52", "Nebenbestimmungen des konkreten Bescheids"],
+      "deadline_rule": "RISIKO_UND_BESCHEIDBEZOGEN",
+      "status": "LAUFEND",
+      "evidence_document_ids": ["doc-inspection-2028", "doc-order-2028"]
+    },
+    {
+      "id": "task-shutdown",
+      "lifecycle_phase": "STILLLEGUNG_UND_NACHSORGE",
+      "responsible_party_id": "authority-lfu-brandenburg",
+      "authority_id": "authority-lfu-brandenburg",
+      "trigger": "BETRIEBSEINSTELLUNG",
+      "task": "Sicherungs-, Rückbau- und Nachsorgemaßnahmen sowie Abschlussnachweise fallbezogen prüfen.",
+      "legal_basis": ["BImSchG § 5 Absatz 3", "weitere anlagenbezogene Vorschriften"],
+      "deadline_rule": "ANLAGEN_UND_BESCHEIDBEZOGEN",
+      "status": "NACHSORGE_OFFEN",
+      "evidence_document_ids": ["doc-shutdown-plan", "doc-site-closeout"]
+    }
+  ],
+  "external_approvals": [
+    {
+      "id": "approval-water-01",
+      "subject_area": "WASSER",
+      "responsible_authority_id": "authority-lower-water",
+      "separate_from_bimschg_permit": true,
+      "need_status": "TATBESTAND_ZU_PRUEFEN",
+      "application_document_id": null,
+      "decision_document_id": null,
+      "status": "OFFEN"
+    },
+    {
+      "id": "approval-building-01",
+      "subject_area": "BAUORDNUNG",
+      "responsible_authority_id": "authority-building",
+      "separate_from_bimschg_permit": "EINZELFALLPRUEFUNG",
+      "need_status": "TATBESTAND_UND_KONZENTRATIONSWIRKUNG_ZU_PRUEFEN",
+      "application_document_id": null,
+      "decision_document_id": null,
+      "status": "OFFEN"
+    }
+  ],
+  "public_participation": {
+    "id": "public-01",
+    "procedure_id": "proc-main-formal",
+    "notice_document_id": "doc-public-notice",
+    "display_start": "2026-05-11",
+    "display_end": "2026-06-11",
+    "periods_are": "FIKTIVE_TESTDATEN_KEINE_FRISTVORGABE",
+    "objections": [
+      {
+        "id": "objection-01",
+        "document_id": "doc-objection-01",
+        "submitter_id": "party-neighbour-01",
+        "topics": ["LAERM", "ANLIEFERVERKEHR"],
+        "received_at": "2026-06-15T16:20:00+02:00",
+        "processing_status": "IN_EROERTERUNG_EINBEZOGEN",
+        "public_copy_document_id": null
+      }
+    ],
+    "hearing": {
+      "id": "hearing-01",
+      "date": "2026-07-14",
+      "format": "PRAESENZ",
+      "protocol_document_id": "doc-hearing-record",
+      "status": "FIKTIV_DURCHGEFUEHRT"
+    }
+  },
+  "permit": {
+    "document_id": "doc-permit",
+    "issued_at": "2026-09-10T12:00:00+02:00",
+    "service_records": [
+      {
+        "recipient_id": "party-bioenergie-havelgrund",
+        "method": "ELEKTRONISCH_FIKTIV",
+        "served_at": "2026-09-12T10:00:00+02:00"
+      },
+      {
+        "recipient_id": "party-neighbour-01",
+        "method": "OEFFENTLICHE_BEKANNTMACHUNG_FIKTIV",
+        "served_at": "2026-09-20T09:00:00+02:00"
+      }
+    ],
+    "conditions": [
+      {
+        "id": "condition-noise",
+        "topic": "LAERM",
+        "requirement": "Messung und Nachweis nach Maßgabe des fiktiven Bescheids.",
+        "metric": "LAERMPEGEL",
+        "limit": null,
+        "limit_source": "BESCHEIDPARAMETER_NICHT_RECHTLICH_VALIDIERT",
+        "evidence_due": "2027-06-30",
+        "status": "OFFEN"
+      },
+      {
+        "id": "condition-emissions",
+        "topic": "LUFT",
+        "requirement": "Emissionsmessung durch geeignete Stelle; Umfang gemäß fiktivem Bescheid.",
+        "metric": "EMISSION",
+        "limit": null,
+        "limit_source": "BESCHEIDPARAMETER_NICHT_RECHTLICH_VALIDIERT",
+        "evidence_due": "2027-06-30",
+        "status": "OFFEN"
+      },
+      {
+        "id": "condition-water-separate-permit",
+        "topic": "WASSER",
+        "requirement": "Separate wasserrechtliche Zulassung ist als externe Abhängigkeit zu prüfen.",
+        "metric": null,
+        "limit": null,
+        "evidence_due": null,
+        "status": "ABHAENGIGKEIT_OFFEN"
+      }
+    ]
+  },
+  "remedies": [
+    {
+      "id": "remedy-lawsuit-01",
+      "branch_id": "branch-formal-main",
+      "type": "KLAGE",
+      "target_document_id": "doc-permit",
+      "filed_by": "party-neighbour-01",
+      "court": "Fiktives Verwaltungsgericht",
+      "filed_at": "2026-10-19T10:00:00+02:00",
+      "status": "ANHAENGIG_DEMO",
+      "admissibility": "NICHT_BEWERTET",
+      "suspensive_effect": "GETRENNTE_FACHPRUEFUNG_ERFORDERLICH",
+      "urgent_proceeding_id": null
+    },
+    {
+      "id": "remedy-objection-alternative-01",
+      "branch_id": "branch-simplified-remedy-example",
+      "type": "WIDERSPRUCH",
+      "target_document_id": "doc-fee-notice",
+      "filed_by": "party-bioenergie-havelgrund",
+      "filed_at": "2026-10-05T10:00:00+02:00",
+      "status": "EINGANG_ZULAESSIGKEIT_UND_FRIST_OFFEN",
+      "admissibility": "NICHT_BEWERTET",
+      "legal_remedy_notice": "FIKTIV; die konkrete Rechtsbehelfsbelehrung ist maßgeblich.",
+      "note": "Alternativpfad nur zur Demonstration der Datenform; kein Ergebnis für das förmliche Hauptverfahren."
+    }
+  ],
+  "fees": [
+    {
+      "id": "fee-main-01",
+      "procedure_id": "proc-main-formal",
+      "notice_document_id": "doc-fee-notice",
+      "tariff": "GebOUmwelt Brandenburg, Tarifstelle im Einzelfall zu bestimmen",
+      "tariff_version": "AM_VORGANGSDATUM_ZU_VALIDIEREN",
+      "amount_eur": 12480.0,
+      "amount_status": "REIN_ILLUSTRATIV_NICHT_NACH_TARIF_BERECHNET",
+      "calculation_inputs": {
+        "tariff_item": null,
+        "construction_cost_basis_eur": null,
+        "administrative_effort_hours": null,
+        "expenses_eur": null
+      },
+      "payment_status": "OFFEN",
+      "appeal_id": null
+    }
+  ],
+  "complaints": [
+    {
+      "id": "complaint-odor-01",
+      "received_at": "2028-04-11T21:15:00+02:00",
+      "received_by": "authority-lfu-brandenburg",
+      "reported_by": "party-neighbour-02",
+      "topic": "GERUCH",
+      "channel": "ONLINE_FORMULAR",
+      "status": "UEBERWACHUNGSAUSLOESER",
+      "privacy_class": "BESONDERS_ZU_SCHUETZEN",
+      "linked_inspection_id": "inspection-2028-01"
+    }
+  ],
+  "monitoring": [
+    {
+      "id": "inspection-commissioning-01",
+      "facility_id": "facility-havelgrund-biomass-01",
+      "type": "INBETRIEBNAHMEPRUEFUNG",
+      "date": "2027-05-02",
+      "trigger": "INBETRIEBNAHME",
+      "report_document_id": null,
+      "findings": [],
+      "status": "FIKTIV_ABGESCHLOSSEN"
+    },
+    {
+      "id": "inspection-2028-01",
+      "facility_id": "facility-havelgrund-biomass-01",
+      "type": "ANLASSBEZOGENE_VOR_ORT_PRUEFUNG",
+      "date": "2028-04-18",
+      "trigger": "complaint-odor-01",
+      "report_document_id": "doc-inspection-2028",
+      "findings": [
+        {
+          "id": "finding-odor-records",
+          "topic": "GERUCH",
+          "description": "Betriebliche Dokumentation der Störung unvollständig (fiktiver Befund).",
+          "severity": "PRUEFUNG_ERFORDERLICH",
+          "linked_condition_id": null,
+          "follow_up_order_id": "order-17-2028-01"
+        }
+      ],
+      "status": "FIKTIV_ABGESCHLOSSEN"
+    },
+    {
+      "id": "inspection-follow-up-2028",
+      "facility_id": "facility-havelgrund-biomass-01",
+      "type": "NACHKONTROLLE",
+      "date": "2028-07-08",
+      "trigger": "order-17-2028-01",
+      "report_document_id": null,
+      "findings": [],
+      "status": "FIKTIV_ERFUELLUNG_NACHGEWIESEN"
+    }
+  ],
+  "orders": [
+    {
+      "id": "order-17-2028-01",
+      "document_id": "doc-order-2028",
+      "legal_basis": "BImSchG § 17 (Fiktive Beispieldaten; Tatbestand und Verhältnismäßigkeit im Einzelfall prüfen.)",
+      "issued_at": "2028-05-08T12:00:00+02:00",
+      "addressee_id": "party-bioenergie-havelgrund",
+      "requirements": [
+        {
+          "id": "order-requirement-01",
+          "text": "Betriebliche Störungsdokumentation vervollständigen und der Behörde vorlegen (fiktive Auflage).",
+          "due_at": "2028-06-30",
+          "status": "ERFUELLT_DEMO"
+        }
+      ],
+      "status": "FIKTIV_ERLEDIGT"
+    }
+  ],
+  "changes": [
+    {
+      "id": "change-2029-01",
+      "facility_id": "facility-havelgrund-biomass-01",
+      "notice_document_id": "doc-change-notice-2029",
+      "received_at": "2029-01-15T10:00:00+01:00",
+      "description": "Geplanter zusätzlicher Biofilter und geänderte Betriebsparameter (fiktiv).",
+      "initial_route": "BImSchG § 15 ANZEIGE",
+      "authority_assessment": {
+        "date": "2029-02-14",
+        "outcome": "GENEHMIGUNGSPRUEFUNG_ERFORDERLICH",
+        "reason": "Fiktive Entscheidung; wesentliche Änderung und Genehmigungspflicht fachlich prüfen.",
+        "start_allowed": false
+      },
+      "subsequent_application": {
+        "document_id": "doc-change-permit-2029",
+        "route": "BImSchG § 16 AENDERUNGSGENEHMIGUNG",
+        "status": "FIKTIV_ERTEILT",
+        "issued_at": "2029-08-20T12:00:00+02:00"
+      }
+    }
+  ],
+  "shutdown": {
+    "id": "shutdown-2031",
+    "facility_id": "facility-havelgrund-biomass-01",
+    "operator_notice_document_id": "doc-shutdown-plan",
+    "notice_date": "2031-06-30",
+    "planned_end_of_operation": "2032-03-31",
+    "actual_end_of_operation": "2032-03-31",
+    "legal_basis_reference": "BImSchG § 5 Absatz 3; weitere anlagen- und IED-spezifische Anforderungen prüfen.",
+    "measures": [
+      {
+        "id": "shutdown-secure",
+        "type": "SICHERUNG",
+        "status": "FIKTIV_ERLEDIGT",
+        "completed_at": "2032-04-15"
+      },
+      {
+        "id": "shutdown-residual-material",
+        "type": "RESTSTOFFE_ENTSORGEN",
+        "status": "FIKTIV_ERLEDIGT",
+        "completed_at": "2032-06-30"
+      },
+      {
+        "id": "shutdown-site-assessment",
+        "type": "BODEN_GRUNDWASSER_UNTERSUCHUNG",
+        "status": "BEHOERDLICHE_PRUEFUNG_OFFEN",
+        "report_document_id": "doc-site-closeout"
+      },
+      {
+        "id": "shutdown-ied-baseline",
+        "type": "IED_AUSGANGSZUSTAND",
+        "status": "ANWENDBARKEIT_UNGEKLAERT",
+        "note": "Nur relevant, wenn die Anlage und die maßgeblichen Voraussetzungen darunter fallen."
+      }
+    ],
+    "closure_status": "NACHSORGE_OFFEN"
+  },
+  "events": [
+    {
+      "id": "event-000",
+      "at": "2024-01-15T10:00:00+01:00",
+      "type": "PROJEKTIDEE_ERFASST",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "doc-idea-note",
+      "document_ids": ["doc-idea-note"],
+      "status_after": "IDEENPHASE"
+    },
+    {
+      "id": "event-000a",
+      "at": "2024-03-20T10:00:00+01:00",
+      "type": "STANDORTVARIANTEN_VORGEPRUEFT",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "doc-site-screening",
+      "document_ids": ["doc-site-screening"],
+      "status_after": "STANDORTVARIANTE_HAVELGRUND_AUSGEWAEHLT_DEMO"
+    },
+    {
+      "id": "event-000b",
+      "at": "2024-06-03T10:00:00+02:00",
+      "type": "B_PLAN_AUFSTELLUNG_EINGELEITET",
+      "actor_id": "authority-municipality",
+      "object_id": "planning-bplan-01",
+      "document_ids": [],
+      "status_after": "BAULEITPLANUNG_LAEUFT"
+    },
+    {
+      "id": "event-000c",
+      "at": "2025-05-12T09:00:00+02:00",
+      "type": "B_PLAN_ENTWURF_BETEILIGUNG",
+      "actor_id": "authority-municipality",
+      "object_id": "planning-public-01",
+      "document_ids": ["doc-bplan-draft", "doc-bplan-environment-report", "doc-bplan-public-notice"],
+      "status_after": "PLANUNG_BETEILIGUNG_LAEUFT"
+    },
+    {
+      "id": "event-000d",
+      "at": "2025-10-21T18:00:00+02:00",
+      "type": "B_PLAN_SATZUNGSBESCHLUSS",
+      "actor_id": "authority-municipality",
+      "object_id": "planning-bplan-01",
+      "document_ids": ["doc-bplan-resolution"],
+      "status_after": "PLAN_BESCHLOSSEN_BEKANNTMACHUNG_OFFEN"
+    },
+    {
+      "id": "event-000e",
+      "at": "2025-11-18T09:00:00+01:00",
+      "type": "BAULEITPLANUNG_BEKANNT_GEMACHT",
+      "actor_id": "authority-municipality",
+      "object_id": "planning-bplan-01",
+      "document_ids": ["doc-bplan-effective-notice", "doc-fnp-resolution"],
+      "status_after": "PLANUNGSRECHTLICHE_DEMO_VORAUSSETZUNG_ERFUELLT"
+    },
+    {
+      "id": "event-001",
+      "at": "2026-02-02T10:00:00+01:00",
+      "type": "VORANTRAGSBERATUNG",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "proc-main-formal",
+      "document_ids": [],
+      "status_after": "VORBERATUNG"
+    },
+    {
+      "id": "event-002",
+      "at": "2026-03-16T10:12:00+01:00",
+      "type": "ANTRAG_EINGEGANGEN",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "doc-application",
+      "document_ids": ["doc-application"],
+      "status_after": "EINGEREICHT"
+    },
+    {
+      "id": "event-003",
+      "at": "2026-04-04T09:00:00+02:00",
+      "type": "UNTERLAGEN_NACHGEFORDERT",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "proc-main-formal",
+      "document_ids": ["doc-missing-documents-request"],
+      "status_after": "VOLLSTAENDIGKEIT_OFFEN"
+    },
+    {
+      "id": "event-004",
+      "at": "2026-04-23T12:00:00+02:00",
+      "type": "VOLLSTAENDIGKEIT_FESTGESTELLT",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "proc-main-formal",
+      "document_ids": ["doc-completeness-notice"],
+      "status_after": "VOLLSTAENDIG"
+    },
+    {
+      "id": "event-005",
+      "at": "2026-04-30T12:00:00+02:00",
+      "type": "UVP_FESTSTELLUNG",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "proc-main-formal",
+      "document_ids": ["doc-uvp-screening-decision"],
+      "status_after": "FOERMLICH_DEMO"
+    },
+    {
+      "id": "event-006",
+      "at": "2026-05-04T09:00:00+02:00",
+      "type": "OEFFENTLICH_BEKANNT_GEMACHT",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "public-01",
+      "document_ids": ["doc-public-notice"],
+      "status_after": "BETEILIGUNG_LAEUFT"
+    },
+    {
+      "id": "event-007",
+      "at": "2026-06-15T16:20:00+02:00",
+      "type": "EINWENDUNG_EINGEGANGEN",
+      "actor_id": "party-neighbour-01",
+      "object_id": "objection-01",
+      "document_ids": ["doc-objection-01"],
+      "status_after": "EINWENDUNG_ZU_WUERDIGEN"
+    },
+    {
+      "id": "event-008",
+      "at": "2026-07-14T16:00:00+02:00",
+      "type": "EROERTERUNG_DURCHGEFUEHRT",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "hearing-01",
+      "document_ids": ["doc-hearing-record"],
+      "status_after": "EROERTERT"
+    },
+    {
+      "id": "event-009",
+      "at": "2026-09-10T12:00:00+02:00",
+      "type": "GENEHMIGUNGSBESCHEID_ERLASSEN",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "doc-permit",
+      "document_ids": ["doc-permit", "doc-fee-notice"],
+      "status_after": "GENEHMIGT_DEMO"
+    },
+    {
+      "id": "event-010",
+      "at": "2026-10-19T10:00:00+02:00",
+      "type": "KLAGE_EINGEGANGEN",
+      "actor_id": "party-neighbour-01",
+      "object_id": "remedy-lawsuit-01",
+      "document_ids": [],
+      "status_after": "GERICHTLICH_ANHAENGIG"
+    },
+    {
+      "id": "event-011",
+      "at": "2027-05-02T10:00:00+02:00",
+      "type": "INBETRIEBNAHMEPRUEFUNG",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "inspection-commissioning-01",
+      "document_ids": [],
+      "status_after": "BETRIEB"
+    },
+    {
+      "id": "event-012",
+      "at": "2028-04-11T21:15:00+02:00",
+      "type": "BESCHWERDE_EINGEGANGEN",
+      "actor_id": "party-neighbour-02",
+      "object_id": "complaint-odor-01",
+      "document_ids": [],
+      "status_after": "UEBERWACHUNGSAUSLOESER"
+    },
+    {
+      "id": "event-013",
+      "at": "2028-04-18T15:00:00+02:00",
+      "type": "ANLASSBEZOGENE_PRUEFUNG",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "inspection-2028-01",
+      "document_ids": ["doc-inspection-2028"],
+      "status_after": "MANGEL_FESTGESTELLT_DEMO"
+    },
+    {
+      "id": "event-014",
+      "at": "2028-05-08T12:00:00+02:00",
+      "type": "NACHTRAEGLICHE_ANORDNUNG",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "order-17-2028-01",
+      "document_ids": ["doc-order-2028"],
+      "status_after": "ABHILFE_ANGEORDNET"
+    },
+    {
+      "id": "event-015",
+      "at": "2028-07-08T10:00:00+02:00",
+      "type": "NACHKONTROLLE",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "inspection-follow-up-2028",
+      "document_ids": [],
+      "status_after": "ANORDNUNG_ERFUELLT_DEMO"
+    },
+    {
+      "id": "event-016",
+      "at": "2029-01-15T10:00:00+01:00",
+      "type": "AENDERUNGSANZEIGE_EINGEGANGEN",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "change-2029-01",
+      "document_ids": ["doc-change-notice-2029"],
+      "status_after": "AENDERUNG_IN_PRUEFUNG"
+    },
+    {
+      "id": "event-017",
+      "at": "2029-02-14T10:00:00+01:00",
+      "type": "GENEHMIGUNGSPRUEFUNG_ERFORDERLICH",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "change-2029-01",
+      "document_ids": [],
+      "status_after": "AENDERUNGSGENEHMIGUNG_ERFORDERLICH_DEMO"
+    },
+    {
+      "id": "event-018",
+      "at": "2029-08-20T12:00:00+02:00",
+      "type": "AENDERUNGSGENEHMIGUNG_ERLASSEN",
+      "actor_id": "authority-lfu-brandenburg",
+      "object_id": "doc-change-permit-2029",
+      "document_ids": ["doc-change-permit-2029"],
+      "status_after": "AENDERUNG_GENEHMIGT_DEMO"
+    },
+    {
+      "id": "event-019",
+      "at": "2031-06-30T10:00:00+02:00",
+      "type": "STILLLEGUNGSPLAN_EINGEREICHT",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "shutdown-2031",
+      "document_ids": ["doc-shutdown-plan"],
+      "status_after": "STILLLEGUNG_GEPLANT"
+    },
+    {
+      "id": "event-020",
+      "at": "2032-03-31T23:59:00+02:00",
+      "type": "BETRIEB_EINGESTELLT",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "shutdown-2031",
+      "document_ids": [],
+      "status_after": "NACHSORGE"
+    },
+    {
+      "id": "event-021",
+      "at": "2032-09-30T12:00:00+02:00",
+      "type": "NACHSORGE_BERICHT_EINGEREICHT",
+      "actor_id": "party-bioenergie-havelgrund",
+      "object_id": "doc-site-closeout",
+      "document_ids": ["doc-site-closeout"],
+      "status_after": "NACHSORGE_BEHOERDLICH_OFFEN"
+    }
+  ],
+  "legal_sources": [
+    {
+      "id": "law-rog",
+      "title": "Raumordnungsgesetz",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "ROG",
+      "url": "https://www.gesetze-im-internet.de/rog_2008/",
+      "binding_effect": "RECHTSNORM; ANWENDBARKEIT_UND_BINDUNGSWIRKUNG_NACH_VORSCHRIFT_UND_ADRESSAT_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN",
+      "used_sections": ["§ 4", "§ 13", "§ 15", "§ 17"]
+    },
+    {
+      "id": "law-baugb",
+      "title": "Baugesetzbuch",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "BauGB",
+      "url": "https://www.gesetze-im-internet.de/bbaug/",
+      "binding_effect": "RECHTSNORM; ANWENDBARKEIT_UND_BINDUNGSWIRKUNG_NACH_VORSCHRIFT_UND_ADRESSAT_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN",
+      "used_sections": ["§ 2 Absatz 4", "§ 5", "§ 8", "§ 10", "§§ 29-35"]
+    },
+    {
+      "id": "law-uvpg-screening",
+      "title": "Gesetz über die Umweltverträglichkeitsprüfung",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "UVPG",
+      "url": "https://www.gesetze-im-internet.de/uvpg/",
+      "binding_effect": "RECHTSNORM; ANWENDBARKEIT_UND_BINDUNGSWIRKUNG_NACH_VORSCHRIFT_UND_ADRESSAT_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN",
+      "used_sections": ["§ 7", "Anlage 1", "Anlage 3"]
+    },
+    {
+      "id": "law-bnatschg",
+      "title": "Bundesnaturschutzgesetz",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "BNatSchG",
+      "url": "https://www.gesetze-im-internet.de/bnatschg_2009/",
+      "binding_effect": "RECHTSNORM; ANWENDBARKEIT_UND_BINDUNGSWIRKUNG_NACH_VORSCHRIFT_UND_ADRESSAT_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN",
+      "used_sections": ["§§ 14-17", "§ 34", "§ 44"]
+    },
+    {
+      "id": "law-bimschg",
+      "title": "Bundes-Immissionsschutzgesetz",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "BImSchG",
+      "url": "https://www.gesetze-im-internet.de/bimschg/",
+      "binding_effect": "RECHTSNORM; ANWENDBARKEIT_UND_BINDUNGSWIRKUNG_NACH_VORSCHRIFT_UND_ADRESSAT_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN",
+      "used_sections": ["§ 4", "§ 5 Absatz 3", "§ 6", "§ 10", "§ 15", "§ 16", "§ 17", "§ 20", "§ 21", "§ 52"]
+    },
+    {
+      "id": "law-4-bimschv",
+      "title": "Vierte Verordnung zur Durchführung des Bundes-Immissionsschutzgesetzes",
+      "source_type": "BUNDESRECHTSVERORDNUNG",
+      "issuer": "Bundesregierung",
+      "jurisdiction": "BUND",
+      "official_citation": "4. BImSchV",
+      "url": "https://www.gesetze-im-internet.de/bimschv_4_2013/",
+      "binding_effect": "RECHTSNORM_AUF_GESETZLICHER_ERMAECHTIGUNGSGRUNDLAGE; KONKRETE_FASSUNG_UND_ANLAGENZIFER_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "used_sections": ["§§ 1-3", "Anhang 1"]
+    },
+    {
+      "id": "law-9-bimschv",
+      "title": "Neunte Verordnung zur Durchführung des Bundes-Immissionsschutzgesetzes",
+      "source_type": "BUNDESRECHTSVERORDNUNG",
+      "issuer": "Bundesregierung",
+      "jurisdiction": "BUND",
+      "official_citation": "9. BImSchV",
+      "url": "https://www.gesetze-im-internet.de/bimschv_9/",
+      "binding_effect": "RECHTSNORM_AUF_GESETZLICHER_ERMAECHTIGUNGSGRUNDLAGE; KONKRETE_FASSUNG_PRUEFEN",
+      "validity_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "FASSUNG_AM_JEWEILIGEN_EREIGNISTAG_ZU_PRUEFEN"
+    },
+    {
+      "id": "law-vwvfg-70",
+      "title": "Verwaltungsverfahrensgesetz § 70",
+      "source_type": "BUNDESGESETZ",
+      "issuer": "Bundesgesetzgeber",
+      "jurisdiction": "BUND",
+      "official_citation": "VwVfG § 70",
+      "url": "https://www.gesetze-im-internet.de/vwvfg/__70.html",
+      "binding_effect": "RECHTSNORM; GELTUNG_DES_BUNDESRECHTS_ODER_LANDESRECHTLICHER_VERWEIS_IM_EINZELFALL_PRUEFEN",
+      "validity_status": "FASSUNG_UND_ANWENDBARKEIT_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "version_status": "RECHTSBEHELFSROUTE_FALLBEZOGEN_PRUEFEN"
+    },
+    {
+      "id": "admin-brandenburg-cooperation-2023",
+      "title": "Gemeinsamer Runderlass zur Zusammenarbeit der im Rahmen des BImSchG zuständigen Behörden",
+      "source_type": "ERLASS_ODER_RUNDERLASS",
+      "issuer": "Ministerium für Landwirtschaft, Umwelt und Klimaschutz; Ministerium für Soziales, Gesundheit, Integration und Verbraucherschutz Brandenburg",
+      "jurisdiction": "LAND_BRANDENBURG",
+      "official_citation": "Vom 11.07.2023, ABl./23, Nr. 31, S. 746",
+      "url": "https://bravors.brandenburg.de/verwaltungsvorschriften/zusammenarbeit_bimschg_2023",
+      "publication_date": "2023-07-11",
+      "binding_effect": "VERWALTUNGSINTERNE_KOORDINIERUNG; ADRESSATEN_GELTUNGSSTATUS_UND_BEDEUTUNG_IM_EINZELFALL_PRUEFEN",
+      "validity_status": "GELTUNGSSTATUS_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "subject": "Behördenzusammenarbeit bei BImSchG-Verfahren; unter anderem Einbindung von Arbeitsschutzbehörden",
+      "used_sections": ["Abschnitt 1", "Abschnitt 1.4"]
+    },
+    {
+      "id": "court-bverwg-7c3-25",
+      "title": "BVerwG, Urteil vom 25.03.2026 – 7 C 3.25",
+      "source_type": "GERICHTSURTEIL_ODER_BESCHLUSS",
+      "issuer": "Bundesverwaltungsgericht",
+      "jurisdiction": "BUNDESGERICHTSBARKEIT",
+      "official_citation": "BVerwG 7 C 3.25",
+      "url": "https://www.bverwg.de/de/250326U7C3.25.0",
+      "decision_date": "2026-03-25",
+      "binding_effect": "BINDUNG_IM_KONKRETEN_VERFAHREN; BEDEUTUNG_UND_UEBERTRAGBARKEIT_AUF_ANDERE_SACHVERHALTE_PRUEFEN",
+      "validity_status": "ENTSCHEIDUNG_ERGANGEN; RECHTSKRAFT_ODER_VOLLSTAENDIGER_VERFAHRENSSTAND_GESONDERT_PRUEFEN",
+      "last_verified_on": "2026-11-19",
+      "subject": "Konzentrationswirkung einer fingierten Änderungsgenehmigung für Windenergieanlagen nach § 16b BImSchG",
+      "case_scope": "VERGLEICHSFALL; NICHT_UNMITTELBAR_AUF_DIE_FIKTIVE_BIOMASSEANLAGE_UEBERTRAGEN"
+    }
+  ],
+  "legal_interpretations": [
+    {
+      "id": "interpretation-bverwg-7c3-25",
+      "source_id": "court-bverwg-7c3-25",
+      "interpretation_type": "GERICHTLICHE_RECHTSAUSLEGUNG",
+      "legal_question": "Entfaltet eine fingierte Änderungsgenehmigung für Windenergieanlagen trotz eingeschränkten Prüfprogramms Konzentrationswirkung?",
+      "cited_provisions": ["BImSchG § 16b Absatz 7 Satz 3 in der entscheidungserheblichen Fassung", "BImSchG § 16b Absatz 8 in der entscheidungserheblichen Fassung"],
+      "summary": "Das BVerwG wies die Revisionen zurück und bestätigte für den entschiedenen Fall die Konzentrationswirkung der fingierten Änderungsgenehmigung trotz eingeschränkten Prüfprogramms.",
+      "scope": "WINDENERGIE; ENTSCHEIDUNGSERHEBLICHE_GESETZESFASSUNG_UND_TATSACHEN",
+      "application_to_demo": "NICHT_UNMITTELBAR_UEBERTRAGEN; NUR_VERGLEICHSRECHTSPRECHUNG",
+      "verification_note": "Für rechtliche Nutzung Volltext, tragende Gründe, Randnummern, Verfahrensstand und entscheidungserhebliche Fassung prüfen."
+    },
+    {
+      "id": "interpretation-brandenburg-cooperation-2023",
+      "source_id": "admin-brandenburg-cooperation-2023",
+      "interpretation_type": "VERWALTUNGSINTERNE_VERFAHRENSSTEUERUNG",
+      "legal_question": "Wie soll die Arbeitsschutzbehörde in BImSchG-Genehmigungsverfahren beteiligt werden?",
+      "cited_provisions": ["BImSchG §§ 4 ff.", "BImSchG § 13", "9. BImSchV"],
+      "summary": "Der Runderlass beschreibt die Zusammenarbeit der zuständigen Immissionsschutz- und Arbeitsschutzbehörden, einschließlich Beteiligung und Koordination von Unterlagen.",
+      "scope": "BRANDENBURG; ADRESSATENKREIS_UND_GELTUNGSSTATUS_ZUM_VERFAHRENSZEITPUNKT_PRUEFEN",
+      "application_to_demo": "VERFAHRENSHINWEIS; KEINE_EIGENSTAENDIGE_ZULASSUNG_ODER_EINGRIFFSGRUNDLAGE",
+      "verification_note": "Konkrete Beteiligung, Zuständigkeit und Einzelfallwirkung durch die zuständige Stelle prüfen."
+    }
+  ],
+  "legal_applications": [
+    {
+      "id": "legal-application-env-screening-demo",
+      "procedure_id": "proc-main-formal",
+      "task_id": "task-environmental-screening",
+      "legal_question": "Welche UVPG-Prüfung und welche eigenständigen Naturschutzprüfungen sind für Vorhaben und Standort erforderlich?",
+      "source_references": [
+        {
+          "source_id": "law-uvpg-screening",
+          "pinpoint": "§ 7, Anlage 1 und Anlage 3",
+          "version_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN"
+        },
+        {
+          "source_id": "law-bnatschg",
+          "pinpoint": "§§ 14-17, § 34 und § 44",
+          "version_status": "FASSUNG_AM_MASSGEBLICHEN_STICHTAG_ZU_PRUEFEN"
+        }
+      ],
+      "assessment_status": "OFFEN_FIKTIVE_DEMOANNAHME_NICHT_RECHTLICH_VALIDIERT",
+      "reasoning_document_ids": ["doc-nature-screening"],
+      "decision_document_id": "doc-uvp-screening-decision",
+      "automated_conclusion": false,
+      "review_required": "ZUSTAENDIGE_BEHOERDE_UND_FACHKUNDIGE_PRUEFUNG"
+    }
+  ],
+  "commentary_references": [
+    {
+      "id": "commentary-reference-template",
+      "record_state": "LEERES_SCHEMA_KEINE_KONKRETE_PUBLIKATION",
+      "work_title": null,
+      "authors_or_editors": null,
+      "edition": null,
+      "publication_year": null,
+      "provision_or_topic": null,
+      "pinpoint_reference": null,
+      "source_url_or_catalogue_id": null,
+      "source_type": "KOMMENTAR_ODER_FACHLITERATUR",
+      "binding_effect": "NICHT_BINDENDE_SEKUNDAERLITERATUR",
+      "copyright_rule": "KEINE_GESCHUETZTEN_VOLLTEXTE_SPEICHERN; BIBLIOGRAFISCHE_METADATEN_UND_ZULAESSIGE_FUNDSTELLEN_ERFASSEN",
+      "selection_status": "KONKRETE_AUSWAHL_UND_LIZENZPRUEFUNG_AUSSTEHEND"
+    }
+  ],
+  "legal_source_schema": {
+    "versioning_rule": "QUELLE_FASSUNG_KONKRETE_VORSCHRIFT_UND_EINZELFALLANWENDUNG_GETRENNT_VERSIONIEREN",
+    "source_record_fields": [
+      "source_type",
+      "issuer",
+      "jurisdiction",
+      "official_citation",
+      "official_url_or_archive_reference",
+      "publication_or_decision_date",
+      "binding_effect",
+      "addressees",
+      "territorial_scope",
+      "subject_matter_scope",
+      "last_verified_on"
+    ],
+    "version_record_fields": [
+      "valid_from",
+      "valid_to",
+      "amending_or_repealing_source",
+      "version_identifier",
+      "retrieved_at",
+      "content_hash"
+    ],
+    "version_record_population_status": "HISTORISCHE_UND_KONSOLIDIERTE_TEXTSNAPSHOTS_SIND_IN_DIESEM_DEMO_NOCH_NICHT_ERFASST",
+    "source_types": [
+      "EU_RECHT",
+      "VOELKERRECHTLICHE_VORGABE",
+      "VERFASSUNGSRECHT",
+      "BUNDESGESETZ",
+      "LANDESGESETZ",
+      "BUNDESRECHTSVERORDNUNG",
+      "LANDESRECHTSVERORDNUNG",
+      "KOMMUNALE_SATZUNG",
+      "VERWALTUNGSVORSCHRIFT",
+      "ERLASS_ODER_RUNDERLASS",
+      "DIENST_ODER_ARBEITSANWEISUNG",
+      "TECHNISCHE_REGEL_ODER_STANDARD",
+      "VOLLZUGSHINWEIS",
+      "GERICHTSURTEIL_ODER_BESCHLUSS",
+      "BEHOERDENAUFFASSUNG",
+      "VERWALTUNGSAKT_ODER_NEBENBESTIMMUNG",
+      "KOMMENTAR_ODER_FACHLITERATUR"
+    ],
+    "relationship_types": [
+      "AENDERT_ODER_ERSETZT",
+      "GESTUETZT_AUF",
+      "KONKRETISIERT",
+      "UMSETZT",
+      "GILT_IN_GEBIET",
+      "GILT_IM_ZEITRAUM",
+      "WIRD_AUSGELEGT_DURCH",
+      "ZITIERT",
+      "WEICHT_AB_VON",
+      "WIRD_ANGEWENDET_IN"
+    ],
+    "automated_legal_conclusion_permitted": false
+  }
+}

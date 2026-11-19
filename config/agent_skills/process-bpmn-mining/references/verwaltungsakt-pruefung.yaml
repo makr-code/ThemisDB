@@ -1,0 +1,107 @@
+schema_version: "1.0"
+artifact_type: "themisdb_llm_skill_profiles"
+status: "showcase-draft"
+provenance:
+  AI_Used: true
+  AI_Models: "unknown"
+  AI_Contributor: "GitHub Copilot"
+  Human_Review: false
+  Human_Author: "ThemisDB Team"
+  note: "Exact model backend not verifiable from final document text alone."
+runtime:
+  package: "process-bpmn-mining"
+  resource_path: "references/verwaltungsakt-pruefung.yaml"
+  standalone_skill_packages: false
+  auto_invocation: false
+  permissions_granted: false
+  legal_decision_automation: false
+legal_scope:
+  jurisdiction: "Brandenburg"
+  starting_point:
+    - "VwVfGBbg § 1 Anwendungsbereich und Ausnahmen pruefen."
+    - "VwVfG nur im dort bestimmten Umfang und vorbehaltlich einschlaegigen Landesrechts anwenden."
+    - "BImSchG, 9. BImSchV und sonstiges Fachrecht auf vorrangige oder abweichende Verfahrensregeln pruefen."
+    - "Rechtsstand, Normfassung, Zustaendigkeit und konkrete Verfahrensart fuer den Einzelfall belegen."
+skills:
+  - id: "verwaltungsakt-formell-pruefen"
+    name: "Formelle Rechtmaessigkeit eines Verwaltungsakts pruefen"
+    trigger: "Nutzer bittet um formelle Pruefung oder um Modellierung der Verfahrens- und Formschritte."
+    purpose: "Beleggestuetzte Pruefmatrix fuer Zustaendigkeit, Verfahren und Form vorbereiten."
+    required_inputs:
+      - "Entwurf oder genaue Beschreibung der beabsichtigten Regelung"
+      - "Behoerde, Adressat, Verfahrensart, Gebiet und massgeblicher Stichtag"
+      - "Anwendbare Fachgesetze, Verordnungen und vorhandene Verfahrensakte"
+      - "Nachweise zu Beteiligung, Ermittlung, Anhoerung, Mitwirkung und Bekanntgabe"
+    review_steps:
+      - "Handlungsform und Verwaltungsaktqualitaet nach VwVfG § 35 bestimmen; Allgemeinverfuegung und andere Handlungsformen getrennt kennzeichnen."
+      - "Anwendungsbereich des VwVfGBbg, des VwVfG, moegliche Ausnahmen und Spezialverfahrensrecht bestimmen."
+      - "Sachliche, instanzielle und oertliche Zustaendigkeit sowie Delegation und Zeichnungsbefugnis mit Quellen belegen."
+      - "Beteiligtenstellung, Vertretung, Mitwirkungsverbote, Befangenheit und erforderliche Behoerdenmitwirkung erfassen."
+      - "Amtsermittlung und Beweiserhebung nach VwVfG §§ 24 und 26 sowie erforderliche Akteneinsicht und Geheimnisschutz pruefen."
+      - "Anhoerung nach VwVfG § 28 und fachrechtliche Beteiligung getrennt pruefen; jede Ausnahme konkret begruenden."
+      - "Form, Bestimmtheit, erlassende Behoerde, Begruendung und Rechtsbehelfsbelehrung nach den anwendbaren Vorschriften pruefen."
+      - "Bekanntgabe, Zugangsnachweis und Wirksamkeit nach VwVfG §§ 41 und 43 als eigene Ereignisse festhalten."
+      - "Fehlerfolgen nach §§ 44 bis 46 und Heilung nach § 45 getrennt und nicht automatisiert bewerten."
+    output:
+      format: "yaml-or-json-review-record"
+      required_fields:
+        - "as_of"
+        - "applicability"
+        - "review_items"
+        - "source_versions_and_pinpoints"
+        - "evidence"
+        - "open_questions"
+        - "human_reviewer"
+      finding_statuses:
+        - "NOT_CHECKED"
+        - "SUPPORTED"
+        - "DEVIATION_FOUND"
+        - "OPEN"
+        - "NOT_APPLICABLE"
+    guardrails:
+      - "Keine Zustaendigkeit, Heilbarkeit, Unbeachtlichkeit oder Nichtigkeit allein aus einem Checklistentreffer ableiten."
+      - "VwVfG § 45 und § 46 nicht gleichsetzen; Spezialrecht und konkrete Voraussetzungen pruefen."
+      - "Fehlende Quellen, Tatsachen oder historische Fassungen als offen ausweisen; nichts erfinden."
+      - "Ergebnis als Pruefunterstuetzung kennzeichnen, nicht als Rechtsberatung oder verbindliche Entscheidung."
+  - id: "verwaltungsakt-materiell-pruefen"
+    name: "Materielle Rechtmaessigkeit eines Verwaltungsakts pruefen"
+    trigger: "Nutzer bittet um materielle Pruefung oder um Nachvollziehbarkeit der Entscheidungsgrundlage."
+    purpose: "Tatbestand, Rechtsfolge und Entscheidungsermessen anhand der passenden Fachnormen strukturieren."
+    required_inputs:
+      - "Verwaltungsaktentwurf und konkreter Regelungsgegenstand"
+      - "Ermaechtigungs- oder Anspruchsgrundlage mit zeitlicher Fassung"
+      - "Aktenkundige Tatsachen, Gutachten, Gegenpositionen und betroffene Rechte"
+      - "Zustaendigkeit, Entscheidungszeitpunkt und gegebenenfalls Uebergangsrecht"
+    review_steps:
+      - "Ermaechtigungsgrundlage und Normenkette auf Rang, Kompetenz, Geltung, Uebergangsrecht und sachlichen Anwendungsbereich pruefen."
+      - "Tatbestandsmerkmale der Rechtsgrundlage einzeln in Prueffragen zerlegen und den jeweiligen Tatsachen sowie Belegen zuordnen."
+      - "Belastende und entlastende Umstaende, Beweiswert, Widersprueche, Datenstand und verbleibende Unsicherheit kenntlich machen."
+      - "Gebundene Rechtsfolge, Anspruch, Versagungsgrund oder gesetzlich eroeffnetes Ermessen unterscheiden."
+      - "Bei Ermessen Zweckbindung und gesetzliche Grenzen nach VwVfG § 40 sowie sachgerechte, vollstaendige Erwaegung dokumentieren."
+      - "Verhaeltnismaessigkeit, Gleichbehandlung, Bestimmtheit, Vertrauensschutz und Rechte Dritter nur anhand einschlaegiger Normen und belegter Tatsachen pruefen."
+      - "Nebenbestimmungen nach VwVfG § 36 und Fachrecht auf Ermaechtigung, Zweckbezug, Bestimmtheit und Verhaeltnismaessigkeit pruefen."
+      - "Umwelt-, Naturschutz-, Wasser- und sonstige Fachrechtsanforderungen als eigene Rechtsfragen mit jeweiliger Zustaendigkeit fuehren."
+      - "Ergebnis, tragende Gruende, Gegenargumente und nicht aufgeloeste Fragen fuer den Bescheidentwurf trennen."
+    output:
+      format: "yaml-or-json-review-record"
+      required_fields:
+        - "as_of"
+        - "legal_basis_and_version"
+        - "elements_and_facts"
+        - "legal_consequence"
+        - "discretion_if_applicable"
+        - "evidence_and_counterarguments"
+        - "open_questions"
+        - "human_reviewer"
+      finding_statuses:
+        - "NOT_CHECKED"
+        - "SUPPORTED"
+        - "DEVIATION_FOUND"
+        - "OPEN"
+        - "NOT_APPLICABLE"
+    guardrails:
+      - "Keine Norm oder Rechtsfolge aus Prozessmustern, Kommentaren oder Modellwahrscheinlichkeiten ableiten."
+      - "Keine gebundene Entscheidung in Ermessen umdeuten und umgekehrt."
+      - "Keine UVP-, Genehmigungs-, Nebenbestimmungs- oder Verhaeltnismaessigkeitsentscheidung automatisieren."
+      - "Widerspruechliche oder unvollstaendige Tatsachenlage an qualifizierte menschliche Pruefung eskalieren."
+      - "Keine definitive Rechtsberatung oder behördliche Entscheidung ausgeben."

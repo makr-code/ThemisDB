@@ -120,7 +120,7 @@ inline json compareSeriesWindows(RocksDBWrapper& db, const TSStore& store,
         const auto readWindow = [&](int64_t start) {
             options.from_timestamp_ms = start;
             options.to_timestamp_ms = start + duration - 1;
-            return store.query(options);
+            return store.queryStrict(options);
         };
         const auto past = readWindow(baseline);
         const auto now = readWindow(current);
@@ -189,8 +189,10 @@ inline json compareSeriesWindows(RocksDBWrapper& db, const TSStore& store,
  *       reuse the registry for other principals or close the database while in use.
  *       Register before publishing the registry. Reads are synchronous and not
  *       cancellable via this tool; the two windows do not share a snapshot.
- *       Invalid arguments, storage errors, and limit violations return an `error`
- *       object; missing measurements produce null means and delta, not zeros.
+ *       Invalid arguments, strict TSStore decode/storage errors, and limit
+ *       violations return an `error` object; missing measurements produce null
+ *       means and delta, not zeros. Matching malformed TSStore records are not
+ *       silently skipped by this tool.
  */
 inline void registerTimeseriesAnalysisTool(ToolRegistry& tools,
                                            std::shared_ptr<RocksDBWrapper> db,

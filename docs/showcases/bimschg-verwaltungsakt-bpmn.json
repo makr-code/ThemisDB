@@ -1,0 +1,497 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "themisdb_process_graph_json",
+  "title": "BImSchG-Verwaltungsakt: formelle und materielle Rechtmaessigkeit",
+  "fictional": true,
+  "provenance": {
+    "AI_Used": true,
+    "AI_Models": "unknown",
+    "AI_Contributor": "GitHub Copilot",
+    "Human_Review": false,
+    "Human_Author": "ThemisDB Team",
+    "note": "Exact model backend not verifiable from final document text alone."
+  },
+  "serialization_contract": {
+    "graph_shape": "process_id, name, nodes, edges at document root",
+    "node_type_values": "BpmnSerializer::exportFromJson expects BPMN XML local names such as startEvent, userTask, exclusiveGateway, endEvent",
+    "serializer": "themis::process::BpmnSerializer::exportFromJson",
+    "output": "BPMN 2.0 XML, not BPMN JSON",
+    "limitations": [
+      "BPMN JSON is not asserted to be an OMG standard serialization.",
+      "The current JSON exporter reads node id, name, type, subtype and edge id, from, to, condition only.",
+      "The exporter emits all JSON edges as sequenceFlow; condition values become flow names, not formal BPMN conditionExpression elements.",
+      "Lane, legal-basis and review metadata remain in this JSON artifact and are not serialized by exportFromJson.",
+      "The graph is a review workflow model, not an executable or legally authoritative workflow."
+    ]
+  },
+  "process_id": "bimschg_verwaltungsakt_pruefung",
+  "name": "Verwaltungsakt pruefen und bekanntgeben (Brandenburg, BImSchG-Demo)",
+  "domain": "ADMINISTRATION",
+  "version": "1.0.0",
+  "lifecycle_state": "DRAFT",
+  "jurisdiction": "Brandenburg",
+  "legal_scope": {
+    "rule": "Applicability of the VwVfG together with VwVfGBbg, the competent authority, exclusions, and special-law rules must be verified for the concrete procedure.",
+    "review_sequence": [
+      "VwVfGBbg § 1, VwVfG-Anwendungsbereich und Ausnahmen fuer den konkreten Behoerdentraeger klaeren",
+      "Spezielle Verfahrensregeln des BImSchG, der 9. BImSchV und weiterer Fachgesetze ermitteln",
+      "Ergaenzende Regeln des VwVfG und Landesrechts nur im anwendbaren Umfang heranziehen"
+    ],
+    "not_a_norm_hierarchy": true,
+    "as_of": "2026-11-19",
+    "legal_conclusion_automated": false
+  },
+  "lanes": [
+    {
+      "id": "lane-authority",
+      "name": "Zustaendige Behoerde",
+      "responsibility": "Verfahrensleitung, Sachverhaltsermittlung, rechtliche Pruefung und Entscheidung"
+    },
+    {
+      "id": "lane-parties",
+      "name": "Antragsteller und Verfahrensbeteiligte",
+      "responsibility": "Antraege, Tatsachen, Nachweise, Stellungnahmen und Gehoer"
+    },
+    {
+      "id": "lane-specialists",
+      "name": "Fachbehoerden und Sachverstaendige",
+      "responsibility": "Fachbeitraege im Rahmen eigener Zustaendigkeit; keine automatische Uebertragung der Entscheidungsbefugnis"
+    },
+    {
+      "id": "lane-legal-review",
+      "name": "Zeichnung und unabhaengige Qualitaetssicherung",
+      "responsibility": "Menschliche Freigabe und dokumentierte Entscheidung"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "name": "Antrag oder Amtsverfahren beginnt",
+      "type": "startEvent",
+      "lane": "lane-authority",
+      "legal_basis": []
+    },
+    {
+      "id": "classify_action",
+      "name": "Handlungsform und Regelungsziel bestimmen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Pruefen, ob eine hoheitliche Einzelfallregelung mit Aussenwirkung als Verwaltungsakt nach § 35 VwVfG vorliegt; Allgemeinverfuegung und andere Handlungsformen getrennt erfassen.",
+      "legal_basis": ["VwVfG § 35"]
+    },
+    {
+      "id": "applicable_law",
+      "name": "Anwendungsbereich und Spezialrecht klaeren",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Zustaendigkeitstraeger, sachlichen Anwendungsbereich, Ausnahmen, einschlaegiges Landesrecht und fachrechtliche Verfahrensregeln feststellen.",
+      "legal_basis": ["VwVfGBbg § 1", "VwVfG §§ 1-2", "BImSchG", "9. BImSchV"]
+    },
+    {
+      "id": "is_administrative_act",
+      "name": "Verwaltungsakt nach § 35?",
+      "type": "exclusiveGateway",
+      "lane": "lane-authority",
+      "gateway_direction": "Diverging",
+      "legal_basis": ["VwVfG § 35"]
+    },
+    {
+      "id": "select_other_process",
+      "name": "Zutreffende andere Verfahrensart bestimmen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Bei fehlender Verwaltungsaktqualitaet keine Verwaltungsaktpruefung erzwingen; anderen fachrechtlichen oder schlicht-hoheitlichen Pfad dokumentieren.",
+      "legal_basis": []
+    },
+    {
+      "id": "other_process_end",
+      "name": "Anderer Verfahrenspfad dokumentiert",
+      "type": "endEvent",
+      "lane": "lane-authority"
+    },
+    {
+      "id": "competence_check",
+      "name": "Sachliche, instanzielle und oertliche Zustaendigkeit pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Ermaechtigung, Zustaendigkeitszuweisung, Delegation, Vertretung und konkrete Standort-/Behoerdenzuordnung belegen.",
+      "legal_basis": ["VwVfG §§ 3, 3a", "VwVfGBbg § 1", "Fachrechtliche Zustaendigkeitsvorschriften"]
+    },
+    {
+      "id": "competent",
+      "name": "Behoerde zustaendig?",
+      "type": "exclusiveGateway",
+      "lane": "lane-authority",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "refer_authority",
+      "name": "Zustaendigkeit klaeren und zulaessige Weiterleitung pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Keine automatische Weiterleitung oder Sachentscheidung; einschlaegige Weiterleitungsregeln, Beteiligteninformation und Aktenuebergabe dokumentieren.",
+      "legal_basis": ["VwVfG §§ 3, 25"],
+      "requires_human_review": true
+    },
+    {
+      "id": "referral_end",
+      "name": "Zustaendigkeitspfad beendet oder uebergeben",
+      "type": "endEvent",
+      "lane": "lane-authority"
+    },
+    {
+      "id": "open_case",
+      "name": "Verfahrensakte und Rechtsstand anlegen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Stichtag, anwendbare Fassungen, Verfahrensart, Aktenzugriff, Fristenquellen und erforderliche Fachrechtsbeteiligung erfassen.",
+      "legal_basis": ["VwVfG §§ 9-10", "Fachrecht"]
+    },
+    {
+      "id": "participants",
+      "name": "Beteiligte, Vertretung und Akteneinsicht pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Beteiligtenstellung, Beteiligungsfaehigkeit, Handlungsfaehigkeit, Bevollmaechtigte, Beistand und Akteneinsicht nach den einschlaegigen Normen feststellen.",
+      "legal_basis": ["VwVfG §§ 11-14", "VwVfG § 29"]
+    },
+    {
+      "id": "impartiality",
+      "name": "Mitwirkungsverbote und Befangenheit pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Moegliche Ausschlussgruende und Besorgnis der Befangenheit dokumentieren; betroffene Personen nicht ungeprueft weiterentscheiden lassen.",
+      "legal_basis": ["VwVfG §§ 20-21", "VwVfGBbg § 3"]
+    },
+    {
+      "id": "investigate_facts",
+      "name": "Sachverhalt von Amts wegen ermitteln",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Belastende und entlastende Umstaende, Tatsachen, Beweismittel, Unsicherheiten und Ermittlungsschritte getrennt dokumentieren.",
+      "legal_basis": ["VwVfG § 24", "VwVfG § 26"]
+    },
+    {
+      "id": "specialist_participation",
+      "name": "Fachrechtliche Beitraege und Mitwirkung einholen",
+      "type": "subProcess",
+      "lane": "lane-specialists",
+      "description": "Erforderliche Behoerdenbeteiligung, Stellungnahmen, Fachgutachten, eigenstaendige Zulassungen und UVP-/Naturschutzpruefungen nach jeweiligem Fachrecht modellieren.",
+      "legal_basis": ["BImSchG § 10", "9. BImSchV", "UVPG", "Weitere einschlaegige Fachgesetze"]
+    },
+    {
+      "id": "hearing_required",
+      "name": "Anhoerung nach § 28 oder Fachrecht erforderlich?",
+      "type": "exclusiveGateway",
+      "lane": "lane-authority",
+      "gateway_direction": "Diverging",
+      "legal_basis": ["VwVfG § 28", "Fachrechtliche Beteiligungsregeln"]
+    },
+    {
+      "id": "hear_parties",
+      "name": "Betroffene Beteiligte anhoeren",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-parties",
+      "description": "Vor einem eingreifenden Verwaltungsakt Gelegenheit zur Aeusserung zu entscheidungserheblichen Tatsachen geben; Zugang, Frist und Stellungnahmen nachweisen.",
+      "legal_basis": ["VwVfG § 28"]
+    },
+    {
+      "id": "record_hearing_exception",
+      "name": "Entbehrlichkeit oder Ausnahme begruenden",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Konkreten gesetzlichen Ausnahmegrund, Tatsachen und Abwaegung erfassen; keine pauschale Annahme aus einer Prozessvorlage.",
+      "legal_basis": ["VwVfG § 28 Abs. 2-3"]
+    },
+    {
+      "id": "formal_review",
+      "name": "Formelle Rechtmaessigkeit pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Zustaendigkeit, Verfahrensvorschriften, Beteiligung, Ermittlung, Anhoerung, Mitwirkung und fachrechtliche Besonderheiten mit konkreter Fassung und Belegen pruefen.",
+      "legal_basis": ["VwVfG §§ 3, 20-21, 24, 26, 28-29", "BImSchG", "9. BImSchV", "VwVfGBbg"]
+    },
+    {
+      "id": "formal_compliant",
+      "name": "Formelle Anforderungen eingehalten?",
+      "type": "exclusiveGateway",
+      "lane": "lane-authority",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "assess_procedural_error",
+      "name": "Fehlerfolgen und Heilbarkeit einzeln bewerten",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Nichtigkeit, Heilung, Unbeachtlichkeit und fachrechtliche Fehlerfolgen unterscheiden; Voraussetzungen und Auswirkungen nicht automatisiert unterstellen.",
+      "legal_basis": ["VwVfG §§ 44-46", "Fachrecht"],
+      "requires_human_review": true
+    },
+    {
+      "id": "error_curable",
+      "name": "Fehler rechtlich heilbar oder neu zu bearbeiten?",
+      "type": "exclusiveGateway",
+      "lane": "lane-legal-review",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "cure_error",
+      "name": "Zulaessige Heilung oder Verfahrenswiederholung",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Nur gesetzlich zulaessige Nachholung/Heilung mit Datum, Beteiligteninformation und dokumentierter Wirkung; anschliessend formelle Pruefung erneut durchlaufen.",
+      "legal_basis": ["VwVfG § 45", "Fachrecht"],
+      "requires_human_review": true
+    },
+    {
+      "id": "rework_or_stop",
+      "name": "Entwurf stoppen oder Verfahren rechtlich neu aufsetzen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Offene oder nicht heilbare Fehler an zustaendige juristische Pruefung eskalieren; keine automatische Ablehnung oder Freigabe.",
+      "legal_basis": ["VwVfG §§ 44-46", "Fachrecht"],
+      "requires_human_review": true
+    },
+    {
+      "id": "rework_end",
+      "name": "Verfahren angehalten oder neu aufgesetzt",
+      "type": "endEvent",
+      "lane": "lane-legal-review"
+    },
+    {
+      "id": "identify_legal_basis",
+      "name": "Ermaechtigungs- und Anspruchsgrundlage bestimmen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Konkrete Rechtsgrundlage, Tatbestandsmerkmale, Rechtsfolge, Adressatenkreis, zeitliche Fassung, Uebergangsrecht und Konkurrenznormen bestimmen.",
+      "legal_basis": ["BImSchG", "4. BImSchV", "9. BImSchV", "Sonstiges einschlaegiges Fachrecht"]
+    },
+    {
+      "id": "substantive_fact_check",
+      "name": "Tatbestandsvoraussetzungen anhand der Akte pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Jedes Tatbestandsmerkmal konkreten Tatsachen und Belegen zuordnen; Widersprueche, Datenstand, Beweiswert und entlastende Umstaende erfassen.",
+      "legal_basis": ["Ermittelte Ermaechtigungsgrundlage", "VwVfG §§ 24, 26"]
+    },
+    {
+      "id": "facts_sufficient",
+      "name": "Sachverhalt entscheidungsreif?",
+      "type": "exclusiveGateway",
+      "lane": "lane-legal-review",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "supplement_facts",
+      "name": "Fehlende Tatsachen oder Gutachten ergaenzen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Gezielte weitere Ermittlungen mit Ausloeser, Verantwortlichem und Beleg anordnen; anschliessend Sachverhalt erneut bewerten.",
+      "legal_basis": ["VwVfG §§ 24, 26"]
+    },
+    {
+      "id": "substantive_review",
+      "name": "Materielle Rechtmaessigkeit pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Tatbestand, Rechtsfolge, Anspruchs-/Versagungsgruende, Nebenbestimmungen und Auswirkungen auf Rechte Dritter anhand des einschlaegigen Fachrechts pruefen.",
+      "legal_basis": ["Ermittelte Ermaechtigungsgrundlage", "Fachrecht", "Verfassungs- und Unionsrecht soweit einschlaegig"]
+    },
+    {
+      "id": "requirements_met",
+      "name": "Tatbestandsvoraussetzungen erfuellt?",
+      "type": "exclusiveGateway",
+      "lane": "lane-legal-review",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "legal_consequence",
+      "name": "Rechtsfolge gebunden oder Ermessen?",
+      "type": "exclusiveGateway",
+      "lane": "lane-legal-review",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "discretion_review",
+      "name": "Ermessen, Zweckbindung und Grenzen dokumentieren",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Nur bei gesetzlicher Ermaechtigung: Zweck, Grenzen, relevante Belange, Gleichbehandlung und Verhaeltnismaessigkeit pruefen; Ermessensausfall, -fehlgebrauch und -ueberschreitung als Prueffragen behandeln.",
+      "legal_basis": ["VwVfG § 40", "Einschlaegiges Fachrecht"]
+    },
+    {
+      "id": "prepare_decision",
+      "name": "Entscheidung und Tenor entwerfen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Genehmigung, Ablehnung oder sonstige Rechtsfolge begruenden; Nebenbestimmungen nur mit Rechtsgrundlage, Zweckbezug, Bestimmtheit und Verhaeltnismaessigkeit aufnehmen.",
+      "legal_basis": ["VwVfG §§ 36-37", "Fachrecht"]
+    },
+    {
+      "id": "draft_quality",
+      "name": "Bestimmtheit, Form, Begruendung und Rechtsbehelfshinweis pruefen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Tenor und Nebenbestimmungen hinreichend bestimmt fassen; wesentliche tatsaechliche und rechtliche Gruende sowie Ermessenserwaegungen darstellen; Rechtsbehelfsbelehrung und Sonderrecht pruefen.",
+      "legal_basis": ["VwVfG §§ 37, 39", "Fachrecht"]
+    },
+    {
+      "id": "final_review",
+      "name": "Zeichnung und menschliche Schlusspruefung",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Entscheidungsbefugnis, Unterschrift/Signatur, Zustellweg, vollstaendige Akte und offene Rechtsfragen kontrollieren; Vier-Augen-Prinzip nur als Organisationsregel markieren, soweit nicht rechtlich vorgeschrieben.",
+      "legal_basis": ["VwVfG § 37", "Organisationsrecht und Fachrecht"],
+      "requires_human_review": true
+    },
+    {
+      "id": "release_approved",
+      "name": "Bescheid freigegeben?",
+      "type": "exclusiveGateway",
+      "lane": "lane-legal-review",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "notify",
+      "name": "Bescheid bekanntgeben und Zugang nachweisen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Bekanntgabe an die richtigen Adressaten durch den rechtlich zulaessigen Weg dokumentieren; Zugang, Zeitpunkt, Anlagen und mitgeteilten Inhalt beweissicher erfassen.",
+      "legal_basis": ["VwVfG § 41", "Fachrechtliche Bekanntmachungsregeln"]
+    },
+    {
+      "id": "effectiveness",
+      "name": "Wirksamkeit und Fristausloeser dokumentieren",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-authority",
+      "description": "Wirksamwerden gegenueber den Betroffenen, bekanntgegebenen Inhalt und moegliche abweichende Spezialregeln feststellen; keine automatische Rechtskraft oder Vollziehbarkeit ableiten.",
+      "legal_basis": ["VwVfG § 43", "Fachrecht"]
+    },
+    {
+      "id": "post_decision_event",
+      "name": "Rechtsbehelf, neuer Sachverhalt oder Fehlerhinweis?",
+      "type": "exclusiveGateway",
+      "lane": "lane-authority",
+      "gateway_direction": "Diverging"
+    },
+    {
+      "id": "post_decision_review",
+      "name": "Eigenstaendigen Folgeprozess eroefnen",
+      "type": "userTask",
+      "subtype": "USER_TASK",
+      "lane": "lane-legal-review",
+      "description": "Rechtsbehelf, Vollziehbarkeit, Nichtigkeit, Ruecknahme rechtswidriger oder Widerruf rechtmaessiger Verwaltungsakte als getrennte, stichtagsbezogene Folgepruefung behandeln.",
+      "legal_basis": ["VwVfG §§ 44, 48-49", "VwGO", "Fachrecht"],
+      "requires_human_review": true
+    },
+    {
+      "id": "process_end",
+      "name": "Verwaltungsakt und Folgepfade dokumentiert",
+      "type": "endEvent",
+      "lane": "lane-authority"
+    }
+  ],
+  "edges": [
+    {"id": "f01", "from": "start", "to": "classify_action"},
+    {"id": "f02", "from": "classify_action", "to": "applicable_law"},
+    {"id": "f03", "from": "applicable_law", "to": "is_administrative_act"},
+    {"id": "f04", "from": "is_administrative_act", "to": "competence_check", "condition": "Verwaltungsakt nach § 35 VwVfG"},
+    {"id": "f05", "from": "is_administrative_act", "to": "select_other_process", "condition": "Andere Handlungsform"},
+    {"id": "f06", "from": "select_other_process", "to": "other_process_end"},
+    {"id": "f07", "from": "competence_check", "to": "competent"},
+    {"id": "f08", "from": "competent", "to": "open_case", "condition": "Zustaendigkeit belegt"},
+    {"id": "f09", "from": "competent", "to": "refer_authority", "condition": "Zustaendigkeit fehlt oder ist offen"},
+    {"id": "f10", "from": "refer_authority", "to": "referral_end"},
+    {"id": "f11", "from": "open_case", "to": "participants"},
+    {"id": "f12", "from": "participants", "to": "impartiality"},
+    {"id": "f13", "from": "impartiality", "to": "investigate_facts"},
+    {"id": "f14", "from": "investigate_facts", "to": "specialist_participation"},
+    {"id": "f15", "from": "specialist_participation", "to": "hearing_required"},
+    {"id": "f16", "from": "hearing_required", "to": "hear_parties", "condition": "Anhoerung erforderlich"},
+    {"id": "f17", "from": "hearing_required", "to": "record_hearing_exception", "condition": "Gesetzliche Ausnahme oder keine Anhoerungspflicht belegt"},
+    {"id": "f18", "from": "hear_parties", "to": "formal_review"},
+    {"id": "f19", "from": "record_hearing_exception", "to": "formal_review"},
+    {"id": "f20", "from": "formal_review", "to": "formal_compliant"},
+    {"id": "f21", "from": "formal_compliant", "to": "identify_legal_basis", "condition": "Formelle Pruefung bestanden"},
+    {"id": "f22", "from": "formal_compliant", "to": "assess_procedural_error", "condition": "Formeller Fehler oder offene Fehlerfolge"},
+    {"id": "f23", "from": "assess_procedural_error", "to": "error_curable"},
+    {"id": "f24", "from": "error_curable", "to": "cure_error", "condition": "Heilung oder Wiederholung rechtlich zulaessig"},
+    {"id": "f25", "from": "error_curable", "to": "rework_or_stop", "condition": "Nicht heilbar oder Rechtsfolge ungeklaert"},
+    {"id": "f26", "from": "cure_error", "to": "formal_review"},
+    {"id": "f27", "from": "rework_or_stop", "to": "rework_end"},
+    {"id": "f28", "from": "identify_legal_basis", "to": "substantive_fact_check"},
+    {"id": "f29", "from": "substantive_fact_check", "to": "facts_sufficient"},
+    {"id": "f30", "from": "facts_sufficient", "to": "substantive_review", "condition": "Entscheidungserhebliche Tatsachen belegt"},
+    {"id": "f31", "from": "facts_sufficient", "to": "supplement_facts", "condition": "Ermittlungsbedarf"},
+    {"id": "f32", "from": "supplement_facts", "to": "investigate_facts"},
+    {"id": "f33", "from": "substantive_review", "to": "requirements_met"},
+    {"id": "f34", "from": "legal_consequence", "to": "prepare_decision", "condition": "Gebundene Rechtsfolge; Anspruchsvoraussetzungen erfuellt"},
+    {"id": "f35", "from": "legal_consequence", "to": "discretion_review", "condition": "Gesetz eroeffnet Ermessen"},
+    {"id": "f36", "from": "discretion_review", "to": "prepare_decision"},
+    {"id": "f37", "from": "requirements_met", "to": "prepare_decision", "condition": "Tatbestand oder Anspruchsvoraussetzung nicht erfuellt; begruendete Ablehnung"},
+    {"id": "f48", "from": "requirements_met", "to": "legal_consequence", "condition": "Tatbestandsvoraussetzungen erfuellt"},
+    {"id": "f38", "from": "prepare_decision", "to": "draft_quality"},
+    {"id": "f39", "from": "draft_quality", "to": "final_review"},
+    {"id": "f40", "from": "final_review", "to": "release_approved"},
+    {"id": "f41", "from": "release_approved", "to": "notify", "condition": "Menschlich freigegeben"},
+    {"id": "f42", "from": "release_approved", "to": "prepare_decision", "condition": "Korrektur erforderlich"},
+    {"id": "f43", "from": "notify", "to": "effectiveness"},
+    {"id": "f44", "from": "effectiveness", "to": "post_decision_event"},
+    {"id": "f45", "from": "post_decision_event", "to": "process_end", "condition": "Kein Folgeereignis"},
+    {"id": "f46", "from": "post_decision_event", "to": "post_decision_review", "condition": "Rechtsbehelf, Fehlerhinweis oder neue Tatsachen"},
+    {"id": "f47", "from": "post_decision_review", "to": "process_end"}
+  ],
+  "legal_references": [
+    {
+      "source": "VwVfG",
+      "url": "https://www.gesetze-im-internet.de/vwvfg/",
+      "provisions": ["§ 24", "§ 26", "§ 28", "§ 35", "§ 36", "§ 37", "§ 39", "§ 40", "§ 41", "§ 43-46", "§ 48-49"]
+    },
+    {
+      "source": "VwVfGBbg",
+      "url": "https://bravors.brandenburg.de/gesetze/vwvfgbbg",
+      "provisions": ["§ 1", "§ 3", "§ 5"]
+    },
+    {
+      "source": "BImSchG",
+      "url": "https://www.gesetze-im-internet.de/bimschg/",
+      "provisions": ["jeweilige Genehmigungs- und Verfahrensnorm nach Vorhabenklassifikation"]
+    },
+    {
+      "source": "9. BImSchV",
+      "url": "https://www.gesetze-im-internet.de/bimschv_9/",
+      "provisions": ["jeweilige Verfahrens- und Beteiligungsregel nach Anlagentyp und Verfahrensart"]
+    }
+  ],
+  "review_policy": {
+    "statuses": ["NOT_CHECKED", "SUPPORTED", "DEVIATION_FOUND", "OPEN", "NOT_APPLICABLE"],
+    "each_finding_requires": ["legal_question", "as_of_date", "source_version", "provision", "facts_or_evidence", "reasoning", "reviewer"],
+    "automated_legal_conclusion_permitted": false,
+    "specialist_review_required_for": ["competence", "applicability", "legal_basis", "discretion", "error_consequences", "withdrawal_or_revocation"]
+  }
+}

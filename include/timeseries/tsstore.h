@@ -337,6 +337,18 @@ public:
      * @return Result<std::vector<DataPoint>> - data points or error
      */
     Result<std::vector<DataPoint>> query(const QueryOptions& options) const;
+
+    /**
+     * @brief Query data points and fail on malformed matching records or chunks.
+     * @param options Query options (time range, entity, tags, and result limit).
+     * @return Matching data points, or an error if a matching raw record or
+     *         compressed chunk cannot be parsed, decoded, or read completely.
+     * @note This strict variant is intended for analyses that must not present
+     *       silently incomplete measurements. The existing query() behavior is
+     *       unchanged and may skip malformed records for compatibility.
+     */
+    [[nodiscard]] Result<std::vector<DataPoint>> queryStrict(
+        const QueryOptions& options) const;
     
     /**
      * @brief Compute aggregations over time range
@@ -483,6 +495,10 @@ private:
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
     std::shared_ptr<EncryptedChunkStore> enc_chunk_store_; // Optional AES-256-GCM wrapper
     TSAutoBuffer* auto_buffer_ = nullptr; // Optional auto-buffer for single-point Gorilla inserts (not owned)
+
+    Result<std::vector<DataPoint>> queryInternal(
+        const QueryOptions& options,
+        bool fail_on_decode_error) const;
 
     // Out-of-order write statistics
     mutable std::atomic<uint64_t> ooo_accepted_{0};

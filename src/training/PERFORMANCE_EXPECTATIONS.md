@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,7 +30,7 @@ SLOs or evidence that a release workflow enforces a threshold.
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| TRNP-1 | training cycle CPU/GPU capability paths remain bounded | BM_GPUTrainingCycle_GPUDisabled, BM_TrainingCycle_CPU_Baseline, BM_TrainingCycle_CUDA, BM_TrainingCycle_HIP, BM_TrainingCycle_Vulkan, BM_CompleteTrainingStep_CUDA |
+| TRNP-1 | CPU training and available backend/fallback paths remain bounded; fallback is not accelerator performance evidence | BM_GPUTrainingCycle_GPUDisabled, BM_TrainingCycle_CPU_Baseline, BM_TrainingCycle_CUDA, BM_TrainingCycle_HIP, BM_TrainingCycle_Vulkan, BM_CompleteTrainingStep_CUDA |
 | TRNP-2 | LoRA layer construction and forward/backward paths remain bounded | BM_LoRALayer_Construction, BM_LoRALayer_Forward, BM_LoRALayer_Backward, BM_LoRALayer_RankImpact |
 | TRNP-3 | attention and sequential LoRA composition paths remain bounded | BM_AttentionLoRA_Construction, BM_AttentionLoRA_Forward, BM_AttentionLoRA_Backward, BM_Sequential_Construction, BM_Sequential_Forward, BM_Sequential_Backward, BM_CompositePattern_Overhead |
 | TRNP-4 | parameter and memory efficiency paths remain bounded | BM_LoRALayer_ParameterCount, BM_LoRALayer_ParameterAccess, BM_Sequential_ParameterCollection, BM_LoRALayer_MemoryUsage, BM_Compare_LoRAvsFullFinetuning |
@@ -42,6 +42,10 @@ SLOs or evidence that a release workflow enforces a threshold.
 ## Data-Path Metrics
 
 The new data-path benchmark reports, per source: records fetched, valid/skipped samples, bytes read, DB query time, conversion time, trainer update time, end-to-end time, samples/second, and p50/p95 latency. DB paths use a temporary RocksDB-backed `QueryEngine`; failed reads must fail the benchmark rather than silently exercise synthetic fallback. Baseline comparisons use the same host and build profile and flag throughput regressions above 10 percent.
+
+## Execution Backend Interpretation
+
+The CPU training-cycle baseline is the always-available fallback reference. CUDA/HIP/Vulkan cases are accelerator evidence only when the selected device executes the measured kernels. In particular, Vulkan matmul shader-load failures followed by the unfused CPU round-trip fallback must not be reported as Vulkan GPU performance. Record fallback execution separately from accelerator measurements.
 
 ## Module Hard Gates (v1.0 docs baseline)
 

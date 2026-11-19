@@ -29,15 +29,12 @@ namespace {
 bool tryBootstrapDefaultLLMBackend() {
     auto& manager = LLMPluginManager::instance();
 #if defined(THEMIS_ENABLE_LLM)
-    const auto model_path = detail::resolveDefaultModelPath();
     ILLMPlugin* default_plugin = manager.getDefaultPlugin();
     if (default_plugin != nullptr) {
-        if (default_plugin->isModelLoaded()) {
-            return true;
-        }
-        return model_path.has_value() && manager.loadModel("default", model_path->string());
+        return default_plugin->isModelLoaded();
     }
 
+    const auto model_path = detail::resolveDefaultModelPath();
     if (!model_path.has_value()) {
         spdlog::debug("DefaultLLMClient: no configured model and models/default.gguf is absent");
         return false;

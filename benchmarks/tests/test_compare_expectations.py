@@ -100,6 +100,20 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
         self.assertEqual(expectations[0].benchmark_cases,
                          ["TransactionBenchmarkFixture/CommitLatency/1"])
 
+    def test_direct_benchmark_case_header_is_recognized(self):
+        with workspace() as root:
+            path = root / "PERFORMANCE_EXPECTATIONS.md"
+            path.write_text(
+                "## Specific Expectations\n"
+                "| Target ID | Expectation | Direct benchmark case |\n"
+                "|---|---|---|\n"
+                "| AN-1 | aggregation throughput remains bounded | `BM_ARG01_AggregationThroughput` |\n",
+                encoding="utf-8",
+            )
+            expectation = _parse_performance_expectations(path, "analytics")[0]
+
+        self.assertEqual(expectation.benchmark_cases, ["BM_ARG01_AggregationThroughput"])
+
     def test_run_manifest_normalizes_empty_invalid_and_non_finite_results(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             results_directory = Path(temporary_directory)
