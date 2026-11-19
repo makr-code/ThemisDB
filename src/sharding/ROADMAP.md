@@ -77,6 +77,9 @@ The initial build found missing `pugixml.hpp` (subsequently installed).
 The initial-implementation
 [Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
 reported `action_required` with zero jobs, not passing CI evidence.
+The requested CodeQL run completed Python analysis with zero alerts but timed
+out before all languages finished; no completed C++ security-analysis result
+was returned. This is not C++ security clearance and remains an open gate.
 
 Direct-source diagnostic execution (not registered-target/CI evidence):
 
