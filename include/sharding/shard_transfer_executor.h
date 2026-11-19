@@ -40,7 +40,8 @@ struct ShardRangeExport {
             const auto snapshot = open_export(request);
             const auto& manifest = snapshot.manifest;
             const auto& move = request.operation;
-            if (!snapshot.target || manifest.source != move.source_shard_id ||
+            if (!snapshot.target || manifest.id != request.operation_id ||
+                manifest.source != move.source_shard_id ||
                 manifest.target != move.target_shard_id || manifest.range_start != move.token_range_start ||
                 manifest.range_end != move.token_range_end) {
                 return {outcome, "Export does not match the approved move"};

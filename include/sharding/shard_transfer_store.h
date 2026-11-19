@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 
 namespace themis::sharding {
 
@@ -49,6 +50,21 @@ public:
 
     /// Verify the exact count, byte length and digest of the staged stream in index order.
     void verify(const std::string& id, const std::string& principal);
+
+    /**
+     * @brief Read verified staging in canonical stream order without publishing it.
+     * @param manifest Exact assignment expected by the local storage consumer.
+     * @param consume Synchronous per-chunk visitor; views are valid only during the call.
+     *        Must not re-enter this store or write visible data. If it throws or
+     *        authorization changes during consumption, discard any partial output.
+     * @throws std::logic_error if the assignment is stale, differs or is not verified.
+     * @throws std::runtime_error if persisted data fails integrity or storage checks.
+     * @throws std::invalid_argument if the manifest or visitor is invalid.
+     * @note Internal storage API, not an RPC or an ownership authorization. The
+     *       store serializes validation and visiting against abort and append.
+     */
+    void readVerified(const ShardTransferManifest& manifest,
+                      const std::function<void(std::string_view)>& consume);
 
     /// Remove staged chunks atomically and retain a tombstone; the ID cannot be reused.
     void abort(const std::string& id, const std::string& principal);

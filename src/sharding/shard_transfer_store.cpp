@@ -1,4 +1,5 @@
 #include "sharding/shard_transfer_store.h"
+#include "sharding/shard_range_snapshot.h"
 
 #include <algorithm>
 #include <array>
@@ -7,6 +8,7 @@
 #include <stdexcept>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 #include <openssl/evp.h>
@@ -194,6 +196,72 @@ Record decode(const std::string& value, const std::string& id, const std::string
 
 } // namespace
 
+ShardRangeSnapshot materializeShardRangeSnapshot(
+   ShardTransferManifest assignment,
+   const std::function<void(const std::function<void(
+       uint64_t, std::string_view, std::string_view)>&)>& scan) {
+   constexpr std::size_t limit = 64 * 1024 * 1024;
+   assignment.chunks = 0;
+   assignment.bytes = 0;
+   assignment.sha256 = std::string(kDigestChars, '0');
+   if (!scan || !validManifest(assignment)) {
+       throw std::invalid_argument("Invalid range snapshot metadata or scanner");
+   }
+
+   using Chunk = std::pair<std::string, std::string>;
+   auto chunks = std::make_shared<std::vector<Chunk>>();
+   Sha256 digest;
+   const auto append = [&](std::string_view bytes) {
+       digest.update(bytes);
+       while (!bytes.empty()) {
+           if (chunks->empty() || chunks->back().first.size() == ShardTransferStore::kMaxChunkBytes) {
+               chunks->emplace_back();
+               chunks->back().first.reserve(ShardTransferStore::kMaxChunkBytes);
+           }
+           auto& current = chunks->back().first;
+           const auto count = std::min(bytes.size(), ShardTransferStore::kMaxChunkBytes - current.size());
+           current.append(bytes.substr(0, count));
+           bytes.remove_prefix(count);
+       }
+   };
+   std::string previous_key;
+   scan([&](uint64_t token, std::string_view key, std::string_view value) {
+       if (token < assignment.range_start || token >= assignment.range_end ||
+           key.empty() || (!previous_key.empty() && key <= previous_key)) {
+           throw std::invalid_argument("Invalid range snapshot record or key order");
+       }
+       if (key.size() > limit || value.size() > limit ||
+           assignment.bytes + 8 + key.size() + value.size() > limit) {
+           throw std::length_error("Range snapshot exceeds materialization limit");
+       }
+       std::array<char, 8> header;
+       const auto encode_size = [&](std::size_t offset, std::size_t size) {
+           for (std::size_t i = 0; i < 4; ++i) {
+               header[offset + i] = static_cast<char>((size >> (24 - 8 * i)) & 0xff);
+           }
+       };
+       encode_size(0, key.size());
+       encode_size(4, value.size());
+       append({header.data(), header.size()});
+       append(key);
+       append(value);
+       assignment.bytes += header.size() + key.size() + value.size();
+       previous_key.assign(key);
+   });
+   for (auto& [payload, checksum] : *chunks) {
+       checksum = hash(payload);
+   }
+   assignment.chunks = chunks->size();
+   assignment.sha256 = digest.finish();
+   return {std::move(assignment),
+       [chunks = std::shared_ptr<const std::vector<Chunk>>(std::move(chunks))](uint64_t index) {
+           if (index >= chunks->size()) {
+               throw std::out_of_range("Range snapshot chunk index");
+           }
+           return (*chunks)[static_cast<std::size_t>(index)];
+       }};
+}
+
 class ShardTransferStore::Impl {
 public:
     Impl(const std::string& path, std::string shard,
@@ -277,7 +345,8 @@ public:
         return record;
     }
 
-    void validateStream(const Record& record) const {
+    void scanStream(const Record& record,
+                    const std::function<void(std::string_view)>& consume = {}) const {
         const auto& m = record.manifest;
         const auto prefix = chunkPrefix(m.id);
         const auto end = chunkEnd(m.id);
@@ -300,6 +369,9 @@ public:
                 throw std::runtime_error("Persisted shard transfer byte count exceeds manifest");
             }
             stream.update(payload);
+            if (consume) {
+                consume(payload);
+            }
         }
         checkStatus(it->status());
         if (it->Valid() || received != m.bytes) {
@@ -408,13 +480,31 @@ void ShardTransferStore::verify(const std::string& id, const std::string& princi
         record.next != record.manifest.chunks || record.received != record.manifest.bytes) {
         throw std::logic_error("Shard transfer is not complete");
     }
-    impl_->validateStream(record);
+    impl_->scanStream(record);
     impl_->authorize(record.manifest, principal);
     if (record.phase != Phase::verified) {
         record.phase = Phase::verified;
         rocksdb::WriteBatch batch;
         impl_->persist(record, batch);
     }
+}
+
+void ShardTransferStore::readVerified(
+    const ShardTransferManifest& manifest,
+    const std::function<void(std::string_view)>& consume) {
+    if (!validManifest(manifest) || !consume) {
+        throw std::invalid_argument("Invalid verified shard transfer reader");
+    }
+    const std::lock_guard lock(impl_->mutex);
+    const auto record = impl_->loadAuthorized(manifest.id, manifest.source);
+    if (record.manifest != manifest || record.phase != Phase::verified) {
+        throw std::logic_error("Shard transfer is not verified for this manifest");
+    }
+    // Validate the entire stream before handing any chunk to a storage consumer.
+    impl_->scanStream(record);
+    impl_->authorize(record.manifest, manifest.source);
+    impl_->scanStream(record, consume);
+    impl_->authorize(record.manifest, manifest.source);
 }
 
 void ShardTransferStore::abort(const std::string& id, const std::string& principal) {

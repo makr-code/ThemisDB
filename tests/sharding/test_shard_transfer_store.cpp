@@ -1,4 +1,5 @@
 #include "sharding/shard_transfer_store.h"
+#include "sharding/shard_range_snapshot.h"
 
 #include <filesystem>
 #include <memory>
@@ -17,6 +18,34 @@ constexpr auto kB = "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59
 constexpr auto kAB = "fb8e20fc2e4c3f248c60c39bd652f3c1347298bb977b8b4d5903b85055620603";
 constexpr auto kABC = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
 constexpr auto kEmpty = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
+
+TEST(ShardRangeSnapshot, UsesCanonicalRecordsAndRejectsRecordsOutsideTheAssignment) {
+    const ShardTransferManifest assignment{"snapshot", "source", "target", "42", {}, 100, 200, 17};
+    using namespace std::string_literals;
+    std::string value = "a\0b"s;
+    const auto snapshot = materializeShardRangeSnapshot(assignment, [&](const auto& visit) {
+        visit(100, "a", value);
+        visit(199, "z", "");
+    });
+    value = "changed";
+    const auto expected = "\0\0\0\1\0\0\0\3aa\0b\0\0\0\1\0\0\0\0z"s;
+    EXPECT_EQ(snapshot.manifest.bytes, expected.size());
+    EXPECT_EQ(snapshot.manifest.chunks, 1u);
+    EXPECT_EQ(snapshot.read_chunk(0), std::make_pair(expected, snapshot.manifest.sha256));
+    EXPECT_THROW((void)snapshot.read_chunk(1), std::out_of_range);
+    EXPECT_THROW((void)materializeShardRangeSnapshot(assignment, [](const auto& visit) {
+        visit(200, "outside", "value");
+    }), std::invalid_argument);
+    EXPECT_THROW((void)materializeShardRangeSnapshot(assignment, [](const auto& visit) {
+        visit(100, "a", "value");
+        visit(101, "a", "duplicate");
+    }), std::invalid_argument);
+
+    const auto empty = materializeShardRangeSnapshot(assignment, [](const auto&) {});
+    EXPECT_EQ(empty.manifest.chunks, 0u);
+    EXPECT_EQ(empty.manifest.bytes, 0u);
+    EXPECT_EQ(empty.manifest.sha256, kEmpty);
+}
 
 class ShardTransferStoreTest : public ::testing::Test {
 protected:

@@ -7,6 +7,7 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_rpc_server.h"
+#include "sharding/shard_range_snapshot.h"
 #include "sharding/shard_transfer_store.h"
 #include "shard_rpc.grpc.pb.h"
 
@@ -55,8 +56,10 @@ constexpr char kSource[] = "source-shard";
 constexpr char kTarget[] = "target-shard";
 constexpr char kSourceIdentity[] = "source.test";
 constexpr std::uint64_t kEpoch = 17;
-constexpr std::string_view kFirstPayload("first\0chunk", 11);
-constexpr std::string_view kSecondPayload = "second chunk";
+const std::string kValue(ShardTransferStore::kMaxChunkBytes - 9, 'v');
+// Two canonical records, with the first record ending exactly at the chunk boundary.
+const std::string kFirstPayload = std::string("\0\0\0\1\0\x0f\xff\xf7" "a", 9) + kValue;
+constexpr std::string_view kSecondPayload("\0\0\0\1\0\0\0\3" "zb\0c", 12);
 
 [[nodiscard]] std::string sha256(std::string_view payload) {
     unsigned char digest[EVP_MAX_MD_SIZE];
@@ -73,7 +76,7 @@ constexpr std::string_view kSecondPayload = "second chunk";
     return result;
 }
 
-[[nodiscard]] ShardTransferManifest assignment(const std::string& id) {
+[[nodiscard]] auto snapshotFor(const std::string& id) {
     ShardTransferManifest manifest;
     manifest.id = id;
     manifest.source = kSource;
@@ -82,10 +85,14 @@ constexpr std::string_view kSecondPayload = "second chunk";
     manifest.range_end = 200;
     manifest.epoch = kEpoch;
     manifest.watermark = "42";
-    manifest.chunks = 2;
-    manifest.bytes = kFirstPayload.size() + kSecondPayload.size();
-    manifest.sha256 = sha256(std::string(kFirstPayload).append(kSecondPayload));
-    return manifest;
+    return themis::sharding::materializeShardRangeSnapshot(std::move(manifest), [](const auto& visit) {
+        visit(100, "a", kValue);
+        visit(199, "z", std::string_view("b\0c", 3));
+    });
+}
+
+[[nodiscard]] ShardTransferManifest assignment(const std::string& id) {
+    return snapshotFor(id).manifest;
 }
 
 [[nodiscard]] rpc::ShardTransferManifest prepareRequest(const ShardTransferManifest& manifest) {
@@ -179,7 +186,7 @@ public:
         }
     }
 
-    [[nodiscard]] std::string start(const fs::path& root, bool seed) {
+    [[nodiscard]] std::string start(const fs::path& root, bool seed, bool advance_epoch = false) {
         const auto port = std::to_string(loopbackPort());
         const auto parent = std::to_string(::getpid());
         const std::string path = root.string();
@@ -189,7 +196,7 @@ public:
             const_cast<char*>(kReceiverMode),
             const_cast<char*>(path.c_str()),
             const_cast<char*>(port.c_str()),
-            const_cast<char*>(seed ? "seed" : "restart"),
+            const_cast<char*>(seed ? "seed" : (advance_epoch ? "advance-epoch" : "restart")),
             const_cast<char*>(parent.c_str()),
             nullptr,
         };
@@ -217,18 +224,19 @@ private:
 };
 
 [[nodiscard]] int runReceiver(const fs::path& root, const std::string& port,
-                              bool seed, pid_t parent) {
+                              std::string_view mode, pid_t parent) {
     // Do not leave a receiver behind if CTest times out and kills the sender.
     if (::prctl(PR_SET_PDEATHSIG, SIGKILL) != 0 || ::getppid() != parent) {
         return EXIT_FAILURE;
     }
+    const auto epoch = kEpoch + (mode == "advance-epoch" ? 1u : 0u);
     auto store = std::make_shared<ShardTransferStore>(
-        (root / "stage").string(), kTarget, [](const ShardTransferManifest& manifest) {
+        (root / "stage").string(), kTarget, [epoch](const ShardTransferManifest& manifest) {
             return manifest.source == kSource && manifest.target == kTarget &&
-                   manifest.epoch == kEpoch && manifest.range_start == 100 &&
+                   manifest.epoch == epoch && manifest.range_start == 100 &&
                    manifest.range_end == 200;
         });
-    if (seed) {
+    if (mode == "seed") {
         for (const char* id : {"resume", "abort", "bad-digest"}) {
             store->assign(assignment(id), kSource);
         }
@@ -317,7 +325,8 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
     auto channel = connect(first_address, receiver_tls.certificate_pem, sender_tls);
     ASSERT_TRUE(channel->WaitForConnected(deadline())) << "initial mTLS handshake failed";
     auto stub = rpc::ShardService::NewStub(channel);
-    const auto manifest = assignment("resume");
+    const auto snapshot = snapshotFor("resume");
+    const auto& manifest = snapshot.manifest;
     const auto resume = prepareRequest(manifest);
     rpc::ShardTransferCheckpoint checkpoint;
     auto status = prepare(*stub, resume, checkpoint);
@@ -356,7 +365,7 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
             EXPECT_TRUE(admitted);
             EXPECT_EQ(index, 1u);
             ++reads;
-            return std::pair{std::string(kSecondPayload), sha256(kSecondPayload)};
+            return snapshot.read_chunk(index);
         },
         [&] {
             EXPECT_FALSE(admitted);
@@ -404,6 +413,27 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
     status = prepare(*stub, bad_digest, checkpoint);
     ASSERT_TRUE(status.ok()) << status.error_message();
     EXPECT_EQ(checkpoint.next_chunk(), 0u);
+
+    ASSERT_TRUE(receiver.crash());
+    {
+        ShardTransferStore reopened((root.path / "stage").string(), kTarget,
+            [&](const ShardTransferManifest& candidate) { return candidate == manifest; });
+        std::string persisted;
+        reopened.readVerified(manifest, [&](std::string_view chunk) { persisted.append(chunk); });
+        EXPECT_EQ(persisted, std::string(kFirstPayload).append(kSecondPayload));
+    }
+
+    auto stale_channel = connect(receiver.start(root.path, false, true),
+                                 receiver_tls.certificate_pem, sender_tls);
+    ASSERT_TRUE(stale_channel->WaitForConnected(deadline()));
+    auto stale = rpc::ShardService::NewStub(stale_channel);
+    status = prepare(*stale, resume, checkpoint);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::FAILED_PRECONDITION) << status.error_message();
+    id.set_migration_id(resume.migration_id());
+    grpc::ClientContext stale_verify_context;
+    stale_verify_context.set_deadline(deadline());
+    status = stale->VerifyShardTransfer(&stale_verify_context, id, &verified);
+    EXPECT_EQ(status.error_code(), grpc::StatusCode::FAILED_PRECONDITION) << status.error_message();
 }
 
 } // namespace
@@ -420,7 +450,7 @@ int main(int argc, char** argv) {
 #if defined(__linux__)
     if (argc == 6 && std::string_view(argv[1]) == kReceiverMode) {
         try {
-            return runReceiver(argv[2], argv[3], std::string_view(argv[4]) == "seed",
+            return runReceiver(argv[2], argv[3], argv[4],
                                static_cast<pid_t>(std::stol(argv[5])));
         } catch (const std::exception& e) {
             std::cerr << "shard transfer receiver: " << e.what() << '\n';

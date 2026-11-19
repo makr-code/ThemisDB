@@ -107,8 +107,10 @@ staging directory as the live database.
 
 After an interrupted stream, reissue PREPARE with the same manifest and
 immutable export. Resume from the returned checkpoint, not a local byte count.
-If the source snapshot was lost, do not reuse the migration ID with a new
-export. Explicit abort retires the ID and removes staged chunks logically;
+The bounded snapshot materializer is process-local: retain its export for
+retries, and acquire a fresh migration assignment and ID if it is lost. Do
+not rebuild an export under the old ID. Explicit abort retires the ID and
+removes staged chunks logically;
 RocksDB compaction controls when disk space is reclaimed. Verification means
 that staged bytes match the source manifest, not that routing moved. While
 fenced cutover is unconfigured, leave the source authoritative. Do not retry

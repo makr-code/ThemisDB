@@ -113,8 +113,17 @@ failover/recovery E2E behavior; both remain open blockers.
 `makeShardTransferExecutor()` connects a trusted, storage-owned immutable range
 export to `ShardRPCClient::transferShard()`. The source adapter supplies the
 exact assigned manifest, a verified-mTLS target client, and a bounded indexed
-chunk reader. The manifest binds both shards, the range, topology epoch,
-snapshot watermark, chunk count, byte count and ordered-payload SHA-256.
+chunk reader. The manifest ID must match the approved operation ID; the
+manifest also binds both shards, the range, topology epoch, snapshot watermark,
+chunk count, byte count and ordered-payload SHA-256.
+
+Storage adapters can use `materializeShardRangeSnapshot()` to encode a pinned,
+ordered scan of live logical records for a half-open token range. The helper
+validates ordering and token bounds and produces an immutable, indexed export
+of up to 64 MiB. It neither derives routing tokens nor opens the backing
+snapshot; those are the adapter's responsibility. The receiver's local
+`readVerified()` API can inspect the persisted stream only for the exact,
+still-current verified manifest. It is not a network read or cutover API.
 
 The destination exposes dedicated PREPARE, stream, verify and abort RPCs only
 when configured with a `ShardTransferStore`, verified client certificates and

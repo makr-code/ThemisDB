@@ -121,8 +121,10 @@ All identified stub/simulation paths have been reviewed and improved with:
 - **Production readiness**: Available only for test-mode endpoint simulations; multi-node requires gRPC
 
 #### 3. **Shard-Transfer Stream Transport** ([DIS-03 / #8197](https://github.com/makr-code/ThemisDB/issues/8197))
-- **Status**: Partial — dedicated mTLS gRPC staging is implemented; the application
-  still needs a storage-owned range export provider and authoritative fenced cutover.
+- **Status**: Partial — dedicated mTLS gRPC staging, canonical snapshot
+  materialization, and local verified staging reads are implemented. The
+  application still needs an authoritative range scanner and assignment
+  wiring, an enforceable write quiesce, and authoritative fenced cutover.
 - **Boundary**: The old `StreamSession` PREPARE callback remains fail-closed and
   is not the rebalance data path. See [API](API.md) and [Operations](OPERATIONS.md)
   for durable acknowledgements, resume, and explicit abort.
