@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -20,7 +20,7 @@ Human_Author: "unknown"
 
 ## Evidence Summary
 
-This document tracks the current evidence state for the core module status issue and records both canonical historical evidence and current-environment validation gaps.
+This document separates source/build-registration evidence from executable results. Historical snapshots below remain historical; only the dated validation section records the current runner outcome.
 
 ## Canonical Snapshot (from issue context, validated 2026-07-18)
 
@@ -47,7 +47,7 @@ This document tracks the current evidence state for the core module status issue
   - Ninja build program not found
 - Impact: no local focused core binary could be built in this environment during this validation pass
 
-## Current Source Registration Check (2026-10-31)
+## Focused Test Registration Check (2026-11-19)
 
 `tests/core/CMakeLists.txt` globs `test_*.cpp`; the eight current sources produce
 these executable target names using `module_core_${_stem}_focused`:
@@ -61,16 +61,30 @@ these executable target names using `module_core_${_stem}_focused`:
 - `module_core_test_core_smoke_focused`
 - `module_core_test_plugin_loading_focused_focused`
 
-Registration is source/build-definition evidence only. No build or test was run for
-this documentation review, so no current executable pass is claimed.
+Registration is source/build-definition evidence only; it is not evidence that a
+binary was built or executed. The focused sources currently contain 12 adapter
+registry cases, 11 adapter-signing cases, 9 circuit-breaker cases, 18 context
+cases, and 8 plugin-loading cases. The stress source uses local stand-ins and is
+not production-adapter stress evidence.
+
+## Validation Attempt (2026-11-19)
+
+- Base revision: `a9837d936d391dad3e5b3fc1ff94757944dae43b`; the two focused test additions in this working tree were not compiled.
+- Host: Linux x86_64, GNU C++ 13.3.0, CMake Debug.
+- Standard configure: `cmake --preset community-debug -B /tmp/themis-core-evidence-build`
+  stopped before generation because RocksDB was not installed.
+- Diagnostic configure: `cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-core-evidence-build -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_EDITION=COMMUNITY`
+  stopped before generation because the required `fmt` library was not installed.
+- No build or CTest executable ran; no pass is claimed. Normal, invalid-input,
+  degraded-state, timeout, and recovery executable evidence remains open for
+  release sign-off.
 
 ## Status Assessment
 
-- [x] Roadmap/future/architecture synchronization refreshed for issue #5638
-- [x] Focused test registration path verified in source
-- [~] Fresh executable-level focused build/test evidence remains unverified; the
-  2026-07-28 configure failure is historical, not a result from this review
-- [ ] New executable run evidence for `module_core_test_*_focused` captured for this cycle
+- [x] Focused test target mapping verified against `tests/core/CMakeLists.txt`
+- [x] Current runner configure failures and missing dependencies recorded
+- [~] Fresh executable-level focused build/test evidence remains unavailable
+- [ ] Production-adapter stress, sanitizer, fault-recovery, and soak evidence remains open
 
 ## Implementation Coverage (added 2026-07-28)
 
@@ -84,10 +98,10 @@ this documentation review, so no current executable pass is claimed.
 | `include/core/concerns/plugin_api.h` | Plugin ABI contract: `ThemisPluginRegisterFn`, `kPluginInitSymbol`, `kPluginAbiVersion`, `THEMIS_DEFINE_PLUGIN_INIT` macro |
 | `include/core/concerns/adapter_signing.h` | `SignedAdapterValidator` — `validate()`, `canonicalString()`, `sha256Hex()` |
 | `src/core/concerns/adapter_signing.cpp` | SHA-256 metadata-digest validation via OpenSSL EVP |
-| `tests/core/test_adapter_registry_focused.cpp` | 10 focused tests (AR_01..AR_10) |
+| `tests/core/test_adapter_registry_focused.cpp` | 12 focused tests (AR_01..AR_12) |
 | `tests/core/test_plugin_loading_focused.cpp` | 8 focused tests (PL_01..PL_08) |
-| `tests/core/test_adapter_signing_focused.cpp` | 10 focused tests (SGN_01..SGN_10) |
-| `tests/core/test_circuit_breaker_focused.cpp` | 8 focused tests (CB_01..CB_08) |
+| `tests/core/test_adapter_signing_focused.cpp` | 11 focused tests (SGN_01..SGN_10, including SGN_04b) |
+| `tests/core/test_circuit_breaker_focused.cpp` | 9 focused tests (CB_01..CB_09) |
 | `tests/core/test_concerns_context_focused.cpp` | 18 focused tests (CCT_01..CCT_18) |
 
 ### Modified Files — Phase 1–6 + Plugin/Signing Implementation
@@ -101,7 +115,7 @@ this documentation review, so no current executable pass is claimed.
 | `src/core/ROADMAP.md` | All Q4 2026 plugin loading + signing items marked `[x]` (2026-07-28) |
 | `src/core/MODULE_EVIDENCE.md` | This section updated |
 
-### Test Target Names (auto-discovered by tests/core/CMakeLists.txt)
+### Key Test Target Names (auto-discovered by tests/core/CMakeLists.txt)
 
 - `module_core_test_adapter_registry_focused_focused`
 - `module_core_test_plugin_loading_focused_focused`
@@ -123,9 +137,9 @@ this documentation review, so no current executable pass is claimed.
 
 ## Next Evidence Actions
 
-1. Restore functional build prerequisites (toolchain + Ninja) in validation environment.
+1. Restore the required system dependencies (including RocksDB and fmt) in the validation environment.
 2. Configure and build focused core test targets:
    - `module_core_test_adapter_registry_focused_focused`
    - `module_core_test_circuit_breaker_focused_focused`
    - `module_core_test_concerns_context_focused_focused`
-3. Execute focused binaries and append pass/fail evidence with timestamp.
+3. Execute the focused binaries, including the registry timeout and circuit-breaker exception cases, and append pass/fail evidence with revision and timestamp.

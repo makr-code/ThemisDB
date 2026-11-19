@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,19 +12,20 @@ Human_Author: "unknown"
 
 > Exact model backend not verifiable from final document text alone.
 
-# core — MODULE_GAPS.md (Phase 5 Verified)
+# core — MODULE_GAPS.md (Historical Scanner Snapshot; Not Current Findings)
 
-> Historical scanner snapshot only. The counts, severities, source locations, and
-> Windows path below have not been independently revalidated against the current
-> source tree; no current gap scan was run for this documentation review.
+> Historical scanner snapshot only. The counts, severities, and source locations
+> below have not been independently revalidated against the current source tree.
+> No current gap scan was run for this review; these counts are not current
+> findings or release evidence.
 
-This file documents all documentation and code quality gaps in the **core** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+This file preserves the historical output of a gap-scanner run (Phase 5 with external submodule filtering); do not use it as the current inventory of Core defects.
 
 ## Summary
 
 - **Total Gaps**: 473
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Status**: Historical and unverified against the current source tree
+- **Scanner snapshot**: `C:\Projects\ThemisDB` (L0 full scan with Phase 5; date not recorded)
 
 ### By Severity
 
@@ -83,4 +84,4 @@ This file documents all documentation and code quality gaps in the **core** modu
 
 ---
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+**Historical Phase 5 note**: The original scanner report says external GitHub submodules were excluded. That filtering and the claimed scope accuracy were not re-run or verified against the current tree; treat the listed locations and counts as historical only.

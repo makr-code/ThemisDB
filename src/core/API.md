@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,9 +28,10 @@ This page summarizes the public integration surface in `include/core/`. Header d
 | Accessors (`logger()`, `tracer()`, `metrics()`, `cache()`, `secrets()`, `circuitBreaker()`, `featureFlags()`, `auditLog()`) | Return references owned by the context. Do not retain references across replacement or context destruction. |
 | `resolve<T>()` | Returns a shared handle for built-in concern interfaces. Other types are looked up in `AdapterRegistry`; an unregistered type returns an empty `shared_ptr`. |
 | `replaceLogger/Tracer/Metrics/Cache/Secrets/FeatureFlags/AuditLog(...)` | Replaces one owned concern. Null arguments are rejected with `std::invalid_argument`; use owning handles for work that may overlap a replacement. |
-| `AdapterRegistry::registerAdapter<T>(id, adapter, validator, metadata)` | Rejects an empty ID, null pointer, API version below `kCurrentApiVersion`, or validator rejection with `std::invalid_argument`. Metadata ID is filled from `id` if empty. |
-| `AdapterRegistry::hotSwap<T>(adapter, metadata)` | Rejects null. Installs the new adapter and waits up to 100 ms for references to the old adapter; returns `false` on drain timeout. |
-| `AdapterRegistry::loadFromPlugin(path, adapter_id)` | Loads a shared library exporting `themis_plugin_register`; returns `false` for load, entry-point, init, or required digest failures. |
+| `AdapterRegistry::registerAdapter<T>(id, adapter, validator, metadata)` | Rejects an empty ID, null pointer, API version below `kCurrentApiVersion`, or rejection by a supplied validator with `std::invalid_argument`. The validator is optional; a higher API version is not rejected by the current lower-bound check. Metadata ID is filled from `id` if empty. |
+| `AdapterRegistry::hotSwap<T>(adapter, metadata)` | Rejects null. Installs the new adapter before polling for old shared handles (100 iterations at 1 ms nominally); returns `false` if old handles remain. A timeout does not roll back the installed adapter, and outstanding handles may continue using the old adapter. |
+| `AdapterRegistry::loadFromPlugin(path, adapter_id)` | Loads a shared library exporting `themis_plugin_register`; returns `false` for load, entry-point, init, or required digest failures. The registry defaults to `kTrustAll`; `kRequireSignature` checks an adjacent `.sig` SHA-256 digest, not a publisher identity. |
+| `ICircuitBreaker::call(fn, fallback)` | Calls `fallback` only when `allowRequest()` denies the call. If `fn` throws, the breaker records a failure and rethrows; it does not retry or invoke the fallback for that same failure. |
 | `healthCheck()` / `readinessCheck()` | Aggregate per-concern probes. In current code readiness delegates to health; HTTP exposure belongs to the server module. |
 | `flush()` / `shutdown()` | Dispatch lifecycle hooks to owned concerns; invoke during orderly service shutdown according to application lifecycle. |
 
@@ -45,6 +46,6 @@ This page summarizes the public integration surface in `include/core/`. Header d
 - Keep secrets out of logs, traces, metric labels, and exception text.
 - End spans or use `ScopedSpan`; verify `isValid()` where the adapter contract requires it.
 - Treat plugin code as native code running with host privileges. The plugin ABI is C-linkage function `themis_plugin_register` with host ABI version `kPluginAbiVersion`.
-- Use `AdapterTrustPolicy::kRequireSignature` where required, while recognizing that a co-located SHA-256 digest is not asymmetric publisher authentication.
+- Core does not enforce a production plugin trust policy; deployments must not treat the default `kTrustAll` policy or a co-located SHA-256 digest as publisher authentication.
 
 See [`IMPLEMENTATION.md`](IMPLEMENTATION.md) for lifecycle invariants and [`TRUST.md`](TRUST.md) for risk boundaries.
