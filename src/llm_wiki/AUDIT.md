@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -40,8 +40,8 @@ This audit compares module documentation with the current source tree under `inc
 
 ## Validation results
 
-- `python scripts/check_module_direct_doxygen.py --module llm_wiki` — returned `DIRECT_DOXYGEN_CHECK_OK`. It reported 83 filtered source symbols, 82 Doxygen members, and counters of 35 missing symbols, 43 missing briefs, 24 missing parameter-doc entries, and 27 missing return-doc entries. These diagnostics are recorded as returned; the command's status is not a runtime test or a claim that the counters are zero.
-- `ctest --preset windows-release -R 'llm_wiki' --output-on-failure` — CTest reported `No tests were found` in this checkout, so no test pass is claimed. Run from a configured build that registers the relevant tests.
+- `python scripts/check_module_direct_doxygen.py --module llm_wiki` — could not run because this checkout has no module XML artifact under `build/module-doxygen`. Generate or download the module Doxygen XML artifact before using this gate as evidence.
+- `ctest --preset windows-release -R 'llm_wiki' --output-on-failure` — CTest reported `No tests were found` in this checkout, so no test pass is claimed. The `windows-release` configure preset disables tests by default; run from a configured test-enabled build, such as the documented `windows-debug` workflow on a supported host.
 
 ## Conclusion
 

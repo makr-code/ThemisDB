@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -18,6 +18,7 @@ Changes are recorded here when they are supported by repository evidence. The ro
 
 ### Changed
 
+- Synced module navigation and status evidence with the checked-in governance documents, current implementation limits, and available validation artifacts.
 - Replaced stale module descriptions with source-verified API, runtime, security, and performance behavior.
 - Clarified that the current plugin ingestion path uses placeholder chunk content, plugin query does not perform indexed retrieval, and Wikipedia dump ingestion returns fixed counts.
 - Reframed test and benchmark statements so inventory and synthetic benchmarks are not presented as proof of production readiness.
