@@ -64,8 +64,9 @@ these executable target names using `module_core_${_stem}_focused`:
 Registration is source/build-definition evidence only; it is not evidence that a
 binary was built or executed. The focused sources currently contain 12 adapter
 registry cases, 11 adapter-signing cases, 9 circuit-breaker cases, 18 context
-cases, and 8 plugin-loading cases. The stress source uses local stand-ins and is
-not production-adapter stress evidence.
+cases, and 9 plugin-loading cases. PL_09 verifies invalid trust-policy enums are
+rejected. The stress source uses local stand-ins and is not production-adapter
+stress evidence.
 
 ## Validation Attempt (2026-11-19)
 

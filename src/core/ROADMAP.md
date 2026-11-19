@@ -29,6 +29,8 @@ The module is **feature-capable but not yet evidence-complete for release-level 
 
 `AdapterRegistry::hotSwap()` publishes the replacement before waiting for old handles; a drain timeout returns `false` without rolling the replacement back. `ICircuitBreaker::call()` invokes its fallback only when the breaker denies a request; an operation exception is recorded and rethrown. Neither behavior implies automatic retry or recovery.
 
+`AdapterRegistry::setTrustPolicy()` now rejects enum values other than `kTrustAll` and `kRequireSignature`; this prevents an invalid trust state from taking the permissive loader path. It does not change the explicit `kTrustAll` default or provide publisher authentication.
+
 ## In Progress
 
 - [~] Produce executable Core concern benchmark and real-implementation stress evidence (Target: v2.5.0)

@@ -163,6 +163,15 @@ bool AdapterRegistry::hasAdapter(std::type_index type) const {
  * @details Calls: lock().
  */
 void AdapterRegistry::setTrustPolicy(AdapterTrustPolicy policy) {
+    switch (policy) {
+        case AdapterTrustPolicy::kTrustAll:
+        case AdapterTrustPolicy::kRequireSignature:
+            break;
+        default:
+            throw std::invalid_argument(
+                "[AdapterRegistry] setTrustPolicy: unsupported trust policy");
+    }
+
     std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     trust_policy_ = policy;
 }

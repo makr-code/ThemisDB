@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,7 +35,7 @@ These controls do not replace deployment authorization, filesystem permissions, 
 
 ## Plugin trust controls and residual risk
 
-`AdapterRegistry::loadFromPlugin()` loads a shared library through the platform loader. When `AdapterTrustPolicy::kRequireSignature` is selected, it checks the file's SHA-256 digest against the first line of `<path>.sig` before loading. This is an integrity comparison only: if an attacker can replace both files, the check does not authenticate the publisher. The source path does not implement a public-key signature verification or signer identity/rotation policy. Restrict write access to plugin directories and deployment configuration, distribute artifacts through a trusted channel, and do not load untrusted libraries.
+`AdapterRegistry::loadFromPlugin()` loads a shared library through the platform loader. When `AdapterTrustPolicy::kRequireSignature` is selected, it checks the file's SHA-256 digest against the first line of `<path>.sig` before loading. Unsupported enum values passed to `setTrustPolicy()` throw `std::invalid_argument` and leave the existing policy unchanged; they are not treated as `kTrustAll`. This digest is an integrity comparison only: if an attacker can replace both files, the check does not authenticate the publisher. The source path does not implement a public-key signature verification or signer identity/rotation policy. Restrict write access to plugin directories and deployment configuration, distribute artifacts through a trusted channel, and do not load untrusted libraries.
 
 `SignedAdapterValidator` validates SHA-256 of adapter metadata (`id:apiVersion:description`); it is distinct from authenticating a plugin binary and must not be described as doing so.
 
