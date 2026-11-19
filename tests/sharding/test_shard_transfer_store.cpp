@@ -130,6 +130,11 @@ TEST_F(ShardTransferStoreTest, RequiresMatchingPrincipalManifestAndCurrentAssign
     EXPECT_THROW(store->abort(manifest.id, "source"), std::logic_error);
     current = true;
     EXPECT_NO_THROW(store->verify(manifest.id, "source"));
+    current = false;
+    std::size_t consumed = 0;
+    EXPECT_THROW(store->readVerified(manifest, [&](std::string_view) { ++consumed; }),
+                 std::logic_error);
+    EXPECT_EQ(consumed, 0u);
 }
 
 TEST_F(ShardTransferStoreTest, ValidatesLimitsSizesAndOrderedDigest) {
@@ -230,6 +235,10 @@ TEST_F(ShardTransferStoreTest, RejectsPersistedMissingChunkEvenAfterVerification
     reopen();
     EXPECT_THROW(store->append(manifest.id, "source", 0, "a", kA), std::runtime_error);
     EXPECT_THROW(store->verify(manifest.id, "source"), std::runtime_error);
+    std::size_t consumed = 0;
+    EXPECT_THROW(store->readVerified(manifest, [&](std::string_view) { ++consumed; }),
+                 std::runtime_error);
+    EXPECT_EQ(consumed, 0u);
 }
 
 } // namespace

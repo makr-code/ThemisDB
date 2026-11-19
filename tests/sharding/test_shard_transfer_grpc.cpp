@@ -76,6 +76,32 @@ constexpr std::string_view kSecondPayload("\0\0\0\1\0\0\0\3" "zb\0c", 12);
     return result;
 }
 
+[[nodiscard]] std::vector<std::pair<std::string, std::string>> decodeRecords(std::string_view bytes) {
+    std::vector<std::pair<std::string, std::string>> records;
+    while (!bytes.empty()) {
+        if (bytes.size() < 8) {
+            throw std::runtime_error("truncated canonical record header");
+        }
+        const auto read_size = [&](std::size_t offset) {
+            std::uint32_t size = 0;
+            for (std::size_t i = 0; i < 4; ++i) {
+                size = (size << 8) | static_cast<unsigned char>(bytes[offset + i]);
+            }
+            return size;
+        };
+        const auto key_size = read_size(0);
+        const auto value_size = read_size(4);
+        bytes.remove_prefix(8);
+        const auto record_size = static_cast<std::uint64_t>(key_size) + value_size;
+        if (record_size > bytes.size()) {
+            throw std::runtime_error("truncated canonical record");
+        }
+        records.emplace_back(bytes.substr(0, key_size), bytes.substr(key_size, value_size));
+        bytes.remove_prefix(static_cast<std::size_t>(record_size));
+    }
+    return records;
+}
+
 [[nodiscard]] auto snapshotFor(const std::string& id) {
     ShardTransferManifest manifest;
     manifest.id = id;
@@ -420,7 +446,12 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
             [&](const ShardTransferManifest& candidate) { return candidate == manifest; });
         std::string persisted;
         reopened.readVerified(manifest, [&](std::string_view chunk) { persisted.append(chunk); });
-        EXPECT_EQ(persisted, std::string(kFirstPayload).append(kSecondPayload));
+        const auto records = decodeRecords(persisted);
+        ASSERT_EQ(records.size(), 2u);
+        EXPECT_EQ(records[0].first, "a");
+        EXPECT_EQ(records[0].second, kValue);
+        EXPECT_EQ(records[1].first, "z");
+        EXPECT_EQ(records[1].second, std::string("b\0c", 3));
     }
 
     auto stale_channel = connect(receiver.start(root.path, false, true),
