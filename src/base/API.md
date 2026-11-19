@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-18"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -21,8 +21,8 @@ Related issues: #7093, #7167
 
 ## Resource-pool APIs
 
-- `BufferPool::acquire(bytes)` returns a `BufferHandle`; handles are move-only and auto-release unless configured otherwise. `statistics()` reports live allocations, slab hits/misses, fallbacks, and per-class counts.
-- `AdaptiveConnectionPool::acquire(timeout, slot_id)` returns `bool`; callers must handle timeout/failure and release acquired slot IDs. `shutdown()` and statistics are exposed.
+- `BufferPool::acquire(bytes)` returns a `BufferHandle`; handles are move-only and auto-release unless configured otherwise. The pool must outlive every handle it issues. Requests above 4 KiB use `malloc`/`free`; the handle is still tracked by `current_live` until release. Shutdown or allocation failure returns an invalid handle.
+- `AdaptiveConnectionPool::Config::min_size` must not exceed `max_size`, and `max_size` must fit the integer slot ID range; construction throws `std::invalid_argument` otherwise. `acquire(timeout, slot_id)` returns `false` on timeout and writes `slot_id` only on success; shutdown throws `std::runtime_error`. Callers must release each acquired ID exactly once to the originating pool. Releasing an ID that is not currently acquired (including a duplicate release) throws `std::invalid_argument`.
 - `AdaptiveConnectionPool` manages generic integer slots, not concrete connection objects. `ResourcePoolManager` owns only the connection-slot and buffer pools. The header's thread-pool/leak-detection design-goal text is not implemented in the inspected class/source: there is no thread-pool member or leak-reclamation path, and `Config::leak_timeout` is not read by `resource_pool_manager.cpp`.
 
 ## Module lifecycle APIs
@@ -34,6 +34,7 @@ Related issues: #7093, #7167
 ## Caller obligations and edge cases
 
 - Respect ownership and lifetime of buffer handles and pool slots.
+- A `BufferPool` must remain alive until its last `BufferHandle` has been released; this lifetime precondition is not runtime-enforced.
 - A timed-out pool acquisition does not grant a usable slot.
 - Treat module load, verification, dependency, and reload failures as failures; do not activate or report a candidate solely because a file was found.
 - These are separate APIs under `include/base/` and `include/themis/base/`; include the namespace and header that match the surface in use.
