@@ -984,8 +984,6 @@ bool QdrantAdapter::has_capability(Capability cap) const {
             return true;
         case Capability::BATCH_OPERATIONS:
             return true;
-        case Capability::CONNECTION_POOLING:
-            return true;
         default:
             return false;
     }
@@ -994,8 +992,7 @@ bool QdrantAdapter::has_capability(Capability cap) const {
 std::vector<Capability> QdrantAdapter::get_capabilities() const {
     return {
         Capability::VECTOR_SEARCH,
-        Capability::BATCH_OPERATIONS,
-        Capability::CONNECTION_POOLING
+        Capability::BATCH_OPERATIONS
     };
 }
 

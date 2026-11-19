@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-11-06
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -18,7 +18,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Current Status
 
-**Assessment date:** 2026-11-06. **Maturity:** source-defined, integration-unvalidated; no numeric maturity score is supportable from the evidence reviewed.
+**Assessment date:** 2026-11-19. **Maturity:** source-defined, integration-unvalidated; no numeric maturity score is supportable from the evidence reviewed.
 
 CHIMERA has a broad adapter surface with potential use in portable relational, document, vector, and graph access, plus asynchronous, streaming, prepared-statement, retry, batch, and transaction-context interfaces. The ThemisDB adapter and local MongoDB, Neo4j, and Qdrant adapters are present in the source tree. Engine dispatch and vendor paths are conditional, however, and source presence does not establish that a given adapter works against a live backend.
 
@@ -26,13 +26,14 @@ CHIMERA has a broad adapter surface with potential use in portable relational, d
 |---|---|---|
 | Build and architecture | `THEMIS_BUILD_CHIMERA` defaults to `OFF`. `cmake/ChimeraAdapters.cmake` mixes local ThemisDB code with sources in `external/chimera`; it does not compile every local implementation. | No default-build or production-support claim. Establish the exact supported dependency revision and adapter/driver matrix first. |
 | Contract and usability | `include/chimera/database_adapter.hpp` can select an external contract or a local fallback shim. The ThemisDB adapter exposes multiple model interfaces, but engine-specific dispatch is conditional. Vendor adapters may return `NOT_IMPLEMENTED`. | The effective API and feature set depend on build configuration. Callers need an accurate per-adapter capability/support description. |
-| Resilience | `RetryExecutor::should_retry` does not inspect the actual error code: a non-empty `retry_on_codes` set returns true for any failed result, and category flags are only coarse gates. Backoff is capped and jittered, but the wrapper does not establish a retry deadline or operation idempotency. | Incorrect retry policy can repeat permanent failures or duplicate non-idempotent operations. No production retry guarantee is established. |
+| Contract and degraded state | `ThemisDBAdapter::connect()` validates a non-empty `themisdb://` authority, rejects non-empty unsupported options, and sets local connected state; no network connection is made. Without injected engines, data operations use instance-local in-memory stores. Older external capability aliases collide with unrelated tokens. | Local/injected/supported/unsupported modes must not be presented as equivalent. Aliased or unimplemented capabilities are omitted; engine dispatch without its compile definition returns `NOT_IMPLEMENTED`. |
+| Resilience | Retry checks concrete error codes; non-empty `retry_on_codes` is exclusive, connection/resource/internal category flags default off, and retries require `operation_is_idempotent=true`. Invalid backoff policy is rejected; attempts and jittered delay are capped. | Retries are still not deadline- or cancellation-bounded while the operation callable runs. The caller's idempotency assertion is not verified by the helper. |
 | Transactions | `TransactionContext` records state, operations, and savepoints locally. Its implementation does not coordinate backend commits or provide distributed atomicity. | Describe it as local transaction metadata unless a separately designed backend protocol is implemented and validated. |
 | Tests | Focused adapter, stream, prepared-statement, MongoDB, and stub-based stress test sources exist. Root CMake registers selected tests only when CHIMERA is enabled; local helper and root source lists need reconciliation. No configure/build/test run is evidenced here. | A checked-in test is not a passing or registered test. Track the generated target inventory and results per supported configuration. |
 | Performance | The C++ adapter benchmarks use a default in-process ThemisDB adapter; the dedicated-gate cases use local stubs. The Python runner and example CSV are not live adapter measurements. The benchmark schema and runner workload shapes differ. | Existing results cannot establish live-backend throughput, tail latency, or scalability. Establish a reproducible baseline before setting absolute SLOs. |
 | Security and operations | Connection authentication, TLS, credentials, dependency versions, and failure behavior vary by compiled driver. Credential masking in an adapter is not a complete secret-handling control. | Security posture must be reviewed per enabled backend and deployment configuration; the default-off build is not itself a security control. |
 
-This assessment is based on `src/chimera/{ARCHITECTURE,MODULE_EVIDENCE,MODULE_GAPS,SECURITY,PERFORMANCE_EXPECTATIONS}.md`, `include/chimera/*.hpp`, `src/chimera/*.cpp`, `CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `tests/chimera/*`, and `benchmarks/chimera/*`. These source-near documents are the module evidence; their references to issue #7336 are historical, not validation of the current roadmap.
+This assessment is based on `src/chimera/{ARCHITECTURE,MODULE_EVIDENCE,MODULE_GAPS,SECURITY,PERFORMANCE_EXPECTATIONS}.md`, `include/chimera/*.hpp`, `src/chimera/*.cpp`, `CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `tests/chimera/*`, and `benchmarks/chimera/*`. The local retry and adapter translation units compile against the checked-in external header. GTest execution, live integration, sanitizer, and benchmark evidence remain unverified; references to earlier issues are historical and do not establish validation of this roadmap.
 
 ## Research and technical basis
 
@@ -58,7 +59,7 @@ References:
 **Priority:** P0, correctness and supportability before breadth. Do not claim a new backend is supported until its build, contract, integration, and security checks pass.
 
 - [ ] Reconcile the enabled CMake source/test/benchmark wiring with the files actually present locally and in the selected external CHIMERA checkout; record the supported build/driver matrix. (Target: v2.5.0)
-- [ ] Make retry decisions from the concrete result error and explicit retry policy; define operation idempotency, attempt limits, timeout/deadline behavior, and final-error behavior. (Target: v2.5.0)
+- [~] Classify retries by concrete result error, validate policy, require explicit idempotency, and bound attempts/backoff; add an operation deadline/cancellation contract and complete GTest evidence. (Target: v2.5.0)
 - [ ] State the actual transaction contract and test its local state transitions; do not describe transaction metadata as cross-database atomicity. (Target: v2.5.0)
 - [ ] Review each initially supported adapter configuration for authentication, TLS, secret redaction, dependency provenance, unsupported operations, and fail-closed behavior. (Target: v2.5.0)
 - [ ] Replace or clearly separate synthetic benchmark cases from live-adapter measurements; reconcile benchmark schema with executed workload definitions. (Target: v2.5.0)

@@ -1280,8 +1280,6 @@ bool MongoDBAdapter::has_capability(Capability cap) const {
             return false;  // Recommend Qdrant
         case Capability::GRAPH_OPERATIONS:
             return false;  // Limited; recommend Neo4j
-        case Capability::CONNECTION_POOLING:
-            return true;
         default:
             return false;
     }
@@ -1290,8 +1288,7 @@ bool MongoDBAdapter::has_capability(Capability cap) const {
 std::vector<Capability> MongoDBAdapter::get_capabilities() const {
     return {
         Capability::TRANSACTIONS,
-        Capability::BATCH_OPERATIONS,
-        Capability::CONNECTION_POOLING
+        Capability::BATCH_OPERATIONS
     };
 }
 

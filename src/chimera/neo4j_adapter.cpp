@@ -1521,8 +1521,6 @@ bool Neo4jAdapter::has_capability(Capability cap) const {
             return true;
         case Capability::TRANSACTIONS:
             return true;
-        case Capability::CONNECTION_POOLING:
-            return true;
         default:
             return false;
     }
@@ -1531,8 +1529,7 @@ bool Neo4jAdapter::has_capability(Capability cap) const {
 std::vector<Capability> Neo4jAdapter::get_capabilities() const {
     return {
         Capability::GRAPH_OPERATIONS,
-        Capability::TRANSACTIONS,
-        Capability::CONNECTION_POOLING
+        Capability::TRANSACTIONS
     };
 }
 

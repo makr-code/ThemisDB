@@ -34,13 +34,17 @@
 #ifndef PREPARED_STATEMENTS
     // No dedicated enum entry in older snapshots; map to a currently unused
     // capability token to keep references well-formed in compile-time checks.
+    // The alias is not a distinct capability and must not be reported as one.
     #define PREPARED_STATEMENTS SHARDING
+    #define CHIMERA_PREPARED_STATEMENTS_CAPABILITY_ALIASED 1
 #endif
 
 #ifndef CONNECTION_POOLING
     // No dedicated enum entry in older snapshots; map to a currently unused
     // capability token for compatibility with legacy capability checks.
+    // The alias is not a distinct capability and must not be reported as one.
     #define CONNECTION_POOLING REPLICATION
+    #define CHIMERA_CONNECTION_POOLING_CAPABILITY_ALIASED 1
 #endif
 #else
 // Minimal compatibility shim: enough types to satisfy ThemisDB compile-time

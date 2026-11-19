@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -22,7 +22,7 @@ Keep simulation, injected-engine, and vendor-driver behavior distinct; unavailab
 
 ## Candidate work and required interfaces
 
-- Make retry classification depend on the result's actual error code and test each policy case; current `RetryExecutor::should_retry` does not inspect that code.
+- Add an enforced operation deadline/cancellation contract for retries. Current code classifies concrete error codes, validates backoff settings, requires an explicit idempotency assertion, and caps retry count/backoff; it cannot bound time spent inside the operation callable.
 - Decide and document whether transaction helpers are bookkeeping only or should coordinate backend operations; do not describe the current helper as distributed two-phase commit.
 - Establish explicit support/build policy for local MongoDB, Neo4j, and Qdrant implementations, including dependency discovery, compile definitions, and behavior when a driver is unavailable.
 - Align the main `THEMIS_BUILD_CHIMERA` CMake source list and focused-test registrations with the local source files and the external checkout, then validate each supported configuration.
@@ -30,7 +30,7 @@ Keep simulation, injected-engine, and vendor-driver behavior distinct; unavailab
 
 ## Test strategy
 
-Exercise concrete retryable/non-retryable errors, transaction-state transitions, adapter capability reporting, and each explicitly supported driver/build combination. Record exact CMake option and test targets.
+Exercise concrete retryable/non-retryable errors, invalid policy settings, idempotency opt-in, retry exhaustion, transaction-state transitions, conservative adapter capability reporting, and each explicitly supported driver/build combination. Record exact CMake option and test targets.
 
 ## Performance and security / reliability
 

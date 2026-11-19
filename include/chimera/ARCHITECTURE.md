@@ -1,7 +1,7 @@
 ---
 Author: unknown (original author not verified)
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -22,14 +22,14 @@ Exact model backend not verifiable from final document text alone.
 |---|---|
 | `database_adapter.hpp` | Uses the external CHIMERA header when found; otherwise supplies a deliberately minimal compatibility shim. It also declares local streaming and prepared-statement extensions. |
 | `themisdb_adapter.hpp` | `ThemisDBAdapter`, `ThemisDBResultStream`, and `ThemisDBPreparedStatement`; declarations for adapter, async, streaming, and prepared-statement operations. |
-| `retry_executor.hpp` | `RetryPolicy` and `RetryExecutor`. |
+| `retry_executor.hpp` | `RetryPolicy` and `RetryExecutor`; concrete-code retry selection, idempotency opt-in, policy validation, bounded attempts/backoff, no callable deadline. |
 | `batch_executor.hpp` | `BatchConfig`, `BatchStatistics`, and `IBatchAdapter`. |
 | `transaction.hpp` | `IsolationLevel`, `ChimeraTransactionState`, `Operation`, `TransactionContext`, and `TransactionHandle`. |
 | `mongodb_adapter.hpp` | `MongoDBAdapter`, with optional driver includes under compile definitions. |
 | `neo4j_adapter.hpp` | `Neo4jAdapter`, with conditional driver-specific members. |
 | `qdrant_adapter.hpp` | `QdrantAdapter` and a private Qdrant gRPC client boundary. |
 
-Most local declarations use namespace `chimera`; the injected ThemisDB engine types are forward-declared in namespace `themis`. The base types, enum details, and capabilities can vary with the external header versus the fallback shim; do not describe the complete surface as a fixed ABI based only on the shim.
+Most local declarations use namespace `chimera`; the injected ThemisDB engine types are forward-declared in namespace `themis`. The base types, enum details, and capabilities can vary with the external header versus the fallback shim; do not describe the complete surface as a fixed ABI based only on the shim. Compatibility aliases that reuse unrelated capability enum values are compile-time conveniences, not feature evidence.
 
 ## Build boundary
 
