@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-18
+> Last Updated: 2026-11-19
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -325,7 +325,7 @@ Kurzbeispiele:
 
 ### Fail-Closed Gates und CTest-Evidenz
 - Gate-Workflows duerfen Fehler nicht mit `continue-on-error` oder `|| true` verbergen. Jede verbleibende Ausnahme muss in `tools/ci/workflow_fail_open_allowlist.json` exakt nach Workflow/Job/Step und Muster mit Begruendung, Owner und Ablaufdatum klassifiziert sein.
-- `tools/ci/check_workflow_fail_open.py` prueft den vollstaendigen Gate-Workflow-Bestand; neue, abgelaufene, geaenderte oder veraltete Ausnahmen blockieren den Workflow.
+- `tools/ci/check_workflow_fail_open.py` prueft Gate-Workflows und lokal aufgerufene reusable Workflows transitiv; neue, abgelaufene, geaenderte oder veraltete Ausnahmen blockieren den Workflow. Gate-Aufrufe, die reusable `*_continue_on_error`-Inputs aktivieren, werden ebenfalls erfasst.
 - `pull_request_target` darf weder PR-Head-Code auschecken noch PR-Head-Daten an ausfuehrbare Schritte oder Actions weitergeben. Der Workflow Boundary Guard erlaubt explizite Base-Ref-Checkouts.
 - Der Develop-Volllauf in `Build: Mainline` baut die registrierten Testziele vor CTest. `THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1` macht fehlende Executables zu einem eindeutigen Fehler statt zu einem parallelen Build.
 - Der CTest-Evidenzbericht muss die JUnit-Testmenge mit dem registrierten CTest-Inventar abgleichen; fehlende, fehlgeschlagene oder uebersprungene Tests sind kein Pass. Linux- und Windows-JUnit samt Modulsummary bleiben 90 Tage erhalten und werden in die Release-Evidenzkette aufgenommen.
