@@ -254,12 +254,12 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
 
 /**
  * @brief Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
- * @param[in,out] gen Input/output parameter.
+ * @param[in] gen Input parameter.
  * @return Return value.
  * @details Calls: ASN1_TIME_to_tm(), _mkgmtime(), defined(), timegm(), getenv(), setenv(), tzset(), mktime().
  */
-static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
-    if (!gen || !gen->data) {
+static uint64_t asn1TimeToUnixMs(const ASN1_GENERALIZEDTIME* gen) {
+    if (!gen || !ASN1_STRING_get0_data(gen)) {
       return 0;
     }
     
@@ -577,10 +577,13 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     TSA_TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7));
     if(tst.get()){
         const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst.get());
-        if(gen){ 
-            std::string g(reinterpret_cast<const char*>(gen->data), gen->length); 
-            token.timestamp_utc = g;
-            token.timestamp_unix_ms = asn1TimeToUnixMs(const_cast<ASN1_GENERALIZEDTIME*>(gen));
+        if(gen){
+            const auto* data = ASN1_STRING_get0_data(gen);
+            const int length = ASN1_STRING_length(gen);
+            if (data && length >= 0) {
+                token.timestamp_utc.assign(reinterpret_cast<const char*>(data), static_cast<std::size_t>(length));
+                token.timestamp_unix_ms = asn1TimeToUnixMs(gen);
+            }
         }
         const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst.get());
         if(serial){ 
@@ -696,8 +699,10 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
           return false;
         }
         
-        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(),hash.size())==0);
-        return match;
+        const int length = ASN1_STRING_length(os);
+        const auto* data = ASN1_STRING_get0_data(os);
+        return length >= 0 && static_cast<std::size_t>(length) == hash.size() &&
+               (hash.empty() || (data && std::memcmp(data, hash.data(), hash.size()) == 0));
     } catch (const std::exception& e) {
         THEMIS_ERROR("verifyTimestampForHash error: {}", e.what());
         return false;
