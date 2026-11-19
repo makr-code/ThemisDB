@@ -49,6 +49,11 @@ TEST(KafkaCDCProducerTest, DefaultStatsValues) {
     EXPECT_EQ(s.delivered_total, 0u);
     EXPECT_EQ(s.error_total,     0u);
     EXPECT_EQ(s.poll_cycles,     0u);
+#ifdef THEMIS_ENABLE_KAFKA
+    EXPECT_TRUE(s.delivery_capable);
+#else
+    EXPECT_FALSE(s.delivery_capable);
+#endif
     EXPECT_FALSE(s.running);
 }
 
@@ -75,6 +80,7 @@ TEST(KafkaCDCProducerTest, GetStatsBeforeStart) {
 TEST(KafkaCDCProducerTest, StubStartReturnsFalse) {
     KafkaCDCProducer producer(nullptr);
     EXPECT_FALSE(producer.start());
+    EXPECT_EQ(producer.getStats().error_total, 1u);
 }
 
 TEST(KafkaCDCProducerTest, StubPublishReturnsFalse) {
@@ -86,6 +92,7 @@ TEST(KafkaCDCProducerTest, StubPublishReturnsFalse) {
     ev.value       = R"({"qty":3})";
     ev.timestamp_ms = 1740000000000LL;
     EXPECT_FALSE(producer.publish(ev));
+    EXPECT_EQ(producer.getStats().error_total, 1u);
 }
 
 TEST(KafkaCDCProducerTest, StubStopIsNoOp) {

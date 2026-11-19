@@ -25,6 +25,9 @@
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
+#include <charconv>
+#include <limits>
 
 #include "cdc/cdc_error.h"
 #include "utils/logger.h"
@@ -41,6 +44,23 @@ using namespace themis::cdc;
 // compatibility with existing deployments.
 // ---------------------------------------------------------------------------
 namespace {
+
+std::string sequenceValueForLog(const std::string& value) {
+    constexpr char kHex[] = "0123456789abcdef";
+    constexpr size_t kMaxLoggedBytes = 32;
+    std::string hex;
+    const size_t bytes_to_log = std::min(value.size(), kMaxLoggedBytes);
+    hex.reserve(bytes_to_log * 2 + (value.size() > kMaxLoggedBytes ? 3 : 0));
+    for (size_t i = 0; i < bytes_to_log; ++i) {
+        const auto byte = static_cast<unsigned char>(value[i]);
+        hex.push_back(kHex[byte >> 4]);
+        hex.push_back(kHex[byte & 0x0f]);
+    }
+    if (value.size() > kMaxLoggedBytes) {
+        hex += "...";
+    }
+    return hex;
+}
 
 class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
   public:
@@ -208,19 +228,32 @@ uint64_t Changefeed::loadInitialSequence() const {
         s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
     }
 
-    if (s.ok() && !seq_value.empty()) {
+    if (s.ok()) {
+        // Legacy decimal-string format (backward compatibility)
+        if (!seq_value.empty()) {
+            uint64_t val = 0;
+            const auto result = std::from_chars(
+                seq_value.data(), seq_value.data() + seq_value.size(), val);
+            if (result.ec == std::errc{} &&
+                result.ptr == seq_value.data() + seq_value.size() &&
+                val < std::numeric_limits<uint64_t>::max()) {
+                return val;
+            }
+        }
+
         // Binary little-endian uint64 format (new)
         if (seq_value.size() == sizeof(uint64_t)) {
             uint64_t val = 0;
             memcpy(&val, seq_value.data(), sizeof(val));
-            return val;
+            if (val < std::numeric_limits<uint64_t>::max()) {
+                return val;
+            }
         }
-        // Legacy decimal-string format (backward compatibility)
-        try {
-            return std::stoull(seq_value);
-        } catch (const std::exception&) {
-        } catch (...) {
-        }
+
+        sequence_recovery_errors_.fetch_add(1, std::memory_order_relaxed);
+        THEMIS_ERROR("Changefeed: corrupt sequence counter key='{}' raw_value_hex='{}' size={} ; scanning events for max sequence",
+                     SEQUENCE_KEY, sequenceValueForLog(seq_value), seq_value.size());
+        return scanMaxSequence();
     }
 
     if (s.IsNotFound()) {
@@ -230,7 +263,9 @@ uint64_t Changefeed::loadInitialSequence() const {
     // Get failed (possibly due to unresolved Merge operands when the merge
     // operator was not registered at DB open time).  Fall back to scanning
     // stored events for the highest sequence number.
-    THEMIS_WARN("Changefeed: Get(SEQUENCE_KEY) failed ({}); scanning events for max sequence", s.ToString());
+    sequence_recovery_errors_.fetch_add(1, std::memory_order_relaxed);
+    THEMIS_ERROR("Changefeed: failed to read sequence counter key='{}' ({}); scanning events for max sequence",
+                 SEQUENCE_KEY, s.ToString());
     return scanMaxSequence();
 }
 
@@ -311,6 +346,20 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
             merge_available = false;
         }
         sequence_merge_supported_.store(merge_available, std::memory_order_relaxed);
+    }
+
+    if (sequence_recovery_errors_.load(std::memory_order_relaxed) > 0) {
+        sequence_merge_supported_.store(false, std::memory_order_relaxed);
+        std::string repaired_value(sizeof(uint64_t), '\0');
+        std::memcpy(repaired_value.data(), &initial_sequence, sizeof(initial_sequence));
+        rocksdb::WriteOptions write_opts;
+        const rocksdb::Status repair_status = cf_
+            ? db_->Put(write_opts, cf_, SEQUENCE_KEY, repaired_value)
+            : db_->Put(write_opts, SEQUENCE_KEY, repaired_value);
+        if (!repair_status.ok()) {
+            THEMIS_ERROR("Changefeed: failed to repair sequence counter key='{}' after recovery: {}",
+                         SEQUENCE_KEY, repair_status.ToString());
+        }
     }
 
     // Start retention cleanup if enabled
@@ -561,6 +610,8 @@ bool Changefeed::waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) cons
 Changefeed::Stats Changefeed::getStats() const {
     Stats stats{};
     stats.latest_sequence = getLatestSequence();
+    stats.sequence_recovery_errors =
+        sequence_recovery_errors_.load(std::memory_order_relaxed);
     stats.watermarks      = getWatermarks();
 
     rocksdb::ReadOptions read_opts;
@@ -1311,5 +1362,3 @@ void Changefeed::SubscriptionHandle::cancel() noexcept {
 }
 
 } // namespace themis
-
-
