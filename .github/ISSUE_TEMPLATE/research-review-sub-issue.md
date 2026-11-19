@@ -18,22 +18,22 @@ labels: 'research-review'
 
 ## Workstream Classification
 
-Select the current phase:
+Current phase (select one):
 
-- [ ] **research-draft** — Active research exploration or conceptual phase
-- [ ] **research-finalize** — Research conclusions documented, findings validated
-- [ ] **transfer-to-engineering** — Research approved for engineering implementation
-- [ ] **archived** — Research shelved; not prioritized for 2026
+- **research-draft** — Active research exploration or conceptual phase
+- **research-finalize** — Research conclusions documented, findings validated
+- **transfer-to-engineering** — Research approved for engineering implementation
+- **archived** — Research shelved; not prioritized for 2026
 
 ---
 
 ## Priority
 
-Select priority level:
+Priority (select one):
 
-- [ ] **P0** — Highest priority, critical path
-- [ ] **P1** — Medium priority, important for 2026
-- [ ] **P2** — Lower priority, longer-term planning
+- **P0** — Highest priority, critical path
+- **P1** — Medium priority, important for 2026
+- **P2** — Lower priority, longer-term planning
 
 ---
 
@@ -79,23 +79,23 @@ Links to research documents, benchmarks, findings, or notes:
 
 ---
 
-## Transition Criteria
+## Transition Criteria (guidance; not a task checklist)
 
 **To move from `research-draft` → `research-finalize`**:
 
-- [ ] Research objective clearly defined and pursued
-- [ ] Findings documented and summarized
-- [ ] Key limitations and edge cases identified
-- [ ] Open questions resolved or explicitly documented
-- [ ] Recommendations for next phase ready
+- Research objective clearly defined and pursued
+- Findings documented and summarized
+- Key limitations and edge cases identified
+- Open questions resolved or explicitly documented
+- Recommendations for next phase ready
 
 **To move from `research-finalize` → `transfer-to-engineering`**:
 
-- [ ] Research findings validated and finalized
-- [ ] Summary findings document (1-page) created
-- [ ] Applicability to ThemisDB assessed
-- [ ] Clear decision/recommendation on implementation provided
-- [ ] Engineering roadmap sketch prepared (if applicable)
+- Research findings validated and finalized
+- Summary findings document (1-page) created
+- Applicability to ThemisDB assessed
+- Clear decision/recommendation on implementation provided
+- Engineering roadmap sketch prepared (if applicable)
 
 ---
 
@@ -143,9 +143,7 @@ Links to research documents, benchmarks, findings, or notes:
 
 ### Current Blockers
 
-- [ ] [Blocker 1 - describe]
-- [ ] [Blocker 2 - describe]
-- [ ] [None - research progressing]
+Describe current blockers, or write "None".
 
 ### Known Risks
 
@@ -160,26 +158,25 @@ Links to research documents, benchmarks, findings, or notes:
 
 ---
 
-## Acceptance Criteria for Research Completion
+## Acceptance Criteria / Copilot Tasks
 
+<!-- Use checkboxes only for concrete work that applies to this issue and its
+     selected workstream. The Copilot dispatcher treats issue checkboxes as tasks. -->
 - [ ] Research objective achieved or explicitly scoped
 - [ ] Findings documented in clear, actionable format
 - [ ] Limitations and applicability clearly stated
 - [ ] Ready for final review and sign-off
 - [ ] Next phase (finalization or engineering transfer) determined
 
----
-
-## Checklist for Completion
-
-Before marking this research complete:
-
 - [ ] Research owner: findings reviewed and validated
 - [ ] Module owner: applicability to ThemisDB confirmed
-- [ ] Tech lead (if transfer-to-engineering): implementation feasibility assessed
 - [ ] Governance: workstream label updated to reflect current phase
 - [ ] Documentation: all artifacts linked and discoverable
 - [ ] Escalation: any blockers surfaced to EPIC owner
+
+If work is transferring to engineering:
+
+- Assess implementation feasibility with the tech lead.
 
 ---
 

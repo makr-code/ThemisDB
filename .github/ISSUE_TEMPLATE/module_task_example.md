@@ -29,9 +29,10 @@
 - Merge erst nach vollstaendig erfuellten Akzeptanzkriterien und Maintainer-Freigabe.
 
 ## Acceptance criteria
-- [ ] All public handshake and stream APIs have brief and parameter documentation.
-- [ ] README and ARCHITECTURE reflect current retry and timeout semantics.
-- [ ] Focused network tests pass in the repo gate and no known evidence gaps remain for the module.
+
+- [ ] Add brief and parameter documentation to all public handshake and stream APIs.
+- [ ] Update README and ARCHITECTURE to reflect current retry and timeout semantics.
+- [ ] Run the focused network tests and resolve any evidence gaps found by the repo gate.
 
 ## Notes
 - Risk/constraint: avoid altering external protocol compatibility without a migration note.

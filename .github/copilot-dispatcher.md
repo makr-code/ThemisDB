@@ -1,9 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-09"
-Last Updated: "2026-10-09"
+Last Updated: "2026-11-19"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Copilot Issue Dispatcher
 
@@ -250,11 +257,15 @@ Or create the required labels manually:
 Writing issues that the dispatcher handles well improves the quality of
 Copilot-generated pull requests.
 
-### Use task-list checkboxes as acceptance criteria
+### Use task-list checkboxes only for actual tasks
 
-The dispatcher extracts acceptance criteria from the issue body by scanning
-for Markdown task-list items (`- [ ] …`).  When found, each item becomes a
-checkbox in the delegation comment that Copilot uses as its work checklist.
+The dispatcher extracts Markdown task-list items (`- [ ] …`) from the issue
+body and sends them to Copilot as its work checklist. Therefore, a checkbox must
+always represent a concrete, applicable action or verifiable acceptance
+criterion. Do not use checkboxes for selecting a type, priority, phase, impact
+category, or other metadata; record those as plain text instead. Do not include
+empty checkbox placeholders or conditional checklists that do not apply to the
+issue.
 
 **Good issue body excerpt:**
 
@@ -265,6 +276,11 @@ checkbox in the delegation comment that Copilot uses as its work checklist.
 - [ ] Update the public API documentation in `docs/api.md`.
 - [ ] Ensure no regressions in the existing test suite.
 ```
+
+Use the `Acceptance Criteria / Copilot Tasks` section in the standard bug,
+feature, enhancement, and documentation-audit templates for the delegated
+work. Other specialized templates may include additional task checklists when
+every item in them is required for that issue type.
 
 When no task-list items are found the dispatcher falls back to a generic
 `- [ ] Resolve issue #<N>: <title>` line.  Issues with explicit checkboxes

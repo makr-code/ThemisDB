@@ -79,6 +79,7 @@ Describe the planned technical direction toward v3.0.0.
 
 ## Acceptance criteria
 
+<!-- Use checkboxes only for concrete, verifiable work items. -->
 - [ ] The issue defines the real current state and not just a desired future narrative.
 - [ ] The v2.5.0 to v3.0.0 direction is explicit, reviewable, and technically grounded.
 - [ ] Module docs and source are aligned to the same contract.
