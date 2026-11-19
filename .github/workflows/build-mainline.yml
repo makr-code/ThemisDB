@@ -179,6 +179,9 @@ jobs:
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
+          export SCCACHE_GHA_ENABLED=false;
+          echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV";
+          "${SCCACHE_PATH:-sccache}" --stop-server || true;
           toolchain_file="";
           if [ -f build/CMakeCache.txt ]; then
             toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' build/CMakeCache.txt | tail -n 1)";
