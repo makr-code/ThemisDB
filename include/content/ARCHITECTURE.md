@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-10-31
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `include/content/`
 **SOT domain:** `api-contract`
@@ -8,7 +8,7 @@
 **Related milestone:** DOC-WEEKLY-2026-44
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -156,7 +156,7 @@ content::TextProcessor::EmbeddingFn — injected embedding backend callback type
 content::ContentMetrics           — Prometheus ingestion counters and format histograms (content_metrics.h)
 content::ContentLogger            — structured content audit logger (content_logger.h)
 content::ContentFS                — virtual filesystem abstraction (content_fs.h)
-content::VersionManager           — revision history and rollback (version_manager.h)
+content::VersionManager           — process-local version metadata/full snapshots; no persistence or rollback API (version_manager.h)
 content::ContentError / ContentException — typed error hierarchy (content_errors.h)
 ```
 

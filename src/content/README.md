@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-10-31
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `module-behavior`
@@ -8,29 +8,34 @@
 **Related milestone:** DOC-WEEKLY-2026-44
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 **Provenance note:** Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Content Module
 
-<!-- Status: current | validated: 2026-08-15 -->
+<!-- Status: current | validated: 2026-11-19 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md · CMT-7504-DOCUMENTATION_SYNC.md -->
-<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Content Integrity + Versioning + Large-Content Performance -->
+<!-- Historical tracking: Batch 5 / Wave A-D closure records are not current release evidence. -->
 
 Related docs: [Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md) · [Future Enhancements](FUTURE_ENHANCEMENTS.md) · [Batch 5 Gaps](MODULE_GAPS_BATCH5.md) · [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) · [CMT-7504 Sync](CMT-7504-DOCUMENTATION_SYNC.md)
 
-## Module Purpose
+## Module Purpose and Status
 
-Production-capable multi-format content ingestion, storage/retrieval, versioning, and metadata management for ThemisDB supporting concurrent access patterns. **Batch 5 enhancement focus: Content integrity verification, versioning correctness, large-content performance optimization, concurrent access safety**.
+The content module provides ingestion and processing APIs, validation and policy
+components, optional format processors, and storage/index integration. The public
+processor inventory is broader than the formats currently dispatched directly by
+`ContentManager`; optional dependencies and configuration also affect runtime behavior.
 
-## Module Status (Batch 5, 2026-08-15)
-
-**Maturity:** 🟢 **PRODUCTION-CANDIDATE** with finalization in progress
-**Scope Verification:** CMT-7503 verified no dangling pointers (image/pdf adapters RAII-safe)
-**Test Coverage:** CMT-FIN-36..40 (adapter scope validation), CMT-FIN-41..46 (doc linkset validation)
-**Documentation Sync:** CMT-7504 in progress (ROADMAP/README/FUTURE_ENHANCEMENTS synchronized)
+The root `VERSION` and release governance are authoritative for product status. At this
+revision the module roadmap records implementation surfaces but does not claim release
+readiness: version history is process-local, several validation configuration flags are
+not enforced by `ContentValidator`, async retry configuration is not applied, and
+production-path performance evidence is incomplete. See the [API contract](API.md),
+[implementation invariants](IMPLEMENTATION.md), and [roadmap](ROADMAP.md) for exact
+behavior and release blockers. Historical CMT/Wave closure records are not current
+execution or release evidence.
 
 ## Relevant Interfaces
 
@@ -80,6 +85,20 @@ Out of scope:
 - behavior depends on enabled processors, policies, and feature flags.
 - large/complex payload behavior depends on configured limits and pipeline settings.
 - degraded processor dependencies produce structured runtime failure behavior.
+
+## Installation
+
+The content module is built as part of ThemisDB; this directory does not define a
+separate package installation procedure. Follow the [root build instructions](../../README.md).
+Optional processor availability depends on the build flags and dependencies listed in
+the [public-header overview](../../include/content/README.md#build-conditionals).
+
+## Usage
+
+Use the public interfaces under [`include/content/`](../../include/content/README.md).
+The public-header overview contains caller examples; the [API contract](API.md) documents
+result and failure semantics. In particular, inspect ingestion stage outcomes and do not
+assume every public format processor is dispatched by `ContentManager`.
 
 ## Current ContentManager integration boundary (source-checked 2026-10-31)
 

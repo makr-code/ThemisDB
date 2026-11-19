@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-10-31
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `include/content/`
 **SOT domain:** `api-contract`
@@ -8,7 +8,7 @@
 **Related milestone:** DOC-WEEKLY-2026-44
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -97,7 +97,7 @@ by their headers; see the [dispatch boundary](../../src/content/API.md#format-di
 | [`content_metrics.h`](content_metrics.h) | `ContentMetrics` | Prometheus-style ingestion throughput, error counters, format breakdown |
 | [`content_logger.h`](content_logger.h) | `ContentLogger` | Structured content audit logger |
 | [`content_fs.h`](content_fs.h) | `ContentFS` | Virtual file-system abstraction for content storage path resolution |
-| [`version_manager.h`](version_manager.h) | `VersionManager` | Content version history tracking and rollback |
+| [`version_manager.h`](version_manager.h) | `VersionManager` | Process-local version metadata and full snapshots; no persistence or rollback API |
 | [`content_errors.h`](content_errors.h) | `ContentError`, `ContentException` | Typed content processing error hierarchy |
 
 ### Pipeline Utilities (`pipeline/`)

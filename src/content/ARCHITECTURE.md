@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-10-31
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `module-behavior`
@@ -8,7 +8,7 @@
 **Related milestone:** DOC-WEEKLY-2026-44
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** themisdb-doc-orchestrator
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -77,10 +77,15 @@ every optional stage runs for every input.
 - `IngestResult` reports success/failure and an error string; callers should inspect
   per-stage outcomes where populated. A returned content ID alone does not prove that
   optional enrichment completed.
-- Validation and format behavior depends on the path and enabled dependencies; this
-  document does not claim that every malformed input is rejected by one shared gate.
-- `ProcessorChainConfig` controls stage enablement and retry behavior; the manager's
-  implementation determines how each configured stage is applied.
+- `ContentValidator` checks empty input, a supplied filename, MIME, size, optional
+  magic-byte format, and an attached `ContentPolicy`. Its serialized malware, PII, abuse,
+  schema, and timeout settings do not cause those checks to run in `validate()`.
+- Archive input without a registered `ArchiveProcessor` is stored with metadata instead
+  of extracted; this fallback is not an explicit degraded job status.
+- `ProcessorChainConfig` ignores some invalid JSON entries/fields and sets no retry
+  ceiling. Manager stage retries are configured by caller integers; the async worker's
+  `retry_attempts` setting is unused, and the worker has no degraded status or recovery
+  loop. Do not describe those paths as universally bounded or fail-closed.
 
 ## Sourcecode Verification (Module: content/architecture)
 
@@ -97,8 +102,9 @@ every optional stage runs for every input.
   - src/content/deduplication_checker.cpp
 - Verified architecture claims:
   - explicit ingestion/routing, validation/security, and enrichment planes
-  - bounded structured failures for invalid/degraded processing paths
-  - module-local orchestration for multi-format content processing
+  - selected invalid inputs have structured failure results
+  - module-local orchestration for the documented manager routes; other public format
+    processors are not thereby proven to be end-to-end manager integrations
 
 ## Module Dependencies
 
