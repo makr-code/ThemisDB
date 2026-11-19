@@ -213,6 +213,8 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
 
     themis::sharding::TwoPhaseCommitCoordinator::Config canonical_2pc_config;
     canonical_2pc_config.prepare_timeout = config_.prepare_timeout;
+    canonical_2pc_config.commit_timeout = config_.commit_timeout;
+    canonical_2pc_config.abort_timeout = config_.abort_timeout;
     canonical_2pc_config.fencing_token_provider = config_.fencing_token_provider;
     canonical_2pc_config.in_process_response_handler =
         config_.in_process_rpc_response_handler;

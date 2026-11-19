@@ -368,17 +368,18 @@ public:
     bool abort(const std::string& transaction_id);
 
     /**
-     * @brief Restore transaction state and report in-doubt resume candidates.
+     * @brief Recover canonical 2PC decisions and restore non-2PC state.
      *
-     * Uses WAL+snapshot recovery when the backend is available. The current
-     * backend does not automatically re-send PREPARE, COMMIT, or ABORT RPCs.
+     * Runs canonical 2PC WAL recovery before CrossShard WAL/snapshot recovery.
+     * Endpoint-backed 2PC decisions are re-driven by TwoPhaseCommitCoordinator;
+     * non-2PC CrossShard records retain their existing resume-candidate behavior.
+     * Unresolved legacy CrossShard-only 2PC records make recovery fail closed.
+     * Invoke during startup, before accepting new transactions.
      *
-     * This method is intended for startup recovery before new transactions are
-     * accepted. If called during live traffic, the returned value is best-effort.
-     *
-     * @return Number of in-doubt transactions that transitioned to a terminal
-     *         state during this invocation; resume-candidate reporting alone
-     *         does not count as resolution.
+     * @return Number of transactions resolved by canonical 2PC phase-two replay;
+     *         zero does not establish recovery success or readiness.
+     * @note Callers must also verify startup recovery succeeded. This API returns
+     *       zero when the recovery backend is disabled or recovery fails.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 

@@ -14,12 +14,11 @@
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 //
-// The coordinator shares phase ordering and decision outcomes with
-// CrossShardTransactionCoordinator through detail/two_phase_commit_contract.h.
-// WALLoggingHelper (include/sharding/wal_logging_helper.h) centralizes the
-// WAL-write pattern for WALManager-backed coordinators only; WAL formats remain
-// coordinator-specific and cross-coordinator recovery is not available.
-// Cross-coordinator recovery tooling is planned for v3.0.0.
+// CrossShardTransactionCoordinator delegates its 2PC participant lifecycle,
+// durable decisions, and replay to this canonical coordinator. The shared
+// contract helper remains available to other coordinator paths; WALLoggingHelper
+// centralizes WAL writes here. This does not establish general cross-coordinator
+// recovery or change the separate non-2PC CrossShard WAL.
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/two_phase_commit_coordinator.h"
@@ -35,6 +34,66 @@
 #include <stdexcept>
 
 namespace themis::sharding {
+
+namespace {
+
+class PhaseTimeoutParticipantAdapter final : public ShardRPCServer::RequestHandler {
+public:
+    PhaseTimeoutParticipantAdapter(
+        const ShardRPCClient::Config& base_config,
+        std::chrono::milliseconds prepare_timeout,
+        std::chrono::milliseconds commit_timeout,
+        std::chrono::milliseconds abort_timeout,
+        const ShardRPCClient::InProcessResponseHandler& handler)
+        : prepare_(makeAdapter(withTimeout(base_config, prepare_timeout), handler))
+        , commit_(makeAdapter(withTimeout(base_config, commit_timeout), handler))
+        , abort_(makeAdapter(withTimeout(base_config, abort_timeout), handler))
+    {}
+
+    bool onPrepare(
+        const std::string& transaction_id,
+        const std::string& coordinator_id,
+        const std::string& transaction_data) override {
+        return prepare_->onPrepare(transaction_id, coordinator_id, transaction_data);
+    }
+
+    bool onCommit(const std::string& transaction_id) override {
+        return commit_->onCommit(transaction_id);
+    }
+
+    bool onAbort(const std::string& transaction_id) override {
+        return abort_->onAbort(transaction_id);
+    }
+
+    ShardRPCServer::HealthInfo onHealthCheck() override {
+        return prepare_->onHealthCheck();
+    }
+
+private:
+    static ShardRPCClient::Config withTimeout(
+        ShardRPCClient::Config config,
+        std::chrono::milliseconds timeout) {
+        config.timeout_ms = static_cast<int>(timeout.count());
+        return config;
+    }
+
+    static std::unique_ptr<ShardRPCClientAdapter> makeAdapter(
+        const ShardRPCClient::Config& config,
+        const ShardRPCClient::InProcessResponseHandler& handler) {
+        if (handler &&
+            (config.endpoint.rfind("inproc://", 0) == 0 ||
+             config.endpoint.rfind("loopback://", 0) == 0)) {
+            return std::make_unique<ShardRPCClientAdapter>(config, handler);
+        }
+        return std::make_unique<ShardRPCClientAdapter>(config);
+    }
+
+    std::unique_ptr<ShardRPCClientAdapter> prepare_;
+    std::unique_ptr<ShardRPCClientAdapter> commit_;
+    std::unique_ptr<ShardRPCClientAdapter> abort_;
+};
+
+}  // namespace
 
 // ============================================================================
 // Sprint 8 Phase 1: Use-After-Move Safety (GAP B-1/B-2)
@@ -161,12 +220,26 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
             "cannot replace participant endpoint while a transaction for shard " +
             shard_id + " is unresolved");
     }
-    auto adapter = config_.in_process_response_handler &&
-                           (rpc_config.endpoint.rfind("inproc://", 0) == 0 ||
-                            rpc_config.endpoint.rfind("loopback://", 0) == 0)
-        ? std::make_unique<ShardRPCClientAdapter>(
-              rpc_config, config_.in_process_response_handler)
-        : std::make_unique<ShardRPCClientAdapter>(rpc_config);
+    const auto commit_timeout =
+        config_.commit_timeout.value_or(config_.prepare_timeout);
+    const auto abort_timeout =
+        config_.abort_timeout.value_or(config_.prepare_timeout);
+    const bool phase_timeouts_differ =
+        commit_timeout != config_.prepare_timeout ||
+        abort_timeout != config_.prepare_timeout;
+    std::unique_ptr<ShardRPCServer::RequestHandler> adapter;
+    if (phase_timeouts_differ) {
+        adapter = std::make_unique<PhaseTimeoutParticipantAdapter>(
+            rpc_config, config_.prepare_timeout, commit_timeout, abort_timeout,
+            config_.in_process_response_handler);
+    } else if (config_.in_process_response_handler &&
+               (rpc_config.endpoint.rfind("inproc://", 0) == 0 ||
+                rpc_config.endpoint.rfind("loopback://", 0) == 0)) {
+        adapter = std::make_unique<ShardRPCClientAdapter>(
+            rpc_config, config_.in_process_response_handler);
+    } else {
+        adapter = std::make_unique<ShardRPCClientAdapter>(rpc_config);
+    }
     participants_[shard_id] = adapter.get();  // Sprint 8: Store raw pointer for O(1) lookup
     // Sprint 8 Phase 1 (GAP B-1/B-2): Unique_ptr moved to owned_adapters_ for lifetime management.
     // Raw pointer stored in participants_ for transaction phase access. Pattern: Move for storage,
