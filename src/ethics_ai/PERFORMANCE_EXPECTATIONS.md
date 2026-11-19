@@ -20,7 +20,7 @@ This file maps named benchmark cases to the `ethics_ai` paths they exercise. A b
 
 ## Runtime benchmark cases
 
-Source: `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`. The root `benchmarks/CMakeLists.txt` has a separate conditional creation/CTest-registration block for `bench_ethics_ai_plugin`; it checks for `bench_ethics_ai_plugin.cpp` at the `benchmarks/` root before compiling the nested source. With the checked-in paths that existence guard is false, so the block skips this target. The benchmark suite itself is added only when `THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark is found.
+Source: `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`. The root `benchmarks/CMakeLists.txt` has a conditional creation/CTest-registration block for `bench_ethics_ai_plugin`; its source existence guard and executable source both point to the nested `ethics_ai/bench_ethics_ai_plugin.cpp` path. Target creation is gated by `THEMIS_BUILD_BENCHMARKS=ON`, Google Benchmark discovery, and source presence; CTest registration is conditional on the target. In this environment Google Benchmark is not discoverable, so generated target presence and compilation remain unverified. A source guard or benchmark case is not a measured result.
 
 | Path | Source-defined benchmark case(s) |
 |---|---|

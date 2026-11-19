@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-08-18
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Audit Report - Ethics AI Module
 
-<!-- Status: current | source review: 2026-10-31 (not a security or compliance audit) -->
+<!-- Status: current | source review: 2026-11-19 (not a security or compliance audit) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · DEVELOPMENT_STATUS_2026_07_28.md -->
 
 ## Summary
@@ -78,7 +78,7 @@ Exact model backend not verifiable from final document text alone.
 - `runEbene2()` produces cluster-majority summaries and tension-axis records, not the specified multi-round inter-cluster dialogue.
 - `MetaVerdictBuilder` counts supplied non-ABSTAIN outputs with unit weight, ignores `cluster_positions`, and accepts legal grounding as input rather than retrieving it.
 - The LDM benchmarks are deterministic fixture measurements; no representative-hardware run or numerical threshold enforcement was validated in this review.
-- `bench_ethics_ai_plugin.cpp` is present under `benchmarks/ethics_ai/`, but the root CMake registration block checks for it at `benchmarks/` and therefore does not create that benchmark target with the checked-in layout.
+- `bench_ethics_ai_plugin.cpp` is present under `benchmarks/ethics_ai/`, and the root CMake existence guard points to that nested path. Target generation is conditional on Google Benchmark discovery and other benchmark configuration; this review environment could not verify generated target presence or compilation.
 - These observations are implementation/documentation evidence only, not a security audit or legal compliance assessment.
 - This audit is scoped to the in-tree source path; root `ROADMAP.md` designates the external plugin submodule as canonical, and this review did not inspect or validate that external implementation.
 

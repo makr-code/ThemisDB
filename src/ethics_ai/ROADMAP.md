@@ -29,7 +29,7 @@ Root `ROADMAP.md` remains the maturity aggregate and identifies `plugins/themisd
 `RouterConfig` defaults to `SELECTION_ONLY`. `LAYERED_FULL`/`LAYERED_FAST` planning and helper APIs exist, but `ethics_ai_plugin.cpp` and `discourse_engine.cpp` do not call those APIs. The helper fallback is deterministic when no inference callback is injected; full production wiring remains open. Design rationale documented in
 `docs/research/ethics_discourse_process_equality.md`.
 
-The LDM benchmark suite exercises deterministic stub fixtures, not a real LLM or a legal database. Its target is conditionally registered when dependencies are available. The separate `bench_ethics_ai_plugin` source exists, but its CMake existence guard points at a different directory and currently skips target creation. Target values are not measurement evidence.
+The LDM benchmark suite exercises deterministic stub fixtures, not a real LLM or a legal database. Its target is conditionally registered when dependencies are available. The separate `bench_ethics_ai_plugin` source exists, and the root CMake source guard points to that nested path. Target generation and compilation still require a configured benchmark-enabled build with Google Benchmark; no measured values are asserted here.
 
 ## Evidence-Based Release Roadmap — Issue #7416, v2.5.0 and v3.0.0
 
@@ -84,7 +84,8 @@ This release track closes source, contract, failure-safety, measurement, and ope
 
 - **Goal:** Produce release-grade evidence and operational controls for only the paths accepted in Waves 2.5-A/B.
 - **Tasks:**
-  - [ ] Correct the nested `bench_ethics_ai_plugin.cpp` target-registration guard and verify target presence; preserve dependency gating and distinguish helper/stub cases from real-runtime end-to-end cases. (Target: v2.5.0)
+  - [x] Confirm the root CMake source guard and executable source both point to `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`; preserve dependency gating and keep helper/stub cases distinct from real-runtime end-to-end cases. (Target: v2.5.0; source: `benchmarks/CMakeLists.txt`)
+  - [ ] Configure with benchmark dependencies available, verify generated `bench_ethics_ai_plugin` target presence, and build/run its smoke entry; do not treat this as measured release performance evidence. (Target: v2.5.0)
   - [ ] Add/enable a full-mode end-to-end benchmark only for the approved integrated path, plus single-agent and self-consistency/ensembling baselines; capture P50/P95/P99, throughput, token/inference count, cost, errors, and bounded resource use on documented representative hardware/model/corpus. (Target: v2.5.0)
   - [ ] Record reproducible baseline artifacts and obtain owner-approved thresholds before enabling threshold enforcement in CI; test benchmark registration and regression reporting. (Target: v2.5.0)
   - [ ] Add resilience/security tests for concurrent requests, backend and retrieval outage, resource exhaustion, audit integrity, sensitive-data handling, and sustained-load recovery; publish operator configuration, alerts, failure interpretation, rollback, and human escalation guidance. (Target: v2.5.0)
@@ -326,7 +327,8 @@ Start these waves only after the relevant v2.5.0 integration and evidence gates 
 - [ ] LDM LAYERED_FULL: obtain representative end-to-end P95 evidence (no matching LDM full-mode benchmark is currently registered)
 - [ ] LDM LAYERED_FAST: validate the target with a real inference integration and representative hardware
 - [ ] establish that benchmark expectations are enforced against release baselines; the CTest registration helper runs benchmark binaries but does not itself enforce numerical thresholds
-- [ ] correct/confirm the `bench_ethics_ai_plugin` source-path guard before relying on its cases as registered benchmarks
+- [x] confirm `bench_ethics_ai_plugin` source-path guard matches the nested source; target generation remains dependency-gated
+- [ ] verify generated target presence and smoke execution in a benchmark-enabled configuration
 - [ ] validate p95/p99 and throughput behavior against release baselines
 
 ### Phase 6: Documentation and Acceptance

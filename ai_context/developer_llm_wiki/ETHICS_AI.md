@@ -93,9 +93,11 @@ when the root benchmark build is enabled and its benchmark/core targets exist.
 Its fixtures use a mock registry and deterministic inference, not a live LLM or
 legal database. The plugin benchmark is sourced from
 [`bench_ethics_ai_plugin.cpp`](../../benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp);
-its root CMake target guard must match that nested path. A source-declared
-threshold or registered benchmark is not a measured result or a release gate
-without a recorded run and threshold-enforcing job.
+the root CMake existence guard and executable source both reference the nested
+`ethics_ai/` path. Generated target presence still depends on a benchmark-enabled
+configuration with Google Benchmark available; source registration alone is not
+a measured result or a release gate without a recorded run and
+threshold-enforcing job.
 
 ## Source priority
 
