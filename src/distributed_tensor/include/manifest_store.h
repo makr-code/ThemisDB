@@ -28,13 +28,15 @@
 #include "artifact_manifest.h"
 #include "observability/metrics_collector.h"
 
-#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
-#include <unordered_map>
 #include <vector>
+
+namespace themis {
+class RocksDBWrapper;
+}
 
 namespace themis {
 namespace distributed_tensor {
@@ -45,10 +47,20 @@ namespace distributed_tensor {
 
 class ManifestStore {
 public:
-    explicit ManifestStore(
-        observability::MetricsCollector* metrics = nullptr) noexcept;
+    /**
+     * @brief Open the durable manifest registry.
+     * @param db_path Directory used by the RocksDB-backed store; must be non-empty.
+     * @param metrics Optional borrowed metrics collector, which must outlive this store.
+     * @throws std::invalid_argument if db_path is empty.
+     * @throws std::runtime_error if RocksDB cannot open the database or persisted
+     *         manifest records are corrupt.
+     * @note Writes use the RocksDB WAL and synchronous commits. The store is
+     *       thread-safe within this process and remains advisory-only.
+     */
+    explicit ManifestStore(std::string db_path,
+                           observability::MetricsCollector* metrics = nullptr);
 
-    ~ManifestStore() = default;
+    ~ManifestStore();
 
     // Non-copyable; move-only to avoid shared mutable state.
     ManifestStore(const ManifestStore&)            = delete;
@@ -58,6 +70,11 @@ public:
 
     // ── Write operations ────────────────────────────────────────────────────
 
+    /**
+     * @brief Persist a valid manifest if it advances the version for its identity.
+     * @param manifest Manifest to store; its identity and schema must validate.
+     * @return True only after the durable RocksDB batch has committed.
+     */
     [[nodiscard]] bool store(const ArtifactManifest& manifest);
 
     /**
@@ -91,31 +108,9 @@ public:
     void refreshFreshnessMetrics() const;
 
 private:
-    // Composite key: (tensor_name, shard_id, artifact_id)
-    struct Key {
-        std::string tensor_name = {};
-        uint32_t    shard_id    = 0;
-        std::string artifact_id = {};
-
-        bool operator==(const Key& o) const noexcept {
-            return tensor_name == o.tensor_name
-                && shard_id    == o.shard_id
-                && artifact_id == o.artifact_id;
-        }
-    };
-
-    struct KeyHash {
-        std::size_t operator()(const Key& k) const noexcept {
-            std::size_t h = std::hash<std::string>{}(k.tensor_name);
-            h ^= std::hash<uint32_t>{}(k.shard_id)     + 0x9e3779b9u + (h << 6) + (h >> 2);
-            h ^= std::hash<std::string>{}(k.artifact_id) + 0x9e3779b9u + (h << 6) + (h >> 2);
-            return h;
-        }
-    };
-
-    mutable std::mutex                                              mutex_;
-    std::unordered_map<Key, ArtifactManifest, KeyHash>             entries_;
-    observability::MetricsCollector*                                metrics_ = nullptr;
+    mutable std::mutex mutex_;
+    std::unique_ptr<::themis::RocksDBWrapper> storage_;
+    observability::MetricsCollector* metrics_ = nullptr;
 };
 
 } // namespace distributed_tensor

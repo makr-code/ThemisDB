@@ -343,6 +343,30 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                     )
                     self.assertIn("github.event_name == 'pull_request'", jobs[feedback_job]["if"])
 
+    def test_pr_version_targeting_accepts_qualified_semver_milestones(self) -> None:
+        workflow = load_workflow("gate-pr-version-targeting.yml")
+        validation_step = next(
+            step for step in workflow["jobs"]["validate-target-version"]["steps"]
+            if step.get("name") == "Validate Target Version format"
+        )
+        match = re.search(r"(?m)^\s*PATTERN='([^']+)'$", validation_step["run"])
+        self.assertIsNotNone(match)
+        pattern = match.group(1).replace("[[:space:]]", r"\s")
+
+        for target in (
+            "v3.0.0",
+            "v3.0.0 (M2 / Multi-Node Beta)",
+            "v2.5.0-rc1 (Release Candidate)",
+            "Q4 2026",
+            "[Unreleased]",
+        ):
+            with self.subTest(target=target):
+                self.assertIsNotNone(re.fullmatch(pattern, target))
+
+        for target in ("v3.0", "v3.0.0 (unfinished", "v3.0.0 extra"):
+            with self.subTest(target=target):
+                self.assertIsNone(re.fullmatch(pattern, target))
+
     def test_rag_test_lanes_report_unimplemented_registrations_and_fail_closed(self) -> None:
         cases = {
             "gate-pr-rag-security.yml": {
