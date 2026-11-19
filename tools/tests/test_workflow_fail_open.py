@@ -75,6 +75,81 @@ jobs:
         )
         self.assertTrue(any("unclassified shell-or-true" in error for error in errors))
 
+    def test_unclassified_tolerance_in_gate_reusable_workflow_fails(self) -> None:
+        self._write_workflow(
+            "gate-example.yml",
+            """
+name: "Gate: Example"
+on: workflow_dispatch
+jobs:
+  check:
+    uses: ./.github/workflows/reusable.yml
+""",
+        )
+        self._write_workflow(
+            "reusable.yml",
+            """
+name: Reusable
+on: workflow_call
+jobs:
+  build:
+    steps:
+      - name: Build
+        continue-on-error: true
+        run: build-command
+""",
+        )
+
+        errors = guard.validate_fail_open_exceptions(
+            self.root,
+            allowlist_path=self._write_allowlist([]),
+            as_of=date(2026, 11, 9),
+        )
+        self.assertTrue(
+            any(
+                ".github/workflows/reusable.yml: unclassified continue-on-error"
+                in error
+                for error in errors
+            ),
+            "\n".join(errors),
+        )
+
+    def test_gate_cannot_enable_reusable_continue_on_error_input(self) -> None:
+        self._write_workflow(
+            "gate-example.yml",
+            """
+name: "Gate: Example"
+on: workflow_dispatch
+jobs:
+  check:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      build_continue_on_error: true
+""",
+        )
+        self._write_workflow(
+            "reusable.yml",
+            """
+name: Reusable
+on: workflow_call
+jobs:
+  build:
+    steps:
+      - name: Build
+        run: build-command
+""",
+        )
+
+        errors = guard.validate_fail_open_exceptions(
+            self.root,
+            allowlist_path=self._write_allowlist([]),
+            as_of=date(2026, 11, 9),
+        )
+        self.assertTrue(
+            any("unclassified reusable-input-continue-on-error" in error for error in errors),
+            "\n".join(errors),
+        )
+
     def test_classified_gate_tolerance_requires_current_metadata(self) -> None:
         self._write_workflow(
             "gate-example.yml",
