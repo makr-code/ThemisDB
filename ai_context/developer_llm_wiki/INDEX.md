@@ -50,6 +50,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
 - [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates
+- [DOCUMENT.md](DOCUMENT.md) — document API/schema semantics, failure boundaries, focused test evidence, benchmark limitations, and rollout context
 - [AI_WORKING.md](AI_WORKING.md) — working-artifact authority boundaries, compaction/archive semantics, tests, and current workflow evidence
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)

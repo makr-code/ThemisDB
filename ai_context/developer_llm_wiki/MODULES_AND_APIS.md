@@ -32,6 +32,7 @@ Status: Active
 - [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 - [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.
 - [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.
+- [Document module context](DOCUMENT.md) — schema/version semantics, failure boundaries, test evidence, and benchmark limitations.
 - [ai_working module context](AI_WORKING.md) — no runtime API; artifact lifecycle, structural checks, compactor failure behavior, test limits, and workflow evidence.
 
 
