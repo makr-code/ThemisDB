@@ -1,5 +1,25 @@
 # Sharding module test registration (large extraction from root tests/CMakeLists.txt)
 
+add_executable(test_shard_transfer_store test_shard_transfer_store.cpp)
+target_link_libraries(test_shard_transfer_store PRIVATE ${TEST_LIBS} themis_core)
+if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+    target_link_libraries(test_shard_transfer_store PRIVATE themis_sharding)
+endif()
+themis_register_module_focused_test(MODULE sharding NAME ShardTransferStoreTests
+    TARGET test_shard_transfer_store TIER unit TIMEOUT 60 LABELS DIS-03 transport)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
+   AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
+    add_executable(test_shard_transfer_grpc test_shard_transfer_grpc.cpp)
+    target_link_libraries(test_shard_transfer_grpc PRIVATE
+        ${TEST_LIBS} themis_core themis_shard_proto gRPC::grpc++ OpenSSL::Crypto)
+    if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+        target_link_libraries(test_shard_transfer_grpc PRIVATE themis_sharding)
+    endif()
+    themis_register_module_focused_test(MODULE sharding NAME ShardTransferGrpcTests
+        TARGET test_shard_transfer_grpc TIER integration TIMEOUT 90 LABELS DIS-03 transport mtls)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_wal_logging_helper.cpp")
     message(STATUS "Adding Sharding: WALLoggingHelper focused tests (Issue #5375)")
     add_executable(test_wal_logging_helper_focused ../test_wal_logging_helper.cpp)

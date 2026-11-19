@@ -15,6 +15,7 @@
 #include <memory>
 #include <stdexcept>
 #include <functional>
+#include <utility>
 #include <nlohmann/json.hpp>
 #include "sharding/epoch_fencing.h"
 
@@ -27,6 +28,7 @@ namespace themis::sharding {
 // Forward declarations
 class PrometheusMetrics;
 class MTLSConnectionPoolManager;
+struct ShardTransferManifest;
 
 } // namespace themis::sharding
 
@@ -213,6 +215,32 @@ public:
      * @brief Check if shard is available
      */
     bool ping();
+
+    /**
+     * @brief Stage and verify an immutable logical range export over mTLS.
+     * @param manifest Exact, externally authorized transfer assignment and export digest.
+     * @param read_chunk Supplies payload and lowercase SHA-256 for a requested zero-based
+     *        chunk index; called synchronously, starting at the receiver's durable checkpoint.
+     * @param on_admitted Optional synchronous notification after durable PREPARE.
+     * @return True only after the receiver explicitly confirms verification of persisted
+     *         contents. This does not change shard ownership.
+     * @throws std::runtime_error on transport/status failure; a lost response may follow
+     *         durable progress. Retry with the identical immutable export to resume.
+     * @note Each RPC uses the configured positive deadline, capped at five minutes.
+     *       The callbacks must themselves be bounded and must not block on this client.
+     */
+    [[nodiscard]] bool transferShard(
+        const ShardTransferManifest& manifest,
+        const std::function<std::pair<std::string, std::string>(uint64_t)>& read_chunk,
+        const std::function<void()>& on_admitted = {});
+
+    /**
+     * @brief Request terminal cancellation of a staged transfer over verified mTLS.
+     * @param migration_id Identifier from the original durable assignment.
+     * @return True only when the target acknowledges durable abort.
+     * @throws std::runtime_error on RPC failure; a lost response is not proof of abort.
+     */
+    [[nodiscard]] bool abortShardTransfer(const std::string& migration_id);
 
     /**
      * @brief A single directed wait-for edge returned by collectWaitForEdges().

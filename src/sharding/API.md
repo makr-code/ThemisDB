@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -106,6 +106,28 @@ contracts do not establish shared durable DR metadata or genuine multi-process
 failover/recovery E2E behavior; both remain open blockers.
 
 ## Caller and maintainer obligations
+
+### Shard transfer (DIS-03)
+
+`AutoRebalancer` now requires a `MigrationExecutor` instead of a `DataMigrator`.
+`makeShardTransferExecutor()` connects a trusted, storage-owned immutable range
+export to `ShardRPCClient::transferShard()`. The source adapter supplies the
+exact assigned manifest, a verified-mTLS target client, and a bounded indexed
+chunk reader. The manifest binds both shards, the range, topology epoch,
+snapshot watermark, chunk count, byte count and ordered-payload SHA-256.
+
+The destination exposes dedicated PREPARE, stream, verify and abort RPCs only
+when configured with a `ShardTransferStore`, verified client certificates and
+explicit transfer identity bindings. The store requires a durable assignment
+and rechecks its currency on each request. PREPARE and chunk acknowledgements
+reflect durable staging; successful verification does not publish the range.
+This API neither uses 2PC PREPARE nor falls back to HTTP or local staging on
+the sender.
+
+The supplied executor reports at most `TRANSFER_VERIFIED`; only an executor
+with an authoritative fenced cutover may return `OWNERSHIP_COMMITTED`.
+Application composition must supply the export and authority adapters; the
+server does not provision them automatically.
 
 - Do not bypass the bounded fallback or reinterpret exhausted routing as success.
 - Do not resolve an uncertain transaction without its coordinator/recovery path.

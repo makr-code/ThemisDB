@@ -19,6 +19,8 @@ Status: Active
 
 ## Curated module contexts
 
+- [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — mTLS staging, durable acknowledgements, and rebalance completion separate from transfer verification.
+
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.

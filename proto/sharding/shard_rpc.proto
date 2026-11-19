@@ -26,6 +26,11 @@ service ShardService {
     
     // Data Migration
     rpc MigrateData(MigrateRequest) returns (stream MigrateChunk);
+    // Staging only. Ownership changes are not part of this protocol.
+    rpc PrepareShardTransfer(ShardTransferManifest) returns (ShardTransferCheckpoint);
+    rpc StreamShardTransfer(stream ShardTransferChunk) returns (stream ShardTransferCheckpoint);
+    rpc VerifyShardTransfer(ShardTransferId) returns (ShardTransferVerified);
+    rpc AbortShardTransfer(ShardTransferId) returns (ShardTransferAborted);
     
     // RocksDB Snapshot Transfer (NEW)
     rpc TransferSnapshot(SnapshotTransferRequest) returns (stream SnapshotChunk);
@@ -159,6 +164,7 @@ message AbortRequest {
 
 message AbortResponse {
     bool success = 1;
+    string error = 2;
 }
 
 message MigrateRequest {
@@ -172,6 +178,42 @@ message MigrateChunk {
     repeated Entity entities = 1;
     uint32 chunk_index = 2;
     bool is_last = 3;
+}
+
+message ShardTransferManifest {
+    string migration_id = 1;
+    string source_shard = 2;
+    string target_shard = 3;
+    uint64 range_start = 4;
+    uint64 range_end = 5;
+    uint64 topology_epoch = 6;
+    string snapshot_watermark = 7;
+    uint64 chunks = 8;
+    uint64 bytes = 9;
+    string sha256 = 10;
+}
+
+message ShardTransferId {
+    string migration_id = 1;
+}
+
+message ShardTransferCheckpoint {
+    uint64 next_chunk = 1;
+}
+
+message ShardTransferChunk {
+    string migration_id = 1;
+    uint64 index = 2;
+    bytes payload = 3;
+    string sha256 = 4;
+}
+
+message ShardTransferVerified {
+    bool verified = 1;
+}
+
+message ShardTransferAborted {
+    bool aborted = 1;
 }
 
 message StatusRequest {

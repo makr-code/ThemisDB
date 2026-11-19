@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -120,15 +120,14 @@ All identified stub/simulation paths have been reviewed and improved with:
   - Added error logging with diagnostic hints
 - **Production readiness**: Available only for test-mode endpoint simulations; multi-node requires gRPC
 
-#### 3. **Shard-Transfer Stream Transport** (`stream_protocol.cpp`)
-- **Status**: ⚠️ PARTIAL — fail-closed, production transport not wired
-- **Type**: Transport-injection seam; no production gRPC caller is connected
-- **Current behavior**: `initialize()` returns `TRANSPORT_NOT_CONFIGURED` when no
-  prepare callback exists and aborts when PREPARE is rejected or throws.
-  `sendMessage()` fails because this class has no message-send transport.
-- **Tests**: Focused tests cover missing, accepting, and rejecting PREPARE callbacks.
-- **Remaining work**: Wire the production shard-transfer caller to real gRPC PREPARE
-  and transfer operations, then validate cross-process transfer and recovery (DIS-03).
+#### 3. **Shard-Transfer Stream Transport** ([DIS-03 / #8197](https://github.com/makr-code/ThemisDB/issues/8197))
+- **Status**: Partial — dedicated mTLS gRPC staging is implemented; the application
+  still needs a storage-owned range export provider and authoritative fenced cutover.
+- **Boundary**: The old `StreamSession` PREPARE callback remains fail-closed and
+  is not the rebalance data path. See [API](API.md) and [Operations](OPERATIONS.md)
+  for durable acknowledgements, resume, and explicit abort.
+- **Remaining work**: Enforce range write quiescence through fenced cutover and
+  reconcile lost cutover acknowledgements against the authoritative decision.
 
 #### 4. **Connection Factory** (mtls_connection_pool.cpp:232)
 - **Status**: ✅ COMPLETED (v2.0)
@@ -163,16 +162,18 @@ For operators deploying these modules in production:
 
 - [ ] **Single-node deployments**: All in-process/simulation paths are acceptable
 - [ ] **Multi-node deployments**: MUST enable THEMIS_HAS_SHARD_GRPC=1 and deploy real shard peers
-- [ ] **Multi-node deployments**: Production callers must inject real gRPC PREPARE and
-  transfer operations; the callback seam alone does not provide production transport.
+- [ ] **Multi-node deployments**: Configure the gRPC staging store, trusted
+  assignment and export adapters; keep automatic cutover disabled without an
+  authoritative fenced ownership service.
 - [ ] **GPU systems**: MUST enable THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP for resource-aware scheduling
 - [ ] **Failure prediction**: Current heuristic-based detector is conservative; upgrade to ONNX for improved accuracy
 
 ### Verification
 
-The focused transport tests verify fail-closed behavior and the injected PREPARE callback
-outcome. They do not prove production caller wiring or real network transfer; DIS-03
-remains open until cross-process transport and recovery are validated.
+`StreamSessionTransportFocusedTests` covers the old fail-closed seam.
+`ShardTransferStoreTests` and `ShardTransferGrpcTests` target durable staging and
+mTLS transport, not production snapshot or HA ownership transitions. DIS-03
+remains open until the deployment wiring and cutover evidence are available.
 
 ### Next Steps
 

@@ -23,6 +23,7 @@
 #include <chrono>
 #include <map>
 #include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 // Forward declare AuditLogger so sharding headers don't drag in heavy auth headers
@@ -39,7 +40,6 @@ namespace sharding {
 // Forward declarations
 class ShardTopology;
 class PrometheusMetrics;
-class DataMigrator;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HotShardSplitPolicy
@@ -160,30 +160,6 @@ private:
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Automatic Rebalancing Coordinator
- * 
- * Monitors cluster load and automatically triggers rebalancing operations
- * when imbalances are detected.
- * 
- * Features:
- * - Periodic load monitoring
- * - Automatic imbalance detection
- * - Rebalance operation scheduling
- * - Concurrent operation management
- * - Health checks and rollback
- * - Progress tracking
- * 
- * Example:
- *   auto rebalancer = std::make_unique<AutoRebalancer>(
- *       topology, load_detector, metrics, migrator
- *   );
- *   rebalancer->start();
- *   
- *   // Automatic rebalancing runs in background
- *   
- *   rebalancer->stop();
- */
-/**
  * @brief Injectable bridge function for signing rebalance operations.
  *
  * @param operation_id  The operation ID string to sign.
@@ -196,9 +172,44 @@ private:
  */
 using SignOperationFn = std::function<std::string(const std::string& operation_id)>;
 
-/** @brief Auto rebalancer. */
+/** @brief Coordinates planning, approval, execution and status for shard rebalancing. */
 class AutoRebalancer {
 public:
+    /** @brief Furthest outcome confirmed by the authoritative migration backend. */
+    enum class MigrationOutcome {
+        REJECTED,            ///< Backend did not admit the migration.
+        ADMISSION_UNCERTAIN, ///< PREPARE may have admitted the move; no cutover attempted.
+        ADMITTED,            ///< Admitted, transfer not verified, and no cutover attempted.
+        TRANSFER_VERIFIED,   ///< Transfer verified, ownership definitely not committed.
+        OWNERSHIP_COMMITTED, ///< Transfer verified and new ownership authoritatively committed.
+        OWNERSHIP_UNCERTAIN  ///< Cutover outcome could not be established; reconcile externally.
+    };
+
+    /** @brief Signed dispatch request; the token range is a proposed move, not proof of ownership. */
+    struct MigrationRequest {
+        std::string operation_id;
+        RebalanceOperationConfig operation;
+        std::string operator_signature;
+    };
+
+    /** @brief Executor report; the default is uncertain, never committed. */
+    struct MigrationResult {
+        MigrationOutcome outcome = MigrationOutcome::OWNERSHIP_UNCERTAIN;
+        std::string error_message;
+    };
+
+    /**
+     * @brief Execute the approved move and report its authoritative outcome.
+     * The executor owns current-owner validation, fencing, transfer verification
+     * and cutover. It must not report OWNERSHIP_COMMITTED for an acknowledgment,
+     * a copied range, or a staged topology update. Return OWNERSHIP_UNCERTAIN
+     * unless it is known whether ownership committed; exceptions are also uncertain.
+     * Calls are synchronous and may run concurrently, without the coordinator lock.
+     * The executor must bound its I/O, not retain the request or call start/stop,
+     * and must reconcile uncertain admissions or cutovers before allowing a conflicting move.
+     */
+    using MigrationExecutor = std::function<MigrationResult(const MigrationRequest&)>;
+
     /** @brief Runtime policy knobs for automatic rebalance coordination. */
     struct Config {
         // Monitoring interval
@@ -229,33 +240,38 @@ public:
         // Rebalance operation config
         uint32_t batch_size = 1000;
         bool verify_data = true;
-        bool enable_rollback = true;
+        bool enable_rollback = true; ///< Backend policy before cutover, not coordinator rollback.
     };
     
     /** @brief Public status snapshot for one rebalance operation. */
     struct OperationStatus {
         std::string operation_id;
-        RebalanceState state;
+        RebalanceState state = RebalanceState::PLANNED;
         RebalanceProgress progress;
         std::chrono::system_clock::time_point start_time;
         std::chrono::system_clock::time_point end_time;
         std::string error_message;
+        std::optional<MigrationOutcome> migration_outcome; ///< Absent if no executor result or exception was observed.
     };
     
-    /** @brief Construct coordinator with default config. */
+    /** @brief Construct coordinator with default config.
+     * @throws std::invalid_argument if the migration executor is empty.
+     */
     explicit AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardLoadDetector> load_detector,
         std::shared_ptr<PrometheusMetrics> metrics,
-        std::shared_ptr<DataMigrator> migrator
+        MigrationExecutor migration_executor
     );
     
-    /** @brief Construct coordinator with explicit config. */
+    /** @brief Construct coordinator with explicit config.
+     * @throws std::invalid_argument if the migration executor is empty.
+     */
     AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardLoadDetector> load_detector,
         std::shared_ptr<PrometheusMetrics> metrics,
-        std::shared_ptr<DataMigrator> migrator,
+        MigrationExecutor migration_executor,
         const Config& config
     );
     
@@ -268,7 +284,8 @@ public:
     void start();
     
     /**
-     * Stop automatic rebalancing
+     * Stop monitoring and wait for any migration running on the monitor thread.
+     * Callers must also finish any concurrent approveOperation calls before destruction.
      */
     void stop();
     
@@ -287,14 +304,16 @@ public:
      * Approve pending rebalance operation
      * (Only needed if require_manual_approval=true)
      * @param operation_id Operation to approve
-     * @return true if approved successfully
+     * @return true if an approved migration was dispatched. Inspect status for its outcome.
+     * The call runs the migration executor synchronously.
      */
     bool approveOperation(const std::string& operation_id);
     
     /**
-     * Cancel active rebalance operation
-     * @param operation_id Operation to cancel
-     * @return true if cancelled successfully
+     * Cancel a plan before it is dispatched.
+     * @param operation_id Pending plan to cancel
+     * @return true if the pending plan was removed. Dispatched moves cannot be
+     * cancelled here; the coordinator cannot roll back authoritative ownership.
      */
     bool cancelOperation(const std::string& operation_id);
     
@@ -337,7 +356,7 @@ private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<ShardLoadDetector> load_detector_;
     std::shared_ptr<PrometheusMetrics> metrics_;
-    std::shared_ptr<DataMigrator> migrator_;
+    const MigrationExecutor migration_executor_;
     Config config_;
 
     // Optional hot-shard split policy
@@ -353,15 +372,22 @@ private:
     // Threading
     std::atomic<bool> running_{false};
     std::thread monitor_thread_;
+    std::mutex monitor_lifecycle_mutex_;
     mutable std::mutex mutex_;
     std::condition_variable cv_;
+    bool check_requested_ = false;
     
     // Active operations
-    std::map<std::string, std::unique_ptr<RebalanceOperation>> active_operations_;
+    size_t active_operations_ = 0;
     std::vector<OperationStatus> operation_history_;
     
     // Pending approvals
-    std::map<std::string, LoadImbalanceResult::RebalanceRecommendation> pending_approvals_;
+    struct PlannedOperation {
+        LoadImbalanceResult::RebalanceRecommendation recommendation;
+        bool is_split;
+    };
+    std::map<std::string, PlannedOperation> pending_approvals_;
+    mutable std::atomic<uint64_t> next_operation_sequence_{0};
     
     // Statistics
     std::atomic<uint64_t> total_checks_{0};
@@ -385,13 +411,13 @@ private:
     
     // Hot-shard split handling
     /** @brief Evaluate split policy proposals and dispatch eligible split operations. */
-    void evaluateAndExecuteSplits();
+    bool evaluateAndExecuteSplits();
     /** @brief Execute one split proposal by translating it into rebalance operation. */
     bool executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal);
     
     // Rebalance execution
-    /** @brief Execute one rebalance recommendation end-to-end. */
-    bool executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation);
+    bool submitRebalance(PlannedOperation plan);
+    bool executeRebalance(const std::string& operation_id, std::optional<PlannedOperation> automatic_plan);
     /** @brief Generate unique rebalance operation identifier. */
     std::string generateOperationId() const;
     /** @brief Sign operation intent using override callback or built-in crypto path. */
@@ -400,14 +426,10 @@ private:
     // Safety checks
     /** @brief Return whether policy/cooldown/concurrency limits allow new operation. */
     bool canTriggerRebalance() const;
+    bool hasExecutionCapacityLocked() const;
     /** @brief Return whether imbalance recommendations satisfy configured safety limits. */
     bool isWithinSafetyLimits(const LoadImbalanceResult& imbalance) const;
     
-    // Operation management
-    /** @brief Purge finished operations and update counters/history snapshots. */
-    void cleanupCompletedOperations();
-    /** @brief Update one operation status entry in persistent history. */
-    void updateOperationStatus(const std::string& operation_id, RebalanceState state);
 };
 
 } // namespace sharding

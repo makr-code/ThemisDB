@@ -13,11 +13,13 @@
 // Licensed under MIT License
 
 #include "sharding/shard_rpc_server.h"
+#include "sharding/shard_transfer_store.h"
 #include "core/production_mode.h"
 #include "shard_rpc_tls_validation.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <optional>
+#include <chrono>
 #include <set>
 #include <stdexcept>
 
@@ -112,9 +114,85 @@ public:
      */
     ShardServiceImpl(
         ShardRPCServer::RequestHandler* handler,
-        std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings)
+        std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings,
+        std::shared_ptr<ShardTransferStore> transfer_store,
+        std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings)
         : handler_(handler),
-          identity_bindings_(std::move(identity_bindings)) {}
+          identity_bindings_(std::move(identity_bindings)),
+          transfer_store_(std::move(transfer_store)),
+          transfer_bindings_(std::move(transfer_bindings)) {}
+
+    grpc::Status PrepareShardTransfer(
+        grpc::ServerContext* context, const proto::ShardTransferManifest* request,
+        proto::ShardTransferCheckpoint* response) override {
+        return withTransferPrincipal(context, [&](const std::string& principal) {
+            ShardTransferManifest manifest;
+            manifest.id = request->migration_id();
+            manifest.source = request->source_shard();
+            manifest.target = request->target_shard();
+            manifest.range_start = request->range_start();
+            manifest.range_end = request->range_end();
+            manifest.epoch = request->topology_epoch();
+            manifest.watermark = request->snapshot_watermark();
+            manifest.chunks = request->chunks();
+            manifest.bytes = request->bytes();
+            manifest.sha256 = request->sha256();
+            response->set_next_chunk(transfer_store_->prepare(manifest, principal));
+            return grpc::Status::OK;
+        });
+    }
+
+    grpc::Status StreamShardTransfer(
+        grpc::ServerContext* context,
+        grpc::ServerReaderWriter<proto::ShardTransferCheckpoint, proto::ShardTransferChunk>* stream) override {
+        return withTransferPrincipal(context, [&](const std::string& principal) {
+            proto::ShardTransferChunk chunk;
+            std::optional<std::string> id;
+            // Bound replay traffic independently of staged bytes and manifest size.
+            constexpr unsigned max_frames = 256;
+            for (unsigned frames = 0; stream->Read(&chunk); ++frames) {
+                if (context->IsCancelled()) {
+                    return grpc::Status(grpc::StatusCode::CANCELLED, "transfer interrupted");
+                }
+                if (frames == max_frames || chunk.payload().size() > ShardTransferStore::kMaxChunkBytes ||
+                    (id && *id != chunk.migration_id())) {
+                    return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "invalid transfer stream frame");
+                }
+                if (!id) {
+                    id = chunk.migration_id();
+                }
+                proto::ShardTransferCheckpoint ack;
+                ack.set_next_chunk(transfer_store_->append(
+                    *id, principal, chunk.index(), chunk.payload(), chunk.sha256()));
+                if (!stream->Write(ack)) {
+                    return grpc::Status(grpc::StatusCode::CANCELLED, "checkpoint delivery interrupted");
+                }
+            }
+            return context->IsCancelled()
+                ? grpc::Status(grpc::StatusCode::CANCELLED, "transfer interrupted")
+                : grpc::Status::OK;
+        });
+    }
+
+    grpc::Status VerifyShardTransfer(
+        grpc::ServerContext* context, const proto::ShardTransferId* request,
+        proto::ShardTransferVerified* response) override {
+        return withTransferPrincipal(context, [&](const std::string& principal) {
+            transfer_store_->verify(request->migration_id(), principal);
+            response->set_verified(true);
+            return grpc::Status::OK;
+        });
+    }
+
+    grpc::Status AbortShardTransfer(
+        grpc::ServerContext* context, const proto::ShardTransferId* request,
+        proto::ShardTransferAborted* response) override {
+        return withTransferPrincipal(context, [&](const std::string& principal) {
+            transfer_store_->abort(request->migration_id(), principal);
+            response->set_aborted(true);
+            return grpc::Status::OK;
+        });
+    }
 
     /**
      * @brief Called once Impl is constructed so we can serve shard identity.
@@ -317,8 +395,40 @@ public:
     }
     
 private:
+    template <typename Operation>
+    grpc::Status withTransferPrincipal(grpc::ServerContext* context, Operation&& operation) {
+        if (!transfer_store_) {
+            return {grpc::StatusCode::FAILED_PRECONDITION, "no shard transfer store configured"};
+        }
+        if (context->deadline() > std::chrono::system_clock::now() + std::chrono::minutes(5)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "transfer deadline exceeds five minutes"};
+        }
+        try {
+            const auto peer = getAuthenticatedPeerIdentity(context);
+            if (!peer) {
+                return {grpc::StatusCode::UNAUTHENTICATED, "verified X.509 peer required"};
+            }
+            const auto principal = resolveCoordinatorShardId(*peer, transfer_bindings_);
+            if (!principal) {
+                return {grpc::StatusCode::PERMISSION_DENIED, "no matching transfer principal"};
+            }
+            return operation(*principal);
+        } catch (const std::invalid_argument&) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "invalid transfer metadata or payload"};
+        } catch (const std::logic_error&) {
+            return {grpc::StatusCode::FAILED_PRECONDITION, "transfer assignment or state rejected"};
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Shard transfer storage operation failed: {}", e.what());
+            return {grpc::StatusCode::INTERNAL, "transfer storage operation failed"};
+        } catch (...) {
+            return {grpc::StatusCode::INTERNAL, "transfer operation failed"};
+        }
+    }
+
     ShardRPCServer::RequestHandler* handler_;
     std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings_;
+    std::shared_ptr<ShardTransferStore> transfer_store_;
+    std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings_;
     std::string listen_address_;
 };
 
@@ -382,21 +492,33 @@ bool ShardRPCServer::start() {
                 "ShardRPCServer: production mode requires mTLS and client certificate verification");
         }
 
-        std::set<std::pair<std::string, std::string>> configured_identities;
-        for (const auto& binding : impl_->config.coordinator_identity_bindings) {
-            if (binding.property_name.rfind("x509_", 0) != 0 ||
-                binding.property_value.empty() ||
-                binding.coordinator_shard_id.empty() ||
-                !configured_identities.emplace(binding.property_name,
-                                               binding.property_value).second) {
-                throw std::runtime_error(
-                    "ShardRPCServer: coordinator identity bindings must be unique, "
-                    "non-empty X.509 property/value mappings");
-            }
+        if (impl_->config.transfer_store &&
+            (!impl_->config.enable_mtls || !impl_->config.tls_require_client_cert ||
+             impl_->config.transfer_identity_bindings.empty())) {
+            throw std::runtime_error(
+                "ShardRPCServer: transfer storage requires verified mTLS and transfer identities");
         }
 
+        const auto validate_bindings = [](const auto& bindings) {
+            std::set<std::pair<std::string, std::string>> configured_identities;
+            for (const auto& binding : bindings) {
+                if (binding.property_name.rfind("x509_", 0) != 0 ||
+                    binding.property_value.empty() ||
+                    binding.coordinator_shard_id.empty() ||
+                    !configured_identities.emplace(binding.property_name,
+                                                   binding.property_value).second) {
+                    throw std::runtime_error(
+                        "ShardRPCServer: identity bindings must be unique, "
+                        "non-empty X.509 property/value mappings");
+                }
+            }
+        };
+        validate_bindings(impl_->config.coordinator_identity_bindings);
+        validate_bindings(impl_->config.transfer_identity_bindings);
+
         impl_->service = std::make_unique<ShardServiceImpl>(
-            impl_->handler, impl_->config.coordinator_identity_bindings);
+            impl_->handler, impl_->config.coordinator_identity_bindings,
+            impl_->config.transfer_store, impl_->config.transfer_identity_bindings);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;
