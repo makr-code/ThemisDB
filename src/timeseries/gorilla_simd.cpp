@@ -12,8 +12,10 @@
 #include "timeseries/gorilla_simd.h"
 #include "timeseries/gorilla.h"
 
+#include <algorithm>
 #include <cstring>
 #include <cstdint>
+#include <limits>
 #include <vector>
 
 #if defined(__AVX2__)
@@ -232,6 +234,16 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
     : data_(std::move(data)) {}
 
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
+    return decodeAtMost(out, std::numeric_limits<size_t>::max());
+}
+
+size_t GorillaSIMDDecoder::decodeAtMost(
+    std::vector<std::pair<int64_t, double>>& out,
+    size_t max_points,
+    const std::function<bool()>& before_emit) {
+    if (max_points == 0) {
+        return 0;
+    }
     if (data_.empty()) {
       return 0;
     }
@@ -250,11 +262,15 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
          */
         GorillaDecoder fallback(data_);
         const size_t out_begin = out.size();
-        // Same conservative estimate used by the SIMD path below:
-        // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
-        // avoids repeated reallocations without changing decode semantics.
-        out.reserve(out.size() + data_.size() / 2 + 1);
-        while (auto p = fallback.next()) {
+         out.reserve(out.size() + std::min(max_points, data_.size() / 2 + 1));
+         while (out.size() - out_begin < max_points) {
+             auto p = fallback.next();
+             if (!p) {
+                 break;
+             }
+             if (before_emit && !before_emit()) {
+                 break;
+             }
             out.push_back(*p);
         }
         error_ = fallback.hasError();
@@ -302,9 +318,10 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     if (br.eof()) { error_ = true; return 0; }
     uint64_t first_vbits = br.readBits(64);
 
-    // Reserve output with a conservative estimate (each compressed point is at
-    // minimum ~1 byte, so payload_size / 2 + 1 is a safe upper bound).
-    out.reserve(out.size() + payload_size / 2 + 1);
+    out.reserve(out.size() + std::min(max_points, payload_size / 2 + 1));
+    if (before_emit && !before_emit()) {
+        return 0;
+    }
     out.emplace_back(first_ts, bits_to_dbl_simd(first_vbits));
 
     // Carry state: dt and ts of the last emitted point.
@@ -321,12 +338,15 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     size_t total = 1;
 
-    while (true) {
+    while (total < max_points) {
         // ── Parse up to kBatchSize subsequent points ──────────────────────
         int  batch_size  = 0;
         bool parse_error = false;
 
-        for (int b = 0; b < kBatchSize && !parse_error; ++b) {
+        for (int b = 0;
+             b < kBatchSize && !parse_error &&
+                 static_cast<size_t>(b) < max_points - total;
+             ++b) {
             br.alignToByte();
             if (br.eof()) {
               break;
@@ -386,10 +406,14 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
         // ── Emit this batch ───────────────────────────────────────────────
         for (int b = 0; b < batch_size; ++b) {
+            if (before_emit && !before_emit()) {
+                decoded_count_ += total;
+                return total;
+            }
             out.emplace_back(dods_buf[b], bits_to_dbl_simd(xors_buf[b]));
+            ++total;
         }
 
-        total      += static_cast<size_t>(batch_size);
         carry_dt    = new_carry_dt;
         carry_ts    = new_carry_ts;
         carry_xor   = new_carry_xor;

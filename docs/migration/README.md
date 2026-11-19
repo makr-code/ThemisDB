@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-01-24"
+Last Updated: "2026-11-19"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Migration Guides
 
 This directory contains version-specific migration guides for upgrading between ThemisDB versions.
@@ -6,6 +20,7 @@ This directory contains version-specific migration guides for upgrading between 
 
 ### Current Guides
 
+- [v2.4.x to v3.0.0](./v2.4-to-v3.0.md) - Host-side skill delegation API/ABI changes (planned MAJOR release)
 - [v1.7.x to v1.8.0](./v1.7-to-v1.8.md) - Wire Protocol V2, versioned API routing, ZSTD compression, SAGA engine
 - [v1.3.x to v1.4.x](./v1.3-to-v1.4.md) - Extended context, LLM features, pagination
 - *(Guides for v1.4→v1.5, v1.5→v1.6, v1.6→v1.7 will be added retroactively)*

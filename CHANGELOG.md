@@ -18,6 +18,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   under an all-optional schema. This does not change validation behavior for
   object bodies or add automatic validation to document writes.
 
+### Breaking - Host-side skill delegation API/ABI (target: v3.0.0)
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+> AI-assisted entry; human review is pending.
+
+- Track the intentional API/ABI break for host-side skill delegation and the
+  first delegated `asset-impact-analysis` executor in
+  [#8301](https://github.com/makr-code/ThemisDB/issues/8301). The public
+  `ToolRegistry` and `OrchestratorContext` layouts, `TSStore::QueryOptions`
+  layout, `GraphIndexManager::boundedBfs` signature, and
+  `SkillDelegationContext::createRoot` signature changed; binary consumers
+  must rebuild for v3.0.0.
+- Hosts creating a delegation root must pass a trusted permission authorizer.
+  Delegated execution requires exact tool/resource grants and shared
+  candidate/content metering. Payload-byte metering begins after storage reads;
+  it does not bound physical storage I/O. RAG remains outside this integration.
+- See the [v2.4.x to v3.0.0 migration guide](docs/migration/v2.4-to-v3.0.md).
+
 ### Security - HTTP RAG collection policies
 
 - Authenticated non-admin requests to `/api/v1/llm/rag` now require an explicit
