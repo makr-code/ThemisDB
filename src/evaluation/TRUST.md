@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,6 +50,9 @@ prove that supplied labels or metadata are honest or representative.
   checks; callers must preserve and enforce the decision.
 - The benchmark matrix stores supplied result values; it does not authenticate
   measurement provenance or establish that a run was reproducible.
+- Distributed summary confidence is caller-supplied. The planner rejects
+  non-finite, out-of-range, or below-threshold values, but cannot verify that a
+  confidence estimate is calibrated or derived from trustworthy evidence.
 
 ## Risks and required handling
 
