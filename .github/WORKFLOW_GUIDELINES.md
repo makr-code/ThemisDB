@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-18
+> Last Updated: 2026-11-19
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -11,6 +11,7 @@
 > Human_Author: ThemisDB Team
 >
 > Exact model backend not verifiable from final document text alone.
+> AI-assisted governance update; maintainer review remains required.
 
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
@@ -41,6 +42,7 @@ flowchart TD
       V2[gate-pr-merge-readiness.yml]
       V3[gate-pr-doxygen-governance.yml]
       V4[gate-pr-doc-metadata.yml]
+      V5[gate-pr-task-completion.yml]
     end
 
     subgraph G[Governance / Compliance]
@@ -88,6 +90,15 @@ flowchart TD
 5. Label-Operationen ueber kanonische Status-Action/State-Machine fuehren.
 6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
 7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
+
+### PR Task Completion Gate
+
+- `gate-pr-task-completion.yml` delegates to `reusable-pr-task-completion.yml` and runs on PR open/edit/synchronize/reopen/ready-for-review events for canonical branches.
+- The caller uses `pull_request_target` only because the reusable workflow reads PR metadata/diffs via the GitHub API and checks out the trusted base SHA; it must never execute or check out PR-head content.
+- Keep Copilot assessment read-only (`contents:read`, `issues:read`, `pull-requests:read`) and isolate comment publication in a separate `issues:write` job. Do not pass write tokens to Copilot, enable AI tools/MCP, or interpolate PR text into shell code.
+- The Copilot token is provided through the repository secret `COPILOT_GITHUB_TOKEN`; missing credentials, malformed assessments, omitted checklist entries, context truncation, or unresolved requirements fail closed and are reported in an idempotently updated PR comment.
+- The report percentage counts fulfilled actionable requirements; partial/open/unclear items remain blockers. Unchecked boxes cannot count as fulfilled, and checked boxes still need evidence. Required tests passing must come from CI evidence, not from the model's inference from source text.
+- Add `Gate: PR Task Completion / Validate: Enforce Task Completion` to branch protection for each protected canonical branch. Keep `.github/branch-protection-rules.json` and the scheduled drift check synchronized.
 
 ### Lokale Summary-Actions und Fehlerdiagnose
 
