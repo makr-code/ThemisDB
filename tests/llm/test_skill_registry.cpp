@@ -19,6 +19,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <tuple>
 #include <vector>
@@ -31,6 +32,7 @@ using themis::llm::ModeSpec;
 using themis::llm::SkillBudgetLimits;
 using themis::llm::SkillBudgetUsage;
 using themis::llm::SkillDelegationContext;
+using themis::llm::SkillPermission;
 using themis::llm::SkillPermissionSet;
 using themis::llm::SkillRegistry;
 using themis::llm::SkillRegistryOptions;
@@ -86,6 +88,14 @@ SkillRegistryOptions optionsFor(const fs::path& root) {
     return options;
 }
 
+SkillDelegationContext::PermissionAuthorizer allowTestPermissions() {
+    return [](std::string_view principal_id,
+              std::string_view tenant_id,
+              const SkillPermission&) {
+        return principal_id == "principal-1" && tenant_id == "tenant-1";
+    };
+}
+
 TEST(SkillDelegationContextTest, ChildCanOnlyRemoveExactPermissions) {
     const auto expiry = SkillDelegationContext::Clock::now() +
                         std::chrono::minutes(5);
@@ -95,7 +105,7 @@ TEST(SkillDelegationContextTest, ChildCanOnlyRemoveExactPermissions) {
     };
     auto root = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1", parent_permissions, expiry,
-        SkillBudgetLimits{4, 100, 4096});
+        SkillBudgetLimits{4, 100, 4096}, allowTestPermissions());
     ASSERT_TRUE(root);
 
     SkillPermissionSet child_permissions{{"read", "collection:cases"}};
@@ -123,7 +133,7 @@ TEST(SkillDelegationContextTest, RejectsPermissionAndExpiryExpansion) {
     auto root = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1",
         SkillPermissionSet{{"read", "collection:cases"}}, expiry,
-        SkillBudgetLimits{4, 100, 4096});
+        SkillBudgetLimits{4, 100, 4096}, allowTestPermissions());
     ASSERT_TRUE(root);
 
     auto extra_permission = root->attenuate(
@@ -146,7 +156,8 @@ TEST(SkillDelegationContextTest, RejectsInvalidRootIdentityAndWildcardGrant) {
     const auto expiry = SkillDelegationContext::Clock::now() +
                         std::chrono::minutes(5);
     auto missing_identity = SkillDelegationContext::createRoot(
-        "", "tenant-1", {}, expiry, SkillBudgetLimits{});
+        "", "tenant-1", {}, expiry, SkillBudgetLimits{},
+        allowTestPermissions());
     ASSERT_FALSE(missing_identity);
     EXPECT_EQ(missing_identity.error().code(),
               ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
@@ -154,13 +165,14 @@ TEST(SkillDelegationContextTest, RejectsInvalidRootIdentityAndWildcardGrant) {
     auto wildcard = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1",
         SkillPermissionSet{{"read", "collection:*"}}, expiry,
-        SkillBudgetLimits{});
+        SkillBudgetLimits{}, allowTestPermissions());
     ASSERT_FALSE(wildcard);
     EXPECT_EQ(wildcard.error().code(), ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
 
     auto expired = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1", {},
-        SkillDelegationContext::TimePoint::min(), SkillBudgetLimits{});
+        SkillDelegationContext::TimePoint::min(), SkillBudgetLimits{},
+        allowTestPermissions());
     ASSERT_FALSE(expired);
     EXPECT_EQ(expired.error().code(), ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
 }
@@ -170,7 +182,7 @@ TEST(SkillDelegationContextTest, DescendantsShareAtomicNonResettableBudget) {
                         std::chrono::minutes(5);
     auto root = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1", {}, expiry,
-        SkillBudgetLimits{2, 4, 10});
+        SkillBudgetLimits{2, 4, 10}, allowTestPermissions());
     ASSERT_TRUE(root);
     auto child = root->attenuate({}, expiry);
     ASSERT_TRUE(child);
@@ -193,7 +205,7 @@ TEST(SkillDelegationContextTest, ConcurrentDescendantsCannotOverspendBudget) {
                         std::chrono::minutes(5);
     auto root = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1", {}, expiry,
-        SkillBudgetLimits{64, 64, 64});
+        SkillBudgetLimits{64, 64, 64}, allowTestPermissions());
     ASSERT_TRUE(root);
     auto child = root->attenuate({}, expiry);
     ASSERT_TRUE(child);
@@ -226,7 +238,7 @@ TEST(SkillDelegationContextTest, ExpiredContextCannotAuthorizeOrConsumeBudget) {
     auto root = SkillDelegationContext::createRoot(
         "principal-1", "tenant-1",
         SkillPermissionSet{{"read", "collection:cases"}}, expiry,
-        SkillBudgetLimits{2, 4, 10});
+        SkillBudgetLimits{2, 4, 10}, allowTestPermissions());
     ASSERT_TRUE(root);
 
     std::this_thread::sleep_until(expiry + std::chrono::milliseconds(1));
@@ -237,6 +249,56 @@ TEST(SkillDelegationContextTest, ExpiredContextCannotAuthorizeOrConsumeBudget) {
     ASSERT_FALSE(child);
     EXPECT_EQ(child.error().code(), ErrorCode::ERR_QUERY_ACCESS_DENIED);
     EXPECT_EQ(root->remainingBudget().max_tool_calls, 2);
+}
+
+TEST(SkillDelegationContextTest, RootIssuanceRequiresPolicyApproval) {
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto missing_authorizer = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", {}, expiry, SkillBudgetLimits{},
+        SkillDelegationContext::PermissionAuthorizer{});
+    ASSERT_FALSE(missing_authorizer);
+    EXPECT_EQ(missing_authorizer.error().code(),
+              ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
+
+    std::size_t authorization_checks = 0;
+    SkillDelegationContext::PermissionAuthorizer deny_write =
+        [&authorization_checks](std::string_view principal_id,
+                                std::string_view tenant_id,
+                                const SkillPermission& permission) {
+            ++authorization_checks;
+            return principal_id == "principal-1" &&
+                   tenant_id == "tenant-1" &&
+                   permission.action == "read";
+        };
+    auto denied = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"read", "collection:cases"},
+                           {"write", "collection:cases"}},
+        expiry, SkillBudgetLimits{1, 1, 1}, deny_write);
+    ASSERT_FALSE(denied);
+    EXPECT_EQ(denied.error().code(), ErrorCode::ERR_QUERY_ACCESS_DENIED);
+    EXPECT_EQ(authorization_checks, 2u);
+
+    auto identity_mismatch = SkillDelegationContext::createRoot(
+        "different-principal", "tenant-1",
+        SkillPermissionSet{{"read", "collection:cases"}},
+        expiry, SkillBudgetLimits{1, 1, 1}, allowTestPermissions());
+    ASSERT_FALSE(identity_mismatch);
+    EXPECT_EQ(identity_mismatch.error().code(),
+              ErrorCode::ERR_QUERY_ACCESS_DENIED);
+
+    auto policy_failure = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"read", "collection:cases"}},
+        expiry, SkillBudgetLimits{1, 1, 1},
+        [](std::string_view, std::string_view,
+           const SkillPermission&) -> bool {
+            throw std::runtime_error("policy backend unavailable");
+        });
+    ASSERT_FALSE(policy_failure);
+    EXPECT_EQ(policy_failure.error().code(),
+              ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
 TEST(SkillRegistryTest, DiscoversAndLoadsShippedSkillsAndReference) {
@@ -452,6 +514,75 @@ TEST(SkillRegistryTest, NativeAssetImpactToolCombinesScopedGraphAndTimeSeries) {
     EXPECT_TRUE((*remote)["baseline_mean"].is_null());
     EXPECT_TRUE((*remote)["delta"].is_null());
 
+    ToolRegistry delegatedTools;
+    themis::llm::registerDelegatedAssetImpactAnalysisTool(
+        delegatedTools, db, graph, store, graphId, edgeType, metric);
+    const SkillPermissionSet delegatedPermissions{
+        {"tool.invoke", "analyze_asset_impact"},
+        {"graph.read", graphId},
+        {"timeseries.read", metric}
+    };
+    const auto expiresAt = SkillDelegationContext::Clock::now() +
+                           std::chrono::minutes(5);
+    auto delegatedContext = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", delegatedPermissions, expiresAt,
+        SkillBudgetLimits{1, 100, 1'000'000},
+        [](std::string_view, std::string_view, const SkillPermission&) {
+            return true;
+        });
+    ASSERT_TRUE(delegatedContext);
+    const auto delegatedResult =
+        delegatedTools.invokeTool("analyze_asset_impact", args, mode,
+                                  *delegatedContext);
+    ASSERT_FALSE(delegatedResult.contains("error")) << delegatedResult.dump();
+    const auto remaining = delegatedContext->remainingBudget();
+    EXPECT_LT(remaining.max_candidates, 100u);
+    EXPECT_LT(remaining.max_content_bytes, 1'000'000u);
+
+    auto missingGraphGrant = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"tool.invoke", "analyze_asset_impact"},
+                           {"timeseries.read", metric}},
+        SkillDelegationContext::Clock::now() + std::chrono::minutes(5),
+        SkillBudgetLimits{1, 100, 1'000'000},
+        [](std::string_view, std::string_view, const SkillPermission&) {
+            return true;
+        });
+    ASSERT_TRUE(missingGraphGrant);
+    const auto denied =
+        delegatedTools.invokeTool("analyze_asset_impact", args, mode,
+                                  *missingGraphGrant);
+    EXPECT_TRUE(denied.contains("error"));
+    EXPECT_EQ(missingGraphGrant->remainingBudget().max_candidates, 100u);
+
+    auto candidateLimited = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", delegatedPermissions,
+        SkillDelegationContext::Clock::now() + std::chrono::minutes(5),
+        SkillBudgetLimits{1, 1, 1'000'000},
+        [](std::string_view, std::string_view, const SkillPermission&) {
+            return true;
+        });
+    ASSERT_TRUE(candidateLimited);
+    const auto candidateLimitedResult =
+        delegatedTools.invokeTool("analyze_asset_impact", args, mode,
+                                  *candidateLimited);
+    EXPECT_TRUE(candidateLimitedResult.contains("error"));
+    EXPECT_EQ(candidateLimited->remainingBudget().max_candidates, 0u);
+
+    auto byteLimited = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", delegatedPermissions,
+        SkillDelegationContext::Clock::now() + std::chrono::minutes(5),
+        SkillBudgetLimits{1, 100, 1},
+        [](std::string_view, std::string_view, const SkillPermission&) {
+            return true;
+        });
+    ASSERT_TRUE(byteLimited);
+    const auto byteLimitedResult =
+        delegatedTools.invokeTool("analyze_asset_impact", args, mode,
+                                  *byteLimited);
+    EXPECT_TRUE(byteLimitedResult.contains("error"));
+    EXPECT_EQ(byteLimited->remainingBudget().max_content_bytes, 1u);
+
     args["geo"] = {{"lon", 10}, {"lat", 50}, {"radius_m", 1000}};
     result = tools.invokeTool("analyze_asset_impact", args, mode);
     ASSERT_FALSE(result.contains("error")) << result.dump();
@@ -521,6 +652,65 @@ TEST(SkillRegistryTest, NativeAssetImpactToolCombinesScopedGraphAndTimeSeries) {
 
     args["max_depth"] = 2;
     EXPECT_TRUE(tools.invokeTool("analyze_asset_impact", args, mode).contains("error"));
+}
+
+TEST(SkillRegistryTest, StrictTimeSeriesQueryMetersCompressedChunkAndDecodedPoints) {
+    TemporaryDirectory temporary;
+    themis::RocksDBWrapper::Config config;
+    config.db_path = (temporary.path() / "data").string();
+    config.enable_blobdb = false;
+    auto db = std::make_shared<themis::RocksDBWrapper>(config);
+    ASSERT_TRUE(db->open());
+    themis::TSStore store(db->getRawDB());
+
+    std::vector<themis::TSStore::DataPoint> points;
+    for (int i = 0; i < 3; ++i) {
+        themis::TSStore::DataPoint point{};
+        point.metric = "reading";
+        point.entity = "sensor";
+        point.timestamp_ms = 1000 + i;
+        point.value = static_cast<double>(i);
+        points.push_back(std::move(point));
+    }
+    ASSERT_TRUE(store.putDataPoints(points));
+
+    themis::TSStore::QueryOptions options;
+    options.metric = "reading";
+    options.entity = "sensor";
+    options.from_timestamp_ms = 1000;
+    options.to_timestamp_ms = 1002;
+    options.limit = 10;
+    std::size_t candidates = 0;
+    std::size_t contentBytes = 0;
+    options.work_meter = [&candidates, &contentBytes](
+                             std::size_t newCandidates,
+                             std::size_t newContentBytes) {
+        candidates += newCandidates;
+        contentBytes += newContentBytes;
+        return true;
+    };
+
+    const auto result = store.queryStrict(options);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(result->size(), 3u);
+    EXPECT_EQ(candidates, 4u);
+    EXPECT_GT(contentBytes, 0u);
+
+    options.work_meter = [](std::size_t newCandidates, std::size_t) {
+        return newCandidates == 0;
+    };
+    const auto rejected = store.queryStrict(options);
+    EXPECT_FALSE(rejected);
+    EXPECT_EQ(rejected.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED);
+
+    options.work_meter = [](std::size_t, std::size_t) -> bool {
+        throw std::runtime_error("meter failure");
+    };
+    const auto exceptionRejected = store.queryStrict(options);
+    EXPECT_FALSE(exceptionRejected);
+    EXPECT_EQ(exceptionRejected.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED);
 }
 #endif
 

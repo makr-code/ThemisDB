@@ -14,6 +14,7 @@
 #include "timeseries/gorilla.h"
 #include <cstdint>
 #include <utility>
+#include <functional>
 #include <vector>
 
 namespace themis {
@@ -74,6 +75,22 @@ public:
      * @return  Number of newly decoded points appended.
      */
     size_t decodeAll(std::vector<std::pair<int64_t, double>>& out);
+
+    /**
+     * @brief Decode no more than a caller-specified number of points.
+     * @param out Destination vector; decoded points are appended and existing
+     *        entries are preserved.
+     * @param max_points Maximum new points to append; zero is a no-op.
+     * @param before_emit Optional callback invoked before each point is appended.
+     *        Returning false stops decoding without marking the chunk malformed.
+     * @return Number of points appended. Output may be partial when the limit or
+     *         callback stops decoding; malformed input may also leave valid
+     *         points appended, so callers must check hasError().
+     * @note Exceptions thrown by before_emit propagate to the caller.
+     */
+    size_t decodeAtMost(std::vector<std::pair<int64_t, double>>& out,
+                        size_t max_points,
+                        const std::function<bool()>& before_emit = {});
 
     /// True if a decode error (truncated / corrupt data) was encountered.
     bool hasError() const { return error_; }
