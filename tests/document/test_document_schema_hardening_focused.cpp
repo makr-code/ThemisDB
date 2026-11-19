@@ -272,17 +272,17 @@ TEST_F(SchemaEdgeTest, SE12_AnyFieldType_NeverTypeMismatch) {
 
 // SE-13: non-object bodies fail instead of passing an all-optional schema
 TEST_F(SchemaEdgeTest, SE13_NonObjectBody_ReturnsStructuralValidationError) {
-    ASSERT_TRUE(evo_.registerVersion(1, makeSchemaAllOptional()).has_value());
-    const std::vector<nlohmann::json> invalid_bodies = {
-        nullptr, "text", 7, false, nlohmann::json::array()
-    };
+  ASSERT_TRUE(evo_.registerVersion(1, makeSchemaAllOptional()).has_value());
+  const std::vector<nlohmann::json> invalid_bodies = {nullptr, "text", 7, false,
+                                                      nlohmann::json::array()};
 
-    for (const auto& body : invalid_bodies) {
-        auto result = evo_.validate("doc-se13", body, 1);
-        ASSERT_FALSE(result.has_value())
-            << "A non-object JSON body must not pass schema validation.";
-        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED);
-    }
+  for (const auto &body : invalid_bodies) {
+    auto result = evo_.validate("doc-se13", body, 1);
+    ASSERT_FALSE(result.has_value())
+        << "A non-object JSON body must not pass schema validation.";
+    EXPECT_EQ(result.error().code(),
+              errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

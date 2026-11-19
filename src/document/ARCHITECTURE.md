@@ -17,11 +17,11 @@ Human_Author: "ThemisDB Team"
 <!-- Status: current | source review: 2026-11-19 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Composition
+## Kontext
 
 The module is header-first. Its public contracts are in `include/document/`; the only module-local `.cpp` implementation is `src/document/round_trip_editor.cpp`. Reference implementations use in-memory state. `IDocumentStore` is an abstraction that callers may implement; this module does not bind it to a particular durable storage engine.
 
-## Runtime planes
+## Komponenten
 
 | Plane | Implementation evidence | Behavior |
 |---|---|---|
@@ -32,7 +32,38 @@ The module is header-first. Its public contracts are in `include/document/`; the
 | Round-trip snapshots | `round_trip_editor.h`, `round_trip_editor.cpp` | Stores relay/index records through `IDocumentStore`; propagates store errors |
 | Diagnostics and entity helpers | `document_diagnostics.h`, `encrypted_entities.h`, `document_manager.h` | Classifies/formats error codes; in-memory re-encryption records a key ID but does not transform stored bytes |
 
-## Error and concurrency boundaries
+## Schnittstellen
+
+`IDocumentStore` is the persistence boundary used by store-backed diff/merge and round-trip code. `IDocumentSchemaEvolution::validate()` checks a document against one registered schema version. Lifecycle hooks are synchronous, and their methods are declared `noexcept`. Shared utility/error and encryption types are dependencies, not document-owned integrations.
+
+## Datenfluss
+
+A caller selects the registry key and explicitly submits a document to schema validation. The registry does not infer migrations or run as part of storage writes. For object bodies, validation returns a report containing any required-field or declared-type violations; an invalid structure or unregistered version returns an error.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    actor Caller
+    participant Registry as InMemoryDocumentSchemaEvolution
+    Caller->>Registry: validate(document_id, body, version)
+    Registry->>Registry: Find registered version
+    alt Version is not registered
+        Registry-->>Caller: ERR_DOC_SCHEMA_VERSION_NOT_FOUND
+    else Version is registered
+        Registry->>Registry: Check body is a JSON object
+        alt Body is not an object
+            Registry-->>Caller: ERR_DOC_VALIDATION_ABORTED
+        else Body is an object
+            Registry->>Registry: Check required fields and declared types
+            Registry-->>Caller: ValidationReport (may contain violations)
+        end
+    end
+```
+
+**Kurzinterpretation:** Version lookup precedes body validation; successful object validation returns a report, while missing versions and non-object bodies fail with explicit errors.
+
+## Fehlerpfade und Resilienz
 
 - Store/manager, schema, diff/merge, and round-trip APIs expose `Result` return values; absent reads are represented as `std::optional`.
 - The in-memory store and schema registry protect their own state with mutexes. The interface does not prescribe thread-safety for third-party `IDocumentStore` implementations.
@@ -42,9 +73,20 @@ The module is header-first. Its public contracts are in `include/document/`; the
 - `ERR_DOC_SCHEMA_TRANSITION_INVALID` is defined in the shared taxonomy, but no transition API or transition check is implemented by this module.
 - The module has no degraded-mode contract. Store failures are surfaced through `Result`; an adapter or caller must define observable, bounded recovery behavior rather than assuming it is provided here.
 
-## Integration boundary
+## Nicht-Ziele
 
-`StoreBackedRoundTripEditor` depends on `IDocumentStore`, and `InMemoryDocumentDiffMerge` reads through the same interface. The headers depend on shared utility/error types and, for encrypted entity helpers, the security encryption types. No direct metadata-module schema registry, persistent storage adapter, server consumer, or stable-ABI guarantee is established by the module sources reviewed here. TODO: record those relationships only after confirming them in their owning canonical sources.
+- Schema versions are registry keys, not migration steps; the module does not transform documents between versions.
+- CRUD and round-trip persistence do not automatically validate schemas.
+- In-memory store, manager, and XDOMEA implementations do not provide durable storage or XSD validation.
+- Encrypted-entity helpers do not establish encryption of stored document bytes or key rotation.
+- The module does not define a retry, fallback, degraded-mode, or recovery policy for callers or adapters.
+- The reviewed module sources do not establish a direct metadata-module schema registry, a specific server consumer, or a stable-ABI guarantee.
+
+## Verweise
+
+- [Module README](README.md), [roadmap](ROADMAP.md), [future enhancements](FUTURE_ENHANCEMENTS.md), and [security boundaries](SECURITY.md)
+- [Schema contract](../../include/document/document_schema_evolution.h), [round-trip implementation](round_trip_editor.cpp), and [focused tests](../../tests/document/test_document_schema_hardening_focused.cpp)
+- [Benchmark release gates](../../benchmarks/document/RELEASE_GATES.md)
 
 ## Verification basis
 

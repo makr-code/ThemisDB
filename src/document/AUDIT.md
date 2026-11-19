@@ -45,7 +45,7 @@ This is a source and build-definition review, not a test result. Tests and bench
 
   ```bash
   cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON
-  cmake --build build-community-debug --target module_document_test_document_schema_hardening_focused
+  cmake --build build-community-debug --target module_document_test_document_schema_hardening_focused_focused
   ctest --test-dir build-community-debug --output-on-failure -R '^test_document_schema_hardening_focused_document_FocusedTests$'
   ```
 
