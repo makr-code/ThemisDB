@@ -217,7 +217,7 @@ flowchart LR
     click mod_ingestion href "https://github.com/makr-code/ThemisDB/blob/develop/src/ingestion/ROADMAP.md" "themis::ingestion — module documentation" _blank
     click mod_llama_cpp href "https://github.com/makr-code/ThemisDB/blob/develop/src/llama_cpp/ROADMAP.md" "themis::llama_cpp — module documentation" _blank
     click mod_llm href "https://github.com/makr-code/ThemisDB/wiki/LLM-Module" "themis::llm — module documentation" _blank
-    click mod_llm_wiki href "https://github.com/makr-code/ThemisDB/wiki/LLM-Wiki" "themis::llm_wiki — module documentation" _blank
+    click mod_llm_wiki href "https://github.com/makr-code/ThemisDB/blob/develop/src/llm_wiki/README.md" "themis::llm_wiki — module documentation" _blank
     click mod_maintenance href "https://github.com/makr-code/ThemisDB/blob/develop/src/maintenance/ROADMAP.md" "themis::maintenance — module documentation" _blank
     click mod_network href "https://github.com/makr-code/ThemisDB/blob/develop/src/network/ROADMAP.md" "themis::network — module documentation" _blank
     click mod_observability href "https://github.com/makr-code/ThemisDB/wiki/Observability-Module" "themis::observability — module documentation" _blank
