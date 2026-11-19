@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,13 +35,19 @@ delivery, monitoring export, alerting, and cluster recovery. See
 - Set explicit `min_participants`, `max_participants`, privacy parameters,
   maximum rounds, and bounded policy for aggregation/distillation.
 - Install and test the policy/trust callbacks required by the deployment.
-  Verify that a rejecting callback blocks data before propagation.
+  Configure `GossipAdapterPublisher::setTrustPolicy()` before any inbound
+  capability dispatch; missing or rejecting policies fail closed. Verify that
+  a rejecting callback blocks data before propagation. `AlwaysPermitTrustPolicy`
+  is permissive and must not be used as an authorization control.
 - Verify peer authentication and cross-border transfer policy outside the
   module's JSON serialization layer.
 - Test behavior when callbacks throw, a shard is slow, all shards fail, and
   privacy or participant limits are reached.
 - Ensure that the caller can reconcile in-flight rounds after process restart;
   module state is in-memory and is not a persistence mechanism.
+- Do not configure this module as the graph synchronization/recovery service:
+  no graph transport, durable replication log, automatic retry loop, or
+  restart recovery is implemented here.
 
 ## Observability
 
@@ -63,6 +69,29 @@ fields; diagnostic causes or duplicate keys may contain identifiers.
 Benchmark p95/p99 at representative shard fan-out and compare against
 [PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md). The roadmap
 retains follow-up work for expanded benchmark depth and operator visibility.
+`GossipAdapterPublisher` has no built-in rejected-announcement counter; the
+service must record its exceptions. A feedback `published` counter records an
+attempt before the gossip callback and does not prove delivery; use
+`getSkippedPublishCount()` and the external transport's acknowledgements for
+delivery status.
+
+## Degraded states and recovery boundary
+
+- `FederatedRAGMerger` only sees caller-supplied responses. It skips failed and
+  timed-out results when at least one shard responds, and throws when all
+  supplied results time out. A positive `shard_timeout_ms` does not itself
+  enforce a deadline or cancel a remote request.
+- `LoRAFederationCoordinator::triggerAggregation(timeout_ms)` runs local
+  aggregation asynchronously, but it does not cancel timed-out work. The
+  `std::async` future can block during destruction while that work is pending;
+  therefore the overload is not a guaranteed wall-clock deadline or a release
+  safety gate.
+- Feedback is best effort. Callback exceptions increment the local skipped
+  count; accepted inbound summaries are deduplicated only in a bounded,
+  in-memory cache, so restart or cache eviction can permit replay.
+- The module has no automatic retries or durable recovery loop. Operators must
+  reconcile uncertain delivery and in-flight federation state in the
+  integrating service before restarting or rolling back.
 
 ## Change, rollout, and rollback
 

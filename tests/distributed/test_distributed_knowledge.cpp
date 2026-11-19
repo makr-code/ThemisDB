@@ -141,6 +141,7 @@ TEST(DK_A_AdapterCapabilityAnnouncement, DK_A_05_LastAnnouncementReturnsLatest) 
 // DK-A-06: handleInbound() dispatches to registered announcement callback
 TEST(DK_A_AdapterCapabilityAnnouncement, DK_A_06_InboundCallbackDispatched) {
     GossipAdapterPublisher publisher("shard-B", [](nlohmann::json) {});
+    publisher.setTrustPolicy(std::make_shared<AlwaysPermitTrustPolicy>());
 
     std::optional<AdapterCapabilityAnnouncement> received;
     publisher.setAnnouncementCallback(
