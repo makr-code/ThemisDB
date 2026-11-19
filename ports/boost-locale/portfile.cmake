@@ -1,5 +1,4 @@
-# Boost 1.92 includes locale.hpp outside its source_group TREE; remove this
-# overlay once the vcpkg baseline contains the upstream correction.
+# Remove this overlay once the vcpkg baseline fixes Boost.Locale source grouping.
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/locale

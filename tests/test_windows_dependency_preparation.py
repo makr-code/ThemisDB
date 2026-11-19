@@ -36,14 +36,12 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
     def named(self, name):
         return next(step for step in self.steps if step["name"] == name)
 
-    def test_boost_locale_overlay_keeps_headers_within_source_group_tree(self):
+    def test_boost_locale_overlay_fixes_strict_source_group(self):
         overlay = ROOT / "ports/boost-locale"
         configuration = json.loads((ROOT / "vcpkg-configuration.json").read_text())
         self.assertIn("ports", configuration["overlay-ports"])
-        self.assertIn(
-            "PATCHES fix-header-source-group.patch",
-            (overlay / "portfile.cmake").read_text(),
-        )
+        self.assertIn("PATCHES fix-header-source-group.patch",
+                      (overlay / "portfile.cmake").read_text())
         with tempfile.TemporaryDirectory() as temp:
             source = Path(temp)
             (source / "include/boost/locale").mkdir(parents=True)
