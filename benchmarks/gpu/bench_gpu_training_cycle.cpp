@@ -4,6 +4,7 @@
 #include "llm/lora_framework/gpu_memory.h"
 #include "llm/lora_framework/paged_optimizer.h"
 #include <chrono>
+#include <exception>
 #include <vector>
 #include <memory>
 #include <cassert>
@@ -328,7 +329,7 @@ BENCHMARK(BM_TrainingCycle_HIP)
 // Vulkan Training Cycle Benchmarks
 // ============================================================================
 
-static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
+static void BM_TrainingCycle_Vulkan(benchmark::State& state) try {
     if (!vulkan_available()) {
         state.SkipWithError("Vulkan not available");
         return;
@@ -372,6 +373,10 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) {
         state.iterations() / 1000.0, benchmark::Counter::kIsRate);
     
     state.SetLabel("Vulkan");
+} catch (const std::exception& error) {
+    state.SkipWithError(error.what());
+} catch (...) {
+    state.SkipWithError("Vulkan training benchmark failed with an unknown exception");
 }
 
 BENCHMARK(BM_TrainingCycle_Vulkan)
