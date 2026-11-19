@@ -90,9 +90,12 @@ The separately included EPIC 3 directory registers contract and phase tests,
 including durable manifest restart, corrupt-record rejection, WAL recovery, and
 concurrent update coverage. Integration CMake may include the distributed-tensor
 soak test. Registration alone is not evidence that a target built or passed.
-The nightly coverage workflow publishes module-level coverage summaries and
-LCOV data; a release-critical ManifestStore threshold or path-specific exception
-has not yet been measured and recorded.
+The nightly coverage workflow runs `distributed_tensor`-labelled tests,
+publishes module-level summaries and LCOV data, and enforces 70% line / 60%
+branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.
+Generated evidence records the per-path measurements. Workflow configuration
+does not imply a measured passing result; no path-specific exception is
+approved.
 
 Build the module library in an existing configured build tree with:
 

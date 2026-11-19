@@ -11,11 +11,11 @@ AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot Coding Agent
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
 
-## Overview
+## Kontext
 
 The module's public contracts are in `include/distributed_tensor/`; its
 implementation sources are listed in `src/distributed_tensor/CMakeLists.txt`.
@@ -28,7 +28,7 @@ is a public-header requirement. Consumers linking the CMake target inherit the
 feature requirement; direct users of the installed headers must select C++20
 themselves.
 
-## Component ownership
+## Komponenten
 
 | Area | Public interface | Implementation sources in the module target |
 |---|---|---|
@@ -42,7 +42,13 @@ themselves.
 This table highlights component groups; the CMake file is the authoritative
 complete target source list.
 
-## Data flow and configuration
+## Schnittstellen
+
+The module exposes placement, retrieval, integrity, recovery, manifest-store,
+and training-coordinator interfaces described below. It does not own a shard
+payload transport or distributed manifest consensus interface.
+
+## Datenfluss
 
 The public interfaces expose these composable steps; they do not establish an
 end-to-end network execution pipeline:
@@ -117,7 +123,42 @@ module CMake configuration or the reviewed public headers; treat them as
 unverified until a canonical integration contract or implementation reference
 is identified.
 
-## Verification boundaries
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+  participant Caller
+  participant Store as ManifestStore
+  participant DB as RocksDB
+  Caller->>Store: store(valid manifest)
+  Store->>DB: version check + synchronous WAL batch
+  DB-->>Store: durable commit status
+  Store-->>Caller: success only after commit
+  Caller->>Store: reopen after restart
+  Store->>DB: scan and validate records and keys
+  DB-->>Store: persisted state or corruption/error
+```
+
+**Kurzinterpretation:** The successful return follows a synchronous local
+commit; startup rejects unreadable or invalid persisted records. Neither step
+replicates state or shard payloads to another node.
+
+## Fehlerpfade und Resilienz
+
+An empty database path is rejected. Database-open failures and persisted
+records that fail schema, manifest, or key validation prevent store creation.
+Writes return failure on database read/commit errors, and malformed records
+are not served by read paths. These guarantees are local to the configured
+RocksDB instance.
+
+## Nicht-Ziele
+
+This module currently does not implement remote shard fetching, manifest
+consensus, multi-node replication, or distributed training execution. Placement
+plans must be applied by the caller, and RocksDB durability alone does not
+establish cluster recovery.
+
+## Verweise
 
 Source registration is not evidence that tests passed or that the module is
 enabled in a production workflow. See [`README.md`](README.md) for the current

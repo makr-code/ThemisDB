@@ -11,11 +11,11 @@ AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot Coding Agent
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
 
-## Purpose and current source scope
+## Zweck
 
 The module provides C++ interfaces and implementations for distributed tensor
 artifacts, manifests, shard placement, integrity verification, recovery,
@@ -23,6 +23,8 @@ retrieval planning, infrastructure coordination, in-process training-job
 coordination, and storage-strategy assessment. Its exact build source list is
 maintained in [`CMakeLists.txt`](CMakeLists.txt); this README does not imply
 production readiness or measured performance.
+
+## Scope
 
 The public header directory currently contains contracts for artifact classes,
 manifests, shard placement, integrity verification, recovery, distributed
@@ -43,11 +45,13 @@ target's source list. Thus the default module target does not provide
 cryptographic SHA-256; Merkle-shaped receipt/tree structures are not a
 cryptographic security guarantee.
 
-## Build and verification inventory
+## Quickstart (Build/Run)
 
 - The module is added by `cmake/CMakeLists.txt` when its module CMake file exists.
 - Build the configured module target with
   `cmake --build <build-dir> --target themis_distributed_tensor`.
+- Run the focused manifest durability test with
+  `ctest --test-dir <build-dir> -R ManifestStorePhaseATests --output-on-failure`.
 - `tests/distributed_tensor/CMakeLists.txt` registers three focused test
   executables from `test_tensor_allocation.cpp`, `test_tensor_operations.cpp`,
   and `test_tensor_performance.cpp`. Their existence and registration do not
@@ -65,6 +69,26 @@ cryptographic security guarantee.
   the placement, integrity, recovery, retrieval, partial-refit, and
   summary-first benchmark sources when benchmarks are enabled.
 
+## API/CLI Einstieg
+
+This module provides C++ APIs and no standalone CLI. `ManifestStore` is an
+internal API; callers construct it with a persistent RocksDB directory and
+check the `[[nodiscard]]` result of `store()`.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+  Caller --> ManifestStore
+  ManifestStore --> RocksDB[(RocksDB WAL)]
+  RocksDB --> Restart[Validated restart state]
+  Caller --> Placement[Placement plan]
+  Placement -. caller applies .-> ManifestStore
+```
+
+**Kurzinterpretation:** Manifest metadata is durable on the local node;
+placement plans are caller-applied and are not replicated by this module.
+
 ## Verification attempt (2026-10-31)
 
 A diagnostic configure with tests and benchmarks enabled used CMake 3.31.6,
@@ -75,7 +99,7 @@ distributed-tensor test or benchmark executable was built or run. A standalone
 syntax check of `tensor_storage_strategy.h` passed with `-std=c++20` and was
 rejected with `-std=c++17` at `std::span`, as expected.
 
-## Component references
+## Verweise
 
 | Area | Public interface | Implementation source(s) |
 |---|---|---|
@@ -106,12 +130,13 @@ The durable metadata includes manifest identity, version, placement, integrity
 fields, and creation time used by freshness decisions. This is local persistent
 metadata, not shard-payload replication: the module still has no built-in
 network transport or multi-node recovery protocol. The nightly coverage
-workflow publishes module-level summaries and LCOV data, but the
-distributed-tensor release-critical path 70% line / 60% branch thresholds are
-not currently enforced. Their measured status and any path-specific exception
-remain unverified; no exception has been approved.
+workflow runs the tests labelled `distributed_tensor`, publishes module-level
+summaries and LCOV reports, and enforces 70% line / 60% branch coverage on
+`manifest_store.cpp` and `src/artifact_manifest.cc`.
+The workflow emits per-path coverage evidence; no measured pass result or
+path-specific exception is claimed here.
 
-## Status and limitations
+## Known Limitations
 
 `TensorTrainingCoordinator` runs worker callbacks synchronously in-process; it
 does not provide networked or distributed worker execution. The source and

@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - Durable distributed-tensor manifest store
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: ThemisDB Team
+-->
+- Persisted manifest metadata with synchronous RocksDB WAL batches and fail-closed startup validation. This is local durability only; network replication and multi-node recovery are not provided.
+
 ### Security - HTTP RAG collection policies
 
 - Authenticated non-admin requests to `/api/v1/llm/rag` now require an explicit
