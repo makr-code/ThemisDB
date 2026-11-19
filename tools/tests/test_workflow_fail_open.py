@@ -114,6 +114,54 @@ jobs:
             "\n".join(errors),
         )
 
+    def test_unclassified_tolerance_in_nested_gate_reusable_workflow_fails(self) -> None:
+        self._write_workflow(
+            "gate-example.yml",
+            """
+name: "Gate: Example"
+on: workflow_dispatch
+jobs:
+  check:
+    uses: ./.github/workflows/reusable-first.yml
+""",
+        )
+        self._write_workflow(
+            "reusable-first.yml",
+            """
+name: Reusable first
+on: workflow_call
+jobs:
+  nested:
+    uses: ./.github/workflows/reusable-second.yml
+""",
+        )
+        self._write_workflow(
+            "reusable-second.yml",
+            """
+name: Reusable second
+on: workflow_call
+jobs:
+  check:
+    steps:
+      - name: Check
+        run: test-command || true
+""",
+        )
+
+        errors = guard.validate_fail_open_exceptions(
+            self.root,
+            allowlist_path=self._write_allowlist([]),
+            as_of=date(2026, 11, 9),
+        )
+        self.assertTrue(
+            any(
+                ".github/workflows/reusable-second.yml: unclassified shell-or-true"
+                in error
+                for error in errors
+            ),
+            "\n".join(errors),
+        )
+
     def test_gate_cannot_enable_reusable_continue_on_error_input(self) -> None:
         self._write_workflow(
             "gate-example.yml",
@@ -148,6 +196,46 @@ jobs:
         self.assertTrue(
             any("unclassified reusable-input-continue-on-error" in error for error in errors),
             "\n".join(errors),
+        )
+
+    def test_gate_explicitly_disabling_reusable_continue_on_error_is_accepted(self) -> None:
+        self._write_workflow(
+            "gate-example.yml",
+            """
+name: "Gate: Example"
+on: workflow_dispatch
+jobs:
+  check:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      build_continue_on_error: false
+""",
+        )
+        self._write_workflow(
+            "reusable.yml",
+            """
+name: Reusable
+on:
+  workflow_call:
+    inputs:
+      build_continue_on_error:
+        type: boolean
+        default: false
+jobs:
+  build:
+    steps:
+      - name: Build
+        run: build-command
+""",
+        )
+
+        self.assertEqual(
+            guard.validate_fail_open_exceptions(
+                self.root,
+                allowlist_path=self._write_allowlist([]),
+                as_of=date(2026, 11, 9),
+            ),
+            [],
         )
 
     def test_classified_gate_tolerance_requires_current_metadata(self) -> None:
