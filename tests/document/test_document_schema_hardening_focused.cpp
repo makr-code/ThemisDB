@@ -5,8 +5,8 @@
  * @details Covers five test categories that expand regression breadth beyond
  * the baseline test_document_store.cpp suite:
  *
- *  - SchemaEdge   (SE-01 … SE-12): schema validation edge cases
- *  - SchemaSeal   (SS-01 … SS-04): sealing and version transition
+ *  - SchemaEdge   (SE-01 … SE-13): schema validation edge cases
+ *  - SchemaSeal   (SS-01 … SS-04): sealing and per-version validation
  *  - MergeEdge    (ME-01 … ME-10): three-way merge edge cases
  *  - RoundTripEdge (RTE-01 … RTE-08): store-backed round-trip persistence
  *  - StressConflict (SC-01 … SC-04): deterministic high-conflict stress
@@ -39,6 +39,7 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <vector>
 
 using namespace themis;
 using namespace themis::document;
@@ -269,12 +270,27 @@ TEST_F(SchemaEdgeTest, SE12_AnyFieldType_NeverTypeMismatch) {
     }
 }
 
+// SE-13: non-object bodies fail instead of passing an all-optional schema
+TEST_F(SchemaEdgeTest, SE13_NonObjectBody_ReturnsStructuralValidationError) {
+    ASSERT_TRUE(evo_.registerVersion(1, makeSchemaAllOptional()).has_value());
+    const std::vector<nlohmann::json> invalid_bodies = {
+        nullptr, "text", 7, false, nlohmann::json::array()
+    };
+
+    for (const auto& body : invalid_bodies) {
+        auto result = evo_.validate("doc-se13", body, 1);
+        ASSERT_FALSE(result.has_value())
+            << "A non-object JSON body must not pass schema validation.";
+        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED);
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // SchemaSeal tests  (SS-01 … SS-04)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Test fixture for schema sealing and version transition scenarios.
+ * @brief Test fixture for schema sealing and per-version validation scenarios.
  */
 class SchemaSealTest : public ::testing::Test {
 protected:

@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-18"
+Last Updated: "2026-11-19"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Architecture — Document Module
 
-<!-- Status: current | validated: 2026-10-31 -->
+<!-- Status: current | source review: 2026-11-19 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Composition
@@ -24,6 +38,9 @@ The module is header-first. Its public contracts are in `include/document/`; the
 - The in-memory store and schema registry protect their own state with mutexes. The interface does not prescribe thread-safety for third-party `IDocumentStore` implementations.
 - Lifecycle hooks are invoked synchronously in registration order. Hook methods are declared `noexcept`; `afterDelete` is dispatched even when store removal reports failure.
 - `InMemoryDocumentDiffMerge` reports missing documents and merge conflicts through errors. Non-object JSON payloads do not receive field-level diff/merge processing.
+- Schema validation rejects non-object JSON with `ERR_DOC_VALIDATION_ABORTED`; schema versions are independently registered keys, with no implicit migration, ordering, retry, fallback, or recovery behavior.
+- `ERR_DOC_SCHEMA_TRANSITION_INVALID` is defined in the shared taxonomy, but no transition API or transition check is implemented by this module.
+- The module has no degraded-mode contract. Store failures are surfaced through `Result`; an adapter or caller must define observable, bounded recovery behavior rather than assuming it is provided here.
 
 ## Integration boundary
 
@@ -31,4 +48,4 @@ The module is header-first. Its public contracts are in `include/document/`; the
 
 ## Verification basis
 
-Reviewed the public headers, round-trip implementation, focused test sources, and CMake definitions on 2026-10-31. This page describes source-level structure, not a claim that the full module or external integrations were built or executed.
+Reviewed the public headers, round-trip implementation, focused test sources, and CMake definitions on 2026-11-19. This page describes source-level structure, not a claim that the full module or external integrations were built or executed.
