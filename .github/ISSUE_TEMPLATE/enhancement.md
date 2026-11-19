@@ -29,25 +29,27 @@ Explain why this improvement would be valuable.
 
 **Target Version:**
 
-## Acceptance Criteria
+## Acceptance Criteria / Copilot Tasks
 
-<!-- Add task-list items below. The Copilot dispatcher extracts these as the
-     implementation checklist when delegating this issue to the Coding Agent.
-     This issue will be automatically queued for the Copilot Coding Agent
-     after creation. Add the label `blocked` to pause automatic delegation. -->
+<!-- Add only concrete, applicable work items as task-list checkboxes. The Copilot
+     dispatcher treats checkboxes in the issue body as implementation tasks.
+     This issue will be automatically queued for the Copilot Coding Agent after
+     creation. Add the label `blocked` to pause automatic delegation. -->
 
 - [ ] [Describe the first specific acceptance criterion]
 - [ ] [Describe the second specific acceptance criterion]
 - [ ] Ensure all existing tests pass and new tests are added where appropriate.
 
-## Supply-Chain Checklist (for new/external dependencies)
+## Supply-Chain Details (if applicable)
 
-<!-- Fill out this section if the enhancement introduces or updates third-party dependencies. -->
+<!-- If this enhancement changes dependencies, include the required supply-chain
+     work as explicit acceptance criteria above. Otherwise record "None". -->
 
-- [ ] No new/external dependency change in scope **or** SBOM update requirement is documented
-- [ ] Dependency source authenticity is defined (signature/GPG/hash verification path)
-- [ ] `vcpkg.json` `builtin-baseline` impact was reviewed and verified
-- [ ] Release artifact impact is documented (SBOM + checksum evidence)
+- Dependency changes in scope: None / Describe
+- SBOM update requirement:
+- Dependency source authenticity:
+- `vcpkg.json` `builtin-baseline` impact:
+- Release artifact impact (SBOM + checksum evidence):
 
 ## Additional Context
 

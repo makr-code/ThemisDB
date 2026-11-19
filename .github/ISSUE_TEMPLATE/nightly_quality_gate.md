@@ -38,6 +38,7 @@ Nightly quality gate reported a failure and requires triage.
 
 ## Triage Checklist
 
+<!-- Each checkbox below is a required triage action for this failed gate. -->
 - [ ] Reproduce the failure locally or in rerun
 - [ ] Identify failing test/benchmark scope
 - [ ] Decide: code fix vs. flaky-infra mitigation

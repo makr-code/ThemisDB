@@ -32,34 +32,31 @@ List any alternative approaches you have considered and why they were rejected.
 
 **Target Version:**
 
-## Acceptance Criteria
+## Acceptance Criteria / Copilot Tasks
 
-<!-- Add task-list items below. The Copilot dispatcher extracts these as the
-     implementation checklist when delegating this issue to the Coding Agent.
-     This issue will be automatically queued for the Copilot Coding Agent
-     after creation. Add the label `blocked` to pause automatic delegation. -->
+<!-- Add only concrete, applicable work items as task-list checkboxes. The Copilot
+     dispatcher treats checkboxes in the issue body as implementation tasks.
+     This issue will be automatically queued for the Copilot Coding Agent after
+     creation. Add the label `blocked` to pause automatic delegation. -->
 
 - [ ] [Describe the first specific acceptance criterion]
 - [ ] [Describe the second specific acceptance criterion]
 - [ ] Ensure all existing tests pass and new tests are added where appropriate.
 
-## Supply-Chain Checklist (for new/external dependencies)
+## Supply-Chain Details (if applicable)
 
-<!-- Fill out this section if the feature introduces or updates third-party dependencies. -->
+<!-- If this feature changes dependencies, include the required supply-chain
+     work as explicit acceptance criteria above. Otherwise record "None". -->
 
-- [ ] No new/external dependency change in scope **or** SBOM update requirement is documented
-- [ ] Dependency source authenticity is defined (signature/GPG/hash verification path)
-- [ ] `vcpkg.json` `builtin-baseline` impact was reviewed and verified
-- [ ] Release artifact impact is documented (SBOM + checksum evidence)
+- Dependency changes in scope: None / Describe
+- SBOM update requirement:
+- Dependency source authenticity:
+- `vcpkg.json` `builtin-baseline` impact:
+- Release artifact impact (SBOM + checksum evidence):
 
-## Release / SOC Review
+## Release / SOC Details (if applicable)
 
-If this feature or change impacts packaging, deployment, release publication, or customer exposure, confirm the release review checklist below before closing the issue.
-
-- [ ] Release impact and publication lane are identified
-- [ ] Human approval route is defined for downstream publication
-- [ ] Evidence chain / SOC checklist is ready for the target release
-- [ ] Rollback or hold path is documented for maintainers
+If this feature affects packaging, deployment, publication, or customer exposure, add the applicable release work as explicit acceptance criteria above and link the required evidence. Otherwise record "N/A".
 
 ## Additional Context
 
