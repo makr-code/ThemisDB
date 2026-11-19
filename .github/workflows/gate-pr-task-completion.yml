@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   task-completion:
-    name: "Validate: PR Task Completion"
+    name: "Validate: Enforce Task Completion"
     uses: ./.github/workflows/reusable-pr-task-completion.yml
     permissions:
       contents: read

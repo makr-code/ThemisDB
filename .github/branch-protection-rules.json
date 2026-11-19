@@ -16,6 +16,7 @@
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test",
+            "Gate: PR Task Completion / Validate: Enforce Task Completion",
             "Gate: PR File Size / Validate: Changed file size"
           ]
         },
@@ -53,6 +54,7 @@
             "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap",
+            "Gate: PR Task Completion / Validate: Enforce Task Completion",
             "Gate: PR File Size / Validate: Changed file size"
           ]
         },
@@ -91,6 +93,7 @@
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test",
+            "Gate: PR Task Completion / Validate: Enforce Task Completion",
             "Gate: PR File Size / Validate: Changed file size"
           ]
         },
@@ -161,6 +164,7 @@
     "Security: CodeQL Gate": "Stable CodeQL gate status check (passes when advanced scans succeed or when default setup intentionally skips advanced workflow)",
     "validate-ai-guardrails": "AI-Guardrails validation workflow",
     "validate-roadmap": "Roadmap structure validation",
+    "Gate: PR Task Completion / Validate: Enforce Task Completion": "Fail-closed Copilot assessment of actionable PR and linked-issue requirements",
     "Gate: PR File Size / Validate: Changed file size": "Reject newly added or enlarged files over 5 MiB"
   },
   "notes": [
@@ -170,6 +174,7 @@
     "Review protection rules quarterly for effectiveness",
     "Commit signing (GPG) is required for community and military branches",
     "Roadmap validation (validate-roadmap) is required before merge on all protected branches",
+    "PR task completion assessment is required before merge on all canonical protected branches; configure the exact check context in GitHub branch protection",
     "Add the 'Doxygen Governance' required check to protected branches that enforce source-governance before merge",
     "Code owner review is required for community and military branches",
     "Restricted push access on community and military to @makr-code/maintainers team"

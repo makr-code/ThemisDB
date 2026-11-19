@@ -14,9 +14,9 @@ from typing import Any
 
 
 ALLOWED_STATUSES = {"fulfilled", "partial", "open", "unclear", "not_applicable"}
-MAX_REQUIREMENTS = 80
-MAX_TASK_LENGTH = 300
-MAX_EVIDENCE_LENGTH = 400
+MAX_REQUIREMENTS = 50
+MAX_TASK_LENGTH = 200
+MAX_EVIDENCE_LENGTH = 200
 CHECKBOX_PATTERN = re.compile(r"^\s*[-*+]\s+\[([ xX])\]\s+(.+?)\s*$")
 TEXT_ID_PATTERN = re.compile(r"^TEXT-(PR|ISSUE)-[0-9]+-[0-9]+$")
 
@@ -203,6 +203,14 @@ def _normalize_requirements(
                 "status": "unclear",
                 "evidence": "Copilot did not return an assessment for this checklist item.",
             })
+            continue
+        if not task["checked"]:
+            for requirement in requirements:
+                if requirement["id"] == identifier and requirement["status"] == "fulfilled":
+                    requirement["status"] = "open"
+                    requirement["evidence"] = (
+                        "The source checklist is still unchecked; mark it complete only after the work is evidenced."
+                    )
     return requirements, errors
 
 
@@ -230,7 +238,7 @@ def _render_report(
         "",
     ]
     if context.get("truncated"):
-        lines.append("Context exceeded the review limit; the assessment is incomplete and fails closed.")
+        lines.append("Review context is incomplete or stale; the assessment fails closed.")
         lines.append("")
     if errors:
         lines.append("**Validation issues**")
@@ -253,6 +261,13 @@ def _render_report(
             "**Open or unverified tasks**",
             "",
             "- No actionable requirements were returned. The gate fails closed until the PR or linked issue defines reviewable tasks.",
+            "",
+        ])
+    elif not actionable:
+        lines.extend([
+            "**Open or unverified tasks**",
+            "",
+            "- No actionable requirements remain after exclusions; the gate fails closed.",
             "",
         ])
 
@@ -300,7 +315,9 @@ def evaluate(
     else:
         requirements, errors = _normalize_requirements(context, response_path)
     if context.get("truncated"):
-        errors.append("The PR/issue/diff context was truncated and could not be fully reviewed.")
+        reasons = context.get("truncation_reasons") or []
+        errors.extend(str(reason) for reason in reasons)
+        errors.append("The PR/issue/diff context was truncated or stale and could not be fully reviewed.")
     passed, percent, comment = _render_report(context, requirements, errors)
     report = {
         "passed": passed,
