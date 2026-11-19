@@ -17,11 +17,13 @@ struct ShardRangeExport {
 
 /**
  * @brief Bind the rebalance executor to verified gRPC staging, not cutover.
- * @param open_export Trusted storage/control-plane adapter. It must check the
- *        approved operator request and resolve a current assignment and target,
- *        then open the immutable snapshot at the manifest watermark. The result
- *        must remain readable for the call and reproducible across retry, or
- *        require a fresh assignment after loss of the source snapshot.
+ * @param open_export Trusted storage/control-plane adapter. It must authorize
+ *        the approved operator request, resolve a current durable assignment
+ *        that explicitly binds this operation to its migration ID, source,
+ *        destination, range and epoch, then open the immutable snapshot at the
+ *        manifest watermark. The migration ID need not equal the operation ID.
+ *        The result must remain readable for the call and reproducible across
+ *        retry, or require a fresh assignment after loss of the source snapshot.
  * @return An executor reporting at most TRANSFER_VERIFIED. It never writes
  *         topology or makes staging visible to normal database reads.
  * @throws std::invalid_argument if the export adapter is empty.
@@ -40,8 +42,7 @@ struct ShardRangeExport {
             const auto snapshot = open_export(request);
             const auto& manifest = snapshot.manifest;
             const auto& move = request.operation;
-            if (!snapshot.target || manifest.id != request.operation_id ||
-                manifest.source != move.source_shard_id ||
+            if (!snapshot.target || manifest.source != move.source_shard_id ||
                 manifest.target != move.target_shard_id || manifest.range_start != move.token_range_start ||
                 manifest.range_end != move.token_range_end) {
                 return {outcome, "Export does not match the approved move"};

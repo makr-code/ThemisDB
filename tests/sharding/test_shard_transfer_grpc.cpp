@@ -8,6 +8,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_range_snapshot.h"
+#include "sharding/shard_transfer_executor.h"
 #include "sharding/shard_transfer_store.h"
 #include "shard_rpc.grpc.pb.h"
 
@@ -47,6 +48,7 @@ namespace fs = std::filesystem;
 namespace rpc = themis::sharding::proto;
 using themis::sharding::ShardRPCServer;
 using themis::sharding::ShardRPCClient;
+using themis::sharding::AutoRebalancer;
 using themis::sharding::ShardTransferManifest;
 using themis::sharding::ShardTransferStore;
 using namespace std::chrono_literals;
@@ -263,7 +265,7 @@ private:
                    manifest.range_end == 200;
         });
     if (mode == "seed") {
-        for (const char* id : {"resume", "abort", "bad-digest"}) {
+        for (const char* id : {"resume", "abort", "bad-digest", "assigned-transfer-id"}) {
             store->assign(assignment(id), kSource);
         }
     }
@@ -407,6 +409,26 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
     status = stub->VerifyShardTransfer(&verify_context, id, &verified);
     ASSERT_TRUE(status.ok()) << status.error_message();
     EXPECT_TRUE(verified.verified());
+
+    const auto separately_assigned = snapshotFor("assigned-transfer-id");
+    auto executor = themis::sharding::makeShardTransferExecutor(
+        [&](const AutoRebalancer::MigrationRequest& approved) {
+            EXPECT_EQ(approved.operation_id, "approved-operation-id");
+            EXPECT_EQ(approved.operator_signature, "signed");
+            return themis::sharding::ShardRangeExport{
+                separately_assigned.manifest,
+                std::make_shared<ShardRPCClient>(client_config),
+                separately_assigned.read_chunk};
+        });
+    AutoRebalancer::MigrationRequest approved_request;
+    approved_request.operation_id = "approved-operation-id";
+    approved_request.operator_signature = "signed";
+    approved_request.operation.source_shard_id = kSource;
+    approved_request.operation.target_shard_id = kTarget;
+    approved_request.operation.token_range_start = 100;
+    approved_request.operation.token_range_end = 200;
+    const auto executor_result = executor(approved_request);
+    EXPECT_EQ(executor_result.outcome, AutoRebalancer::MigrationOutcome::TRANSFER_VERIFIED);
 
     auto unbound_channel = connect(second_address, receiver_tls.certificate_pem, unbound_tls);
     ASSERT_TRUE(unbound_channel->WaitForConnected(deadline()))
