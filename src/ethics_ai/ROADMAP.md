@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-11-06
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -70,6 +70,7 @@ This release track closes source, contract, failure-safety, measurement, and ope
 - **Tasks:**
   - [ ] Wire approved real inference callbacks only through the reviewed runtime contract; ensure the dilemma and required context reach the model and reject synthetic fallback output in production paths. (Target: v2.5.0)
   - [ ] Implement or verify bounded deadlines, cancellation, concurrency/resource limits, retry policy, and deterministic ABSTAIN/explicit error handling for timeout, malformed output, unavailable backend, and partial participation. (Target: v2.5.0)
+  - [~] Enforce finite, non-negative evaluator weights with a positive finite sum; reject non-finite/out-of-range decision scores; report fairness evidence availability and distinct named argument schools. This closes only the in-tree reference evaluator contract, not the unavailable canonical plugin. (Target: v2.5.0; source/test: `src/ethics_ai/ethics_evaluator.cpp`, `tests/ethics_ai/test_ethics_ai_policy_evaluation_focused.cpp`)
   - [ ] Verify legal retrieval is a separately approved and traceable dependency: citations must resolve to retrieved, versioned material; retrieval failure must be surfaced, not fabricated or silently treated as grounding. Define human review/override boundaries with product and legal owners. (Target: v2.5.0)
   - [ ] Exercise immutable/complete audit events for normal, timeout, ABSTAIN, retrieval-failure, and override paths; minimize sensitive dilemma content and define retention/access controls. (Target: v2.5.0)
 - **Dependencies:** Wave 2.5-A contract and source gate; approved model/backend, retrieval corpus, policy, and operator/security owners.

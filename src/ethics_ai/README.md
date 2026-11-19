@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -99,6 +99,14 @@ Out of scope:
 - some advanced generation and embedding paths remain configuration-dependent.
 - LDM helper defaults are deterministic synthetic outputs unless an inference function is injected; the current plugin flow has no such injection.
 - LDM benchmark targets use mock registries and do not establish real-LLM or representative-hardware performance.
+
+## Policy Evaluation and Fairness Evidence
+
+The in-tree `EthicsEvaluator` rejects non-finite, negative, or all-zero dimension weights by throwing `std::invalid_argument`; valid weights are normalized. `evaluateDecision()` returns `Status::Error` when confidence or consensus is non-finite or outside `[0, 1]`, rather than returning a score from invalid policy input.
+
+The fairness dimension is a limited source-diversity proxy: it counts non-empty `philosophy_school` identifiers on supplied arguments. Empty or missing school identifiers are ignored, and duplicate identifiers do not increase the number of distinct schools. If no named argument schools are present, the evaluator returns `fairness_score == 0` and reports `fairness_evidence_available == 0`, with evidence counts in `detailed_metrics`. This proxy is not a population, subgroup, or cultural fairness assessment, and must not be presented as one.
+
+The focused validation gate is `test_ethics_ai_policy_evaluation_focused_EthicsAiFocusedTests` (`module_ethics_ai_test_ethics_ai_policy_evaluation_focused_focused`). Release performance claims require a reproducible evaluator benchmark recording workload size, build/compiler, hardware, and P50/P95/P99 latency and throughput against an owner-approved baseline. No numerical latency threshold is claimed until such a baseline and threshold are reviewed; these in-tree tests do not validate the external canonical plugin.
 
 ## Sourcecode Verification (Module: ethics_ai/readme)
 
