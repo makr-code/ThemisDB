@@ -19,6 +19,21 @@ Status: Active
 
 ## Curated module contexts
 
+### Sharding recovery authority (DIS-06 / #8200)
+
+For the `TwoPhaseCommitCoordinator` / `CrossShardTransactionCoordinator` pair,
+the former owns durable 2PC decisions; CrossShard delegates only 2PC and keeps
+its lifecycle/other protocols. PREPARED participants retain locks across
+timeouts; unavailable decisions block readiness, not decision-delivery RPCs.
+Coordinator, participant and replication WAL formats remain separate; do not
+silently migrate old unresolved CrossShard records or infer replica transport
+coverage from local WAL replay tests. API/source truth:
+`include/sharding/two_phase_commit_coordinator.h`,
+`include/sharding/two_phase_commit_participant.h`, `src/sharding/API.md` and
+`src/sharding/RUNBOOK.md`. Open evidence gates: `audit/ROADMAP.md`,
+`src/sharding/ROADMAP.md`. This curated note supersedes older inventory-only
+recovery descriptions, not the referenced source contracts.
+
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.

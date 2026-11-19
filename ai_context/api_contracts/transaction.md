@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-29"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,7 +47,7 @@ Datum: 2026-10-29
 |---|---|---|---|
 | **Prepare** | Coordinator locks all involved keys; participants vote ready/abort | 30s | test_txn_2pc_prepare.cpp |
 | **Commit** | Coordinator broadcasts commit; all participants write + ack | 30s | test_txn_2pc_commit.cpp |
-| Recovery | On participant failure, coordinator retries or aborts; idempotent | N/A | test_txn_2pc_recovery.cpp |
+| Recovery | Replay immutable durable decision; without a decision only coordinator recovery may select durable ABORT; participants never timeout-abort after YES | Blocking until decision reachable | See sharding crash/recovery tests below |
 
 ### Durable DTM Recovery
 
@@ -83,9 +83,15 @@ crash between applying operations and persisting the participant COMMIT record.
 The snapshot-isolation Percolator path is rejected unless a durable coordinator
 decision log is configured.
 This runtime integration does not make the global recovery report a universal
-gate for other coordinator implementations; canonical cross-module coordinator
-selection, a combined coordinator/participant crash matrix, replica-process
-crash coverage, and successful CI evidence remain open.
+gate for other coordinator implementations. For the sharding named pair,
+`TwoPhaseCommitCoordinator` now owns durable 2PC decisions and CrossShard
+delegates its 2PC path; this does not merge DTM, participant or replication WAL
+formats. A prepared participant never selects ABORT or releases locks on local
+timeout: it remains in doubt until the coordinator supplies its decision.
+See `src/sharding/API.md` and `src/sharding/RUNBOOK.md` for readiness, endpoint
+resolution and old-log constraints. Full combined crash-matrix, production
+transport, replica-process, platform/CI evidence and maintainer acceptance
+remain open under DIS-06.
 
 ## SAGA (Distributed Transactions)
 

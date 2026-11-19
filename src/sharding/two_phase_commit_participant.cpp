@@ -53,16 +53,11 @@ TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
         wal_cfg.wal_directory = config_.wal_directory;
         wal_cfg.sync_on_write = config_.sync_wal_writes;
         wal_cfg.recovery_callback = [this](const WALEntry& entry) {
-            applyRecoveredEntry(entry, false);
+            applyRecoveredEntry(entry);
             return true;
         };
         recovery_complete_ = false;
         wal_ = std::make_unique<WALManager>(wal_cfg);
-        const auto retained_entries = wal_->readRange(
-            wal_->getOldestLSN(), wal_->getCurrentLSN());
-        for (const auto& entry : retained_entries) {
-            applyRecoveredEntry(entry, true);
-        }
         recovery_complete_ = std::none_of(
             transactions_.begin(), transactions_.end(), [](const auto& item) {
                 return item.second.state == ParticipantTxnState::PREPARED;
@@ -115,7 +110,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
     }
 
     std::unique_lock<std::mutex> lock(mutex_);
-    if (durability_failed_ || !recovery_complete_) {
+    if (!wal_ || durability_failed_ || !recovery_complete_) {
         return false;
     }
 
@@ -128,6 +123,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
                      shard_id_, transaction_id, it->second.vote_committed);
         return it->second.vote_committed;
     }
+    if (recoveryBlockersLocked() != 0) {
+        return false;
+    }
 
     lock.unlock();
     FencingResult fencing_result = FencingResult::INVALID_TOKEN;
@@ -138,7 +136,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
     }
     lock.lock();
 
-    if (durability_failed_) {
+    if (!wal_ || durability_failed_ || !recovery_complete_) {
         return false;
     }
 
@@ -148,6 +146,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
             return false;
         }
         return it->second.vote_committed;
+    }
+    if (recoveryBlockersLocked() != 0) {
+        return false;
     }
 
     if (fencing_result != FencingResult::ALLOWED) {
@@ -245,7 +246,7 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (durability_failed_ || !recovery_complete_) {
+    if (!wal_ || durability_failed_ || !recovery_complete_) {
         return false;
     }
 
@@ -292,13 +293,14 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     }
 
     if (fencing_result != FencingResult::ALLOWED || !applied) {
+        txn.resolution_pending = true;
         THEMIS_ERROR("2PC participant [{}] COMMIT {} rejected (fencing={}, applied={})",
                      shard_id_, transaction_id, toString(fencing_result), applied);
         return false;
     }
 
     // Durable commit record
-    if (wal_ && !logToWAL(WALEntryType::COMMIT_TX, transaction_id, {
+    if (!logToWAL(WALEntryType::COMMIT_TX, transaction_id, {
         {"transaction_id", transaction_id},
         {"shard_id",       shard_id_},
         {"commit_timestamp", txn.commit_timestamp}
@@ -343,7 +345,7 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (durability_failed_ || !recovery_complete_) {
+    if (!wal_ || durability_failed_ || !recovery_complete_) {
         return false;
     }
 
@@ -362,7 +364,7 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
         return false;
     }
 
-    if (wal_ && !logToWAL(WALEntryType::ABORT_TX, transaction_id, {
+    if (!logToWAL(WALEntryType::ABORT_TX, transaction_id, {
             {"transaction_id", transaction_id},
             {"shard_id",       shard_id_}
         }, true)) {
@@ -410,7 +412,8 @@ TwoPhaseCommitParticipant::onHealthCheck() {
     std::lock_guard<std::mutex> lock(mutex_);
     ShardRPCServer::HealthInfo info;
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
-    info.is_healthy     = !durability_failed_ && recovery_complete_;
+    info.is_healthy     = wal_ && !durability_failed_ && recovery_complete_ &&
+                          recoveryBlockersLocked() == 0;
     info.version        = "1.0";
     info.uptime_seconds = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::seconds>(uptime).count());
@@ -437,9 +440,8 @@ TwoPhaseCommitParticipant::getTransactionState(const std::string& transaction_id
 }
 
 /**
- * @brief Abort Timed Out Transactions.
- * @return Return value.
- * @details Calls: lock(), std::chrono::steady_clock::now(), THEMIS_WARN(), release_locks_(), logToWAL(), fetch_add().
+ * @brief Mark expired PREPAREs unresolved without overriding the coordinator.
+ * @return Zero; timeout monitoring never aborts a prepared transaction.
  */
 size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -447,8 +449,6 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
         return 0;
     }
     auto now = std::chrono::steady_clock::now();
-    size_t count = 0;
-
     for (auto& [txn_id, txn] : transactions_) {
         if (txn.state != ParticipantTxnState::PREPARED) {
           continue;
@@ -456,32 +456,16 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - txn.prepared_at
         );
-        if (elapsed >= config_.prepare_timeout) {
-            THEMIS_WARN("2PC participant [{}] aborting timed-out prepared txn {}",
+        if (elapsed >= config_.prepare_timeout && !txn.timeout_reported) {
+            THEMIS_WARN("2PC participant [{}] prepared txn {} timed out; retaining locks "
+                        "until the coordinator decision is delivered",
                         shard_id_, txn_id);
-
-            if (wal_ && !logToWAL(WALEntryType::ABORT_TX, txn_id, {
-                    {"transaction_id", txn_id},
-                    {"shard_id",       shard_id_},
-                    {"reason",         "prepare timeout"}
-                }, true)) {
-                durability_failed_ = true;
-                continue;
-            }
-
-            if (release_locks_) {
-                try { release_locks_(txn_id); }
-                catch (...) {}
-            }
-
-            txn.state = ParticipantTxnState::ABORTED;
-
-            total_aborts_.fetch_add(1, std::memory_order_relaxed);
+            txn.resolution_pending = true;
+            txn.timeout_reported = true;
             total_timeouts_.fetch_add(1, std::memory_order_relaxed);
-            ++count;
         }
     }
-    return count;
+    return 0;
 }
 
 /**
@@ -559,10 +543,7 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
     return in_doubt;
 }
 
-void TwoPhaseCommitParticipant::applyRecoveredEntry(
-    const WALEntry& entry,
-    bool retain_terminal
-) {
+void TwoPhaseCommitParticipant::applyRecoveredEntry(const WALEntry& entry) {
     if (entry.transaction_id.empty()) {
         return;
     }
@@ -576,13 +557,10 @@ void TwoPhaseCommitParticipant::applyRecoveredEntry(
         ParticipantTransaction txn;
         txn.transaction_id = txn_id;
         txn.vote_committed = entry.data.value("vote", true);
-        if (!txn.vote_committed && !retain_terminal) {
-            transactions_.erase(txn_id);
-            return;
-        }
         txn.state = txn.vote_committed
             ? ParticipantTxnState::PREPARED
             : ParticipantTxnState::ABORTED;
+        txn.resolution_pending = txn.vote_committed;
         txn.operations = entry.data.value("operations", nlohmann::json::array());
         if (entry.data.contains("fencing_token") &&
             entry.data["fencing_token"].is_object()) {
@@ -604,26 +582,38 @@ void TwoPhaseCommitParticipant::applyRecoveredEntry(
         return;
     }
 
-    if (!retain_terminal) {
-        transactions_.erase(txn_id);
-        return;
-    }
-
     auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
         ParticipantTransaction txn;
         txn.transaction_id = txn_id;
         txn.prepared_at = std::chrono::steady_clock::now();
+        txn.vote_committed = entry.type == WALEntryType::COMMIT_TX;
         it = transactions_.emplace(txn_id, std::move(txn)).first;
     }
 
     if (entry.type == WALEntryType::COMMIT_TX) {
+        if (it->second.state == ParticipantTxnState::ABORTED) {
+            throw std::runtime_error("participant WAL contains COMMIT after ABORT for " + txn_id);
+        }
         it->second.state = ParticipantTxnState::COMMITTED;
         it->second.commit_timestamp =
             entry.data.value("commit_timestamp", int64_t{0});
     } else {
+        if (it->second.state == ParticipantTxnState::COMMITTED) {
+            throw std::runtime_error("participant WAL contains ABORT after COMMIT for " + txn_id);
+        }
         it->second.state = ParticipantTxnState::ABORTED;
     }
+}
+
+size_t TwoPhaseCommitParticipant::recoveryBlockersLocked() const {
+    const auto now = std::chrono::steady_clock::now();
+    return static_cast<size_t>(std::count_if(
+        transactions_.begin(), transactions_.end(), [this, now](const auto& item) {
+            return item.second.state == ParticipantTxnState::PREPARED &&
+                   (item.second.resolution_pending ||
+                    now - item.second.prepared_at >= config_.prepare_timeout);
+        }));
 }
 
 nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
@@ -668,11 +658,19 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
         }
     }
 
+    const auto in_doubt_count = recoveryBlockersLocked();
+    const bool ready = wal_ && !durability_failed_ && recovery_complete_ && in_doubt_count == 0;
     return {
         {"shard_id",               shard_id_},
         {"uptime_seconds",         static_cast<uint64_t>(
                                        std::chrono::duration_cast<std::chrono::seconds>(uptime).count())},
         {"recovery_complete",      recovery_complete_},
+        {"ready",                  ready},
+        {"recovery_status",        !wal_ ? "disabled" :
+                                   durability_failed_ ? "failed" :
+                                   !recovery_complete_ ? "running" :
+                                   in_doubt_count != 0 ? "blocked" : "complete"},
+        {"active_in_doubt",        in_doubt_count},
         {"wal_recovery_status",    wal_recovery_status},
         {"total_prepares",         total_prepares_.load()},
         {"total_commits",          total_commits_.load()},
@@ -701,6 +699,9 @@ bool TwoPhaseCommitParticipant::logToWAL(
     const nlohmann::json& data,
     bool force_sync
 ) {
+    if (!wal_) {
+        return false;
+    }
     return WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
         config_.sync_wal_writes || force_sync,

@@ -21,6 +21,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
+#include "sharding/two_phase_commit_coordinator.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include <string>
 #include <vector>
@@ -202,7 +203,7 @@ struct CrossShardTransactionConfig {
     std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl"; ///< Absolute transaction log path.
     
     // Persistence settings (Phase 2.3.3 - Transaction Durability)
-    bool enable_persistence = false; ///< Enable WAL/snapshot persistence backend.
+    bool enable_persistence = false; ///< Enable persistence; required for all 2PC writes.
     std::string data_dir;            ///< Base directory for WAL and snapshots.
     uint64_t snapshot_interval = 1000; ///< Snapshot cadence in operation count.
     size_t max_snapshots = 10;       ///< Maximum retained snapshots.
@@ -213,6 +214,11 @@ struct CrossShardTransactionConfig {
     std::string coordinator_id; ///< Actual coordinator node identifier.
     std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
         fencing_token_provider; ///< Current per-shard write credential; absent blocks writes.
+
+    /// Trusted per-shard endpoint/TLS resolver, including startup phase-two replay.
+    /// Missing/malformed endpoints leave canonical recovery blocked.
+    std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
+        const std::string&)> participant_endpoint_resolver;
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
@@ -302,7 +308,8 @@ public:
      * @param transaction_id Unique transaction identifier
      * @param protocol Transaction protocol to use
      * @param isolation_level Isolation level
-     * @return true if transaction started successfully
+     * @return true if started; false for invalid/duplicate IDs, unresolved
+     *         legacy 2PC recovery, or TWO_PHASE_COMMIT without durable persistence.
      */
     bool beginTransaction(
         const std::string& transaction_id,
@@ -329,18 +336,20 @@ public:
      * @brief Prepare transaction (2PC/3PC phase 1)
      * @param transaction_id Transaction ID
      * @return true if all participants prepared successfully
+     * @note For TWO_PHASE_COMMIT, canonical BEGIN is durable before participant
+     *       PREPARE. Success leaves no terminal decision; SSI remains active
+     *       until commit/abort. WAL-disabled 2PC never contacts participants.
      */
     bool prepare(const std::string& transaction_id);
     
     /**
-     * @brief Commit a transaction using the shared coordinator-side 2PC contract.
+     * @brief Commit using the selected protocol; 2PC delegates to canonical authority.
      * @param transaction_id Existing transaction ID in ACTIVE or PREPARED state.
-     * @return True only after all participants acknowledge COMMIT. False when
-     *         prepare selects ABORT or when decision persistence/phase two fails.
+     * @return For 2PC, true only after all COMMIT acknowledgements and durable
+     *         completion. False on ABORT or validation/durability/delivery failure.
      * @note A phase-two failure after COMMIT selection leaves the transaction
-     *       UNKNOWN and is never converted into ABORT. The current WAL/snapshot
-     *       backend records resume candidates but does not automatically
-     *       re-drive phase two; unresolved decisions require external recovery.
+     *       UNKNOWN and is never converted into ABORT. Canonical recovery
+     *       re-drives the immutable decision using registered/resolved endpoints.
      */
     bool commit(const std::string& transaction_id);
     
@@ -349,14 +358,18 @@ public:
      * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or PREPARED state.
      * @return True when the ABORT decision and all participant acknowledgements complete.
      *         False on an invalid state, timeout, persistence failure, or missing acknowledgement.
+     * @note 2PC uses canonical durable BEGIN/ABORT/completion; no-WAL operation
+     *       fails closed and cannot overwrite a previously selected COMMIT.
      */
     bool abort(const std::string& transaction_id);
 
     /**
-     * @brief Restore transaction state and report in-doubt resume candidates.
+     * @brief Re-drive canonical 2PC and inspect the separate lifecycle backend.
      *
-     * Uses WAL+snapshot recovery when the backend is available. The current
-     * backend does not automatically re-send PREPARE, COMMIT, or ABORT RPCs.
+     * Canonical WAL decisions are re-delivered through registered or resolved
+     * endpoints. Missing endpoints leave startup blocked. Unresolved old 2PC
+     * TransactionWAL/snapshot records require operator resolution; formats are
+     * not migrated and decisions are never inferred from elapsed time.
      *
      * This method is intended for startup recovery before new transactions are
      * accepted. If called during live traffic, the returned value is best-effort.
@@ -612,6 +625,13 @@ public:
     );
 
 private:
+    /// Execute prepare/abort with the per-transaction protocol-driver guard held.
+    bool prepareImpl(const std::string& transaction_id);
+    bool abortImpl(const std::string& transaction_id);
+
+    /// Configure production transports for the transaction's canonical participants.
+    bool registerTwoPhaseParticipants(const CrossShardTransaction& txn);
+
     /**
      * @brief Execute 2PC protocol
      */
@@ -747,6 +767,10 @@ private:
     void createPeriodicSnapshot();
     
     CrossShardTransactionConfig config_; ///< Runtime coordinator configuration.
+    std::unique_ptr<themis::sharding::TwoPhaseCommitCoordinator> two_phase_coordinator_;
+    std::map<std::string, std::string> registered_two_phase_endpoints_; ///< Guarded by transactions_mutex_.
+    std::atomic<bool> legacy_two_phase_recovery_blocked_{false};
+    std::set<std::string> legacy_two_phase_transaction_ids_; ///< IDs restored only from old lifecycle WAL/snapshots.
     std::shared_ptr<ConsensusModule> consensus_; ///< Consensus dependency for replicated decisions.
     std::shared_ptr<themis::sharding::TrueTime> truetime_; ///< Time source for MVCC/external consistency.
 

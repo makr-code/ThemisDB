@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-19
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -221,8 +221,18 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     only known recovery blockers from readiness checks and topology changes, and makes `/health/ready` fail while durable recovery blockers remain (not
     for ordinary in-flight requests).
     Recovery also preserves in-doubt state when participant IDs/endpoints are missing instead of completing an empty
-    replay; malformed participant descriptors are also retained as unresolved. Global canonical-coordinator selection remains open, as do replica-process and combined coordinator/
-    participant crash coverage, focused test execution, and a successful evidence-artifact workflow run.
+    replay; malformed participant descriptors are also retained as unresolved.
+  - [~] 2026-11-19 / #8200: `TwoPhaseCommitCoordinator` ist die kanonische Entscheidungsautorität
+    für das benannte Koordinator-Paar. `CrossShardTransactionCoordinator` delegiert ausschließlich seinen
+    2PC-Pfad; andere Protokolle und öffentliche Einstiegspunkte bleiben erhalten. BEGIN, Entscheidung
+    und Abschluss werden synchron persistiert; Abschluss erst nach allen Participant-ACKs.
+    Participant-Timeouts melden In-Doubt, schreiben niemals selbst ABORT und geben keine vorbereiteten
+    Sperren frei. Nicht auflösbare Wiederanläufe blockieren Readiness, nicht die Entscheidungs-RPCs.
+    WAL-Domänen bleiben getrennt; ungelöste alte CrossShard-Records werden nicht still migriert.
+    Neue Prozess-Regressionen verwenden echte Koordinator-/Participant-Objekte über Test-IPC;
+    dies ist kein Nachweis für produktiven gRPC/mTLS- oder Replikat-Transport.
+    Ausführungsevidenz siehe `../src/sharding/ROADMAP.md`; vollständige Matrix, Release-/Plattform-Gates
+    und Maintainer-Freigabe bleiben offen. Keine API-Entfernung oder WAL-Formatmigration in diesem Schritt.
 - [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
   - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
     gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.

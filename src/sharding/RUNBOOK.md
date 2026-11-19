@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -87,9 +87,27 @@ This runbook is the operator-facing guide for the principal failure modes in the
 
 ### Recovery
 
-- replay the transaction state from WAL,
-- decide the final commit or abort from the authoritative decision record,
-- release blocked participants only after resolution and state validation.
+- Preserve the canonical `TwoPhaseCommitCoordinator` log and each participant's
+  WAL. CrossShard uses `data_dir/two_phase_commit` for canonical decisions and
+  `data_dir/wal` for lifecycle state. These are not replication WALs.
+- Restore trusted `participant_endpoint_resolver` mappings (including TLS
+  settings) for every persisted shard ID, then retry coordinator recovery.
+  A durable COMMIT must be re-delivered as COMMIT; never replace it with ABORT.
+  Only coordinator recovery may select durable ABORT when no decision exists.
+- Participant timeouts are alerts, not leases. Do not delete WALs, force ABORT,
+  release prepared locks or retry an uncertain business operation with a fresh
+  transaction ID. An unreachable coordinator intentionally blocks 2PC.
+- Inspect participant `ready`, `active_in_doubt`, `recovery_status` and
+  `total_timeouts`; `recovery_complete` alone confirms replay/lock restoration,
+  not resolution. Recovered/expired/failed-apply prepares reject new PREPARE
+  but still accept terminal decisions and duplicates.
+- Missing endpoints, incomplete acknowledgements or unresolved older
+  CrossShard-only records remain recovery blockers; escalate rather than
+  migrating or discarding them automatically. No old-format rollback/migration
+  procedure is supplied by this change. Preserve both logs for maintainer-led
+  reconciliation before changing coordinator versions.
+- Release blocked participants only after the authoritative terminal record is
+  durable. Apply callbacks must deduplicate by transaction ID across crashes.
 
 ## Scenario 4: migration conflict or rebalance fault
 

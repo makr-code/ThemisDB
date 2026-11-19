@@ -50,7 +50,7 @@ namespace themis::sharding {
 enum class ParticipantTxnState {
     PREPARED,   ///< Vote COMMIT abgegeben, wartet auf Coordinator-Entscheidung.
     COMMITTED,  ///< COMMIT empfangen und Operationen erfolgreich angewendet.
-    ABORTED     ///< ABORT empfangen oder Timeout-Abbruch lokal ausgefuehrt.
+    ABORTED     ///< ABORT empfangen oder PREPARE abgelehnt; kein lokaler Timeout-Abbruch.
 };
 
 /**
@@ -65,6 +65,8 @@ struct ParticipantTransaction {
     int64_t                 prepare_timestamp = 0; ///< Optionaler PREPARE-Zeitstempel vom Coordinator.
     int64_t                 commit_timestamp  = 0; ///< MVCC-COMMIT-Zeitstempel (auf COMMIT gesetzt).
     bool                    vote_committed    = true; ///< Gespeicherte PREPARE-Stimme (idempotente Antworten).
+    bool                    resolution_pending = false; ///< Recovered, expired, or failed delivery awaits the coordinator.
+    bool                    timeout_reported = false; ///< Counts an expired PREPARE once; never changes the decision.
 };
 
 /**
@@ -116,8 +118,8 @@ public:
      * @brief Configuration for the participant
      */
     struct Config {
-        std::string wal_directory; ///< WAL-Verzeichnis; leer deaktiviert WAL-Persistenz.
-        std::chrono::milliseconds prepare_timeout{60000}; ///< Max. PREPARED-Wartezeit bis Auto-ABORT.
+        std::string wal_directory; ///< Required for votes/terminal acknowledgements; empty permits introspection only.
+        std::chrono::milliseconds prepare_timeout{60000}; ///< PREPARED age before reporting unresolved recovery, never auto-ABORT.
         bool sync_wal_writes = true; ///< Erzwingt synchrones WAL-Flush pro Eintrag.
         std::shared_ptr<EpochFencingManager> fencing_manager; ///< Required for write authorization.
     };
@@ -126,8 +128,8 @@ public:
      * @brief Construct a participant with optional storage callbacks
      *
      * If validate_and_lock / apply / release are left nullptr the participant
-     * uses its test-friendly no-op callbacks, but writes still require a configured
-     * fencing manager and a valid per-shard token.
+     * uses its test-friendly no-op callbacks. This default-config overload has
+     * no WAL and accepts introspection only; use the Config overload for writes.
      *
      * @param shard_id   Identifier of this shard
      * @param validate   Callback to validate & lock ops in PREPARE phase
@@ -146,7 +148,7 @@ public:
      *
      * If validate_and_lock / apply / release are left nullptr the participant
      * uses its test-friendly no-op callbacks, but writes still require a configured
-     * fencing manager and a valid per-shard token.
+     * WAL, fencing manager and a valid per-shard token.
      *
      * @param shard_id   Identifier of this shard
      * @param config     Participant configuration
@@ -210,7 +212,11 @@ public:
 
     /**
      * @brief Handle health-check request.
-     * @return Health information for shard liveness/readiness.
+     * @return Unhealthy while WAL/lock recovery failed or a recovered, expired,
+     *         or failed-apply PREPARE awaits a coordinator decision. Ordinary
+     *         in-flight PREPAREs do not block readiness.
+     * @note Decision RPCs remain available while reconciliation blocks readiness.
+     *       Missing WAL configuration blocks readiness and rejects new PREPARE.
      */
     ShardRPCServer::HealthInfo onHealthCheck() override;
 
@@ -226,10 +232,15 @@ public:
     ) const;
 
     /**
-     * @brief Abort prepared transactions that have exceeded prepare_timeout.
+     * @brief Report prepared transactions that have exceeded prepare_timeout.
      *
      * Should be called periodically (for example by maintenance/housekeeping).
-     * @return Number of transactions transitioned from PREPARED to ABORTED.
+     * An expired PREPARE blocks readiness and increments total_timeouts once.
+     * It never records ABORT, releases locks, or overrides the coordinator:
+     * after voting COMMIT only the authoritative coordinator may decide.
+     * @return Always zero: no transaction is aborted by a timeout. The existing
+     *         method name is retained for callers; inspect active_in_doubt and
+     *         total_timeouts in getStatistics() for unresolved work.
      */
     size_t abortTimedOutTransactions();
 
@@ -239,7 +250,8 @@ public:
      * The constructor runs this recovery synchronously before the participant
      * can handle requests; callers may invoke it again to inspect the unresolved
      * count without restoring locks twice. The WAL manager streams every durable
-     * record before trimming its bounded serving cache, and recovery restores
+     * record before trimming its bounded serving cache, retains terminal decisions
+     * for idempotent redelivery, and recovery restores
      * locks for replayed PREPARED transactions before reporting completion.
      * In-doubt transactions (PREPARED with no COMMIT/ABORT decision) are
      * left in PREPARED state; the coordinator should re-resolve them.
@@ -252,7 +264,10 @@ public:
 
     /**
      * @brief Statistics about this participant
-     * @return JSON mit Zaehlern, Zustandssummen und Uptime.
+     * @return Counters, state counts, uptime, ready, recovery_status, and
+     *         active_in_doubt (recovered/expired/failed-apply prepared transactions).
+     *         recovery_complete means WAL replay and lock restoration completed,
+     *         not that all coordinator decisions have been resolved.
      */
     nlohmann::json getStatistics() const;
 
@@ -270,6 +285,7 @@ private:
     std::map<std::string, ParticipantTransaction> transactions_; ///< In-Memory-Transaktionszustand.
     bool durability_failed_ = false;
     bool recovery_complete_ = true;
+    [[nodiscard]] size_t recoveryBlockersLocked() const; ///< Requires mutex_; counts unresolved recovery, not live prepares.
 
     // WAL for durable logging
     std::unique_ptr<WALManager> wal_; ///< Optionales WAL-Backend fuer Crash-Recovery.
@@ -277,8 +293,8 @@ private:
     // Statistics
     std::atomic<uint64_t> total_prepares_{0}; ///< Anzahl verarbeiteter PREPARE-Aufrufe.
     std::atomic<uint64_t> total_commits_{0};  ///< Anzahl erfolgreicher COMMIT-Entscheidungen.
-    std::atomic<uint64_t> total_aborts_{0};   ///< Anzahl ABORT-Entscheidungen inkl. Timeout-Aborts.
-    std::atomic<uint64_t> total_timeouts_{0}; ///< Anzahl timeout-basierter Auto-Aborts.
+    std::atomic<uint64_t> total_aborts_{0};   ///< Anzahl vom Coordinator bestaetigter ABORT-Entscheidungen.
+    std::atomic<uint64_t> total_timeouts_{0}; ///< Anzahl einmalig gemeldeter PREPARE-Timeouts, ohne Auto-Abort.
 
     // Startup time for uptime reporting
     const std::chrono::steady_clock::time_point start_time_{std::chrono::steady_clock::now()}; ///< Startzeit fuer Uptime-Berechnung.
@@ -297,9 +313,9 @@ private:
     /**
      * @brief Apply a durable record during recovery.
      * @param entry Replayed record in WAL sequence order.
-     * @param retain_terminal Whether terminal state may be cached for idempotent RPCs.
+     * @throws std::runtime_error if terminal COMMIT/ABORT records contradict each other.
      */
-    void applyRecoveredEntry(const WALEntry& entry, bool retain_terminal);
+    void applyRecoveredEntry(const WALEntry& entry);
 };
 
 } // namespace themis::sharding

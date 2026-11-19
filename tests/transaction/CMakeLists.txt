@@ -252,11 +252,13 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_process_crash_recovery.cpp
     add_executable(test_transaction_process_crash_recovery
         test_transaction_process_crash_recovery.cpp
         ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/lock_manager.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
     )
     if(NOT TARGET themis_sharding)
         target_sources(test_transaction_process_crash_recovery PRIVATE
             ${THEMIS_ROOT_DIR}/src/sharding/two_phase_commit_participant.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/two_phase_commit_coordinator.cpp
         )
     endif()
 
@@ -288,7 +290,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_process_crash_recovery.cpp
         TIER integration
         KIND focused
         TIMEOUT 90
-        LABELS distributed recovery process-crash evidence
+        LABELS distributed recovery process-crash evidence canonical-2pc pipe-ipc
     )
 endif()
 
