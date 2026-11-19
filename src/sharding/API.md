@@ -50,6 +50,24 @@ the canonical log lives under `data_dir/two_phase_commit`, separate from
 transport/TLS settings for persisted shard identities. Missing endpoints or
 unresolved older CrossShard 2PC records block recovery rather than guessing a
 decision. There is no automatic WAL migration or coordinator API removal.
+Configuration/record additions require rebuilding C++ consumers against matching
+headers; mixed-version binary ABI compatibility is not claimed.
+
+CrossShard supplies its TrueTime/snapshot-aware timestamp policy through
+`commit_timestamp_provider`. A single timestamp is recorded in the existing
+optional `commit_timestamp_ns` decision metadata and reused for all endpoint
+participants and recovery retries. The binary WAL encoding is unchanged; this
+does not make the participant or replication logs compatible with coordinator
+logs. `getTransactionRecord()` exposes a value snapshot for lifecycle/participant
+status synchronization; it does not transfer ownership of internal state.
+
+Roll out only after quiescing older coordinators and preserving all log domains.
+Unresolved older records require explicit maintainer reconciliation. Rolling
+back before the first new 2PC write is different from downgrading an activated
+coordinator: older CrossShard binaries do not consume the new canonical log
+directory. Do not downgrade after activation without an explicitly reviewed
+state-reconciliation/migration procedure; merely deleting the new directory
+or draining its pending count is not a safe rollback.
 
 Participants require a WAL for writes, sync PREPARE before voting YES and terminal
 records before ACK; missing WAL configuration leaves readiness false.
@@ -57,7 +75,9 @@ records before ACK; missing WAL configuration leaves readiness false.
 `abortTimedOutTransactions()` API returns zero, retains prepared locks and
 never writes ABORT. Delayed authoritative decisions and duplicate requests
 remain accepted. Application callbacks must be transaction-ID idempotent
-across a crash between applying changes and recording COMMIT.
+across a crash between applying changes and recording COMMIT, and must atomically
+persist business writes before returning true; participant WAL durability alone
+does not make an asynchronous application write durable.
 
 Participant `recovery_complete` means WAL replay and lock restoration finished;
 it does not mean every in-doubt transaction is resolved. `ready`,

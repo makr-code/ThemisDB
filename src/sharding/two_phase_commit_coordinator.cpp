@@ -14,12 +14,11 @@
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 //
-// The coordinator shares phase ordering and decision outcomes with
-// CrossShardTransactionCoordinator through detail/two_phase_commit_contract.h.
-// WALLoggingHelper (include/sharding/wal_logging_helper.h) centralizes the
-// WAL-write pattern for WALManager-backed coordinators only; WAL formats remain
-// coordinator-specific and cross-coordinator recovery is not available.
-// Cross-coordinator recovery tooling is planned for v3.0.0.
+// Canonical decision authority for direct 2PC and CrossShardTransactionCoordinator.
+// WALLoggingHelper centralizes durable writes; the normalized existing
+// commit_timestamp_ns metadata preserves CrossShard MVCC timestamps on replay.
+// Older CrossShard TransactionWAL histories remain a separate, blocked recovery
+// domain: this consolidation does not merge formats or invent migration decisions.
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/two_phase_commit_coordinator.h"
@@ -96,7 +95,51 @@ void validateCoordinatorEntry(
         entry.data.at("decision") != (commit ? "commit" : "abort")) {
         throw std::runtime_error("canonical coordinator WAL decision does not match record type");
     }
+    if (terminal && entry.data.contains("commit_timestamp_ns")) {
+        const auto& timestamp = entry.data.at("commit_timestamp_ns");
+        if (!commit || !timestamp.is_number_integer() || timestamp.get<int64_t>() <= 0 ||
+            (has_decision && previous->second.commit_timestamp_ns &&
+             *previous->second.commit_timestamp_ns != timestamp.get<int64_t>())) {
+            throw std::runtime_error("invalid or contradictory canonical commit timestamp");
+        }
+    }
 }
+
+class TimestampedEndpointParticipant final : public ShardRPCServer::RequestHandler {
+public:
+    TimestampedEndpointParticipant(
+        std::unique_ptr<ShardRPCServer::RequestHandler> delegate,
+        const ShardRPCClient::Config& rpc,
+        const ShardRPCClient::InProcessResponseHandler& handler,
+        std::function<std::optional<int64_t>(const std::string&)> timestamp,
+        bool require_timestamp)
+        : delegate_(std::move(delegate)), client_(rpc), timestamp_(std::move(timestamp)),
+          require_timestamp_(require_timestamp) {
+        if (isTestEndpoint(rpc.endpoint) && handler) {
+            client_.setInProcessResponseHandler(handler);
+        }
+    }
+
+    bool onPrepare(const std::string& id, const std::string& coordinator,
+                   const std::string& payload) override {
+        return delegate_->onPrepare(id, coordinator, payload);
+    }
+    bool onCommit(const std::string& id) override {
+        const auto timestamp = timestamp_(id);
+        if (timestamp) {
+            return *timestamp > 0 && client_.commit(id, *timestamp);
+        }
+        return !require_timestamp_ && delegate_->onCommit(id);
+    }
+    bool onAbort(const std::string& id) override { return delegate_->onAbort(id); }
+    ShardRPCServer::HealthInfo onHealthCheck() override { return delegate_->onHealthCheck(); }
+
+private:
+    std::unique_ptr<ShardRPCServer::RequestHandler> delegate_;
+    ShardRPCClient client_;
+    std::function<std::optional<int64_t>(const std::string&)> timestamp_;
+    bool require_timestamp_;
+};
 }
 
 // ============================================================================
@@ -150,6 +193,7 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
             rec.transaction_id = id;
             rec.participant_shards = replay.participants;
             rec.decision_commit = replay.has_decision && replay.decision_commit;
+            rec.commit_timestamp_ns = replay.commit_timestamp_ns;
             rec.state = (replay.participants_invalid || replay.participants.empty())
                 ? CoordinatorTxnState::FAILED
                 : replay.completed ? CoordinatorTxnState::COMPLETED
@@ -228,10 +272,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
     if (!active_drivers_.empty() || recovery_status_ == "running") {
         throw std::logic_error("cannot replace participants while protocol RPCs are active");
     }
-    auto adapter = isTestEndpoint(rpc_config.endpoint)
-        ? std::make_unique<ShardRPCClientAdapter>(
-            rpc_config, config_.in_process_rpc_response_handler)
-        : std::make_unique<ShardRPCClientAdapter>(rpc_config);
+    auto adapter = makeEndpointParticipant(rpc_config);
     participants_[shard_id] = adapter.get();  // Sprint 8: Store raw pointer for O(1) lookup
     // Sprint 8 Phase 1 (GAP B-1/B-2): Unique_ptr moved to owned_adapters_ for lifetime management.
     // Raw pointer stored in participants_ for transaction phase access. Pattern: Move for storage,
@@ -249,6 +290,21 @@ size_t TwoPhaseCommitCoordinator::participantCount() const {
      */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return participants_.size();
+}
+
+std::unique_ptr<ShardRPCServer::RequestHandler>
+TwoPhaseCommitCoordinator::makeEndpointParticipant(const ShardRPCClient::Config& rpc) {
+    std::unique_ptr<ShardRPCServer::RequestHandler> adapter = isTestEndpoint(rpc.endpoint)
+        ? std::make_unique<ShardRPCClientAdapter>(rpc, config_.in_process_rpc_response_handler)
+        : std::make_unique<ShardRPCClientAdapter>(rpc);
+    return std::make_unique<TimestampedEndpointParticipant>(
+        std::move(adapter), rpc, config_.in_process_rpc_response_handler,
+        [this](const std::string& id) -> std::optional<int64_t> {
+            std::lock_guard<std::timed_mutex> lock(mutex_);
+            const auto found = transactions_.find(id);
+            return found == transactions_.end() ? std::nullopt
+                                                : found->second.commit_timestamp_ns;
+        }, static_cast<bool>(config_.commit_timestamp_provider));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -301,6 +357,14 @@ std::optional<bool> TwoPhaseCommitCoordinator::getTransactionDecision(
         return std::nullopt;
     }
     return it->second.decision_commit;
+}
+
+std::optional<CoordinatorTxnRecord> TwoPhaseCommitCoordinator::getTransactionRecord(
+    const std::string& transaction_id) const {
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+    const auto found = transactions_.find(transaction_id);
+    return found == transactions_.end() ? std::nullopt
+                                       : std::optional<CoordinatorTxnRecord>(found->second);
 }
 
 CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
@@ -540,15 +604,24 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
             return all_prepared;
         },
         [this, &transaction_id, &phase2_started, &decision_recorded](bool do_commit) {
+            nlohmann::json decision_data = {
+                {"transaction_id", transaction_id},
+                {"coordinator_id", coordinator_id_},
+                {"phase", "decision"},
+                {"decision", do_commit ? "commit" : "abort"}
+            };
+            if (do_commit && config_.commit_timestamp_provider) {
+                const auto timestamp = config_.commit_timestamp_provider(transaction_id);
+                if (!timestamp || *timestamp <= 0) {
+                    return false;
+                }
+                decision_data["commit_timestamp_ns"] = *timestamp;
+                std::lock_guard<std::timed_mutex> lock(mutex_);
+                transactions_.at(transaction_id).commit_timestamp_ns = timestamp;
+            }
             const bool persisted = logToWAL(
                 do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-                transaction_id,
-                {
-                    {"transaction_id", transaction_id},
-                    {"coordinator_id", coordinator_id_},
-                    {"phase", "decision"},
-                    {"decision", do_commit ? "commit" : "abort"}
-                }, /*force_sync=*/true);
+                transaction_id, decision_data, /*force_sync=*/true);
             phase2_started = std::chrono::steady_clock::now();
             if (!persisted) {
                 THEMIS_ERROR("2PC coordinator [{}] could not persist decision for txn {}",
@@ -702,6 +775,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             rec.started_at         = std::chrono::steady_clock::now();
             rec.participant_shards = replay_txn.participants;
             rec.decision_commit = replay_txn.has_decision && replay_txn.decision_commit;
+            rec.commit_timestamp_ns = replay_txn.commit_timestamp_ns;
 
             if (replay_txn.participants_invalid || replay_txn.participants.empty()) {
                 rec.state = CoordinatorTxnState::FAILED;
@@ -1048,6 +1122,8 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – shard {} threw on PREPARE for txn {}: {}",
                          coordinator_id_, shard_id, rec.transaction_id, e.what());
             vote = false;
+        } catch (...) {
+            vote = false;
         }
         if (!lock.try_lock_for(config_.prepare_timeout)) {
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – timed out re-acquiring mutex for txn {}; aborting",
@@ -1100,10 +1176,7 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                 if (rpc && validEndpoint(rpc->endpoint) &&
                     (!isTestEndpoint(rpc->endpoint) ||
                      config_.in_process_rpc_response_handler)) {
-                    adapter = isTestEndpoint(rpc->endpoint)
-                        ? std::make_unique<ShardRPCClientAdapter>(
-                            *rpc, config_.in_process_rpc_response_handler)
-                        : std::make_unique<ShardRPCClientAdapter>(*rpc);
+                    adapter = makeEndpointParticipant(*rpc);
                 }
             } catch (const std::exception& e) {
                 THEMIS_WARN("Cannot resolve participant {}: {}", shard_id, e.what());
@@ -1149,9 +1222,10 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                              do_commit ? "COMMIT" : "ABORT", rec.transaction_id);
             }
         } catch (const std::exception& e) {
-            if (!lock.try_lock_for(config_.prepare_timeout)) {
+            if (!lock.owns_lock() && !lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
                              coordinator_id_, rec.transaction_id);
+                lock.lock();
                 return false;
             }
             // Log and continue – idempotency allows retrying later
@@ -1159,6 +1233,11 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                          coordinator_id_, shard_id,
                          do_commit ? "COMMIT" : "ABORT",
                          rec.transaction_id, e.what());
+            all_acknowledged = false;
+        } catch (...) {
+            if (!lock.owns_lock()) {
+                lock.lock();
+            }
             all_acknowledged = false;
         }
     }

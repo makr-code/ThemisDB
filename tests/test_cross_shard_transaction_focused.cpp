@@ -396,14 +396,16 @@ TEST_F(CrossShardTransactionCoordinatorTest, CrossShardCommitDelegatesBothCanoni
     int prepares = 0;
     int commits = 0;
     int aborts = 0;
+    std::vector<int64_t> commit_timestamps;
     config_.in_process_rpc_response_handler =
-        [&](std::string method, nlohmann::json) -> nlohmann::json {
+        [&](std::string method, nlohmann::json parameters) -> nlohmann::json {
         if (method == "prepare") {
             ++prepares;
             return {{"vote", "commit"}, {"status", "prepared"}};
         }
         if (method == "commit") {
             ++commits;
+            commit_timestamps.push_back(parameters.at("commit_timestamp").get<int64_t>());
             return {{"status", "committed"}};
         }
         ++aborts;
@@ -413,14 +415,27 @@ TEST_F(CrossShardTransactionCoordinatorTest, CrossShardCommitDelegatesBothCanoni
     ASSERT_TRUE(coordinator->beginTransaction("delegated"));
     ASSERT_TRUE(coordinator->addParticipant(
         "delegated", "shard-1", "inproc://coordinator-delegation", {"WRITE"}));
+    ASSERT_TRUE(coordinator->addParticipant(
+        "delegated", "shard-2", "inproc://coordinator-delegation-2", {"WRITE"}));
     ASSERT_TRUE(coordinator->prepare("delegated"));
-    EXPECT_EQ(prepares, 1);
+    EXPECT_EQ(prepares, 2);
     EXPECT_EQ(commits, 0);
     EXPECT_TRUE(coordinator->commit("delegated"));
-    EXPECT_EQ(prepares, 1);
-    EXPECT_EQ(commits, 1);
+    EXPECT_EQ(prepares, 2);
+    EXPECT_EQ(commits, 2);
     EXPECT_EQ(aborts, 0);
     EXPECT_EQ(coordinator->getTransactionState("delegated"), TransactionState::COMMITTED);
+    const auto transaction = coordinator->getTransaction("delegated");
+    ASSERT_TRUE(transaction.has_value());
+    ASSERT_EQ(commit_timestamps.size(), 2u);
+    EXPECT_EQ(commit_timestamps[0], commit_timestamps[1]);
+    EXPECT_EQ(transaction->commit_timestamp, commit_timestamps[0]);
+    EXPECT_GT(transaction->commit_timestamp, transaction->snapshot_timestamp);
+    for (const auto& [shard, participant] : transaction->participants) {
+        EXPECT_TRUE(participant.prepared);
+        EXPECT_TRUE(participant.committed);
+        EXPECT_FALSE(participant.aborted);
+    }
     EXPECT_TRUE(std::filesystem::exists(directory_ / "two_phase_commit"));
 }
 
@@ -439,6 +454,9 @@ TEST_F(CrossShardTransactionCoordinatorTest, CrossShardExplicitAbortNeverPrepare
     EXPECT_TRUE(coordinator->abort("explicit-abort"));
     EXPECT_EQ(aborts, 1);
     EXPECT_EQ(coordinator->getTransactionState("explicit-abort"), TransactionState::ABORTED);
+    const auto transaction = coordinator->getTransaction("explicit-abort");
+    ASSERT_TRUE(transaction.has_value());
+    EXPECT_TRUE(transaction->participants.at("shard-1").aborted);
     EXPECT_TRUE(coordinator->abort("explicit-abort"));
     EXPECT_EQ(aborts, 1);
 }
@@ -570,5 +588,139 @@ TEST_F(CrossShardTransactionCoordinatorTest, LegacyPartialAbortRemainsBlocked) {
     EXPECT_FALSE(coordinator.start());
     EXPECT_EQ(coordinator.getTransactionState("old-partial-abort"), TransactionState::ABORTING);
     ASSERT_EQ(coordinator.getRecoverableTransactions().size(), 1u);
+}
+
+TEST_F(CrossShardTransactionCoordinatorTest, RecoveredCommitReusesSharedMvccTimestamp) {
+    bool acknowledge = false;
+    std::vector<int64_t> timestamps;
+    config_.participant_endpoint_resolver = [](const std::string& shard)
+        -> std::optional<themis::sharding::ShardRPCClient::Config> {
+        themis::sharding::ShardRPCClient::Config rpc;
+        rpc.endpoint = "inproc://mvcc-" + shard;
+        return rpc;
+    };
+    config_.in_process_rpc_response_handler =
+        [&](std::string method, nlohmann::json parameters) -> nlohmann::json {
+        if (method == "prepare") {
+            return {{"vote", "commit"}, {"status", "prepared"}};
+        }
+        if (method == "commit") {
+            timestamps.push_back(parameters.at("commit_timestamp").get<int64_t>());
+            return {{"status", acknowledge ? "committed" : "rejected"}};
+        }
+        ADD_FAILURE() << "A durable COMMIT must never turn into ABORT";
+        return {{"status", "aborted"}};
+    };
+    {
+        auto coordinator = createCoordinator();
+        ASSERT_TRUE(coordinator->beginTransaction("mvcc-replay"));
+        for (const auto& shard : {"shard-1", "shard-2"}) {
+            ASSERT_TRUE(coordinator->addParticipant(
+                "mvcc-replay", shard, std::string("inproc://mvcc-") + shard, {"WRITE"}));
+        }
+        EXPECT_FALSE(coordinator->commit("mvcc-replay"));
+        EXPECT_FALSE(coordinator->getStatistics().at("two_phase_ready").get<bool>());
+        ASSERT_EQ(timestamps.size(), 2u);
+        const auto transaction = coordinator->getTransaction("mvcc-replay");
+        ASSERT_TRUE(transaction.has_value());
+        EXPECT_GT(transaction->commit_timestamp, transaction->snapshot_timestamp);
+        EXPECT_EQ(transaction->commit_timestamp, timestamps.front());
+    }
+    acknowledge = true;
+    auto recovered = createCoordinator();
+    ASSERT_EQ(timestamps.size(), 4u);
+    for (const auto timestamp : timestamps) {
+        EXPECT_EQ(timestamp, timestamps.front());
+    }
+    EXPECT_TRUE(recovered->getRecoverableTransactions().empty());
+    EXPECT_TRUE(recovered->getStatistics().at("two_phase_ready").get<bool>());
+}
+
+TEST_F(CrossShardTransactionCoordinatorTest, PrepareSelectedAbortClearsSsiFootprint) {
+    config_.in_process_rpc_response_handler =
+        [](std::string method, nlohmann::json) -> nlohmann::json {
+        if (method == "prepare") {
+            return {{"vote", "abort"}, {"status", "aborted"}};
+        }
+        return {{"status", "aborted"}};
+    };
+    auto coordinator = createCoordinator();
+    for (const auto& id : {"ssi-aborted", "ssi-reader"}) {
+        ASSERT_TRUE(coordinator->beginTransaction(
+            id, TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SERIALIZABLE));
+    }
+    ASSERT_TRUE(coordinator->addParticipant(
+        "ssi-aborted", "shard-1", "inproc://ssi-abort", {"WRITE"}));
+    coordinator->registerShardReadSet(
+        "ssi-reader", "shard-1", {{"shard-1", "key", ""}});
+    coordinator->registerShardWriteSet("ssi-aborted", "shard-1", {"key"});
+    ASSERT_FALSE(coordinator->validateCrossShardSSI("ssi-reader").empty());
+    EXPECT_FALSE(coordinator->prepare("ssi-aborted"));
+    EXPECT_EQ(coordinator->getTransactionState("ssi-aborted"), TransactionState::ABORTED);
+    EXPECT_TRUE(coordinator->validateCrossShardSSI("ssi-reader").empty());
+}
+
+TEST_F(CrossShardTransactionCoordinatorTest, RecoveryOnlyEndpointReusesRecordedTimestamp) {
+    themis::sharding::TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = (directory_ / "recovery-only-timestamp").string();
+    config.fencing_token_provider = config_.fencing_token_provider;
+    config.commit_timestamp_provider = [](const std::string&) {
+        return std::optional<int64_t>{123456789};
+    };
+    config.participant_endpoint_resolver = [](const std::string&)
+        -> std::optional<themis::sharding::ShardRPCClient::Config> {
+        themis::sharding::ShardRPCClient::Config rpc;
+        rpc.endpoint = "inproc://recovery-only-timestamp";
+        return rpc;
+    };
+    std::vector<int64_t> timestamps;
+    bool acknowledge = false;
+    config.in_process_rpc_response_handler =
+        [&](std::string method, nlohmann::json parameters) -> nlohmann::json {
+        if (method == "prepare") {
+            return {{"vote", "commit"}, {"status", "prepared"}};
+        }
+        timestamps.push_back(parameters.at("commit_timestamp").get<int64_t>());
+        return {{"status", acknowledge ? "committed" : "rejected"}};
+    };
+    {
+        themis::sharding::TwoPhaseCommitCoordinator coordinator("coord-1", config);
+        coordinator.registerParticipantByEndpoint(
+            "shard-1", *config.participant_endpoint_resolver("shard-1"));
+        EXPECT_EQ(coordinator.commit("recorded-timestamp",
+            {{"shard-1", nlohmann::json::array()}}).result,
+            themis::sharding::CoordinatorTxnResult::FAILURE);
+    }
+    config.commit_timestamp_provider = {};
+    acknowledge = true;
+    themis::sharding::TwoPhaseCommitCoordinator recovered("coord-1", config);
+    EXPECT_EQ(recovered.recoverInDoubtTransactions(), 1u);
+    ASSERT_EQ(timestamps.size(), 2u);
+    EXPECT_EQ(timestamps[0], 123456789);
+    EXPECT_EQ(timestamps[1], timestamps[0]);
+    EXPECT_TRUE(recovered.isReady());
+}
+
+TEST_F(CrossShardTransactionCoordinatorTest, LegacyWalHistoryGapCannotDiscardOldInDoubt) {
+    {
+        ::sharding::TransactionWALConfig config;
+        config.wal_directory = (directory_ / "wal").string();
+        config.snapshot_directory = (directory_ / "snapshots").string();
+        config.sync_on_write = false;
+        ::sharding::TransactionWAL wal(config);
+        ASSERT_TRUE(wal.initialize());
+        wal.logBegin("old-outside-cache", ::sharding::TransactionProtocol::TWO_PHASE_COMMIT,
+                     {"shard-old"});
+        for (size_t i = 0; i < 10'001; ++i) {
+            wal.logCompensate("filler", "step", {{"ordinal", i}});
+        }
+    }
+    CrossShardTransactionCoordinator coordinator(config_, consensus_);
+    EXPECT_FALSE(coordinator.initialize());
+    EXPECT_TRUE(coordinator.getStatistics().at("legacy_two_phase_recovery_blocked").get<bool>());
+    EXPECT_FALSE(coordinator.start());
+    EXPECT_FALSE(coordinator.beginTransaction("cannot-discard-old-history"));
+    EXPECT_THROW(static_cast<void>(coordinator.recoverInDoubtTransactions()),
+                 std::runtime_error);
 }
 } } // namespace themisdb::sharding

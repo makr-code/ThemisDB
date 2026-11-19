@@ -188,6 +188,28 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     two_phase_config.fencing_token_provider = config_.fencing_token_provider;
     two_phase_config.in_process_rpc_response_handler =
         config_.in_process_rpc_response_handler;
+    two_phase_config.commit_timestamp_provider = [this](const std::string& id)
+        -> std::optional<int64_t> {
+        CrossShardTransaction snapshot;
+        {
+            std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+            const auto txn = transactions_.find(id);
+            if (txn == transactions_.end()) {
+                return std::nullopt;
+            }
+            if (txn->second.commit_timestamp != 0) {
+                return txn->second.commit_timestamp;
+            }
+            snapshot = txn->second;
+        }
+        const auto timestamp = generateCommitTimestamp(snapshot);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+        auto& txn = transactions_.at(id);
+        if (txn.commit_timestamp == 0) {
+            txn.commit_timestamp = timestamp;
+        }
+        return txn.commit_timestamp;
+    };
     two_phase_config.participant_endpoint_resolver = [this](const std::string& shard)
         -> std::optional<themis::sharding::ShardRPCClient::Config> {
         if (config_.participant_endpoint_resolver) {
@@ -490,7 +512,8 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     const auto recovery_result = runRecoveryBackend("recoverInDoubtTransactions");
     const auto* backend = recovery_result.backend;
     if (!recovery_result.ok) {
-        return canonical_resolved;
+        throw std::runtime_error(
+            "cross-shard lifecycle recovery failed; service must remain unavailable");
     }
 
     const auto after = count_in_doubt();
@@ -979,10 +1002,8 @@ bool CrossShardTransactionCoordinator::prepareImpl(const std::string& transactio
             std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
             auto& txn = transactions_.at(transaction_id);
             txn.state = state;
-            for (auto& [shard, participant] : txn.participants) {
-                participant.prepared = prepared;
-            }
         }
+        syncTwoPhaseParticipantState(transaction_id);
         static_cast<void>(persistTransactionState(transaction_id, state));
         if (state == TransactionState::ABORTED) {
             ssi_manager_.clearTransaction(transaction_id);
@@ -1313,6 +1334,9 @@ bool CrossShardTransactionCoordinator::abortImpl(const std::string& transaction_
     const auto outcome = txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT
         ? [this, &txn]() {
             using Result = themis::sharding::detail::TwoPhaseCommitExecutionResult;
+            if (txn.participants.empty()) {
+                return Result::ABORTED;
+            }
             if (!registerTwoPhaseParticipants(txn)) {
                 return Result::EXECUTION_FAILED;
             }
@@ -1321,6 +1345,7 @@ bool CrossShardTransactionCoordinator::abortImpl(const std::string& transaction_
                 shards.push_back(shard);
             }
             const auto result = two_phase_coordinator_->abort(txn.transaction_id, shards);
+            syncTwoPhaseParticipantState(txn.transaction_id);
             return result.result == themis::sharding::CoordinatorTxnResult::ABORTED
                 ? Result::ABORTED : Result::EXECUTION_FAILED;
         }()
@@ -1805,6 +1830,12 @@ void CrossShardTransactionCoordinator::setForeignKeyValidator(
  *         failures set UNKNOWN. Missing durable WAL rejects writes before RPC.
  */
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
+    if (txn.participants.empty()) {
+        // No participant was enlisted, so there is no distributed decision to
+        // record or deliver. Preserve the local empty-transaction abort lifecycle.
+        txn.state = TransactionState::ABORTED;
+        return false;
+    }
     if (!registerTwoPhaseParticipants(txn)) {
         txn.state = TransactionState::UNKNOWN;
         return false;
@@ -1824,6 +1855,7 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
         operations[shard] = participant.operations;
     }
     const auto outcome = two_phase_coordinator_->commit(txn.transaction_id, operations);
+    syncTwoPhaseParticipantState(txn.transaction_id);
     switch (outcome.result) {
         case themis::sharding::CoordinatorTxnResult::COMMITTED:
             txn.state = TransactionState::COMMITTED;
@@ -1837,6 +1869,34 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
     }
     txn.state = TransactionState::UNKNOWN;
     return false;
+}
+
+void CrossShardTransactionCoordinator::syncTwoPhaseParticipantState(
+    const std::string& transaction_id) {
+    const auto record = two_phase_coordinator_->getTransactionRecord(transaction_id);
+    if (!record) {
+        return;
+    }
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+    const auto found = transactions_.find(transaction_id);
+    if (found == transactions_.end()) {
+        return;
+    }
+    auto& txn = found->second;
+    if (record->commit_timestamp_ns) {
+        txn.commit_timestamp = *record->commit_timestamp_ns;
+    }
+    for (auto& [shard, participant] : txn.participants) {
+        const auto vote = record->votes.find(shard);
+        if (vote != record->votes.end()) {
+            participant.prepared = vote->second;
+        }
+        const bool acknowledged =
+            std::find(record->phase2_acked.begin(), record->phase2_acked.end(), shard) !=
+            record->phase2_acked.end();
+        participant.committed = acknowledged && record->decision_commit;
+        participant.aborted = acknowledged && !record->decision_commit;
+    }
 }
 
 bool CrossShardTransactionCoordinator::registerTwoPhaseParticipants(
@@ -3293,6 +3353,20 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     // Step 2: Replay WAL from last_applied_lsn
     try {
         auto wal_entries = transaction_wal_->readEntries(last_applied_lsn_);
+        const auto first_required = last_applied_lsn_.offset == 0
+            ? LSN{1, 1} : LSN{last_applied_lsn_.segment, last_applied_lsn_.offset + 1};
+        const auto current = transaction_wal_->getCurrentLSN();
+        if ((!wal_entries.empty() && wal_entries.front().lsn > first_required) ||
+            (wal_entries.empty() && current > first_required)) {
+            // TransactionWAL exposes a bounded serving cache, not a streaming
+            // replay API. Missing history cannot prove that old 2PC is resolved.
+            legacy_two_phase_recovery_blocked_ = true;
+            spdlog::error(
+                "Lifecycle WAL history has a gap after {}; operator reconciliation "
+                "is required before canonical 2PC can accept work",
+                last_applied_lsn_.toString());
+            return false;
+        }
         if (stats) {
             stats->wal_entries_replayed = wal_entries.size();
         }
@@ -3300,12 +3374,24 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 wal_entries.size(), last_applied_lsn_.toString());
         
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+        const auto snapshot_lsn = last_applied_lsn_;
         for (const auto& entry : wal_entries) {
+            if (entry.lsn <= snapshot_lsn) {
+                continue;
+            }
             // Update last_applied_lsn
             last_applied_lsn_ = entry.lsn;
             
             // Find or create transaction
             auto it = transactions_.find(entry.transaction_id);
+            if (it == transactions_.end() &&
+                entry.type != ::sharding::TransactionWALEntryType::BEGIN &&
+                !entry.transaction_id.empty()) {
+                legacy_two_phase_recovery_blocked_ = true;
+                spdlog::error("Lifecycle WAL record {} has no BEGIN/snapshot identity",
+                              entry.transaction_id);
+                return false;
+            }
             
             switch (entry.type) {
                 case ::sharding::TransactionWALEntryType::BEGIN:

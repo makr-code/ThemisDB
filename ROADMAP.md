@@ -836,7 +836,7 @@ Contract regression coverage: `tests/test_two_phase_commit.cpp`
 
 ### Identified Risks / Redundancies
 
-- **2PC execution divergence (DIS-05):** Closed by sharing phase ordering, configured decision-persistence gating, and terminal failure semantics. Public APIs and coordinator-specific WAL/recovery remain separate; keep contract tests covering both paths.
+- **2PC execution divergence (DIS-05):** Named-pair execution now delegates to the canonical durable authority; public lifecycle APIs remain, while lifecycle/participant/replication WAL domains remain separate. Keep contract tests covering both entry points.
 - **Recovery evidence (DIS-06 / #8200):** Named-pair authority and blocking participant semantics implemented; acceptance remains open pending executed crash-matrix/transport/platform evidence and maintainer approval. WAL encoding, snapshots, replica transport, and coordinator handoff are not unified. See `audit/ROADMAP.md` and `src/sharding/RUNBOOK.md`.
 - **Separate coordinator boundary:** `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`, `src/sharding/distributed_transaction.cpp`) also supports 2PC but is outside this named-pair contract. Its semantics require separate review; DIS-05 does not claim repo-wide 2PC convergence.
 - **Protocol asymmetry risk:** 2PC/3PC/Percolator/Calvin/SAGA exist only in sharding; replication has different commit semantics (quorum/WAL), so shared refactoring must preserve module-specific invariants.

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -42,6 +42,78 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
+
+### DIS-06 / #8200 recovery contract (2026-11-19)
+
+The named coordinator pair uses `TwoPhaseCommitCoordinator` as its durable
+2PC authority; CrossShard keeps its lifecycle and other protocols. Coordinator
+BEGIN/decision/completion and participant votes/terminal acknowledgements are
+synced at their protocol boundaries. Missing WAL configuration rejects writes.
+Prepared participants retain locks across timeout and restart; unresolved
+recovery blocks readiness while terminal RPCs remain available.
+
+No WAL encoding consolidation, API removal or automatic migration of unresolved
+older CrossShard records is included. See [API.md](API.md),
+[RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
+
+Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
+the CTest commands below are not claimed as executed against a full target build):
+
+```sh
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
+cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^TwoPhaseCommitFocusedTests$' --output-on-failure
+cmake --build /tmp/themis-dis06-build --target test_cross_shard_transaction_focused -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^CrossShardTransactionFocusedTests$' --output-on-failure
+cmake --build /tmp/themis-dis06-build --target test_transaction_process_crash_recovery -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^TransactionProcessCrashRecoveryTests$' --output-on-failure
+```
+
+Configure succeeded after installing existing system build dependencies. Registered
+builds were attempted, but full dependency linkage was not completed; a
+reconfigure refreshed build metadata and restarted the dependency graph, and the
+build was stopped. No registered-target or release CTest PASS is claimed.
+The initial build found missing `pugixml.hpp` (subsequently installed).
+The initial-implementation
+[Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
+reported `action_required` with zero jobs, not passing CI evidence.
+
+Direct-source diagnostic execution (not registered-target/CI evidence):
+
+| Existing test source | Result |
+|---|---|
+| `tests/test_two_phase_commit.cpp` | 77/77 passed, including the final empty-identifier guard |
+| `tests/test_cross_shard_transaction_focused.cpp` | 29/29 passed; five critical concurrency/fsync/timestamp/history regressions repeated ten times: 50/50 passed |
+| `tests/transaction/test_transaction_process_crash_recovery.cpp` | 7/7 passed; two canonical crash tests repeated ten times: 20/20 passed (before the final empty-identifier guard, which is covered by the unit suite) |
+
+These binaries were manually linked from the actual production translation
+units and existing tests, with unchanged dependency objects reused. Per-TU
+compiler flags were `g++ -std=c++20 -O0 -g0 -ffunction-sections -fdata-sections
+-DTHEMIS_TEST_BUILD=1 -DTHEMIS_TEST_MODE=1 -Iinclude -pthread -c`; linking used
+`g++ -pthread -Wl,--gc-sections` and system GoogleTest, RocksDB, spdlog, fmt,
+OpenSSL, zlib, zstd, lz4 and bzip2. No replacement production stubs were linked.
+The exact diagnostic executable invocations were:
+
+```sh
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_two_phase_commit --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_cross_shard_transaction_focused --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_cross_shard_transaction_focused --gtest_filter='*PrepareSerializesWithTerminalDecisions:*DecisionFsyncFailureBlocksRpcAndRequiresRescan:*RecoveredCommitReusesSharedMvccTimestamp:*RecoveryOnlyEndpointReusesRecordedTimestamp:*LegacyWalHistoryGapCannotDiscardOldInDoubt' --gtest_repeat=10 --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-direct/test_transaction_process_crash_recovery
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-direct/test_transaction_process_crash_recovery --gtest_filter='TransactionProcessCrashRecovery.Canonical*' --gtest_repeat=10
+```
+
+Scratch binaries/logs at those historical paths were removed; no diagnostic
+artifact is retained as a release gate. An earlier CTest invocation used a
+manually placed diagnostic executable and is explicitly excluded from the
+registered-target evidence.
+
+New crash regressions
+exercise actual coordinator/participant objects in separate POSIX processes
+over test pipe IPC; older direct-WAL replica helpers are not production
+`ReplicationManager` transport evidence. Productive gRPC/mTLS, replica recovery,
+power-loss/storage fault injection, sanitizer, Windows/macOS and release-gate
+evidence remain unverified. DIS-06 remains open pending evidence and maintainer
+acceptance; historical notes below describe their original runs.
 
 > **Status evidence note (2026-11-01):** Historical completion checkboxes below are not current
 > release evidence. The follow-up ran only the standalone SH-BM-01..04 stub harness; a configured

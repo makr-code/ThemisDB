@@ -83,6 +83,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
     const std::string& coordinator_shard_id,
     const std::string& transaction_data
 ) {
+    if (transaction_id.empty() || coordinator_shard_id.empty()) {
+        return false;
+    }
     const auto t0 = std::chrono::steady_clock::now();
     nlohmann::json parsed;
     nlohmann::json ops;
@@ -243,6 +246,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
  * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch().
  */
 bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
+    if (transaction_id.empty()) {
+        return false;
+    }
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -342,6 +348,9 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
  * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), release_locks_(), THEMIS_WARN().
  */
 bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
+    if (transaction_id.empty()) {
+        return false;
+    }
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 

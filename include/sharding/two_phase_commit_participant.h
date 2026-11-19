@@ -75,7 +75,10 @@ struct ParticipantTransaction {
  * @param txn_id    Transaction ID
  * @param ops       JSON array of operations to apply
  * @param commit_ts MVCC commit timestamp
- * @return true if operations were applied successfully
+ * @return true only after atomically applying and durably persisting the writes.
+ * @note Must deduplicate by transaction ID across crashes between applying writes
+ *       and recording participant COMMIT. The borrowed operations are valid only
+ *       during this call; a false return must remain safe to retry.
  */
 using ApplyOperationsCallback =
     std::function<bool(const std::string& txn_id,
@@ -174,11 +177,12 @@ public:
      * Validates operations, acquires locks, writes PREPARE_TX to WAL,
      * and returns VOTE_COMMIT (true) or VOTE_ABORT (false). When WAL is
      * configured, a failed durable PREPARE write releases acquired locks and
-     * returns VOTE_ABORT; with WAL disabled, the participant is memory-only.
+     * returns VOTE_ABORT. Missing WAL or empty identifiers reject the request
+     * before validation/locking; no volatile COMMIT vote is permitted.
      * Idempotent: a duplicate PREPARE for the same txn_id returns the
      * same vote as the original call without re-locking.
-    * @param transaction_id Globale Transaktions-ID.
-    * @param coordinator_shard_id Coordinator-Identifikator fuer Nachvollziehbarkeit.
+    * @param transaction_id Non-empty globally unique transaction ID.
+    * @param coordinator_shard_id Non-empty coordinator identity matching the token issuer.
     * @param transaction_data Serialisiertes JSON mit Teilnehmeroperationen.
     * @return true fuer VOTE_COMMIT, false fuer VOTE_ABORT.
      */
@@ -195,7 +199,8 @@ public:
      * writes COMMIT_TX before acknowledging the request, and then releases locks.
      * If the WAL write fails, returns false and retains the prepared state.
      * Idempotent: duplicate COMMIT messages return true immediately.
-    * @param transaction_id Globale Transaktions-ID.
+     * Missing WAL, empty IDs and contradictory terminal decisions return false.
+    * @param transaction_id Non-empty globally unique transaction ID.
     * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) COMMIT.
      */
     bool onCommit(const std::string& transaction_id) override;
@@ -203,9 +208,10 @@ public:
     /**
      * @brief Handle ABORT request
      *
-     * Releases locks and writes ABORT_TX to WAL.
+     * Durably writes ABORT_TX before releasing locks and acknowledging.
      * Idempotent: duplicate ABORT messages return true immediately.
-    * @param transaction_id Globale Transaktions-ID.
+     * Missing WAL, empty IDs and already committed transactions return false.
+    * @param transaction_id Non-empty globally unique transaction ID.
     * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) ABORT.
      */
     bool onAbort(const std::string& transaction_id) override;

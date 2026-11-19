@@ -14,6 +14,7 @@
 #include <gtest/gtest.h>
 #include "sharding/two_phase_commit_participant.h"
 #include "sharding/cross_shard_transaction.h"
+#include "sharding/consensus_module.h"
 #include "sharding/detail/two_phase_commit_contract.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include <algorithm>
@@ -222,6 +223,17 @@ TEST_F(TwoPhaseCommitParticipantTest, NormalCommitPath) {
     // Applied & locks released
     EXPECT_TRUE(applied_ops_.count(txn) > 0);
     EXPECT_TRUE(released_txns_.count(txn) > 0);
+}
+
+TEST_F(TwoPhaseCommitParticipantTest, EmptyIdentifiersNeverProduceVotesOrTerminalAcks) {
+    const auto payload = opsToPayload(nlohmann::json::array());
+    EXPECT_FALSE(participant_->onPrepare("", "coord", payload));
+    EXPECT_FALSE(participant_->onPrepare("empty-coordinator", "", payload));
+    EXPECT_FALSE(participant_->onCommit(""));
+    EXPECT_FALSE(participant_->onAbort(""));
+    EXPECT_FALSE(participant_->getTransactionState("").has_value());
+    EXPECT_TRUE(locked_txns_.empty());
+    EXPECT_TRUE(participant_->onHealthCheck().is_healthy);
 }
 
 TEST(TwoPhaseCommitParticipantRecoveryTest, MissingWALNeverVotesOrAcknowledgesAbort) {
@@ -713,6 +725,7 @@ TEST_F(TwoPhaseCommitParticipantTest, OrdinaryPrepareDoesNotBlockReadiness) {
 TEST(TwoPhaseCommitParticipantRecoveryTest, FailedApplyBlocksNewWorkButAllowsDecisionRetry) {
     bool accept_apply = false;
     TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = temporaryWALDirectory();
     config.fencing_manager = testFencingManager("shard-retry");
     TwoPhaseCommitParticipant participant(
         "shard-retry", config, {},
@@ -1096,8 +1109,11 @@ TEST_F(TwoPhaseCommitCoordinatorTest, RecommittingAbortedTxnPreservesAbortDecisi
     nlohmann::json ops = nlohmann::json::array();
     ops.push_back({{"key", "reject"}});
 
+    TwoPhaseCommitParticipant::Config participant_config;
+    participant_config.wal_directory = temporaryWALDirectory();
+    participant_config.fencing_manager = testFencingManager("shard-reject-prepare");
     TwoPhaseCommitParticipant rejecting_participant(
-        "shard-reject-prepare",
+        "shard-reject-prepare", participant_config,
         [](const std::string&, const nlohmann::json&) { return false; });
     coord_->registerParticipant("shard-reject-prepare", &rejecting_participant);
 
@@ -1221,14 +1237,63 @@ TEST_F(TwoPhaseCommitCoordinatorTest, FailedAbortAcknowledgementReturnsError) {
     EXPECT_TRUE(recoverable.front().decision_recorded);
     EXPECT_FALSE(recoverable.front().decision_commit);
 }
+namespace themisdb::sharding {
+class TwoPhaseContractConsensus final : public ConsensusModule {
+public:
+    ConsensusType getType() const override { return ConsensusType::RAFT; }
+    bool initialize(const std::string&, const std::vector<std::string>&) override { return true; }
+    bool start() override { return true; }
+    void stop() override {}
+    bool isLeader() const override { return true; }
+    std::string getLeaderId() const override { return "contract-leader"; }
+    ConsensusState getState() const override { return ConsensusState::LEADER; }
+    std::optional<uint64_t> propose(const std::string&, const nlohmann::json&) override { return ++index_; }
+    bool waitForCommit(uint64_t, std::chrono::milliseconds) override { return true; }
+    std::vector<ConsensusLogEntry> readLog(uint64_t, std::optional<uint64_t>) override { return {}; }
+    uint64_t getCommitIndex() const override { return index_; }
+    uint64_t getLastLogIndex() const override { return index_; }
+    bool addNode(const std::string&, const std::string&) override { return true; }
+    bool removeNode(const std::string&) override { return true; }
+    bool transferLeadership(const std::string&) override { return true; }
+    bool takeSnapshot(const nlohmann::json&) override { return true; }
+    bool restoreSnapshot(const nlohmann::json&) override { return true; }
+    ConsensusStats getStats() const override { return {}; }
+    nlohmann::json getStatus() const override { return nlohmann::json::object(); }
+    void onCommit(std::function<void(const ConsensusLogEntry&)>) override {}
+    void onStateChange(std::function<void(ConsensusState, ConsensusState)>) override {}
+    void onLeaderChange(std::function<void(const std::string&, const std::string&)>) override {}
+private:
+    uint64_t index_ = 0;
+};
+}
+
+static themisdb::sharding::CrossShardTransactionConfig
+durableCrossShardConfig(const TemporaryTransactionLog& log) {
+    themisdb::sharding::CrossShardTransactionConfig config;
+    config.transaction_log_path = log.logPath().string();
+    config.data_dir = log.logPath().parent_path().string();
+    config.enable_persistence = true;
+    config.enable_deadlock_detection = false;
+    config.fencing_token_provider = testTokenProvider(config.coordinator_id);
+    config.in_process_rpc_response_handler =
+        [](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "prepare") {
+                return {{"vote", "commit"}, {"status", "prepared"}};
+            }
+            return {{"status", method == "commit" ? "committed" : "aborted"}};
+        };
+    return config;
+}
+
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommitMatchCanonicalDecision) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-contract");
-    themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = transaction_log.logPath().string();
+    auto config = durableCrossShardConfig(transaction_log);
     config.prepare_timeout = std::chrono::milliseconds(20);
     config.commit_timeout = std::chrono::milliseconds(20);
     config.abort_timeout = std::chrono::milliseconds(20);
-    themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
 
     ASSERT_TRUE(coordinator.beginTransaction(
         "txn-cross-2pc-contract",
@@ -1250,8 +1315,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
     int commit_calls = 0;
     int abort_calls = 0;
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-phase-two-failure");
-    themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = transaction_log.logPath().string();
+    auto config = durableCrossShardConfig(transaction_log);
     config.commit_timeout = std::chrono::milliseconds(20);
     config.in_process_rpc_response_handler =
         [&prepare_calls, &commit_calls, &abort_calls](
@@ -1270,7 +1334,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
             }
             return {{"status", "error"}};
         };
-    themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
 
     ASSERT_TRUE(coordinator.beginTransaction(
         "txn-cross-2pc-phase-two-failure",
@@ -1293,8 +1359,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
 TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnknown) {
     int abort_calls = 0;
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-ack-failure");
-    themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = transaction_log.logPath().string();
+    auto config = durableCrossShardConfig(transaction_log);
     config.in_process_rpc_response_handler =
         [&abort_calls](std::string method, nlohmann::json) -> nlohmann::json {
             if (method == "prepare") {
@@ -1306,7 +1371,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnkn
             }
             return {{"status", "unexpected"}};
         };
-    themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
 
     ASSERT_TRUE(coordinator.beginTransaction(
         "txn-cross-2pc-abort-ack-failure",
@@ -1325,9 +1392,10 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnkn
 
 TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsIdempotent) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-contract");
-    themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = transaction_log.logPath().string();
-    themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
+    auto config = durableCrossShardConfig(transaction_log);
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
 
     ASSERT_TRUE(coordinator.beginTransaction(
         "txn-cross-2pc-abort",
@@ -1340,10 +1408,11 @@ TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsI
 
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitAbortBroadcastsAndCanBeRepeated) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-explicit-abort");
-    themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = transaction_log.logPath().string();
+    auto config = durableCrossShardConfig(transaction_log);
     config.abort_timeout = std::chrono::milliseconds(20);
-    themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
 
     ASSERT_TRUE(coordinator.beginTransaction(
         "txn-cross-2pc-explicit-abort",
@@ -1730,6 +1799,31 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
     // guard destructor removes wal_dir
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, ContradictoryDecisionWalBlocksStartup) {
+    TemporaryTransactionLog log("2pc_coord_conflicting_decision");
+    const auto directory = log.logPath().parent_path().string();
+    {
+        WALManagerConfig config;
+        config.wal_directory = directory;
+        WALManager wal(config);
+        WALEntry entry;
+        entry.transaction_id = "conflicting-coordinator-decision";
+        entry.type = WALEntryType::BEGIN_TX;
+        entry.data = {{"shards", nlohmann::json::array({"shard-1"})}};
+        ASSERT_GT(wal.append(entry).offset, 0u);
+        entry.type = WALEntryType::COMMIT_TX;
+        entry.data = {{"phase", "decision"}, {"decision", "commit"}};
+        ASSERT_GT(wal.append(entry).offset, 0u);
+        entry.type = WALEntryType::ABORT_TX;
+        entry.data = {{"phase", "decision"}, {"decision", "abort"}};
+        ASSERT_GT(wal.append(entry).offset, 0u);
+    }
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = directory;
+    EXPECT_THROW(TwoPhaseCommitCoordinator("conflicting-coordinator", config),
+                 std::runtime_error);
+}
+
 TEST(TwoPhaseCommitCoordinatorRecoveryTest, MalformedParticipantMetadataFailsRecoveryClosed) {
     TemporaryTransactionLog log("2pc_coord_invalid_participants");
     const auto wal_directory = log.logPath().parent_path().string();
@@ -1809,8 +1903,12 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, ReplaysTransactionsOlderThanServingC
     config.wal_directory = wal_directory;
     config.fencing_token_provider = testTokenProvider("coord-full-replay");
     TwoPhaseCommitCoordinator coordinator("coord-full-replay", config);
+    TwoPhaseCommitParticipant::Config participant_config;
+    participant_config.wal_directory = temporaryWALDirectory();
+    participant_config.fencing_manager = testFencingManager("shard-old");
     TwoPhaseCommitParticipant participant(
-        "shard-old", [](const std::string&, const nlohmann::json&) { return true; });
+        "shard-old", participant_config,
+        [](const std::string&, const nlohmann::json&) { return true; });
     coordinator.registerParticipant("shard-old", &participant);
 
     EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);

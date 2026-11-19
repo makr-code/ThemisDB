@@ -215,11 +215,6 @@ struct CrossShardTransactionConfig {
     std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
         fencing_token_provider; ///< Current per-shard write credential; absent blocks writes.
 
-    /// Trusted per-shard endpoint/TLS resolver, including startup phase-two replay.
-    /// Missing/malformed endpoints leave canonical recovery blocked.
-    std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
-        const std::string&)> participant_endpoint_resolver;
-
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
     // When non-empty, deadlockDetectionThread polls every endpoint once per
@@ -247,6 +242,11 @@ struct CrossShardTransactionConfig {
     /// conflict detection.  Applies only to transactions with isolation level
     /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
     CrossShardSSIManager::Config ssi_config;
+
+    /// Trusted per-shard endpoint/TLS resolver, including startup phase-two replay.
+    /// Missing/malformed endpoints leave canonical recovery blocked.
+    std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
+        const std::string&)> participant_endpoint_resolver;
 };
 
 struct BackendRecoveryStats {
@@ -350,6 +350,8 @@ public:
      * @note A phase-two failure after COMMIT selection leaves the transaction
      *       UNKNOWN and is never converted into ABORT. Canonical recovery
      *       re-drives the immutable decision using registered/resolved endpoints.
+     *       An empty participant set aborts only the local lifecycle; no
+     *       distributed transaction was enlisted or durably decided.
      */
     bool commit(const std::string& transaction_id);
     
@@ -377,6 +379,9 @@ public:
      * @return Number of in-doubt transactions that transitioned to a terminal
      *         state during this invocation; resume-candidate reporting alone
      *         does not count as resolution.
+     * @throws std::runtime_error If durable recovery is unavailable, lifecycle
+     *         history is incomplete, or a recorded decision cannot be redriven.
+     *         Callers must keep service unavailable on recovery failure.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -631,6 +636,8 @@ private:
 
     /// Configure production transports for the transaction's canonical participants.
     bool registerTwoPhaseParticipants(const CrossShardTransaction& txn);
+    /// Copy canonical per-shard votes/acknowledgements into lifecycle diagnostics.
+    void syncTwoPhaseParticipantState(const std::string& transaction_id);
 
     /**
      * @brief Execute 2PC protocol

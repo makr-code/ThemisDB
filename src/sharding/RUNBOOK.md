@@ -103,9 +103,13 @@ This runbook is the operator-facing guide for the principal failure modes in the
   but still accept terminal decisions and duplicates.
 - Missing endpoints, incomplete acknowledgements or unresolved older
   CrossShard-only records remain recovery blockers; escalate rather than
-  migrating or discarding them automatically. No old-format rollback/migration
-  procedure is supplied by this change. Preserve both logs for maintainer-led
-  reconciliation before changing coordinator versions.
+  migrating or discarding them automatically. Before enabling the new path,
+  quiesce the older coordinator and preserve all logs. Rollback before new
+  2PC writes does not imply safe downgrade after activation: older binaries
+  ignore the canonical log directory, even if its pending count is zero.
+  Do not downgrade an activated coordinator without maintainer-reviewed state
+  reconciliation/migration; preserve both logs and never delete the canonical
+  directory as a rollback technique.
 - Release blocked participants only after the authoritative terminal record is
   durable. Apply callbacks must deduplicate by transaction ID across crashes.
 

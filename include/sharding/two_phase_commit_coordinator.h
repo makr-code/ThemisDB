@@ -21,7 +21,7 @@
 //   Phase 2 (COMMIT/ABORT): If all votes are COMMIT → broadcast COMMIT;
 //                            otherwise → broadcast ABORT.
 //
-// Durability: When its WAL directory is configured, the coordinator writes its
+// Durability: A configured WAL directory is required for writes. The coordinator writes its
 // own WAL log (BEGIN_TX, PREPARE_SENT, COMMIT_DECISION / ABORT_DECISION,
 // COMPLETE) so that an in-doubt transaction can be re-driven after restart.
 //
@@ -115,6 +115,9 @@ struct CoordinatorTxnRecord {
 
     /// Shards that have acknowledged Phase 2
     std::vector<std::string>           phase2_acked;
+
+    /// Existing normalized WAL timestamp, shared by every COMMIT delivery/replay.
+    std::optional<int64_t> commit_timestamp_ns;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -164,6 +167,12 @@ public:
 
         /// Explicit test-endpoint handler; never used for production transports.
         ShardRPCClient::InProcessResponseHandler in_process_rpc_response_handler;
+
+        /// Optional shared MVCC timestamp allocator, called once before COMMIT.
+        /// Positive timestamps use the existing commit_timestamp_ns WAL field;
+        /// endpoint replay reuses it and never allocates a replacement.
+        std::function<std::optional<int64_t>(const std::string&)>
+            commit_timestamp_provider;
     };
 
     /**
@@ -364,6 +373,15 @@ public:
         const std::string& transaction_id) const;
 
     /**
+     * @brief Snapshot authoritative votes, acknowledgements and lifecycle metadata.
+     * @param transaction_id ID of the transaction to inspect.
+     * @return An owned record copy, or nullopt when unknown. No RPC is performed;
+     *         callers must not infer completion from an individual acknowledgement.
+     */
+    [[nodiscard]] std::optional<CoordinatorTxnRecord> getTransactionRecord(
+        const std::string& transaction_id) const;
+
+    /**
      * @brief Return coordinator statistics as a JSON object.
      * @return Counters plus `recovery_status` (`not_run`, `running`, `complete`,
      *         `blocked`, or `failed`) and `recovery_failed`; failed replay remains
@@ -410,6 +428,10 @@ private:
         const std::string& transaction_id,
         const std::map<std::string, nlohmann::json>& ops_per_shard,
         bool prepare_only, bool abort_only);
+
+    /// Build production/test endpoint transport, preserving recorded MVCC timestamps.
+    std::unique_ptr<ShardRPCServer::RequestHandler> makeEndpointParticipant(
+        const ShardRPCClient::Config& rpc_config);
 
     /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
     /// @param lock  A held unique_lock on mutex_. It is briefly released around
