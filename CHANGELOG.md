@@ -9,16 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
-### Fixed - Durable distributed-tensor manifest store
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
+### Fixed - Document schema validation rejects non-object JSON
 
-<!--
-AI_Used: true
-AI_Models: unknown
-AI_Contributor: GitHub Copilot Coding Agent
-Human_Review: false
-Human_Author: ThemisDB Team
--->
-- Persisted manifest metadata with synchronous RocksDB WAL batches and fail-closed startup validation. This is local durability only; network replication and multi-node recovery are not provided.
+- Schema validation now returns `ERR_DOC_VALIDATION_ABORTED` for null, scalar,
+  boolean, and array bodies instead of accepting structurally invalid input
+  under an all-optional schema. This does not change validation behavior for
+  object bodies or add automatic validation to document writes.
 
 ### Security - HTTP RAG collection policies
 

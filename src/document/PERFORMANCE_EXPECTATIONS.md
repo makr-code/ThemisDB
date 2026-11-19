@@ -1,6 +1,6 @@
 # Performance Expectations — Document Module
 
-<!-- Status: current | source/configuration inspection: 2026-10-31 -->
+<!-- Status: current | source/configuration inspection: 2026-11-19 -->
 
 ## Scope and evidence status
 
@@ -29,6 +29,13 @@ The first three suites declare six `GATE-DOC-01..06` runtime checks. Their laten
 | GATE-DOC-06 | mean `get()` time ≤ 100 µs | `bench_document_store.cpp` |
 
 TODO: establish representative-hardware baselines, select a statistically supported percentile method, and verify how the release workflow consumes these cases before claiming p95/p99 or release readiness.
+
+## Release evidence gates
+
+- Treat each listed threshold as a source-defined check only. A passing threshold check is not a representative-hardware baseline until the workload, build, host, and raw run output are retained.
+- A tail-latency claim requires raw per-operation samples and a declared percentile estimator; current mean-based `GATE-DOC` checks cannot pass a p95/p99 claim.
+- Before release sign-off, require at least five independent runs per selected workload, report run-to-run variation, and verify the consuming CI/release gate. Synthetic `DOC-BM-01..04` counters and unexecuted test registrations do not satisfy these gates.
+- Correctness gates are separate: run the test-enabled focused document suite, including schema invalid-input and store-failure propagation cases. A benchmark result cannot substitute for correctness or integration/security review.
 
 ## Build registration
 
