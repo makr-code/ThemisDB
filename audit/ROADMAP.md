@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-19
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -359,7 +359,9 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [ ] **P0 · OPS-01/CI-03 – Gate-Workflows ohne stille Toleranz** (Target: M0 · 2026-11-20)
   - `continue-on-error: true` und `|| true` aus allen `gate-*`-Workflows, `compliance-governance-gates.yml:157` und
     `wiki-pr-gate.yml:83` entfernen; verbleibende Ausnahmen nur über Allowlist mit Begründung und Ablaufdatum.
-  - Guard-Check: neuer Workflow-Lint, der Toleranz-Konstrukte in Gate-Workflows ablehnt.
+  - Guard-Check: fail-open lint tracks gate workflows and their local reusable dependencies; unclassified or stale tolerances fail.
+  - [x] 2026-11-19: Der Guard verfolgt lokale reusable-Aufrufe transitiv und klassifiziert die dort vorhandenen Toleranzen exakt; aktivierte `*_continue_on_error`-Inputs in Gate-Aufrufen werden erfasst.
+  - [ ] Gesamtstatus bleibt offen bis die betroffenen Workflow-Gates nachweislich laufen und Maintainer-Freigabe vorliegt; fehlende Plattform-Artefakte gelten nicht als PASS.
 - [ ] **P0 · OPS-06 – Sanitizer auf PRs** (Target: M1 · 2026-12-31) – ASan+UBSan-Lane für geänderte Kernmodule
   (`storage`, `transaction`, `query`, `aql`, `server`, `auth`, `network`, `sharding`); Laufzeitbudget ≤ 45 min;
   TSan nightly für `transaction`, `sharding`, `llm`.
