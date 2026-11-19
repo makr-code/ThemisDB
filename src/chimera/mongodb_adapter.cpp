@@ -1272,10 +1272,12 @@ Result<SystemMetrics> MongoDBAdapter::get_metrics() const {
 
 bool MongoDBAdapter::has_capability(Capability cap) const {
     switch (cap) {
-        case Capability::TRANSACTIONS:
-            return true;  // MongoDB supports transactions via sessions
         case Capability::BATCH_OPERATIONS:
+#ifdef THEMIS_CHIMERA_MONGO
             return true;
+#else
+            return false;
+#endif
         case Capability::VECTOR_SEARCH:
             return false;  // Recommend Qdrant
         case Capability::GRAPH_OPERATIONS:
@@ -1286,10 +1288,13 @@ bool MongoDBAdapter::has_capability(Capability cap) const {
 }
 
 std::vector<Capability> MongoDBAdapter::get_capabilities() const {
+#ifdef THEMIS_CHIMERA_MONGO
     return {
-        Capability::TRANSACTIONS,
         Capability::BATCH_OPERATIONS
     };
+#else
+    return {};
+#endif
 }
 
 // ---------------------------------------------------------------------------

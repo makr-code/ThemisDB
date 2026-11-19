@@ -59,16 +59,36 @@ public:
     // Vector operations (primary support)
     // ────────────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Insert a vector into a collection.
+     * @param collection Target collection; must not be empty.
+     * @param vector Vector payload; must not be empty.
+     * @return `NOT_IMPLEMENTED` until generated Qdrant gRPC operations are wired.
+     */
     Result<std::string> insert_vector(
         const std::string& collection,
         const Vector& vector
     ) override;
 
+    /**
+     * @brief Insert vectors as one backend batch.
+     * @param collection Target collection; must not be empty.
+     * @param vectors Vectors to insert; empty input is a successful no-op.
+     * @return Zero for empty input, otherwise `NOT_IMPLEMENTED`; data is not queued.
+     */
     Result<size_t> batch_insert_vectors(
         const std::string& collection,
         const std::vector<Vector>& vectors
     ) override;
 
+    /**
+     * @brief Search a collection by vector similarity.
+     * @param collection Target collection; must not be empty.
+     * @param query_vector Non-empty search vector.
+     * @param k Maximum result count; must be greater than zero.
+     * @param filters Optional payload filters.
+     * @return `NOT_IMPLEMENTED` until generated Qdrant gRPC operations are wired.
+     */
     Result<std::vector<std::pair<Vector, double>>> search_vectors(
         const std::string& collection,
         const Vector& query_vector,
@@ -76,6 +96,13 @@ public:
         const std::map<std::string, Scalar>& filters = {}
     ) override;
 
+    /**
+     * @brief Create a vector collection.
+     * @param collection Target collection; must not be empty.
+     * @param dimensions Vector dimension; must be greater than zero.
+     * @param index_params Optional index configuration.
+     * @return `NOT_IMPLEMENTED` until generated Qdrant gRPC operations are wired.
+     */
     Result<bool> create_index(
         const std::string& collection,
         size_t dimensions,

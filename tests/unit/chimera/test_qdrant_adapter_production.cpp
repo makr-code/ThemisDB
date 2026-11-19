@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 #include "chimera/qdrant_adapter.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -258,17 +259,22 @@ TEST_F(QdrantAdapterProductionTest, DestructorCallsDisconnect) {
 
 TEST_F(QdrantAdapterProductionTest, CapabilitiesReported) {
     auto capabilities = adapter_->get_capabilities();
-    EXPECT_FALSE(capabilities.empty());
-    
-    // Should report vector search capability
-    bool has_vector_search = false;
-    for (const auto& cap : capabilities) {
-        if (cap == Capability::VECTOR_SEARCH) {
-            has_vector_search = true;
-            break;
-        }
-    }
-    EXPECT_TRUE(has_vector_search);
+    const auto contains = [&capabilities](Capability capability) {
+        return std::find(capabilities.begin(), capabilities.end(), capability) !=
+               capabilities.end();
+    };
+    EXPECT_FALSE(adapter_->has_capability(Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(contains(Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(adapter_->has_capability(Capability::BATCH_OPERATIONS));
+    EXPECT_FALSE(contains(Capability::BATCH_OPERATIONS));
+}
+
+TEST_F(QdrantAdapterProductionTest, BatchVectorInsertFailsWithoutPersistenceSupport) {
+    Vector vector;
+    vector.data = {1.0f, 2.0f, 3.0f};
+    const auto result = adapter_->batch_insert_vectors("vectors", {vector});
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_IMPLEMENTED);
 }
 
 TEST_F(QdrantAdapterProductionTest, SystemInfoAvailable) {

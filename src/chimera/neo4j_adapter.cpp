@@ -1290,10 +1290,10 @@ Result<size_t> Neo4jAdapter::update_documents(
 }
 
 /**
- * @brief --------------------------------------------------------------------------- Transaction Adapter (Supported via Sessions) ---------------------------------------------------------------------------
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Calls: err(), generate_id(), lock(), ok().
+ * @brief Begin a transaction bound to graph operations.
+ * @param[in] options Transaction options; currently unused.
+ * @return A connection error when disconnected, otherwise NOT_IMPLEMENTED.
+ * @details Neo4j transaction sessions are not integrated with adapter operations.
  */
 
 Result<std::string> Neo4jAdapter::begin_transaction(
@@ -1306,13 +1306,11 @@ Result<std::string> Neo4jAdapter::begin_transaction(
         );
     }
 
-    const std::string session_id = generate_id();
-    {
-        std::unique_lock<std::mutex> lock(session_mutex_);
-        active_sessions_[session_id] = {session_id, nullptr, "active"};
-    }
-
-    return Result<std::string>::ok(session_id);
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j transaction support is unavailable: transaction sessions are not "
+        "integrated with adapter operations."
+    );
 }
 
 /**
@@ -1518,19 +1516,24 @@ Result<SystemMetrics> Neo4jAdapter::get_metrics() const {
 bool Neo4jAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::GRAPH_OPERATIONS:
+#ifdef THEMIS_CHIMERA_NEO4J
             return true;
-        case Capability::TRANSACTIONS:
-            return true;
+#else
+            return false;
+#endif
         default:
             return false;
     }
 }
 
 std::vector<Capability> Neo4jAdapter::get_capabilities() const {
+#ifdef THEMIS_CHIMERA_NEO4J
     return {
-        Capability::GRAPH_OPERATIONS,
-        Capability::TRANSACTIONS
+        Capability::GRAPH_OPERATIONS
     };
+#else
+    return {};
+#endif
 }
 
 // ---------------------------------------------------------------------------
