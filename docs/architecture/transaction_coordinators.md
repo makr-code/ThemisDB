@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-17"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,11 @@ Exact model backend not verifiable from final document text alone.
 <!-- SOT: coordinator implementation and contracts; this document is a level-4 explanatory derivative -->
 
 ## 1. Overview
+
+For the proposed end-to-end contract connecting block durability, Raft and cross-shard
+transactions, see [Cross-Shard Block Replication and Transactions](cross_shard_block_replication_target.md).
+That proposal does not assert that any existing coordinator uses a Raft-backed decision
+group or that 3PC is supported under arbitrary partitions.
 
 ThemisDB has multiple concrete transaction coordinators with independent execution APIs and
 WAL/recovery implementations. `IRecoverableTwoPhaseCoordinator` normalizes coordinator-local

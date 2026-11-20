@@ -1,6 +1,6 @@
 ---
 Author: "ThemisDB Contributors"
-Created: "2026-11-20"
+Created: "2026-02-10"
 Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
@@ -10,7 +10,7 @@ Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
-Exact model backend not verifiable from final document text alone.
+> Exact model backend not verifiable from final document text alone.
 
 # ThemisDB RAID Shard Referencing Architecture
 
@@ -523,14 +523,14 @@ themis_shard_health_status{shard_id="raid0-3"} 0
 
 #### RAID 1 (Intended strong-consistency model; integration evidence pending)
 
-The design example below illustrates a proposed RAID-1 write coordinated by
-2PC across shard participants. It is not proof that the complete production
-path is wired or validated. In particular, its
-`DistributedTransactionCoordinator` is a separate 2PC-capable coordinator
-outside the DIS-05 named pair; this example does not show that the coordinator
-decision is itself replicated by Raft.
-The separate 3PC path and its `PreCommit` callback likewise do not prove
-consensus-backed decision recovery after a leader change.
+The following example illustrates a 2PC design across RAID-1 mirrors, with a
+`TwoPhaseCommitParticipant` on each Raft-leader shard and a
+`DistributedTransactionCoordinator` orchestrating PREPARE and COMMIT. It is not evidence
+that Raft-backed coordinator decisions, durable block replication, or failover are wired
+end-to-end. For the selected target contract and its review status, see the
+[block replication and transaction target](../../architecture/cross_shard_block_replication_target.md).
+The `DistributedTransactionCoordinator` is separate from the coordinator pair covered by
+DIS-05.
 
 ```cpp
 #include "sharding/two_phase_commit_participant.h"
@@ -575,26 +575,14 @@ coordinator->addOperation(txn_id, "raid1-secondary", {{"type","update"},{"key","
 
 // commit() coordinates PREPARE and the selected Phase 2 outcome
 bool ok = coordinator->commit(txn_id);
-// ok == true  → coordinator reports success under its configured participant,
-//               persistence, and transport callbacks
-// ok == false → operation did not report complete success; inspect the
-//               transaction/recovery state rather than assuming all replicas
-//               are unchanged or that the outcome is fully reconciled
+// A production integration must define what successful acknowledgements guarantee.
+// A failure or timeout can leave the outcome unknown; do not assume ABORT.
 ```
 
-The call to `recoverTransactions()` in coordinator-specific code is not, by
-itself, evidence of Raft-replicated decision state, automatic recovery after a
-Raft leader change, or a tested multi-process coordinator/participant restart
-path. See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md)
-for the coordinator API description and its documented limitations. The
-canonical 2PC-coordinator decision and recovery validation remain open in the
-[audit roadmap](../../../audit/ROADMAP.md).
-
-No end-to-end contract is established here for “block durable on both
-replicas, then 2PC/3PC decision, then client ACK.” The replication module
-roadmap explicitly leaves integrated production topology and durable network
-transport as open evidence gates; see
-[`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md).
+Crash recovery and decision replay depend on the coordinator and its configured storage;
+this example alone does not establish their behavior after a node or network failure.
+See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md) for
+the full protocol description, REST API reference (`/dtxn/*`), and configuration options.
 
 #### RAID 5 (Read-Your-Writes Consistency)
 - Writes complete only after all stripes (including parity) are written
