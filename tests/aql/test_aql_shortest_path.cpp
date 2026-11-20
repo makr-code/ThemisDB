@@ -45,12 +45,12 @@ TEST(AQLShortestPathTest, ParseAndTranslateShortestPath) {
     )";
     AQLParser parser;
     const auto parsed = parser.parse(aql);
-    ASSERT_TRUE(parsed.success) << parsed.error.toString();
-    ASSERT_TRUE(parsed.query->traversal);
-    ASSERT_TRUE(parsed.query->traversal->shortestPath);
-    EXPECT_EQ(parsed.query->traversal->shortestPathTarget, "city:dresden");
+    ASSERT_TRUE(parsed.has_value()) << parsed.error().message();
+    ASSERT_TRUE((*parsed)->traversal);
+    ASSERT_TRUE((*parsed)->traversal->shortestPath);
+    EXPECT_EQ((*parsed)->traversal->shortestPathTarget, "city:dresden");
 
-    const auto translated = AQLTranslator::translate(parsed.query);
+    const auto translated = AQLTranslator::translate(*parsed);
     ASSERT_TRUE(translated.success) << translated.error_message;
     ASSERT_TRUE(translated.traversal.has_value());
     EXPECT_TRUE(translated.traversal->shortestPath);
@@ -62,17 +62,17 @@ TEST(AQLShortestPathTest, ParserRejectsDepthAboveLimitAndOverlongDepth) {
     const auto at_limit = parser.parse(
         "FOR v IN 1..100 OUTBOUND \"city:berlin\" GRAPH \"cities\" "
         "SHORTEST_PATH TO \"city:dresden\" RETURN v");
-    ASSERT_TRUE(at_limit.success) << at_limit.error.toString();
+    ASSERT_TRUE(at_limit.has_value()) << at_limit.error().message();
 
     const auto over_limit = parser.parse(
         "FOR v IN 1..101 OUTBOUND \"city:berlin\" GRAPH \"cities\" "
         "SHORTEST_PATH TO \"city:dresden\" RETURN v");
-    EXPECT_FALSE(over_limit.success);
+    EXPECT_FALSE(over_limit.has_value());
 
     const auto overlong = parser.parse(
         "FOR v IN 1..999999999999999999999999999999999999999999 OUTBOUND "
         "\"city:berlin\" GRAPH \"cities\" SHORTEST_PATH TO \"city:dresden\" RETURN v");
-    EXPECT_FALSE(overlong.success);
+    EXPECT_FALSE(overlong.has_value());
 }
 
 class AQLShortestPathExecutionTest : public ::testing::Test {

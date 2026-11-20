@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-20
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -44,7 +44,10 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 |---|---|---|
 | GRP-1 | baseline graph traversal operations remain bounded across sparse/dense inputs | GraphTraversalBenchmarkFixture/BFSTraversal, GraphTraversalBenchmarkFixture/DFSTraversal, GraphTraversalBenchmarkFixture/SparseEdgeAddition, GraphTraversalBenchmarkFixture/DenseNeighborQuery |
 | GRP-2 | advanced traversal and analytics helper paths remain bounded | GraphTraversalBenchmarkFixture/ShortestPathTraversal, GraphTraversalBenchmarkFixture/DegreeCentrality, GraphTraversalBenchmarkFixture/ConnectedComponents, GraphTraversalBenchmarkFixture/DiameterEstimation |
-| GRP-3 | dedicated traversal and constrained-query latency/throughput gates | `bench_graph_dedicated_gates.cpp`: GR-BM-01 BFS p95, GR-BM-02 Dijkstra p95, GR-BM-03 parallel BFS throughput, GR-BM-04 constrained-query p99 |
+| GRP-3.1 | in-process BFS fixture p95 latency <= 100 us | BM_GraphBFS_P95 |
+| GRP-3.2 | in-process Dijkstra fixture p95 latency <= 200 us | BM_GraphDijkstra_P95 |
+| GRP-3.3 | four-worker in-process BFS throughput >= 5000 ops/s; items_per_second = ops/s, where one item is one traversal | BM_GraphParallelBFS_Throughput |
+| GRP-3.4 | in-process constrained BFS fixture p99 latency <= 200 us | BM_GraphConstrainedBFS_P99 |
 | GRP-4 | optimizer plan generation and cached planning remain bounded | GraphQueryOptimizerBenchmarkFixture/PlanGeneration_ShortestPath, GraphQueryOptimizerBenchmarkFixture/PlanGeneration_KHopNeighborhood, GraphQueryOptimizerBenchmarkFixture/PlanGeneration_WithCache |
 | GRP-5 | optimizer execution algorithms remain bounded | GraphQueryOptimizerBenchmarkFixture/BFS_Execution, GraphQueryOptimizerBenchmarkFixture/DFS_Execution, GraphQueryOptimizerBenchmarkFixture/Dijkstra_Execution, GraphQueryOptimizerBenchmarkFixture/Bidirectional_Execution, GraphQueryOptimizerBenchmarkFixture/Statistics_Collection |
 | GRP-6 | parallel and incremental optimizer traversal paths remain bounded | `GraphQueryOptimizerBenchmarkFixture/MultiSourceBFS`, `GraphQueryOptimizerBenchmarkFixture/MultiSourceDFS`, `GraphQueryOptimizerBenchmarkFixture/MultiSourceBFS_ThreadScaling`, `GraphQueryOptimizerBenchmarkFixture/IncrementalBFS_OnGraphChange`, `GraphQueryOptimizerBenchmarkFixture/IncrementalBFS_MultiQuery_FanOut` |
@@ -66,9 +69,11 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
   Adding/removing matching benchmark files may not trigger CMake regeneration; rerun configure
   before building the updated inventory.
 
-The source-defined dedicated gates are GR-BM-01 (BFS p95 ≤ 100 µs), GR-BM-02 (Dijkstra p95
-≤ 200 µs), GR-BM-03 (parallel BFS throughput ≥ 5,000 traversals/s), and GR-BM-04 (constrained
-query p99 ≤ 200 µs). These thresholds do not state that a run passed.
+The dedicated gates use Google Benchmark JSON cases: `BM_GraphBFS_P95` (p95 ≤ 100 µs),
+`BM_GraphDijkstra_P95` (p95 ≤ 200 µs), `BM_GraphParallelBFS_Throughput` (≥ 5000 ops/s),
+and `BM_GraphConstrainedBFS_P99` (p99 ≤ 200 µs). They measure deterministic in-process graph
+fixtures, not the production graph engine. Percentile counters are emitted as `p95_real_time`
+or `p99_real_time`; the throughput case counts one processed item per traversal.
 
 ## Sourcecode Verification (Module: graph/performance)
 
@@ -83,8 +88,9 @@ query p99 ≤ 200 µs). These thresholds do not state that a run passed.
   - parallel/incremental traversal and thread-scaling paths
   - tensor fingerprint graph insertion/similarity/adjacency/export paths
 - Result:
-  - Case mappings above were checked against current benchmark source declarations.
-  - No benchmark was run for this documentation update; no pass or baseline claim is made.
+  - Case mappings above were checked against current Google Benchmark declarations.
+  - The focused CTest benchmark and its setup/postprocess fixtures passed on 2026-11-20.
+    This is execution evidence for the fixture only, not a production-engine result.
 
 ## Issue Scope Traceability
 

@@ -24,15 +24,15 @@ TEST_F(AQLWithClauseTest, SimpleWithClause) {
         "RETURN doc"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query, nullptr);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE(*result, nullptr);
     
     // Verify WITH clause
-    ASSERT_NE(result.query->with_clause, nullptr);
-    ASSERT_EQ(result.query->with_clause->ctes.size(), 1);
+    ASSERT_NE((*result)->with_clause, nullptr);
+    ASSERT_EQ((*result)->with_clause->ctes.size(), 1);
     
     // Verify CTE definition
-    const auto& cte = result.query->with_clause->ctes[0];
+    const auto& cte = (*result)->with_clause->ctes[0];
     EXPECT_EQ(cte.name, "expensiveHotels");
     ASSERT_NE(cte.subquery, nullptr);
     
@@ -43,8 +43,8 @@ TEST_F(AQLWithClauseTest, SimpleWithClause) {
     ASSERT_NE(cte.subquery->return_node, nullptr);
     
     // Verify main query
-    EXPECT_EQ(result.query->for_node.variable, "doc");
-    EXPECT_EQ(result.query->for_node.collection, "expensiveHotels");
+    EXPECT_EQ((*result)->for_node.variable, "doc");
+    EXPECT_EQ((*result)->for_node.collection, "expensiveHotels");
 }
 
 TEST_F(AQLWithClauseTest, MultipleCtEs) {
@@ -56,17 +56,17 @@ TEST_F(AQLWithClauseTest, MultipleCtEs) {
         "RETURN doc"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
-    ASSERT_EQ(result.query->with_clause->ctes.size(), 2);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
+    ASSERT_EQ((*result)->with_clause->ctes.size(), 2);
     
     // First CTE
-    EXPECT_EQ(result.query->with_clause->ctes[0].name, "active");
-    EXPECT_EQ(result.query->with_clause->ctes[0].subquery->for_node.collection, "users");
+    EXPECT_EQ((*result)->with_clause->ctes[0].name, "active");
+    EXPECT_EQ((*result)->with_clause->ctes[0].subquery->for_node.collection, "users");
     
     // Second CTE
-    EXPECT_EQ(result.query->with_clause->ctes[1].name, "premium");
-    EXPECT_EQ(result.query->with_clause->ctes[1].subquery->for_node.collection, "users");
+    EXPECT_EQ((*result)->with_clause->ctes[1].name, "premium");
+    EXPECT_EQ((*result)->with_clause->ctes[1].subquery->for_node.collection, "users");
 }
 
 TEST_F(AQLWithClauseTest, WithClauseWithAggregation) {
@@ -81,10 +81,10 @@ TEST_F(AQLWithClauseTest, WithClauseWithAggregation) {
         "RETURN stat"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
     
-    const auto& cte = result.query->with_clause->ctes[0];
+    const auto& cte = (*result)->with_clause->ctes[0];
     EXPECT_EQ(cte.name, "cityStats");
     ASSERT_NE(cte.subquery->collect, nullptr);
 }
@@ -101,10 +101,10 @@ TEST_F(AQLWithClauseTest, WithClauseWithSort) {
         "RETURN doc.name"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
     
-    const auto& cte = result.query->with_clause->ctes[0];
+    const auto& cte = (*result)->with_clause->ctes[0];
     ASSERT_NE(cte.subquery->sort, nullptr);
     ASSERT_NE(cte.subquery->limit, nullptr);
 }
@@ -120,10 +120,10 @@ TEST_F(AQLWithClauseTest, WithClauseWithLet) {
         "RETURN doc"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
     
-    const auto& cte = result.query->with_clause->ctes[0];
+    const auto& cte = (*result)->with_clause->ctes[0];
     ASSERT_EQ(cte.subquery->let_nodes.size(), 1);
     EXPECT_EQ(cte.subquery->let_nodes[0].variable, "fullName");
 }
@@ -138,8 +138,8 @@ TEST_F(AQLWithClauseTest, MissingAsKeyword) {
         "FOR doc IN expensiveHotels RETURN doc"
     );
     
-    EXPECT_FALSE(result.success);
-    EXPECT_NE(result.error.message.find("AS"), std::string::npos);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("AS"), std::string::npos);
 }
 
 TEST_F(AQLWithClauseTest, MissingParentheses) {
@@ -148,7 +148,7 @@ TEST_F(AQLWithClauseTest, MissingParentheses) {
         "FOR doc IN expensiveHotels RETURN doc"
     );
     
-    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(AQLWithClauseTest, MissingCteName) {
@@ -157,7 +157,7 @@ TEST_F(AQLWithClauseTest, MissingCteName) {
         "FOR doc IN expensiveHotels RETURN doc"
     );
     
-    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(AQLWithClauseTest, EmptyWithClause) {
@@ -165,7 +165,7 @@ TEST_F(AQLWithClauseTest, EmptyWithClause) {
         "WITH FOR doc IN hotels RETURN doc"
     );
     
-    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.has_value());
 }
 
 // ============================================================================
@@ -178,9 +178,9 @@ TEST_F(AQLWithClauseTest, JsonSerialization) {
         "FOR doc IN temp RETURN doc"
     );
     
-    ASSERT_TRUE(result.success);
+    ASSERT_TRUE(result.has_value());
     
-    auto json = result.query->toJSON();
+    auto json = (*result)->toJSON();
     EXPECT_TRUE(json.contains("with"));
     EXPECT_TRUE(json["with"].is_object());
     EXPECT_TRUE(json["with"].contains("ctes"));
@@ -205,7 +205,7 @@ TEST_F(AQLWithClauseTest, WithClauseAtEnd) {
     
     // This should fail or ignore the WITH (depending on implementation)
     // For now, we expect parse error since WITH must come first
-    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(AQLWithClauseTest, NestedWithInSubquery) {
@@ -218,10 +218,10 @@ TEST_F(AQLWithClauseTest, NestedWithInSubquery) {
         "FOR doc IN outer RETURN doc"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
     
-    const auto& outerCte = result.query->with_clause->ctes[0];
+    const auto& outerCte = (*result)->with_clause->ctes[0];
     EXPECT_EQ(outerCte.name, "outer");
     
     // Subquery should also have WITH clause
@@ -255,11 +255,11 @@ TEST_F(AQLWithClauseTest, ComplexMultiCteExample) {
         "RETURN {name: doc.name, price: doc.price, rating: doc.rating}"
     );
     
-    ASSERT_TRUE(result.success) << result.error.toString();
-    ASSERT_NE(result.query->with_clause, nullptr);
-    ASSERT_EQ(result.query->with_clause->ctes.size(), 3);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->with_clause, nullptr);
+    ASSERT_EQ((*result)->with_clause->ctes.size(), 3);
     
-    EXPECT_EQ(result.query->with_clause->ctes[0].name, "highRated");
-    EXPECT_EQ(result.query->with_clause->ctes[1].name, "nearby");
-    EXPECT_EQ(result.query->with_clause->ctes[2].name, "affordable");
+    EXPECT_EQ((*result)->with_clause->ctes[0].name, "highRated");
+    EXPECT_EQ((*result)->with_clause->ctes[1].name, "nearby");
+    EXPECT_EQ((*result)->with_clause->ctes[2].name, "affordable");
 }

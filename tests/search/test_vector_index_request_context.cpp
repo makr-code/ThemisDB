@@ -17,6 +17,8 @@ namespace {
 
 class LegacyVectorIndex : public themis::IVectorIndex {
 public:
+    using themis::IVectorIndex::search;
+
     [[nodiscard]] bool insert(std::string_view, const std::vector<float>&) override {
         return true;
     }

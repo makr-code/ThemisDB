@@ -3,301 +3,207 @@
 
 /**
  * @file bench_graph_dedicated_gates.cpp
- * @brief Wave D — Graph Dedicated Gate Benchmarks (GR-BM-01..04).
+ * @brief Google Benchmark cases for dedicated graph traversal gates.
  *
- * Provides reproducible latency and throughput measurements for the four
- * Wave D graph engine hot paths identified in src/graph/ROADMAP.md.
- *
- * ## Benchmark families
- *
- * ### GR-BM-01 — BFS p95
- *   In-process BFS traversal latency on a 64-node ring graph; gate: p95 ≤ 100 µs
- *
- * ### GR-BM-02 — Dijkstra p95
- *   In-process Dijkstra latency on a weighted ring graph; gate: p95 ≤ 200 µs
- *
- * ### GR-BM-03 — Parallel Traversal Throughput
- *   Multi-threaded BFS throughput; gate: ≥ 5 000 traversals/sec
- *
- * ### GR-BM-04 — Constrained Query p99
- *   BFS with even-node constraint; gate: p99 ≤ 200 µs
- *
- * @version 1.0.0
- * @see src/graph/ROADMAP.md — Wave D items
+ * The measured algorithms operate on a deterministic in-process fixture;
+ * they are microbenchmarks, not measurements of the production graph engine.
  */
+
+#include <benchmark/benchmark.h>
 
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
-#include <cstdio>
 #include <limits>
 #include <queue>
 #include <thread>
+#include <utility>
 #include <vector>
 
-using ns_t = long long;
+namespace {
 
-static ns_t now_ns() {
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(
-               std::chrono::steady_clock::now().time_since_epoch())
-        .count();
-}
+using ns_t = int64_t;
 
-static double percentile(std::vector<ns_t>& samples, double p) {
-    if (samples.empty()) { return 0.0; }
-    std::sort(samples.begin(), samples.end());
-    const std::size_t idx =
-        std::min(static_cast<std::size_t>(p / 100.0 * samples.size()),
-                 samples.size() - 1);
-    return static_cast<double>(samples[idx]);
-}
+constexpr uint32_t kBenchNodeCount = 64;
+constexpr uint32_t kBenchEdgesPerNode = 4;
+constexpr uint32_t kParallelWorkers = 4;
 
-// ---------------------------------------------------------------------------
-// Stubs
-// ---------------------------------------------------------------------------
-
-static constexpr uint32_t kBenchNodeCount  = 64;
-static constexpr uint32_t kBenchEdgesPerNode = 4;
-
-static std::vector<std::vector<uint32_t>> build_ring_graph(
-        uint32_t nodes, uint32_t edges) {
-    std::vector<std::vector<uint32_t>> adj(nodes);
-    for (uint32_t i = 0; i < nodes; ++i) {
-        for (uint32_t e = 1; e <= edges; ++e) {
-            adj[i].push_back((i + e) % nodes);
+std::vector<std::vector<uint32_t>> build_ring_graph(
+    uint32_t nodes, uint32_t edges) {
+    std::vector<std::vector<uint32_t>> adjacency(nodes);
+    for (uint32_t node = 0; node < nodes; ++node) {
+        for (uint32_t edge = 1; edge <= edges; ++edge) {
+            adjacency[node].push_back((node + edge) % nodes);
         }
     }
-    return adj;
+    return adjacency;
 }
 
-static uint32_t run_bfs(
-        const std::vector<std::vector<uint32_t>>& adj, uint32_t root) {
-    const uint32_t n = static_cast<uint32_t>(adj.size());
-    std::vector<bool>    visited(n, false);
+uint32_t run_bfs(
+    const std::vector<std::vector<uint32_t>>& adjacency, uint32_t root) {
+    const uint32_t node_count = static_cast<uint32_t>(adjacency.size());
+    std::vector<bool> visited(node_count, false);
     std::queue<uint32_t> frontier;
-    frontier.push(root % n);
-    visited[root % n] = true;
+    frontier.push(root % node_count);
+    visited[root % node_count] = true;
+
     uint32_t count = 0;
     while (!frontier.empty()) {
-        uint32_t node = frontier.front(); frontier.pop();
+        const uint32_t node = frontier.front();
+        frontier.pop();
         ++count;
-        for (uint32_t nb : adj[node]) {
-            if (!visited[nb]) { visited[nb] = true; frontier.push(nb); }
+        for (const uint32_t neighbor : adjacency[node]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                frontier.push(neighbor);
+            }
         }
     }
     return count;
 }
 
-static uint32_t run_dijkstra(
-        const std::vector<std::vector<uint32_t>>& adj, uint32_t src) {
-    const uint32_t n = static_cast<uint32_t>(adj.size());
-    std::vector<uint32_t> dist(n, std::numeric_limits<uint32_t>::max());
-    std::priority_queue<std::pair<uint32_t,uint32_t>,
-                        std::vector<std::pair<uint32_t,uint32_t>>,
-                        std::greater<>> pq;
-    dist[src % n] = 0;
-    pq.push({0, src % n});
+uint32_t run_dijkstra(
+    const std::vector<std::vector<uint32_t>>& adjacency, uint32_t source) {
+    const uint32_t node_count = static_cast<uint32_t>(adjacency.size());
+    std::vector<uint32_t> distance(
+        node_count, std::numeric_limits<uint32_t>::max());
+    using QueueEntry = std::pair<uint32_t, uint32_t>;
+    std::priority_queue<QueueEntry, std::vector<QueueEntry>, std::greater<>> queue;
+    distance[source % node_count] = 0;
+    queue.push({0, source % node_count});
+
     uint32_t visited = 0;
-    while (!pq.empty()) {
-        auto [d, u] = pq.top(); pq.pop();
-        if (d > dist[u]) { continue; }
+    while (!queue.empty()) {
+        const auto [current_distance, node] = queue.top();
+        queue.pop();
+        if (current_distance > distance[node]) {
+            continue;
+        }
         ++visited;
-        for (uint32_t v : adj[u]) {
-            const uint32_t nd = dist[u] + 1;
-            if (nd < dist[v]) { dist[v] = nd; pq.push({nd, v}); }
+        for (const uint32_t neighbor : adjacency[node]) {
+            const uint32_t next_distance = distance[node] + 1;
+            if (next_distance < distance[neighbor]) {
+                distance[neighbor] = next_distance;
+                queue.push({next_distance, neighbor});
+            }
         }
     }
     return visited;
 }
 
-// ---------------------------------------------------------------------------
-// GR-BM-01 — BFS p95
-// ---------------------------------------------------------------------------
-static void bench_graph_bfs_p95() {
-    constexpr int    kWarmup     = 500;
-    constexpr int    kIterations = 20'000;
-    constexpr double kGateP95_us = 100.0;
+template <typename Operation>
+void run_latency_benchmark(
+    benchmark::State& state,
+    Operation&& operation,
+    double percentile_rank,
+    const char* percentile_counter) {
+    std::vector<ns_t> samples;
+    samples.reserve(static_cast<std::size_t>(state.max_iterations));
 
-    const auto adj = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
+    for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
+        const auto result = operation();
+        const auto elapsed = std::chrono::steady_clock::now() - start;
+        benchmark::DoNotOptimize(result);
+
+        const auto elapsed_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed).count();
+        samples.push_back(elapsed_ns);
+        state.SetIterationTime(static_cast<double>(elapsed_ns) * 1e-9);
+    }
+
+    std::sort(samples.begin(), samples.end());
+    const auto index = std::min(
+        static_cast<std::size_t>(percentile_rank / 100.0 * samples.size()),
+        samples.size() - 1);
+    state.counters[percentile_counter] = static_cast<double>(samples[index]);
+    state.SetItemsProcessed(state.iterations());
+}
+
+void BM_GraphBFS_P95(benchmark::State& state) {
+    const auto adjacency = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
     uint32_t root = 0;
-    for (int i = 0; i < kWarmup; ++i) {
-        volatile uint32_t c = run_bfs(adj, root++);
-        (void)c;
-        root %= kBenchNodeCount;
-    }
-
-    std::vector<ns_t> samples;
-    samples.reserve(kIterations);
-    for (int i = 0; i < kIterations; ++i) {
-        const ns_t t0 = now_ns();
-        volatile uint32_t c = run_bfs(adj, root++ % kBenchNodeCount);
-        (void)c;
-        samples.push_back(now_ns() - t0);
-    }
-
-    const double p95_us = percentile(samples, 95.0) / 1000.0;
-    if (p95_us > kGateP95_us) {
-        (void)fprintf(stderr,
-            "[GR-BM-01] WARN: BFS p95 %.2f µs exceeds gate %.2f µs\n",
-            p95_us, kGateP95_us);
-    } else {
-        (void)fprintf(stdout,
-            "[GR-BM-01] BFS p95 = %.2f µs  (gate ≤ %.2f µs)  PASS\n",
-            p95_us, kGateP95_us);
-    }
+    run_latency_benchmark(state, [&] {
+        const auto current_root = root++ % kBenchNodeCount;
+        return run_bfs(adjacency, current_root);
+    }, 95.0, "p95_real_time");
 }
+BENCHMARK(BM_GraphBFS_P95)->Unit(benchmark::kNanosecond)->UseManualTime();
 
-// ---------------------------------------------------------------------------
-// GR-BM-02 — Dijkstra p95
-// ---------------------------------------------------------------------------
-static void bench_graph_dijkstra_p95() {
-    constexpr int    kWarmup     = 200;
-    constexpr int    kIterations = 10'000;
-    constexpr double kGateP95_us = 200.0;
-
-    const auto adj = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
-    uint32_t src = 0;
-    for (int i = 0; i < kWarmup; ++i) {
-        volatile uint32_t v = run_dijkstra(adj, src++ % kBenchNodeCount);
-        (void)v;
-    }
-
-    std::vector<ns_t> samples;
-    samples.reserve(kIterations);
-    for (int i = 0; i < kIterations; ++i) {
-        const ns_t t0 = now_ns();
-        volatile uint32_t v = run_dijkstra(adj, src++ % kBenchNodeCount);
-        (void)v;
-        samples.push_back(now_ns() - t0);
-    }
-
-    const double p95_us = percentile(samples, 95.0) / 1000.0;
-    if (p95_us > kGateP95_us) {
-        (void)fprintf(stderr,
-            "[GR-BM-02] WARN: Dijkstra p95 %.2f µs exceeds gate %.2f µs\n",
-            p95_us, kGateP95_us);
-    } else {
-        (void)fprintf(stdout,
-            "[GR-BM-02] Dijkstra p95 = %.2f µs  (gate ≤ %.2f µs)  PASS\n",
-            p95_us, kGateP95_us);
-    }
+void BM_GraphDijkstra_P95(benchmark::State& state) {
+    const auto adjacency = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
+    uint32_t source = 0;
+    run_latency_benchmark(state, [&] {
+        const auto current_source = source++ % kBenchNodeCount;
+        return run_dijkstra(adjacency, current_source);
+    }, 95.0, "p95_real_time");
 }
+BENCHMARK(BM_GraphDijkstra_P95)->Unit(benchmark::kNanosecond)->UseManualTime();
 
-// ---------------------------------------------------------------------------
-// GR-BM-03 — Parallel Traversal Throughput
-// ---------------------------------------------------------------------------
-static void bench_graph_parallel_traversal_throughput() {
-    constexpr uint32_t kWorkers        = 4;
-    constexpr int      kDurationMs     = 2'000;
-    constexpr double   kGateMinPerSec  = 5'000.0;
-
-    const auto adj = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
-    std::atomic<uint64_t> total{0};
-
-    const auto end_time = std::chrono::steady_clock::now() +
-                          std::chrono::milliseconds(kDurationMs);
-
-    auto worker = [&](uint32_t seed) {
-        uint32_t root = seed % kBenchNodeCount;
-        while (std::chrono::steady_clock::now() < end_time) {
-            for (int i = 0; i < 16; ++i) {
-                volatile uint32_t c = run_bfs(adj, root);
-                (void)c;
-                root = (root + 1) % kBenchNodeCount;
-            }
-            total.fetch_add(16, std::memory_order_relaxed);
-        }
-    };
-
-    const auto t0 = std::chrono::steady_clock::now();
-    std::vector<std::thread> workers;
-    workers.reserve(kWorkers);
-    for (uint32_t i = 0; i < kWorkers; ++i) { workers.emplace_back(worker, i * 7); }
-    for (auto& t : workers) { t.join(); }
-
-    const double elapsed_sec = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - t0).count();
-    const double ops_per_sec =
-        static_cast<double>(total.load()) / elapsed_sec;
-
-    if (ops_per_sec < kGateMinPerSec) {
-        (void)fprintf(stderr,
-            "[GR-BM-03] WARN: parallel BFS throughput %.0f/sec below gate %.0f/sec\n",
-            ops_per_sec, kGateMinPerSec);
-    } else {
-        (void)fprintf(stdout,
-            "[GR-BM-03] parallel BFS throughput = %.0f/sec  (gate ≥ %.0f/sec)  PASS\n",
-            ops_per_sec, kGateMinPerSec);
-    }
-}
-
-// ---------------------------------------------------------------------------
-// GR-BM-04 — Constrained Query p99
-// ---------------------------------------------------------------------------
-static void bench_graph_constrained_query_p99() {
-    constexpr int    kWarmup     = 200;
-    constexpr int    kIterations = 10'000;
-    constexpr double kGateP99_us = 200.0;
-
-    const auto adj = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
-
-    auto constrained_bfs = [&](uint32_t root) -> uint32_t {
-        const uint32_t n = static_cast<uint32_t>(adj.size());
-        std::vector<bool>    visited(n, false);
+void BM_GraphConstrainedBFS_P99(benchmark::State& state) {
+    const auto adjacency = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
+    uint32_t root = 0;
+    run_latency_benchmark(state, [&] {
+        const uint32_t node_count = static_cast<uint32_t>(adjacency.size());
+        const uint32_t start_node = (root++ % node_count / 2) * 2;
+        std::vector<bool> visited(node_count, false);
         std::queue<uint32_t> frontier;
-        const uint32_t r = (root % n / 2) * 2; // even
-        frontier.push(r);
-        visited[r] = true;
+        frontier.push(start_node);
+        visited[start_node] = true;
+
         uint32_t count = 0;
         while (!frontier.empty()) {
-            uint32_t node = frontier.front(); frontier.pop();
+            const uint32_t node = frontier.front();
+            frontier.pop();
             ++count;
-            for (uint32_t nb : adj[node]) {
-                if (!visited[nb] && nb % 2 == 0) {
-                    visited[nb] = true;
-                    frontier.push(nb);
+            for (const uint32_t neighbor : adjacency[node]) {
+                if (!visited[neighbor] && neighbor % 2 == 0) {
+                    visited[neighbor] = true;
+                    frontier.push(neighbor);
                 }
             }
         }
         return count;
-    };
-
-    uint32_t root = 0;
-    for (int i = 0; i < kWarmup; ++i) {
-        volatile uint32_t c = constrained_bfs(root += 2);
-        (void)c;
-    }
-
-    std::vector<ns_t> samples;
-    samples.reserve(kIterations);
-    for (int i = 0; i < kIterations; ++i) {
-        const ns_t t0 = now_ns();
-        volatile uint32_t c = constrained_bfs(root);
-        (void)c;
-        root = (root + 2) % kBenchNodeCount;
-        samples.push_back(now_ns() - t0);
-    }
-
-    const double p99_us = percentile(samples, 99.0) / 1000.0;
-    if (p99_us > kGateP99_us) {
-        (void)fprintf(stderr,
-            "[GR-BM-04] WARN: constrained-query p99 %.2f µs exceeds gate %.2f µs\n",
-            p99_us, kGateP99_us);
-    } else {
-        (void)fprintf(stdout,
-            "[GR-BM-04] constrained-query p99 = %.2f µs  (gate ≤ %.2f µs)  PASS\n",
-            p99_us, kGateP99_us);
-    }
+    }, 99.0, "p99_real_time");
 }
+BENCHMARK(BM_GraphConstrainedBFS_P99)
+    ->Unit(benchmark::kNanosecond)->UseManualTime();
 
-// ---------------------------------------------------------------------------
-// main
-// ---------------------------------------------------------------------------
-int main() {
-    bench_graph_bfs_p95();
-    bench_graph_dijkstra_p95();
-    bench_graph_parallel_traversal_throughput();
-    bench_graph_constrained_query_p99();
-    return 0;
+void BM_GraphParallelBFS_Throughput(benchmark::State& state) {
+    const auto adjacency = build_ring_graph(kBenchNodeCount, kBenchEdgesPerNode);
+    uint64_t total_traversals = 0;
+
+    for (auto _ : state) {
+        const auto end_time =
+            std::chrono::steady_clock::now() + std::chrono::milliseconds(100);
+        std::atomic<uint64_t> iteration_traversals{0};
+        std::vector<std::thread> workers;
+        workers.reserve(kParallelWorkers);
+
+        for (uint32_t worker = 0; worker < kParallelWorkers; ++worker) {
+            workers.emplace_back([&, worker] {
+                uint32_t root = worker % kBenchNodeCount;
+                uint64_t traversals = 0;
+                while (std::chrono::steady_clock::now() < end_time) {
+                    benchmark::DoNotOptimize(run_bfs(adjacency, root));
+                    root = (root + 1) % kBenchNodeCount;
+                    ++traversals;
+                }
+                iteration_traversals.fetch_add(traversals, std::memory_order_relaxed);
+            });
+        }
+        for (auto& worker : workers) {
+            worker.join();
+        }
+        total_traversals += iteration_traversals.load(std::memory_order_relaxed);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(total_traversals));
+    state.counters["workers"] = kParallelWorkers;
 }
+BENCHMARK(BM_GraphParallelBFS_Throughput)->UseRealTime();
+
+}  // namespace
+
+BENCHMARK_MAIN();

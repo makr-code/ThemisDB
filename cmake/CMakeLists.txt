@@ -3937,6 +3937,11 @@ if(THEMIS_BUILD_MODULAR)
         add_subdirectory(
             "${THEMIS_ROOT_DIR}/src/acceleration/vulkan/shaders"
             "${CMAKE_BINARY_DIR}/vulkan_shaders")
+        if(TARGET themis_llm AND TARGET vulkan_lora_shaders)
+            target_compile_definitions(themis_llm PRIVATE
+                THEMIS_VULKAN_LORA_SHADER_DIR="${CMAKE_BINARY_DIR}/shaders/lora")
+            add_dependencies(themis_llm vulkan_lora_shaders)
+        endif()
         if(NOT TARGET vulkan_vector_index_shaders)
             set(_themis_vector_shader_compiler "")
             set(_themis_vector_shader_compiler_kind "glslc")

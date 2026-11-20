@@ -17,6 +17,7 @@
 #include "replication/replication_manager.h"
 #include "replication/multi_master_replication.h"
 #include "replication/multi_tier_replication.h"
+#include "storage/wal_storage.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -593,8 +594,9 @@ TEST_F(WALChecksumTest, SequenceGapIsCorruptionButTrimmedPrefixIsAllowed) {
         ASSERT_FALSE(segment.empty());
         std::ifstream input(segment, std::ios::binary);
         ASSERT_TRUE(input.is_open());
-        std::vector<char> bytes(
-            std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+        const auto bytes_begin = std::istreambuf_iterator<char>(input);
+        const auto bytes_end = std::istreambuf_iterator<char>();
+        std::vector<char> bytes(bytes_begin, bytes_end);
         input.close();
 
         constexpr size_t header_size = 21;

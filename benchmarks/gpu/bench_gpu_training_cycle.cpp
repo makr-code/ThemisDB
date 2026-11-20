@@ -4,6 +4,7 @@
 #include "llm/lora_framework/gpu_memory.h"
 #include "llm/lora_framework/paged_optimizer.h"
 #include <chrono>
+#include <cstdint>
 #include <exception>
 #include <vector>
 #include <memory>
@@ -144,6 +145,27 @@ static void run_training_step(GPULoRALayer& layer, const GPUTensor& input, const
     benchmark::DoNotOptimize(grad_input);
 }
 
+static double record_training_metrics(
+    benchmark::State& state,
+    size_t batch_size,
+    size_t seq_len,
+    double elapsed_seconds) {
+    const auto iterations = state.iterations();
+    if (iterations <= 0 || elapsed_seconds <= 0.0) {
+        state.SkipWithError("Training benchmark produced no measurable iterations");
+        return 0.0;
+    }
+
+    const double latency_ms = elapsed_seconds * 1e3 / static_cast<double>(iterations);
+    state.counters["samples/sec"] =
+        static_cast<double>(iterations) * static_cast<double>(batch_size) / elapsed_seconds;
+    state.SetItemsProcessed(iterations * static_cast<int64_t>(batch_size));
+    state.counters["batch_size"] = static_cast<double>(batch_size);
+    state.counters["seq_len"] = static_cast<double>(seq_len);
+    state.counters["latency_ms"] = latency_ms;
+    return latency_ms;
+}
+
 // ============================================================================
 // CPU Baseline Benchmarks (for comparison)
 // ============================================================================
@@ -154,8 +176,6 @@ static void BM_TrainingCycle_CPU_Baseline(benchmark::State& state) {
     
     // Create layer on CPU
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cpu(), false);
-    const auto flattened_batch_size = batch_size * seq_len;
-    
     // Create input and target tensors on CPU
     GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cpu());
     GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cpu());
@@ -168,26 +188,18 @@ static void BM_TrainingCycle_CPU_Baseline(benchmark::State& state) {
     }
     
     // Measure
+    double elapsed_seconds = 0.0;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         run_training_step(layer, input, target);
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        elapsed_seconds += elapsed;
+        state.SetIterationTime(elapsed);
     }
     
-    // Calculate throughput (samples/sec)
-    double samples_per_sec = batch_size * (1.0 / state.iterations()) * state.iterations() / 
-                             (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    state.counters["seq_len"] = seq_len;
-    state.counters["latency_ms"] = benchmark::Counter(
-        state.iterations() / 1000.0, benchmark::Counter::kIsRate);
-    
-    // Store CPU baseline for GPU comparison
-    double cpu_ms = state.counters["_total_time"] * 1e3 / state.iterations();
+    const double cpu_ms =
+        record_training_metrics(state, batch_size, seq_len, elapsed_seconds);
     state.counters["cpu_baseline_ms"] = cpu_ms;
     
     state.SetLabel("CPU");
@@ -216,8 +228,6 @@ static void BM_TrainingCycle_CUDA(benchmark::State& state) {
     
     // Create layer on CUDA
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
-    const auto flattened_batch_size = batch_size * seq_len;
-    
     // Create input and target tensors on CUDA
     GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
     GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
@@ -230,35 +240,21 @@ static void BM_TrainingCycle_CUDA(benchmark::State& state) {
     }
     
     // Measure
+    double elapsed_seconds = 0.0;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         run_training_step(layer, input, target);
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        elapsed_seconds += elapsed;
+        state.SetIterationTime(elapsed);
     }
     
-    // Calculate throughput (samples/sec)
-    double samples_per_sec = batch_size * (1.0 / state.iterations()) * state.iterations() / 
-                             (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    state.counters["seq_len"] = seq_len;
-    state.counters["latency_ms"] = benchmark::Counter(
-        state.iterations() / 1000.0, benchmark::Counter::kIsRate);
+    const double gpu_ms =
+        record_training_metrics(state, batch_size, seq_len, elapsed_seconds);
     
     // Phase 5 GPU Performance Gate: Forward+Backward within 2x CPU baseline
-    double gpu_ms = state.counters["_total_time"] * 1e3 / state.iterations();
     state.counters["gpu_latency_ms"] = gpu_ms;
-    
-    // Note: In production, would compare with stored CPU baseline for this batch/seq config
-    // For now, report for monitoring purposes
-    if (batch_size > 1) {
-        // Expected minimum speedup: 1.5x for batches > 1
-        // Actual speedup would be gpu_baseline_ms / gpu_ms (> 1.5 desired)
-        state.counters["gpu_speedup_estimate"] = 1.0;  // Placeholder
-    }
     
     state.SetLabel("CUDA");
 }
@@ -285,8 +281,6 @@ static void BM_TrainingCycle_HIP(benchmark::State& state) {
     
     // Create layer on HIP
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::hip(), true);
-    const auto flattened_batch_size = batch_size * seq_len;
-    
     // Create input and target tensors on HIP
     GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::hip());
     GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::hip());
@@ -299,23 +293,17 @@ static void BM_TrainingCycle_HIP(benchmark::State& state) {
     }
     
     // Measure
+    double elapsed_seconds = 0.0;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         run_training_step(layer, input, target);
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        elapsed_seconds += elapsed;
+        state.SetIterationTime(elapsed);
     }
     
-    // Calculate throughput (samples/sec)
-    double samples_per_sec = batch_size * (1.0 / state.iterations()) * state.iterations() / 
-                             (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    state.counters["seq_len"] = seq_len;
-    state.counters["latency_ms"] = benchmark::Counter(
-        state.iterations() / 1000.0, benchmark::Counter::kIsRate);
+    record_training_metrics(state, batch_size, seq_len, elapsed_seconds);
     
     state.SetLabel("HIP");
 }
@@ -342,8 +330,6 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) try {
     
     // Create layer on Vulkan
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::vulkan(), true);
-    const auto flattened_batch_size = batch_size * seq_len;
-    
     // Create input and target tensors on Vulkan
     GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::vulkan());
     GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::vulkan());
@@ -356,23 +342,17 @@ static void BM_TrainingCycle_Vulkan(benchmark::State& state) try {
     }
     
     // Measure
+    double elapsed_seconds = 0.0;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         run_training_step(layer, input, target);
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        elapsed_seconds += elapsed;
+        state.SetIterationTime(elapsed);
     }
     
-    // Calculate throughput (samples/sec)
-    double samples_per_sec = batch_size * (1.0 / state.iterations()) * state.iterations() / 
-                             (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    state.counters["seq_len"] = seq_len;
-    state.counters["latency_ms"] = benchmark::Counter(
-        state.iterations() / 1000.0, benchmark::Counter::kIsRate);
+    record_training_metrics(state, batch_size, seq_len, elapsed_seconds);
     
     state.SetLabel("Vulkan");
 } catch (const std::exception& error) {
@@ -403,8 +383,6 @@ static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
     
     // Create layer on CUDA
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
-    const auto flattened_batch_size = batch_size * seq_len;
-    
     // Create input and target tensors on CUDA
     GPUTensor input({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
     GPUTensor target({batch_size * seq_len, HIDDEN_DIM}, Device::cuda());
@@ -432,8 +410,9 @@ static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
     }
     
     // Measure complete training step
+    double elapsed_seconds = 0.0;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         
         // Forward
         auto output = layer.forward(input);
@@ -453,20 +432,13 @@ static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
         }
         layer.zero_grad();
         
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        elapsed_seconds += elapsed;
+        state.SetIterationTime(elapsed);
     }
     
-    // Calculate throughput (samples/sec)
-    double samples_per_sec = batch_size * (1.0 / state.iterations()) * state.iterations() / 
-                             (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    state.counters["seq_len"] = seq_len;
-    state.counters["latency_ms"] = benchmark::Counter(
-        state.iterations() / 1000.0, benchmark::Counter::kIsRate);
+    record_training_metrics(state, batch_size, seq_len, elapsed_seconds);
     
     state.SetLabel("CUDA+Optimizer");
 }

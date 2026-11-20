@@ -35,13 +35,13 @@ Human_Author: "ThemisDB Team"
 | ACC-1 | dispatch-path overhead remains within release baseline budget | BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, L2Distance), BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, CosineDistance), BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, TopK) |
 | ACC-2 | geo-dispatch overhead remains bounded | BENCHMARK_REGISTER_F(GeoDispatchBenchFixture, HaversineBatch) |
 | ACC-3 | multi-shard execution returns valid global distances and explicitly reports actual backend and CPU-fallback shard counts | BM_MultiGPUBackend_DistanceComputation/1, BM_MultiGPUBackend_DistanceComputation/2, BM_MultiGPUBackend_DistanceComputation/4 |
-| ACC-4 | gradient-sync and comm-compute overhead remains bounded | No acceleration-module-owned production benchmark mapping verified |
+| ACC-4 | gradient-sync and comm-compute overhead remains bounded | BM_GradientSync_Overhead, BM_CommCompute_Ratio |
 | ACC-5 | backend distance-computation performance remains within release baseline budget | BM_CPUBackend_DistanceComputation, BM_CUDABackend_DistanceComputation, BM_HIPBackend_DistanceComputation, BM_VulkanBackend_DistanceComputation |
 | ACC-6 | backend init and throughput behavior remains bounded | BM_BackendInitializationOverhead, BM_ThroughputComparison |
 | ACC-7 | gpu-module memory and policy path overhead remains bounded | BM_MemoryManager_TryAllocate, BM_MemoryManager_Deallocate, BM_MemoryPool_Acquire_Release, BM_MemoryPool_Stats, BM_Policy_CheckAllowed, BM_Policy_CheckDenied, BM_Config_Validate, BM_AdminAPI_GetStatsJson |
 | ACC-8 | capability-probe and load-balancer overhead remains bounded | BM_GPUHardwareCapabilityProbe, BM_GpuNVLinkTopologyDetect, BM_GpuLoadBalancer_LeastLoaded |
 | ACC-9 | CUDA-vs-CPU acceleration ratio remains within release baseline budget | BM_CPU_ANN_L2Distance, BM_CUDA_ANN_L2Distance, BM_CPU_ANN_CosineDistance, BM_CUDA_ANN_CosineDistance, BM_CPU_ANN_InnerProduct, BM_CUDA_ANN_InnerProduct |
-| ACC-10 | fallback and capability-gate behavior remains bounded in disabled/guarded paths | Stub benchmark is proxy-only; production fallback latency has no verified mapping |
+| ACC-10 | fallback and capability-gate behavior remains bounded in disabled/guarded paths; the mapped stub case is proxy-only and does not verify production fallback latency | `ACCBM01_FallbackRoutingDecision` |
 
 ## Candidate Module Gates (not release-approved)
 

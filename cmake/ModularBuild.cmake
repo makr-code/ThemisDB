@@ -118,12 +118,13 @@ function(themis_add_module MODULE_NAME)
     if(NOT ARG_STATIC_MODULE)
         target_compile_definitions(themis_${MODULE_NAME} 
             PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS
-            PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
+            PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED THEMIS_MODULAR_BUILD
         )
     else()
         # Static modules do not export symbols via __declspec; only mark as enabled
         target_compile_definitions(themis_${MODULE_NAME} 
             PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
+                   THEMIS_MODULAR_BUILD
                    THEMIS_${MODULE_NAME_UPPER}_STATIC
         )
     endif()

@@ -358,6 +358,10 @@ static std::string get_shader_path(const std::string& shader_name) {
     
     std::vector<std::string> search_paths;
     
+#ifdef THEMIS_VULKAN_LORA_SHADER_DIR
+    search_paths.emplace_back(std::string(THEMIS_VULKAN_LORA_SHADER_DIR) + "/");
+#endif
+
     // Add CMake binary directory paths
     search_paths.push_back("./shaders/lora/");  // Current directory
     search_paths.push_back("../shaders/lora/"); // Parent directory

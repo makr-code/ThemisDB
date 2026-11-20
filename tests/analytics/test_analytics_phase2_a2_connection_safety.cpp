@@ -566,7 +566,7 @@ TEST(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection) {
 
     for (int i = 0; i < 100; ++i) {
         TrivialWithVector item;
-        item.data.resize(static_cast<size_t>(i + 1), i);
+        item.data.resize(static_cast<size_t>(i + 1), std::make_shared<int>(i));
         item.value = i;
         collection.push_back(std::move(item));
     }
