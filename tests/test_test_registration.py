@@ -60,6 +60,70 @@ class TestRegistrationGuardTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("On-demand builds are disabled", result.stderr)
 
+    @unittest.skipIf(os.name == "nt", "requires an executable script")
+    def test_ctest_can_emit_successful_test_output_for_evidence(self) -> None:
+        target = self.root / "sample-test-runner"
+        target.write_text(
+            f"#!{sys.executable}\n"
+            "print('[ RUN      ] Sample.Runs')\n"
+            "print('[       OK ] Sample.Runs')\n",
+            encoding="utf-8",
+        )
+        target.chmod(0o755)
+        command = [
+            "cmake",
+            "-DTARGET_NAME=sample_test_runner",
+            f"-DTARGET_FILE={target}",
+            f"-DBUILD_DIR={self.root}",
+            "-P",
+            str(REPOSITORY_ROOT / "tests" / "cmake" / "RunRegisteredTest.cmake"),
+        ]
+        environment = os.environ.copy()
+        environment.pop("THEMIS_CTEST_EMIT_TEST_OUTPUT", None)
+        default = subprocess.run(command, capture_output=True, text=True, env=environment)
+        self.assertEqual(default.returncode, 0)
+        self.assertNotIn("[ RUN      ]", default.stdout + default.stderr)
+
+        environment["THEMIS_CTEST_EMIT_TEST_OUTPUT"] = "1"
+        emitted = subprocess.run(command, capture_output=True, text=True, env=environment)
+        self.assertEqual(emitted.returncode, 0)
+        self.assertIn("[ RUN      ] Sample.Runs", emitted.stdout + emitted.stderr)
+        manifest = self.root / "CTestTestfile.cmake"
+        manifest.write_text(
+            "add_test(sample "
+            + " ".join(json.dumps(arg) for arg in command)
+            + ')\nset_tests_properties(sample PROPERTIES LABELS "llm_rag_doku")\n',
+            encoding="utf-8",
+        )
+        ctest_command = [
+            "ctest", "--test-dir", str(self.root), "--verbose",
+            "--no-tests=error", "-L", "^llm_rag_doku$",
+        ]
+        ctest = subprocess.run(ctest_command, capture_output=True, text=True, env=environment)
+        self.assertEqual(ctest.returncode, 0, ctest.stderr)
+        log = self.root / "test.log"
+        log.write_text(ctest.stdout + ctest.stderr, encoding="utf-8")
+        checker = [
+            "bash", str(REPOSITORY_ROOT / "scripts" / "ci-check-llm-skip-budget.sh"),
+            "llm", "0", str(log),
+        ]
+        result = subprocess.run(
+            checker, capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        target.write_text(
+            f"#!{sys.executable}\n"
+            "print('[ RUN      ] Sample.Skips')\n"
+            "print('[  SKIPPED ] Sample.Skips')\n",
+            encoding="utf-8",
+        )
+        ctest = subprocess.run(ctest_command, capture_output=True, text=True, env=environment)
+        self.assertEqual(ctest.returncode, 0, ctest.stderr)
+        log.write_text(ctest.stdout + ctest.stderr, encoding="utf-8")
+        result = subprocess.run(checker, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("skip budget exceeded", result.stderr)
+
     def write_compilation_database(
         self, sources: list[Path], targets: list[str] | None = None
     ) -> None:

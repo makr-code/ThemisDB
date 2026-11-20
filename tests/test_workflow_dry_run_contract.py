@@ -268,10 +268,26 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         build_step_names = {step.get("name") for step in build_steps}
         self.assertIn("Test reusable TinyLlama cache integrity", build_step_names)
         self.assertIn("Test LLM skip-budget enforcement", build_step_names)
+        artifact_check = next(
+            step["run"] for step in build_steps if step.get("name") == "Verify test artifact contents"
+        )
+        for label in ("llm_inference", "llm_rag_doku", "adalora_training"):
+            self.assertIn(label, artifact_check)
+        artifact = next(
+            step for step in build_steps if step.get("name") == "Upload build artifacts"
+        )
+        self.assertIn("${{ env.LLM_TEST_DIR }}/CTestTestfile.cmake", artifact["with"]["path"])
+        self.assertIn("${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused", artifact["with"]["path"])
+        self.assertIn("${{ env.LLM_TEST_BIN_DIR }}/themisdb_rag_golden_dataset.yaml", artifact["with"]["path"])
+        self.assertEqual(llm["env"]["THEMIS_CTEST_EMIT_TEST_OUTPUT"], "1")
+        self.assertEqual(llm["env"]["THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD"], "1")
 
         for job_name in ("run-inference-suite", "run-rag-suite", "run-adalora-suite"):
             with self.subTest(job=job_name):
                 job = llm["jobs"][job_name]
+                commands = "\n".join(step.get("run", "") for step in job["steps"])
+                self.assertIn('ctest --test-dir "${{ env.LLM_TEST_DIR }}"', commands)
+                self.assertIn("chmod +x ${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused", commands)
                 self.assertIn("scripts/ci-check-llm-skip-budget.sh", "\n".join(
                     step.get("run", "") for step in job["steps"]
                 ))
