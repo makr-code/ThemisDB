@@ -8,6 +8,7 @@
 #include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <stdexcept>
 #include <string>
 
 namespace {
@@ -90,6 +91,58 @@ TEST_F(BoundedBfsTest, AppliesDepthTypeAndGraphScope) {
     EXPECT_EQ(result.nodes[2].vertexId, "sensor");
     EXPECT_EQ(result.nodes[2].depth, 2u);
     EXPECT_EQ(result.edgesExamined, 3u);
+}
+
+TEST_F(BoundedBfsTest, MetersAdjacencyCandidatesAndEdgeDocumentBytes) {
+    addNode("root", "assets");
+    addNode("pump", "assets");
+    addEdge("root-pump", "root", "pump", "DEPENDS_ON", "assets");
+
+    std::size_t candidates = 0;
+    std::size_t contentBytes = 0;
+    const auto [status, result] = graph_->boundedBfs(
+        "root", "assets", 1, 8, 8, std::chrono::milliseconds(500), "DEPENDS_ON",
+        [&candidates, &contentBytes](std::size_t newCandidates,
+                                     std::size_t newContentBytes) {
+            candidates += newCandidates;
+            contentBytes += newContentBytes;
+            return true;
+        });
+
+    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_EQ(result.nodes.size(), 2u);
+    EXPECT_EQ(candidates, 1u);
+    EXPECT_GT(contentBytes, 0u);
+}
+
+TEST_F(BoundedBfsTest, MeterDenialReturnsNoPartialTraversal) {
+    addNode("root", "assets");
+    addNode("pump", "assets");
+    addEdge("root-pump", "root", "pump", "DEPENDS_ON", "assets");
+
+    const auto [status, result] = graph_->boundedBfs(
+        "root", "assets", 1, 8, 8, std::chrono::milliseconds(500), "DEPENDS_ON",
+        [](std::size_t, std::size_t contentBytes) {
+            return contentBytes == 0;
+        });
+
+    EXPECT_FALSE(status.ok);
+    EXPECT_TRUE(result.nodes.empty());
+}
+
+TEST_F(BoundedBfsTest, MeterExceptionFailsClosedWithoutPartialTraversal) {
+    addNode("root", "assets");
+    addNode("pump", "assets");
+    addEdge("root-pump", "root", "pump", "DEPENDS_ON", "assets");
+
+    const auto [status, result] = graph_->boundedBfs(
+        "root", "assets", 1, 8, 8, std::chrono::milliseconds(500), "DEPENDS_ON",
+        [](std::size_t, std::size_t) -> bool {
+            throw std::runtime_error("meter failure");
+        });
+
+    EXPECT_FALSE(status.ok);
+    EXPECT_TRUE(result.nodes.empty());
 }
 
 TEST_F(BoundedBfsTest, FailsWithoutReturningPartialResultsWhenLimitsAreExceeded) {

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-29"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-19"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -208,6 +208,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] 2026-08-31: `BreakEvenValidator` is now wired into the production acceleration build, uses hookable CPU/GPU profiling contracts plus deterministic fallback estimates instead of hardcoded placeholder timings, and focused GPU tests link the production implementation instead of the fallback-only shim. (Target: Q3 2026)
 - [x] 2026-08-31: `oneapi_backend.cpp` now fail-closes on USM allocation failure before `memcpy`, turning the prior undefined OOM path into explicit `std::bad_alloc` handling. (Target: Q3 2026)
 - [~] Multi-device and resource-management reliability tuning under sustained load (Target: Q3 2026)
+  - 2026-11-19 implementation evidence: `MultiGPUVectorBackend` now selects CUDA, HIP, Vulkan, or CPU per instance; owns one backend per shard; fans out partitioned distance/KNN work concurrently; merges global indices; and reports/controls CPU fallback. Focused regression suite: 26 PASS, 2 SKIP (CUDA/HIP not available). RTX 3060 Vulkan run verified 1 Vulkan shard; requests for 2/4 shards used 1 Vulkan plus 1/3 CPU fallbacks. Multi-GPU CUDA/HIP and multi-device Vulkan hardware runs remain open validation gates.
 - [~] **B-01 · CUDA vector similarity search** — GPU kernel dispatch implemented in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` (evidence: 2026-08-10 update); remaining open item is hardware-in-the-loop perf gate (RTX ≥8× gate, `bench_acceleration_cuda_gates.cpp`) (Target: Q3 2026)
 
 ## Planned Features

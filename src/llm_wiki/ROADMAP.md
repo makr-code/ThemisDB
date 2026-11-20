@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -335,9 +335,9 @@ claimed here.
   Wave 1.
 - Product-owner confirmation is needed for the prioritized user groups and
   canonical use cases before the evaluation corpus is frozen.
-- Developer wiki health is stale relative to this task: `WIKI_STATUS.json` was
-  generated on 2026-11-02 and reports 8,066 sources with 1,450 removals and 26
-  changes. It does not contain a curated `llm_wiki` module context; this
-  roadmap relies on current source and module-local documents instead.
+- Developer wiki health was last generated on 2026-11-19 and reports 8,110
+  sources (`ai_context/developer_llm_wiki/WIKI_STATUS.json`). It does not
+  contain a curated `llm_wiki` module context; this roadmap relies on current
+  source and module-local documents instead.
 
 > Exact model backend not verifiable from final document text alone.

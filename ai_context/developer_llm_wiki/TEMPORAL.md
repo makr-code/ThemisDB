@@ -50,6 +50,12 @@ service authorization, or deployment policy. The root
 [`ROADMAP.md`](../../ROADMAP.md) is authoritative for current maturity and
 release readiness; code or test presence is not evidence that a gate passed.
 
+The separate `TSStore` API in [`include/timeseries/tsstore.h`](../../include/timeseries/tsstore.h)
+offers an optional `QueryOptions::work_meter` for inspected records, decoded
+Gorilla samples, and serialized/decrypted payload bytes. `queryStrict()` fails
+with `ERR_QUERY_RESOURCE_EXHAUSTED` when the meter denies work; no meter is
+installed by default.
+
 ## Persistence and lifecycle boundaries
 
 - `TemporalSnapshotManager` captures snapshots in process memory.

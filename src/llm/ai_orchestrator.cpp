@@ -417,8 +417,33 @@ void ToolRegistry::registerTool(const ToolSpec& spec, ToolHandler handler) {
         throw std::invalid_argument("ToolRegistry: tool name must not be empty");
     }
     std::unique_lock lock(tools_mutex_);
-    tools_[spec.name] = {spec, std::move(handler), /*is_plugin=*/false};
+    const auto existing = tools_.find(spec.name);
+    if (existing != tools_.end() && existing->second.delegated_handler) {
+        throw std::invalid_argument(
+            "ToolRegistry: delegated tool registration cannot be downgraded");
+    }
+    tools_[spec.name] = {
+        spec, std::move(handler), {}, /*is_plugin=*/false};
     spdlog::debug("[ToolRegistry] Registered tool '{}'", spec.name);
+}
+
+void ToolRegistry::registerDelegatedTool(const ToolSpec& spec,
+                                          DelegatedToolHandler handler) {
+    if (spec.name.empty()) {
+        throw std::invalid_argument("ToolRegistry: tool name must not be empty");
+    }
+    if (!handler) {
+        throw std::invalid_argument("ToolRegistry: delegated handler must not be empty");
+    }
+    std::unique_lock lock(tools_mutex_);
+    const auto existing = tools_.find(spec.name);
+    if (existing != tools_.end() && existing->second.is_plugin) {
+        throw std::invalid_argument(
+            "ToolRegistry: delegated tool registration cannot replace a plugin tool");
+    }
+    tools_[spec.name] = {
+        spec, {}, std::move(handler), /*is_plugin=*/false};
+    spdlog::debug("[ToolRegistry] Registered delegated tool '{}'", spec.name);
 }
 
 bool ToolRegistry::isAllowed(const std::string& tool_name,
@@ -468,12 +493,59 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
             spdlog::warn("[ToolRegistry] Tool '{}' is not registered", tool_name);
             return {{"error", "tool '" + tool_name + "' is not registered"}};
         }
+        if (it->second.delegated_handler) {
+            return {{"error", "tool '" + tool_name +
+                                  "' requires a delegated skill context"}};
+        }
         handler_copy = it->second.handler;
     }
     try {
         return handler_copy(args, mode);
     } catch (const std::exception& e) {
         spdlog::error("[ToolRegistry] Tool '{}' threw: {}", tool_name, e.what());
+        return {{"error", std::string("tool execution failed: ") + e.what()}};
+    }
+}
+
+json ToolRegistry::invokeTool(
+    const std::string& tool_name,
+    const json& args,
+    const ModeSpec& mode,
+    const SkillDelegationContext& delegation_context) const {
+    if (!isAllowed(tool_name, mode)) {
+        spdlog::warn("[ToolRegistry] Delegated tool '{}' not permitted for mode '{}'",
+                     tool_name, mode.id);
+        return {{"error", "tool '" + tool_name +
+                              "' is not permitted for mode '" + mode.id + "'"}};
+    }
+
+    DelegatedToolHandler handler_copy;
+    {
+        std::shared_lock lock(tools_mutex_);
+        auto it = tools_.find(tool_name);
+        if (it == tools_.end()) {
+            spdlog::warn("[ToolRegistry] Tool '{}' is not registered", tool_name);
+            return {{"error", "tool '" + tool_name + "' is not registered"}};
+        }
+        handler_copy = it->second.delegated_handler;
+    }
+    if (!handler_copy) {
+        return {{"error", "tool '" + tool_name +
+                              "' is not registered for delegated execution"}};
+    }
+    if (!delegation_context.allows("tool.invoke", tool_name)) {
+        return {{"error", "delegated skill context does not permit tool '" +
+                              tool_name + "'"}};
+    }
+    if (!delegation_context.consumeBudget(SkillBudgetUsage{1, 0, 0})) {
+        return {{"error", "delegated skill tool-call budget exhausted or context expired"}};
+    }
+
+    try {
+        return handler_copy(args, mode, delegation_context);
+    } catch (const std::exception& e) {
+        spdlog::error("[ToolRegistry] Delegated tool '{}' threw: {}",
+                      tool_name, e.what());
         return {{"error", std::string("tool execution failed: ") + e.what()}};
     }
 }
@@ -521,7 +593,7 @@ ToolRegistry::~ToolRegistry() = default;
  * @details Calls: getName(), getVersion(), inputSchema(), execute(), lock(), std::move(), spdlog::info().
  */
 
-void ToolRegistry::registerPluginTool(IThemisTool* tool) {
+bool ToolRegistry::registerPluginTool(IThemisTool* tool) {
     ToolSpec spec;
     spec.name        = tool->getName();
     spec.description = tool->getVersion();  // version as a lightweight description proxy
@@ -533,8 +605,14 @@ void ToolRegistry::registerPluginTool(IThemisTool* tool) {
     };
 
     std::unique_lock lock(tools_mutex_);
-    tools_[spec.name] = {std::move(spec), std::move(handler), /*is_plugin=*/true};
+    const auto existing = tools_.find(spec.name);
+    if (existing != tools_.end() && existing->second.delegated_handler) {
+        return false;
+    }
+    tools_[spec.name] = {
+        std::move(spec), std::move(handler), {}, /*is_plugin=*/true};
     spdlog::info("[ToolRegistry] Plugin tool '{}' registered", tool->getName());
+    return true;
 }
 
 /**
@@ -561,7 +639,17 @@ Result<void> ToolRegistry::loadToolPlugin(const std::string& path,
                        "plugin at '" + path + "' does not implement IThemisTool");
     }
 
-    registerPluginTool(tool);
+    if (!registerPluginTool(tool)) {
+        const auto conflicting_tool_name = tool->getName();
+        const auto plugin_name = base->getName();
+        const auto unloaded = plugin_manager_->unloadPlugin(plugin_name);
+        if (!unloaded) {
+            return tl::unexpected(unloaded.error());
+        }
+        return ErrVoid(errors::ErrorCode::ERR_TOOL_ALREADY_REGISTERED,
+                       std::string("tool '") + conflicting_tool_name +
+                           "' conflicts with a delegated tool registration");
+    }
     return OkVoid();
 }
 
@@ -603,7 +691,19 @@ Result<size_t> ToolRegistry::loadToolsFromDirectory(const std::string& directory
             continue;
         }
 
-        registerPluginTool(tool);
+        if (!registerPluginTool(tool)) {
+            const auto conflicting_tool_name = tool->getName();
+            const auto unloaded = plugin_manager_->unloadPlugin(manifest.name);
+            if (!unloaded) {
+                spdlog::error(
+                    "[ToolRegistry] Failed to unload conflicting plugin '{}': {}",
+                    manifest.name, unloaded.error().message());
+            }
+            spdlog::warn(
+                "[ToolRegistry] Plugin tool '{}' conflicts with a delegated registration",
+                conflicting_tool_name);
+            continue;
+        }
         ++loaded;
     }
 
@@ -644,7 +744,11 @@ Result<void> ToolRegistry::reloadTool(const std::string& name) {
                        "reloaded plugin '" + name + "' no longer implements IThemisTool");
     }
 
-    registerPluginTool(tool);
+    if (!registerPluginTool(tool)) {
+        return ErrVoid(errors::ErrorCode::ERR_TOOL_ALREADY_REGISTERED,
+                       "reloaded tool '" + name +
+                           "' conflicts with a delegated registration");
+    }
     spdlog::info("[ToolRegistry] Tool '{}' hot-reloaded", name);
     return OkVoid();
 }
@@ -1712,7 +1816,11 @@ OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
 
         auto t_tool = std::chrono::steady_clock::now();
         try {
-            json tool_result = impl_->tool_registry.invokeTool(tool_name, tool_args, mode);
+            json tool_result = ctx.skill_delegation_context
+                ? impl_->tool_registry.invokeTool(
+                      tool_name, tool_args, mode,
+                      *ctx.skill_delegation_context)
+                : impl_->tool_registry.invokeTool(tool_name, tool_args, mode);
             auto t_tool_end = std::chrono::steady_clock::now();
 
             const bool tool_error = tool_result.is_object() &&

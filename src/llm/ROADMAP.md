@@ -265,8 +265,8 @@ This plan is a research-backed proposal, not a release commitment. It separates 
 - [ ] Qualify smaller local-model/tokenizer/quantization capabilities and approved local model/LoRA routing before expanding optional provider adapters (Target: Q2 2027 proposal).
 - [ ] Specify bounded native retrieval/tool/prompt-planning loops, locality/egress policy and aggregate resource admission without framework dependencies in core (Target: Q2 2027 proposal).
 - [~] Implement the file-based Agent Skill MVP with metadata-only discovery, explicit instruction/resource loading, and mode-scoped tool access; representative performance evidence remains pending (Target: Q2 2027 proposal; design and phase gates below).
-- [~] Add host-side skill delegation contexts with exact permission attenuation, fixed principal/tenant, monotonic expiry, and shared aggregate budgets; ToolRegistry/RAG enforcement is a separate follow-up (Target: Q2 2027 proposal).
-- [~] Add opt-in native cross-model skill executors beginning with `asset-impact-analysis`: graph-scoped outgoing traversal plus host-bound TSStore window comparison; focused CTest execution remains pending (Target: Q2 2027 proposal).
+- [~] Add host-side skill delegation contexts with exact permission attenuation, fixed principal/tenant, monotonic expiry, and shared aggregate budgets; delegated ToolRegistry/agentic dispatch and first native executor enforcement are implemented, while RAG enforcement and focused CTest execution remain pending (Target: Q2 2027 proposal).
+- [~] Add opt-in native cross-model skill executors beginning with `asset-impact-analysis`: graph-scoped outgoing traversal plus host-bound TSStore window comparison now has delegated registration and shared candidate/content metering; focused CTest execution remains pending (Target: Q2 2027 proposal).
 - [ ] Integrate tokenizer-exact final RAG admission and verify ordinary database availability and p95/p99 under concurrent native inference (Target: Q2 2027 proposal).
 - [ ] Qualify AdaLoRA artifact promotion and Multi-LoRA request activation/
   composition separately, including base compatibility, cache validity,

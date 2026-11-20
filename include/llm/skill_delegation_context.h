@@ -9,6 +9,8 @@
 
 #include <chrono>
 #include <cstddef>
+#include <exception>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <set>
@@ -71,8 +73,9 @@ struct SkillBudgetUsage {
  * the same principal, tenant, and shared aggregate budget; they may only remove
  * exact capabilities or shorten the steady-clock expiry.
  *
- * @note This type is not currently connected to ToolRegistry or RAG execution.
- *       Existing tools must not be considered authorized by its presence.
+ * @note ToolRegistry enforces this context only for tools registered with its
+ *       delegated handler API. Existing handlers and RAG execution are not
+ *       constrained by this type and must not be considered authorized by it.
  * @note Identity and grants are immutable. Budget operations on contexts that
  *       share a root are synchronized and safe to call concurrently.
  */
@@ -82,27 +85,46 @@ public:
     using Clock = std::chrono::steady_clock;
     /** @brief Expiry point in the monotonic clock domain. */
     using TimePoint = Clock::time_point;
+    /**
+     * @brief Host policy check for one exact grant and authenticated identity.
+     *
+     * The host must bind this callback to its authenticated request context,
+     * reject identities that do not match that context, and return false for
+     * policy denial or evaluation failure. The callback is invoked
+     * synchronously and must not retain the string views. Standard exceptions
+     * are converted to an access-denied result.
+     */
+    using PermissionAuthorizer = std::function<bool(
+        std::string_view principal_id,
+        std::string_view tenant_id,
+        const SkillPermission& permission)>;
 
     /**
-     * @brief Create a root context from host-authorized facts.
+     * @brief Issue a root context after host policy approves every exact grant.
      * @param principal_id Authenticated principal identifier; must not be empty.
      * @param tenant_id Authenticated tenant identifier; must not be empty.
-     * @param permissions Effective exact grants after host policy evaluation.
+     * @param permissions Exact grants to check against host policy.
      * @param expires_at Monotonic expiry; must be in the future.
      * @param budget Aggregate ceilings shared with all derived contexts.
+     * @param permission_authorizer Trusted host callback that confirms each
+     *        grant for the supplied principal and tenant; must be non-empty.
      * @return A root context, or an invalid-argument error for malformed input.
+     *         Returns `ERR_QUERY_ACCESS_DENIED` if any grant is denied.
+     * @note The callback is called once per permission in set order. A false
+     *       decision or standard exception fails issuance closed.
      */
     [[nodiscard]] static Result<SkillDelegationContext> createRoot(
         std::string principal_id,
         std::string tenant_id,
         SkillPermissionSet permissions,
         TimePoint expires_at,
-        SkillBudgetLimits budget) {
+        SkillBudgetLimits budget,
+        const PermissionAuthorizer& permission_authorizer) {
         if (principal_id.empty() || tenant_id.empty() ||
-            expires_at <= Clock::now()) {
+            expires_at <= Clock::now() || !permission_authorizer) {
             return Err<SkillDelegationContext>(
                 errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
-                "skill delegation requires identity and a future expiry");
+                "skill delegation requires identity, future expiry, and an authorizer");
         }
 
         for (const auto& permission : permissions) {
@@ -110,6 +132,23 @@ public:
                 return Err<SkillDelegationContext>(
                     errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                     "skill permissions require non-empty exact identifiers");
+            }
+        }
+
+        for (const auto& permission : permissions) {
+            bool authorized = false;
+            try {
+                authorized =
+                    permission_authorizer(principal_id, tenant_id, permission);
+            } catch (const std::exception&) {
+                return Err<SkillDelegationContext>(
+                    errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+                    "host policy evaluation failed for a skill delegation permission");
+            }
+            if (!authorized) {
+                return Err<SkillDelegationContext>(
+                    errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+                    "host policy denied a skill delegation permission");
             }
         }
 
