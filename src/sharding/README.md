@@ -58,31 +58,17 @@ hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
 
-`TwoPhaseCommitCoordinator` is the canonical direct 2PC coordinator and the sole 2PC decision/WAL
-owner for the DIS-05 pair. `CrossShardTransactionCoordinator` retains its public prepare/commit/
-abort lifecycle, SSI validation, and other protocols, while delegating 2PC participant calls and
-decision handling to the canonical coordinator. Prepare failure selects ABORT; after the durable
-decision write, phase-two failure remains in-doubt and must not be rewritten as ABORT. When
-persistence is enabled, canonical BEGIN entries retain participant endpoints for restart-time
-phase-two replay. Unresolved legacy CrossShard-only 2PC records fail startup instead of falling
-back to the old WAL. CrossShard `TransactionWAL` and snapshots remain for non-2PC protocols.
-The independent DIS-06 recovery boundary and third `DistributedTransactionCoordinator` surface
-remain outside this named-pair consolidation.
-The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
-`include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
-configured decision-record callback succeeds, phase-two failure remains an error/in-doubt
-transaction and must not be rewritten as ABORT. Crash durability depends on enabling the
-coordinator's persistence backend. Their public lifecycle, transports, and coordinator-specific
-WAL/recovery paths remain separate. The shared phase-ordering contract exists
-for this named pair, but the canonical audit roadmap still tracks DIS-05
-coordinator selection, caller migration, and end-to-end validation as open.
-This source-level contract does not establish a Raft-replicated coordinator
-decision, recovery after a Raft leader change, or a coupled block-replication
-and client-ACK sequence. DIS-06 recovery is a separate open boundary.
-`TwoPhaseCommitCoordinator` can re-drive WAL decisions when configured;
-`CrossShardTransactionCoordinator::recoverFromWAL()` only restores state and reports resume
-candidates, not automatic phase-two re-drive. This closure covers only the named pair, not
-repo-wide 2PC convergence.
+For the DIS-05/DIS-06 named pair, `TwoPhaseCommitCoordinator` is the canonical
+durable decision authority. `CrossShardTransactionCoordinator` delegates its 2PC
+path and decision replay while retaining lifecycle, SSI and other protocols.
+BEGIN, immutable COMMIT/ABORT and completion are synced at their protocol
+boundaries; no coordinator WAL means no 2PC writes. Missing recovered endpoints
+or incomplete decision delivery block readiness. A participant timeout never
+locally aborts a prepared transaction or releases its locks. See [API.md](API.md)
+and [RUNBOOK.md](RUNBOOK.md) for staging, replay and operational constraints.
+WAL formats remain separate, with no silent migration of older unresolved
+CrossShard-only 2PC state. Full DIS-06 crash/transport/release acceptance remains
+open; this is not repo-wide 2PC convergence.
 `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`) is a third
 2PC-capable public surface with separate transaction, endpoint, and recovery paths; it remains
 outside DIS-05.
@@ -102,8 +88,9 @@ Out of scope:
 ## Integrationsueberblick
 
 The router and coordinators form the main request path. Transaction coordination
-records decisions through coordinator-specific WAL implementations; transport
-and recovery behavior remain specific to each coordinator.
+records 2PC decisions through the canonical coordinator. Lifecycle, participant
+and replication WALs retain distinct responsibilities; endpoint/TLS resolution
+must be supplied by the deployment.
 
 ```mermaid
 flowchart LR

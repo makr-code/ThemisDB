@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,6 +31,63 @@ The normative sharding behavior is specified in `include/sharding/sharding_api_c
 - **WAL:** ordered, durable append/replay contract; checksum corruption halts replay with `WAL_CORRUPTION`.
 - **Migration:** explicit state transitions, conflict rejection, and rollback/fault reporting for incomplete work.
 - **Router calls:** `ShardRouter` accepts resolver/executor dependencies and exposes point operations; `ShardResult.success` must be checked before consuming its data.
+
+## Durable 2PC recovery (DIS-06 / #8200)
+
+`TwoPhaseCommitCoordinator` owns the immutable COMMIT/ABORT decision for the named
+2PC coordinator pair. Its WAL is required for writes: BEGIN is synced before
+PREPARE, the decision before phase two, and completion after every acknowledgement,
+even when `sync_wal_writes` is false. `prepare()` permits explicit lifecycle
+staging; a restart without a durable decision selects durable ABORT. `abort()`
+cannot replace COMMIT. `commit()` success means completed delivery, not merely
+a durable COMMIT decision; inspect `getTransactionDecision()` to distinguish them.
+Concurrent drivers of the same transaction fail closed.
+
+`CrossShardTransactionCoordinator` delegates only its 2PC path; its lifecycle,
+SSI handling and other protocols remain distinct. With persistence enabled,
+the canonical log lives under `data_dir/two_phase_commit`, separate from
+`data_dir/wal`. Configure `participant_endpoint_resolver` with trusted current
+transport/TLS settings for persisted shard identities. Missing endpoints or
+unresolved older CrossShard 2PC records block recovery rather than guessing a
+decision. There is no automatic WAL migration or coordinator API removal.
+Configuration/record additions require rebuilding C++ consumers against matching
+headers; mixed-version binary ABI compatibility is not claimed.
+
+CrossShard supplies its TrueTime/snapshot-aware timestamp policy through
+`commit_timestamp_provider`. A single timestamp is recorded in the existing
+optional `commit_timestamp_ns` decision metadata and reused for all endpoint
+participants and recovery retries. The binary WAL encoding is unchanged; this
+does not make the participant or replication logs compatible with coordinator
+logs. `getTransactionRecord()` exposes a value snapshot for lifecycle/participant
+status synchronization; it does not transfer ownership of internal state.
+
+Roll out only after quiescing older coordinators and preserving all log domains.
+Unresolved older records require explicit maintainer reconciliation. Rolling
+back before the first new 2PC write is different from downgrading an activated
+coordinator: older CrossShard binaries do not consume the new canonical log
+directory. Do not downgrade after activation without an explicitly reviewed
+state-reconciliation/migration procedure; merely deleting the new directory
+or draining its pending count is not a safe rollback.
+
+Participants require a WAL for writes, sync PREPARE before voting YES and terminal
+records before ACK; missing WAL configuration leaves readiness false.
+`prepare_timeout` is an uncertainty-reporting threshold: the existing
+`abortTimedOutTransactions()` API returns zero, retains prepared locks and
+never writes ABORT. Delayed authoritative decisions and duplicate requests
+remain accepted. Application callbacks must be transaction-ID idempotent
+across a crash between applying changes and recording COMMIT, and must atomically
+persist business writes before returning true; participant WAL durability alone
+does not make an asynchronous application write durable.
+
+Participant `recovery_complete` means WAL replay and lock restoration finished;
+it does not mean every in-doubt transaction is resolved. `ready`,
+`recovery_status`, and `active_in_doubt` expose resolution blockers. Recovered,
+expired or failed-apply prepares block health/new PREPARE while decision RPCs
+remain available. Ordinary live prepares do not block readiness.
+Terminal history is retained for replay idempotency, including decisions older
+than the WAL serving cache; retention/compaction requires a separately agreed
+retry horizon and is not introduced here. Coordinator, participant and
+replication WAL encodings are unchanged and are not interchangeable.
 
 ## `ShardRouter` public surface
 

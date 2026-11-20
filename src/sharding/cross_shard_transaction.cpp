@@ -12,6 +12,10 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
+// TwoPhaseCommitCoordinator owns new 2PC decisions and their durable recovery.
+// TransactionWAL remains the separate lifecycle backend for other protocols.
+// Old unresolved TransactionWAL 2PC records require operator resolution; no
+// decisions are invented and no WAL formats are merged.
 // CrossShardTransactionCoordinator is the multi-protocol facade. Its 2PC
 // lifecycle delegates prepare, decision, participant dispatch, and recovery to
 // TwoPhaseCommitCoordinator; CrossShard TransactionWAL/snapshots remain for
@@ -202,7 +206,7 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
          */
         throw std::invalid_argument(msg);
     }
-    
+
     // Create TrueTime instance if not provided (for MVCC timestamp guarantees)
     if (!truetime_) {
         themis::sharding::TrueTime::Config tt_config;
@@ -218,6 +222,43 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     canonical_2pc_config.fencing_token_provider = config_.fencing_token_provider;
     canonical_2pc_config.in_process_response_handler =
         config_.in_process_rpc_response_handler;
+    canonical_2pc_config.commit_timestamp_provider = [this](const std::string& id)
+        -> std::optional<int64_t> {
+        CrossShardTransaction snapshot;
+        {
+            std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+            const auto txn = transactions_.find(id);
+            if (txn == transactions_.end()) {
+                return std::nullopt;
+            }
+            if (txn->second.commit_timestamp != 0) {
+                return txn->second.commit_timestamp;
+            }
+            snapshot = txn->second;
+        }
+        const auto timestamp = generateCommitTimestamp(snapshot);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+        auto& txn = transactions_.at(id);
+        if (txn.commit_timestamp == 0) {
+            txn.commit_timestamp = timestamp;
+        }
+        return txn.commit_timestamp;
+    };
+    canonical_2pc_config.participant_endpoint_resolver = [this](const std::string& shard)
+        -> std::optional<themis::sharding::ShardRPCClient::Config> {
+        if (config_.participant_endpoint_resolver) {
+            return config_.participant_endpoint_resolver(shard);
+        }
+        const auto found = config_.shard_endpoints.find(shard);
+        if (found == config_.shard_endpoints.end()) {
+            return std::nullopt;
+        }
+        themis::sharding::ShardRPCClient::Config rpc;
+        rpc.endpoint = found->second;
+        rpc.shard_id = shard;
+        rpc.timeout_ms = static_cast<int>(config_.prepare_timeout.count());
+        return rpc;
+    };
     if (config_.enable_persistence && !config_.data_dir.empty()) {
         canonical_2pc_config.wal_directory =
             config_.data_dir + "/2pc-coordinator-wal";
@@ -291,13 +332,18 @@ bool CrossShardTransactionCoordinator::initialize() {
     // Phase 2.3.3: Initialize WAL if available
     if (transaction_wal_ && !transaction_wal_->initialize()) {
         spdlog::error("Failed to initialize transaction WAL");
-        // Continue with degraded mode (no persistence)
-        transaction_wal_.reset();
-        snapshot_manager_.reset();
+        return false;
+    }
+    if (config_.enable_persistence && (!transaction_wal_ || !snapshot_manager_)) {
+        spdlog::error("Configured transaction persistence is unavailable; startup blocked");
+        return false;
     }
     
+    if (config_.enable_persistence && !canonical_2pc_coordinator_->isReady()) {
+        return false;
+    }
     const auto recovery_result = runRecoveryBackend("initialize");
-    if (!recovery_result.ok) {
+    if (!recovery_result.ok || legacy_two_phase_recovery_blocked_) {
         return false;
     }
 
@@ -412,6 +458,10 @@ void CrossShardTransactionCoordinator::finishTerminalDecision(
  * @details Calls: load(), spdlog::warn(), store(), std::thread(), lk(), spdlog::info().
  */
 bool CrossShardTransactionCoordinator::start() {
+    if (legacy_two_phase_recovery_blocked_ ||
+        (config_.enable_persistence && !canonical_2pc_coordinator_->isReady())) {
+        return false;
+    }
     if (running_.load()) {
         spdlog::warn("Cross-shard transaction coordinator already running");
         return false;
@@ -447,6 +497,23 @@ bool CrossShardTransactionCoordinator::start() {
  * @details Calls: lock(), std::count_if(), begin(), end(), count_in_doubt(), runRecoveryBackend(), spdlog::warn(), spdlog::info().
  */
 size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
+    const auto canonical_resolved = canonical_2pc_coordinator_->recoverInDoubtTransactions();
+    {
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+        for (auto& [id, txn] : transactions_) {
+            if (txn.protocol != TransactionProtocol::TWO_PHASE_COMMIT) {
+                continue;
+            }
+            if (canonical_2pc_coordinator_->getTransactionState(id) ==
+                themis::sharding::CoordinatorTxnState::COMPLETED) {
+                const auto decision = canonical_2pc_coordinator_->getTransactionDecision(id);
+                if (decision) {
+                    txn.state = *decision ? TransactionState::COMMITTED
+                                          : TransactionState::ABORTED;
+                }
+            }
+        }
+    }
     const auto count_in_doubt = [this]() -> size_t {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         return static_cast<size_t>(std::count_if(
@@ -463,7 +530,8 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     const auto recovery_result = runRecoveryBackend("recoverInDoubtTransactions");
     const auto* backend = recovery_result.backend;
     if (!recovery_result.ok) {
-        return 0;
+        throw std::runtime_error(
+            "cross-shard lifecycle recovery failed; service must remain unavailable");
     }
 
     const auto after = count_in_doubt();
@@ -484,7 +552,7 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
             recovery_result.details.resume_candidates,
             recovery_result.details.failed_operations,
             recovery_result.details.in_doubt_transactions);
-        return 0;
+        return canonical_resolved;
     }
 
     const auto resolved = before - after;
@@ -505,7 +573,7 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
         recovery_result.details.failed_operations,
         recovery_result.details.in_doubt_transactions);
 
-    return resolved;
+    return std::max(resolved, canonical_resolved);
 }
 
 std::string CrossShardTransactionCoordinator::recoveryCoordinatorName() const {
@@ -513,21 +581,30 @@ std::string CrossShardTransactionCoordinator::recoveryCoordinatorName() const {
 }
 
 std::string CrossShardTransactionCoordinator::recoveryBackendName() const {
-    return (transaction_wal_ && snapshot_manager_) ? "WAL/snapshot" : "disabled";
+    return (transaction_wal_ && snapshot_manager_)
+        ? "canonical WAL + lifecycle WAL/snapshot" : "disabled";
 }
 
 std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
 CrossShardTransactionCoordinator::getRecoverableTransactions() const {
-    std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
+    auto recoverable = canonical_2pc_coordinator_->getRecoverableTransactions();
+    std::set<std::string> canonical_ids;
+    for (const auto& txn : recoverable) {
+        canonical_ids.insert(txn.transaction_id);
+    }
 
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
-        recoverable.reserve(transactions_.size());
+        recoverable.reserve(recoverable.size() + transactions_.size());
         for (const auto& [txn_id, txn] : transactions_) {
-            if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
-                continue;
-            }
-            if (txn.state == TransactionState::COMMITTED ||
+            if (canonical_ids.count(txn_id) ||
+                txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT ||
+                txn.state == TransactionState::COMMITTED ||
                 txn.state == TransactionState::ABORTED) {
                 continue;
             }
@@ -567,12 +644,6 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
             recoverable.push_back(std::move(info));
         }
     }
-
-    auto canonical_recoverable = canonical_2pc_coordinator_->getRecoverableTransactions();
-    recoverable.insert(
-        recoverable.end(),
-        std::make_move_iterator(canonical_recoverable.begin()),
-        std::make_move_iterator(canonical_recoverable.end()));
     return recoverable;
 }
 
@@ -677,6 +748,12 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     // W2-S04: Fail-closed on empty transaction_id
     if (transaction_id.empty()) {
         spdlog::error("Cannot begin transaction with empty transaction_id");
+        return false;
+    }
+    if (legacy_two_phase_recovery_blocked_ ||
+        (protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
+         !canonical_2pc_coordinator_->isReady())) {
+        spdlog::error("Durable 2PC recovery is unavailable or unresolved");
         return false;
     }
     
@@ -845,6 +922,7 @@ bool CrossShardTransactionCoordinator::addParticipant(
                 endpoint_it->second != endpoint) {
                 themis::sharding::ShardRPCClient::Config rpc_config;
                 rpc_config.endpoint = endpoint;
+                rpc_config.shard_id = shard_id;
                 rpc_config.timeout_ms =
                     static_cast<int>(config_.prepare_timeout.count());
                 canonical_2pc_coordinator_->registerParticipantByEndpoint(
@@ -878,6 +956,19 @@ bool CrossShardTransactionCoordinator::addParticipant(
  * @details Calls: empty(), spdlog::error(), tx_lock(), find(), end(), emplace_back(), cb_lock(), validate().
  */
 bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
+    if (!tryStartTerminalDecision(transaction_id)) {
+        return false;
+    }
+    const auto decision_guard =
+        std::unique_ptr<void, std::function<void(void*)>>(
+            reinterpret_cast<void*>(1),
+            [this, &transaction_id](void*) {
+                finishTerminalDecision(transaction_id);
+            });
+    return prepareImpl(transaction_id);
+}
+
+bool CrossShardTransactionCoordinator::prepareImpl(const std::string& transaction_id) {
     // W2-S04: Fail-closed on empty transaction_id
     if (transaction_id.empty()) {
         spdlog::error("Cannot prepare transaction with empty transaction_id");
@@ -1083,7 +1174,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                 "Transaction {} aborted due to cross-shard SSI conflict: {}",
                 transaction_id, conflicts.front().message);
             // Abort the transaction and clean up SSI bookkeeping.
-            abort(transaction_id);
+            abortImpl(transaction_id);
             ssi_manager_.clearTransaction(transaction_id);
             return false;
         }
@@ -1121,7 +1212,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
 
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     if (!lock.try_lock_for(config_.lock_timeout)) {
-        spdlog::error("Lock acquisition timeout locating transaction {} for commit",
+        spdlog::error("Lock acquisition timeout acquiring commit decision for transaction {}",
                       transaction_id);
         return false;
     }
@@ -1200,8 +1291,8 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             final_state = live_txn.state = TransactionState::UNKNOWN;
             live_txn.end_time = std::chrono::system_clock::now();
             spdlog::error(
-                "Transaction {} has an unresolved 2PC decision; current WAL recovery "
-                "reports resume candidates but does not re-drive phase two",
+                "Transaction {} has an unresolved canonical 2PC decision; "
+                "registered participant recovery is required",
                 transaction_id);
         } else {
             final_state = live_txn.state = TransactionState::ABORTED;
@@ -1224,8 +1315,9 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         }));
     }
 
-    // Release SSI bookkeeping regardless of commit/abort outcome.
-    ssi_manager_.clearTransaction(transaction_id);
+    if (final_state == TransactionState::COMMITTED || final_state == TransactionState::ABORTED) {
+        ssi_manager_.clearTransaction(transaction_id);
+    }
 
     return success;
 }
@@ -1249,6 +1341,10 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
                 finishTerminalDecision(transaction_id);
             });
 
+    return abortImpl(transaction_id);
+}
+
+bool CrossShardTransactionCoordinator::abortImpl(const std::string& transaction_id) {
     // W2-S07: Enforce lock timeout during abort decision phase
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
     if (!lock.try_lock_for(config_.lock_timeout)) {
@@ -1265,6 +1361,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
 
     if (it->second.state == TransactionState::ABORTED) {
         spdlog::info("Transaction {} already aborted", transaction_id);
+        ssi_manager_.clearTransaction(transaction_id);
         return true;
     }
     if (it->second.state == TransactionState::COMMITTED) {
@@ -1415,8 +1512,8 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     if (!all_aborted) {
         spdlog::error(
-            "Transaction {} has an unresolved ABORT decision; current WAL recovery "
-            "reports resume candidates but does not re-drive phase two "
+            "Transaction {} has an unresolved ABORT decision; "
+            "protocol-specific recovery is required "
             "(execution result={})",
             transaction_id,
             outcome == themis::sharding::detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED
@@ -1745,7 +1842,11 @@ nlohmann::json CrossShardTransactionCoordinator::getStatistics() const {
         {"committed_transactions", committed_transactions_.load()},
         {"aborted_transactions", aborted_transactions_.load()},
         {"deadlocked_transactions", deadlocked_transactions_.load()},
-        {"active_transactions", getActiveTransactions().size()}
+        {"active_transactions", getActiveTransactions().size()},
+        {"two_phase_ready", !legacy_two_phase_recovery_blocked_ &&
+                            canonical_2pc_coordinator_->isReady()},
+        {"legacy_two_phase_recovery_blocked", legacy_two_phase_recovery_blocked_.load()},
+        {"two_phase", canonical_2pc_coordinator_->getStatistics()}
     };
 }
 
@@ -1800,16 +1901,22 @@ void CrossShardTransactionCoordinator::setForeignKeyValidator(
 // Private methods
 
 /**
- * @brief Execute 2PC using the shared prepare/decision/phase-two contract.
+ * @brief Delegate 2PC decisions and recovery to the canonical coordinator.
  * @param[in,out] txn Snapshot of the transaction and its participant payloads.
  * @return True only when the configured COMMIT decision record and every
  *         participant COMMIT acknowledgement complete. Prepare failure
  *         completes ABORT and returns false; unresolved decision/phase-two
- *         failures set UNKNOWN. Crash durability depends on WAL configuration.
+ *         failures set UNKNOWN. Missing durable WAL rejects writes before RPC.
  */
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
+    if (txn.participants.empty()) {
+        // No participant was enlisted, so there is no distributed decision to
+        // record or deliver. Preserve the local empty-transaction abort lifecycle.
+        txn.state = TransactionState::ABORTED;
+        return false;
+    }
     if (txn.state != TransactionState::PREPARED) {
-        const bool prepared = prepare(txn.transaction_id);
+        const bool prepared = prepareImpl(txn.transaction_id);
         const auto current_state = getTransactionState(txn.transaction_id);
         if (!prepared && current_state == TransactionState::ABORTED) {
             txn.state = TransactionState::ABORTED;
@@ -1883,7 +1990,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
 
     // Phase 1: Prepare (CanCommit)
     if (txn.state != TransactionState::PREPARED) {
-        if (!prepare(txn.transaction_id)) {
+        if (!prepareImpl(txn.transaction_id)) {
             spdlog::error("3PC Phase 1 (Prepare) failed for transaction {}",
                          txn.transaction_id);
             return false;
@@ -3248,6 +3355,9 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
             }
             
             transactions_[txn.transaction_id] = txn;
+            if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+                legacy_two_phase_transaction_ids_.insert(txn.transaction_id);
+            }
             ++restored_from_snapshot;
         }
 
@@ -3266,6 +3376,20 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     // Step 2: Replay WAL from last_applied_lsn
     try {
         auto wal_entries = transaction_wal_->readEntries(last_applied_lsn_);
+        const auto first_required = last_applied_lsn_.offset == 0
+            ? LSN{1, 1} : LSN{last_applied_lsn_.segment, last_applied_lsn_.offset + 1};
+        const auto current = transaction_wal_->getCurrentLSN();
+        if ((!wal_entries.empty() && wal_entries.front().lsn > first_required) ||
+            (wal_entries.empty() && current > first_required)) {
+            // TransactionWAL exposes a bounded serving cache, not a streaming
+            // replay API. Missing history cannot prove that old 2PC is resolved.
+            legacy_two_phase_recovery_blocked_ = true;
+            spdlog::error(
+                "Lifecycle WAL history has a gap after {}; operator reconciliation "
+                "is required before canonical 2PC can accept work",
+                last_applied_lsn_.toString());
+            return false;
+        }
         if (stats) {
             stats->wal_entries_replayed = wal_entries.size();
         }
@@ -3273,12 +3397,24 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 wal_entries.size(), last_applied_lsn_.toString());
         
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+        const auto snapshot_lsn = last_applied_lsn_;
         for (const auto& entry : wal_entries) {
+            if (entry.lsn <= snapshot_lsn) {
+                continue;
+            }
             // Update last_applied_lsn
             last_applied_lsn_ = entry.lsn;
             
             // Find or create transaction
             auto it = transactions_.find(entry.transaction_id);
+            if (it == transactions_.end() &&
+                entry.type != ::sharding::TransactionWALEntryType::BEGIN &&
+                !entry.transaction_id.empty()) {
+                legacy_two_phase_recovery_blocked_ = true;
+                spdlog::error("Lifecycle WAL record {} has no BEGIN/snapshot identity",
+                              entry.transaction_id);
+                return false;
+            }
             
             switch (entry.type) {
                 case ::sharding::TransactionWALEntryType::BEGIN:
@@ -3289,7 +3425,15 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                         txn.state = TransactionState::ACTIVE;
                         txn.start_time = std::chrono::system_clock::from_time_t(
                             entry.timestamp / 1000);
+                        if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+                            for (const auto& shard : entry.participants) {
+                                txn.participants[shard].shard_id = shard;
+                            }
+                        }
                         transactions_[entry.transaction_id] = txn;
+                        if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+                            legacy_two_phase_transaction_ids_.insert(txn.transaction_id);
+                        }
                         spdlog::debug("Replayed BEGIN for transaction {}", entry.transaction_id);
                     }
                     break;
@@ -3297,6 +3441,11 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 case ::sharding::TransactionWALEntryType::PREPARE:
                     if (it != transactions_.end()) {
                         it->second.state = TransactionState::PREPARING;
+                        if (it->second.protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
+                            !entry.participant_id.empty()) {
+                            it->second.participants[entry.participant_id].shard_id =
+                                entry.participant_id;
+                        }
                         spdlog::debug("Replayed PREPARE for transaction {}", entry.transaction_id);
                     }
                     break;
@@ -3312,6 +3461,13 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     
                 case ::sharding::TransactionWALEntryType::COMMIT:
                     if (it != transactions_.end()) {
+                        if (it->second.protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
+                            entry.data.contains("participants")) {
+                            for (const auto& shard :
+                                 entry.data.at("participants").get<std::vector<std::string>>()) {
+                                it->second.participants[shard].shard_id = shard;
+                            }
+                        }
                         it->second.state = TransactionState::COMMITTING;
                         spdlog::debug("Replayed COMMIT for transaction {}", entry.transaction_id);
                     }
@@ -3347,8 +3503,23 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     
                 case ::sharding::TransactionWALEntryType::ABORTED:
                     if (it != transactions_.end()) {
-                        it->second.state = TransactionState::ABORTED;
-                        it->second.end_time = std::chrono::system_clock::now();
+                        bool all_aborted = true;
+                        if (it->second.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+                            if (!entry.participant_id.empty()) {
+                                it->second.participants[entry.participant_id].aborted = true;
+                            }
+                            all_aborted = !it->second.participants.empty() &&
+                                std::all_of(
+                                    it->second.participants.begin(), it->second.participants.end(),
+                                    [](const auto& participant) {
+                                        return participant.second.aborted;
+                                    });
+                        }
+                        it->second.state = all_aborted
+                            ? TransactionState::ABORTED : TransactionState::ABORTING;
+                        if (all_aborted) {
+                            it->second.end_time = std::chrono::system_clock::now();
+                        }
                         spdlog::debug("Replayed ABORTED for transaction {}", entry.transaction_id);
                     }
                     break;
@@ -3379,16 +3550,21 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         for (const auto& [txn_id, txn] : transactions_) {
-            if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
+            if ((legacy_two_phase_transaction_ids_.count(txn_id) ||
+                 txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) &&
                 txn.state != TransactionState::COMMITTED &&
                 txn.state != TransactionState::ABORTED) {
+                legacy_two_phase_recovery_blocked_ = true;
+                if (stats) {
+                    ++stats->in_doubt_transactions;
+                    ++stats->pending_transactions;
+                }
                 spdlog::error(
-                    "Legacy CrossShard 2PC transaction {} has no canonical coordinator WAL; "
-                    "refusing fallback recovery",
+                    "Legacy 2PC transaction {} has unresolved TransactionWAL state; "
+                    "operator resolution is required, canonical replay cannot invent a decision",
                     txn_id);
-                return false;
+                continue;
             }
-
             // Check for timeout (default: 5 minutes)
             auto age = std::chrono::duration_cast<std::chrono::seconds>(now - txn.start_time);
             if (age.count() > 300) {  // 5 minutes
@@ -3472,12 +3648,12 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     if (stats) {
         stats->stale_transactions_detected = transactions_to_timeout.size();
         stats->resume_candidates = transactions_to_resume.size();
-        stats->pending_transactions =
+        stats->pending_transactions +=
             stats->stale_transactions_detected + stats->resume_candidates;
     }
 
     spdlog::info("Transaction coordinator recovery complete");
-    return true;
+    return !legacy_two_phase_recovery_blocked_;
 }
 
 /**
@@ -3536,6 +3712,9 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         std::vector<::sharding::TransactionSnapshotEntry> active_txns = {};
 
         for (const auto& [txn_id, txn] : transactions_) {
+            if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+                continue;
+            }
             // Only snapshot non-final transactions
             if (txn.protocol != TransactionProtocol::TWO_PHASE_COMMIT &&
                 txn.state != TransactionState::COMMITTED &&

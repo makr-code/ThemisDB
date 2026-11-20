@@ -52,7 +52,7 @@ Exact model backend not verifiable from final document text alone.
 |---|---|---|
 | Topology and routing | [`ShardRouter`](../../include/sharding/shard_router.h), [`ShardTopology`](../../include/sharding/shard_topology.h), [`AdaptiveShardRouter`](../../include/sharding/adaptive_shard_router.h) | Select routing strategy and address requests against configured shard topology. |
 | Coordination | [`DistributedCoordinator`](../../include/sharding/distributed_coordinator.h), [`ConsensusFactory`](../../include/sharding/consensus_factory.h), [`QuorumManager`](../../include/sharding/quorum_manager.h) | Coordinate tasks and choose among the available consensus implementations. |
-| Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Preserve both public APIs; CrossShard retains its lifecycle/SSI/multi-protocol facade while delegating 2PC participant calls, durable decisions, and replay to the canonical coordinator. |
+| Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Preserve both public APIs; CrossShard retains its lifecycle, SSI and multi-protocol facade while delegating 2PC participant calls, durable decisions and replay to the canonical coordinator. |
 | Durability and operations | [`WALManager`](../../include/sharding/wal_manager.h), [`WALApplier`](../../include/sharding/wal_applier.h), [`AutoRebalancer`](../../include/sharding/auto_rebalancer.h), [`DataMigrator`](../../include/sharding/data_migrator.h) | Record/apply shard WAL state and manage rebalance/migration work. |
 
 The source contains multiple consensus adapters (including Raft, Paxos, and Gossip); this architecture does not treat one adapter as the only supported implementation.
@@ -82,6 +82,19 @@ of the named pair were found in `src/` or `include/` during the DIS-05 source re
 The shared-contract sub-scope does not close the canonical DIS-05 audit item:
 coordinator selection, caller migration, and end-to-end validation remain open
 in [`audit/ROADMAP.md`](../../audit/ROADMAP.md).
+
+For DIS-06, the canonical WAL is mandatory for 2PC writes. BEGIN is synced before
+PREPARE, immutable COMMIT/ABORT before phase two, and completion only after all
+acknowledgements. Phase-two failure retains the decision. Recovery resolves
+persisted participant identities through trusted endpoint configuration and
+retries the same decision. Missing endpoints, failed delivery or unresolved
+older CrossShard-only 2PC records block readiness. Coordinator, participant and
+replication WAL formats and snapshots are not interchangeable; no format
+migration is included. Prepared participants retain locks across local timeouts
+and restart, awaiting only the coordinator decision; an unreachable coordinator
+does not cause a timeout-based local ABORT. Full DIS-06 crash/transport/release
+acceptance remains open. CrossShard constructs an internal canonical coordinator;
+no broader external-caller migration or API removal is claimed.
 
 ## Datenfluss
 
