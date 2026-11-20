@@ -138,15 +138,15 @@ TEST(DIS03RoutingContract, ExactSegmentsHandleZeroMaximumAndFullRing) {
 
     auto singleton = RingOwnershipSnapshot::fromEntries(4, {{kMax, "only"}});
     ASSERT_TRUE(singleton);
-    ASSERT_EQ(singleton->segments.size(), 1u);
-    EXPECT_TRUE(singleton->segments.front().full_ring);
+    ASSERT_EQ(singleton->segments().size(), 1u);
+    EXPECT_TRUE(singleton->segments().front().full_ring);
     EXPECT_TRUE(singleton->ownsToken(0, "only"));
     EXPECT_TRUE(singleton->ownsToken(kMax, "only"));
 
     auto empty = RingOwnershipSnapshot::fromEntries(5, {});
     ASSERT_TRUE(empty);
-    EXPECT_TRUE(empty->entries.empty());
-    EXPECT_TRUE(empty->segments.empty());
+    EXPECT_TRUE(empty->entries().empty());
+    EXPECT_TRUE(empty->segments().empty());
     EXPECT_FALSE(empty->ownsToken(0, "any"));
     EXPECT_FALSE(RingOwnershipSnapshot::fromEntries(6, {{1, ""}}));
     EXPECT_FALSE(RingOwnershipSnapshot::fromEntries(6, {{2, "a"}, {2, "b"}}));

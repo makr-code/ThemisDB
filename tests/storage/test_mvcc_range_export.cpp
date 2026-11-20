@@ -128,6 +128,24 @@ TEST_F(MVCCRangeExportTest, SnapshotKeepsItsViewAcrossWritesAndGc) {
     EXPECT_EQ(current->records.front().value, asBytes("after"));
 }
 
+TEST_F(MVCCRangeExportTest, MoveAssignmentReleasesAndReplacesSnapshot) {
+    store_->put("key", asBytes("before"));
+    auto first_result = store_->beginSnapshot();
+    ASSERT_TRUE(first_result);
+    auto first = std::move(first_result).value();
+
+    store_->put("key", asBytes("after"));
+    auto second_result = store_->beginSnapshot();
+    ASSERT_TRUE(second_result);
+    auto second = std::move(second_result).value();
+
+    first = std::move(second);
+    auto result = first.exportRecords(allKeys());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(result->records.size(), 1u);
+    EXPECT_EQ(result->records.front().value, asBytes("after"));
+}
+
 TEST_F(MVCCRangeExportTest, EmptySelectionIsAValidSnapshotAndFailuresAreNotEmptySuccess) {
     MVCCStore::SnapshotExportOptions empty_selection;
     empty_selection.include_key = [](std::string_view) { return false; };

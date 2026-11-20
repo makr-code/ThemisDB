@@ -127,7 +127,14 @@ public:
     class SnapshotReader {
     public:
         SnapshotReader(SnapshotReader&&) noexcept = default;
-        SnapshotReader& operator=(SnapshotReader&&) noexcept = default;
+        SnapshotReader& operator=(SnapshotReader&& other) noexcept {
+            if (this != &other) {
+                snapshot_ = std::move(other.snapshot_);
+                db_ = std::move(other.db_);
+                watermark_ = other.watermark_;
+            }
+            return *this;
+        }
         SnapshotReader(const SnapshotReader&) = delete;
         SnapshotReader& operator=(const SnapshotReader&) = delete;
 
