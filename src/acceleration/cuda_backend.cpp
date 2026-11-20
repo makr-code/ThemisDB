@@ -618,6 +618,14 @@ void CUDAVectorBackend::setMaxBatchSize(size_t n) {
 
 std::vector<std::vector<std::pair<uint32_t, float>>>
 CUDAVectorBackend::annBatchSearch(const float *queries, size_t numQueries, size_t k, uint32_t ef) {
+#ifdef THEMIS_ENABLE_CUDA
+    if (!initialized_ || cudaSetDevice(deviceId_) != cudaSuccess) {
+        setError(ErrorContext(AccelerationErrorCode::DeviceSetFailed, "CUDA",
+                              "Failed to activate device " + std::to_string(deviceId_) +
+                                  " for HNSW batch search"));
+        return {};
+    }
+#endif
     if (!hnswEngine_ || !hnswEngine_->isBuilt()) {
         setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA",
                               "HNSW index not built; call buildHnswAnnIndex() before annBatchSearch()",

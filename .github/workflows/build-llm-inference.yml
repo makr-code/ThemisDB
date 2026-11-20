@@ -1,4 +1,4 @@
-name: "Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]"
+name: "Build: LLM Inferencing [TinyLlama + embeddings + RAG + LoRA]"
 
 # Rechenaufwand-Score: R=6 (K=7, L=6, N=6) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
@@ -6,11 +6,13 @@ name: "Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]"
 #
 # Tests covered:
 #   llm_inference    — INFER-01..10: LlamacppInferenceEngine / EmbeddedLLM
+#   model embeddings — real EmbeddingProvider output, shape, finiteness, and cache hit
+#   model LoRA       — fail-closed adapter application against a loaded TinyLlama model
+#   wiki Phase B     — RocksDB-backed integration; skips are not accepted
 #   llm_rag_doku     — RAG-01..07:   WikiRagSource + JsonWikiIndexReader + doku.db
 #   adalora_training — LORA-01..07:  AdaLoRAAdapter training pipeline
 #
-# Model acquisition: HuggingFace direct GGUF (primary) → Ollama export (fallback);
-# both paths and restored cache entries must match the pinned SHA256.
+# Model acquisition uses reusable-llm-model-cache.yml and the SHA256-pinned downloader.
 # Model: TinyLlama-1.1B-Chat-v1.0 Q4_K_M (≈636 MB, CPU-only)
 #
 # Knowledge base: doku.db built from repository markdown documentation
@@ -56,6 +58,10 @@ env:
   DOKU_DB_DIR: ${{ github.workspace }}/build/test-assets
   TINYLLAMA_GGUF: ${{ github.workspace }}/models/tinyllama.gguf
   CMAKE_BUILD_DIR: ${{ github.workspace }}/build
+  LLM_TEST_DIR: ${{ github.workspace }}/build/cmake/tests/llm
+  LLM_TEST_BIN_DIR: ${{ github.workspace }}/build/bin/tests_by_module/llm/Release
+  THEMIS_CTEST_EMIT_TEST_OUTPUT: '1'
+  THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD: '1'
   # CPU thread budget: keep low for portable CI runners
   LLM_N_THREADS: '4'
 
@@ -63,66 +69,18 @@ env:
 jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
-  # Job 1: Download TinyLlama GGUF model (cached across runs)
+  # Job 1: Prepare TinyLlama through the shared verified model cache
   # ─────────────────────────────────────────────────────────────────────────
   setup-and-download:
-    name: "Build: Download TinyLlama GGUF"
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    outputs:
-      model-cache-hit: ${{ steps.cache-model.outputs.cache-hit }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 1
-
-      - name: Restore model cache
-        id: cache-model
-        if: inputs.force_model_download != true
-        uses: actions/cache@v5
-        with:
-          path: ${{ env.MODEL_DIR }}
-          # Stable key by OS + download script hash for high cache reuse across runs.
-          key: tinyllama-gguf-q4km-${{ runner.os }}-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
-          restore-keys: |
-            tinyllama-gguf-q4km-${{ runner.os }}-
-
-      - name: Test pinned model checksum rejection
-        run: bash tests/scripts/test_ci_download_tinyllama.sh
-
-      - name: Prepare and verify pinned TinyLlama GGUF
-        env:
-          MODEL_DIR: ${{ env.MODEL_DIR }}
-          FORCE: ${{ inputs.force_model_download == true && '1' || '0' }}
-        run: |
-          set -euo pipefail
-          chmod +x scripts/ci-download-tinyllama.sh
-          bash scripts/ci-download-tinyllama.sh
-
-      - name: Verify model file
-        run: |
-          set -euo pipefail
-          if [[ ! -f "${{ env.TINYLLAMA_GGUF }}" ]]; then
-            echo "::error::TinyLlama GGUF not found at ${{ env.TINYLLAMA_GGUF }}"
-            exit 1
-          fi
-          SIZE=$(stat -c%s "${{ env.TINYLLAMA_GGUF }}" 2>/dev/null || stat -f%z "${{ env.TINYLLAMA_GGUF }}")
-          echo "Model size: $(( SIZE / 1024 / 1024 )) MB"
-          if (( SIZE < 100000000 )); then
-            echo "::error::Model file suspiciously small ($SIZE bytes); download may have failed"
-            exit 1
-          fi
-          echo "Model OK: ${{ env.TINYLLAMA_GGUF }}"
-
-      - name: Upload model artifact
-        uses: actions/upload-artifact@v5
-        with:
-          name: tinyllama-gguf-${{ github.run_number }}
-          path: ${{ env.MODEL_DIR }}/tinyllama.gguf
-          retention-days: 1
-          if-no-files-found: error
+    name: "Build: Download SHA256-pinned TinyLlama"
+    uses: ./.github/workflows/reusable-llm-model-cache.yml
+    with:
+      include_tinyllama: true
+      llm_model: tinyllama
+      llm_model_file: tinyllama.gguf
+      tinyllama_force_download: ${{ inputs.force_model_download }}
+      cache_key_suffix: real-model-ci
+      publish_model_artifact: true
 
   # ─────────────────────────────────────────────────────────────────────────
   # Job 2: Build with LLM inference tests enabled
@@ -130,7 +88,7 @@ jobs:
   build-with-llm-tests:
     name: "Build: THEMIS_LLM_INFERENCE_TESTS=ON"
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 90
     needs: setup-and-download
 
     steps:
@@ -155,6 +113,15 @@ jobs:
         run: |
           mkdir -p internal llama.cpp vcpkg/downloads
 
+      - name: Test pinned model checksum validation
+        run: bash tests/scripts/test_ci_download_tinyllama.sh
+
+      - name: Test reusable TinyLlama cache integrity
+        run: bash tests/scripts/test_prepare_llm_model_cache.sh
+
+      - name: Test LLM skip-budget enforcement
+        run: bash tests/scripts/test_ci_check_llm_skip_budget.sh
+
       - name: Configure CMake (inference tests enabled)
         run: |
           set -euo pipefail
@@ -176,16 +143,33 @@ jobs:
             --target \
               module_llm_test_llm_tinyllama_inference_focused \
               module_llm_test_llm_doku_rag_focused \
-              module_llm_test_llm_adalora_doku_training_focused
+              module_llm_test_llm_adalora_doku_training_focused \
+              module_llm_test_real_embeddings_focused \
+              module_llm_test_lora_adapters_focused \
+              module_llm_test_wiki_index_store_phase_b_focused
+
+      - name: Verify test artifact contents
+        run: |
+          set -euo pipefail
+          test -f "${LLM_TEST_DIR}/CTestTestfile.cmake"
+          test -f "${LLM_TEST_BIN_DIR}/themisdb_rag_golden_dataset.yaml"
+          for target in \
+            test_llm_tinyllama_inference test_llm_doku_rag test_llm_adalora_doku_training \
+            test_real_embeddings test_lora_adapters test_wiki_index_store_phase_b; do
+            test -x "${LLM_TEST_BIN_DIR}/module_llm_${target}_focused"
+          done
+          for label in llm_inference llm_rag_doku adalora_training; do
+            ctest --test-dir "${LLM_TEST_DIR}" -N --no-tests=error -L "^${label}$"
+          done
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v5
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: |
-            ${{ env.CMAKE_BUILD_DIR }}/module_llm_test_llm_*_focused
-            ${{ env.CMAKE_BUILD_DIR }}/CTestTestfile.cmake
-            ${{ env.CMAKE_BUILD_DIR }}/tests/llm/CTestTestfile.cmake
+            ${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused
+            ${{ env.LLM_TEST_BIN_DIR }}/themisdb_rag_golden_dataset.yaml
+            ${{ env.LLM_TEST_DIR }}/CTestTestfile.cmake
           retention-days: 1
           if-no-files-found: error
 
@@ -253,12 +237,25 @@ jobs:
   # Job 4: Run INFER-01..10 (llm_inference label)
   # ─────────────────────────────────────────────────────────────────────────
   run-inference-suite:
-    name: "Validate: CTest llm_inference (INFER-01..10)"
-    runs-on: ubuntu-latest
+    name: "Validate: TinyLlama inference, embedding, LoRA, and Wiki integration"
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     needs: [build-with-llm-tests, setup-and-download]
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+            libtbb-dev libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev \
+            libboost-system-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
+
       - name: Download build artifacts
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
@@ -268,11 +265,18 @@ jobs:
       - name: Download TinyLlama model
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
-          name: tinyllama-gguf-${{ github.run_number }}
+          name: ${{ needs.setup-and-download.outputs.model_artifact }}
           path: ${{ env.MODEL_DIR }}
 
+      - name: Verify downloaded TinyLlama checksum
+        env:
+          TINYLLAMA_GGUF: ${{ env.TINYLLAMA_GGUF }}
+        run: |
+          source scripts/ci-download-tinyllama.sh
+          verify_sha256 "${TINYLLAMA_GGUF}" "${EXPECTED_SHA256}"
+
       - name: Make test binaries executable
-        run: chmod +x ${{ env.CMAKE_BUILD_DIR }}/module_llm_*_focused || true
+        run: chmod +x ${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused
 
       - name: Run inference test suite
         env:
@@ -280,7 +284,7 @@ jobs:
         run: |
           set -euo pipefail
           CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log"
-          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+          ctest --test-dir "${{ env.LLM_TEST_DIR }}" \
             --output-on-failure \
             --verbose \
             -j1 \
@@ -288,12 +292,40 @@ jobs:
             -L "llm_inference" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log" \
             2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
-          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
-            echo "::error::Real-model inference lane reported one or more skipped GoogleTests"
-            exit 1
-          fi
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
+
+      - name: Run real embedding provider tests
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ env.TINYLLAMA_GGUF }}
+        run: |
+          set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-real-embeddings-console.log"
+          "${{ env.LLM_TEST_BIN_DIR }}/module_llm_test_real_embeddings_focused" \
+            2>&1 | tee "${CONSOLE_LOG}" || TEST_EXIT=$?
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
+          exit "${TEST_EXIT:-0}"
+
+      - name: Run real-model LoRA adapter failure tests
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ env.TINYLLAMA_GGUF }}
+        run: |
+          set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-lora-adapters-console.log"
+          "${{ env.LLM_TEST_BIN_DIR }}/module_llm_test_lora_adapters_focused" \
+            2>&1 | tee "${CONSOLE_LOG}" || TEST_EXIT=$?
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
+          exit "${TEST_EXIT:-0}"
+
+      - name: Run WikiIndexStore Phase B integration tests
+        run: |
+          set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-wiki-index-phase-b-console.log"
+          "${{ env.LLM_TEST_BIN_DIR }}/module_llm_test_wiki_index_store_phase_b_focused" \
+            2>&1 | tee "${CONSOLE_LOG}" || TEST_EXIT=$?
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
+          exit "${TEST_EXIT:-0}"
 
       - name: Upload inference test results
         if: always()
@@ -301,9 +333,12 @@ jobs:
         with:
           name: inference-results-${{ github.run_number }}
           path: |
-            ${{ env.CMAKE_BUILD_DIR }}/Testing/
+            ${{ env.LLM_TEST_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log
             ${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-real-embeddings-console.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-lora-adapters-console.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-wiki-index-phase-b-console.log
           retention-days: 7
           if-no-files-found: ignore
 
@@ -312,12 +347,25 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────
   run-rag-suite:
     name: "Validate: CTest llm_rag_doku (RAG-01..07)"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
-    needs: [build-with-llm-tests, build-doku-db]
+    needs: [build-with-llm-tests, build-doku-db, setup-and-download]
     if: inputs.skip_rag_suite != true
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+            libtbb-dev libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev \
+            libboost-system-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
+
       - name: Download build artifacts
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
@@ -330,8 +378,21 @@ jobs:
           name: doku-db-${{ github.run_number }}
           path: ${{ env.DOKU_DB_DIR }}
 
+      - name: Download TinyLlama model
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
+        with:
+          name: ${{ needs.setup-and-download.outputs.model_artifact }}
+          path: ${{ env.MODEL_DIR }}
+
+      - name: Verify downloaded TinyLlama checksum
+        env:
+          TINYLLAMA_GGUF: ${{ env.TINYLLAMA_GGUF }}
+        run: |
+          source scripts/ci-download-tinyllama.sh
+          verify_sha256 "${TINYLLAMA_GGUF}" "${EXPECTED_SHA256}"
+
       - name: Make test binaries executable
-        run: chmod +x ${{ env.CMAKE_BUILD_DIR }}/module_llm_*_focused || true
+        run: chmod +x ${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused
 
       - name: Run RAG test suite
         env:
@@ -339,7 +400,7 @@ jobs:
         run: |
           set -euo pipefail
           CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log"
-          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+          ctest --test-dir "${{ env.LLM_TEST_DIR }}" \
             --output-on-failure \
             --verbose \
             -j1 \
@@ -347,10 +408,7 @@ jobs:
             -L "llm_rag_doku" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log" \
             2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
-          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
-            echo "::error::Real-model RAG lane reported one or more skipped GoogleTests"
-            exit 1
-          fi
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -360,7 +418,7 @@ jobs:
         with:
           name: rag-results-${{ github.run_number }}
           path: |
-            ${{ env.CMAKE_BUILD_DIR }}/Testing/
+            ${{ env.LLM_TEST_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log
             ${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log
           retention-days: 7
@@ -371,12 +429,25 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────
   run-adalora-suite:
     name: "Validate: CTest adalora_training (LORA-01..07)"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     needs: [build-with-llm-tests, build-doku-db]
     if: inputs.skip_adalora_suite != true
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+            libtbb-dev libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev \
+            libboost-system-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
+
       - name: Download build artifacts
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
@@ -390,7 +461,7 @@ jobs:
           path: ${{ env.DOKU_DB_DIR }}
 
       - name: Make test binaries executable
-        run: chmod +x ${{ env.CMAKE_BUILD_DIR }}/module_llm_*_focused || true
+        run: chmod +x ${{ env.LLM_TEST_BIN_DIR }}/module_llm_*_focused
 
       - name: Run AdaLoRA training test suite
         env:
@@ -398,7 +469,7 @@ jobs:
         run: |
           set -euo pipefail
           CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log"
-          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+          ctest --test-dir "${{ env.LLM_TEST_DIR }}" \
             --output-on-failure \
             --verbose \
             -j1 \
@@ -406,10 +477,7 @@ jobs:
             -L "adalora_training" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log" \
             2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
-          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
-            echo "::error::Real-model AdaLoRA lane reported one or more skipped GoogleTests"
-            exit 1
-          fi
+          bash scripts/ci-check-llm-skip-budget.sh llm 0 "${CONSOLE_LOG}"
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -419,7 +487,7 @@ jobs:
         with:
           name: adalora-results-${{ github.run_number }}
           path: |
-            ${{ env.CMAKE_BUILD_DIR }}/Testing/
+            ${{ env.LLM_TEST_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log
             ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log
           retention-days: 7
@@ -465,6 +533,9 @@ jobs:
           infer_status="${{ needs.run-inference-suite.result }}"
           rag_status="${{ needs.run-rag-suite.result }}"
           adalora_status="${{ needs.run-adalora-suite.result }}"
+          if [ "${infer_status}" != "success" ] || [ "${rag_status}" != "success" ] || [ "${adalora_status}" != "success" ]; then
+            echo "::error::At least one required real-model test suite did not succeed."
+          fi
 
           emoji() {
             case "$1" in
@@ -502,7 +573,7 @@ jobs:
           {
             echo ""
             echo "### Failure tracker dry-run preview"
-            if [ "${INFERENCE_RESULT}" = "failure" ] || [ "${RAG_RESULT}" = "failure" ] || [ "${ADALORA_RESULT}" = "failure" ]; then
+            if [ "${INFERENCE_RESULT}" != "success" ] || [ "${RAG_RESULT}" != "success" ] || [ "${ADALORA_RESULT}" != "success" ]; then
               echo "A failure issue upsert and status-label normalization would be attempted."
             else
               echo "A recovery comment and resolved-status normalization would be attempted if a matching issue exists."
@@ -514,21 +585,21 @@ jobs:
         if: >
           (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
           (
-          needs.run-inference-suite.result == 'failure' ||
-          needs.run-rag-suite.result == 'failure' ||
-          needs.run-adalora-suite.result == 'failure'
+          needs.run-inference-suite.result != 'success' ||
+          needs.run-rag-suite.result != 'success' ||
+          needs.run-adalora-suite.result != 'success'
           )
         id: llm-state
         shell: bash
         run: |
           labels="llm-ci-failure,status/needs-triage"
-          if [ "${{ needs.run-inference-suite.result }}" = "failure" ]; then
+          if [ "${{ needs.run-inference-suite.result }}" != "success" ]; then
             labels="${labels},ci/llm-inference-failed"
           fi
-          if [ "${{ needs.run-rag-suite.result }}" = "failure" ]; then
+          if [ "${{ needs.run-rag-suite.result }}" != "success" ]; then
             labels="${labels},ci/llm-rag-failed"
           fi
-          if [ "${{ needs.run-adalora-suite.result }}" = "failure" ]; then
+          if [ "${{ needs.run-adalora-suite.result }}" != "success" ]; then
             labels="${labels},ci/llm-adalora-failed"
           fi
           echo "labels=${labels}" >> "$GITHUB_OUTPUT"
@@ -537,9 +608,9 @@ jobs:
         if: >
           (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
           (
-          needs.run-inference-suite.result == 'failure' ||
-          needs.run-rag-suite.result == 'failure' ||
-          needs.run-adalora-suite.result == 'failure'
+          needs.run-inference-suite.result != 'success' ||
+          needs.run-rag-suite.result != 'success' ||
+          needs.run-adalora-suite.result != 'success'
           )
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -573,9 +644,9 @@ jobs:
         if: >
           (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
           (
-          needs.run-inference-suite.result == 'failure' ||
-          needs.run-rag-suite.result == 'failure' ||
-          needs.run-adalora-suite.result == 'failure'
+          needs.run-inference-suite.result != 'success' ||
+          needs.run-rag-suite.result != 'success' ||
+          needs.run-adalora-suite.result != 'success'
           )
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -592,9 +663,9 @@ jobs:
         if: >
           (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
           (
-          needs.run-inference-suite.result != 'failure' &&
-          needs.run-rag-suite.result != 'failure' &&
-          needs.run-adalora-suite.result != 'failure'
+          needs.run-inference-suite.result == 'success' &&
+          needs.run-rag-suite.result == 'success' &&
+          needs.run-adalora-suite.result == 'success'
           )
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -610,13 +681,28 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Fail if a required suite did not succeed
+        if: always()
+        env:
+          INFERENCE_RESULT: ${{ needs.run-inference-suite.result }}
+          RAG_RESULT: ${{ needs.run-rag-suite.result }}
+          ADALORA_RESULT: ${{ needs.run-adalora-suite.result }}
+        run: |
+          set -euo pipefail
+          for result in "${INFERENCE_RESULT}" "${RAG_RESULT}" "${ADALORA_RESULT}"; do
+            if [[ "${result}" != "success" ]]; then
+              echo "::error::Required LLM CI suite ended with status '${result}', expected success."
+              exit 1
+            fi
+          done
+
       - name: Normalize LLM resolved state
         if: >
           (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
           (
-          needs.run-inference-suite.result != 'failure' &&
-          needs.run-rag-suite.result != 'failure' &&
-          needs.run-adalora-suite.result != 'failure'
+          needs.run-inference-suite.result == 'success' &&
+          needs.run-rag-suite.result == 'success' &&
+          needs.run-adalora-suite.result == 'success'
           )
         uses: ./.github/actions/status-flags-and-issues
         with:

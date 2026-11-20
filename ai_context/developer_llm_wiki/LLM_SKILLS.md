@@ -47,10 +47,16 @@ propagating errors and provenance.
 `SkillDelegationContext` provides a separate host-side attenuation primitive:
 exact action/resource grants, fixed principal and tenant, monotonic expiry,
 and atomic aggregate tool-call/candidate/content-byte accounting shared by
-derived contexts. It rejects wildcard grants, added permissions, and later
-child expiry. It is not currently wired into `ToolRegistry`, native executors,
-or RAG; it is not evidence that existing tool calls are authorized by this
-context.
+derived contexts. Root creation requires a trusted host callback to approve
+every exact grant for the authenticated principal and tenant; a missing
+callback, denied grant, or standard policy exception fails closed. It rejects
+wildcard grants, added permissions, and later child expiry.
+`ToolRegistry::registerDelegatedTool()` requires this context, a matching
+`tool.invoke` capability, and an available shared tool-call budget; ordinary
+dispatch cannot invoke such handlers. Handlers must still enforce
+resource-specific capabilities and account candidate/content usage. Existing
+handlers and RAG remain on their prior authorization paths and are not
+constrained by this context.
 
 ## Trust and deployment boundaries
 
@@ -96,7 +102,13 @@ edge type, metric, and principal scope; the tool accepts a start asset and
 bounded time-window/depth arguments. Traversal overflow or storage errors fail
 the whole request rather than returning a partial graph. Optional GeoJSON
 radius filtering is also bounded. Graph and TSStore reads are synchronous and
-do not share a snapshot. See the
+do not share a snapshot. For host-side delegated execution, register with
+`registerDelegatedAssetImpactAnalysisTool()` and issue exact `graph.read`
+and `timeseries.read` grants for the bound graph ID and metric. The handler
+meters adjacency entries, node documents, time-series records/chunks, decoded
+samples, and serialized/decrypted payload bytes against the shared context
+budget. Payload bytes are charged after storage retrieval and before parsing
+or decoding; this is not physical storage-I/O admission. See the
 [tool contract](../api_contracts/llm.md) and
 [package instructions](../../config/agent_skills/asset-impact-analysis/SKILL.md).
 
@@ -106,8 +118,14 @@ do not share a snapshot. See the
 behavior, optional tool policy, concurrency, and discovery/loading of the
 shipped packages. With the built-in time series module it also checks the
 native comparison and asset impact tool against RocksDB and TSStore. The CTest
-entry is `test_skill_registry_LlmFocusedTests`. The bounded graph API coverage
-is registered as `test_graph_bounded_bfs_GraphFocusedTests`.
+entry is `test_skill_registry_LlmFocusedTests`.
+`tests/llm/test_ai_orchestrator.cpp` covers delegated ToolRegistry admission,
+context propagation through agentic dispatch, budget charging, and rejection
+of context-free or legacy-handler dispatch. The bounded graph API coverage is
+registered as `test_graph_bounded_bfs_GraphFocusedTests`.
+`tests/llm/test_skill_registry.cpp` also covers delegated asset-impact grants,
+shared candidate/content exhaustion, and metering of compressed TSStore chunks;
+these C++ tests have not been built or executed in this session.
 
 ## Canonical sources
 

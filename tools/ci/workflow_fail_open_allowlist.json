@@ -65,6 +65,149 @@
       "rationale": "A missing benchmark artifact is checked by the following required validation step, which fails the gate.",
       "owner": "ThemisDB CI Maintainers",
       "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Download candidate Mainline package",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Optional artifact reuse may fail; the workflow then performs a source build, which remains blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Validate candidate Mainline package identity",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "An invalid reused package falls back to the required source build; package validation itself is not a gate pass.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Print vcpkg cache resolution",
+      "kind": "shell-or-true",
+      "match": "du -sh \"${VCPKG_DEFAULT_BINARY_CACHE}\" \"${VCPKG_DOWNLOADS}\" 2>/dev/null || true",
+      "count": 1,
+      "rationale": "Disk-usage output is diagnostic only; missing cache directories do not affect the required build or validation steps.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Install sccache",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Compiler caching is optional; configure, build, and validation remain required and blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Save dependency snapshot before ThemisDB compile",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Cache persistence is an optimization after dependency preparation; it does not determine build or validation success.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Configure",
+      "kind": "shell-or-true",
+      "match": "find \"${{ steps.resolve_mode.outputs.resolved_build_dir }}\" -mindepth 1 -maxdepth 1 -printf '%M %u %g %s %TY-%Tm-%Td %TH:%TM %f\\n' | head -n 20 || true",
+      "count": 1,
+      "rationale": "Listing pre-existing build-directory contents is best-effort diagnostics; configure's actual command status remains blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Configure",
+      "kind": "shell-or-true",
+      "match": "sccache --stop-server >/dev/null 2>&1 || true",
+      "count": 1,
+      "rationale": "Stopping an unavailable or failed optional cache server is cleanup before the required configure retry.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Build",
+      "kind": "continue-on-error",
+      "match": "${{ inputs.build_continue_on_error }}",
+      "count": 1,
+      "rationale": "This input defaults to false; gate callers must not enable it, and the checker rejects non-false gate-call values.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Build",
+      "kind": "shell-or-true",
+      "match": "sccache --stop-server >/dev/null 2>&1 || true",
+      "count": 1,
+      "rationale": "Stopping an unavailable or failed optional cache server is cleanup before the required build retry.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Detect active compiler cache backend",
+      "kind": "shell-or-true",
+      "match": "stats=\"$(sccache --show-stats 2>&1 || true)\"",
+      "count": 1,
+      "rationale": "Cache statistics are diagnostic only; cache backend failure does not alter required build and validation outcomes.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Validation",
+      "kind": "continue-on-error",
+      "match": "${{ inputs.validation_continue_on_error }}",
+      "count": 1,
+      "rationale": "This input defaults to false; gate callers must not enable it, and the checker rejects non-false gate-call values.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Validation",
+      "kind": "shell-or-true",
+      "match": "done < <(grep -E '^THEMIS_METRIC_(CTEST|INSTALL|PACKAGING)_SECONDS=' \"$LOG_FILE\" || true)",
+      "count": 1,
+      "rationale": "Optional metrics may be absent from the log; the explicit saved validation exit code remains the step result.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/reusable-cmake-build.yml",
+      "job": "build",
+      "step": "Build summary",
+      "kind": "shell-or-true",
+      "match": "\"${SCCACHE_PATH:-sccache}\" --show-stats || true",
+      "count": 1,
+      "rationale": "Build-summary cache statistics are optional diagnostics and do not determine the job's build or validation status.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
     }
   ]
 }

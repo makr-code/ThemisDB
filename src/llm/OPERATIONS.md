@@ -23,6 +23,25 @@ Module Path: src/llm/
 
 ## Model Loading Runbook
 
+### Real-model CI verification
+
+The scheduled/manual `.github/workflows/build-llm-inference.yml` lane prepares
+TinyLlama through `.github/workflows/reusable-llm-model-cache.yml`. The cache
+helper delegates TinyLlama to `scripts/ci-download-tinyllama.sh`, which verifies
+the pinned SHA256 before a cached or downloaded model is used. Cache keys also
+include the downloader-script hash.
+
+The lane passes the verified `models/tinyllama.gguf` path to model-backed
+inference, embedding, and LoRA-adapter tests, and runs the RocksDB-backed Wiki
+Phase B integration tests. Each test invocation has an `llm` skip budget of
+zero; an empty test log or a skipped GoogleTest fails validation. The final
+workflow report also fails unless all required suites succeed, including when a
+suite is skipped upstream.
+
+This lane is execution evidence only for the tests it runs. It does not by
+itself validate Vision or Whisper models, reduce the repository-wide `GTEST_SKIP`
+inventory to the AI-03 target, or establish that a scheduled/manual run passed.
+
 ### Pre-Flight Checklist
 
 Before loading a model, verify:

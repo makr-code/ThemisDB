@@ -70,6 +70,7 @@
 #include <unordered_set>
 #include <algorithm>
 #include <chrono>
+#include <limits>
 
 namespace themis {
 
@@ -781,6 +782,22 @@ TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) c
     span.setAttribute("limit", static_cast<int64_t>(options.limit));
     
     std::vector<DataPoint> results;
+    const auto meterWork = [&options](std::size_t candidates,
+                                      std::size_t content_bytes) {
+        if (!options.work_meter) {
+            return true;
+        }
+        try {
+            return options.work_meter(candidates, content_bytes);
+        } catch (const std::exception&) {
+            return false;
+        }
+    };
+    const auto budgetExceeded = [] {
+        return Err<std::vector<DataPoint>>(
+            errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+            "Time-series query work budget exhausted");
+    };
     
     if (options.metric.empty()) {
         span.recordError("Metric name is required");
@@ -832,9 +849,17 @@ TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) c
                     break;
                 }
             }
+
+            if (!meterWork(1, 0)) {
+                return budgetExceeded();
+            }
+            const auto encoded_value = it->value().ToString();
+            if (!meterWork(0, encoded_value.size())) {
+                return budgetExceeded();
+            }
             
             try {
-                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                nlohmann::json j = nlohmann::json::parse(encoded_value);
                 DataPoint point = DataPoint::fromJson(j);
                 
                 if (point.timestamp_ms >= options.from_timestamp_ms && 
@@ -876,9 +901,17 @@ TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) c
             if (key > end_key) {
               break;
             }
+
+            if (!meterWork(1, 0)) {
+                return budgetExceeded();
+            }
+            const auto encoded_value = it->value().ToString();
+            if (!meterWork(0, encoded_value.size())) {
+                return budgetExceeded();
+            }
             
             try {
-                nlohmann::json chunk_meta = nlohmann::json::parse(it->value().ToString());
+                nlohmann::json chunk_meta = nlohmann::json::parse(encoded_value);
                 
                 if (!chunk_meta.contains("compression") || chunk_meta["compression"] != "gorilla") {
                     if (fail_on_decode_error) {
@@ -960,6 +993,11 @@ TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) c
                     raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
                 }
 
+                if (options.work_meter &&
+                    !meterWork(0, raw_data.size())) {
+                    return budgetExceeded();
+                }
+
                 /**
                  * @brief Decode Gorilla-compressed data.
                  * @param[in] raw_data Input parameter.
@@ -973,8 +1011,35 @@ TSStore::queryInternal(const QueryOptions& options, bool fail_on_decode_error) c
                 }
                 GorillaSIMDDecoder decoder(raw_data);
                 std::vector<std::pair<int64_t, double>> chunk_points;
-                chunk_points.reserve(128); // typical gorilla_batch_size
-                decoder.decodeAll(chunk_points);
+                if (options.work_meter) {
+                    const auto remaining_points = options.limit - count;
+                    const auto max_decode_points =
+                        remaining_points == std::numeric_limits<std::size_t>::max()
+                            ? remaining_points
+                            : remaining_points + 1;
+                    chunk_points.reserve(std::min<std::size_t>(128, max_decode_points));
+                    bool work_budget_exhausted = false;
+                    decoder.decodeAtMost(
+                        chunk_points, max_decode_points, [&] {
+                            if (!meterWork(1, 0)) {
+                                work_budget_exhausted = true;
+                                return false;
+                            }
+                            return true;
+                        });
+                    if (work_budget_exhausted) {
+                        return budgetExceeded();
+                    }
+                    if (max_decode_points > remaining_points &&
+                        chunk_points.size() == max_decode_points) {
+                        return Err<std::vector<DataPoint>>(
+                            errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+                            "Time-series compressed chunk exceeds the bounded decode limit");
+                    }
+                } else {
+                    chunk_points.reserve(128); // typical gorilla_batch_size
+                    decoder.decodeAll(chunk_points);
+                }
                 if (fail_on_decode_error && decoder.hasError()) {
                     return Err<std::vector<DataPoint>>(
                         errors::ErrorCode::ERR_STORAGE_CORRUPTION,

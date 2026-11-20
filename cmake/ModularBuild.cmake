@@ -2534,6 +2534,13 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_security_deps}
     )
 
+    if(THEMIS_LDAP_FOUND AND THEMIS_LDAP_LIBRARIES)
+        target_link_libraries(themis_security PUBLIC ${THEMIS_LDAP_LIBRARIES})
+        if(THEMIS_LDAP_INCLUDE_DIRS)
+            target_include_directories(themis_security PUBLIC ${THEMIS_LDAP_INCLUDE_DIRS})
+        endif()
+    endif()
+
     if(TARGET ZLIB::ZLIB)
         target_link_libraries(themis_security PUBLIC ZLIB::ZLIB)
     elseif(ZLIB_LIBRARY)

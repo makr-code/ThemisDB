@@ -250,9 +250,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
     geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.
-- [~] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Rückgabe von `activateSpareIfNeeded()`
-  (`src/failover/auto_failover_manager.cpp:613-614`) wird geprüft; fehlgeschlagene Aktivierung blockiert den Abschluss
-  und liefert eine Fehlermeldung. Status `Degraded` und externe Alarmierung bleiben offen.
+- [x] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Fehlgeschlagene Aktivierung blockiert den Failover-Abschluss,
+  setzt `DEGRADED`, liefert einen Fehlerstatus, emittiert `FAILOVER_DEGRADED` über registrierte Callbacks und schreibt
+  das Diagnose-Log `SPARE_ACTIVATION_FAILED`; `degraded_failovers` erfasst den Ausgang. Kein Prometheus-Export wird
+  behauptet; externe Sichtbarkeit hängt von der Deployment-Integration ab. Evidenz: `tests/failover/test_failover_wave_a_fencing.cpp`
+  (`FO_Promote_05` bis `_08`), registriert als `test_failover_wave_a_fencing_failover_FocusedTests`.
 - [ ] **P1 · DIS-15 – Quorum/Fencing im Modul erzwingen** (Target: M2) – Epoch-/Term-Fencing-Token bei jeder
   schreibenden Failover-Aktion; Ablehnung ohne Quorum; nicht nur Deployment-Empfehlung.
 - [ ] **P1 · DIS-04 – Release-Gate Shard-gRPC** (Target: M1) – Produktionspakete müssen mit `THEMIS_HAS_SHARD_GRPC=1`
@@ -338,6 +340,11 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - Gepinnte Mini-Modelle (Hash im Repo, Download über `.github/workflows/reusable-llm-model-cache.yml`) für
     Embedding, Generierung, LoRA, Vision, Whisper.
   - Exit: `GTEST_SKIP` in `tests/llm` von 258 auf ≤ 20, jeder verbleibende Skip mit Begründung und Ticket.
+  - Code-Fortschritt (2026-11-19, noch kein Ausführungsbeleg): TinyLlama wird in der wiederverwendbaren Cache-Lane
+    gegen den gepinnten SHA256 geprüft; die geplante LLM-Lane führt Embedding-, Generierungs-, LoRA-Fehlerpfad-,
+    Wiki-Phase-B-, RAG- und AdaLoRA-Tests mit Skip-Budget 0 aus und muss bei übersprungenen Jobs fehlschlagen.
+  - Weiter offen: erfolgreicher CI-Lauf samt Artefakt, echte Vision-/Whisper-Modelltests und der Modul-Gesamtwert
+    `GTEST_SKIP` ≤ 20. Diese Änderung allein schließt AI-03 nicht.
 - [ ] **P1 · AI-07/AI-09 – Zentrale Admission Control** (Target: M3 · 2027-04-30)
   - Managed inference now has explicit model routing, a process-wide non-queueing cap of 8 active calls,
     a 4096 generated-token limit, a combined 1 MiB input byte limit, and overload HTTP 429 with `Retry-After: 1`.
@@ -366,7 +373,9 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [ ] **P0 · OPS-01/CI-03 – Gate-Workflows ohne stille Toleranz** (Target: M0 · 2026-11-20)
   - `continue-on-error: true` und `|| true` aus allen `gate-*`-Workflows, `compliance-governance-gates.yml:157` und
     `wiki-pr-gate.yml:83` entfernen; verbleibende Ausnahmen nur über Allowlist mit Begründung und Ablaufdatum.
-  - Guard-Check: neuer Workflow-Lint, der Toleranz-Konstrukte in Gate-Workflows ablehnt.
+  - Guard-Check: fail-open lint tracks gate workflows and their local reusable dependencies; unclassified or stale tolerances fail.
+  - [x] 2026-11-19: Der Guard verfolgt lokale reusable-Aufrufe transitiv und klassifiziert die dort vorhandenen Toleranzen exakt; aktivierte `*_continue_on_error`-Inputs in Gate-Aufrufen werden erfasst.
+  - [ ] Gesamtstatus bleibt offen bis die betroffenen Workflow-Gates nachweislich laufen und Maintainer-Freigabe vorliegt; fehlende Plattform-Artefakte gelten nicht als PASS.
 - [ ] **P0 · OPS-06 – Sanitizer auf PRs** (Target: M1 · 2026-12-31) – ASan+UBSan-Lane für geänderte Kernmodule
   (`storage`, `transaction`, `query`, `aql`, `server`, `auth`, `network`, `sharding`); Laufzeitbudget ≤ 45 min;
   TSan nightly für `transaction`, `sharding`, `llm`.

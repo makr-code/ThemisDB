@@ -51,6 +51,19 @@ Exact model backend not verifiable from final document text alone.
   enum.
 - Range filters use millisecond bounds in `TSStore::QueryOptions`; tags are
   exact-match JSON values. Define and test limits at the caller boundary.
+- `TSStore::QueryOptions::work_meter` is an optional host callback for charging
+  inspected raw records, compressed chunks, decoded Gorilla points, and
+  serialized/decrypted payload bytes. Payload bytes are charged after storage
+  retrieval and before parsing/decoding; this is work metering, not physical
+  storage-I/O admission. Decoded samples are charged before emission; SIMD
+  decoding may process a small internal batch before each sample charge.
+  `queryStrict()` fails with
+  `ERR_QUERY_RESOURCE_EXHAUSTED` when the callback denies work; metered
+  compressed chunks use a bounded decoder instead of materializing an
+  unbounded point vector. No meter is installed by default.
+  The added `QueryOptions` field changes its public layout; binary consumers
+  should rebuild for the planned v3.0.0 release. See the
+  [migration guide](../../docs/migration/v2.4-to-v3.0.md).
 - `RetentionManager::apply()` is destructive. Review the policy, ensure the
   retention boundary is intended, and preserve a separate backup/recovery
   path before invoking it operationally.

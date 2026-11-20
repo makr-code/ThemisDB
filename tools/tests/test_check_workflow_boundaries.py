@@ -475,6 +475,7 @@ def test_mainline_cmake_commands_preserve_disabled_sccache_backend():
     assert "export SCCACHE_GHA_ENABLED=false" in commands["build_command"]
     assert 'echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"' in commands["build_command"]
     assert '"${SCCACHE_PATH:-sccache}" --stop-server || true' in commands["build_command"]
+    assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in commands["build_command"]
 
 
 @pytest.mark.parametrize("stage", ["Configure", "Build"])

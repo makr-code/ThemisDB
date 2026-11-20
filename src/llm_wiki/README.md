@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -80,7 +80,13 @@ The diagram shows current component calls, not production-quality indexed retrie
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — source-backed component and data-flow map
 - [`ROADMAP.md`](ROADMAP.md) — implementation work and readiness gates
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — proposed scope and implementation constraints
+- [`CHANGELOG.md`](CHANGELOG.md) — module documentation and behavior changes
+- [`MODULE_GAPS.md`](MODULE_GAPS.md) — source-verified implementation and evidence gaps
 - [`API.md`](API.md) — SDK and implementation differences
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) — benchmark scope and pending targets
+- [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md) — integration and release-readiness controls
+- [`SECURITY.md`](SECURITY.md) — security boundaries and residual risks
 - [`TRUST.md`](TRUST.md) — trust boundaries
 - [`RUNBOOK.md`](RUNBOOK.md) — source-available operational checks
 - [`AUDIT.md`](AUDIT.md) — source review and validation results

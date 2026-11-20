@@ -11,6 +11,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/skill_delegation_context.h"
 #include "llm/themis_tool_interface.h"
 #include "plugins/plugin_manager.h"
 #include "utils/expected.h"
@@ -204,7 +205,22 @@ public:
 // Tool Registry
 // ============================================================================
 
+/**
+ * @brief Existing tool callback without skill-delegation metadata.
+ * @note Tools registered with this callback retain the existing mode-only
+ *       authorization contract and cannot be invoked through delegated dispatch.
+ */
 using ToolHandler = std::function<json(const json& args, const ModeSpec& mode)>;
+
+/**
+ * @brief Tool callback that receives the trusted, attenuated skill context.
+ * @note Handlers must check resource-specific capabilities before protected
+ *       reads and charge candidate/content budgets before processing them.
+ */
+using DelegatedToolHandler = std::function<json(
+    const json& args,
+    const ModeSpec& mode,
+    const SkillDelegationContext& delegation_context)>;
 
 class ToolRegistry {
 public:
@@ -218,6 +234,21 @@ public:
      */
 
     void registerTool(const ToolSpec& spec, ToolHandler handler);
+
+    /**
+     * @brief Register a tool that can only execute with a delegated skill context.
+     * @param spec Tool metadata; its non-empty name is the exact resource used for the
+     *        required `tool.invoke` capability.
+     * @param handler Non-empty handler receiving the validated immutable context.
+     * @throws std::invalid_argument if the tool name is empty, the handler is
+     *         empty, or a plugin tool already owns the name.
+     * @note The ordinary invokeTool overload rejects this registration, preventing
+     *       callers from bypassing delegated admission. A delegated registration
+     *       cannot later be replaced by an ordinary handler or plugin; an existing
+     *       ordinary registration may be upgraded to delegated dispatch.
+     */
+    void registerDelegatedTool(const ToolSpec& spec,
+                               DelegatedToolHandler handler);
 
     // ── Dynamic tool loading via PluginManager ────────────────────────────────
 
@@ -258,6 +289,22 @@ public:
                     const ModeSpec&    mode) const;
 
     /**
+     * @brief Invoke a delegated tool after mode, capability, and budget checks.
+     * @param tool_name Registered delegated tool name.
+     * @param args Tool arguments.
+     * @param mode Active mode allow/deny policy.
+     * @param delegation_context Trusted host-issued context for this execution.
+     * @return Tool result, or an object with `error` when any admission check
+     *         fails. The shared tool-call budget is charged before handler entry.
+     * @note Requires `tool.invoke` on the exact tool name. The handler remains
+     *       responsible for resource-specific capability checks.
+     */
+    json invokeTool(const std::string& tool_name,
+                    const json&        args,
+                    const ModeSpec&    mode,
+                    const SkillDelegationContext& delegation_context) const;
+
+    /**
      * @brief Is Allowed.
      * @param[in] tool_name Name of the tool.
      * @param[in] mode Input parameter.
@@ -288,16 +335,18 @@ public:
 
 private:
     struct Entry {
-        ToolSpec    spec;
-        ToolHandler handler;
-        bool        is_plugin = false;  ///< true when backed by a DLL plugin
+        ToolSpec             spec;
+        ToolHandler          handler;
+        DelegatedToolHandler delegated_handler;
+        bool                 is_plugin = false;  ///< true when backed by a DLL plugin
     };
 
     /**
-     * @brief Register Plugin Tool.
-     * @param[in,out] tool Input/output parameter.
+     * @brief Register a loaded plugin tool unless it would downgrade a delegated tool.
+     * @param tool Loaded plugin-owned tool; its lifetime remains managed by PluginManager.
+     * @return True when registered; false when a delegated tool already owns its name.
      */
-    void registerPluginTool(IThemisTool* tool);
+    bool registerPluginTool(IThemisTool* tool);
 
     std::unordered_map<std::string, Entry>      tools_;
     mutable std::shared_mutex                   tools_mutex_;   ///< guards tools_
@@ -408,6 +457,12 @@ struct OrchestratorContext {
     rag::RetrievalExecutionContext retrieval_execution;
     /// Trusted server-side budget policy; values in `extra` cannot override it.
     RagCostBudgetContext rag_cost_budget;
+    /**
+     * @brief Optional trusted host-issued context for agentic delegated tool dispatch.
+     * @note Never populate from `extra`, model output, or request arguments. This
+     *       does not constrain RAG retrieval or mode-only legacy handlers.
+     */
+    std::shared_ptr<const SkillDelegationContext> skill_delegation_context;
 };
 
 // ============================================================================

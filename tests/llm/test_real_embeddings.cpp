@@ -22,8 +22,16 @@
 
 #include <gtest/gtest.h>
 #include "llm/lora_framework/embedding_provider.h"
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/model_loader.h"
+#endif
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <filesystem>
 #include <chrono>
+#include <functional>
+#include <memory>
 #include <spdlog/spdlog.h>
 
 using namespace themis::llm::lora;
@@ -70,8 +78,7 @@ protected:
         }
         
         if (!model_available_) {
-            spdlog::warn("simulation-only fallback: no TinyLlama GGUF model found in ./models/. Embedding tests will be skipped.");
-            spdlog::info("Set THEMIS_TEST_MODEL_PATH to the real model path to enable tests.");
+            spdlog::warn("No TinyLlama GGUF model found; model-backed embedding tests require THEMIS_TEST_MODEL_PATH.");
         }
         
         // Create temporary cache directory
@@ -89,6 +96,29 @@ protected:
     std::string model_path_;
     bool model_available_ = false;
     std::filesystem::path cache_dir_;
+
+#ifdef THEMIS_ENABLE_LLM
+    std::unique_ptr<themis::llm::LazyModelLoader> makeModelLoader() const {
+        themis::llm::LazyModelLoader::Config config;
+        config.max_models = 1;
+        config.default_n_gpu_layers = 0;
+        config.default_n_ctx = 512;
+        config.prefer_custom_gguf_loader = false;
+        return std::make_unique<themis::llm::LazyModelLoader>(config);
+    }
+
+    std::shared_ptr<themis::llm::CachedModel> loadModel(
+        themis::llm::LazyModelLoader& loader) const {
+        return loader.getOrLoadModelShared(
+            "real-embedding-test",
+            model_path_,
+            {{"n_ctx", 512},
+             {"n_batch", 512},
+             {"n_threads", 1},
+             {"n_gpu_layers", 0},
+             {"enable_embeddings", true}});
+    }
+#endif
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -96,10 +126,6 @@ protected:
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(RealEmbeddingsTest, ConstructorRequiresValidModel) {
-    if (!model_available_) {
-        GTEST_SKIP() << "Test model not available";
-    }
-    
     // Null model should throw
     EXPECT_THROW({
         EmbeddingProvider::Config config;
@@ -108,16 +134,23 @@ TEST_F(RealEmbeddingsTest, ConstructorRequiresValidModel) {
 }
 
 TEST_F(RealEmbeddingsTest, ConstructorRequiresValidContext) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM model loading is disabled in this build";
+#else
     if (!model_available_) {
         GTEST_SKIP() << "Test model not available";
     }
-    
-    // Null context should throw
-    EXPECT_THROW({
-        llama_model* mock_model = reinterpret_cast<llama_model*>(0x1000);
-        EmbeddingProvider::Config config;
-        EmbeddingProvider provider(mock_model, nullptr, config);
-    }, std::invalid_argument);
+
+    auto model_loader = makeModelLoader();
+    const auto loaded_model = loadModel(*model_loader);
+    ASSERT_NE(loaded_model, nullptr);
+    auto* model = static_cast<llama_model*>(loaded_model->model_handle);
+    ASSERT_NE(model, nullptr);
+
+    EmbeddingProvider::Config config;
+    EXPECT_THROW(EmbeddingProvider provider(model, nullptr, config),
+                 std::invalid_argument);
+#endif
 }
 
 TEST_F(RealEmbeddingsTest, GetEmbeddingDimMatchesModel) {
@@ -144,28 +177,44 @@ TEST_F(RealEmbeddingsTest, GetEmbeddingDimMatchesModel) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(RealEmbeddingsTest, GetEmbeddingReturnsNonHashVector) {
-    // This test documents the expected behavior
-    // With real model, embeddings should be from model's embedding layer
-    // NOT hash-based (token_id % 100) / 100.0
-    
-    // Hash-based embedding example (WRONG - what we're replacing):
-    std::vector<float> hash_embedding;
-    int token_id = 42;
-    for (int i = 0; i < 100; ++i) {
-        hash_embedding.push_back(static_cast<float>(token_id % 100) / 100.0f);
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM model loading is disabled in this build";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "Set THEMIS_TEST_MODEL_PATH to a pinned GGUF model";
     }
-    
-    // All values are the same in hash-based embedding
-    bool all_same = std::all_of(hash_embedding.begin(), hash_embedding.end(),
-        [&](float v) { return v == hash_embedding[0]; });
-    
-    EXPECT_TRUE(all_same) << "Hash-based embeddings are uniform (not meaningful)";
-    
-    // Real embeddings should have variation
-    spdlog::info("Real embeddings should have:");
-    spdlog::info("  - Varied values (not uniform)");
-    spdlog::info("  - Dimension matching model (e.g., 4096)");
-    spdlog::info("  - Semantic meaning from model training");
+
+    auto model_loader = makeModelLoader();
+    const auto loaded_model = loadModel(*model_loader);
+    ASSERT_NE(loaded_model, nullptr) << "The configured GGUF model must load";
+    auto* model = static_cast<llama_model*>(loaded_model->model_handle);
+    auto* context = static_cast<llama_context*>(loaded_model->context_handle);
+    ASSERT_NE(model, nullptr);
+    ASSERT_NE(context, nullptr);
+
+    EmbeddingProvider::Config config;
+    EmbeddingProvider provider(model, context, config);
+    const auto embedding = provider.getEmbedding("ThemisDB real model embedding");
+
+    ASSERT_FALSE(embedding.empty());
+    EXPECT_EQ(embedding.size(), provider.getEmbeddingDim());
+    EXPECT_TRUE(std::all_of(embedding.begin(), embedding.end(),
+                            [](float value) { return std::isfinite(value); }));
+    EXPECT_TRUE(std::any_of(embedding.begin(), embedding.end(),
+                            [](float value) { return std::abs(value) > 1e-6f; }));
+    EXPECT_NE(std::adjacent_find(embedding.begin(), embedding.end(),
+                                 std::not_equal_to<float>{}),
+              embedding.end())
+        << "Model-backed embedding must contain varying values";
+
+    const auto cached_embedding =
+        provider.getEmbedding("ThemisDB real model embedding");
+    EXPECT_EQ(cached_embedding, embedding);
+    const auto cache_stats = provider.getCacheStats();
+    EXPECT_EQ(cache_stats.cache_misses, 1u);
+    EXPECT_EQ(cache_stats.cache_hits, 1u);
+    EXPECT_TRUE(provider.getEmbeddings({}).empty());
+#endif
 }
 
 TEST_F(RealEmbeddingsTest, GetEmbeddingCaches) {
