@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-20
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -12,20 +12,28 @@ Source_Level: level1
 SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
+  - ../../include/sharding/consistent_hash.h
+  - ../../include/storage/mvcc_store.h
+  - ../../include/storage/rocksdb_wrapper.h
   - ../../include/sharding/epoch_fencing.h
   - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/two_phase_commit_participant.h
   - ../../include/sharding/shard_rpc_client.h
   - ../../include/sharding/shard_rpc_client_adapter.h
   - ../../include/sharding/distributed_transaction.h
   - ../../include/sharding/cross_shard_transaction.h
   - ../../src/sharding/epoch_fencing.cpp
+  - ../../src/sharding/consistent_hash.cpp
+  - ../../src/storage/mvcc_store.cpp
   - ../../src/sharding/two_phase_commit_coordinator.cpp
   - ../../src/sharding/two_phase_commit_participant.cpp
   - ../../src/sharding/shard_rpc_client.cpp
   - ../../src/sharding/distributed_transaction.cpp
   - ../../src/sharding/cross_shard_transaction.cpp
   - ../../tests/test_epoch_fencing.cpp
+  - ../../tests/sharding/test_dis03_routing_contract_focused.cpp
+  - ../../tests/storage/test_mvcc_range_export.cpp
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
 Related_Issue: "#7381"
@@ -42,6 +50,95 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
+
+### DIS-06 / #8200 recovery contract (2026-11-19)
+
+The named coordinator pair uses `TwoPhaseCommitCoordinator` as its durable
+2PC authority; CrossShard keeps its lifecycle and other protocols. Coordinator
+BEGIN/decision/completion and participant votes/terminal acknowledgements are
+synced at their protocol boundaries. Missing WAL configuration rejects writes.
+Prepared participants retain locks across timeout and restart; unresolved
+recovery blocks readiness while terminal RPCs remain available.
+
+No WAL encoding consolidation, API removal or automatic migration of unresolved
+older CrossShard records is included. See [API.md](API.md),
+[RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
+
+Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
+the CTest commands below are not claimed as executed against a full target build):
+
+```sh
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
+cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^TwoPhaseCommitFocusedTests$' --output-on-failure
+cmake --build /tmp/themis-dis06-build --target test_cross_shard_transaction_focused -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^CrossShardTransactionFocusedTests$' --output-on-failure
+cmake --build /tmp/themis-dis06-build --target test_transaction_process_crash_recovery -j4
+ctest --test-dir /tmp/themis-dis06-build -R '^TransactionProcessCrashRecoveryTests$' --output-on-failure
+```
+
+Configure succeeded after installing existing system build dependencies. Registered
+builds were attempted, but full dependency linkage was not completed; a
+reconfigure refreshed build metadata and restarted the dependency graph, and the
+build was stopped. No registered-target or release CTest PASS is claimed.
+The initial build found missing `pugixml.hpp` (subsequently installed).
+The initial-implementation
+[Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
+reported `action_required` with zero jobs, not passing CI evidence.
+The local CodeQL tool invocation timed out before all languages finished.
+Subsequent GitHub CodeQL workflow run
+[44612742587](https://github.com/makr-code/ThemisDB/actions/runs/44612742587)
+completed successfully for the PR head (`16361cb4f39397fb237926300cce26159e2d3cb1`);
+its C/C++ job `135873324720` completed successfully and uploaded SARIF. The
+workflow log states C/C++ used `build-mode: none` (all source files), not a
+compiled build. The alert-list API was inaccessible to this run, so no
+zero-alert claim is made. Local tool timeout remains recorded, but C++ CodeQL
+execution itself is no longer an unverified gate.
+
+Direct-source diagnostic execution (not registered-target/CI evidence):
+
+| Existing test source | Result |
+|---|---|
+| `tests/test_two_phase_commit.cpp` | 77/77 passed, including the final empty-identifier guard |
+| `tests/test_cross_shard_transaction_focused.cpp` | 29/29 passed; five critical concurrency/fsync/timestamp/history regressions repeated ten times: 50/50 passed |
+| `tests/transaction/test_transaction_process_crash_recovery.cpp` | 7/7 passed; two canonical crash tests repeated ten times: 20/20 passed (before the final empty-identifier guard, which is covered by the unit suite) |
+
+These binaries were manually linked from the actual production translation
+units and existing tests, with unchanged dependency objects reused. Per-TU
+compiler flags were `g++ -std=c++20 -O0 -g0 -ffunction-sections -fdata-sections
+-DTHEMIS_TEST_BUILD=1 -DTHEMIS_TEST_MODE=1 -Iinclude -pthread -c`; linking used
+`g++ -pthread -Wl,--gc-sections` and system GoogleTest, RocksDB, spdlog, fmt,
+OpenSSL, zlib, zstd, lz4 and bzip2. No replacement production stubs were linked.
+The exact diagnostic executable invocations were:
+
+```sh
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_two_phase_commit --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_cross_shard_transaction_focused --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-coordinator/test_cross_shard_transaction_focused --gtest_filter='*PrepareSerializesWithTerminalDecisions:*DecisionFsyncFailureBlocksRpcAndRequiresRescan:*RecoveredCommitReusesSharedMvccTimestamp:*RecoveryOnlyEndpointReusesRecordedTimestamp:*LegacyWalHistoryGapCannotDiscardOldInDoubt' --gtest_repeat=10 --gtest_brief=1
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-direct/test_transaction_process_crash_recovery
+/home/runner/work/ThemisDB/ThemisDB/.build-dis06-direct/test_transaction_process_crash_recovery --gtest_filter='TransactionProcessCrashRecovery.Canonical*' --gtest_repeat=10
+```
+
+Scratch binaries/logs at those historical paths were removed; no diagnostic
+artifact is retained as a release gate. An earlier CTest invocation used a
+manually placed diagnostic executable and is explicitly excluded from the
+registered-target evidence.
+
+New crash regressions
+exercise actual coordinator/participant objects in separate POSIX processes
+over test pipe IPC; older direct-WAL replica helpers are not production
+`ReplicationManager` transport evidence. Productive gRPC/mTLS, replica recovery,
+power-loss/storage fault injection, sanitizer, Windows/macOS and release-gate
+evidence remain unverified. DIS-06 remains open pending evidence and maintainer
+acceptance; historical notes below describe their original runs.
+> **DIS-05 decision (2026-11-19):** `TwoPhaseCommitCoordinator` is selected as the canonical
+> direct 2PC coordinator. `CrossShardTransactionCoordinator` remains the multi-protocol facade,
+> and now delegates 2PC participant calls, durable decisions, and replay to it. Canonical BEGIN
+> records retain endpoint mappings; unresolved legacy CrossShard-only 2PC records fail startup
+> without fallback. Focused validation and remaining recovery-edge tests are still open. See the accepted
+> [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md) and root
+> [`ROADMAP.md`](../../ROADMAP.md) for current status. This decision is not a release-readiness
+> or recovery sign-off.
 
 > **Status evidence note (2026-11-01):** Historical completion checkboxes below are not current
 > release evidence. The follow-up ran only the standalone SH-BM-01..04 stub harness; a configured
@@ -144,6 +241,7 @@ open/in-progress work here.
 
 ## In Progress
 
+- [~] Verify the CrossShard 2PC adapter to canonical `TwoPhaseCommitCoordinator`: payload/fencing parity, durable decision ordering, endpoint restoration, legacy-record fail-closed behavior, and both public-path regression coverage (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
@@ -180,6 +278,10 @@ open/in-progress work here.
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [x] DIS-03 routing/snapshot architecture and API design approved for implementation; no existing placement or production routing path is changed ([design](ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)) (Target: M2 · 2027-03-31)
+- [~] Implemented typed key/algorithm descriptors, exact ring ownership segments and focused compatibility/boundary test sources; build and execution evidence remain pending (Target: M2 · 2027-03-31)
+- [~] Implemented process-local MVCC snapshot export using one RocksDB sequence and HLC boundary, bounded output, cancellation, and explicit tombstones; durable export, resume, and assignment composition remain open (Target: M2 · 2027-03-31)
+- [ ] Gate production transfer separately from HA cutover: real mTLS restart/resume/content evidence first; enforceable write quiescence, fenced authority commit and lost-ACK reconciliation before ownership activation (Target: M2 · 2027-03-31)
 - [x] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
 - [x] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)
 - [x] keep `shard_rpc_client.cpp` simulation fallback out of production paths by making the runtime contract explicit and fail-closed when no real RPC transport is available (Target: Q4 2026)

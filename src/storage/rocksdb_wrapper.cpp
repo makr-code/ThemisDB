@@ -74,6 +74,7 @@
 #include <chrono>   // For milliseconds (race condition fix #3)
 #include <future>   // std::async / std::future (blob streaming, PERF-D5)
 #include <sstream>  // std::ostringstream (blob chunk key formatting)
+#include <utility>
 
 namespace themis {
 
@@ -3301,6 +3302,85 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(const rocks
     }
     
     return Ok(SafeIterator(std::move(iter), std::move(guard)));
+}
+
+RocksDBWrapper::SnapshotHandle::SnapshotHandle(
+    rocksdb::TransactionDB* db,
+    const rocksdb::Snapshot* snapshot,
+    std::unique_ptr<OperationGuard> guard
+)
+    : db_(db)
+    , snapshot_(snapshot)
+    , guard_(std::move(guard)) {}
+
+RocksDBWrapper::SnapshotHandle::SnapshotHandle(SnapshotHandle&& other) noexcept
+    : db_(std::exchange(other.db_, nullptr))
+    , snapshot_(std::exchange(other.snapshot_, nullptr))
+    , guard_(std::move(other.guard_)) {}
+
+RocksDBWrapper::SnapshotHandle& RocksDBWrapper::SnapshotHandle::operator=(
+    SnapshotHandle&& other
+) noexcept {
+    if (this != &other) {
+        release();
+        db_ = std::exchange(other.db_, nullptr);
+        snapshot_ = std::exchange(other.snapshot_, nullptr);
+        guard_ = std::move(other.guard_);
+    }
+    return *this;
+}
+
+RocksDBWrapper::SnapshotHandle::~SnapshotHandle() {
+    release();
+}
+
+void RocksDBWrapper::SnapshotHandle::release() noexcept {
+    if (db_ && snapshot_) {
+        db_->ReleaseSnapshot(snapshot_);
+    }
+    snapshot_ = nullptr;
+    db_ = nullptr;
+    guard_.reset();
+}
+
+uint64_t RocksDBWrapper::SnapshotHandle::sequenceNumber() const {
+    return snapshot_ ? snapshot_->GetSequenceNumber() : 0;
+}
+
+Result<RocksDBWrapper::SnapshotHandle> RocksDBWrapper::createSnapshot() const {
+    auto guard = std::make_unique<OperationGuard>(this);
+    if (!guard || !*guard) {
+        return Err<SnapshotHandle>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB not opened for snapshot"
+        );
+    }
+
+    auto* guarded_db = guard->get();
+    const rocksdb::Snapshot* snapshot = guarded_db->GetSnapshot();
+    if (!snapshot) {
+        return Err<SnapshotHandle>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "Failed to capture RocksDB snapshot"
+        );
+    }
+    return Ok(SnapshotHandle(guarded_db, snapshot, std::move(guard)));
+}
+
+Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(
+    const SnapshotHandle& snapshot
+) {
+    auto guard = std::make_unique<OperationGuard>(this);
+    if (!guard || !*guard || !snapshot.snapshot_ || snapshot.db_ != guard->get()) {
+        return Err<SafeIterator>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Snapshot is invalid or belongs to another RocksDB instance"
+        );
+    }
+
+    rocksdb::ReadOptions options;
+    options.snapshot = snapshot.snapshot_;
+    return newSafeIterator(&options);
 }
 
 // SafeIterator method implementations

@@ -38,6 +38,10 @@ deployment, or covered by an executed test.
 - [`wal_storage.h`](wal_storage.h) declares a separate append/replay/
   checkpoint/flush API. Its `fsync_on_write` option defaults to true and is
   configurable. Do not equate it with RocksDB's internal WAL.
+- [`object_block_manifest.h`](object_block_manifest.h) defines a versioned,
+  SHA-256-checked object block manifest and local split/assembly helpers. It
+  does not persist blocks, choose placement, authorize access, replicate data,
+  or publish object versions.
 - [`backup_manager.h`](backup_manager.h), [`pitr_manager.h`](pitr_manager.h),
   [`blob_storage_backend.h`](blob_storage_backend.h), and
   [`tiered_storage.h`](tiered_storage.h) declare other separate facilities.

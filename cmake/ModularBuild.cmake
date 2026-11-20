@@ -420,6 +420,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/document/round_trip_editor.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
+    ../src/storage/object_block_manifest.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/simd_filter.cpp
     ../src/storage/storage_parquet_exporter.cpp
@@ -1122,6 +1123,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/sharding/shard_transfer_store.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp

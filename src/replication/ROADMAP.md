@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-05-31
-Last Updated: 2026-11-07
+Last Updated: 2026-11-20
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -18,6 +18,8 @@ Canonical_References:
   - ../../include/replication/logical_replication.h
   - ../../include/replication/replication_slot.h
   - ../../include/replication/async_wal_shipper.h
+  - ../../src/sharding/ARCHITECTURE.md
+  - ../../docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md
   - ../../src/replication/
   - ../../tests/replication/
   - ../../benchmarks/replication/
@@ -49,6 +51,22 @@ closure, and **v3.0.0** as a separate strategic consistency, scale, and operatio
 program. Neither release is declared production-ready by this roadmap. Peer
 authentication/TLS, RPO/RTO, supported topology, and runtime integration remain open
 assumptions requiring explicit decisions and evidence.
+
+### Cross-layer transaction and replication boundary
+
+Per-shard Raft, a cross-shard 2PC/3PC coordinator, and WAL/segment shipping are
+separate component contracts. This roadmap does not claim that a coordinator
+decision is itself Raft-replicated or automatically replayed after a leader
+change. Nor does current evidence establish the end-to-end ordering
+“file block durably stored on two replicas → 2PC/3PC decision committed →
+client ACK.” A durable local WAL append, a shard-level quorum, a participant
+ACK, or a batch enqueue is not by itself proof of that combined sequence.
+Production support requires an integrated multi-process transport/recovery
+test that checks persisted block contents and coordinator decision recovery at
+the relevant crash and leader-change boundaries. Until then, treat the RAID-1
+coordination flow as an architecture target and consult the
+[sharding architecture evidence boundary](../sharding/ARCHITECTURE.md) and
+[RAID coordination guide](../../docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md).
 
 ## Planned Features
 

@@ -21,6 +21,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
+#include "sharding/two_phase_commit_coordinator.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include <string>
 #include <vector>
@@ -29,6 +30,10 @@
 #include <memory>
 #include <functional>
 #include <nlohmann/json.hpp>
+
+namespace themis::sharding {
+class TwoPhaseCommitCoordinator;
+}
 
 namespace sharding {
 enum class TransactionProtocol;
@@ -202,17 +207,17 @@ struct CrossShardTransactionConfig {
     std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl"; ///< Absolute transaction log path.
     
     // Persistence settings (Phase 2.3.3 - Transaction Durability)
-    bool enable_persistence = false; ///< Enable WAL/snapshot persistence backend.
-    std::string data_dir;            ///< Base directory for WAL and snapshots.
+    bool enable_persistence = false; ///< Enable persistence; required for 2PC writes and non-2PC WAL backends.
+    std::string data_dir;            ///< Base directory; canonical 2PC WAL uses the 2pc-coordinator-wal subdirectory.
     uint64_t snapshot_interval = 1000; ///< Snapshot cadence in operation count.
     size_t max_snapshots = 10;       ///< Maximum retained snapshots.
 
     // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
-    std::string coordinator_id; ///< Actual coordinator node identifier.
+    std::string coordinator_id; ///< Actual coordinator node identifier; must match fencing-token issuer for 2PC.
     std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
-        fencing_token_provider; ///< Current per-shard write credential; absent blocks writes.
+        fencing_token_provider; ///< Current per-shard write credential; 2PC rejects missing, zero-epoch, wrong-shard, or wrong-issuer tokens.
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
@@ -241,6 +246,11 @@ struct CrossShardTransactionConfig {
     /// conflict detection.  Applies only to transactions with isolation level
     /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
     CrossShardSSIManager::Config ssi_config;
+
+    /// Trusted per-shard endpoint/TLS resolver, including startup phase-two replay.
+    /// Missing/malformed endpoints leave canonical recovery blocked.
+    std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
+        const std::string&)> participant_endpoint_resolver;
 };
 
 struct BackendRecoveryStats {
@@ -302,7 +312,8 @@ public:
      * @param transaction_id Unique transaction identifier
      * @param protocol Transaction protocol to use
      * @param isolation_level Isolation level
-     * @return true if transaction started successfully
+     * @return true if started; false for invalid/duplicate IDs, unresolved
+     *         legacy 2PC recovery, or TWO_PHASE_COMMIT without durable persistence.
      */
     bool beginTransaction(
         const std::string& transaction_id,
@@ -326,44 +337,61 @@ public:
     );
     
     /**
-     * @brief Prepare transaction (2PC/3PC phase 1)
-     * @param transaction_id Transaction ID
-     * @return true if all participants prepared successfully
+     * @brief Run phase one for a 2PC or 3PC transaction.
+     * @param transaction_id Existing active transaction ID with at least one participant.
+     * @return True when every participant votes to prepare and SERIALIZABLE
+     *         validation succeeds; false on invalid state, rejection, timeout,
+     *         or unresolved canonical 2PC state.
+     * @note For 2PC, canonical BEGIN is durable before PREPARE; a successful
+     *       prepare selects no terminal decision. TwoPhaseCommitCoordinator
+     *       owns participant calls and recovery, while this facade retains
+     *       lifecycle and SSI state. WAL-disabled 2PC never contacts participants.
      */
     bool prepare(const std::string& transaction_id);
     
     /**
-     * @brief Commit a transaction using the shared coordinator-side 2PC contract.
+     * @brief Commit using the selected protocol; 2PC delegates to canonical authority.
      * @param transaction_id Existing transaction ID in ACTIVE or PREPARED state.
-     * @return True only after all participants acknowledge COMMIT. False when
-     *         prepare selects ABORT or when decision persistence/phase two fails.
+     * @return For 2PC, true only after all COMMIT acknowledgements and durable
+     *         completion; false on ABORT or validation/durability/delivery failure.
      * @note A phase-two failure after COMMIT selection leaves the transaction
-     *       UNKNOWN and is never converted into ABORT. The current WAL/snapshot
-     *       backend records resume candidates but does not automatically
-     *       re-drive phase two; unresolved decisions require external recovery.
+     *       UNKNOWN and is never converted into ABORT. Canonical recovery
+     *       re-drives the immutable decision from registered/resolved endpoints.
+     *       Other protocols retain their CrossShard WAL/snapshot recovery behavior.
      */
     bool commit(const std::string& transaction_id);
     
     /**
-     * @brief Select and broadcast an ABORT decision for an active transaction.
-     * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or PREPARED state.
+     * @brief Select and broadcast an ABORT decision for an abortable transaction.
+     * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or
+     *        PREPARED state; a 2PC transaction in UNKNOWN may be retried only
+     *        when the canonical coordinator has not selected COMMIT.
      * @return True when the ABORT decision and all participant acknowledgements complete.
      *         False on an invalid state, timeout, persistence failure, or missing acknowledgement.
+     * @note 2PC decisions and phase-two recovery are owned by
+     *       TwoPhaseCommitCoordinator; canonical BEGIN/ABORT/completion are
+     *       durable, no-WAL operation fails closed, and a selected COMMIT
+     *       cannot be overwritten. Other protocol WAL records remain owned here.
      */
     bool abort(const std::string& transaction_id);
 
     /**
-     * @brief Restore transaction state and report in-doubt resume candidates.
+     * @brief Recover canonical 2PC decisions and restore non-2PC state.
      *
-     * Uses WAL+snapshot recovery when the backend is available. The current
-     * backend does not automatically re-send PREPARE, COMMIT, or ABORT RPCs.
+     * Runs canonical 2PC WAL recovery before CrossShard WAL/snapshot recovery.
+     * Endpoint-backed 2PC decisions are re-driven by TwoPhaseCommitCoordinator;
+     * non-2PC CrossShard records retain their existing resume-candidate behavior.
+     * Unresolved legacy CrossShard-only 2PC records make recovery fail closed.
+     * Invoke during startup, before accepting new transactions.
      *
-     * This method is intended for startup recovery before new transactions are
-     * accepted. If called during live traffic, the returned value is best-effort.
-     *
-     * @return Number of in-doubt transactions that transitioned to a terminal
-     *         state during this invocation; resume-candidate reporting alone
-     *         does not count as resolution.
+     * @return Number of in-doubt transactions resolved by canonical replay or
+     *         lifecycle recovery; resume-candidate reporting alone is not resolution.
+     * @throws std::runtime_error If durable recovery is unavailable, lifecycle
+     *         history is incomplete, or a decision cannot be redriven. Callers
+     *         must keep service unavailable on recovery failure.
+     * @note Zero does not establish recovery success; verify startup recovery
+     *       state separately. Unresolved legacy CrossShard 2PC records require
+     *       operator resolution and are never migrated or guessed.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -374,14 +402,18 @@ public:
     [[nodiscard]] std::string recoveryCoordinatorName() const override;
 
     /**
-     * @brief Return the durable backend used by this coordinator.
+     * @brief Return this facade's non-2PC durable backend status.
      * @return "WAL/snapshot" when persistence is enabled, otherwise "disabled".
+     * @note 2PC uses the canonical TwoPhaseCommitCoordinator WAL and is not
+     *       described by this backend name.
      */
     [[nodiscard]] std::string recoveryBackendName() const override;
 
     /**
-     * @brief Snapshot current in-doubt transactions using the shared state model.
-     * @return Normalized non-final transaction list for global recovery orchestration.
+     * @brief Snapshot in-doubt transactions from all protocols managed here.
+     * @return Normalized non-final transaction list, including canonical 2PC
+     *         records and non-2PC CrossShard records, for global recovery
+     *         orchestration.
      */
     [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
     getRecoverableTransactions() const override;
@@ -612,6 +644,11 @@ public:
     );
 
 private:
+    /// Execute prepare/abort with the per-transaction protocol-driver guard held.
+    bool prepareImpl(const std::string& transaction_id);
+    bool abortImpl(const std::string& transaction_id);
+
+    /// Configure production transports for the transaction's canonical participants.
     /**
      * @brief Execute 2PC protocol
      */
@@ -760,6 +797,10 @@ private:
     // Phase 2.3.3: WAL and Snapshot infrastructure
     std::unique_ptr<TransactionWAL> transaction_wal_; ///< WAL backend for durability/recovery.
     std::unique_ptr<TransactionSnapshotManager> snapshot_manager_; ///< Snapshot backend for recovery acceleration.
+    std::unique_ptr<themis::sharding::TwoPhaseCommitCoordinator> canonical_2pc_coordinator_;
+    std::map<std::string, std::string> canonical_2pc_endpoints_;
+    std::atomic<bool> legacy_two_phase_recovery_blocked_{false};
+    std::set<std::string> legacy_two_phase_transaction_ids_;
     std::atomic<uint64_t> operations_since_snapshot_{0}; ///< Operation count since last snapshot.
     LSN last_applied_lsn_{0, 0}; ///< Last WAL LSN applied during recovery.
     

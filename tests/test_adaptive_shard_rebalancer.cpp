@@ -20,9 +20,13 @@
 #include "sharding/data_migrator.h"
 #include "utils/audit_logger.h"
 
-#include <memory>
+#include <algorithm>
 #include <chrono>
+#include <memory>
+#include <optional>
+#include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 using namespace themis::sharding;
@@ -396,16 +400,16 @@ TEST(LiveMigration, LiveMigrateWithTopology_UpdatesTokenRanges) {
 // AutoRebalancer integration tests
 // ─────────────────────────────────────────────────────────────────────────────
 
+static AutoRebalancer::MigrationResult rejectUnexpectedMigration(
+    const AutoRebalancer::MigrationRequest&) {
+    ADD_FAILURE() << "Unexpected migration";
+    return {AutoRebalancer::MigrationOutcome::REJECTED, {}};
+}
+
 TEST(AdaptiveShardRebalancer, SetSplitPolicy_DoesNotThrow) {
     auto topology  = makeTopology();
     auto detector  = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     HotShardSplitPolicy::Config pcfg;
     auto policy = std::make_shared<HotShardSplitPolicy>(detector, pcfg);
@@ -416,13 +420,7 @@ TEST(AdaptiveShardRebalancer, SetSplitPolicy_DoesNotThrow) {
 TEST(AdaptiveShardRebalancer, GetStatisticsIncludesSplitProposalCounter) {
     auto topology  = makeTopology();
     auto detector  = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     auto stats = rebalancer.getStatistics();
     EXPECT_TRUE(stats.contains("split_proposals_total"));
@@ -432,16 +430,155 @@ TEST(AdaptiveShardRebalancer, GetStatisticsIncludesSplitProposalCounter) {
 TEST(AdaptiveShardRebalancer, SetAuditLogger_DoesNotThrow) {
     auto topology = makeTopology();
     auto detector = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     // Passing nullptr should be safe (disables audit logging)
     EXPECT_NO_THROW(rebalancer.setAuditLogger(nullptr));
+}
+
+TEST(AdaptiveShardRebalancer, RequiresMigrationExecutorInBothConstructors) {
+    const auto topology = makeTopology();
+    const auto detector = makeDetector();
+    const AutoRebalancer::MigrationExecutor missing;
+    EXPECT_THROW(AutoRebalancer(topology, detector, nullptr, missing), std::invalid_argument);
+    EXPECT_THROW(AutoRebalancer(topology, detector, nullptr, missing, AutoRebalancer::Config{}),
+                 std::invalid_argument);
+}
+
+static void seedImbalance(ShardLoadDetector& detector) {
+    auto hot = makeMetrics("hot", 95.0, 90.0, 1000);
+    auto cold = makeMetrics("cold", 10.0, 5.0, 10);
+    hot.total_bytes = 9000;
+    cold.total_bytes = 500;
+    detector.updateShardLoad("hot", hot);
+    detector.updateShardLoad("cold", cold);
+}
+
+static bool waitForPending(const AutoRebalancer& rebalancer, size_t count) {
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    do {
+        if (rebalancer.getStatistics()["pending_approvals"] == count) {
+            return true;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    } while (std::chrono::steady_clock::now() < deadline);
+    return false;
+}
+
+using Outcome = AutoRebalancer::MigrationOutcome;
+
+class AdaptiveShardRebalancerLifecycle
+    : public ::testing::TestWithParam<std::optional<Outcome>> {};
+
+TEST_P(AdaptiveShardRebalancerLifecycle, ApprovedMoveCompletesOnlyWithOwnershipCommit) {
+    const auto topology = makeTopology();
+    const auto detector = makeDetector();
+    seedImbalance(*detector);
+    ASSERT_EQ(detector->detectImbalance().recommendations.size(), 1u);
+
+    AutoRebalancer::Config config;
+    config.require_manual_approval = true;
+    config.auto_trigger_enabled = false;
+    config.operator_cert_path = "test-operator";
+    std::string approved_id;
+    unsigned calls = 0;
+    AutoRebalancer rebalancer(topology, detector, nullptr,
+        [&](const AutoRebalancer::MigrationRequest& request) -> AutoRebalancer::MigrationResult {
+            ++calls;
+            EXPECT_EQ(request.operation_id, approved_id);
+            EXPECT_EQ(request.operation.source_shard_id, "hot");
+            EXPECT_EQ(request.operation.target_shard_id, "cold");
+            EXPECT_LT(request.operation.token_range_start, request.operation.token_range_end);
+            EXPECT_EQ(request.operator_signature, "signed:" + approved_id);
+            const auto running = rebalancer.getOperationStatuses();
+            EXPECT_EQ(running.size(), 1u);
+            if (!running.empty()) {
+                EXPECT_EQ(running.front().state, RebalanceState::IN_PROGRESS);
+                EXPECT_FALSE(running.front().migration_outcome.has_value());
+            }
+            EXPECT_FALSE(rebalancer.cancelOperation(approved_id));
+            if (!GetParam()) {
+                throw std::runtime_error("lost executor response");
+            }
+            return {*GetParam(), {}};
+        }, config);
+    rebalancer.setSignOperationFn([](const std::string& id) { return "signed:" + id; });
+    rebalancer.start();
+    ASSERT_TRUE(waitForPending(rebalancer, 1));
+    rebalancer.stop();
+
+    const auto planned = rebalancer.getOperationStatuses();
+    ASSERT_EQ(planned.size(), 1u);
+    EXPECT_EQ(planned.front().state, RebalanceState::PLANNED);
+    EXPECT_EQ(calls, 0u);
+    approved_id = planned.front().operation_id;
+    EXPECT_TRUE(rebalancer.approveOperation(approved_id));
+    EXPECT_FALSE(rebalancer.approveOperation(approved_id));
+    EXPECT_FALSE(rebalancer.cancelOperation(approved_id));
+    EXPECT_EQ(calls, 1u);
+
+    const auto statuses = rebalancer.getOperationStatuses();
+    ASSERT_EQ(statuses.size(), 1u);
+    const auto outcome = GetParam().value_or(Outcome::OWNERSHIP_UNCERTAIN);
+    const bool committed = outcome == Outcome::OWNERSHIP_COMMITTED;
+    const auto& status = statuses.front();
+    EXPECT_EQ(status.operation_id, approved_id);
+    EXPECT_EQ(status.state, committed ? RebalanceState::COMPLETED : RebalanceState::FAILED);
+    EXPECT_EQ(status.migration_outcome, outcome);
+    EXPECT_EQ(status.progress.progress_percent, committed ? 100.0 : 0.0);
+    EXPECT_EQ(status.error_message.empty(), committed);
+    const auto stats = rebalancer.getStatistics();
+    EXPECT_EQ(stats["active_operations"], 0u);
+    EXPECT_EQ(stats["completed_operations"], committed ? 1u : 0u);
+    EXPECT_EQ(stats["failed_operations"], committed ? 0u : 1u);
+}
+
+INSTANTIATE_TEST_SUITE_P(AdaptiveShardRebalancerExecutorResults, AdaptiveShardRebalancerLifecycle,
+    ::testing::Values(std::optional{Outcome::REJECTED}, std::optional{Outcome::ADMISSION_UNCERTAIN},
+                      std::optional{Outcome::ADMITTED}, std::optional{Outcome::TRANSFER_VERIFIED},
+                      std::optional{Outcome::OWNERSHIP_COMMITTED}, std::optional{Outcome::OWNERSHIP_UNCERTAIN},
+                      std::optional<Outcome>{}));
+
+TEST(AdaptiveShardRebalancer, HotSplitWaitsForApprovalAndUsesTopologyRange) {
+    const auto topology = makeTopology();
+    ShardInfo hot{};
+    hot.shard_id = "hot";
+    hot.token_start = 100;
+    hot.token_end = 200;
+    topology->addShard(hot);
+    const auto detector = makeDetector();
+    seedImbalance(*detector);
+
+    AutoRebalancer::Config config;
+    config.require_manual_approval = true;
+    config.auto_trigger_enabled = true;
+    config.operator_cert_path = "test-operator";
+    std::vector<AutoRebalancer::MigrationRequest> requests;
+    AutoRebalancer rebalancer(topology, detector, nullptr,
+        [&](const AutoRebalancer::MigrationRequest& request) {
+            requests.push_back(request);
+            return AutoRebalancer::MigrationResult{Outcome::TRANSFER_VERIFIED, {}};
+        }, config);
+    rebalancer.setSignOperationFn([](const std::string&) { return "test-signature"; });
+    rebalancer.setSplitPolicy(std::make_shared<HotShardSplitPolicy>(detector));
+    rebalancer.start();
+    ASSERT_TRUE(waitForPending(rebalancer, 2));
+    rebalancer.stop();
+    EXPECT_TRUE(requests.empty());
+
+    const auto planned = rebalancer.getOperationStatuses();
+    ASSERT_EQ(planned.size(), 2u);
+    for (const auto& status : planned) {
+        EXPECT_EQ(status.state, RebalanceState::PLANNED);
+        EXPECT_TRUE(rebalancer.approveOperation(status.operation_id));
+    }
+    ASSERT_EQ(requests.size(), 2u);
+    EXPECT_EQ(std::count_if(requests.begin(), requests.end(), [](const auto& req) {
+        return req.operation.source_shard_id == "hot" &&
+               req.operation.target_shard_id == "cold" &&
+               req.operation.token_range_start == 150 && req.operation.token_range_end == 200;
+    }), 1);
+    EXPECT_EQ(rebalancer.getStatistics()["completed_operations"], 0u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

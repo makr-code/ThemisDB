@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -16,6 +16,7 @@ Canonical_References:
   - ../../include/sharding/raft_log.h
   - ../../include/sharding/raft_state.h
   - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/cross_shard_transaction.h
   - ../../include/sharding/two_phase_commit_coordinator.h
   - ../../include/sharding/distributed_transaction.h
@@ -57,16 +58,17 @@ hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
 
-The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
-`include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
-configured decision-record callback succeeds, phase-two failure remains an error/in-doubt
-transaction and must not be rewritten as ABORT. Crash durability depends on enabling the
-coordinator's persistence backend. Their public lifecycle, transports, and coordinator-specific
-WAL/recovery paths remain separate: DIS-05 is closed, while the independent DIS-06 recovery boundary is not
-addressed here. `TwoPhaseCommitCoordinator` can re-drive WAL decisions when configured;
-`CrossShardTransactionCoordinator::recoverFromWAL()` only restores state and reports resume
-candidates, not automatic phase-two re-drive. This closure covers only the named pair, not
-repo-wide 2PC convergence.
+For the DIS-05/DIS-06 named pair, `TwoPhaseCommitCoordinator` is the canonical
+durable decision authority. `CrossShardTransactionCoordinator` delegates its 2PC
+path and decision replay while retaining lifecycle, SSI and other protocols.
+BEGIN, immutable COMMIT/ABORT and completion are synced at their protocol
+boundaries; no coordinator WAL means no 2PC writes. Missing recovered endpoints
+or incomplete decision delivery block readiness. A participant timeout never
+locally aborts a prepared transaction or releases its locks. See [API.md](API.md)
+and [RUNBOOK.md](RUNBOOK.md) for staging, replay and operational constraints.
+WAL formats remain separate, with no silent migration of older unresolved
+CrossShard-only 2PC state. Full DIS-06 crash/transport/release acceptance remains
+open; this is not repo-wide 2PC convergence.
 `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`) is a third
 2PC-capable public surface with separate transaction, endpoint, and recovery paths; it remains
 outside DIS-05.
@@ -86,8 +88,9 @@ Out of scope:
 ## Integrationsueberblick
 
 The router and coordinators form the main request path. Transaction coordination
-records decisions through coordinator-specific WAL implementations; transport
-and recovery behavior remain specific to each coordinator.
+records 2PC decisions through the canonical coordinator. Lifecycle, participant
+and replication WALs retain distinct responsibilities; endpoint/TLS resolution
+must be supplied by the deployment.
 
 ```mermaid
 flowchart LR

@@ -793,19 +793,21 @@ production baselines.
 ## 🔴 Graph Module Completion (Q3 2026)
 ## Issue #5373 - Commit/Prepare/Abort/WAL/Recovery Inventory (`sharding/` + `replication/`)
 
-Status: [x] DIS-05 named-pair execution contract implemented; coordinator-specific WAL/recovery remain outside this closure
-Last Updated: 2026-11-01
-Canonical implementation: `include/sharding/detail/two_phase_commit_contract.h`
+Status: [~] CrossShard 2PC now delegates to the canonical coordinator and its WAL; focused validation and remaining recovery-edge tests are open (DIS-05)
+Last Updated: 2026-11-19
+Canonical 2PC implementation: `include/sharding/two_phase_commit_coordinator.h`
+Shared execution contract: `include/sharding/detail/two_phase_commit_contract.h`
 Contract regression coverage: `tests/test_two_phase_commit.cpp`
+Decision: `audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md` selects `TwoPhaseCommitCoordinator` as canonical for direct 2PC.
 
 ### Component Inventory (current implementation paths)
 
 | Module | Component / File | Commit/Prepare/Abort/WAL/Recovery responsibility |
 |---|---|---|
-| sharding | `include/sharding/cross_shard_transaction.h`, `src/sharding/cross_shard_transaction.cpp` | Protocol dispatcher + core execution paths (`execute2PC`, `execute3PC`, `executePercolator`, `executeCalvin`, `executeSaga`), participant `prepare/commit/abort` RPC driving, WAL-backed `recoverFromWAL`. Its 2PC path delegates phase ordering, configured decision-persistence gating, and failure outcomes to the shared contract in `include/sharding/detail/two_phase_commit_contract.h`. |
-| sharding | `include/sharding/transaction_wal.h`, `src/sharding/transaction_wal.cpp` | Canonical transaction WAL for `BEGIN/PREPARE/PREPARED/COMMIT/COMMITTED/ABORT/ABORTED/COMPENSATE`; protocol tagging for 2PC/3PC/SAGA/Percolator/Calvin. |
+| sharding | `include/sharding/cross_shard_transaction.h`, `src/sharding/cross_shard_transaction.cpp` | Multi-protocol facade and public 2PC lifecycle. 2PC prepare/decision/phase-two dispatch and WAL recovery delegate to `TwoPhaseCommitCoordinator`; `TransactionWAL` and snapshots remain responsible for non-2PC protocols. |
+| sharding | `include/sharding/transaction_wal.h`, `src/sharding/transaction_wal.cpp` | Transaction WAL for CrossShard non-2PC protocols and legacy 2PC records; current CrossShard 2PC decisions are written only by the canonical coordinator WAL. |
 | sharding | `include/sharding/transaction_snapshot.h`, `src/sharding/transaction_snapshot.cpp` | Snapshot manager used with transaction WAL for faster in-doubt recovery bootstrap. |
-| sharding | `include/sharding/two_phase_commit_coordinator.h`, `src/sharding/two_phase_commit_coordinator.cpp` | Canonical standalone 2PC API (phase-1 prepare vote collection, configured decision persistence, phase-2 commit/abort acknowledgements) + coordinator-specific WAL re-drive of in-doubt txns; uses the same shared execution contract as `CrossShardTransactionCoordinator`. |
+| sharding | `include/sharding/two_phase_commit_coordinator.h`, `src/sharding/two_phase_commit_coordinator.cpp` | Canonical direct 2PC API and authoritative 2PC WAL/recovery owner, including CrossShard adapter transactions and endpoint restoration for phase-two replay. |
 | sharding | `include/sharding/distributed_transaction.h`, `src/sharding/distributed_transaction.cpp` | Separate 2PC-capable `DistributedTransactionCoordinator` with its own transaction/endpoint and recovery paths; outside the DIS-05 named pair and shared contract. |
 | sharding | `include/sharding/two_phase_commit_participant.h`, `src/sharding/two_phase_commit_participant.cpp` | Participant-side PREPARE/COMMIT/ABORT state machine, idempotency handling, WAL persistence, participant-local `recoverFromWAL`. |
 | sharding | `include/sharding/shard_rpc_client.h`, `src/sharding/shard_rpc_client.cpp` | Transport layer for coordinator->participant PREPARE/COMMIT/ABORT RPC delivery (`handlePrepareGrpc`, `handleCommitGrpc`, `handleAbortGrpc`). |
@@ -820,7 +822,7 @@ Contract regression coverage: `tests/test_two_phase_commit.cpp`
 
 | Protocol | sharding | replication | Current flow summary |
 |---|---|---|---|
-| 2PC | ✅ | ❌ | The named DIS-05 pair shares coordinator-side decision/phase ordering and failure semantics. `TwoPhaseCommitCoordinator` re-drives its own WAL decision when configured; `CrossShardTransactionCoordinator::recoverFromWAL()` restores state/reports resume candidates and does not automatically re-drive phase two. `DistributedTransactionCoordinator` is a separate 2PC-capable surface outside DIS-05. |
+| 2PC | ✅ | ❌ | `TwoPhaseCommitCoordinator` is canonical for direct 2PC and owns CrossShard 2PC participant dispatch, durable decisions, and replay. CrossShard retains its API lifecycle and validation facade but does not write/replay a second 2PC WAL. Legacy unresolved CrossShard-only 2PC records fail startup. Focused validation, broader recovery edges, and DIS-06 alignment remain open; `DistributedTransactionCoordinator` remains outside DIS-05. |
 | 3PC | ✅ | ❌ | Prepare -> PreCommit callback phase -> final commit; missing PreCommit callback fails closed with abort logging. |
 | Percolator | ✅ | ❌ | Primary-lock optimistic flow with TrueTime commit-wait and WAL phase logging for takeover/recovery. |
 | Calvin | ✅ | ❌ | Deterministic pre-order execution path (`executeCalvin`) without classic vote round; uses coordinator transaction state + WAL durability hooks. |
@@ -829,15 +831,17 @@ Contract regression coverage: `tests/test_two_phase_commit.cpp`
 
 ### Short Flow Notes for Refactoring Planning
 
-- DIS-05 covers the named pair: `TwoPhaseCommitCoordinator` is the standalone 2PC API and `CrossShardTransactionCoordinator` delegates its 2PC decision/phase contract to the shared coordinator-side execution contract. Their transports (RequestHandler/adapter versus `ShardRPCClient` endpoints), transaction lifecycles, WAL formats, and recovery implementations remain coordinator-specific. A third public 2PC-capable surface, `DistributedTransactionCoordinator`, is not part of this closure.
+- DIS-05/DIS-06 named-pair implementation: `TwoPhaseCommitCoordinator` is the canonical durable 2PC decision authority; `CrossShardTransactionCoordinator` delegates its 2PC prepare/commit/abort and decision replay to it while retaining its broader lifecycle and non-2PC protocols. Coordinator, participant, and replication WAL formats remain separate. A third public 2PC-capable surface, `DistributedTransactionCoordinator`, is outside this consolidation.
+- CrossShard now constructs its internal canonical coordinator; public entry points remain available. No wider external-caller/API removal is included.
+- DIS-06 recovery contract: sync BEGIN before PREPARE, sync immutable COMMIT/ABORT before phase two, and sync completion only after all acknowledgements. Prepared participants retain locks across local timeouts and restart; unresolved startup decisions or missing participant endpoints block readiness. No automatic migration of unresolved older CrossShard decision records is provided; these fail closed.
+- DIS-05 selection is recorded in the accepted ADR; the public CrossShard lifecycle, SSI validation, and non-2PC persistence remain in its facade. Canonical BEGIN records retain participant endpoints for restart replay, while unresolved legacy CrossShard-only 2PC records fail startup rather than using a second decision authority.
 - The source review found no direct production instantiations of the two DIS-05 classes in `src/` or `include/`; their public APIs remain used/referenced by tests and documentation.
-- Recovery remains coordinator-specific: `TwoPhaseCommitCoordinator` re-drives recorded decisions from its WAL; `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports resume candidates but does not automatically re-drive phase-two RPCs. A common cross-coordinator recovery format is not established by DIS-05.
 - Replication centers on **WAL streaming, quorum commit-index, and slot/membership state replay**, not on 2PC-style prepare/abort transaction protocols.
 
 ### Identified Risks / Redundancies
 
-- **2PC execution divergence (DIS-05):** Closed by sharing phase ordering, configured decision-persistence gating, and terminal failure semantics. Public APIs and coordinator-specific WAL/recovery remain separate; keep contract tests covering both paths.
-- **Recovery surface fragmentation (DIS-06):** Remains a separate boundary. This closure does not unify WAL encoding, recovery replay, snapshots, or coordinator handoff.
+- **2PC coordinator consolidation (DIS-05):** The adapter and canonical WAL ownership are implemented; focused build/test evidence and remaining decision-write/recovery edge cases remain open. Keep CrossShard non-2PC protocols unchanged and do not claim release readiness until the gates pass.
+- **Recovery evidence (DIS-06 / #8200):** Named-pair authority and blocking participant semantics are implemented; acceptance remains open pending executed crash-matrix, transport/platform evidence and maintainer approval. WAL encoding, snapshots, replica transport, and coordinator handoff are not unified. See `audit/ROADMAP.md` and `src/sharding/RUNBOOK.md`.
 - **Separate coordinator boundary:** `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`, `src/sharding/distributed_transaction.cpp`) also supports 2PC but is outside this named-pair contract. Its semantics require separate review; DIS-05 does not claim repo-wide 2PC convergence.
 - **Protocol asymmetry risk:** 2PC/3PC/Percolator/Calvin/SAGA exist only in sharding; replication has different commit semantics (quorum/WAL), so shared refactoring must preserve module-specific invariants.
 - **Error-path consistency risk:** 3PC depends on injected PreCommit RPC callback and fail-closed behavior; misconfiguration handling differs from 2PC and from replication failover paths.

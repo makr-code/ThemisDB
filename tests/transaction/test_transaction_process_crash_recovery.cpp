@@ -1,19 +1,25 @@
 #include "transaction/distributed_transaction_manager.h"
 #include "sharding/epoch_fencing.h"
 #include "sharding/two_phase_commit_participant.h"
+#include "sharding/two_phase_commit_coordinator.h"
+#include "transaction/lock_manager.h"
 
 #include <gtest/gtest.h>
+#include <rocksdb/db.h>
+#include <rocksdb/write_batch.h>
 
 #include <algorithm>
 #include <atomic>
 #include <cerrno>
 #include <chrono>
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #if !defined(_WIN32)
@@ -75,7 +81,7 @@ std::string makePreparePayload(
 }
 
 std::string makeTempDirectory(const std::string& scenario) {
-    const auto path = std::filesystem::temp_directory_path() /
+    const auto path = std::filesystem::current_path() /
         ("themis_process_crash_" + scenario + "_" +
          std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
     std::filesystem::create_directories(path);
@@ -306,6 +312,9 @@ public:
     ChildProcessGuard(pid_t pid, int read_fd) : pid_(pid), read_fd_(read_fd) {}
     ChildProcessGuard(const ChildProcessGuard&) = delete;
     ChildProcessGuard& operator=(const ChildProcessGuard&) = delete;
+    ChildProcessGuard(ChildProcessGuard&& other) noexcept
+        : pid_(std::exchange(other.pid_, -1)),
+          read_fd_(std::exchange(other.read_fd_, -1)) {}
 
     ~ChildProcessGuard() {
         terminateAndReap();
@@ -462,9 +471,578 @@ ChildProcessGuard startReplicaChild(
     ::close(pipe_fds[1]);
     return ChildProcessGuard(pid, pipe_fds[0]);
 }
+
+// DIS-06 test-only transport: these pipes cross exec'd process boundaries but
+// do not exercise ShardRPC gRPC/mTLS, network partitions, Raft, or replication.
+// Only the RequestHandler boundary is proxied; production coordinator,
+// participant, WAL, LockManager and RocksDB execute without transport substitutes
+// in production code. The older DTM/replica cases above remain WAL-only evidence.
+class ProcessPipe {
+public:
+    ProcessPipe() {
+        if (::pipe(fds_) != 0) {
+            throw std::runtime_error("could not create canonical 2PC pipe");
+        }
+        for (const int fd : fds_) {
+            if (::fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
+                closeRead();
+                closeWrite();
+                throw std::runtime_error("could not protect canonical 2PC pipe");
+            }
+        }
+    }
+    ~ProcessPipe() { closeRead(); closeWrite(); }
+    ProcessPipe(const ProcessPipe&) = delete;
+    ProcessPipe& operator=(const ProcessPipe&) = delete;
+    int reader() const { return fds_[0]; }
+    int writer() const { return fds_[1]; }
+    void closeRead() { closeDescriptor(fds_[0]); }
+    void closeWrite() { closeDescriptor(fds_[1]); }
+
+private:
+    static void closeDescriptor(int& fd) {
+        if (fd >= 0) {
+            ::close(fd);
+            fd = -1;
+        }
+    }
+    int fds_[2]{-1, -1};
+};
+
+void writePacket(int fd, const nlohmann::json& packet) {
+    const auto bytes = packet.dump() + "\n";
+    size_t written = 0;
+    while (written < bytes.size()) {
+        const auto count = ::write(fd, bytes.data() + written, bytes.size() - written);
+        if (count < 0 && errno == EINTR) {
+            continue;
+        }
+        if (count <= 0) {
+            throw std::runtime_error("canonical 2PC pipe write failed");
+        }
+        written += static_cast<size_t>(count);
+    }
+}
+
+nlohmann::json readPacket(int fd) {
+    std::string bytes;
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+    while (bytes.size() < 1024 * 1024) {
+        const auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
+            deadline - std::chrono::steady_clock::now()).count();
+        if (remaining <= 0) {
+            throw std::runtime_error("canonical 2PC pipe response timed out");
+        }
+        pollfd descriptor{fd, POLLIN, 0};
+        const auto ready = ::poll(&descriptor, 1, static_cast<int>(remaining));
+        if (ready < 0 && errno == EINTR) {
+            continue;
+        }
+        char byte = '\0';
+        if (ready <= 0 || ::read(fd, &byte, 1) != 1) {
+            throw std::runtime_error("canonical 2PC pipe closed or timed out");
+        }
+        if (byte == '\n') {
+            return nlohmann::json::parse(bytes);
+        }
+        bytes.push_back(byte);
+    }
+    throw std::runtime_error("canonical 2PC pipe packet exceeds limit");
+}
+
+ChildProcessGuard startCanonicalChild(
+    std::vector<std::string> arguments, const std::vector<int>& inherited_fds
+) {
+    ProcessPipe control;
+    arguments.insert(arguments.begin(), g_executable_path);
+    arguments.push_back(std::to_string(control.writer()));
+    std::vector<char*> argv;
+    for (auto& argument : arguments) {
+        argv.push_back(argument.data());
+    }
+    argv.push_back(nullptr);
+    const auto pid = ::fork();
+    if (pid < 0) {
+        throw std::runtime_error("could not fork canonical 2PC child");
+    }
+    if (pid == 0) {
+        for (const int fd : inherited_fds) {
+            if (::fcntl(fd, F_SETFD, 0) < 0) {
+                ::_exit(126);
+            }
+        }
+        if (::fcntl(control.writer(), F_SETFD, 0) < 0) {
+            ::_exit(126);
+        }
+        ::execv(g_executable_path.c_str(), argv.data());
+        ::_exit(127);
+    }
+    // Transfer the read end to the existing process-reaping guard.
+    const int read_fd = ::dup(control.reader());
+    if (read_fd < 0) {
+        ChildProcessGuard cleanup(pid, -1);
+        throw std::runtime_error("could not retain canonical child control pipe");
+    }
+    ::fcntl(read_fd, F_SETFD, FD_CLOEXEC);
+    return ChildProcessGuard(pid, read_fd);
+}
+
+class PipeRequestHandler final : public themis::sharding::ShardRPCServer::RequestHandler {
+public:
+    PipeRequestHandler(int request_fd, int response_fd,
+                       std::string stage = {}, int control_fd = -1)
+        : request_fd_(request_fd), response_fd_(response_fd),
+          stage_(std::move(stage)), control_fd_(control_fd) {}
+
+    nlohmann::json request(const nlohmann::json& message) {
+        writePacket(request_fd_, message);
+        return readPacket(response_fd_);
+    }
+    bool onPrepare(const std::string& id, const std::string& coordinator,
+                   const std::string& payload) override {
+        if (stage_ == "before_prepare") {
+            notifyAndWait(control_fd_, 'B');
+        }
+        return request({{"method", "prepare"}, {"id", id},
+                        {"coordinator", coordinator}, {"payload", payload}}).at("ok");
+    }
+    bool onCommit(const std::string& id) override { return phaseTwo("commit", id); }
+    bool onAbort(const std::string& id) override { return phaseTwo("abort", id); }
+    themis::sharding::ShardRPCServer::HealthInfo onHealthCheck() override { return {}; }
+
+private:
+    bool phaseTwo(const std::string& method, const std::string& id) {
+        if (stage_ == "crash_decision") {
+            notifyAndWait(control_fd_, 'D');
+        }
+        const bool acknowledged = request({{"method", method}, {"id", id}}).at("ok");
+        // The participant really receives and durably applies the decision;
+        // this fault drops its reply, never fabricates a successful ACK.
+        return acknowledged && stage_ != "drop_ack";
+    }
+    int request_fd_;
+    int response_fd_;
+    std::string stage_;
+    int control_fd_;
+};
+
+class ParticipantProcess {
+public:
+    ParticipantProcess(const std::string& root, const std::string& shard)
+        : process_(startCanonicalChild(
+              {"--canonical-participant", root, shard,
+               std::to_string(requests_.reader()), std::to_string(replies_.writer())},
+              {requests_.reader(), replies_.writer()})),
+          handler_(requests_.writer(), replies_.reader()) {
+        requests_.closeRead();
+        replies_.closeWrite();
+        char marker = '\0';
+        if (!process_.waitForMarker(marker) || marker != 'S') {
+            throw std::runtime_error("canonical participant did not become ready");
+        }
+    }
+    PipeRequestHandler& handler() { return handler_; }
+    nlohmann::json descriptor(const std::string& shard) const {
+        return {{"shard", shard}, {"request", requests_.writer()},
+                {"reply", replies_.reader()}};
+    }
+    void crash() { process_.terminateAndReap(); }
+
+private:
+    ProcessPipe requests_;
+    ProcessPipe replies_;
+    ChildProcessGuard process_;
+    PipeRequestHandler handler_;
+};
+
+int runCanonicalParticipant(const std::string& root, const std::string& shard,
+                            int request_fd, int reply_fd, int control_fd) {
+    using namespace themis::sharding;
+    rocksdb::Options options;
+    options.create_if_missing = true;
+    rocksdb::DB* raw_db = nullptr;
+    const auto opened = rocksdb::DB::Open(options, root + "/" + shard + "-db", &raw_db);
+    std::unique_ptr<rocksdb::DB> db(raw_db);
+    if (!opened.ok()) {
+        return 30;
+    }
+    themis::LockManager locks;
+    constexpr themis::LockManager::TransactionId owner = 1;
+    const std::string key = "process-key";
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = root + "/" + shard + "-wal";
+    // Zero deterministically expires PREPARE without sleep-based timing.
+    config.prepare_timeout = std::chrono::milliseconds(0);
+    EpochFencingConfig fencing;
+    fencing.shard_id = shard;
+    fencing.node_id = "canonical-coordinator";
+    fencing.auto_stonith = false;
+    config.fencing_manager = std::make_shared<EpochFencingManager>(fencing);
+    size_t apply_calls = 0;
+    TwoPhaseCommitParticipant participant(
+        shard, config,
+        [&](const std::string&, const nlohmann::json& ops) {
+            if (ops.empty() || ops.at(0).value("reject", false)) {
+                return false;
+            }
+            return locks.acquireLock(owner, key, themis::LockType::EXCLUSIVE,
+                                     std::chrono::milliseconds(0)).status ==
+                   themis::LockStatus::GRANTED;
+        },
+        [&](const std::string& id, const nlohmann::json& ops, int64_t) {
+            // Test wiring to a real durable store, not the shard server's full
+            // TransactionManager/index/MVCC integration.
+            ++apply_calls;
+            std::string existing;
+            const auto prior = db->Get(rocksdb::ReadOptions{}, "applied/" + id, &existing);
+            if (prior.ok()) {
+                return true;
+            }
+            if (!prior.IsNotFound()) {
+                return false;
+            }
+            rocksdb::WriteBatch batch;
+            batch.Put(key, ops.at(0).at("value").get<std::string>());
+            batch.Put("applied/" + id, "1");
+            rocksdb::WriteOptions write_options;
+            write_options.sync = true;
+            return db->Write(write_options, &batch).ok();
+        },
+        [&](const std::string&) { locks.releaseAllLocks(owner); });
+    const char ready = 'S';
+    if (::write(control_fd, &ready, 1) != 1) {
+        return 31;
+    }
+    for (;;) {
+        const auto message = readPacket(request_fd);
+        const auto method = message.at("method").get<std::string>();
+        const auto id = message.at("id").get<std::string>();
+        nlohmann::json response;
+        if (method == "prepare") {
+            response["ok"] = participant.onPrepare(
+                id, message.at("coordinator"), message.at("payload"));
+        } else if (method == "commit") {
+            response["ok"] = participant.onCommit(id);
+        } else if (method == "abort") {
+            response["ok"] = participant.onAbort(id);
+        } else if (method == "inspect") {
+            response["timeouts_aborted"] = participant.abortTimedOutTransactions();
+            response["ready"] = participant.onHealthCheck().is_healthy;
+            const auto state = participant.getTransactionState(id);
+            response["state"] = state ? static_cast<int>(*state) : -1;
+            response["locked"] = locks.holdsLock(owner, key, themis::LockType::EXCLUSIVE);
+            const auto probe = locks.acquireLock(
+                2, key, themis::LockType::EXCLUSIVE, std::chrono::milliseconds(0));
+            response["conflict_blocked"] = probe.status != themis::LockStatus::GRANTED;
+            locks.releaseAllLocks(2);
+            std::string value;
+            const auto found = db->Get(rocksdb::ReadOptions{}, key, &value);
+            response["value"] = found.ok() ? value : "";
+            response["applied"] = db->Get(
+                rocksdb::ReadOptions{}, "applied/" + id, &value).ok();
+            response["apply_calls"] = apply_calls;
+        } else {
+            return 32;
+        }
+        writePacket(reply_fd, response);
+    }
+}
+
+int runCanonicalCoordinator(const std::string& stage, const std::string& root,
+                            bool do_commit, const nlohmann::json& endpoints,
+                            int control_fd) {
+    using namespace themis::sharding;
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = root + "/canonical-coordinator-wal";
+    config.fencing_token_provider = [](const std::string& shard) -> std::optional<EpochToken> {
+        EpochToken token;
+        token.epoch = 1;
+        token.issuer = "canonical-coordinator";
+        token.shard_id = shard;
+        token.issued_at = std::chrono::system_clock::now();
+        return token;
+    };
+    TwoPhaseCommitCoordinator coordinator("canonical-coordinator", config);
+    std::vector<std::unique_ptr<PipeRequestHandler>> proxies;
+    for (const auto& endpoint : endpoints) {
+        if (stage == "missing_participant" && endpoint.at("shard") == "b") {
+            continue;
+        }
+        proxies.push_back(std::make_unique<PipeRequestHandler>(
+            endpoint.at("request"), endpoint.at("reply"), stage, control_fd));
+        coordinator.registerParticipant(endpoint.at("shard"), proxies.back().get());
+    }
+    const std::string id = do_commit ? "canonical-commit" : "canonical-abort";
+    if (stage == "crash_decision" || stage == "before_prepare" ||
+        stage == "after_prepare") {
+        const auto ops = nlohmann::json::array({
+            {{"type", "put"}, {"key", "process-key"}, {"value", "durable-value"}}
+        });
+        auto second_ops = ops;
+        second_ops[0]["reject"] = !do_commit && stage == "crash_decision";
+        if (stage == "after_prepare") {
+            if (!coordinator.prepare(id, {{"a", ops}, {"b", second_ops}})) {
+                return 43;
+            }
+            notifyAndWait(control_fd, 'P');
+        }
+        (void)coordinator.commit(id, {{"a", ops}, {"b", second_ops}});
+        return 40; // The selected crash barrier must stop the process.
+    }
+    if (coordinator.isReady()) {
+        return 44; // Startup WAL must block readiness before any recovery RPC.
+    }
+    const auto report = GlobalTwoPhaseCommitRecoveryManager::recoverAll({&coordinator});
+    const bool expect_ack = stage == "recover_ack";
+    if (report.resolved != (expect_ack ? 1u : 0u) ||
+        report.in_doubt_after != (expect_ack ? 0u : 1u) ||
+        report.ready_for_service != expect_ack ||
+        coordinator.isReady() != expect_ack ||
+        coordinator.getRecoverableTransactions().empty() != expect_ack) {
+        return 41;
+    }
+    notifyAndWait(control_fd, expect_ack ? 'R' : 'U');
+    return 0;
+}
+
+ChildProcessGuard startCanonicalCoordinator(
+    const std::string& stage, const std::string& root, bool do_commit,
+    const ParticipantProcess& first, const ParticipantProcess& second
+) {
+    const auto endpoints = nlohmann::json::array({
+        first.descriptor("a"), second.descriptor("b")});
+    std::vector<int> fds;
+    for (const auto& endpoint : endpoints) {
+        fds.push_back(endpoint.at("request"));
+        fds.push_back(endpoint.at("reply"));
+    }
+    return startCanonicalChild(
+        {"--canonical-coordinator", stage, root, do_commit ? "commit" : "abort",
+         endpoints.dump()}, fds);
+}
+
+class CrashDirectory {
+public:
+    explicit CrashDirectory(const std::string& scenario) : path(makeTempDirectory(scenario)) {}
+    ~CrashDirectory() {
+        std::error_code error;
+        std::filesystem::remove_all(path, error);
+    }
+    const std::string path;
+};
 #endif
 
 } // namespace
+
+TEST(TransactionProcessCrashRecovery, CanonicalDecisionsSurviveProcessCrashesAndLostAcknowledgements) {
+#if defined(_WIN32)
+    GTEST_SKIP() << "Canonical participant/coordinator IPC crash coverage requires POSIX";
+#else
+    using namespace themis::sharding;
+    for (const bool do_commit : {true, false}) {
+        SCOPED_TRACE(do_commit ? "COMMIT" : "ABORT");
+        CrashDirectory directory(do_commit ? "canonical_commit" : "canonical_abort");
+        const auto& root = directory.path;
+        const std::string id = do_commit ? "canonical-commit" : "canonical-abort";
+        const auto coordinator_wal = root + "/canonical-coordinator-wal";
+        auto first = std::make_unique<ParticipantProcess>(root, "a");
+        auto second = std::make_unique<ParticipantProcess>(root, "b");
+        auto coordinator = startCanonicalCoordinator(
+            "crash_decision", root, do_commit, *first, *second);
+        char marker = '\0';
+        ASSERT_TRUE(coordinator.waitForMarker(marker));
+        ASSERT_EQ(marker, 'D');
+        coordinator.terminateAndReap();
+
+        const auto assert_decision = [&](bool completed) {
+            const auto entries = readWal(coordinator_wal);
+            size_t commits = 0, aborts = 0, completions = 0;
+            for (const auto& entry : entries) {
+                if (entry.transaction_id != id) {
+                    continue;
+                }
+                const auto phase = entry.data.value("phase", std::string{});
+                commits += entry.type == WALEntryType::COMMIT_TX && phase == "decision";
+                aborts += entry.type == WALEntryType::ABORT_TX && phase == "decision";
+                completions += phase == "complete";
+            }
+            EXPECT_EQ(commits, do_commit ? 1u : 0u);
+            EXPECT_EQ(aborts, do_commit ? 0u : 1u);
+            EXPECT_EQ(completions, completed ? 1u : 0u);
+        };
+        assert_decision(false);
+        const auto assert_prepared = [&] {
+            const auto inspection = first->handler().request(
+                {{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(inspection.at("state"), static_cast<int>(ParticipantTxnState::PREPARED));
+            EXPECT_TRUE(inspection.at("locked").get<bool>());
+            EXPECT_TRUE(inspection.at("conflict_blocked").get<bool>());
+            EXPECT_FALSE(inspection.at("ready").get<bool>());
+            EXPECT_EQ(inspection.at("timeouts_aborted"), 0);
+            EXPECT_FALSE(inspection.at("applied").get<bool>());
+        };
+        assert_prepared();
+        // A genuine SIGKILL/re-exec restores PREPARE and its real lock callback.
+        first->crash();
+        second->crash();
+        const auto prepared_entries = readWal(root + "/a-wal");
+        EXPECT_EQ(std::count_if(prepared_entries.begin(), prepared_entries.end(),
+            [&](const auto& entry) {
+                return entry.transaction_id == id && entry.type == WALEntryType::PREPARE_TX;
+            }), 1);
+        EXPECT_TRUE(std::none_of(prepared_entries.begin(), prepared_entries.end(),
+            [&](const auto& entry) {
+                return entry.transaction_id == id &&
+                    (entry.type == WALEntryType::COMMIT_TX ||
+                     entry.type == WALEntryType::ABORT_TX);
+            }));
+        first = std::make_unique<ParticipantProcess>(root, "a");
+        second = std::make_unique<ParticipantProcess>(root, "b");
+        assert_prepared();
+        assert_decision(false); // Expiration did not replace the durable decision.
+
+        auto unavailable = startCanonicalCoordinator(
+            "missing_participant", root, do_commit, *first, *second);
+        ASSERT_TRUE(unavailable.waitForMarker(marker));
+        ASSERT_EQ(marker, 'U');
+        unavailable.terminateAndReap();
+        assert_decision(false);
+        if (do_commit) {
+            const auto still_prepared = second->handler().request(
+                {{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(still_prepared.at("state"),
+                      static_cast<int>(ParticipantTxnState::PREPARED));
+            EXPECT_TRUE(still_prepared.at("locked").get<bool>());
+            EXPECT_TRUE(still_prepared.at("conflict_blocked").get<bool>());
+            EXPECT_FALSE(still_prepared.at("ready").get<bool>());
+            EXPECT_EQ(still_prepared.at("timeouts_aborted"), 0);
+        }
+        auto lost_ack = startCanonicalCoordinator(
+            "drop_ack", root, do_commit, *first, *second);
+        ASSERT_TRUE(lost_ack.waitForMarker(marker));
+        ASSERT_EQ(marker, 'U');
+        lost_ack.terminateAndReap();
+        assert_decision(false); // Real participant apply alone is not completion.
+
+        const auto terminal = do_commit ? ParticipantTxnState::COMMITTED
+                                        : ParticipantTxnState::ABORTED;
+        for (auto* participant : {first.get(), second.get()}) {
+            auto state = participant->handler().request({{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(state.at("state"), static_cast<int>(terminal));
+            EXPECT_FALSE(state.at("locked").get<bool>());
+            EXPECT_FALSE(state.at("conflict_blocked").get<bool>());
+            EXPECT_TRUE(state.at("ready").get<bool>());
+            EXPECT_EQ(state.at("applied").get<bool>(), do_commit);
+            EXPECT_EQ(state.at("value"), do_commit ? "durable-value" : "");
+            EXPECT_EQ(state.at("apply_calls"), do_commit ? 1u : 0u);
+            EXPECT_TRUE(do_commit ? participant->handler().onCommit(id)
+                                  : participant->handler().onAbort(id));
+            // An opposite terminal message must neither rewrite nor undo it.
+            EXPECT_FALSE(do_commit ? participant->handler().onAbort(id)
+                                   : participant->handler().onCommit(id));
+            state = participant->handler().request({{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(state.at("state"), static_cast<int>(terminal));
+            EXPECT_EQ(state.at("apply_calls"), do_commit ? 1u : 0u);
+        }
+
+        // Restart again after apply but before a coordinator completion record.
+        first->crash();
+        second->crash();
+        first = std::make_unique<ParticipantProcess>(root, "a");
+        second = std::make_unique<ParticipantProcess>(root, "b");
+        auto recovered = startCanonicalCoordinator(
+            "recover_ack", root, do_commit, *first, *second);
+        ASSERT_TRUE(recovered.waitForMarker(marker));
+        ASSERT_EQ(marker, 'R');
+        recovered.terminateAndReap();
+        assert_decision(true);
+        for (auto* participant : {first.get(), second.get()}) {
+            const auto state = participant->handler().request(
+                {{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(state.at("state"), static_cast<int>(terminal));
+            EXPECT_EQ(state.at("applied").get<bool>(), do_commit);
+            EXPECT_EQ(state.at("apply_calls"), 0);
+            EXPECT_FALSE(state.at("locked").get<bool>());
+        }
+    }
+#endif
+}
+
+TEST(TransactionProcessCrashRecovery, CanonicalPredecisionCrashesRecoverAbortAfterParticipantRestart) {
+#if defined(_WIN32)
+    GTEST_SKIP() << "Canonical participant/coordinator IPC crash coverage requires POSIX";
+#else
+    using namespace themis::sharding;
+    for (const std::string stage : {"before_prepare", "after_prepare"}) {
+        SCOPED_TRACE(stage);
+        CrashDirectory directory("canonical_" + stage);
+        const auto& root = directory.path;
+        const std::string id = "canonical-abort";
+        auto first = std::make_unique<ParticipantProcess>(root, "a");
+        auto second = std::make_unique<ParticipantProcess>(root, "b");
+        auto coordinator = startCanonicalCoordinator(stage, root, false, *first, *second);
+        char marker = '\0';
+        ASSERT_TRUE(coordinator.waitForMarker(marker));
+        ASSERT_EQ(marker, stage == "before_prepare" ? 'B' : 'P');
+        coordinator.terminateAndReap();
+        const bool prepared = stage == "after_prepare";
+        const auto assert_in_doubt = [&] {
+            for (auto* participant : {first.get(), second.get()}) {
+                const auto state = participant->handler().request(
+                    {{"method", "inspect"}, {"id", id}});
+                EXPECT_EQ(state.at("state"),
+                          prepared ? static_cast<int>(ParticipantTxnState::PREPARED) : -1);
+                EXPECT_EQ(state.at("locked").get<bool>(), prepared);
+                EXPECT_EQ(state.at("conflict_blocked").get<bool>(), prepared);
+                EXPECT_EQ(state.at("ready").get<bool>(), !prepared);
+                EXPECT_EQ(state.at("timeouts_aborted"), 0);
+                EXPECT_FALSE(state.at("applied").get<bool>());
+            }
+        };
+        assert_in_doubt();
+        first->crash();
+        second->crash();
+        first = std::make_unique<ParticipantProcess>(root, "a");
+        second = std::make_unique<ParticipantProcess>(root, "b");
+        assert_in_doubt();
+        const auto before_recovery = readWal(root + "/canonical-coordinator-wal");
+        EXPECT_TRUE(std::none_of(before_recovery.begin(), before_recovery.end(),
+            [&](const auto& entry) {
+                return entry.transaction_id == id &&
+                    (entry.type == WALEntryType::COMMIT_TX ||
+                     entry.type == WALEntryType::ABORT_TX);
+            }));
+
+        auto recovered = startCanonicalCoordinator(
+            "recover_ack", root, false, *first, *second);
+        ASSERT_TRUE(recovered.waitForMarker(marker));
+        ASSERT_EQ(marker, 'R');
+        recovered.terminateAndReap();
+        for (auto* participant : {first.get(), second.get()}) {
+            const auto state = participant->handler().request(
+                {{"method", "inspect"}, {"id", id}});
+            EXPECT_EQ(state.at("state"), static_cast<int>(ParticipantTxnState::ABORTED));
+            EXPECT_FALSE(state.at("locked").get<bool>());
+            EXPECT_FALSE(state.at("conflict_blocked").get<bool>());
+            EXPECT_TRUE(state.at("ready").get<bool>());
+            EXPECT_FALSE(state.at("applied").get<bool>());
+            EXPECT_EQ(state.at("apply_calls"), 0);
+        }
+        const auto recovered_entries = readWal(root + "/canonical-coordinator-wal");
+        size_t abort_decisions = 0, completions = 0;
+        for (const auto& entry : recovered_entries) {
+            if (entry.transaction_id == id) {
+                EXPECT_NE(entry.type, WALEntryType::COMMIT_TX);
+                abort_decisions += entry.type == WALEntryType::ABORT_TX &&
+                    entry.data.value("phase", std::string{}) == "decision";
+                completions += entry.data.value("phase", std::string{}) == "complete";
+            }
+        }
+        EXPECT_EQ(abort_decisions, 1u);
+        EXPECT_EQ(completions, 1u);
+    }
+#endif
+}
 
 TEST(TransactionProcessCrashRecovery, RecoversDecisionBoundariesAcrossCoordinatorRestart) {
 #if defined(_WIN32)
@@ -797,6 +1375,27 @@ TEST(TransactionProcessCrashRecovery, ReplicaProcessCrashMatrixRecoversCommitted
 
 int main(int argc, char** argv) {
 #if !defined(_WIN32)
+    ::signal(SIGPIPE, SIG_IGN);
+    if (argc == 7 && std::string(argv[1]) == "--canonical-participant") {
+        try {
+            return runCanonicalParticipant(
+                argv[2], argv[3], std::stoi(argv[4]), std::stoi(argv[5]),
+                std::stoi(argv[6]));
+        } catch (const std::exception& error) {
+            std::cerr << "canonical participant: " << error.what() << '\n';
+            return 33;
+        }
+    }
+    if (argc == 7 && std::string(argv[1]) == "--canonical-coordinator") {
+        try {
+            return runCanonicalCoordinator(
+                argv[2], argv[3], std::string(argv[4]) == "commit",
+                nlohmann::json::parse(argv[5]), std::stoi(argv[6]));
+        } catch (const std::exception& error) {
+            std::cerr << "canonical coordinator: " << error.what() << '\n';
+            return 42;
+        }
+    }
     if (argc == 6 && std::string(argv[1]) == "--dtm-crash-child") {
         try {
             return runCoordinatorChild(

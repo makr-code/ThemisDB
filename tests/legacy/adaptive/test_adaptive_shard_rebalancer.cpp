@@ -392,16 +392,16 @@ TEST(LiveMigration, LiveMigrateWithTopology_UpdatesTokenRanges) {
 // AutoRebalancer integration tests
 // ─────────────────────────────────────────────────────────────────────────────
 
+static AutoRebalancer::MigrationResult rejectUnexpectedMigration(
+    const AutoRebalancer::MigrationRequest&) {
+    ADD_FAILURE() << "Unexpected migration";
+    return {AutoRebalancer::MigrationOutcome::REJECTED, {}};
+}
+
 TEST(AdaptiveShardRebalancer, SetSplitPolicy_DoesNotThrow) {
     auto topology  = makeTopology();
     auto detector  = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     HotShardSplitPolicy::Config pcfg;
     auto policy = std::make_shared<HotShardSplitPolicy>(detector, pcfg);
@@ -412,13 +412,7 @@ TEST(AdaptiveShardRebalancer, SetSplitPolicy_DoesNotThrow) {
 TEST(AdaptiveShardRebalancer, GetStatisticsIncludesSplitProposalCounter) {
     auto topology  = makeTopology();
     auto detector  = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     auto stats = rebalancer.getStatistics();
     EXPECT_TRUE(stats.contains("split_proposals_total"));
@@ -428,13 +422,7 @@ TEST(AdaptiveShardRebalancer, GetStatisticsIncludesSplitProposalCounter) {
 TEST(AdaptiveShardRebalancer, SetAuditLogger_DoesNotThrow) {
     auto topology = makeTopology();
     auto detector = makeDetector();
-    DataMigratorConfig dcfg;
-    dcfg.source_endpoint = "src:8080";
-    dcfg.target_endpoint = "tgt:8080";
-    dcfg.enable_idempotency = false;
-    auto migrator = std::make_shared<DataMigrator>(dcfg);
-
-    AutoRebalancer rebalancer(topology, detector, nullptr, migrator);
+    AutoRebalancer rebalancer(topology, detector, nullptr, rejectUnexpectedMigration);
 
     // Passing nullptr should be safe (disables audit logging)
     EXPECT_NO_THROW(rebalancer.setAuditLogger(nullptr));

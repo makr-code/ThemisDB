@@ -68,6 +68,10 @@ inline constexpr std::size_t kMaxShards = 4096;
 // § 2  2PC Transaction Contract: prepare / commit / abort
 //
 // Two-phase commit invariants:
+//   - TwoPhaseCommitCoordinator is the canonical 2PC decision authority.
+//     Durable operation requires its WAL; BEGIN precedes PREPARE and the
+//     immutable COMMIT/ABORT decision is synced before phase-two delivery.
+//     Completion requires participant acknowledgements and a synced completion.
 //   - prepare(): each participant records the transaction in its WAL before
 //     returning PREPARED. No side effects are visible before commit().
 //   - commit(): each participant applies the prepared writes and marks the
@@ -81,6 +85,8 @@ inline constexpr std::size_t kMaxShards = 4096;
 //     commit()/abort(), participants remain in IN_DOUBT until the coordinator
 //     recovers and re-drives the decision. Participants in IN_DOUBT MUST block
 //     conflicting writes (pessimistic locking) until resolved.
+//     A local timeout requests reconciliation, never unilateral ABORT or lock
+//     release. Missing/unreachable coordinators leave the decision unresolved.
 //   - Double-commit safety: a second commit() call for the same txn-id is a
 //     no-op; the participant does NOT re-apply writes or emit a WAL entry.
 // ============================================================================
