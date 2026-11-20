@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/consistent_hash.h`, `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `include/storage/mvcc_store.h`, `include/storage/rocksdb_wrapper.h`, `src/sharding/consistent_hash.cpp`, `src/storage/mvcc_store.cpp`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `tests/sharding/test_dis03_routing_contract_focused.cpp`, `tests/storage/test_mvcc_range_export.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -106,6 +106,95 @@ contracts do not establish shared durable DR metadata or genuine multi-process
 failover/recovery E2E behavior; both remain open blockers.
 
 ## Caller and maintainer obligations
+
+### Shard transfer (DIS-03)
+
+`AutoRebalancer` now requires a `MigrationExecutor` instead of a `DataMigrator`.
+`makeShardTransferExecutor()` connects a trusted, storage-owned immutable range
+export to `ShardRPCClient::transferShard()`. The source adapter supplies the
+exact assigned manifest, a verified-mTLS target client, and a bounded indexed
+chunk reader. The adapter must use its durable assignment to bind the approved
+operation to a migration ID, source, destination, range and topology epoch; the
+migration ID is independently assigned and need not equal the operation ID.
+The manifest also binds the snapshot watermark, chunk count, byte count and
+ordered-payload SHA-256.
+
+Storage adapters can use `materializeShardRangeSnapshot()` to encode a pinned,
+ordered scan of live logical records for a half-open token range. The helper
+validates ordering and token bounds and produces an immutable, indexed export
+of up to 64 MiB. It neither derives routing tokens nor opens the backing
+snapshot; those are the adapter's responsibility. The receiver's local
+`readVerified()` API can inspect the persisted stream only for the exact,
+still-current verified manifest. It is not a network read or cutover API.
+
+Do not wire a production scanner by hashing MVCC base keys directly.
+`RoutingKeyDescriptor` and `resolveRoutingToken()` now expose typed,
+versioned token resolution; `RingOwnershipSnapshot` captures exact segments
+and `ownsKeyInSnapshot()` checks token ownership against the snapshot epoch.
+These helpers are not connected to the existing routing calls or to durable
+assignments. `MVCCStore::SnapshotReader` now provides one-sequence enumeration,
+version selection and explicit `Put`/`Delete` records, but it is process-local
+and cannot resume after source restart. Production export remains disabled
+until these primitives are composed with durable assignment authorization,
+range quiescence, durable export/checkpoints and recoverable fenced cutover.
+
+The destination exposes dedicated PREPARE, stream, verify and abort RPCs only
+when configured with a `ShardTransferStore`, verified client certificates and
+explicit transfer identity bindings. The store requires a durable assignment
+and rechecks its currency on each request. PREPARE and chunk acknowledgements
+reflect durable staging; successful verification does not publish the range.
+This API neither uses 2PC PREPARE nor falls back to HTTP or local staging on
+the sender.
+
+The supplied executor reports at most `TRANSFER_VERIFIED`; only an executor
+with an authoritative fenced cutover may return `OWNERSHIP_COMMITTED`.
+Application composition must supply the export and authority adapters; the
+server does not provision them automatically.
+
+### DIS-03 routing and snapshot primitives
+
+The [architecture record](ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)
+describes the implemented boundaries and the remaining production gates. These
+are local C++ primitives, not new RPC fields or a production transfer
+composition.
+
+| Implemented boundary | Contract |
+|---|---|
+| `RoutingKeyDescriptor` and `resolveRoutingToken()` | Exact key bytes, key type, supported algorithm/version and nonzero epoch resolve to a token. Partition-key FNV-1a/mix behavior has fixed vectors; UUID resolution is available only with xxHash and the explicit xxHash64 seed-0 identifier. Unsupported descriptors fail closed. Existing routing calls are unchanged. |
+| `RingOwnershipSnapshot` and `snapshotOwnership()` | Copies actual ring entries into immutable, normalized half-open intervals; computes a SHA-256 fingerprint over the epoch and entries. It represents the full-ring singleton and `2^64` endpoint explicitly. The supplied epoch and fingerprint are not authority credentials. |
+| `ownsKeyInSnapshot()` | Resolves a descriptor, requires its epoch to equal the snapshot epoch, and checks exact token ownership. This does not authorize an assignment or prevent topology changes. |
+| `RocksDBWrapper::SnapshotHandle` and `MVCCStore::SnapshotReader` | Own one RocksDB snapshot and its sequence; select the latest committed visible version per logical key under one HLC watermark; report tombstones explicitly and propagate cancellation, limits, iterator, and callback errors. The reader is process-local, not a durable transfer export. |
+| Durable transfer and ownership cutover | Not provided by these primitives. Durable assignment, export/resume, write quiescence, staging composition and authoritative fenced ownership commit remain required before rebalance completion. |
+
+Manifest evolution must explicitly bind key type/algorithm version, actual
+ownership segments, export format, snapshot sequence/HLC and logical record
+count alongside the existing assignment fields and digest. The current
+ascending-range manifest and key/value framing cannot silently acquire these
+semantics; version negotiation and migration of callers require review.
+Assignment admission and target publication remain separate authority steps.
+
+#### Token compatibility vectors for review
+
+`partition-key/fnv1a-mix64-v1` names the existing `hashKey()` algorithm, not a
+replacement hash. Input/output are hexadecimal bytes and unsigned 64-bit
+hexadecimal tokens. The focused routing test asserts these values; execution
+evidence remains pending until the target is built and run.
+
+| Input bytes | Expected token |
+|---|---|
+| `61` | `82a2a958a9bece5b` |
+| `616263` | `33ebaf9927cbc5bd` |
+| `610062` | `ab78f5eca36d0e2b` |
+| `ff` | `1bbd5c813c69a8d7` |
+
+The existing hash primitive maps an empty byte string to `efd01f60ba992926`;
+that is not approval to admit an empty routing key. Empty logical keys remain
+invalid for export. URN vectors must use the actual UUID string bytes with
+xxHash64 seed 0 and compare against deployed placement fixtures before
+as existing UUID string bytes; treating a UUID as binary or changing its
+spelling is not allowed. The explicit descriptor rejects UUID token resolution
+when xxHash is unavailable; `std::hash`-based placements have no portable
+token and are not silently assigned the xxHash contract.
 
 - Do not bypass the bounded fallback or reinterpret exhausted routing as success.
 - Do not resolve an uncertain transaction without its coordinator/recovery path.

@@ -12,12 +12,10 @@
 #include "sharding/auto_rebalancer.h"
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
-#include "sharding/data_migrator.h"
 #include "sharding/predictive_detector.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
-#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
 #include <openssl/evp.h>
@@ -26,6 +24,7 @@
 #include <openssl/rsa.h>
 #include <fstream>
 #include <chrono>
+#include <stdexcept>
 
 namespace themis {
 namespace sharding {
@@ -151,22 +150,26 @@ AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ShardLoadDetector> load_detector,
     std::shared_ptr<PrometheusMetrics> metrics,
-    std::shared_ptr<DataMigrator> migrator
-) : AutoRebalancer(topology, load_detector, metrics, migrator, Config{}) {}
+    MigrationExecutor migration_executor
+) : AutoRebalancer(std::move(topology), std::move(load_detector), std::move(metrics),
+                   std::move(migration_executor), Config{}) {}
 
 AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ShardLoadDetector> load_detector,
     std::shared_ptr<PrometheusMetrics> metrics,
-    std::shared_ptr<DataMigrator> migrator,
+    MigrationExecutor migration_executor,
     const Config& config
-) : topology_(topology),
-    load_detector_(load_detector),
-    metrics_(metrics),
-    migrator_(migrator),
+) : topology_(std::move(topology)),
+    load_detector_(std::move(load_detector)),
+    metrics_(std::move(metrics)),
+    migration_executor_(std::move(migration_executor)),
     config_(config),
     last_check_time_(std::chrono::system_clock::time_point::min()) {
-    
+    if (!migration_executor_) {
+        throw std::invalid_argument("AutoRebalancer requires a migration executor");
+    }
+
     THEMIS_INFO("AutoRebalancer initialized with check_interval={}s, max_concurrent={}",
                config_.check_interval.count() / 1000, config_.max_concurrent_operations);
 }
@@ -180,6 +183,7 @@ AutoRebalancer::~AutoRebalancer() {
  * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), std::thread(), monitorLoop(), setGauge().
  */
 void AutoRebalancer::start() {
+    std::lock_guard<std::mutex> lifecycle_lock(monitor_lifecycle_mutex_);
     if (running_.exchange(true)) {
         THEMIS_WARN("AutoRebalancer already running");
         return;
@@ -187,9 +191,12 @@ void AutoRebalancer::start() {
     
     THEMIS_INFO("Starting AutoRebalancer monitoring loop");
     
-    monitor_thread_ = std::thread([this]() {
-        monitorLoop();
-    });
+    try {
+        monitor_thread_ = std::thread([this]() { monitorLoop(); });
+    } catch (...) {
+        running_ = false;
+        throw;
+    }
     
     if (metrics_) {
         metrics_->setGauge("themis_auto_rebalancer_running", 1.0);
@@ -198,11 +205,15 @@ void AutoRebalancer::start() {
 
 /**
  * @brief Stop.
- * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), setGauge().
  */
 void AutoRebalancer::stop() {
-    if (!running_.exchange(false)) {
-        return;
+    std::lock_guard<std::mutex> lifecycle_lock(monitor_lifecycle_mutex_);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!running_.exchange(false)) {
+            return;
+        }
+        check_requested_ = false;
     }
     
     THEMIS_INFO("Stopping AutoRebalancer");
@@ -210,10 +221,7 @@ void AutoRebalancer::stop() {
     cv_.notify_all();
     
     if (monitor_thread_.joinable()) {
-        const bool joined = themis::utils::joinThreadWithin(monitor_thread_);
-        if (!joined) {
-            THEMIS_WARN("AutoRebalancer: monitor thread join timed out");
-        }
+        monitor_thread_.join();
     }
     
     if (metrics_) {
@@ -225,7 +233,6 @@ void AutoRebalancer::stop() {
 
 /**
  * @brief Monitor Loop.
- * @details Calls: THEMIS_INFO(), load(), Tracer::startSpan(), lock(), std::chrono::system_clock::now(), cleanupCompletedOperations(), handleTopologyChange(), canTriggerRebalance().
  */
 void AutoRebalancer::monitorLoop() {
     THEMIS_INFO("AutoRebalancer monitor loop started");
@@ -240,9 +247,6 @@ void AutoRebalancer::monitorLoop() {
                 last_check_time_ = std::chrono::system_clock::now();
             }
             
-            // Cleanup completed operations
-            cleanupCompletedOperations();
-            
             // Check for topology changes (node join/leave) and handle automatic rebalancing
             handleTopologyChange();
             
@@ -255,7 +259,7 @@ void AutoRebalancer::monitorLoop() {
                 auto imbalance = load_detector_->detectImbalance();
                 
                 span.setAttribute("imbalance_detected", imbalance.is_imbalanced);
-                
+                bool submitted = false;
                 if (imbalance.is_imbalanced) {
                     THEMIS_WARN("Load imbalance detected: {}", imbalance.reason);
                     span.setAttribute("imbalance_reason", imbalance.reason);
@@ -266,41 +270,17 @@ void AutoRebalancer::monitorLoop() {
                         THEMIS_ERROR("Rebalance exceeds safety limits, skipping");
                         span.recordError("Safety limits exceeded");
                     } else {
-                        // Execute rebalance operations
                         for (const auto& rec : imbalance.recommendations) {
-                            // Check max concurrent operations
-                            {
-                                std::lock_guard<std::mutex> lock(mutex_);
-                                if (active_operations_.size() >= config_.max_concurrent_operations) {
-                                    THEMIS_WARN("Max concurrent operations reached, queuing remaining");
-                                    break;
-                                }
-                            }
-                            
-                            if (config_.require_manual_approval) {
-                                // Queue for approval
-                                std::string op_id = generateOperationId();
-                                std::lock_guard<std::mutex> lock(mutex_);
-                                pending_approvals_[op_id] = rec;
-                                
-                                THEMIS_INFO("Rebalance operation queued for approval: {}", op_id);
-                                
-                                if (metrics_) {
-                                    metrics_->incrementCounter("themis_rebalance_pending_approvals_total");
-                                }
-                            } else if (config_.auto_trigger_enabled) {
-                                // Execute automatically
-                                executeRebalance(rec);
-                            }
+                            submitted |= submitRebalance({rec, false});
                         }
-                        
-                        // Record trigger
-                        load_detector_->recordRebalanceTriggered();
                     }
                 }
-
-                // Evaluate hot-shard splits (reactive + predictive)
-                evaluateAndExecuteSplits();
+                // Evaluate splits before applying the cooldown for this tick.
+                submitted |= evaluateAndExecuteSplits();
+                if (submitted) {
+                    load_detector_->recordRebalanceTriggered();
+                }
+                span.setAttribute("rebalance_submitted", submitted);
             }
             
         } catch (const std::exception& e) {
@@ -315,85 +295,134 @@ void AutoRebalancer::monitorLoop() {
         // Wait for next interval or shutdown
         std::unique_lock<std::mutex> lock(mutex_);
         cv_.wait_for(lock, config_.check_interval, [this] {
-            return !running_.load();
+            return !running_.load() || check_requested_;
         });
+        check_requested_ = false;
     }
     
     THEMIS_INFO("AutoRebalancer monitor loop stopped");
 }
 
-/**
- * @brief Execute Rebalance.
- * @param[in] recommendation Input parameter.
- * @return True when the operation succeeds.
- * @details Calls: Tracer::startSpan(), setAttribute(), generateOperationId(), THEMIS_INFO(), signOperation(), empty(), THEMIS_ERROR(), recordError().
- */
-bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation) {
+bool AutoRebalancer::submitRebalance(PlannedOperation plan) {
+    const auto op_id = generateOperationId();
+    if (config_.require_manual_approval) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!running_ || !hasExecutionCapacityLocked()) {
+            return false;
+        }
+        const auto& rec = plan.recommendation;
+        for (const auto& entry : pending_approvals_) {
+            const auto& pending = entry.second.recommendation;
+            if (pending.source_shard == rec.source_shard && pending.target_shard == rec.target_shard &&
+                pending.token_range_start == rec.token_range_start &&
+                pending.token_range_end == rec.token_range_end) {
+                return false;
+            }
+        }
+        pending_approvals_.emplace(op_id, std::move(plan));
+        if (metrics_) {
+            metrics_->incrementCounter("themis_rebalance_pending_approvals_total");
+        }
+        return true;
+    }
+    return config_.auto_trigger_enabled && executeRebalance(op_id, std::move(plan));
+}
+
+bool AutoRebalancer::executeRebalance(const std::string& op_id,
+                                     std::optional<PlannedOperation> automatic_plan) {
     auto span = Tracer::startSpan("AutoRebalancer.executeRebalance");
-    span.setAttribute("source_shard", recommendation.source_shard);
-    span.setAttribute("target_shard", recommendation.target_shard);
-    
-    std::string op_id = generateOperationId();
-    
-    THEMIS_INFO("Executing rebalance operation: {} (source={}, target={})",
-               op_id, recommendation.source_shard, recommendation.target_shard);
-    
-    // Create rebalance operation config
-    RebalanceOperationConfig op_config;
-    op_config.source_shard_id = recommendation.source_shard;
-    op_config.target_shard_id = recommendation.target_shard;
-    op_config.token_range_start = recommendation.token_range_start;
-    op_config.token_range_end = recommendation.token_range_end;
-    op_config.operator_cert_path = config_.operator_cert_path;
-    op_config.ca_cert_path = config_.ca_cert_path;
-    op_config.batch_size = config_.batch_size;
-    op_config.verify_data = config_.verify_data;
-    op_config.enable_rollback = config_.enable_rollback;
-    
-    // Create operation
-    auto operation = std::make_unique<RebalanceOperation>(op_config);
-    
-    // Sign operation (fail closed when signing is unavailable)
-    std::string signature = signOperation(op_id);
-    if (signature.empty()) {
-        THEMIS_ERROR("Failed to sign rebalance operation: {}", op_id);
-        span.recordError("Operation signing failed");
-        return false;
-    }
-    
-    // Start operation
-    bool started = operation->start(signature);
-    
-    if (!started) {
-        THEMIS_ERROR("Failed to start rebalance operation: {}", op_id);
-        span.recordError("Operation start failed");
-        return false;
-    }
-    
-    // Track operation
+    span.setAttribute("operation_id", op_id);
+
+    size_t status_index;
+    PlannedOperation plan;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        active_operations_[op_id] = std::move(operation);
-        
+        if (!hasExecutionCapacityLocked() || (automatic_plan && !running_)) {
+            return false;
+        }
+        const auto pending = pending_approvals_.find(op_id);
+        if (!automatic_plan && pending == pending_approvals_.end()) {
+            return false;
+        }
+        plan = automatic_plan ? std::move(*automatic_plan) : pending->second;
         OperationStatus status;
         status.operation_id = op_id;
         status.state = RebalanceState::IN_PROGRESS;
         status.start_time = std::chrono::system_clock::now();
-        operation_history_.push_back(status);
+        status.progress.start_time = status.start_time;
+        status_index = operation_history_.size();
+        operation_history_.push_back(std::move(status));
+        if (!automatic_plan) {
+            pending_approvals_.erase(pending);
+        }
+        ++active_operations_;
     }
-    
-    triggered_operations_++;
-    
-    if (metrics_) {
-        metrics_->incrementCounter("themis_rebalance_operations_triggered_total");
-        metrics_->setGauge("themis_rebalance_active_operations", 
-                          static_cast<double>(active_operations_.size()));
+
+    const auto& rec = plan.recommendation;
+    std::optional<MigrationOutcome> outcome;
+    std::string error;
+    try {
+        MigrationRequest request{op_id,
+            {rec.source_shard, rec.target_shard, rec.token_range_start, rec.token_range_end,
+             config_.operator_cert_path, config_.ca_cert_path, config_.batch_size,
+             config_.verify_data, config_.enable_rollback}, {}};
+        if (rec.source_shard == rec.target_shard) {
+            throw std::invalid_argument("Source and target shard must differ");
+        }
+        RebalanceOperation admission(request.operation);
+        request.operator_signature = signOperation(op_id);
+        if (request.operator_signature.empty() || !admission.start(request.operator_signature)) {
+            error = "Rebalance operator admission failed";
+        } else {
+            outcome = MigrationOutcome::OWNERSHIP_UNCERTAIN;
+            ++triggered_operations_;
+            auto result = migration_executor_(request);
+            outcome = result.outcome;
+            error = std::move(result.error_message);
+        }
+    } catch (const std::exception& e) {
+        error = e.what();
+    } catch (...) {
+        error = "Unknown exception during rebalance execution";
     }
-    
-    THEMIS_INFO("Rebalance operation started: {}", op_id);
-    span.setAttribute("operation_id", op_id);
-    
-    return true;
+
+    const bool committed = outcome == MigrationOutcome::OWNERSHIP_COMMITTED;
+    if (!committed && error.empty()) {
+        error = outcome == MigrationOutcome::OWNERSHIP_UNCERTAIN
+            ? "Ownership outcome uncertain; reconcile with the authoritative backend"
+            : "Authoritative ownership commit not confirmed";
+    }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto& status = operation_history_[status_index];
+        status.state = committed ? RebalanceState::COMPLETED : RebalanceState::FAILED;
+        status.end_time = std::chrono::system_clock::now();
+        status.migration_outcome = outcome;
+        status.error_message = std::move(error);
+        if (committed) {
+            status.progress.progress_percent = 100.0;
+            ++completed_operations_;
+        } else {
+            ++failed_operations_;
+            span.recordError(status.error_message);
+        }
+        --active_operations_;
+        if (metrics_) {
+            if (outcome) {
+                metrics_->incrementCounter("themis_rebalance_operations_triggered_total");
+            }
+            metrics_->setGauge("themis_rebalance_active_operations", static_cast<double>(active_operations_));
+            metrics_->setGauge("themis_rebalance_completed_operations_total",
+                              static_cast<double>(completed_operations_.load()));
+            metrics_->setGauge("themis_rebalance_failed_operations_total",
+                              static_cast<double>(failed_operations_.load()));
+            if (plan.is_split) {
+                metrics_->incrementCounter(committed ? "themis_shard_splits_total" :
+                                                      "themis_shard_split_failures_total");
+            }
+        }
+    }
+    return outcome.has_value();
 }
 
 std::string AutoRebalancer::generateOperationId() const {
@@ -403,11 +432,19 @@ std::string AutoRebalancer::generateOperationId() const {
     ).count();
     
     std::ostringstream oss = {};
-    oss << "rebalance_" << std::hex << now_ms;
+    oss << "rebalance_" << std::hex << now_ms << '_' << next_operation_sequence_++;
     return oss.str();
 }
 
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
+    SignOperationFn sign;
+    {
+        std::lock_guard<std::mutex> lock(sign_fn_mutex_);
+        sign = sign_fn_;
+    }
+    if (sign) {
+        return sign(operation_id);
+    }
     // RSA-SHA256 signing using operator certificate
     // Enforce fail-closed signing (stub #310): when fail_closed_signing is enabled,
     // throw exception instead of returning empty/unsigned token on failure.
@@ -560,9 +597,12 @@ bool AutoRebalancer::canTriggerRebalance() const {
     if (load_detector_->isInCooldown()) {
         return false;
     }
-    
+    return hasExecutionCapacityLocked();
+}
+
+bool AutoRebalancer::hasExecutionCapacityLocked() const {
     // Check max concurrent operations
-    if (active_operations_.size() >= config_.max_concurrent_operations) {
+    if (active_operations_ >= config_.max_concurrent_operations) {
         return false;
     }
     
@@ -599,66 +639,17 @@ bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) 
 }
 
 /**
- * @brief Cleanup Completed Operations.
- * @details Calls: lock(), getState(), push_back(), std::chrono::system_clock::now(), getProgress(), THEMIS_INFO(), erase(), setGauge().
- */
-void AutoRebalancer::cleanupCompletedOperations() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    std::vector<std::string> completed_ids;
-    
-    for (auto& [op_id, operation] : active_operations_) {
-        RebalanceState state = operation->getState();
-        
-        if (state == RebalanceState::COMPLETED || 
-            state == RebalanceState::FAILED || 
-            state == RebalanceState::ROLLED_BACK) {
-            
-            completed_ids.push_back(op_id);
-            
-            // Update statistics
-            if (state == RebalanceState::COMPLETED) {
-                completed_operations_++;
-            } else {
-                failed_operations_++;
-            }
-            
-            // Update history
-            for (auto& status : operation_history_) {
-                if (status.operation_id == op_id) {
-                    status.state = state;
-                    status.end_time = std::chrono::system_clock::now();
-                    status.progress = operation->getProgress();
-                }
-            }
-        }
-    }
-    
-    // Remove completed operations
-    for (const auto& op_id : completed_ids) {
-        THEMIS_INFO("Cleaning up completed rebalance operation: {}", op_id);
-        active_operations_.erase(op_id);
-    }
-    
-    if (metrics_) {
-        metrics_->setGauge("themis_rebalance_active_operations", 
-                          static_cast<double>(active_operations_.size()));
-        metrics_->setGauge("themis_rebalance_completed_operations_total",
-                          static_cast<double>(completed_operations_.load()));
-        metrics_->setGauge("themis_rebalance_failed_operations_total",
-                          static_cast<double>(failed_operations_.load()));
-    }
-}
-
-/**
  * @brief Trigger Check.
  * @return True when the operation succeeds.
  * @details Calls: load(), THEMIS_WARN(), THEMIS_INFO(), notify_one().
  */
 bool AutoRebalancer::triggerCheck() {
-    if (!running_.load()) {
-        THEMIS_WARN("AutoRebalancer not running, cannot trigger check");
-        return false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!running_) {
+            return false;
+        }
+        check_requested_ = true;
     }
     
     THEMIS_INFO("Manual rebalance check triggered");
@@ -670,55 +661,26 @@ bool AutoRebalancer::triggerCheck() {
  * @brief Approve Operation.
  * @param[in] operation_id Identifier of the operation.
  * @return True when the operation succeeds.
- * @details Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO(), executeRebalance().
  */
 bool AutoRebalancer::approveOperation(const std::string& operation_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = pending_approvals_.find(operation_id);
-    if (it == pending_approvals_.end()) {
-        THEMIS_WARN("Operation not found in pending approvals: {}", operation_id);
-        return false;
-    }
-    
-    auto recommendation = it->second;
-    pending_approvals_.erase(it);
-    
-    THEMIS_INFO("Rebalance operation approved: {}", operation_id);
-    
-    // Execute approved operation
-    return executeRebalance(recommendation);
+    return executeRebalance(operation_id, std::nullopt);
 }
 
 /**
  * @brief Cancel Operation.
  * @param[in] operation_id Identifier of the operation.
  * @return True when the operation succeeds.
- * @details Calls: lock(), find(), end(), THEMIS_WARN(), rollback(), THEMIS_INFO(), incrementCounter(), THEMIS_ERROR().
  */
 bool AutoRebalancer::cancelOperation(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    auto it = active_operations_.find(operation_id);
-    if (it == active_operations_.end()) {
-        THEMIS_WARN("Operation not found: {}", operation_id);
+    if (pending_approvals_.erase(operation_id) == 0) {
         return false;
     }
-    
-    // Trigger rollback
-    bool rolled_back = it->second->rollback();
-    
-    if (rolled_back) {
-        THEMIS_INFO("Rebalance operation cancelled and rolled back: {}", operation_id);
-        
-        if (metrics_) {
-            metrics_->incrementCounter("themis_rebalance_operations_cancelled_total");
-        }
-    } else {
-        THEMIS_ERROR("Failed to rollback operation: {}", operation_id);
+    if (metrics_) {
+        metrics_->incrementCounter("themis_rebalance_operations_cancelled_total");
     }
-    
-    return rolled_back;
+    return true;
 }
 
 std::vector<AutoRebalancer::OperationStatus> AutoRebalancer::getOperationStatuses() const {
@@ -731,26 +693,10 @@ std::vector<AutoRebalancer::OperationStatus> AutoRebalancer::getOperationStatuse
     
     std::vector<OperationStatus> statuses = operation_history_;
     
-    // Add current active operations
-    for (const auto& [op_id, operation] : active_operations_) {
-        bool found = false;
-        for (auto& status : statuses) {
-            if (status.operation_id == op_id) {
-                status.state = operation->getState();
-                status.progress = operation->getProgress();
-                found = true;
-                break;
-            }
-        }
-        
-        if (!found) {
-            OperationStatus status;
-            status.operation_id = op_id;
-            status.state = operation->getState();
-            status.progress = operation->getProgress();
-            status.start_time = std::chrono::system_clock::now();
-            statuses.push_back(status);
-        }
+    for (const auto& pending : pending_approvals_) {
+        OperationStatus status;
+        status.operation_id = pending.first;
+        statuses.push_back(std::move(status));
     }
     
     return statuses;
@@ -771,7 +717,7 @@ nlohmann::json AutoRebalancer::getStatistics() const {
     stats["completed_operations"] = completed_operations_.load();
     stats["failed_operations"] = failed_operations_.load();
     stats["split_proposals_total"] = split_proposals_total_.load();
-    stats["active_operations"] = active_operations_.size();
+    stats["active_operations"] = active_operations_;
     stats["pending_approvals"] = pending_approvals_.size();
     
     if (last_check_time_ != std::chrono::system_clock::time_point::min()) {
@@ -812,7 +758,7 @@ void AutoRebalancer::setAuditLogger(
  * @details Calls: lock(), evaluate(), empty(), THEMIS_DEBUG(), THEMIS_INFO(), size(), setGauge(), load().
  */
 
-void AutoRebalancer::evaluateAndExecuteSplits() {
+bool AutoRebalancer::evaluateAndExecuteSplits() {
     std::shared_ptr<HotShardSplitPolicy> policy;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -820,13 +766,13 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
     }
 
     if (!policy) {
-        return;
+        return false;
     }
 
     const auto proposals = policy->evaluate();
     if (proposals.empty()) {
         THEMIS_DEBUG("HotShardSplitPolicy: no split proposals");
-        return;
+        return false;
     }
 
     THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated",proposals.size());
@@ -837,6 +783,7 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
                            static_cast<double>(split_proposals_total_.load()));
     }
 
+    bool submitted = false;
     for (const auto& proposal : proposals) {
         if (!canTriggerRebalance()) {
             THEMIS_WARN("HotShardSplitPolicy: safety limits reached; deferring split for {}",
@@ -844,8 +791,9 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
             break;
         }
 
-        executeSplitProposal(proposal);
+        submitted |= executeSplitProposal(proposal);
     }
+    return submitted;
 }
 
 /**
@@ -859,7 +807,7 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     span.setAttribute("hot_shard", proposal.hot_shard_id);
     span.setAttribute("is_predictive", proposal.is_predictive);
 
-    THEMIS_INFO("Executing shard split for {} – {} (current={:.1f}%, predicted={:.1f}%)",
+    THEMIS_INFO("Evaluating shard split for {} – {} (current={:.1f}%, predicted={:.1f}%)",
                 proposal.hot_shard_id, proposal.reason,
                 proposal.current_load_percent, proposal.predicted_load_percent);
 
@@ -912,33 +860,24 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     // Derive the split token range from the hot shard's actual topology entry.
     // We migrate the upper half of whatever range the hot shard owns so that
     // the migration is always within the shard's authoritative range.
-    uint64_t shard_token_start = 0;
-    uint64_t shard_token_end   = UINT64_MAX;
-    if (topology_) {
-        auto shard_info = topology_->getShard(proposal.hot_shard_id);
-        if (shard_info) {
-            shard_token_start = shard_info->token_start;
-            shard_token_end   = shard_info->token_end;
-        }
+    const auto shard_info = topology_ ? topology_->getShard(proposal.hot_shard_id) : std::nullopt;
+    if (!shard_info || shard_info->token_start >= shard_info->token_end ||
+        target_shard == proposal.hot_shard_id) {
+        THEMIS_WARN("AutoRebalancer: no valid topology range or target for split of {}; deferring",
+                    proposal.hot_shard_id);
+        return false;
     }
+    const auto shard_token_start = shard_info->token_start;
+    const auto shard_token_end = shard_info->token_end;
     const uint64_t midpoint = shard_token_start + (shard_token_end - shard_token_start) / 2;
     rec.token_range_start = midpoint;
     rec.token_range_end   = shard_token_end;
     rec.expected_load_reduction_percent = 50.0;
     rec.justification = "Hot-shard split – " + proposal.reason;
 
-    const bool ok = executeRebalance(rec);
-
-    if (metrics_) {
-        if (ok) {
-            metrics_->incrementCounter("themis_shard_splits_total");
-        } else {
-            metrics_->incrementCounter("themis_shard_split_failures_total");
-        }
-    }
-
-    span.setAttribute("success", ok);
-    return ok;
+    const bool submitted = submitRebalance({std::move(rec), true});
+    span.setAttribute("submitted", submitted);
+    return submitted;
 }
 
 /**
@@ -992,18 +931,8 @@ void AutoRebalancer::handleTopologyChange() {
         return;
     }
     
-    // Create rebalance operations to redistribute shards for new topology
-    // For each node that joined/left, create operations to rebalance the shards
-    
-    // In a full implementation, this would:
-    // 1. Call RebalanceOperation::generateTopologyChangeRebalancePlan()
-    // 2. Execute each operation in the plan
-    // 3. Monitor for >=80% throughput completion
-    // 4. Verify no data loss occurred
-    
-    // For now, create a simple rebalance recommendation based on topology change
-    THEMIS_INFO("Generated topology rebalance plan for {} nodes",
-               current_topology.size());
+    // Topology observation is not a migration plan; the load/split planners
+    // can submit moves on this tick through the normal approval/dispatch path.
     
     topology_change_count_++;
     last_known_topology_ = current_topology;

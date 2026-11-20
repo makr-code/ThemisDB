@@ -1,8 +1,31 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-20"
+Last Updated: "2026-11-20"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Raft Consensus Per Shard - Usage Guide
 
 ## Overview
 
-ThemisDB now supports Raft consensus per shard, enabling leader-based writes, automatic failover, and strong consistency guarantees across distributed shards.
+This guide describes the per-shard Raft component model and an illustrative
+configuration. It is not evidence that a deployment has the complete
+production write path, automatic failover, or release-grade consistency
+validation.
+
+Raft groups are scoped per shard. Their existence does not make a
+cross-shard 2PC/3PC coordinator a Raft group, replicate that coordinator's
+decision, or prove restart recovery across a leader change. The integration
+between shard-level consensus, cross-shard transaction decisions, replication
+transport, and client acknowledgement remains a separate validation gate.
 
 ## Key Components
 
@@ -25,11 +48,17 @@ Tracks Raft state for each shard including:
 - Quorum status
 
 ### 3. Integrated Write Path
-RedundancyStrategy automatically enforces leader-based writes when Raft is enabled:
+When the relevant runtime components are explicitly wired, `RedundancyStrategy`
+can enforce leader-based writes:
 - Only shard leaders accept writes
 - Writes are replicated via Raft log
 - Quorum acknowledgment required for commit
 - Automatic redirect hints on leader changes
+
+These component-level behaviors and the example configuration do not establish
+an end-to-end production topology or a coupled Raft/2PC durability contract.
+Verify the active runtime wiring and the replication evidence before relying on
+them for deployment guarantees.
 
 ## Configuration
 
@@ -310,6 +339,6 @@ for (const auto& shard : all_shards) {
 
 ## See Also
 
-- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](../docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md)
+- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](RAID_SHARD_REFERENCING_ARCHITECTURE.md)
 - [Raft Paper](https://raft.github.io/raft.pdf)
 - [CockroachDB Raft Implementation](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html)

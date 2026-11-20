@@ -19,6 +19,8 @@
 
 namespace themis::sharding {
 
+class ShardTransferStore;
+
 /**
  * @brief gRPC Server for handling inter-shard RPC requests
  * 
@@ -75,6 +77,13 @@ public:
          *       are rejected before the request handler runs.
          */
         std::vector<CoordinatorIdentityBinding> coordinator_identity_bindings;
+
+        /// Explicit X.509 identities allowed to act as transfer principals;
+        /// the binding's ID is checked against the durable assignment.
+        std::vector<CoordinatorIdentityBinding> transfer_identity_bindings;
+
+        /// Optional shared staging store. Without it, transfer RPCs fail closed.
+        std::shared_ptr<ShardTransferStore> transfer_store;
     };
     
     /**

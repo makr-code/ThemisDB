@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-20
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -223,11 +223,18 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     Recovery also preserves in-doubt state when participant IDs/endpoints are missing instead of completing an empty
     replay; malformed participant descriptors are also retained as unresolved. Global canonical-coordinator selection remains open, as do replica-process and combined coordinator/
     participant crash coverage, focused test execution, and a successful evidence-artifact workflow run.
-- [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
-  - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
-    gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.
-  - Simulation nur hinter dem bestehenden Compile-Gate `THEMIS_TEST_MODE` (nie in Produktions-Presets) und mit `STUB/SIMULATION NOTE`.
-  - Test: Shard-Transfer zwischen zwei Prozessen inkl. Abbruch und Wiederaufnahme; Checksummenvergleich Quelle/Ziel.
+- [~] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31; [#8197](https://github.com/makr-code/ThemisDB/issues/8197))
+  - Dedizierter mTLS-gRPC-Transfer mit dauerhaftem Staging, Checkpoints, Abbruch
+    und Inhaltsprüfung; `AutoRebalancer` verlangt einen expliziten Executor.
+    Der bisherige `StreamSession`-Pfad bleibt ohne Transport fail-closed.
+  - Offen: Deployment-Verdrahtung des Storage-Exports, Schreibquieszenz, autoritativer
+    gefenceter Cutover, Recovery bei verlorener Cutover-Bestätigung und Release-Evidenz.
+    Ein typed Routing-Token-/Ownership-Snapshot sowie ein prozesslokaler,
+    begrenzter MVCC-Export mit echter RocksDB-Snapshotsequenz, HLC-Grenze und
+    expliziten Tombstones sind implementiert; Testquellen sind hinzugefügt,
+    Ausführungsevidenz steht aus. Keine Hash- oder Ownership-Änderung:
+    [Architekturstatus](../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)
+    und [Sharding API](../src/sharding/API.md#shard-transfer-dis-03).
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
     quorum no longer counts as catch-up proof. Spare failure blocks failover and missing metadata persistence returns
@@ -731,7 +738,8 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 - **Tx-/Replikations-WAL fail-open:** Korruption mitten im Log oder Recovery-Timeout führt zu stillem Datenverlust in
   `WALStorage`-Nutzern ([STO-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-01)). Der RocksDB-Primärspeicher ist nicht betroffen.
 - **Failover/DR nicht vertrauenswürdig:** Handler melden Erfolg ohne Aktion ([DIS-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-08)); Multi-Node nur für Tests.
-- **Shard-Transfer simuliert** ohne verdrahteten Transport ([DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03)).
+- **Shard-Transfer:** mTLS-Staging ändert keine Ownership; produktiver Export und gefenceter
+  Cutover bleiben offen ([DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03)).
 - **SEC-14 lokal umgesetzt, Release-Evidenz offen:** Produktionsmodus-Erkennung ist zentralisiert und Shard-RPC
   fällt bei fehlenden/ungültigen mTLS-Credentials nicht mehr auf Plaintext zurück. Der Windows-Debug-Fokustest lief
   mit aktivem gRPC und bestand (52/52); Linux-/Release-Verifikation bleibt bis zum M1-Gate ausstehend.
