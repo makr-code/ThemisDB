@@ -26,6 +26,7 @@ Related milestone: DOC-WEEKLY-2026-W45
 - `MVCCStore` writes timestamped versions, offers transaction-aware history writes, and exposes snapshot/version-read operations. Its constructor takes an already-open `RocksDBWrapper`; a null clock causes an internal HLC to be created.
 - `WALStorage::open()` returns a result containing the WAL instance and accepts an optional `RecoveryResult*` output. Its `status` is `Complete`, `TruncatedTail`, `Corrupted`, `TimedOut`, or `Failed`. The default `RecoveryMode` is `Strict`; `Config::recovery_timeout` is in milliseconds, zero means unlimited, and a negative duration is rejected.
 - `StreamingIngestManager::ingestBatch()` admits its entire input batch or none. It returns the accepted batch size, zero when DROP discards all events for insufficient capacity, or an error on rejection/timeout.
+- `ObjectVersionBlockManifest` describes ordered object-version blocks up to 256 KiB each. `buildObjectVersionBlockSet()` computes SHA-256 and records caller-supplied shard assignments; `assembleObjectVersion()` validates metadata, ordinals, lengths, and hashes before returning bytes in manifest order. These helpers are local only and do not persist, place, authorize, replicate, or publish data.
 - `RocksDBWrapper::SafeIterator::statusMessage()` returns an empty string for a healthy iterator or the underlying RocksDB iterator error; an uninitialized or moved-from iterator reports an explicit error.
 
 ## Contract details callers must preserve

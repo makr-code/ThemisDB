@@ -22,13 +22,18 @@ The decisions apply independently to each object version, such as a small file o
 file spanning shards. They do not change the semantics of existing writes or promise
 atomicity across multiple objects.
 
+Implementation has started with the storage-layer manifest and block-integrity primitive
+in `include/storage/object_block_manifest.h`. It splits and verifies local block payloads
+only; it does not provide durable replication, Raft decisions, authorization, publication,
+reader pins, or migration. The architecture and its end-to-end gates remain under review.
+
 The [Raft-per-shard guide](../en/sharding/RAFT_CONSENSUS_PER_SHARD.md) describes shard
 replication and the [RAID architecture](../en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md)
 describes RAID-style placement and cross-shard transactions. The
 [replication roadmap](../../src/replication/ROADMAP.md) tracks unresolved integration
-evidence. [DIS-05 PR #8295](https://github.com/makr-code/ThemisDB/pull/8295) proposes
-consolidating the named CrossShard 2PC path; it does not establish this Raft-backed
-decision protocol or cross-coordinator recovery.
+evidence. [DIS-05 PR #8295](https://github.com/makr-code/ThemisDB/pull/8295) has merged
+the named CrossShard 2PC consolidation; it does not establish this Raft-backed decision
+protocol or cross-coordinator recovery.
 
 ## Architecture decisions
 

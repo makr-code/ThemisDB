@@ -419,6 +419,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/document/round_trip_editor.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
+    ../src/storage/object_block_manifest.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/simd_filter.cpp
     ../src/storage/storage_parquet_exporter.cpp
