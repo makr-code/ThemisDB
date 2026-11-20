@@ -974,6 +974,7 @@ public:
         , abort_ack(abort_ack) {}
 
     bool onPrepare(const std::string&, const std::string&, const std::string&) override {
+        ++prepare_calls;
         return prepare_vote;
     }
 
@@ -991,6 +992,7 @@ public:
         return {};
     }
 
+    int prepare_calls = 0;
     int commit_calls = 0;
     int abort_calls = 0;
     bool prepare_vote;
@@ -1559,6 +1561,7 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RestoresEndpointForInDoubtPhaseTwoRe
 
     {
         TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", config);
+        EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
         coordinator.registerParticipantByEndpoint("shard-endpoint", rpc_config);
         const auto outcome = coordinator.commit(
             "txn-endpoint-recovery",
@@ -1621,6 +1624,7 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
         cfg.fencing_token_provider = testTokenProvider("coord-wal-test");
 
         TwoPhaseCommitCoordinator coord("coord-wal-test", cfg);
+        EXPECT_EQ(coord.recoverInDoubtTransactions(), 0u);
 
         TwoPhaseCommitParticipant::Config p_cfg;
         p_cfg.wal_directory = "";
@@ -1861,6 +1865,66 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
     EXPECT_EQ(participant.commit_calls, 2);
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, BlocksNewTransactionsUntilStartupRecoveryCompletes) {
+    TemporaryTransactionLog log("2pc_coord_recovery_must_precede_transactions");
+    const auto wal_dir = log.logPath().parent_path().string();
+    const std::string in_doubt_txn = "wal-txn-recovery-before-traffic";
+    {
+        WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir;
+        wal_cfg.sync_on_write = true;
+        WALManager wal(wal_cfg);
+
+        WALEntry begin_entry;
+        begin_entry.type = WALEntryType::BEGIN_TX;
+        begin_entry.transaction_id = in_doubt_txn;
+        begin_entry.data = {
+            {"transaction_id", in_doubt_txn},
+            {"coordinator_id", "coord-recovery-before-traffic"},
+            {"shards", nlohmann::json::array({"shard-wal"})}
+        };
+        wal.append(begin_entry);
+
+        WALEntry decision_entry;
+        decision_entry.type = WALEntryType::COMMIT_TX;
+        decision_entry.transaction_id = in_doubt_txn;
+        decision_entry.data = {
+            {"transaction_id", in_doubt_txn},
+            {"coordinator_id", "coord-recovery-before-traffic"},
+            {"phase", "decision"},
+            {"decision", "commit"}
+        };
+        wal.append(decision_entry);
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_dir;
+    config.fencing_token_provider =
+        testTokenProvider("coord-recovery-before-traffic");
+    TwoPhaseCommitCoordinator coordinator("coord-recovery-before-traffic", config);
+    RejectingPhaseTwoParticipant participant(
+        /*prepare_vote=*/true, /*commit_ack=*/true);
+    coordinator.registerParticipant("shard-wal", &participant);
+
+    const auto before_recovery = coordinator.commit(
+        "new-transaction-before-recovery",
+        {{"shard-wal", nlohmann::json::array()}});
+    EXPECT_EQ(before_recovery.result, CoordinatorTxnResult::FAILURE);
+    EXPECT_EQ(participant.prepare_calls, 0);
+    EXPECT_EQ(participant.commit_calls, 0);
+
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "complete");
+    EXPECT_EQ(participant.commit_calls, 1);
+
+    const auto after_recovery = coordinator.commit(
+        "new-transaction-after-recovery",
+        {{"shard-wal", nlohmann::json::array()}});
+    EXPECT_EQ(after_recovery.result, CoordinatorTxnResult::COMMITTED);
+    EXPECT_EQ(participant.prepare_calls, 1);
+    EXPECT_EQ(participant.commit_calls, 2);
+}
+
 TEST(TwoPhaseCommitCoordinatorRecoveryTest,
      ConservativeAbortRemainsInDoubtUntilAcknowledged) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
@@ -1947,6 +2011,7 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, PersistsDecisionBeforeCompletionWith
     ops.push_back({{"key", "value"}});
     {
         TwoPhaseCommitCoordinator coordinator("coord-wal-order", coordinator_cfg);
+        EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
         coordinator.registerParticipant("shard-wal-order", participant.get());
 
         const auto outcome = coordinator.commit(txn, {{"shard-wal-order", ops}});

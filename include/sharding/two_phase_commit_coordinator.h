@@ -268,6 +268,8 @@ public:
      *         acknowledgement fails. After a durable decision, FAILURE leaves
      *         that decision authoritative for recovery; COMMIT is never
      *         changed to ABORT.
+     * @note With WAL enabled, call recoverInDoubtTransactions() during startup
+     *       before submitting transactions; calls fail until recovery completes.
      */
     CoordinatorTxnOutcome commit(
         const std::string&                             transaction_id,

@@ -297,13 +297,16 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked") {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete")) {
             outcome.result = CoordinatorTxnResult::FAILURE;
             outcome.reason = recovery_failed_
                 ? "coordinator WAL recovery has failed"
                 : (recovery_status_ == "running"
                     ? "coordinator WAL recovery is in progress"
-                    : "coordinator WAL recovery has unresolved transactions");
+                    : (recovery_status_ == "blocked"
+                        ? "coordinator WAL recovery has unresolved transactions"
+                        : "coordinator WAL recovery has not completed"));
             return outcome;
         }
         const auto it = transactions_.find(transaction_id);
@@ -364,13 +367,16 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         std::lock_guard<std::timed_mutex> lock(mutex_);
 
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked") {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete")) {
             outcome.result = CoordinatorTxnResult::FAILURE;
             outcome.reason = recovery_failed_
                 ? "coordinator WAL recovery has failed"
                 : (recovery_status_ == "running"
                     ? "coordinator WAL recovery is in progress"
-                    : "coordinator WAL recovery has unresolved transactions");
+                    : (recovery_status_ == "blocked"
+                        ? "coordinator WAL recovery has unresolved transactions"
+                        : "coordinator WAL recovery has not completed"));
             return outcome;
         }
 
@@ -586,7 +592,8 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
             return AdapterPrepareResult::FAILED;
         }
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked") {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete")) {
             return AdapterPrepareResult::FAILED;
         }
     }
@@ -613,7 +620,9 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked" || transactions_.contains(transaction_id)) {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete") ||
+            transactions_.contains(transaction_id)) {
             return AdapterPrepareResult::FAILED;
         }
         for (const auto& [shard_id, ops] : ops_per_shard) {
@@ -705,7 +714,8 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commitPreparedForAdapter(
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked") {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete")) {
             outcome.reason = "coordinator WAL recovery is not available";
             return outcome;
         }
@@ -769,7 +779,8 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::abortForAdapter(
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         if (recovery_failed_ || recovery_status_ == "running" ||
-            recovery_status_ == "blocked") {
+            recovery_status_ == "blocked" ||
+            (wal_ && recovery_status_ != "complete")) {
             outcome.reason = "coordinator WAL recovery is not available";
             return outcome;
         }
