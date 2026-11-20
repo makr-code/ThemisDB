@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -46,6 +46,11 @@ end-to-end service:
    `IFragmentFetcher`; no built-in network transport is provided.
 5. Integrity and recovery APIs operate on the supplied manifest, receipt, and
    recovery request; they do not execute placement or network operations.
+6. The internal `ManifestStore` persists validated manifest metadata through
+   the RocksDB-backed `RocksDBWrapper`. It requires a caller-provided database
+   path, writes WAL-backed synchronous batches, and rejects corrupt records on
+   open. This persists local placement metadata only; it does not replicate
+   records or shard payloads to other nodes.
 
 `TensorTrainingCoordinator` invokes worker callbacks synchronously in-process.
 It does not implement distributed worker execution. Configuration is supplied
@@ -65,9 +70,10 @@ component map and configuration inventory.
   nested implementation containing SHA-256 calls is not in this target's
   source list. Do not treat the active hash or Merkle-shaped data structures as
   cryptographic integrity evidence.
-- Placement plans are not persisted or applied automatically. Retrieval
-  planning does not fetch fragments. Caller-supplied fetchers and transport
-  implementations remain outside this module's built-in behavior.
+- Placement plans are not automatically persisted or applied; callers may
+  persist placement metadata through `ManifestStore`. Retrieval planning does
+  not fetch fragments. Caller-supplied fetchers and transport implementations
+  remain outside this module's built-in behavior.
 
 Follow the public headers for exact signatures and edge behavior. The module
 [README](../../src/distributed_tensor/README.md),
@@ -81,8 +87,15 @@ The module-local focused test CMake registers three executables and CTest cases
 from allocation, operations, and performance test sources; see
 [`tests/distributed_tensor/CMakeLists.txt`](../../tests/distributed_tensor/CMakeLists.txt).
 The separately included EPIC 3 directory registers contract and phase tests,
-and integration CMake may include the distributed-tensor soak test. Registration
-alone is not evidence that a target built or passed.
+including durable manifest restart, corrupt-record rejection, WAL recovery, and
+concurrent update coverage. Integration CMake may include the distributed-tensor
+soak test. Registration alone is not evidence that a target built or passed.
+The nightly coverage workflow runs `distributed_tensor`-labelled tests,
+publishes module-level summaries and LCOV data, and enforces 70% line / 60%
+branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.
+Generated evidence records the per-path measurements. Workflow configuration
+does not imply a measured passing result; no path-specific exception is
+approved.
 
 Build the module library in an existing configured build tree with:
 

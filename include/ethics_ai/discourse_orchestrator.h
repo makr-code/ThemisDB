@@ -66,18 +66,33 @@ public:
     DiscourseOrchestrator& operator=(DiscourseOrchestrator&&)      noexcept = default;
 
     /**
-     * @brief Set LLMInference Fn.
-     * @param[in] fn Input parameter.
+     * @brief Sets the inference callback used for each school.
+     * @param fn Callback invoked with the school ID and dilemma text; an empty callback enables the deterministic
+     *        non-production fallback.
+     * @note Call before starting execution; concurrent mutation and execution are unsupported.
      */
     void setLLMInferenceFn(LLMInferenceFn fn);
 
     /**
-     * @brief Set School Timeout Ms.
-     * @param[in] timeout_ms Input parameter.
-     * @note Exception safety: noexcept.
+     * @brief Sets the per-school result wait threshold.
+     * @param timeout_ms Positive timeout in milliseconds.
+     * @throws std::invalid_argument if timeout_ms is not positive.
+     * @note A timeout classifies that school's result as ABSTAIN but does not cancel its callback. Because callbacks
+     *       are run with std::async, destruction of unfinished futures may delay return; this is not a hard deadline.
      */
-    void setSchoolTimeoutMs(int timeout_ms) noexcept;
+    void setSchoolTimeoutMs(int timeout_ms);
 
+    /**
+     * @brief Executes initial scoring after validating the equal-weight plan contract.
+     * @param plan Plan containing at least one unique, non-empty school ID and a finite initial weight equal to 1/N.
+     * @param dilemma_text Dilemma text passed to each configured inference callback.
+     * @param mirror_policy Mirror policy retained for API compatibility; Ebene-1 does not consume it.
+     * @return One result per planned school; callback errors and invalid schema/verdict/confidence fail closed
+     *         as ABSTAIN, while callback-reported or orchestrator-classified timeouts also set timed_out.
+     * @throws std::invalid_argument if the plan is empty, has invalid school IDs, or violates the equal-weight contract.
+     * @note The per-school wait threshold does not guarantee prompt function return when a callback ignores the
+     *       timeout because callback cancellation is not supported.
+     */
     [[nodiscard]] std::vector<DiscourseRoundOutput> runEbene1(
         const DiscourseOrchestratorPlan& plan,
         const std::string&               dilemma_text,

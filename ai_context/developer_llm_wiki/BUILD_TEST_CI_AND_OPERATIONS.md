@@ -24,6 +24,13 @@ Status: Active
 - The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
 - The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
 - CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
+
+## Gate workflow failure-tolerance guard
+
+- [`tools/ci/check_workflow_fail_open.py`](../../tools/ci/check_workflow_fail_open.py) scans gate workflows and their transitively invoked local reusable workflows for `continue-on-error` and `|| true`.
+- Each remaining exception is matched exactly in [`tools/ci/workflow_fail_open_allowlist.json`](../../tools/ci/workflow_fail_open_allowlist.json) and requires a rationale, owner, expiry, and occurrence count. Gate callers that enable reusable `*_continue_on_error` inputs are also inventoried.
+- Focused regressions: [`tools/tests/test_workflow_fail_open.py`](../../tools/tests/test_workflow_fail_open.py). This policy check does not itself provide platform gate-run evidence or maintainer sign-off.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`

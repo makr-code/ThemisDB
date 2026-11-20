@@ -25,6 +25,11 @@ namespace ethics {
 
 class EthicsEvaluator {
 public:
+    /**
+     * @brief Weights for the five evaluator dimensions.
+     * @note Every weight must be finite and non-negative, and their sum must be positive.
+     *       Accepted weights are normalized before scoring.
+     */
     struct Config {
         double weight_decision_quality = 0.25; ///< Decision Quality dimension weight
         double weight_consistency      = 0.20; ///< Consistency dimension weight
@@ -36,14 +41,22 @@ public:
     EthicsEvaluator() = default;
 
     /**
-     * @brief Ethics Evaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
+     * @brief Creates an evaluator with normalized dimension weights.
+     * @param config Per-dimension weights; every value must be finite and non-negative.
+     * @throws std::invalid_argument if any weight is non-finite/negative or the sum is not finite and positive.
      */
     explicit EthicsEvaluator(const Config& config);
 
     ~EthicsEvaluator() = default;
-    
+
+    /**
+     * @brief Scores a decision and reports the evidence used by the fairness proxy.
+     * @param decision Decision to score; confidence and consensus_level must be finite and in [0, 1].
+     * @param arguments Arguments considered for the decision; empty or unnamed school evidence is reported as unavailable.
+     * @return Evaluation scores and detailed metrics, or Status::Error for invalid decision scores.
+     * @note Fairness is a philosophy-school source-diversity proxy, not a population or subgroup fairness assessment.
+     *       With no named argument schools, fairness_score is zero and fairness_evidence_available is zero.
+     */
     std::variant<EthicsEvaluationResult, Status> evaluateDecision(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments

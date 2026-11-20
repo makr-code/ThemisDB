@@ -190,7 +190,7 @@ jobs:
             echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain";
             git -C "${GITHUB_WORKSPACE}" submodule update --init -- vcpkg;
           fi
-          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
+          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
           cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
         else

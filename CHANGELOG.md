@@ -27,6 +27,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   candidate/content metering. Payload-byte metering begins after storage reads;
   it does not bound physical storage I/O. RAG remains outside this integration.
 - See the [v2.4.x to v3.0.0 migration guide](docs/migration/v2.4-to-v3.0.md).
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
+### Fixed - Document schema validation rejects non-object JSON
+
+- Schema validation now returns `ERR_DOC_VALIDATION_ABORTED` for null, scalar,
+  boolean, and array bodies instead of accepting structurally invalid input
+  under an all-optional schema. This does not change validation behavior for
+  object bodies or add automatic validation to document writes.
 
 ### Security - HTTP RAG collection policies
 

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -18,7 +18,7 @@ Exact model backend not verifiable from final document text alone.
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
-## Module Purpose
+## Zweck
 
 The `ethics_ai` module contains a plugin runtime for profile loading, debate initialization and continuation, argument/decision persistence, RAG context assembly, evaluation, and plugin lifecycle. The plugin's current decision flow is in `EthicalDiscourseEngine`; the LDM router/orchestrator/builder APIs are separate source surfaces and are not called from `ethics_ai_plugin.cpp` or `discourse_engine.cpp`.
 
@@ -28,7 +28,21 @@ The repository currently has 26 YAML files under `assets/ethics_ai/`. This count
 
 The public source includes `SELECTION_ONLY`, `LAYERED_FULL`, and `LAYERED_FAST` router modes and LDM helper classes. The fixed `ETHICS_AI_SOURCES` list compiles 12 translation units, including the orchestrator, meta-verdict, and mirror helpers; compiling these units does not wire them into the plugin decision flow. `EthicsAIPlugin` delegates decisions to `EthicalDiscourseEngine` and does not call `EthicsSelectionRouter`, `DiscourseOrchestrator`, `MetaVerdictBuilder`, or `MirrorSchoolHandler`. Without an injected callback, the orchestrator fallback ignores dilemma text and chooses synthetic output from the school ID (`school_id.size() % 3` in the current implementation; its source comment describes this as hash-based). `MirrorSchoolHandler` also has a deterministic fallback. The meta-verdict builder does not consume cluster positions. See [ARCHITECTURE.md](ARCHITECTURE.md), [ROADMAP.md](ROADMAP.md), and [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md). Design rationale: `docs/research/ethics_discourse_process_equality.md`.
 
-## Relevant Interfaces
+## Quickstart (Build/Run)
+
+Configure the project with tests enabled, then build and run the focused evaluator test:
+
+```bash
+cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON
+cmake --build build --target module_ethics_ai_test_ethics_ai_policy_evaluation_focused_focused
+ctest --test-dir build --output-on-failure -R '^test_ethics_ai_policy_evaluation_focused_EthicsAiFocusedTests$'
+```
+
+This focused test validates the in-tree reference evaluator only; it does not exercise the canonical external plugin.
+
+## API/CLI Einstieg
+
+The module exposes a C++ plugin interface and focused helper APIs; it does not define a standalone module CLI.
 
 | Interface / File | Role |
 |---|---|
@@ -50,7 +64,9 @@ The public source includes `SELECTION_ONLY`, `LAYERED_FULL`, and `LAYERED_FAST` 
 | meta_verdict_builder.cpp | MetaVerdict assembly from supplied school outputs; cluster positions are currently unused |
 | mirror_school_handler.cpp | Mirror-school helper with deterministic fallback if no inference function is injected |
 
-## Discourse Modes
+## Integrationsueberblick
+
+The plugin's evaluation entrypoint delegates to `EthicsEvaluator`; the LDM helper APIs are separate and are not called by the current plugin decision flow.
 
 | Mode | Current source behavior |
 |---|---|
@@ -59,6 +75,17 @@ The public source includes `SELECTION_ONLY`, `LAYERED_FULL`, and `LAYERED_FAST` 
 | `LAYERED_FAST` | `planDiscourse()` gathers indexed schools and assigns equal initial weight; it does not build the full cluster map |
 
 These are source/API descriptions, not evidence of integrated production use or achieved latency. Current LDM benchmarks use deterministic stub fixtures; see [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
+
+```mermaid
+flowchart TD
+    Caller -->|evaluateDecision| Plugin[EthicsAIPlugin]
+    Plugin -->|initialized| Evaluator[EthicsEvaluator]
+    Evaluator -->|invalid score input| Error[Status::Error]
+    Evaluator -->|valid score input| Result[Evaluation result and detailed metrics]
+    Result --> Evidence[Fairness evidence availability and counts]
+```
+
+Kurzinterpretation: The plugin delegates evaluation to the in-tree evaluator. Invalid confidence or consensus values return an error; fairness metrics describe named argument-school evidence only and do not establish population or subgroup fairness.
 
 ## MetaVerdict Structure
 
@@ -92,7 +119,7 @@ Out of scope:
 - external model ownership beyond module integration contracts
 - non-ethics business logic in unrelated domains
 
-## Runtime Behavior and Limits
+## Known Limitations
 
 - module behavior depends on loaded philosophy profiles and runtime config.
 - decision quality and consensus outputs depend on argument/profile quality.
@@ -100,7 +127,19 @@ Out of scope:
 - LDM helper defaults are deterministic synthetic outputs unless an inference function is injected; the current plugin flow has no such injection.
 - LDM benchmark targets use mock registries and do not establish real-LLM or representative-hardware performance.
 
-## Sourcecode Verification (Module: ethics_ai/readme)
+## Policy Evaluation and Fairness Evidence
+
+The in-tree `EthicsEvaluator` rejects non-finite, negative, or all-zero dimension weights by throwing `std::invalid_argument`; valid weights are normalized. `evaluateDecision()` returns `Status::Error` when confidence or consensus is non-finite or outside `[0, 1]`, rather than returning a score from invalid policy input.
+
+The fairness dimension is a limited source-diversity proxy: it counts non-empty `philosophy_school` identifiers on supplied arguments. Empty or missing school identifiers are ignored, and duplicate identifiers do not increase the number of distinct schools. If no named argument schools are present, the evaluator returns `fairness_score == 0` and reports `fairness_evidence_available == 0`, with evidence counts in `detailed_metrics`. This proxy is not a population, subgroup, or cultural fairness assessment, and must not be presented as one.
+
+The focused validation gate is `test_ethics_ai_policy_evaluation_focused_EthicsAiFocusedTests` (`module_ethics_ai_test_ethics_ai_policy_evaluation_focused_focused`). Release performance claims require a reproducible evaluator benchmark recording workload size, build/compiler, hardware, and P50/P95/P99 latency and throughput against an owner-approved baseline. No numerical latency threshold is claimed until such a baseline and threshold are reviewed; these in-tree tests do not validate the external canonical plugin.
+
+`DiscourseOrchestrator::runEbene1()` rejects plans with empty or duplicate school IDs and requires finite `initial_weight == 1/N` before starting callbacks. It classifies callback exceptions and invalid schema/verdict/confidence results as `ABSTAIN`; callback-reported and orchestrator-classified timeouts also set `timed_out`. Its configured positive per-school timeout does not cancel the callback. Since callbacks run via `std::async`, a callback that does not return can delay function return while its future is destroyed. This is not a hard end-to-end deadline or bounded recovery mechanism; callback cancellation and bounded execution remain release blockers.
+
+## Verweise
+
+Canonical module status and source-of-truth ordering are in the root [`ROADMAP.md`](../../ROADMAP.md); module-specific status and validation gates are in [`ROADMAP.md`](ROADMAP.md) and [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md). API declarations are under [`include/ethics_ai/`](../../include/ethics_ai/), and focused in-tree tests are under [`tests/ethics_ai/`](../../tests/ethics_ai/).
 
 - Principal runtime files inspected:
   - src/ethics_ai/ethics_ai_plugin.cpp

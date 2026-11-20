@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI assistant"
 Human_Review: false
 Human_Author: "unknown"
 ---
@@ -17,7 +17,7 @@ Source level: 1
 SOT domain: module-behavior
 Canonical references: `tests/query/CMakeLists.txt`, `tests/CMakeLists.txt`, `src/query/ROADMAP.md`, `include/query/`
 Related issue: #7371
-Related milestone: `DOC-WEEKLY-2026-44`
+Related milestone: `DOC-WEEKLY-2026-W47`
 
 # Query module tests
 
@@ -38,6 +38,31 @@ configuration for the active build.
 
 For benchmark registration, see `benchmarks/query/CMakeLists.txt`. There are
 currently no Markdown files in `benchmarks/query/`.
+
+## Focused concurrency regressions
+
+The following source-conditional registrations are in
+[`CMakeLists.txt`](CMakeLists.txt):
+
+| Test source | Focused target / registration NAME | Source-level coverage |
+|---|---|---|
+| [`test_continuous_query_lock_order_deadlock.cpp`](test_continuous_query_lock_order_deadlock.cpp) | `test_continuous_query_lock_order_deadlock_focused` / `ContinuousQueryLockOrderDeadlockTests` (180 s) | Concurrent injection/evaluation, registry and result reads, register/drop churn, pending injections, and repeated shutdown. |
+| [`test_query_deadlock_concurrent_timeout.cpp`](test_query_deadlock_concurrent_timeout.cpp) | `test_query_deadlock_concurrent_timeout_focused` / `QueryDeadlockConcurrentTimeoutTests` (120 s) | Quick/slow/timeout-pressure scans, concurrent scans on one executor, empty/sequential paths, hash join, aggregation, and concurrent request-ID cancellation. |
+
+The seconds above are CTest process timeouts, not query execution guarantees.
+The slow-scan elapsed-time expectation is backend-dependent (12 s with TBB
+headers available, 50 s otherwise). Shutdown stress does not deterministically
+prove that the 5 s detach branch was reached. Some checks use ordinary thread
+joins or `future.get()` after a timed readiness check, so a hung operation can
+still require the outer CTest timeout.
+
+For the implementation evidence and distinction between lock-order protection
+and cooperative cancellation limits, see
+[concurrency and lock ownership](../../src/query/ARCHITECTURE.md#concurrency-and-lock-ownership),
+backed by `src/query/continuous_query_engine.cpp`, `src/query/parallel_executor.cpp`,
+`src/query/query_engine.cpp`, and `src/query/query_canceller.cpp`.
+This is a source/registration inventory, not evidence that these tests were
+built or passed.
 
 ## Source of truth
 

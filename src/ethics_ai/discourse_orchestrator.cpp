@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <future>
 #include <functional>
 #include <mutex>
@@ -27,6 +28,7 @@
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -78,6 +80,40 @@ DiscourseRoundOutput stubLLMInference(const std::string& school_id,
     out.core_thesis_ids.push_back(school_id + ":primary_thesis");
 
     return out;
+}
+
+bool isValidInferenceOutput(const DiscourseRoundOutput& output)
+{
+    if (!output.schema_valid || !std::isfinite(output.confidence) ||
+        output.confidence < 0.0f || output.confidence > 1.0f) {
+        return false;
+    }
+
+    switch (output.ldm_verdict) {
+        case DiscourseVerdict::PROHIBIT:
+            return output.verdict == "PROHIBIT";
+        case DiscourseVerdict::PERMIT:
+            return output.verdict == "PERMIT";
+        case DiscourseVerdict::CONDITIONAL:
+            return output.verdict == "CONDITIONAL";
+        case DiscourseVerdict::ABSTAIN:
+            return output.verdict == "ABSTAIN";
+    }
+    return false;
+}
+
+DiscourseRoundOutput abstainResult(const std::string& school_id,
+                                   double initial_weight,
+                                   bool timed_out)
+{
+    DiscourseRoundOutput output;
+    output.school_id = school_id;
+    output.ldm_verdict = DiscourseVerdict::ABSTAIN;
+    output.verdict = "ABSTAIN";
+    output.initial_weight = initial_weight;
+    output.timed_out = timed_out;
+    output.schema_valid = false;
+    return output;
 }
 
 /**
@@ -161,8 +197,11 @@ void DiscourseOrchestrator::setLLMInferenceFn(LLMInferenceFn fn)
     impl_->inference_fn = std::move(fn);
 }
 
-void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms) noexcept
+void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms)
 {
+    if (timeout_ms <= 0) {
+        throw std::invalid_argument("DiscourseOrchestrator school timeout must be positive");
+    }
     impl_->timeout_ms = timeout_ms;
 }
 
@@ -191,14 +230,20 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
     const int         timeout_ms = impl_->timeout_ms;
     const auto        infer      = impl_->effectiveInferenceFn();
 
-    // --- Equal-weight contract audit ---
-    // Verify that plan.initial_weight == 1/N (process-integrity guard).
+    std::unordered_set<std::string> unique_school_ids;
+    unique_school_ids.reserve(N);
+    for (const auto& school_id : plan.ebene1_school_ids) {
+        if (school_id.empty() || !unique_school_ids.insert(school_id).second) {
+            throw std::invalid_argument(
+                "DiscourseOrchestrator::runEbene1: school IDs must be non-empty and unique");
+        }
+    }
+
+    // Reject invalid or unequal plan weights before launching any inference.
     const double expected_w0 = 1.0 / static_cast<double>(N);
-    // Allow floating-point tolerance of 1e-9.
-    if (std::abs(w0 - expected_w0) > 1e-9) {
-        // LDM_EQUAL_WEIGHT_VIOLATION: log as audit event, do not abort.
-        // In production, this would emit a structured audit log entry.
-        // (Audit logging integration is deferred to LDM-2 wiring, Q1 2027.)
+    if (!std::isfinite(w0) || w0 <= 0.0 || std::abs(w0 - expected_w0) > 1e-9) {
+        throw std::invalid_argument(
+            "DiscourseOrchestrator::runEbene1: initial_weight must equal 1/N");
     }
 
     // --- Launch one future per school ---
@@ -224,31 +269,25 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
         if (status == std::future_status::ready) {
             try {
                 DiscourseRoundOutput out = futures[i].get();
+                if (out.timed_out) {
+                    results.push_back(abstainResult(sid, w0, true));
+                    continue;
+                }
+                if (!isValidInferenceOutput(out)) {
+                    results.push_back(abstainResult(sid, w0, false));
+                    continue;
+                }
                 out.school_id     = sid;   // guarantee correct school_id
                 out.initial_weight = w0;   // equal-weight contract
                 results.push_back(std::move(out));
             } catch (...) {
-                // LLM inference threw — treat as timeout (fail-closed).
-                DiscourseRoundOutput out;
-                out.school_id      = sid;
-                out.ldm_verdict    = DiscourseVerdict::ABSTAIN;
-                out.verdict        = "ABSTAIN";
-                out.initial_weight = w0;
-                out.timed_out      = true;
-                out.schema_valid   = false;
-                results.push_back(std::move(out));
+                // Inference errors fail closed but are not mislabeled as timeouts.
+                results.push_back(abstainResult(sid, w0, false));
             }
         } else {
             // Future did not complete within timeout → fail-closed ABSTAIN.
             // Error: LDM_LLM_TIMEOUT — school stays in results for EU AI Act Art. 13.
-            DiscourseRoundOutput out;
-            out.school_id      = sid;
-            out.ldm_verdict    = DiscourseVerdict::ABSTAIN;
-            out.verdict        = "ABSTAIN";
-            out.initial_weight = w0;
-            out.timed_out      = true;
-            out.schema_valid   = false;
-            results.push_back(std::move(out));
+            results.push_back(abstainResult(sid, w0, true));
             // Note: the underlying future is abandoned; its thread will eventually
             // finish and the result will be discarded.
         }

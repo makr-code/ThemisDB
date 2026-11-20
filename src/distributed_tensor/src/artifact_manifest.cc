@@ -18,6 +18,7 @@
 #include <cerrno>
 #include <cstdlib>
 #include <functional>
+#include <limits>
 
 using json = nlohmann::json;
 
@@ -213,6 +214,7 @@ std::optional<RebuildState> RebuildStateUtils::stringToState(
  */
 std::string UpdateModeUtils::modeToString(UpdateMode mode) {
   switch (mode) {
+    case UpdateMode::NONE:          return "none";
     case UpdateMode::PATCH:         return "patch";
     case UpdateMode::PARTIAL_REFIT: return "partial_refit";
     case UpdateMode::REBUILD:       return "rebuild";
@@ -228,6 +230,9 @@ std::string UpdateModeUtils::modeToString(UpdateMode mode) {
  */
 std::optional<UpdateMode> UpdateModeUtils::stringToMode(
     const std::string& mode_str) {
+  if (mode_str == "none") {
+    return UpdateMode::NONE;
+  }
   if (mode_str == "patch") {
     return UpdateMode::PATCH;
   }
@@ -315,6 +320,36 @@ bool ArtifactManifest::validate() const {
       kind == ArtifactKind::DELTA_LOG ||
       kind == ArtifactKind::SHARD_SUMMARY;
   if (!kind_is_valid) {
+    return false;
+  }
+
+  const bool lifecycle_state_is_valid =
+      lifecycle_state == LifecycleState::READY ||
+      lifecycle_state == LifecycleState::STALE ||
+      lifecycle_state == LifecycleState::INVALIDATED ||
+      lifecycle_state == LifecycleState::REBUILDING ||
+      lifecycle_state == LifecycleState::FAILED;
+  const bool rebuild_state_is_valid =
+      rebuild_state == RebuildState::PRISTINE ||
+      rebuild_state == RebuildState::PATCHED ||
+      rebuild_state == RebuildState::PARTIAL_REFITTED ||
+      rebuild_state == RebuildState::REBUILT;
+  const bool update_mode_is_valid =
+      update_mode == UpdateMode::NONE ||
+      update_mode == UpdateMode::PATCH ||
+      update_mode == UpdateMode::PARTIAL_REFIT ||
+      update_mode == UpdateMode::REBUILD;
+  const bool invalidation_reason_is_valid =
+      invalidation_reason == InvalidationReason::UNKNOWN ||
+      invalidation_reason == InvalidationReason::INTEGRITY_CHECK_FAILED ||
+      invalidation_reason == InvalidationReason::STALENESS_EXCEEDED ||
+      invalidation_reason == InvalidationReason::SOURCE_INVALIDATED ||
+      invalidation_reason == InvalidationReason::SOURCE_LINEAGE_CORRUPTED ||
+      invalidation_reason == InvalidationReason::POLICY_VIOLATION ||
+      invalidation_reason == InvalidationReason::ADMIN_REQUESTED ||
+      invalidation_reason == InvalidationReason::SHARD_UNAVAILABLE;
+  if (!lifecycle_state_is_valid || !rebuild_state_is_valid ||
+      !update_mode_is_valid || !invalidation_reason_is_valid) {
     return false;
   }
 
@@ -445,8 +480,20 @@ bool ArtifactManifest::isCorrupted() const {
 std::string ArtifactManifest::toJSON() const {
   json j;
 
-  // Identity & Classification
+  // Phase A storage identity and freshness state.
   j["artifact_id"]    = artifact_id;
+  j["tensor_name"]    = tensor_name;
+  j["kind"]           = static_cast<uint8_t>(kind);
+  j["shard_id"]       = shard_id;
+  j["created_at_unix_nanos"] =
+      std::chrono::duration_cast<std::chrono::nanoseconds>(
+          created_at.time_since_epoch()).count();
+  j["integrity"] = {
+      {"crc32", integrity.crc32},
+      {"payload_bytes", integrity.payload_bytes},
+  };
+
+  // Identity & Classification
   j["artifact_class"] = ArtifactClassifier::classToString(artifact_class);
   j["truth_semantic"] = ArtifactClassifier::semanticToString(truth_semantic);
   j["lifecycle_state"]= ArtifactLifecyclePolicy::stateToString(lifecycle_state);
@@ -518,26 +565,71 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
     json j = json::parse(json_str);
     ArtifactManifest manifest;
 
-    // Identity & Classification
+    // Phase A storage identity and freshness state.
     if (j.contains("artifact_id"))
       manifest.artifact_id = j["artifact_id"].get<std::string>();
+    if (j.contains("tensor_name"))
+      manifest.tensor_name = j["tensor_name"].get<std::string>();
+    if (j.contains("kind")) {
+      const auto& kind_value = j["kind"];
+      uint64_t raw_kind = 0;
+      if (kind_value.is_number_unsigned()) {
+        raw_kind = kind_value.get<uint64_t>();
+      } else if (kind_value.is_number_integer()) {
+        const auto signed_kind = kind_value.get<int64_t>();
+        if (signed_kind < 0) {
+          return std::nullopt;
+        }
+        raw_kind = static_cast<uint64_t>(signed_kind);
+      } else {
+        return std::nullopt;
+      }
+      if (raw_kind > std::numeric_limits<uint8_t>::max()) {
+        return std::nullopt;
+      }
+      if (raw_kind != static_cast<uint8_t>(ArtifactKind::ADVISORY_SUMMARY) &&
+          raw_kind != static_cast<uint8_t>(ArtifactKind::DELTA_LOG) &&
+          raw_kind != static_cast<uint8_t>(ArtifactKind::SHARD_SUMMARY)) {
+        return std::nullopt;
+      }
+      manifest.kind = static_cast<ArtifactKind>(static_cast<uint8_t>(raw_kind));
+    }
+    if (j.contains("shard_id"))
+      manifest.shard_id = j["shard_id"].get<uint32_t>();
+    if (j.contains("created_at_unix_nanos")) {
+      const auto created_at_nanos =
+          std::chrono::nanoseconds(j["created_at_unix_nanos"].get<int64_t>());
+      manifest.created_at = std::chrono::system_clock::time_point(
+          std::chrono::duration_cast<std::chrono::system_clock::duration>(
+              created_at_nanos));
+    }
+    if (j.contains("integrity")) {
+      manifest.integrity.crc32 = j["integrity"].at("crc32").get<uint32_t>();
+      manifest.integrity.payload_bytes =
+          j["integrity"].at("payload_bytes").get<uint64_t>();
+    }
+
+    // Identity & Classification
     if (j.contains("artifact_class")) {
       auto ac = ArtifactClassifier::stringToClass(j["artifact_class"].get<std::string>());
-      if (ac) {
-        manifest.artifact_class = *ac;
+      if (!ac) {
+        return std::nullopt;
       }
+      manifest.artifact_class = *ac;
     }
     if (j.contains("truth_semantic")) {
       auto ts = ArtifactClassifier::stringToSemantic(j["truth_semantic"].get<std::string>());
-      if (ts) {
-        manifest.truth_semantic = *ts;
+      if (!ts) {
+        return std::nullopt;
       }
+      manifest.truth_semantic = *ts;
     }
     if (j.contains("lifecycle_state")) {
       auto ls = ArtifactLifecyclePolicy::stringToState(j["lifecycle_state"].get<std::string>());
-      if (ls) {
-        manifest.lifecycle_state = *ls;
+      if (!ls) {
+        return std::nullopt;
       }
+      manifest.lifecycle_state = *ls;
     }
 
     // Versioning & Integrity
@@ -581,21 +673,24 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
     // Rebuild & Update Tracking
     if (j.contains("rebuild_state")) {
       auto rs = RebuildStateUtils::stringToState(j["rebuild_state"].get<std::string>());
-      if (rs) {
-        manifest.rebuild_state = *rs;
+      if (!rs) {
+        return std::nullopt;
       }
+      manifest.rebuild_state = *rs;
     }
     if (j.contains("update_mode")) {
       auto um = UpdateModeUtils::stringToMode(j["update_mode"].get<std::string>());
-      if (um) {
-        manifest.update_mode = *um;
+      if (!um) {
+        return std::nullopt;
       }
+      manifest.update_mode = *um;
     }
     if (j.contains("invalidation_reason")) {
       auto ir = InvalidationReasonUtils::stringToReason(j["invalidation_reason"].get<std::string>());
-      if (ir) {
-        manifest.invalidation_reason = *ir;
+      if (!ir) {
+        return std::nullopt;
       }
+      manifest.invalidation_reason = *ir;
     }
 
     // Provenance & Reconstruction

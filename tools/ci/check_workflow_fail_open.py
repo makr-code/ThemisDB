@@ -39,6 +39,45 @@ def _workflow_path(root: Path, path: Path) -> str:
     return path.relative_to(root).as_posix()
 
 
+def _gate_workflow_files(repo_root: Path) -> list[Path]:
+    workflows_dir = (repo_root / WORKFLOWS_DIR).resolve()
+    pending = [
+        path
+        for path in workflows_dir.glob("*.y*ml")
+        if _is_gate_workflow(path)
+    ]
+    discovered: set[Path] = set()
+
+    while pending:
+        workflow = pending.pop().resolve()
+        if workflow in discovered:
+            continue
+        discovered.add(workflow)
+
+        try:
+            data = yaml.safe_load(workflow.read_text(encoding="utf-8")) or {}
+        except Exception:
+            continue
+        jobs = data.get("jobs") if isinstance(data, dict) else None
+        if not isinstance(jobs, dict):
+            continue
+        for job in jobs.values():
+            if not isinstance(job, dict):
+                continue
+            uses = job.get("uses")
+            if not isinstance(uses, str) or not uses.startswith("./.github/workflows/"):
+                continue
+            reusable = (repo_root / uses).resolve()
+            try:
+                reusable.relative_to(workflows_dir)
+            except ValueError:
+                continue
+            if reusable.is_file() and reusable.suffix in {".yml", ".yaml"}:
+                pending.append(reusable)
+
+    return sorted(discovered)
+
+
 def _exceptions_in_workflow(path: Path, relative_path: str) -> list[dict[str, str]]:
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     if not isinstance(data, dict):
@@ -71,7 +110,22 @@ def _exceptions_in_workflow(path: Path, relative_path: str) -> list[dict[str, st
         steps = job.get("steps") or []
         job_with = job.get("with") or {}
         if isinstance(job_with, dict):
-            for command in job_with.values():
+            for input_name, command in job_with.items():
+                if (
+                    re.search(r"continue[-_]on[-_]error", str(input_name), re.IGNORECASE)
+                    and command is not False
+                    and not (
+                        isinstance(command, str)
+                        and command.strip().lower() == "false"
+                    )
+                ):
+                    exceptions.append({
+                        "workflow": relative_path,
+                        "job": str(job_name),
+                        "step": "<job-call>",
+                        "kind": "reusable-input-continue-on-error",
+                        "match": f"{input_name}={command}",
+                    })
                 if not isinstance(command, str):
                     continue
                 for line in command.splitlines():
@@ -171,9 +225,7 @@ def validate_fail_open_exceptions(
             errors.append(f"{allowlist_path}: {key} requires a positive integer count")
 
     found: Counter[tuple[str, str, str, str, str]] = Counter()
-    for workflow in sorted((repo_root / WORKFLOWS_DIR).glob("*.y*ml")):
-        if not _is_gate_workflow(workflow):
-            continue
+    for workflow in _gate_workflow_files(repo_root):
         relative_path = _workflow_path(repo_root, workflow)
         try:
             exceptions = _exceptions_in_workflow(workflow, relative_path)
@@ -214,11 +266,7 @@ def main(argv: list[str] | None = None) -> int:
         for error in errors:
             print(f"::error::{error}", file=sys.stderr)
         return 1
-    workflow_files = [
-        path
-        for path in (args.repo_root.resolve() / WORKFLOWS_DIR).glob("*.y*ml")
-        if _is_gate_workflow(path)
-    ]
+    workflow_files = _gate_workflow_files(args.repo_root.resolve())
     exception_count = sum(
         len(_exceptions_in_workflow(path, _workflow_path(args.repo_root.resolve(), path)))
         for path in workflow_files

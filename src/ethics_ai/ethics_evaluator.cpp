@@ -12,33 +12,55 @@
 #include "ethics_evaluator.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <map>
 #include <numeric>
 #include <set>
 #include <sstream>
+#include <stdexcept>
 #include <variant>
 
 namespace themis {
 namespace plugins {
 namespace ethics {
 
-EthicsEvaluator::EthicsEvaluator(const Config &config) {
-    // Normalise weights so they always sum to 1.0.
-    double total = config.weight_decision_quality + config.weight_consistency + config.weight_fairness
-                   + config.weight_alignment + config.weight_transparency;
-    if (total <= 0.0) {
-        config_ = Config{}; // fall back to defaults
-    } else {
-        config_.weight_decision_quality = config.weight_decision_quality / total;
-        config_.weight_consistency      = config.weight_consistency / total;
-        config_.weight_fairness         = config.weight_fairness / total;
-        config_.weight_alignment        = config.weight_alignment / total;
-        config_.weight_transparency     = config.weight_transparency / total;
+EthicsEvaluator::EthicsEvaluator(const Config& config) {
+    const std::array weights{
+        config.weight_decision_quality,
+        config.weight_consistency,
+        config.weight_fairness,
+        config.weight_alignment,
+        config.weight_transparency,
+    };
+    if (!std::all_of(weights.begin(), weights.end(), [](double weight) {
+            return std::isfinite(weight) && weight >= 0.0;
+        })) {
+        throw std::invalid_argument("EthicsEvaluator weights must be finite and non-negative");
     }
+
+    const double total = std::accumulate(weights.begin(), weights.end(), 0.0);
+    if (!std::isfinite(total) || total <= 0.0) {
+        throw std::invalid_argument("EthicsEvaluator weights must have a finite positive sum");
+    }
+
+    config_.weight_decision_quality = weights[0] / total;
+    config_.weight_consistency = weights[1] / total;
+    config_.weight_fairness = weights[2] / total;
+    config_.weight_alignment = weights[3] / total;
+    config_.weight_transparency = weights[4] / total;
 }
 
 std::variant<EthicsEvaluationResult, Status>
 EthicsEvaluator::evaluateDecision(const EthicalDecision &decision, const std::vector<EthicalArgument> &arguments) {
+    if (!std::isfinite(decision.confidence) || decision.confidence < 0.0 || decision.confidence > 1.0) {
+        return Status::Error("Decision confidence must be finite and in [0, 1]");
+    }
+    if (!std::isfinite(decision.consensus_level) || decision.consensus_level < 0.0 ||
+        decision.consensus_level > 1.0) {
+        return Status::Error("Decision consensus_level must be finite and in [0, 1]");
+    }
+
     EthicsEvaluationResult result;
 
     // Evaluate each dimension
@@ -63,6 +85,21 @@ EthicsEvaluator::evaluateDecision(const EthicalDecision &decision, const std::ve
     result.detailed_metrics["num_arguments"]    = static_cast<double>(arguments.size());
     result.detailed_metrics["confidence"]       = decision.confidence;
     result.detailed_metrics["consensus_level"]  = decision.consensus_level;
+
+    std::set<std::string> fairness_evidence_schools;
+    size_t fairness_evidence_arguments = 0;
+    for (const auto& argument : arguments) {
+        if (!argument.philosophy_school.empty()) {
+            fairness_evidence_schools.insert(argument.philosophy_school);
+            ++fairness_evidence_arguments;
+        }
+    }
+    result.detailed_metrics["fairness_evidence_available"] =
+        fairness_evidence_arguments > 0 ? 1.0 : 0.0;
+    result.detailed_metrics["fairness_evidence_argument_count"] =
+        static_cast<double>(fairness_evidence_arguments);
+    result.detailed_metrics["fairness_evidence_school_count"] =
+        static_cast<double>(fairness_evidence_schools.size());
 
     return result;
 }
@@ -128,26 +165,28 @@ double EthicsEvaluator::evaluateConsistency(const EthicalDecision &decision,
  * @return Return value.
  * @details Calls: size(), empty(), insert(), std::min().
  */
-double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
+double EthicsEvaluator::evaluateFairness([[maybe_unused]] const EthicalDecision &decision,
                                          const std::vector<EthicalArgument> &arguments) {
-    double score = 0.65; // Base score
+    std::set<std::string> unique_schools;
+    size_t identified_arguments = 0;
+    for (const auto& argument : arguments) {
+        if (!argument.philosophy_school.empty()) {
+            unique_schools.insert(argument.philosophy_school);
+            ++identified_arguments;
+        }
+    }
+    if (identified_arguments == 0) {
+        return 0.0;
+    }
 
-    // Factor 1: Multi-philosophy consideration
-    if (decision.supporting_philosophies.size() > 1) {
+    // This is a source-diversity proxy, not a population fairness assessment.
+    double score = 0.65;
+    if (unique_schools.size() > 1) {
         score += 0.2;
     }
-
-    // Factor 2: Argument diversity
-    if (!arguments.empty()) {
-        std::set<std::string> unique_schools = {};
-
-        for (const auto &arg : arguments) {
-            unique_schools.insert(arg.philosophy_school);
-        }
-        double diversity = static_cast<double>(unique_schools.size()) /
-                           static_cast<double>(std::max<size_t>(1, arguments.size()));
-        score += diversity * 0.15;
-    }
+    const double diversity = static_cast<double>(unique_schools.size()) /
+                             static_cast<double>(identified_arguments);
+    score += diversity * 0.15;
 
     return std::min(score, 1.0);
 }

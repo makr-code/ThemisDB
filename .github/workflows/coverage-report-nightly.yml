@@ -199,6 +199,36 @@ jobs:
             -v --output-on-failure \
             --timeout 30 2>&1 | tee build/focused-tests.log
           echo "status=success" >> "$GITHUB_OUTPUT"
+
+      - name: Run distributed tensor focused tests
+        id: distributed_tensor_tests
+        run: |
+          set -o pipefail
+          ctest --test-dir build \
+            --label-regex "distributed_tensor" \
+            -v --output-on-failure \
+            --timeout 120 2>&1 | tee build/distributed-tensor-focused-tests.log
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          tests = json.loads(Path("build/ctest-tests.json").read_text(encoding="utf-8"))["tests"]
+          selected = []
+          for test in tests:
+              properties = {
+                  prop["name"]: prop.get("value")
+                  for prop in test.get("properties", [])
+              }
+              labels = properties.get("LABELS", [])
+              if isinstance(labels, str):
+                  labels = labels.split(";")
+              if "distributed_tensor" in labels:
+                  selected.append(test)
+          if not selected:
+              raise SystemExit("No distributed_tensor focused tests are registered")
+          print(f"Ran {len(selected)} distributed_tensor focused tests.")
+          PY
+          echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Run release-critical tests (Tier A subset)
         id: critical_tests
@@ -474,6 +504,132 @@ jobs:
             --title "ThemisDB GPU Release-Critical Coverage" \
             --show-details \
             --legend
+
+      - name: Generate and enforce distributed tensor coverage evidence
+        if: always() && steps.collect_coverage.outcome == 'success'
+        run: |
+          lcov --extract coverage.lcov '*/src/distributed_tensor/*' \
+            --branch-coverage \
+            --output-file distributed-tensor-coverage.lcov
+          python3 scripts/generate_coverage_baseline.py \
+            distributed-tensor-coverage.lcov \
+            --output distributed-tensor-coverage-baseline.txt \
+            --json distributed-tensor-coverage.json
+          lcov --extract distributed-tensor-coverage.lcov \
+            '*/src/distributed_tensor/src/manifest_store.cpp' \
+            '*/src/distributed_tensor/src/artifact_manifest.cc' \
+            --branch-coverage \
+            --output-file distributed-tensor-release-critical-coverage.lcov
+          python3 scripts/generate_coverage_baseline.py \
+            distributed-tensor-release-critical-coverage.lcov \
+            --output distributed-tensor-release-critical-coverage-baseline.txt \
+            --json distributed-tensor-release-critical-coverage.json
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          module_report = json.loads(
+              Path("distributed-tensor-coverage.json").read_text(encoding="utf-8")
+          )
+          module = module_report.get("modules", {}).get("distributed_tensor")
+          if not module:
+              raise SystemExit("No src/distributed_tensor coverage records were generated")
+
+          line_target = 70.0
+          branch_target = 60.0
+          critical_paths = [
+              "src/distributed_tensor/src/manifest_store.cpp",
+              "src/distributed_tensor/src/artifact_manifest.cc",
+          ]
+          records = {}
+          current_path = None
+          for raw_line in Path(
+              "distributed-tensor-release-critical-coverage.lcov"
+          ).read_text(encoding="utf-8").splitlines():
+              if raw_line.startswith("SF:"):
+                  current_path = raw_line[3:].replace("\\", "/")
+                  records[current_path] = {"lines": [], "branches": []}
+              elif current_path and raw_line.startswith("DA:"):
+                  _, hits = raw_line[3:].split(",")[:2]
+                  records[current_path]["lines"].append(int(hits) > 0)
+              elif current_path and raw_line.startswith("BRDA:"):
+                  taken = raw_line.split(":")[1].split(",")[3]
+                  if taken != "-":
+                      records[current_path]["branches"].append(int(taken) > 0)
+              elif raw_line == "end_of_record":
+                  current_path = None
+
+          measurements = {}
+          for path in critical_paths:
+              record = next(
+                  (item for source, item in records.items()
+                   if source.endswith("/" + path) or source == path),
+                  {"lines": [], "branches": []},
+              )
+              line_total = len(record["lines"])
+              branch_total = len(record["branches"])
+              line_covered = sum(record["lines"])
+              branch_covered = sum(record["branches"])
+              line_percent = 100.0 * line_covered / line_total if line_total else 0.0
+              branch_percent = (
+                  100.0 * branch_covered / branch_total if branch_total else 0.0
+              )
+              status = (
+                  "meets_target"
+                  if line_percent >= line_target and branch_percent >= branch_target
+                  else "below_target"
+              )
+              measurements[path] = {
+                  "lines_covered": line_covered,
+                  "lines_total": line_total,
+                  "line_percent": round(line_percent, 1),
+                  "branches_covered": branch_covered,
+                  "branches_total": branch_total,
+                  "branch_percent": round(branch_percent, 1),
+                  "status": status,
+              }
+
+          under_target = [
+              path for path, data in measurements.items()
+              if data["status"] != "meets_target"
+          ]
+          evidence = {
+              "source_commit": os.environ["GITHUB_SHA"],
+              "source_ref": os.environ["GITHUB_REF"],
+              "coverage_scope": "src/distributed_tensor/",
+              "module": module,
+              "release_critical_thresholds": {
+                  "line_percent": line_target,
+                  "branch_percent": branch_target,
+              },
+              "release_critical_paths": measurements,
+              "under_target_paths": under_target,
+              "path_specific_exceptions": [],
+              "status": "meets_target" if not under_target else "below_target",
+          }
+          Path("distributed-tensor-coverage-evidence.json").write_text(
+              json.dumps(evidence, indent=2) + "\n", encoding="utf-8"
+          )
+          print(json.dumps(evidence, indent=2))
+          if under_target:
+              raise SystemExit(
+                  "Distributed tensor release-critical paths did not meet "
+                  "70% line / 60% branch coverage"
+              )
+          PY
+          mkdir -p distributed-tensor-coverage-report
+          genhtml distributed-tensor-coverage.lcov --branch-coverage \
+            --output-directory distributed-tensor-coverage-report \
+            --title "ThemisDB Distributed Tensor Coverage" \
+            --show-details \
+            --legend
+          mkdir -p distributed-tensor-release-critical-coverage-report
+          genhtml distributed-tensor-release-critical-coverage.lcov --branch-coverage \
+            --output-directory distributed-tensor-release-critical-coverage-report \
+            --title "ThemisDB Distributed Tensor Release-Critical Coverage" \
+            --show-details \
+            --legend
       
       - name: Generate baseline metrics
         run: |
@@ -576,15 +732,25 @@ jobs:
             gpu-release-critical-coverage-baseline.txt
             gpu-release-critical-coverage.json
             gpu-release-critical-coverage-report/
+            distributed-tensor-coverage.lcov
+            distributed-tensor-coverage-baseline.txt
+            distributed-tensor-coverage.json
+            distributed-tensor-coverage-evidence.json
+            distributed-tensor-coverage-report/
+            distributed-tensor-release-critical-coverage.lcov
+            distributed-tensor-release-critical-coverage-baseline.txt
+            distributed-tensor-release-critical-coverage.json
+            distributed-tensor-release-critical-coverage-report/
             coverage-delta.json
             build/focused-tests.log
+            build/distributed-tensor-focused-tests.log
             build/analytics-focused-tests.log
             build/release-critical-tests.log
           retention-days: 30
           if-no-files-found: warn
 
       - name: Fail workflow when required tests fail
-        if: always() && (steps.analytics_focus_tests.outcome == 'failure' || steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
+        if: always() && (steps.analytics_focus_tests.outcome == 'failure' || steps.focused_tests.outcome == 'failure' || steps.distributed_tensor_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
         run: |
           echo "::error::Focused or release-critical coverage tests failed; see their logs and the uploaded coverage artifacts."
           exit 1

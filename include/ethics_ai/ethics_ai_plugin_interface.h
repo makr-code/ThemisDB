@@ -108,7 +108,18 @@ public:
     ) = 0;
     
     // ========== Evaluation ==========
-    
+
+    /**
+     * @brief Evaluates a decision using the configured in-tree ethics score dimensions.
+     * @param decision Decision whose confidence and consensus_level must be finite values in [0, 1].
+     * @param arguments Arguments considered for evaluation; an empty list is accepted but does not provide
+     *        fairness evidence.
+     * @return Evaluation scores and detailed evidence metrics, or Status::Error for invalid numeric scores
+     *         or an unavailable plugin.
+     * @note fairness_score is a philosophy-school source-diversity proxy, not a population or subgroup
+     *       fairness assessment. Missing named school evidence yields score 0 and
+     *       detailed_metrics["fairness_evidence_available"] == 0.
+     */
     [[nodiscard]] virtual std::variant<EthicsEvaluationResult, Status> evaluateDecision(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments = {}

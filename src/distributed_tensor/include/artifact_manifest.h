@@ -362,8 +362,17 @@ struct ArtifactManifest {
 
     [[nodiscard]] bool isCorrupted() const;
 
+    /**
+     * @brief Serialize the complete manifest state to JSON.
+     * @return JSON including identity, freshness, integrity, lifecycle, and placement fields.
+     */
     [[nodiscard]] std::string toJSON() const;
 
+    /**
+     * @brief Parse a serialized manifest.
+     * @param json_str JSON input; malformed or incorrectly typed fields are rejected.
+     * @return The parsed manifest, or std::nullopt when parsing fails.
+     */
     [[nodiscard]] static std::optional<ArtifactManifest> fromJSON(
         const std::string& json_str);
 

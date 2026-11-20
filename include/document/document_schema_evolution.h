@@ -41,6 +41,8 @@ namespace document {
 // SchemaVersion
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// Schema identifiers are registry keys, not migration sequence numbers.
+/// The in-memory registry accepts any value in the uint32_t range, including 0.
 using SchemaVersion = std::uint32_t;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,6 +133,18 @@ public:
 
     [[nodiscard]] virtual std::vector<SchemaVersion> registeredVersions() const = 0;
 
+    /**
+     * @brief Validate an object document against one explicitly registered schema.
+     * @param document_id Identifier copied into the validation report.
+     * @param document_body JSON object to check; other JSON kinds are rejected.
+     * @param version Registered schema identifier; no transition or migration is
+     *        inferred from its numeric ordering.
+     * @return A report containing field violations, or an error when the version
+     *         is unregistered or the body is not an object.
+     * @note Validation checks declared required fields and JSON types only.
+     *       Unknown fields are accepted and default_value is informational.
+     *       This operation does not validate document_id for emptiness.
+     */
     [[nodiscard]] virtual Result<ValidationReport> validate(
         const DocumentId&     document_id,
         const nlohmann::json& document_body,
@@ -202,6 +216,17 @@ public:
         return vs; // std::map iterates in ascending key order
     }
 
+    /**
+     * @brief Validate an object document against a registered schema version.
+     * @param[in] document_id Identifier copied into the validation report.
+     * @param[in] document_body Document JSON; non-object values are rejected.
+     * @param[in] version Registered schema key; numeric order has no migration
+     *            semantics.
+     * @return A report with field violations, or an error if the version is
+     *         unregistered or the body is not an object.
+     * @note Checks required fields and declared JSON types only; unknown fields
+     *       are accepted, and defaults are informational.
+     */
     Result<ValidationReport> validate(
         const DocumentId&     document_id,
         const nlohmann::json& document_body,
@@ -218,6 +243,11 @@ public:
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_NOT_FOUND,
                 std::to_string(version)));
+        }
+        if (!document_body.is_object()) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED,
+                "document body must be a JSON object"));
         }
 
         const SchemaDescriptor& schema = it->second;

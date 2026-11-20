@@ -1,6 +1,6 @@
 # Distributed Tensor Test Evidence Collection
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-19
 **Source level:** Level 1 — module implementation
 **SOT domain:** build-test
 **Canonical references:** `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -11,7 +11,7 @@ AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot Coding Agent
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
 
@@ -58,6 +58,17 @@ when present and assigns that soak test a 120-second timeout.
   `THEMIS_BUILD_BENCHMARKS` is enabled.
 
 These registrations do not indicate that any executable was built or run.
+
+## Nightly coverage gate
+
+The nightly coverage workflow runs all CTest cases carrying the
+`distributed_tensor` label and uploads the module LCOV/JSON report and a
+per-path evidence file. The release-critical gate requires at least 70% line
+and 60% branch coverage for `src/distributed_tensor/src/manifest_store.cpp`
+and `src/distributed_tensor/src/artifact_manifest.cc`. A failed threshold is
+not waived automatically; no path-specific exception is currently approved.
+Workflow configuration is not evidence that a particular run passed. Use the
+uploaded evidence from the exact commit when recording measured results.
 
 ## Collecting evidence
 

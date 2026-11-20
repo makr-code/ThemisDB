@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-18"
+Last Updated: "2026-11-19"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build build/linux-release`
 
 # Document Module — Public Headers
@@ -43,10 +57,15 @@ Public interfaces and in-memory reference implementations for document storage, 
 
 ### Schema Evolution (`IDocumentSchemaEvolution`)
 
-- Versions are immutable once registered.
-- `seal()` blocks future registrations (`ERR_DOC_SCHEMA_SEALED`).
+- `SchemaVersion` is a `uint32_t` registry key (including `0`), not a migration sequence; registration does not enforce ordering, adjacency, compatibility, or data migration.
+- A version is immutable once registered; duplicate registration returns `ERR_DOC_SCHEMA_VERSION_EXISTS`, and `seal()` blocks later registrations with `ERR_DOC_SCHEMA_SEALED`.
+- Validation with an unregistered version returns `ERR_DOC_SCHEMA_VERSION_NOT_FOUND`.
+- Validation requires a JSON object. A non-object body returns `ERR_DOC_VALIDATION_ABORTED`, including when the schema has only optional fields.
 - Validation returns structured field violations (`MISSING_REQUIRED_FIELD`, `TYPE_MISMATCH`).
-- The in-memory validator checks declared required fields and JSON types; a field's `default_value` is informational and is not applied.
+- The in-memory validator checks declared required fields and JSON types; unknown fields are accepted and a field's `default_value` is informational and is not applied. JSON null does not satisfy a non-ANY type.
+- The validator copies `document_id` into the report but does not check it for emptiness.
+- Validation is an explicit API call; store/manager writes and round-trip persistence do not invoke it automatically.
+- `ERR_DOC_SCHEMA_TRANSITION_INVALID` exists in the shared error taxonomy, but this registry exposes no transition or migration operation and does not produce that error for version comparisons.
 
 ### Diff/Merge (`IDocumentDiffMerge`)
 
@@ -75,6 +94,7 @@ Public interfaces and in-memory reference implementations for document storage, 
 - `InMemoryDocumentManager::createEncrypted()` stores the supplied JSON body in its in-memory store; it does not encrypt that body.
 - `InMemoryXDOMEAConnector` is not a full XML validator; production systems should use XSD-validating connectors.
 - `StoreBackedRoundTripEditor` persists through `IDocumentStore` but does not validate the document against a schema.
+- The module has no built-in retry, fallback, degraded-mode, or recovery loop; storage errors are returned/propagated to callers, which own any bounded retry policy.
 
 ## Installation
 

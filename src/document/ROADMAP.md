@@ -1,14 +1,14 @@
 # Document Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-11-06 (source/configuration and literature review; no tests run) -->
+<!-- Status: current | validated: 2026-11-19 (source/configuration review; focused test execution recorded separately) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · DEVELOPMENT_STATUS_2026_07_28.md -->
 <!--
-Last Updated: 2026-11-06
+Last Updated: 2026-11-19
 Source level: L1
 SOT domain: module-behavior
 Canonical references: README.md; SECURITY.md; PERFORMANCE_EXPECTATIONS.md; ../../ROADMAP.md; ../../VERSIONING.md; ../../include/document/; ../../tests/document/CMakeLists.txt; ../../benchmarks/document/
-Related: Issue #7415
+Related: Issue #7513
 AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot
@@ -31,7 +31,7 @@ Document runtime interfaces and in-memory/reference implementations exist for st
 
 ### Short-term (3-6 months)
 - [x] tighten deterministic conflict handling for multi-branch merge permutations (Target: Q4 2026)
-- [x] expand regression coverage for schema sealing/version transition edge cases (Target: Q4 2026)
+- [x] expand regression coverage for schema sealing and independent per-version validation edge cases (Target: Q4 2026)
 - [x] improve operator diagnostics for document round-trip and exchange failures (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
@@ -123,17 +123,19 @@ Artifacts present at the paths below; this is not an execution/sign-off record:
 
 ## Evidence-Based Roadmap: v2.5.0 and v3.0.0 (proposals)
 
-This section records proposed investigation and delivery measures, not approved commitments. Targets are release lanes, not dates. Root `../../ROADMAP.md` identifies `v2.4.0-alpha` as current, and `../../VERSIONING.md` identifies `v2.5.0` as the next minor feature target. No approval or release date for `v3.0.0` was found. Any scope, API break, or release commitment requires the relevant owner/release approval.
+This section records document-module investigation and delivery measures, not approved module scope. Root `../../ROADMAP.md` identifies `v2.4.0-alpha` as current and sets the program rollout targets: `v2.5.0` M1 Single-Node RC by 2027-03-31, `v3.0.0` M2 Multi-Node Beta by 2027-06-30, and M3 Single-Node GA by 2027-06-30 subject to human sign-off. `../../VERSIONING.md` identifies `v2.5.0` as the next minor feature target. These program milestones do not approve document-module API breaks or implementation scope; any such scope requires the relevant owner/release approval.
 
 ### Maturity snapshot
 
 - **Current maturity assessment:** Functional reference layer with source-level feature and focused-test coverage; production durability, deployment security, and executed representative-hardware validation are not established. This qualitative assessment is not a generated maturity score.
+- **Generated status boundary:** “PRODUCTION-READY” annotations in generated public-header maturity blocks are not release evidence and do not supersede the implementation and evidence limits recorded in this roadmap.
 - **Implemented boundary:** `README.md` and the public headers in `../../include/document/` describe predominantly in-memory/reference implementations for store/manager, lifecycle, schema checks, diff/merge, XDOMEA, diagnostics, and encrypted-entity helpers. `src/document/round_trip_editor.cpp` wires round-trip snapshots to a supplied store. `IDocumentStore` is an interface; its existence does not imply a durable backend.
-- **Validation and exchange boundary:** `InMemoryDocumentSchemaEvolution` currently checks configured required fields and JSON types; it is not a general JSON Schema validator. Round-trip persistence does not itself call schema validation. The in-memory XDOMEA parser is not XSD validation.
+- **Validation and exchange boundary:** `InMemoryDocumentSchemaEvolution` requires an object body (`ERR_DOC_VALIDATION_ABORTED`) and checks configured required fields and JSON types; unknown fields are accepted, defaults are informational, and it is not a general JSON Schema validator. `SchemaVersion` values are registry keys, not migration sequence numbers; no transition or migration operation is implemented, even though `ERR_DOC_SCHEMA_TRANSITION_INVALID` is defined. Round-trip persistence does not itself call schema validation. The in-memory XDOMEA parser is not XSD validation.
 - **Encryption boundary:** `InMemoryDocumentManager::createEncrypted()` stores the JSON supplied by the caller as-is, and `InMemoryEncryptedEntity::reencrypt()` updates key-ID state but does not re-cipher stored document bytes. These helpers are not a production encryption/key-rotation path.
 - **Test evidence:** `tests/document/CMakeLists.txt` registers focused targets from the six direct `test_document_*.cpp` files (including schema, store, round-trip, diagnostics, XDOMEA, and high-cardinality cases). Registration/source presence is not evidence that tests were executed or passed.
 - **Benchmark evidence:** `benchmarks/document/CMakeLists.txt` conditionally registers three in-memory-interface benchmark suites and a synthetic serialization-gates executable when benchmark support is enabled and found. Existing latency checks named `p99` compare a mean calculated from elapsed time and iterations; they do not calculate p99. The four `DOC-BM-01..04` counters use synthetic string/vector stubs and neither exercise production document operations nor fail on a missed threshold. No representative-hardware results or release-workflow gate consumption are established by this source review.
 - **Security/operations boundary:** `SECURITY.md` leaves authorization, durable-store encryption, retention, backup, audit, and production XDOMEA validation as integration/deployment questions. This roadmap does not infer a production backend, security policy, or release readiness from interfaces, tests, or benchmark source.
+- **Failure/recovery boundary:** No retry, fallback, recovery, or degraded-mode mechanism is implemented in this module. Storage and validation failures are returned or propagated; caller/integration retries must be bounded and observable. The focused schema regression now pins rejection of non-object JSON.
 
 ### Research and evidence basis
 
@@ -157,9 +159,9 @@ External references inform candidate methods and controls, not current implement
 - Specify whether the existing required-field/type validator is sufficient for the module contract or whether a broader schema contract is proposed; JSON Schema 2020-12 is a candidate, not an assumed requirement.
 - Make encryption-helper boundaries explicit and define caller/deployment responsibilities for authorization, audit, backup/restore, key lifecycle, and XDOMEA XSD validation. Do not claim a concrete durable store or actual `createEncrypted()` encryption.
 
-#### v3.0.0 — major lane; conditional exploration, no release date or approval found
+#### v3.0.0 — major lane; program targets M2/M3, document scope remains conditional
 
-- First decide whether a durable backend, expanded schema contract, or public API/wire compatibility change belongs in this module. The `IDocumentStore` interface alone is not evidence that such a backend exists or is committed.
+- First decide whether a durable backend, expanded schema contract, or public API/wire compatibility change belongs in this module. The `IDocumentStore` interface alone is not evidence that such a backend exists or is committed; program milestone dates do not approve module implementation scope.
 - If an owner approves a breaking contract, define versioning, migration/compatibility policy, failure semantics, and security ownership before implementation; otherwise defer the change rather than imply it is in scope.
 - Consider durable transaction/recovery, access-control and collection-isolation boundaries, persisted encryption/key rotation, auditability, retention, and backup/restore only with an identified owning integration and threat model.
 - Consider canonical JSON only for a documented deterministic hash/signature requirement, with compatibility and security review. Do not treat canonicalization as encryption.
@@ -189,7 +191,8 @@ Each wave is conditional on its dependencies and owner review. Person-week value
 - **Proposed priority:** P1 — required before expanding validation or making interoperability claims.
 - **Goal:** Bound validation semantics so callers can distinguish current required-field/type checks from any future schema or XML validation.
 - **Tasks:**
-  - [ ] Inventory current schema semantics, default handling, unknown fields, version transitions, and round-trip validation behavior; define compatibility expectations before changing code. (Target: v2.5.0, proposed)
+  - [x] Inventory current required/type checks, defaults, unknown fields, independent version keys, non-object rejection, and round-trip validation behavior; document the current contract and regression evidence. (Target: v2.5.0, issue #7513)
+  - [ ] Decide compatibility expectations and whether the field-descriptor contract is sufficient or a broader schema contract is proposed. (Target: v2.5.0, proposed)
   - [ ] Decide whether to retain the current field-descriptor contract or propose a JSON Schema 2020-12-compatible contract; document unsupported features and migration implications. (Target: v2.5.0, proposed)
   - [ ] Specify XDOMEA XML parsing versus XSD validation responsibilities and select an owning implementation boundary before adding validation. (Target: v2.5.0, proposed)
   - [ ] Add regression cases for the accepted contract, including missing required fields, wrong types, unknown fields, schema-version errors, and malformed/nonconforming XML as applicable. (Target: v2.5.0, proposed)
@@ -221,12 +224,12 @@ Each wave is conditional on its dependencies and owner review. Person-week value
 - **Proposed priority:** P0 — mandatory scope gate before any v3.0.0 implementation commitment.
 - **Goal:** Make an explicit, reviewed go/no-go decision on major-version changes before committing to a backend or breaking contract.
 - **Tasks:**
-  - [ ] Compare the current interface/reference implementation with candidate durable-store and validation requirements; record whether any requirement belongs to this module or another integration. (Target: v3.0.0, conditional; no date/approval)
-  - [ ] If a breaking change is justified, define compatibility boundaries, API/ABI and data migration plan, failure/recovery semantics, and support policy. (Target: v3.0.0, conditional)
-  - [ ] Record owner, threat model, deployment context, and acceptance evidence for every selected security/recovery requirement. (Target: v3.0.0, conditional)
-- **Dependencies:** Waves 1–3 evidence; explicit release/product, module, storage, and security-owner decisions.
+  - [ ] Compare the current interface/reference implementation with candidate durable-store and validation requirements; record whether any requirement belongs to this module or another integration. (Target: v3.0.0 M2/M3, conditional; module scope unapproved)
+  - [ ] If a breaking change is justified, define compatibility boundaries, API/ABI and data migration plan, failure/recovery semantics, and support policy. (Target: v3.0.0 M2/M3, conditional)
+  - [ ] Record owner, threat model, deployment context, and acceptance evidence for every selected security/recovery requirement. (Target: v3.0.0 M2/M3, conditional)
+- **Dependencies:** Waves 1–3 evidence; explicit release/product, module, storage, and security-owner decisions. The program target is v3.0.0 M2/M3 by 2027-06-30; module scope remains unapproved until those decisions are recorded.
 - **Risk / trade-off:** A durable backend or contract expansion can increase operational complexity and break consumers; postponement limits scope but retains the current in-memory/reference boundary.
-- **Measurable success metrics:** A decision record lists approved scope, deferred items, owners, migration compatibility, and measurable exit evidence; absent approval, all implementation tasks remain deferred and no release date or commitment is asserted.
+- **Measurable success metrics:** A decision record lists approved scope, deferred items, owners, migration compatibility, and measurable exit evidence; absent approval, all implementation tasks remain deferred and no document-module implementation date or commitment is asserted.
 - **Validation required:** Design/API review and compatibility analysis; prototype-focused unit/integration tests only after scope approval; threat-model and governance sign-off for selected security controls. Benchmark comparison must use Wave 1 workload definitions; a prototype is not a release result.
 - **Estimate:** 1–3 person-weeks for decision/design; implementation not estimated before scope approval.
 - **Unknown assumptions:** Product demand, backward-compatibility constraints, concrete backend choice, supported deployment topologies, and approval timing.

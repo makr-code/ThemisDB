@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-06-01
-Last Updated: 2026-10-31
+Last Updated: 2026-11-19
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -66,6 +66,14 @@ Public types are declared in `themis::plugins::ethics` (including types in `incl
   - empty or invalid IDs in persistence operations
   - missing debate/decision/chain entities
   - profile directory/path or YAML parsing failures
+
+### Decision Evaluation Contract
+
+- `evaluateDecision()` returns `Status::Error` when `confidence` or `consensus_level` is non-finite or outside `[0, 1]`.
+- Evaluator construction with custom weights throws `std::invalid_argument` unless every weight is finite and non-negative and the total is finite and positive; accepted weights are normalized.
+- `fairness_score` is a source-diversity proxy based on named argument school IDs, not an outcome-level population or subgroup fairness finding. Empty school IDs are excluded and duplicates do not inflate distinct-school evidence.
+- With no named argument schools, evaluation remains available but reports `fairness_score == 0`, `fairness_evidence_available == 0`, and zero evidence counts in `detailed_metrics`. Consumers must inspect these metrics before interpreting the fairness score.
+- `DiscourseOrchestrator::runEbene1()` rejects plans with empty/duplicate school IDs or non-finite/unequal `initial_weight` before inference starts. Callback errors and invalid schema/verdict/confidence results fail closed as `ABSTAIN`; callback-reported and orchestrator-classified timeouts also set `timed_out`. Its positive per-school timeout does not cancel the callback; callbacks using `std::async` can delay function return. It is not a hard end-to-end deadline.
 
 ### Runtime Characteristics
 

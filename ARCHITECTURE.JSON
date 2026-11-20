@@ -757,12 +757,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "9002eaf7b99cde05"
+      "sha256_prefix": "f55b7cb14d377a6f"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "d97d35910d151e40"
+      "sha256_prefix": "decde5b664b05b67"
     },
     {
       "category": "governance",
@@ -787,7 +787,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "8a7bde3764105fe6"
+      "sha256_prefix": "7fef9ba518fcc771"
     },
     {
       "category": "governance",
@@ -982,7 +982,7 @@
     {
       "category": "docs",
       "path": "docs/EPIC2_QUERY_PLANNER.md",
-      "sha256_prefix": "f6e8148cbcf4be73"
+      "sha256_prefix": "04029e8db4ed0932"
     },
     {
       "category": "docs",
@@ -1142,7 +1142,7 @@
     {
       "category": "docs",
       "path": "docs/README.md",
-      "sha256_prefix": "4dedd84658d764a5"
+      "sha256_prefix": "b716d6d5d19f2451"
     },
     {
       "category": "docs",
@@ -2517,7 +2517,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "3c025c7b46d9fab1"
+      "sha256_prefix": "b131258f4167b540"
     },
     {
       "category": "docs",
@@ -3562,7 +3562,7 @@
     {
       "category": "docs",
       "path": "docs/governance/PR_VERSION_TARGETING.md",
-      "sha256_prefix": "e680c8bf6a6e0002"
+      "sha256_prefix": "310ab9c7c12303f0"
     },
     {
       "category": "docs",
@@ -6476,6 +6476,16 @@
     },
     {
       "category": "docs",
+      "path": "docs/showcases/BIMSCHG_VERWALTUNGSVERFAHREN.md",
+      "sha256_prefix": "86490d5d749af264"
+    },
+    {
+      "category": "docs",
+      "path": "docs/showcases/BIMSCHG_VIS5THDB_FRONTEND_ROADMAP.md",
+      "sha256_prefix": "d66b27e6998b99fb"
+    },
+    {
+      "category": "docs",
       "path": "docs/stable_diffusion/API.md",
       "sha256_prefix": "c9ea4f201d2319b1"
     },
@@ -7030,14 +7040,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-19T09:02:10.285095+00:00",
+  "generated_at": "2026-11-19T18:36:17.351159+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-18\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 8105,
-    "wiki_generated_at": "2026-11-18T20:18:13+00:00",
-    "wiki_source_hash": "83ef1603a03dda553a1ec6b0bf8eb8e1a785e150872ca91b1e97190571e8a55b"
+    "source_count": 8110,
+    "wiki_generated_at": "2026-11-19T08:31:39+00:00",
+    "wiki_source_hash": "1172ea3ff93f55ea752d9a5625dc643ec1695f8ccd91849af93d8b7f24f3bc05"
   },
   "modules": [
     {
@@ -8965,19 +8975,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "9002eaf7b99cde05",
+    "ARCHITECTURE.md": "f55b7cb14d377a6f",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
-    "ROADMAP.md": "d97d35910d151e40",
+    "ROADMAP.md": "decde5b664b05b67",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "c4c27a53a56816cb",
-    "ai_context/developer_llm_wiki/": "282011384eb8187c",
+    "ai_context/api_contracts/": "78f66bd6fc8b4c5a",
+    "ai_context/developer_llm_wiki/": "bd321e5e6c0baa46",
     "ai_working/": "2da2d31a22a9695b",
-    "docs/": "d9735296d3362aa9"
+    "docs/": "4896017b8fcd28a4"
   },
   "statistics": {
     "ai_working_artifact_count": 30,
-    "documentation_source_count": 1255,
+    "documentation_source_count": 1257,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 5,
     "modules_with_private_plugin": 4,
