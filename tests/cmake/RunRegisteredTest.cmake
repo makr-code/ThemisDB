@@ -247,6 +247,10 @@ if("$ENV{THEMIS_CTEST_STRICT_EVIDENCE}" STREQUAL "1")
     endif()
 endif()
 
+if("$ENV{THEMIS_CTEST_EMIT_TEST_OUTPUT}" STREQUAL "1" AND NOT _zero_test_match)
+    message("${_test_output}")
+endif()
+
 if(_zero_test_match)
     message(STATUS
         "[ctest-policy] Test target '${TARGET_NAME}' completed successfully but registered no test cases; treating as a skipped placeholder target.\n"
