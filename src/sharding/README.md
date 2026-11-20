@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -16,6 +16,7 @@ Canonical_References:
   - ../../include/sharding/raft_log.h
   - ../../include/sharding/raft_state.h
   - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/cross_shard_transaction.h
   - ../../include/sharding/two_phase_commit_coordinator.h
   - ../../include/sharding/distributed_transaction.h
@@ -57,6 +58,16 @@ hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
 
+`TwoPhaseCommitCoordinator` is the canonical direct 2PC coordinator and the sole 2PC decision/WAL
+owner for the DIS-05 pair. `CrossShardTransactionCoordinator` retains its public prepare/commit/
+abort lifecycle, SSI validation, and other protocols, while delegating 2PC participant calls and
+decision handling to the canonical coordinator. Prepare failure selects ABORT; after the durable
+decision write, phase-two failure remains in-doubt and must not be rewritten as ABORT. When
+persistence is enabled, canonical BEGIN entries retain participant endpoints for restart-time
+phase-two replay. Unresolved legacy CrossShard-only 2PC records fail startup instead of falling
+back to the old WAL. CrossShard `TransactionWAL` and snapshots remain for non-2PC protocols.
+The independent DIS-06 recovery boundary and third `DistributedTransactionCoordinator` surface
+remain outside this named-pair consolidation.
 The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
 `include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
 configured decision-record callback succeeds, phase-two failure remains an error/in-doubt

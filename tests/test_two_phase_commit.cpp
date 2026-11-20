@@ -57,6 +57,12 @@ static auto testTokenProvider(const std::string& issuer) {
     };
 }
 
+static void configureCrossShard2PC(
+    themisdb::sharding::CrossShardTransactionConfig& config) {
+    config.coordinator_id = "coord-cross-test";
+    config.fencing_token_provider = testTokenProvider(config.coordinator_id);
+}
+
 static std::string opsToPayload(const nlohmann::json& ops,
                                const std::string& shard_id = "shard-1",
                                const std::string& issuer = "coord") {
@@ -968,6 +974,7 @@ public:
         , abort_ack(abort_ack) {}
 
     bool onPrepare(const std::string&, const std::string&, const std::string&) override {
+        ++prepare_calls;
         return prepare_vote;
     }
 
@@ -985,6 +992,7 @@ public:
         return {};
     }
 
+    int prepare_calls = 0;
     int commit_calls = 0;
     int abort_calls = 0;
     bool prepare_vote;
@@ -1075,6 +1083,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
     config.prepare_timeout = std::chrono::milliseconds(20);
     config.commit_timeout = std::chrono::milliseconds(20);
     config.abort_timeout = std::chrono::milliseconds(20);
+    configureCrossShard2PC(config);
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
 
     ASSERT_TRUE(coordinator.beginTransaction(
@@ -1085,6 +1094,11 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
     ASSERT_TRUE(coordinator.prepare("txn-cross-2pc-contract"));
     EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-contract"),
               themisdb::sharding::TransactionState::PREPARED);
+    const auto recoverable = coordinator.getRecoverableTransactions();
+    ASSERT_EQ(recoverable.size(), 1u);
+    EXPECT_EQ(recoverable.front().transaction_id, "txn-cross-2pc-contract");
+    EXPECT_EQ(recoverable.front().state,
+              themis::transaction::RecoverableTwoPhaseState::PREPARED);
 
     EXPECT_TRUE(coordinator.commit("txn-cross-2pc-contract"));
     EXPECT_TRUE(coordinator.commit("txn-cross-2pc-contract"));
@@ -1100,6 +1114,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
     themisdb::sharding::CrossShardTransactionConfig config;
     config.transaction_log_path = transaction_log.logPath().string();
     config.commit_timeout = std::chrono::milliseconds(20);
+    configureCrossShard2PC(config);
     config.in_process_rpc_response_handler =
         [&prepare_calls, &commit_calls, &abort_calls](
             std::string method, nlohmann::json) -> nlohmann::json {
@@ -1135,6 +1150,15 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
     EXPECT_EQ(abort_calls, 0);
     EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-phase-two-failure"),
               themisdb::sharding::TransactionState::UNKNOWN);
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cross-2pc-endpoint-replacement",
+        themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+    EXPECT_FALSE(coordinator.addParticipant(
+        "txn-cross-2pc-endpoint-replacement",
+        "shard-a",
+        "inproc://replacement-must-wait",
+        {"write"}));
 }
 
 TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnknown) {
@@ -1142,6 +1166,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnkn
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-ack-failure");
     themisdb::sharding::CrossShardTransactionConfig config;
     config.transaction_log_path = transaction_log.logPath().string();
+    configureCrossShard2PC(config);
     config.in_process_rpc_response_handler =
         [&abort_calls](std::string method, nlohmann::json) -> nlohmann::json {
             if (method == "prepare") {
@@ -1174,6 +1199,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsI
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-contract");
     themisdb::sharding::CrossShardTransactionConfig config;
     config.transaction_log_path = transaction_log.logPath().string();
+    configureCrossShard2PC(config);
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
 
     ASSERT_TRUE(coordinator.beginTransaction(
@@ -1190,6 +1216,7 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitAbortBroadcastsAndCanBeRepeat
     themisdb::sharding::CrossShardTransactionConfig config;
     config.transaction_log_path = transaction_log.logPath().string();
     config.abort_timeout = std::chrono::milliseconds(20);
+    configureCrossShard2PC(config);
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
 
     ASSERT_TRUE(coordinator.beginTransaction(
@@ -1500,6 +1527,64 @@ TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointCanBeOverwritten) 
     EXPECT_EQ(coord.participantCount(), 1u);
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, RestoresEndpointForInDoubtPhaseTwoReplay) {
+    TemporaryTransactionLog log("2pc_coord_endpoint_recovery");
+    const auto wal_directory = log.logPath().parent_path().string();
+    int prepare_calls = 0;
+    int commit_calls = 0;
+    bool reject_first_commit = true;
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_token_provider = testTokenProvider("coord-endpoint-recovery");
+    config.in_process_response_handler =
+        [&prepare_calls, &commit_calls, &reject_first_commit](
+            std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "prepare") {
+                ++prepare_calls;
+                return {{"vote", "commit"}, {"status", "prepared"}};
+            }
+            if (method == "commit") {
+                ++commit_calls;
+                if (reject_first_commit) {
+                    return {{"status", "rejected"}};
+                }
+                return {{"status", "committed"}};
+            }
+            return {{"status", "error"}};
+        };
+
+    ShardRPCClient::Config rpc_config;
+    rpc_config.endpoint = "inproc://canonical-endpoint-recovery";
+    rpc_config.timeout_ms = 20;
+    rpc_config.max_retries = 1;
+
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", config);
+        EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+        coordinator.registerParticipantByEndpoint("shard-endpoint", rpc_config);
+        const auto outcome = coordinator.commit(
+            "txn-endpoint-recovery",
+            {{"shard-endpoint", nlohmann::json::array({{{"write", "value"}}})}});
+        EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
+        EXPECT_EQ(prepare_calls, 1);
+        EXPECT_EQ(commit_calls, 1);
+        const auto recoverable = coordinator.getRecoverableTransactions();
+        ASSERT_EQ(recoverable.size(), 1u);
+        EXPECT_TRUE(recoverable.front().decision_recorded);
+        EXPECT_TRUE(recoverable.front().decision_commit);
+    }
+
+    reject_first_commit = false;
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", config);
+        EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);
+        EXPECT_EQ(prepare_calls, 1);
+        EXPECT_EQ(commit_calls, 2);
+        EXPECT_TRUE(coordinator.getRecoverableTransactions().empty());
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Coordinator: recoverInDoubtTransactions
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1539,6 +1624,7 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
         cfg.fencing_token_provider = testTokenProvider("coord-wal-test");
 
         TwoPhaseCommitCoordinator coord("coord-wal-test", cfg);
+        EXPECT_EQ(coord.recoverInDoubtTransactions(), 0u);
 
         TwoPhaseCommitParticipant::Config p_cfg;
         p_cfg.wal_directory = "";
@@ -1779,6 +1865,66 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
     EXPECT_EQ(participant.commit_calls, 2);
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, BlocksNewTransactionsUntilStartupRecoveryCompletes) {
+    TemporaryTransactionLog log("2pc_coord_recovery_must_precede_transactions");
+    const auto wal_dir = log.logPath().parent_path().string();
+    const std::string in_doubt_txn = "wal-txn-recovery-before-traffic";
+    {
+        WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir;
+        wal_cfg.sync_on_write = true;
+        WALManager wal(wal_cfg);
+
+        WALEntry begin_entry;
+        begin_entry.type = WALEntryType::BEGIN_TX;
+        begin_entry.transaction_id = in_doubt_txn;
+        begin_entry.data = {
+            {"transaction_id", in_doubt_txn},
+            {"coordinator_id", "coord-recovery-before-traffic"},
+            {"shards", nlohmann::json::array({"shard-wal"})}
+        };
+        wal.append(begin_entry);
+
+        WALEntry decision_entry;
+        decision_entry.type = WALEntryType::COMMIT_TX;
+        decision_entry.transaction_id = in_doubt_txn;
+        decision_entry.data = {
+            {"transaction_id", in_doubt_txn},
+            {"coordinator_id", "coord-recovery-before-traffic"},
+            {"phase", "decision"},
+            {"decision", "commit"}
+        };
+        wal.append(decision_entry);
+    }
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = wal_dir;
+    config.fencing_token_provider =
+        testTokenProvider("coord-recovery-before-traffic");
+    TwoPhaseCommitCoordinator coordinator("coord-recovery-before-traffic", config);
+    RejectingPhaseTwoParticipant participant(
+        /*prepare_vote=*/true, /*commit_ack=*/true);
+    coordinator.registerParticipant("shard-wal", &participant);
+
+    const auto before_recovery = coordinator.commit(
+        "new-transaction-before-recovery",
+        {{"shard-wal", nlohmann::json::array()}});
+    EXPECT_EQ(before_recovery.result, CoordinatorTxnResult::FAILURE);
+    EXPECT_EQ(participant.prepare_calls, 0);
+    EXPECT_EQ(participant.commit_calls, 0);
+
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(coordinator.getStatistics()["recovery_status"], "complete");
+    EXPECT_EQ(participant.commit_calls, 1);
+
+    const auto after_recovery = coordinator.commit(
+        "new-transaction-after-recovery",
+        {{"shard-wal", nlohmann::json::array()}});
+    EXPECT_EQ(after_recovery.result, CoordinatorTxnResult::COMMITTED);
+    EXPECT_EQ(participant.prepare_calls, 1);
+    EXPECT_EQ(participant.commit_calls, 2);
+}
+
 TEST(TwoPhaseCommitCoordinatorRecoveryTest,
      ConservativeAbortRemainsInDoubtUntilAcknowledged) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
@@ -1865,6 +2011,7 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, PersistsDecisionBeforeCompletionWith
     ops.push_back({{"key", "value"}});
     {
         TwoPhaseCommitCoordinator coordinator("coord-wal-order", coordinator_cfg);
+        EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
         coordinator.registerParticipant("shard-wal-order", participant.get());
 
         const auto outcome = coordinator.commit(txn, {{"shard-wal-order", ops}});

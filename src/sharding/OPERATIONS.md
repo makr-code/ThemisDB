@@ -93,6 +93,23 @@ range-serving cache. `wal_recovery_status` preserves the canonical startup scan 
 `truncated_tail`; strict corruption, checksum/sequence errors, unsupported coordinator record types,
 or replay failure prevent construction.
 
+### CrossShard 2PC coordinator recovery
+
+`CrossShardTransactionCoordinator` retains its public prepare/commit/abort lifecycle, but 2PC
+participant dispatch, decision WAL, endpoint restoration, and phase-two replay belong to the
+canonical `TwoPhaseCommitCoordinator`. When persistence is enabled, verify the canonical
+`<data_dir>/2pc-coordinator-wal` path and require successful canonical recovery before enabling
+the facade. A failed COMMIT acknowledgement is an in-doubt COMMIT, never an instruction to issue
+ABORT.
+
+An unresolved transaction found only in the older CrossShard WAL/snapshot format has no safe
+decision mapping and causes CrossShard startup recovery to fail closed. Do not delete, replay, or
+rewrite those records as a workaround; preserve the data and escalate for a reviewed recovery
+procedure. This behavior is a migration guard, not a general cross-coordinator WAL conversion.
+The optional in-process RPC response handler is test-only and applies only to explicit inproc or
+loopback endpoints; production participant endpoints continue through the configured RPC
+transport.
+
 ### Migration and repair health
 
 - confirm the rebalancer is not blocking indefinitely,
