@@ -12,6 +12,9 @@ Source_Level: level1
 SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
+  - ../../include/sharding/consistent_hash.h
+  - ../../include/storage/mvcc_store.h
+  - ../../include/storage/rocksdb_wrapper.h
   - ../../include/sharding/epoch_fencing.h
   - ../../include/sharding/two_phase_commit_coordinator.h
   - ../../include/sharding/two_phase_commit_participant.h
@@ -20,12 +23,16 @@ Canonical_References:
   - ../../include/sharding/distributed_transaction.h
   - ../../include/sharding/cross_shard_transaction.h
   - ../../src/sharding/epoch_fencing.cpp
+  - ../../src/sharding/consistent_hash.cpp
+  - ../../src/storage/mvcc_store.cpp
   - ../../src/sharding/two_phase_commit_coordinator.cpp
   - ../../src/sharding/two_phase_commit_participant.cpp
   - ../../src/sharding/shard_rpc_client.cpp
   - ../../src/sharding/distributed_transaction.cpp
   - ../../src/sharding/cross_shard_transaction.cpp
   - ../../tests/test_epoch_fencing.cpp
+  - ../../tests/sharding/test_dis03_routing_contract_focused.cpp
+  - ../../tests/storage/test_mvcc_range_export.cpp
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
 Related_Issue: "#7381"
@@ -180,9 +187,9 @@ open/in-progress work here.
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
-- [?] DIS-03 routing/snapshot architecture and API design awaits Sharding, Storage and Operations maintainer approval; no placement change or production wiring authorized ([design](ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)) (Target: M2 · 2027-03-31)
-- [ ] Implement approved typed key/algorithm metadata and exact ring-segment ownership with boundary and placement-compatibility tests; do not use the VNode min/max envelope as an export range (Target: M2 · 2027-03-31)
-- [ ] Implement a storage-owned atomic export using one snapshot sequence and HLC boundary, explicit tombstones and durable export or fresh assignment after source restart; validate concurrent commits, GC and I/O failures (Target: M2 · 2027-03-31)
+- [x] DIS-03 routing/snapshot architecture and API design approved for implementation; no existing placement or production routing path is changed ([design](ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)) (Target: M2 · 2027-03-31)
+- [~] Implemented typed key/algorithm descriptors, exact ring ownership segments and focused compatibility/boundary test sources; build and execution evidence remain pending (Target: M2 · 2027-03-31)
+- [~] Implemented process-local MVCC snapshot export using one RocksDB sequence and HLC boundary, bounded output, cancellation, and explicit tombstones; durable export, resume, and assignment composition remain open (Target: M2 · 2027-03-31)
 - [ ] Gate production transfer separately from HA cutover: real mTLS restart/resume/content evidence first; enforceable write quiescence, fenced authority commit and lost-ACK reconciliation before ownership activation (Target: M2 · 2027-03-31)
 - [x] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
 - [x] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)

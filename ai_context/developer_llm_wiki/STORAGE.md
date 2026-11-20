@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-01"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,7 @@ Canonical_References:
   - "src/storage/streaming_ingest_manager.cpp"
   - "src/storage/detail/streaming_ingest_retry.h"
   - "src/storage/mvcc_store.cpp"
+  - "tests/storage/test_mvcc_range_export.cpp"
   - "src/storage/README.md"
   - "src/storage/IMPLEMENTATION.md"
   - "ai_context/api_contracts/storage.md"
@@ -67,8 +68,12 @@ transaction or durability path:
   passes through this WAL.
 - [`MVCCStore`](../../include/storage/mvcc_store.h) stores HLC-versioned values
   in a supplied, already-open `RocksDBWrapper`, with latest and
-  timestamp-relative reads and version history. It is not, by itself, the
-  transaction manager described by the broader contract header.
+  timestamp-relative reads, version history, and a move-only snapshot reader.
+  The snapshot reader selects visible versions from one RocksDB sequence under
+  an HLC watermark and emits explicit `Put`/`Delete` records with bounded
+  output and cancellation. It is process-local, not a durable transfer export,
+  and does not provide range authorization or write quiescence. It is not, by
+  itself, the transaction manager described by the broader contract header.
 - Backup, PITR, tiering, blob, and maintenance components have their own
   interfaces and configuration. Their presence does not establish a combined
   backup/recovery or transparent-tiering guarantee.
@@ -86,6 +91,13 @@ declares a binding v1.x contract for WAL durability, MVCC, recovery, backup/PITR
 tiering, and error codes. Treat these statements as normative design
 declarations, not as evidence that each component currently enforces the full
 contract.
+
+The DIS-03 storage primitive is documented in the
+[`storage API contract summary`](../api_contracts/storage.md) and
+[`src/storage/API.md`](../../src/storage/API.md). Its focused source
+[`test_mvcc_range_export.cpp`](../../tests/storage/test_mvcc_range_export.cpp)
+covers snapshot visibility, tombstone mapping, cancellation, bounds, and
+callback failure; source presence and registration are not execution evidence.
 
 The contract-hardening suite
 ([`test_storage_contract_hardening_focused.cpp`](../../tests/storage/test_storage_contract_hardening_focused.cpp))

@@ -15,6 +15,7 @@
 #include "storage/mvcc_store.h"
 #include "storage/mvcc_snapshot_pins.h"
 #include <algorithm>
+#include <map>
 #include <stdexcept>
 
 namespace themis {
@@ -519,6 +520,190 @@ void MVCCStore::scanBaseKeysWithPrefix(
             break;
         }
     }
+}
+
+MVCCStore::SnapshotReader::SnapshotReader(
+    std::shared_ptr<RocksDBWrapper> db,
+    RocksDBWrapper::SnapshotHandle snapshot,
+    HLCTimestamp watermark
+)
+    : db_(std::move(db))
+    , snapshot_(std::move(snapshot))
+    , watermark_(watermark) {}
+
+uint64_t MVCCStore::SnapshotReader::sequenceNumber() const {
+    return snapshot_.sequenceNumber();
+}
+
+Result<MVCCStore::SnapshotReader> MVCCStore::beginSnapshot() const {
+    auto snapshot_result = db_->createSnapshot();
+    if (!snapshot_result) {
+        return Err<SnapshotReader>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "Unable to acquire RocksDB snapshot for MVCC export"
+        );
+    }
+    auto snapshot = std::move(snapshot_result).value();
+    const auto watermark = clock_->peek();
+    return Ok(SnapshotReader(db_, std::move(snapshot), watermark));
+}
+
+Result<MVCCStore::SnapshotExport> MVCCStore::exportSnapshot(
+    const SnapshotExportOptions& options
+) {
+    auto reader_result = beginSnapshot();
+    if (!reader_result) {
+        return Err<SnapshotExport>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "Unable to capture MVCC export snapshot"
+        );
+    }
+    auto reader = std::move(reader_result).value();
+    return reader.exportRecords(options);
+}
+
+Result<MVCCStore::SnapshotExport> MVCCStore::SnapshotReader::exportRecords(
+    const SnapshotExportOptions& options
+) const {
+    constexpr size_t kRecordOverhead = 1 + 8 + 8 + 8;
+    if (!options.include_key || options.max_records == 0 ||
+        options.max_encoded_bytes < kRecordOverhead) {
+        return Err<SnapshotExport>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "MVCC snapshot export requires a key predicate and sufficient nonzero limits"
+        );
+    }
+
+    SnapshotExport exported;
+    exported.rocksdb_sequence = snapshot_.sequenceNumber();
+    exported.hlc_watermark = watermark_;
+
+    auto iterator_result = db_->newSafeIterator(snapshot_);
+    if (!iterator_result) {
+        return Err<SnapshotExport>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "Unable to create snapshot-bound MVCC iterator"
+        );
+    }
+    auto& iterator = iterator_result.value();
+
+    std::map<std::string, SnapshotRecord> latest_by_key;
+    size_t encoded_bytes = 0;
+    try {
+        if (options.is_cancelled && options.is_cancelled()) {
+            return Err<SnapshotExport>(
+                errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                "MVCC snapshot export cancelled"
+            );
+        }
+        iterator.SeekToFirst();
+        while (iterator.Valid()) {
+            if (options.is_cancelled && options.is_cancelled()) {
+                return Err<SnapshotExport>(
+                    errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                    "MVCC snapshot export cancelled"
+                );
+            }
+
+            const std::string_view versioned_key = iterator.key();
+            if (versioned_key.size() >= 9 &&
+                static_cast<unsigned char>(versioned_key[versioned_key.size() - 9]) == 0) {
+                const std::string_view base_key(
+                    versioned_key.data(), versioned_key.size() - 9);
+                const auto timestamp = decodeTimestamp(versioned_key);
+                if (timestamp <= exported.hlc_watermark && options.include_key(base_key)) {
+                    if (base_key.empty()) {
+                        return Err<SnapshotExport>(
+                            errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                            "MVCC snapshot export rejected an empty logical key"
+                        );
+                    }
+                    const std::string_view raw_value = iterator.value();
+                    if (base_key.size() > options.max_encoded_bytes - kRecordOverhead ||
+                        raw_value.size() > options.max_encoded_bytes - kRecordOverhead -
+                                               base_key.size()) {
+                        return Err<SnapshotExport>(
+                            errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                            "MVCC snapshot export record exceeds byte limit"
+                        );
+                    }
+                    const size_t record_size =
+                        kRecordOverhead + base_key.size() + raw_value.size();
+                    const std::string key(base_key);
+                    auto existing = latest_by_key.find(key);
+                    std::vector<uint8_t> value;
+                    if (!raw_value.empty()) {
+                        value.assign(
+                            reinterpret_cast<const uint8_t*>(raw_value.data()),
+                            reinterpret_cast<const uint8_t*>(raw_value.data()) +
+                                raw_value.size());
+                    }
+                    if (existing == latest_by_key.end()) {
+                        if (latest_by_key.size() >= options.max_records ||
+                            record_size > options.max_encoded_bytes - encoded_bytes) {
+                            return Err<SnapshotExport>(
+                                errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                                "MVCC snapshot export exceeds configured bounds"
+                            );
+                        }
+                        SnapshotRecord record{
+                            raw_value.empty() ? SnapshotRecordKind::Delete
+                                              : SnapshotRecordKind::Put,
+                            key,
+                            timestamp,
+                            std::move(value)
+                        };
+                        latest_by_key.emplace(key, std::move(record));
+                        encoded_bytes += record_size;
+                    } else if (timestamp > existing->second.timestamp) {
+                        const size_t old_size = kRecordOverhead +
+                            existing->second.key.size() + existing->second.value.size();
+                        const size_t bytes_without_old = encoded_bytes - old_size;
+                        if (record_size > options.max_encoded_bytes - bytes_without_old) {
+                            return Err<SnapshotExport>(
+                                errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                                "MVCC snapshot export exceeds configured byte limit"
+                            );
+                        }
+                        existing->second = SnapshotRecord{
+                            raw_value.empty() ? SnapshotRecordKind::Delete
+                                              : SnapshotRecordKind::Put,
+                            key,
+                            timestamp,
+                            std::move(value)
+                        };
+                        encoded_bytes = bytes_without_old + record_size;
+                    }
+                }
+            }
+            iterator.Next();
+        }
+
+        const std::string iterator_error = iterator.statusMessage();
+        if (!iterator_error.empty()) {
+            return Err<SnapshotExport>(
+                errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                "MVCC snapshot iterator failed: " + iterator_error
+            );
+        }
+
+        exported.records.reserve(latest_by_key.size());
+        for (auto& [key, record] : latest_by_key) {
+            exported.records.push_back(std::move(record));
+        }
+    } catch (const std::exception& e) {
+        return Err<SnapshotExport>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            std::string("MVCC snapshot export callback or allocation failed: ") + e.what()
+        );
+    } catch (...) {
+        return Err<SnapshotExport>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "MVCC snapshot export failed with an unknown exception"
+        );
+    }
+
+    return Ok(std::move(exported));
 }
 
 std::optional<MVCCStore::VersionEntry> MVCCStore::getVersionAtTimestamp(

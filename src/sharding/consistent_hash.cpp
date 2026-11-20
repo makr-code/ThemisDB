@@ -16,8 +16,11 @@
 #include <openssl/evp.h>
 #include <unordered_set>
 
-#ifdef HAS_XXHASH
+#ifdef __has_include
+#if __has_include(<xxhash.h>)
 #include <xxhash.h>
+#define THEMIS_CONSISTENT_HASH_HAS_XXHASH
+#endif
 #endif
 
 namespace themis::sharding {
@@ -62,7 +65,7 @@ std::optional<std::string> ownershipFingerprint(
 } // namespace
 
 bool RingOwnershipSnapshot::ownsToken(uint64_t token, std::string_view owner) const {
-    return std::any_of(segments.begin(), segments.end(), [&](const auto& segment) {
+    return std::any_of(segments_.begin(), segments_.end(), [&](const auto& segment) {
         return segment.owner == owner &&
                token >= segment.lower_inclusive &&
                (segment.upper_exclusive.at_ring_end ||
@@ -85,41 +88,41 @@ std::optional<RingOwnershipSnapshot> RingOwnershipSnapshot::fromEntries(
     }
 
     RingOwnershipSnapshot snapshot;
-    snapshot.topology_epoch = topology_epoch;
-    snapshot.entries = std::move(entries);
+    snapshot.topology_epoch_ = topology_epoch;
+    snapshot.entries_ = std::move(entries);
 
-    if (snapshot.entries.size() == 1) {
-        snapshot.segments.push_back({
+    if (snapshot.entries_.size() == 1) {
+        snapshot.segments_.push_back({
             0,
             {0, true},
-            snapshot.entries.front().owner,
+            snapshot.entries_.front().owner,
             true
         });
-    } else if (snapshot.entries.size() > 1) {
-        const auto& first = snapshot.entries.front();
-        const auto& last = snapshot.entries.back();
+    } else if (snapshot.entries_.size() > 1) {
+        const auto& first = snapshot.entries_.front();
+        const auto& last = snapshot.entries_.back();
 
         // The first token owns (last, first] across the ring boundary.
         // The high interval is empty only when the last token is UINT64_MAX.
         if (last.token != UINT64_MAX) {
-            snapshot.segments.push_back({
+            snapshot.segments_.push_back({
                 last.token + 1,
                 {0, true},
                 first.owner,
                 false
             });
         }
-        snapshot.segments.push_back({
+        snapshot.segments_.push_back({
             0,
             {first.token + 1, false},
             first.owner,
             false
         });
 
-        for (size_t i = 1; i < snapshot.entries.size(); ++i) {
-            const auto& previous = snapshot.entries[i - 1];
-            const auto& current = snapshot.entries[i];
-            snapshot.segments.push_back({
+        for (size_t i = 1; i < snapshot.entries_.size(); ++i) {
+            const auto& previous = snapshot.entries_[i - 1];
+            const auto& current = snapshot.entries_[i];
+            snapshot.segments_.push_back({
                 previous.token + 1,
                 current.token == UINT64_MAX
                     ? RingTokenBoundary{0, true}
@@ -130,11 +133,11 @@ std::optional<RingOwnershipSnapshot> RingOwnershipSnapshot::fromEntries(
         }
     }
 
-    auto fingerprint = ownershipFingerprint(topology_epoch, snapshot.entries);
+    auto fingerprint = ownershipFingerprint(topology_epoch, snapshot.entries_);
     if (!fingerprint) {
         return std::nullopt;
     }
-    snapshot.fingerprint = std::move(*fingerprint);
+    snapshot.fingerprint_ = std::move(*fingerprint);
     return snapshot;
 }
 
@@ -275,13 +278,33 @@ std::optional<uint64_t> ConsistentHashRing::resolveRoutingToken(
             if (descriptor.algorithm != RoutingHashAlgorithm::XxHash64Seed0V1) {
                 return std::nullopt;
             }
-#ifdef HAS_XXHASH
+            {
+                URN urn;
+                urn.uuid = std::string(descriptor.key_bytes);
+                if (!urn.isValidUUID()) {
+                    return std::nullopt;
+                }
+            }
+#ifdef THEMIS_CONSISTENT_HASH_HAS_XXHASH
             return XXH64(descriptor.key_bytes.data(), descriptor.key_bytes.size(), 0);
 #else
             return std::nullopt;
 #endif
     }
     return std::nullopt;
+}
+
+bool ConsistentHashRing::ownsKeyInSnapshot(
+    const RingOwnershipSnapshot& snapshot,
+    const RoutingKeyDescriptor& descriptor,
+    std::string_view shard_id
+) const {
+    if (descriptor.placement_epoch == 0 ||
+        descriptor.placement_epoch != snapshot.topologyEpoch()) {
+        return false;
+    }
+    const auto token = resolveRoutingToken(descriptor);
+    return token && snapshot.ownsToken(*token, shard_id);
 }
 
 std::optional<RingOwnershipSnapshot> ConsistentHashRing::snapshotOwnership(

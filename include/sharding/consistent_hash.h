@@ -41,7 +41,7 @@ enum class RoutingHashAlgorithm {
  *
  * @note This descriptor does not change ordinary routing. `key_bytes` must
  *       use the exact bytes that were used by the existing placement, and
- *       `placement_epoch` must be the nonzero durable assignment epoch.
+ *       `placement_epoch` must carry the nonzero epoch from the durable assignment.
  */
 struct RoutingKeyDescriptor {
     RoutingKeyType key_type;
@@ -65,16 +65,26 @@ struct RingOwnershipSegment {
 };
 
 /** @brief Immutable view of actual inserted ring entries and exact owner segments. */
-struct RingOwnershipSnapshot {
+class RingOwnershipSnapshot {
+public:
     struct Entry {
         uint64_t token;
         std::string owner;
     };
 
-    uint64_t topology_epoch = 0;
-    std::vector<Entry> entries;
-    std::vector<RingOwnershipSegment> segments;
-    std::string fingerprint;  ///< SHA-256 of epoch and canonical actual ring entries.
+    /** @brief Return the topology epoch supplied for this immutable capture. */
+    [[nodiscard]] uint64_t topologyEpoch() const { return topology_epoch_; }
+
+    /** @brief Return the canonical token-ordered actual ring entries. */
+    [[nodiscard]] const std::vector<Entry>& entries() const { return entries_; }
+
+    /** @brief Return exact normalized owner segments. */
+    [[nodiscard]] const std::vector<RingOwnershipSegment>& segments() const {
+        return segments_;
+    }
+
+    /** @brief Return SHA-256 of the epoch and canonical actual ring entries. */
+    [[nodiscard]] const std::string& fingerprint() const { return fingerprint_; }
 
     /**
      * @brief Build normalized segment geometry from already captured ring entries.
@@ -96,6 +106,12 @@ struct RingOwnershipSnapshot {
      * @return True only when a captured exact segment assigns the token to owner.
      */
     [[nodiscard]] bool ownsToken(uint64_t token, std::string_view owner) const;
+
+private:
+    uint64_t topology_epoch_ = 0;
+    std::vector<Entry> entries_;
+    std::vector<RingOwnershipSegment> segments_;
+    std::string fingerprint_;
 };
 
 /**
@@ -165,8 +181,21 @@ public:
     ) const;
 
     /**
+     * @brief Validate typed-key ownership against one captured ring snapshot.
+     * @param snapshot Immutable ownership snapshot.
+     * @param descriptor Typed key with the same nonzero placement epoch.
+     * @param shard_id Expected owner.
+     * @return True only when the supported token resolves within an exact segment owned by shard_id.
+     */
+    [[nodiscard]] bool ownsKeyInSnapshot(
+        const RingOwnershipSnapshot& snapshot,
+        const RoutingKeyDescriptor& descriptor,
+        std::string_view shard_id
+    ) const;
+
+    /**
      * @brief Capture actual inserted ring entries and exact owner segments.
-     * @param topology_epoch Nonzero durable topology epoch bound to the capture.
+     * @param topology_epoch Nonzero topology epoch supplied by the caller.
      * @return Snapshot, or std::nullopt when the epoch is zero or its SHA-256 fingerprint fails.
      * @note This does not establish authority or fence writers; callers must
      *       validate the epoch against their durable assignment.

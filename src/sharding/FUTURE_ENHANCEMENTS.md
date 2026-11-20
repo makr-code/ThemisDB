@@ -123,23 +123,25 @@ All identified stub/simulation paths have been reviewed and improved with:
 #### 3. **Shard-Transfer Stream Transport** ([DIS-03 / #8197](https://github.com/makr-code/ThemisDB/issues/8197))
 - **Status**: Partial — dedicated mTLS gRPC staging, canonical snapshot
   materialization, and local verified staging reads are implemented. The
-  application still needs an authoritative range scanner and assignment
-  wiring, an enforceable write quiesce, and authoritative fenced cutover.
-- **Source-export blockers**: Do not hash MVCC base keys as ownership tokens.
-  `ConsistentHashRing` hashes supplied keys with FNV-1a/mix, but URN routing
-  uses `URN::hash()` over the UUID (xxHash or `std::hash`). Define one shared
-  typed key-to-token contract, preserving approved existing placement, for
-  routing and export first. MVCC base-key enumeration plus per-key reads is
-  not an atomic range snapshot; GC pins protect versions visible at the pinned
-  timestamp but cannot make concurrent key
-  discovery repeatable. Storage must provide consistent enumeration and
-  snapshot reads, including tombstone behavior, before a production exporter
-  can be composed. If the export cannot survive a source restart, require a
-  newly assigned migration ID rather than reusing the old manifest.
-- **Review artifact**: [Architecture and API proposal](ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)
-  defines typed key/algorithm metadata, exact `(predecessor, token]` segments,
-  snapshot sequence plus HLC, explicit `PUT`/`DELETE` and separate transport/HA
-  gates. It is awaiting maintainer approval, not implemented production behavior.
+  application now also has typed routing-token descriptors, exact immutable
+  ring-ownership snapshots, and a process-local MVCC snapshot reader with one
+  RocksDB sequence, HLC boundary, bounded output, cancellation, and explicit
+  `PUT`/`DELETE`. Focused test sources exist; build/execution evidence is
+  pending. The application still needs durable assignment wiring, a restart-
+  durable export, enforceable write quiescence, and authoritative fenced
+  cutover.
+- **Source-export blockers**: The new token and snapshot APIs are not wired to
+  existing routing calls or to one another. The snapshot reader does not create
+  a durable export or resume checkpoint; a source restart requires a fresh
+  migration snapshot. Existing MVCC empty values are tombstones, so empty live
+  values cannot be represented by this export API. No durable assignment
+  authorizes the range, and snapshot capture does not quiesce concurrent
+  writers.
+- **Implementation record**: [Architecture and API record](ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)
+  documents the implemented typed key/algorithm metadata, exact
+  `(predecessor, token]` segments, snapshot sequence plus HLC, explicit
+  `PUT`/`DELETE` and separate transport/HA gates. Implementation approval does
+  not establish production authorization or cutover readiness.
 - **Boundary**: The old `StreamSession` PREPARE callback remains fail-closed and
   is not the rebalance data path. See [API](API.md) and [Operations](OPERATIONS.md)
   for durable acknowledgements, resume, and explicit abort.
@@ -187,6 +189,9 @@ For operators deploying these modules in production:
 
 ### Verification
 
+`tests/sharding/test_dis03_routing_contract_focused.cpp` and
+`tests/storage/test_mvcc_range_export.cpp` cover the new source-level
+contracts but have not yet been executed.
 `StreamSessionTransportFocusedTests` covers the old fail-closed seam.
 `ShardTransferStoreTests` and `ShardTransferGrpcTests` target durable staging and
 mTLS transport, not production snapshot or HA ownership transitions. DIS-03

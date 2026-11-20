@@ -6,6 +6,12 @@
 
 #include "sharding/consistent_hash.h"
 
+#ifdef __has_include
+#if __has_include(<xxhash.h>)
+#define THEMIS_TEST_HAS_XXHASH
+#endif
+#endif
+
 using namespace themis::sharding;
 
 TEST(DIS03RoutingContract, PreservesCurrentPartitionHashVectors) {
@@ -24,8 +30,10 @@ TEST(DIS03RoutingContract, PreservesCurrentPartitionHashVectors) {
             bytes,
             7
         };
+        auto token = ring.resolveRoutingToken(descriptor);
         EXPECT_EQ(ring.hashKey(bytes), expected);
-        EXPECT_EQ(ring.resolveRoutingToken(descriptor), expected);
+        ASSERT_TRUE(token);
+        EXPECT_EQ(*token, expected);
     }
 
     EXPECT_FALSE(ring.resolveRoutingToken({
@@ -52,6 +60,28 @@ TEST(DIS03RoutingContract, PreservesCurrentPartitionHashVectors) {
         "key",
         7
     }));
+
+    constexpr std::string_view uuid = "550e8400-e29b-41d4-a716-446655440000";
+    const auto urn_token = ring.resolveRoutingToken({
+        RoutingKeyType::UrnUuid,
+        RoutingHashAlgorithm::XxHash64Seed0V1,
+        uuid,
+        7
+    });
+    EXPECT_FALSE(ring.resolveRoutingToken({
+        RoutingKeyType::UrnUuid,
+        RoutingHashAlgorithm::XxHash64Seed0V1,
+        "not-a-uuid",
+        7
+    }));
+#ifdef THEMIS_TEST_HAS_XXHASH
+    URN parsed_urn;
+    parsed_urn.uuid = std::string(uuid);
+    ASSERT_TRUE(urn_token);
+    EXPECT_EQ(*urn_token, parsed_urn.hash());
+#else
+    EXPECT_FALSE(urn_token);
+#endif
 }
 
 TEST(DIS03RoutingContract, SnapshotMatchesActualRingRouting) {
@@ -61,15 +91,36 @@ TEST(DIS03RoutingContract, SnapshotMatchesActualRingRouting) {
 
     auto snapshot = ring.snapshotOwnership(11);
     ASSERT_TRUE(snapshot);
-    EXPECT_EQ(snapshot->topology_epoch, 11u);
-    EXPECT_EQ(snapshot->entries.size(), ring.getVirtualNodeCount());
-    EXPECT_EQ(snapshot->fingerprint.size(), 64u);
+    EXPECT_EQ(snapshot->topologyEpoch(), 11u);
+    EXPECT_EQ(snapshot->entries().size(), ring.getVirtualNodeCount());
+    EXPECT_EQ(snapshot->fingerprint().size(), 64u);
 
-    for (const auto& entry : snapshot->entries) {
+    for (const auto& entry : snapshot->entries()) {
         EXPECT_EQ(ring.getShardForHash(entry.token), entry.owner);
         EXPECT_TRUE(snapshot->ownsToken(entry.token, entry.owner));
         EXPECT_FALSE(snapshot->ownsToken(entry.token, "not-an-owner"));
     }
+    constexpr std::string_view key = "partition-a";
+    const auto token = ring.resolveRoutingToken({
+        RoutingKeyType::PartitionKey,
+        RoutingHashAlgorithm::Fnv1aMix64V1,
+        key,
+        11
+    });
+    ASSERT_TRUE(token);
+    const auto owner = ring.getShardForHash(*token);
+    EXPECT_TRUE(ring.ownsKeyInSnapshot(*snapshot, {
+        RoutingKeyType::PartitionKey,
+        RoutingHashAlgorithm::Fnv1aMix64V1,
+        key,
+        11
+    }, owner));
+    EXPECT_FALSE(ring.ownsKeyInSnapshot(*snapshot, {
+        RoutingKeyType::PartitionKey,
+        RoutingHashAlgorithm::Fnv1aMix64V1,
+        key,
+        12
+    }, owner));
     EXPECT_FALSE(ring.snapshotOwnership(0));
 }
 
