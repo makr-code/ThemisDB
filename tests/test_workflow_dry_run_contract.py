@@ -237,6 +237,10 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIs(model_setup["with"]["publish_model_artifact"], True)
         self.assertEqual(model_setup["with"]["llm_model"], "tinyllama")
 
+        self.assertGreaterEqual(
+            llm["jobs"]["build-with-llm-tests"]["timeout-minutes"], 90
+        )
+
         cache_triggers = cache.get(True, cache.get("on", {}))
         cache_inputs = cache_triggers["workflow_call"]["inputs"]
         self.assertIs(cache_inputs["publish_model_artifact"]["default"], False)

@@ -84,7 +84,7 @@ jobs:
   build-with-llm-tests:
     name: "Build: THEMIS_LLM_INFERENCE_TESTS=ON"
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 90
     needs: setup-and-download
 
     steps:
