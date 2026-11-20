@@ -21,7 +21,7 @@ Exact model backend not verifiable from final document text alone.
 > cross-shard 2PC/3PC decisions, restart recovery after leader change, and
 > client acknowledgement. Coordinator recovery and replica transport must be
 > validated independently; canonical coordinator convergence remains open in
-> [`audit/ROADMAP.md`](../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+> [`audit/ROADMAP.md`](../audit/ROADMAP.md).
 
 ## Overview
 
@@ -646,7 +646,7 @@ config.polled_wait_for_edge_collector =
 
 ## See Also
 
-- [TransactionManager](../src/transaction/transaction_manager.h) - Local transaction support
+- [TransactionManager](../include/transaction/transaction_manager.h) - Local transaction support
 - [TrueTime](../include/sharding/truetime.h) - Distributed timestamp service
 - [ShardRPCClient](../include/sharding/shard_rpc_client.h) - RPC communication
-- [Sharding Documentation](SHARDING_IMPLEMENTATION_SUMMARY.md)
+- [Sharding Documentation](../src/sharding/README.md)

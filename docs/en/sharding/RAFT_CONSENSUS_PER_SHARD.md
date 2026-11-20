@@ -339,6 +339,6 @@ for (const auto& shard : all_shards) {
 
 ## See Also
 
-- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](../docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md)
+- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](RAID_SHARD_REFERENCING_ARCHITECTURE.md)
 - [Raft Paper](https://raft.github.io/raft.pdf)
 - [CockroachDB Raft Implementation](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html)

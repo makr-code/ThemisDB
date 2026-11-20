@@ -85,7 +85,7 @@ endpoint, and recovery paths; it is not part of this contract. No direct product
 of the named pair were found in `src/` or `include/` during the DIS-05 source review.
 The shared-contract sub-scope does not close the canonical DIS-05 audit item:
 coordinator selection, caller migration, and end-to-end validation remain open
-in [`audit/ROADMAP.md`](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+in [`audit/ROADMAP.md`](../../audit/ROADMAP.md).
 
 ## Datenfluss
 

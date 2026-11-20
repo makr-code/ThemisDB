@@ -588,7 +588,7 @@ Raft leader change, or a tested multi-process coordinator/participant restart
 path. See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md)
 for the coordinator API description and its documented limitations. The
 canonical 2PC-coordinator decision and recovery validation remain open in the
-[audit roadmap](../../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+[audit roadmap](../../../audit/ROADMAP.md).
 
 No end-to-end contract is established here for “block durable on both
 replicas, then 2PC/3PC decision, then client ACK.” The replication module
@@ -912,9 +912,9 @@ docker stats themis-raid1-primary themis-raid1-secondary
 
 ### Internal Documentation
 - [DISTRIBUTED_TRANSACTIONS.md](../../DISTRIBUTED_TRANSACTIONS.md) – 2PC protocol, REST API reference, configuration
-- [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](../benchmarks/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
-- [RAID_SHARDING_QUICKSTART.md](../benchmarks/RAID_SHARDING_QUICKSTART.md)
-- [PROMETHEUS_INTEGRATION_COMPLETE.md](../PROMETHEUS_INTEGRATION_COMPLETE.md)
+- [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](../../../benchmarks/docs/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
+- [RAID_SHARDING_QUICKSTART.md](../../../benchmarks/docs/RAID_SHARDING_QUICKSTART.md)
+- [PROMETHEUS_INTEGRATION_COMPLETE.md](../../ARCHIVED/implementation-summaries/PROMETHEUS_INTEGRATION_COMPLETE.md)
 
 ### External Resources
 - [RAID Concepts (Wikipedia)](https://en.wikipedia.org/wiki/RAID)
