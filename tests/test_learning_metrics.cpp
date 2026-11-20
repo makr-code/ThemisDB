@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <chrono>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include "rag/learning_metrics.h"
