@@ -357,6 +357,12 @@ file(GLOB_RECURSE ALL_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+# simdjson is optional; only build its integration tests when its imported
+# target is available so the test source receives the package include path.
+if(NOT TARGET simdjson::simdjson)
+    list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_lib_json_integration\\.cpp$")
+endif()
+
 # Module-local tests under tests/<module> are built via dedicated module
 # CMakeLists; exclude all subdirectory tests from the monolithic aggregate.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
@@ -2312,6 +2318,9 @@ target_link_libraries(themis_tests PRIVATE
     $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
     Threads::Threads
 )
+if(TARGET simdjson::simdjson)
+    target_link_libraries(themis_tests PRIVATE simdjson::simdjson)
+endif()
 
 if(TARGET CURL::libcurl)
     target_link_libraries(themis_tests PRIVATE CURL::libcurl)
