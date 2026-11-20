@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-19
+Last Updated: 2026-11-20
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -77,9 +77,15 @@ The initial build found missing `pugixml.hpp` (subsequently installed).
 The initial-implementation
 [Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
 reported `action_required` with zero jobs, not passing CI evidence.
-The requested CodeQL run completed Python analysis with zero alerts but timed
-out before all languages finished; no completed C++ security-analysis result
-was returned. This is not C++ security clearance and remains an open gate.
+The local CodeQL tool invocation timed out before all languages finished.
+Subsequent GitHub CodeQL workflow run
+[44612742587](https://github.com/makr-code/ThemisDB/actions/runs/44612742587)
+completed successfully for the PR head (`16361cb4f39397fb237926300cce26159e2d3cb1`);
+its C/C++ job `135873324720` completed successfully and uploaded SARIF. The
+workflow log states C/C++ used `build-mode: none` (all source files), not a
+compiled build. The alert-list API was inaccessible to this run, so no
+zero-alert claim is made. Local tool timeout remains recorded, but C++ CodeQL
+execution itself is no longer an unverified gate.
 
 Direct-source diagnostic execution (not registered-target/CI evidence):
 
