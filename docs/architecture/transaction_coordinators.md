@@ -27,7 +27,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Transaction Coordinators — Architecture Reference
 
-<!-- Status: review | Issues: #5372 (unification planning), #5373 (DIS-05), #7552 | Target: Q3 2026 (v2.0.0) -->
+<!-- Status: review | Issues: #5372 (unification planning), #5373 (DIS-05), #7552 | Decision accepted: 2026-11-19 -->
 <!-- SOT: coordinator implementation and contracts; this document is a level-4 explanatory derivative -->
 
 ## 1. Overview
@@ -48,7 +48,10 @@ Source inspection currently finds five classes implementing this recovery interf
 `TwoPhaseCommitCoordinator`, `CrossShardTransactionCoordinator`,
 `DistributedTransactionCoordinator`, `GlobalTransactionManager`, and
 `DistributedTransactionManager`. The table below compares only three of them and is not an
-exhaustive inventory. The canonical-coordinator decision remains open under
+exhaustive inventory. The canonical-coordinator selection is recorded in
+[`ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md):
+`TwoPhaseCommitCoordinator` is canonical for direct 2PC and owns CrossShard 2PC decisions and
+replay. Focused validation and remaining recovery-edge tests remain open under
 [DIS-05](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 
 | Class | Header | Namespace | Primary Protocol |
@@ -65,17 +68,26 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The pr
 > **Audit Note (CC-5):** Historically these coordinators evolved independently.  As of
 > issue #5372 (v2.0.0), they share the `IRecoverableTwoPhaseCoordinator` recovery contract.
 > `WALLoggingHelper` centralizes WAL write logic only for `WALManager`-backed coordinators;
-> WAL formats remain coordinator-specific. This recovery-interface sharing is distinct from
+> most WAL formats remain coordinator-specific. The DIS-05 CrossShard adapter is an explicit
+> exception: its 2PC transactions use the canonical coordinator WAL. This recovery-interface sharing is distinct from
 > DIS-05's execution contract and does not imply repo-wide 2PC unification.
-> A transaction started with coordinator A can still only be fully recovered by coordinator A;
+> Outside that named-pair adapter, a transaction started with coordinator A can still only be fully recovered by coordinator A;
 > cross-coordinator recovery tooling is planned for v3.0.0 (see §7 below).
 
-> **DIS-05 status (2026-11-01):** `CrossShardTransactionCoordinator` and
-> `TwoPhaseCommitCoordinator` now share coordinator-side 2PC phase ordering and failure
-> semantics through `include/sharding/detail/two_phase_commit_contract.h`. This does not
-> unify their transports, transaction lifecycles, WAL formats, or recovery. `CrossShardTransactionCoordinator`'s
-> `recoverFromWAL()` restores state and reports resume candidates; it does not automatically
-> re-drive phase-two RPCs. The separate `DistributedTransactionCoordinator` is not covered.
+> **DIS-05 status (2026-11-19):** The maintainer selected `TwoPhaseCommitCoordinator` as the
+> canonical direct 2PC coordinator. CrossShard's public lifecycle delegates participant dispatch,
+> decisions, and replay to that coordinator; CrossShard retains its multi-protocol facade and
+> non-2PC WAL/snapshot path. Canonical BEGIN records persist participant endpoints for recovery.
+> Unresolved legacy CrossShard-only 2PC records fail startup rather than using a second recovery
+> path. Focused validation, decision-write failure coverage, and remaining recovery edges are
+> still open. See the accepted
+> [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md).
+>
+> **Prior execution-contract work (2026-11-01):** The two named classes first shared phase
+> ordering through `include/sharding/detail/two_phase_commit_contract.h`. The subsequent DIS-05
+> adapter moved 2PC participant dispatch and recovery ownership to `TwoPhaseCommitCoordinator`;
+> non-2PC CrossShard transports and recovery remain separate. The separate
+> `DistributedTransactionCoordinator` is not covered.
 
 ---
 
@@ -86,42 +98,47 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The pr
 | Feature | `TwoPhaseCommitCoordinator` | `CrossShardTransactionCoordinator` | `DistributedTransactionCoordinator` |
 |---|---|---|---|
 | **Protocols supported** | 2PC | 2PC · 3PC · SAGA · Percolator · Calvin | 2PC (+ optional Percolator fast-path) |
-| **2PC execution contract** | Shared with CrossShard under DIS-05 | Shared with standalone 2PC under DIS-05 | Outside DIS-05 |
-| **WAL backend** | `WALManager` via `WALLoggingHelper` | `TransactionWAL` (dedicated per-txn WAL) | `WALManager` via `WALLoggingHelper` |
-| **Snapshot/state restore** | WAL recovery | WAL + `TransactionSnapshotManager` restore | Own recovery entry point |
-| **Phase-two recovery behavior** | Re-drives WAL decision when WAL recovery is configured; resolves only after all acks and completion record | Restores state/reports resume candidates; does not automatically re-drive phase two | Separate coordinator-specific behavior |
+| **2PC execution contract** | Canonical coordinator for direct and CrossShard adapter paths | Public lifecycle/SSI facade over canonical 2PC adapter | Outside DIS-05 |
+| **WAL backend** | Canonical `WALManager` / `WALLoggingHelper` WAL for both named entry points | `TransactionWAL` remains for non-2PC protocols | `WALManager` via `WALLoggingHelper` |
+| **Snapshot/state restore** | Canonical WAL recovery including endpoint restoration | CrossShard WAL + `TransactionSnapshotManager` restore for non-2PC | Own recovery entry point |
+| **Phase-two recovery behavior** | Re-drives canonical WAL decision; resolves only after all acks and completion record | Delegates 2PC replay to canonical coordinator; rejects unresolved legacy CrossShard-only 2PC records | Separate coordinator-specific behavior |
 | **Deadlock detection** | ✗ (timeout only) | ✅ (distributed wait-for graph) | ✅ (timeout + cycle detection) |
 | **Distributed FK validation** | ✗ | ✅ (injected `CrossShardForeignKeyValidator`) | ✗ |
-| **Participant model** | `ShardRpcClientAdapter` | `CrossShardParticipant` (state machine per shard) | `TransactionParticipant` (`shard_id` + `endpoint`) |
+| **Participant model** | `ShardRpcClientAdapter` | Canonical `ShardRpcClientAdapter` for 2PC; CrossShard participant state for other protocols | `TransactionParticipant` (`shard_id` + `endpoint`) |
 | **noexcept callbacks** | N/A | Required (see §4) | N/A |
 | **Recovery entry point** | `recoverInDoubtTransactions()` | `recoverFromWAL()` | `recoverInDoubtTransactions()` |
 | **Thread safety** | ✅ (internal mutex) | ✅ (timed mutex) | ✅ (internal mutex) |
 
 ### 2.2 Use-Case Guide — When to Use Which Coordinator
 
-The two DIS-05 coordinators are not different 2PC semantic choices: both use the same
-prepare → configured decision record → phase-two contract. Choose between them based on
-the surrounding API, participant transport, and additional protocol/lifecycle capabilities.
-This shared contract does not include `DistributedTransactionCoordinator`.
+`TwoPhaseCommitCoordinator` is the selected canonical direct 2PC entry point. Use
+`CrossShardTransactionCoordinator` when its broader protocol/lifecycle features are required;
+its 2PC lifecycle delegates to the canonical coordinator while its non-2PC persistence remains
+separate. `DistributedTransactionCoordinator` is outside this decision.
 
 | Scenario | Recommended Coordinator |
 |---|---|
-| Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` |
-| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator` (its 2PC path uses the shared contract) |
+| Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` (canonical direct 2PC) |
+| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator`; 2PC uses the canonical adapter |
 | Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
-| New code / greenfield | No canonical default is selected; choose by required API and lifecycle, follow the active caller/module contract, do not assume common WAL or recovery behavior, and track DIS-05 |
+| New direct 2PC code / greenfield | `TwoPhaseCommitCoordinator`; do not assume its WAL/recovery is interchangeable with another coordinator |
 
 ### 2.3 Known Limitations
 
-- **No cross-coordinator recovery (CC-5):** A transaction begun with coordinator A cannot
-  be recovered by coordinator B.  Recovery tooling that reads all three WAL formats is
-  planned for v3.0.0 (see §7).
+- **No general cross-coordinator recovery (CC-5):** The DIS-05 CrossShard 2PC adapter uses
+  canonical 2PC WAL recovery, but other coordinator/WAL pairs remain separate. Recovery tooling
+  that reads all coordinator formats is planned for v3.0.0 (see §7).
+- **DIS-05 validation is incomplete:** The adapter and canonical WAL ownership are implemented,
+  but focused build/test evidence, decision-write failure coverage, and remaining recovery edges
+  must pass before release readiness is claimed. Legacy CrossShard-only unresolved 2PC records
+  intentionally fail startup.
 - **Incompatible WAL formats (CC-5):** The three coordinators write different JSON schemas
   to their respective WAL backends (see §5 for full specification).  A single unified WAL
   format is a v3.0.0 goal.
-- **`CrossShardTransactionCoordinator::persistTransactionState()`** uses a JSONL file log
-  for per-state transitions in addition to the `TransactionWAL` backend — the two logs must
-  be kept consistent during manual recovery.
+- **Non-2PC CrossShard persistence:** `persistTransactionState()` writes JSONL state transitions
+  alongside its `TransactionWAL`/snapshot backend. 2PC bypasses these writes and uses the
+  canonical coordinator WAL instead; recovery tooling must not infer that either legacy log is
+  authoritative for an unresolved 2PC transaction.
 
 ---
 
@@ -144,19 +161,15 @@ stateDiagram-v2
     COMMITTING --> FAILED : coordinator crash (WAL recovery required)
 ```
 
-**Shared execution contract (DIS-05):** For both named coordinators, failed PREPARE selects ABORT;
-the configured decision-record callback must succeed before phase two; and a phase-two failure
-does not reverse the selected decision or report successful completion. A failed participant
-acknowledgement WAL write in CrossShard stops subsequent phase-two fan-out and leaves the decision
-unresolved. CrossShard exposes that outcome as `UNKNOWN`; the standalone coordinator returns
-`ERROR` and retains its decision in the recoverable transaction view.
-
-**Coordinator-specific recovery:** `TwoPhaseCommitCoordinator::recoverInDoubtTransactions()`
-replays its WAL and re-sends a recorded phase-two decision; if no decision exists it conservatively
-selects ABORT. It counts a transaction resolved only after participant acknowledgements and a
-completion record. `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports
-resume candidates, but does not automatically re-issue PREPARE/COMMIT/ABORT RPCs. Its
-`TransactionWAL`/snapshot format and transport remain separate.
+**Canonical execution and recovery (DIS-05):** Both public entry points dispatch 2PC through
+`TwoPhaseCommitCoordinator`. Failed PREPARE selects ABORT; a durable decision precedes phase two;
+and a phase-two failure does not reverse the selected decision or report successful completion.
+CrossShard exposes unresolved outcomes as `UNKNOWN`. With canonical WAL enabled,
+`recoverInDoubtTransactions()` restores endpoint-backed participants and re-sends the selected
+phase-two decision, counting resolution only after participant acknowledgements and a completion
+record. CrossShard `TransactionWAL` and snapshots are still used by its non-2PC protocols.
+Unresolved 2PC records present only in legacy CrossShard WAL/snapshots fail startup; no implicit
+fallback or conversion is performed.
 
 ### 3.2 Three-Phase Commit (3PC)
 
@@ -330,17 +343,17 @@ payload embedded in `WALEntry::data` follows this schema:
 ### 5.2 CrossShardTransactionCoordinator — Dedicated TransactionWAL
 
 `CrossShardTransactionCoordinator` uses the `sharding::TransactionWAL` class (separate from
-`WALManager`).  Its log entries are written to a segmented binary log under the configured
-WAL directory.  The protocol-specific fields extend the base schema:
+`WALManager`) for its non-2PC protocols. Its log entries are written to a segmented binary log
+under the configured WAL directory. CrossShard 2PC no longer writes to this WAL: the canonical
+`TwoPhaseCommitCoordinator` WAL owns its BEGIN, decision, completion, and phase-two recovery.
+Canonical BEGIN entries retain participant endpoint mappings for restart.
 
-For 2PC, this distinct WAL format does not imply a distinct execution contract: CrossShard uses
-the same decision ordering and phase-two outcome rules as `TwoPhaseCommitCoordinator`. A failed
-participant acknowledgement record stops subsequent phase-two RPCs; the selected decision remains
-in-doubt. CrossShard WAL/snapshot recovery currently restores state and reports resume candidates
-only—it does not automatically replay that decision to participants.
+The following 2PC records are legacy CrossShard WAL entries. If they describe unresolved
+transactions without a corresponding canonical 2PC record, startup fails closed; the coordinator
+does not convert or replay them through a second decision path.
 
 ```jsonc
-// 2PC commit entry written by CrossShardTransactionCoordinator
+// Legacy 2PC entry that may remain in an existing CrossShard TransactionWAL
 {
     "protocol":     "2PC",
     "participants": [ "shard_id_1", "shard_id_2" ]    // string array of shard IDs
@@ -379,9 +392,10 @@ Additionally, `persistTransactionState()` writes **JSONL** lines to a separate
 
 ### 5.3 Format Compatibility Warning
 
-> ⚠️ **The three coordinators write to incompatible WAL formats.**  Do not attempt to replay
-> a WAL written by coordinator A through coordinator B.  Cross-format recovery tooling is
-> planned for v3.0.0 (see §7).
+> ⚠️ **There is no general cross-format WAL replay.** The DIS-05 named pair shares canonical
+> 2PC WAL only through the explicit CrossShard adapter; existing CrossShard-only 2PC WAL entries
+> are not silently migrated. Other coordinator formats remain incompatible. Broader
+> cross-format recovery tooling is planned for v3.0.0 (see §7).
 
 ---
 
@@ -398,10 +412,10 @@ Start: I need distributed transaction support
 │     YES → DistributedTransactionManager
 │     NO  ↓
 │
-└─► Choose the 2PC API that matches participant transport and lifecycle:
-      TwoPhaseCommitCoordinator (RequestHandler/adapter, WALManager recovery), or
-      CrossShardTransactionCoordinator (ShardRPCClient, TransactionWAL/snapshot restore)
-      Both named paths use the same 2PC execution contract; CrossShard does not auto-redrive.
+└─► Use TwoPhaseCommitCoordinator for direct 2PC.
+      Choose CrossShardTransactionCoordinator only when its broader lifecycle,
+      SSI, or non-2PC protocol features are also required; its 2PC path delegates
+      to the canonical coordinator.
 ```
 
 **Protocol selection within `CrossShardTransactionCoordinator`:**

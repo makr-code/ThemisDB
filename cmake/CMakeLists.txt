@@ -2954,6 +2954,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/sharding/shard_transfer_store.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/capability_auto_generator.cpp
     ../src/utils/self_awareness.cpp

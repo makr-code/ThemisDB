@@ -46,11 +46,17 @@ Tracks Raft state for each shard including:
 - Quorum status
 
 ### 3. Integrated Write Path
-RedundancyStrategy automatically enforces leader-based writes when Raft is enabled:
+When the relevant runtime components are explicitly wired, `RedundancyStrategy`
+can enforce leader-based writes:
 - Only shard leaders accept writes
 - Writes are replicated via Raft log
 - Quorum acknowledgment required for commit
 - Automatic redirect hints on leader changes
+
+These component-level behaviors and the example configuration do not establish
+an end-to-end production topology or a coupled Raft/2PC durability contract.
+Verify the active runtime wiring and the replication evidence before relying on
+them for deployment guarantees.
 
 ## Configuration
 
@@ -331,6 +337,6 @@ for (const auto& shard : all_shards) {
 
 ## See Also
 
-- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](../docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md)
+- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](RAID_SHARD_REFERENCING_ARCHITECTURE.md)
 - [Raft Paper](https://raft.github.io/raft.pdf)
 - [CockroachDB Raft Implementation](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html)

@@ -1122,6 +1122,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/sharding/shard_transfer_store.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp

@@ -521,7 +521,7 @@ themis_shard_health_status{shard_id="raid0-3"} 0
 - No replication, no consistency concerns
 - Single copy of data per key
 
-#### RAID 1 (Strong Consistency)
+#### RAID 1 (Intended strong-consistency model; integration evidence pending)
 
 The following example illustrates a 2PC design across RAID-1 mirrors, with a
 `TwoPhaseCommitParticipant` on each Raft-leader shard and a
@@ -573,7 +573,7 @@ std::string txn_id = coordinator->beginTransaction({"raid1-primary", "raid1-seco
 coordinator->addOperation(txn_id, "raid1-primary",   {{"type","update"},{"key","k1"},{"value","v1"}});
 coordinator->addOperation(txn_id, "raid1-secondary", {{"type","update"},{"key","k1"},{"value","v1"}});
 
-// commit() runs Phase 1 (PREPARE) then Phase 2 (COMMIT or ABORT) atomically
+// commit() coordinates PREPARE and the selected Phase 2 outcome
 bool ok = coordinator->commit(txn_id);
 // A production integration must define what successful acknowledgements guarantee.
 // A failure or timeout can leave the outcome unknown; do not assume ABORT.
@@ -900,9 +900,9 @@ docker stats themis-raid1-primary themis-raid1-secondary
 
 ### Internal Documentation
 - [DISTRIBUTED_TRANSACTIONS.md](../../DISTRIBUTED_TRANSACTIONS.md) – 2PC protocol, REST API reference, configuration
-- [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](../benchmarks/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
-- [RAID_SHARDING_QUICKSTART.md](../benchmarks/RAID_SHARDING_QUICKSTART.md)
-- [PROMETHEUS_INTEGRATION_COMPLETE.md](../PROMETHEUS_INTEGRATION_COMPLETE.md)
+- [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](../../../benchmarks/docs/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
+- [RAID_SHARDING_QUICKSTART.md](../../../benchmarks/docs/RAID_SHARDING_QUICKSTART.md)
+- [PROMETHEUS_INTEGRATION_COMPLETE.md](../../ARCHIVED/implementation-summaries/PROMETHEUS_INTEGRATION_COMPLETE.md)
 
 ### External Resources
 - [RAID Concepts (Wikipedia)](https://en.wikipedia.org/wiki/RAID)
@@ -916,4 +916,3 @@ docker stats themis-raid1-primary themis-raid1-secondary
 **Last Updated:** 2026-04-06  
 **Author:** ThemisDB Team  
 **Status:** Complete
-

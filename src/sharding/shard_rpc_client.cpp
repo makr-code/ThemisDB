@@ -25,6 +25,7 @@
 #include <chrono>
 #include <stdexcept>
 #include <algorithm>
+#include "sharding/shard_transfer_store.h"
 
 // gRPC support for multi-node deployments
 #ifdef THEMIS_ENABLE_GRPC
@@ -51,6 +52,26 @@ namespace themis::sharding {
 // and sendRequestInProcess use this cap so that a single constant controls the
 // ceiling across both paths.
 static constexpr int kMaxRetryDelayMs = 5000;
+
+#if THEMIS_HAS_SHARD_GRPC
+namespace {
+void setTransferDeadline(grpc::ClientContext& context, const ShardRPCClient::Config& config) {
+    if (!config.enable_mtls || !config.tls_verify_server || config.allow_insecure ||
+        config.timeout_ms <= 0) {
+        throw std::runtime_error("Shard transfer requires verified mTLS and a positive timeout");
+    }
+    // Leave room for server-side enforcement of the five-minute maximum.
+    context.set_deadline(std::chrono::system_clock::now() +
+                         std::chrono::milliseconds(std::min(config.timeout_ms, 299000)));
+}
+
+void requireTransferStatus(const grpc::Status& status) {
+    if (!status.ok()) {
+        throw std::runtime_error("Shard transfer RPC failed: " + status.error_message());
+    }
+}
+} // namespace
+#endif
 
 struct ShardRPCClient::Impl {
     Config config;
@@ -314,6 +335,112 @@ struct ShardRPCClient::Impl {
 #endif
 
 };
+
+bool ShardRPCClient::transferShard(
+    const ShardTransferManifest& manifest,
+    const std::function<std::pair<std::string, std::string>(uint64_t)>& read_chunk,
+    const std::function<void()>& on_admitted) {
+#if THEMIS_HAS_SHARD_GRPC
+    if (!impl_->stub || (!read_chunk && manifest.chunks != 0)) {
+        throw std::runtime_error("Shard transfer requires a gRPC endpoint and an immutable export");
+    }
+    proto::ShardTransferManifest request;
+    request.set_migration_id(manifest.id);
+    request.set_source_shard(manifest.source);
+    request.set_target_shard(manifest.target);
+    request.set_range_start(manifest.range_start);
+    request.set_range_end(manifest.range_end);
+    request.set_topology_epoch(manifest.epoch);
+    request.set_snapshot_watermark(manifest.watermark);
+    request.set_chunks(manifest.chunks);
+    request.set_bytes(manifest.bytes);
+    request.set_sha256(manifest.sha256);
+
+    grpc::ClientContext prepare_context;
+    setTransferDeadline(prepare_context, impl_->config);
+    proto::ShardTransferCheckpoint checkpoint;
+    requireTransferStatus(impl_->stub->PrepareShardTransfer(&prepare_context, request, &checkpoint));
+    auto next = checkpoint.next_chunk();
+    if (next > manifest.chunks) {
+        throw std::runtime_error("Shard transfer returned an invalid checkpoint");
+    }
+    if (on_admitted) {
+        on_admitted();
+    }
+
+    while (next < manifest.chunks) {
+        grpc::ClientContext stream_context;
+        setTransferDeadline(stream_context, impl_->config);
+        auto stream = impl_->stub->StreamShardTransfer(&stream_context);
+        bool invalid_ack = false;
+        try {
+            for (unsigned frames = 0; frames < 256 && next < manifest.chunks; ++frames) {
+                auto [payload, digest] = read_chunk(next);
+                if (payload.empty() || payload.size() > ShardTransferStore::kMaxChunkBytes ||
+                    digest.size() != 64) {
+                    throw std::runtime_error("Invalid shard export chunk");
+                }
+                proto::ShardTransferChunk chunk;
+                chunk.set_migration_id(manifest.id);
+                chunk.set_index(next);
+                chunk.set_payload(std::move(payload));
+                chunk.set_sha256(std::move(digest));
+                if (!stream->Write(chunk) || !stream->Read(&checkpoint) ||
+                    checkpoint.next_chunk() != next + 1) {
+                    invalid_ack = true;
+                    break;
+                }
+                ++next;
+            }
+        } catch (...) {
+            stream_context.TryCancel();
+            (void)stream->Finish();
+            throw;
+        }
+        if (invalid_ack) {
+            stream_context.TryCancel();
+            (void)stream->Finish();
+            throw std::runtime_error("Shard transfer did not acknowledge the expected checkpoint");
+        }
+        const bool closed = stream->WritesDone();
+        requireTransferStatus(stream->Finish());
+        if (!closed) {
+            throw std::runtime_error("Shard transfer stream ended before client close");
+        }
+    }
+
+    grpc::ClientContext verify_context;
+    setTransferDeadline(verify_context, impl_->config);
+    proto::ShardTransferId id;
+    id.set_migration_id(manifest.id);
+    proto::ShardTransferVerified verified;
+    requireTransferStatus(impl_->stub->VerifyShardTransfer(&verify_context, id, &verified));
+    return verified.verified();
+#else
+    (void)manifest;
+    (void)read_chunk;
+    (void)on_admitted;
+    throw std::runtime_error("Shard transfer gRPC is not available in this build");
+#endif
+}
+
+bool ShardRPCClient::abortShardTransfer(const std::string& migration_id) {
+#if THEMIS_HAS_SHARD_GRPC
+    if (!impl_->stub) {
+        throw std::runtime_error("Shard transfer requires a gRPC endpoint");
+    }
+    grpc::ClientContext context;
+    setTransferDeadline(context, impl_->config);
+    proto::ShardTransferId id;
+    id.set_migration_id(migration_id);
+    proto::ShardTransferAborted response;
+    requireTransferStatus(impl_->stub->AbortShardTransfer(&context, id, &response));
+    return response.aborted();
+#else
+    (void)migration_id;
+    throw std::runtime_error("Shard transfer gRPC is not available in this build");
+#endif
+}
 
 ShardRPCClient::ShardRPCClient(const Config& config)
     : impl_(std::make_unique<Impl>(config))
