@@ -685,6 +685,131 @@ TEST(ToolRegistryTest, InvokeTool_Permitted_CallsHandler) {
     EXPECT_EQ(result["echoed"]["query"], "hello");
 }
 
+TEST(ToolRegistryTest, DelegatedToolRequiresGrantAndChargesSharedBudget) {
+    ToolRegistry reg;
+    ToolSpec spec;
+    spec.name = "delegated_tool";
+    std::atomic<int> call_count{0};
+    reg.registerDelegatedTool(
+        spec,
+        [&call_count](const json&, const ModeSpec&,
+                      const SkillDelegationContext& context) {
+            ++call_count;
+            EXPECT_EQ(context.principalId(), "principal-1");
+            EXPECT_TRUE(context.allows("collection.read", "collection:cases"));
+            return json{{"tenant", context.tenantId()}};
+        });
+
+    ModeSpec mode;
+    mode.id = "agentic";
+    mode.tools_allowed = {"delegated_tool"};
+
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"tool.invoke", "delegated_tool"},
+                           {"collection.read", "collection:cases"}},
+        expiry, SkillBudgetLimits{1, 2, 10},
+        [](std::string_view principal, std::string_view tenant,
+           const SkillPermission&) {
+            return principal == "principal-1" && tenant == "tenant-1";
+        });
+    ASSERT_TRUE(root);
+
+    const auto bypass_attempt = reg.invokeTool("delegated_tool", {}, mode);
+    EXPECT_TRUE(bypass_attempt.contains("error"));
+    EXPECT_EQ(call_count.load(), 0);
+
+    mode.tools_denied = {"delegated_tool"};
+    const auto mode_denied =
+        reg.invokeTool("delegated_tool", {}, mode, *root);
+    EXPECT_TRUE(mode_denied.contains("error"));
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 1);
+    EXPECT_EQ(call_count.load(), 0);
+
+    mode.tools_denied.clear();
+    const auto invoked = reg.invokeTool("delegated_tool", {}, mode, *root);
+    ASSERT_TRUE(invoked.contains("tenant"));
+    EXPECT_EQ(invoked["tenant"], "tenant-1");
+    EXPECT_EQ(call_count.load(), 1);
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 0);
+
+    const auto exhausted =
+        reg.invokeTool("delegated_tool", {}, mode, *root);
+    EXPECT_TRUE(exhausted.contains("error"));
+    EXPECT_EQ(call_count.load(), 1);
+}
+
+TEST(ToolRegistryTest, DelegatedToolDeniesMissingGrantAndLegacyHandler) {
+    ToolRegistry reg;
+    ToolSpec delegated_spec;
+    delegated_spec.name = "delegated_tool";
+    std::atomic<int> delegated_calls{0};
+    reg.registerDelegatedTool(
+        delegated_spec,
+        [&delegated_calls](const json&, const ModeSpec&,
+                           const SkillDelegationContext&) {
+            ++delegated_calls;
+            return json{{"ok", true}};
+        });
+
+    ToolSpec legacy_spec;
+    legacy_spec.name = "legacy_tool";
+    std::atomic<int> legacy_calls{0};
+    reg.registerTool(
+        legacy_spec,
+        [&legacy_calls](const json&, const ModeSpec&) {
+            ++legacy_calls;
+            return json{{"ok", true}};
+        });
+
+    ModeSpec mode;
+    mode.tools_allowed = {"delegated_tool", "legacy_tool"};
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1", {}, expiry,
+        SkillBudgetLimits{2, 2, 2},
+        [](std::string_view, std::string_view, const SkillPermission&) {
+            return true;
+        });
+    ASSERT_TRUE(root);
+
+    const auto missing_grant =
+        reg.invokeTool("delegated_tool", {}, mode, *root);
+    EXPECT_TRUE(missing_grant.contains("error"));
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 2);
+    EXPECT_EQ(delegated_calls.load(), 0);
+
+    const auto legacy_dispatch = reg.invokeTool("legacy_tool", {}, mode, *root);
+    EXPECT_TRUE(legacy_dispatch.contains("error"));
+    EXPECT_EQ(legacy_calls.load(), 0);
+}
+
+TEST(ToolRegistryTest, DelegatedToolCannotBeDowngradedByLegacyRegistration) {
+    ToolRegistry reg;
+    ToolSpec spec;
+    spec.name = "protected_tool";
+    reg.registerDelegatedTool(
+        spec,
+        [](const json&, const ModeSpec&, const SkillDelegationContext&) {
+            return json{{"delegated", true}};
+        });
+
+    EXPECT_THROW(
+        reg.registerTool(spec, [](const json&, const ModeSpec&) {
+            return json{{"legacy", true}};
+        }),
+        std::invalid_argument);
+
+    ModeSpec mode;
+    mode.tools_allowed = {"protected_tool"};
+    const auto ordinary_dispatch =
+        reg.invokeTool("protected_tool", {}, mode);
+    EXPECT_TRUE(ordinary_dispatch.contains("error"));
+}
+
 TEST(ToolRegistryTest, InvokeTool_NotRegistered_ReturnsError) {
     ToolRegistry reg;
     ModeSpec mode;
@@ -1950,6 +2075,50 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
     EXPECT_EQ(tool_out.value("result", -1), 7);
     // raw_response should carry the tool name and result.
     EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+TEST(AgenticToolCallTest, DelegatedContextReachesDelegatedHandler) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok) << (res.errors.empty() ? "" : res.errors.front());
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerDelegatedTool(
+        spec,
+        [&call_count](const json& args, const ModeSpec&,
+                      const SkillDelegationContext& context) {
+            ++call_count;
+            EXPECT_EQ(context.principalId(), "principal-1");
+            return json{{"result", args.value("x", 0) + args.value("y", 0)}};
+        });
+
+    const auto expiry = SkillDelegationContext::Clock::now() +
+                        std::chrono::minutes(5);
+    auto root = SkillDelegationContext::createRoot(
+        "principal-1", "tenant-1",
+        SkillPermissionSet{{"tool.invoke", "calc_tool"}}, expiry,
+        SkillBudgetLimits{1, 0, 0},
+        [](std::string_view principal, std::string_view tenant,
+           const SkillPermission&) {
+            return principal == "principal-1" && tenant == "tenant-1";
+        });
+    ASSERT_TRUE(root);
+
+    OrchestratorContext ctx;
+    ctx.query = R"({"name":"calc_tool","arguments":{"x":3,"y":4}})";
+    ctx.mode_id = "agentic";
+    ctx.skill_delegation_context =
+        std::make_shared<const SkillDelegationContext>(*root);
+
+    const auto result = orch.run(ctx);
+    EXPECT_TRUE(result.success) << result.error;
+    EXPECT_EQ(call_count.load(), 1);
+    EXPECT_EQ(json::parse(result.text).value("result", -1), 7);
+    EXPECT_EQ(root->remainingBudget().max_tool_calls, 0);
 }
 
 TEST_F(AgenticTypedRetrievalTest, RetrievalEnabledAgenticModeUsesTypedProviderAndRequestAuthorization) {

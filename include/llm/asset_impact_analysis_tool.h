@@ -31,11 +31,23 @@ inline bool readAssetLocation(RocksDBWrapper& db,
                               const GraphIndexManager::BoundedTraversalNode& node,
                               bool includeLocation,
                               std::optional<std::pair<double, double>>& location,
-                              std::string& error) {
+                              std::string& error,
+                              const SkillDelegationContext* delegationContext) {
+    if (delegationContext &&
+        !delegationContext->consumeBudget(SkillBudgetUsage{0, 1, 0})) {
+        error = "Delegated candidate budget exhausted";
+        return false;
+    }
     const auto key = "node:" + graphId + ":" + node.vertexId;
     const auto blob = db.get(key);
     if (!blob) {
         error = "Graph traversal references a missing node document";
+        return false;
+    }
+    if (delegationContext &&
+        !delegationContext->consumeBudget(
+            SkillBudgetUsage{0, 0, blob->size()})) {
+        error = "Delegated content-byte budget exhausted";
         return false;
     }
     if (blob->size() > 64 * 1024) {
@@ -93,12 +105,19 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
                               const std::string& graphId,
                               const std::string& edgeType,
                               const std::string& metric,
-                              const json& args) {
+                              const json& args,
+                              const SkillDelegationContext* delegationContext = nullptr) {
     constexpr int64_t max_window_ms = 31LL * 24 * 60 * 60 * 1000;
     constexpr std::size_t max_vertices = 64;
     constexpr std::size_t max_edges = 256;
     constexpr std::size_t max_samples = 4096;
     const auto error = [](const char* message) { return json{{"error", message}}; };
+
+    if (delegationContext &&
+        (!delegationContext->allows("graph.read", graphId) ||
+         !delegationContext->allows("timeseries.read", metric))) {
+        return error("Delegated context does not permit the bound graph and metric");
+    }
 
     if (!args.is_object() || args.size() != 5 + args.contains("geo")) {
         return error("Expected start_asset_id, max_depth, baseline_start_ms, current_start_ms, duration_ms and optional geo");
@@ -145,9 +164,17 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
         return error("Expected valid geo coordinates and radius_m in (0, 1000000]");
     }
 
+    GraphIndexManager::BoundedTraversalWorkMeter workMeter;
+    if (delegationContext) {
+        workMeter = [delegationContext](std::size_t candidates,
+                                        std::size_t contentBytes) {
+            return delegationContext->consumeBudget(
+                SkillBudgetUsage{0, candidates, contentBytes});
+        };
+    }
     auto [traversalStatus, traversal] = graph.boundedBfs(
         startAsset, graphId, static_cast<int>(maxDepth), max_vertices, max_edges,
-        std::chrono::milliseconds(500), edgeType);
+        std::chrono::milliseconds(500), edgeType, workMeter);
     if (!traversalStatus.ok) {
         return json{{"error", traversalStatus.message}};
     }
@@ -163,7 +190,9 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
     for (const auto& node : traversal.nodes) {
         std::optional<std::pair<double, double>> location;
         std::string nodeError;
-        if (!readAssetLocation(db, graphId, node, center.has_value(), location, nodeError)) {
+        if (!readAssetLocation(
+                db, graphId, node, center.has_value(), location, nodeError,
+                delegationContext)) {
             return json{{"error", nodeError}};
         }
 
@@ -184,6 +213,14 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
         options.metric = metric;
         options.entity = node.vertexId;
         options.limit = max_samples + 1;
+        if (delegationContext) {
+            options.work_meter = [delegationContext](
+                                     std::size_t candidates,
+                                     std::size_t contentBytes) {
+                return delegationContext->consumeBudget(
+                    SkillBudgetUsage{0, candidates, contentBytes});
+            };
+        }
         options.from_timestamp_ms = baseline;
         options.to_timestamp_ms = baseline + duration - 1;
         const auto baselinePoints = store.queryStrict(options);
@@ -191,7 +228,9 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
         options.to_timestamp_ms = current + duration - 1;
         const auto currentPoints = store.queryStrict(options);
         if (!baselinePoints || !currentPoints) {
-            return error("Time series read failed");
+            return error(delegationContext
+                             ? "Time series read failed or delegated budget exhausted"
+                             : "Time series read failed");
         }
         if (baselinePoints->size() > max_samples || currentPoints->size() > max_samples) {
             return error("Time window exceeds the 4096-sample analysis limit");
@@ -261,6 +300,84 @@ inline json analyzeAssetImpact(RocksDBWrapper& db,
 
 } // namespace detail
 
+namespace detail {
+
+inline ToolSpec makeAssetImpactToolSpec() {
+    const json ms = {{"type", "integer"}, {"minimum", 0}};
+    const json number = {{"type", "number"}};
+    ToolSpec spec;
+    spec.name = "analyze_asset_impact";
+    spec.description =
+        "Compare time-series windows for assets reached through an authorized graph relation.";
+    spec.args_schema = {
+        {"type", "object"}, {"additionalProperties", false},
+        {"required", {"start_asset_id", "max_depth", "baseline_start_ms",
+                      "current_start_ms", "duration_ms"}},
+        {"properties", {
+            {"start_asset_id", {{"type", "string"}, {"minLength", 1}, {"maxLength", 1024}}},
+            {"max_depth", {{"type", "integer"}, {"minimum", 0}, {"maximum", 3}}},
+            {"baseline_start_ms", ms}, {"current_start_ms", ms}, {"duration_ms", ms},
+            {"geo", {{"type", "object"}, {"additionalProperties", false},
+                     {"required", {"lon", "lat", "radius_m"}},
+                     {"properties", {{"lon", number}, {"lat", number}, {"radius_m", number}}}}}
+        }}
+    };
+    return spec;
+}
+
+inline void registerAssetImpactAnalysisToolImpl(
+    ToolRegistry& tools,
+    std::shared_ptr<RocksDBWrapper> db,
+    std::shared_ptr<GraphIndexManager> graph,
+    std::shared_ptr<const TSStore> store,
+    const std::string& graphId,
+    const std::string& edgeType,
+    const std::string& metric,
+    bool delegated) {
+    constexpr auto name = "analyze_asset_impact";
+    if (!db || !db->getRawDB() || !graph || !store ||
+        !validAssetImpactKey(graphId, 1024) ||
+        !validAssetImpactKey(edgeType, 128) ||
+        !validAssetImpactKey(metric, 128) ||
+        tools.getSpec(name).has_value()) {
+        throw std::invalid_argument("Invalid or duplicate asset impact tool binding");
+    }
+
+    auto spec = makeAssetImpactToolSpec();
+    struct Sources {
+        std::shared_ptr<RocksDBWrapper> db;
+        std::shared_ptr<GraphIndexManager> graph;
+        std::shared_ptr<const TSStore> store;
+    };
+    const auto sources =
+        Sources{std::move(db), std::move(graph), std::move(store)};
+    const auto boundGraphId = graphId;
+    const auto boundEdgeType = edgeType;
+    const auto boundMetric = metric;
+    if (delegated) {
+        tools.registerDelegatedTool(
+            spec,
+            [sources, boundGraphId, boundEdgeType, boundMetric](
+                const json& args, const ModeSpec&,
+                const SkillDelegationContext& delegationContext) {
+                return analyzeAssetImpact(
+                    *sources.db, *sources.graph, *sources.store, boundGraphId,
+                    boundEdgeType, boundMetric, args, &delegationContext);
+            });
+    } else {
+        tools.registerTool(
+            spec,
+            [sources, boundGraphId, boundEdgeType, boundMetric](
+                const json& args, const ModeSpec&) {
+                return analyzeAssetImpact(
+                    *sources.db, *sources.graph, *sources.store, boundGraphId,
+                    boundEdgeType, boundMetric, args);
+            });
+    }
+}
+
+} // namespace detail
+
 /**
  * @brief Register the opt-in, read-only `analyze_asset_impact` tool.
  * @param tools Caller-scoped registry; its mode must explicitly allow the tool.
@@ -285,47 +402,43 @@ inline void registerAssetImpactAnalysisTool(
     const std::string& graphId,
     const std::string& edgeType,
     const std::string& metric) {
-    constexpr auto name = "analyze_asset_impact";
-    if (!db || !db->getRawDB() || !graph || !store ||
-        !detail::validAssetImpactKey(graphId, 1024) ||
-        !detail::validAssetImpactKey(edgeType, 128) ||
-        !detail::validAssetImpactKey(metric, 128) ||
-        tools.getSpec(name).has_value()) {
-        throw std::invalid_argument("Invalid or duplicate asset impact tool binding");
-    }
+    detail::registerAssetImpactAnalysisToolImpl(
+        tools, std::move(db), std::move(graph), std::move(store), graphId,
+        edgeType, metric, false);
+}
 
-    const json ms = {{"type", "integer"}, {"minimum", 0}};
-    const json number = {{"type", "number"}};
-    ToolSpec spec;
-    spec.name = name;
-    spec.description =
-        "Compare time-series windows for assets reached through an authorized graph relation.";
-    spec.args_schema = {
-        {"type", "object"}, {"additionalProperties", false},
-        {"required", {"start_asset_id", "max_depth", "baseline_start_ms",
-                      "current_start_ms", "duration_ms"}},
-        {"properties", {
-            {"start_asset_id", {{"type", "string"}, {"minLength", 1}, {"maxLength", 1024}}},
-            {"max_depth", {{"type", "integer"}, {"minimum", 0}, {"maximum", 3}}},
-            {"baseline_start_ms", ms}, {"current_start_ms", ms}, {"duration_ms", ms},
-            {"geo", {{"type", "object"}, {"additionalProperties", false},
-                     {"required", {"lon", "lat", "radius_m"}},
-                     {"properties", {{"lon", number}, {"lat", number}, {"radius_m", number}}}}}
-        }}
-    };
-
-    struct Sources {
-        std::shared_ptr<RocksDBWrapper> db;
-        std::shared_ptr<GraphIndexManager> graph;
-        std::shared_ptr<const TSStore> store;
-    };
-    tools.registerTool(
-        spec,
-        [sources = Sources{std::move(db), std::move(graph), std::move(store)},
-         graphId, edgeType, metric](const json& args, const ModeSpec&) {
-            return detail::analyzeAssetImpact(
-                *sources.db, *sources.graph, *sources.store, graphId, edgeType, metric, args);
-        });
+/**
+ * @brief Register `analyze_asset_impact` with host-issued delegated authorization.
+ * @param tools Caller-scoped registry; its mode must also allow the tool.
+ * @param db Open database containing the bound graph and node documents.
+ * @param graph Graph index bound to the same database.
+ * @param store TSStore containing only caller-authorized series.
+ * @param graphId Exact resource required for the `graph.read` capability.
+ * @param edgeType Bound outgoing relationship type; not selectable by arguments.
+ * @param metric Exact resource required for the `timeseries.read` capability.
+ * @throws std::invalid_argument If dependencies/bindings are invalid or the
+ *         tool name is already registered.
+ * @note Dispatch also requires `tool.invoke` for `analyze_asset_impact`.
+ *       Candidates include adjacency entries, node documents, and time-series
+ *       points. Content bytes count serialized edge/node documents and
+ *       time-series records/chunks plus decrypted Gorilla payload bytes;
+ *       decoded points are charged as candidates. Payload bytes are charged
+ *       after storage retrieval and before parsing/decoding, not as physical
+ *       storage-I/O admission. Charges are shared across descendants and
+ *       failures return an error without partial results. The database and
+ *       registry must remain scoped to the same authorized principal.
+ */
+inline void registerDelegatedAssetImpactAnalysisTool(
+    ToolRegistry& tools,
+    std::shared_ptr<RocksDBWrapper> db,
+    std::shared_ptr<GraphIndexManager> graph,
+    std::shared_ptr<const TSStore> store,
+    const std::string& graphId,
+    const std::string& edgeType,
+    const std::string& metric) {
+    detail::registerAssetImpactAnalysisToolImpl(
+        tools, std::move(db), std::move(graph), std::move(store), graphId,
+        edgeType, metric, true);
 }
 
 } // namespace themis::llm

@@ -70,23 +70,37 @@ use these distinct codes: `ERR_LLM_SKILL_NOT_FOUND`,
 
 ### Host-side skill permission attenuation
 
-`themis::llm::SkillDelegationContext` is an additive host-side primitive. A
-trusted host creates a root from authenticated principal/tenant identifiers,
-the effective exact action/resource grants, a monotonic expiry, and aggregate
-tool-call/candidate/content-byte ceilings. `attenuate()` preserves identity
-and shares the same budget while allowing only a subset of exact grants and an
-expiry no later than its parent. Wildcard permissions are rejected. Budget
-charges are atomic across all three dimensions and cannot be reset by copying
-or deriving a context. Invalid root identifiers, expiries, or wildcard grants
-return `ERR_UTIL_INVALID_ARGUMENT`; attempted permission or expiry escalation
-returns `ERR_QUERY_ACCESS_DENIED`.
+`themis::llm::SkillDelegationContext` is an additive host-side primitive. Its
+`createRoot()` requires a trusted host `PermissionAuthorizer`; that callback
+must validate each exact action/resource grant against the authenticated
+principal and tenant and deny on policy failure. Raw identities and requested
+grants alone do not authorize a root. Root creation also requires a monotonic
+expiry and aggregate tool-call/candidate/content-byte ceilings. `attenuate()`
+preserves identity and shares the same budget while allowing only a subset of
+exact grants and an expiry no later than its parent. Wildcard permissions are
+rejected. Budget charges are atomic across all three dimensions and cannot be
+reset by copying or deriving a context. Invalid identity, expiry, grants, or a
+missing callback return `ERR_UTIL_INVALID_ARGUMENT`; denied grants and
+permission/expiry escalation return `ERR_QUERY_ACCESS_DENIED`. Standard
+exceptions from the authorizer also fail closed with
+`ERR_QUERY_ACCESS_DENIED`.
 Budget operations synchronize concurrent charges across descendants. Expired
 contexts deny capability checks, new derivations, and budget consumption.
 
-This type is not yet connected to `ToolRegistry`, native skill executors, or
-RAG. Its existence does not authorize or constrain existing tool calls; a host
-must not expose root creation to skill text, model output, or tool arguments.
-The host remains responsible for creating roots only after authorization.
+Register a handler with `ToolRegistry::registerDelegatedTool()` to require
+delegated dispatch. The context-aware `invokeTool()` overload requires both
+the mode allowlist and the exact `tool.invoke` capability for the tool name,
+then charges one shared tool call before handler execution. The ordinary
+`invokeTool()` overload rejects delegated registrations; the context-aware
+overload rejects ordinary handlers. `OrchestratorContext` can carry the
+host-issued context for agentic dispatch; do not populate it from request
+arguments, model output, `extra`, or skill text.
+
+Delegated handlers must independently check resource-specific grants and
+charge candidate/content budgets before protected operations. Existing handlers
+and RAG remain on their prior authorization paths and are not constrained by
+this context. A host must not expose root creation to skill text, model output,
+or tool arguments and must only issue roots after authorization.
 
 ### Optional native time series comparison
 
@@ -145,6 +159,23 @@ limits do not make reads atomic across graph and time-series storage, interrupt
 a synchronous RocksDB operation, or replace host authorization. TSStore reads
 use `queryStrict()` to reject malformed matching records/chunks; empty but
 valid windows remain successful with null means.
+
+For delegated execution, use
+`registerDelegatedAssetImpactAnalysisTool()` instead of the mode-only
+registration. The delegated variant requires `graph.read` on the exact bound
+graph ID and `timeseries.read` on the exact bound metric; dispatch separately
+requires `tool.invoke` on `analyze_asset_impact`. The graph traversal, node
+documents, TSStore records/chunks, and decoded samples consume shared
+candidate/content-byte budgets. Serialized document/chunk bytes and decrypted
+Gorilla payload bytes are charged after storage retrieval but before parsing or
+decoding. Decoded samples are candidate-charged before emission; the bounded
+decoder can parse a small SIMD batch before the per-sample charge. This is work
+metering, not physical storage-I/O admission. Budget
+denial returns an error without partial results, but already accepted charges
+are not refunded. The existing mode-authorized registration remains available
+and is not constrained by delegation context.
+For binary rebuild and host migration steps, see the
+[v2.4.x to v3.0.0 migration guide](../../docs/migration/v2.4-to-v3.0.md).
 
 ## Model Registration & Switching
 

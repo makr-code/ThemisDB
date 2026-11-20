@@ -287,12 +287,35 @@ action/resource allowlist, fixed principal and tenant, monotonic expiry, and
 shared aggregate tool-call/candidate/content-byte limits. Child contexts may
 remove permissions and shorten expiry but cannot change identity, extend
 expiry, add grants, or reset the shared budget. Root creation must remain in a
-trusted host after authorization; skill content, model output, and tool
-arguments are not authority sources. This primitive is not yet enforced by
-ToolRegistry, native skill executors, or RAG and must not be described as
-end-to-end authorization.
+trusted host and require a host-supplied authorizer to approve each exact grant
+for the authenticated principal and tenant; missing callbacks and policy
+denials fail closed. `ToolRegistry::registerDelegatedTool()` and delegated
+`invokeTool()` enforce mode allowlisting, the exact `tool.invoke` grant, and
+the shared tool-call ceiling before dispatch; ordinary handlers cannot be
+called through this path and delegated handlers cannot use ordinary dispatch.
+The opt-in `registerDelegatedAssetImpactAnalysisTool()` additionally requires
+`graph.read` on the bound graph ID and `timeseries.read` on the bound metric.
+It meters adjacency entries, node documents, stored time-series records/chunks,
+and decoded samples against the shared candidate/content-byte budget. Graph
+traversal charges candidates before examining them; graph and time-series
+payload bytes are charged before decoding. Compressed TSStore chunks use a
+bounded decoder and fail rather than returning an unverified partial result
+when the per-query or shared budget is exhausted. The existing
+`registerAssetImpactAnalysisTool()` remains the mode-only opt-in path.
+
+Other handlers must enforce their own resource grants and charge
+candidate/content budgets. Skill content, model output, and tool arguments
+are not authority sources. RAG and other native executors are not automatically
+constrained by this primitive; do not describe it as end-to-end authorization.
 
 ### Implementation Notes
+
+The additive `OrchestratorContext::skill_delegation_context` is host-only
+request state used by agentic tool dispatch; never derive it from `extra` or
+model output. Existing `ToolHandler` registrations remain source-compatible
+and retain their mode-only behavior. Tools requiring delegated authorization
+must register a `DelegatedToolHandler`; a context-aware call rejects legacy
+handlers, and a legacy call rejects delegated handlers.
 
 - The implemented initial metadata contract requires scalar `name` and
   `description`; top-level metadata keys must be unique, and names are lowercase
@@ -331,6 +354,12 @@ end-to-end authorization.
   enable a tool denied by the mode.
 - Verify delegation rejects added capabilities and later expiry, preserves
   principal/tenant identity, and shares atomic budget charges across descendants.
+- Verify delegated tool dispatch requires both the mode allowlist and exact
+  `tool.invoke` grant, charges the shared tool-call budget once before handler
+  entry, and rejects legacy/context-free dispatch in either direction.
+- Verify delegated asset-impact dispatch rejects missing graph/metric grants,
+  meters graph, TSStore, and decoded-chunk work, stops on candidate/content
+  exhaustion, and never returns partial analysis results.
 - Exercise concurrent list/load/refresh to prove readers never see partial
   registry state.
 - Confirm compatibility by loading existing mode packs and running existing

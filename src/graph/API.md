@@ -22,7 +22,7 @@ This page is a navigational summary. The declarations in `include/graph/` and `i
 
 | Surface | Header | Purpose and contract notes |
 |---|---|---|
-| `GraphIndexManager::boundedBfs` | [graph_index.h](../../include/index/graph_index.h) | Graph-scoped outgoing traversal with explicit depth, vertex, edge-examination, and cooperative timeout bounds; errors do not return partial results. |
+| `GraphIndexManager::boundedBfs` | [graph_index.h](../../include/index/graph_index.h) | Graph-scoped outgoing traversal with explicit depth, vertex, edge-examination, cooperative timeout, and optional candidate/content-meter bounds; errors do not return partial results. |
 | `GraphQueryOptimizer` | [graph_query_optimizer.h](../../include/graph/graph_query_optimizer.h) | Optimizes shortest-path, k-hop, pattern-match, and reachability plans; executes BFS/DFS/Dijkstra and supports streams and incremental BFS. Query constraints include bounds, filters, timeouts, and optional execution hints. |
 | `PathConstraints` | [path_constraints.h](../../include/graph/path_constraints.h) | Builds and checks path constraints, including required/forbidden vertices and edges, length, weight, uniqueness, custom predicates, and ontology rules. |
 | `ParallelTraversal` | [parallel_traversal.h](../../include/graph/parallel_traversal.h) | Multi-source BFS/DFS; `Config` carries depth/result caps, thread count, timeout, forbidden vertices, and fan-out threshold. |
@@ -43,7 +43,13 @@ its index entry, and checks RocksDB iterator status. It rejects invalid limits,
 missing/malformed edge records, iterator failures, and work-limit exhaustion.
 The result is a breadth-first list including the start vertex at depth zero;
 an error has no partial result. Its timeout is cooperative between synchronous
-storage operations and does not provide snapshot isolation.
+storage operations and does not provide snapshot isolation. An optional work
+meter can deny an adjacency candidate before examination and account serialized
+edge-document bytes before decoding. Meter denial returns an error with no
+partial traversal; the callback does not replace graph authorization.
+The added meter parameter changes the C++ symbol; binary consumers should
+rebuild for the planned v3.0.0 release. See the
+[migration guide](../../docs/migration/v2.4-to-v3.0.md).
 
 The frozen graph taxonomy in [graph_error_taxonomy.h](../../include/graph/graph_error_taxonomy.h) categorizes errors as:
 
