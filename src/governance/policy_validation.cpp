@@ -25,9 +25,9 @@
 namespace themis {
 namespace governance {
 
-// ========== PolicyValidator::ConflictResult Implementation ==========
+// ========== PolicyRuleSetValidator::ConflictResult Implementation ==========
 
-nlohmann::json PolicyValidator::ConflictResult::toJson() const {
+nlohmann::json PolicyRuleSetValidator::ConflictResult::toJson() const {
     nlohmann::json j;
     j["conflict_id"]          = conflict_id;
     j["conflict_type"]        = conflict_type;
@@ -38,9 +38,9 @@ nlohmann::json PolicyValidator::ConflictResult::toJson() const {
     return j;
 }
 
-// ========== PolicyValidator::EffectivenessMetrics Implementation ==========
+// ========== PolicyRuleSetValidator::EffectivenessMetrics Implementation ==========
 
-nlohmann::json PolicyValidator::EffectivenessMetrics::toJson() const {
+nlohmann::json PolicyRuleSetValidator::EffectivenessMetrics::toJson() const {
     nlohmann::json j;
     j["rule_id"]             = rule_id;
     j["hit_count"]           = hit_count;
@@ -52,9 +52,9 @@ nlohmann::json PolicyValidator::EffectivenessMetrics::toJson() const {
     return j;
 }
 
-// ========== PolicyValidator::SecurityCheckResult Implementation ==========
+// ========== PolicyRuleSetValidator::SecurityCheckResult Implementation ==========
 
-nlohmann::json PolicyValidator::SecurityCheckResult::toJson() const {
+nlohmann::json PolicyRuleSetValidator::SecurityCheckResult::toJson() const {
     nlohmann::json j;
     j["check_id"]       = check_id;
     j["check_type"]     = check_type;
@@ -66,9 +66,9 @@ nlohmann::json PolicyValidator::SecurityCheckResult::toJson() const {
     return j;
 }
 
-// ========== PolicyValidator::ValidationReport Implementation ==========
+// ========== PolicyRuleSetValidator::ValidationReport Implementation ==========
 
-nlohmann::json PolicyValidator::ValidationReport::toJson() const {
+nlohmann::json PolicyRuleSetValidator::ValidationReport::toJson() const {
     nlohmann::json j;
     j["total_rules_checked"]        = total_rules_checked;
     j["conflicts_found"]            = conflicts_found;
@@ -92,9 +92,9 @@ nlohmann::json PolicyValidator::ValidationReport::toJson() const {
     return j;
 }
 
-// ========== PolicyValidator Implementation ==========
+// ========== PolicyRuleSetValidator Implementation ==========
 
-std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectConflicts(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult> PolicyRuleSetValidator::detectConflicts(const PolicyManager &policy_mgr) const {
     THEMIS_DEBUG("Starting comprehensive conflict detection");
 
     std::vector<ConflictResult> all_conflicts;
@@ -124,8 +124,8 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectConflicts(co
     return all_conflicts;
 }
 
-std::vector<PolicyValidator::ConflictResult>
-PolicyValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult>
+PolicyRuleSetValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const {
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
@@ -225,8 +225,8 @@ PolicyValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const
     return conflicts;
 }
 
-std::vector<PolicyValidator::ConflictResult>
-PolicyValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult>
+PolicyRuleSetValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) const {
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
@@ -273,8 +273,8 @@ PolicyValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) c
     return conflicts;
 }
 
-std::vector<PolicyValidator::ConflictResult>
-PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult>
+PolicyRuleSetValidator::detectCircularDependencies(const PolicyManager &policy_mgr) const {
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
@@ -397,8 +397,8 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
     return conflicts;
 }
 
-std::unordered_map<std::string, PolicyValidator::EffectivenessMetrics>
-PolicyValidator::calculateEffectiveness(const PolicyManager &policy_mgr,
+std::unordered_map<std::string, PolicyRuleSetValidator::EffectivenessMetrics>
+PolicyRuleSetValidator::calculateEffectiveness(const PolicyManager &policy_mgr,
                                         const std::unordered_map<std::string, int> &hit_counts) const {
     std::unordered_map<std::string, EffectivenessMetrics> metrics_map;
     auto all_rules = policy_mgr.listRules();
@@ -457,7 +457,7 @@ PolicyValidator::calculateEffectiveness(const PolicyManager &policy_mgr,
     return metrics_map;
 }
 
-std::vector<std::string> PolicyValidator::identifyUnusedRules(const PolicyManager &policy_mgr,
+std::vector<std::string> PolicyRuleSetValidator::identifyUnusedRules(const PolicyManager &policy_mgr,
                                                               const std::unordered_map<std::string, int> &hit_counts,
                                                               int min_days_unused) const {
     std::vector<std::string> unused_rules;
@@ -476,8 +476,8 @@ std::vector<std::string> PolicyValidator::identifyUnusedRules(const PolicyManage
     return unused_rules;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult>
-PolicyValidator::performSecurityChecks(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult>
+PolicyRuleSetValidator::performSecurityChecks(const PolicyManager &policy_mgr) const {
     THEMIS_DEBUG("Performing comprehensive security checks");
 
     std::vector<SecurityCheckResult> all_checks;
@@ -503,8 +503,8 @@ PolicyValidator::performSecurityChecks(const PolicyManager &policy_mgr) const {
     return all_checks;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult>
-PolicyValidator::checkOverlyPermissive(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult>
+PolicyRuleSetValidator::checkOverlyPermissive(const PolicyManager &policy_mgr) const {
     std::vector<SecurityCheckResult> checks;
     auto all_rules = policy_mgr.listRules();
 
@@ -573,8 +573,8 @@ PolicyValidator::checkOverlyPermissive(const PolicyManager &policy_mgr) const {
     return checks;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult>
-PolicyValidator::checkEncryptionRequirements(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult>
+PolicyRuleSetValidator::checkEncryptionRequirements(const PolicyManager &policy_mgr) const {
     std::vector<SecurityCheckResult> checks;
     auto all_rules = policy_mgr.listRules();
 
@@ -621,8 +621,8 @@ PolicyValidator::checkEncryptionRequirements(const PolicyManager &policy_mgr) co
     return checks;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult>
-PolicyValidator::checkAuditLogging(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult>
+PolicyRuleSetValidator::checkAuditLogging(const PolicyManager &policy_mgr) const {
     std::vector<SecurityCheckResult> checks;
     auto all_rules = policy_mgr.listRules();
 
@@ -669,8 +669,8 @@ PolicyValidator::checkAuditLogging(const PolicyManager &policy_mgr) const {
     return checks;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult>
-PolicyValidator::checkRetentionCompliance(const PolicyManager &policy_mgr, int min_retention_days) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult>
+PolicyRuleSetValidator::checkRetentionCompliance(const PolicyManager &policy_mgr, int min_retention_days) const {
     std::vector<SecurityCheckResult> checks;
     auto all_rules = policy_mgr.listRules();
 
@@ -714,8 +714,8 @@ PolicyValidator::checkRetentionCompliance(const PolicyManager &policy_mgr, int m
     return checks;
 }
 
-PolicyValidator::ValidationReport
-PolicyValidator::generateValidationReport(const PolicyManager &policy_mgr,
+PolicyRuleSetValidator::ValidationReport
+PolicyRuleSetValidator::generateValidationReport(const PolicyManager &policy_mgr,
                                           const std::unordered_map<std::string, int> &hit_counts) const {
     THEMIS_INFO("Generating comprehensive validation report");
 
@@ -760,7 +760,7 @@ PolicyValidator::generateValidationReport(const PolicyManager &policy_mgr,
     return report;
 }
 
-std::vector<PolicyValidator::SecurityCheckResult> PolicyValidator::validateSingleRule(const PolicyRule &rule) const {
+std::vector<PolicyRuleSetValidator::SecurityCheckResult> PolicyRuleSetValidator::validateSingleRule(const PolicyRule &rule) const {
     std::vector<SecurityCheckResult> checks;
 
     THEMIS_DEBUG("Validating single rule: {}", rule.id);
@@ -1111,7 +1111,7 @@ nlohmann::json PolicyOptimizer::OptimizationReport::toJson() const {
 // ========== PolicyOptimizer Implementation ==========
 
 std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::generateRecommendations(
-    const PolicyManager &policy_mgr, const PolicyValidator::ValidationReport & /*validation_report*/,
+    const PolicyManager &policy_mgr, const PolicyRuleSetValidator::ValidationReport & /*validation_report*/,
     const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics> &metrics) const {
     THEMIS_INFO("Generating optimization recommendations");
 
@@ -1351,7 +1351,7 @@ PolicyOptimizer::recommendRemovals(const PolicyManager &policy_mgr,
 }
 
 PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
-    const PolicyManager &policy_mgr, const PolicyValidator::ValidationReport &validation_report,
+    const PolicyManager &policy_mgr, const PolicyRuleSetValidator::ValidationReport &validation_report,
     const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics> &metrics) const {
     THEMIS_INFO("Generating comprehensive optimization report");
 
@@ -1397,10 +1397,10 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     return report;
 }
 
-// ========== PolicyValidator CCPA/HIPAA Conflict Detection ==========
+// ========== PolicyRuleSetValidator CCPA/HIPAA Conflict Detection ==========
 
-std::vector<PolicyValidator::ConflictResult>
-PolicyValidator::detectCcpaHipaaConflicts(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult>
+PolicyRuleSetValidator::detectCcpaHipaaConflicts(const PolicyManager &policy_mgr) const {
     std::vector<ConflictResult> conflicts;
     CcpaRuleSet ccpa_rules;
     auto all_rules = policy_mgr.listRules();
@@ -1434,10 +1434,10 @@ PolicyValidator::detectCcpaHipaaConflicts(const PolicyManager &policy_mgr) const
     return conflicts;
 }
 
-// ========== PolicyValidator PCI-DSS/GDPR Conflict Detection ==========
+// ========== PolicyRuleSetValidator PCI-DSS/GDPR Conflict Detection ==========
 
-std::vector<PolicyValidator::ConflictResult>
-PolicyValidator::detectPciDssGdprConflicts(const PolicyManager &policy_mgr) const {
+std::vector<PolicyRuleSetValidator::ConflictResult>
+PolicyRuleSetValidator::detectPciDssGdprConflicts(const PolicyManager &policy_mgr) const {
     std::vector<ConflictResult> conflicts;
     PciDssRuleSet pci_rules;
     auto all_rules = policy_mgr.listRules();
