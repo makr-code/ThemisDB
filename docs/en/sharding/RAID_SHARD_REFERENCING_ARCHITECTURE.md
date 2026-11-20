@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-02-10"
+Last Updated: "2026-11-20"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB RAID Shard Referencing Architecture
 
 ## Document Purpose
@@ -509,9 +523,14 @@ themis_shard_health_status{shard_id="raid0-3"} 0
 
 #### RAID 1 (Strong Consistency)
 
-Writes across RAID-1 mirrors use the ThemisDB Two-Phase Commit (2PC) protocol.
-Each Raft-leader shard runs a `TwoPhaseCommitParticipant`; the `DistributedTransactionCoordinator`
-orchestrates PREPARE and COMMIT across all participants atomically.
+The following example illustrates a 2PC design across RAID-1 mirrors, with a
+`TwoPhaseCommitParticipant` on each Raft-leader shard and a
+`DistributedTransactionCoordinator` orchestrating PREPARE and COMMIT. It is not evidence
+that Raft-backed coordinator decisions, durable block replication, or failover are wired
+end-to-end. For the selected target contract and its review status, see the
+[block replication and transaction target](../../architecture/cross_shard_block_replication_target.md).
+The `DistributedTransactionCoordinator` is separate from the coordinator pair covered by
+DIS-05.
 
 ```cpp
 #include "sharding/two_phase_commit_participant.h"
@@ -556,12 +575,12 @@ coordinator->addOperation(txn_id, "raid1-secondary", {{"type","update"},{"key","
 
 // commit() runs Phase 1 (PREPARE) then Phase 2 (COMMIT or ABORT) atomically
 bool ok = coordinator->commit(txn_id);
-// ok == true  → both mirrors have applied the write; WAL flushed on both
-// ok == false → one mirror rejected; coordinator sent ABORT to both (no change)
+// A production integration must define what successful acknowledgements guarantee.
+// A failure or timeout can leave the outcome unknown; do not assume ABORT.
 ```
 
-For crash-recovery semantics, in-doubt transactions (PREPARE logged but no COMMIT/ABORT)
-are automatically resolved by the coordinator's `recoverTransactions()` on restart.
+Crash recovery and decision replay depend on the coordinator and its configured storage;
+this example alone does not establish their behavior after a node or network failure.
 See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md) for
 the full protocol description, REST API reference (`/dtxn/*`), and configuration options.
 

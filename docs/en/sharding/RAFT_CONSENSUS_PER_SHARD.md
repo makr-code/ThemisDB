@@ -1,6 +1,27 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-02-17"
+Last Updated: "2026-11-20"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Raft Consensus Per Shard - Usage Guide
 
 ## Overview
+
+> **Scope:** This guide describes per-shard Raft interfaces and intended behavior. It
+> does not establish that cross-shard transaction decisions or large-object bytes are
+> durably committed end-to-end. See the [proposed block replication and transaction
+> target](../../architecture/cross_shard_block_replication_target.md) and the
+> [replication roadmap](../../../src/replication/ROADMAP.md) for open contracts and
+> integration evidence.
 
 ThemisDB now supports Raft consensus per shard, enabling leader-based writes, automatic failover, and strong consistency guarantees across distributed shards.
 
