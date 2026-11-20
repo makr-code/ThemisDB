@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot coding agent"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
 Source_Level: "level1"
@@ -108,6 +108,151 @@ succeeds; missing acknowledgements leave that decision unresolved.
 - Quorum/consensus outcomes can prevent a coordination decision. An in-doubt transaction is a separate recovery state, not a confirmed commit.
 - WAL persistence/replay errors affect shard state recovery; migration/rebalance conflicts can leave an operation incomplete and require the operation-specific recovery path.
 - Timeouts, circuit breakers, and health monitors are component-specific; no universal automatic failover behavior is assumed.
+
+## DIS-03: Routing- und Snapshot-Entwurf zur Maintainer-Abnahme
+
+**Status: Vorschlag, nicht implementiert oder freigegeben.** Dieser Entwurf
+ändert weder Hashverfahren noch Platzierung, RPC-Format oder Produktionswiring.
+Storage- und Sharding-Maintainer müssen die unten genannten Entscheidungen
+abnehmen; bis dahin bleiben automatischer Export und Ownership-Cutover gesperrt.
+Die bestehenden [Transfer-APIs](API.md#shard-transfer-dis-03) liefern lediglich
+verifiziertes, isoliertes Staging.
+
+#### Typisierte Routing-Identität ohne impliziten Hashwechsel
+
+Eine vorgeschlagene `RoutingKeyDescriptor`-Identität bindet Schlüsseltyp,
+exakte Schlüsselbytes, Algorithmus-ID und Version an die persistierte
+Placement-Konfiguration und dieselbe Topologie-Epoche wie die Assignment.
+Routing, Export und Zielvalidierung verwenden dieselbe Identität; kein
+automatischer Wechsel bei fehlender Bibliothek, unbekannter Version oder
+unbekanntem Schlüsseltyp.
+
+| Schlüsseltyp | Bestehende Abbildung | Vorgeschlagener expliziter Vertrag |
+|---|---|---|
+| Partition-Key | `ConsistentHashRing::getNode()` / `hashKey()`: FNV-1a und 64-Bit-Mix über die gelieferten Bytes | `partition-key/fnv1a-mix64-v1`; keine neue Namespace-Präfixierung, Unicode-Normalisierung oder andere Byteänderung |
+| URN-UUID | `getShardForURN()` delegiert an `URN::hash()`: UUID-String, xxHash64 mit Seed 0 wenn verfügbar | `urn-uuid/xxh64-seed0-v1` nur für nachweislich damit angelegte Placements; Hashinput sind die bestehenden UUID-Stringbytes, nicht die gesamte URN oder binär dekodierte UUID |
+| URN-UUID ohne xxHash | derzeit `std::hash<std::string>` | Kein portabler Algorithmusvertrag. Export abweisen, solange reproduzierbare Bestandsplatzierung und genehmigter Migrationspfad nicht nachgewiesen sind; keinen neuen Kompatibilitätsfallback hinzufügen |
+
+Quelle: [`consistent_hash.cpp`](consistent_hash.cpp) und [`urn.cpp`](urn.cpp).
+`URNResolver::getShardForKey()` ignoriert derzeit das Collection-Argument;
+der Entwurf fügt es nicht heimlich zum Hashinput hinzu. Er vereinheitlicht den
+Vertrag, nicht ungeprüft die bestehenden Tokenwerte. Eine Änderung des
+Algorithmus oder der Schlüsselbytes braucht Inventarisierung der Bestände,
+Vergleich alter/neuer Placement-Ergebnisse, explizite Umzugsentscheidung und
+einen getrennten, gefenceten Rollout. Vor Cutover ist ein Abbruch möglich;
+nach Cutover gilt die persistierte Authority-Entscheidung, kein automatischer
+Rollback auf die alte Abbildung.
+
+#### Exakte Ownership statt Min/Max-Hülle
+
+Ein vorgeschlagenes unveränderliches `OwnershipSnapshot` bindet die tatsächlich
+eingefügten Ringtokens und ihre Besitzer an eine Authority-Epoche und einen
+Ring-Fingerprint. Für Ringtoken `t` mit Vorgänger `p` besitzt der bei `t`
+eingetragene Shard das Segment **(p, t]** im Uhrzeigersinn; dies folgt aus
+`getShardForHash()` mit `lower_bound`. Ein Token am Endpunkt gehört zum
+Endpunktbesitzer, nicht zum nächsten Segment.
+
+- Segmente eines Shards werden einzeln exportiert, niemals als Hülle aus
+  `getShardRange()`; virtuelle Knoten können durch fremde Segmente getrennt sein.
+- Wrap-around wird in zwei lineare Intervalle zerlegt. Für eine normalisierte
+  halb-offene Darstellung wird `2^64` als eigener oberer Endmarker modelliert,
+  nicht als überlaufender `uint64_t`. Das letzte Token bleibt darstellbar.
+- Ein Ringtoken bedeutet Vollringbesitz; ein leerer Ring bedeutet keine
+  autorisierte Ownership. Gleiche Grenzen bedeuten nicht implizit Vollring.
+  Kollisionen richten sich nach den tatsächlich eingefügten Tokens, nicht
+  nach einer nachträglich neu berechneten VNode-Liste.
+- Jeder exportierte Schlüssel wird über seinen typisierten Token erneut gegen
+  die exakten Segmente und den Quellbesitzer geprüft. Epochendrift sperrt
+  Admission, Resume und Finalisierung.
+
+Die heutige Transfer-Manifest-Range ist auf aufsteigende `uint64_t`-Grenzen
+beschränkt. Mehrsegment-, Vollring- und oberste Token-Abbildung erfordern einen
+explizit versionierten Manifestvertrag; das aktuelle Format wird nicht
+stillschweigend umgedeutet.
+
+#### Storage-eigener atomarer Snapshot
+
+Ein vorgeschlagenes RAII-`RangeExportHandle` hält genau einen echten RocksDB-
+Snapshot, dessen **eigene** Sequenznummer, den MVCC-HLC-Grenzwert und den
+OwnershipSnapshot. Eine separat abgefragte neueste DB-Sequenz ersetzt nicht
+die Sequenz des Snapshots. Schlüsselermittlung und Versionsauswahl müssen
+dieselbe Snapshot-Sicht nutzen; kein `scanBaseKeys()` plus unabhängige
+`getAtTimestamp()`-Reads.
+
+Für die erste Freigabe zuerst alle Schreibpfade der Range wirksam sperren,
+bereits laufende Transaktionen bis Commit/Abort drainen und den Fence bis zur
+Ownership-Entscheidung halten. Erst danach werden Snapshot und Watermarks
+aufgenommen. HLC allein beweist keine Commit-Sichtbarkeit:
+`putInTxn()` vergibt Zeitstempel vor Commit. Ein vor dem Watermark
+zeitgestempelter, erst nach Snapshotaufnahme committeter Datensatz darf
+deshalb nicht nachträglich in den Export gelangen.
+
+Die Assignment bindet Operation-ID und Migration-ID, beide Shards, Rollen,
+Epoch und den Manifest-Fingerprint dauerhaft. X.509-Identität wird auf einen
+Cluster-Principal abgebildet; nur dessen zugewiesene Rolle darf PREPARE,
+Stream, Resume oder Abort ausführen. Cutover benötigt eine eigene Berechtigung.
+Nach Source-Restart muss der Fence wiederhergestellt und die Assignment
+revalidiert werden, bevor normale Range-Schreibzugriffe zugelassen werden;
+eine Prozesssperre allein ist keine crashfeste Quieszenz.
+
+Die Storage-Schnittstelle selektiert pro logischem Schlüssel die bei der
+Snapshot-Sequenz committete neueste Version mit HLC kleiner/gleich dem
+Grenzwert. Sie prüft Iteratorstatus, Storage-I/O, Cancellation und Ressourcen-
+grenzen explizit; Fehler sind keine leere Range. Ein atomarer Iterator kann
+eine konsistente Enumeration liefern, aber die aktuelle Kombination mehrerer
+Scans/Einzelreads etabliert diesen Gesamtvertrag nicht.
+GC-Pins schützen benötigte historische Versionen, ersetzen jedoch weder
+Commit-Sichtbarkeit noch konsistente Enumeration. Snapshot, Pin und Sperre
+brauchen eindeutige Ownership und Fehler-/Freigaberegeln.
+
+Für Source-Restart-Resume wird der kanonische logische Export mitsamt Manifest
+durabel abgeschlossen, bevor die Assignment ihn als resumierbar freigibt.
+Ein Snapshot-Pointer oder HLC-Pin allein ist kein durabler Export. Falls kein
+durabler Export verfügbar ist, muss nach Verlust des Handles eine frische
+Assignment mit neuer Migration-ID angelegt werden. Eine verifizierte
+Zielkopie aus einer alten Manifestidentität wird dadurch nicht automatisch
+zur neuen Snapshot-Sicht.
+
+#### Explizite Löschsemantik und isolierter Import
+
+Ein vorgeschlagenes `LogicalSnapshotRecord` trägt einen expliziten Typ
+`PUT` oder `DELETE`, Schlüsselbytes und Versionsmetadaten; ein leeres PUT
+bleibt von DELETE unterscheidbar. Die heutige MVCC-Repräsentation verwendet
+leere Werte als Tombstones. Der Adapter darf daraus keine nachträglich
+erfundenen leeren Live-Werte rekonstruieren; Storage-Maintainer müssen
+Bestandssemantik und gegebenenfalls Formatmigration festlegen.
+
+Kanonische Reihenfolge ist byteweise nach logischem Schlüssel, ohne doppelte
+Schlüssel, mit versionierter längenbasierter Kodierung einschließlich Typ und
+Watermarks. Tombstones werden im abgeschlossenen logischen Snapshot bewahrt;
+Import erfolgt in ein leeres, migrationseigenes Staging-Namespace, nicht als
+Merge in bestehende sichtbare Daten. Sekundärindizes und weitere abgeleitete
+Strukturen benötigen einen ausdrücklich abgenommenen Rebuild-/Importvertrag.
+Der heutige Key/Value-Materializer kodiert keinen Record-Typ und darf nicht
+als Implementierung dieses neuen Formats ausgegeben werden.
+
+#### Freigabereihenfolge und Human-Abnahme
+
+1. **Routing-Kompatibilität:** Schlüsseltyp/Algorithmus/Bytes pro Placement
+   inventarisieren; feste Tokenvektoren und plattformübergreifende Ergebnisse
+   abnehmen. Kein Hash-/Placementwechsel ohne genehmigten Datenumzug.
+2. **Ownership:** für jeden Grenztoken Gleichheit zur tatsächlichen Ringroute,
+   VNode-Lücken, Token 0/Maximum, Wrap-around, Vollring und leeren Ring beweisen.
+3. **Snapshot:** reale Storage-Tests für atomare Enumeration, konkurrierende
+   Commits, GC, Tombstones, Restart und fehlerhaftes/abgebrochenes I/O.
+4. **Transport:** Zwei-Prozess-mTLS mit nichtleerer Range, persistierten
+   Zielrecords nach Restart, Resume, identischem/konfligierendem Replay,
+   falscher Identität/Epoche, Checksumfehler und durablem Abort.
+5. **Cutover:** gesondertes HA-Gate für wirksame Quieszenz, dauerhaft atomare
+   Authority-Entscheidung, Publikation nur nach dieser Entscheidung und
+   Reconciliation nach verlorener Bestätigung. Ein Transport-PASS ist kein
+   HA-PASS; alle Pre-Cutover-Fehler lassen die Quelle autoritativ.
+
+Abnahme ausstehend: Sharding-Maintainer (typisierte Placement-Identität,
+Segmente, Manifestversion), Storage-Maintainer (Snapshot, Tombstones,
+durabler Export, abgeleitete Strukturen) und Cluster/Operations-Maintainer
+(Assignments, Quieszenz, Authority und Restart-Recovery). Diese Rollen sind
+Review-Zuständigkeiten, keine behaupteten Unterschriften.
 
 ## Nicht-Ziele
 

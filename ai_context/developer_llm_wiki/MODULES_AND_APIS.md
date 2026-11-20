@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -20,6 +20,7 @@ Status: Active
 ## Curated module contexts
 
 - [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — bounded logical snapshot materialization, durable mTLS staging, local verified reads, and rebalance completion separate from transfer verification.
+- [DIS-03 architecture review](../../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme) — proposed typed placement identity, exact ring segments, atomic snapshot and tombstone contracts; maintainer approval and production implementation pending. The generated wiki manifest predates this manual design update and is not fresh implementation evidence.
 
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.

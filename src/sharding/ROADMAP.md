@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-02
+Last Updated: 2026-11-20
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -180,6 +180,10 @@ open/in-progress work here.
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [?] DIS-03 routing/snapshot architecture and API design awaits Sharding, Storage and Operations maintainer approval; no placement change or production wiring authorized ([design](ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)) (Target: M2 · 2027-03-31)
+- [ ] Implement approved typed key/algorithm metadata and exact ring-segment ownership with boundary and placement-compatibility tests; do not use the VNode min/max envelope as an export range (Target: M2 · 2027-03-31)
+- [ ] Implement a storage-owned atomic export using one snapshot sequence and HLC boundary, explicit tombstones and durable export or fresh assignment after source restart; validate concurrent commits, GC and I/O failures (Target: M2 · 2027-03-31)
+- [ ] Gate production transfer separately from HA cutover: real mTLS restart/resume/content evidence first; enforceable write quiescence, fenced authority commit and lost-ACK reconciliation before ownership activation (Target: M2 · 2027-03-31)
 - [x] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
 - [x] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)
 - [x] keep `shard_rpc_client.cpp` simulation fallback out of production paths by making the runtime contract explicit and fail-closed when no real RPC transport is available (Target: Q4 2026)

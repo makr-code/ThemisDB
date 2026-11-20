@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-19
+Last Updated: 2026-11-20
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -127,14 +127,19 @@ All identified stub/simulation paths have been reviewed and improved with:
   wiring, an enforceable write quiesce, and authoritative fenced cutover.
 - **Source-export blockers**: Do not hash MVCC base keys as ownership tokens.
   `ConsistentHashRing` hashes supplied keys with FNV-1a/mix, but URN routing
-  uses `URN::hash()` over the UUID (xxHash or `std::hash`). Define one stable
-  key-to-token contract for both routing and export first. MVCC base-key
-  enumeration plus per-key reads is not an atomic range snapshot; the existing
-  GC pin protects versions of discovered keys but cannot make concurrent key
+  uses `URN::hash()` over the UUID (xxHash or `std::hash`). Define one shared
+  typed key-to-token contract, preserving approved existing placement, for
+  routing and export first. MVCC base-key enumeration plus per-key reads is
+  not an atomic range snapshot; GC pins protect versions visible at the pinned
+  timestamp but cannot make concurrent key
   discovery repeatable. Storage must provide consistent enumeration and
   snapshot reads, including tombstone behavior, before a production exporter
   can be composed. If the export cannot survive a source restart, require a
   newly assigned migration ID rather than reusing the old manifest.
+- **Review artifact**: [Architecture and API proposal](ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)
+  defines typed key/algorithm metadata, exact `(predecessor, token]` segments,
+  snapshot sequence plus HLC, explicit `PUT`/`DELETE` and separate transport/HA
+  gates. It is awaiting maintainer approval, not implemented production behavior.
 - **Boundary**: The old `StreamSession` PREPARE callback remains fail-closed and
   is not the rebalance data path. See [API](API.md) and [Operations](OPERATIONS.md)
   for durable acknowledgements, resume, and explicit abort.

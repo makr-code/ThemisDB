@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -132,9 +132,9 @@ current routing surfaces do not define one canonical mapping: the consistent
 ring hashes a supplied key with FNV-1a/mix, while URN routing hashes the UUID
 through `URN::hash()` (xxHash when available, otherwise `std::hash`). MVCC
 enumeration plus per-key timestamp reads also does not provide an atomic
-keyspace snapshot. Snapshot pins preserve versions for keys already found;
-they do not make concurrent key enumeration atomic. Until routing publishes a
-shared stable key-to-token contract and storage can enumerate/read one
+keyspace snapshot. Snapshot pins protect versions visible at their timestamp
+against GC across keys; they do not make concurrent key enumeration atomic.
+Until routing publishes a shared typed key-to-token contract and storage can enumerate/read one
 consistent snapshot (including tombstone semantics), production export wiring
 must remain disabled.
 
@@ -150,6 +150,51 @@ The supplied executor reports at most `TRANSFER_VERIFIED`; only an executor
 with an authoritative fenced cutover may return `OWNERSHIP_COMMITTED`.
 Application composition must supply the export and authority adapters; the
 server does not provision them automatically.
+
+### Proposed DIS-03 interfaces — review only
+
+The [architecture review](ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)
+defines the proposed boundaries below. These are design names, not available
+C++ declarations or implemented RPC fields. No new hashing or production
+export is enabled by this proposal.
+
+| Proposed boundary | Inputs and outputs | Failure and lifetime contract |
+|---|---|---|
+| Typed token resolution (`RoutingKeyDescriptor`) | Exact bytes, key type and persistently selected algorithm/version → 64-bit token | Unknown or inconsistent placement metadata rejects export; no implicit UUID/key conversion, new namespace prefix or algorithm fallback |
+| Ownership capture (`OwnershipSnapshot`) | Authority epoch and actual ring entries → immutable exact owner segments and fingerprint | Reject absent/stale authority and unowned ranges; retain native `(predecessor, token]` semantics, explicit full-ring and normalized upper-end marker |
+| Storage export (`RangeExportHandle`) | Authorized assignment, fenced quiesced range and ownership view → snapshot-specific RocksDB sequence, HLC boundary, canonical logical records and manifest | Same snapshot for enumeration and reads; bounded work/cancellation, propagated I/O and iterator failures; RAII handle owns snapshot and pin, durable export or new assignment after restart |
+| Isolated logical import | Versioned manifest and ordered `PUT`/`DELETE` records → migration-scoped durable staging and checkpoints | Validate record kind, key order, token membership, counts and digest before verification; visitor failure leaves partial output unpublished; no normal reads/writes or cutover authorization |
+| Ownership reconciliation | Migration ID and durable authoritative decision → confirmed current owner or unresolved outcome | Separate permission from byte transfer; lost response means reconcile, not rollback; only confirmed fenced ownership commit completes rebalance |
+
+Manifest evolution must explicitly bind key type/algorithm version, actual
+ownership segments, export format, snapshot sequence/HLC and logical record
+count alongside the existing assignment fields and digest. The current
+ascending-range manifest and key/value framing cannot silently acquire these
+semantics; version negotiation and migration of callers require review.
+Assignment admission and target publication remain separate authority steps.
+
+#### Token compatibility vectors for review
+
+`partition-key/fnv1a-mix64-v1` below names the current `hashKey()` algorithm,
+not a replacement hash. Input/output are hexadecimal bytes and unsigned
+64-bit hexadecimal tokens. Expected values were calculated from the
+[source constants and mixing operations](consistent_hash.cpp); executable
+cross-platform regression evidence is a required future gate.
+
+| Input bytes | Expected token |
+|---|---|
+| `61` | `82a2a958a9bece5b` |
+| `616263` | `33ebaf9927cbc5bd` |
+| `610062` | `ab78f5eca36d0e2b` |
+| `ff` | `1bbd5c813c69a8d7` |
+
+The existing hash primitive maps an empty byte string to `efd01f60ba992926`;
+that is not approval to admit an empty routing key. Empty logical keys remain
+invalid for export. URN vectors must use the actual UUID string bytes with
+xxHash64 seed 0 and compare against deployed placement fixtures before
+approval; treating a UUID as binary or changing its spelling is not allowed.
+`std::hash`-based placements have no proposed portable expected token and must
+not be silently assigned the xxHash contract.
 
 - Do not bypass the bounded fallback or reinterpret exhausted routing as success.
 - Do not resolve an uncertain transaction without its coordinator/recovery path.

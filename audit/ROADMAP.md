@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-20
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -233,7 +233,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     (Ring-Key und URN-Routing unterscheiden sich derzeit) sowie atomare
     MVCC-Schlüsselraumerfassung mit Tombstone-Semantik nachweisen; GC-Pins allein
     machen Enumerierung plus Einzelreads nicht zu einem konsistenten Snapshot.
-    Details: [Sharding API](../src/sharding/API.md#shard-transfer-dis-03).
+    Review-Entwurf für typisierte Placement-Identität, exakte Ringsegmente,
+    Snapshot-Sequenz/HLC und explizite Tombstones liegt vor; Maintainer-Abnahme
+    und Implementierung bleiben offen. Keine Hash- oder Ownership-Änderung:
+    [Architekturentwurf](../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-entwurf-zur-maintainer-abnahme)
+    und [Sharding API](../src/sharding/API.md#shard-transfer-dis-03).
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
     quorum no longer counts as catch-up proof. Spare failure blocks failover and missing metadata persistence returns
