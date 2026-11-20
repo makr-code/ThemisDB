@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-19"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: approved
 AI_Used: true
 AI_Models: "unknown"
@@ -23,6 +23,13 @@ evidence that the adapter migration, recovery behavior, or release gates are com
 This decision covers the named pair, `TwoPhaseCommitCoordinator` and
 `CrossShardTransactionCoordinator`. `DistributedTransactionCoordinator` remains outside
 DIS-05 and is not declared canonical by this ADR.
+
+The consolidation is limited to that coordinator pair. It does not establish that the
+coordinator decision WAL is replicated by per-shard Raft, that the separate
+`DistributedTransactionCoordinator` RAID-1 example is integrated with this path, that
+CrossShard 3PC decisions recover across leader changes, or that durable file-block
+replication is completed before a client acknowledgement. Those end-to-end guarantees
+remain unproven here and require their own integration and recovery evidence.
 
 ## Context
 

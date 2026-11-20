@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-20
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -209,6 +209,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - [~] CrossShard-2PC delegiert Prepare/Decision/Phase 2 an den kanonischen Koordinator;
     dessen WAL speichert Endpoint-Metadaten und ist die einzige 2PC-Recovery-Autorität.
     Unaufgelöste Legacy-CrossShard-2PC-Einträge ohne kanonischen WAL bleiben fail-closed.
+    Diese Konsolidierung belegt weder die Replikation der Koordinatorentscheidung per
+    Shard-Raft noch die RAID-1-Integration des separaten `DistributedTransactionCoordinator`,
+    eine per Leaderwechsel wiederaufnehmbare 3PC-Recovery oder dauerhaften Blocktransport mit
+    Client-ACK. Diese End-to-End-Nachweise bleiben außerhalb von DIS-05 offen; siehe
+    [Replikations-Roadmap](../src/replication/ROADMAP.md) und DIS-06.
   - [ ] Fehlerfälle mit Tests belegen: Koordinator-Crash vor/nach Decision-Write,
     Participant-Timeout, doppelte Nachrichten und Wiederholung der ausgewählten Entscheidung.
   - [ ] Beide öffentlichen Aufrufpfade mit Erfolg, Abbruch, Decision-Write-Fehler,
