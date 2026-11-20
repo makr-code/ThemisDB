@@ -1,5 +1,19 @@
 # Sharding module test registration (large extraction from root tests/CMakeLists.txt)
 
+add_executable(test_dis03_routing_contract_focused
+    test_dis03_routing_contract_focused.cpp)
+target_link_libraries(test_dis03_routing_contract_focused PRIVATE
+    ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+target_compile_definitions(test_dis03_routing_contract_focused PRIVATE
+    THEMIS_TEST_BUILD=1)
+themis_register_module_focused_test(
+    MODULE sharding
+    NAME DIS03RoutingContractFocusedTests
+    TARGET test_dis03_routing_contract_focused
+    TIER unit
+    TIMEOUT 30
+    LABELS DIS-03 routing ownership compatibility)
+
 add_executable(test_shard_transfer_store test_shard_transfer_store.cpp)
 target_link_libraries(test_shard_transfer_store PRIVATE ${TEST_LIBS} themis_core)
 if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)

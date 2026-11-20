@@ -16,12 +16,87 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <functional>
 #include <mutex>
 #include <optional>
 
 namespace themis::sharding {
+
+/** @brief Key identity used when validating an existing shard placement. */
+enum class RoutingKeyType {
+    PartitionKey,
+    UrnUuid
+};
+
+/** @brief Versioned hash algorithms already used by the corresponding route. */
+enum class RoutingHashAlgorithm {
+    Fnv1aMix64V1,
+    XxHash64Seed0V1
+};
+
+/**
+ * @brief Typed input to the migration-safe routing token resolver.
+ *
+ * @note This descriptor does not change ordinary routing. `key_bytes` must
+ *       use the exact bytes that were used by the existing placement, and
+ *       `placement_epoch` must be the nonzero durable assignment epoch.
+ */
+struct RoutingKeyDescriptor {
+    RoutingKeyType key_type;
+    RoutingHashAlgorithm algorithm;
+    std::string_view key_bytes;
+    uint64_t placement_epoch;
+};
+
+/** @brief Exclusive upper boundary for a normalized unsigned 64-bit ring interval. */
+struct RingTokenBoundary {
+    uint64_t value = 0;
+    bool at_ring_end = false;  ///< Represents 2^64; never encoded by uint64_t overflow.
+};
+
+/** @brief One exact owner interval in normalized half-open form [lower, upper). */
+struct RingOwnershipSegment {
+    uint64_t lower_inclusive = 0;
+    RingTokenBoundary upper_exclusive;
+    std::string owner;
+    bool full_ring = false;
+};
+
+/** @brief Immutable view of actual inserted ring entries and exact owner segments. */
+struct RingOwnershipSnapshot {
+    struct Entry {
+        uint64_t token;
+        std::string owner;
+    };
+
+    uint64_t topology_epoch = 0;
+    std::vector<Entry> entries;
+    std::vector<RingOwnershipSegment> segments;
+    std::string fingerprint;  ///< SHA-256 of epoch and canonical actual ring entries.
+
+    /**
+     * @brief Build normalized segment geometry from already captured ring entries.
+     * @param topology_epoch Nonzero epoch associated with the caller-supplied entries.
+     * @param entries Strictly token-ordered unique entries; empty entries represent an empty ring.
+     * @return Snapshot, or std::nullopt for a zero epoch, empty owner, or invalid token ordering.
+     * @note This pure builder does not establish authority; production captures
+     *       must come from ConsistentHashRing::snapshotOwnership().
+     */
+    [[nodiscard]] static std::optional<RingOwnershipSnapshot> fromEntries(
+        uint64_t topology_epoch,
+        std::vector<Entry> entries
+    );
+
+    /**
+     * @brief Check whether the snapshot assigns a token to the requested owner.
+     * @param token Token to test; all 64-bit values, including 0 and UINT64_MAX, are valid.
+     * @param owner Expected shard identifier.
+     * @return True only when a captured exact segment assigns the token to owner.
+     */
+    [[nodiscard]] bool ownsToken(uint64_t token, std::string_view owner) const;
+};
 
 /**
  * Consistent Hashing Ring for even data distribution
@@ -77,6 +152,28 @@ public:
      * Get shard for an arbitrary key (wrapper returning optional)
      */
     std::optional<std::string> getNode(const std::string& key) const;
+
+    /**
+     * @brief Resolve a migration token only when its typed, versioned contract is supported.
+     * @param descriptor Exact key bytes, key type, existing algorithm version and nonzero epoch.
+     * @return Stable token, or std::nullopt for empty/unsupported/inconsistent descriptors.
+     * @note URN UUID tokens are available only in xxHash-enabled builds; the
+     *       std::hash placement fallback is intentionally not migration-portable.
+     */
+    [[nodiscard]] std::optional<uint64_t> resolveRoutingToken(
+        const RoutingKeyDescriptor& descriptor
+    ) const;
+
+    /**
+     * @brief Capture actual inserted ring entries and exact owner segments.
+     * @param topology_epoch Nonzero durable topology epoch bound to the capture.
+     * @return Snapshot, or std::nullopt when the epoch is zero or its SHA-256 fingerprint fails.
+     * @note This does not establish authority or fence writers; callers must
+     *       validate the epoch against their durable assignment.
+     */
+    [[nodiscard]] std::optional<RingOwnershipSnapshot> snapshotOwnership(
+        uint64_t topology_epoch
+    ) const;
 
     /**
      * Get replica shards following the primary for a key
