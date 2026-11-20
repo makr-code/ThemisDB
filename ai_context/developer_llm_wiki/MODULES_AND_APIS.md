@@ -21,6 +21,7 @@ Status: Active
 
 - [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — bounded logical snapshot materialization, durable mTLS staging, local verified reads, and rebalance completion separate from transfer verification.
 - [DIS-03 routing and snapshot foundations](../../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen) — approved and partially implemented typed token resolution, exact ring ownership segments, and process-local MVCC snapshots; durable assignment, restart/resume, write quiescence, and authoritative cutover remain open. The generated wiki manifest is not fresh source-scan evidence.
+- [Raft/2PC/replication evidence boundary](../../src/replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary) — per-shard Raft, cross-shard transaction coordination, and WAL/segment shipping remain separate contracts; the end-to-end durable-block/decision/client-ACK sequence is not established.
 
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.

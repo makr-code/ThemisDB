@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-20"
+Last Updated: "2026-11-20"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB RAID Shard Referencing Architecture
 
 ## Document Purpose
@@ -507,11 +521,16 @@ themis_shard_health_status{shard_id="raid0-3"} 0
 - No replication, no consistency concerns
 - Single copy of data per key
 
-#### RAID 1 (Strong Consistency)
+#### RAID 1 (Intended strong-consistency model; integration evidence pending)
 
-Writes across RAID-1 mirrors use the ThemisDB Two-Phase Commit (2PC) protocol.
-Each Raft-leader shard runs a `TwoPhaseCommitParticipant`; the `DistributedTransactionCoordinator`
-orchestrates PREPARE and COMMIT across all participants atomically.
+The design example below illustrates a proposed RAID-1 write coordinated by
+2PC across shard participants. It is not proof that the complete production
+path is wired or validated. In particular, its
+`DistributedTransactionCoordinator` is a separate 2PC-capable coordinator
+outside the DIS-05 named pair; this example does not show that the coordinator
+decision is itself replicated by Raft.
+The separate 3PC path and its `PreCommit` callback likewise do not prove
+consensus-backed decision recovery after a leader change.
 
 ```cpp
 #include "sharding/two_phase_commit_participant.h"
@@ -554,16 +573,28 @@ std::string txn_id = coordinator->beginTransaction({"raid1-primary", "raid1-seco
 coordinator->addOperation(txn_id, "raid1-primary",   {{"type","update"},{"key","k1"},{"value","v1"}});
 coordinator->addOperation(txn_id, "raid1-secondary", {{"type","update"},{"key","k1"},{"value","v1"}});
 
-// commit() runs Phase 1 (PREPARE) then Phase 2 (COMMIT or ABORT) atomically
+// commit() coordinates PREPARE and the selected Phase 2 outcome
 bool ok = coordinator->commit(txn_id);
-// ok == true  → both mirrors have applied the write; WAL flushed on both
-// ok == false → one mirror rejected; coordinator sent ABORT to both (no change)
+// ok == true  → coordinator reports success under its configured participant,
+//               persistence, and transport callbacks
+// ok == false → operation did not report complete success; inspect the
+//               transaction/recovery state rather than assuming all replicas
+//               are unchanged or that the outcome is fully reconciled
 ```
 
-For crash-recovery semantics, in-doubt transactions (PREPARE logged but no COMMIT/ABORT)
-are automatically resolved by the coordinator's `recoverTransactions()` on restart.
-See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md) for
-the full protocol description, REST API reference (`/dtxn/*`), and configuration options.
+The call to `recoverTransactions()` in coordinator-specific code is not, by
+itself, evidence of Raft-replicated decision state, automatic recovery after a
+Raft leader change, or a tested multi-process coordinator/participant restart
+path. See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md)
+for the coordinator API description and its documented limitations. The
+canonical 2PC-coordinator decision and recovery validation remain open in the
+[audit roadmap](../../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+
+No end-to-end contract is established here for “block durable on both
+replicas, then 2PC/3PC decision, then client ACK.” The replication module
+roadmap explicitly leaves integrated production topology and durable network
+transport as open evidence gates; see
+[`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md).
 
 #### RAID 5 (Read-Your-Writes Consistency)
 - Writes complete only after all stripes (including parity) are written
@@ -897,4 +928,3 @@ docker stats themis-raid1-primary themis-raid1-secondary
 **Last Updated:** 2026-04-06  
 **Author:** ThemisDB Team  
 **Status:** Complete
-

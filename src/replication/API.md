@@ -46,6 +46,7 @@ Related issues: #7373 (documentation synchronization); #7093 and #7167 are prior
 
 - Check the boolean/optional/result type actually returned by the called interface; absence of a decoded WAL entry is not a valid entry.
 - Treat local WAL durability, compression, and follower acknowledgement as separate outcomes; compression alone is not delivery.
+- Do not infer a combined block-durability/transaction contract from local WAL append, a per-shard Raft quorum, a participant acknowledgement, or a successful WAL-segment enqueue. The reviewed source does not establish one end-to-end ordering that commits a cross-shard 2PC/3PC decision only after a block is durable on two replicas and then returns the client acknowledgement.
 - Treat queue saturation as backpressure and inspect the shipper statistics rather than assuming enqueue succeeded.
 - Keep mode-specific acknowledgements, health, lag, and placement constraints explicit in caller logic.
 - Avoid relying on undocumented ordering or retry behavior; use the relevant interface and implementation as authority.

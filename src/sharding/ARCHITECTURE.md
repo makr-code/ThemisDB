@@ -83,6 +83,9 @@ separate DIS-06 recovery boundary remains open. `DistributedTransactionCoordinat
 `distributed_transaction.h`, is a third 2PC-capable public surface with its own transaction,
 endpoint, and recovery paths; it is not part of this contract. No direct production instantiations
 of the named pair were found in `src/` or `include/` during the DIS-05 source review.
+The shared-contract sub-scope does not close the canonical DIS-05 audit item:
+coordinator selection, caller migration, and end-to-end validation remain open
+in [`audit/ROADMAP.md`](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 
 ## Datenfluss
 
