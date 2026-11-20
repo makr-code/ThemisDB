@@ -25,7 +25,11 @@
 namespace themis {
 namespace governance {
 
-class PolicyValidator {
+/**
+ * @brief Analyzes policy rules without owning a PolicyManager.
+ * @note Pass the manager to rule-set checks; single-rule checks need only a PolicyRule.
+ */
+class PolicyRuleSetValidator {
 public:
     struct ConflictResult {
         std::string conflict_id;
@@ -183,9 +187,9 @@ public:
     ) const;
     
     /**
-     * @brief Validate Single Rule.
-     * @param[in] rule Input parameter.
-     * @return Return value.
+     * @brief Check one rule for permissive access, missing encryption or missing audit controls.
+     * @param[in] rule Rule to inspect; it does not need to be registered with a manager.
+     * @return Structured findings; empty when none of these checks report an issue.
      */
     std::vector<SecurityCheckResult> validateSingleRule(const PolicyRule& rule) const;
 };
@@ -310,7 +314,7 @@ public:
     
     std::vector<OptimizationRecommendation> generateRecommendations(
         const PolicyManager& policy_mgr,
-        const PolicyValidator::ValidationReport& validation_report,
+        const PolicyRuleSetValidator::ValidationReport& validation_report,
         const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics>& metrics
     ) const;
     
@@ -340,7 +344,7 @@ public:
     
     OptimizationReport generateOptimizationReport(
         const PolicyManager& policy_mgr,
-        const PolicyValidator::ValidationReport& validation_report,
+        const PolicyRuleSetValidator::ValidationReport& validation_report,
         const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics>& metrics
     ) const;
 };

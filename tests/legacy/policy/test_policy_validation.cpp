@@ -47,10 +47,10 @@ protected:
     std::unique_ptr<PolicyManager> policy_mgr_;
 };
 
-// ========== PolicyValidator Conflict Detection Tests ==========
+// ========== PolicyRuleSetValidator Conflict Detection Tests ==========
 
 TEST_F(PolicyValidationTest, DetectContradictoryRules_ExportConflict) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Allow Export", {"data/*"}, {"read"});
     rule1.allow_export = true;
@@ -69,7 +69,7 @@ TEST_F(PolicyValidationTest, DetectContradictoryRules_ExportConflict) {
 }
 
 TEST_F(PolicyValidationTest, DetectContradictoryRules_EncryptionConflict) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Require Encryption", {"keys/*"}, {"*"});
     rule1.require_encryption = true;
@@ -87,7 +87,7 @@ TEST_F(PolicyValidationTest, DetectContradictoryRules_EncryptionConflict) {
 }
 
 TEST_F(PolicyValidationTest, DetectContradictoryRules_CacheConflict) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Allow Cache", {"config/*"}, {"read"});
     rule1.allow_cache = true;
@@ -105,7 +105,7 @@ TEST_F(PolicyValidationTest, DetectContradictoryRules_CacheConflict) {
 }
 
 TEST_F(PolicyValidationTest, DetectContradictoryRules_NoConflict) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -119,7 +119,7 @@ TEST_F(PolicyValidationTest, DetectContradictoryRules_NoConflict) {
 }
 
 TEST_F(PolicyValidationTest, DetectOverlappingPermissions_MultipleRules) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"data/*"}, {"read"});
@@ -137,7 +137,7 @@ TEST_F(PolicyValidationTest, DetectOverlappingPermissions_MultipleRules) {
 }
 
 TEST_F(PolicyValidationTest, DetectOverlappingPermissions_NoOverlap) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -151,7 +151,7 @@ TEST_F(PolicyValidationTest, DetectOverlappingPermissions_NoOverlap) {
 }
 
 TEST_F(PolicyValidationTest, DetectOverlappingPermissions_TwoRulesWithSamePattern) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
 
     // Exactly two rules covering the same resource and action – must be flagged
     PolicyRule rule1 = createTestRule("pair1", "Pair Rule 1", {"data/*"}, {"read"});
@@ -168,7 +168,7 @@ TEST_F(PolicyValidationTest, DetectOverlappingPermissions_TwoRulesWithSamePatter
 }
 
 TEST_F(PolicyValidationTest, DetectCircularDependencies_SimpleCircle) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     // Create rules with circular priority dependencies on same resources
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"shared/*"}, {"read"});
@@ -192,7 +192,7 @@ TEST_F(PolicyValidationTest, DetectCircularDependencies_SimpleCircle) {
 }
 
 TEST_F(PolicyValidationTest, DetectCircularDependencies_NoCircle) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -206,7 +206,7 @@ TEST_F(PolicyValidationTest, DetectCircularDependencies_NoCircle) {
 }
 
 TEST_F(PolicyValidationTest, DetectCircularDependencies_ThreeWayCycle) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
 
     // Three rules that all share the same priority, the same resource/action,
     // and have contradictory effects: they form a fully-connected conflict
@@ -243,7 +243,7 @@ TEST_F(PolicyValidationTest, DetectCircularDependencies_ThreeWayCycle) {
 }
 
 TEST_F(PolicyValidationTest, DetectConflicts_ComprehensiveCheck) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     rule1.allow_export = true;
@@ -259,10 +259,10 @@ TEST_F(PolicyValidationTest, DetectConflicts_ComprehensiveCheck) {
     ASSERT_FALSE(conflicts.empty());
 }
 
-// ========== PolicyValidator Effectiveness Tests ==========
+// ========== PolicyRuleSetValidator Effectiveness Tests ==========
 
 TEST_F(PolicyValidationTest, CalculateEffectiveness_WithHitCounts) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -283,7 +283,7 @@ TEST_F(PolicyValidationTest, CalculateEffectiveness_WithHitCounts) {
 }
 
 TEST_F(PolicyValidationTest, CalculateEffectiveness_UnusedRules) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     policy_mgr_->addRule(rule1);
@@ -298,7 +298,7 @@ TEST_F(PolicyValidationTest, CalculateEffectiveness_UnusedRules) {
 }
 
 TEST_F(PolicyValidationTest, CalculateEffectiveness_OldRules) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Old Rule", {"data/*"}, {"read"});
     // Set created_at to 2 years ago
@@ -316,7 +316,7 @@ TEST_F(PolicyValidationTest, CalculateEffectiveness_OldRules) {
 }
 
 TEST_F(PolicyValidationTest, IdentifyUnusedRules_NeverUsed) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -335,7 +335,7 @@ TEST_F(PolicyValidationTest, IdentifyUnusedRules_NeverUsed) {
 }
 
 TEST_F(PolicyValidationTest, IdentifyUnusedRules_AllUsed) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     PolicyRule rule2 = createTestRule("rule2", "Rule 2", {"logs/*"}, {"write"});
@@ -352,10 +352,10 @@ TEST_F(PolicyValidationTest, IdentifyUnusedRules_AllUsed) {
     EXPECT_TRUE(unused.empty());
 }
 
-// ========== PolicyValidator Security Checks Tests ==========
+// ========== PolicyRuleSetValidator Security Checks Tests ==========
 
 TEST_F(PolicyValidationTest, CheckOverlyPermissive_WildcardBoth) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"*"}, {"*"});
     policy_mgr_->addRule(rule1);
@@ -368,7 +368,7 @@ TEST_F(PolicyValidationTest, CheckOverlyPermissive_WildcardBoth) {
 }
 
 TEST_F(PolicyValidationTest, CheckOverlyPermissive_WildcardWithoutSecurity) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"*"}, {"read"});
     rule1.require_encryption = false;
@@ -383,7 +383,7 @@ TEST_F(PolicyValidationTest, CheckOverlyPermissive_WildcardWithoutSecurity) {
 }
 
 TEST_F(PolicyValidationTest, CheckOverlyPermissive_ExportWithoutControls) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"export"});
     rule1.allow_export = true;
@@ -399,7 +399,7 @@ TEST_F(PolicyValidationTest, CheckOverlyPermissive_ExportWithoutControls) {
 }
 
 TEST_F(PolicyValidationTest, CheckOverlyPermissive_SecureRule) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/users"}, {"read"});
     rule1.require_encryption = true;
@@ -413,7 +413,7 @@ TEST_F(PolicyValidationTest, CheckOverlyPermissive_SecureRule) {
 }
 
 TEST_F(PolicyValidationTest, CheckEncryptionRequirements_SensitiveWithoutEncryption) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Secret Rule", {"secrets/*"}, {"read"});
     rule1.classification_level = "geheim";
@@ -429,7 +429,7 @@ TEST_F(PolicyValidationTest, CheckEncryptionRequirements_SensitiveWithoutEncrypt
 }
 
 TEST_F(PolicyValidationTest, CheckEncryptionRequirements_ExportWithoutEncryption) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Export Rule", {"data/*"}, {"export"});
     rule1.allow_export = true;
@@ -444,7 +444,7 @@ TEST_F(PolicyValidationTest, CheckEncryptionRequirements_ExportWithoutEncryption
 }
 
 TEST_F(PolicyValidationTest, CheckEncryptionRequirements_SecureConfiguration) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Secure Rule", {"secrets/*"}, {"read"});
     rule1.classification_level = "geheim";
@@ -458,7 +458,7 @@ TEST_F(PolicyValidationTest, CheckEncryptionRequirements_SecureConfiguration) {
 }
 
 TEST_F(PolicyValidationTest, CheckAuditLogging_SensitiveWithoutAudit) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Secret Rule", {"secrets/*"}, {"read"});
     rule1.classification_level = "streng-geheim";
@@ -475,7 +475,7 @@ TEST_F(PolicyValidationTest, CheckAuditLogging_SensitiveWithoutAudit) {
 }
 
 TEST_F(PolicyValidationTest, CheckAuditLogging_ExportWithoutAudit) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Export Rule", {"data/*"}, {"export"});
     rule1.allow_export = true;
@@ -490,7 +490,7 @@ TEST_F(PolicyValidationTest, CheckAuditLogging_ExportWithoutAudit) {
 }
 
 TEST_F(PolicyValidationTest, CheckAuditLogging_ProperAudit) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Audited Rule", {"secrets/*"}, {"read"});
     rule1.classification_level = "geheim";
@@ -505,7 +505,7 @@ TEST_F(PolicyValidationTest, CheckAuditLogging_ProperAudit) {
 }
 
 TEST_F(PolicyValidationTest, CheckRetentionCompliance_TooShort) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     rule1.retention_days = 30;
@@ -520,7 +520,7 @@ TEST_F(PolicyValidationTest, CheckRetentionCompliance_TooShort) {
 }
 
 TEST_F(PolicyValidationTest, CheckRetentionCompliance_TooLong) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     rule1.retention_days = 5000; // > 10 years
@@ -535,7 +535,7 @@ TEST_F(PolicyValidationTest, CheckRetentionCompliance_TooLong) {
 }
 
 TEST_F(PolicyValidationTest, CheckRetentionCompliance_Appropriate) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     rule1.retention_days = 365;
@@ -548,7 +548,7 @@ TEST_F(PolicyValidationTest, CheckRetentionCompliance_Appropriate) {
 }
 
 TEST_F(PolicyValidationTest, PerformSecurityChecks_Comprehensive) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Insecure Rule", {"*"}, {"*"});
     rule1.classification_level = "geheim";
@@ -565,10 +565,10 @@ TEST_F(PolicyValidationTest, PerformSecurityChecks_Comprehensive) {
     ASSERT_GT(checks.size(), 1);
 }
 
-// ========== PolicyValidator Single Rule Validation Tests ==========
+// ========== PolicyRuleSetValidator Single Rule Validation Tests ==========
 
 TEST_F(PolicyValidationTest, ValidateSingleRule_SecureRule) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule = createTestRule("rule1", "Secure Rule", {"data/users"}, {"read"});
     rule.classification_level = "offen";
@@ -581,7 +581,7 @@ TEST_F(PolicyValidationTest, ValidateSingleRule_SecureRule) {
 }
 
 TEST_F(PolicyValidationTest, ValidateSingleRule_MultipleIssues) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule = createTestRule("rule1", "Insecure Rule", {"*"}, {"*"});
     rule.classification_level = "geheim";
@@ -597,7 +597,7 @@ TEST_F(PolicyValidationTest, ValidateSingleRule_MultipleIssues) {
 // ========== ValidationReport Tests ==========
 
 TEST_F(PolicyValidationTest, GenerateValidationReport_Comprehensive) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     rule1.allow_export = true;
@@ -628,7 +628,7 @@ TEST_F(PolicyValidationTest, GenerateValidationReport_Comprehensive) {
 }
 
 TEST_F(PolicyValidationTest, ValidationReport_ToJson) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Rule 1", {"data/*"}, {"read"});
     policy_mgr_->addRule(rule1);
@@ -900,7 +900,7 @@ TEST_F(PolicyValidationTest, Optimizer_GenerateRecommendations) {
     policy_mgr_->addRule(rule1);
     policy_mgr_->addRule(rule2);
     
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto validation_report = validator.generateValidationReport(*policy_mgr_);
     
     std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics> metrics;
@@ -920,7 +920,7 @@ TEST_F(PolicyValidationTest, Optimizer_GenerateOptimizationReport) {
     policy_mgr_->addRule(rule1);
     policy_mgr_->addRule(rule2);
     
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto validation_report = validator.generateValidationReport(*policy_mgr_);
     
     std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics> metrics;
@@ -964,7 +964,7 @@ TEST_F(PolicyValidationTest, OptimizationReport_ToJson) {
 // ========== Edge Cases and Error Handling Tests ==========
 
 TEST_F(PolicyValidationTest, EmptyPolicyManager) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     auto conflicts = validator.detectConflicts(*policy_mgr_);
     EXPECT_TRUE(conflicts.empty());
@@ -977,7 +977,7 @@ TEST_F(PolicyValidationTest, EmptyPolicyManager) {
 }
 
 TEST_F(PolicyValidationTest, DisabledRulesIgnored) {
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     
     PolicyRule rule1 = createTestRule("rule1", "Disabled Rule", {"data/*"}, {"read"});
     rule1.enabled = false;
@@ -1018,7 +1018,7 @@ TEST_F(PolicyValidationTest, Optimizer_NoOptimizationsNeeded) {
 }
 
 TEST_F(PolicyValidationTest, ConflictResult_ToJson) {
-    PolicyValidator::ConflictResult conflict;
+    PolicyRuleSetValidator::ConflictResult conflict;
     conflict.conflict_id = "test_conflict";
     conflict.conflict_type = "contradictory";
     conflict.conflicting_rule_ids = {"rule1", "rule2"};
@@ -1034,7 +1034,7 @@ TEST_F(PolicyValidationTest, ConflictResult_ToJson) {
 }
 
 TEST_F(PolicyValidationTest, EffectivenessMetrics_ToJson) {
-    PolicyValidator::EffectivenessMetrics metrics;
+    PolicyRuleSetValidator::EffectivenessMetrics metrics;
     metrics.rule_id = "rule1";
     metrics.hit_count = 100;
     metrics.effectiveness_score = 85.5;
@@ -1047,7 +1047,7 @@ TEST_F(PolicyValidationTest, EffectivenessMetrics_ToJson) {
 }
 
 TEST_F(PolicyValidationTest, SecurityCheckResult_ToJson) {
-    PolicyValidator::SecurityCheckResult check;
+    PolicyRuleSetValidator::SecurityCheckResult check;
     check.check_id = "check1";
     check.check_type = "missing_encryption";
     check.rule_id = "rule1";
