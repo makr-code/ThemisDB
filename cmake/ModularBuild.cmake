@@ -1121,6 +1121,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/sharding/shard_transfer_store.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
@@ -2532,6 +2533,13 @@ function(themis_build_modular)
         SOURCES ${THEMIS_SECURITY_SOURCES}
         DEPENDENCIES ${_themis_security_deps}
     )
+
+    if(THEMIS_LDAP_FOUND AND THEMIS_LDAP_LIBRARIES)
+        target_link_libraries(themis_security PUBLIC ${THEMIS_LDAP_LIBRARIES})
+        if(THEMIS_LDAP_INCLUDE_DIRS)
+            target_include_directories(themis_security PUBLIC ${THEMIS_LDAP_INCLUDE_DIRS})
+        endif()
+    endif()
 
     if(TARGET ZLIB::ZLIB)
         target_link_libraries(themis_security PUBLIC ZLIB::ZLIB)

@@ -12,20 +12,28 @@ Source_Level: level1
 SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
+  - ../../include/sharding/consistent_hash.h
+  - ../../include/storage/mvcc_store.h
+  - ../../include/storage/rocksdb_wrapper.h
   - ../../include/sharding/epoch_fencing.h
   - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/two_phase_commit_participant.h
   - ../../include/sharding/shard_rpc_client.h
   - ../../include/sharding/shard_rpc_client_adapter.h
   - ../../include/sharding/distributed_transaction.h
   - ../../include/sharding/cross_shard_transaction.h
   - ../../src/sharding/epoch_fencing.cpp
+  - ../../src/sharding/consistent_hash.cpp
+  - ../../src/storage/mvcc_store.cpp
   - ../../src/sharding/two_phase_commit_coordinator.cpp
   - ../../src/sharding/two_phase_commit_participant.cpp
   - ../../src/sharding/shard_rpc_client.cpp
   - ../../src/sharding/distributed_transaction.cpp
   - ../../src/sharding/cross_shard_transaction.cpp
   - ../../tests/test_epoch_fencing.cpp
+  - ../../tests/sharding/test_dis03_routing_contract_focused.cpp
+  - ../../tests/storage/test_mvcc_range_export.cpp
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
 Related_Issue: "#7381"
@@ -123,6 +131,14 @@ over test pipe IPC; older direct-WAL replica helpers are not production
 power-loss/storage fault injection, sanitizer, Windows/macOS and release-gate
 evidence remain unverified. DIS-06 remains open pending evidence and maintainer
 acceptance; historical notes below describe their original runs.
+> **DIS-05 decision (2026-11-19):** `TwoPhaseCommitCoordinator` is selected as the canonical
+> direct 2PC coordinator. `CrossShardTransactionCoordinator` remains the multi-protocol facade,
+> and now delegates 2PC participant calls, durable decisions, and replay to it. Canonical BEGIN
+> records retain endpoint mappings; unresolved legacy CrossShard-only 2PC records fail startup
+> without fallback. Focused validation and remaining recovery-edge tests are still open. See the accepted
+> [`DIS-05 ADR`](../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md) and root
+> [`ROADMAP.md`](../../ROADMAP.md) for current status. This decision is not a release-readiness
+> or recovery sign-off.
 
 > **Status evidence note (2026-11-01):** Historical completion checkboxes below are not current
 > release evidence. The follow-up ran only the standalone SH-BM-01..04 stub harness; a configured
@@ -225,6 +241,7 @@ open/in-progress work here.
 
 ## In Progress
 
+- [~] Verify the CrossShard 2PC adapter to canonical `TwoPhaseCommitCoordinator`: payload/fencing parity, durable decision ordering, endpoint restoration, legacy-record fail-closed behavior, and both public-path regression coverage (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
@@ -261,6 +278,10 @@ open/in-progress work here.
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [x] DIS-03 routing/snapshot architecture and API design approved for implementation; no existing placement or production routing path is changed ([design](ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)) (Target: M2 · 2027-03-31)
+- [~] Implemented typed key/algorithm descriptors, exact ring ownership segments and focused compatibility/boundary test sources; build and execution evidence remain pending (Target: M2 · 2027-03-31)
+- [~] Implemented process-local MVCC snapshot export using one RocksDB sequence and HLC boundary, bounded output, cancellation, and explicit tombstones; durable export, resume, and assignment composition remain open (Target: M2 · 2027-03-31)
+- [ ] Gate production transfer separately from HA cutover: real mTLS restart/resume/content evidence first; enforceable write quiescence, fenced authority commit and lost-ACK reconciliation before ownership activation (Target: M2 · 2027-03-31)
 - [x] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
 - [x] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)
 - [x] keep `shard_rpc_client.cpp` simulation fallback out of production paths by making the runtime contract explicit and fail-closed when no real RPC transport is available (Target: Q4 2026)

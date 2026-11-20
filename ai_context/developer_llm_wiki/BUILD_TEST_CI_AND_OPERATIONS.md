@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-19
+Datum: 2026-11-20
 Status: Active
 
 ## Config and package version integrity gate
@@ -24,6 +24,19 @@ Status: Active
 - The checker lints shipped TSA, RAID, and replication examples plus production YAML profiles. It requires TSA certificate verification, TLS/mTLS for externally bound services and remote replication, and rejects external plaintext HTTP endpoints.
 - The version matrix compares supported package metadata with root `VERSION`; Debian CPack is derived from `VERSION` and `RELEASE_TYPE`. Any mismatch fails the gate; no implicit package-version exception is applied.
 - CI uploads `config-lint.txt` and `version-matrix.json` as the `config-version-integrity-<run-id>` artifact. Helm chart changes independently run chart lint, render tests, and the Kind smoke test.
+
+## LLM real-model CI lane
+
+- The scheduled/manual `.github/workflows/build-llm-inference.yml` lane prepares TinyLlama through the reusable model cache and the SHA256-pinned downloader.
+- The verified model is passed to the inference, embedding, LoRA adapter, RAG, AdaLoRA, and Wiki Phase B suites. Each test invocation enforces an `llm` skip budget of zero, and the final report fails if any required suite is skipped or unsuccessful.
+- Focused binaries and the RAG golden dataset are transferred under `build/bin/tests_by_module/llm/Release`; the generated LLM CTest file is restored under `build/cmake/tests/llm`. Suite jobs run CTest from that directory and emit GoogleTest output so the zero-skip checker can verify actual test execution.
+- A passing run is evidence only for those executed suites; it does not establish Vision/Whisper coverage, the repository-wide `GTEST_SKIP` target, or a successful run until workflow evidence exists.
+## Gate workflow failure-tolerance guard
+
+- [`tools/ci/check_workflow_fail_open.py`](../../tools/ci/check_workflow_fail_open.py) scans gate workflows and their transitively invoked local reusable workflows for `continue-on-error` and `|| true`.
+- Each remaining exception is matched exactly in [`tools/ci/workflow_fail_open_allowlist.json`](../../tools/ci/workflow_fail_open_allowlist.json) and requires a rationale, owner, expiry, and occurrence count. Gate callers that enable reusable `*_continue_on_error` inputs are also inventoried.
+- Focused regressions: [`tools/tests/test_workflow_fail_open.py`](../../tools/tests/test_workflow_fail_open.py). This policy check does not itself provide platform gate-run evidence or maintainer sign-off.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`

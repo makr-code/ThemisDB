@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-19"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -93,11 +93,45 @@ range-serving cache. `wal_recovery_status` preserves the canonical startup scan 
 `truncated_tail`; strict corruption, checksum/sequence errors, unsupported coordinator record types,
 or replay failure prevent construction.
 
+### CrossShard 2PC coordinator recovery
+
+`CrossShardTransactionCoordinator` retains its public prepare/commit/abort lifecycle, but 2PC
+participant dispatch, decision WAL, endpoint restoration, and phase-two replay belong to the
+canonical `TwoPhaseCommitCoordinator`. When persistence is enabled, verify the canonical
+`<data_dir>/2pc-coordinator-wal` path and require successful canonical recovery before enabling
+the facade. A failed COMMIT acknowledgement is an in-doubt COMMIT, never an instruction to issue
+ABORT.
+
+An unresolved transaction found only in the older CrossShard WAL/snapshot format has no safe
+decision mapping and causes CrossShard startup recovery to fail closed. Do not delete, replay, or
+rewrite those records as a workaround; preserve the data and escalate for a reviewed recovery
+procedure. This behavior is a migration guard, not a general cross-coordinator WAL conversion.
+The optional in-process RPC response handler is test-only and applies only to explicit inproc or
+loopback endpoints; production participant endpoints continue through the configured RPC
+transport.
+
 ### Migration and repair health
 
 - confirm the rebalancer is not blocking indefinitely,
 - verify that migration conflict and rollback states are being resolved on time,
 - review progress metrics to ensure the system does not drift into long partial-migration states.
+
+For DIS-03 staging, provision a dedicated RocksDB directory on durable storage
+and explicit X.509 transfer bindings on the target. Register the trusted
+assignment before PREPARE; a certificate alone does not grant transfer access.
+Provide a current-assignment check that rejects old epochs. Never reuse a
+staging directory as the live database.
+
+After an interrupted stream, reissue PREPARE with the same manifest and
+immutable export. Resume from the returned checkpoint, not a local byte count.
+The bounded snapshot materializer is process-local: retain its export for
+retries, and acquire a fresh migration assignment and ID if it is lost. Do
+not rebuild an export under the old ID. Explicit abort retires the ID and
+removes staged chunks logically;
+RocksDB compaction controls when disk space is reclaimed. Verification means
+that staged bytes match the source manifest, not that routing moved. While
+fenced cutover is unconfigured, leave the source authoritative. Do not retry
+or roll back an uncertain ownership decision until the authority is consulted.
 
 ## Recommended diagnostics sequence
 

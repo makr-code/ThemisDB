@@ -15,6 +15,7 @@
 #include "index/temporal_graph.h"
 #include <string>
 #include <string_view>
+#include <cstddef>
 #include <vector>
 #include <utility>
 #include <optional>
@@ -76,6 +77,15 @@ public:
         std::vector<BoundedTraversalNode> nodes;
         std::size_t edgesExamined = 0;
     };
+
+    /**
+     * @brief Meter for graph traversal candidates and serialized content.
+     * @param candidates Number of newly examined candidates.
+     * @param content_bytes Serialized bytes about to be decoded or processed.
+     * @return True to continue; false stops traversal without returning partial results.
+     */
+    using BoundedTraversalWorkMeter =
+        std::function<bool(std::size_t candidates, std::size_t content_bytes)>;
 
     explicit GraphIndexManager(RocksDBWrapper& db);
     
@@ -264,12 +274,19 @@ public:
      * @param maxEdges Maximum adjacency entries examined, from 1 through 65536.
      * @param timeout Maximum cooperative traversal duration, from 1 ms through 30 s.
      * @param edgeType Optional exact `_type` filter; an empty value accepts every edge type.
+     * @param workMeter Optional synchronous callback charged before processing each
+     *        scoped adjacency entry and before decoding each edge document.
+     *        The callback is not retained and should be fast and non-blocking.
      * @return Breadth-first ordered vertices with their minimum depth and examined-edge count,
-     *         or an error when validation, storage reads, iterator status, or a work limit fails.
+     *         or an error when validation, storage reads, iterator status, a work limit,
+     *         or the work meter denies further processing.
      * @note Limit and timeout failures return no partial result. The timeout is checked between
      *       storage operations and cannot interrupt an individual synchronous RocksDB read.
      *       Results are not a database snapshot; callers must keep the database open for the
      *       duration of the call. This traversal does not enforce caller authorization.
+     *       The meter accounts serialized edge-document bytes after retrieval but before decode.
+     *       Standard callback exceptions become traversal errors; non-standard exceptions
+     *       propagate to the caller.
      */
     [[nodiscard]] std::pair<Status, BoundedTraversalResult> boundedBfs(
         std::string_view startPk,
@@ -278,7 +295,8 @@ public:
         std::size_t maxVertices,
         std::size_t maxEdges,
         std::chrono::milliseconds timeout,
-        std::string_view edgeType = {}
+        std::string_view edgeType = {},
+        const BoundedTraversalWorkMeter& workMeter = {}
     ) const;
 
     // Dijkstra: Kürzester Pfad von start zu target

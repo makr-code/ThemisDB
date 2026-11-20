@@ -57,6 +57,10 @@
 #include <set>
 #include <nlohmann/json.hpp>
 
+namespace themisdb::sharding {
+class CrossShardTransactionCoordinator;
+}
+
 namespace themis::sharding {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -90,6 +94,7 @@ struct CoordinatorTxnOutcome {
 enum class CoordinatorTxnState {
     ACTIVE,              ///< Coordinator has started, Phase 1 not yet sent
     PREPARING,           ///< Phase 1 in progress (PREPARE sent, collecting votes)
+    PREPARED,            ///< All participants voted COMMIT; awaiting a terminal decision
     COMMIT_DECIDED,      ///< All voted COMMIT; Phase 2 COMMIT in progress
     ABORT_DECIDED,       ///< At least one voted ABORT; Phase 2 ABORT in progress
     COMPLETED,           ///< All participants acknowledged Phase 2; done
@@ -106,6 +111,7 @@ struct CoordinatorTxnRecord {
 
     /// Ordered list of participant shard IDs used for Phase 2 replay after recovery.
     std::vector<std::string> participant_shards;
+    std::map<std::string, std::string> participant_endpoints;
 
     /// Map: shard_id → serialised per-shard operations (JSON)
     std::map<std::string, std::string> shard_payloads;
@@ -165,14 +171,18 @@ public:
         std::function<std::optional<ShardRPCClient::Config>(const std::string&)>
             participant_endpoint_resolver;
 
-        /// Explicit test-endpoint handler; never used for production transports.
-        ShardRPCClient::InProcessResponseHandler in_process_rpc_response_handler;
+        /// Explicit handler for in-process test endpoints; never used in production.
+        ShardRPCClient::InProcessResponseHandler in_process_response_handler;
 
         /// Optional shared MVCC timestamp allocator, called once before COMMIT.
         /// Positive timestamps use the existing commit_timestamp_ns WAL field;
         /// endpoint replay reuses it and never allocates a replacement.
         std::function<std::optional<int64_t>(const std::string&)>
             commit_timestamp_provider;
+
+        /// Optional phase-two RPC timeouts; unset values inherit prepare_timeout.
+        std::optional<std::chrono::milliseconds> commit_timeout;
+        std::optional<std::chrono::milliseconds> abort_timeout;
     };
 
     /**
@@ -209,14 +219,20 @@ public:
      * @brief Register a remote participant shard by network endpoint.
      *
      * Creates a ShardRPCClientAdapter internally that translates
-     * RequestHandler calls into ShardRPCClient network calls.
-     * The adapter's lifetime is tied to this coordinator instance.
+     * RequestHandler calls into ShardRPCClient calls. The adapter's lifetime
+     * is tied to this coordinator instance. The endpoint is recorded in each
+     * transaction BEGIN entry so decision recovery can recreate endpoint-backed
+     * participants after restart.
      *
      * @param shard_id   Unique identifier of the shard
-     * @param rpc_config ShardRPCClient configuration (endpoint, TLS, timeouts)
+     * @param rpc_config ShardRPCClient configuration (endpoint, TLS, timeouts);
+     *                   in-process handlers are limited to explicit test endpoints.
      * @throws std::invalid_argument for empty IDs, malformed endpoints or test
      *         endpoints without an explicit handler.
      * @throws std::logic_error if a protocol RPC or recovery is currently active.
+     * @note Re-registering a shard updates its endpoint for new transactions.
+     *       Recovery rejects an endpoint that conflicts with an already
+     *       registered participant for an unresolved transaction.
      */
     void registerParticipantByEndpoint(
         const std::string&           shard_id,
@@ -274,6 +290,8 @@ public:
      *         acknowledgement fails. After a durable decision, FAILURE leaves
      *         that decision authoritative for recovery; COMMIT is never
      *         changed to ABORT.
+     * @note With WAL enabled, call recoverInDoubtTransactions() during startup
+     *       before submitting transactions; calls fail until recovery completes.
      */
     CoordinatorTxnOutcome commit(
         const std::string&                             transaction_id,
@@ -392,6 +410,25 @@ public:
     nlohmann::json getStatistics() const;
 
 private:
+    friend class themisdb::sharding::CrossShardTransactionCoordinator;
+
+    enum class AdapterPrepareResult {
+        PREPARED,
+        ABORTED,
+        FAILED
+    };
+
+    [[nodiscard]] AdapterPrepareResult prepareForAdapter(
+        const std::string& transaction_id,
+        const std::map<std::string, nlohmann::json>& ops_per_shard);
+    [[nodiscard]] CoordinatorTxnOutcome commitPreparedForAdapter(
+        const std::string& transaction_id);
+    [[nodiscard]] CoordinatorTxnOutcome abortForAdapter(
+        const std::string& transaction_id,
+        const std::vector<std::string>& participant_shards);
+    [[nodiscard]] bool hasUnresolvedParticipantLocked(
+        const std::string& shard_id) const;
+
     const std::string coordinator_id_; ///< Eindeutige Coordinator-Identitaet fuer WAL/Metriken.
     Config            config_;         ///< Laufzeitkonfiguration (Timeouts, WAL-Optionen).
 
@@ -399,6 +436,7 @@ private:
     std::map<std::string, ShardRPCServer::RequestHandler*> participants_; ///< Registrierte Teilnehmer nach Shard-ID.
     std::map<std::string, CoordinatorTxnRecord>            transactions_; ///< Laufende und abgeschlossene Coordinator-Records.
     std::set<std::string> active_drivers_; ///< Reject concurrent protocol drivers for one ID.
+    std::map<std::string, std::string> participant_endpoints_; ///< Durable endpoint metadata for endpoint-backed participants.
     themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovered_wal_transactions_;
     mutable std::mutex recovery_history_mutex_; ///< Serializes WAL append and replay-state updates.
     bool wal_write_failed_ = false; ///< Ambiguous durability faults require restart/rescan; guarded by recovery_history_mutex_.

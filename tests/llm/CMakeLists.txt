@@ -499,6 +499,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         Threads::Threads
     )
     if((_stem STREQUAL "test_lora_adapters"
+        OR _stem STREQUAL "test_real_embeddings"
         OR _stem STREQUAL "test_training_data_iterator"
         OR _stem STREQUAL "test_gpu_lora_integration")
        AND TARGET themis_llm)

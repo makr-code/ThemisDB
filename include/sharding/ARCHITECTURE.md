@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-01
+Last Updated: 2026-11-19
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -14,6 +14,7 @@ Canonical_References:
   - ../../src/sharding/ARCHITECTURE.md
   - detail/two_phase_commit_contract.h
   - ../../tests/test_two_phase_commit.cpp
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../ROADMAP.md
   - sharding_api_contract.h
   - shard_router.h
@@ -73,7 +74,7 @@ For full distributed-runtime details — routing internals, consensus adapters, 
 | `cross_shard_transaction.h` | `CrossShardTransactionCoordinator` | Cross-shard transaction orchestration and distributed wait-for reporting |
 | `distributed_transaction.h` | `DistributedTransaction`, `DistributedTransactionCoordinator` | Transaction state and a separate 2PC-capable public coordinator; outside the DIS-05 named pair |
 | `transaction_snapshot.h` | `TransactionSnapshot` | Snapshot exchange |
-| `two_phase_commit_coordinator.h`, `two_phase_commit_participant.h` | `TwoPhaseCommitCoordinator`, `TwoPhaseCommitParticipant` | Canonical standalone 2PC API and participant state machine; shares phase ordering and decision/failure semantics with `CrossShardTransactionCoordinator` through `detail/two_phase_commit_contract.h`. |
+| `two_phase_commit_coordinator.h`, `two_phase_commit_participant.h` | `TwoPhaseCommitCoordinator`, `TwoPhaseCommitParticipant` | Canonical direct 2PC API, participant state machine, and authoritative WAL/recovery path for both direct and CrossShard 2PC calls. |
 | `distributed_time_coordinator.h`, `write_concern.h` | `DistributedTimeCoordinator`, `WriteConcern` | Commit-time and durability constraints |
 
 ### 2.4 Durability, Metadata, and Replication
@@ -125,7 +126,7 @@ than applying either prefix module-wide.
 
 - Routing headers expose deterministic shard-selection contracts that higher layers can embed without depending on coordinator internals.
 - `cross_shard_transaction.h` is part of the stable contract because distributed wait-for reporting and deadlock detection must be visible across module boundaries.
-- The DIS-05 pair (`CrossShardTransactionCoordinator` and `TwoPhaseCommitCoordinator`) uses the same execution contract: prepare failure selects ABORT; the configured decision-record callback must succeed before phase two; a phase-two failure is unresolved and cannot reverse the selected decision. Crash durability depends on each coordinator's configured persistence. The standalone coordinator re-drives WAL decisions when WAL recovery is configured; CrossShard WAL/snapshot recovery restores state and reports candidates but does not automatically re-drive phase two. Their transaction lifecycles, transports, WAL formats, and recovery remain separate (DIS-05 closed; DIS-06 recovery boundary not addressed).
+- `TwoPhaseCommitCoordinator` is the canonical direct 2PC coordinator and the sole decision/WAL owner for the DIS-05 named pair. `CrossShardTransactionCoordinator` retains its public lifecycle, SSI validation, transport registration, and non-2PC protocols, but delegates 2PC participant calls, durable decisions, and recovery to the canonical coordinator. Canonical BEGIN records persist participant endpoints for restart-time phase-two replay. An unresolved legacy CrossShard-only 2PC record fails startup; it is not replayed through a second decision authority. CrossShard `TransactionWAL` and snapshots remain responsible for non-2PC protocols. This does not close the independent DIS-06 recovery boundary or consolidate the separate `DistributedTransactionCoordinator` surface. See `audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`.
 - `DistributedTransactionCoordinator` is another 2PC-capable public surface, not covered by DIS-05; this change does not establish repo-wide 2PC convergence.
 - Consensus, quorum, and WAL headers remain public so embedders can swap or compose deployment-specific coordination strategies.
 - Repair/recovery and metrics headers provide explicit degraded-state visibility instead of hiding operational transitions inside implementation-only types.

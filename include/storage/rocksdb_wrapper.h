@@ -586,6 +586,35 @@ private:
 
 public:
     /**
+     * @brief RAII ownership of one RocksDB point-in-time snapshot.
+     *
+     * The handle retains a database operation guard, so RocksDBWrapper::close()
+     * cannot invalidate the native snapshot while this object is alive.
+     */
+    class SnapshotHandle {
+    public:
+        SnapshotHandle(SnapshotHandle&& other) noexcept;
+        SnapshotHandle& operator=(SnapshotHandle&& other) noexcept;
+        SnapshotHandle(const SnapshotHandle&) = delete;
+        SnapshotHandle& operator=(const SnapshotHandle&) = delete;
+        ~SnapshotHandle();
+
+        /** @brief Return the exact RocksDB sequence captured by this snapshot. */
+        [[nodiscard]] uint64_t sequenceNumber() const;
+
+    private:
+        friend class RocksDBWrapper;
+        SnapshotHandle(rocksdb::TransactionDB* db,
+                       const rocksdb::Snapshot* snapshot,
+                       std::unique_ptr<OperationGuard> guard);
+        void release() noexcept;
+
+        rocksdb::TransactionDB* db_ = nullptr;
+        const rocksdb::Snapshot* snapshot_ = nullptr;
+        std::unique_ptr<OperationGuard> guard_;
+    };
+
+    /**
      * @brief RAII wrapper for safe iterator usage.
      *
      * Holds an OperationGuard so the database cannot be closed while the
@@ -646,6 +675,23 @@ public:
     /// @param read_options Optional read options.
     /// @return Safe iterator wrapper or an error.
     Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+
+    /**
+     * @brief Capture a standalone RocksDB snapshot with lifecycle protection.
+     * @return Move-only snapshot owner, or an error if the database is unavailable.
+     * @note The snapshot's sequence number is the authoritative commit-visibility
+     *       boundary; a separately sampled latest sequence is not equivalent.
+     */
+    [[nodiscard]] Result<SnapshotHandle> createSnapshot() const;
+
+    /**
+     * @brief Create an iterator bound to a snapshot owned by this wrapper.
+     * @param snapshot Live snapshot handle returned by createSnapshot().
+     * @return Safe iterator or an error if the handle is invalid or belongs to another database.
+     */
+    [[nodiscard]] Result<SafeIterator> newSafeIterator(
+        const SnapshotHandle& snapshot
+    );
 
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
     /// @brief Scan entries that share a prefix.

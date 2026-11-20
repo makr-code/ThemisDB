@@ -39,6 +39,10 @@ Useful entry points:
 - Planning and explanation: [`graph_query_optimizer.h`](../../include/graph/graph_query_optimizer.h),
   [`graph_query_rewriter.h`](../../include/graph/graph_query_rewriter.h),
   [`explain_plan.h`](../../include/graph/explain_plan.h).
+- [`GraphIndexManager::boundedBfs`](../../include/index/graph_index.h) supports
+  an optional synchronous work meter for adjacency candidates and serialized
+  edge-document bytes. Meter denial returns an error without partial traversal;
+  it does not enforce caller authorization.
 - Constraints and execution: [`path_constraints.h`](../../include/graph/path_constraints.h),
   [`parallel_traversal.h`](../../include/graph/parallel_traversal.h),
   [`distributed_graph.h`](../../include/graph/distributed_graph.h),

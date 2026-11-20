@@ -71,12 +71,14 @@
 
 #include <string>
 #include <vector>
+#include <cstddef>
 #include <optional>
 #include <span>
 #include <cstdint>
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
@@ -131,6 +133,20 @@ class TSAutoBuffer;
  */
 class TSStore {
 public:
+    /**
+     * @brief Callback for atomically charging one query-work delta.
+     * @param candidates Newly inspected storage records or decoded samples.
+     * @param content_bytes Serialized storage-value or decrypted chunk-payload
+     *        bytes measured after retrieval.
+     * @return True to continue; false causes the query to fail without a result.
+     * @note Standard exceptions are treated as a denied work charge. The callback
+     *       is invoked synchronously and is not retained after the query;
+     *       non-standard exceptions propagate to the caller. Accepted charges
+     *       are incremental and are not refunded if later query work fails.
+     */
+    using QueryWorkMeter =
+        std::function<bool(std::size_t candidates, std::size_t content_bytes)>;
+
     enum class CompressionType {
         None,       // No compression (raw JSON)
         Gorilla     // Gorilla codec for time-series (10-20x ratio)
@@ -175,6 +191,8 @@ public:
         int64_t to_timestamp_ms = INT64_MAX; // End of time range (inclusive)
         size_t limit = 1000;          // Max data points to return
         nlohmann::json tag_filter;    // Optional: filter by tags (exact match)
+        /// Optional meter for storage records, decoded samples, and serialized/decrypted bytes.
+        QueryWorkMeter work_meter;
     };
     
     struct AggregationResult {
@@ -332,9 +350,15 @@ public:
     Result<BatchWriteResult> putBatch(std::span<const TSRow> rows);
     
     /**
-     * @brief Query data points with filters
-     * @param options Query options (time range, entity, tags)
-     * @return Result<std::vector<DataPoint>> - data points or error
+     * @brief Query data points with filters and optional work metering.
+     * @param options Query options (time range, entity, tags, result limit, and meter).
+     * @return Matching data points or an error when storage access, parsing, or
+     *         the optional work meter fails.
+     * @note Raw-record candidates are charged before JSON parsing. Compressed
+     *       samples are candidate-charged before emission; the decoder may parse
+     *       a small SIMD batch before those per-sample charges. The compressed
+     *       payload byte charge occurs before decoding and bounds that input.
+     *       Behavior is unchanged when no meter is provided.
      */
     Result<std::vector<DataPoint>> query(const QueryOptions& options) const;
 
@@ -342,10 +366,14 @@ public:
      * @brief Query data points and fail on malformed matching records or chunks.
      * @param options Query options (time range, entity, tags, and result limit).
      * @return Matching data points, or an error if a matching raw record or
-     *         compressed chunk cannot be parsed, decoded, or read completely.
+     *         compressed chunk cannot be parsed, decoded, or read completely, or
+     *         if the optional work meter denies further processing.
      * @note This strict variant is intended for analyses that must not present
      *       silently incomplete measurements. The existing query() behavior is
-     *       unchanged and may skip malformed records for compatibility.
+     *       unchanged and may skip malformed records for compatibility. When a
+     *       work meter is set, raw records are charged before parsing and decoded
+     *       samples before emission; compressed chunks are decoded only up to the
+     *       remaining result limit plus one.
      */
     [[nodiscard]] Result<std::vector<DataPoint>> queryStrict(
         const QueryOptions& options) const;

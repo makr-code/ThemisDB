@@ -33,6 +33,11 @@ on:
         required: false
         default: ""
         type: string
+      publish_model_artifact:
+        description: "Upload the prepared model so dependent jobs can consume it"
+        required: false
+        default: false
+        type: boolean
     outputs:
       cache_key:
         description: "Stable cache key for the model bundle"
@@ -46,6 +51,9 @@ on:
       cache_hit:
         description: "Whether the model cache was restored from a prior run"
         value: ${{ jobs.prepare.outputs.cache_hit }}
+      model_artifact:
+        description: "Artifact name when publish_model_artifact is enabled"
+        value: ${{ jobs.prepare.outputs.model_artifact }}
 
 permissions:
   contents: read
@@ -80,6 +88,7 @@ jobs:
       model_path: ${{ steps.prepare.outputs.model_path }}
       model_file: ${{ steps.prepare.outputs.model_file }}
       cache_hit: ${{ steps.cache-state.outputs.cache_hit }}
+      model_artifact: ${{ steps.artifact-name.outputs.value }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -93,6 +102,10 @@ jobs:
           MODEL_URL="${{ inputs.llm_model_url || '' }}"
           MODEL_FILE="${{ inputs.llm_model_file || '' }}"
           CACHE_BASE="llm-model-${{ runner.os }}-${{ runner.arch }}-${MODEL_KEY}"
+          if [[ "${MODEL_KEY,,}" == "tinyllama" || "${MODEL_KEY,,}" == "tinyllama-1.1b" ]]; then
+            MODEL_SCRIPT_HASH="$(sha256sum scripts/ci-download-tinyllama.sh | cut -d ' ' -f1)"
+            CACHE_BASE="${CACHE_BASE}-sha256-${MODEL_SCRIPT_HASH}"
+          fi
           if [[ -n "${MODEL_URL}" ]]; then
             CACHE_BASE="${CACHE_BASE}-url-${MODEL_URL}"
           fi
@@ -151,6 +164,25 @@ jobs:
           echo "model_path=${MODEL_DIR}" >> "${GITHUB_OUTPUT}"
           echo "model_file=${FILE_NAME}" >> "${GITHUB_OUTPUT}"
           echo "Prepared ${MODEL_DIR}/${FILE_NAME}"
+
+      - name: Derive model artifact name
+        id: artifact-name
+        if: inputs.publish_model_artifact
+        shell: bash
+        env:
+          MODEL_FILE: ${{ steps.prepare.outputs.model_file }}
+        run: |
+          set -euo pipefail
+          echo "value=themis-llm-model-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${MODEL_FILE}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload prepared model artifact
+        if: inputs.publish_model_artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ steps.artifact-name.outputs.value }}
+          path: ${{ steps.prepare.outputs.model_path }}/${{ steps.prepare.outputs.model_file }}
+          retention-days: 1
+          if-no-files-found: error
 
       - name: Save model cache
         uses: actions/cache/save@v4

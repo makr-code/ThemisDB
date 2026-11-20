@@ -831,7 +831,8 @@ GraphIndexManager::boundedBfs(
 	std::size_t maxVertices,
 	std::size_t maxEdges,
 	std::chrono::milliseconds timeout,
-	std::string_view edgeType
+	std::string_view edgeType,
+	const BoundedTraversalWorkMeter& workMeter
 ) const {
 	constexpr std::size_t max_key_component_bytes = 1024;
 	constexpr std::size_t max_edge_type_bytes = 128;
@@ -888,6 +889,17 @@ GraphIndexManager::boundedBfs(
 			if (++result.edgesExamined > maxEdges) {
 				return {Status::Error("boundedBfs: edge examination limit exceeded"), {}};
 			}
+			if (workMeter) {
+				bool allowed = false;
+				try {
+					allowed = workMeter(1, 0);
+				} catch (const std::exception&) {
+					return {Status::Error("boundedBfs: work meter failed"), {}};
+				}
+				if (!allowed) {
+					return {Status::Error("boundedBfs: work budget exhausted"), {}};
+				}
+			}
 
 			const auto edgeKey = iterator.key();
 			const std::string edgeId(edgeKey.substr(prefix.size()));
@@ -900,7 +912,21 @@ GraphIndexManager::boundedBfs(
 			const std::string edgeStorageKey =
 				"edge:" + std::string(graphId) + ":" + edgeId;
 			const auto edgeBlob = db_.get(edgeStorageKey);
-			if (!edgeBlob || edgeBlob->size() > max_edge_document_bytes) {
+			if (!edgeBlob) {
+				return {Status::Error("boundedBfs: edge document is missing or exceeds 64 KiB"), {}};
+			}
+			if (workMeter) {
+				bool allowed = false;
+				try {
+					allowed = workMeter(0, edgeBlob->size());
+				} catch (const std::exception&) {
+					return {Status::Error("boundedBfs: work meter failed"), {}};
+				}
+				if (!allowed) {
+					return {Status::Error("boundedBfs: content budget exhausted"), {}};
+				}
+			}
+			if (edgeBlob->size() > max_edge_document_bytes) {
 				return {Status::Error("boundedBfs: edge document is missing or exceeds 64 KiB"), {}};
 			}
 

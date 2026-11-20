@@ -48,6 +48,35 @@ MODEL_KEY="${LLM_MODEL:-tinyllama}"
 MODEL_FILE="${LLM_MODEL_FILE:-${MODEL_KEY}.gguf}"
 TARGET_PATH="${MODEL_DIR}/${MODEL_FILE}"
 
+if [[ "$MODEL_FILE" == */* || "$MODEL_FILE" == "." || "$MODEL_FILE" == ".." ]]; then
+    echo "ERROR: LLM_MODEL_FILE must be a filename, not a path."
+    exit 1
+fi
+
+case "$(trim_lower "$MODEL_KEY")" in
+    tinyllama|tinyllama-1.1b)
+        if [[ -n "$LLM_MODEL_URL" ]]; then
+            echo "ERROR: TinyLlama CI artifacts must use the pinned URL and SHA256."
+            exit 1
+        fi
+
+        if is_truthy "$TINYLLAMA_FORCE_DOWNLOAD"; then
+            rm -f "$TARGET_PATH"
+        fi
+
+        MODEL_DIR="$MODEL_DIR" \
+        FORCE="$(is_truthy "$TINYLLAMA_FORCE_DOWNLOAD" && echo 1 || echo 0)" \
+            bash "${PWD}/scripts/ci-download-tinyllama.sh"
+
+        PINNED_MODEL="${MODEL_DIR}/tinyllama.gguf"
+        if [[ "$MODEL_FILE" != "tinyllama.gguf" ]]; then
+            cp "$PINNED_MODEL" "$TARGET_PATH"
+        fi
+        echo "Prepared SHA256-verified TinyLlama cache artifact at ${TARGET_PATH}"
+        exit 0
+        ;;
+esac
+
 if [[ -n "$LLM_MODEL_URL" ]]; then
     MODEL_URL="$LLM_MODEL_URL"
 elif [[ -n "$MODEL_KEY" ]]; then
@@ -59,10 +88,6 @@ if [[ -n "${MODEL_KEY}" && "${MODEL_KEY}" != "custom" && "${MODEL_KEY}" != "none
         echo "ERROR: No URL available for LLM model '${MODEL_KEY}'. Set llm_model_url or llm_model_file in CI."
         exit 1
     fi
-fi
-
-if is_truthy "$TINYLLAMA_FORCE_DOWNLOAD"; then
-    rm -f "$TARGET_PATH"
 fi
 
 if [[ -f "$TARGET_PATH" ]]; then

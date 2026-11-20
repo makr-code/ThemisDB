@@ -11,10 +11,135 @@
 
 #include "sharding/consistent_hash.h"
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <openssl/evp.h>
 #include <unordered_set>
 
+#ifdef __has_include
+#if __has_include(<xxhash.h>)
+#include <xxhash.h>
+#define THEMIS_CONSISTENT_HASH_HAS_XXHASH
+#endif
+#endif
+
 namespace themis::sharding {
+
+namespace {
+
+void appendU64(std::string& output, uint64_t value) {
+    for (int shift = 56; shift >= 0; shift -= 8) {
+        output.push_back(static_cast<char>((value >> shift) & 0xffU));
+    }
+}
+
+std::optional<std::string> ownershipFingerprint(
+    uint64_t epoch,
+    const std::vector<RingOwnershipSnapshot::Entry>& entries
+) {
+    std::string canonical{"themis-ring-ownership-v1"};
+    appendU64(canonical, epoch);
+    for (const auto& entry : entries) {
+        appendU64(canonical, entry.token);
+        appendU64(canonical, static_cast<uint64_t>(entry.owner.size()));
+        canonical.append(entry.owner);
+    }
+
+    std::array<unsigned char, EVP_MAX_MD_SIZE> digest{};
+    unsigned int digest_size = 0;
+    if (EVP_Digest(canonical.data(), canonical.size(), digest.data(), &digest_size,
+                   EVP_sha256(), nullptr) != 1) {
+        return std::nullopt;
+    }
+
+    constexpr char kHex[] = "0123456789abcdef";
+    std::string fingerprint;
+    fingerprint.reserve(static_cast<size_t>(digest_size) * 2);
+    for (unsigned int i = 0; i < digest_size; ++i) {
+        fingerprint.push_back(kHex[digest[i] >> 4]);
+        fingerprint.push_back(kHex[digest[i] & 0x0f]);
+    }
+    return fingerprint;
+}
+
+} // namespace
+
+bool RingOwnershipSnapshot::ownsToken(uint64_t token, std::string_view owner) const {
+    return std::any_of(segments_.begin(), segments_.end(), [&](const auto& segment) {
+        return segment.owner == owner &&
+               token >= segment.lower_inclusive &&
+               (segment.upper_exclusive.at_ring_end ||
+                token < segment.upper_exclusive.value);
+    });
+}
+
+std::optional<RingOwnershipSnapshot> RingOwnershipSnapshot::fromEntries(
+    uint64_t topology_epoch,
+    std::vector<Entry> entries
+) {
+    if (topology_epoch == 0) {
+        return std::nullopt;
+    }
+    for (size_t i = 0; i < entries.size(); ++i) {
+        if (entries[i].owner.empty() ||
+            (i > 0 && entries[i - 1].token >= entries[i].token)) {
+            return std::nullopt;
+        }
+    }
+
+    RingOwnershipSnapshot snapshot;
+    snapshot.topology_epoch_ = topology_epoch;
+    snapshot.entries_ = std::move(entries);
+
+    if (snapshot.entries_.size() == 1) {
+        snapshot.segments_.push_back({
+            0,
+            {0, true},
+            snapshot.entries_.front().owner,
+            true
+        });
+    } else if (snapshot.entries_.size() > 1) {
+        const auto& first = snapshot.entries_.front();
+        const auto& last = snapshot.entries_.back();
+
+        // The first token owns (last, first] across the ring boundary.
+        // The high interval is empty only when the last token is UINT64_MAX.
+        if (last.token != UINT64_MAX) {
+            snapshot.segments_.push_back({
+                last.token + 1,
+                {0, true},
+                first.owner,
+                false
+            });
+        }
+        snapshot.segments_.push_back({
+            0,
+            {first.token + 1, false},
+            first.owner,
+            false
+        });
+
+        for (size_t i = 1; i < snapshot.entries_.size(); ++i) {
+            const auto& previous = snapshot.entries_[i - 1];
+            const auto& current = snapshot.entries_[i];
+            snapshot.segments_.push_back({
+                previous.token + 1,
+                current.token == UINT64_MAX
+                    ? RingTokenBoundary{0, true}
+                    : RingTokenBoundary{current.token + 1, false},
+                current.owner,
+                false
+            });
+        }
+    }
+
+    auto fingerprint = ownershipFingerprint(topology_epoch, snapshot.entries_);
+    if (!fingerprint) {
+        return std::nullopt;
+    }
+    snapshot.fingerprint_ = std::move(*fingerprint);
+    return snapshot;
+}
 
 /**
  * @brief Mix64.
@@ -133,6 +258,71 @@ std::optional<std::string> ConsistentHashRing::getNode(const std::string& key) c
         return std::nullopt;
     }
     return shard;
+}
+
+std::optional<uint64_t> ConsistentHashRing::resolveRoutingToken(
+    const RoutingKeyDescriptor& descriptor
+) const {
+    if (descriptor.placement_epoch == 0 || descriptor.key_bytes.empty()) {
+        return std::nullopt;
+    }
+
+    switch (descriptor.key_type) {
+        case RoutingKeyType::PartitionKey:
+            if (descriptor.algorithm != RoutingHashAlgorithm::Fnv1aMix64V1) {
+                return std::nullopt;
+            }
+            return hash(std::string(descriptor.key_bytes));
+
+        case RoutingKeyType::UrnUuid:
+            if (descriptor.algorithm != RoutingHashAlgorithm::XxHash64Seed0V1) {
+                return std::nullopt;
+            }
+            {
+                URN urn;
+                urn.uuid = std::string(descriptor.key_bytes);
+                if (!urn.isValidUUID()) {
+                    return std::nullopt;
+                }
+            }
+#ifdef THEMIS_CONSISTENT_HASH_HAS_XXHASH
+            return XXH64(descriptor.key_bytes.data(), descriptor.key_bytes.size(), 0);
+#else
+            return std::nullopt;
+#endif
+    }
+    return std::nullopt;
+}
+
+bool ConsistentHashRing::ownsKeyInSnapshot(
+    const RingOwnershipSnapshot& snapshot,
+    const RoutingKeyDescriptor& descriptor,
+    std::string_view shard_id
+) const {
+    if (descriptor.placement_epoch == 0 ||
+        descriptor.placement_epoch != snapshot.topologyEpoch()) {
+        return false;
+    }
+    const auto token = resolveRoutingToken(descriptor);
+    return token && snapshot.ownsToken(*token, shard_id);
+}
+
+std::optional<RingOwnershipSnapshot> ConsistentHashRing::snapshotOwnership(
+    uint64_t topology_epoch
+) const {
+    if (topology_epoch == 0) {
+        return std::nullopt;
+    }
+
+    std::vector<RingOwnershipSnapshot::Entry> entries;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        entries.reserve(ring_.size());
+        for (const auto& [token, owner] : ring_) {
+            entries.push_back({token, owner});
+        }
+    }
+    return RingOwnershipSnapshot::fromEntries(topology_epoch, std::move(entries));
 }
 
 std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& key, size_t count) const {

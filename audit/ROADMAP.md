@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-20
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -202,12 +202,22 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 
 ### WS2 – Distributed Consistency & HA
 
-- [ ] **P0 · DIS-05 – Ein kanonischer 2PC-Koordinator** (Target: ADR 2026-12-15 · Umsetzung M2)
-  - ADR: `CrossShardTransactionCoordinator` vs. `TwoPhaseCommitCoordinator` – einen als kanonisch festlegen
-    (Kriterien: durable Decision-Log, Presumed-Abort, Timeout-/Retry-Semantik, Testabdeckung).
-  - Alle Aufrufer migrieren; der zweite Koordinator wird entfernt (kein Kompatibilitäts-Alias, Legacy-Verbot beachten).
-  - Fehlerfälle: Koordinator-Crash vor/nach Decision-Write, Participant-Timeout, doppelte Nachrichten.
-  - Tests: bestehende Modelltests auf kanonischen Koordinator umstellen; Prozess-Crash-Varianten aus STO-07.
+- [~] **P0 · DIS-05 – Ein kanonischer 2PC-Koordinator** (Target: ADR 2026-12-15 · Umsetzung M2)
+  - [x] Entscheidung: `TwoPhaseCommitCoordinator` ist kanonisch für direktes 2PC;
+    `CrossShardTransactionCoordinator` bleibt die Multi-Protokoll-Fassade. Siehe
+    [`ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md`](ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md).
+  - [~] CrossShard-2PC delegiert Prepare/Decision/Phase 2 an den kanonischen Koordinator;
+    dessen WAL speichert Endpoint-Metadaten und ist die einzige 2PC-Recovery-Autorität.
+    Unaufgelöste Legacy-CrossShard-2PC-Einträge ohne kanonischen WAL bleiben fail-closed.
+    Diese Konsolidierung belegt weder die Replikation der Koordinatorentscheidung per
+    Shard-Raft noch die RAID-1-Integration des separaten `DistributedTransactionCoordinator`,
+    eine per Leaderwechsel wiederaufnehmbare 3PC-Recovery oder dauerhaften Blocktransport mit
+    Client-ACK. Diese End-to-End-Nachweise bleiben außerhalb von DIS-05 offen; siehe
+    [Replikations-Roadmap](../src/replication/ROADMAP.md) und DIS-06.
+  - [ ] Fehlerfälle mit Tests belegen: Koordinator-Crash vor/nach Decision-Write,
+    Participant-Timeout, doppelte Nachrichten und Wiederholung der ausgewählten Entscheidung.
+  - [ ] Beide öffentlichen Aufrufpfade mit Erfolg, Abbruch, Decision-Write-Fehler,
+    Phase-2-Fehler und Grenzfällen testen; Prozess-Crash-Varianten mit STO-07 abstimmen.
 - [ ] **P0 · DIS-06 – Recovery-Vertrag** (Target: M2 · 2027-04-30)
   - Ein Dokument plus Code-Durchsetzung: Decision-Log durable **vor** COMMIT-ACK; In-Doubt-Auflösung beim Start
     (blockierend, mit Metrik); Participant-WAL und Replikations-WAL nutzen den fail-closed Recovery-Status aus STO-01.
@@ -233,11 +243,20 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     dies ist kein Nachweis für produktiven gRPC/mTLS- oder Replikat-Transport.
     Ausführungsevidenz siehe `../src/sharding/ROADMAP.md`; vollständige Matrix, Release-/Plattform-Gates
     und Maintainer-Freigabe bleiben offen. Keine API-Entfernung oder WAL-Formatmigration in diesem Schritt.
-- [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
-  - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
-    gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.
-  - Simulation nur hinter dem bestehenden Compile-Gate `THEMIS_TEST_MODE` (nie in Produktions-Presets) und mit `STUB/SIMULATION NOTE`.
-  - Test: Shard-Transfer zwischen zwei Prozessen inkl. Abbruch und Wiederaufnahme; Checksummenvergleich Quelle/Ziel.
+- [~] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31; [#8197](https://github.com/makr-code/ThemisDB/issues/8197))
+  - `AutoRebalancer` verlangt einen expliziten Executor; der bisherige `StreamSession`-Pfad bleibt ohne Transport fail-closed.
+  - Offen: Deployment-Verdrahtung des Storage-Exports, Schreibquieszenz, autoritativer gefenceter Cutover, Recovery bei verlorener Cutover-Bestätigung und Release-Evidenz.
+  - Dedizierter mTLS-gRPC-Transfer mit dauerhaftem Staging, Checkpoints, Abbruch
+    und Inhaltsprüfung; `AutoRebalancer` verlangt einen expliziten Executor.
+    Der bisherige `StreamSession`-Pfad bleibt ohne Transport fail-closed.
+  - Offen: Deployment-Verdrahtung des Storage-Exports, Schreibquieszenz, autoritativer
+    gefenceter Cutover, Recovery bei verlorener Cutover-Bestätigung und Release-Evidenz.
+    Ein typed Routing-Token-/Ownership-Snapshot sowie ein prozesslokaler,
+    begrenzter MVCC-Export mit echter RocksDB-Snapshotsequenz, HLC-Grenze und
+    expliziten Tombstones sind implementiert; Testquellen sind hinzugefügt,
+    Ausführungsevidenz steht aus. Keine Hash- oder Ownership-Änderung:
+    [Architekturstatus](../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen)
+    und [Sharding API](../src/sharding/API.md#shard-transfer-dis-03).
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
     quorum no longer counts as catch-up proof. Spare failure blocks failover and missing metadata persistence returns
@@ -253,9 +272,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
     geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.
-- [~] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Rückgabe von `activateSpareIfNeeded()`
-  (`src/failover/auto_failover_manager.cpp:613-614`) wird geprüft; fehlgeschlagene Aktivierung blockiert den Abschluss
-  und liefert eine Fehlermeldung. Status `Degraded` und externe Alarmierung bleiben offen.
+- [x] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Fehlgeschlagene Aktivierung blockiert den Failover-Abschluss,
+  setzt `DEGRADED`, liefert einen Fehlerstatus, emittiert `FAILOVER_DEGRADED` über registrierte Callbacks und schreibt
+  das Diagnose-Log `SPARE_ACTIVATION_FAILED`; `degraded_failovers` erfasst den Ausgang. Kein Prometheus-Export wird
+  behauptet; externe Sichtbarkeit hängt von der Deployment-Integration ab. Evidenz: `tests/failover/test_failover_wave_a_fencing.cpp`
+  (`FO_Promote_05` bis `_08`), registriert als `test_failover_wave_a_fencing_failover_FocusedTests`.
 - [ ] **P1 · DIS-15 – Quorum/Fencing im Modul erzwingen** (Target: M2) – Epoch-/Term-Fencing-Token bei jeder
   schreibenden Failover-Aktion; Ablehnung ohne Quorum; nicht nur Deployment-Empfehlung.
 - [ ] **P1 · DIS-04 – Release-Gate Shard-gRPC** (Target: M1) – Produktionspakete müssen mit `THEMIS_HAS_SHARD_GRPC=1`
@@ -341,6 +362,11 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - Gepinnte Mini-Modelle (Hash im Repo, Download über `.github/workflows/reusable-llm-model-cache.yml`) für
     Embedding, Generierung, LoRA, Vision, Whisper.
   - Exit: `GTEST_SKIP` in `tests/llm` von 258 auf ≤ 20, jeder verbleibende Skip mit Begründung und Ticket.
+  - Code-Fortschritt (2026-11-19, noch kein Ausführungsbeleg): TinyLlama wird in der wiederverwendbaren Cache-Lane
+    gegen den gepinnten SHA256 geprüft; die geplante LLM-Lane führt Embedding-, Generierungs-, LoRA-Fehlerpfad-,
+    Wiki-Phase-B-, RAG- und AdaLoRA-Tests mit Skip-Budget 0 aus und muss bei übersprungenen Jobs fehlschlagen.
+  - Weiter offen: erfolgreicher CI-Lauf samt Artefakt, echte Vision-/Whisper-Modelltests und der Modul-Gesamtwert
+    `GTEST_SKIP` ≤ 20. Diese Änderung allein schließt AI-03 nicht.
 - [ ] **P1 · AI-07/AI-09 – Zentrale Admission Control** (Target: M3 · 2027-04-30)
   - Managed inference now has explicit model routing, a process-wide non-queueing cap of 8 active calls,
     a 4096 generated-token limit, a combined 1 MiB input byte limit, and overload HTTP 429 with `Retry-After: 1`.
@@ -369,7 +395,9 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [ ] **P0 · OPS-01/CI-03 – Gate-Workflows ohne stille Toleranz** (Target: M0 · 2026-11-20)
   - `continue-on-error: true` und `|| true` aus allen `gate-*`-Workflows, `compliance-governance-gates.yml:157` und
     `wiki-pr-gate.yml:83` entfernen; verbleibende Ausnahmen nur über Allowlist mit Begründung und Ablaufdatum.
-  - Guard-Check: neuer Workflow-Lint, der Toleranz-Konstrukte in Gate-Workflows ablehnt.
+  - Guard-Check: fail-open lint tracks gate workflows and their local reusable dependencies; unclassified or stale tolerances fail.
+  - [x] 2026-11-19: Der Guard verfolgt lokale reusable-Aufrufe transitiv und klassifiziert die dort vorhandenen Toleranzen exakt; aktivierte `*_continue_on_error`-Inputs in Gate-Aufrufen werden erfasst.
+  - [ ] Gesamtstatus bleibt offen bis die betroffenen Workflow-Gates nachweislich laufen und Maintainer-Freigabe vorliegt; fehlende Plattform-Artefakte gelten nicht als PASS.
 - [ ] **P0 · OPS-06 – Sanitizer auf PRs** (Target: M1 · 2026-12-31) – ASan+UBSan-Lane für geänderte Kernmodule
   (`storage`, `transaction`, `query`, `aql`, `server`, `auth`, `network`, `sharding`); Laufzeitbudget ≤ 45 min;
   TSan nightly für `transaction`, `sharding`, `llm`.
@@ -627,7 +655,9 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 ### Phase 1 – Design / API-Vertrag (2026-11-01 – 2026-12-15)
 
 - [x] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifiziert und mit der Quelle abgeglichen (STO-01, 2026-11-02); Implementierungs- und Evidenz-Gates bleiben teilweise offen.
-- [ ] ADR „Kanonischer 2PC-Koordinator“ inkl. Migrationsplan der Aufrufer (DIS-05) (Target: 2026-12-15)
+- [~] ADR „Kanonischer 2PC-Koordinator“ und Adapterentscheidung umgesetzt;
+  fokussierte Validierung sowie Decision-Write-/Recovery-Edge-Tests bleiben offen (DIS-05) —
+  `audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md` (2026-11-19)
 - [ ] Recovery-Vertrag Koordinator/Participant/Replikation als ein Dokument (DIS-06) (Target: 2026-12-15)
 - [ ] Produktionsmodus-Vertrag: kanonische Werteliste und Katalog aller Guards (SEC-14, SEC-01, DIS-01, DIS-02, SEC-10) (Target: 2026-11-20)
 - [ ] Fehlercodes `QueryMemoryLimitExceeded`, `TransportNotConfigured`, `NotConfigured` und Degraded-Statusschema für Ergebnisse (QRY-01, QRY-03, QRY-04, DIS-03, DIS-08) (Target: 2026-12-15)
@@ -732,7 +762,8 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 - **Tx-/Replikations-WAL fail-open:** Korruption mitten im Log oder Recovery-Timeout führt zu stillem Datenverlust in
   `WALStorage`-Nutzern ([STO-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-01)). Der RocksDB-Primärspeicher ist nicht betroffen.
 - **Failover/DR nicht vertrauenswürdig:** Handler melden Erfolg ohne Aktion ([DIS-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-08)); Multi-Node nur für Tests.
-- **Shard-Transfer simuliert** ohne verdrahteten Transport ([DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03)).
+- **Shard-Transfer:** mTLS-Staging ändert keine Ownership; produktiver Export und gefenceter
+  Cutover bleiben offen ([DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03)).
 - **SEC-14 lokal umgesetzt, Release-Evidenz offen:** Produktionsmodus-Erkennung ist zentralisiert und Shard-RPC
   fällt bei fehlenden/ungültigen mTLS-Credentials nicht mehr auf Plaintext zurück. Der Windows-Debug-Fokustest lief
   mit aktivem gRPC und bestand (52/52); Linux-/Release-Verifikation bleibt bis zum M1-Gate ausstehend.
@@ -763,7 +794,7 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 | Stub-Backends im Produktionsmodus gesperrt | SEC-10 | Start ohne echtes Backend schlägt fehl | Modell/Backend bereitstellen oder Feature deaktivieren |
 | Fehlende optionale Abhängigkeiten (Kafka, Redis) → `readiness=false` | STO-02, STO-03 | Pods werden nicht ready | Abhängigkeiten bauen/konfigurieren oder Feature deaktivieren |
 | Helm-Produktionsprofil (PDB, NetworkPolicy, ServiceMonitor) | OPS-08, OPS-09, OPS-16 | Neue Ressourcen, Netzwerk restriktiver | NetworkPolicy-Regeln für Clients ergänzen |
-| Zweiter 2PC-Koordinator entfernt | DIS-05 | API-Entfernung für interne Aufrufer | Migration laut ADR |
+| CrossShard-2PC-Adapter auf kanonischen Koordinator | DIS-05 | Keine API-Entfernung; Multi-Protokoll-Fassade bleibt | Canonical WAL/Recovery; Legacy-only 2PC entries fail closed; validate before release |
 
 ---
 

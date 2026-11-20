@@ -16,6 +16,7 @@ Canonical_References:
   - ../../include/sharding/raft_log.h
   - ../../include/sharding/raft_state.h
   - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../audit/ADR_DIS-05_CANONICAL_2PC_COORDINATOR.md
   - ../../include/sharding/cross_shard_transaction.h
   - ../../include/sharding/two_phase_commit_coordinator.h
   - ../../include/sharding/distributed_transaction.h

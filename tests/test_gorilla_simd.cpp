@@ -12,6 +12,7 @@
 #include <cstring>
 #include <limits>
 #include <random>
+#include <stdexcept>
 #include <vector>
 
 using namespace themis;
@@ -123,6 +124,62 @@ TEST_F(GorillaSIMDTest, SinglePointDecodedCount) {
     size_t n = dec.decodeAll(out);
     EXPECT_EQ(n, 1u);
     EXPECT_EQ(dec.decodedCount(), 1u);
+}
+
+TEST_F(GorillaSIMDTest, DecodeAtMostHonorsPointLimitAndMeter) {
+    std::vector<std::pair<int64_t, double>> points;
+    for (int i = 0; i < 10; ++i) {
+        points.emplace_back(1700000000000LL + i, static_cast<double>(i));
+    }
+
+    GorillaSIMDDecoder decoder(encode(points));
+    std::vector<std::pair<int64_t, double>> decoded;
+    size_t charged = 0;
+    const auto count = decoder.decodeAtMost(decoded, 3, [&charged] {
+        ++charged;
+        return true;
+    });
+
+    EXPECT_EQ(count, 3u);
+    EXPECT_EQ(charged, 3u);
+    EXPECT_EQ(decoded.size(), 3u);
+    EXPECT_EQ(decoder.decodedCount(), 3u);
+    EXPECT_FALSE(decoder.hasError());
+}
+
+TEST_F(GorillaSIMDTest, DecodeAtMostStopsWhenMeterRejectsWithoutMarkingCorruption) {
+    const std::vector<std::pair<int64_t, double>> points = {
+        {1700000000000LL, 1.0}, {1700000000001LL, 2.0},
+        {1700000000002LL, 3.0}, {1700000000003LL, 4.0}
+    };
+    GorillaSIMDDecoder decoder(encode(points));
+    std::vector<std::pair<int64_t, double>> decoded;
+    size_t charged = 0;
+    const auto count = decoder.decodeAtMost(decoded, points.size(), [&charged] {
+        return ++charged <= 2;
+    });
+
+    EXPECT_EQ(count, 2u);
+    EXPECT_EQ(decoded.size(), 2u);
+    EXPECT_EQ(decoder.decodedCount(), 2u);
+    EXPECT_FALSE(decoder.hasError());
+}
+
+TEST_F(GorillaSIMDTest, DecodeAtMostPropagatesMeterExceptions) {
+    const std::vector<std::pair<int64_t, double>> points = {
+        {1700000000000LL, 1.0}
+    };
+    GorillaSIMDDecoder decoder(encode(points));
+    std::vector<std::pair<int64_t, double>> decoded;
+
+    EXPECT_THROW(
+        decoder.decodeAtMost(decoded, 1, []() -> bool {
+            throw std::runtime_error("meter failure");
+        }),
+        std::runtime_error);
+    EXPECT_TRUE(decoded.empty());
+    EXPECT_FALSE(decoder.hasError());
+    EXPECT_EQ(decoder.decodedCount(), 0u);
 }
 
 // ── Two points ───────────────────────────────────────────────────────────────
