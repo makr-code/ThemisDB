@@ -18,9 +18,9 @@ Human_Author: "ThemisDB Contributors"
 
 This document selects a **target architecture for review**. It is not evidence that these
 guarantees are implemented or production-ready, and acceptance requires maintainer review.
-The decisions apply to a single large-object version, such as a file, spanning shards.
-They do not change the semantics of existing writes or promise atomicity across multiple
-objects.
+The decisions apply independently to each object version, such as a small file or a large
+file spanning shards. They do not change the semantics of existing writes or promise
+atomicity across multiple objects.
 
 The [Raft-per-shard guide](../en/sharding/RAFT_CONSENSUS_PER_SHARD.md) describes shard
 replication and the [RAID architecture](../en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md)
@@ -61,6 +61,37 @@ decision protocol or cross-coordinator recovery.
 - Network packets are transport fragments, not transaction, durability or commit units.
   Transfers may stream and batch block entries with bounded buffering and backpressure.
   Shard-to-shard and client-to-shard traffic must use authenticated, encrypted transport.
+
+### Parallel client transfer and small-file batches
+
+- After the home group has recorded the transaction and its pinned placement, clients may
+  upload different blocks concurrently to the responsible shard leaders. Clients obtain
+  authenticated routing information and follow validated leader redirects; they do not
+  directly write follower replicas or bypass the shard's Raft replication. Block receipt
+  is only transfer progress, not a durable `PREPARED`, transaction commit or client success.
+- After obtaining the published manifest and reader pin, clients may fetch its blocks in
+  parallel from authorized replicas able to serve that exact committed version. Verify
+  each block's hash and length before assembling it in manifest order. A stale, missing
+  or corrupt response fails that block; retry another eligible replica without mixing
+  versions. Release the pin only after all parallel reads have finished or been cancelled.
+- For small files, clients may group uploads or reads into bounded **per-destination
+  transport batches**. A batch has per-item object/version IDs, transaction or reader-pin
+  identity, block ordinal, length and hash. Batching may combine independent files but
+  does not create a multi-object transaction: each file retains its own home group,
+  authorization, 2PC decision, manifest, publication and outcome.
+- Return per-item results; a successful batch transport does not imply that every item
+  succeeded or that any file committed. On partial failure or lost response, retry or
+  query each item using its original idempotency identity. Only the per-file outcome
+  contract can report publication success; a timeout remains unknown.
+- Enforce authentication and authorization for each item and pin, including when a batch
+  contains multiple tenants; reject unauthorized items without exposing their data.
+  Splitting files across instances does not itself provide confidentiality. Use
+  authenticated encrypted connections and apply the deployment's encryption-at-rest and
+  key-management policy.
+- Bound batch item count, total bytes, flush delay and parallel in-flight work, with
+  backpressure and per-tenant fairness. Tune these limits from measured throughput and
+  tail latency; a batch must not wait indefinitely to fill, and small or failed items
+  must not indefinitely block unrelated files.
 
 ### Decentralized coordinator and decision
 
@@ -166,6 +197,13 @@ not only mocks or in-process callbacks:
   while competing writes, old-version retention and garbage collection are exercised.
 - Test fencing, membership and placement migration with in-flight work, interrupted upgrades
   and supported rollback. Verify old coordinator WALs are not silently reinterpreted.
+- Exercise parallel uploads and pinned reads across real shard leaders and replicas,
+  including leader changes, stale or corrupt responses and retries. Verify no partial or
+  cross-version file is exposed and no receipt is reported as a commit.
+- Exercise mixed-success small-file batches, lost batch replies, retries, authorization
+  failures and tenant isolation. Verify independent per-file outcomes and bounded queues.
+  Benchmark single-file versus batched and parallel transfers for small and large files,
+  reporting throughput, p95/p99 latency, resource use and the tested limits.
 
 Record the exact topology, failure domains, durability configuration, transport, commands
 and results. Release claims require this evidence and maintainer acceptance.
