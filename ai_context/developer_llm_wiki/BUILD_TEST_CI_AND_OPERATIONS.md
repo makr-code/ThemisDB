@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-20"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-19
+Datum: 2026-11-20
 Status: Active
 
 ## Config and package version integrity gate
@@ -29,6 +29,7 @@ Status: Active
 
 - The scheduled/manual `.github/workflows/build-llm-inference.yml` lane prepares TinyLlama through the reusable model cache and the SHA256-pinned downloader.
 - The verified model is passed to the inference, embedding, LoRA adapter, RAG, AdaLoRA, and Wiki Phase B suites. Each test invocation enforces an `llm` skip budget of zero, and the final report fails if any required suite is skipped or unsuccessful.
+- Focused binaries and the RAG golden dataset are transferred under `build/bin/tests_by_module/llm/Release`; the generated LLM CTest file is restored under `build/cmake/tests/llm`. Suite jobs run CTest from that directory and emit GoogleTest output so the zero-skip checker can verify actual test execution.
 - A passing run is evidence only for those executed suites; it does not establish Vision/Whisper coverage, the repository-wide `GTEST_SKIP` target, or a successful run until workflow evidence exists.
 
 ## .github/workflows/benchmark-gate.yml
