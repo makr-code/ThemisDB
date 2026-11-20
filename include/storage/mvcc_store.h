@@ -76,6 +76,91 @@ public:
         std::vector<uint8_t> value;
     };
 
+    /** @brief Logical mutation type in an immutable MVCC export. */
+    enum class SnapshotRecordKind : uint8_t {
+        Put = 1,
+        Delete = 2
+    };
+
+    /**
+     * @brief One latest logical record visible in an MVCC export snapshot.
+     *
+     * Existing MVCC storage encodes deletes as empty values, so empty stored
+     * versions export as Delete and cannot be reinterpreted as empty Put values.
+     */
+    struct SnapshotRecord {
+        SnapshotRecordKind kind;
+        std::string key;
+        HLCTimestamp timestamp;
+        std::vector<uint8_t> value;
+    };
+
+    /** @brief Immutable materialized records and their exact source watermarks. */
+    struct SnapshotExport {
+        uint64_t rocksdb_sequence = 0;
+        HLCTimestamp hlc_watermark;
+        std::vector<SnapshotRecord> records;
+    };
+
+    /**
+     * @brief Limits and selection callbacks for a bounded MVCC export.
+     *
+     * The key predicate must be deterministic and side-effect-free because it
+     * may be called once for every stored version of a logical key.
+     */
+    struct SnapshotExportOptions {
+        /** Maximum number of distinct logical keys; zero is invalid. */
+        size_t max_records = 100000;
+        /** Maximum counted record bytes, including key, value, and fixed metadata; too-small bounds fail. */
+        size_t max_encoded_bytes = 64 * 1024 * 1024;
+        /** Required deterministic key selector; exceptions fail the whole export. */
+        std::function<bool(std::string_view)> include_key;
+        /** Optional cancellation probe; true aborts without returning partial records. */
+        std::function<bool()> is_cancelled;
+    };
+
+    /**
+     * @brief Move-only reader bound to one RocksDB sequence and HLC watermark.
+     * @note The reader retains the RocksDB snapshot and wrapper until destroyed.
+     *       It is process-local and cannot resume after restart.
+     */
+    class SnapshotReader {
+    public:
+        SnapshotReader(SnapshotReader&&) noexcept = default;
+        SnapshotReader& operator=(SnapshotReader&& other) noexcept {
+            if (this != &other) {
+                snapshot_ = std::move(other.snapshot_);
+                db_ = std::move(other.db_);
+                watermark_ = other.watermark_;
+            }
+            return *this;
+        }
+        SnapshotReader(const SnapshotReader&) = delete;
+        SnapshotReader& operator=(const SnapshotReader&) = delete;
+
+        /** @brief Return the exact source sequence captured by this reader. */
+        [[nodiscard]] uint64_t sequenceNumber() const;
+
+        /**
+         * @brief Materialize selected latest logical records from this fixed snapshot.
+         * @param options Required deterministic key predicate and resource/cancellation limits.
+         * @return Bytewise-key-ordered unique records, including explicit tombstones.
+         */
+        [[nodiscard]] Result<SnapshotExport> exportRecords(
+            const SnapshotExportOptions& options
+        ) const;
+
+    private:
+        friend class MVCCStore;
+        SnapshotReader(std::shared_ptr<RocksDBWrapper> db,
+                       RocksDBWrapper::SnapshotHandle snapshot,
+                       HLCTimestamp watermark);
+
+        std::shared_ptr<RocksDBWrapper> db_;
+        RocksDBWrapper::SnapshotHandle snapshot_;
+        HLCTimestamp watermark_;
+    };
+
     /**
      * @brief Options for garbage collection.
      */
@@ -270,6 +355,27 @@ public:
     void scanBaseKeysWithPrefix(std::string_view prefix,
                                 std::function<bool(std::string_view base_key)> callback);
 
+    /**
+     * @brief Materialize a bounded, point-in-time logical MVCC export.
+     * @param options Required key predicate plus record, byte and cancellation limits.
+     * @return Ordered unique PUT/DELETE records bound to one RocksDB sequence and HLC watermark.
+     * @note All enumeration and version selection use one RocksDB snapshot.
+     *       The returned memory object is not restart-durable; after source
+     *       restart a caller must create a fresh migration assignment.
+     * @note This API does not fence writers or authorize ownership cutover.
+     */
+    [[nodiscard]] Result<SnapshotExport> exportSnapshot(
+        const SnapshotExportOptions& options
+    );
+
+    /**
+     * @brief Capture a reusable process-local RocksDB/HLC snapshot reader.
+     * @return Reader, or an error if the database snapshot cannot be acquired.
+     * @note Commits after this call remain invisible even if their HLC was
+     *       allocated before the captured watermark.
+     */
+    [[nodiscard]] Result<SnapshotReader> beginSnapshot() const;
+
     // ─── Snapshot pins (GC retention) ────────────────────────────────────────
 
     /**
@@ -375,4 +481,3 @@ private:
 };
 
 } // namespace themis
-

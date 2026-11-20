@@ -116,6 +116,23 @@ transport.
 - verify that migration conflict and rollback states are being resolved on time,
 - review progress metrics to ensure the system does not drift into long partial-migration states.
 
+For DIS-03 staging, provision a dedicated RocksDB directory on durable storage
+and explicit X.509 transfer bindings on the target. Register the trusted
+assignment before PREPARE; a certificate alone does not grant transfer access.
+Provide a current-assignment check that rejects old epochs. Never reuse a
+staging directory as the live database.
+
+After an interrupted stream, reissue PREPARE with the same manifest and
+immutable export. Resume from the returned checkpoint, not a local byte count.
+The bounded snapshot materializer is process-local: retain its export for
+retries, and acquire a fresh migration assignment and ID if it is lost. Do
+not rebuild an export under the old ID. Explicit abort retires the ID and
+removes staged chunks logically;
+RocksDB compaction controls when disk space is reclaimed. Verification means
+that staged bytes match the source manifest, not that routing moved. While
+fenced cutover is unconfigured, leave the source authoritative. Do not retry
+or roll back an uncertain ownership decision until the authority is consulted.
+
 ## Recommended diagnostics sequence
 
 When a sharding incident occurs, use this order:

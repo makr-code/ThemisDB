@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-19"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -16,6 +16,8 @@ Canonical_References:
   - "../../include/storage/tiered_storage.h"
   - "../../include/storage/wal_storage.h"
   - "../../include/storage/rocksdb_wrapper.h"
+  - "../../include/storage/mvcc_store.h"
+  - "../../tests/storage/test_mvcc_range_export.cpp"
   - "../../include/storage/streaming_ingest_manager.h"
   - "../../tests/storage/test_streaming_ingest_rocksdb_failure.cpp"
   - "../../tests/storage/CMakeLists.txt"
@@ -29,6 +31,7 @@ Canonical_References:
   - "RESEARCH.md"
   - "wal_storage.cpp"
   - "rocksdb_wrapper.cpp"
+  - "mvcc_store.cpp"
   - "streaming_ingest_manager.cpp"
   - "tiered_storage.cpp"
   - "backup_manager.cpp"
@@ -58,6 +61,7 @@ The source tree contains the storage, MVCC, WAL, backup/PITR, blob/tiering, and 
 
 ## In Progress
 
+- [~] Provide a process-local MVCC export reader using one RocksDB snapshot sequence and HLC watermark, bounded output, cancellation, and explicit tombstones; durable restart/resume and range authorization remain outside this primitive (Target: M2 · 2027-03-31)
 - [~] hardening failure-path behavior under sustained write/load and maintenance overlap (Target: Q3 2026)
 - [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)

@@ -14,9 +14,18 @@ Exact model backend not verifiable from final document text alone.
 
 # Distributed Transaction Coordinator with 2PC
 
+> **Scope and evidence:** This page describes the separate
+> `DistributedTransactionCoordinator` API and its example runtime. It does not
+> establish that coordinator decisions are replicated by a per-shard Raft
+> group, nor prove one production contract joining durable replica writes,
+> cross-shard 2PC/3PC decisions, restart recovery after leader change, and
+> client acknowledgement. Coordinator recovery and replica transport must be
+> validated independently; canonical coordinator convergence remains open in
+> [`audit/ROADMAP.md`](../audit/ROADMAP.md).
+
 ## Overview
 
-ThemisDB's Distributed Transaction Coordinator implements a Two-Phase Commit (2PC) protocol enhanced with TrueTime for providing ACID guarantees across multiple shards. This enables atomic, consistent, isolated, and durable transactions that span multiple database shards.
+The `DistributedTransactionCoordinator` provides a 2PC-capable API with TrueTime integration across shard participants. Its protocol surface is not, on its own, evidence of an end-to-end ACID guarantee across all storage, Raft replication, coordinator recovery, and client-acknowledgement paths.
 
 ## Architecture
 
@@ -29,11 +38,11 @@ ThemisDB's Distributed Transaction Coordinator implements a Two-Phase Commit (2P
 
 ### Key Features
 
-- ✅ **Two-Phase Commit Protocol**: Guarantees atomicity across shards
+- **Two-Phase Commit Protocol**: Coordinates prepare and decision phases across participants; end-to-end durability depends on configured coordinator/participant persistence and working transport
 - ✅ **TrueTime Integration**: External consistency for distributed transactions
 - ✅ **Snapshot Isolation**: Read-only transactions without locks
 - ✅ **Parallel Execution**: Concurrent prepare/commit operations
-- ✅ **Fault Tolerance**: Handles participant failures gracefully
+- **Failure handling**: Exposes participant failure and in-doubt outcomes; this does not establish a Raft-replicated coordinator decision
 - ✅ **Configurable Timeouts**: Customizable RPC and phase timeouts
 - ✅ **Cluster-Wide Deadlock Detection**: Distributed Wait-For Graph with cycle detection and victim abort
 
@@ -469,8 +478,9 @@ Transaction lifecycle events are logged:
 
 ### Current Limitations
 
-1. **Coordinator Single Point of Failure**: No coordinator replication (planned for future)
-2. **Blocking Protocol**: 2PC is blocking if coordinator fails (3PC planned)
+1. **Coordinator Single Point of Failure**: The coordinator's decision state is not itself a Raft-replicated group.
+2. **Blocking Protocol**: 2PC is blocking if the coordinator fails; the separate 3PC path does not by itself prove a Raft-replicated decision or restart recovery after leader change.
+3. **Cross-layer durability evidence**: A WAL/participant ACK or a shard Raft quorum does not establish that a file block is durable on two replicas before the cross-shard decision and client ACK. That integrated sequence has not been demonstrated by this page or its examples.
 
 ### Recent Enhancements (v1.5.x)
 
@@ -636,7 +646,7 @@ config.polled_wait_for_edge_collector =
 
 ## See Also
 
-- [TransactionManager](../src/transaction/transaction_manager.h) - Local transaction support
+- [TransactionManager](../include/transaction/transaction_manager.h) - Local transaction support
 - [TrueTime](../include/sharding/truetime.h) - Distributed timestamp service
 - [ShardRPCClient](../include/sharding/shard_rpc_client.h) - RPC communication
-- [Sharding Documentation](SHARDING_IMPLEMENTATION_SUMMARY.md)
+- [Sharding Documentation](../src/sharding/README.md)
