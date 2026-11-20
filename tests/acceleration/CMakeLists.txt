@@ -36,6 +36,41 @@ else()
     message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/../test_backend_registry_startup.cpp")
 endif()
 
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_multi_gpu_backend.cpp" AND
+   NOT TARGET module_acceleration_test_multi_gpu_backend_focused)
+    set(_acceleration_multi_gpu_test_libs ${TEST_LIBS})
+    list(REMOVE_ITEM _acceleration_multi_gpu_test_libs GTest::gmock gmock::gmock)
+
+    add_executable(module_acceleration_test_multi_gpu_backend_focused
+        ${THEMIS_ROOT_DIR}/tests/test_multi_gpu_backend.cpp
+    )
+    target_include_directories(module_acceleration_test_multi_gpu_backend_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    set(_acceleration_multi_gpu_core_target themis_core)
+    if(THEMIS_BUILD_MODULAR AND TARGET themis_base)
+        set(_acceleration_multi_gpu_core_target themis_base)
+    endif()
+    target_link_libraries(module_acceleration_test_multi_gpu_backend_focused PRIVATE
+        ${_acceleration_multi_gpu_test_libs}
+        ${_acceleration_multi_gpu_core_target}
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_acceleration_test_multi_gpu_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE acceleration
+        NAME MultiGPUBackendFocusedTests
+        TARGET module_acceleration_test_multi_gpu_backend_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS acceleration multi-gpu cuda hip vulkan cpu-fallback
+    )
+endif()
+
 # AUTOGEN PREFIX BLOCK: acceleration
 file(GLOB ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_*.cpp"

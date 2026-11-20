@@ -9,6 +9,7 @@
 #include <numeric>
 #include <random>
 #include <thread>
+#include <utility>
 #include <vector>
 
 using namespace themis::acceleration;
@@ -55,6 +56,68 @@ protected:
         return cfg;
     }
 
+    ::testing::AssertionResult verifyTwoDeviceBackend(
+        MultiGPUDeviceBackend selectedBackend, std::vector<int> deviceIds) const {
+        MultiGPUVectorBackend::Config config;
+        config.deviceBackend = selectedBackend;
+        config.numDevices = 2;
+        config.deviceIds = std::move(deviceIds);
+        config.minDevices = 2;
+        config.allowCPUFallback = false;
+        config.commBackend = MultiGPUVectorBackend::CommBackend::CPU;
+
+        MultiGPUVectorBackend backend(config);
+        if (!backend.initialize()) {
+            return ::testing::AssertionFailure() << "two-device backend initialization failed";
+        }
+        if (backend.shards().size() != 2u) {
+            return ::testing::AssertionFailure() << "expected exactly two active shards";
+        }
+        for (const auto& shard : backend.shards()) {
+            if (shard.backend != selectedBackend || shard.cpuFallback) {
+                return ::testing::AssertionFailure()
+                    << "shard did not execute on the selected accelerator backend";
+            }
+        }
+
+        CPUVectorBackend cpu;
+        if (!cpu.initialize()) {
+            return ::testing::AssertionFailure() << "CPU parity backend initialization failed";
+        }
+        const auto actualDistances = backend.computeDistances(
+            query.data(), 1, dim, vectors.data(), static_cast<size_t>(numVectors), true);
+        const auto expectedDistances = cpu.computeDistances(
+            query.data(), 1, dim, vectors.data(), static_cast<size_t>(numVectors), true);
+        if (actualDistances.size() != expectedDistances.size()) {
+            return ::testing::AssertionFailure() << "distance output size differs from CPU reference";
+        }
+        for (size_t index = 0; index < actualDistances.size(); ++index) {
+            if (std::abs(actualDistances[index] - expectedDistances[index]) > 1e-4f) {
+                return ::testing::AssertionFailure()
+                    << "distance mismatch at corpus index " << index;
+            }
+        }
+
+        const auto actualKnn = backend.batchKnnSearch(
+            query.data(), 1, dim, vectors.data(), static_cast<size_t>(numVectors),
+            static_cast<size_t>(k), true);
+        const auto expectedKnn = cpu.batchKnnSearch(
+            query.data(), 1, dim, vectors.data(), static_cast<size_t>(numVectors),
+            static_cast<size_t>(k), true);
+        if (actualKnn.size() != 1u || expectedKnn.size() != 1u ||
+            actualKnn.front().size() != expectedKnn.front().size()) {
+            return ::testing::AssertionFailure() << "KNN result shape differs from CPU reference";
+        }
+        for (size_t index = 0; index < actualKnn.front().size(); ++index) {
+            if (actualKnn.front()[index].first != expectedKnn.front()[index].first ||
+                std::abs(actualKnn.front()[index].second - expectedKnn.front()[index].second) > 1e-4f) {
+                return ::testing::AssertionFailure()
+                    << "KNN result mismatch at rank " << index;
+            }
+        }
+        return ::testing::AssertionSuccess();
+    }
+
     int   dim;
     int   numVectors;
     int   k = {};
@@ -72,6 +135,13 @@ TEST_F(MultiGPUBackendTest, BackendType) {
     EXPECT_STREQ(backend.name(), "MultiGPU");
 }
 
+TEST_F(MultiGPUBackendTest, CudaTwoDeviceExecutionMatchesCpuWhenAvailable) {
+    if (MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::CUDA) < 2) {
+        GTEST_SKIP() << "Two CUDA devices are not available";
+    }
+    EXPECT_TRUE(verifyTwoDeviceBackend(MultiGPUDeviceBackend::CUDA, {0, 1}));
+}
+
 TEST_F(MultiGPUBackendTest, DefaultConfigAvailability) {
     // Default config requires minDevices = 2 GPUs; in a non-GPU CI environment
     // this should return false (which is correct and expected).
@@ -84,11 +154,27 @@ TEST_F(MultiGPUBackendTest, DefaultConfigAvailability) {
     }
 }
 
+TEST_F(MultiGPUBackendTest, HipTwoDeviceExecutionMatchesCpuWhenAvailable) {
+    if (MultiGPUVectorBackend::detectDeviceCount(MultiGPUDeviceBackend::HIP) < 2) {
+        GTEST_SKIP() << "Two HIP devices are not available";
+    }
+    EXPECT_TRUE(verifyTwoDeviceBackend(MultiGPUDeviceBackend::HIP, {0, 1}));
+}
+
 TEST_F(MultiGPUBackendTest, ZeroMinDevicesAlwaysAvailable) {
     auto cfg      = makeConfig(2);
     cfg.minDevices = 0;
     MultiGPUVectorBackend backend(cfg);
     EXPECT_TRUE(backend.isAvailable());
+}
+
+TEST_F(MultiGPUBackendTest, VulkanTwoDeviceExecutionMatchesCpuWhenAvailable) {
+    const auto deviceIndices = VulkanVectorBackend::availableDeviceIndices();
+    if (deviceIndices.size() < 2) {
+        GTEST_SKIP() << "Two Vulkan compute devices are not available";
+    }
+    EXPECT_TRUE(verifyTwoDeviceBackend(MultiGPUDeviceBackend::VULKAN,
+                                       {deviceIndices[0], deviceIndices[1]}));
 }
 
 TEST_F(MultiGPUBackendTest, Capabilities) {

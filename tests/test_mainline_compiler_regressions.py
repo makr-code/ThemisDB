@@ -25,6 +25,59 @@ HANDLERS = ("monitoring_api_handler", "monitoring_api_routes", "index_api_handle
 
 @unittest.skipUnless(shutil.which("cmake") and shutil.which("ninja"), "requires CMake and Ninja")
 class MainlineCompilerConfigurationTests(unittest.TestCase):
+    def test_modular_security_links_detected_ldap(self) -> None:
+        cmake = MODULAR_BUILD.read_text(encoding="utf-8")
+        policy = re.search(
+            r"(?m)^    if\(THEMIS_LDAP_FOUND AND THEMIS_LDAP_LIBRARIES\)\n"
+            r".*?^    endif\(\)\n",
+            cmake, re.DOTALL | re.MULTILINE,
+        )
+        self.assertIsNotNone(policy, "modular security must link detected LDAP")
+        for found, has_libraries in ((False, True), (True, False), (True, True)):
+            enabled = found and has_libraries
+            with self.subTest(found=found, has_libraries=has_libraries), tempfile.TemporaryDirectory(
+                prefix="security-ldap-link-"
+            ) as tmp:
+                root = Path(tmp)
+                (root / "include").mkdir()
+                (root / "include" / "ldap.h").write_text("int ldap_test(void);\nint ber_test(void);\n")
+                (root / "ldap.c").write_text("int ldap_test(void) { return 1; }\n")
+                (root / "lber.c").write_text("int ber_test(void) { return 2; }\n")
+                (root / "security.c").write_text(
+                    '#include <ldap.h>\nint security_test(void) { return ldap_test() + ber_test(); }\n'
+                    if enabled else "int security_test(void) { return 3; }\n"
+                )
+                (root / "main.c").write_text(
+                    "int security_test(void); int main(void) { return security_test() != 3; }\n"
+                )
+                (root / "CMakeLists.txt").write_text(
+                    "cmake_minimum_required(VERSION 3.20)\n"
+                    "project(SecurityLDAP C)\n"
+                    "set(CMAKE_POSITION_INDEPENDENT_CODE ON)\n"
+                    "add_library(ldap_test STATIC ldap.c)\n"
+                    "add_library(lber_test STATIC lber.c)\n"
+                    "add_library(themis_security SHARED security.c)\n"
+                    "set_target_properties(themis_security PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)\n"
+                    f"set(THEMIS_LDAP_FOUND {'ON' if found else 'OFF'})\n"
+                    f"set(THEMIS_LDAP_LIBRARIES {'ldap_test lber_test' if has_libraries else ''})\n"
+                    'set(THEMIS_LDAP_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")\n'
+                    + policy.group(0) +
+                    "get_target_property(deps themis_security LINK_LIBRARIES)\n"
+                    "if((NOT THEMIS_LDAP_FOUND OR NOT THEMIS_LDAP_LIBRARIES) AND deps)\n"
+                    '  message(FATAL_ERROR "LDAP-disabled security must not link LDAP")\n'
+                    "endif()\n"
+                    "add_executable(link_test main.c)\n"
+                    "target_link_libraries(link_test PRIVATE themis_security)\n",
+                    encoding="utf-8",
+                )
+                for command in (
+                    ["cmake", "-G", "Ninja", "-S", str(root), "-B", str(root / "build")],
+                    ["cmake", "--build", str(root / "build")],
+                    [str(root / "build" / ("link_test.exe" if os.name == "nt" else "link_test"))],
+                ):
+                    result = subprocess.run(command, capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+
     def test_llm_sharding_static_link_cycle(self) -> None:
         policy = re.search(
             r"(?m)^        # LLM and sharding reference each other;.*?"
