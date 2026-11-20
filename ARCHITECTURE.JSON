@@ -757,12 +757,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "515a26e25306ebcb"
+      "sha256_prefix": "d56714b319c98fa6"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "decde5b664b05b67"
+      "sha256_prefix": "4529a182837046f1"
     },
     {
       "category": "governance",
@@ -907,7 +907,7 @@
     {
       "category": "docs",
       "path": "docs/DISTRIBUTED_TRANSACTIONS.md",
-      "sha256_prefix": "420a5a1cfd80f693"
+      "sha256_prefix": "709c85821b0a950c"
     },
     {
       "category": "docs",
@@ -1887,7 +1887,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/transaction_coordinators.md",
-      "sha256_prefix": "483ea6a39e3baeee"
+      "sha256_prefix": "eaec5d94f68e895a"
     },
     {
       "category": "docs",
@@ -2517,7 +2517,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "5375322e393969d9"
+      "sha256_prefix": "2921d1798053e60b"
     },
     {
       "category": "docs",
@@ -7045,7 +7045,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-20T05:44:20.728113+00:00",
+  "generated_at": "2026-11-20T09:42:23.340579+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8584,9 +8584,9 @@
         {
           "api": "Recovery",
           "errors": "",
-          "input_contract": "N/A",
-          "namespace": "On participant failure, coordinator retries or aborts; idempotent",
-          "output_contract": "test_txn_2pc_recovery.cpp"
+          "input_contract": "Blocking until decision reachable",
+          "namespace": "Replay immutable durable decision; without a decision only coordinator recovery may select durable ABORT; participants never timeout-abort after YES",
+          "output_contract": "See sharding crash/recovery tests below"
         },
         {
           "api": "Gate",
@@ -8980,15 +8980,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "515a26e25306ebcb",
+    "ARCHITECTURE.md": "d56714b319c98fa6",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
-    "ROADMAP.md": "decde5b664b05b67",
+    "ROADMAP.md": "4529a182837046f1",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "05045a45f9033a7c",
-    "ai_context/developer_llm_wiki/": "e7882b15e74046b4",
+    "ai_context/api_contracts/": "5a5e8d95921d547e",
+    "ai_context/developer_llm_wiki/": "f734a898b086fe21",
     "ai_working/": "2da2d31a22a9695b",
-    "docs/": "ab81d8b96ba125c5"
+    "docs/": "5b5903242e3a8b9d"
   },
   "statistics": {
     "ai_working_artifact_count": 30,
