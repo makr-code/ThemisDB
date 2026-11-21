@@ -260,8 +260,12 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
     quorum no longer counts as catch-up proof. Spare failure blocks failover and missing metadata persistence returns
-    failure. Remaining: implement persistent metadata and real adapters with ACK plus independent content/LSN
-    verification, then add multi-process end-to-end coverage.
+    failure. 2026-11-21: independent verification retries mismatches up to the configured additional-attempt count;
+    proofs returned after `verification_timeout` fail closed. DRE-27..29 cover retry and deadline behavior.
+    2026-11-21 contract follow-up: typed storage, traffic, and shared-metadata adapter boundaries are now explicit;
+    DRE-30..31 cover typed adapter success and metadata negative-ACK behavior. Remaining: implement real
+    storage/traffic adapters and a consensus-backed metadata authority, then add networked multi-process
+    end-to-end coverage.
   - Handler ohne konfigurierten Storage-/Traffic-/Metadata-Adapter liefern `NotConfigured`; Erfolg nur nach Adapter-ACK
     **und** Verifikation (Checksumme bzw. LSN/Term-Vergleich); Metadata-Update persistent.
   - Tests: negative Tests je fehlendem Adapter; Ende-zu-Ende-Failover in der Multi-Prozess-Suite.

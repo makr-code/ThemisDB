@@ -19,6 +19,7 @@
 #include <mutex>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -68,6 +69,11 @@ enum class DisasterRecoveryErrorCode {
 struct DisasterRecoveryConfig {
     std::chrono::milliseconds precheck_timeout{5000};
     std::chrono::milliseconds catchup_timeout{30000};
+    /**
+     * @brief Maximum elapsed time accepted for independent read-back verification.
+     * @note A verifier is synchronous and cannot be interrupted; a proof returned
+     *       after this deadline is rejected, but the hook may return later.
+     */
     std::chrono::milliseconds verification_timeout{10000};
     /**
      * @brief Maximum wait to acquire the cross-process DR metadata lock.
@@ -75,6 +81,7 @@ struct DisasterRecoveryConfig {
      *       error; adapter hooks themselves are not bounded by this timeout.
      */
     std::chrono::milliseconds metadata_lock_timeout{5000};
+    /** @brief Additional verifier calls after the initial read-back attempt. */
     uint32_t max_verification_retries{5};
 
     bool require_quorum{true};
@@ -133,6 +140,92 @@ struct DisasterRecoveryVerificationProof {
     uint64_t lsn{0};
     uint64_t term{0};
     std::string observed_site;
+};
+
+/**
+ * @brief Storage-side disaster-recovery adapter contract.
+ *
+ * Implementations must perform real snapshot validation, restore, catch-up,
+ * or recovered-state operations and return independent read-back evidence.
+ * Returning a successful acknowledgement without performing the side effect,
+ * or returning verification proof from the mutating implementation itself,
+ * is not sufficient for production use.
+ */
+class DisasterRecoveryStorageAdapter {
+public:
+    virtual ~DisasterRecoveryStorageAdapter() = default;
+
+    /**
+     * @brief Execute a storage side effect.
+     * @param step Snapshot validation, restore, catch-up, or verification step.
+     * @param plan Validated recovery plan.
+     * @param[out] detail Human-readable acknowledgement or failure detail.
+     * @return True only after the external storage subsystem acknowledges the action.
+     */
+    virtual bool execute(DisasterRecoveryStep step,
+                         const DisasterRecoveryPlan& plan,
+                         std::string& detail) = 0;
+
+    /**
+     * @brief Independently read back storage state for a step.
+     * @param step Storage step to verify.
+     * @param plan Validated recovery plan.
+     * @param[out] detail Human-readable read-back detail.
+     * @return Independent proof; nullopt or mismatched evidence rejects success.
+     */
+    virtual std::optional<DisasterRecoveryVerificationProof> verify(
+        DisasterRecoveryStep step,
+        const DisasterRecoveryPlan& plan,
+        std::string& detail) = 0;
+};
+
+/**
+ * @brief Traffic-side disaster-recovery adapter contract.
+ */
+class DisasterRecoveryTrafficAdapter {
+public:
+    virtual ~DisasterRecoveryTrafficAdapter() = default;
+
+    /** @brief Shift traffic to the recovery site and return its acknowledgement. */
+    virtual bool shift(const DisasterRecoveryPlan& plan, std::string& detail) = 0;
+
+    /**
+     * @brief Independently observe the active recovery site.
+     * @return Proof with observed_site populated; mismatched evidence rejects success.
+     */
+    virtual std::optional<DisasterRecoveryVerificationProof> verify(
+        const DisasterRecoveryPlan& plan,
+        std::string& detail) = 0;
+};
+
+/**
+ * @brief Shared durable metadata adapter contract.
+ *
+ * Implementations provide consensus-backed or otherwise deployment-authoritative
+ * persistence for completed DR plan records. This interface deliberately does
+ * not imply that a local append-only file is shared or network-durable.
+ */
+class DisasterRecoveryMetadataAdapter {
+public:
+    virtual ~DisasterRecoveryMetadataAdapter() = default;
+
+    /**
+     * @brief Append and durably persist one completed-plan record.
+     * @param record Canonical checksummed metadata record.
+     * @param[out] detail Durable acknowledgement or failure detail.
+     * @return True only after the shared metadata authority acknowledges durability.
+     */
+    virtual bool appendCompletedRecord(std::string_view record,
+                                       std::string& detail) = 0;
+
+    /**
+     * @brief Load all persisted completed-plan records.
+     * @param[out] records Canonical checksummed metadata records.
+     * @param[out] detail Load acknowledgement or failure detail.
+     * @return True only after the shared metadata authority completes a read.
+     */
+    virtual bool loadCompletedRecords(std::vector<std::string>& records,
+                                      std::string& detail) = 0;
 };
 
 class DisasterRecoveryManager {
@@ -206,6 +299,26 @@ public:
      * @brief Clear Step Hooks.
      */
     void clearStepHooks();
+    /**
+     * @brief Configure typed storage operation and verification adapters.
+     * @param adapter Shared storage implementation; nullptr selects no typed adapter.
+     * @note Legacy step hooks take precedence for the matching external step.
+     */
+    void setStorageAdapter(std::shared_ptr<DisasterRecoveryStorageAdapter> adapter) noexcept;
+    /**
+     * @brief Configure typed traffic operation and verification adapters.
+     * @param adapter Shared traffic implementation; nullptr selects no typed adapter.
+     * @note Legacy step hooks take precedence for the matching external step.
+     */
+    void setTrafficAdapter(std::shared_ptr<DisasterRecoveryTrafficAdapter> adapter) noexcept;
+    /**
+     * @brief Configure shared durable metadata persistence.
+     * @param adapter Shared metadata implementation; nullptr selects the legacy
+     *                checksummed local metadata-log implementation.
+     * @note The adapter does not replace the plan-id cache or remove the need to
+     *       reconcile exactly-once external effects after process crashes.
+     */
+    void setMetadataAdapter(std::shared_ptr<DisasterRecoveryMetadataAdapter> adapter) noexcept;
 
     /**
      * @brief Get State.
@@ -321,6 +434,9 @@ private:
     DisasterRecoveryConfig config_;
     std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr_;
     std::shared_ptr<sharding::EpochFencingManager> fencing_mgr_;
+    std::shared_ptr<DisasterRecoveryStorageAdapter> storage_adapter_;
+    std::shared_ptr<DisasterRecoveryTrafficAdapter> traffic_adapter_;
+    std::shared_ptr<DisasterRecoveryMetadataAdapter> metadata_adapter_;
 
     std::unordered_map<DisasterRecoveryStep, StepHook, EnumHash> hooks_;
     std::unordered_map<DisasterRecoveryStep, VerificationHook, EnumHash> verification_hooks_;
