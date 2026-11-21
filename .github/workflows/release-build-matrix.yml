@@ -249,7 +249,7 @@ jobs:
           entries = [
               {
                   "id": "linux-amd64",
-                  "enable_sccache_gha": True,
+                  "enable_sccache_gha": False,
                   "enabled": lane_enabled("linux-amd64"),
                   "runs_on": "ubuntu-24.04",
                   "arch": "x64",
