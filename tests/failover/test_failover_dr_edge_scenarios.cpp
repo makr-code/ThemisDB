@@ -405,8 +405,10 @@ TEST(DisasterRecoveryEdgeDRE12, ProductionPlanRequiresTrafficShiftAdapter) {
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
                               DisasterRecoveryStep::RESTORE,
                               DisasterRecoveryStep::REPLICA_CATCHUP});
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
 
-    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+    const auto result = mgr.executePlan(plan);
 
     EXPECT_FALSE(result.success);
     ASSERT_EQ(result.step_results.size(), 6u);
@@ -554,7 +556,9 @@ TEST(DisasterRecoveryEdgeDRE21, TrafficShiftToWrongSiteFailsVerification) {
             return proof;
         });
 
-    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = mgr.executePlan(plan);
 
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
@@ -766,7 +770,42 @@ TEST(DisasterRecoveryEdgeDRE28, VerificationFailureAfterRetriesBlocksSuccess) {
     const auto result = manager.executePlan(makeMinimalProductionPlan());
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
-    EXPECT_EQ(verification_attempts.load(), 3u);
+    EXPECT_EQ(verification_attempts.load(), 4u);
+}
+
+TEST(DisasterRecoveryEdgeDRE29, VerificationProofAfterDeadlineCannotComplete) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.verification_timeout = std::chrono::milliseconds{1};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan& plan, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            ++verification_attempts;
+            std::this_thread::sleep_for(std::chrono::milliseconds{5});
+            detail = "restore read-back completed after deadline";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = plan.snapshot_checksum;
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_NE(result.error_message.find("timed out"), std::string::npos);
+    EXPECT_EQ(verification_attempts.load(), 1u);
 }
 
 #if defined(__unix__) || defined(__APPLE__)
@@ -807,7 +846,8 @@ TEST(DisasterRecoveryEdgeDRE24, CompetingProcessesExecutePlanOnce) {
     TemporaryMetadataLog metadata;
     auto operation_log = metadata.path;
     operation_log += ".operations";
-    const auto plan = makeMinimalProductionPlan();
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
     int start_pipe[2] = {-1, -1};
     ASSERT_EQ(::pipe(start_pipe), 0);
 

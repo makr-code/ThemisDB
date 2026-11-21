@@ -872,15 +872,17 @@ bool DisasterRecoveryManager::runAdapterStep(
 
     std::optional<DisasterRecoveryVerificationProof> proof;
     const auto verification_started = std::chrono::steady_clock::now();
-    const auto verification_deadline =
-        verification_started + std::max(config_.verification_timeout,
-                                        std::chrono::milliseconds::zero());
+    const auto verification_timeout =
+        std::max(config_.verification_timeout, std::chrono::milliseconds::zero());
+    const auto verification_timed_out = [&] {
+        return std::chrono::steady_clock::now() - verification_started >=
+               verification_timeout;
+    };
     const auto verification_attempts =
-        std::max<uint32_t>(config_.max_verification_retries, 1u);
+        static_cast<uint64_t>(config_.max_verification_retries) + 1;
 
-    for (uint32_t attempt = 0; attempt < verification_attempts; ++attempt) {
-        if (attempt > 0 &&
-            std::chrono::steady_clock::now() >= verification_deadline) {
+    for (uint64_t attempt = 0; attempt < verification_attempts; ++attempt) {
+        if (verification_timed_out()) {
             detail = "independent verification timed out";
             error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
             return false;
@@ -893,6 +895,11 @@ bool DisasterRecoveryManager::runAdapterStep(
             return false;
         } catch (...) {
             detail = "verification adapter threw an unknown exception";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+        if (verification_timed_out()) {
+            detail = "independent verification timed out";
             error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
             return false;
         }

@@ -68,6 +68,11 @@ enum class DisasterRecoveryErrorCode {
 struct DisasterRecoveryConfig {
     std::chrono::milliseconds precheck_timeout{5000};
     std::chrono::milliseconds catchup_timeout{30000};
+    /**
+     * @brief Maximum elapsed time accepted for independent read-back verification.
+     * @note A verifier is synchronous and cannot be interrupted; a proof returned
+     *       after this deadline is rejected, but the hook may return later.
+     */
     std::chrono::milliseconds verification_timeout{10000};
     /**
      * @brief Maximum wait to acquire the cross-process DR metadata lock.
@@ -75,6 +80,7 @@ struct DisasterRecoveryConfig {
      *       error; adapter hooks themselves are not bounded by this timeout.
      */
     std::chrono::milliseconds metadata_lock_timeout{5000};
+    /** @brief Additional verifier calls after the initial read-back attempt. */
     uint32_t max_verification_retries{5};
 
     bool require_quorum{true};
