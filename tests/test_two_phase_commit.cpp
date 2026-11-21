@@ -920,6 +920,12 @@ TEST_F(TwoPhaseCommitParticipantTest, HealthCheckReturnsHealthy) {
 
 using namespace themis::sharding;
 
+static_assert(static_cast<int>(CoordinatorTxnState::COMMIT_DECIDED) == 2);
+static_assert(static_cast<int>(CoordinatorTxnState::ABORT_DECIDED) == 3);
+static_assert(static_cast<int>(CoordinatorTxnState::COMPLETED) == 4);
+static_assert(static_cast<int>(CoordinatorTxnState::FAILED) == 5);
+static_assert(static_cast<int>(CoordinatorTxnState::PREPARED) == 6);
+
 // Helper: build a durable TwoPhaseCommitParticipant with no-op callbacks.
 static std::unique_ptr<TwoPhaseCommitParticipant>
 makeParticipant(const std::string& id) {

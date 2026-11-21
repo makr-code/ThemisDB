@@ -614,6 +614,42 @@ def test_release_matrix_honors_sccache_backend_selection():
     )
 
 
+def test_linux_amd64_release_uses_only_local_sccache(tmp_path: Path):
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    matrix = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    plan = matrix["jobs"]["prepare-release-matrix"]["steps"][0]
+    output = tmp_path / "outputs"
+    env = {
+        **os.environ,
+        "BUILD_MATRIX": "linux-amd64-only",
+        "OS_SELECTOR": "all",
+        "ARCH_SELECTOR": "all",
+        "EDITION": "community",
+        "BUILD_TYPE": "Release",
+        "PACKAGING": "auto",
+        "DISTRIBUTION": "all",
+        "RUN_NUMBER": "1",
+        "SOURCE_SHA": "",
+        "GITHUB_OUTPUT": str(output),
+    }
+    subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
+    lane, = _read_output_json(output, "matrix")["include"]
+    assert lane["id"] == "linux-amd64"
+    assert lane["enable_sccache_gha"] is False
+    assert "pkg-config sccache ccache" in lane["setup_command"]
+    for command in ("configure_command", "build_command"):
+        assert "CMAKE_C_COMPILER_LAUNCHER=sccache" in lane[command]
+        assert "CMAKE_CXX_COMPILER_LAUNCHER=sccache" in lane[command]
+
+    reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
+    install = next(step for step in reusable["jobs"]["build"]["steps"]
+                   if step.get("name") == "Install sccache")
+    assert "inputs.enable_sccache_gha" in install["if"]
+    assert matrix["jobs"]["release-platform-matrix"]["with"]["enable_sccache_gha"] == (
+        "${{ matrix.enable_sccache_gha }}"
+    )
+
+
 def test_cache_snapshot_inventory_detects_growth_without_timestamp_churn(tmp_path: Path):
     script = Path(__file__).resolve().parents[2] / ".github/scripts/cache-directory-fingerprint.sh"
     archive_dir = tmp_path / "archives with spaces"
