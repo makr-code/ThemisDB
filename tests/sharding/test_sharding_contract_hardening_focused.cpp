@@ -13,7 +13,12 @@
  * - **SCR-13..16** — Error contract (QUORUM_LOST on quorum loss, MIGRATION_CONFLICT,
  *                    diagnostics non-null on failure, fail-closed classification)
  *
- * All infrastructure is fully in-process with deterministic stubs.
+ * Routing, migration and error-contract infrastructure is intentionally in-process.
+ * Transaction crash/recovery evidence is maintained in the separate
+ * TransactionProcessCrashRecoveryTests target; those tests execute real
+ * coordinator/participant objects across POSIX processes and real WAL state.
+ * They do not replace the remaining DIS-10 evidence requirement for real
+ * network RPC, network partition injection and 3–5-node release gates.
  * Seed: kShardContractSeed = 42.
  *
  * @version 1.0.0

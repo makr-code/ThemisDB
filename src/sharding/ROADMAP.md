@@ -64,6 +64,21 @@ No WAL encoding consolidation, API removal or automatic migration of unresolved
 older CrossShard records is included. See [API.md](API.md),
 [RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
 
+### DIS-10 multi-process evidence boundary
+
+The `TransactionProcessCrashRecoveryTests` target already provides
+POSIX-process crash/recovery coverage with real coordinator and participant
+objects, persistent WAL state, lock state and RocksDB apply callbacks. It covers
+coordinator and participant crashes, lost acknowledgements, missing
+participants and recovery after process restart. These cases are registered
+with `DIS-10` labels and are not claimed as real-network or 3–5-node evidence.
+
+Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
+processes, deterministic network partitions with latency/reordering/duplicates,
+coordinator/participant/leader crash matrices over that transport, history
+checking and release-platform/CI evidence. The existing pipe transport must not
+be represented as production RPC or network-partition coverage.
+
 Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
 the CTest commands below are not claimed as executed against a full target build):
 

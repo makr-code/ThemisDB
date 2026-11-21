@@ -290,7 +290,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_process_crash_recovery.cpp
         TIER integration
         KIND focused
         TIMEOUT 90
-        LABELS distributed recovery process-crash evidence canonical-2pc pipe-ipc
+        LABELS distributed recovery process-crash evidence canonical-2pc pipe-ipc DIS-10 DIS-06
     )
 endif()
 

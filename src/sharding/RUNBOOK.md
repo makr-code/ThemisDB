@@ -113,6 +113,18 @@ This runbook is the operator-facing guide for the principal failure modes in the
 - Release blocked participants only after the authoritative terminal record is
   durable. Apply callbacks must deduplicate by transaction ID across crashes.
 
+### DIS-10 diagnostic evidence
+
+- `TransactionProcessCrashRecoveryTests` proves the canonical
+  coordinator/participant objects, WAL replay, locks and RocksDB apply callbacks
+  across POSIX process boundaries.
+- This target uses a test pipe as a process-control transport. It is not a
+  live network, gRPC, mTLS or partition-healing test.
+- Do not close a partition, transport or release-readiness incident based only
+  on this target. Real network partitions, coordinator/participant/leader
+  kills, history validation and platform gates remain separate acceptance
+  evidence.
+
 ## Scenario 4: migration conflict or rebalance fault
 
 ### Symptoms
