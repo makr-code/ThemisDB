@@ -90,6 +90,13 @@ Related milestone: DOC-WEEKLY-2026-W45
 - Shared durable metadata for DR and genuine networked multi-process
   failover/recovery E2E evidence remain open blockers; local same-path process
   locking and shard transaction fencing do not close either gap.
+- The public contract boundary is now explicit:
+  `DisasterRecoveryStorageAdapter`, `DisasterRecoveryTrafficAdapter`, and
+  `DisasterRecoveryMetadataAdapter` separate real side effects, independent
+  read-back, traffic observation, and shared durable metadata from orchestration.
+  Interface registration does not itself create a production adapter or prove
+  network/consensus behavior. Implementations require deployment-specific
+  ACK/durability semantics and networked multi-process acceptance evidence.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

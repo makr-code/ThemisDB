@@ -61,6 +61,14 @@ partial state.
 removes those replacements. Hooks are callable code, not automatically
 side-effect-free test mocks. Protect hook registration from concurrent execution
 and ensure any hook used in a dry run explicitly preserves dry-run safety.
+Typed production integrations may implement
+`DisasterRecoveryStorageAdapter`, `DisasterRecoveryTrafficAdapter`, and
+`DisasterRecoveryMetadataAdapter`. Typed storage/traffic adapters provide
+operation acknowledgement and a separate independent read-back proof. A typed
+metadata adapter provides shared durable append/load operations; a configured
+adapter supersedes the legacy local metadata log. These interfaces define the
+contract only: the repository does not yet contain a production storage/traffic
+implementation or a consensus-backed metadata implementation.
 
 For non-dry-run plans, snapshot validation, restore, replication-position
 catch-up, requested traffic shift, and recovered-state verification each require
