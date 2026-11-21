@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-20
+**Last Updated:** 2026-11-21
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -853,6 +853,68 @@ Alle 79 kalibrierten Findings aus [FULL_DEEP_DIVE_AUDIT_2026-10-31.md](FULL_DEEP
 | ⚪ Low | DOC-16, DOC-17, DOC-18, DOC-21 | WS9 | P2 | M1 |
 
 ---
+
+## GitHub-Issue-Zuordnung
+
+Diese Zuordnung erfasst die 55 Findings, die bei der Erstprüfung kein offenes Issue hatten. Fünf Tickets zu weiterhin offenen Findings wurden nach aktuellem Roadmap-Abgleich wieder geöffnet. DIS-07 ist inzwischen erledigt; das zugehörige Ticket wurde geschlossen. Die übrigen offenen Findings bleiben bei ihren bereits bestehenden Issues.
+
+| Finding | GitHub-Issue (Status) |
+|---|---|
+| [AI-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-01) | [#8188](https://github.com/makr-code/ThemisDB/issues/8188) |
+| [AI-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-03) | [#8189](https://github.com/makr-code/ThemisDB/issues/8189) |
+| [AI-07](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-07) | [#8190](https://github.com/makr-code/ThemisDB/issues/8190) |
+| [AI-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-08) | [#8191](https://github.com/makr-code/ThemisDB/issues/8191) |
+| [AI-09](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-09) | [#8192](https://github.com/makr-code/ThemisDB/issues/8192) |
+| [AI-10](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-10) | [#8193](https://github.com/makr-code/ThemisDB/issues/8193) |
+| [AI-12](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-12) | [#8194](https://github.com/makr-code/ThemisDB/issues/8194) |
+| [CI-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ci-03) | [#8195](https://github.com/makr-code/ThemisDB/issues/8195) |
+| [CI-04](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ci-04) | [#8196](https://github.com/makr-code/ThemisDB/issues/8196) |
+| [DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03) | [#8197](https://github.com/makr-code/ThemisDB/issues/8197) |
+| [DIS-04](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-04) | [#8198](https://github.com/makr-code/ThemisDB/issues/8198) |
+| [DIS-05](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-05) | [#8199](https://github.com/makr-code/ThemisDB/issues/8199) |
+| [DIS-06](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-06) | [#8200](https://github.com/makr-code/ThemisDB/issues/8200) |
+| [DIS-07](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-07) | [#8201 — erledigt](https://github.com/makr-code/ThemisDB/issues/8201) |
+| [DIS-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-08) | [#8202](https://github.com/makr-code/ThemisDB/issues/8202) |
+| [DIS-10](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-10) | [#8203](https://github.com/makr-code/ThemisDB/issues/8203) |
+| [DIS-11](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-11) | [#8204](https://github.com/makr-code/ThemisDB/issues/8204) |
+| [DIS-14](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-14) | [#8205](https://github.com/makr-code/ThemisDB/issues/8205) |
+| [DIS-15](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-15) | [#8206](https://github.com/makr-code/ThemisDB/issues/8206) |
+| [DOC-02](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-02) | [#8207](https://github.com/makr-code/ThemisDB/issues/8207) |
+| [DOC-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-08) | [#8208](https://github.com/makr-code/ThemisDB/issues/8208) |
+| [DOC-10](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-10) | [#8209](https://github.com/makr-code/ThemisDB/issues/8209) |
+| [DOC-16](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-16) | [#8210](https://github.com/makr-code/ThemisDB/issues/8210) |
+| [DOC-17](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-17) | [#8211](https://github.com/makr-code/ThemisDB/issues/8211) |
+| [DOC-18](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-18) | [#8212](https://github.com/makr-code/ThemisDB/issues/8212) |
+| [DOC-19](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-19) | [#8213](https://github.com/makr-code/ThemisDB/issues/8213) |
+| [DOC-21](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#doc-21) | [#8214](https://github.com/makr-code/ThemisDB/issues/8214) |
+| [EVD-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#evd-01) | [#8215](https://github.com/makr-code/ThemisDB/issues/8215) |
+| [HYG-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#hyg-01) | [#8216](https://github.com/makr-code/ThemisDB/issues/8216) |
+| [OPS-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-01) | [#8217](https://github.com/makr-code/ThemisDB/issues/8217) |
+| [OPS-06](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-06) | [#8218](https://github.com/makr-code/ThemisDB/issues/8218) |
+| [OPS-07](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-07) | [#8219](https://github.com/makr-code/ThemisDB/issues/8219) |
+| [OPS-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-08) | [#8220](https://github.com/makr-code/ThemisDB/issues/8220) |
+| [OPS-09](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-09) | [#8221](https://github.com/makr-code/ThemisDB/issues/8221) |
+| [OPS-11](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ops-11) | [#8222](https://github.com/makr-code/ThemisDB/issues/8222) |
+| [QRY-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-01) | [#8223](https://github.com/makr-code/ThemisDB/issues/8223) |
+| [QRY-02](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-02) | [#8224](https://github.com/makr-code/ThemisDB/issues/8224) |
+| [QRY-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-03) | [#8225](https://github.com/makr-code/ThemisDB/issues/8225) |
+| [QRY-04](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-04) | [#8226](https://github.com/makr-code/ThemisDB/issues/8226) |
+| [QRY-05](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-05) | [#8227](https://github.com/makr-code/ThemisDB/issues/8227) |
+| [QRY-06](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-06) | [#8228](https://github.com/makr-code/ThemisDB/issues/8228) |
+| [QRY-07](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-07) | [#8229](https://github.com/makr-code/ThemisDB/issues/8229) |
+| [QRY-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-08) | [#8230](https://github.com/makr-code/ThemisDB/issues/8230) |
+| [RUN-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#run-01) | [#8231](https://github.com/makr-code/ThemisDB/issues/8231) |
+| [SEC-02](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-02) | [#8232](https://github.com/makr-code/ThemisDB/issues/8232) |
+| [SEC-04](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-04) | [#8233](https://github.com/makr-code/ThemisDB/issues/8233) |
+| [SEC-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-08) | [#8234](https://github.com/makr-code/ThemisDB/issues/8234) |
+| [SEC-09](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-09) | [#8235](https://github.com/makr-code/ThemisDB/issues/8235) |
+| [SEC-12](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-12) | [#8236](https://github.com/makr-code/ThemisDB/issues/8236) |
+| [SEC-14](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-14) | [#8237](https://github.com/makr-code/ThemisDB/issues/8237) |
+| [STO-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-01) | [#8238](https://github.com/makr-code/ThemisDB/issues/8238) |
+| [STO-07](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-07) | [#8239](https://github.com/makr-code/ThemisDB/issues/8239) |
+| [STO-10](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-10) | [#8240](https://github.com/makr-code/ThemisDB/issues/8240) |
+| [TST-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#tst-01) | [#8241](https://github.com/makr-code/ThemisDB/issues/8241) |
+| [TST-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#tst-03) | [#8242](https://github.com/makr-code/ThemisDB/issues/8242) |
 
 ## Pflege dieser Roadmap
 
