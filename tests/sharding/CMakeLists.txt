@@ -34,6 +34,24 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
         TARGET test_shard_transfer_grpc TIER integration TIMEOUT 90 LABELS DIS-03 transport mtls)
 endif()
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
+   AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
+    add_executable(test_dis10_real_transport_process_recovery
+        test_dis10_real_transport_process_recovery.cpp)
+    target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE
+        ${TEST_LIBS} themis_core themis_shard_proto gRPC::grpc++ OpenSSL::Crypto Threads::Threads)
+    if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+        target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE themis_sharding)
+    endif()
+    themis_register_module_focused_test(
+        MODULE sharding
+        NAME DIS10RealTransportProcessRecoveryTests
+        TARGET test_dis10_real_transport_process_recovery
+        TIER integration
+        TIMEOUT 180
+        LABELS DIS-10 2pc grpc mtls process crash-recovery)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_wal_logging_helper.cpp")
     message(STATUS "Adding Sharding: WALLoggingHelper focused tests (Issue #5375)")
     add_executable(test_wal_logging_helper_focused ../test_wal_logging_helper.cpp)

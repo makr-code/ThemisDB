@@ -73,6 +73,13 @@ coordinator and participant crashes, lost acknowledgements, missing
 participants and recovery after process restart. These cases are registered
 with `DIS-10` labels and are not claimed as real-network or 3–5-node evidence.
 
+The Linux-only focused integration target
+`DIS10RealTransportProcessRecoveryTests` now adds real gRPC/mTLS participant
+`ShardRPCServer` processes and a coordinator process that drives shard endpoints
+through `ShardRPCClient` transport, including SIGKILL crash/restart and
+durable coordinator/participant WAL healing paths for success, coordinator
+crash, and participant unavailability/restart.
+
 Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
 processes, deterministic network partitions with latency/reordering/duplicates,
 coordinator/participant/leader crash matrices over that transport, history
