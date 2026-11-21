@@ -229,15 +229,10 @@ DistributedGateway::DistributedGateway(
 
     // Build and configure Raft
     raft_ = std::make_unique<themisdb::sharding::RaftConsensus>(buildRaftConfig());
-
-    // Replication callback – applied every time the Raft leader replicates an
-    // entry to a follower (simulated in-process for now; real deployments use
-    // an RPC transport).
-    raft_->setReplicationCallback(
-        [this](const std::string& /*node_id*/,
-               const themisdb::sharding::LogEntry& entry) -> bool {
-            return applyConfigEntry(entry.command);
-        });
+    if (config_.cluster_nodes.size() > 1) {
+        spdlog::warn("DistributedGateway: peer Raft transport is not configured; "
+                     "multi-node proposals will fail closed");
+    }
 
     spdlog::info("DistributedGateway: node='{}' cluster_size={} ring_nodes={}",
                  config_.node_id,
@@ -417,7 +412,7 @@ bool DistributedGateway::proposeConfig(const ClusterGatewayConfig& new_config) {
         // Wait up to the configured failover timeout for the entry to commit.
         auto status = future.wait_for(config_.leader_failover_timeout);
         if (status == std::future_status::ready) {
-            return future.get();
+            return future.get() && applyConfigEntry(entry_json);
         }
         spdlog::warn("DistributedGateway::proposeConfig: commit timed out after {}ms",
                      config_.leader_failover_timeout.count());

@@ -13,11 +13,13 @@
 // Licensed under MIT License
 
 #include "sharding/shard_rpc_server.h"
+#include "sharding/raft_consensus.h"
 #include "sharding/shard_transfer_store.h"
 #include "core/production_mode.h"
 #include "shard_rpc_tls_validation.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
+#include <algorithm>
 #include <optional>
 #include <chrono>
 #include <set>
@@ -103,6 +105,27 @@ std::optional<std::string> resolveCoordinatorShardId(
     return resolved_shard_id;
 }
 
+std::optional<std::string> resolveRaftNodeId(
+    const AuthenticatedPeerIdentity& peer_identity,
+    const std::vector<ShardRPCServer::RaftIdentityBinding>& bindings) {
+    std::optional<std::string> resolved_node_id;
+    for (const auto& binding : bindings) {
+        if (binding.property_name != peer_identity.property_name) {
+            continue;
+        }
+        for (const auto& value : peer_identity.values) {
+            if (binding.property_value != value) {
+                continue;
+            }
+            if (resolved_node_id && *resolved_node_id != binding.node_id) {
+                return std::nullopt;
+            }
+            resolved_node_id = binding.node_id;
+        }
+    }
+    return resolved_node_id;
+}
+
 } // namespace
 
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
@@ -116,11 +139,16 @@ public:
         ShardRPCServer::RequestHandler* handler,
         std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings,
         std::shared_ptr<ShardTransferStore> transfer_store,
-        std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings)
+        std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings,
+        std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
+            const std::string&)> raft_group_resolver,
+        std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings)
         : handler_(handler),
           identity_bindings_(std::move(identity_bindings)),
           transfer_store_(std::move(transfer_store)),
-          transfer_bindings_(std::move(transfer_bindings)) {}
+          transfer_bindings_(std::move(transfer_bindings)),
+          raft_group_resolver_(std::move(raft_group_resolver)),
+          raft_identity_bindings_(std::move(raft_identity_bindings)) {}
 
     grpc::Status PrepareShardTransfer(
         grpc::ServerContext* context, const proto::ShardTransferManifest* request,
@@ -332,6 +360,91 @@ public:
         return grpc::Status::OK;
     }
 
+    grpc::Status RequestVote(
+        grpc::ServerContext* context,
+        const proto::RaftVoteRequestProto* request,
+        proto::RaftVoteResponseProto* response) override {
+        if (!hasBoundedRaftDeadline(context)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "Raft RPC requires a deadline of at most five seconds"};
+        }
+        std::shared_ptr<themisdb::sharding::RaftConsensus> raft;
+        const auto status = validateRaftPeer(context, request->raft_group_id(),
+                                             request->candidate_id(), raft);
+        if (!status.ok()) {
+            return status;
+        }
+        if (request->raft_group_id().empty() || request->candidate_id().empty()) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "Raft group and candidate IDs are required"};
+        }
+        try {
+            const auto result = raft->getRaftState().handleVoteRequest(
+                {request->candidate_id(), request->term(),
+                 request->last_log_index(), request->last_log_term()});
+            response->set_voter_id(result.voter_id);
+            response->set_term(result.term);
+            response->set_vote_granted(result.vote_granted);
+            response->set_reason(result.reason);
+            return grpc::Status::OK;
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("Raft vote handler failed: {}", error.what());
+            return {grpc::StatusCode::INTERNAL, "Raft vote handler failed"};
+        }
+    }
+
+    grpc::Status AppendEntries(
+        grpc::ServerContext* context,
+        const proto::RaftAppendEntriesRequestProto* request,
+        proto::RaftAppendEntriesResponseProto* response) override {
+        if (!hasBoundedRaftDeadline(context)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "Raft RPC requires a deadline of at most five seconds"};
+        }
+        std::shared_ptr<themisdb::sharding::RaftConsensus> raft;
+        const auto status = validateRaftPeer(context, request->raft_group_id(),
+                                             request->leader_id(), raft);
+        if (!status.ok()) {
+            return status;
+        }
+        if (request->raft_group_id().empty() || request->leader_id().empty()) {
+            return {grpc::StatusCode::INVALID_ARGUMENT, "Raft group and leader IDs are required"};
+        }
+        constexpr int kMaxRaftEntriesPerRpc = 256;
+        constexpr std::size_t kMaxRaftCommandBytes = 1024 * 1024;
+        constexpr std::size_t kMaxRaftPayloadBytes = 3 * 1024 * 1024;
+        if (request->entries_size() > kMaxRaftEntriesPerRpc) {
+            return {grpc::StatusCode::RESOURCE_EXHAUSTED, "too many Raft log entries"};
+        }
+
+        try {
+            themisdb::sharding::AppendEntriesRequest append;
+            append.term = request->term();
+            append.leader_id = request->leader_id();
+            append.prev_log_index = request->prev_log_index();
+            append.prev_log_term = request->prev_log_term();
+            append.leader_commit = request->leader_commit();
+            append.entries.reserve(static_cast<std::size_t>(request->entries_size()));
+            std::size_t payload_bytes = 0;
+            for (const auto& entry : request->entries()) {
+                if (entry.command().size() > kMaxRaftCommandBytes ||
+                    payload_bytes > kMaxRaftPayloadBytes - entry.command().size()) {
+                    return {grpc::StatusCode::RESOURCE_EXHAUSTED,
+                            "Raft AppendEntries exceeds the payload size limit"};
+                }
+                payload_bytes += entry.command().size();
+                append.entries.emplace_back(entry.term(), entry.index(), entry.command(),
+                                            entry.timestamp_ns());
+            }
+            const auto result = raft->getRaftState().handleAppendEntries(append);
+            response->set_follower_id(raft->getRaftState().getNodeId());
+            response->set_term(result.term);
+            response->set_success(result.success);
+            response->set_match_index(result.match_index);
+            return grpc::Status::OK;
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("Raft AppendEntries handler failed: {}", error.what());
+            return {grpc::StatusCode::INTERNAL, "Raft AppendEntries handler failed"};
+        }
+    }
+
     grpc::Status CollectWaitForEdges(
         grpc::ServerContext* context,
         const themis::sharding::proto::CollectWaitForEdgesRequest* request,
@@ -395,6 +508,50 @@ public:
     }
     
 private:
+    static bool hasBoundedRaftDeadline(grpc::ServerContext* context) {
+        const auto now = std::chrono::system_clock::now();
+        return context && context->deadline() > now &&
+               context->deadline() <= now + std::chrono::seconds(5);
+    }
+
+    grpc::Status validateRaftPeer(grpc::ServerContext* context,
+                                  const std::string& group_id,
+                                  const std::string& claimed_node_id,
+                                  std::shared_ptr<themisdb::sharding::RaftConsensus>& raft) const {
+        if (!raft_group_resolver_ || raft_identity_bindings_.empty()) {
+            return {grpc::StatusCode::FAILED_PRECONDITION,
+                    "authenticated Raft transport is not configured"};
+        }
+        if (group_id.empty() || claimed_node_id.empty()) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft group and member IDs are required"};
+        }
+        const auto peer = getAuthenticatedPeerIdentity(context);
+        if (!peer) {
+            return {grpc::StatusCode::UNAUTHENTICATED, "verified X.509 peer required"};
+        }
+        const auto authenticated_node_id = resolveRaftNodeId(*peer, raft_identity_bindings_);
+        if (!authenticated_node_id || *authenticated_node_id != claimed_node_id) {
+            return {grpc::StatusCode::PERMISSION_DENIED,
+                    "Raft member ID does not match the authenticated X.509 identity"};
+        }
+        try {
+            raft = raft_group_resolver_(group_id);
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("Raft group resolver failed: {}", error.what());
+            return {grpc::StatusCode::INTERNAL, "Raft group resolver failed"};
+        }
+        if (!raft) {
+            return {grpc::StatusCode::NOT_FOUND, "Raft group is not configured"};
+        }
+        const auto members = raft->getRaftState().getClusterMembers();
+        if (std::find(members.begin(), members.end(), *authenticated_node_id) == members.end()) {
+            return {grpc::StatusCode::PERMISSION_DENIED,
+                    "authenticated node is not a member of the requested Raft group"};
+        }
+        return grpc::Status::OK;
+    }
+
     template <typename Operation>
     grpc::Status withTransferPrincipal(grpc::ServerContext* context, Operation&& operation) {
         if (!transfer_store_) {
@@ -429,6 +586,9 @@ private:
     std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings_;
     std::shared_ptr<ShardTransferStore> transfer_store_;
     std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings_;
+    std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
+        const std::string&)> raft_group_resolver_;
+    std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings_;
     std::string listen_address_;
 };
 
@@ -516,9 +676,31 @@ bool ShardRPCServer::start() {
         validate_bindings(impl_->config.coordinator_identity_bindings);
         validate_bindings(impl_->config.transfer_identity_bindings);
 
+        if (static_cast<bool>(impl_->config.raft_group_resolver) !=
+            !impl_->config.raft_identity_bindings.empty()) {
+            throw std::runtime_error(
+                "ShardRPCServer: Raft transport requires both a group resolver and identity bindings");
+        }
+        if (impl_->config.raft_group_resolver &&
+            (!impl_->config.enable_mtls || !impl_->config.tls_require_client_cert)) {
+            throw std::runtime_error(
+                "ShardRPCServer: Raft transport requires verified mutual TLS");
+        }
+        std::set<std::pair<std::string, std::string>> raft_identities;
+        for (const auto& binding : impl_->config.raft_identity_bindings) {
+            if (binding.property_name.rfind("x509_", 0) != 0 ||
+                binding.property_value.empty() || binding.node_id.empty() ||
+                !raft_identities.emplace(binding.property_name,
+                                         binding.property_value).second) {
+                throw std::runtime_error(
+                    "ShardRPCServer: Raft identities must be unique, non-empty X.509 mappings");
+            }
+        }
+
         impl_->service = std::make_unique<ShardServiceImpl>(
             impl_->handler, impl_->config.coordinator_identity_bindings,
-            impl_->config.transfer_store, impl_->config.transfer_identity_bindings);
+            impl_->config.transfer_store, impl_->config.transfer_identity_bindings,
+            impl_->config.raft_group_resolver, impl_->config.raft_identity_bindings);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;

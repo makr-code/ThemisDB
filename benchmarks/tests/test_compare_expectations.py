@@ -84,6 +84,31 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
         verdict = _evaluate_expectation(expectations[0], {})
         self.assertEqual(verdict.status, "NO_MAPPING")
 
+    def test_export_format_expectation_does_not_map_jsonl_proxies(self):
+        path = (Path(__file__).resolve().parents[2] / "src" / "exporters"
+                / "PERFORMANCE_EXPECTATIONS.md")
+        expectation = next(
+            item for item in _parse_performance_expectations(path, "exporters")
+            if item.target_id == "EXPP-5"
+        )
+        proxy_names = {"BM_Export_Parquet_1M", "BM_Export_CSV_1M"}
+        self.assertTrue(proxy_names.isdisjoint(expectation.benchmark_cases))
+        results = {name: BenchmarkResult(name) for name in proxy_names}
+        self.assertIn(_evaluate_expectation(expectation, results).status,
+                      {"NO_MAPPING", "NOT_RUN"})
+
+    def test_incremental_expectation_maps_full_and_validated_delta_cases(self):
+        path = (Path(__file__).resolve().parents[2] / "src" / "exporters"
+                / "PERFORMANCE_EXPECTATIONS.md")
+        expectation = next(
+            item for item in _parse_performance_expectations(path, "exporters")
+            if item.target_id == "EXPP-4"
+        )
+        expected_pair = {"BM_IncrementalExport_Full", "BM_IncrementalExport_Delta"}
+        self.assertTrue(expected_pair.issubset(expectation.benchmark_cases))
+        results = {name: BenchmarkResult(name) for name in expected_pair}
+        self.assertEqual(_evaluate_expectation(expectation, results).status, "UNCHECKED")
+
     def test_german_benchmark_case_header_is_recognized(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             expectation_file = Path(temporary_directory) / "PERFORMANCE_EXPECTATIONS.md"
@@ -406,6 +431,16 @@ class ComparatorHardeningTests(unittest.TestCase):
 
         self.assertIn("one item is one committed transaction", tx3.expectation_text)
         self.assertEqual(tx3.constraint_unit, "k/s")
+        target_mapping = json.loads(
+            (repository_root / "benchmarks" / "benchmark_target_mapping.json")
+            .read_text(encoding="utf-8")
+        )
+        self.assertIsNone(target_mapping["modules"]["transaction"]["TX-3"]["fallback_case"])
+        self.assertNotIn(
+            "BM_TransactionContention",
+            (repository_root / "benchmarks" / "transaction" /
+             "bench_transaction_throughput.cpp").read_text(encoding="utf-8"),
+        )
         self.assertEqual(
             self.verdict(tx3.expectation_text, {
                 tx3.benchmark_cases[0]: BenchmarkResult(
@@ -422,6 +457,193 @@ class ComparatorHardeningTests(unittest.TestCase):
             }, tx3.benchmark_cases).status,
             "FAIL",
         )
+
+    def test_transaction_2pc_latency_maps_to_five_participant_case(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx4 = next(expectation for expectation in expectations if expectation.target_id == "TX-4")
+        target_mapping = json.loads(
+            (repository_root / "benchmarks" / "benchmark_target_mapping.json")
+            .read_text(encoding="utf-8")
+        )
+        mapping = target_mapping["modules"]["transaction"]["TX-4"]
+
+        self.assertEqual(
+            tx4.benchmark_cases,
+            ["TwoPhaseCommitFixture/TwoPhaseCommitLatency/5"],
+        )
+        self.assertEqual(
+            mapping["primary_case"],
+            "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
+        )
+        self.assertIsNone(mapping["fallback_case"])
+
+    def test_transaction_commit_latency_exports_per_commit_p50_and_p99(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx1 = next(expectation for expectation in expectations if expectation.target_id == "TX-1")
+        tx2 = next(expectation for expectation in expectations if expectation.target_id == "TX-2")
+        target_mapping = json.loads(
+            (repository_root / "benchmarks" / "benchmark_target_mapping.json")
+            .read_text(encoding="utf-8")
+        )
+        for target in ("TX-1", "TX-2"):
+            mapping = target_mapping["modules"]["transaction"][target]
+            self.assertEqual(mapping["status"], "mapped")
+            self.assertIsNone(mapping["fallback_case"])
+
+        self.assertEqual(
+            self.verdict(tx1.expectation_text, {
+                tx1.benchmark_cases[0]: BenchmarkResult(
+                    tx1.benchmark_cases[0], percentile_time_ns={"p50": 99_000},
+                )
+            }, tx1.benchmark_cases).status,
+            "PASS",
+        )
+        self.assertEqual(
+            self.verdict(tx2.expectation_text, {
+                tx2.benchmark_cases[0]: BenchmarkResult(
+                    tx2.benchmark_cases[0], percentile_time_ns={"p99": 5_300_000},
+                )
+            }, tx2.benchmark_cases).status,
+            "FAIL",
+        )
+
+    def test_transaction_percentage_targets_use_explicit_counters(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx7 = next(expectation for expectation in expectations if expectation.target_id == "TX-7")
+        tx8 = next(expectation for expectation in expectations if expectation.target_id == "TX-8")
+        self.assertIn("benchmark counter: false_conflict_rate_percent", tx7.expectation_text)
+        self.assertIn("benchmark counter: success_rate_percent", tx8.expectation_text)
+        self.assertEqual(
+            self.verdict(tx7.expectation_text, {
+                tx7.benchmark_cases[0]: BenchmarkResult(
+                    tx7.benchmark_cases[0],
+                    percent_counters={"false_conflict_rate_percent": 4.0},
+                )
+            }, tx7.benchmark_cases).status,
+            "PASS",
+        )
+        self.assertEqual(
+            self.verdict(tx8.expectation_text, {
+                tx8.benchmark_cases[0]: BenchmarkResult(
+                    tx8.benchmark_cases[0], percent_counters={"success_rate_percent": 80.0},
+                )
+            }, tx8.benchmark_cases).status,
+            "FAIL",
+        )
+
+    def test_transaction_saga_latency_maps_to_largest_measured_write_case(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx5 = next(expectation for expectation in expectations if expectation.target_id == "TX-5")
+        target_mapping = json.loads(
+            (repository_root / "benchmarks" / "benchmark_target_mapping.json")
+            .read_text(encoding="utf-8")
+        )
+        mapping = target_mapping["modules"]["transaction"]["TX-5"]
+
+        self.assertEqual(
+            tx5.benchmark_cases,
+            ["SagaBenchmarkFixture/DatabaseWriteCompensation/50"],
+        )
+        self.assertIsNone(mapping["fallback_case"])
+        source = (repository_root / "benchmarks" / "maintenance" /
+                  "bench_saga_compensation.cpp").read_text(encoding="utf-8")
+        self.assertIn("state.SetIterationTime(elapsed_seconds)", source)
+        self.assertIn("->UseManualTime()", source)
+
+    def test_transaction_2pc_internal_gate_is_reported_from_completed_transactions(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        expectations = _parse_performance_expectations(
+            repository_root / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md",
+            "transaction",
+        )
+        tx9 = next(expectation for expectation in expectations if expectation.target_id == "TX-9")
+        target_mapping = json.loads(
+            (repository_root / "benchmarks" / "benchmark_target_mapping.json")
+            .read_text(encoding="utf-8")
+        )
+
+        self.assertIn("one item is one completed 2PC transaction", tx9.expectation_text)
+        self.assertEqual(
+            tx9.benchmark_cases,
+            ["DistributedPhase4Fixture/DistributedThroughput_2PC_3Participants"],
+        )
+        self.assertEqual(
+            target_mapping["modules"]["transaction"]["TX-9"]["primary_case"],
+            "DistributedPhase4Fixture_DistributedThroughput_2PC_3Participants",
+        )
+        self.assertIsNone(target_mapping["modules"]["transaction"]["TX-9"]["fallback_case"])
+        self.assertEqual(
+            self.verdict(tx9.expectation_text, {
+                tx9.benchmark_cases[0]: BenchmarkResult(
+                    tx9.benchmark_cases[0], items_per_second=16.07,
+                )
+            }, tx9.benchmark_cases).status,
+            "FAIL",
+        )
+
+        tx10 = next(expectation for expectation in expectations if expectation.target_id == "TX-10")
+        tx11 = next(expectation for expectation in expectations if expectation.target_id == "TX-11")
+        self.assertEqual(tx10.benchmark_cases, tx9.benchmark_cases)
+        self.assertEqual(
+            tx11.benchmark_cases,
+            ["DistributedPhase4Fixture/DistributedThroughput_AbortPath"],
+        )
+        self.assertEqual(
+            self.verdict(tx10.expectation_text, {
+                tx10.benchmark_cases[0]: BenchmarkResult(
+                    tx10.benchmark_cases[0],
+                    percentile_time_ns={"p99": 51_639_300.0},
+                )
+            }, tx10.benchmark_cases).status,
+            "WARN",
+        )
+        self.assertEqual(
+            self.verdict(tx11.expectation_text, {
+                tx11.benchmark_cases[0]: BenchmarkResult(
+                    tx11.benchmark_cases[0],
+                    percentile_time_ns={"p99": 52_511_500.0},
+                )
+            }, tx11.benchmark_cases).status,
+            "FAIL",
+        )
+
+    def test_google_benchmark_percentile_fields_use_declared_time_unit(self):
+        with workspace() as root:
+            result_file = root / "phase4.json"
+            result_file.write_text(json.dumps({"benchmarks": [{
+                "name": "DistributedPhase4Fixture/Abort/manual_time",
+                "run_type": "iteration",
+                "iterations": 10,
+                "real_time": 12.0,
+                "time_unit": "ms",
+                "p50_real_time": 10.0,
+                "p95_real_time": 50.0407,
+                "p99_real_time": 52.5115,
+                "success_rate_percent": 92.5,
+            }]}), encoding="utf-8")
+            results = _load_all_results(root)
+
+        result = results["DistributedPhase4Fixture/Abort/manual_time"]
+        self.assertEqual(result.percentile_time_ns["p50"], 10_000_000.0)
+        self.assertEqual(result.percentile_time_ns["p95"], 50_040_700.0)
+        self.assertEqual(result.percentile_time_ns["p99"], 52_511_500.0)
+        self.assertEqual(result.percent_counters["success_rate_percent"], 92.5)
 
     def test_invalid_empty_failed_files_and_unsupported_units_are_diagnosed(self):
         with workspace() as root:
@@ -573,15 +795,68 @@ class ComparatorHardeningTests(unittest.TestCase):
                 {"name": "BM_Read", "real_time": 1, "time_unit": "ns"}]}), encoding="utf-8")
             test = {"test": "read", "result": file.name, "execution_status": "completed",
                     "json_status": "valid", "cases": [{"name": "BM_Read", "status": "observed"}]}
-            for entries in ([test, {**test, "execution_status": "process_failure"}],
-                            [{**test, "cases": [{"name": "BM_Read", "status": "error",
-                                                "error_message": "failed"}]}]):
+            for entries in (
+                    [test, {**test, "execution_status": "process_failure"}],
+                    [{**test, "cases": [{"name": "BM_Read", "status": "error",
+                                        "error_message": "failed"}]}],
+                    [{**test, "cases": [
+                                {"name": "BM_Read", "status": "observed"},
+                                {"name": "BM_Read", "status": "error"},
+                            ]}],
+            ):
                 (root / "manifest").write_text(
                     json.dumps({"status": "finished", "tests": entries}), encoding="utf-8")
                 diagnostics = []
                 with contextlib.redirect_stderr(io.StringIO()):
                     self.assertEqual(_load_all_results(root, diagnostics), {})
                 self.assertTrue(diagnostics)
+
+    def test_manifest_accepts_repeated_google_benchmark_case_names(self):
+        with workspace() as root:
+            file = root / "repeated.json"
+            name = "BM_Export/repeats:5/real_time"
+            row = {"name": name, "real_time": 10, "time_unit": "ns",
+                   "iterations": 5, "repetitions": 5}
+            file.write_text(json.dumps({"benchmarks": [row, row]}), encoding="utf-8")
+            test = {
+                "test": "repeated", "result": file.name,
+                "execution_status": "completed", "json_status": "valid",
+                "cases": [{"name": name, "status": "observed"} for _ in range(2)],
+            }
+            (root / "manifest").write_text(json.dumps({
+                "status": "finished", "tests": [test],
+            }), encoding="utf-8")
+
+            diagnostics = []
+            loaded = _load_all_results(root, diagnostics)
+
+        self.assertIn(name, loaded)
+        self.assertTrue(loaded[name].repeated_sample)
+        self.assertFalse(any("unusable or duplicate result" in item for item in diagnostics))
+
+    def test_manifest_skipped_case_is_not_counted_as_a_measurement(self):
+        with workspace() as root:
+            file = root / "skipped.json"
+            name = "BM_CUDA_Distance"
+            file.write_text(json.dumps({"benchmarks": [{
+                "name": name, "skipped": True, "skip_message": "CUDA not available",
+            }]}), encoding="utf-8")
+            test = {
+                "test": "cuda", "result": file.name,
+                "execution_status": "completed", "json_status": "valid",
+                "cases": [{"name": name, "status": "skipped",
+                           "error_message": "CUDA not available"}],
+            }
+            (root / "manifest").write_text(json.dumps({
+                "status": "finished", "tests": [test],
+            }), encoding="utf-8")
+
+            diagnostics = []
+            loaded = _load_all_results(root, diagnostics)
+
+        self.assertEqual(loaded, {})
+        self.assertTrue(any("skipped by benchmark: CUDA not available" in item
+                            for item in diagnostics))
 
     def test_archived_manifest_paths_and_untrusted_paths(self):
         with workspace() as root:

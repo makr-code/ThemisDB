@@ -81,8 +81,15 @@ struct PartitionStatus {
  */
 class RaftConsensus {
 public:
-    using ReplicationCallback = std::function<bool(const std::string& node_id, 
-                                                   const LogEntry& entry)>;
+    /**
+     * @brief Transport contract for one follower AppendEntries RPC.
+     * @note Successful responses must attest the request term and its complete
+     *       matched prefix, and may be returned only after durable follower append.
+     */
+    using ReplicationCallback = std::function<AppendEntriesResponse(
+        const std::string& node_id, const AppendEntriesRequest& request)>;
+    using VoteRequestCallback = std::function<VoteResponse(
+        const std::string& voter_id, const VoteRequest& request)>;
     using HeartbeatCallback = std::function<bool(const std::string& node_id,
                                                  const Heartbeat& heartbeat)>;
     
@@ -128,6 +135,21 @@ public:
      * @return Future that resolves when entry is committed or fails
      */
     std::future<bool> propose(const std::string& command);
+
+    /**
+     * @brief Propose an entry and return its assigned index when commit is reported.
+     * @param command Command to append and send through the configured replication callback.
+     * @return The actual appended index when the existing quorum mechanism reports commit;
+     *         std::nullopt on rejection or failure. Failure does not prove that the entry
+     *         can never be committed later. Uncommitted entries are retained for Raft recovery.
+     * @note This call runs synchronously and may block in the replication callback. A callback
+     *       must return success only after the follower durably stores the request's verified
+     *       prefix. This contract does not itself provide network transport or safe membership
+     *       changes. Multi-node proposals require a healthy durable journal on the leader and
+     *       fail closed without one or without a callback.
+     *       A proposal is not reported committed if its leadership or term changed.
+     */
+    [[nodiscard]] std::optional<uint64_t> proposeWithIndex(const std::string& command);
     
     /**
      * @brief Check if this node is the leader
@@ -172,10 +194,25 @@ public:
     std::vector<ReplicaState> getReplicaStates() const;
     
     /**
-     * @brief Set replication callback
-        * @param callback Callback used to send replicated log entries to peers.
+     * @brief Set the AppendEntries transport callback used for quorum replication.
+     * @param callback Transport that sends a request to one peer and returns its response.
+     *        A successful response must report the request term and a match index covering
+     *        the complete request prefix, and only after durable follower append.
+     *        An empty callback is permitted but multi-node proposals then fail closed.
      */
     void setReplicationCallback(ReplicationCallback callback);
+
+    /**
+     * @brief Set the peer transport used to request votes during elections.
+     * @param callback Sends one request to the named voter and returns its response.
+     *        A response is counted only when its voter identity and term match the
+     *        expected peer and election. Transport calls must have bounded deadlines;
+     *        an empty callback leaves multi-node candidates unable to win elections.
+     * @note This callback is a transport seam, not a network implementation or
+     *       peer-authentication mechanism. The configured transport must bind the
+     *       authenticated remote identity to @p voter_id.
+     */
+    void setVoteRequestCallback(VoteRequestCallback callback);
     
     /**
      * @brief Set heartbeat callback
@@ -248,6 +285,7 @@ private:
     
     // Callbacks
     ReplicationCallback replication_callback_;   ///< Log replication transport callback.
+    VoteRequestCallback vote_request_callback_;  ///< Peer vote-request transport callback.
     HeartbeatCallback heartbeat_callback_;       ///< Heartbeat transport callback.
     
     // Replica tracking
@@ -290,15 +328,15 @@ private:
     void sendHeartbeats();
     
     /**
-     * @brief Replicate log entry to follower
-        * @param node_id Follower identifier.
-        * @param entry Log entry to replicate.
-        * @param callback Transport callback to invoke.
-        * @return True when replication callback reports success.
+     * @brief Send an AppendEntries request to a follower.
+     * @param node_id Follower identifier.
+     * @param request Leader term, matched prefix and entries to replicate.
+     * @param callback Transport callback to invoke.
+     * @return The follower response; malformed or negative responses do not count as quorum ACKs.
      */
-    bool replicateToFollower(const std::string& node_id,
-                             const LogEntry& entry,
-                             const ReplicationCallback& callback);
+    AppendEntriesResponse replicateToFollower(const std::string& node_id,
+                                               const AppendEntriesRequest& request,
+                                               const ReplicationCallback& callback);
     
     /**
      * @brief Detect network partition

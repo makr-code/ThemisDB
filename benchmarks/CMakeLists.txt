@@ -6042,7 +6042,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 300
     )
   endif()
-  if(TARGET bench_postgres_transactions)
+  if(TARGET bench_postgres_transactions AND THEMIS_ENABLE_POSTGRES_WIRE)
     themis_register_benchmark_ctest(
       NAME   bench_postgres_transactions
       TARGET bench_postgres_transactions

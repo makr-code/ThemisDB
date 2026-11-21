@@ -20,6 +20,7 @@
 #include "exporters/format_template.h"
 #include "exporters/exporter_interface.h"
 #include "storage/base_entity.h"
+#include "bench_fixtures.h"
 
 #include <filesystem>
 #include <string>
@@ -33,7 +34,7 @@ using namespace themis::exporters;
 // Helpers
 // ============================================================================
 
-static std::vector<BaseEntity> makeEntities(int n) {
+static std::vector<BaseEntity> makeEntities(int n, bool include_sequence = false) {
     std::vector<BaseEntity> entities;
     entities.reserve(static_cast<size_t>(n));
     for (int i = 0; i < n; ++i) {
@@ -44,6 +45,9 @@ static std::vector<BaseEntity> makeEntities(int n) {
         fields["answer"]    = std::string("The answer to item " + std::to_string(i) + ".");
         fields["score"]     = double(0.5 + (i % 10) * 0.05);
         fields["category"]  = std::string(i % 2 == 0 ? "even" : "odd");
+        if (include_sequence) {
+            fields["_seq"] = static_cast<int64_t>(i + 1);
+        }
         entities.push_back(BaseEntity::fromFields("entity_" + std::to_string(i), fields));
     }
     return entities;
@@ -65,8 +69,8 @@ static ExportOptions makeOptions(const std::string& path) {
 /// State.range(0) = number of entities to export.
 static void BM_JsonlExport_BatchThroughput(benchmark::State& state) {
     const int n = static_cast<int>(state.range(0));
-    const std::string out = "./data/bench_jsonl_" + std::to_string(n) + "_tmp.jsonl";
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / ("bench_jsonl_" + std::to_string(n) + "_tmp.jsonl")).string();
 
     const auto entities = makeEntities(n);
     JSONLLLMConfig cfg;
@@ -101,8 +105,8 @@ BENCHMARK(BM_JsonlExport_BatchThroughput)
 static void BM_JsonlExport_FormatTemplate(benchmark::State& state) {
     const int template_id = static_cast<int>(state.range(0));
     const int n = 1000;
-    const std::string out = "./data/bench_template_" + std::to_string(template_id) + "_tmp.jsonl";
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / ("bench_template_" + std::to_string(template_id) + "_tmp.jsonl")).string();
 
     const auto entities = makeEntities(n);
     JSONLLLMConfig cfg;
@@ -143,8 +147,8 @@ BENCHMARK(BM_JsonlExport_FormatTemplate)
 
 static void BM_JsonlExport_Compressed(benchmark::State& state) {
     const int n = 1000;
-    const std::string out = "./data/bench_jsonl_compressed_tmp.jsonl.gz";
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / "bench_jsonl_compressed_tmp.jsonl.zst").string();
 
     const auto entities = makeEntities(n);
     JSONLLLMConfig cfg;
@@ -153,7 +157,7 @@ static void BM_JsonlExport_Compressed(benchmark::State& state) {
     for (auto _ : state) {
         auto opts       = makeOptions(out);
         opts.compress   = true;
-        opts.compression_type  = "gzip";
+        opts.compression_type  = "zstd";
         opts.compression_level = 6;
         auto stats = exporter.exportEntities(entities, opts);
         benchmark::DoNotOptimize(stats.bytes_written);
@@ -161,7 +165,7 @@ static void BM_JsonlExport_Compressed(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * n);
-    state.SetLabel("GZIP/level=6");
+    state.SetLabel("ZSTD/level=6");
 }
 
 BENCHMARK(BM_JsonlExport_Compressed)
@@ -173,8 +177,8 @@ BENCHMARK(BM_JsonlExport_Compressed)
 
 static void BM_StreamingExport_Throughput(benchmark::State& state) {
     const int n = static_cast<int>(state.range(0));
-    const std::string out = "./data/bench_streaming_" + std::to_string(n) + "_tmp.jsonl";
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / ("bench_streaming_" + std::to_string(n) + "_tmp.jsonl")).string();
 
     const auto entities = makeEntities(n);
     StreamingExporter exporter;
@@ -207,11 +211,11 @@ BENCHMARK(BM_StreamingExport_Throughput)
 /// Full export baseline: export all N entities.
 static void BM_IncrementalExport_Full(benchmark::State& state) {
     const int n = static_cast<int>(state.range(0));
-    const std::string out       = "./data/bench_incr_full_" + std::to_string(n) + "_tmp.jsonl";
-    const std::string watermark = "./data/bench_incr_full_" + std::to_string(n) + "_wm.json";
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / ("bench_incr_full_" + std::to_string(n) + "_tmp.jsonl")).string();
+    const std::string watermark = (temp_dir.path() / ("bench_incr_full_" + std::to_string(n) + "_wm.json")).string();
 
-    const auto entities = makeEntities(n);
+    const auto entities = makeEntities(n, true);
 
     for (auto _ : state) {
         std::filesystem::remove(watermark);  // force full export each iteration
@@ -237,10 +241,10 @@ BENCHMARK(BM_IncrementalExport_Full)
 /// Delta export: watermark already set to seq N-10; only ~10 new entities are exported.
 static void BM_IncrementalExport_Delta(benchmark::State& state) {
     const int n         = static_cast<int>(state.range(0));
-    const int n_new     = 10;  // simulated 0.1% change for n=10000
-    const std::string out       = "./data/bench_incr_delta_" + std::to_string(n) + "_tmp.jsonl";
-    const std::string watermark = "./data/bench_incr_delta_" + std::to_string(n) + "_wm.json";
-    std::filesystem::create_directories("./data");
+    const int n_new     = 10;
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / ("bench_incr_delta_" + std::to_string(n) + "_tmp.jsonl")).string();
+    const std::string watermark = (temp_dir.path() / ("bench_incr_delta_" + std::to_string(n) + "_wm.json")).string();
 
     IncrementalExportConfig cfg;
     cfg.watermark_path = watermark;
@@ -249,24 +253,32 @@ static void BM_IncrementalExport_Delta(benchmark::State& state) {
     // are treated as "new" on each benchmark iteration.
     {
         IncrementalExporter seeder(cfg);
-        auto seed_entities = makeEntities(n - n_new);
+        auto seed_entities = makeEntities(n - n_new, true);
         auto opts = makeOptions(out);
-        seeder.exportEntities(seed_entities, opts);
+        const auto stats = seeder.exportEntities(seed_entities, opts);
+        if (stats.exported_entities != seed_entities.size()) {
+            state.SkipWithError("Failed to seed the incremental watermark with the expected rows");
+            return;
+        }
         std::filesystem::remove(out);
     }
 
-    auto delta_entities = makeEntities(n);
+    auto delta_entities = makeEntities(n, true);
 
     for (auto _ : state) {
         IncrementalExporter exporter(cfg);
         auto opts = makeOptions(out);
         auto stats = exporter.exportEntities(delta_entities, opts);
+        if (stats.exported_entities != static_cast<size_t>(n_new)) {
+            state.SkipWithError("Incremental export did not emit exactly the new sequence range");
+            break;
+        }
         benchmark::DoNotOptimize(stats.exported_entities);
         std::filesystem::remove(out);
         // Re-seed watermark for next iteration
         std::filesystem::remove(watermark);
         IncrementalExporter reseeder(cfg);
-        auto seed_entities = makeEntities(n - n_new);
+        auto seed_entities = makeEntities(n - n_new, true);
         auto seed_opts = makeOptions(out);
         reseeder.exportEntities(seed_entities, seed_opts);
         std::filesystem::remove(out);
@@ -290,8 +302,8 @@ BENCHMARK(BM_IncrementalExport_Delta)
 /// Parquet-target 1M row export throughput (PR proxy benchmark).
 static void BM_Export_Parquet_1M(benchmark::State& state) {
     const int n = 1000000;  // 1M entities
-    const std::string out = "./data/bench_export_1m_tmp.jsonl";  // Temp output
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / "bench_export_1m_tmp.jsonl").string();
 
     JSONLLLMConfig cfg;
     cfg.style = JSONLFormat::Style::INSTRUCTION_TUNING;
@@ -314,7 +326,7 @@ static void BM_Export_Parquet_1M(benchmark::State& state) {
 
     state.SetItemsProcessed(state.iterations() * n);
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(n * 256));
-    state.SetLabel("Parquet-format/1M");
+    state.SetLabel("JSONL-proxy/Parquet-target/1M");
 }
 
 BENCHMARK(BM_Export_Parquet_1M)
@@ -323,8 +335,8 @@ BENCHMARK(BM_Export_Parquet_1M)
 /// CSV-target 1M row export throughput (CSV proxy benchmark).
 static void BM_Export_CSV_1M(benchmark::State& state) {
     const int n = 1000000;  // 1M entities
-    const std::string out = "./data/bench_export_csv_1m_tmp.jsonl";  // Temp output
-    std::filesystem::create_directories("./data");
+    themis::bench::TempDir temp_dir;
+    const std::string out = (temp_dir.path() / "bench_export_csv_1m_tmp.jsonl").string();
 
     JSONLLLMConfig cfg;
     cfg.style = JSONLFormat::Style::INSTRUCTION_TUNING;
@@ -346,7 +358,7 @@ static void BM_Export_CSV_1M(benchmark::State& state) {
 
     state.SetItemsProcessed(state.iterations() * n);
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(n * 256));
-    state.SetLabel("CSV-format/1M");
+    state.SetLabel("JSONL-proxy/CSV-target/1M");
 }
 
 BENCHMARK(BM_Export_CSV_1M)

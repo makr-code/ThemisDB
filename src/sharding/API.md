@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-21"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/consistent_hash.h`, `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `include/storage/mvcc_store.h`, `include/storage/rocksdb_wrapper.h`, `src/sharding/consistent_hash.cpp`, `src/storage/mvcc_store.cpp`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `tests/sharding/test_dis03_routing_contract_focused.cpp`, `tests/storage/test_mvcc_range_export.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/consistent_hash.h`, `include/sharding/epoch_fencing.h`, `include/sharding/raft_consensus.h`, `include/sharding/raft_state.h`, `include/sharding/raft_log.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `include/storage/mvcc_store.h`, `include/storage/rocksdb_wrapper.h`, `src/sharding/consistent_hash.cpp`, `src/storage/mvcc_store.cpp`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `src/sharding/raft_consensus.cpp`, `src/sharding/raft_state.cpp`, `src/sharding/raft_log.cpp`, `tests/sharding/test_dis03_routing_contract_focused.cpp`, `tests/storage/test_mvcc_range_export.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `tests/test_raft_persistence_focused.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -31,6 +31,69 @@ The normative sharding behavior is specified in `include/sharding/sharding_api_c
 - **WAL:** ordered, durable append/replay contract; checksum corruption halts replay with `WAL_CORRUPTION`.
 - **Migration:** explicit state transitions, conflict rejection, and rollback/fault reporting for incomplete work.
 - **Router calls:** `ShardRouter` accepts resolver/executor dependencies and exposes point operations; `ShardResult.success` must be checked before consuming its data.
+
+`RaftConsensusAdapter::propose` returns the index assigned by the Raft proposal only
+when the existing quorum mechanism reports commit; it no longer guesses the next
+index or reports a failed proposal as successful. A missing result does not prove an
+operation can never commit after leadership changes. This synchronous path can block
+in its replication callback and does not establish durable network replication.
+`RaftState` promotes a candidate on its self-vote only when membership contains
+exactly that one node. Multi-node elections now send `VoteRequest` values through
+the configured `VoteRequestCallback`; only responses with the expected voter ID
+and election term count, and a higher-term response steps the candidate down
+after durable hard-state persistence. Candidates retry after an election timeout.
+The vote handler rejects candidates outside the configured membership and
+candidates with a stale log, and requires a healthy durable journal before a
+multi-node vote can be granted. A multi-node candidate also refuses to start
+elections without its own healthy durable journal. The shard gRPC service now
+exposes `RequestVote` and `AppendEntries`; `ShardRPCClient` requires verified
+mTLS, a configured local node ID, an expected remote member ID, a verified DNS
+SAN for the server certificate, and a positive timeout capped at five seconds.
+AppendEntries is bounded to 256 entries, 1 MiB per command, and 3 MiB aggregate
+command payload.
+The server maps the authenticated client certificate SAN to a configured member,
+resolves the logical group, checks membership, and only then calls the durable
+`RaftState` handlers. Responses must identify the configured remote member.
+`RaftShardManager` can construct those clients through
+`raft_peer_config_resolver` and installs vote, append, and heartbeat callbacks.
+Without that resolver, multi-node elections and proposals remain fail-closed.
+`RaftShardManager::initializeShard()` uses its `shard_id` argument as the
+logical Raft group key; the local voting member is the node ID in
+the nested `RaftConfig::node_id` field of `RaftShardManager::Config::raft_config`.
+Existing configurations must set this local node ID; no group-ID fallback is applied.
+Membership must
+contain that non-empty local ID exactly once, and all member IDs must be unique
+and non-empty. The group ID is never substituted for a node identity.
+The Raft proposal path checks the original term and leader state when advancing
+the commit index; a quorum failure leaves the log entry for Raft recovery instead
+of truncating the tail. A failed result can therefore become committed later.
+`ReplicationCallback` is source-incompatible with the former boolean callback:
+it now exchanges `AppendEntriesRequest` and `AppendEntriesResponse`; C++ consumers
+must rebuild against the matching headers. A response counts toward quorum only
+when its term matches the proposal and its `match_index` covers the requested
+entry. The follower handler requires contiguous entries, rejects same-index/term
+payload conflicts, protects committed entries from truncation, and reports only
+the prefix verified by that request. A transport must return success only after
+the follower has durably appended the requested entries. The local
+`handleAppendEntries()` handler also refuses to acknowledge requests unless a
+healthy durable journal is configured; volatile follower state is not a
+replication ACK. Multi-node leaders likewise require a healthy local durable
+journal before appending or invoking the transport callback.
+
+The local proposal path refuses new entries while any local tail entry is
+uncommitted; that check and append are atomic under the log lock. This
+deliberately fails closed after a quorum failure or restart and does not
+implement conflict repair. The `DistributedGateway` no longer installs its
+in-process callback; multi-node proposals fail closed until a real peer
+transport is configured. The Linux gRPC test source now includes manager-driven
+vote/append transport and authenticated identity rejection, plus two- and
+three-process follower crash/restart cases for durable log prefixes, persisted
+vote rejection, volatile journals, stale terms, missing prefixes, bounded RPC
+timeout, and quorum loss. These additions have not been compiled or run in the current Windows
+benchmark configuration; the leader remains in the test process, so
+leader-process failover/re-election is not covered. Independent failure-domain
+evidence, unavailable-journal fault injection, safe membership, and an
+end-to-end quorum-backed 2PC decision store remain open.
 
 ## Durable 2PC recovery (DIS-06 / #8200)
 

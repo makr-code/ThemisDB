@@ -18,6 +18,8 @@
 #include <utility>
 #include <nlohmann/json.hpp>
 #include "sharding/epoch_fencing.h"
+#include "sharding/consensus_module.h"
+#include "sharding/raft_log.h"
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -100,6 +102,10 @@ public:
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
         bool tls_verify_server = true;  // Verify server certificate against CA
+        std::string local_node_id;      ///< Raft member ID that must match each vote/leader request.
+        std::string expected_peer_node_id;  ///< Raft member ID required in each RPC response.
+        std::string expected_peer_identity_property;  ///< Must be `x509_subject_alternative_name` for Raft TLS.
+        std::string expected_peer_identity_value;     ///< DNS SAN used for TLS server-name verification.
 
         // Connection pool (optional, shared across ShardRPCClient instances)
         MTLSConnectionPoolManager* connection_pool = nullptr; // Non-owning; nullptr disables pooling
@@ -215,6 +221,47 @@ public:
      * @brief Check if shard is available
      */
     bool ping();
+
+    /**
+     * @brief Send an authenticated Raft vote request to one configured member.
+     * @param raft_group_id Logical group routed to the remote state machine.
+     * @param expected_peer_node_id Expected remote Raft member; must match this
+     *        client's explicit TLS identity binding.
+     * @param request Vote request; candidate_id must match local_node_id.
+     * @return Remote vote response after the RPC, peer certificate identity,
+     *         and non-stale response term are verified. A higher term is returned
+     *         unchanged so Raft can durably step down.
+     * @throws std::runtime_error for missing gRPC, unverified TLS, identity
+     *         mismatch, timeout, or RPC failure.
+     * @note The unary call is not retried and uses a positive deadline capped at
+     *       five seconds; a higher response term is preserved for Raft step-down.
+     */
+    [[nodiscard]] themisdb::sharding::VoteResponse requestRaftVote(
+        const std::string& raft_group_id,
+        const std::string& expected_peer_node_id,
+        const themisdb::sharding::VoteRequest& request);
+
+    /**
+     * @brief Send authenticated Raft AppendEntries to one configured member.
+     * @param raft_group_id Logical group routed to the remote state machine.
+     * @param expected_peer_node_id Expected remote Raft member; must match this
+     *        client's explicit TLS identity binding.
+     * @param request AppendEntries request; leader_id must match local_node_id,
+     *        with at most 256 entries, 1 MiB per command, and 3 MiB aggregate
+     *        command payload.
+     * @return Follower response. `success` is meaningful only after transport,
+     *         peer identity, response term, and complete matched prefix are
+     *         validated. A higher term is returned unchanged so Raft can durably
+     *         step down.
+     * @throws std::runtime_error for missing gRPC, unverified TLS, identity
+     *         mismatch, timeout, or RPC failure.
+     * @note The unary call is not retried and uses a positive deadline capped at
+     *       five seconds; a higher response term is preserved for Raft step-down.
+     */
+    [[nodiscard]] themisdb::sharding::AppendEntriesResponse appendRaftEntries(
+        const std::string& raft_group_id,
+        const std::string& expected_peer_node_id,
+        const themisdb::sharding::AppendEntriesRequest& request);
 
     /**
      * @brief Stage and verify an immutable logical range export over mTLS.

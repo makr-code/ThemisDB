@@ -15,6 +15,7 @@
 #include "sharding/raft_shard_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <set>
 
 namespace themisdb {
 namespace sharding {
@@ -54,6 +55,25 @@ RaftShardManager::~RaftShardManager() {
 bool RaftShardManager::initializeShard(const std::string& shard_id,
                                       const std::vector<std::string>& replica_ids) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    const auto& local_node_id = config_.raft_config.raft_config.node_id;
+    if (shard_id.empty() || local_node_id.empty()) {
+        spdlog::error("Raft shard and local node IDs must be configured");
+        return false;
+    }
+
+    std::set<std::string> unique_members;
+    for (const auto& replica_id : replica_ids) {
+        if (replica_id.empty() || !unique_members.insert(replica_id).second) {
+            spdlog::error("Raft group {} has an empty or duplicate member ID", shard_id);
+            return false;
+        }
+    }
+    if (unique_members.find(local_node_id) == unique_members.end()) {
+        spdlog::error("Local node {} is not a member of Raft group {}",
+                      local_node_id, shard_id);
+        return false;
+    }
     
     // Check if already initialized
     if (raft_instances_.find(shard_id) != raft_instances_.end()) {
@@ -74,6 +94,94 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
     // Create Raft instance
     try {
         auto raft = std::make_shared<RaftConsensus>(raft_config);
+        if (config_.raft_peer_config_resolver && replica_ids.size() > 1) {
+            auto peer_clients =
+                std::make_shared<std::map<
+                    std::string, std::shared_ptr<themis::sharding::ShardRPCClient>>>();
+            for (const auto& peer_node_id : replica_ids) {
+                if (peer_node_id == local_node_id) {
+                    continue;
+                }
+                auto peer_config = config_.raft_peer_config_resolver(peer_node_id);
+                if (!peer_config ||
+                    peer_config->endpoint.empty() ||
+                    peer_config->local_node_id != local_node_id ||
+                    peer_config->expected_peer_node_id != peer_node_id ||
+                    peer_config->expected_peer_identity_property !=
+                        "x509_subject_alternative_name" ||
+                    peer_config->expected_peer_identity_value.empty() ||
+                    !peer_config->enable_mtls || !peer_config->tls_verify_server ||
+                    peer_config->allow_insecure || peer_config->timeout_ms <= 0) {
+                    throw std::runtime_error(
+                        "Raft peer configuration must bind local/remote IDs to verified mTLS");
+                }
+                if (peer_config->shard_id.empty()) {
+                    peer_config->shard_id = shard_id;
+                }
+                peer_clients->emplace(
+                    peer_node_id,
+                    std::make_shared<themis::sharding::ShardRPCClient>(*peer_config));
+            }
+            if (peer_clients->size() != replica_ids.size() - 1) {
+                throw std::runtime_error("Raft peer transport configuration is incomplete");
+            }
+
+            const auto group_id = shard_id;
+            const auto send_append =
+                [peer_clients, group_id](const std::string& peer_node_id,
+                                         const AppendEntriesRequest& request) {
+                    const auto client = peer_clients->find(peer_node_id);
+                    if (client == peer_clients->end() || !client->second) {
+                        throw std::runtime_error("Raft peer has no configured RPC client");
+                    }
+                    return client->second->appendRaftEntries(
+                        group_id, peer_node_id, request);
+                };
+            raft->setVoteRequestCallback(
+                [peer_clients, group_id](const std::string& peer_node_id,
+                                         const VoteRequest& request) {
+                    const auto client = peer_clients->find(peer_node_id);
+                    if (client == peer_clients->end() || !client->second) {
+                        throw std::runtime_error("Raft voter has no configured RPC client");
+                    }
+                    return client->second->requestRaftVote(
+                        group_id, peer_node_id, request);
+                });
+            raft->setReplicationCallback(
+                [send_append](const std::string& peer_node_id,
+                              const AppendEntriesRequest& request) {
+                    try {
+                        return send_append(peer_node_id, request);
+                    } catch (const std::exception& error) {
+                        spdlog::warn("Raft AppendEntries to {} failed: {}",
+                                     peer_node_id, error.what());
+                        return AppendEntriesResponse(request.term, false, 0);
+                    }
+                });
+            const std::weak_ptr<RaftConsensus> weak_raft = raft;
+            raft->setHeartbeatCallback(
+                [send_append, weak_raft](const std::string& peer_node_id,
+                                         const Heartbeat& heartbeat) {
+                    try {
+                        const auto leader = weak_raft.lock();
+                        if (!leader) {
+                            return false;
+                        }
+                        const auto& state = leader->getRaftState();
+                        AppendEntriesRequest request;
+                        request.term = heartbeat.term;
+                        request.leader_id = heartbeat.leader_id;
+                        request.prev_log_index = state.getLog().getLastLogIndex();
+                        request.prev_log_term = state.getLog().getLastLogTerm();
+                        request.leader_commit = heartbeat.commit_index;
+                        return send_append(peer_node_id, request).success;
+                    } catch (const std::exception& error) {
+                        spdlog::warn("Raft heartbeat to {} failed: {}",
+                                     peer_node_id, error.what());
+                        return false;
+                    }
+                });
+        }
         raft_instances_[shard_id] = raft;
         
         spdlog::info("Initialized Raft instance for shard: {} with {} replicas",
@@ -330,10 +438,7 @@ RaftConsensus::Config RaftShardManager::createRaftConfig(
     
     RaftConsensus::Config raft_config = config_.raft_config;
     
-    // Set node ID to shard ID
-    raft_config.raft_config.node_id = shard_id;
-    
-    // Set cluster members (all replicas including self)
+    // The map key identifies the Raft group; node_id identifies this process's member.
     raft_config.raft_config.cluster_members = replica_ids;
     
     // Enable partition detection for production use

@@ -41,6 +41,7 @@
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Representative-hardware closure additionally requires the manifest-defined artifact set for every analytics hardware profile.
+- DC-04 measures completed merged queries with five shards, one failing, under the default 20% failure-rate limit. It compares normal and degraded query rates using their actual elapsed windows; it does not treat an unmerged result as successful throughput.
 
 ## Sourcecode Verification (Module: analytics/performance)
 

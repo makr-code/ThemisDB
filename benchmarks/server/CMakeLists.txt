@@ -82,7 +82,9 @@ endif()
 
 themis_add_standard_benchmark(bench_postgres_e2e bench_postgres_e2e.cpp)
 themis_add_standard_benchmark(bench_postgres_protocol bench_postgres_protocol.cpp)
-themis_add_standard_benchmark(bench_postgres_transactions bench_postgres_transactions.cpp)
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    themis_add_standard_benchmark(bench_postgres_transactions bench_postgres_transactions.cpp)
+endif()
 themis_add_standard_benchmark(bench_stream_protocol bench_stream_protocol.cpp)
 themis_add_standard_benchmark(bench_wal_apply_grpc bench_wal_apply_grpc.cpp)
 

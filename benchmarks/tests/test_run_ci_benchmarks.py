@@ -19,20 +19,6 @@
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
-
-#!/usr/bin/env python3
-"""
-Unit tests for external/chimera/run_ci_benchmarks.py
-
-Covers:
-- run_benchmarks() returns a valid harness report with all four workload families
-- build_output() wraps the report with version/branch/commit/timestamp metadata
-- build_output() extracts the expected per-workload metrics
-- main() CLI writes a valid JSON file to the requested output path
-- main() handles a custom --warmup / --iterations value
-"""
-# ThemisDB - Hybrid Database System
-# File: test_run_ci_benchmarks.py  Version: 0.0.15  Status: ✅ Production Ready
 from __future__ import annotations
 
 import json

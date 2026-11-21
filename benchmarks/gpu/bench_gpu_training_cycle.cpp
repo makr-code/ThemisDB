@@ -51,7 +51,7 @@ namespace gpu_gates {
 
 static void BM_GPUTrainingCycle_GPUDisabled(benchmark::State& state) {
     for (auto _ : state) {
-        state.SkipWithError("GPU training cycle benchmarks are disabled in this build");
+        state.SkipWithMessage("GPU training cycle benchmarks are disabled in this build");
         break;
     }
 }
@@ -219,7 +219,7 @@ BENCHMARK(BM_TrainingCycle_CPU_Baseline)
 
 static void BM_TrainingCycle_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -272,7 +272,7 @@ BENCHMARK(BM_TrainingCycle_CUDA)
 
 static void BM_TrainingCycle_HIP(benchmark::State& state) {
     if (!hip_available()) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -321,7 +321,7 @@ BENCHMARK(BM_TrainingCycle_HIP)
 
 static void BM_TrainingCycle_Vulkan(benchmark::State& state) try {
     if (!vulkan_available()) {
-        state.SkipWithError("Vulkan not available");
+        state.SkipWithMessage("Vulkan not available");
         return;
     }
     
@@ -374,7 +374,7 @@ BENCHMARK(BM_TrainingCycle_Vulkan)
 
 static void BM_CompleteTrainingStep_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

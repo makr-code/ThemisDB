@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,12 +14,14 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/server/api_gateway.h`, `include/server/auth_middleware.h`, `src/server/api_gateway.cpp`, `src/server/auth_middleware.cpp`, `src/server/http_server.cpp`, `src/server/entity_api_handler.cpp`, `tests/server/test_api_gateway.cpp`, `tests/server/test_api_integration.cpp`
+Canonical references: `include/server/api_gateway.h`, `include/server/distributed_gateway.h`, `include/server/auth_middleware.h`, `src/server/api_gateway.cpp`, `src/server/distributed_gateway.cpp`, `src/server/auth_middleware.cpp`, `src/server/http_server.cpp`, `src/server/entity_api_handler.cpp`, `tests/server/test_api_gateway.cpp`, `tests/server/test_api_integration.cpp`, `tests/test_distributed_gateway.cpp`
 Related issues: #7093, #7167
 
 # Server API contract
 
 ## Public surfaces
+
+- `DistributedGateway::proposeConfig()` applies a configuration locally only after its Raft proposal commits. Multi-node proposals fail closed until a real peer transport and healthy local Raft journal are configured; an in-process callback is not counted as replication.
 
 - `APIGateway::handleRequest()` receives an HTTP request and a local-handler callback and returns an HTTP response.
 - `APIGateway::Config` controls optional routing/admission features, request limits/timeouts, metrics, and API version checks. Runtime behavior depends on these settings and the dependencies supplied at construction.

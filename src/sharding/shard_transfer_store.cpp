@@ -274,9 +274,7 @@ public:
         rocksdb::Options options;
         options.create_if_missing = true;
         options.wal_recovery_mode = rocksdb::WALRecoveryMode::kAbsoluteConsistency;
-        rocksdb::DB* raw = nullptr;
-        checkStatus(rocksdb::DB::Open(options, path, &raw));
-        db.reset(raw);
+        checkStatus(rocksdb::DB::Open(options, path, &db));
 
         const auto identity = read(kIdentityKey);
         if (identity) {

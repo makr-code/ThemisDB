@@ -36,7 +36,17 @@ Exact model backend not verifiable from final document text alone.
 | EXPP-2 | JSONL template and compressed paths remain bounded | BM_JsonlExport_FormatTemplate, BM_JsonlExport_Compressed |
 | EXPP-3 | streaming export throughput path remains bounded | BM_StreamingExport_Throughput |
 | EXPP-4 | incremental export full and delta paths remain bounded | BM_IncrementalExport_Full, BM_IncrementalExport_Delta |
-| EXPP-5 | large-row export format paths remain bounded | BM_Export_Parquet_1M, BM_Export_CSV_1M |
+| EXPP-5 | large-row Parquet and CSV export paths remain bounded | No matching format-specific benchmark |
+
+The legacy `BM_Export_Parquet_1M` and `BM_Export_CSV_1M` cases both call
+`JSONLLLMExporter` in 100 batches; neither exercises a Parquet or CSV exporter.
+They must not be used as evidence for EXPP-5. A format-specific benchmark
+and an appropriate baseline are still needed.
+
+The incremental cases use explicit `_seq` fields. The delta case seeds a
+watermark at sequence `n - 10` and fails the benchmark if a measured export
+does not emit exactly the ten new rows. EXPP-4 remains incomplete if either
+case fails or is absent. The compressed JSONL case measures ZSTD compression.
 
 ## Module Hard Gates (v1.0 docs baseline)
 
@@ -56,9 +66,11 @@ Exact model backend not verifiable from final document text alone.
 - Verified benchmark sources:
   - benchmarks/exporters/bench_exporters.cpp
 - Verified mapping surfaces:
-  - JSONL batch/template/compressed benchmark cases
-  - streaming and incremental benchmark cases
-  - large-row Parquet/CSV export benchmark cases
+  - JSONL batch/template/compressed and streaming benchmark cases
+  - incremental export full and delta cases
+  - no format-specific large-row Parquet/CSV benchmark is currently mapped
 - Result:
-  - Referenced benchmark cases exist in current benchmark sources.
+  - The mapped JSONL and streaming cases exist in current benchmark sources.
+  - The incremental delta fixture seeds `_seq` values and checks the exported row count.
+  - The legacy large-row cases are JSONL proxies, not evidence for Parquet/CSV.
   - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

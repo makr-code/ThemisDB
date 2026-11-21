@@ -792,6 +792,41 @@ uint64_t RaftLog::append(const LogEntry& entry) {
     return entry.index;
 }
 
+std::optional<std::pair<LogEntry, uint64_t>> RaftLog::appendProposalIfFullyCommitted(
+    uint64_t term, const std::string& command) {
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    const auto timeout = getConsensusTimeout();
+    if (!lock.try_lock_for(timeout)) {
+        const auto error_msg = "RaftLog::appendProposalIfFullyCommitted timeout after " +
+                               std::to_string(timeout.count()) + "ms";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+
+    const uint64_t last_index = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
+    if (commit_index_ != last_index) {
+        return std::nullopt;
+    }
+    const uint64_t previous_term = log_.empty() ? snapshot_term_ : log_.rbegin()->second.term;
+    if (last_index == std::numeric_limits<uint64_t>::max()) {
+        throw std::overflow_error("Raft log index exhausted");
+    }
+
+    LogEntry entry(term, last_index + 1, command);
+    if (!persistence_path_.empty() &&
+        (entry.index <= snapshot_index_ || entry.index != last_index + 1)) {
+        throw std::runtime_error("persistent Raft log append must extend the current tail");
+    }
+    if (!persistence_path_.empty()) {
+        appendDurableRecord("E|" + std::to_string(entry.term) + "|" +
+                            std::to_string(entry.index) + "|" +
+                            std::to_string(entry.timestamp_ns) + "|" +
+                            encodeJournalField(entry.command));
+    }
+    log_[entry.index] = entry;
+    return std::make_pair(std::move(entry), previous_term);
+}
+
 std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
     /**
      * @brief TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior

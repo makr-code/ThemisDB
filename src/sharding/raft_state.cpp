@@ -13,6 +13,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 
@@ -28,6 +29,49 @@ RaftState::RaftState(const RaftConfig& config)
     snapshot_term_ = log_.getSnapshotTerm();
     resetElectionTimeout();
     last_heartbeat_time_ = std::chrono::steady_clock::now();
+}
+
+std::optional<AppendEntriesRequest> RaftState::appendProposalIfLeader(
+    const std::string& command) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    if (state_ != RaftNodeState::LEADER || !log_.isPersistenceHealthy()) {
+        return std::nullopt;
+    }
+    if (config_.cluster_members.size() > 1 && !log_.hasDurableJournal()) {
+        spdlog::error("Raft rejected multi-node proposal because the leader has no durable journal");
+        return std::nullopt;
+    }
+
+    auto appended = log_.appendProposalIfFullyCommitted(current_term_.load(), command);
+    if (!appended) {
+        return std::nullopt;
+    }
+
+    AppendEntriesRequest request;
+    request.term = appended->first.term;
+    request.leader_id = config_.node_id;
+    request.prev_log_index = appended->first.index - 1;
+    request.prev_log_term = appended->second;
+    request.leader_commit = request.prev_log_index;
+    request.entries.push_back(std::move(appended->first));
+    return request;
+}
+
+bool RaftState::commitProposalIfLeader(const LogEntry& entry) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    if (state_ != RaftNodeState::LEADER || current_term_.load() != entry.term) {
+        return false;
+    }
+
+    const auto current = log_.getEntry(entry.index);
+    if (!current || current->term != entry.term || current->command != entry.command) {
+        return false;
+    }
+
+    if (log_.getCommitIndex() < entry.index) {
+        log_.setCommitIndex(entry.index);
+    }
+    return log_.getCommitIndex() >= entry.index;
 }
 
 /**
@@ -51,24 +95,31 @@ void RaftState::becomeFollower(uint64_t term) {
 
 /**
  * @brief Become Candidate.
- * @details Calls: lock(), clear(), resetElectionTimeout().
+ * @details Persists the self-vote and promotes a one-member cluster immediately.
  */
 void RaftState::becomeCandidate() {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    
+
     const uint64_t next_term = current_term_.load() + 1;
     if (next_term == 0) {
         throw std::overflow_error("Raft term exhausted");
     }
     log_.persistHardState(next_term, config_.node_id);
     current_term_ = next_term;
-    voted_for_ = config_.node_id;  // Vote for self
+    voted_for_ = config_.node_id;
     state_ = RaftNodeState::CANDIDATE;
     votes_received_.clear();
-    votes_received_[config_.node_id] = true;  // Count own vote
+    votes_received_[config_.node_id] = true;
     leader_id_.clear();
-    
+
     resetElectionTimeout();
+    if (config_.cluster_members.size() == 1 &&
+        config_.cluster_members.front() == config_.node_id && hasQuorum()) {
+        state_ = RaftNodeState::LEADER;
+        leader_id_ = config_.node_id;
+        votes_received_.clear();
+        last_heartbeat_time_ = std::chrono::steady_clock::now();
+    }
 }
 
 /**
@@ -96,13 +147,10 @@ void RaftState::becomeLeader() {
 
 /**
  * @brief Start Election.
- * @details Calls: becomeCandidate().
+ * @details Calls: becomeCandidate(). Peer requests are sent by RaftConsensus.
  */
 void RaftState::startElection() {
     becomeCandidate();
-    
-    // In a real implementation, would send VoteRequest RPCs to all peers here
-    // For now, this is handled by the caller
 }
 
 /**
@@ -119,6 +167,18 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
     response.voter_id = config_.node_id;
     response.vote_granted = false;
     
+    if (!log_.hasDurableJournal() || !log_.isPersistenceHealthy()) {
+        spdlog::error("Raft rejected vote request because a healthy durable journal is required");
+        return response;
+    }
+
+    const auto candidate = std::find(config_.cluster_members.begin(),
+                                     config_.cluster_members.end(),
+                                     request.candidate_id);
+    if (request.candidate_id.empty() || candidate == config_.cluster_members.end()) {
+        return response;
+    }
+
     // If request term is older, reject
     if (request.term < current_term_) {
         return response;
@@ -140,9 +200,18 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
         response.term = current_term_;
     }
     
+    const auto last_log_index = log_.getLastLogIndex();
+    const auto last_log_term = log_.getLastLogTerm();
+    const bool candidate_log_is_current =
+        request.last_log_term > last_log_term ||
+        (request.last_log_term == last_log_term &&
+         request.last_log_index >= last_log_index);
+    if (!candidate_log_is_current || request.last_log_term > request.term) {
+        return response;
+    }
+
     // Grant vote if:
     // 1. Haven't voted in this term, OR already voted for this candidate
-    // 2. Candidate's log is at least as up-to-date as ours (simplified for now)
     bool can_vote = voted_for_.empty() || voted_for_ == request.candidate_id;
     
     if (can_vote) {
@@ -345,6 +414,19 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     response.term = current_term_;
     response.success = false;
     response.match_index = 0;
+
+    if (!log_.hasDurableJournal() || !log_.isPersistenceHealthy()) {
+        spdlog::error("Raft rejected AppendEntries because a healthy durable journal is required");
+        return response;
+    }
+
+    const auto leader = std::find(config_.cluster_members.begin(),
+                                  config_.cluster_members.end(),
+                                  request.leader_id);
+    if (request.leader_id.empty() || leader == config_.cluster_members.end()) {
+        spdlog::warn("Raft rejected AppendEntries from a non-member leader");
+        return response;
+    }
     
     // 1. Reply false if term < currentTerm
     if (request.term < current_term_) {
@@ -365,6 +447,16 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
         voted_for_.clear();
         state_ = RaftNodeState::FOLLOWER;
         votes_received_.clear();
+    }
+    response.term = current_term_.load();
+
+    uint64_t expected_index = request.prev_log_index;
+    for (const auto& entry : request.entries) {
+        if (expected_index == std::numeric_limits<uint64_t>::max() ||
+            entry.index != expected_index + 1 || entry.term > request.term) {
+            return response;
+        }
+        expected_index = entry.index;
     }
     
     // Valid leader, reset election timeout
@@ -388,22 +480,32 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
         //    delete the existing entry and all that follow it
         for (const auto& entry : request.entries) {
             auto existing = log_.getEntry(entry.index);
-            if (existing.has_value() && existing->term != entry.term) {
+            if (existing) {
+                if (existing->term == entry.term) {
+                    if (existing->command != entry.command ||
+                        existing->timestamp_ns != entry.timestamp_ns) {
+                        return response;
+                    }
+                    continue;
+                }
+                if (entry.index <= log_.getCommitIndex()) {
+                    return response;
+                }
                 log_.truncateFrom(entry.index);
-                break;
             }
+
+            const auto last_index = log_.getLastLogIndex();
+            if (last_index == std::numeric_limits<uint64_t>::max() ||
+                entry.index != last_index + 1) {
+                return response;
+            }
+            log_.append(entry);
         }
     
-        // 4. Append any new entries not already in the log
-        for (const auto& entry : request.entries) {
-            if (!log_.getEntry(entry.index).has_value()) {
-                log_.append(entry);
-            }
-        }
-    
-        // 5. If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, index of last new entry)
+        const uint64_t match_index =
+            request.entries.empty() ? request.prev_log_index : request.entries.back().index;
         if (request.leader_commit > log_.getCommitIndex()) {
-            uint64_t new_commit = std::min(request.leader_commit, log_.getLastLogIndex());
+            const uint64_t new_commit = std::min(request.leader_commit, match_index);
             log_.setCommitIndex(new_commit);
         }
     } catch (const std::exception& error) {
@@ -413,7 +515,8 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     }
     
     response.success = true;
-    response.match_index = log_.getLastLogIndex();
+    response.match_index =
+        request.entries.empty() ? request.prev_log_index : request.entries.back().index;
     response.term = current_term_;
     
     return response;

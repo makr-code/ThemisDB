@@ -4,6 +4,7 @@ param(
     [string]$Filter = "",
     [string]$BenchmarkFilter = "",
     [string]$MinTime = "0.1s",
+    [ValidateRange(0, 3600)][double]$WarmupTimeSeconds = 0,
     [ValidateRange(1, 1000)][int]$Repetitions = 1,
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
     [string]$OutRoot = "benchmarks\\benchmark_results"
@@ -176,6 +177,31 @@ function Ensure-Dir($path) {
     }
 }
 
+function Get-CMakeCacheSettings {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    $settings = [ordered]@{}
+    if (-not (Test-Path -LiteralPath $Path)) {
+        return $settings
+    }
+
+    $settingNames = @(
+        'CMAKE_BUILD_TYPE',
+        'CMAKE_CONFIGURATION_TYPES',
+        'CMAKE_GENERATOR',
+        'CMAKE_TOOLCHAIN_FILE',
+        'THEMIS_BUILD_BENCHMARKS',
+        'THEMIS_ENABLE_ASAN',
+        'THEMIS_ENABLE_AVX2'
+    )
+    foreach ($line in Get-Content -LiteralPath $Path) {
+        if ($line -match '^([^:]+):[^=]*=(.*)$' -and $settingNames -contains $Matches[1]) {
+            $settings[$Matches[1]] = $Matches[2]
+        }
+    }
+    return $settings
+}
+
 function ConvertFrom-GoogleBenchmarkJson {
     param(
         [Parameter(Mandatory = $true)][string]$JsonPath,
@@ -320,6 +346,17 @@ Ensure-Dir $OutDir
 $processor = Get-CimInstance Win32_Processor | Select-Object -First 1
 $computer = Get-CimInstance Win32_ComputerSystem
 $operatingSystem = Get-CimInstance Win32_OperatingSystem
+$workingDirectory = (Get-Location).Path
+$workingDrive = [System.IO.DriveInfo]::new([System.IO.Path]::GetPathRoot($workingDirectory))
+$storageProfile = [ordered]@{
+    benchmark_working_directory = $workingDirectory
+    volume_root = $workingDrive.Name
+    drive_type = $workingDrive.DriveType.ToString()
+    filesystem = if ($workingDrive.IsReady) { $workingDrive.DriveFormat } else { $null }
+    volume_capacity_bytes = if ($workingDrive.IsReady) { $workingDrive.TotalSize } else { $null }
+    volume_available_bytes = if ($workingDrive.IsReady) { $workingDrive.AvailableFreeSpace } else { $null }
+    note = 'Volume metadata only; physical device model and per-operation disk I/O are not measured.'
+}
 $revision = & git -C $RepoRoot rev-parse HEAD
 if ($LASTEXITCODE -ne 0) { throw 'Cannot identify benchmark source revision.' }
 $worktreeChanges = @(& git -C $RepoRoot status --porcelain --untracked-files=normal)
@@ -332,6 +369,7 @@ $manifest = [ordered]@{
     worktree_dirty = $worktreeChanges.Count -gt 0
     runner_sha256 = (Get-FileHash $PSCommandPath -Algorithm SHA256).Hash
     build_directory = (Resolve-Path $BuildRoot).Path
+    output_directory = (Resolve-Path $OutDir).Path
     cmake_cache_sha256 = if (Test-Path $cachePath) { (Get-FileHash $cachePath -Algorithm SHA256).Hash } else { $null }
     operating_system = $operatingSystem.Caption
     operating_system_version = $operatingSystem.Version
@@ -339,10 +377,17 @@ $manifest = [ordered]@{
     processor = $processor.Name
     logical_processors = $computer.NumberOfLogicalProcessors
     total_physical_memory_bytes = $computer.TotalPhysicalMemory
+    storage_profile = $storageProfile
+    cmake_cache_settings = Get-CMakeCacheSettings -Path $cachePath
+    benchmark_configuration = $Config
     binary_filter = $Filter
     benchmark_filter = $BenchmarkFilter
     minimum_measurement_time = $MinTime
+    warmup_time_seconds = $WarmupTimeSeconds
     repetitions = $Repetitions
+    repeatability_threshold_percent = 5
+    repeatability_metric = 'sample standard deviation / absolute mean * 100'
+    repeatability = @()
     timeout_seconds = $TimeoutSeconds
     measurement_scope = 'internal_component_benchmark'
     external_comparison_ready = $false
@@ -374,9 +419,28 @@ if (-not $exeList -or $exeList.Count -eq 0) {
 }
 
 $manifest['executables'] = @($exeList | ForEach-Object {
+    $executableName = [System.IO.Path]::GetFileName($_)
+    $rawJsonName = "$([System.IO.Path]::GetFileNameWithoutExtension($executableName)).json"
+    $benchmarkArguments = @(
+        "--benchmark_counters_tabular=true",
+        "--benchmark_min_time=$MinTime",
+        "--benchmark_repetitions=$Repetitions",
+        "--benchmark_out=$(Join-Path $OutDir $rawJsonName)",
+        "--benchmark_out_format=json"
+    )
+    if ($WarmupTimeSeconds -gt 0) {
+        $benchmarkArguments += "--benchmark_min_warmup_time=$WarmupTimeSeconds"
+    }
+    if ($BenchmarkFilter) {
+        $benchmarkArguments += "--benchmark_filter=$BenchmarkFilter"
+    }
     [ordered]@{
-        name = [System.IO.Path]::GetFileName($_)
+        name = $executableName
+        path = $_
         sha256 = (Get-FileHash $_ -Algorithm SHA256).Hash
+        raw_json = $rawJsonName
+        raw_json_path = Join-Path $OutDir $rawJsonName
+        benchmark_arguments = $benchmarkArguments
     }
 })
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $OutDir 'run_manifest.json') -Encoding UTF8
@@ -408,6 +472,9 @@ foreach ($exe in $exeList) {
         "--benchmark_out=$jsonOut",
         "--benchmark_out_format=json"
     )
+    if ($WarmupTimeSeconds -gt 0) {
+        $benchmarkArgs += "--benchmark_min_warmup_time=$WarmupTimeSeconds"
+    }
     if ($BenchmarkFilter) {
         $benchmarkArgs += "--benchmark_filter=$BenchmarkFilter"
     }
@@ -473,6 +540,70 @@ foreach ($exe in $exeList) {
 
     try {
         $data = Get-Content -LiteralPath $jsonOut -Raw | ConvertFrom-Json
+        $iterationGroups = @($data.benchmarks |
+            Where-Object { $_.run_type -eq 'iteration' } |
+            Group-Object -Property name)
+        foreach ($group in $iterationGroups) {
+            foreach ($metricName in @(
+                'items_per_second',
+                'mean_worker_p50_us',
+                'mean_worker_p95_us',
+                'mean_worker_p99_us'
+            )) {
+                $values = @($group.Group | ForEach-Object {
+                    $value = $_.$metricName
+                    if ($null -ne $value -and
+                        -not [double]::IsNaN([double]$value) -and
+                        -not [double]::IsInfinity([double]$value)) {
+                        [double]$value
+                    }
+                })
+                if ($values.Count -eq 0) {
+                    continue
+                }
+
+                $mean = ($values | Measure-Object -Average).Average
+                $sampleCvPercent = $null
+                $repeatabilityStatus = 'insufficient_repetitions'
+                if ($values.Count -ge 2) {
+                    if ($mean -eq 0) {
+                        $repeatabilityStatus = 'undefined_zero_mean'
+                    } else {
+                        $sumSquaredDeviations = 0.0
+                        foreach ($value in $values) {
+                            $sumSquaredDeviations += [Math]::Pow($value - $mean, 2)
+                        }
+                        $sampleStandardDeviation = [Math]::Sqrt(
+                            $sumSquaredDeviations / ($values.Count - 1)
+                        )
+                        $sampleCvPercent = 100.0 * $sampleStandardDeviation / [Math]::Abs($mean)
+                        $repeatabilityStatus = if ($sampleCvPercent -le 5.0) {
+                            'within_threshold'
+                        } else {
+                            'high_variance'
+                        }
+                    }
+                }
+
+                $manifest.repeatability += [ordered]@{
+                    executable = $name
+                    benchmark = $group.Name
+                    metric = $metricName
+                    sample_count = $values.Count
+                    mean = $mean
+                    cv_percent = if ($null -ne $sampleCvPercent) {
+                        [Math]::Round($sampleCvPercent, 4)
+                    } else {
+                        $null
+                    }
+                    threshold_percent = 5
+                    status = $repeatabilityStatus
+                }
+            }
+        }
+        $manifest | ConvertTo-Json -Depth 8 |
+            Set-Content -LiteralPath (Join-Path $OutDir 'run_manifest.json') -Encoding UTF8
+
         $rows = @()
         foreach ($b in $data.benchmarks) {
             $row = [PSCustomObject]@{
@@ -549,7 +680,10 @@ $readme = @(
     "Valid Google Benchmark executables: $($ran.Count)",
     "Executables without valid results: $($executionSummary.Count - $ran.Count)",
     "Google Benchmark min time: $MinTime",
+    "Google Benchmark minimum warmup time: $WarmupTimeSeconds seconds",
     "Google Benchmark repetitions: $Repetitions",
+    "Per-case sample CV: run_manifest.json (5% threshold is diagnostic, not a performance gate)",
+    "Storage volume metadata: run_manifest.json (volume/filesystem only; no physical-device claim)",
     "Per-executable timeout seconds: $TimeoutSeconds",
     "Run context: run_manifest.json (internal component benchmarks; not external standard compliance)",
     "Process resource metrics: resource_summary.csv (CPU, peak memory, page faults, process I/O)",
@@ -560,7 +694,7 @@ $readme = @(
     "  - benchmark_summary.json is the normalized aggregate result",
     "",
     "Usage:",
-    "  PowerShell> .\\benchmarks\\run_benchmarks_msvc.ps1 -BuildRoot .\\build-msvc-windows-release -MinTime 0.1s -Filter 'encrypt|vector'",
+    "  PowerShell> .\\benchmarks\\run_benchmarks_msvc.ps1 -BuildRoot .\\build-msvc-windows-release -MinTime 0.1s -WarmupTimeSeconds 0.5 -Repetitions 5 -Filter 'encrypt|vector'",
     ""
 ) -join "`r`n"
 Set-Content -LiteralPath (Join-Path $OutDir 'README.txt') -Value $readme -Encoding UTF8

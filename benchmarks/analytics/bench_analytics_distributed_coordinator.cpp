@@ -15,6 +15,7 @@
 
 #include "analytics/distributed_analytics.h"
 #include "benchmark/benchmark.h"
+#include <atomic>
 #include <thread>
 #include <vector>
 #include <chrono>
@@ -27,7 +28,7 @@ class BenchShardExecutor : public ShardQueryExecutor {
 public:
     enum class Behavior { FAST, SLOW, FAIL };
 
-    Behavior behavior = Behavior::FAST;
+    std::atomic<Behavior> behavior{Behavior::FAST};
     std::chrono::microseconds delay{0};
 
     themis::analytics::OLAPResult execute(
@@ -40,7 +41,7 @@ public:
             }
         }
 
-        if (behavior == Behavior::FAIL) {
+        if (behavior.load(std::memory_order_relaxed) == Behavior::FAIL) {
             throw std::runtime_error("Mock shard failure");
         }
 
@@ -50,7 +51,7 @@ public:
     }
 
     bool isHealthy() const override {
-        return behavior != Behavior::FAIL;
+        return behavior.load(std::memory_order_relaxed) != Behavior::FAIL;
     }
 };
 
@@ -224,16 +225,15 @@ static void BenchDegradedModeThroughput(benchmark::State& state) {
 
     auto coordinator = std::make_shared<DistributedAnalyticsSharding>(cfg);
 
-    // Create 2 shards
-    auto executor1 = std::make_shared<BenchShardExecutor>();
-    executor1->behavior = BenchShardExecutor::Behavior::FAST;
-    executor1->delay = std::chrono::microseconds{10};
-    coordinator->addShard("shard-1", executor1);
-
-    auto executor2 = std::make_shared<BenchShardExecutor>();
-    executor2->behavior = BenchShardExecutor::Behavior::FAST;
-    executor2->delay = std::chrono::microseconds{10};
-    coordinator->addShard("shard-2", executor2);
+    // One failed shard must stay within the default 20% failure-rate limit.
+    constexpr size_t shard_count = 5;
+    std::shared_ptr<BenchShardExecutor> failing_executor;
+    for (size_t i = 0; i < shard_count; ++i) {
+        auto executor = std::make_shared<BenchShardExecutor>();
+        executor->delay = std::chrono::microseconds{10};
+        coordinator->addShard("shard-" + std::to_string(i), executor);
+        failing_executor = executor;
+    }
 
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
@@ -244,39 +244,58 @@ static void BenchDegradedModeThroughput(benchmark::State& state) {
     query.measures.push_back(sum_measure);
 
     // Measure normal throughput
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
     int normal_count = 0;
-    while (std::chrono::high_resolution_clock::now() - start < std::chrono::seconds{1}) {
-        try {
-            coordinator->executeDistributed(query);
-            normal_count++;
-        } catch (...) {}
+    while (std::chrono::steady_clock::now() - start < std::chrono::seconds{1}) {
+        const auto result = coordinator->executeDistributed(query);
+        if (result.total_shards != shard_count ||
+            result.successful_shards != shard_count || result.merged.rows.empty()) {
+            state.SkipWithError("DC-04: normal query did not return all shard results");
+            return;
+        }
+        ++normal_count;
     }
+    const double normal_seconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
 
-    // Degrade: Make one shard fail
-    executor2->behavior = BenchShardExecutor::Behavior::FAIL;
+    // Degrade: Make one shard fail.
+    failing_executor->behavior = BenchShardExecutor::Behavior::FAIL;
 
     // Measure degraded throughput
-    start = std::chrono::high_resolution_clock::now();
+    start = std::chrono::steady_clock::now();
     int degraded_count = 0;
-    while (std::chrono::high_resolution_clock::now() - start < std::chrono::seconds{1}) {
-        try {
-            coordinator->executeDistributed(query);
-            degraded_count++;
-        } catch (...) {}
+    while (std::chrono::steady_clock::now() - start < std::chrono::seconds{1}) {
+        const auto result = coordinator->executeDistributed(query);
+        if (result.successful_shards != shard_count - 1 ||
+            result.total_shards < shard_count - 1 ||
+            result.total_shards > shard_count || result.merged.rows.empty()) {
+            state.SkipWithError("DC-04: degraded query did not return the healthy shard results");
+            return;
+        }
+        ++degraded_count;
     }
+    const double degraded_seconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
 
-    // Calculate ratio
-    double throughput_ratio = (normal_count > 0) ? (double)degraded_count / normal_count : 0.0;
+    if (normal_count == 0 || degraded_count == 0) {
+        state.SkipWithError("DC-04: no completed queries in a measurement window");
+        return;
+    }
+    const double throughput_ratio = (degraded_count / degraded_seconds) /
+                                    (normal_count / normal_seconds);
+    const std::string measurement =
+        "normal=" + std::to_string(normal_count) + "/" + std::to_string(normal_seconds) +
+        "s, degraded=" + std::to_string(degraded_count) + "/" +
+        std::to_string(degraded_seconds) + "s";
 
     state.SetLabel("DC-04: Degraded throughput ratio = " +
-                   std::to_string(static_cast<long>(throughput_ratio * 100)) + "%");
+                   std::to_string(static_cast<long>(throughput_ratio * 100)) + "%; " + measurement);
 
     // Gate check: DC-04 requires ≥ 80% throughput with one shard down
     if (throughput_ratio < 0.80) {
         state.SkipWithError(
             ("DC-04 FAILED: Degraded throughput " + std::to_string(static_cast<long>(throughput_ratio * 100)) +
-             "% < 80% threshold")
+             "% < 80% threshold; " + measurement)
                 .c_str());
     }
 }

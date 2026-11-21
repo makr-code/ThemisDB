@@ -55,7 +55,16 @@ public:
     std::string getLeaderId() const override;
     ConsensusState getState() const override;
     
-    std::optional<uint64_t> propose(
+    /**
+     * @brief Propose an operation and return its assigned index when commit is reported.
+     * @param operation Operation name encoded in the command.
+     * @param data Operation payload encoded in the command.
+     * @return Actual appended index on reported quorum commit, or std::nullopt on failure.
+     *         Failure does not prove the operation can never commit after a leadership change.
+     * @note This call may block in the Raft replication callback. It does not itself establish
+     *       durable network replication or end-to-end transaction guarantees.
+     */
+    [[nodiscard]] std::optional<uint64_t> propose(
         const std::string& operation,
         const nlohmann::json& data
     ) override;

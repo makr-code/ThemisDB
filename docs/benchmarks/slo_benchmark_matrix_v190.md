@@ -167,20 +167,28 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 ### 3.3 Transaction (TX-1..TX-8)
 
+> **Reconciled:** This v1.9.0 snapshot contains historical run results. Its
+> transaction mapping table has been aligned with current workloads, but those
+> mappings do not turn historical results into current performance evidence. Use
+> [`src/transaction/PERFORMANCE_EXPECTATIONS.md`](../../src/transaction/PERFORMANCE_EXPECTATIONS.md)
+> and [`benchmarks/benchmark_target_mapping.json`](../../benchmarks/benchmark_target_mapping.json)
+> as the current source of truth. Other v1.9.0 measurements in this document
+> remain historical.
+
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
-| TX-1 | ≤ 100 µs OCC Commit P50 | `proxy` | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
-| TX-2 | ≤ 5 ms OCC Commit P99 | `proxy` | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `bench_transaction_throughput.cpp` |
-| TX-3 | > 6 k/s 2PC Throughput | `mapped` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `bench_transaction_throughput.cpp` |
-| TX-4 | ≤ 5 ms 2PC Latenz (5 Shards) | `mapped` ✅ | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | `bench_transaction_throughput.cpp` |
-| TX-5 | ≤ 20 ms SAGA Compensation | `mapped` | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `bench_saga_compensation.cpp` |
-| TX-6 | ≤ 1 % Deadlock Detection Overhead | `mapped` ✅ | `DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict` | `DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder` | `bench_transaction_throughput.cpp` |
-| TX-7 | < 5 % False Positive Rate | `mapped` | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `bench_transaction_throughput.cpp` |
-| TX-8 | > 90 % Low-Contention Success | `mapped` | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `bench_transaction_throughput.cpp` |
+| TX-1 | ≤ 100 µs OCC Commit P50 | `mapped` | `TransactionBenchmarkFixture/CommitLatency/1` | — | `bench_transaction_throughput.cpp` |
+| TX-2 | ≤ 5 ms OCC Commit P99 | `mapped` | `TransactionBenchmarkFixture/CommitLatency/100` | — | `bench_transaction_throughput.cpp` |
+| TX-3 | > 6 k/s committed transactions | `mapped` | `TransactionBenchmarkFixture/WriteOnlyTransaction` | — | `bench_transaction_throughput.cpp` |
+| TX-4 | ≤ 5 ms 2PC Latenz (5 durable in-process participants) | `mapped` | `TwoPhaseCommitFixture/TwoPhaseCommitLatency/5` | — | `bench_transaction_throughput.cpp` |
+| TX-5 | ≤ 20 ms SAGA Compensation (50 writes) | `mapped` | `SagaBenchmarkFixture/DatabaseWriteCompensation/50` | — | `bench_saga_compensation.cpp` |
+| TX-6 | ≤ 1 µs deadlock predictor call latency | `mapped` | `DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict` | — | `bench_transaction_throughput.cpp` |
+| TX-7 | < 5 % false-conflict rate | `mapped` | `TransactionBenchmarkFixture/OccReadVersionAndUpdate` | — | `bench_transaction_throughput.cpp` |
+| TX-8 | > 90 % uncontended OCC insert success | `mapped` | `TransactionBenchmarkFixture/OccOptimisticPut` | — | `bench_transaction_throughput.cpp` |
 
-**Messlücke:** TX-1/TX-2 haben keinen direkten Messpfad für das jeweilige
-Commit-Perzentil. Die verknüpften Fälle exportieren nur Iterations-Timing;
-auch Wiederholungsaggregate sind kein Nachweis für P50/P99 einzelner Commits.
+These are current case mappings, not claims that the target values pass. Release
+measurements and representative-hardware evidence remain outstanding where
+documented in the module expectations.
 
 ---
 
@@ -215,10 +223,15 @@ Cluster-Setup erforderlich) und ist derzeit ohne separates Gap-Ticket geführt.
 
 ### 4.3 Transaction Gaps
 
-Alle Transaction-Gaps wurden mit Wave2-Abschluss geschlossen. TX-4 und TX-6 sind jetzt
-direkt gemessen via `TwoPhaseCommitFixture` bzw. `DeadlockDetectionFixture`.
+Die Benchmark-Workloads für TX-1..TX-8 sind direkt zugeordnet. Das belegt weder
+die reproduzierbare Messung noch das Erreichen der jeweiligen Zielwerte. Aktuelle
+Release-Messungen bleiben gemäß den Modulerwartungen ausstehend; der frühere
+`BM_TransactionContention`-Fall war kein Konkurrenzbenchmark und ist kein
+TX-3-Fallback.
 
-**Gesamt-Aufwand Transaction Gaps:** 0 Tage (erledigt)
+**Implementierungslücken:** 0 Tage (Workload-Zuordnung vorhanden).
+**Mess- und Repräsentativitätsnachweise:** offen; siehe
+[`src/transaction/PERFORMANCE_EXPECTATIONS.md`](../../src/transaction/PERFORMANCE_EXPECTATIONS.md).
 
 ---
 

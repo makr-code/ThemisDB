@@ -451,7 +451,7 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     # ===== CHECK 2: Orphaned CTest Entries (CTest references missing target) =====
     orphaned_ctest = []
     for target_name, target in cmake_targets.items():
-        if target.source_file is None and target.ctest_entries:
+        if "${" not in target_name and target.source_file is None and target.ctest_entries:
             orphaned_ctest.extend(target.ctest_entries)
     
     if orphaned_ctest:
@@ -1087,7 +1087,7 @@ def main() -> int:
         print("\n⚠️  AUDIT FAILED: Warnings detected (--fail-on-warning)")
         return 2
     else:
-        print("\n✅ AUDIT PASSED")
+        print("\nAUDIT PASSED")
         return 0
 
 

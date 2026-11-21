@@ -16,6 +16,7 @@ protected:
         RaftShardManager::Config config;
         config.replication_factor = 3;
         config.enable_auto_start = false;  // Manual start for controlled testing
+        config.raft_config.raft_config.node_id = "shard_001";
         config.raft_config.raft_config.election_timeout_min_ms = 150;
         config.raft_config.raft_config.election_timeout_max_ms = 300;
         config.raft_config.raft_config.heartbeat_interval_ms = 50;
@@ -44,6 +45,36 @@ TEST_F(RaftShardManagerTest, InitializeShard) {
     EXPECT_EQ(info->shard_id, shard_id);
     EXPECT_EQ(info->role, RaftNodeState::FOLLOWER);  // Should start as follower
     EXPECT_EQ(info->term, 0);  // Initial term
+}
+
+TEST_F(RaftShardManagerTest, SeparatesGroupIdFromLocalNodeId) {
+    const std::vector<std::string> members = {
+        "shard_001", "shard_002", "shard_003"};
+    ASSERT_TRUE(manager_->initializeShard("group_alpha", members));
+
+    const auto raft = manager_->getRaftInstance("group_alpha");
+    ASSERT_NE(raft, nullptr);
+    EXPECT_EQ(raft->getRaftState().getNodeId(), "shard_001");
+    const auto info = manager_->getShardRaftInfo("group_alpha");
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->shard_id, "group_alpha");
+}
+
+TEST_F(RaftShardManagerTest, RejectsInvalidMembershipIds) {
+    EXPECT_FALSE(manager_->initializeShard(
+        "group_missing_local", {"shard_002", "shard_003", "shard_004"}));
+    EXPECT_FALSE(manager_->initializeShard(
+        "group_duplicate", {"shard_001", "shard_002", "shard_002"}));
+    EXPECT_FALSE(manager_->initializeShard(
+        "group_empty_member", {"shard_001", "", "shard_003"}));
+    EXPECT_FALSE(manager_->initializeShard(
+        "", {"shard_001", "shard_002", "shard_003"}));
+
+    RaftShardManager::Config config;
+    config.enable_auto_start = false;
+    RaftShardManager manager_without_local_node(config);
+    EXPECT_FALSE(manager_without_local_node.initializeShard(
+        "group_without_local_config", {"shard_001", "shard_002", "shard_003"}));
 }
 
 TEST_F(RaftShardManagerTest, InitializeShardInsufficientReplicas) {
@@ -204,10 +235,10 @@ TEST_F(RaftShardManagerTest, GetShardRaftInfoDetails) {
     EXPECT_EQ(info->last_applied, 0);
     EXPECT_TRUE(info->leader_id.empty());
     
-    // Replica IDs (if present) must be non-empty and not the local shard id
+    // Replica IDs (if present) must be non-empty and exclude the local node ID.
     for (const auto& replica_id : info->replica_ids) {
         EXPECT_FALSE(replica_id.empty());
-        EXPECT_NE(replica_id, shard_id);
+        EXPECT_NE(replica_id, "shard_001");
     }
 }
 
@@ -242,6 +273,7 @@ protected:
         RaftShardManager::Config config;
         config.replication_factor = 3;
         config.enable_auto_start = true;  // Enable auto-start
+        config.raft_config.raft_config.node_id = "shard_001";
         config.raft_config.raft_config.election_timeout_min_ms = 150;
         config.raft_config.raft_config.election_timeout_max_ms = 300;
         

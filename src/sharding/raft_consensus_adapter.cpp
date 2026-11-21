@@ -210,17 +210,7 @@ std::optional<uint64_t> RaftConsensusAdapter::propose(
         };
         std::string command = command_json.dump();
         
-        // Get the log index before proposing to handle potential race conditions
-        // Note: There's still a small race window here. In a production system,
-        // the propose() method should return the log index directly.
-        uint64_t expected_index = raft_->getRaftState().getLog().getLastLogIndex() + 1;
-        
-        // Propose to Raft
-        auto future = raft_->propose(command);
-        
-        // Return the expected log index
-        // In a production system, we would verify this matches the actual appended index
-        return expected_index;
+        return raft_->proposeWithIndex(command);
     } catch (const std::exception& e) {
         spdlog::error("Failed to propose operation: {}", e.what());
         return std::nullopt;
@@ -596,7 +586,11 @@ bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id)
         {"target",  target_node_id},
         {"from",    node_id_}
     };
-    propose("LEADERSHIP_TRANSFER", transfer_data);
+    if (!propose("LEADERSHIP_TRANSFER", transfer_data)) {
+        spdlog::error("transferLeadership: failed to commit advisory entry for {}",
+                      target_node_id);
+        return false;
+    }
 
     // Step down: read the current term and call becomeFollower(term+1) under the
     // state_mutex_ so the term read and the state transition are serialised

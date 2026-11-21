@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-20
+Last Updated: 2026-11-21
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -50,6 +50,30 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
+
+### Raft election transport seam (2026-11-20)
+
+`RaftConsensus` now issues peer `VoteRequest`s through an optional callback,
+retries elections after a candidate timeout, validates response identity/term,
+and steps down on a higher-term response. Multi-node candidates and voters
+require healthy durable journals; `RaftState::handleVoteRequest` also rejects
+non-members and stale candidate logs before granting a durable vote. This is
+now wired to shard gRPC vote/append handlers with verified mTLS identity
+bindings, five-second maximum deadlines, and explicit group resolution.
+`RaftShardManager` installs peer callbacks only when a strict per-peer client
+resolver is configured. Without it, multi-node elections remain unable to elect
+a leader. Focused source files compiled directly, but the new gRPC integration
+test and multi-process behavior are not yet runtime-validated. See [API.md](API.md)
+and the open integration boundary in
+[`src/replication/ROADMAP.md`](../replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary).
+
+`RaftShardManager` now treats the manager key as the logical Raft group ID and
+uses the nested `RaftConfig::node_id` field in `Config::raft_config` as the
+local voting member. Existing configurations must set that ID; there is no
+fallback from group ID to member identity.
+Initialization rejects empty/duplicate memberships and groups that omit the
+configured local node. This separates the RPC group-routing key from the mTLS
+identity/member ID; the per-peer resolver now configures network callbacks.
 
 ### DIS-06 / #8200 recovery contract (2026-11-19)
 
@@ -241,6 +265,8 @@ open/in-progress work here.
 
 ## In Progress
 
+- [~] Deliver authenticated Raft peer RPCs for vote requests and AppendEntries over the supported shard transport; bind the verified mTLS peer identity to configured membership, enforce bounded RPC deadlines, and wire requests to the durable `RaftState` handlers. Acceptance: mismatched/non-member identities, stale terms/logs, unavailable journals, partial prefixes, and timeouts cannot count toward quorum; two- and three-process crash/restart tests prove durable ACK and election behavior. No membership change or Parallel Commit optimization is in scope until this gate passes (Target: M2 · 2027-06-30)
+  - Implementation update (2026-11-21): protobuf RPCs, SAN-bound mTLS server identity checks, client-side server-SAN verification, bounded five-second deadlines, durable-handler dispatch, and `RaftShardManager` vote/append/heartbeat callback wiring are present. AppendEntries also rejects empty/non-member leaders before changing term. Linux-only test cases now cover volatile-follower vote/append rejection, manager-driven election, durable follower append, follower SIGKILL/restart from the same journal, persisted log-conflict/vote rejection, stale terms, missing log prefixes, RPC timeout, and three-node quorum loss. These test sources have not been compiled or run in the current Windows benchmark configuration. The manager/leader remains in the test process, so leader-process failover/re-election and actual Linux runtime evidence remain open.
 - [~] Verify the CrossShard 2PC adapter to canonical `TwoPhaseCommitCoordinator`: payload/fencing parity, durable decision ordering, endpoint restoration, legacy-record fail-closed behavior, and both public-path regression coverage (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)

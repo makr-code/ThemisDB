@@ -12,8 +12,12 @@
 #include <filesystem>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <thread>
 #include <cstdio>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 using namespace themis;
 
@@ -23,22 +27,29 @@ using namespace themis;
 
 class SagaBenchmarkFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
-        // Clean up any existing test database
-        test_db_path_ = "./data/bench_saga_tmp";
+    void SetUp(const ::benchmark::State& state) override {
+        const auto unique_id = static_cast<unsigned long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        const auto db_dir = std::filesystem::absolute(
+            std::filesystem::path("data") /
+            ("bench_saga_tmp_t" + std::to_string(state.thread_index()) + "_" +
+             std::to_string(unique_id)));
+        test_db_path_ = db_dir.string();
         std::error_code cleanup_error;
-        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+        if (!themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error)) {
             throw std::runtime_error("Failed to clear Saga benchmark DB: " + cleanup_error.message());
         }
         
-        // Create RocksDB wrapper
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.wal_dir = (db_dir / "wal").string();
         config.memtable_size_mb = 128;
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
         if (!db_->open()) {
+            db_.reset();
+            themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error);
             throw std::runtime_error("Failed to open database");
         }
         
@@ -52,8 +63,10 @@ public:
         vector_index_.reset();
         graph_index_.reset();
         secondary_index_.reset();
-        db_->close();
-        db_.reset();
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
         
         // Clean up test database
         std::error_code cleanup_error;
@@ -124,43 +137,59 @@ BENCHMARK_REGISTER_F(SagaBenchmarkFixture, SimpleCompensation)
 
 BENCHMARK_DEFINE_F(SagaBenchmarkFixture, DatabaseWriteCompensation)(benchmark::State& state) {
     const int num_writes = state.range(0);
+    uint64_t iteration = 0;
     
     for (auto _ : state) {
         Saga saga;
-        std::vector<std::string> written_keys;
+        std::string compensation_error;
         
-        // Simulate distributed transaction with multiple writes
         for (int i = 0; i < num_writes; i++) {
-            std::string key = "saga_entity_" + std::to_string(i);
-            written_keys.push_back(key);
+            std::string key = "saga_entity_" + std::to_string(iteration) + "_" +
+                              std::to_string(i);
             
-            // Forward action: write entity
             BaseEntity entity(key);
             entity.setField("value", i);
             entity.setField("timestamp", std::chrono::system_clock::now().time_since_epoch().count());
-            secondary_index_->put("saga_test", entity);
+            const auto put_status = secondary_index_->put("saga_test", entity);
+            if (!put_status.ok) {
+                const auto message = "SAGA forward write failed: " + put_status.message;
+                saga.compensate();
+                if (!saga.isFullyCompensated()) {
+                    state.SkipWithError((message + "; rollback of prior writes failed").c_str());
+                    return;
+                }
+                state.SkipWithError(message.c_str());
+                return;
+            }
             
-            // Compensation action: delete entity
             saga.addStep(
                 "write_" + key,
-                [this, key]() {
-                    secondary_index_->erase("saga_test", key);
+                [this, key, &compensation_error]() {
+                    const auto erase_status = secondary_index_->erase("saga_test", key);
+                    if (!erase_status.ok) {
+                        compensation_error = erase_status.message;
+                        throw std::runtime_error("SAGA compensation erase failed: " +
+                                                 compensation_error);
+                    }
                 }
             );
         }
         
-        // Measure compensation time
-        auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         saga.compensate();
-        auto end = std::chrono::high_resolution_clock::now();
+        const auto end = std::chrono::steady_clock::now();
         
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        benchmark::DoNotOptimize(duration);
+        const auto elapsed_seconds = std::chrono::duration<double>(end - start).count();
+        state.SetIterationTime(elapsed_seconds);
         
-        // Verify all compensations executed
         if (!saga.isFullyCompensated()) {
-            state.SkipWithError("Not all steps compensated");
+            const auto message = compensation_error.empty()
+                ? "Not all SAGA steps compensated"
+                : "SAGA compensation failed: " + compensation_error;
+            state.SkipWithError(message.c_str());
+            return;
         }
+        ++iteration;
     }
     
     state.SetItemsProcessed(state.iterations() * num_writes);
@@ -172,6 +201,7 @@ BENCHMARK_REGISTER_F(SagaBenchmarkFixture, DatabaseWriteCompensation)
     ->Arg(10)
     ->Arg(20)
     ->Arg(50)
+    ->UseManualTime()
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================

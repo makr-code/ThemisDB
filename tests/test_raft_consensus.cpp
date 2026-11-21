@@ -1,18 +1,33 @@
 #include "sharding/raft_consensus.h"
 #include <gtest/gtest.h>
+#include <filesystem>
 #include <thread>
 #include <chrono>
+#include <system_error>
 
 using namespace themisdb::sharding;
 using namespace std::chrono_literals;
 
 class RaftConsensusTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        const auto nonce = std::chrono::steady_clock::now().time_since_epoch().count();
+        persistence_directory_ = std::filesystem::temp_directory_path() /
+            ("themis_raft_consensus_" + std::to_string(nonce));
+        std::filesystem::create_directories(persistence_directory_);
+    }
+
+    void TearDown() override {
+        std::error_code error;
+        std::filesystem::remove_all(persistence_directory_, error);
+    }
+
     RaftConsensus::Config createConfig(const std::string& node_id, 
                                       const std::vector<std::string>& members) {
         RaftConsensus::Config config;
         config.raft_config.node_id = node_id;
         config.raft_config.cluster_members = members;
+        config.raft_config.persistence_path = (persistence_directory_ / "raft.wal").string();
         config.raft_config.election_timeout_min_ms = 50;
         config.raft_config.election_timeout_max_ms = 100;
         config.raft_config.heartbeat_interval_ms = 20;
@@ -22,6 +37,15 @@ protected:
         config.enable_split_brain_prevention = true;
         return config;
     }
+
+    void electLeader(RaftConsensus& consensus) {
+        auto& state = consensus.getRaftState();
+        state.becomeCandidate();
+        state.receiveVote("node2", true);
+        ASSERT_TRUE(state.isLeader());
+    }
+
+    std::filesystem::path persistence_directory_;
 };
 
 TEST_F(RaftConsensusTest, InitialState) {
@@ -43,6 +67,88 @@ TEST_F(RaftConsensusTest, StartStop) {
     // Should not crash
 }
 
+TEST_F(RaftConsensusTest, ElectionRequestsAndCountsPeerVote) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    config.raft_config.election_timeout_min_ms = 10;
+    config.raft_config.election_timeout_max_ms = 10;
+    RaftConsensus consensus(config);
+
+    std::atomic<int> vote_requests{0};
+    std::atomic<bool> request_valid{true};
+    consensus.setVoteRequestCallback([&](const std::string& voter_id,
+                                         const VoteRequest& request) {
+        vote_requests.fetch_add(1);
+        if (voter_id.empty() || request.candidate_id != "node1" ||
+            request.term == 0 || request.last_log_index != 0 ||
+            request.last_log_term != 0) {
+            request_valid.store(false);
+        }
+        return VoteResponse{voter_id, request.term, true, {}};
+    });
+
+    consensus.start();
+    const auto deadline = std::chrono::steady_clock::now() + 1s;
+    while (!consensus.isLeader() && std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(5ms);
+    }
+    const bool became_leader = consensus.isLeader();
+    consensus.stop();
+
+    EXPECT_TRUE(became_leader);
+    EXPECT_GT(vote_requests.load(), 0);
+    EXPECT_TRUE(request_valid.load());
+}
+
+TEST_F(RaftConsensusTest, ElectionRejectsVoteReportedByDifferentPeer) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    config.raft_config.election_timeout_min_ms = 10;
+    config.raft_config.election_timeout_max_ms = 10;
+    RaftConsensus consensus(config);
+
+    std::atomic<int> vote_requests{0};
+    consensus.setVoteRequestCallback([&](const std::string& voter_id,
+                                         const VoteRequest& request) {
+        vote_requests.fetch_add(1);
+        const auto claimed_voter = voter_id == "node2" ? "node3" : "node2";
+        return VoteResponse{claimed_voter, request.term, true, {}};
+    });
+
+    consensus.start();
+    const auto deadline = std::chrono::steady_clock::now() + 1s;
+    while (vote_requests.load() == 0 && std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(5ms);
+    }
+    std::this_thread::sleep_for(100ms);
+    const bool became_leader = consensus.isLeader();
+    consensus.stop();
+
+    EXPECT_GT(vote_requests.load(), 0);
+    EXPECT_FALSE(became_leader);
+}
+
+TEST_F(RaftConsensusTest, MultiNodeElectionRequiresDurableLocalJournal) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    config.raft_config.persistence_path.clear();
+    config.raft_config.election_timeout_min_ms = 10;
+    config.raft_config.election_timeout_max_ms = 10;
+    RaftConsensus consensus(config);
+
+    std::atomic<int> vote_requests{0};
+    consensus.setVoteRequestCallback([&](const std::string& voter_id,
+                                         const VoteRequest& request) {
+        vote_requests.fetch_add(1);
+        return VoteResponse{voter_id, request.term, true, {}};
+    });
+
+    consensus.start();
+    std::this_thread::sleep_for(150ms);
+    const bool became_leader = consensus.isLeader();
+    consensus.stop();
+
+    EXPECT_FALSE(became_leader);
+    EXPECT_EQ(vote_requests.load(), 0);
+}
+
 TEST_F(RaftConsensusTest, ProposeWhenNotLeader) {
     auto config = createConfig("node1", {"node1", "node2", "node3"});
     RaftConsensus consensus(config);
@@ -57,15 +163,16 @@ TEST_F(RaftConsensusTest, BecomeLeaderAndPropose) {
     auto config = createConfig("node1", {"node1", "node2", "node3"});
     RaftConsensus consensus(config);
     
-    // Become leader
-    consensus.getRaftState().becomeLeader();
+    electLeader(consensus);
     
     // Set up callback that always succeeds
     int replication_calls = 0;
-    consensus.setReplicationCallback([&]([[maybe_unused]] const std::string& node_id,
-                                         [[maybe_unused]] const LogEntry& entry) {
+    consensus.setReplicationCallback([&](const std::string&, const AppendEntriesRequest& request) {
         replication_calls++;
-        return true;
+        const auto match_index = request.entries.empty()
+            ? request.prev_log_index
+            : request.entries.back().index;
+        return AppendEntriesResponse{request.term, true, match_index};
     });
     
     consensus.start();
@@ -74,6 +181,8 @@ TEST_F(RaftConsensusTest, BecomeLeaderAndPropose) {
     auto result = future.wait_for(1s);
     
     EXPECT_EQ(result, std::future_status::ready);
+    EXPECT_TRUE(future.get());
+    EXPECT_GT(replication_calls, 0);
     
     consensus.stop();
 }
@@ -119,7 +228,7 @@ TEST_F(RaftConsensusTest, HeartbeatCallback) {
         return true;
     });
     
-    consensus.getRaftState().becomeLeader();
+    electLeader(consensus);
     consensus.start();
     
     std::this_thread::sleep_for(150ms);
@@ -169,7 +278,7 @@ TEST_F(RaftConsensusTest, AppendEntriesResponse) {
     auto config = createConfig("node1", {"node1", "node2", "node3"});
     RaftConsensus consensus(config);
     
-    consensus.getRaftState().becomeLeader();
+    electLeader(consensus);
     consensus.start();
     
     AppendEntriesResponse response;

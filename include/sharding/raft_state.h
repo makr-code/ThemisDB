@@ -100,7 +100,9 @@ public:
     void becomeFollower(uint64_t term);
 
     /**
-     * @brief Become candidate and start election
+     * @brief Become candidate and promote to leader when the self-vote is quorum.
+     * @note A valid one-member cluster becomes leader immediately; larger clusters
+     *       remain candidates until peer votes establish quorum.
      */
     void becomeCandidate();
 
@@ -111,15 +113,20 @@ public:
 
     /**
      * @brief Start a new election
-     * 
-     * Increments term, votes for self, and requests votes from peers.
+     * @note Increments the term and persists the self-vote. The caller must send
+     *       peer vote requests and deliver validated responses to receiveVote().
      */
     void startElection();
 
     /**
-     * @brief Handle vote request from candidate
-     * @param request Vote request
-     * @return Vote response
+     * @brief Validate and handle a peer's Raft vote request.
+     * @param request Candidate identity, term, and last-log index/term.
+     * @return Response identifying this voter and its current term. A vote is
+     *         denied for stale terms/logs, non-members, an existing vote for
+     *         another candidate, a missing/unhealthy durable journal, or failed
+     *         durable hard-state persistence.
+     * @note The transport must authenticate the peer and bind its identity to
+     *       the candidate ID; this state-machine method does not authenticate RPCs.
      */
     VoteResponse handleVoteRequest(const VoteRequest& request);
 
@@ -193,11 +200,18 @@ public:
     bool isCandidate() const;
 
     /**
-     * @brief Handle AppendEntries RPC from leader
-     * @param request AppendEntries request
-     * @return AppendEntries response
+     * @brief Validate and durably apply an AppendEntries request from the leader.
+     * @param request Leader term, previous-log anchor, contiguous entries, and commit index.
+     * @return Response with success and the highest prefix verified by this request.
+     *         Returns failure when the journal is unavailable, the term is stale,
+     *         the leader is empty or outside configured membership, the prefix
+     *         conflicts, entries are malformed, or durable updates fail. A
+     *         non-member is rejected before the term or journal can be changed.
+     * @note Success is never reported in volatile mode; it is an acknowledgement only
+     *       after the configured Raft journal has persisted the requested prefix.
      */
-    AppendEntriesResponse handleAppendEntries(const AppendEntriesRequest& request);
+    [[nodiscard]] AppendEntriesResponse handleAppendEntries(
+        const AppendEntriesRequest& request);
 
     /**
      * @brief Get reference to the Raft log
@@ -276,6 +290,12 @@ public:
     uint64_t getSnapshotTerm() const;
 
 private:
+    friend class RaftConsensus;
+
+    // Both operations serialize with state transitions and AppendEntries.
+    std::optional<AppendEntriesRequest> appendProposalIfLeader(const std::string& command);
+    bool commitProposalIfLeader(const LogEntry& entry);
+
     /**
      * @brief Calculate random election timeout
         * @return Random timeout in configured [min,max] range.

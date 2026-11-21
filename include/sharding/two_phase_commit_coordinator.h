@@ -98,8 +98,7 @@ enum class CoordinatorTxnState {
     COMMIT_DECIDED,      ///< All voted COMMIT; Phase 2 COMMIT in progress
     ABORT_DECIDED,       ///< At least one voted ABORT; Phase 2 ABORT in progress
     COMPLETED,           ///< All participants acknowledged Phase 2; done
-    FAILED,              ///< Unrecoverable error
-    PREPARED             ///< All participants voted COMMIT; no decision recorded yet
+    FAILED               ///< Unrecoverable error
 };
 
 /** @brief Per-transaction tracking record kept by the coordinator. */

@@ -20,51 +20,6 @@
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
-
-#!/usr/bin/env python3
-"""
-run_ci_benchmarks.py – CHIMERA CI Benchmark Runner
-
-Runs a compact set of synthetic workloads through the CHIMERA
-:class:`~chimera.benchmark_harness.BenchmarkHarness` and writes a JSON
-results file suitable for:
-
-  * Storing as a new baseline on ``main`` pushes.
-  * Comparing against an existing baseline via
-    ``chimera_regression_detector.py`` on pull-request builds.
-
-Synthetic workloads are designed to be:
-  - **Fast** (< 60 s total on any CI runner).
-  - **Deterministic** in structure (same workload IDs every run).
-  - **Representative** of the four chimera operation families:
-    relational (sort), vector (dot-product), document (dict lookup),
-    graph (BFS over an adjacency list).
-
-Output format::
-
-    {
-        "version":   "<VERSION file contents>",
-        "branch":    "<GITHUB_REF_NAME or local>",
-        "commit":    "<GITHUB_SHA or git rev-parse>",
-        "timestamp": "<ISO-8601 UTC>",
-        "workloads": {
-            "<workload_id>": {
-                "throughput_ops_per_sec": <float>,
-                "mean_latency_ms":        <float>,
-                "p95_latency_ms":         <float>,
-                "p99_latency_ms":         <float>
-            },
-            ...
-        }
-    }
-
-Usage::
-
-    python3 run_ci_benchmarks.py \\
-        --output benchmark_results/chimera_results.json \\
-        [--warmup 50] [--iterations 500]
-"""
-
 from __future__ import annotations
 
 import argparse

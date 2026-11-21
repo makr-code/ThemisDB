@@ -54,6 +54,7 @@ class BenchmarkResult:
     iterations: Optional[int] = None
     items_per_second: Optional[float] = None
     time_unit: str = "ns"
+    percent_counters: dict[str, float] = field(default_factory=dict)
     percentile_time_ns: dict[str, float] = field(default_factory=dict)
     ambiguous_percentiles: set[str] = field(default_factory=set)
     repeated_sample: bool = False
@@ -351,7 +352,7 @@ def _time_to_ns(value: float, unit: str) -> Optional[float]:
 
 def _load_benchmark_json(
     path: Path, diagnostics: Optional[list[str]] = None,
-    expected_cases: Optional[dict[str, str]] = None,
+    expected_cases: Optional[list[tuple[str, str]]] = None,
 ) -> dict[str, BenchmarkResult]:
     """Load a Google Benchmark JSON file, return {case_name: BenchmarkResult}."""
     def diagnose(message: str) -> None:
@@ -372,9 +373,11 @@ def _load_benchmark_json(
     if not data["benchmarks"]:
         diagnose("Empty benchmarks array")
         return {}
+    expected_statuses = dict(expected_cases) if expected_cases is not None else {}
     if expected_cases is not None:
         names = [bm.get("name") for bm in data["benchmarks"] if isinstance(bm, dict)]
-        if sorted(names, key=str) != sorted(expected_cases, key=str):
+        expected_names = [name for name, _ in expected_cases]
+        if sorted(names, key=str) != sorted(expected_names, key=str):
             diagnose("Result cases do not match the finished manifest; file discarded")
             return {}
     if data.get("error_occurred") or data.get("error"):
@@ -397,11 +400,14 @@ def _load_benchmark_json(
             continue
         if str(bm.get("label", "")).strip().casefold() == "synthetic":
             continue
-        if expected_cases is not None and expected_cases.get(bm["name"]) == "error":
+        if expected_statuses.get(bm["name"]) == "error":
             diagnose(f"{bm['name']}: failed case excluded by the run manifest")
             continue
         if bm.get("error_occurred", False):
             diagnose(f"{bm['name']}: benchmark error: {bm.get('error_message', 'unspecified error')}")
+            continue
+        if expected_statuses.get(bm["name"]) == "skipped" or bm.get("skipped") is True:
+            diagnose(f"{bm['name']}: skipped by benchmark: {bm.get('skip_message', 'unspecified reason')}")
             continue
         if bm.get("run_type") == "aggregate":
             run_name = bm.get("run_name")
@@ -424,7 +430,16 @@ def _load_benchmark_json(
         raw_real = number(bm.get("real_time"))
         raw_cpu = number(bm.get("cpu_time"))
         invalid_numeric = False
+        percent_counters = {
+            key: value for key, raw in bm.items()
+            if key.endswith("_percent") and (value := number(raw)) is not None
+        }
+        for key, raw in bm.items():
+            if key.endswith("_percent") and number(raw) is None:
+                diagnose(f"{name}: invalid {key} value")
+                invalid_numeric = True
         for key in ("real_time", "cpu_time", "items_per_second",
+                    "p50_real_time",
                     "p95_real_time", "p99_real_time", "iterations"):
             if key in bm and number(bm[key]) is None:
                 diagnose(f"{name}: invalid {key} value")
@@ -444,7 +459,7 @@ def _load_benchmark_json(
                 name=name, time_unit=time_unit, invalid_measurement=True))
             continue
         percentiles = {}
-        for percentile in ("p95", "p99"):
+        for percentile in ("p50", "p95", "p99"):
             raw = number(bm.get(f"{percentile}_real_time"))
             converted = number(_time_to_ns(raw, time_unit)) if raw is not None else None
             if converted is not None:
@@ -464,6 +479,7 @@ def _load_benchmark_json(
             iterations=int(iterations) if iterations is not None else None,
             items_per_second=number(bm.get("items_per_second")),
             time_unit=time_unit,
+            percent_counters=percent_counters,
             percentile_time_ns=percentiles,
             repeated_sample=(number(bm.get("repetitions")) or 0) > 1,
         )
@@ -484,7 +500,7 @@ def _load_all_results(
     """
     combined: dict[str, BenchmarkResult] = {}
     manifest_path = results_dir / "manifest"
-    approved: Optional[dict[Path, dict[str, str]]] = None
+    approved: Optional[dict[Path, list[tuple[str, str]]]] = None
     if manifest_path.exists():
         approved = {}
         try:
@@ -511,21 +527,27 @@ def _load_all_results(
                         diagnostics.append(f"Manifest result outside results directory or not JSON: {raw_path}")
                     continue
                 cases = test.get("cases")
-                case_statuses = {
-                    case["name"]: case["status"]
-                    for case in cases
-                    if isinstance(case, dict) and isinstance(case.get("name"), str)
-                    and case.get("name") and case.get("status") in ("observed", "error")
-                } if isinstance(cases, list) else {}
+                case_entries: list[tuple[str, str]] = []
+                case_statuses: dict[str, str] = {}
+                consistent_case_statuses = isinstance(cases, list)
+                if isinstance(cases, list):
+                    for case in cases:
+                        if (not isinstance(case, dict)
+                                or not isinstance(case.get("name"), str) or not case["name"]
+                                or case.get("status") not in ("observed", "error", "skipped")):
+                            consistent_case_statuses = False
+                            continue
+                        name = case["name"]
+                        status = case["status"]
+                        previous_status = case_statuses.get(name)
+                        if previous_status is not None and previous_status != status:
+                            consistent_case_statuses = False
+                        case_statuses[name] = status
+                        case_entries.append((name, status))
                 usable = (test.get("execution_status") == "completed"
                           and test.get("json_status") == "valid"
-                          and isinstance(cases, list)
-                          and all(isinstance(case, dict)
-                                  and isinstance(case.get("name"), str)
-                                  and case["name"]
-                                  and case.get("status") in ("observed", "error")
-                                  for case in cases)
-                          and len(case_statuses) == len(cases))
+                          and consistent_case_statuses
+                          and len(case_entries) == len(cases))
                 if not usable or path in approved:
                     rejected.add(path)
                     approved.pop(path, None)
@@ -535,7 +557,7 @@ def _load_all_results(
                             f"(execution={test.get('execution_status')}, JSON={test.get('json_status')})"
                         )
                 elif path not in rejected:
-                    approved[path] = case_statuses
+                    approved[path] = case_entries
         except (OSError, UnicodeError, json.JSONDecodeError, ValueError, RuntimeError) as exc:
             approved = {}
             if diagnostics is not None:
@@ -787,12 +809,12 @@ def _evaluate_expectation(
         reason = "No numeric threshold extracted from expectation text."
     elif not math.isfinite(exp.constraint_value):
         reason = "Threshold is not finite."
-    elif (len(percentiles) > 1 or any(p not in ("p95", "p99") for p in percentiles)
+    elif (len(percentiles) > 1 or any(p not in ("p50", "p95", "p99") for p in percentiles)
           or re.search(r"\b(?:\d+(?:\.\d+)?(?:st|nd|rd|th)[ -]+percentile|"
                        r"percentile\s*[-:]?\s*\d+(?:\.\d+)?)\b", text, re.IGNORECASE)
           or (not percentiles and re.search(r"\bpercentile\b", text, re.IGNORECASE))):
-        reason = "Unsupported or ambiguous percentile; only p95 and p99 are supported."
-    elif exp.constraint_unit not in ("ns", "us", "µs", "ms", "s", "ops/s", "k/s", "mops/s"):
+        reason = "Unsupported or ambiguous percentile; only p50, p95, and p99 are supported."
+    elif exp.constraint_unit not in ("ns", "us", "µs", "ms", "s", "ops/s", "k/s", "mops/s", "%"):
         reason = f"Unsupported or unspecified constraint unit: {exp.constraint_unit!r}."
     elif percentile and exp.constraint_unit not in ("ns", "us", "µs", "ms", "s"):
         reason = f"{percentile} requires a percentile time measurement."
@@ -800,6 +822,11 @@ def _evaluate_expectation(
         r"\bitems_per_second\s*=\s*ops/s\b", text, re.IGNORECASE
     ):
         reason = "Throughput requires explicit mapping: items_per_second = ops/s."
+    elif exp.constraint_unit == "%" and not re.search(
+        r"\bbenchmark counter:\s*[a-zA-Z_][a-zA-Z0-9_]*_percent\b", text,
+        re.IGNORECASE,
+    ):
+        reason = "Percentage thresholds require an explicit benchmark counter mapping."
 
     if reason:
         verdict.status = "UNCHECKED"
@@ -843,6 +870,13 @@ def _evaluate_expectation(
                     measured = measured / 1_000.0
                 elif unit == "mops/s":
                     measured = measured / 1_000_000.0
+        elif unit == "%":
+            counter_match = re.search(
+                r"\bbenchmark counter:\s*([a-zA-Z_][a-zA-Z0-9_]*_percent)\b",
+                text, re.IGNORECASE,
+            )
+            if counter_match:
+                measured = r.percent_counters.get(counter_match.group(1))
         if measured is None or not math.isfinite(measured) or measured < 0:
             unavailable.append(
                 f"{r.name}: {percentile or 'measured value'} unavailable for unit '{unit}'"
@@ -950,10 +984,12 @@ def _build_report(
         "Measurements: time thresholds use Google Benchmark `real_time`; throughput "
         "requires `items_per_second` and an explicit expectation mapping "
         "`items_per_second = ops/s` (one item must mean one target operation). "
-        "Percentiles require explicit `p95_real_time`/`p99_real_time` "
+        "Percentiles require explicit `p50_real_time`, `p95_real_time`, or "
+        "`p99_real_time` "
         "time fields in the same `time_unit`; aggregate rows and iteration counts "
-        "do not establish percentiles or throughput. Duplicate percentile records "
-        "and individual repetition samples are not evaluated."
+        "do not establish percentiles or throughput. Percentage thresholds require "
+        "an explicitly named `benchmark counter: *_percent` field. Duplicate "
+        "percentile records and individual repetition samples are not evaluated."
     )
     lines.append("")
     if diagnostics:

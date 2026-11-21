@@ -94,6 +94,15 @@ benchmark structure and registration rules.
   only when their names are observed. Unknown mappings do not establish why a
   case is missing; targets whose registration call was skipped by CMake are not
   inventoried. Unsafe CTest names use a separate hashed result path.
+- Any Google Benchmark case with `error_occurred: true` fails its CTest smoke,
+  even if the benchmark process exits successfully. Its JSON is retained for
+  diagnostics and postprocessing.
+- Cases skipped because an optional backend or feature is unavailable must use
+  Google Benchmark `SkipWithMessage`; the runner records them as `skipped`,
+  excludes them from measurement comparisons, and does not fail the smoke.
+  Reserve `SkipWithError` for invalid setup, execution failures, and violated
+  benchmark gates. A skipped case is not performance evidence and remains
+  incomplete in expectation coverage.
 - Incomplete or non-numeric comparisons are not performance passes. The
   comparator's `--strict-completeness` option returns 2 for incomplete evidence;
   without it, exit status remains compatible with existing local workflows.
@@ -140,6 +149,11 @@ the canonical run-level envelope and uses this top-level contract:
   containing `source_file` and matching expectation `targets`
 - `targets`: expectation IDs, benchmark cases, parsed numeric constraint (or
   `null`), verdict, and detail
+- Repeated case names emitted by Google Benchmark repetitions are valid manifest
+  rows and retain their multiplicity. Repeated occurrences must have consistent
+  statuses; conflicting statuses invalidate the result file rather than allowing
+  one occurrence to mask another. Repetitions do not create additional
+  expectation mappings.
 
 `NO_MAPPING` means the expectation declares no explicit benchmark case;
 `NOT_RUN` means an explicit mapped case has no result. `UNCHECKED` means a case
@@ -184,6 +198,12 @@ GPU memory, energy, physical disk I/O and persistent disk footprint are not meas
   returns exit code 2 rather than reporting a successful run.
 - `-Filter` selects binaries; `-BenchmarkFilter` selects Google Benchmark cases.
   `-Repetitions` repeats cases. Repetition aggregates are not request percentiles.
+- The MSVC runner records per-case sample coefficient of variation for throughput
+  and exported worker latency percentiles in `run_manifest.json` when at least
+  two iteration repetitions are available. The 5% status is a repeatability
+  diagnostic, not a performance pass/fail gate; raw Google Benchmark JSON stays
+  unchanged, and insufficient repetitions or zero-mean metrics are explicitly
+  marked without reporting a numeric CV.
 - `-TimeoutSeconds` bounds each binary (default 300 seconds). A timeout is a
   failed measurement, not a slow successful sample. Increase the bound explicitly
   for deliberately long workloads.
