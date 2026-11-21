@@ -276,7 +276,7 @@ public:
         options.create_if_missing = true;
         options.wal_recovery_mode = rocksdb::WALRecoveryMode::kAbsoluteConsistency;
         rocksdb::DB* raw = nullptr;
-        checkStatus(storage::detail::openDbCompat(options, path, &raw));
+        checkStatus(themis::storage::detail::openDbCompat(options, path, &raw));
         db.reset(raw);
 
         const auto identity = read(kIdentityKey);
