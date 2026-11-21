@@ -80,6 +80,14 @@ through `ShardRPCClient` transport, including SIGKILL crash/restart and
 durable coordinator/participant WAL healing paths for success, coordinator
 crash, and participant unavailability/restart.
 
+As of 2026-11-21, a direct diagnostic build of the target source and the
+required production translation units passed all 3 Linux process cases:
+successful commit, coordinator SIGKILL recovery, and participant crash/restart
+healing (3/3). This is execution evidence for the real gRPC/mTLS subprocess
+path, not yet a registered CMake/CTest or release-platform gate. The registered
+target remained blocked from a full Ninja build by unrelated training-module
+dependency/build graph gaps in the local diagnostic environment.
+
 Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
 processes, deterministic network partitions with latency/reordering/duplicates,
 coordinator/participant/leader crash matrices over that transport, history

@@ -270,6 +270,10 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     echte POSIX-Prozess-Crashes, Coordinator-/Participant-Restart, WAL-Replay, Locks und verlorene ACKs ab.
     Das bestehende Test-IPC über Pipes ist keine gRPC/mTLS-Netzwerk- oder Partition-Heilungs-Evidenz;
     Stub-2PC-/WAL-Fälle in `test_sharding_contract_hardening_focused.cpp` ersetzen diesen Nachweis nicht.
+  - Direkter Linux-Evidenzlauf am 2026-11-21: 3/3 reale gRPC/mTLS-Prozessfälle bestanden
+    (Commit-Erfolg, Coordinator-SIGKILL-Recovery, Participant-Crash/Restart-Heilung). Dies ist
+    kein Nachweis für ein registriertes CMake/CTest-Target oder Release-Platforms; der lokale
+    Vollbuild des registrierten Targets bleibt durch einen getrennten Training-Abhängigkeiten-/Build-Graph-Blocker offen.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).

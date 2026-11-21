@@ -316,7 +316,7 @@ ShardRPCClient::Config makeRpcConfig(const fs::path& root,
     config.endpoint = endpoint;
     config.shard_id = shard_id;
     config.timeout_ms = timeout_ms;
-    config.max_retries = 0;
+    config.max_retries = 1;
     config.retry_delay_ms = 10;
     config.enable_circuit_breaker = false;
     config.tls_cert_path = (root / "coordinator-cert.pem").string();
