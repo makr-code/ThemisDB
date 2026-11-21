@@ -44,6 +44,27 @@ Related milestone: DOC-WEEKLY-2026-W45
 - Snapshot export propagates cancellation, callback exceptions, invalid bounds, and RocksDB iterator errors; none means an empty successful export. The RocksDB sequence excludes transactions committed after snapshot capture even if their HLC was allocated before capture.
 - The `StorageEngine` constructor’s dependency requirements and production-mode behavior are implemented in `src/storage/storage_engine.cpp`; use the header and implementation rather than assuming optional dependencies are interchangeable.
 
+## Known recovery limitation
+
+The current WAL frame CRC includes the header, but recovery evaluates it only
+after declared key/value lengths fit within the remaining segment. In a real
+fixture with 12 fsynced, acknowledged PUTs, flipping the low bit in any of the
+64 individual bit flips across the eight length bytes of the final frame:
+61 caused `TruncatedTail`, replayed only 11 entries, and truncated the newest
+segment from 117 to 78 bytes; three smaller length values failed CRC validation
+without mutation. Thus many damaged length fields in the newest segment are
+currently indistinguishable from an incomplete append for this recovery path;
+do not treat tail truncation as fail-closed corruption handling. The report
+`wal-tail-length-all-bits.json` records per-bit outcomes. A versioned
+frame/commit-boundary design and explicit migration/rollback policy are
+required before this gap can be closed.
+
+Separately, the current frame fixture has been tested with all eight bit
+positions flipped individually at each non-length header, payload, and CRC
+byte: 2,832 mutations across all 12 frames were rejected twice without WAL
+mutation. This does not mitigate the length-field gap above; its report is
+`wal-all-protected-bits.json`.
+
 ## Failure and validation
 
 Test dependency validation with `tests/storage/test_storage_engine_di.cpp` and `tests/storage/test_storage_engine_prod.cpp`. For MVCC, WAL replay, and checkpoint changes, add or run the closest test registered in `tests/storage/CMakeLists.txt`. These test references are not execution evidence; the STO-01 crash/recovery and replay-performance gates and STO-10 focused test evidence remain open.

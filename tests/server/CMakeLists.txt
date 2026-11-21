@@ -48,6 +48,12 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_api_gateway_enhancements")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/server/request_coalescing.cpp
+            ${THEMIS_ROOT_DIR}/src/server/smart_routing.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -76,6 +82,9 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         endif()
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(_stem STREQUAL "test_api_gateway_enhancements")
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
+    endif()
 
     if(_stem STREQUAL "test_wave4a_server_hardening2")
         themis_register_module_focused_test(
@@ -184,6 +193,15 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIER unit
             TIMEOUT 120
             LABELS server api
+        )
+    endif()
+    if(_stem STREQUAL "test_api_gateway_enhancements")
+        add_test(NAME APIGatewayEnhancementsFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(APIGatewayEnhancementsFocusedTests PROPERTIES
+            LABELS "server;gateway;coalescing;smart-routing;focused;unit"
+            TIMEOUT 120
         )
     endif()
 endforeach()

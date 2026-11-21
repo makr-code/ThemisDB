@@ -40,6 +40,12 @@ call timeout, and a 30-second quorum wait. Promotion depends on the injected
 replication and fencing managers. Queue rejection is surfaced to the caller and
 counted; there is no automatic retry of a rejected manual enqueue. A queued
 `target_promote_id` is not currently used to select the promotion candidate.
+When `enable_spare_activation` is true, the failover path requires a configured
+spare manager; absence emits `SPARE_ACTIVATION_FAILED` and blocks completion.
+Setting the option to false explicitly skips spare activation. The configured
+manager path still requires sharding runtime integration, and metadata
+persistence remains unavailable, so the built-in failover path cannot report
+successful completion.
 
 ## Disaster recovery
 

@@ -14,6 +14,17 @@ foreach(_src IN LISTS KNOWLEDGE_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_knowledge_gap_retrieval_callback")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+        )
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

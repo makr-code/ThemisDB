@@ -46,6 +46,73 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(NOT THEMIS_BUILD_MODULAR)
+        if(_stem STREQUAL "test_voice_production")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/audio_preprocessing.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/wake_word_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/emotion_analyzer.cpp
+            )
+        elseif(_stem STREQUAL "test_voice_coverage")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+            )
+        elseif(_stem STREQUAL "test_voice_assistant")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/wake_word_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/audio_preprocessing.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/emotion_analyzer.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_assistant.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_assistant_llm.cpp
+                ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+                ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
+            )
+        elseif(_stem STREQUAL "test_voice_browser_streaming")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp)
+        elseif(_stem STREQUAL "test_voice_security_features")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+                ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp
+            )
+        elseif(_stem STREQUAL "test_voice_telephony")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/voice/voice_telephony.cpp)
+        endif()
+    endif()
+
     if(NOT TARGET ${_target})
         add_executable(${_target}
             "${_src}"
@@ -88,6 +155,20 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
                 Threads::Threads
             )
         endif()
+    endif()
+    if(_stem STREQUAL "test_voice_production"
+        OR _stem STREQUAL "test_voice_assistant"
+        OR _stem STREQUAL "test_voice_security_features"
+        OR _stem STREQUAL "test_voice_telephony"
+        OR _stem STREQUAL "test_voice_session_manager_focused"
+        OR _stem STREQUAL "test_voice_session_manager_createSession_focused"
+        OR _stem STREQUAL "test_voice_create_session_focused")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+    if((_stem STREQUAL "test_voice_assistant_generateLLMResponse_qw37"
+        OR _stem STREQUAL "test_voice_assistant_verifyIdentify_qw38")
+        AND TARGET themis_voice)
+        target_link_libraries(${_target} PRIVATE themis_voice)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 

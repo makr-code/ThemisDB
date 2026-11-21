@@ -23,9 +23,27 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/adaptive_retrieval.cpp
         )
+    elseif("${_stem}" STREQUAL "test_ontology_aware_retriever")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/ontology_aware_retriever.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_knowledge_graph_retriever_reasoning")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_self_rag_alce")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/self_rag.cpp
+        )
     elseif("${_stem}" STREQUAL "test_rag_rlaif_trainer")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
         )
     elseif("${_stem}" STREQUAL "test_rag_multi_hop_reasoner")
         list(APPEND _extra_sources
@@ -158,6 +176,11 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
     if(_extra_sources)
         target_sources(${_target} PRIVATE ${_extra_sources})
     endif()
+    if("${_stem}" STREQUAL "test_rag_multi_hop_reasoner" OR
+       "${_stem}" STREQUAL "test_rag_adaptive_retrieval" OR
+       "${_stem}" STREQUAL "test_rag_context_assembler")
+        target_compile_features(${_target} PRIVATE cxx_std_17)
+    endif()
     if("${_stem}" STREQUAL "test_tensor_rag_provenance")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
@@ -186,6 +209,13 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_extra_labels}
     )
+    if("${_stem}" STREQUAL "test_self_rag_alce")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: rag

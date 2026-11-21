@@ -35,4 +35,14 @@ foreach(_src IN LISTS CHUNK_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS chunk
     )
+
+    if(_stem STREQUAL "test_chunk_level_encryption")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
+        )
+    endif()
 endforeach()

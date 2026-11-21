@@ -14,6 +14,12 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_auth_rate_limiter_distributed")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/auth/rate_limiter_backend.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -51,6 +57,14 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
             $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
             nlohmann_json::nlohmann_json
         )
+    endif()
+    if(_stem STREQUAL "test_auth_rate_limiter_distributed" AND THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+        if(TARGET hiredis::hiredis)
+            target_link_libraries(${_target} PRIVATE hiredis::hiredis)
+        elseif(TARGET hiredis)
+            target_link_libraries(${_target} PRIVATE hiredis)
+        endif()
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_REDIS=1)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 

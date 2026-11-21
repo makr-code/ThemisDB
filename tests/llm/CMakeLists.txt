@@ -27,6 +27,40 @@ set(_llm_orchestrator_link_sources
     ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
 )
 
+set(_llm_legacy_focused_stems
+    test_active_vram_allocator
+    test_ai_orchestrator
+    test_extended_context
+    test_gpu_lora_integration
+    test_grammar_integration
+    test_inference_performance
+    test_inference_quality
+    test_json_schema_binding
+    test_kernel_fusion_cpu_fallback
+    test_kernel_fusion_cuda
+    test_llama_cpp_tokenizer
+    test_llama_wrapper_state
+    test_llm_audit_logger
+    test_llm_deployment_plugin
+    test_llm_gossip_adapter_publisher
+    test_llm_inference_roles
+    test_llm_model_path_traversal
+    test_llm_validator
+    test_lora_adapter_application
+    test_lora_adapters
+    test_lora_auto_binding
+    test_lora_hot_loading
+    test_mcp_orchestrator_bridge
+    test_metrics_server_wiring
+    test_model_loader_async
+    test_model_loader_error_handling
+    test_model_loading_best_practices
+    test_model_loading_from_themisdb
+    test_openai_compat_adapter
+    test_real_embeddings
+    test_streaming_handler
+)
+
 if(WIN32)
     function(themis_llm_sync_runtime_dlls target_name)
         if(NOT TARGET ${target_name})
@@ -148,7 +182,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     # When building modularly the llama_cpp plugin may not be linked into
     # `themis_core`. Ensure focused LLM tests have the plugin implementation
     # available by compiling the plugin sources directly into the test target.
-    if(THEMIS_BUILD_MODULAR)
+    if(THEMIS_BUILD_MODULAR OR _stem STREQUAL "test_inference_performance")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
             ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
@@ -531,6 +565,58 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
             ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_LLM=1)
+    endif()
+    if(_stem STREQUAL "test_llm_timeout_cancellation")
+        if(TARGET themis_llm)
+            target_link_libraries(${_target} PRIVATE
+                themis_llm
+                $<$<TARGET_EXISTS:themis_content>:themis_content>
+            )
+        endif()
+        target_link_libraries(${_target} PRIVATE
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_raid_routing")
+        target_link_libraries(${_target} PRIVATE
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
+            nlohmann_json::nlohmann_json
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_LLM=1)
+    endif()
+    if(_stem STREQUAL "test_llm_raid_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/sharding_manager_edition.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+            ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+            ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            $<$<TARGET_EXISTS:themis_query>:themis_query>
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
+            nlohmann_json::nlohmann_json
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_LLM=1)
     endif()
     if(_stem STREQUAL "test_wiki_index_store_phase_b")
         themis_llm_rescan_sharding_dependencies(${_target})
@@ -648,7 +734,8 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         if(_stem STREQUAL "test_llm_wiki_phase_b_integration"
            OR _stem STREQUAL "test_llm_wiki_process_policy_manager"
            OR _stem STREQUAL "test_llm_federated_failure_envelopes")
-            add_custom_target(${_target} DEPENDS ${_focused_target})
+           add_custom_target(${_target})
+           add_dependencies(${_target} ${_focused_target})
         endif()
         # In modular builds the focused target includes the LlamaCpp providers;
         # reuse that canonical binary for the legacy AutoFocused CTest name.

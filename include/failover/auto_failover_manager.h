@@ -90,6 +90,7 @@ struct AutoFailoverConfig {
     
     // Behavior
     bool enable_automatic_failover{true};
+    /// When enabled, failover requires an available spare manager; absence fails closed.
     bool enable_spare_activation{true};
     bool enable_leader_election{true};
     bool enable_network_partition_detection{true};
@@ -324,6 +325,14 @@ public:
         last_failover_result_ = result;
         updateStatistics(result);
         return result;
+    }
+    /**
+     * @brief Test spare activation adapter availability.
+     * @param[in] failed_node_id Identifier of the failed node.
+     * @return True only when the configured spare path can activate successfully.
+     */
+    bool testActivateSpareIfNeeded(const std::string& failed_node_id) {
+        return activateSpareIfNeeded(failed_node_id);
     }
     void testSetHealthCheckOverride(
         std::function<std::map<std::string, bool>()> fn) {

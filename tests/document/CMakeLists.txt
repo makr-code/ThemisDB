@@ -52,6 +52,16 @@ foreach(_src IN LISTS DOCUMENT_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS document
     )
+
+    if(_stem STREQUAL "test_document_store")
+        add_test(NAME DocumentStoreFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(DocumentStoreFocusedTests PROPERTIES
+            LABELS "document;store;manager;lifecycle;schema;diff;merge;v1.3.0;focused;unit"
+            TIMEOUT 60
+        )
+    endif()
 endforeach()
 
 # ─── Wave D stress label override ────────────────────────────────────────────

@@ -17,9 +17,25 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${_extra_include_dirs}
     )
     set(_extra_sources)
-    if("${_stem}" STREQUAL "test_scraper_plugin" OR "${_stem}" STREQUAL "test_scraper_v12_features_focused")
+    set(_extra_include_dirs)
+    if("${_stem}" STREQUAL "test_scraper_plugin")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_config.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_search_engine.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/gov_source_catalog.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_api_client.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_llm_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_metadata_writer.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_js_renderer.cpp
+            ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_plugin.cpp
+        )
+        list(APPEND _extra_include_dirs
+            ${THEMIS_ROOT_DIR}/plugins/scraper/include
+        )
+    elseif("${_stem}" STREQUAL "test_scraper_v12_features_focused")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/scraper/scraper_config.cpp
             ${THEMIS_ROOT_DIR}/src/scraper/scraper_search_engine.cpp
@@ -41,6 +57,10 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if("${_stem}" STREQUAL "test_scraper_plugin")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+        target_compile_features(${_target} PRIVATE cxx_std_17)
+    endif()
 
     themis_register_module_focused_test(
         MODULE scraper

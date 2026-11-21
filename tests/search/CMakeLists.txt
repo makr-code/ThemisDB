@@ -61,4 +61,14 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+
+    if(_stem STREQUAL "test_search_highlighter")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            TEST_PREFIX "test_search_highlighter."
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endforeach()

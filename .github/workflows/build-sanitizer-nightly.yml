@@ -254,6 +254,13 @@ jobs:
         build-sanitizer/Testing
         build-sanitizer/CMakeCache.txt
       artifact_retention_days: '10'
+      artifact_name_secondary: sanitizer-wal-process-crash-${{ github.run_number }}
+      artifact_paths_secondary: |
+        build-sanitizer/test-results/wal-process-crash.json
+        build-sanitizer/test-results/wal-unobserved-append.json
+        build-sanitizer/test-results/wal-tail-boundaries.json
+        build-sanitizer/test-results/*-failures/
+      artifact_retention_days_secondary: '10'
       summary_title: "Build: Sanitizer Nightly — Critical Path Validation"
       timeout_minutes: '90'
 

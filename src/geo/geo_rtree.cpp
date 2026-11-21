@@ -18,6 +18,7 @@
 // ── Boost.Geometry R-tree backend ─────────────────────────────────────────
 #if defined(THEMIS_GEO_BOOST_BACKEND) && !defined(__linux__)
 #  if __has_include(<boost/geometry/index/rtree.hpp>)
+#    include <boost/geometry.hpp>
 #    include <boost/geometry/geometries/box.hpp>
 #    include <boost/geometry/geometries/point_xy.hpp>
 #    include <boost/geometry/index/rtree.hpp>
@@ -147,8 +148,8 @@ struct GeoRTree::Impl {
         for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
             // The candidate MBR intersects the point; now verify containment.
             const BgBox& b = it->first;
-            if (b.min_corner().x() <= x && x <= b.max_corner().x() &&
-                b.min_corner().y() <= y && y <= b.max_corner().y()) {
+            if (bg::get<0>(b.min_corner()) <= x && x <= bg::get<0>(b.max_corner()) &&
+                bg::get<1>(b.min_corner()) <= y && y <= bg::get<1>(b.max_corner())) {
                 result.push_back(it->second);
             }
         }

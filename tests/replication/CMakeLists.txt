@@ -118,12 +118,23 @@ foreach(_src IN LISTS REPLICATION_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_replication_${_stem}_autofocused")
     set(_ctest "${_stem}_replication_AutoFocusedTests")
+    set(_extra_sources)
+
+    if(_stem STREQUAL "test_replication_geo_placement_wal_shipping_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/replication/async_wal_shipper.cpp
+        )
+    elseif(_stem STREQUAL "test_replication_topology_api_handler")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
+        )
+    endif()
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    add_executable(${_target} "${_src}" ${_extra_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -135,6 +146,11 @@ foreach(_src IN LISTS REPLICATION_AUTOGEN_PREFIX_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(_stem STREQUAL "test_replication_ha")
+        target_link_libraries(${_target} PRIVATE zstd::zstd)
+    elseif(_stem STREQUAL "test_replication_topology_api_handler")
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
+    endif()
 
     # Promote geo-placement, WAL shipping, and chaos/fault tests to release_critical.
     set(_extra_labels "replication;autogen")

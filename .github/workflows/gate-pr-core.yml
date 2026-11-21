@@ -283,7 +283,9 @@ jobs:
         -DGGML_F16C=OFF
         -DCMAKE_TOOLCHAIN_FILE=
       build_command: >-
+        set -euo pipefail;
         PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
+        cmake --build build-pr-release-critical --target test_wal_process_crash_worker --parallel "${PARALLEL_JOBS}";
         if cmake --build build-pr-release-critical --target help | grep -Eq '^[[:space:]]*themis_release_critical_tests:'; then
           cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel "${PARALLEL_JOBS}";
         else
@@ -292,6 +294,14 @@ jobs:
         fi;
         tar -cf pr-release-critical-build-dir.tar build-pr-release-critical
       validation_mode: none
+      validation_command: >-
+        set -euo pipefail;
+        python3 -m unittest discover -s tests -p test_wal_process_crash_report.py;
+        ctest --test-dir build-pr-release-critical --output-on-failure --no-tests=error
+        -R '^WALProcess(CrashRecovery|UnobservedAppend)Tests$';
+        python3 tests/storage/test_wal_tail_boundaries.py
+        --worker build-pr-release-critical/bin/test_wal_process_crash_worker
+        --report build-pr-release-critical/test-results/wal-tail-boundaries.json
       artifact_name: pr-release-critical-build-dir
       artifact_paths: pr-release-critical-build-dir.tar
       artifact_retention_days: '7'

@@ -607,7 +607,14 @@ function(themis_register_transaction_autofocused_tests)
             continue()
         endif()
 
-        add_executable(${_target} "${_src}")
+        set(_extra_sources)
+        if(_stem STREQUAL "test_transaction_semantic_advisor")
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/transaction/transaction_semantic_advisor.cpp
+            )
+        endif()
+
+        add_executable(${_target} "${_src}" ${_extra_sources})
         target_include_directories(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
             ${THEMIS_ROOT_DIR}/src
@@ -619,6 +626,16 @@ function(themis_register_transaction_autofocused_tests)
             Threads::Threads
         )
         target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        if(_stem MATCHES "test_transaction_(manager_comprehensive|occ|bulk|timeout|ssi)")
+            target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+        endif()
+        if(_stem STREQUAL "test_transaction_semantic_advisor")
+            gtest_discover_tests(${_target}
+                DISCOVERY_MODE POST_BUILD
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+                EXTRA_ARGS --gtest_color=yes
+            )
+        endif()
 
         themis_register_module_focused_test(
             MODULE transaction

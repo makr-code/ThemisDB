@@ -89,6 +89,62 @@ flowchart TD
 6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
 7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
 
+### WAL-Prozess-Crash-Evidenz (STO-07)
+
+- `gate-pr-core.yml` startet jetzt auch bei Änderungen unter `src/storage/`,
+  `include/storage/` und am Python-Harness. Die bestehende Quality-Build-Lane
+  baut `test_wal_process_crash_worker` und führt den 50er-CTest im Build-Job aus,
+  damit dessen Laufzeitbibliotheken verfügbar bleiben.
+- `build-sanitizer-nightly.yml` führt das ACK-Grenzen-Szenario mit 1.000
+  Iterationen vor den bisherigen CTests aus. Ein Fehler stoppt die Validierung.
+  Beide Sanitizer-Modi setzen fuer C und C++ `-fno-sanitize-recover=all`,
+  damit insbesondere UBSan-Befunde nicht mit erfolgreichem Exit weiterlaufen.
+  Dies aendert die Sanitizer-Build-Lane, nicht regulaere Produktionsbuilds.
+  Der WAL-Harness weist erkannte Sanitizer-Diagnosen zusaetzlich unabhaengig
+  vom Exitcode ab: Writer vor ACK und nach Reader-Join, Verifier auf beiden
+  Ausgabekanaelen einschliesslich N+1-Retry. Diese Textpruefung ist nicht
+  vollstaendig und ersetzt weder die Compilerflags noch ausgefuehrte
+  Sanitizer-Laufzeittests.
+- Die Caller deklarieren JSON-Berichte als sekundäre Artefakte. Der Reusable
+  lädt deklarierte sekundäre Artefakte auch nach Fehlern hoch, nicht nach
+  Abbruch; fehlende Dateien vor dem Teststart werden weiterhin ignoriert.
+  Primäre Build-Artefakte bleiben erfolgsabhängig.
+- Lokale Workflow-Vertragstests und Lint sind kein erfolgreicher Linux-/
+  Sanitizer-CI-Nachweis. Erst veröffentlichte Läufe belegen diese Verdrahtung.
+  Abbrüche innerhalb laufender Appends/fsyncs sind nicht abgedeckt.
+- Beide Caller führen zusätzlich `unobserved-append` mit 50/1.000 Iterationen
+  aus und laden `wal-unobserved-append.json` separat hoch: ein weiterer Append
+  wird freigegeben, sein ACK nicht abgewartet. Replay darf genau diesen
+  vollständig persistierten Eintrag zusätzlich enthalten; fehlende ACKs sind
+  kein Rollback-Beweis. Ein gezielter Syscall-Abbruch ist weiter offen.
+- Mit `--report` bleiben fehlgeschlagene Iterationen unter
+  `test-results/<report-stem>-failures/iteration-<number>-<unique-id>` erhalten.
+  Der JSON-Pfad `failure_artifact` verweist auf WAL vor Recovery, aktuellen WAL,
+  Reproduktionsparameter und Fehlermeldung. Vor Recovery gescheiterte Writer
+  haben gegebenenfalls noch keinen WAL/Snapshot. Beide Caller deklarieren
+  `test-results/*-failures/` fuer den sekundaeren Upload. Erfolgslaeufe erzeugen
+  keine Retention-Artefakte; ein leerer Evidenzwurzelordner kann bestehen bleiben.
+  Workspaces entstehen direkt dort, ohne Kopie des Originals im Fehlerpfad.
+  Scheitert `failure.txt`, bleiben WAL und `failure_artifact` erhalten; JSON
+  meldet beide Fehler mit `retention_error`. Ein unbeschreibbarer Evidenzordner
+  stoppt den Lauf bereits vor dem Writer-Start.
+  `writer.log` im selben Ordner sichert kombinierte stdout/stderr nach
+  Prozessende und Reader-Join. Der bestehende Ordner-Upload erfasst den Log
+  ohne neuen Artefaktpfad; tatsaechliche GitHub-Publikation bleibt ungeprueft.
+
+- Beide WAL-Caller fuehren nach den bestehenden Crash-Szenarien
+  `tests/storage/test_wal_tail_boundaries.py` aus: aktuell 2.980 deterministische
+  Faelle nach Writer-Kill (2.832 Nicht-Laengen-Bitflips plus Tail-Faelle), keine
+  Syscall-Kill-Simulation. Die lokale Windows-Kampagne dauerte 826.929 Sekunden;
+  die wiederverwendbare Build-Job-Zeitgrenze ist standardmaessig 360 Minuten.
+  Der eigene
+  `test-results/wal-tail-boundaries.json` und vorhandene `*-failures/`-Glob
+  werden sekundaer hochgeladen. Fehler stoppen die Validierung; erfolgreiche
+  lokale Ausfuehrung ist kein GitHub-/Sanitizer-Nachweis. Die acht
+  Laengenbytes sind aus der Bitflip-Kampagne ausgeschlossen, weil eine separate
+  64-Bit-Probe 61 destruktive Tail-Kuerzungen reproduzierte; siehe STO-01 in
+  `src/storage/ROADMAP.md`.
+
 ### Lokale Summary-Actions und Fehlerdiagnose
 
 - Release-Artefakte brauchen einen blockierenden Loader-/Starttest nach dem Build:

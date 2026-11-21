@@ -174,7 +174,8 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
 
     if(_stem IN_LIST _gpu_legacy_discovery_stems)
         if(NOT _stem STREQUAL "test_gpu_vector_index" OR THEMIS_ENABLE_VECTOR_SEARCH)
-            add_custom_target(${_stem} DEPENDS ${_target})
+            add_custom_target(${_stem})
+            add_dependencies(${_stem} ${_target})
         endif()
     endif()
 

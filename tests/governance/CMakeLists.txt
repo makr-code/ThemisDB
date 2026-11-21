@@ -41,6 +41,23 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
         target_link_libraries(${_target} PRIVATE fmt::fmt)
     endif()
 
+    if(_stem STREQUAL "test_governance_policy_hot_reload"
+       OR _stem STREQUAL "test_governance_opa_adapter")
+        target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
+    endif()
+
+    if(_stem STREQUAL "test_governance_policy_simulation")
+        target_link_libraries(${_target} PRIVATE
+            $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
+            OpenSSL::Crypto
+        )
+    endif()
+
+    if(_stem STREQUAL "test_governance_compliance_time_window"
+       OR _stem STREQUAL "test_governance_review_scheduler")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+
     # Audit-integrity focused tests require concrete implementation symbols
     # from governance_audit_integrity.cpp.
     if(_stem STREQUAL "test_audit_integrity")

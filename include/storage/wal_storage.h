@@ -39,10 +39,17 @@ namespace themis {
  *   [8 bytes] sequence number (monotonically increasing)
  *   [1 byte]  entry type    (PUT=1, DELETE=2, CHECKPOINT=3)
  *   [4 bytes] key length
+ *   [4 bytes] value length (0 for DELETE and CHECKPOINT)
  *   [N bytes] key data
- *   [4 bytes] value length  (0 for DELETE and CHECKPOINT)
  *   [M bytes] value data
  *   [4 bytes] CRC32 checksum over all preceding bytes in this entry
+ *
+ * @warning In the current frame format, recovery uses the declared lengths to
+ *          locate the CRC. If a corrupted length makes a final frame appear
+ *          incomplete, recovery may truncate that frame as a torn tail before
+ *          it can verify the CRC. Do not treat this case as fail-closed
+ *          corruption handling; see the storage recovery roadmap for the
+ *          versioned-format blocker and acceptance criteria.
  *
  * ## Log rotation
  *
@@ -65,7 +72,8 @@ namespace themis {
  *
  * ## Exception Safety: Strong Guarantee
  *
- * - **open()**: Returns Result; no exception. Factory success == valid WALStorage object.
+ * - **open()**: Storage failures return Result; callback exceptions propagate. Factory
+ *   success means a valid WALStorage object was returned.
  * - **appendPut/appendDelete/appendBatch()**: Return Result. On error, WAL state unchanged
  *   and ready for retry.
  * - **checkpoint()**: Return Result. May write CHECKPOINT entry; fsync is "best-effort"
@@ -148,6 +156,14 @@ public:
     using RecoveryCallback = std::function<bool(const Entry&)>;
 
     /**
+     * @brief Observer for structured recovery progress and terminal status.
+     * @note Called synchronously during recovery, including after each
+     *       successfully applied record. Implementations should be fast and
+     *       must not throw; retain a copy if the report must outlive the call.
+     */
+    using RecoveryProgressCallback = std::function<void(const RecoveryResult&)>;
+
+    /**
      * @brief Open (or create) the WAL in the given directory.
      *
      * On first open, an empty WAL is created.
@@ -171,6 +187,54 @@ public:
         const Config& config,
         RecoveryCallback on_recover = nullptr,
         RecoveryResult* recovery_result = nullptr
+    );
+
+    /**
+     * @brief Open a WAL and observe recovery progress without retaining a report.
+     * @param config WAL configuration.
+     * @param on_recover Callback invoked for each recovered entry; may be null.
+     * @param on_progress Synchronous progress observer; must be fast and must
+     *                    not throw.
+     * @return WAL instance on success, or an error for recovery/storage failure.
+     * @throws Any exception thrown by either callback.
+     */
+    static Result<std::unique_ptr<WALStorage>> open(
+        const Config& config,
+        RecoveryCallback on_recover,
+        RecoveryProgressCallback on_progress
+    );
+
+    /**
+     * @brief Open a WAL and provide structured recovery diagnostics.
+     *
+     * On first open, an empty WAL is created. Existing segments are replayed
+     * before the active segment is reopened for appends.
+     *
+     * @param config WAL configuration (directory, rotation threshold, fsync,
+     *               and total recovery timeout in seconds; zero disables the
+     *               timeout).
+     * @param on_recover Callback invoked for each recovered entry; may be null.
+     * @param on_progress Optional synchronous observer for progress and final
+     *                    status; it must be fast and must not throw.
+     * @param recovery_result Optional output populated on success and returned
+     *                        failures, including the valid replay prefix.
+     * @return WAL instance on success, or an error for corruption, timeout,
+     *         I/O failure, or callback abort. An incomplete physical tail is
+     *         truncated only in the latest segment, after that segment is
+     *         verified to have no later complete record. Incomplete data in an
+     *         earlier segment is corruption. Non-complete outcomes are emitted
+     *         to the storage audit diagnostic channel.
+     * @note The deadline spans all replayed segments. Blocking file I/O and
+     *       callbacks cannot be interrupted; overrun is reported at the next
+     *       check after the operation returns.
+     * @throws Any exception thrown by either callback; completed recovery
+     *         callback side effects are not rolled back.
+     */
+    static Result<std::unique_ptr<WALStorage>> open(
+        const Config& config,
+        RecoveryCallback on_recover,
+        RecoveryProgressCallback on_progress,
+        RecoveryResult* recovery_result
     );
 
     ~WALStorage();

@@ -25,6 +25,9 @@ foreach(_src IN LISTS SECONDARY_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_secondary_index")
+        target_link_libraries(${_target} PRIVATE Boost::system)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
@@ -35,4 +38,12 @@ foreach(_src IN LISTS SECONDARY_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS secondary
     )
+    if(_stem STREQUAL "test_secondary_index")
+        add_test(NAME themis_secidx_tests
+            COMMAND $<TARGET_FILE:${_target}> --gtest_color=yes
+        )
+        set_tests_properties(themis_secidx_tests PROPERTIES
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+        )
+    endif()
 endforeach()

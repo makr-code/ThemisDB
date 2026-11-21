@@ -13,6 +13,8 @@
 // Licensed under MIT License
 
 #include "storage/wal_storage.h"
+#include "storage/storage_error_diagnostics.h"
+#include "observability/metrics_collector.h"
 #include "utils/error_registry.h"
 #include "utils/logger.h"
 
@@ -308,6 +310,92 @@ static bool write_all_fd(int fd, const void* data, size_t len) {
 static constexpr uint32_t WAL_MAGIC    = 0xDBAB1234u;
 static constexpr size_t   HEADER_SIZE  = 4 + 8 + 1 + 4 + 4; // magic+seq+type+klen+vlen
 
+static std::string_view recoveryStatusName(WALStorage::RecoveryStatus status) {
+    switch (status) {
+        case WALStorage::RecoveryStatus::InProgress: return "IN_PROGRESS";
+        case WALStorage::RecoveryStatus::Complete: return "COMPLETE";
+        case WALStorage::RecoveryStatus::TruncatedTail: return "TRUNCATED_TAIL";
+        case WALStorage::RecoveryStatus::Corrupted: return "CORRUPTED";
+        case WALStorage::RecoveryStatus::TimedOut: return "TIMED_OUT";
+        case WALStorage::RecoveryStatus::Failed: return "FAILED";
+    }
+    return "FAILED";
+}
+
+static void publishRecoveryProgress(
+    const WALStorage::RecoveryProgressCallback& on_progress,
+    WALStorage::RecoveryResult& recovery_result,
+    std::chrono::steady_clock::time_point recovery_start_time) {
+    recovery_result.elapsed_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - recovery_start_time)
+            .count());
+    if (on_progress) {
+        on_progress(recovery_result);
+    }
+}
+
+static void recordRecoveryProgressMetrics(uint64_t frame_size) {
+    try {
+        auto& metrics = observability::MetricsCollector::getInstance();
+        metrics.addCounter("storage_wal_recovery_entries_total", 1);
+        metrics.addCounter("storage_wal_recovery_bytes_total",
+                           static_cast<int64_t>(frame_size));
+    } catch (const std::exception& error) {
+        THEMIS_WARN("WAL recovery progress metrics update failed: {}",
+                    error.what());
+    }
+}
+
+static void recordRecoverySummaryMetrics(
+    const WALStorage::RecoveryResult& recovery_result) {
+    try {
+        auto& metrics = observability::MetricsCollector::getInstance();
+        const std::map<std::string, std::string> labels{
+            {"status", std::string(recoveryStatusName(recovery_result.status))}};
+        metrics.addCounter("storage_wal_recovery_attempts_total", 1, labels);
+        metrics.observeHistogram("storage_wal_recovery_duration_ms",
+                                 static_cast<double>(recovery_result.elapsed_ms),
+                                 labels);
+    } catch (const std::exception& error) {
+        THEMIS_WARN("WAL recovery summary metrics update failed: {}",
+                    error.what());
+    }
+}
+
+static void emitRecoveryAuditEvent(
+    const WALStorage::RecoveryResult& recovery_result,
+    std::string_view wal_directory) {
+    recordRecoverySummaryMetrics(recovery_result);
+    if (recovery_result.status == WALStorage::RecoveryStatus::InProgress ||
+        recovery_result.status == WALStorage::RecoveryStatus::Complete) {
+        return;
+    }
+
+    auto error_code = storage::StorageErrorCode::RECOVERY_INCOMPLETE;
+    if (recovery_result.status == WALStorage::RecoveryStatus::Corrupted) {
+        error_code = storage::StorageErrorCode::WAL_CORRUPTED;
+    } else if (recovery_result.status == WALStorage::RecoveryStatus::TimedOut) {
+        error_code = storage::StorageErrorCode::RECOVERY_TIMEOUT;
+    }
+
+    auto context = storage::buildErrorContext(
+        error_code, "WALStorage::recovery", wal_directory);
+    std::ostringstream message;
+    message << "status=" << recoveryStatusName(recovery_result.status)
+            << " segment=" << recovery_result.segment
+            << " last_valid_lsn=" << recovery_result.last_valid_lsn
+            << " recovered_entries=" << recovery_result.recovered_entries
+            << " bytes_processed=" << recovery_result.bytes_processed
+            << " total_bytes=" << recovery_result.total_bytes
+            << " skipped_bytes=" << recovery_result.skipped_bytes;
+    if (!recovery_result.error_message.empty()) {
+        message << " detail=" << recovery_result.error_message;
+    }
+    context.message = message.str();
+    storage::emitDiagnosticEvent(context);
+}
+
 /**
  * @brief ────────────────────────────────────────────────────────────────────────────── CRC32 (simple table-based implementation; no external dependency) ──────────────────────────────────────────────────────────────────────────────
  * @param[in] crc Input parameter.
@@ -456,7 +544,9 @@ WALStorage::~WALStorage() {
  * @param[in] config Input parameter.
  * @param[in] on_recover Input parameter.
  * @return Return value.
- * @details - Caller receives a Result<> that indicates success/failure. - No exception escapes open(); all errors are captured in Result. Thread Safety: - Factory method (static); no concurrent access during construction. no_timeout scanner alert: WALStorage::open is a local-file factory method; it opens a WAL directory on block storage — no network I/O, no timeout needed. Calls: WALStorage(), openOrCreate(), error(), code(), context(), Ok(), std::move().
+ * @details Storage failures are returned as Result; exceptions from callbacks
+ *          propagate. The partial WALStorage object is cleaned up if replay
+ *          returns an error or a callback throws.
  */
 Result<std::unique_ptr<WALStorage>> WALStorage::open(
     const Config& config,
@@ -501,8 +591,9 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover,
     std::error_code ec = {};
     fs::create_directories(config_.dir, ec);
     if (ec) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
-                       "cannot create WAL directory: " + ec.message());
+        return fail(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                    RecoveryStatus::Failed,
+                    "cannot create WAL directory: " + ec.message());
     }
 
     // Collect existing segments sorted by ID.
@@ -517,6 +608,35 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover,
         }
     }
     std::sort(segments_.begin(), segments_.end());
+    recovery_result.total_segments = static_cast<uint64_t>(segments_.size());
+
+    const auto recovery_start_time = std::chrono::steady_clock::now();
+    const auto recovery_timeout =
+        std::chrono::seconds(static_cast<std::chrono::seconds::rep>(
+            config_.recovery_timeout_seconds));
+    const auto recovery_timed_out = [&]() {
+        return recovery_timeout.count() > 0 &&
+               std::chrono::steady_clock::now() - recovery_start_time >=
+                   recovery_timeout;
+    };
+
+    for (const uint64_t sid : segments_) {
+        const auto path = config_.dir + "/" + segmentName(sid);
+        const uint64_t segment_size = fs::file_size(path, ec);
+        if (ec) {
+            return fail(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                        RecoveryStatus::Failed,
+                        "cannot determine WAL segment size: " + path + ": " +
+                            ec.message());
+        }
+        if (segment_size > std::numeric_limits<uint64_t>::max() -
+                               recovery_result.total_bytes) {
+            return fail(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                        RecoveryStatus::Failed,
+                        "total WAL recovery size exceeds the supported range");
+        }
+        recovery_result.total_bytes += segment_size;
+    }
 
     const uint64_t max_segment_id = segments_.empty() ? 0 : segments_.back();
     std::vector<uint64_t> recovered_segments;
@@ -622,8 +742,8 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover,
  * @param[in] path WAL segment path.
  * @param[in,out] cb Recovery callback for each complete, checksum-valid record.
  * @return Error for corruption, I/O failure, timeout, sequence overflow, or
- *         callback abort. A physically incomplete final record is truncated
- *         to the last complete record before returning success.
+ *         callback abort. An incomplete tail is truncated only in the latest
+ *         segment; incomplete data in an earlier segment is corruption.
  */
 Result<void> WALStorage::replaySegment(const std::string& path,
                                        RecoveryCallback& cb,
@@ -728,6 +848,9 @@ Result<void> WALStorage::replaySegment(const std::string& path,
         THEMIS_WARN("WALStorage::replaySegment: truncated incomplete WAL tail "
                     "(path={}, valid_bytes={}, discarded_bytes={})",
                     path, last_valid_offset, file_size - last_valid_offset);
+        recovery_result.status = RecoveryStatus::TruncatedTail;
+        recovery_result.skipped_bytes += file_size - last_valid_offset;
+        publishRecoveryProgress(on_progress, recovery_result, report_start_time);
         return OkVoid();
     };
 
@@ -798,6 +921,11 @@ Result<void> WALStorage::replaySegment(const std::string& path,
         const uint64_t frame_size =
             static_cast<uint64_t>(HEADER_SIZE) + klen + vlen + FRAME_TRAILER_SIZE;
         if (frame_size > remaining) {
+            if (!allow_incomplete_tail) {
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                               "incomplete WAL record in non-final segment at byte " +
+                                   std::to_string(offset) + " in " + path);
+            }
             if (contains_complete_record_after(offset + HEADER_SIZE)) {
                 return fail(RecoveryStatus::Corrupted,
                             errors::ErrorCode::ERR_STORAGE_CORRUPTION,
