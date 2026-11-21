@@ -871,16 +871,61 @@ bool DisasterRecoveryManager::runAdapterStep(
     }
 
     std::optional<DisasterRecoveryVerificationProof> proof;
-    try {
-        proof = verifier->second(plan, detail);
-    } catch (const std::exception& exception) {
-        detail = std::string("verification adapter threw: ") + exception.what();
-        error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
-        return false;
-    } catch (...) {
-        detail = "verification adapter threw an unknown exception";
-        error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
-        return false;
+    const auto verification_started = std::chrono::steady_clock::now();
+    const auto verification_deadline =
+        verification_started + std::max(config_.verification_timeout,
+                                        std::chrono::milliseconds::zero());
+    const auto verification_attempts =
+        std::max<uint32_t>(config_.max_verification_retries, 1u);
+
+    for (uint32_t attempt = 0; attempt < verification_attempts; ++attempt) {
+        if (attempt > 0 &&
+            std::chrono::steady_clock::now() >= verification_deadline) {
+            detail = "independent verification timed out";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+        try {
+            proof = verifier->second(plan, detail);
+        } catch (const std::exception& exception) {
+            detail = std::string("verification adapter threw: ") + exception.what();
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        } catch (...) {
+            detail = "verification adapter threw an unknown exception";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+
+        if (!proof) {
+            continue;
+        }
+
+        bool proof_matches = false;
+        switch (step) {
+            case DisasterRecoveryStep::SNAPSHOT_VALIDATION:
+            case DisasterRecoveryStep::RESTORE:
+            case DisasterRecoveryStep::VERIFICATION:
+                proof_matches =
+                    !proof->checksum.empty() &&
+                    proof->checksum == plan.snapshot_checksum;
+                break;
+            case DisasterRecoveryStep::REPLICA_CATCHUP:
+                proof_matches =
+                    proof->term == plan.required_term &&
+                    proof->lsn >= plan.required_lsn;
+                break;
+            case DisasterRecoveryStep::TRAFFIC_SHIFT:
+                proof_matches = proof->observed_site == plan.recovery_site;
+                break;
+            case DisasterRecoveryStep::PRECHECKS:
+            case DisasterRecoveryStep::EPOCH_FENCING:
+                proof_matches = false;
+                break;
+        }
+        if (proof_matches) {
+            break;
+        }
     }
 
     if (!proof) {

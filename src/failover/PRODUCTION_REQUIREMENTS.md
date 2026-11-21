@@ -58,7 +58,9 @@ Related milestone: DOC-WEEKLY-2026-W45
   requested traffic shift, and recovered-state verification require an operation
   adapter acknowledgement and a separate read-back proof. Checksums, required
   LSN/term, and recovery-site identity are compared with the plan. Quorum alone
-  is not catch-up proof.
+  is not catch-up proof. Independent verification uses
+  `max_verification_retries` and `verification_timeout`; transient mismatches
+  may be retried, while timeout or persistent mismatch blocks success.
 - Non-dry-run DR additionally requires quorum, epoch fencing, and a writable
   `metadata_log_path`; a checksummed completion record is appended before
   success is returned and replayed on manager construction. An existing log

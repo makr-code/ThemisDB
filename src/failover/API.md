@@ -66,6 +66,9 @@ For non-dry-run plans, snapshot validation, restore, replication-position
 catch-up, requested traffic shift, and recovered-state verification each require
 an operation hook plus a separate verification hook. Acknowledgement alone is
 insufficient: checksum, LSN/term, or recovery-site evidence must match the plan.
+Independent verification is retried according to `max_verification_retries`
+and bounded by `verification_timeout`; exhausted retries or stale proof fail
+the step and prevent completion persistence.
 A disabled traffic shift is treated as an explicit plan choice. Quorum and
 epoch-fencing configuration plus a writable `metadata_log_path` are mandatory;
 the checksummed completion record is appended before a successful result is

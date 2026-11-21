@@ -34,6 +34,7 @@
 #include "failover/disaster_recovery_manager.h"
 #include "sharding/epoch_fencing.h"
 
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
@@ -698,6 +699,74 @@ TEST(DisasterRecoveryEdgeDRE26, MissingPreviouslyLoadedMetadataBlocksCachedSucce
     EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
     ASSERT_EQ(result.step_results.size(), 1u);
     EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
+}
+
+TEST(DisasterRecoveryEdgeDRE27, VerificationAcceptsSuccessAfterTransientMismatch) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.max_verification_retries = 3;
+    config.verification_timeout = std::chrono::milliseconds{100};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan& plan, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            detail = "independent restore read-back";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = (++verification_attempts == 1)
+                                 ? "sha256:wrong-before-retry"
+                                 : plan.snapshot_checksum;
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_TRUE(result.success) << result.error_message;
+    EXPECT_GE(verification_attempts.load(), 2u);
+}
+
+TEST(DisasterRecoveryEdgeDRE28, VerificationFailureAfterRetriesBlocksSuccess) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.max_verification_retries = 3;
+    config.verification_timeout = std::chrono::milliseconds{100};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan&, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            ++verification_attempts;
+            detail = "restore read-back remains mismatched";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = "sha256:persistent-mismatch";
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_EQ(verification_attempts.load(), 3u);
 }
 
 #if defined(__unix__) || defined(__APPLE__)
