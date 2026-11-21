@@ -64,6 +64,36 @@ No WAL encoding consolidation, API removal or automatic migration of unresolved
 older CrossShard records is included. See [API.md](API.md),
 [RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
 
+### DIS-10 multi-process evidence boundary
+
+The `TransactionProcessCrashRecoveryTests` target already provides
+POSIX-process crash/recovery coverage with real coordinator and participant
+objects, persistent WAL state, lock state and RocksDB apply callbacks. It covers
+coordinator and participant crashes, lost acknowledgements, missing
+participants and recovery after process restart. These cases are registered
+with `DIS-10` labels and are not claimed as real-network or 3–5-node evidence.
+
+The Linux-only focused integration target
+`DIS10RealTransportProcessRecoveryTests` now adds real gRPC/mTLS participant
+`ShardRPCServer` processes and a coordinator process that drives shard endpoints
+through `ShardRPCClient` transport, including SIGKILL crash/restart and
+durable coordinator/participant WAL healing paths for success, coordinator
+crash, and participant unavailability/restart.
+
+As of 2026-11-21, a direct diagnostic build of the target source and the
+required production translation units passed all 3 Linux process cases:
+successful commit, coordinator SIGKILL recovery, and participant crash/restart
+healing (3/3). This is execution evidence for the real gRPC/mTLS subprocess
+path, not yet a registered CMake/CTest or release-platform gate. The registered
+target remained blocked from a full Ninja build by unrelated training-module
+dependency/build graph gaps in the local diagnostic environment.
+
+Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
+processes, deterministic network partitions with latency/reordering/duplicates,
+coordinator/participant/leader crash matrices over that transport, history
+checking and release-platform/CI evidence. The existing pipe transport must not
+be represented as production RPC or network-partition coverage.
+
 Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
 the CTest commands below are not claimed as executed against a full target build):
 
