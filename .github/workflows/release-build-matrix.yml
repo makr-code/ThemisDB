@@ -251,6 +251,7 @@ jobs:
                   "id": "linux-amd64",
                   "enable_sccache_gha": False,
                   "enabled": lane_enabled("linux-amd64"),
+                  "dis10_serializability_test": True,
                   "runs_on": "ubuntu-24.04",
                   "arch": "x64",
                   "compiler": "gcc",
@@ -272,6 +273,7 @@ jobs:
                   "id": "linux-arm64",
                   "enable_sccache_gha": True,
                   "enabled": lane_enabled("linux-arm64"),
+                  "dis10_serializability_test": True,
                   "runs_on": "ubuntu-24.04-arm",
                   "arch": "arm64",
                   "compiler": "gcc",
@@ -293,6 +295,7 @@ jobs:
                   "id": "windows-amd64",
                   "enable_sccache_gha": True,
                   "enabled": lane_enabled("windows-amd64"),
+                  "dis10_serializability_test": True,
                   "runs_on": "windows-latest",
                   "arch": "x64",
                   "compiler": "msvc",
@@ -356,6 +359,7 @@ jobs:
                   "id": "macos-arm64",
                   "enable_sccache_gha": True,
                   "enabled": lane_enabled("macos-arm64"),
+                  "dis10_serializability_test": True,
                   "runs_on": "macos-14",
                   "arch": "arm64",
                   "compiler": "clang",
@@ -563,6 +567,7 @@ jobs:
       setup_command: ${{ matrix.setup_command }}
       configure_command: ${{ matrix.configure_command }}
       build_directory: ${{ matrix.build_directory }}
+      dis10_serializability_test: ${{ matrix.dis10_serializability_test || false }}
       build_command: ${{ matrix.build_command }}
       validation_command: ${{ matrix.validation_command }}
       build_continue_on_error: ${{ matrix.build_continue_on_error || false }}

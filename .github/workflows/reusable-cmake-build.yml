@@ -113,6 +113,11 @@ on:
         required: false
         default: ''
         type: string
+      dis10_serializability_test:
+        description: Run the portable DIS-10 concurrent-history test and upload its evidence.
+        required: false
+        default: false
+        type: boolean
       configure_flags:
         description: "Additional CMake configure arguments appended to the selected preset."
         required: false
@@ -325,7 +330,7 @@ jobs:
 
       - name: Download candidate Mainline package
         id: reuse_download
-        if: inputs.reuse_source_run_id != '' && inputs.release_platform != ''
+        if: inputs.reuse_source_run_id != '' && inputs.release_platform != '' && !inputs.dis10_serializability_test
         continue-on-error: true
         uses: actions/download-artifact@v5
         with:
@@ -1112,6 +1117,58 @@ jobs:
           done < <(grep -E '^THEMIS_METRIC_(CTEST|INSTALL|PACKAGING)_SECONDS=' "$LOG_FILE" || true)
           exit "$VALIDATION_EXIT"
 
+      - name: Build and run DIS-10 concurrent-history test
+        if: ${{ always() && !cancelled() && inputs.dis10_serializability_test }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          BUILD_DIRECTORY: ${{ inputs.build_directory }}
+          EXPECTED_COMMIT_SHA: ${{ inputs.source_sha || github.sha }}
+          THEMIS_SOURCE_COMMIT_SHA: ${{ inputs.source_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          cd "$WORKING_DIRECTORY"
+          BUILD_DIR="${GITHUB_WORKSPACE}/${BUILD_DIRECTORY}"
+          EVIDENCE_DIR="${BUILD_DIR}/dis10-release-platform"
+          mkdir -p "$EVIDENCE_DIR"
+          cmake -S "$GITHUB_WORKSPACE" -B "$BUILD_DIR" -DTHEMIS_BUILD_TESTS=ON
+          cmake --build "$BUILD_DIR" \
+            --target test_dis10_concurrent_serializability \
+            --config Release --parallel 2 \
+            2>&1 | tee "$EVIDENCE_DIR/build.txt"
+          THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$EVIDENCE_DIR/history.json" \
+            ctest --test-dir "$BUILD_DIR" -C Release \
+              -R '^DIS10ConcurrentSerializabilityTests$' \
+              --output-on-failure --timeout 60 \
+              2>&1 | tee "$EVIDENCE_DIR/ctest.txt"
+          python3 - "$EVIDENCE_DIR/history.json" <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          evidence = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          expected_run_url = (
+              f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}"
+              f"/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          )
+          if (
+              evidence.get("schema") != "themisdb.dis10.concurrent-serializability.v1"
+              or evidence.get("serializable") is not True
+              or evidence.get("result") != "passed"
+              or evidence.get("commit_sha") != os.environ["EXPECTED_COMMIT_SHA"]
+              or evidence.get("workflow_run_id") != os.environ["GITHUB_RUN_ID"]
+              or evidence.get("workflow_run_url") != expected_run_url
+              or len(evidence.get("transactions", [])) != 4
+              or len(evidence.get("participants", [])) != 2
+              or len(evidence.get("serial_order", [])) != 4
+              or len(evidence.get("client_calls", [])) != 4
+              or any(call.get("outcome") != "COMMITTED"
+                     for call in evidence.get("client_calls", []))
+          ):
+              raise SystemExit("DIS-10 release-platform history evidence is incomplete")
+          PY
+
       - name: Write validated release package identity
         if: inputs.release_manifest_json != '' && steps.reuse_validate.outcome != 'success'
         shell: bash
@@ -1156,6 +1213,15 @@ jobs:
           path: ${{ inputs.artifact_paths }}
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: ${{ inputs.ctest_junit_path != '' && 'error' || 'ignore' }}
+
+      - name: Upload DIS-10 release-platform history evidence
+        if: ${{ always() && !cancelled() && inputs.dis10_serializability_test }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: dis10-release-platform-${{ inputs.artifact_name }}
+          path: ${{ inputs.build_directory }}/dis10-release-platform/
+          retention-days: 90
+          if-no-files-found: error
 
       - name: Upload secondary artifacts
         if: ${{ !cancelled() && inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != '' }}

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,8 +14,44 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-20
+Datum: 2026-11-22
 Status: Active
+
+## DIS-10 real-transport process recovery
+
+- `.github/workflows/build-wave-b-transaction.yml` builds the Linux-only
+  `test_dis10_real_transport_process_recovery` target and stores three
+  `DIS10RealTransportProcessRecoveryTests` CTest repeats with the chaos/recovery
+  artifact.
+- The target covers gRPC/mTLS participant processes, WAL recovery, directional
+  TCP loss, bounded request latency, and crash/recovery transactions with three,
+  four, and five participants. The five-participant transaction runs across six
+  processes including the coordinator. It also injects application-level
+  duplicate COMMIT/reordered ABORT RPCs; encrypted TCP/TLS bytes are not altered.
+  Its WAL history assertions are
+  terminal-outcome consistency checks, not a general serializability checker.
+- The 11-case registered target passed once and in three repeated CTest runs in
+  Ubuntu 24.04/Linux Debug. This local result does not verify a GitHub Actions
+  run/artifact, Windows/macOS transport, 72-hour chaos, or release-platform
+  evidence.
+- The workflow integration is not a passing CI result until a run URL and
+  uploaded artifact are verified. It provides no Windows/macOS process
+  coverage or 72-hour chaos evidence.
+- The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
+  transactions across two durable participant objects, records read/write
+  events, checks a conflict-precedence graph, and requires a serial replay that
+  matches the observed reads. A synthetic opposing-order fixture checks cycle
+  rejection. Wave B repeats the test and validates its JSON artifact against
+  the commit and workflow run ID. The release matrix runs and uploads this
+  focused in-process test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64;
+  those lanes do not establish cross-platform gRPC/process transport.
+- The portable target passed three repeated local CTest runs on 2026-11-22.
+  This is in-process Linux validation only; successful CI artifacts and
+  Windows/macOS release-platform lanes remain open.
+- A recent Wave B PR run
+  [45059649533](https://github.com/makr-code/ThemisDB/actions/runs/45059649533)
+  ended `action_required` with zero jobs. No successful workflow artifact or
+  release-platform test pass has yet been verified.
 
 ## Config and package version integrity gate
 

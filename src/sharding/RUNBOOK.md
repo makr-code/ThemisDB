@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-22"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -112,6 +112,94 @@ This runbook is the operator-facing guide for the principal failure modes in the
   directory as a rollback technique.
 - Release blocked participants only after the authoritative terminal record is
   durable. Apply callbacks must deduplicate by transaction ID across crashes.
+
+### DIS-10 multi-process evidence
+
+- `TransactionProcessCrashRecoveryTests` proves the canonical
+  coordinator/participant objects, WAL replay, locks and RocksDB apply callbacks
+  across POSIX process boundaries.
+- On 2026-11-21, a direct Linux diagnostic executable linked from the
+  `test_dis10_real_transport_process_recovery.cpp` source and required production
+  objects passed 3/3 real gRPC/mTLS subprocess cases: commit success,
+  coordinator SIGKILL recovery, and participant crash/restart healing.
+- On 2026-11-22, the same direct executable passed 3 repeated iterations:
+  9/9 individual test executions.
+- On 2026-11-22, the initial 3-case version of the focused Linux Debug CMake
+  target `DIS10RealTransportProcessRecoveryTests` passed once and in 3/3 repeated
+  CTest executions with real gRPC/mTLS subprocess traffic and durable WAL
+  recovery checks.
+- The suite now includes `RecoversCommitAfterTcpPartitionHeals`: a transparent
+  test proxy black-holes both TCP directions after the durable coordinator
+  decision; the participant PREPARE remains durable, phase two is incomplete,
+  and WAL recovery completes after healing and process restart. The 4-test
+  registered suite passed once plus 3 repeated runs.
+- `RecoversCommitAfterAsymmetricTcpPartitionHeals` forwards coordinator
+  requests but drops participant response bytes. The participant COMMIT is
+  durable while the coordinator lacks phase-two completion; after healing, a
+  fresh coordinator replays its WAL and the participant's duplicate COMMIT
+  leaves one commit record. The 5-test registered suite passed once plus 3
+  repeated CTest runs in Linux Debug with strict core dependency checks.
+- `RecoversCommitAfterReverseAsymmetricTcpPartitionHeals` waits for the durable
+  coordinator COMMIT decision, then drops coordinator-to-participant TLS request
+  bytes. The run exits with `FAILURE`, leaves no coordinator complete record,
+  and keeps participant B PREPARED with no COMMIT record. After healing and fresh
+  recovery, participant B receives one COMMIT and has exactly one COMMIT WAL
+  record; the coordinator has exactly one complete record. This sixth bounded
+  case is Linux real-gRPC/mTLS evidence and does not close DIS-10.
+- `RecoversCommitAfterCoordinatorRequestLatency` delays post-decision
+  coordinator-to-participant TLS bytes beyond the RPC deadline and verifies
+  recovery from the durable decision. `RecoversThreeParticipantCommitAfterParticipantCrash`
+  crashes the third participant during phase two, restarts it, and checks
+  coordinator/participant WAL consistency across a transaction spanning three
+  participants. The latter is a terminal-outcome consistency check, not a
+  serializability checker.
+- `RecoversFourParticipantCommitAfterParticipantCrash` crashes the fourth
+  participant during phase two in a five-process transaction, restarts it, and
+  checks one durable coordinator decision/completion, one COMMIT per participant,
+  and no contradictory ABORT. Together with the preceding cases, the suite
+  registered target passed once and in three repeated CTest runs on 2026-11-22
+  using Ubuntu 24.04, Linux Debug, and strict dependency checks.
+- `RecoversFiveParticipantCommitAfterParticipantCrash` covers a coordinator
+  plus five participant processes and crash/recovery of the fifth participant
+  during phase two.
+- `DuplicateCommitAndReorderedAbortPreserveFirstTerminalDecision` sends
+  application-level duplicate COMMIT and reordered ABORT RPCs. The test verifies
+  that COMMIT remains authoritative and the participant WAL has one COMMIT and
+  zero ABORT entries. Raw TCP/TLS bytes are not reordered or duplicated.
+- The Wave B transaction workflow now builds this Linux integration target and
+  records three CTest repeats as a CI artifact. This wiring is not evidence that
+  a workflow run has passed; retain the run URL and artifact before treating CI
+  validation as satisfied.
+- `DIS10ConcurrentSerializabilityTests` is a portable, in-process companion:
+  four concurrent transactions read and write a shared key through two durable
+  2PC participant objects. It records per-shard operation order, rejects a
+  synthetic opposing-conflict cycle, and requires a topological serial replay
+  to reproduce all observed reads. Wave B repeats it and validates a
+  commit-linked JSON artifact; the release matrix runs the focused test on
+  Linux AMD64/ARM64, Windows AMD64, and macOS ARM64, uploading one artifact per
+  lane. These artifacts are not real-network or process-transport evidence.
+- The portable target passed three repeated local CTest runs on 2026-11-22 in
+  Ubuntu 24.04/Linux Debug. This confirms the local history checker and JSON
+  evidence path only; successful CI artifacts and Windows/macOS lanes remain
+  unverified.
+- A recent Wave B run
+  [45059649533](https://github.com/makr-code/ThemisDB/actions/runs/45059649533)
+  ended `action_required` with zero jobs. No successful workflow artifact has
+  yet been verified; rerun/approval and artifact inspection remain necessary.
+- These are Linux-only test results, not evidence for Windows/macOS, release
+  artifacts, Windows/macOS process coverage, 72-hour chaos, application-level
+  RPC reordering, broader read/write history coverage, or general 3–5-node
+  real-transport chaos. Release-matrix runs provide portable 2PC test coverage
+  only and must be inspected before counting as platform evidence.
+- The harness uses pipes only for process readiness/control; transaction
+  traffic is real gRPC/mTLS, including through the TCP partition proxy.
+- The proxy preserves TCP byte order; reordering or duplicating raw encrypted
+  TLS bytes would corrupt the stream. Lost-ACK recovery already causes
+  idempotent semantic COMMIT redelivery and checks that the participant WAL
+  contains a single COMMIT record.
+- Do not close a partition, transport or release-readiness incident based only
+  on this target. Broader coordinator/participant/leader crash matrices, history
+  validation and platform gates remain separate acceptance evidence.
 
 ## Scenario 4: migration conflict or rebalance fault
 
