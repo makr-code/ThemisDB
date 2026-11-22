@@ -975,7 +975,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
                 start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
             }
             if (window.rows_following) {
-                end = std::min(i + *window.rows_following + 1, data.size());
+                end = std::min(i + static_cast<size_t>(*window.rows_following) + 1, data.size());
             }
 
             // Collect window values
