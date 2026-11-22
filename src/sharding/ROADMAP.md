@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-20
+Last Updated: 2026-11-22
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -116,17 +116,20 @@ COMMIT again; participant B has exactly one COMMIT record and the coordinator
 has exactly one complete record. The 6-test target is Linux/real-gRPC/mTLS
 bounded evidence only and is not DIS-10 closure or a release/CI/platform gate.
 
-Two additional regressions extend the harness: one adds bounded coordinator
-request latency after the durable decision and requires WAL recovery; the other
-crashes one participant in a three-participant transaction, restarts it, and
-checks the final coordinator/participant WAL history for one COMMIT decision,
-one completion, one COMMIT per participant, and no contradictory ABORT.
-The history assertion is a transaction-outcome consistency check, not a
-serializability/linearizability checker. A Wave B CI job now builds this
-Linux-only integration target and records three CTest repeats; an actual
-workflow artifact is still required before counting CI evidence.
-The 8-case registered target passed once and in 3 repeated CTest runs in an
-Ubuntu 24.04 container using a strict Linux Debug configuration.
+Three additional regressions extend the harness: one adds bounded coordinator
+request latency after the durable decision; one crashes a participant in a
+three-participant transaction; and one crashes a participant in a
+four-participant transaction (coordinator plus four participant processes).
+Both crash cases restart the failed participant and check the final
+coordinator/participant WAL history for one COMMIT decision, one completion,
+one COMMIT per participant, and no contradictory ABORT. The history assertion
+is a transaction-outcome consistency check, not a serializability/linearizability
+checker. The 9-case registered target passed once and in 3 repeated CTest runs
+on 2026-11-22 in an Ubuntu 24.04 Linux Debug environment with strict core
+dependency checks.
+A Wave B CI job builds this Linux-only integration target and records three
+CTest repeats; an actual workflow artifact is still required before counting
+CI evidence.
 
 The proxy preserves TCP's byte order. Reordering TCP stream bytes would corrupt
 TLS rather than model an application-visible reordered RPC; raw duplication of
@@ -136,10 +139,10 @@ deduplication. No claim is made for independent RPC reordering or a general
 serializability checker.
 
 Remaining DIS-10 work is explicitly open: additional asymmetric fault timing,
-coordinator/participant/leader crash matrices beyond this four-process
-three-participant case, a true concurrent-history serializability checker,
-72-hour nightly evidence, Windows/macOS process-transport coverage, and
-release-platform/CI artifacts.
+application-level RPC reordering, coordinator/participant/leader crash
+matrices beyond this five-process four-participant case, a true
+concurrent-history serializability checker, 72-hour nightly evidence,
+Windows/macOS process-transport coverage, and release-platform/CI artifacts.
 `TransactionProcessCrashRecoveryTests` still uses pipes for process control and
 must not be represented as RPC or network-partition coverage; the new DIS-10
 test's transaction traffic uses real gRPC/mTLS through the TCP proxy.

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-22"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -152,16 +152,21 @@ This runbook is the operator-facing guide for the principal failure modes in the
   crashes the third participant during phase two, restarts it, and checks
   coordinator/participant WAL consistency across a transaction spanning three
   participants. The latter is a terminal-outcome consistency check, not a
-  serializability checker. The 8-case registered target passed once and in
-  three repeated CTest runs using Ubuntu 24.04, Linux Debug, and strict
-  dependency checks.
+  serializability checker.
+- `RecoversFourParticipantCommitAfterParticipantCrash` crashes the fourth
+  participant during phase two in a five-process transaction, restarts it, and
+  checks one durable coordinator decision/completion, one COMMIT per participant,
+  and no contradictory ABORT. Together with the preceding cases, the 9-case
+  registered target passed once and in three repeated CTest runs on 2026-11-22
+  using Ubuntu 24.04, Linux Debug, and strict dependency checks.
 - The Wave B transaction workflow now builds this Linux integration target and
   records three CTest repeats as a CI artifact. This wiring is not evidence that
   a workflow run has passed; retain the run URL and artifact before treating CI
   validation as satisfied.
 - These are Linux-only test results, not evidence for Windows/macOS, release
-  artifacts, Windows/macOS process coverage, 72-hour chaos, independent RPC
-  reordering, or general 3–5-node chaos.
+  artifacts, Windows/macOS process coverage, 72-hour chaos, application-level
+  RPC reordering, a concurrent-history serializability checker, or general
+  3–5-node chaos.
 - The harness uses pipes only for process readiness/control; transaction
   traffic is real gRPC/mTLS, including through the TCP partition proxy.
 - The proxy preserves TCP byte order; reordering or duplicating raw encrypted
