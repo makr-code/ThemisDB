@@ -645,7 +645,8 @@ TEST_F(WALStorageTest, CorruptionInLaterSegmentFailsClosedAfterValidPrefix) {
     EXPECT_FALSE(recovery.has_value())
         << "Corruption in a later segment must prevent successful startup";
     EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
-    EXPECT_EQ(recovery_result.segment, 3u);
+    EXPECT_EQ(recovery_result.segment_id, 3u);
+    EXPECT_EQ(recovery_result.segment, third_segment);
     EXPECT_EQ(recovery_result.last_valid_lsn, 2u);
     EXPECT_EQ(recovery_result.recovered_entries, 2u);
     ASSERT_EQ(recovered.size(), 2u);
@@ -697,7 +698,7 @@ TEST_F(WALStorageTest,
         << "An incomplete record in a non-final segment cannot be treated "
            "as a crash-truncated tail";
     EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
-    EXPECT_EQ(recovery_result.segment, 1u);
+    EXPECT_EQ(recovery_result.segment_id, 1u);
     EXPECT_EQ(recovery_result.recovered_entries, 0u);
     EXPECT_EQ(fs::file_size(first_segment_path), corrupted_size);
     EXPECT_EQ(corrupted_size, original_size);
@@ -730,7 +731,7 @@ TEST_F(WALStorageTest,
            "crash-truncated tail";
     EXPECT_EQ(partial_recovery_result.status,
               WALStorage::RecoveryStatus::Corrupted);
-    EXPECT_EQ(partial_recovery_result.segment, 1u);
+    EXPECT_EQ(partial_recovery_result.segment_id, 1u);
     EXPECT_EQ(partial_recovery_result.recovered_entries, 1u);
     EXPECT_EQ(fs::file_size(first_segment_path), partial_size);
 }
@@ -843,7 +844,7 @@ TEST_F(WALStorageTest,
             << ", bit " << bit_index;
         EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted)
             << "Unexpected recovery status in case " << case_index;
-        EXPECT_EQ(recovery_result.segment, segment_id)
+        EXPECT_EQ(recovery_result.segment_id, segment_id)
             << "Recovery reported the wrong corrupted segment in case "
             << case_index;
         EXPECT_EQ(recovery_result.recovered_entries, segment_index)
@@ -907,7 +908,7 @@ TEST_F(WALStorageTest,
             << " and " << second_bit;
         EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted)
             << "Unexpected recovery status in two-bit case " << case_index;
-        EXPECT_EQ(recovery_result.segment, segment_id)
+        EXPECT_EQ(recovery_result.segment_id, segment_id)
             << "Recovery reported the wrong corrupted segment in two-bit case "
             << case_index;
         EXPECT_EQ(recovery_result.recovered_entries, segment_index)
@@ -1100,6 +1101,10 @@ TEST_F(WALStorageTest, SkipCorrupted_QuarantinesSegment) {
 
     ASSERT_TRUE(recovery.has_value());
     EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_EQ(fs::path(recovery_result.segment).lexically_normal(),
+              corrupt_path.lexically_normal());
+    EXPECT_EQ(recovery_result.segment_id, 1u);
+    EXPECT_FALSE(recovery_result.error_message.empty());
     EXPECT_GT(recovery_result.skipped_bytes, 0u);
     EXPECT_FALSE(fs::exists(corrupt_path));
     EXPECT_TRUE(fs::exists(fs::path(dir_) / "quarantine" /

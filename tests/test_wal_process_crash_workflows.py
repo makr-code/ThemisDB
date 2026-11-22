@@ -1,6 +1,8 @@
 """Contract tests for the WAL process-crash CI callers."""
 
 from pathlib import Path
+import subprocess
+import sys
 import unittest
 
 import yaml
@@ -15,14 +17,33 @@ def workflow(name):
     )
 
 
+def sanitizer_selection(mode, *paths):
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "tools" / "ci" / "sanitizer_targets.py"),
+            "--mode",
+            mode,
+            "--changed-files",
+            *paths,
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+        cwd=ROOT,
+    )
+    return result.stdout.strip()
+
+
 class WALCrashWorkflowTests(unittest.TestCase):
     def test_pr_storage_changes_trigger_fifty_iteration_ctest(self):
         document = workflow("gate-pr-core.yml")
         trigger = document.get("on", document.get(True))["pull_request"]
         self.assertIn("develop", trigger["branches"])
         for path in (
-            "src/storage/**", "include/storage/**", "tests/storage/*.py",
+            "src/storage/**", "include/storage/**", "tests/storage/**",
             "tests/test_wal_process_crash_report.py",
+            "tests/test_wal_process_crash_workflows.py",
         ):
             self.assertIn(path, trigger["paths"])
         settings = document["jobs"]["quality-test-build"]["with"]
@@ -45,8 +66,17 @@ class WALCrashWorkflowTests(unittest.TestCase):
         document = workflow("build-sanitizer-nightly.yml")
         self.assertTrue(document.get("on", document.get(True))["schedule"])
         settings = document["jobs"]["sanitizer-build"]["with"]
-        self.assertIn("test_wal_process_crash_worker", settings["build_command"])
+        self.assertIn("tools/ci/sanitizer_targets.py", settings["build_command"])
+        self.assertIn(
+            "test_wal_process_crash_worker",
+            sanitizer_selection("build", "tests/storage/test_wal_process_crash.py"),
+        )
         self.assertIn("set -euo pipefail", settings["validation_command"])
+        self.assertIn("--mode regex", settings["validation_command"])
+        self.assertIn(
+            "WALProcessCrashRecoveryTests",
+            sanitizer_selection("regex", "src/storage/wal_storage.cpp"),
+        )
         self.assertIn("--iterations 1000", settings["validation_command"])
         self.assertIn("--worker build-sanitizer/bin/test_wal_process_crash_worker",
                       settings["validation_command"])

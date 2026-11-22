@@ -104,19 +104,31 @@ public:
         Corrupted,
         TimedOut,
         Failed,
+        InProgress,
     };
 
     /**
-     * @brief Structured outcome of scanning the WAL during open().
+     * @brief Structured outcome and progress of scanning the WAL during open().
      *
      * @note In skip-corrupted mode, Corrupted can accompany a successful open;
-     *       the affected segment is quarantined and skipped_bytes reports its size.
+     *       the affected segment is quarantined and its size contributes to
+     *       skipped_bytes. skipped_bytes also includes bytes removed from a
+     *       truncated tail. segment is the current or affected segment path.
+     * @note Adding fields changes this public structure's layout; binary
+     *       consumers must be rebuilt when upgrading.
      */
     struct RecoveryResult {
         RecoveryStatus status = RecoveryStatus::Complete;
         uint64_t last_valid_lsn = 0;
         uint64_t skipped_bytes = 0;
         std::string segment;
+        uint64_t recovered_entries = 0;
+        uint64_t bytes_processed = 0;
+        uint64_t total_bytes = 0;
+        uint64_t segment_id = 0;
+        uint64_t total_segments = 0;
+        uint64_t elapsed_ms = 0;
+        std::string error_message;
     };
 
     /** Policy for handling corrupt WAL segments. */
@@ -171,7 +183,8 @@ public:
      *
      * @param config  WAL configuration (directory, rotation, fsync, recovery policy).
      * @param on_recover  Callback invoked for each recovered entry; may be null.
-     * @param recovery_result Optional structured status, populated on success and failure.
+     * @param recovery_result Optional structured recovery status and diagnostics,
+     *                        populated on success and returned failures.
      * @return Result<std::unique_ptr<WALStorage>> on success, Error on failure.
      *         Corrupt records, recovery timeouts, I/O errors, or a callback
      *         that aborts replay are reported as errors. A physically
@@ -193,10 +206,12 @@ public:
      * @brief Open a WAL and observe recovery progress without retaining a report.
      * @param config WAL configuration.
      * @param on_recover Callback invoked for each recovered entry; may be null.
-     * @param on_progress Synchronous progress observer; must be fast and must
-     *                    not throw.
+     * @param on_progress Synchronous observer called after each successfully
+     *                    replayed record and at terminal status. It should be
+     *                    fast and must not throw.
      * @return WAL instance on success, or an error for recovery/storage failure.
-     * @throws Any exception thrown by either callback.
+     * @throws Any exception thrown by either callback; completed recovery
+     *         callback side effects are not rolled back.
      */
     static Result<std::unique_ptr<WALStorage>> open(
         const Config& config,
@@ -211,13 +226,15 @@ public:
      * before the active segment is reopened for appends.
      *
      * @param config WAL configuration (directory, rotation threshold, fsync,
-     *               and total recovery timeout in seconds; zero disables the
-     *               timeout).
+     *               and total recovery timeout in milliseconds; zero disables
+     *               the timeout).
      * @param on_recover Callback invoked for each recovered entry; may be null.
-     * @param on_progress Optional synchronous observer for progress and final
-     *                    status; it must be fast and must not throw.
+     * @param on_progress Optional synchronous observer called after each
+     *                    successfully replayed record and at terminal status.
+     *                    It should be fast and must not throw.
      * @param recovery_result Optional output populated on success and returned
-     *                        failures, including the valid replay prefix.
+     *                        failures, including the valid replay prefix,
+     *                        byte/segment counters, elapsed time, and error.
      * @return WAL instance on success, or an error for corruption, timeout,
      *         I/O failure, or callback abort. An incomplete physical tail is
      *         truncated only in the latest segment, after that segment is
@@ -366,11 +383,16 @@ private:
     explicit WALStorage(const Config& cfg);
 
     Result<void> openOrCreate(RecoveryCallback& on_recover,
-                              RecoveryResult& recovery_result);
+                              const RecoveryProgressCallback& on_progress,
+                              RecoveryResult& recovery_result,
+                              std::chrono::steady_clock::time_point recovery_started_at);
     Result<void> replaySegment(const std::string& path,
                                RecoveryCallback& cb,
                                RecoveryResult& recovery_result,
-                               std::chrono::steady_clock::time_point recovery_started_at);
+                               std::chrono::steady_clock::time_point recovery_started_at,
+                               const RecoveryProgressCallback& on_progress,
+                               bool allow_incomplete_tail,
+                               uint64_t segment_id);
     Result<void> rotateIfNeeded();
     Result<void> openNewSegment(uint64_t segment_id);
     Result<uint64_t> appendEntry(EntryType type,

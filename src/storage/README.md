@@ -49,8 +49,10 @@ claim; those depend on the component, configuration, backend, and caller.
   with RocksDB's internal WAL or assumed to wrap every `StorageEngine` write.
 - `WALStorage::open()` can report `Complete`, `TruncatedTail`, `Corrupted`,
   `TimedOut`, or `Failed` through its optional `RecoveryResult` output. Strict
-  recovery is the default; the configurable timeout is unlimited at zero and
-  rejects negative values. Explicit `SkipCorrupted` quarantines a corrupt
+  recovery is the default; the configurable millisecond timeout is unlimited
+  at zero and rejects negative values. Progress observers receive synchronous
+  per-record snapshots and a terminal status; reports include replay counters,
+  segment, elapsed time, and error detail. Explicit `SkipCorrupted` quarantines a corrupt
   segment under `<wal_dir>/quarantine`; callback aborts and I/O errors fail
   open. These source-level behaviors do not establish crash-harness or benchmark
   evidence.

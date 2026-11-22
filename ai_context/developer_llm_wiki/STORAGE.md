@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-01"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-21"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -65,7 +65,7 @@ transaction or durability path:
 - [`WALStorage`](../../include/storage/wal_storage.h) is a separate
   append/replay/checkpoint/flush facility. Its `fsync_on_write` option defaults
   to true but is configurable. Do not infer that every `StorageEngine` write
-  passes through this WAL. `Config::recovery_timeout_seconds` bounds replay
+  passes through this WAL.   `Config::recovery_timeout` (milliseconds) bounds replay
   across all segments when nonzero; `0` means recovery is unbounded, and
   blocking file I/O and callbacks cannot be interrupted.
   Optional `RecoveryResult` output reports status, the valid replay prefix,

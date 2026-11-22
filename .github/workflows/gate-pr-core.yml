@@ -41,6 +41,11 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - src/storage/**
+      - include/storage/**
+      - tests/storage/**
+      - tests/test_wal_process_crash_report.py
+      - tests/test_wal_process_crash_workflows.py
       - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
@@ -81,6 +86,11 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - src/storage/**
+      - include/storage/**
+      - tests/storage/**
+      - tests/test_wal_process_crash_report.py
+      - tests/test_wal_process_crash_workflows.py
       - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
@@ -305,6 +315,13 @@ jobs:
       artifact_name: pr-release-critical-build-dir
       artifact_paths: pr-release-critical-build-dir.tar
       artifact_retention_days: '7'
+      artifact_name_secondary: wal-recovery-evidence-${{ github.run_number }}
+      artifact_paths_secondary: |
+        build-pr-release-critical/test-results/wal-process-crash.json
+        build-pr-release-critical/test-results/wal-unobserved-append.json
+        build-pr-release-critical/test-results/wal-tail-boundaries.json
+        build-pr-release-critical/test-results/*-failures/
+      artifact_retention_days_secondary: '7'
       # Keep Boost.System available and match the artifact consumer's ABI.
       runs_on: ubuntu-24.04
       shell: bash

@@ -208,13 +208,13 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 
 ### Phase 2: Core Implementation
 - [~] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
-  - [x] Make the WAL replay timeout configurable across all segments through `WALStorage::Config::recovery_timeout_seconds`; zero retains unbounded recovery. The file-backed timeout regression passed in the full 29-case WAL runtime suite.
+  - [x] Make the WAL replay timeout configurable across all segments through `WALStorage::Config::recovery_timeout` in milliseconds; zero retains unbounded recovery. The file-backed timeout regression passed in the earlier full 29-case WAL runtime suite.
   - [x] Fail closed when a persisted replication WAL payload cannot be deserialized; `WALManager` construction now aborts recovery rather than skipping the entry. `WALChecksumTest.InvalidSerializedEntryAbortsRecovery` passed in the separately linked replication runner; the standard CMake target remains blocked by the generated-gRPC compiler error (STO-01).
   - [x] Expose structured `WALStorage::RecoveryResult`, synchronous per-record progress snapshots, non-complete status audit events through `storage.audit`, and cumulative replay/terminal metrics through the process-wide `MetricsCollector`; the full 29-case WAL runtime suite passed (STO-01).
   - [x] Add a deterministic file-backed corruption regression with 10,000 seeded single-bit mutations; all cases failed closed in the standalone WAL runner.
   - [x] Add 1,024 seeded two-bit mutation cases within one WAL frame and verify corruption in segment 3 fails closed after reporting the two-entry valid prefix.
   - [x] Reject incomplete records in non-final WAL segments without truncating their data; add a deterministic regression for this boundary, 256 seeded single-bit cases, and 384 seeded two-bit cases across 12 segments containing payload lengths from 0 to 2048 bytes. The full 29-case Windows WAL runtime suite passes.
-  - [ ] Add an explicit strict/skip-corrupted mode with quarantine (STO-01; requires human approval).
+  - [~] Validate the existing explicit strict/skip-corrupted mode with quarantine against recovery and durability requirements (STO-01).
   - [x] `SecuritySignatureManager` now rejects null-backend production use instead of silently downgrading integrity persistence to an in-memory map
   - [x] remote cloud backup archive transport now uses provider blob backends plus a manifest-driven restore contract for S3/GCS/Azure
 - [~] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
