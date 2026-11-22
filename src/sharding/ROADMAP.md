@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-20
+Last Updated: 2026-11-22
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -64,10 +64,116 @@ No WAL encoding consolidation, API removal or automatic migration of unresolved
 older CrossShard records is included. See [API.md](API.md),
 [RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
 
-Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
-the CTest commands below are not claimed as executed against a full target build):
+### DIS-10 multi-process evidence boundary
+
+The `TransactionProcessCrashRecoveryTests` target already provides
+POSIX-process crash/recovery coverage with real coordinator and participant
+objects, persistent WAL state, lock state and RocksDB apply callbacks. It covers
+coordinator and participant crashes, lost acknowledgements, missing
+participants and recovery after process restart. These cases are registered
+with `DIS-10` labels and are not claimed as real-network or 3–5-node evidence.
+
+The Linux-only focused integration target
+`DIS10RealTransportProcessRecoveryTests` now adds real gRPC/mTLS participant
+`ShardRPCServer` processes and a coordinator process that drives shard endpoints
+through `ShardRPCClient` transport, including SIGKILL crash/restart and
+durable coordinator/participant WAL healing paths for success, coordinator
+crash, and participant unavailability/restart.
+
+As of 2026-11-21, a direct diagnostic build of the target source and the
+required production translation units passed all 3 Linux process cases:
+successful commit, coordinator SIGKILL recovery, and participant crash/restart
+healing (3/3). This was direct-executable evidence, not yet a registered
+CMake/CTest or release-platform gate at that checkpoint. The registered-target
+build was then blocked by unrelated training dependencies; the subsequent
+2026-11-22 focused build below supersedes that local limitation.
+On 2026-11-22, the same direct executable passed a 3-run repeat check:
+9/9 individual test executions passed (3 iterations × 3 cases).
+The initial 3-case registered Linux CMake/CTest target also passed on 2026-11-22
+after narrowing its link graph to the sharding module and test libraries. One
+registered CTest run passed in 2.33 s, and 3 repeated registered runs passed
+(3/3; 2.79-3.05 s).
+The build was a diagnostic Linux Debug build with system dependencies and the
+LLM/GPU modules disabled; this is CMake/CTest evidence for the Linux environment,
+not evidence for Windows/macOS, release artifacts, or CI platform gates.
+On 2026-11-22, a fourth regression added deterministic bidirectional TCP
+blackholing through a transparent test proxy after the durable COMMIT decision.
+The participant's PREPARE is durable, the coordinator remains in-doubt while
+traffic is partitioned, and WAL recovery completes after the proxy heals and the
+coordinator/participant restart. The registered target rebuilt and passed once
+and in 3 repeated CTest runs (four tests per run).
+The fifth regression drops participant-to-coordinator TLS response bytes while
+forwarding requests: the participant durably commits, the coordinator remains
+in-doubt after losing the ACK, and a fresh coordinator recovers from its WAL;
+the participant's duplicate COMMIT remains a single WAL record. The registered
+5-test target passed once and in 3 repeated CTest runs in a Linux Debug build
+with strict core dependency checks.
+The sixth regression is reverse-direction: after the coordinator COMMIT decision,
+the transparent proxy drops coordinator-to-participant TLS request bytes. It
+verifies `FAILURE`, no coordinator complete record, and that participant B remains
+PREPARED with no COMMIT record. Healing and fresh coordinator recovery deliver
+COMMIT again; participant B has exactly one COMMIT record and the coordinator
+has exactly one complete record. The 6-test target is Linux/real-gRPC/mTLS
+bounded evidence only and is not DIS-10 closure or a release/CI/platform gate.
+
+Additional regressions extend the harness: bounded coordinator request latency,
+three-, four-, and five-participant crash/recovery matrices, and application-level
+duplicate COMMIT followed by reordered ABORT injection. The crash cases restart
+the failed participant and check the final coordinator/participant WAL history
+for one COMMIT decision, one completion, one COMMIT per participant, and no
+contradictory ABORT. The duplicate/reordered terminal test verifies that COMMIT
+remains authoritative and that duplicate delivery creates neither duplicate WAL
+records nor contradictory ABORT records. These are transaction-outcome and
+terminal-order consistency checks, not a general serializability/linearizability
+checker. The 11-case registered target passed once and in 3 repeated CTest runs
+on 2026-11-22 in an Ubuntu 24.04 Linux Debug environment with strict core
+dependency checks.
+A Wave B CI job builds this Linux-only integration target and records three
+CTest repeats; an actual workflow artifact is still required before counting
+CI evidence.
+
+The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
+transactions across two durable participant objects, records per-shard reads
+and writes, rejects a synthetic opposing-conflict cycle, and searches the
+precedence graph for a serial replay that reproduces every observed read.
+The test emits a JSON history with commit/run and runner metadata when enabled
+by CI. Wave B now repeats the test and checks that its uploaded artifact
+contains a passing, commit-linked history. The release build matrix also runs
+this focused test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64 and
+uploads lane-specific evidence. These are test-coverage and workflow changes,
+not evidence that those platform lanes have passed.
+The portable target passed three repeated local CTest runs on 2026-11-22 in
+Ubuntu 24.04/Linux Debug. This validates the in-process history checker only;
+it does not add Windows/macOS or real-transport evidence.
+
+The proxy preserves TCP's byte order. Reordering TCP stream bytes would corrupt
+TLS rather than model an application-visible reordered RPC; raw duplication of
+encrypted TLS bytes is likewise invalid. The existing lost-ACK and recovery
+cases exercise repeated semantic COMMIT delivery and verify participant WAL
+deduplication. No claim is made for independent RPC reordering or a general
+serializability checker.
+
+Remaining DIS-10 work is explicitly open: additional asymmetric fault timing,
+application-level RPC reordering, coordinator/participant/leader crash
+matrices beyond this five-process four-participant case, a true
+concurrent-history checker beyond the bounded write-conflict/read-replay test,
+72-hour nightly evidence, Windows/macOS process-transport coverage, and
+successful release-platform/CI artifact runs. A recent Wave B PR run
+[45059649533](https://github.com/makr-code/ThemisDB/actions/runs/45059649533)
+ended `action_required` with zero jobs and no artifact; the workflow wiring
+must not be counted as execution evidence until a completed run and artifact
+are verified.
+`TransactionProcessCrashRecoveryTests` still uses pipes for process control and
+must not be represented as RPC or network-partition coverage; the new DIS-10
+test's transaction traffic uses real gRPC/mTLS through the TCP proxy.
+
+Current registered reproduction commands (Linux Debug, system dependencies):
 
 ```sh
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis10-asymmetric -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_DIAGNOSTIC_MODE=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
+ninja -C /tmp/themis-dis10-asymmetric test_dis10_real_transport_process_recovery -j4
+ctest --test-dir /tmp/themis-dis10-asymmetric -R '^DIS10RealTransportProcessRecoveryTests$' --output-on-failure
+
 cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
 cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4
 ctest --test-dir /tmp/themis-dis06-build -R '^TwoPhaseCommitFocusedTests$' --output-on-failure
@@ -77,11 +183,10 @@ cmake --build /tmp/themis-dis06-build --target test_transaction_process_crash_re
 ctest --test-dir /tmp/themis-dis06-build -R '^TransactionProcessCrashRecoveryTests$' --output-on-failure
 ```
 
-Configure succeeded after installing existing system build dependencies. Registered
-builds were attempted, but full dependency linkage was not completed; a
-reconfigure refreshed build metadata and restarted the dependency graph, and the
-build was stopped. No registered-target or release CTest PASS is claimed.
-The initial build found missing `pugixml.hpp` (subsequently installed).
+The DIS-10 registered build succeeded after installing the required system build
+dependencies and narrowing the test target from `themis_core` to `themis_sharding`.
+The initial broad build found missing `pugixml.hpp` and `ggml.h`; the DIS-10 target
+was narrowed so unrelated training and network dependencies are no longer required.
 The initial-implementation
 [Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
 reported `action_required` with zero jobs, not passing CI evidence.
