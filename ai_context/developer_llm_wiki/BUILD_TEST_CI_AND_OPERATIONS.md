@@ -24,11 +24,13 @@ Status: Active
   `DIS10RealTransportProcessRecoveryTests` CTest repeats with the chaos/recovery
   artifact.
 - The target covers gRPC/mTLS participant processes, WAL recovery, directional
-  TCP loss, bounded request latency, and crash/recovery transactions with three
-  and four participants. The four-participant transaction runs across five
-  processes including the coordinator. Its WAL history assertions are
+  TCP loss, bounded request latency, and crash/recovery transactions with three,
+  four, and five participants. The five-participant transaction runs across six
+  processes including the coordinator. It also injects application-level
+  duplicate COMMIT/reordered ABORT RPCs; encrypted TCP/TLS bytes are not altered.
+  Its WAL history assertions are
   terminal-outcome consistency checks, not a general serializability checker.
-- The 9-case registered target passed once and in three repeated CTest runs in
+- The 11-case registered target passed once and in three repeated CTest runs in
   Ubuntu 24.04/Linux Debug. This local result does not verify a GitHub Actions
   run/artifact, Windows/macOS transport, 72-hour chaos, or release-platform
   evidence.

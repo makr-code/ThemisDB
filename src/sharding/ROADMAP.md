@@ -116,15 +116,16 @@ COMMIT again; participant B has exactly one COMMIT record and the coordinator
 has exactly one complete record. The 6-test target is Linux/real-gRPC/mTLS
 bounded evidence only and is not DIS-10 closure or a release/CI/platform gate.
 
-Three additional regressions extend the harness: one adds bounded coordinator
-request latency after the durable decision; one crashes a participant in a
-three-participant transaction; and one crashes a participant in a
-four-participant transaction (coordinator plus four participant processes).
-Both crash cases restart the failed participant and check the final
-coordinator/participant WAL history for one COMMIT decision, one completion,
-one COMMIT per participant, and no contradictory ABORT. The history assertion
-is a transaction-outcome consistency check, not a serializability/linearizability
-checker. The 9-case registered target passed once and in 3 repeated CTest runs
+Additional regressions extend the harness: bounded coordinator request latency,
+three-, four-, and five-participant crash/recovery matrices, and application-level
+duplicate COMMIT followed by reordered ABORT injection. The crash cases restart
+the failed participant and check the final coordinator/participant WAL history
+for one COMMIT decision, one completion, one COMMIT per participant, and no
+contradictory ABORT. The duplicate/reordered terminal test verifies that COMMIT
+remains authoritative and that duplicate delivery creates neither duplicate WAL
+records nor contradictory ABORT records. These are transaction-outcome and
+terminal-order consistency checks, not a general serializability/linearizability
+checker. The 11-case registered target passed once and in 3 repeated CTest runs
 on 2026-11-22 in an Ubuntu 24.04 Linux Debug environment with strict core
 dependency checks.
 A Wave B CI job builds this Linux-only integration target and records three

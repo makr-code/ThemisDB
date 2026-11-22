@@ -156,9 +156,16 @@ This runbook is the operator-facing guide for the principal failure modes in the
 - `RecoversFourParticipantCommitAfterParticipantCrash` crashes the fourth
   participant during phase two in a five-process transaction, restarts it, and
   checks one durable coordinator decision/completion, one COMMIT per participant,
-  and no contradictory ABORT. Together with the preceding cases, the 9-case
+  and no contradictory ABORT. Together with the preceding cases, the suite
   registered target passed once and in three repeated CTest runs on 2026-11-22
   using Ubuntu 24.04, Linux Debug, and strict dependency checks.
+- `RecoversFiveParticipantCommitAfterParticipantCrash` covers a coordinator
+  plus five participant processes and crash/recovery of the fifth participant
+  during phase two.
+- `DuplicateCommitAndReorderedAbortPreserveFirstTerminalDecision` sends
+  application-level duplicate COMMIT and reordered ABORT RPCs. The test verifies
+  that COMMIT remains authoritative and the participant WAL has one COMMIT and
+  zero ABORT entries. Raw TCP/TLS bytes are not reordered or duplicated.
 - The Wave B transaction workflow now builds this Linux integration target and
   records three CTest repeats as a CI artifact. This wiring is not evidence that
   a workflow run has passed; retain the run URL and artifact before treating CI

@@ -39,9 +39,11 @@ recovery descriptions, not the referenced source contracts.
 The Linux-only `DIS10RealTransportProcessRecoveryTests` uses real gRPC/mTLS
 participant processes and WAL replay. Its bounded cases include both
 asymmetric TCP directions, coordinator-request latency, and crash/recovery
-transactions with three and four participants. The four-participant case uses
-five processes including the coordinator. History assertions check terminal WAL
-consistency only; they are not a concurrent serializability checker. The 9-case
+transactions with three, four, and five participants. It also injects
+application-level duplicate COMMIT/reordered ABORT RPCs without modifying
+encrypted TCP/TLS bytes. The five-participant case uses six processes including
+the coordinator. History assertions check terminal WAL consistency only; they
+are not a concurrent serializability checker. The 11-case
 registered target passed once and in three repeated CTest runs in Ubuntu
 24.04/Linux Debug. Wave B CI records three CTest repeats, but platform,
 72-hour, and workflow run artifacts remain separate evidence gates. See
