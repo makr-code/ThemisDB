@@ -94,7 +94,6 @@ struct CoordinatorTxnOutcome {
 enum class CoordinatorTxnState {
     ACTIVE,              ///< Coordinator has started, Phase 1 not yet sent
     PREPARING,           ///< Phase 1 in progress (PREPARE sent, collecting votes)
-    PREPARED,            ///< All participants voted COMMIT; awaiting a terminal decision
     COMMIT_DECIDED,      ///< All voted COMMIT; Phase 2 COMMIT in progress
     ABORT_DECIDED,       ///< At least one voted ABORT; Phase 2 ABORT in progress
     COMPLETED,           ///< All participants acknowledged Phase 2; done

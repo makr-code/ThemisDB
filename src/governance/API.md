@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,6 +47,8 @@ in each header.
 | Compliance errors | [`governance_api_contract.h`](../../include/governance/governance_api_contract.h) | `GovError`, `ComplianceCheckResult`, and supported contract-level regulations. | A default result is denied. These types do not replace the more specific rule-set APIs. |
 
 ## Result handling
+
+- C++ callers of the standalone validator in [`policy_validation.h`](../../include/governance/policy_validation.h) must use `themis::governance::PolicyRuleSetValidator` (formerly `PolicyValidator`), including for nested report types passed to `PolicyOptimizer`. Rebuild clients that use those C++ symbols. The manager-backed `PolicyValidator` in [`policy_validator.h`](../../include/governance/policy_validator.h) is unchanged.
 
 - Treat a returned decision/result as structured data: check `allowed`/`is_permitted`, error code, explanatory reason, and related reports as applicable.
 - Do not infer success from a non-throwing call or a non-empty report alone.

@@ -1,5 +1,6 @@
 #include "sharding/shard_transfer_store.h"
 #include "sharding/shard_range_snapshot.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <filesystem>
 #include <memory>
@@ -102,6 +103,12 @@ TEST_F(ShardTransferStoreTest, ResumesDurableCheckpointAndAcceptsOnlyIdenticalRe
     EXPECT_THROW(store->append(manifest.id, "source", 2, "b", kB), std::logic_error);
 }
 
+TEST_F(ShardTransferStoreTest, ReportsDatabaseOpenFailure) {
+    const auto invalid_path = (std::filesystem::path(path) / "CURRENT" / "store").string();
+    EXPECT_THROW((void)ShardTransferStore(invalid_path, "target", [](const auto&) { return true; }),
+                 std::runtime_error);
+}
+
 TEST_F(ShardTransferStoreTest, RequiresMatchingPrincipalManifestAndCurrentAssignment) {
     EXPECT_THROW(store->assign(manifest, "other"), std::logic_error);
     auto other_target = manifest;
@@ -196,7 +203,7 @@ TEST_F(ShardTransferStoreTest, DurableAbortRemovesOnlyItsChunksAndPreventsReviva
     store.reset();
     {
         rocksdb::DB* raw = nullptr;
-        const auto status = rocksdb::DB::Open(rocksdb::Options{}, path, &raw);
+        const auto status = themis::storage::detail::openDbCompat(rocksdb::Options{}, path, &raw);
         ASSERT_TRUE(status.ok()) << status.ToString();
         const std::unique_ptr<rocksdb::DB> db(raw);
         std::string value;
@@ -223,7 +230,7 @@ TEST_F(ShardTransferStoreTest, RejectsPersistedMissingChunkEvenAfterVerification
     store.reset();
     {
         rocksdb::DB* raw = nullptr;
-        const auto status = rocksdb::DB::Open(rocksdb::Options{}, path, &raw);
+        const auto status = themis::storage::detail::openDbCompat(rocksdb::Options{}, path, &raw);
         ASSERT_TRUE(status.ok()) << status.ToString();
         const std::unique_ptr<rocksdb::DB> db(raw);
         const std::string key = "c" + manifest.id + std::string(9, '\0');

@@ -19,6 +19,8 @@ Status: Active
 
 ## Curated module contexts
 
+- [Governance policy validation APIs](../../src/governance/API.md#result-handling) — `PolicyRuleSetValidator` analyzes caller-supplied rules or managers; `PolicyValidator` holds a manager. The two headers can be used together.
+
 ### Sharding recovery authority (DIS-06 / #8200)
 
 For the `TwoPhaseCommitCoordinator` / `CrossShardTransactionCoordinator` pair,

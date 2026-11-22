@@ -506,7 +506,7 @@ TEST_F(CcpaReportTest, ToJsonContainsExpectedKeys) {
 }
 
 // ============================================================================
-// PolicyValidator CCPA/HIPAA cross-framework conflict detection
+// PolicyRuleSetValidator CCPA/HIPAA cross-framework conflict detection
 // ============================================================================
 
 TEST(PolicyValidatorCcpaHipaa, NoConflictsForCompliantRule) {
@@ -517,7 +517,7 @@ TEST(PolicyValidatorCcpaHipaa, NoConflictsForCompliantRule) {
         true, false, 2190);
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectCcpaHipaaConflicts(mgr);
     EXPECT_TRUE(conflicts.empty());
 }
@@ -530,7 +530,7 @@ TEST(PolicyValidatorCcpaHipaa, DetectsAuditChangesMissing) {
         true, false, 2190);
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectCcpaHipaaConflicts(mgr);
     EXPECT_FALSE(conflicts.empty());
     EXPECT_EQ(conflicts[0].conflict_type, "ccpa_hipaa");
@@ -546,7 +546,7 @@ TEST(PolicyValidatorCcpaHipaa, IntegratedIntoDetectConflicts) {
         true, false, 2190);
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto all_conflicts = validator.detectConflicts(mgr);
     bool found_ccpa_hipaa = false;
     for (const auto& c : all_conflicts) {
@@ -563,7 +563,7 @@ TEST(PolicyValidatorCcpaHipaa, DisabledRulesSkipped) {
     rule.enabled = false;
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectCcpaHipaaConflicts(mgr);
     EXPECT_TRUE(conflicts.empty());
 }

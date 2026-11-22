@@ -1,5 +1,6 @@
 #include "sharding/shard_transfer_store.h"
 #include "sharding/shard_range_snapshot.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <algorithm>
 #include <array>
@@ -274,7 +275,9 @@ public:
         rocksdb::Options options;
         options.create_if_missing = true;
         options.wal_recovery_mode = rocksdb::WALRecoveryMode::kAbsoluteConsistency;
-        checkStatus(rocksdb::DB::Open(options, path, &db));
+        rocksdb::DB* raw = nullptr;
+        checkStatus(themis::storage::detail::openDbCompat(options, path, &raw));
+        db.reset(raw);
 
         const auto identity = read(kIdentityKey);
         if (identity) {

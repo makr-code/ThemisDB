@@ -421,7 +421,7 @@ TEST(PciDssRuleEvalResult, ToJsonNonCompliant) {
 }
 
 // ============================================================================
-// PolicyValidator PCI-DSS/GDPR cross-framework conflict detection
+// PolicyRuleSetValidator PCI-DSS/GDPR cross-framework conflict detection
 // ============================================================================
 
 TEST(PolicyValidatorPciDssGdpr, NoConflictsForFullyCompliantRule) {
@@ -435,7 +435,7 @@ TEST(PolicyValidatorPciDssGdpr, NoConflictsForFullyCompliantRule) {
         {"pci_analyst"});
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectPciDssGdprConflicts(mgr);
     EXPECT_TRUE(conflicts.empty());
 }
@@ -450,7 +450,7 @@ TEST(PolicyValidatorPciDssGdpr, DetectsExportWithoutEncryption) {
         /*retention_days=*/365);
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectPciDssGdprConflicts(mgr);
     EXPECT_FALSE(conflicts.empty());
     EXPECT_EQ(conflicts[0].conflict_type, "pci_dss_gdpr");
@@ -468,7 +468,7 @@ TEST(PolicyValidatorPciDssGdpr, DetectsRetentionBelowPciMinimum) {
         /*retention_days=*/90); // < 365 → PCI-DSS Req 10.7 conflict with GDPR
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectPciDssGdprConflicts(mgr);
     EXPECT_FALSE(conflicts.empty());
     EXPECT_EQ(conflicts[0].conflict_type, "pci_dss_gdpr");
@@ -484,7 +484,7 @@ TEST(PolicyValidatorPciDssGdpr, IntegratedIntoDetectConflicts) {
         /*retention_days=*/365);
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto all_conflicts = validator.detectConflicts(mgr);
     bool found_pci_dss_gdpr = false;
     for (const auto& c : all_conflicts) {
@@ -501,7 +501,7 @@ TEST(PolicyValidatorPciDssGdpr, DisabledRulesSkipped) {
     rule.enabled = false;
     mgr.addRule(rule);
 
-    PolicyValidator validator;
+    PolicyRuleSetValidator validator;
     auto conflicts = validator.detectPciDssGdprConflicts(mgr);
     EXPECT_TRUE(conflicts.empty());
 }
