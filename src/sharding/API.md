@@ -99,7 +99,8 @@ bounded deadline and durable-ack contract unchanged. Multi-node proposals over
 the 1 MiB command limit are rejected before durable append, so an unsupported
 entry cannot block future prefix replication. A follower behind a
 compacted snapshot still requires snapshot installation; this recovery path
-does not add or simulate snapshot transfer.
+does not add or simulate snapshot transfer. The missing Raft installation
+transport is tracked in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 
 The `DistributedGateway` no longer installs its in-process callback; multi-node
 proposals fail closed until a real peer transport is configured. The Linux gRPC

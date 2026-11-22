@@ -64,7 +64,8 @@ AppendEntries heartbeats use tracked follower `next_index` and bounded batches
 for a later retry. The leader still commits only after verified durable
 acknowledgements, and does not truncate its uncommitted entries. Followers that
 require a compacted snapshot still need the existing snapshot-installation
-boundary; this change adds no snapshot-transfer path.
+boundary; this change adds no snapshot-transfer path. The missing follower
+installation path is tracked in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 Multi-node commands above the transport's 1 MiB per-command limit are rejected
 before the leader durably appends them.
 

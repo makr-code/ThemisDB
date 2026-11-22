@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-21
+Last Updated: 2026-11-22
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -93,6 +93,8 @@ and fault-injection cases must still execute before the gate can close. This
 transport does not add conflict repair, safe membership changes, or a
 quorum-backed 2PC decision state machine. CockroachDB Parallel Commits remain
 out of scope until the full gate passes.
+Installing a snapshot on a follower that has fallen behind the compacted log is
+tracked separately in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 
 ## Test Strategy
 
