@@ -56,6 +56,9 @@ add_executable(test_dis10_concurrent_serializability
     test_dis10_concurrent_serializability.cpp)
 target_link_libraries(test_dis10_concurrent_serializability PRIVATE
     ${TEST_LIBS} themis_core Threads::Threads)
+if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+    target_link_libraries(test_dis10_concurrent_serializability PRIVATE themis_sharding)
+endif()
 target_compile_definitions(test_dis10_concurrent_serializability PRIVATE
     THEMIS_TEST_BUILD=1)
 themis_register_module_focused_test(
