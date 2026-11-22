@@ -30,6 +30,8 @@ on:
       - tests/transaction/**
       - tests/test_distributed_txn_api_handler.cpp
       - tests/test_two_phase_commit.cpp
+      - tests/sharding/CMakeLists.txt
+      - tests/sharding/test_dis10_real_transport_process_recovery.cpp
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
@@ -433,7 +435,9 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
-            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache \
+            -DTHEMIS_ENABLE_GRPC=ON \
+            -DTHEMIS_REQUIRE_SHARD_GRPC=ON
 
       - name: "Run chaos/recovery release-critical transaction suites"
         run: |
@@ -450,6 +454,15 @@ jobs:
             lscpu
             echo '```'
           } > "$BUILD_DIR/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md"
+
+          cmake --build "$BUILD_DIR" \
+            --target test_dis10_real_transport_process_recovery \
+            --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
+            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-build.txt"
+          ctest --test-dir "$BUILD_DIR" \
+            -R '^DIS10RealTransportProcessRecoveryTests$' \
+            --repeat until-fail:3 --output-on-failure \
+            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-real-transport-ctest.txt"
 
           python3 tools/ci/run_transaction_tests.py \
             --build-dir "$BUILD_DIR" --suite chaos \

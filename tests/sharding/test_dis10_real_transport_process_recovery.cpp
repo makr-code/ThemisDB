@@ -71,6 +71,7 @@ constexpr std::string_view kParticipantACertName = "participant-a";
 constexpr std::string_view kParticipantBCertName = "participant-b";
 constexpr std::string_view kShardA = "shard-a";
 constexpr std::string_view kShardB = "shard-b";
+constexpr std::string_view kShardC = "shard-c";
 
 [[nodiscard]] int loopbackPort() {
     const int fd = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
@@ -409,6 +410,10 @@ public:
     void dropCoordinatorRequests() {
         fault_mode_.store(FaultMode::CoordinatorRequests, std::memory_order_release);
     }
+    void delayCoordinatorRequests(const std::chrono::milliseconds delay) {
+        coordinator_request_latency_ms_.store(static_cast<int>(delay.count()), std::memory_order_release);
+        fault_mode_.store(FaultMode::CoordinatorRequestLatency, std::memory_order_release);
+    }
     void heal() { fault_mode_.store(FaultMode::Healthy, std::memory_order_release); }
     [[nodiscard]] std::uint64_t droppedParticipantResponseBytes() const {
         return dropped_participant_response_bytes_.load(std::memory_order_acquire);
@@ -416,13 +421,17 @@ public:
     [[nodiscard]] std::uint64_t droppedCoordinatorRequestBytes() const {
         return dropped_coordinator_request_bytes_.load(std::memory_order_acquire);
     }
+    [[nodiscard]] std::uint64_t delayedCoordinatorRequestBytes() const {
+        return delayed_coordinator_request_bytes_.load(std::memory_order_acquire);
+    }
 
 private:
     enum class FaultMode : uint8_t {
         Healthy,
         BothDirections,
         ParticipantResponses,
-        CoordinatorRequests
+        CoordinatorRequests,
+        CoordinatorRequestLatency
     };
 
     void acceptConnections() {
@@ -466,7 +475,8 @@ private:
 
     [[nodiscard]] bool relayBytes(const int source, const int destination,
                                   const bool drop_bytes,
-                                  const bool participant_response) {
+                                  const bool participant_response,
+                                  const bool delay_request) {
         char buffer[16 * 1024];
         const ssize_t received = ::recv(source, buffer, sizeof(buffer), 0);
         if (received <= 0) {
@@ -483,6 +493,13 @@ private:
                     static_cast<std::uint64_t>(received), std::memory_order_release);
             }
             return true;
+        }
+
+        if (delay_request && !coordinator_request_delay_applied_.exchange(true, std::memory_order_acq_rel)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                coordinator_request_latency_ms_.load(std::memory_order_acquire)));
+            delayed_coordinator_request_bytes_.fetch_add(
+                static_cast<std::uint64_t>(received), std::memory_order_release);
         }
 
         ssize_t sent = 0;
@@ -534,8 +551,11 @@ private:
                     const bool drop_request =
                         fault_mode == FaultMode::CoordinatorRequests &&
                         index == kClientSocketIndex;
+                    const bool delay_request =
+                        fault_mode == FaultMode::CoordinatorRequestLatency &&
+                        index == kClientSocketIndex;
                     if (!relayBytes(source, destination, drop_response || drop_request,
-                                    drop_response)) {
+                                    drop_response, delay_request)) {
                         return;
                     }
                 }
@@ -549,6 +569,9 @@ private:
     std::atomic<FaultMode> fault_mode_{FaultMode::Healthy};
     std::atomic<std::uint64_t> dropped_participant_response_bytes_{0};
     std::atomic<std::uint64_t> dropped_coordinator_request_bytes_{0};
+    std::atomic<std::uint64_t> delayed_coordinator_request_bytes_{0};
+    std::atomic<int> coordinator_request_latency_ms_{0};
+    std::atomic<bool> coordinator_request_delay_applied_{false};
     std::atomic<bool> stopping_{false};
     std::thread accept_thread_;
     std::vector<std::thread> connection_threads_;
@@ -615,7 +638,8 @@ public:
                       const std::string& transaction_id,
                       const std::string& mode,
                       const std::string& endpoint_a,
-                      const std::string& endpoint_b)
+                      const std::string& endpoint_b,
+                      const std::string& endpoint_c = {})
         : transaction_id_(transaction_id),
           coordinator_wal_(root / "coordinator-wal") {
         const std::vector<std::string> args = {
@@ -626,6 +650,7 @@ public:
             mode,
             endpoint_a,
             endpoint_b,
+            endpoint_c,
             std::to_string(::getpid())
         };
         process_ = spawnSelf(args);
@@ -654,6 +679,8 @@ void writeCryptoMaterial(const fs::path& root) {
         themis::tests::generateSelfSignedPemMaterial("703", std::string(kParticipantACertName), {"localhost"});
     const auto participant_b_tls =
         themis::tests::generateSelfSignedPemMaterial("704", std::string(kParticipantBCertName), {"localhost"});
+    const auto participant_c_tls =
+        themis::tests::generateSelfSignedPemMaterial("705", "participant-c", {"localhost"});
 
     writePem(root / "coordinator-cert.pem", coordinator_tls.certificate_pem);
     writePem(root / "coordinator-key.pem", coordinator_tls.private_key_pem);
@@ -663,13 +690,16 @@ void writeCryptoMaterial(const fs::path& root) {
 
     // Coordinator trusts the participant certificates for server verification.
     writePem(root / "participant-cert.pem",
-             participant_tls.certificate_pem + participant_a_tls.certificate_pem + participant_b_tls.certificate_pem);
+             participant_tls.certificate_pem + participant_a_tls.certificate_pem +
+                 participant_b_tls.certificate_pem + participant_c_tls.certificate_pem);
 
     // Shared cert/key simplify the endpoint config for both participant processes.
     writePem(root / "participant-a-cert.pem", participant_a_tls.certificate_pem);
     writePem(root / "participant-a-key.pem", participant_a_tls.private_key_pem);
     writePem(root / "participant-b-cert.pem", participant_b_tls.certificate_pem);
     writePem(root / "participant-b-key.pem", participant_b_tls.private_key_pem);
+    writePem(root / "participant-c-cert.pem", participant_c_tls.certificate_pem);
+    writePem(root / "participant-c-key.pem", participant_c_tls.private_key_pem);
 }
 
 int runParticipantProcess(const fs::path& root,
@@ -722,10 +752,11 @@ int runParticipantProcess(const fs::path& root,
 
     ShardRPCServer::Config server_config;
     server_config.listen_address = "127.0.0.1:" + port;
-    server_config.tls_cert_path =
-        (root / (shard_id == kShardA ? "participant-a-cert.pem" : "participant-b-cert.pem")).string();
-    server_config.tls_key_path =
-        (root / (shard_id == kShardA ? "participant-a-key.pem" : "participant-b-key.pem")).string();
+    const std::string participant_name =
+        shard_id == kShardA ? "participant-a" :
+        shard_id == kShardB ? "participant-b" : "participant-c";
+    server_config.tls_cert_path = (root / (participant_name + "-cert.pem")).string();
+    server_config.tls_key_path = (root / (participant_name + "-key.pem")).string();
     server_config.tls_ca_cert_path = (root / "trusted-clients.pem").string();
     server_config.coordinator_identity_bindings = {
         {"x509_subject_alternative_name", std::string{kCoordinatorIdentity}, std::string{kCoordinatorId}}
@@ -753,6 +784,7 @@ int runCoordinatorProcess(const fs::path& root,
                           const std::string& mode,
                           const std::string& endpoint_a,
                           const std::string& endpoint_b,
+                          const std::string& endpoint_c,
                           const pid_t parent) {
     if (::prctl(PR_SET_PDEATHSIG, SIGKILL) != 0 || ::getppid() != parent) {
         return 201;
@@ -779,6 +811,11 @@ int runCoordinatorProcess(const fs::path& root,
         makeRpcConfig(root, endpoint_b, std::string{kShardB}, 1200)));
     coordinator.registerParticipant(std::string{kShardA}, adapters[0].get());
     coordinator.registerParticipant(std::string{kShardB}, adapters[1].get());
+    if (!endpoint_c.empty()) {
+        adapters.emplace_back(std::make_unique<ShardRPCClientAdapter>(
+            makeRpcConfig(root, endpoint_c, std::string{kShardC}, 1200)));
+        coordinator.registerParticipant(std::string{kShardC}, adapters[2].get());
+    }
 
     if (mode == "recover") {
         (void)coordinator.recoverInDoubtTransactions();
@@ -789,9 +826,15 @@ int runCoordinatorProcess(const fs::path& root,
 
     const nlohmann::json ops_a = nlohmann::json::array({{{"type", "put"}, {"key", "alpha"}, {"value", "A"}}});
     const nlohmann::json ops_b = nlohmann::json::array({{{"type", "put"}, {"key", "beta"}, {"value", "B"}}});
-    const auto outcome = coordinator.commit(
-        transaction_id,
-        {{std::string{kShardA}, ops_a}, {std::string{kShardB}, ops_b}});
+    std::map<std::string, nlohmann::json> operations{
+        {std::string{kShardA}, ops_a},
+        {std::string{kShardB}, ops_b}
+    };
+    if (!endpoint_c.empty()) {
+        operations.emplace(std::string{kShardC},
+                           nlohmann::json::array({{{"type", "put"}, {"key", "gamma"}, {"value", "C"}}}));
+    }
+    const auto outcome = coordinator.commit(transaction_id, operations);
 
     if (outcome.result == CoordinatorTxnResult::COMMITTED) {
         return 0;
@@ -805,6 +848,20 @@ int runCoordinatorProcess(const fs::path& root,
     }
 
     return 203;
+}
+
+void expectCommittedHistoryConsistent(const fs::path& coordinator_wal,
+                                      const std::string& transaction_id,
+                                      const std::vector<std::string>& participants) {
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
+    for (const auto& shard : participants) {
+        const auto participant_wal = coordinator_wal.parent_path() / (shard + "-wal");
+        EXPECT_EQ(countWalEntries(participant_wal, transaction_id, WALEntryType::COMMIT_TX), 1u)
+            << "participant " << shard << " must have one durable COMMIT";
+        EXPECT_EQ(countWalEntries(participant_wal, transaction_id, WALEntryType::ABORT_TX), 0u)
+            << "participant " << shard << " must not record ABORT after a durable COMMIT decision";
+    }
 }
 
 TEST(DIS10RealTransportProcessRecovery, CommitsAcrossRealGrpcMtlsParticipants) {
@@ -1048,6 +1105,92 @@ TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterReverseAsymmetricTcpP
     EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 1u);
 }
 
+TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterCoordinatorRequestLatency) {
+    const FixtureDirectory fixture("dis10-real-transport-latency");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(
+        fixture.path(), std::string{kShardA}, "signal_then_hang_on_commit");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    TcpPartitionProxy proxy(participant_b.port());
+
+    const std::string transaction_id = "dis10-request-latency";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit", participant_a.endpoint(), proxy.endpoint());
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    ASSERT_TRUE(waitForCoordinatorDecision(coordinator_wal, transaction_id));
+    ASSERT_TRUE(waitForFile(fixture.path() / "participant-a-commit-entered"));
+
+    proxy.delayCoordinatorRequests(1800ms);
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    EXPECT_GT(proxy.delayedCoordinatorRequestBytes(), 0u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+
+    ASSERT_TRUE(participant_a.crash());
+    ParticipantProcess restarted_a(
+        fixture.path(), std::string{kShardA}, "normal", participant_a.port());
+    proxy.heal();
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover", restarted_a.endpoint(), proxy.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
+    EXPECT_EQ(countWalEntries(fixture.path() / (std::string{kShardA} + "-wal"),
+                              transaction_id, WALEntryType::COMMIT_TX), 1u);
+    EXPECT_EQ(countWalEntries(fixture.path() / (std::string{kShardB} + "-wal"),
+                              transaction_id, WALEntryType::COMMIT_TX), 1u);
+}
+
+TEST(DIS10RealTransportProcessRecovery, RecoversThreeParticipantCommitAfterParticipantCrash) {
+    const FixtureDirectory fixture("dis10-real-transport-three-participants");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(fixture.path(), std::string{kShardA}, "normal");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    ParticipantProcess participant_c(fixture.path(), std::string{kShardC}, "crash_on_commit");
+
+    const std::string transaction_id = "dis10-three-participant-crash";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit",
+        participant_a.endpoint(), participant_b.endpoint(), participant_c.endpoint());
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+
+    int participant_c_status = 0;
+    ASSERT_TRUE(participant_c.waitForExit(5000, &participant_c_status));
+    ASSERT_TRUE(WIFSIGNALED(participant_c_status));
+    ASSERT_EQ(WTERMSIG(participant_c_status), SIGKILL);
+    ParticipantProcess restarted_c(
+        fixture.path(), std::string{kShardC}, "normal", participant_c.port());
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover",
+        participant_a.endpoint(), participant_b.endpoint(), restarted_c.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    expectCommittedHistoryConsistent(
+        coordinator_wal, transaction_id,
+        {std::string{kShardA}, std::string{kShardB}, std::string{kShardC}});
+}
+
 } // namespace
 
 #else
@@ -1070,10 +1213,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (argc == 8 && std::string_view(argv[1]) == kCoordinatorMode) {
+    if (argc == 9 && std::string_view(argv[1]) == kCoordinatorMode) {
         try {
             return runCoordinatorProcess(
-                argv[2], argv[3], argv[4], argv[5], argv[6], static_cast<pid_t>(std::stol(argv[7])));
+                argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
+                static_cast<pid_t>(std::stol(argv[8])));
         } catch (const std::exception& error) {
             std::cerr << "coordinator process: " << error.what() << '\n';
             return 204;
