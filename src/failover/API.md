@@ -69,6 +69,9 @@ metadata adapter provides shared durable append/load operations; a configured
 adapter supersedes the legacy local metadata log. These interfaces define the
 contract only: the repository does not yet contain a production storage/traffic
 implementation or a consensus-backed metadata implementation.
+Configuring a shared metadata adapter reloads completed records immediately.
+Shared load and append failures block DR execution; the legacy `.lock` file is
+not used as a substitute for a deployment's authoritative metadata service.
 
 For non-dry-run plans, snapshot validation, restore, replication-position
 catch-up, requested traffic shift, and recovered-state verification each require

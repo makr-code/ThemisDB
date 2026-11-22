@@ -31,6 +31,8 @@
  *   DRE-29 proof returned after deadline rejects success
  *   DRE-30 typed storage/traffic/metadata adapters complete through the boundary
  *   DRE-31 shared metadata negative acknowledgement blocks success
+ *   DRE-32 shared metadata replay restores a completed plan idempotently
+ *   DRE-33 shared metadata load failure blocks before external adapters
  *
  * @see include/failover/disaster_recovery_manager.h
  * @see src/failover/ROADMAP.md — Phase 3 / Phase 4 items
@@ -923,6 +925,75 @@ TEST(DisasterRecoveryEdgeDRE31, TypedMetadataAdapterNegativeAckBlocksSuccess) {
     EXPECT_EQ(result.error_code,
               DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
     EXPECT_NE(result.error_message.find("shared metadata authority"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE32, TypedMetadataAdapterReplaysCompletion) {
+    auto metadata = std::make_shared<ContractMetadataAdapter>();
+    auto config = makeTestConfig();
+    config.require_quorum = true;
+    config.enforce_epoch_fencing = true;
+    config.metadata_log_path.clear();
+
+    DisasterRecoveryManager first(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    first.testSetQuorumOverride(true);
+    first.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    first.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    first.setMetadataAdapter(metadata);
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto first_result = first.executePlan(plan);
+    EXPECT_TRUE(first_result.success) << first_result.error_message;
+    EXPECT_EQ(metadata->records.size(), 1u);
+
+    DisasterRecoveryManager restarted(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    restarted.testSetQuorumOverride(true);
+    restarted.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    restarted.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    restarted.setMetadataAdapter(metadata);
+
+    const auto replayed = restarted.executePlan(plan);
+    EXPECT_TRUE(replayed.success) << replayed.error_message;
+    EXPECT_EQ(replayed.final_state, DisasterRecoveryState::COMPLETED);
+}
+
+TEST(DisasterRecoveryEdgeDRE33, TypedMetadataAdapterLoadFailureBlocksBeforeAdapters) {
+    class UnavailableMetadataAdapter final : public DisasterRecoveryMetadataAdapter {
+    public:
+        bool appendCompletedRecord(std::string_view, std::string& detail) override {
+            detail = "must not append";
+            return true;
+        }
+        bool loadCompletedRecords(std::vector<std::string>&, std::string& detail) override {
+            detail = "shared metadata authority is unavailable";
+            return false;
+        }
+    };
+
+    auto config = makeTestConfig();
+    config.require_quorum = true;
+    config.enforce_epoch_fencing = true;
+    config.metadata_log_path.clear();
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    manager.setMetadataAdapter(std::make_shared<UnavailableMetadataAdapter>());
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = manager.executePlan(plan);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    EXPECT_NE(result.error_message.find("shared metadata authority is unavailable"),
               std::string::npos);
 }
 

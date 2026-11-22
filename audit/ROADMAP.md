@@ -263,7 +263,7 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     failure. 2026-11-21: independent verification retries mismatches up to the configured additional-attempt count;
     proofs returned after `verification_timeout` fail closed. DRE-27..29 cover retry and deadline behavior.
     2026-11-21 contract follow-up: typed storage, traffic, and shared-metadata adapter boundaries are now explicit;
-    DRE-30..31 cover typed adapter success and metadata negative-ACK behavior. Remaining: implement real
+    DRE-30..33 cover adapter success, negative append/load, and shared replay behavior. Remaining: implement real
     storage/traffic adapters and a consensus-backed metadata authority, then add networked multi-process
     end-to-end coverage.
   - Handler ohne konfigurierten Storage-/Traffic-/Metadata-Adapter liefern `NotConfigured`; Erfolg nur nach Adapter-ACK

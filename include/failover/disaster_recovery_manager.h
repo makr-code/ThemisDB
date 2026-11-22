@@ -317,6 +317,8 @@ public:
      *                checksummed local metadata-log implementation.
      * @note The adapter does not replace the plan-id cache or remove the need to
      *       reconcile exactly-once external effects after process crashes.
+     * @note Configuring or clearing an adapter immediately reloads completed plans.
+     *       Shared adapter load or append failures are fail-closed.
      */
     void setMetadataAdapter(std::shared_ptr<DisasterRecoveryMetadataAdapter> adapter) noexcept;
 
