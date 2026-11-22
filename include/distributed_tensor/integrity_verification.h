@@ -123,6 +123,12 @@ class IntegrityVerificationReceipt {
     verified_at_ = timestamp;
   }
 
+  /**
+   * @brief Return the diagnostic recorded for the last failed verification.
+   * @return The stored error message, or an empty string when no error was
+   *         recorded. The reference remains valid while this receipt exists
+   *         and is not modified.
+   */
   const std::string& verification_error() const noexcept {
     return verification_error_;
   }
@@ -147,12 +153,16 @@ class IntegrityVerificationReceipt {
 
 class IntegrityVerificationEngine {
  public:
+  /**
+   * @brief Create the default SHA-256 integrity verification engine.
+   */
   IntegrityVerificationEngine();
 
   /**
-   * @brief Integrity Verification Engine.
-   * @param[in] algorithm Input parameter.
-   * @return Return value.
+   * @brief Create an integrity engine for the requested hash algorithm.
+   * @param[in] algorithm Hash algorithm to use; only SHA256 is currently
+   *                      supported by the default implementation.
+   * @note Unsupported algorithms fail closed when verification is requested.
    */
   explicit IntegrityVerificationEngine(HashAlgorithm algorithm);
 
@@ -167,8 +177,7 @@ class IntegrityVerificationEngine {
       IntegrityVerificationEngine&&) noexcept = default;
 
   /**
-   * @brief Integrity Verification Engine.
-   * @return Return value.
+   * @brief Destroy the integrity verification engine.
    */
   virtual ~IntegrityVerificationEngine() = default;
 

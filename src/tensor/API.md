@@ -36,7 +36,9 @@ Contract notes:
 - null returns are valid when no index is found or the route is unsupported
 - configuration and cleanup semantics are explicit; no silent fallback is expected for malformed state
 - **Implementation caveat:** `routeFor()` computes a route separately; current `createIndex()` constructs a `FlatTensorIndex` without consulting that route. This differs from the header comment describing `nullptr` for an HNSW route and remains an unresolved source/API contract discrepancy.
-- `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. The legacy function caches a bridge internally so its returned pointers remain valid across index mutations.
+- `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. Its cached
+  bridge keeps pointers valid across index mutations, but cache eviction or
+  manager destruction invalidates them.
 
 ### `TensorFingerprintGraph`
 

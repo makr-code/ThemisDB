@@ -202,6 +202,15 @@ public:
      * `mapCores()` internally and caches a pinned bridge per vector ID so
      * returned pointers remain valid independently of index mutation.
      *
+     * @param tenant_id Tenant namespace.
+     * @param collection Collection / table name.
+     * @param field Field / column name.
+     * @param id Vector ID.
+     * @return Borrowed TT-core pointers paired with their byte lengths, or an
+     *         empty vector when the vector is missing or has no mapped slices.
+     * @note Pointers are backed by this manager's legacy bridge cache. Cache
+     *       eviction or manager destruction invalidates them; prefer mapCores()
+     *       when an explicit owning lifetime is required.
      * @deprecated Use mapCores() instead.
      *
      * @note Legacy compatibility path:

@@ -92,6 +92,9 @@ public:
      * The returned toolbox is ready for immediate use.  Inject a real
      * `ITextGenerationBackend` via `setTextBackend()` to enable
      * LLM-backed NER and entity extraction.
+     *
+     * @return A ready-to-use toolbox with built-in steps and the default
+     *         null text-generation backend.
      */
     [[nodiscard]] static std::shared_ptr<IngestionToolbox> createDefault();
 
