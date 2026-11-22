@@ -25,6 +25,9 @@ foreach(_src IN LISTS SCHEDULER_PREFIX_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_scheduler_integration")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_scheduler_contract_hardening_focused" OR
@@ -41,4 +44,13 @@ foreach(_src IN LISTS SCHEDULER_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+    if(_stem STREQUAL "test_scheduler_integration" AND THEMIS_ENABLE_HTTP_SERVER)
+        add_test(NAME SchedulerIntegrationFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(SchedulerIntegrationFocusedTests PROPERTIES
+            LABELS "scheduler;integration;persistence;retention;lifecycle;unit"
+            TIMEOUT 180
+        )
+    endif()
 endforeach()

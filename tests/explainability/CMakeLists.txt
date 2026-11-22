@@ -32,6 +32,14 @@ foreach(_src IN LISTS EXPLAINABILITY_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_explainability_reason_builder")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE explainability
         NAME ${_ctest}

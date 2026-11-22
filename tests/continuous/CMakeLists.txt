@@ -62,4 +62,13 @@ foreach(_src IN LISTS CONTINUOUS_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS continuous
     )
+
+    if(_stem STREQUAL "test_continuous_learning_orchestrator")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            TEST_PREFIX "test_continuous_learning_orchestrator."
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()

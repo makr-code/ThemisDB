@@ -22,6 +22,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <optional>
 
 namespace themisdb {
 namespace sharding {

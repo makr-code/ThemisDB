@@ -17,6 +17,7 @@
 #include "replication/replication_manager.h"
 #include "replication/multi_master_replication.h"
 #include "replication/multi_tier_replication.h"
+#include "storage/wal_storage.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -204,6 +205,30 @@ TEST_F(ReplicationConfigTest, ValidWALCompressionLevelSucceeds) {
 // ============================================================================
 
 class WALChecksumTest : public ::testing::Test {};
+
+TEST_F(WALChecksumTest, InvalidSerializedEntryAbortsRecovery) {
+    TempWALDir wd("/tmp/themis_wal_invalid_replication_entry");
+    themis::WALStorage::Config storage_config;
+    storage_config.dir = wd.path;
+    storage_config.fsync_on_write = false;
+
+    {
+        auto storage_result = themis::WALStorage::open(storage_config);
+        ASSERT_TRUE(storage_result.has_value());
+        auto storage = std::move(storage_result.value());
+        const std::string invalid_payload(1, 'x');
+        auto append_result =
+            storage->appendPut("replication-entry", invalid_payload);
+        ASSERT_TRUE(append_result.has_value());
+    }
+
+    const ReplicationConfig cfg = makeConfig(wd.path);
+    EXPECT_THROW(
+        {
+            WALManager wal(cfg);
+        },
+        std::runtime_error);
+}
 
 TEST_F(WALChecksumTest, AppendAndReadBackVerifiesChecksum) {
     TempWALDir wd("/tmp/themis_wal_csum_test");

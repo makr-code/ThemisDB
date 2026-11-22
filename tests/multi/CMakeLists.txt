@@ -30,6 +30,14 @@ foreach(_src IN LISTS MULTI_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
             ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
         )
+        if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+            gtest_discover_tests(${_target}
+                DISCOVERY_MODE POST_BUILD
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+                EXTRA_ARGS --gtest_color=yes
+                CONFIGURATIONS Release Debug
+            )
+        endif()
     endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include

@@ -30,6 +30,62 @@ foreach(_src IN LISTS INDEX_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_ann_index" OR
+       _stem STREQUAL "test_distributed_vector_index" OR
+       _stem STREQUAL "test_gpu_memory_oversubscription" OR
+       _stem STREQUAL "test_index_compression" OR
+       _stem STREQUAL "test_matryoshka_truncation")
+        if(TARGET themis_storage)
+            target_link_libraries(${_target} PRIVATE themis_storage)
+        endif()
+    endif()
+    if(_stem STREQUAL "test_index_manager_di")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/index_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/index/secondary_index.cpp
+            ${THEMIS_ROOT_DIR}/src/index/vector_index.cpp
+            ${THEMIS_ROOT_DIR}/src/index/graph_index.cpp
+            ${THEMIS_ROOT_DIR}/src/index/index_compression.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+    elseif(_stem STREQUAL "test_tiered_index_migration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/tiered_index_manager.cpp
+        )
+    elseif(_stem STREQUAL "test_spatial_correctness_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/spatial_index.cpp
+        )
+        target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+    elseif(_stem STREQUAL "test_gpu_memory_oversubscription")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
+            ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
+            ${THEMIS_ROOT_DIR}/src/gpu/gpu_memory_manager_edition.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_hnsw_recall_integration" AND
+       TARGET hnswlib::hnswlib)
+        target_link_libraries(${_target} PRIVATE hnswlib::hnswlib)
+    endif()
+    if(_stem STREQUAL "test_index_maintenance" OR
+       _stem STREQUAL "test_index_analyzer")
+        target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+    endif()
+    if(_stem STREQUAL "test_ann_index")
+        if(THEMIS_ENABLE_DISKANN)
+            target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_DISKANN)
+        endif()
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_ann_frontdoor")

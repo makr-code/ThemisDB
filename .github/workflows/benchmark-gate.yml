@@ -115,6 +115,9 @@ jobs:
   build-wave4-release-gates:
     name: "Build: Wave 4 release gate benchmark"
     needs: validate-baselines
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-24.04

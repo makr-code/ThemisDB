@@ -131,6 +131,29 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn(parser_call, wire_harness)
         self.assertIn(parser_call, ws_session)
 
+    def test_fuzz_jobs_use_compatible_system_toolchain_without_weakening_gates(self):
+        workflow = yaml.load(
+            (ROOT / ".github/workflows/security-fuzzing.yml").read_text(
+                encoding="utf-8"
+            ),
+            Loader=yaml.BaseLoader,
+        )
+        jobs = workflow["jobs"]
+        for job in ("parser-smoke", "afl-fuzz"):
+            with self.subTest(job=job):
+                settings = jobs[job]["with"]
+                self.assertEqual(settings["runs_on"], "ubuntu-24.04")
+                self.assertIn("libfmt-dev libspdlog-dev", settings["setup_command"])
+                self.assertIn("cmake --build", settings["build_command"])
+                self.assertIn("set -euo pipefail", settings["validation_command"])
+        smoke = jobs["parser-smoke"]["with"]
+        self.assertIn("-fsanitize=address,undefined", smoke["configure_command"])
+        self.assertIn("-fno-omit-frame-pointer", smoke["configure_command"])
+        self.assertIn("tools/ci/fuzz_smoke.py --mode run", smoke["validation_command"])
+        afl = jobs["afl-fuzz"]["with"]
+        self.assertIn("-DCMAKE_CXX_COMPILER=afl-clang-lto++", afl["configure_command"])
+        self.assertIn("afl-fuzz", afl["validation_command"])
+
     def test_smoke_results_are_persisted_for_the_artifact(self):
         workflow = (ROOT / ".github/workflows/security-fuzzing.yml").read_text(
             encoding="utf-8"

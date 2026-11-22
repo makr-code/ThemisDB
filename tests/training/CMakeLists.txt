@@ -32,6 +32,18 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_training_convergence" OR
+       _stem STREQUAL "test_training_diagnostics_consistency" OR
+       _stem STREQUAL "test_training_phase2")
+        target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+    endif()
+    if(_stem STREQUAL "test_training_diagnostics_consistency" OR
+       _stem STREQUAL "test_training_phase2")
+        target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
+    endif()
+    if(_stem STREQUAL "test_training_database_optimizer")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
     if((_stem STREQUAL "test_incremental_lora_db_training" OR
         _stem STREQUAL "test_training_pipeline_db" OR
         _stem STREQUAL "test_adalora_tt_bridge_hardening" OR
@@ -48,4 +60,11 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS training
     )
+    if(_stem STREQUAL "test_multitask_lora_acceptance_gates")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()

@@ -35,4 +35,13 @@ foreach(_src IN LISTS SCHEMA_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS schema
     )
+
+    if("${_stem}" STREQUAL "test_schema_dead_weight_detector")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            TEST_PREFIX "test_schema_dead_weight_detector."
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()

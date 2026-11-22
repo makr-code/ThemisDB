@@ -17,6 +17,9 @@ foreach(_src IN LISTS AI_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_ai_plugin_generator")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
 
@@ -34,6 +37,9 @@ foreach(_src IN LISTS AI_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_ai_plugin_generator")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

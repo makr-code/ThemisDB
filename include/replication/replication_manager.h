@@ -422,6 +422,15 @@ public:
  */
 class WALManager {
 public:
+    /**
+     * @brief Open the replication WAL and restore its in-memory index.
+     * @param config Replication settings; `wal_directory` must identify the
+     *        directory containing the WAL segments.
+     * @throws std::runtime_error if WAL replay or a replication-entry decode
+     *         fails; construction then leaves no manager state registered.
+     * @throws std::filesystem::filesystem_error if the WAL directory cannot be
+     *         created or inspected.
+     */
     explicit WALManager(const ReplicationConfig& config);
     ~WALManager();
 

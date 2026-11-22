@@ -9,7 +9,8 @@ import argparse
 MODULE_TARGETS = {
     "storage": (
         "module_storage_test_storage_contract_hardening_focused_focused",
-        "test_storage_contract_hardening_focused_StorageFocusedTests",
+        "test_storage_contract_hardening_focused_StorageFocusedTests|"
+        "WALProcessCrashRecoveryTests|WALProcessUnobservedAppendTests",
     ),
     "transaction": (
         "test_transaction_auditor_focused",
@@ -42,6 +43,7 @@ MODULE_TARGETS = {
 FULL_BUILD_TARGETS = (
     "themis_base",
     *(targets[0] for targets in MODULE_TARGETS.values()),
+    "test_wal_process_crash_worker",
 )
 FULL_TEST_REGEX = "|".join(targets[1] for targets in MODULE_TARGETS.values())
 
@@ -142,6 +144,8 @@ def selected_targets(
     build_targets = list(FULL_BUILD_TARGETS) if full_suite else [
         MODULE_TARGETS[module][0] for module in modules
     ]
+    if "storage" in modules and "test_wal_process_crash_worker" not in build_targets:
+        build_targets.append("test_wal_process_crash_worker")
     test_regex = FULL_TEST_REGEX if full_suite else "|".join(
         MODULE_TARGETS[module][1] for module in modules
     )

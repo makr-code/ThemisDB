@@ -60,6 +60,15 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
             OpenSSL::Crypto
         )
     endif()
+    if(_stem STREQUAL "test_api_grpc_server" AND THEMIS_ENABLE_GRPC)
+        target_link_libraries(${_target} PRIVATE gRPC::grpc++)
+        if(TARGET gRPC::grpc++_reflection)
+            target_link_libraries(${_target} PRIVATE gRPC::grpc++_reflection)
+        else()
+            message(WARNING "gRPC reflection target (gRPC::grpc++_reflection) not found; building test_api_grpc_server without reflection")
+        endif()
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_api_contracts" OR
@@ -76,4 +85,12 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+
+    if(_stem STREQUAL "test_api_grpc_server")
+        add_test(NAME GrpcApiServerTests COMMAND $<TARGET_FILE:${_target}>)
+        set_tests_properties(GrpcApiServerTests PROPERTIES
+            LABELS "api;grpc;server;lifecycle;unit"
+            TIMEOUT 60
+        )
+    endif()
 endforeach()

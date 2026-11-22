@@ -148,6 +148,14 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_aql_graphql_integration")
+        target_link_libraries(${_target} PRIVATE
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+    elseif(_stem STREQUAL "test_aql_multi_statement_transaction")
+        target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
