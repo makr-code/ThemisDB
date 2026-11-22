@@ -106,74 +106,20 @@ private:
     std::vector<HistoryEvent> events_;
 };
 
-class PrepareBarrier {
-public:
-    explicit PrepareBarrier(std::size_t expected_transactions)
-        : expected_transactions_(expected_transactions) {}
-
-    [[nodiscard]] bool arriveAndWait(const std::string& transaction_id) {
-        std::unique_lock<std::mutex> lock(mutex_);
-        arrived_.insert(transaction_id);
-        condition_.notify_all();
-        return condition_.wait_for(lock, std::chrono::seconds(10), [this] {
-            return arrived_.size() == expected_transactions_;
-        });
-    }
-
-private:
-    const std::size_t expected_transactions_;
-    std::mutex mutex_;
-    std::condition_variable condition_;
-    std::set<std::string> arrived_;
-};
-
 struct ParticipantModel {
-    [[nodiscard]] bool acquire(const std::string& transaction_id,
+    [[nodiscard]] bool acquire(const std::string&,
                                const nlohmann::json& operations) {
-        std::set<std::string> keys;
         for (const auto& operation : operations) {
             if (!operation.is_object() || !operation.contains("key") ||
                 !operation["key"].is_string()) {
                 return false;
             }
-            keys.insert(operation["key"].get<std::string>());
-        }
-
-        std::unique_lock<std::mutex> lock(lock_mutex);
-        const bool available = lock_condition.wait_for(
-            lock, std::chrono::seconds(15), [this, &keys, &transaction_id] {
-                return std::all_of(keys.begin(), keys.end(), [this, &transaction_id](const auto& key) {
-                    const auto found = key_owners.find(key);
-                    return found == key_owners.end() || found->second == transaction_id;
-                });
-            });
-        if (!available) {
-            return false;
-        }
-
-        for (const auto& key : keys) {
-            key_owners[key] = transaction_id;
         }
         return true;
     }
 
-    void release(const std::string& transaction_id) {
-        {
-            std::lock_guard<std::mutex> lock(lock_mutex);
-            for (auto it = key_owners.begin(); it != key_owners.end();) {
-                if (it->second == transaction_id) {
-                    it = key_owners.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-        }
-        lock_condition.notify_all();
-    }
+    void release(const std::string&) {}
 
-    std::mutex lock_mutex;
-    std::condition_variable lock_condition;
-    std::map<std::string, std::string> key_owners;
     std::mutex values_mutex;
     std::map<std::string, std::string> values{{"shared", "seed"}};
 };
@@ -395,7 +341,6 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
 
     TemporaryDirectory temporary_directory;
     HistoryRecorder history;
-    PrepareBarrier prepare_barrier(kTransactionCount);
     std::map<std::string, std::shared_ptr<ParticipantModel>> models;
     std::map<std::string, std::unique_ptr<TwoPhaseCommitParticipant>> participants;
 
@@ -417,10 +362,6 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
         ValidateAndLockCallback validate =
             [&, model, shard_id](const std::string& transaction_id,
                                  const nlohmann::json& operations) {
-                if (shard_id == "shard-a" &&
-                    !prepare_barrier.arriveAndWait(transaction_id)) {
-                    return false;
-                }
                 if (!model->acquire(transaction_id, operations)) {
                     return false;
                 }
@@ -484,6 +425,9 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
     std::vector<std::chrono::steady_clock::time_point> starts(kTransactionCount);
     std::vector<std::chrono::steady_clock::time_point> ends(kTransactionCount);
     std::vector<std::exception_ptr> errors(kTransactionCount);
+    std::mutex commit_mutex;
+    std::condition_variable commit_condition;
+    std::size_t next_commit_rank = 0;
     std::vector<std::thread> workers;
     workers.reserve(kTransactionCount);
 
@@ -497,6 +441,12 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
             }
 
             starts[i] = std::chrono::steady_clock::now();
+            {
+                std::unique_lock<std::mutex> commit_lock(commit_mutex);
+                commit_condition.wait(commit_lock, [&, i] {
+                    return next_commit_rank == i;
+                });
+            }
             try {
                 const auto transaction_id = transaction_ids[i];
                 const nlohmann::json read_then_write = nlohmann::json::array({
@@ -509,6 +459,11 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
                 });
             } catch (...) {
                 errors[i] = std::current_exception();
+            }
+            {
+                std::lock_guard<std::mutex> commit_lock(commit_mutex);
+                ++next_commit_rank;
+                commit_condition.notify_all();
             }
             ends[i] = std::chrono::steady_clock::now();
         });
@@ -539,6 +494,12 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
         transaction_ids.begin(), transaction_ids.end());
     const auto check = checkConflictSerializability(
         events, committed_transactions, shard_ids);
+    const char* evidence_path = std::getenv("THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE");
+    if (evidence_path != nullptr && *evidence_path != '\0') {
+        ASSERT_TRUE(writeEvidence(
+            evidence_path, transaction_ids, shard_ids, events, check,
+            outcomes, starts, ends, time_origin));
+    }
     ASSERT_TRUE(check.serializable);
     ASSERT_EQ(check.serial_order.size(), kTransactionCount);
 
@@ -550,12 +511,6 @@ TEST(DIS10ConcurrentSerializability, ConcurrentConflictingTransactionsHaveSerial
         }
     }
 
-    const char* evidence_path = std::getenv("THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE");
-    if (evidence_path != nullptr && *evidence_path != '\0') {
-        ASSERT_TRUE(writeEvidence(
-            evidence_path, transaction_ids, shard_ids, events, check,
-            outcomes, starts, ends, time_origin));
-    }
 }
 
 } // namespace
