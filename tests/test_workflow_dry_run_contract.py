@@ -307,6 +307,24 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertEqual(fail_closed["if"], "always()")
         self.assertIn('!= "success"', fail_closed["run"])
 
+    def test_cmake_reusable_callers_allow_required_read_permissions(self) -> None:
+        expected = {"contents": "read", "actions": "read"}
+        cases = {
+            "gate-pr-core.yml": ("quality-test-build",),
+            "gate-pr-rag-eval.yml": ("release_critical_rag_tests",),
+            "benchmark-gate.yml": ("build-wave4-release-gates",),
+            "security-fuzzing.yml": ("parser-smoke", "afl-fuzz"),
+        }
+        reusable = load_workflow("reusable-cmake-build.yml")
+        self.assertEqual(reusable["permissions"], expected)
+        for name, jobs in cases.items():
+            workflow = load_workflow(name)
+            for job in jobs:
+                with self.subTest(workflow=name, job=job):
+                    caller = workflow["jobs"][job]
+                    self.assertEqual(caller["uses"], "./.github/workflows/reusable-cmake-build.yml")
+                    self.assertEqual(caller["permissions"], expected)
+
     def test_pr_gate_feedback_permissions_are_scoped_to_mutating_jobs(self) -> None:
         workflow_permissions = {"contents": "read"}
         issue_and_pr_permissions = {

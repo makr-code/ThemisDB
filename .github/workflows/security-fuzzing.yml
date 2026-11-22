@@ -225,6 +225,9 @@ jobs:
       inputs.target == 'http_parser' ||
       inputs.target == 'wire_protocol_parser' ||
       inputs.target == 'postgres_importer'))
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
@@ -303,6 +306,9 @@ jobs:
     if: >-
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest

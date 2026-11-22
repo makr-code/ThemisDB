@@ -264,6 +264,9 @@ jobs:
     name: "Build: PR Release-Critical Test Quality Line"
     needs: preflight-ci-policy
     if: github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       enable_sccache_gha: false
