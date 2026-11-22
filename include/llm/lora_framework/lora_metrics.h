@@ -41,8 +41,13 @@ namespace themis::llm::lora::metrics {
 // Conditional Compilation Notice
 // ============================================================================
 #ifndef THEMIS_HAS_PROMETHEUS
+#if defined(_MSC_VER)
+#pragma message("Prometheus C++ client not found - metrics collection will be disabled")
+#pragma message("Install with: vcpkg install prometheus-cpp")
+#else
 #warning "Prometheus C++ client not found - metrics collection will be disabled"
 #warning "Install with: vcpkg install prometheus-cpp"
+#endif
 #endif
 
 // ============================================================================

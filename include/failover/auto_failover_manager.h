@@ -90,6 +90,7 @@ struct AutoFailoverConfig {
     
     // Behavior
     bool enable_automatic_failover{true};
+    /// When enabled, failover requires an available spare manager; absence fails closed.
     bool enable_spare_activation{true};
     bool enable_leader_election{true};
     bool enable_network_partition_detection{true};

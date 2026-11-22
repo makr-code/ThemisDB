@@ -240,8 +240,8 @@ AI_Contributor: GitHub Copilot
 Human_Review: false
 Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
--->
-### TST-03 Test Registration Consolidation (2026-11-02)
+--->
+### TST-03 Test Registration Consolidation (2026-11-03)
 
 - Reused canonical focused executables for AutoFocused CTest names across the affected modules, avoiding duplicate test-source compilation while preserving test names and labels.
 - Made missing canonical targets fail CMake configuration and deferred transaction aliases until all module targets are defined.
@@ -267,6 +267,268 @@ Exact model backend not verifiable from final document text alone.
 - Consolidated the Plugin Hot-Plug and Hot-Reload focused tests on their canonical module executables. Preserved legacy build-target names and CTest contracts, including the explicit `CMAKE_DL_LIBS` dependency; the non-modular inventory falls from 293 to 291 multi-target sources.
 - Consolidated six additional CDC focused tests on their canonical module executables. Preserved conditional HTTP/Kafka implementation sources, nlohmann-json/RocksDB dependencies, Windows runtime-DLL synchronization, and legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 291 to 285; the focused build is blocked before reaching CDC by an independent generated-gRPC/MSVC error.
 - Consolidated seven Auth focused tests on their canonical module executables. Preserved explicit OpenSSL, optional CURL, and nlohmann-json link dependencies plus legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 285 to 278; the distributed rate-limiter test remains separate because it compiles an additional production source.
+- Consolidated ten Content focused tests, Toolbox Primitives, and four RAG focused tests on their canonical module executables. Preserved content, nlohmann-json, OpenSSL, and C++17 compile-feature requirements; all legacy build-target/CTest names, labels, and timeouts remain, including the Toolbox Bridge filter and working directory. Both Windows Debug profiles configure, and the non-modular duplicate-target count falls from 278 to 263.
+- Consolidated the DatabaseDomainAutoLabeler test on its canonical Database module executable. Preserved the legacy build target, CTest name, and per-case GTest discovery by registering discovery in the target-owning CMake directory. Both Windows Debug profiles configure, and the non-modular duplicate-target count falls from 263 to 262; runtime build/test remains unverified due to the independent generated-gRPC/MSVC blocker.
+- Consolidated the AIPluginGenerator test on its canonical AI module executable, carrying over the three Observability implementation sources and direct nlohmann-json dependency. Preserved the legacy build target, CTest name, labels, and timeout; both Windows Debug profiles configure, and the non-modular duplicate-target count falls from 262 to 261.
+- Consolidated GraphAnalytics, Category-B BFS, and Category-B Dijkstra on their canonical Graph module executables. Preserved GraphAnalytics fmt/RocksDB dependencies, export definition, and Windows runtime-DLL synchronization, plus legacy CTest names, labels, and timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 261 to 258.
+- Consolidated GraphTypeFiltering and Graph Edge Empty Fields QW-45 on their canonical Graph module executables. Preserved GraphTypeFiltering fmt/RocksDB dependencies, export definition, and Windows runtime-DLL synchronization, plus both legacy build-target and CTest contracts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 258 to 256.
+- Consolidated five Governance focused tests (Policy Hot-Reload, OPA Adapter, Policy Simulation, Compliance Time-Window, Review Scheduler) on their canonical module executables. Preserved OpenSSL, optional yaml-cpp, and nlohmann-json dependencies as well as the legacy build targets, CTest names, labels, and 60-second timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 256 to 251.
+- Consolidated Graph Edge Encryption and Graph Index Comprehensive on their canonical Graph module executables. Preserved OpenSSL, fmt, RocksDB, `THEMIS_GRAPH_EXPORTS`, and Windows runtime-DLL synchronization for Edge Encryption, plus RocksDB, legacy build targets, CTest names, labels, and timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 251 to 249.
+- Consolidated Cache Admin API Handler, Cache Interfaces, and Cache Phase 6 Interfaces on their canonical Cache module executables. Preserved the Admin API's direct RocksDB dependency and legacy build targets, CTest names, labels, and 60-second timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 249 to 246.
+- Consolidated Cache Warmup and TensorFingerprintGraph on their canonical module executables. Preserved Cache Warmup's RocksDB dependency and legacy build/CTest contracts; moved TensorFingerprintGraph per-case discovery into the owning Graph CMake directory with its previous working directory; both profiles configure and the non-modular duplicate-target count falls from 246 to 244.
+- Consolidated Index Maintenance, Learned Index, and IndexAnalyzer on their canonical Index module executables. Preserved direct RocksDB dependencies where required, legacy build targets, CTest names, labels, and timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 244 to 241.
+- Consolidated Index Compression and Matryoshka Truncation on their canonical Index module executables. Preserved the conditional `themis_storage` dependency, legacy build targets, CTest names, labels, and 120-second timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 241 to 239.
+- Consolidated Distributed Vector Index and HNSW Recall on their canonical Index module executables. Preserved conditional `themis_storage`/`hnswlib::hnswlib` dependencies, legacy build targets, CTest names, labels, and timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 239 to 237.
+- Consolidated IndexManagerDI, Tiered Migration, Spatial Correctness, ANN Index, and GPU Memory Oversubscription on their canonical Index module executables. Transferred target-specific production sources, JSON/RocksDB and conditional `themis_storage` dependencies, and the DiskANN compile option; preserved ANN per-case GTest discovery, legacy build targets, CTest names, labels, and timeouts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 237 to 232.
+- 2026-11-03: Consolidated thirteen Graph test sources on canonical Graph module executables, transferring required production sources, link dependencies, export definitions, and Windows DLL synchronization. Preserved legacy build targets, CTest names, distributed-graph filter/PATH settings, and RotatE per-case discovery; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 232 to 218.
+- 2026-11-03: Consolidated 37 LLM test sources on canonical LLM module executables, transferring required production sources, link dependencies, and compile definitions for LLM, RAID, and inference tests. Preserved legacy build targets and CTest contracts; the non-modular duplicate-target count falls from 218 to 181.
+- 2026-11-03: Consolidated 27 Geo test sources on canonical Geo module executables, preserving `themis_geo`, CUDA/HIP settings, Geo special registrations, legacy build targets, and CTest contracts. The non-modular duplicate-target count falls from 181 to 154.
+- 2026-11-03: Consolidated 13 Analytics test sources on canonical Analytics module executables, transferring Arrow/Parquet/Arrow Flight and ONNX Runtime sources and link conditions. Preserved legacy build targets and CTest contracts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 154 to 141.
+- 2026-11-03: Consolidated 13 Temporal test sources on canonical Temporal module executables, transferring target-specific production sources and LZ4 linkage and preserving legacy build targets, explicit CTest contracts, and per-case GTest discovery in the target-owning CMake directory. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 141 to 128; focused runtime builds remain unverified.
+- 2026-11-03: Consolidated 12 Voice test sources on canonical Voice module executables, transferring non-modular production sources and JSON/conditional `themis_voice` dependencies. Preserved legacy build targets and CTest names, labels, and timeouts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 128 to 116.
+- 2026-11-03: Consolidated ten Security test sources on canonical Security module executables, transferring AI-safety sources, C++17 requirements, and Arrow/OpenSSL link conditions. Preserved legacy build targets and CTest contracts; both Windows Debug profiles configure and the non-modular duplicate-target count falls from 116 to 106.
+- 2026-11-03: Consolidated nine Performance test sources on canonical module executables, transferring the hardware accelerator implementation and preserving per-case GTest discovery, C++17, and LLM compile settings. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 106 to 97.
+- 2026-11-03: Consolidated nine legacy Process focused targets (covering ten repeated test-source registrations) on canonical module executables. Preserved legacy build-target and CTest names, labels, timeouts, and the graph visit-timestamp filter. Both Windows Debug profiles configure, all nine CTest names are registered, and the non-modular inventory falls from 97 to 87 multiple-target sources (86 excluding the intentionally shared GTest runner); runtime builds and tests remain unverified.
+- 2026-11-03: Consolidated seven Replication test sources across nine legacy build targets on canonical module executables. Preserved CTest names, labels, timeouts, `RUN_SERIAL`, the multi-tier filter, `async_wal_shipper.cpp` and topology-handler sources, Zstd linkage, and the HTTP-server compile definition. Both Windows Debug profiles configure, all nine legacy CTest names are registered, and the non-modular inventory falls from 87 to 80 multiple-target sources (79 excluding the intentionally shared GTest runner); runtime builds and tests remain unverified.
+- 2026-11-03: Consolidated seven Transaction test sources on canonical module executables. Preserved six legacy CTest names, legacy build-target names, test labels/timeouts, and Semantic Advisor post-build case discovery. Both Windows Debug profiles configure, the duplicate-target inventory falls from 80 to 73 sources (72 excluding the intentionally shared GTest runner), and runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated seven RAG test sources on canonical module executables. Preserved legacy build-target names, six explicit legacy CTest names, the ingestion-bridge filter/working directory, and Self-RAG post-build case discovery; transferred target-specific implementation sources, links, C++ standard, and compile definitions. Both Windows Debug profiles configure, the duplicate-target inventory falls from 73 to 66 sources (65 excluding the intentionally shared GTest runner), and runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated seven Training test sources on canonical module executables. Preserved legacy build targets, both ModalityParser/TrainingConvergence CTest names, other labels/timeouts, and Multi-Task-LoRA post-build case discovery; transferred required implementation sources and RocksDB/OpenSSL/JSON link dependencies. Both Windows Debug profiles configure, and the duplicate-target inventory falls from 66 to 59 sources (58 excluding the intentionally shared GTest runner); runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated six Storage test sources on canonical module executables. Preserved legacy build targets, five named CTest entries, and StorageLayoutAdvisor post-build case discovery; transferred MVCC/temporal and Parquet/columnar implementation sources plus RocksDB/LZ4/Snappy link conditions. Both Windows Debug profiles configure, and the duplicate-target inventory falls from 59 to 53 sources (52 excluding the intentionally shared GTest runner); runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated four Chaos test sources on canonical module executables. Preserved four legacy build targets and CTest names, labels/timeouts, and the HTTP-server feature gate for Network/Scheduler; transferred the Chaos framework source and `themis_network` dependency. Both Windows Debug profiles configure, and the duplicate-target inventory falls from 53 to 49 sources (48 excluding the intentionally shared GTest runner); runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated the FK, security-audit, and streaming PostgreSQL importer test sources on their canonical module executables. Preserved the legacy aggregate build target and CTest name by making the aggregate test run those three module CTests; other importer suites remain unchanged. Both Windows Debug profiles configure, and the duplicate-target inventory falls from 49 to 46 sources (45 excluding the intentionally shared GTest runner); runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated the AQL GraphQL integration and multi-statement transaction test sources on canonical module executables. Preserved legacy build-target names, CTest names, labels/timeouts, and explicit RocksDB/JSON linkage. Both Windows Debug profiles configure, and the duplicate-target inventory falls from 46 to 44 sources (43 excluding the intentionally shared GTest runner); runtime builds/tests remain unverified.
+- 2026-11-03: Consolidated Cache Replication and Cache Replication Coordinator on their canonical module executables. Transferred the coordinator, gRPC peer, and logger implementation sources plus RocksDB and conditional gRPC dependencies; preserved the legacy build-target names and CTest names, labels, and timeouts. Both Windows Debug profiles configure, and the non-modular inventory falls from 44 to 42 multiple-target sources (41 actionable after excluding the shared GTest runner). The focused target build is in progress; runtime tests have not run.
+- 2026-11-03: Consolidated Distributed Knowledge and Distributed Hybrid Search on their canonical module executables. Transferred the conditional distributed-knowledge implementation sources, JSON/C++17 requirements, and post-build GTest discovery settings; preserved the legacy build-target names and test discovery contracts. Both Windows Debug profiles configure, and the non-modular inventory falls from 42 to 40 multiple-target sources (39 actionable after excluding the shared GTest runner). A focused build was stopped during the broad `themis_core` compilation at 343/1,385 objects; runtime tests were not run.
+- 2026-11-03: Consolidated Multi-Region Active-Active and Multi-GPU Vector Index on their canonical module executables. Preserved the legacy build-target and CTest contracts, GPU feature gate, and post-build GTest discovery configuration; GPU implementation sources remain attached to the module target. Both Windows Debug profiles configure, and the non-modular inventory falls from 40 to 38 multiple-target sources (37 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated WorkloadAdaptiveOptimizer and WorkloadFingerprintEngine on their canonical workload-module executables. Transferred the optimizer and fingerprint-engine implementation sources; preserved both optimizer legacy build-target aliases, the named aggregate CTest contract, and post-build GTest case discovery. Both Windows Debug profiles configure, and the non-modular inventory falls from 38 to 36 multiple-target sources (35 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated Flash Attention and KV-Cache Reuse on their canonical Phase 1 module executables. Preserved the LLM feature gate, Windows runtime-DLL synchronization, Release/Debug GTest discovery, and legacy build-target names. Both Windows Debug profiles configure, and the non-modular inventory falls from 36 to 34 multiple-target sources (33 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated Gossip Custom Handler and Module Sandbox WASM Injection on their canonical module executables. Transferred JSON/C++17 and `CMAKE_DL_LIBS`/`themis_base` dependencies, GTest discovery, and named CTest metadata; retained all legacy build-target names. Both Windows Debug profiles configure, and the non-modular inventory falls from 34 to 32 multiple-target sources (31 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated Erasure Coding Backend and NUMA Memory Manager on their canonical module executables. Transferred NUMA implementation sources and GTest discovery settings; preserved legacy build-target aliases and the two named CTest contracts, each registered exactly once. Both Windows Debug profiles configure, and the non-modular inventory falls from 32 to 30 multiple-target sources (29 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated IncrementalLoRATrainer on its canonical incremental-module executable. Transferred its LLM-gated training/federation sources, JSON/optional YAML dependencies, compile definition, named federation CTest, and GTest discovery; both legacy build-target aliases remain. Both Windows Debug profiles configure, and the non-modular inventory falls from 30 to 29 multiple-target sources (28 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated Intent Classifier, Knowledge Gap Retrieval Callback, and Explainability Reason Builder on their canonical module executables. Transferred the required intent/knowledge production sources and GTest discovery settings; the Explainability target continues to own its production source. Both Windows Debug profiles configure, and the non-modular inventory falls from 29 to 26 multiple-target sources (25 actionable after excluding the shared GTest runner); runtime tests were not run.
+- 2026-11-03: Consolidated `tests/chunk/test_chunk_level_encryption.cpp` on its canonical Chunk module executable. Preserved the legacy build-target name as a dependency alias and retained the target-owning directory's per-case GTest discovery with the original `Suite.Test` names, working directory, arguments, labels, and timeout. Both Windows Debug profiles configure; each reports zero actionable multiple-focused-target test sources, with only the intentionally shared GTest runner remaining. The inventories cover 4,229 test sources (2,818 modular and 2,908 non-modular compiled; 1,320 outside both profiles). CTest registration is present, but the test binary was not built and runtime tests were not run.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
+### STO-01 — Structured WAL recovery diagnostics (2026-11-03)
+
+- Added optional `WALStorage::RecoveryResult` output with lifecycle status, last valid LSN, replay/byte/segment counts, elapsed time, and error detail, including on failure.
+- Added synchronous per-record progress snapshots, cumulative replayed-entry/byte counters, terminal attempt-status/duration metrics through `MetricsCollector`, and structured audit events for non-complete outcomes.
+- Updated file-backed tests for complete replay, accepted torn tails, corruption, and timeout. A separately linked Windows runner passed all 29 WAL tests, including 10,000 seeded single-bit cases, 1,024 seeded two-bit cases, 256 seeded single-bit and 384 seeded two-bit mutations across 12 segments with varied payload lengths, and fail-closed recovery after third-segment corruption. The standard CMake focused target remains blocked by the independent generated-gRPC compiler error recorded in `audit/ROADMAP.md`.
+- Restricted torn-tail truncation to the latest WAL segment; incomplete records in earlier segments now fail as corruption without truncating that segment.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
+### STO-01 — Fail-closed replication WAL decoding (2026-11-03)
+
+- Invalid persisted replication payloads now abort WAL recovery instead of being logged and skipped. A failed `WALManager` construction also removes its partially populated runtime state before propagating the error.
+- Added a file-backed regression for an undecodable replication entry. Both changed translation units compile with MSVC, and `WALChecksumTest.InvalidSerializedEntryAbortsRecovery` passes in a separately linked Windows runner. The standard modular CMake target remains blocked by generated gRPC compilation errors (`C2065: STATELESS` from the external vcpkg tree); the full replication suite has not been run.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
+### STO-01 — Configurable WAL recovery deadline (2026-11-03)
+
+- Added `WALStorage::Config::recovery_timeout_seconds` as a total deadline across replayed segments; `0` keeps recovery unbounded. Timeout is reported as an error after a slow callback returns because callbacks are not preemptible.
+- Added a file-backed regression source that exercises timeout across segment boundaries. Both changed C++ translation units compile with MSVC; the full focused link required a broad `themis_core` build and was cancelled at 492/1,379 objects, so no runtime pass is claimed.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
+### STO-07 — WALStorage process-crash evidence (2026-11-03)
+
+- Added a subprocess harness that fsyncs WAL PUTs, waits for the parent after each successful append, terminates the child, then reopens and verifies that exactly the parent-observed ACKs replay. The 50-iteration CTest passed with segment rotation in 44 iterations.
+- `cmake --build build-msvc-windows-debug --target test_wal_process_crash_worker -j 2` succeeded, and `ctest --test-dir build-msvc-windows-debug -R '^WALProcessCrashRecoveryTests$' --output-on-failure` passed (50/50 iterations).
+- This covers forced termination at acknowledged append boundaries only; in-flight fsync, RocksDB primary/index consistency, checkpoints, backup/restore, scheduled nightly execution, and artifact publication remain open under STO-07.
+- Follow-up: 1,000/1,000 local ACK-boundary crashes passed in 272.695 seconds,
+  including 783 rotations. Added optional atomic JSON reports (scenario, seed,
+  status, elapsed time, and per-iteration ACK/segment counts); CTest writes
+  `test-results/wal-process-crash.json` below the build directory. Failed runs
+  replace stale success reports and still fail the command. Three focused
+  report tests cover replacement/schema, failed-worker output, and report I/O
+  failure. Local scaling is demonstrated; nightly scheduling and upload remain
+  open. Single-iteration runs now deliberately include segment rotation.
+- Wired the worker and 50-iteration CTest into the existing PR Quality-Build
+  caller, including storage source/header and Python-harness trigger paths.
+  The existing sanitizer-nightly caller now requests 1,000 iterations.
+  Secondary result artifacts are uploaded after failure as well as success,
+  unless cancelled; primary build artifact behavior is unchanged. GitHub
+  execution and actual uploads are not yet verified.
+- Added `unobserved-append` crash timing: release one further append after N
+  observed ACKs and kill without awaiting its ACK. Recovery accepts exactly N
+  or N+1 fully validated entries, never missing acknowledged entries or corrupt
+  data. Reports include recovered counts and requested kill delays; PR/nightly
+  callers request 50/1,000 iterations per scenario with separate reports.
+  A missing ACK is not an uncommitted-transaction guarantee, and these races
+  do not prove a kill inside a specific fsync syscall.
+- The new scenario passed 1,000/1,000 local Windows iterations (764 rotations):
+  762 recovered the additional full PUT, 238 only the acknowledged prefix.
+  Both 50-iteration CTest scenarios and 24 focused regressions plus four
+  subtests passed; no production API changes were required.
+- Every crash iteration now validates two fresh recovery processes and checks
+  that the second preserves the exact replay count and segment names, sizes
+  and SHA-256 contents. Reports record the two validated reopens and WAL sizes
+  before/after first recovery. Both 50-iteration CTests passed (100 crashes,
+  200 validated reopens), along with 28 focused tests and eight subtests.
+  Primary-store replay application/idempotency remains unverified.
+- Follow-up (2026-11-04): exact-byte snapshots now validate first recovery too,
+  rejecting older-segment mutation, segment additions/removals, growth and
+  retained-byte rewrites. Only prefix-preserving truncation of the numerically
+  latest segment is allowed with an unobserved append; ACK-boundary recovery
+  permits no changes. Repeat-recovery checks now use exact bytes instead of
+  SHA-256. Both 50-iteration crash suites passed; primary-store recovery and
+  targeted syscall-interruption evidence remain open.
+- Follow-up (2026-11-04): `--report` now retains failed crash iterations in
+  unique report-adjacent failure directories and records `failure_artifact`.
+  Evidence includes pre-recovery WAL, failure-time WAL, reproduction parameters
+  and error; early writer failures may have no WAL. Success cleanup is unchanged
+  and retention I/O errors propagate. PR/nightly callers declare these paths
+  for secondary upload. Both 50-iteration CTests, 33 focused tests and 14
+  subtests passed locally; actual GitHub uploads remain unverified.
+- Follow-up (2026-11-04): eliminated post-failure workspace copying by writing
+  test WALs directly in the evidence root. Diagnostic write failures no longer
+  delete original WALs or hide recovery errors: failed JSON records both the
+  original error and `retention_error`, with the preserved workspace path.
+  Both 50-iteration CTests, 37 focused tests and 14 subtests passed. A real worker
+  with a subsequent recovery failure and actual diagnostic filesystem error
+  retained pre-recovery and modified WALs. Successful workspaces still clean up.
+- Follow-up (2026-11-04): sanitizer-nightly now sets
+  `-fno-sanitize-recover=all` for C and C++ in both ASan-only and ASan/UBSan
+  modes, so recoverable UBSan errors cannot continue to successful validation.
+  Regular production flags are unchanged. 38 focused tests plus 14 subtests,
+  actionlint and executed Bash compiler-flag selection passed. No sanitizer
+  runtime success is claimed: inspected develop run 41760710588 failed
+  compiling sharding (`spdlog` undeclared) before validation.
+- Follow-up (2026-11-04): failed crash iterations now retain combined writer
+  stdout/stderr in UTF-8 `writer.log`, including consumed ACKs and remaining
+  diagnostics after shutdown and reader join. Transcript I/O failures cannot
+  turn a run into success or hide the original writer error in the report.
+  Both 50-iteration crash suites and 40 focused tests plus 14 subtests passed.
+  A real worker failure retained all 12 ordered ACKs and pre-recovery WAL.
+- Follow-up (2026-11-04): writer pipe I/O and decoding errors now reach the
+  parent through the ACK queue rather than escaping the reader thread.
+  Unconsumed errors after the last ACK fail before recovery and preserve the
+  partial transcript. Both 50-iteration crash suites and 42 focused tests
+  plus 16 subtests passed; syscall and primary-store coverage remain open.
+- Follow-up (2026-11-04): revalidated the fully hardened harness at 1,000
+  local Windows crashes per scenario, with 4,000 verified reopens total.
+  ACK-boundary: 783 rotations, no byte changes (378.079 s). Unobserved append:
+  758 rotations, 635 additional PUTs, 365 prefix-only recoveries and 174
+  permitted first tail repairs (560.185 s). Separate `*-hardened-1000.json`
+  reports preserve current evidence; successful evidence roots are empty.
+  42 focused tests plus 16 subtests passed. No sanitizer/GitHub execution or
+  targeted syscall/primary-store conformance is claimed.
+- Follow-up (2026-11-04): new crash reports identify worker and harness files
+  using SHA-256 fingerprints before iterations and require equality at run end
+  before `passed`. Fingerprint I/O errors fail explicitly. Both 50-iteration
+  crash suites and 46 focused tests plus 16 subtests passed. Loaded DLLs and
+  reverted interim changes are not covered; historical reports are unchanged.
+- Follow-up (2026-11-04): recognized sanitizer diagnostics now fail the WAL
+  harness independently of exit status. Checks cover writer output before ACK
+  and after reader join, plus both verifier output channels and N+1 retries.
+  Both 50-iteration crash suites and 53 focused tests plus 30 subtests passed.
+  Diagnostic-text detection is not exhaustive and is not an instrumented
+  sanitizer runtime result.
+- Follow-up (2026-11-04): verifier timeouts now preserve captured stdout/stderr,
+  expected replay count and the original timeout cause in failed diagnostics,
+  including N+1 attempts. The 30-second per-process limit is unchanged; timeout
+  cannot grant another retry. Both 50-iteration crash suites and 57 focused
+  tests plus 33 subtests passed, including a real flushed-output timeout.
+- Follow-up (2026-11-04): crash reports now atomically checkpoint the validated
+  prefix and elapsed time after each iteration, keeping status `running` until
+  final checks pass. Hard parent termination preserves the last checkpoint;
+  progress-write errors stop subsequent iterations. Both 50-iteration crash
+  suites and 60 focused tests plus 33 subtests passed, including forced parent
+  termination in a reporting-only regression. No power-loss durability is claimed.
+- Follow-up (2026-11-04): an ad-hoc real-worker disk-fault campaign passed
+  all 40 prefixes of a final 39-byte WAL frame; 18 payload/CRC byte bit-flips
+  and 36 incomplete older-segment tails failed closed twice without mutation.
+  Report `wal-tail-boundaries-20261104.json` records 94 cases, 80 successful
+  reopens and 108 failed opens (189 verifier processes), in 31.203 s.
+  Deliberate faults were applied after the writer ACKed 12 entries; this
+  tests exact prefix preservation, not ACK loss from process termination alone
+  or syscall-interruption/primary-store conformance. The campaign is not CI-registered.
+- Follow-up (2026-11-04): checked in the reproducible 94-case tail-boundary
+  harness and wired it into existing PR/nightly callers with a separate JSON
+  report and failure-directory uploads. Local execution passed all cases:
+  80 successful reopens, 108 closed failures and 189 verifier processes
+  (21.146 s). 64 focused tests plus 35 subtests, actionlint and Bash syntax
+  passed. Actual GitHub execution/publication and syscall/primary-store
+  evidence remain open; historical ad-hoc reports are unchanged.
+- Follow-up (2026-11-04): expanded the checked-in tail campaign to every
+  older segment (36 incomplete-frame cuts in each of three segments).
+  Results and retained reproduction metadata include `affected_segment`.
+  Local report `wal-tail-all-segments.json` passed 166 cases: 80 successful
+  reopens, 252 closed failures without mutation, 333 verifier processes
+  (43.566 s), including 38 exact latest-tail repairs. 64 focused tests plus
+  35 subtests passed. Historical 94-case evidence is unchanged; actual
+  GitHub/sanitizer execution and syscall/primary-store evidence remain open.
+- Follow-up (2026-11-04): boundary-campaign cases now preserve injected WAL
+  bytes in `before-recovery/` before any verifier and retain current `wal/`
+  on failure. Snapshot I/O errors stop recovery explicitly. Both recovery
+  paths and snapshot failure have regression coverage: 66 focused tests plus
+  37 subtests passed. All 166 real-worker cases passed again (40.822 s);
+  a deliberately incorrect diagnostic count after real recovery retained
+  exact 79-byte input and 78-byte repaired output in a failed report.
+  This proves forensic retention, not a production defect or backup durability.
+- Follow-up (2026-11-04): expanded payload/CRC corruption to all twelve WAL
+  fixture frames: one low-bit flip per byte at 198 positions, each rejected
+  twice without mutation. Results and reproduction metadata include absolute
+  `segment_byte_offset`; older fixture segment lengths are guarded explicitly.
+  Local `wal-all-frame-corruption.json` passed 346 cases (80 successful reopens,
+  612 closed failures, 693 verifier processes, 83.410 s). Exact per-frame sets,
+  fingerprints and cleanup verified; 67 tests plus 39 subtests and Python
+  syntax checks passed. Historical reports unchanged; all-bit/header fuzzing,
+  targeted syscall, primary-store and successful sanitizer evidence remain open.
+- Follow-up (2026-11-04): added low-bit corruption at all 156 magic/sequence/
+  entry-type header byte positions across twelve frames, each rejected twice
+  without mutation. Absolute offsets are recorded in results and reproduction.
+  Local `wal-all-frame-header-corruption.json` passed 502 cases (80 successful
+  reopens, 924 closed failures, 1,005 processes, 120.286 s). Exact byte sets,
+  fingerprints and cleanup verified; 67 tests plus 40 subtests passed.
+  Length fields are separate because they interact with incomplete-tail repair.
+  Historical evidence unchanged; length-field remediation, targeted syscall,
+  primary-store and successful sanitizer coverage remain open.
+- Follow-up (2026-11-04): a real-worker probe exposed a WAL length-header
+data-loss gap. All 64 individual bit flips across the final frame's eight
+key/value length bytes on a 12-ACK fixture were tested: 61 caused
+`TruncatedTail`, replayed 11 entries, and destructively truncated the newest
+segment from 117 to 78 bytes; three smaller lengths failed closed at CRC
+validation. Exit 6 occurred only on the 61 post-recovery count checks.
+The CRC is evaluated only after declared lengths fit in remaining bytes, so
+  the current parser cannot distinguish this corruption from a genuine
+  incomplete append. STO-01 remains open pending maintainer-approved versioned
+  framing/commit-boundary and migration/rollback design. No production fix or
+  compatibility fallback is claimed.
+- Follow-up (2026-11-04): exhaustively flipped every bit in all non-length WAL
+  header, payload and CRC bytes across the 12-frame fixture (2,832 mutations).
+  Every mutation failed closed twice without WAL changes. Report
+  `wal-all-protected-bits.json` passed 2,980 cases: 80 successful reopens, 5,880 failed opens and
+  5,961 verifier processes (826.929 s). Exact position sets, fingerprints and
+  cleanup verified; 67 tests plus 40 subtests passed. Length-byte corruption
+  remains explicitly excluded and is still a reproduced data-loss blocker.
 
 <!--
 AI_Used: true

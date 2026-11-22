@@ -12,13 +12,104 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
 
     if(_stem STREQUAL "test_process_graph")
         list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
             ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
         )
     elseif(_stem STREQUAL "test_process_module")
         list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
             ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_aris_xml_importer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
             ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
             ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        )
+    elseif(_stem STREQUAL "test_process_aris_xml")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_aris_xml_importer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_agentic_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        )
+    elseif(_stem STREQUAL "test_process_community_detector")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_community_detector.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        )
+    elseif(_stem STREQUAL "test_process_light_retriever")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_light_retriever.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_community_detector.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        )
+    elseif(_stem STREQUAL "test_object_centric_tracer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        )
+    elseif(_stem STREQUAL "test_sla_monitoring" OR _stem STREQUAL "test_bottleneck_analytics")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+            ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+            ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
         )
     elseif(_stem STREQUAL "test_critical_batch1_fixes")
         list(APPEND _extra_sources

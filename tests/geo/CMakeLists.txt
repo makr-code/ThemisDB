@@ -27,7 +27,16 @@ foreach(_src IN LISTS GEO_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(TARGET themis_geo)
+        target_link_libraries(${_target} PRIVATE themis_geo)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(THEMIS_GEO_CUDA)
+        target_compile_definitions(${_target} PRIVATE THEMIS_GEO_CUDA)
+    endif()
+    if(THEMIS_GEO_HIP)
+        target_compile_definitions(${_target} PRIVATE THEMIS_GEO_HIP)
+    endif()
 
     themis_register_module_focused_test(
         MODULE geo

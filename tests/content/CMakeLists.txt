@@ -25,6 +25,34 @@ foreach(_src IN LISTS CONTENT_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_content_metrics" OR
+       _stem STREQUAL "test_content_security" OR
+       _stem STREQUAL "test_content_language_detector" OR
+       _stem STREQUAL "test_content_audio_processor" OR
+       _stem STREQUAL "test_content_processor_chain" OR
+       _stem STREQUAL "test_content_deduplication" OR
+       _stem STREQUAL "test_content_policy" OR
+       _stem STREQUAL "test_content_con007_con012_remediations")
+        if(TARGET themis_content)
+            target_link_libraries(${_target} PRIVATE themis_content)
+        endif()
+    endif()
+    if(_stem STREQUAL "test_content_metrics" OR
+       _stem STREQUAL "test_content_security" OR
+       _stem STREQUAL "test_content_deduplication")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+    if(_stem STREQUAL "test_content_security")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
+        )
+    elseif(_stem STREQUAL "test_content_deduplication")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_content_contract_hardening_focused" OR

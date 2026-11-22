@@ -44,6 +44,9 @@ foreach(_src IN LISTS CHAOS_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_chaos_network" AND TARGET themis_network)
+        target_link_libraries(${_target} PRIVATE themis_network)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

@@ -126,4 +126,14 @@ foreach(_src IN LISTS FAILOVER_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS "release_critical;failover"
     )
+
+    if(_stem STREQUAL "test_failover_chaos_scenarios")
+        add_test(NAME FailoverChaosScenariosFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(FailoverChaosScenariosFocusedTests PROPERTIES
+            LABELS "failover;chaos;phase4;phase5;queue-pressure;retry-telemetry;ha;focused;unit"
+            TIMEOUT 120
+        )
+    endif()
 endforeach()

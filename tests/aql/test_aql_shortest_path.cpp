@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "index/graph_index.h"
+#include "index/property_graph.h"
 #include "index/secondary_index.h"
 #include "query/aql_parser.h"
 #include "query/aql_runner.h"
@@ -93,11 +94,13 @@ protected:
 
         secondary_index_ = std::make_unique<SecondaryIndexManager>(*db_);
         graph_index_ = std::make_unique<GraphIndexManager>(*db_);
+        property_graph_ = std::make_unique<PropertyGraphManager>(*db_);
         engine_ = std::make_unique<QueryEngine>(*db_, *secondary_index_, *graph_index_);
     }
 
     void TearDown() override {
         engine_.reset();
+        property_graph_.reset();
         graph_index_.reset();
         secondary_index_.reset();
         db_.reset();
@@ -113,6 +116,17 @@ protected:
         ASSERT_TRUE(graph_index_->addEdge(edge).ok);
     }
 
+    void addPropertyEdge(const std::string& id, const std::string& from, const std::string& to,
+                         double weight = 1.0, const std::string& graph = "default") {
+        BaseEntity edge(id);
+        edge.setField("id", id);
+        edge.setField("_from", from);
+        edge.setField("_to", to);
+        edge.setField("_weight", weight);
+        const auto status = property_graph_->addEdge(edge, graph);
+        ASSERT_TRUE(status.ok) << status.message;
+    }
+
     const std::string aql_ =
         "FOR v IN 1..4 OUTBOUND \"A\" GRAPH \"default\" "
         "SHORTEST_PATH TO \"C\" RETURN v";
@@ -120,12 +134,13 @@ protected:
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> secondary_index_;
     std::unique_ptr<GraphIndexManager> graph_index_;
+    std::unique_ptr<PropertyGraphManager> property_graph_;
     std::unique_ptr<QueryEngine> engine_;
 };
 
 TEST_F(AQLShortestPathExecutionTest, EnforcesMaximumPathDepth) {
-    addEdge("ab", "A", "B");
-    addEdge("bc", "B", "C");
+    addPropertyEdge("ab", "A", "B");
+    addPropertyEdge("bc", "B", "C");
 
     const auto result = executeAql(
         "FOR v IN 1..1 OUTBOUND \"A\" GRAPH \"default\" "
@@ -137,10 +152,10 @@ TEST_F(AQLShortestPathExecutionTest, EnforcesMaximumPathDepth) {
 }
 
 TEST_F(AQLShortestPathExecutionTest, FindsWithinLimitPathWhenCheaperRouteExceedsDepth) {
-    addEdge("ax", "A", "X");
-    addEdge("xb", "X", "B");
-    addEdge("ab", "A", "B", 3.0);
-    addEdge("bc", "B", "C");
+    addPropertyEdge("ax", "A", "X");
+    addPropertyEdge("xb", "X", "B");
+    addPropertyEdge("ab", "A", "B", 3.0);
+    addPropertyEdge("bc", "B", "C");
 
     const auto result = executeAql(
         "FOR v IN 1..2 OUTBOUND \"A\" GRAPH \"default\" "
@@ -179,14 +194,32 @@ TEST_F(AQLShortestPathExecutionTest, TemporalSearchRejectsInvalidDepthLimit) {
 }
 
 TEST_F(AQLShortestPathExecutionTest, CyclesDoNotRepeatVerticesInShortestPath) {
-    addEdge("ab", "A", "B");
-    addEdge("ba", "B", "A");
-    addEdge("bc", "B", "C");
+    addPropertyEdge("ab", "A", "B");
+    addPropertyEdge("ba", "B", "A");
+    addPropertyEdge("bc", "B", "C");
 
     const auto result = executeAql(aql_, *engine_);
     ASSERT_TRUE(result) << result.error().message();
     ASSERT_EQ((*result)["paths"].size(), 1u);
     EXPECT_EQ((*result)["paths"][0], nlohmann::json({"A", "B", "C"}));
+}
+
+TEST_F(AQLShortestPathExecutionTest, ShortestPathRespectsGraphScope) {
+    addPropertyEdge("ab", "A", "B");
+    addPropertyEdge("bc", "B", "C");
+    addPropertyEdge("ac", "A", "C", 0.1, "other");
+
+    const auto result = executeAql(aql_, *engine_);
+    ASSERT_TRUE(result) << result.error().message();
+    ASSERT_EQ((*result)["paths"].size(), 1u);
+    EXPECT_EQ((*result)["paths"][0], nlohmann::json({"A", "B", "C"}));
+
+    const auto other = executeAql(
+        "FOR v IN 1..4 OUTBOUND \"A\" GRAPH \"other\" SHORTEST_PATH TO \"C\" RETURN v",
+        *engine_);
+    ASSERT_TRUE(other) << other.error().message();
+    ASSERT_EQ((*other)["paths"].size(), 1u);
+    EXPECT_EQ((*other)["paths"][0], nlohmann::json({"A", "C"}));
 }
 
 TEST_F(AQLShortestPathExecutionTest, ExpiredRequestReturnsTimeoutWithoutPartialPath) {
@@ -212,14 +245,16 @@ TEST_F(AQLShortestPathExecutionTest, CancelledRequestReturnsCancellationWithoutP
 }
 
 TEST_F(AQLShortestPathExecutionTest, CancellationAfterShortestPathDispatchDiscardsResult) {
-    addEdge("ab", "A", "B");
-    addEdge("bc", "B", "C");
+    addPropertyEdge("ab", "A", "B");
+    addPropertyEdge("bc", "B", "C");
 
     StopAtPollState baseline;
     const RequestContext unbounded_request(
         nullptr, std::nullopt, &stopAtPoll, &baseline);
     const auto completed = executeAql(aql_, *engine_, unbounded_request);
     ASSERT_TRUE(completed) << completed.error().message();
+    ASSERT_EQ((*completed)["paths"].size(), 1u);
+    EXPECT_EQ((*completed)["paths"][0], nlohmann::json({"A", "B", "C"}));
     ASSERT_GT(baseline.polls, 0u);
 
     StopAtPollState cancellation{0, baseline.polls};

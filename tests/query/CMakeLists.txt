@@ -957,4 +957,11 @@ foreach(_src IN LISTS QUERY_AUTOGEN_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS query autogen
     )
+    if(_stem STREQUAL "test_query_api_handler_qw46")
+        add_test(NAME QueryApiHandlerQW46Tests COMMAND $<TARGET_FILE:${_target}>)
+        set_tests_properties(QueryApiHandlerQW46Tests PROPERTIES
+            LABELS "api;query;collection-name;injection-guard;fail-closed;focused;unit;qw46"
+            TIMEOUT 60
+        )
+    endif()
 endforeach()

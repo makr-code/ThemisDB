@@ -139,16 +139,20 @@ class ReleaseRuntimePayloadTests(unittest.TestCase):
         workflow = yaml.safe_load((ROOT / ".github/workflows/release-build-matrix.yml").read_text())
         script = workflow["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
         script = script.replace(' >> "$GITHUB_OUTPUT"', "")
+        source_sha = "1" * 40
         process = subprocess.run(
-            ["bash", "-euo", "pipefail", "-c", script], check=True, capture_output=True, text=True,
+            ["bash", "-euo", "pipefail", "-c", script], capture_output=True, text=True,
             env={**os.environ, "BUILD_MATRIX": "all", "OS_SELECTOR": "all", "ARCH_SELECTOR": "all",
                  "EDITION": "community", "BUILD_TYPE": "Release", "PACKAGING": "auto",
-                 "DISTRIBUTION": "all", "RUN_NUMBER": "1"},
+                 "DISTRIBUTION": "all", "RUN_NUMBER": "1", "SOURCE_SHA": source_sha},
         )
+        self.assertEqual(process.returncode, 0, f"Matrix planning stderr:\n{process.stderr}")
         matrix = json.loads(process.stdout.split("matrix=", 1)[1])["include"]
         self.assertEqual(len(matrix), 4)
         for lane in matrix:
             with self.subTest(lane=lane["id"]):
+                self.assertEqual(lane["release_manifest"]["source_sha"], source_sha)
+                self.assertEqual(lane["release_manifest"]["configuration"]["source_sha"], source_sha)
                 self.assertIn("download-tinyllama-hf.sh", lane["setup_command"])
                 self.assertIn("-DTHEMIS_DOCS_DB_MODE=BUILD", lane["configure_command"])
                 self.assertIn("-DTHEMIS_MODELS_MODE=PACKAGE", lane["configure_command"])
