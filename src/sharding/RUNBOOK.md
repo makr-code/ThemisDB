@@ -139,8 +139,15 @@ This runbook is the operator-facing guide for the principal failure modes in the
   fresh coordinator replays its WAL and the participant's duplicate COMMIT
   leaves one commit record. The 5-test registered suite passed once plus 3
   repeated CTest runs in Linux Debug with strict core dependency checks.
+- `RecoversCommitAfterReverseAsymmetricTcpPartitionHeals` waits for the durable
+  coordinator COMMIT decision, then drops coordinator-to-participant TLS request
+  bytes. The run exits with `FAILURE`, leaves no coordinator complete record,
+  and keeps participant B PREPARED with no COMMIT record. After healing and fresh
+  recovery, participant B receives one COMMIT and has exactly one COMMIT WAL
+  record; the coordinator has exactly one complete record. This sixth bounded
+  case is Linux real-gRPC/mTLS evidence and does not close DIS-10.
 - These are Linux-only test results, not evidence for Windows/macOS, release
-  artifacts, CI platform gates, reverse-direction/asymmetric fault variants,
+  artifacts, CI platform gates, remaining asymmetric fault variants,
   latency/reordering/duplicate injection, or 3–5-node chaos.
 - The harness uses pipes only for process readiness/control; transaction
   traffic is real gRPC/mTLS, including through the TCP partition proxy.

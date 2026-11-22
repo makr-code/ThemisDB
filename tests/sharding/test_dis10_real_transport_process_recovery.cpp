@@ -406,16 +406,23 @@ public:
     void dropParticipantResponses() {
         fault_mode_.store(FaultMode::ParticipantResponses, std::memory_order_release);
     }
+    void dropCoordinatorRequests() {
+        fault_mode_.store(FaultMode::CoordinatorRequests, std::memory_order_release);
+    }
     void heal() { fault_mode_.store(FaultMode::Healthy, std::memory_order_release); }
     [[nodiscard]] std::uint64_t droppedParticipantResponseBytes() const {
         return dropped_participant_response_bytes_.load(std::memory_order_acquire);
+    }
+    [[nodiscard]] std::uint64_t droppedCoordinatorRequestBytes() const {
+        return dropped_coordinator_request_bytes_.load(std::memory_order_acquire);
     }
 
 private:
     enum class FaultMode : uint8_t {
         Healthy,
         BothDirections,
-        ParticipantResponses
+        ParticipantResponses,
+        CoordinatorRequests
     };
 
     void acceptConnections() {
@@ -458,17 +465,23 @@ private:
     }
 
     [[nodiscard]] bool relayBytes(const int source, const int destination,
-                                  const bool drop_response) {
+                                  const bool drop_bytes,
+                                  const bool participant_response) {
         char buffer[16 * 1024];
         const ssize_t received = ::recv(source, buffer, sizeof(buffer), 0);
         if (received <= 0) {
             return false;
         }
 
-        if (drop_response) {
+        if (drop_bytes) {
             // Drop raw TLS bytes without parsing records or gRPC frame boundaries.
-            dropped_participant_response_bytes_.fetch_add(
-                static_cast<std::uint64_t>(received), std::memory_order_release);
+            if (participant_response) {
+                dropped_participant_response_bytes_.fetch_add(
+                    static_cast<std::uint64_t>(received), std::memory_order_release);
+            } else {
+                dropped_coordinator_request_bytes_.fetch_add(
+                    static_cast<std::uint64_t>(received), std::memory_order_release);
+            }
             return true;
         }
 
@@ -518,7 +531,11 @@ private:
                     const bool drop_response =
                         fault_mode == FaultMode::ParticipantResponses &&
                         index == kParticipantSocketIndex;
-                    if (!relayBytes(source, destination, drop_response)) {
+                    const bool drop_request =
+                        fault_mode == FaultMode::CoordinatorRequests &&
+                        index == kClientSocketIndex;
+                    if (!relayBytes(source, destination, drop_response || drop_request,
+                                    drop_response)) {
                         return;
                     }
                 }
@@ -531,6 +548,7 @@ private:
     int target_port_ = 0;
     std::atomic<FaultMode> fault_mode_{FaultMode::Healthy};
     std::atomic<std::uint64_t> dropped_participant_response_bytes_{0};
+    std::atomic<std::uint64_t> dropped_coordinator_request_bytes_{0};
     std::atomic<bool> stopping_{false};
     std::thread accept_thread_;
     std::vector<std::thread> connection_threads_;
@@ -965,6 +983,53 @@ TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterAsymmetricTcpPartitio
     const auto participant_b_wal = fixture.path() / (std::string{kShardB} + "-wal");
     EXPECT_GE(countWalEntries(participant_b_wal, transaction_id, WALEntryType::PREPARE_TX), 1u);
     EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 1u);
+
+    ASSERT_TRUE(participant_a.crash());
+    ParticipantProcess restarted_a(
+        fixture.path(), std::string{kShardA}, "normal", participant_a.port());
+    proxy.heal();
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover", restarted_a.endpoint(), proxy.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
+    EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardA} + "-wal"), transaction_id));
+    EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 1u);
+}
+
+TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterReverseAsymmetricTcpPartitionHeals) {
+    const FixtureDirectory fixture("dis10-real-transport-reverse-asymmetric-partition");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(
+        fixture.path(), std::string{kShardA}, "signal_then_hang_on_commit");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    TcpPartitionProxy proxy(participant_b.port());
+
+    const std::string transaction_id = "dis10-reverse-asymmetric-partition";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit", participant_a.endpoint(), proxy.endpoint());
+
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    ASSERT_TRUE(waitForCoordinatorDecision(coordinator_wal, transaction_id));
+    ASSERT_TRUE(waitForFile(fixture.path() / "participant-a-commit-entered"));
+
+    proxy.dropCoordinatorRequests();
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    EXPECT_GT(proxy.droppedCoordinatorRequestBytes(), 0u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+    const auto participant_b_wal = fixture.path() / (std::string{kShardB} + "-wal");
+    EXPECT_GE(countWalEntries(participant_b_wal, transaction_id, WALEntryType::PREPARE_TX), 1u);
+    EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 0u);
 
     ASSERT_TRUE(participant_a.crash());
     ParticipantProcess restarted_a(

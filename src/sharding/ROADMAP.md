@@ -108,9 +108,16 @@ in-doubt after losing the ACK, and a fresh coordinator recovers from its WAL;
 the participant's duplicate COMMIT remains a single WAL record. The registered
 5-test target passed once and in 3 repeated CTest runs in a Linux Debug build
 with strict core dependency checks.
+The sixth regression is reverse-direction: after the coordinator COMMIT decision,
+the transparent proxy drops coordinator-to-participant TLS request bytes. It
+verifies `FAILURE`, no coordinator complete record, and that participant B remains
+PREPARED with no COMMIT record. Healing and fresh coordinator recovery deliver
+COMMIT again; participant B has exactly one COMMIT record and the coordinator
+has exactly one complete record. The 6-test target is Linux/real-gRPC/mTLS
+bounded evidence only and is not DIS-10 closure or a release/CI/platform gate.
 
-Remaining DIS-10 work is explicitly open: reverse-direction and other
-asymmetric partitions, latency, reordering and duplicate fault injection,
+Remaining DIS-10 work is explicitly open: other asymmetric partitions,
+latency, reordering and duplicate fault injection,
 coordinator/participant/leader crash matrices over 3–5 nodes, history checking
 and release-platform/CI evidence.
 `TransactionProcessCrashRecoveryTests` still uses pipes for process control and

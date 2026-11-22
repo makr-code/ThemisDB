@@ -290,8 +290,13 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     die Coordinator-Abschlussmarke fehlt; nach Heilung und Recovery aus dem Coordinator-WAL
     bleibt der Participant-COMMIT idempotent bei genau einem WAL-Eintrag. Der 5-Test-CMake/CTest-
     Lauf bestand einmal und in 3 Wiederholungen (Linux Debug, strikte Core-Abhängigkeiten).
-    Gegenrichtung, weitere asymmetrische Fehler, Latenz/Reordering/Duplikate, 3–5 Knoten und
-    Plattform-/CI-Gates bleiben offen.
+  - Sechster Asymmetrie-Fall am 2026-11-22: nach der dauerhaften Coordinator-COMMIT-Entscheidung
+    verwirft ein transparenter Proxy Coordinator-to-Participant-TLS-Request-Bytes. Der Lauf endet
+    mit `FAILURE`, ohne Coordinator-Complete-Record, und Participant B bleibt PREPARED ohne
+    COMMIT-Record. Nach Heilung und frischer Recovery erhält Participant B genau einen COMMIT;
+    der Coordinator-Complete-Record ist genau einer. Der 6-Test-CMake/CTest-Lauf ist Linux-
+    real-gRPC/mTLS-Evidenz und schließt DIS-10 nicht. Weitere asymmetrische Fehler,
+    Latenz/Reordering/Duplikate, 3–5 Knoten und Plattform-/CI-Gates bleiben offen.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).
