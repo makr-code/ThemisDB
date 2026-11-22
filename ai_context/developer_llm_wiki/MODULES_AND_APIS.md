@@ -49,6 +49,17 @@ registered target passed once and in three repeated CTest runs in Ubuntu
 72-hour, and workflow run artifacts remain separate evidence gates. See
 `src/sharding/ROADMAP.md` and `src/sharding/RUNBOOK.md`.
 
+The portable `DIS10ConcurrentSerializabilityTests` companion overlaps four
+transactions through two durable participant objects, records per-shard read
+and write events, checks a conflict-precedence graph, and requires a serial
+replay matching the observed reads. A synthetic opposing-order history verifies
+that the checker rejects cycles. It does not exercise gRPC, process failures,
+or a production storage engine. Wave B validates a commit-linked JSON artifact;
+the release matrix is wired to run and upload this focused test on Linux
+AMD64/ARM64, Windows AMD64, and macOS ARM64. The most recent observed Wave B
+PR run ended `action_required` with zero jobs, so no successful workflow
+artifact or release-platform pass is yet established.
+
 - [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — bounded logical snapshot materialization, durable mTLS staging, local verified reads, and rebalance completion separate from transfer verification.
 - [DIS-03 routing and snapshot foundations](../../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen) — approved and partially implemented typed token resolution, exact ring ownership segments, and process-local MVCC snapshots; durable assignment, restart/resume, write quiescence, and authoritative cutover remain open. The generated wiki manifest is not fresh source-scan evidence.
 - [Raft/2PC/replication evidence boundary](../../src/replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary) — per-shard Raft, cross-shard transaction coordination, and WAL/segment shipping remain separate contracts; the end-to-end durable-block/decision/client-ACK sequence is not established.

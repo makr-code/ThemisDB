@@ -32,6 +32,7 @@ on:
       - tests/test_two_phase_commit.cpp
       - tests/sharding/CMakeLists.txt
       - tests/sharding/test_dis10_real_transport_process_recovery.cpp
+      - tests/sharding/test_dis10_concurrent_serializability.cpp
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
@@ -457,12 +458,18 @@ jobs:
 
           cmake --build "$BUILD_DIR" \
             --target test_dis10_real_transport_process_recovery \
+                     test_dis10_concurrent_serializability \
             --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
             2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-build.txt"
           ctest --test-dir "$BUILD_DIR" \
             -R '^DIS10RealTransportProcessRecoveryTests$' \
             --repeat until-fail:3 --output-on-failure \
             2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-real-transport-ctest.txt"
+          THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$BUILD_DIR/transaction-chaos-evidence/dis10-concurrent-serializability.json" \
+            ctest --test-dir "$BUILD_DIR" \
+              -R '^DIS10ConcurrentSerializabilityTests$' \
+              --repeat until-fail:3 --output-on-failure \
+              2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-concurrent-serializability-ctest.txt"
 
           python3 tools/ci/run_transaction_tests.py \
             --build-dir "$BUILD_DIR" --suite chaos \
@@ -630,6 +637,20 @@ jobs:
                       for filename in ("results.xml", "inventory.json", "summary.md"):
                           if not any(Path(artifact).rglob(filename)):
                               raise SystemExit(f"Missing required {filename} in {artifact}")
+                  if job == "chaos-recovery-evidence":
+                      evidence_files = list(Path(artifact).rglob("dis10-concurrent-serializability.json"))
+                      if len(evidence_files) != 1:
+                          raise SystemExit("Expected one DIS-10 concurrent serializability artifact")
+                      evidence = json.loads(evidence_files[0].read_text())
+                      if (evidence.get("schema") != "themisdb.dis10.concurrent-serializability.v1"
+                              or evidence.get("serializable") is not True
+                              or len(evidence.get("transactions", [])) != 4
+                              or len(evidence.get("participants", [])) != 2
+                              or evidence.get("commit_sha") != os.environ.get("GITHUB_SHA")
+                              or evidence.get("workflow_run_id") != os.environ.get("GITHUB_RUN_ID")
+                              or any(call.get("outcome") != "COMMITTED"
+                                     for call in evidence.get("client_calls", []))):
+                          raise SystemExit("DIS-10 serializability artifact is incomplete or failed")
           PY
           mkdir -p transaction-ci-results
           for artifact in cmake-configuration-log compile-transaction-log \

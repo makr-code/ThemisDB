@@ -170,10 +170,23 @@ This runbook is the operator-facing guide for the principal failure modes in the
   records three CTest repeats as a CI artifact. This wiring is not evidence that
   a workflow run has passed; retain the run URL and artifact before treating CI
   validation as satisfied.
+- `DIS10ConcurrentSerializabilityTests` is a portable, in-process companion:
+  four concurrent transactions read and write a shared key through two durable
+  2PC participant objects. It records per-shard operation order, rejects a
+  synthetic opposing-conflict cycle, and requires a topological serial replay
+  to reproduce all observed reads. Wave B repeats it and validates a
+  commit-linked JSON artifact; the release matrix runs the focused test on
+  Linux AMD64/ARM64, Windows AMD64, and macOS ARM64, uploading one artifact per
+  lane. These artifacts are not real-network or process-transport evidence.
+- The latest observed Wave B run
+  [45047280546](https://github.com/makr-code/ThemisDB/actions/runs/45047280546)
+  ended `action_required` with zero jobs. No successful workflow artifact has
+  yet been verified; rerun/approval and artifact inspection remain necessary.
 - These are Linux-only test results, not evidence for Windows/macOS, release
   artifacts, Windows/macOS process coverage, 72-hour chaos, application-level
-  RPC reordering, a concurrent-history serializability checker, or general
-  3–5-node chaos.
+  RPC reordering, broader read/write history coverage, or general 3–5-node
+  real-transport chaos. Release-matrix runs provide portable 2PC test coverage
+  only and must be inspected before counting as platform evidence.
 - The harness uses pipes only for process readiness/control; transaction
   traffic is real gRPC/mTLS, including through the TCP partition proxy.
 - The proxy preserves TCP byte order; reordering or duplicating raw encrypted

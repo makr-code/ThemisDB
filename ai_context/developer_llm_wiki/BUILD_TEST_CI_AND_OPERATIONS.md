@@ -37,6 +37,18 @@ Status: Active
 - The workflow integration is not a passing CI result until a run URL and
   uploaded artifact are verified. It provides no Windows/macOS process
   coverage or 72-hour chaos evidence.
+- The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
+  transactions across two durable participant objects, records read/write
+  events, checks a conflict-precedence graph, and requires a serial replay that
+  matches the observed reads. A synthetic opposing-order fixture checks cycle
+  rejection. Wave B repeats the test and validates its JSON artifact against
+  the commit and workflow run ID. The release matrix runs and uploads this
+  focused in-process test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64;
+  those lanes do not establish cross-platform gRPC/process transport.
+- The latest observed Wave B PR run
+  [45047280546](https://github.com/makr-code/ThemisDB/actions/runs/45047280546)
+  ended `action_required` with zero jobs. No successful workflow artifact or
+  release-platform test pass has yet been verified.
 
 ## Config and package version integrity gate
 

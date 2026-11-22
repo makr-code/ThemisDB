@@ -52,6 +52,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
         LABELS DIS-10 2pc grpc mtls process crash-recovery)
 endif()
 
+add_executable(test_dis10_concurrent_serializability
+    test_dis10_concurrent_serializability.cpp)
+target_link_libraries(test_dis10_concurrent_serializability PRIVATE
+    ${TEST_LIBS} themis_core Threads::Threads)
+target_compile_definitions(test_dis10_concurrent_serializability PRIVATE
+    THEMIS_TEST_BUILD=1)
+themis_register_module_focused_test(
+    MODULE sharding
+    NAME DIS10ConcurrentSerializabilityTests
+    TARGET test_dis10_concurrent_serializability
+    TIER unit
+    TIMEOUT 60
+    LABELS DIS-10 2pc serializability concurrency portable release-platform)
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_wal_logging_helper.cpp")
     message(STATUS "Adding Sharding: WALLoggingHelper focused tests (Issue #5375)")
     add_executable(test_wal_logging_helper_focused ../test_wal_logging_helper.cpp)

@@ -132,6 +132,17 @@ A Wave B CI job builds this Linux-only integration target and records three
 CTest repeats; an actual workflow artifact is still required before counting
 CI evidence.
 
+The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
+transactions across two durable participant objects, records per-shard reads
+and writes, rejects a synthetic opposing-conflict cycle, and searches the
+precedence graph for a serial replay that reproduces every observed read.
+The test emits a JSON history with commit/run and runner metadata when enabled
+by CI. Wave B now repeats the test and checks that its uploaded artifact
+contains a passing, commit-linked history. The release build matrix also runs
+this focused test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64 and
+uploads lane-specific evidence. These are test-coverage and workflow changes,
+not evidence that those platform lanes have passed.
+
 The proxy preserves TCP's byte order. Reordering TCP stream bytes would corrupt
 TLS rather than model an application-visible reordered RPC; raw duplication of
 encrypted TLS bytes is likewise invalid. The existing lost-ACK and recovery
@@ -142,8 +153,13 @@ serializability checker.
 Remaining DIS-10 work is explicitly open: additional asymmetric fault timing,
 application-level RPC reordering, coordinator/participant/leader crash
 matrices beyond this five-process four-participant case, a true
-concurrent-history serializability checker, 72-hour nightly evidence,
-Windows/macOS process-transport coverage, and release-platform/CI artifacts.
+concurrent-history checker beyond the bounded write-conflict/read-replay test,
+72-hour nightly evidence, Windows/macOS process-transport coverage, and
+successful release-platform/CI artifact runs. The latest Wave B PR run
+[45047280546](https://github.com/makr-code/ThemisDB/actions/runs/45047280546)
+ended `action_required` with zero jobs and no artifact; the workflow wiring
+must not be counted as execution evidence until a completed run and artifact
+are verified.
 `TransactionProcessCrashRecoveryTests` still uses pipes for process control and
 must not be represented as RPC or network-partition coverage; the new DIS-10
 test's transaction traffic uses real gRPC/mTLS through the TCP proxy.
