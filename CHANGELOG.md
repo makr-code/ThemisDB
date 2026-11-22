@@ -19,8 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   creates a distinct entry, so retries have at-least-once semantics.
 - Multi-node proposals above the AppendEntries command limit are rejected
   before durable append. Tensor indexes reject malformed or incompatible TT
-  shapes, and persisted indexes with inconsistent mode metadata must be rebuilt
-  from source vectors.
+  shapes, including mixed shapes across persisted entries; files with
+  inconsistent mode metadata must be rebuilt from source vectors.
 
 ### Breaking - Host-side skill delegation API/ABI (target: v3.0.0)
 

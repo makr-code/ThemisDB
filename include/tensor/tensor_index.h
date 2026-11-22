@@ -170,7 +170,8 @@ public:
      *
      * The file is treated as untrusted input: entry/core counts are bounded
      * by the remaining file size, mode count must equal core count, each core's
-     * mode size must match its declared mode size, every core must satisfy
+     * mode size must match its declared mode size, all entries must share one
+     * mode shape, every core must satisfy
      * `data.size() == r_left * n * r_right`, the rank chain must be
      * consistent (first r_left == 1, r_right[k] == r_left[k+1], last
      * r_right == 1), and IDs must be unique.

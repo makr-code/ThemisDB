@@ -557,6 +557,7 @@ private:
 
         std::unordered_map<int64_t, storage::TTTrain> store;
         store.reserve(static_cast<size_t>(n));
+        std::vector<std::size_t> index_mode_sizes;
 
         for (uint64_t i = 0; i < n; ++i) {
             int64_t id = 0;
@@ -593,6 +594,11 @@ private:
             }
 
             if (nm == 0 || nc != nm) {
+                return false;
+            }
+            if (i == 0) {
+                index_mode_sizes = train.mode_sizes;
+            } else if (train.mode_sizes != index_mode_sizes) {
                 return false;
             }
 

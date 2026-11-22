@@ -103,7 +103,8 @@ The module strongly prefers explicit failure to silent recovery. In API terms th
 - `ITensorIndex::add()` rejects malformed TT shape/rank metadata and mode sizes
   that differ from existing entries; `search()` returns no results for malformed
   queries or query modes incompatible with the index. `.ttidx` loading rejects
-  mode/core count or dimension mismatches and leaves existing contents intact.
+  mode/core count or dimension mismatches, including mixed shapes across entries,
+  and leaves existing contents intact.
   Persisted files with incomplete or inconsistent mode metadata must be rebuilt
   from their source vectors.
 - invalid exact-similarity math is rejected/skipped with diagnostics on the relevant `findSimilar()` paths; empty fingerprint input and `k == 0` return empty results directly.

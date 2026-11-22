@@ -508,6 +508,39 @@ TEST(FlatTensorIndexPersistence, TFI13_ModeCoreCountMismatchRejected) {
     std::filesystem::remove(path);
 }
 
+TEST(FlatTensorIndexPersistence, TFI14_MixedEntryModeSizesRejectedAndContentsKept) {
+    const std::string path = tfiTempPath("mixed_entry_mode_sizes");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, 2);
+        const auto writeEntry = [&out](int64_t id, uint64_t mode_size) {
+            writePod<int64_t>(out, id);
+            writePod<uint32_t>(out, 1);
+            writePod<uint64_t>(out, mode_size);
+            writePod<double>(out, 1.0);
+            writePod<double>(out, 0.0);
+            writePod<uint32_t>(out, 1);
+            writePod<uint64_t>(out, 1);          // r_left
+            writePod<uint64_t>(out, mode_size);  // core n
+            writePod<uint64_t>(out, 1);          // r_right
+            writePod<uint64_t>(out, mode_size);  // n_floats
+            for (uint64_t i = 0; i < mode_size; ++i) {
+                writePod<float>(out, 1.0f);
+            }
+        };
+        writeEntry(10, 2);
+        writeEntry(11, 3);
+    }
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+    ASSERT_NE(idx->get(1), nullptr);
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 1u);
+    EXPECT_NE(idx->get(1), nullptr);
+    std::filesystem::remove(path);
+}
+
 // ============================================================================
 // TIM-27..TIM-28 — createIndex() honours max_rank / epsilon
 // ============================================================================

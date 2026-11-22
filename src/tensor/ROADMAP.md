@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-11-21"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,14 @@ Human_Author: "ThemisDB Contributors"
 ## Current Status
 
 Implemented runtime surfaces include tensor index management, bridges, adapter persistence, and fingerprint similarity. Benchmark targets are registered, but current source-specific performance evidence is not established by the historical baseline reports; advanced structural and experimental surfaces continue hardening.
+
+### TT index shape validation (2026-11-22)
+
+`FlatTensorIndex` rejects malformed TT ranks and shapes on add/search, and
+`.ttidx` loading rejects mode/core count and dimension mismatches, including
+mixed mode shapes across entries. Failed loads preserve the current index
+contents. Persisted files with inconsistent metadata must be rebuilt from
+source vectors; focused regression sources are present but not runtime-validated.
 
 ## In Progress
 
