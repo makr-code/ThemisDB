@@ -338,8 +338,7 @@ ShardRPCClient::Config makeRpcConfig(const fs::path& root,
     return config;
 }
 
-// Test-only transparent proxy: black-hole both TCP directions while partitioned,
-// so the coordinator observes RPC timeouts rather than an immediate connection refusal.
+// Test-only transparent proxy: inject TCP blackholes without terminating TLS.
 class TcpPartitionProxy {
 public:
     explicit TcpPartitionProxy(const int target_port) {
@@ -403,10 +402,22 @@ public:
 
     [[nodiscard]] std::string endpoint() const { return endpointForPort(port_); }
 
-    void partition() { partitioned_.store(true, std::memory_order_release); }
-    void heal() { partitioned_.store(false, std::memory_order_release); }
+    void partition() { fault_mode_.store(FaultMode::BothDirections, std::memory_order_release); }
+    void dropParticipantResponses() {
+        fault_mode_.store(FaultMode::ParticipantResponses, std::memory_order_release);
+    }
+    void heal() { fault_mode_.store(FaultMode::Healthy, std::memory_order_release); }
+    [[nodiscard]] std::uint64_t droppedParticipantResponseBytes() const {
+        return dropped_participant_response_bytes_.load(std::memory_order_acquire);
+    }
 
 private:
+    enum class FaultMode : uint8_t {
+        Healthy,
+        BothDirections,
+        ParticipantResponses
+    };
+
     void acceptConnections() {
         while (!stopping_.load(std::memory_order_acquire)) {
             pollfd descriptor{listener_, POLLIN, 0};
@@ -446,11 +457,19 @@ private:
         }
     }
 
-    [[nodiscard]] static bool forwardBytes(const int source, const int destination) {
+    [[nodiscard]] bool relayBytes(const int source, const int destination,
+                                  const bool drop_response) {
         char buffer[16 * 1024];
         const ssize_t received = ::recv(source, buffer, sizeof(buffer), 0);
         if (received <= 0) {
             return false;
+        }
+
+        if (drop_response) {
+            // Drop raw TLS bytes without parsing records or gRPC frame boundaries.
+            dropped_participant_response_bytes_.fetch_add(
+                static_cast<std::uint64_t>(received), std::memory_order_release);
+            return true;
         }
 
         ssize_t sent = 0;
@@ -469,9 +488,12 @@ private:
     }
 
     void relayConnection(const int client, const int upstream) {
+        constexpr int kClientSocketIndex = 0;
+        constexpr int kParticipantSocketIndex = 1;
         pollfd descriptors[2]{{client, 0, 0}, {upstream, 0, 0}};
         while (!stopping_.load(std::memory_order_acquire)) {
-            const short read_events = partitioned_.load(std::memory_order_acquire) ? 0 : POLLIN;
+            const auto fault_mode = fault_mode_.load(std::memory_order_acquire);
+            const short read_events = fault_mode == FaultMode::BothDirections ? 0 : POLLIN;
             descriptors[0].events = read_events;
             descriptors[1].events = read_events;
             descriptors[0].revents = 0;
@@ -490,8 +512,13 @@ private:
                 }
                 if ((descriptors[index].revents & POLLIN) != 0) {
                     const int source = descriptors[index].fd;
-                    const int destination = descriptors[1 - index].fd;
-                    if (!forwardBytes(source, destination)) {
+                    const int destination_index =
+                        index == kClientSocketIndex ? kParticipantSocketIndex : kClientSocketIndex;
+                    const int destination = descriptors[destination_index].fd;
+                    const bool drop_response =
+                        fault_mode == FaultMode::ParticipantResponses &&
+                        index == kParticipantSocketIndex;
+                    if (!relayBytes(source, destination, drop_response)) {
                         return;
                     }
                 }
@@ -502,7 +529,8 @@ private:
     int listener_ = -1;
     int port_ = 0;
     int target_port_ = 0;
-    std::atomic<bool> partitioned_{false};
+    std::atomic<FaultMode> fault_mode_{FaultMode::Healthy};
+    std::atomic<std::uint64_t> dropped_participant_response_bytes_{0};
     std::atomic<bool> stopping_{false};
     std::thread accept_thread_;
     std::vector<std::thread> connection_threads_;
@@ -906,6 +934,53 @@ TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterTcpPartitionHeals) {
     EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
     EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardA} + "-wal"), transaction_id));
     EXPECT_TRUE(waitForParticipantCommit(participant_b_wal, transaction_id));
+}
+
+TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterAsymmetricTcpPartitionHeals) {
+    const FixtureDirectory fixture("dis10-real-transport-asymmetric-partition");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(
+        fixture.path(), std::string{kShardA}, "signal_then_hang_on_commit");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    TcpPartitionProxy proxy(participant_b.port());
+
+    const std::string transaction_id = "dis10-asymmetric-partition";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit", participant_a.endpoint(), proxy.endpoint());
+
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    ASSERT_TRUE(waitForCoordinatorDecision(coordinator_wal, transaction_id));
+    ASSERT_TRUE(waitForFile(fixture.path() / "participant-a-commit-entered"));
+
+    proxy.dropParticipantResponses();
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    EXPECT_GT(proxy.droppedParticipantResponseBytes(), 0u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+    const auto participant_b_wal = fixture.path() / (std::string{kShardB} + "-wal");
+    EXPECT_GE(countWalEntries(participant_b_wal, transaction_id, WALEntryType::PREPARE_TX), 1u);
+    EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 1u);
+
+    ASSERT_TRUE(participant_a.crash());
+    ParticipantProcess restarted_a(
+        fixture.path(), std::string{kShardA}, "normal", participant_a.port());
+    proxy.heal();
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover", restarted_a.endpoint(), proxy.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
+    EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardA} + "-wal"), transaction_id));
+    EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 1u);
 }
 
 } // namespace

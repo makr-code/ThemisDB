@@ -113,7 +113,7 @@ This runbook is the operator-facing guide for the principal failure modes in the
 - Release blocked participants only after the authoritative terminal record is
   durable. Apply callbacks must deduplicate by transaction ID across crashes.
 
-### DIS-10 diagnostic evidence
+### DIS-10 multi-process evidence
 
 - `TransactionProcessCrashRecoveryTests` proves the canonical
   coordinator/participant objects, WAL replay, locks and RocksDB apply callbacks
@@ -133,8 +133,14 @@ This runbook is the operator-facing guide for the principal failure modes in the
   decision; the participant PREPARE remains durable, phase two is incomplete,
   and WAL recovery completes after healing and process restart. The 4-test
   registered suite passed once plus 3 repeated runs.
-- The registered pass is Linux/diagnostic evidence only. It is not evidence for
-  Windows/macOS, release artifacts, CI platform gates, asymmetric partitions,
+- `RecoversCommitAfterAsymmetricTcpPartitionHeals` forwards coordinator
+  requests but drops participant response bytes. The participant COMMIT is
+  durable while the coordinator lacks phase-two completion; after healing, a
+  fresh coordinator replays its WAL and the participant's duplicate COMMIT
+  leaves one commit record. The 5-test registered suite passed once plus 3
+  repeated CTest runs in Linux Debug with strict core dependency checks.
+- These are Linux-only test results, not evidence for Windows/macOS, release
+  artifacts, CI platform gates, reverse-direction/asymmetric fault variants,
   latency/reordering/duplicate injection, or 3–5-node chaos.
 - The harness uses pipes only for process readiness/control; transaction
   traffic is real gRPC/mTLS, including through the TCP partition proxy.

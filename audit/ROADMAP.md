@@ -283,8 +283,15 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Partition-Heilungsnachweis am 2026-11-22: ein transparenter TCP-Testproxy blockiert
     bidirektional nach persistierter COMMIT-Entscheidung; PREPARE bleibt im Participant-WAL,
     die Phase-2-Abschlussmarke fehlt bis zur Heilung und anschließenden WAL-Recovery. Die
-    4-Test-CMake/CTest-Suite bestand einmal plus 3 Wiederholungen. Asymmetrische Fehler,
+    4-Test-CMake/CTest-Suite bestand einmal plus 3 Wiederholungen. Weitere asymmetrische Fehler,
     Latenz, Reordering, Duplikate und 3–5-Knoten-Chaos sind weiterhin offen.
+  - Asymmetrischer ACK-Verlust am 2026-11-22: ein weiterer Testfall leitet Coordinator-Requests
+    weiter und verwirft Participant-Response-Bytes. Der Participant-WAL enthält COMMIT, während
+    die Coordinator-Abschlussmarke fehlt; nach Heilung und Recovery aus dem Coordinator-WAL
+    bleibt der Participant-COMMIT idempotent bei genau einem WAL-Eintrag. Der 5-Test-CMake/CTest-
+    Lauf bestand einmal und in 3 Wiederholungen (Linux Debug, strikte Core-Abhängigkeiten).
+    Gegenrichtung, weitere asymmetrische Fehler, Latenz/Reordering/Duplikate, 3–5 Knoten und
+    Plattform-/CI-Gates bleiben offen.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).
