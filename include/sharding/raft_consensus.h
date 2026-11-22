@@ -139,9 +139,14 @@ public:
     /**
      * @brief Propose an entry and return its assigned index when commit is reported.
      * @param command Command to append and send through the configured replication callback.
+     *        Multi-node proposals larger than
+     *        RaftAppendEntriesLimits::max_command_bytes are rejected before log append.
      * @return The actual appended index when the existing quorum mechanism reports commit;
      *         std::nullopt on rejection or failure. Failure does not prove that the entry
      *         can never be committed later. Uncommitted entries are retained for Raft recovery.
+     *         Every invocation appends a distinct entry, even when its command bytes
+     *         match an uncommitted entry; retries therefore have normal at-least-once
+     *         semantics because this API has no request ID or idempotency contract.
      * @note This call runs synchronously and may block in the replication callback. A callback
      *       must return success only after the follower durably stores the request's verified
      *       prefix. This contract does not itself provide network transport or safe membership
@@ -219,6 +224,10 @@ public:
      * @param callback Sends an AppendEntries heartbeat to a peer and returns true
      *        only when the response term matches the heartbeat and its match index
      *        covers the requested prefix.
+     * @note When a replication callback is installed, heartbeat traffic uses it
+     *       to send bounded batches from each peer's tracked next index. This
+     *       callback remains the fallback for configurations without replication
+     *       transport.
      */
     void setHeartbeatCallback(HeartbeatCallback callback);
     
@@ -343,6 +352,25 @@ private:
     AppendEntriesResponse replicateToFollower(const std::string& node_id,
                                                const AppendEntriesRequest& request,
                                                const ReplicationCallback& callback);
+
+    /**
+     * @brief Build one bounded AppendEntries batch from a peer's tracked next index.
+     * @param node_id Configured follower whose durable prefix is being advanced.
+     * @param target_index Highest local log index to include in this batch.
+     * @param leader_commit Commit index advertised by this leader.
+     * @param term Current leader term for this replication attempt.
+     * @return A contiguous request containing at most 256 entries and 3 MiB of
+     *         command payload. A peer behind a compacted snapshot boundary
+     *         cannot be repaired through AppendEntries and is rejected.
+     * @throws std::runtime_error If the peer is unknown, the requested anchor is
+     *         unavailable, snapshot installation is required, or one command
+     *         exceeds the transport's 1 MiB limit.
+     */
+    [[nodiscard]] AppendEntriesRequest buildReplicationRequest(
+        const std::string& node_id,
+        uint64_t target_index,
+        uint64_t leader_commit,
+        uint64_t term) const;
     
     /**
      * @brief Detect network partition

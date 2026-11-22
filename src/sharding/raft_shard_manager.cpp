@@ -158,40 +158,9 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
                         return AppendEntriesResponse(request.term, false, 0);
                     }
                 });
-            const std::weak_ptr<RaftConsensus> weak_raft = raft;
-            raft->setHeartbeatCallback(
-                [send_append, weak_raft](const std::string& peer_node_id,
-                                         const Heartbeat& heartbeat) {
-                    try {
-                        const auto leader = weak_raft.lock();
-                        if (!leader) {
-                            return false;
-                        }
-                        const auto& state = leader->getRaftState();
-                        AppendEntriesRequest request;
-                        request.term = heartbeat.term;
-                        request.leader_id = heartbeat.leader_id;
-                        request.prev_log_index = state.getLog().getLastLogIndex();
-                        request.prev_log_term = state.getLog().getLastLogTerm();
-                        request.leader_commit = heartbeat.commit_index;
-                        const auto response = send_append(peer_node_id, request);
-                        if (response.term > heartbeat.term) {
-                            leader->receiveAppendEntriesResponse(peer_node_id, response);
-                            return false;
-                        }
-                        const bool acknowledged =
-                            response.term == heartbeat.term && response.success &&
-                            response.match_index >= request.prev_log_index;
-                        if (acknowledged) {
-                            leader->receiveAppendEntriesResponse(peer_node_id, response);
-                        }
-                        return acknowledged;
-                    } catch (const std::exception& error) {
-                        spdlog::warn("Raft heartbeat to {} failed: {}",
-                                     peer_node_id, error.what());
-                        return false;
-                    }
-                });
+            // RaftConsensus sends bounded AppendEntries batches from each
+            // replica's tracked next_index on its heartbeat loop, allowing
+            // the same authenticated transport to repair a lagging prefix.
         }
         raft_instances_[shard_id] = raft;
         

@@ -69,7 +69,8 @@ public:
      *
      * @param id     User-assigned identifier (must be unique).
      * @param train  TT-compressed representation produced by TensorTrainDecomposer.
-     * @return true on success; false if id already exists or train is invalid.
+     * @return true on success; false if id already exists, the train violates
+     *         TT shape/rank invariants, or its mode sizes differ from this index.
      */
     [[nodiscard]] virtual bool add(int64_t id,
                                    const storage::TTTrain& train) = 0;
@@ -107,7 +108,9 @@ public:
      *
      * @param query  TT-train of the query vector.
      * @param k      Number of results requested.
-     * @return       Up to k results sorted by ascending distance.
+     * @return       Up to k results sorted by ascending distance. Empty when
+     *                the query is malformed or has mode sizes incompatible
+     *                with this index.
      */
     virtual std::vector<TensorSearchResult> search(
         const storage::TTTrain& query, int k) const = 0;
@@ -166,7 +169,8 @@ public:
      * @brief Replace the index contents with a previously persisted file.
      *
      * The file is treated as untrusted input: entry/core counts are bounded
-     * by the remaining file size, every core must satisfy
+     * by the remaining file size, mode count must equal core count, each core's
+     * mode size must match its declared mode size, every core must satisfy
      * `data.size() == r_left * n * r_right`, the rank chain must be
      * consistent (first r_left == 1, r_right[k] == r_left[k+1], last
      * r_right == 1), and IDs must be unique.

@@ -407,10 +407,8 @@ public:
         if (request->raft_group_id().empty() || request->leader_id().empty()) {
             return {grpc::StatusCode::INVALID_ARGUMENT, "Raft group and leader IDs are required"};
         }
-        constexpr int kMaxRaftEntriesPerRpc = 256;
-        constexpr std::size_t kMaxRaftCommandBytes = 1024 * 1024;
-        constexpr std::size_t kMaxRaftPayloadBytes = 3 * 1024 * 1024;
-        if (request->entries_size() > kMaxRaftEntriesPerRpc) {
+        if (static_cast<std::size_t>(request->entries_size()) >
+            themisdb::sharding::RaftAppendEntriesLimits::max_entries_per_rpc) {
             return {grpc::StatusCode::RESOURCE_EXHAUSTED, "too many Raft log entries"};
         }
 
@@ -424,8 +422,11 @@ public:
             append.entries.reserve(static_cast<std::size_t>(request->entries_size()));
             std::size_t payload_bytes = 0;
             for (const auto& entry : request->entries()) {
-                if (entry.command().size() > kMaxRaftCommandBytes ||
-                    payload_bytes > kMaxRaftPayloadBytes - entry.command().size()) {
+                if (entry.command().size() >
+                        themisdb::sharding::RaftAppendEntriesLimits::max_command_bytes ||
+                    payload_bytes >
+                        themisdb::sharding::RaftAppendEntriesLimits::max_payload_bytes -
+                            entry.command().size()) {
                     return {grpc::StatusCode::RESOURCE_EXHAUSTED,
                             "Raft AppendEntries exceeds the payload size limit"};
                 }

@@ -65,6 +65,9 @@ public:
 
     [[nodiscard]] bool add(int64_t id,
                            const storage::TTTrain& train) override {
+        if (!isValidTTTrain(train)) {
+            return false;
+        }
         /**
          * @brief Lock.
          * @param[in] rw_mutex_ Input parameter.
@@ -72,7 +75,8 @@ public:
          */
         std::unique_lock lock(rw_mutex_);
         if (store_.count(id)) return false;   // duplicate
-        if (train.cores.empty()) {
+        if (!store_.empty() &&
+            store_.begin()->second.mode_sizes != train.mode_sizes) {
           return false;
         }
         store_.emplace(id, train);
@@ -139,6 +143,11 @@ public:
         std::shared_lock lock(rw_mutex_);
 
         std::vector<TensorSearchResult> results = {};
+        if (!isValidTTTrain(query) ||
+            (!store_.empty() &&
+             store_.begin()->second.mode_sizes != query.mode_sizes)) {
+            return results;
+        }
 
         results.reserve(store_.size());
 
@@ -385,6 +394,33 @@ private:
     // TT arithmetic helpers
     // -----------------------------------------------------------------------
 
+    static bool isValidTTTrain(const storage::TTTrain& train) {
+        if (train.cores.empty() ||
+            train.cores.size() != train.mode_sizes.size() ||
+            train.cores.size() > kMaxTtOrder) {
+            return false;
+        }
+
+        size_t expected_left_rank = 1;
+        for (size_t index = 0; index < train.cores.size(); ++index) {
+            const auto& core = train.cores[index];
+            if (core.r_left == 0 || core.n == 0 || core.r_right == 0 ||
+                core.r_left != expected_left_rank ||
+                core.n != train.mode_sizes[index] ||
+                core.r_left > std::numeric_limits<size_t>::max() / core.n) {
+                return false;
+            }
+            const size_t left_mode_size = core.r_left * core.n;
+            if (left_mode_size >
+                    std::numeric_limits<size_t>::max() / core.r_right ||
+                core.data.size() != left_mode_size * core.r_right) {
+                return false;
+            }
+            expected_left_rank = core.r_right;
+        }
+        return expected_left_rank == 1;
+    }
+
     /**
      * @brief Tt Inner Product.
      * @param[in] A Input parameter.
@@ -395,7 +431,8 @@ private:
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
         const size_t d = A.cores.size();
-        if (d == 0 || d != B.cores.size()) {
+        if (!isValidTTTrain(A) || !isValidTTTrain(B) ||
+            d != B.cores.size() || A.mode_sizes != B.mode_sizes) {
           return 0.0f;
         }
 
@@ -555,15 +592,22 @@ private:
                 return false;
             }
 
+            if (nm == 0 || nc != nm) {
+                return false;
+            }
+
             train.cores.resize(nc);
             uint64_t prev_r_right = 1;  // TT boundary condition: r_0 == 1
-            for (auto& core : train.cores) {
+            for (size_t core_index = 0; core_index < train.cores.size();
+                 ++core_index) {
+                auto& core = train.cores[core_index];
                 uint64_t rl = 0, nn = 0, rr = 0, nf = 0;
                 if (!read(&rl, sizeof(rl)) || !read(&nn, sizeof(nn)) ||
                     !read(&rr, sizeof(rr)) || !read(&nf, sizeof(nf))) {
                     return false;
                 }
-                if (rl == 0 || nn == 0 || rr == 0 || rl != prev_r_right) {
+                if (rl == 0 || nn == 0 || rr == 0 || rl != prev_r_right ||
+                    nn != train.mode_sizes[core_index]) {
                     return false;
                 }
                 const auto max_size =

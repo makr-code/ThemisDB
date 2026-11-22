@@ -3229,6 +3229,46 @@ else()
     message(STATUS "Raft Configuration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/raft/test_raft_configuration.cpp")
 endif()
 
+# Raft proposal recovery and lagging follower catch-up tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/test_raft_proposal_recovery_focused.cpp")
+    add_executable(test_raft_proposal_recovery_focused
+        sharding/test_raft_proposal_recovery_focused.cpp
+    )
+
+    target_include_directories(test_raft_proposal_recovery_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_raft_proposal_recovery_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+        target_link_libraries(test_raft_proposal_recovery_focused PRIVATE
+            themis_sharding
+        )
+    endif()
+
+    target_compile_definitions(test_raft_proposal_recovery_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_raft_proposal_recovery_focused)
+        add_dependencies(test_raft_proposal_recovery_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME RaftProposalRecoveryFocusedTests
+        COMMAND $<TARGET_FILE:test_raft_proposal_recovery_focused>)
+
+    set_tests_properties(RaftProposalRecoveryFocusedTests PROPERTIES
+        LABELS "sharding;consensus;raft;recovery;focused;unit"
+        TIMEOUT 60
+    )
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================

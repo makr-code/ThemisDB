@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-21
+Last Updated: 2026-11-22
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -50,6 +50,30 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
+
+### Raft proposal and follower-prefix recovery (2026-11-22)
+
+An uncommitted tail is preserved on quorum failure without blocking all later
+proposal attempts. Each proposal invocation appends a distinct current-term
+entry after the retained prefix, including repeated identical command bytes;
+the API has no request-ID/idempotency contract, so retries have at-least-once
+semantics. A new current-term entry can commit the retained prefix after quorum
+durably acknowledges through it. Proposal replication and production
+AppendEntries heartbeats use tracked follower `next_index` and bounded batches
+(256 entries, 1 MiB per command, 3 MiB aggregate); rejection backs up progress
+for a later retry. The leader still commits only after verified durable
+acknowledgements, and does not truncate its uncommitted entries. Followers that
+require a compacted snapshot still need the existing snapshot-installation
+boundary; this change adds no snapshot-transfer path.
+Multi-node commands above the transport's 1 MiB per-command limit are rejected
+before the leader durably appends them.
+
+Focused source regressions cover quorum restoration with repeated identical
+commands producing distinct entries, pre-append rejection of an oversized
+multi-node command, advancing a retained prefix with a new term's command, and
+durable follower catch-up.
+They are not yet runtime-validated; full build/test and multi-process recovery
+evidence remain open.
 
 ### Raft election transport seam (2026-11-20)
 

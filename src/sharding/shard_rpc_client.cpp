@@ -750,16 +750,13 @@ themisdb::sharding::AppendEntriesResponse ShardRPCClient::appendRaftEntries(
     if (!impl_->stub) {
         throw std::runtime_error("Raft AppendEntries requires a gRPC transport");
     }
-    constexpr std::size_t kMaxRaftEntriesPerRpc = 256;
-    constexpr std::size_t kMaxRaftCommandBytes = 1024 * 1024;
-    constexpr std::size_t kMaxRaftPayloadBytes = 3 * 1024 * 1024;
-    if (request.entries.size() > kMaxRaftEntriesPerRpc) {
+    if (request.entries.size() > RaftAppendEntriesLimits::max_entries_per_rpc) {
         throw std::runtime_error("Raft AppendEntries contains too many entries");
     }
     std::size_t payload_bytes = 0;
     for (const auto& entry : request.entries) {
-        if (entry.command.size() > kMaxRaftCommandBytes ||
-            payload_bytes > kMaxRaftPayloadBytes - entry.command.size()) {
+        if (entry.command.size() > RaftAppendEntriesLimits::max_command_bytes ||
+            payload_bytes > RaftAppendEntriesLimits::max_payload_bytes - entry.command.size()) {
             throw std::runtime_error("Raft AppendEntries exceeds the configured request limits");
         }
         payload_bytes += entry.command.size();

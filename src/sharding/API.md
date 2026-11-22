@@ -84,23 +84,36 @@ Heartbeat AppendEntries responses with a higher term cause the leader to persist
 that term and step down; delayed successful responses cannot regress tracked
 replica progress.
 
-The local proposal path refuses new entries while any local tail entry is
-uncommitted; that check and append are atomic under the log lock. This
-deliberately fails closed after a quorum failure or restart and does not
-implement conflict repair. The `DistributedGateway` no longer installs its
-in-process callback; multi-node proposals fail closed until a real peer
-transport is configured. The Linux gRPC test source now includes manager-driven
-vote/append transport and authenticated identity rejection, plus two- and
-three-process follower crash/restart cases for durable log prefixes, persisted
-vote rejection, volatile journals, stale terms, missing prefixes, bounded RPC
-timeout, quorum loss, and separate leader-process SIGKILL/restart recovery.
-These additions have not been compiled or run in the current Windows
-benchmark configuration. The separate leader-process case covers leader
-SIGKILL/restart and journal recovery, and the follower processes now run
-independent Raft managers for re-election after leader loss; that test waits
-for a quorum follower journal to apply the leader's commit through normal
-heartbeats before killing the leader. Runtime evidence for follower
-failover, unavailable-journal fault injection, safe membership, and an end-to-end
+An uncommitted log tail is retained after quorum failure. Every proposal
+invocation appends a distinct entry after that tail, including when its command
+bytes are identical to an earlier proposal. Retries therefore have normal
+at-least-once semantics; this API has no request ID or idempotency contract. The
+leader advances commit only after a quorum has durably acknowledged the full
+prefix through a current-term entry, so older retained entries become committed
+only as part of that verified prefix.
+Replication requests and production heartbeats resume from each follower's
+tracked `next_index`; conflicts backtrack that index and later calls retry the
+missing prefix. Each AppendEntries request is bounded to 256 entries, 1 MiB per
+command and 3 MiB aggregate command payload, with the configured transport's
+bounded deadline and durable-ack contract unchanged. Multi-node proposals over
+the 1 MiB command limit are rejected before durable append, so an unsupported
+entry cannot block future prefix replication. A follower behind a
+compacted snapshot still requires snapshot installation; this recovery path
+does not add or simulate snapshot transfer.
+
+The `DistributedGateway` no longer installs its in-process callback; multi-node
+proposals fail closed until a real peer transport is configured. The Linux gRPC
+test source also includes manager-driven vote/append transport and authenticated
+identity rejection, plus two- and three-process follower crash/restart cases for
+durable log prefixes, persisted vote rejection, volatile journals, stale terms,
+missing prefixes, bounded RPC timeout, quorum loss, and separate leader-process
+SIGKILL/restart recovery. These additions have not been compiled or run in the
+current Windows benchmark configuration. The separate leader-process case covers
+leader SIGKILL/restart and journal recovery, and the follower processes now run
+independent Raft managers for re-election after leader loss; that test waits for
+a quorum follower journal to apply the leader's commit through normal heartbeats
+before killing the leader. Runtime evidence for follower failover,
+unavailable-journal fault injection, safe membership, and an end-to-end
 quorum-backed 2PC decision store remains open.
 
 ## Durable 2PC recovery (DIS-06 / #8200)

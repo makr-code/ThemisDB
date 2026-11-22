@@ -15,6 +15,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -62,6 +63,15 @@ struct AppendEntriesRequest {
     
     AppendEntriesRequest()
         : term(0), prev_log_index(0), prev_log_term(0), leader_commit(0) {}
+};
+
+/**
+ * @brief Shared size limits for Raft AppendEntries requests and replication batches.
+ */
+struct RaftAppendEntriesLimits {
+    static constexpr std::size_t max_entries_per_rpc = 256;  ///< Maximum entries per RPC.
+    static constexpr std::size_t max_command_bytes = 1024 * 1024;  ///< Maximum command bytes.
+    static constexpr std::size_t max_payload_bytes = 3 * 1024 * 1024;  ///< Aggregate command bytes.
 };
 
 /**
@@ -267,15 +277,18 @@ private:
     }
 
     /**
-     * @brief Append a proposal only when every existing log entry is committed.
-     * @param term Raft term assigned to the new entry.
-     * @param command Serialized command to append.
-     * @return The appended entry, or no value when an uncommitted tail exists.
+     * @brief Append a distinct proposal after the current log tail.
+     * @param term Current leader term assigned to a new entry.
+     * @param command Serialized command. Identical command bytes still represent
+     *        distinct proposals and receive distinct log indices.
+     * @return The appended entry and its preceding log term, or no value when
+     *         a current-term append would violate term ordering.
      * @throws std::runtime_error If the log lock times out or durable append fails.
-     * @note The check and append share one log lock, preventing a proposal from
-     *       committing across an earlier entry whose replication is unverified.
+     * @note Earlier uncommitted entries are retained. The caller must replicate
+     *       the full prefix and may advance commit only after a current-term
+     *       entry has durable acknowledgements from a quorum.
      */
-    [[nodiscard]] std::optional<std::pair<LogEntry, uint64_t>> appendProposalIfFullyCommitted(
+    [[nodiscard]] std::optional<std::pair<LogEntry, uint64_t>> appendProposal(
         uint64_t term, const std::string& command);
 
     void appendDurableRecord(const std::string& payload);

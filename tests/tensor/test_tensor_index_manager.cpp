@@ -351,11 +351,12 @@ void writeTtiHeader(std::ofstream& out, uint64_t n_entries) {
     writePod<uint64_t>(out, n_entries);
 }
 
-// One entry with no mode sizes and a single core whose header is given.
+// One entry with one declared mode size matching the single core's n.
 void writeSingleCoreEntry(std::ofstream& out, uint64_t rl, uint64_t nn,
                           uint64_t rr, uint64_t nf, size_t floats_to_write) {
     writePod<int64_t>(out, 1);       // id
-    writePod<uint32_t>(out, 0);      // n_mode_sizes
+    writePod<uint32_t>(out, 1);      // n_mode_sizes
+    writePod<uint64_t>(out, nn);     // mode size
     writePod<double>(out, 1.0);      // original_norm
     writePod<double>(out, 0.0);      // achieved_eps
     writePod<uint32_t>(out, 1);      // n_cores
@@ -433,6 +434,77 @@ TEST(FlatTensorIndexPersistence, TFI10_BrokenRankChainRejected) {
     auto* idx = mgr->createIndex("t", "c", "f");
     EXPECT_FALSE(idx->load(path));
     EXPECT_EQ(idx->size(), 0u);
+    std::filesystem::remove(path);
+}
+
+TEST(FlatTensorIndexPersistence, TFI11_ModeSizeMismatchRejectedAndContentsKept) {
+    const std::string path = tfiTempPath("mode_size_mismatch");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, 1);
+        writePod<int64_t>(out, 2);
+        writePod<uint32_t>(out, 1);
+        writePod<uint64_t>(out, 3);  // Declared mode size differs from core n.
+        writePod<double>(out, 1.0);
+        writePod<double>(out, 0.0);
+        writePod<uint32_t>(out, 1);
+        writePod<uint64_t>(out, 1);  // r_left
+        writePod<uint64_t>(out, 2);  // core n
+        writePod<uint64_t>(out, 1);  // r_right
+        writePod<uint64_t>(out, 2);  // n_floats
+        writePod<float>(out, 1.0f);
+        writePod<float>(out, 1.0f);
+    }
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+    ASSERT_NE(idx->get(1), nullptr);
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 1u);
+    EXPECT_NE(idx->get(1), nullptr);
+    std::filesystem::remove(path);
+}
+
+TEST(FlatTensorIndexSearch, TFI12_IncompatibleQueryModeSizesRejected) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+
+    storage::TTTrain query;
+    query.mode_sizes = {8};
+    storage::TTCore core;
+    core.r_left = 1;
+    core.n = 8;
+    core.r_right = 1;
+    core.data.assign(8, 1.0f);
+    query.cores.push_back(std::move(core));
+
+    EXPECT_FALSE(idx->add(2, query));
+    EXPECT_EQ(idx->size(), 1u);
+    EXPECT_TRUE(idx->search(query, 1).empty());
+}
+
+TEST(FlatTensorIndexPersistence, TFI13_ModeCoreCountMismatchRejected) {
+    const std::string path = tfiTempPath("mode_core_count_mismatch");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, 1);
+        writePod<int64_t>(out, 2);
+        writePod<uint32_t>(out, 0);  // No declared modes.
+        writePod<double>(out, 1.0);
+        writePod<double>(out, 0.0);
+        writePod<uint32_t>(out, 1);  // One core.
+        writePod<uint64_t>(out, 1);
+        writePod<uint64_t>(out, 2);
+        writePod<uint64_t>(out, 1);
+        writePod<uint64_t>(out, 2);
+        writePod<float>(out, 1.0f);
+        writePod<float>(out, 1.0f);
+    }
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 1u);
     std::filesystem::remove(path);
 }
 

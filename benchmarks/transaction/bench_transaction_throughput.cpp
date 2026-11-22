@@ -817,7 +817,7 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark:
             state.SkipWithError("Failed to start write transaction");
             return;
         }
-        
+
         for (const auto& entity : entities) {
             auto put_status = txn->putEntity("users", entity);
             if (!put_status.ok) {

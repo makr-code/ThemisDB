@@ -41,19 +41,24 @@ std::optional<AppendEntriesRequest> RaftState::appendProposalIfLeader(
         spdlog::error("Raft rejected multi-node proposal because the leader has no durable journal");
         return std::nullopt;
     }
+    if (config_.cluster_members.size() > 1 &&
+        command.size() > RaftAppendEntriesLimits::max_command_bytes) {
+        spdlog::warn("Raft rejected multi-node proposal larger than the AppendEntries command limit");
+        return std::nullopt;
+    }
 
-    auto appended = log_.appendProposalIfFullyCommitted(current_term_.load(), command);
-    if (!appended) {
+    auto proposal = log_.appendProposal(current_term_.load(), command);
+    if (!proposal) {
         return std::nullopt;
     }
 
     AppendEntriesRequest request;
-    request.term = appended->first.term;
+    request.term = proposal->first.term;
     request.leader_id = config_.node_id;
-    request.prev_log_index = appended->first.index - 1;
-    request.prev_log_term = appended->second;
-    request.leader_commit = request.prev_log_index;
-    request.entries.push_back(std::move(appended->first));
+    request.prev_log_index = proposal->first.index - 1;
+    request.prev_log_term = proposal->second;
+    request.leader_commit = log_.getCommitIndex();
+    request.entries.push_back(std::move(proposal->first));
     return request;
 }
 
