@@ -124,11 +124,15 @@ This runbook is the operator-facing guide for the principal failure modes in the
   coordinator SIGKILL recovery, and participant crash/restart healing.
 - On 2026-11-22, the same direct executable passed 3 repeated iterations:
   9/9 individual test executions.
-- The direct pass is not a registered CMake/CTest or release-platform gate.
-  The full registered target build remains blocked locally by unrelated
-  training-module dependency/build graph gaps.
-- This target uses a test pipe as a process-control transport. It is not a
-  live network, gRPC, mTLS or partition-healing test.
+- On 2026-11-22, a focused Linux Debug CMake build registered and ran
+  `DIS10RealTransportProcessRecoveryTests` successfully. The target passed once
+  and passed 3/3 repeated CTest executions with real gRPC/mTLS subprocess
+  traffic and durable WAL recovery checks.
+- The registered pass is Linux/diagnostic evidence only. It is not evidence for
+  Windows/macOS, release artifacts, CI platform gates or deterministic network
+  partition infrastructure.
+- The target uses a pipe only for process readiness/control; transaction traffic
+  is real gRPC/mTLS.
 - Do not close a partition, transport or release-readiness incident based only
   on this target. Real network partitions, coordinator/participant/leader
   kills, history validation and platform gates remain separate acceptance

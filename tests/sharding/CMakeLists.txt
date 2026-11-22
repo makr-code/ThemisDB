@@ -39,7 +39,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
     add_executable(test_dis10_real_transport_process_recovery
         test_dis10_real_transport_process_recovery.cpp)
     target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE
-        ${TEST_LIBS} themis_core themis_shard_proto gRPC::grpc++ OpenSSL::Crypto Threads::Threads)
+        ${TEST_LIBS} themis_shard_proto gRPC::grpc++ OpenSSL::Crypto Threads::Threads)
     if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
         target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE themis_sharding)
     endif()

@@ -276,6 +276,10 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     Vollbuild des registrierten Targets bleibt durch einen getrennten Training-Abhängigkeiten-/Build-Graph-Blocker offen.
   - Wiederholungsnachweis am 2026-11-22: 3 Iterationen × 3 Fälle = 9/9 erfolgreiche
     Prozess-Testausführungen im direkten Diagnostik-Binary; kein Ersatz für CTest-/CI-Evidenz.
+  - Registrierter Linux-Nachweis am 2026-11-22: `DIS10RealTransportProcessRecoveryTests`
+    wurde als CMake/Ninja-Target gebaut und einmal plus 3/3 Wiederholungen per CTest bestanden.
+    Dies belegt reale gRPC/mTLS-Prozesse und WAL-Heilung unter Linux/Diagnostik; kein
+    Release-/CI-/Plattformgate und keine deterministische Partition-Heilungsinfrastruktur.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).

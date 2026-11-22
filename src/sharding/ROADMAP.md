@@ -89,6 +89,12 @@ target remained blocked from a full Ninja build by unrelated training-module
 dependency/build graph gaps in the local diagnostic environment.
 On 2026-11-22, the same direct executable passed a 3-run repeat check:
 9/9 individual test executions passed (3 iterations × 3 cases).
+The registered Linux CMake/CTest target also passed on 2026-11-22 after narrowing
+its link graph to the sharding module and test libraries. One registered CTest
+run passed in 2.33 s, and 3 repeated registered runs passed (3/3; 2.79-3.05 s).
+The build was a diagnostic Linux Debug build with system dependencies and the
+LLM/GPU modules disabled; this is CMake/CTest evidence for the Linux environment,
+not evidence for Windows/macOS, release artifacts, or CI platform gates.
 
 Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
 processes, deterministic network partitions with latency/reordering/duplicates,
@@ -96,10 +102,13 @@ coordinator/participant/leader crash matrices over that transport, history
 checking and release-platform/CI evidence. The existing pipe transport must not
 be represented as production RPC or network-partition coverage.
 
-Registered reproduction commands (Linux, diagnostic Debug, system dependencies;
-the CTest commands below are not claimed as executed against a full target build):
+Registered reproduction commands (Linux, diagnostic Debug, system dependencies):
 
 ```sh
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis10-registered -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
+cmake --build /tmp/themis-dis10-registered --target test_dis10_real_transport_process_recovery -j4
+ctest --test-dir /tmp/themis-dis10-registered -R '^DIS10RealTransportProcessRecoveryTests$' --output-on-failure
+
 cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
 cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4
 ctest --test-dir /tmp/themis-dis06-build -R '^TwoPhaseCommitFocusedTests$' --output-on-failure
@@ -109,11 +118,10 @@ cmake --build /tmp/themis-dis06-build --target test_transaction_process_crash_re
 ctest --test-dir /tmp/themis-dis06-build -R '^TransactionProcessCrashRecoveryTests$' --output-on-failure
 ```
 
-Configure succeeded after installing existing system build dependencies. Registered
-builds were attempted, but full dependency linkage was not completed; a
-reconfigure refreshed build metadata and restarted the dependency graph, and the
-build was stopped. No registered-target or release CTest PASS is claimed.
-The initial build found missing `pugixml.hpp` (subsequently installed).
+The DIS-10 registered build succeeded after installing the required system build
+dependencies and narrowing the test target from `themis_core` to `themis_sharding`.
+The initial broad build found missing `pugixml.hpp` and `ggml.h`; the DIS-10 target
+was narrowed so unrelated training and network dependencies are no longer required.
 The initial-implementation
 [Wave B transaction run 44608779109](https://github.com/makr-code/ThemisDB/actions/runs/44608779109)
 reported `action_required` with zero jobs, not passing CI evidence.
