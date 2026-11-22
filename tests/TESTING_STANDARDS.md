@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-21"
+Last Updated: "2026-11-22"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Testing Standards
 
-Status: Canonical
+Role: Canonical
 Scope: All C++ test files under tests/ and related test registration in CMake.
 
 ## 1. Purpose
