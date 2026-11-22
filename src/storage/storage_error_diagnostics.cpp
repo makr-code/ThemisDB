@@ -17,13 +17,13 @@
 
 #include <algorithm>
 #include <chrono>
-#include <format>
 #include <mutex>
 #include <sstream>
 #include <unordered_map>
 
 // Logging support
 #include "utils/logger.h"
+#include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
@@ -376,7 +376,7 @@ void emitDiagnosticEvent(const StorageErrorContext& context) noexcept {
     std::string incident_str(incidentTypeName(context.incident_type));
     std::string code_str(errorCodeName(context.error_code));
 
-    std::string log_msg = std::format(
+    std::string log_msg = fmt::format(
         "[STORAGE_ERROR] code={} incident={} severity={} op={} resource={} "
         "msg={} recovery={}",
         code_str, incident_str, severity_str, context.operation_context,
@@ -401,7 +401,7 @@ void emitRecoveryFaultEvent(
     std::uint64_t affected_checkpoint_seq,
     std::uint64_t recovered_entries,
     std::string_view suggestion) noexcept {
-    std::string msg = std::format(
+    std::string msg = fmt::format(
         "[RECOVERY_FAULT] type={} checkpoint_seq={} recovered_entries={} "
         "recovery_suggestion={}",
         fault_type, affected_checkpoint_seq, recovered_entries,
@@ -417,7 +417,7 @@ void emitStoragePressureEvent(
     std::uint64_t available_bytes,
     std::uint64_t required_bytes,
     int escalation_level) noexcept {
-    std::string msg = std::format(
+    std::string msg = fmt::format(
         "[STORAGE_PRESSURE] type={} available={} required={} escalation_level={}",
         pressure_type, available_bytes, required_bytes, escalation_level);
 

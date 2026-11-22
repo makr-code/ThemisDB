@@ -407,7 +407,7 @@ def test_pull_request_target_allows_base_ref_only_checkout(tmp_path: Path):
 def test_core_gate_delegates_issue_permissions_to_build_components():
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
-    assert core["concurrency"]["cancel-in-progress"] is False
+    assert core["concurrency"]["cancel-in-progress"] == "${{ github.event_name == 'pull_request' }}"
     assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
     rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
     assert rag["permissions"] == {"contents": "read"}
@@ -506,6 +506,7 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         'fi\n'
         'if [[ "$1" == "--build" && -f "$RETRY_DONE" ]]; then exit 0; fi\n'
         'if [[ "$NESTED_ERROR" == True ]]; then\n'
+        '  touch -d "2000-01-01 UTC" "$RUNNER_TEMP/cmake-build-configure-start"\n'
         '  mkdir -p vcpkg/buildtrees/detect_compiler\n'
         '  echo "sccache: error: Server startup failed" > vcpkg/buildtrees/detect_compiler/config-x64-linux-rel-err.log\n'
         '  echo "error: vcpkg was unable to detect the active compiler information"\n'
@@ -535,6 +536,7 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
         "SCCACHE_GHA_ENABLED": "true",
         "GITHUB_ENV": str(tmp_path / "github-env"),
+        "GITHUB_OUTPUT": str(tmp_path / "github-output"),
     }
     result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
     assert result.returncode == retry_status, result.stdout + result.stderr
@@ -561,7 +563,11 @@ def test_cmake_compiler_diagnostics_do_not_retry_unrelated_errors(tmp_path: Path
     if stale_log:
         log.write_text("sccache: error: Server startup failed\n", encoding="utf-8")
         os.utime(log, (1, 1))
-    command = "" if stale_log else 'echo "compiler syntax error" > "$COMPILER_LOG"; '
+    # Ensure synthetic fresh logs compare newer even on coarse-resolution filesystems.
+    command = "" if stale_log else (
+        'touch -d "2000-01-01 UTC" "$RUNNER_TEMP/cmake-build-configure-start"; '
+        'echo "compiler syntax error" > "$COMPILER_LOG"; '
+    )
     env = {
         **os.environ,
         "WORKING_DIRECTORY": str(tmp_path),
@@ -571,6 +577,7 @@ def test_cmake_compiler_diagnostics_do_not_retry_unrelated_errors(tmp_path: Path
         "COMPILER_LOG": str(log),
         "SCCACHE_GHA_ENABLED": "true",
         "GITHUB_ENV": str(tmp_path / "github-env"),
+        "GITHUB_OUTPUT": str(tmp_path / "github-output"),
     }
     result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
     assert result.returncode == configure_status, result.stdout + result.stderr
@@ -605,7 +612,7 @@ def test_release_matrix_honors_sccache_backend_selection():
     plan_step = workflow["jobs"]["prepare-release-matrix"]["steps"][0]
     matrix_script = plan_step["run"]
     assert '"id": "linux-amd64",\n        "enable_sccache_gha": False' in matrix_script
-    assert '"id": "linux-arm64",\n        "enable_sccache_gha": False' in matrix_script
+    assert '"id": "linux-arm64",\n        "enable_sccache_gha": True' in matrix_script
     assert '"id": "windows-amd64",\n        "enable_sccache_gha": True' in matrix_script
     assert '"id": "macos-arm64",\n        "enable_sccache_gha": True' in matrix_script
     assert (
@@ -629,12 +636,13 @@ def test_linux_amd64_release_uses_only_local_sccache(tmp_path: Path):
         "PACKAGING": "auto",
         "DISTRIBUTION": "all",
         "RUN_NUMBER": "1",
-        "SOURCE_SHA": "",
+        "SOURCE_SHA": "a" * 40,
         "GITHUB_OUTPUT": str(output),
     }
     subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
     lane, = _read_output_json(output, "matrix")["include"]
     assert lane["id"] == "linux-amd64"
+    assert lane["release_manifest"]["source_sha"] == env["SOURCE_SHA"]
     assert lane["enable_sccache_gha"] is False
     assert "pkg-config sccache ccache" in lane["setup_command"]
     for command in ("configure_command", "build_command"):
@@ -717,6 +725,7 @@ def test_pinned_release_sources_use_workflow_revision_cache_tooling():
     assert checkout["with"]["persist-credentials"] is False
     assert set(checkout["with"]["sparse-checkout"].splitlines()) == {
         ".github/scripts/cache-directory-fingerprint.sh",
+        "scripts/ci/release_build_artifact.py",
         "scripts/prepare-windows-dependencies.py",
         "triplets/x64-windows.cmake",
     }
@@ -837,12 +846,14 @@ def test_windows_release_keeps_github_sccache_backend_enabled(tmp_path: Path):
         "PACKAGING": "auto",
         "DISTRIBUTION": "all",
         "RUN_NUMBER": "1",
+        "SOURCE_SHA": "a" * 40,
         "GITHUB_OUTPUT": str(output),
     }
     subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
     lane = _read_output_json(output, "windows_lane")
 
     assert lane["id"] == "windows-amd64"
+    assert lane["release_manifest"]["source_sha"] == env["SOURCE_SHA"]
     assert lane["enable_sccache_gha"] is True
     for command in ("configure_command", "build_command"):
         assert "SCCACHE_GHA_ENABLED=false" not in lane[command]
@@ -872,17 +883,17 @@ def test_vcpkg_cache_paths_match_the_installation_modes():
 
 
 @pytest.mark.parametrize(
-    ("build_matrix", "os_selector", "arch_selector", "lane_id", "runs_on"),
+    ("build_matrix", "os_selector", "arch_selector", "lane_id", "runs_on", "gha_enabled"),
     [
-        ("linux-amd64-only", "all", "all", "linux-amd64", "ubuntu-24.04"),
-        ("os", "linux", "amd64", "linux-amd64", "ubuntu-24.04"),
-        ("linux-arm64-only", "all", "all", "linux-arm64", "ubuntu-24.04-arm"),
-        ("os", "linux", "arm64", "linux-arm64", "ubuntu-24.04-arm"),
+        ("linux-amd64-only", "all", "all", "linux-amd64", "ubuntu-24.04", False),
+        ("os", "linux", "amd64", "linux-amd64", "ubuntu-24.04", False),
+        ("linux-arm64-only", "all", "all", "linux-arm64", "ubuntu-24.04-arm", True),
+        ("os", "linux", "arm64", "linux-arm64", "ubuntu-24.04-arm", True),
     ],
 )
-def test_linux_release_commands_keep_local_sccache_backend(
+def test_linux_release_commands_keep_configured_sccache_backend(
     tmp_path: Path, build_matrix: str, os_selector: str, arch_selector: str,
-    lane_id: str, runs_on: str
+    lane_id: str, runs_on: str, gha_enabled: bool
 ):
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     matrix = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
@@ -898,6 +909,7 @@ def test_linux_release_commands_keep_local_sccache_backend(
         "PACKAGING": "auto",
         "DISTRIBUTION": "all",
         "RUN_NUMBER": "1",
+        "SOURCE_SHA": "a" * 40,
         "GITHUB_OUTPUT": str(output),
     }
     subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
@@ -905,8 +917,9 @@ def test_linux_release_commands_keep_local_sccache_backend(
     assert len(lanes) == 1
     lane = lanes[0]
     assert lane["id"] == lane_id
+    assert lane["release_manifest"]["source_sha"] == env["SOURCE_SHA"]
     assert lane["runs_on"] == runs_on
-    assert lane["enable_sccache_gha"] is False
+    assert lane["enable_sccache_gha"] is gha_enabled
     assert "pkg-config sccache ccache" in lane["setup_command"]
 
     reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
@@ -916,9 +929,12 @@ def test_linux_release_commands_keep_local_sccache_backend(
         step for step in job["steps"] if step.get("name") == "Configure sccache environment"
     )
     install_sccache = next(step for step in job["steps"] if step.get("name") == "Install sccache")
-    assert configure_sccache["if"] == "inputs.enable_sccache_gha"
+    assert configure_sccache["if"] == (
+        "steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha"
+    )
     assert install_sccache["if"] == (
-        "inputs.enable_sccache_gha && !(runner.os == 'Windows' "
+        "steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha "
+        "&& !(runner.os == 'Windows' "
         "&& inputs.windows_dependency_mode != 'off')"
     )
 
@@ -927,10 +943,10 @@ def test_linux_release_commands_keep_local_sccache_backend(
     cmake = bin_dir / "cmake"
     cmake.write_text(
         '#!/bin/bash\n'
-        'test "$SCCACHE_GHA_ENABLED" = false || exit 1\n'
+        'test "$SCCACHE_GHA_ENABLED" = "$EXPECTED_SCCACHE_GHA_ENABLED" || exit 1\n'
         'test "$CMAKE_C_COMPILER_LAUNCHER" = sccache || exit 1\n'
         'test "$CMAKE_CXX_COMPILER_LAUNCHER" = sccache || exit 1\n'
-        'echo "local sccache backend preserved"\n',
+        'echo "configured sccache backend preserved"\n',
         encoding="utf-8",
     )
     cmake.chmod(0o755)
@@ -938,13 +954,14 @@ def test_linux_release_commands_keep_local_sccache_backend(
         "GITHUB_WORKSPACE": str(tmp_path),
         "PATH": f"{bin_dir}{os.pathsep}{os.environ['PATH']}",
         "SCCACHE_GHA_ENABLED": str(lane["enable_sccache_gha"]).lower(),
+        "EXPECTED_SCCACHE_GHA_ENABLED": str(gha_enabled).lower(),
     })
     for command in ("configure_command", "build_command"):
         result = subprocess.run(
             ["bash", "-c", lane[command]], cwd=tmp_path, env=env,
             check=True, capture_output=True, text=True,
         )
-        assert "local sccache backend preserved" in result.stdout
+        assert "configured sccache backend preserved" in result.stdout
 
 
 def test_custom_cmake_callers_declare_binary_directories():
