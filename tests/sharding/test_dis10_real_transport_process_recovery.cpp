@@ -70,9 +70,11 @@ constexpr std::string_view kCoordinatorId = "coord-1";
 constexpr std::string_view kCoordinatorIdentity = "coord.test";
 constexpr std::string_view kParticipantACertName = "participant-a";
 constexpr std::string_view kParticipantBCertName = "participant-b";
+constexpr std::string_view kParticipantDCertName = "participant-d";
 constexpr std::string_view kShardA = "shard-a";
 constexpr std::string_view kShardB = "shard-b";
 constexpr std::string_view kShardC = "shard-c";
+constexpr std::string_view kShardD = "shard-d";
 
 [[nodiscard]] int loopbackPort() {
     const int fd = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
@@ -640,7 +642,8 @@ public:
                       const std::string& mode,
                       const std::string& endpoint_a,
                       const std::string& endpoint_b,
-                      const std::string& endpoint_c = {})
+                      const std::string& endpoint_c = {},
+                      const std::string& endpoint_d = {})
         : transaction_id_(transaction_id),
           coordinator_wal_(root / "coordinator-wal") {
         const std::vector<std::string> args = {
@@ -652,6 +655,7 @@ public:
             endpoint_a,
             endpoint_b,
             endpoint_c,
+            endpoint_d,
             std::to_string(::getpid())
         };
         process_ = spawnSelf(args);
@@ -682,6 +686,8 @@ void writeCryptoMaterial(const fs::path& root) {
         themis::tests::generateSelfSignedPemMaterial("704", std::string(kParticipantBCertName), {"localhost"});
     const auto participant_c_tls =
         themis::tests::generateSelfSignedPemMaterial("705", "participant-c", {"localhost"});
+    const auto participant_d_tls =
+        themis::tests::generateSelfSignedPemMaterial("706", std::string(kParticipantDCertName), {"localhost"});
 
     writePem(root / "coordinator-cert.pem", coordinator_tls.certificate_pem);
     writePem(root / "coordinator-key.pem", coordinator_tls.private_key_pem);
@@ -692,7 +698,8 @@ void writeCryptoMaterial(const fs::path& root) {
     // Coordinator trusts the participant certificates for server verification.
     writePem(root / "participant-cert.pem",
              participant_tls.certificate_pem + participant_a_tls.certificate_pem +
-                 participant_b_tls.certificate_pem + participant_c_tls.certificate_pem);
+                 participant_b_tls.certificate_pem + participant_c_tls.certificate_pem +
+                 participant_d_tls.certificate_pem);
 
     // Shared cert/key simplify the endpoint config for both participant processes.
     writePem(root / "participant-a-cert.pem", participant_a_tls.certificate_pem);
@@ -701,6 +708,8 @@ void writeCryptoMaterial(const fs::path& root) {
     writePem(root / "participant-b-key.pem", participant_b_tls.private_key_pem);
     writePem(root / "participant-c-cert.pem", participant_c_tls.certificate_pem);
     writePem(root / "participant-c-key.pem", participant_c_tls.private_key_pem);
+    writePem(root / "participant-d-cert.pem", participant_d_tls.certificate_pem);
+    writePem(root / "participant-d-key.pem", participant_d_tls.private_key_pem);
 }
 
 int runParticipantProcess(const fs::path& root,
@@ -755,7 +764,8 @@ int runParticipantProcess(const fs::path& root,
     server_config.listen_address = "127.0.0.1:" + port;
     const std::string participant_name =
         shard_id == kShardA ? "participant-a" :
-        shard_id == kShardB ? "participant-b" : "participant-c";
+        shard_id == kShardB ? "participant-b" :
+        shard_id == kShardC ? "participant-c" : "participant-d";
     server_config.tls_cert_path = (root / (participant_name + "-cert.pem")).string();
     server_config.tls_key_path = (root / (participant_name + "-key.pem")).string();
     server_config.tls_ca_cert_path = (root / "trusted-clients.pem").string();
@@ -786,6 +796,7 @@ int runCoordinatorProcess(const fs::path& root,
                           const std::string& endpoint_a,
                           const std::string& endpoint_b,
                           const std::string& endpoint_c,
+                          const std::string& endpoint_d,
                           const pid_t parent) {
     if (::prctl(PR_SET_PDEATHSIG, SIGKILL) != 0 || ::getppid() != parent) {
         return 201;
@@ -817,6 +828,11 @@ int runCoordinatorProcess(const fs::path& root,
             makeRpcConfig(root, endpoint_c, std::string{kShardC}, 1200)));
         coordinator.registerParticipant(std::string{kShardC}, adapters[2].get());
     }
+    if (!endpoint_d.empty()) {
+        adapters.emplace_back(std::make_unique<ShardRPCClientAdapter>(
+            makeRpcConfig(root, endpoint_d, std::string{kShardD}, 1200)));
+        coordinator.registerParticipant(std::string{kShardD}, adapters[3].get());
+    }
 
     if (mode == "recover") {
         (void)coordinator.recoverInDoubtTransactions();
@@ -834,6 +850,10 @@ int runCoordinatorProcess(const fs::path& root,
     if (!endpoint_c.empty()) {
         operations.emplace(std::string{kShardC},
                            nlohmann::json::array({{{"type", "put"}, {"key", "gamma"}, {"value", "C"}}}));
+    }
+    if (!endpoint_d.empty()) {
+        operations.emplace(std::string{kShardD},
+                           nlohmann::json::array({{{"type", "put"}, {"key", "delta"}, {"value", "D"}}}));
     }
     const auto outcome = coordinator.commit(transaction_id, operations);
 
@@ -1192,6 +1212,51 @@ TEST(DIS10RealTransportProcessRecovery, RecoversThreeParticipantCommitAfterParti
         {std::string{kShardA}, std::string{kShardB}, std::string{kShardC}});
 }
 
+TEST(DIS10RealTransportProcessRecovery, RecoversFourParticipantCommitAfterParticipantCrash) {
+    const FixtureDirectory fixture("dis10-real-transport-four-participants");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(fixture.path(), std::string{kShardA}, "normal");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    ParticipantProcess participant_c(fixture.path(), std::string{kShardC}, "normal");
+    ParticipantProcess participant_d(fixture.path(), std::string{kShardD}, "crash_on_commit");
+
+    const std::string transaction_id = "dis10-four-participant-crash";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit",
+        participant_a.endpoint(), participant_b.endpoint(),
+        participant_c.endpoint(), participant_d.endpoint());
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+
+    int participant_d_status = 0;
+    ASSERT_TRUE(participant_d.waitForExit(5000, &participant_d_status));
+    ASSERT_TRUE(WIFSIGNALED(participant_d_status));
+    ASSERT_EQ(WTERMSIG(participant_d_status), SIGKILL);
+    ParticipantProcess restarted_d(
+        fixture.path(), std::string{kShardD}, "normal", participant_d.port());
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover",
+        participant_a.endpoint(), participant_b.endpoint(),
+        participant_c.endpoint(), restarted_d.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    expectCommittedHistoryConsistent(
+        coordinator_wal, transaction_id,
+        {std::string{kShardA}, std::string{kShardB},
+         std::string{kShardC}, std::string{kShardD}});
+}
+
 } // namespace
 
 #else
@@ -1214,11 +1279,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (argc == 9 && std::string_view(argv[1]) == kCoordinatorMode) {
+    if (argc == 10 && std::string_view(argv[1]) == kCoordinatorMode) {
         try {
             return runCoordinatorProcess(
-                argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-                static_cast<pid_t>(std::stol(argv[8])));
+                argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], argv[8],
+                static_cast<pid_t>(std::stol(argv[9])));
         } catch (const std::exception& error) {
             std::cerr << "coordinator process: " << error.what() << '\n';
             return 204;
