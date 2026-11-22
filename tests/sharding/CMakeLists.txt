@@ -55,7 +55,7 @@ endif()
 add_executable(test_dis10_concurrent_serializability
     test_dis10_concurrent_serializability.cpp)
 target_link_libraries(test_dis10_concurrent_serializability PRIVATE
-    ${TEST_LIBS} themis_core Threads::Threads)
+    ${TEST_LIBS} Threads::Threads)
 if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
     target_link_libraries(test_dis10_concurrent_serializability PRIVATE themis_sharding)
 endif()
