@@ -1,6 +1,7 @@
 """Exercise selected CTest registrations without the full dependency build."""
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -184,6 +185,116 @@ endif()
                                 completed.stdout,
                             )
                         self.assertIn("100% tests passed", completed.stdout)
+
+    def test_llm_model_path_environment(self):
+        source_text = (ROOT / "tests/llm/CMakeLists.txt").read_text(encoding="utf-8")
+        start = source_text.index("option(THEMIS_LLM_INFERENCE_TESTS")
+        end = source_text.index("endif() # THEMIS_LLM_INFERENCE_TESTS", start)
+        registration = source_text[start:end + len("endif() # THEMIS_LLM_INFERENCE_TESTS")]
+        test_names = (
+            "test_llm_tinyllama_inference_LlmInferenceCITests",
+            "test_llm_doku_rag_LlmInferenceCITests",
+            "test_llm_adalora_doku_training_LlmInferenceCITests",
+        )
+
+        with tempfile.TemporaryDirectory(prefix="themis-model-path-") as directory:
+            root = Path(directory)
+            source = root / "source"
+            source.mkdir()
+            (source / "data").mkdir()
+            (source / "data/themisdb_rag_golden_dataset.yaml").touch()
+            (source / "probe.py").write_text(
+                "import os, sys\n"
+                "from pathlib import Path\n"
+                "actual = os.environ.get('THEMIS_TEST_MODEL_PATH')\n"
+                "print('model path:', actual)\n"
+                "valid = actual == sys.argv[1]\n"
+                "if sys.argv[2] == 'configured':\n"
+                "    valid = valid and Path(actual).is_file()\n"
+                "sys.exit(0 if valid else 1)\n",
+                encoding="utf-8",
+            )
+            # Keep the actual registration intact; replace only dependencies and
+            # executables with a probe so CTest itself exercises ENVIRONMENT.
+            (source / "CMakeLists.txt").write_text(
+                f"""cmake_minimum_required(VERSION 3.20)
+project(ModelPathContract NONE)
+enable_testing()
+set(THEMIS_ROOT_DIR [[{ROOT.as_posix()}]])
+set(THEMIS_ENABLE_LLM ON)
+set(THEMIS_BUILD_MODULAR OFF)
+function(add_executable target)
+    _add_executable(${{target}} IMPORTED GLOBAL)
+    set_target_properties(${{target}} PROPERTIES IMPORTED_LOCATION [[{Path(sys.executable).as_posix()}]])
+endfunction()
+function(target_include_directories)
+endfunction()
+function(target_link_libraries)
+endfunction()
+function(target_sources)
+endfunction()
+function(target_compile_definitions)
+endfunction()
+function(add_custom_command)
+endfunction()
+function(themis_llm_sync_runtime_dlls)
+endfunction()
+function(themis_llm_rescan_sharding_dependencies)
+endfunction()
+function(themis_register_module_focused_test)
+    cmake_parse_arguments(REG "" "NAME" "" ${{ARGN}})
+    add_test(NAME "${{REG_NAME}}"
+        COMMAND [[{Path(sys.executable).as_posix()}]] "${{CMAKE_CURRENT_SOURCE_DIR}}/probe.py" "${{CONTRACT_EXPECTED_PATH}}" "${{CONTRACT_MODE}}")
+endfunction()
+""" + registration + "\n",
+                encoding="utf-8",
+            )
+            inherited = "inherited-model-path"
+            environment = dict(os.environ, THEMIS_TEST_MODEL_PATH=inherited)
+            build = root / "build"
+            for model_dir in (None, root / "model files", root / "replacement model"):
+                with self.subTest(model_dir=model_dir):
+                    expected = (
+                        f"{model_dir.as_posix()}/tinyllama.gguf"
+                        if model_dir is not None else inherited
+                    )
+                    if model_dir is not None:
+                        model_dir.mkdir()
+                        (model_dir / "tinyllama.gguf").touch()
+                    subprocess.run(
+                        ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja",
+                         "-DTHEMIS_LLM_INFERENCE_TESTS=ON",
+                         f"-DTHEMIS_TEST_MODEL_DIR={model_dir.as_posix() if model_dir else ''}",
+                         f"-DCONTRACT_EXPECTED_PATH={expected}",
+                         f"-DCONTRACT_MODE={'configured' if model_dir else 'inherited'}"],
+                        env=environment, text=True, capture_output=True, check=True,
+                    )
+                    listing = subprocess.run(
+                        ["ctest", "--test-dir", str(build), "--show-only=json-v1"],
+                        env=environment, text=True, capture_output=True, check=True,
+                    )
+                    completed = subprocess.run(
+                        ["ctest", "--test-dir", str(build), "--output-on-failure"],
+                        env=environment, text=True, capture_output=True,
+                    )
+                    self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+                    tests = {test["name"]: test for test in json.loads(listing.stdout)["tests"]}
+                    for name in test_names:
+                        properties = {p["name"]: p["value"] for p in tests[name]["properties"]}
+                        variables = properties.get("ENVIRONMENT", [])
+                        model_variables = [
+                            item for item in variables if item.startswith("THEMIS_TEST_MODEL_PATH=")
+                        ]
+                        self.assertEqual(
+                            model_variables,
+                            [f"THEMIS_TEST_MODEL_PATH={expected}"] if model_dir else [],
+                            name,
+                        )
+                        if name == "test_llm_doku_rag_LlmInferenceCITests":
+                            self.assertTrue(any(
+                                item.startswith("THEMIS_RAG_GOLDEN_DATASET_PATH=")
+                                for item in variables
+                            ))
 
 
 if __name__ == "__main__":

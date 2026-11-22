@@ -942,11 +942,10 @@ option(THEMIS_LLM_INFERENCE_TESTS
     "Build LLM inferencing CI test suite (TinyLlama + doku.db RAG + AdaLoRA)"
     OFF)
 
-# Allow the CI workflow to pass the model dir as a CMake variable and expose
-# it as an environment variable to CTest at test time.
+# A configured model directory takes precedence over the inherited environment
+# for these CTest registrations; otherwise CTest inherits the environment.
 set(THEMIS_TEST_MODEL_DIR "" CACHE PATH
-    "Directory containing tinyllama.gguf (set by CI or developer; "
-    "overridden by env var THEMIS_TEST_MODEL_PATH at runtime)")
+    "Directory containing tinyllama.gguf (set by CI or developer)")
 
 if(THEMIS_LLM_INFERENCE_TESTS)
 
@@ -1017,8 +1016,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             LABELS  "${_labels}"
         )
 
-        # Expose model path and doku.db path as CTest environment variables.
-        # CTest picks these up via set_tests_properties ENVIRONMENT.
+        # Expose the configured model path to the CTest process.
         if(THEMIS_TEST_MODEL_DIR)
             set_tests_properties(${_cname} PROPERTIES
                 ENVIRONMENT
@@ -1068,7 +1066,7 @@ if(THEMIS_LLM_INFERENCE_TESTS)
                     "$<TARGET_FILE_DIR:module_llm_test_llm_doku_rag_focused>/themisdb_rag_golden_dataset.yaml"
             COMMENT "Copying RAG golden dataset YAML to test binary directory"
         )
-        set_tests_properties(test_llm_doku_rag_LlmInferenceCITests PROPERTIES
+        set_property(TEST test_llm_doku_rag_LlmInferenceCITests APPEND PROPERTY
             ENVIRONMENT
             "THEMIS_RAG_GOLDEN_DATASET_PATH=$<TARGET_FILE_DIR:module_llm_test_llm_doku_rag_focused>/themisdb_rag_golden_dataset.yaml"
         )
