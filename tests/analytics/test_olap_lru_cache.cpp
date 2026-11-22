@@ -25,6 +25,40 @@ static OLAPQuery makeSimpleQuery(const std::string& collection = "sales") {
     return q;
 }
 
+TEST(OLAPWindowFunctions, FollowingBoundsAreClippedToInput) {
+    OLAPEngine engine;
+    const std::vector<std::unordered_map<std::string, double>> data = {
+        {{"amount", 1.0}}, {{"amount", 2.0}}, {{"amount", 4.0}}
+    };
+    const std::vector<Measure> measures = {{"total", "amount", Measure::Function::Sum}};
+    OLAPQuery::WindowSpec window;
+    window.rows_preceding = 0;
+
+    window.rows_following = 0;
+    auto result = engine.evaluateWindowFunctions(data, measures, window);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].values, (std::vector<double>{1.0, 2.0, 4.0}));
+
+    window.rows_following = 1;
+    result = engine.evaluateWindowFunctions(data, measures, window);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].values, (std::vector<double>{3.0, 6.0, 4.0}));
+
+    window.rows_following = 100;
+    result = engine.evaluateWindowFunctions(data, measures, window);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].values, (std::vector<double>{7.0, 6.0, 4.0}));
+
+    window.rows_following.reset();
+    result = engine.evaluateWindowFunctions(data, measures, window);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].values, (std::vector<double>{7.0, 6.0, 4.0}));
+
+    result = engine.evaluateWindowFunctions({}, measures, window);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_TRUE(result[0].values.empty());
+}
+
 // ---------------------------------------------------------------------------
 // AC-1: Cache hit on second identical query
 // ---------------------------------------------------------------------------
