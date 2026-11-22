@@ -46,7 +46,7 @@ Status: Active
   focused in-process test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64;
   those lanes do not establish cross-platform gRPC/process transport.
 - The latest observed Wave B PR run
-  [45047280546](https://github.com/makr-code/ThemisDB/actions/runs/45047280546)
+  [45051384136](https://github.com/makr-code/ThemisDB/actions/runs/45051384136)
   ended `action_required` with zero jobs. No successful workflow artifact or
   release-platform test pass has yet been verified.
 
