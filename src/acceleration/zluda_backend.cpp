@@ -46,11 +46,11 @@
 #define RTLD_LOCAL 0
 #endif
 
-// Provide a minimal `dim3` type on Windows when CUDA headers are not available.
+// Provide a minimal `dim3` type when CUDA headers are not available.
 // This avoids build errors on MSVC for code that references `dim3` in ZLUDA
 // compatibility code. If CUDA headers are present, they define `dim3` and
 // this shim will be skipped.
-#if defined(_WIN32) && !defined(__CUDACC__) && !defined(__CUDA_RUNTIME_H__)
+#if !defined(__CUDACC__) && !defined(__CUDA_RUNTIME_H__)
 struct dim3 {
     unsigned int x;
     unsigned int y;
