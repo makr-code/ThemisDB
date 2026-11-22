@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-20
+Datum: 2026-11-22
 Status: Active
 
 ## Curated module contexts
@@ -35,6 +35,17 @@ coverage from local WAL replay tests. API/source truth:
 `src/sharding/RUNBOOK.md`. Open evidence gates: `audit/ROADMAP.md`,
 `src/sharding/ROADMAP.md`. This curated note supersedes older inventory-only
 recovery descriptions, not the referenced source contracts.
+
+The Linux-only `DIS10RealTransportProcessRecoveryTests` uses real gRPC/mTLS
+participant processes and WAL replay. Its bounded cases include both
+asymmetric TCP directions, coordinator-request latency, and recovery after a
+third participant crashes. The three-participant history assertion checks
+terminal WAL consistency only; it is not a concurrent serializability checker.
+The 8-case registered target passed once and in three repeated CTest runs in
+Ubuntu 24.04/Linux Debug.
+Wave B CI now records three CTest repeats, but platform, 72-hour, and workflow
+run artifacts remain separate evidence gates. See
+`src/sharding/ROADMAP.md` and `src/sharding/RUNBOOK.md`.
 
 - [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — bounded logical snapshot materialization, durable mTLS staging, local verified reads, and rebalance completion separate from transfer verification.
 - [DIS-03 routing and snapshot foundations](../../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen) — approved and partially implemented typed token resolution, exact ring ownership segments, and process-local MVCC snapshots; durable assignment, restart/resume, write quiescence, and authoritative cutover remain open. The generated wiki manifest is not fresh source-scan evidence.

@@ -34,6 +34,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -496,10 +497,10 @@ private:
         }
 
         if (delay_request && !coordinator_request_delay_applied_.exchange(true, std::memory_order_acq_rel)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(
-                coordinator_request_latency_ms_.load(std::memory_order_acquire)));
             delayed_coordinator_request_bytes_.fetch_add(
                 static_cast<std::uint64_t>(received), std::memory_order_release);
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                coordinator_request_latency_ms_.load(std::memory_order_acquire)));
         }
 
         ssize_t sent = 0;

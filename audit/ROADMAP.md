@@ -296,10 +296,22 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     COMMIT-Record. Nach Heilung und frischer Recovery erhält Participant B genau einen COMMIT;
     der Coordinator-Complete-Record ist genau einer. Der 6-Test-CMake/CTest-Lauf ist Linux-
     real-gRPC/mTLS-Evidenz und schließt DIS-10 nicht. Weitere asymmetrische Fehler,
-    Latenz/Reordering/Duplikate, 3–5 Knoten und Plattform-/CI-Gates bleiben offen.
-  - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
-    asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
-  - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).
+    Reordering/Duplikate, 3–5 Knoten und Plattform-/CI-Gates bleiben offen.
+  - Siebter Fall ergänzt deterministische Coordinator-to-Participant-Latenz nach persistierter
+    COMMIT-Entscheidung und validiert Recovery; achter Fall crasht den dritten Teilnehmer in
+    einer Transaktion mit drei Teilnehmern, startet ihn neu und prüft die konsistente terminale
+    WAL-Historie (eine COMMIT-Entscheidung/Completion, ein COMMIT je Teilnehmer, kein ABORT).
+    Der einfache WAL-Konsistenzcheck ist kein Serialisierbarkeits-/Linearizierbarkeits-Checker;
+    der 8-Test-Lauf bestand in Ubuntu 24.04/Linux Debug einmal und in drei CTest-Wiederholungen.
+  - Der Wave-B-Workflow baut das Linux-Real-Transport-Target und archiviert drei CTest-
+    Wiederholungen; ein erfolgreicher Workflow-Lauf samt Artefakt ist noch nicht nachgewiesen.
+  - TCP erhält die Byte-Reihenfolge; rohe Reordering-/Duplikat-Injektion verschlüsselter TLS-Bytes
+    würde den Stream beschädigen und bildet keine anwendungsseitig beobachtbare RPC-Semantik ab.
+    Semantische COMMIT-Wiederholung nach ACK-Verlust ist bereits durch Recovery-Fälle mit
+    dedupliziertem Participant-WAL abgedeckt.
+  - Offen: zusätzliche asymmetrische Fehlerzeitpunkte, Coordinator-/Participant-/Leader-Crashmatrix
+    über das begrenzte 3-Teilnehmer-Szenario hinaus, echter konkurrierender History-Checker,
+    72-Stunden-Nightly, Windows/macOS-Prozess-Transportabdeckung und Release-/CI-Artefakte.
   - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
     geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.

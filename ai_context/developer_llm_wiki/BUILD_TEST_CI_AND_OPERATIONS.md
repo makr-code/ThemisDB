@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,8 +14,22 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-20
+Datum: 2026-11-22
 Status: Active
+
+## DIS-10 real-transport process recovery
+
+- `.github/workflows/build-wave-b-transaction.yml` builds the Linux-only
+  `test_dis10_real_transport_process_recovery` target and stores three
+  `DIS10RealTransportProcessRecoveryTests` CTest repeats with the chaos/recovery
+  artifact.
+- The target covers gRPC/mTLS participant processes, WAL recovery, directional
+  TCP loss, bounded request latency, and a three-participant crash/recovery
+  case. Its WAL history assertion is a terminal-outcome consistency check, not
+  a general serializability checker.
+- The workflow integration is not a passing CI result until a run URL and
+  uploaded artifact are verified. It provides no Windows/macOS process
+  coverage or 72-hour chaos evidence.
 
 ## Config and package version integrity gate
 

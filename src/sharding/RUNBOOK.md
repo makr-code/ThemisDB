@@ -146,11 +146,28 @@ This runbook is the operator-facing guide for the principal failure modes in the
   recovery, participant B receives one COMMIT and has exactly one COMMIT WAL
   record; the coordinator has exactly one complete record. This sixth bounded
   case is Linux real-gRPC/mTLS evidence and does not close DIS-10.
+- `RecoversCommitAfterCoordinatorRequestLatency` delays post-decision
+  coordinator-to-participant TLS bytes beyond the RPC deadline and verifies
+  recovery from the durable decision. `RecoversThreeParticipantCommitAfterParticipantCrash`
+  crashes the third participant during phase two, restarts it, and checks
+  coordinator/participant WAL consistency across a transaction spanning three
+  participants. The latter is a terminal-outcome consistency check, not a
+  serializability checker. The 8-case registered target passed once and in
+  three repeated CTest runs using Ubuntu 24.04, Linux Debug, and strict
+  dependency checks.
+- The Wave B transaction workflow now builds this Linux integration target and
+  records three CTest repeats as a CI artifact. This wiring is not evidence that
+  a workflow run has passed; retain the run URL and artifact before treating CI
+  validation as satisfied.
 - These are Linux-only test results, not evidence for Windows/macOS, release
-  artifacts, CI platform gates, remaining asymmetric fault variants,
-  latency/reordering/duplicate injection, or 3–5-node chaos.
+  artifacts, Windows/macOS process coverage, 72-hour chaos, independent RPC
+  reordering, or general 3–5-node chaos.
 - The harness uses pipes only for process readiness/control; transaction
   traffic is real gRPC/mTLS, including through the TCP partition proxy.
+- The proxy preserves TCP byte order; reordering or duplicating raw encrypted
+  TLS bytes would corrupt the stream. Lost-ACK recovery already causes
+  idempotent semantic COMMIT redelivery and checks that the participant WAL
+  contains a single COMMIT record.
 - Do not close a partition, transport or release-readiness incident based only
   on this target. Broader coordinator/participant/leader crash matrices, history
   validation and platform gates remain separate acceptance evidence.
