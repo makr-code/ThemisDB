@@ -124,19 +124,23 @@ This runbook is the operator-facing guide for the principal failure modes in the
   coordinator SIGKILL recovery, and participant crash/restart healing.
 - On 2026-11-22, the same direct executable passed 3 repeated iterations:
   9/9 individual test executions.
-- On 2026-11-22, a focused Linux Debug CMake build registered and ran
-  `DIS10RealTransportProcessRecoveryTests` successfully. The target passed once
-  and passed 3/3 repeated CTest executions with real gRPC/mTLS subprocess
-  traffic and durable WAL recovery checks.
+- On 2026-11-22, the initial 3-case version of the focused Linux Debug CMake
+  target `DIS10RealTransportProcessRecoveryTests` passed once and in 3/3 repeated
+  CTest executions with real gRPC/mTLS subprocess traffic and durable WAL
+  recovery checks.
+- The suite now includes `RecoversCommitAfterTcpPartitionHeals`: a transparent
+  test proxy black-holes both TCP directions after the durable coordinator
+  decision; the participant PREPARE remains durable, phase two is incomplete,
+  and WAL recovery completes after healing and process restart. The 4-test
+  registered suite passed once plus 3 repeated runs.
 - The registered pass is Linux/diagnostic evidence only. It is not evidence for
-  Windows/macOS, release artifacts, CI platform gates or deterministic network
-  partition infrastructure.
-- The target uses a pipe only for process readiness/control; transaction traffic
-  is real gRPC/mTLS.
+  Windows/macOS, release artifacts, CI platform gates, asymmetric partitions,
+  latency/reordering/duplicate injection, or 3–5-node chaos.
+- The harness uses pipes only for process readiness/control; transaction
+  traffic is real gRPC/mTLS, including through the TCP partition proxy.
 - Do not close a partition, transport or release-readiness incident based only
-  on this target. Real network partitions, coordinator/participant/leader
-  kills, history validation and platform gates remain separate acceptance
-  evidence.
+  on this target. Broader coordinator/participant/leader crash matrices, history
+  validation and platform gates remain separate acceptance evidence.
 
 ## Scenario 4: migration conflict or rebalance fault
 

@@ -83,31 +83,39 @@ crash, and participant unavailability/restart.
 As of 2026-11-21, a direct diagnostic build of the target source and the
 required production translation units passed all 3 Linux process cases:
 successful commit, coordinator SIGKILL recovery, and participant crash/restart
-healing (3/3). This is execution evidence for the real gRPC/mTLS subprocess
-path, not yet a registered CMake/CTest or release-platform gate. The registered
-target remained blocked from a full Ninja build by unrelated training-module
-dependency/build graph gaps in the local diagnostic environment.
+healing (3/3). This was direct-executable evidence, not yet a registered
+CMake/CTest or release-platform gate at that checkpoint. The registered-target
+build was then blocked by unrelated training dependencies; the subsequent
+2026-11-22 focused build below supersedes that local limitation.
 On 2026-11-22, the same direct executable passed a 3-run repeat check:
 9/9 individual test executions passed (3 iterations × 3 cases).
-The registered Linux CMake/CTest target also passed on 2026-11-22 after narrowing
-its link graph to the sharding module and test libraries. One registered CTest
-run passed in 2.33 s, and 3 repeated registered runs passed (3/3; 2.79-3.05 s).
+The initial 3-case registered Linux CMake/CTest target also passed on 2026-11-22
+after narrowing its link graph to the sharding module and test libraries. One
+registered CTest run passed in 2.33 s, and 3 repeated registered runs passed
+(3/3; 2.79-3.05 s).
 The build was a diagnostic Linux Debug build with system dependencies and the
 LLM/GPU modules disabled; this is CMake/CTest evidence for the Linux environment,
 not evidence for Windows/macOS, release artifacts, or CI platform gates.
+On 2026-11-22, a fourth regression added deterministic bidirectional TCP
+blackholing through a transparent test proxy after the durable COMMIT decision.
+The participant's PREPARE is durable, the coordinator remains in-doubt while
+traffic is partitioned, and WAL recovery completes after the proxy heals and the
+coordinator/participant restart. The registered target rebuilt and passed once
+and in 3 repeated CTest runs (four tests per run).
 
-Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
-processes, deterministic network partitions with latency/reordering/duplicates,
-coordinator/participant/leader crash matrices over that transport, history
-checking and release-platform/CI evidence. The existing pipe transport must not
-be represented as production RPC or network-partition coverage.
+Remaining DIS-10 work is explicitly open: asymmetric partitions, latency,
+reordering and duplicate fault injection, coordinator/participant/leader crash
+matrices over 3–5 nodes, history checking and release-platform/CI evidence.
+`TransactionProcessCrashRecoveryTests` still uses pipes for process control and
+must not be represented as RPC or network-partition coverage; the new DIS-10
+test's transaction traffic uses real gRPC/mTLS through the TCP proxy.
 
 Registered reproduction commands (Linux, diagnostic Debug, system dependencies):
 
 ```sh
-cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis10-registered -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
-cmake --build /tmp/themis-dis10-registered --target test_dis10_real_transport_process_recovery -j4
-ctest --test-dir /tmp/themis-dis10-registered -R '^DIS10RealTransportProcessRecoveryTests$' --output-on-failure
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis10-partition -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
+ninja -C /tmp/themis-dis10-partition test_dis10_real_transport_process_recovery -j4
+ctest --test-dir /tmp/themis-dis10-partition -R '^DIS10RealTransportProcessRecoveryTests$' --output-on-failure
 
 cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
 cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4

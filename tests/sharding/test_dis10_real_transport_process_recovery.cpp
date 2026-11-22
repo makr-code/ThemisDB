@@ -338,6 +338,8 @@ ShardRPCClient::Config makeRpcConfig(const fs::path& root,
     return config;
 }
 
+// Test-only transparent proxy: black-hole both TCP directions while partitioned,
+// so the coordinator observes RPC timeouts rather than an immediate connection refusal.
 class TcpPartitionProxy {
 public:
     explicit TcpPartitionProxy(const int target_port) {

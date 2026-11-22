@@ -271,15 +271,20 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     Das bestehende Test-IPC über Pipes ist keine gRPC/mTLS-Netzwerk- oder Partition-Heilungs-Evidenz;
     Stub-2PC-/WAL-Fälle in `test_sharding_contract_hardening_focused.cpp` ersetzen diesen Nachweis nicht.
   - Direkter Linux-Evidenzlauf am 2026-11-21: 3/3 reale gRPC/mTLS-Prozessfälle bestanden
-    (Commit-Erfolg, Coordinator-SIGKILL-Recovery, Participant-Crash/Restart-Heilung). Dies ist
-    kein Nachweis für ein registriertes CMake/CTest-Target oder Release-Platforms; der lokale
-    Vollbuild des registrierten Targets bleibt durch einen getrennten Training-Abhängigkeiten-/Build-Graph-Blocker offen.
+    (Commit-Erfolg, Coordinator-SIGKILL-Recovery, Participant-Crash/Restart-Heilung). Zu diesem
+    Zeitpunkt gab es noch keinen registrierten CMake/CTest-Nachweis; der damalige lokale Build-
+    Graph-Blocker wurde durch den fokussierten registrierten Lauf am 2026-11-22 unten überholt.
   - Wiederholungsnachweis am 2026-11-22: 3 Iterationen × 3 Fälle = 9/9 erfolgreiche
     Prozess-Testausführungen im direkten Diagnostik-Binary; kein Ersatz für CTest-/CI-Evidenz.
-  - Registrierter Linux-Nachweis am 2026-11-22: `DIS10RealTransportProcessRecoveryTests`
-    wurde als CMake/Ninja-Target gebaut und einmal plus 3/3 Wiederholungen per CTest bestanden.
-    Dies belegt reale gRPC/mTLS-Prozesse und WAL-Heilung unter Linux/Diagnostik; kein
-    Release-/CI-/Plattformgate und keine deterministische Partition-Heilungsinfrastruktur.
+  - Registrierter Linux-Nachweis am 2026-11-22: Die ursprüngliche 3-Fall-Version von
+    `DIS10RealTransportProcessRecoveryTests` wurde als CMake/Ninja-Target gebaut und einmal
+    plus 3/3 Wiederholungen per CTest bestanden. Dies belegt reale gRPC/mTLS-Prozesse und
+    WAL-Heilung unter Linux/Diagnostik; kein Release-/CI-/Plattformgate.
+  - Partition-Heilungsnachweis am 2026-11-22: ein transparenter TCP-Testproxy blockiert
+    bidirektional nach persistierter COMMIT-Entscheidung; PREPARE bleibt im Participant-WAL,
+    die Phase-2-Abschlussmarke fehlt bis zur Heilung und anschließenden WAL-Recovery. Die
+    4-Test-CMake/CTest-Suite bestand einmal plus 3 Wiederholungen. Asymmetrische Fehler,
+    Latenz, Reordering, Duplikate und 3–5-Knoten-Chaos sind weiterhin offen.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).
