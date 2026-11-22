@@ -9453,7 +9453,9 @@ add_test(
     NAME PostgresImporterFocusedTests
     COMMAND ${CMAKE_CTEST_COMMAND}
         --test-dir "${CMAKE_CURRENT_BINARY_DIR}"
+        --build-config "$<CONFIG>"
         --output-on-failure
+        --no-tests=error
         --tests-regex "^test_postgres_importer_(fk|security_audit|streaming)_postgres_FocusedTests$"
 )
 set_tests_properties(PostgresImporterFocusedTests PROPERTIES
@@ -12243,6 +12245,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter_distributed.c
     add_custom_target(test_auth_rate_limiter_distributed)
     add_dependencies(test_auth_rate_limiter_distributed
         module_auth_test_auth_rate_limiter_distributed_focused
+    )
+
+    add_test(NAME AuthRateLimiterDistributedTests
+        COMMAND $<TARGET_FILE:module_auth_test_auth_rate_limiter_distributed_focused>
+    )
+    set_tests_properties(AuthRateLimiterDistributedTests PROPERTIES
+        LABELS "auth;rate-limiter;distributed;backend;integration"
+        TIMEOUT 60
     )
 
     message(STATUS "  Auth Rate Limiter Distributed: IRateLimiterBackend, InMemory, Redis, shared state")

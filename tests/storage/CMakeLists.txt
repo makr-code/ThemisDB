@@ -17,42 +17,46 @@ target_link_libraries(test_wal_process_crash_worker PRIVATE
 )
 target_compile_definitions(test_wal_process_crash_worker PRIVATE THEMIS_TEST_BUILD=1)
 
-find_package(Python3 COMPONENTS Interpreter REQUIRED)
-set(_wal_crash_environment
-    "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
-)
-if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
-    list(APPEND _wal_crash_environment
-        "PATH=path_list_prepend:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin"
+find_package(Python3 3.10 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND)
+    set(_wal_crash_environment
+        "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
+    if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+        list(APPEND _wal_crash_environment
+            "PATH=path_list_prepend:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin"
+        )
+    endif()
+    add_test(
+        NAME WALProcessCrashRecoveryTests
+        COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_CURRENT_LIST_DIR}/test_wal_process_crash.py"
+            --worker "$<TARGET_FILE:test_wal_process_crash_worker>"
+            --iterations 50
+            --report "${CMAKE_BINARY_DIR}/test-results/wal-process-crash.json"
+    )
+    set_tests_properties(WALProcessCrashRecoveryTests PROPERTIES
+        LABELS "storage;wal;process;crash;integration"
+        TIMEOUT 900
+        ENVIRONMENT_MODIFICATION "${_wal_crash_environment}"
+    )
+    add_test(
+        NAME WALProcessUnobservedAppendTests
+        COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_CURRENT_LIST_DIR}/test_wal_process_crash.py"
+            --worker "$<TARGET_FILE:test_wal_process_crash_worker>"
+            --scenario unobserved-append
+            --iterations 50
+            --report "${CMAKE_BINARY_DIR}/test-results/wal-unobserved-append.json"
+    )
+    set_tests_properties(WALProcessUnobservedAppendTests PROPERTIES
+        LABELS "storage;wal;process;crash;integration"
+        TIMEOUT 900
+        ENVIRONMENT_MODIFICATION "${_wal_crash_environment}"
+    )
+else()
+    message(WARNING "Python 3.10+ interpreter not found; WAL process-crash tests are not registered")
 endif()
-add_test(
-    NAME WALProcessCrashRecoveryTests
-    COMMAND "${Python3_EXECUTABLE}"
-        "${CMAKE_CURRENT_LIST_DIR}/test_wal_process_crash.py"
-        --worker "$<TARGET_FILE:test_wal_process_crash_worker>"
-        --iterations 50
-        --report "${CMAKE_BINARY_DIR}/test-results/wal-process-crash.json"
-)
-set_tests_properties(WALProcessCrashRecoveryTests PROPERTIES
-    LABELS "storage;wal;process;crash;integration"
-    TIMEOUT 900
-    ENVIRONMENT_MODIFICATION "${_wal_crash_environment}"
-)
-add_test(
-    NAME WALProcessUnobservedAppendTests
-    COMMAND "${Python3_EXECUTABLE}"
-        "${CMAKE_CURRENT_LIST_DIR}/test_wal_process_crash.py"
-        --worker "$<TARGET_FILE:test_wal_process_crash_worker>"
-        --scenario unobserved-append
-        --iterations 50
-        --report "${CMAKE_BINARY_DIR}/test-results/wal-unobserved-append.json"
-)
-set_tests_properties(WALProcessUnobservedAppendTests PROPERTIES
-    LABELS "storage;wal;process;crash;integration"
-    TIMEOUT 900
-    ENVIRONMENT_MODIFICATION "${_wal_crash_environment}"
-)
 
 file(GLOB STORAGE_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"

@@ -67,6 +67,9 @@ Exact model backend not verifiable from final document text alone.
 
 - unit and integration suites for persistence, recovery, and maintenance paths.
 - regressions for WAL replay, PITR faults, and tiered/blob edge failures.
+- The WAL process-crash CTests require Python 3.10 or newer. Without a suitable
+  interpreter, configuration warns and omits both tests; CI must treat missing
+  crash-test registrations as a failure rather than evidence of a passing run.
 - `WALProcessCrashRecoveryTests` writes a JSON report to
   `test-results/wal-process-crash.json` below the build directory. The report
   records the scenario, seed, requested and completed iterations, ACK counts,

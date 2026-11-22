@@ -42,6 +42,7 @@ class WALCrashWorkflowTests(unittest.TestCase):
         self.assertIn("develop", trigger["branches"])
         for path in (
             "src/storage/**", "include/storage/**", "tests/storage/**",
+            "tests/test_cmake_registration_contracts.py",
             "tests/test_wal_process_crash_report.py",
             "tests/test_wal_process_crash_workflows.py",
         ):
@@ -53,6 +54,8 @@ class WALCrashWorkflowTests(unittest.TestCase):
         self.assertIn("-R '^WALProcess(CrashRecovery|UnobservedAppend)Tests$'",
                       settings["validation_command"])
         self.assertIn("test_wal_process_crash_report.py", settings["validation_command"])
+        self.assertIn("test_cmake_registration_contracts.py", settings["validation_command"])
+        self.assertIn("ninja --version", settings["validation_command"])
         self.assertIn("wal-process-crash.json", settings["artifact_paths_secondary"])
         self.assertIn("wal-unobserved-append.json", settings["artifact_paths_secondary"])
         self.assertIn("test-results/*-failures/", settings["artifact_paths_secondary"])

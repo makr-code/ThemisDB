@@ -41,6 +41,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_cmake_registration_contracts.py
       - src/storage/**
       - include/storage/**
       - tests/storage/**
@@ -86,6 +87,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_cmake_registration_contracts.py
       - src/storage/**
       - include/storage/**
       - tests/storage/**
@@ -306,6 +308,8 @@ jobs:
       validation_mode: none
       validation_command: >-
         set -euo pipefail;
+        cmake --version; ctest --version; ninja --version;
+        python3 -m unittest discover -s tests -p test_cmake_registration_contracts.py;
         python3 -m unittest discover -s tests -p test_wal_process_crash_report.py;
         ctest --test-dir build-pr-release-critical --output-on-failure --no-tests=error
         -R '^WALProcess(CrashRecovery|UnobservedAppend)Tests$';
