@@ -670,6 +670,19 @@ foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/sharding/global_secondary_index.cpp
         )
     endif()
+    if(_stem STREQUAL "test_sharding_transaction_wal")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/sharding/transaction_wal.cpp
+        )
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+        add_test(NAME ShardingTransactionWALFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(ShardingTransactionWALFocusedTests PROPERTIES
+            LABELS "transaction;sharding;wal;2pc;saga;unit"
+            TIMEOUT 60
+        )
+    endif()
 
     themis_register_module_focused_test(
         MODULE sharding

@@ -39,10 +39,17 @@ namespace themis {
  *   [8 bytes] sequence number (monotonically increasing)
  *   [1 byte]  entry type    (PUT=1, DELETE=2, CHECKPOINT=3)
  *   [4 bytes] key length
+ *   [4 bytes] value length (0 for DELETE and CHECKPOINT)
  *   [N bytes] key data
- *   [4 bytes] value length  (0 for DELETE and CHECKPOINT)
  *   [M bytes] value data
  *   [4 bytes] CRC32 checksum over all preceding bytes in this entry
+ *
+ * @warning In the current frame format, recovery uses the declared lengths to
+ *          locate the CRC. If a corrupted length makes a final frame appear
+ *          incomplete, recovery may truncate that frame as a torn tail before
+ *          it can verify the CRC. Do not treat this case as fail-closed
+ *          corruption handling; see the storage recovery roadmap for the
+ *          versioned-format blocker and acceptance criteria.
  *
  * ## Log rotation
  *
@@ -65,7 +72,8 @@ namespace themis {
  *
  * ## Exception Safety: Strong Guarantee
  *
- * - **open()**: Returns Result; no exception. Factory success == valid WALStorage object.
+ * - **open()**: Storage failures return Result; callback exceptions propagate. Factory
+ *   success means a valid WALStorage object was returned.
  * - **appendPut/appendDelete/appendBatch()**: Return Result. On error, WAL state unchanged
  *   and ready for retry.
  * - **checkpoint()**: Return Result. May write CHECKPOINT entry; fsync is "best-effort"
@@ -96,19 +104,31 @@ public:
         Corrupted,
         TimedOut,
         Failed,
+        InProgress,
     };
 
     /**
-     * @brief Structured outcome of scanning the WAL during open().
+     * @brief Structured outcome and progress of scanning the WAL during open().
      *
      * @note In skip-corrupted mode, Corrupted can accompany a successful open;
-     *       the affected segment is quarantined and skipped_bytes reports its size.
+     *       the affected segment is quarantined and its size contributes to
+     *       skipped_bytes. skipped_bytes also includes bytes removed from a
+     *       truncated tail. segment is the current or affected segment path.
+     * @note Adding fields changes this public structure's layout; binary
+     *       consumers must be rebuilt when upgrading.
      */
     struct RecoveryResult {
         RecoveryStatus status = RecoveryStatus::Complete;
         uint64_t last_valid_lsn = 0;
         uint64_t skipped_bytes = 0;
         std::string segment;
+        uint64_t recovered_entries = 0;
+        uint64_t bytes_processed = 0;
+        uint64_t total_bytes = 0;
+        uint64_t segment_id = 0;
+        uint64_t total_segments = 0;
+        uint64_t elapsed_ms = 0;
+        std::string error_message;
     };
 
     /** Policy for handling corrupt WAL segments. */
@@ -148,6 +168,14 @@ public:
     using RecoveryCallback = std::function<bool(const Entry&)>;
 
     /**
+     * @brief Observer for structured recovery progress and terminal status.
+     * @note Called synchronously during recovery, including after each
+     *       successfully applied record. Implementations should be fast and
+     *       must not throw; retain a copy if the report must outlive the call.
+     */
+    using RecoveryProgressCallback = std::function<void(const RecoveryResult&)>;
+
+    /**
      * @brief Open (or create) the WAL in the given directory.
      *
      * On first open, an empty WAL is created.
@@ -155,7 +183,8 @@ public:
      *
      * @param config  WAL configuration (directory, rotation, fsync, recovery policy).
      * @param on_recover  Callback invoked for each recovered entry; may be null.
-     * @param recovery_result Optional structured status, populated on success and failure.
+     * @param recovery_result Optional structured recovery status and diagnostics,
+     *                        populated on success and returned failures.
      * @return Result<std::unique_ptr<WALStorage>> on success, Error on failure.
      *         Corrupt records, recovery timeouts, I/O errors, or a callback
      *         that aborts replay are reported as errors. A physically
@@ -171,6 +200,58 @@ public:
         const Config& config,
         RecoveryCallback on_recover = nullptr,
         RecoveryResult* recovery_result = nullptr
+    );
+
+    /**
+     * @brief Open a WAL and observe recovery progress without retaining a report.
+     * @param config WAL configuration.
+     * @param on_recover Callback invoked for each recovered entry; may be null.
+     * @param on_progress Synchronous observer called after each successfully
+     *                    replayed record and at terminal status. It should be
+     *                    fast and must not throw.
+     * @return WAL instance on success, or an error for recovery/storage failure.
+     * @throws Any exception thrown by either callback; completed recovery
+     *         callback side effects are not rolled back.
+     */
+    static Result<std::unique_ptr<WALStorage>> open(
+        const Config& config,
+        RecoveryCallback on_recover,
+        RecoveryProgressCallback on_progress
+    );
+
+    /**
+     * @brief Open a WAL and provide structured recovery diagnostics.
+     *
+     * On first open, an empty WAL is created. Existing segments are replayed
+     * before the active segment is reopened for appends.
+     *
+     * @param config WAL configuration (directory, rotation threshold, fsync,
+     *               and total recovery timeout in milliseconds; zero disables
+     *               the timeout).
+     * @param on_recover Callback invoked for each recovered entry; may be null.
+     * @param on_progress Optional synchronous observer called after each
+     *                    successfully replayed record and at terminal status.
+     *                    It should be fast and must not throw.
+     * @param recovery_result Optional output populated on success and returned
+     *                        failures, including the valid replay prefix,
+     *                        byte/segment counters, elapsed time, and error.
+     * @return WAL instance on success, or an error for corruption, timeout,
+     *         I/O failure, or callback abort. An incomplete physical tail is
+     *         truncated only in the latest segment, after that segment is
+     *         verified to have no later complete record. Incomplete data in an
+     *         earlier segment is corruption. Non-complete outcomes are emitted
+     *         to the storage audit diagnostic channel.
+     * @note The deadline spans all replayed segments. Blocking file I/O and
+     *       callbacks cannot be interrupted; overrun is reported at the next
+     *       check after the operation returns.
+     * @throws Any exception thrown by either callback; completed recovery
+     *         callback side effects are not rolled back.
+     */
+    static Result<std::unique_ptr<WALStorage>> open(
+        const Config& config,
+        RecoveryCallback on_recover,
+        RecoveryProgressCallback on_progress,
+        RecoveryResult* recovery_result
     );
 
     ~WALStorage();
@@ -302,11 +383,16 @@ private:
     explicit WALStorage(const Config& cfg);
 
     Result<void> openOrCreate(RecoveryCallback& on_recover,
-                              RecoveryResult& recovery_result);
+                              const RecoveryProgressCallback& on_progress,
+                              RecoveryResult& recovery_result,
+                              std::chrono::steady_clock::time_point recovery_started_at);
     Result<void> replaySegment(const std::string& path,
                                RecoveryCallback& cb,
                                RecoveryResult& recovery_result,
-                               std::chrono::steady_clock::time_point recovery_started_at);
+                               std::chrono::steady_clock::time_point recovery_started_at,
+                               const RecoveryProgressCallback& on_progress,
+                               bool allow_incomplete_tail,
+                               uint64_t segment_id);
     Result<void> rotateIfNeeded();
     Result<void> openNewSegment(uint64_t segment_id);
     Result<uint64_t> appendEntry(EntryType type,

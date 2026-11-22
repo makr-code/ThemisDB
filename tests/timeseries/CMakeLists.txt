@@ -10,6 +10,12 @@ foreach(_src IN LISTS TIMESERIES_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_TimeseriesFocusedTests")
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_continuous_agg_materialization")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/timeseries/continuous_agg.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -29,6 +35,15 @@ foreach(_src IN LISTS TIMESERIES_MODULE_TEST_SOURCES)
         TIER unit
         TIMEOUT 120
     )
+    if(_stem STREQUAL "test_continuous_agg_materialization")
+        add_test(NAME ContinuousAggMaterializationFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(ContinuousAggMaterializationFocusedTests PROPERTIES
+            LABELS "timeseries;continuous-agg;materialization;watermark;incremental;v1.9.0;unit"
+            TIMEOUT 120
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: timeseries

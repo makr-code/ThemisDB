@@ -42,8 +42,10 @@ foreach(_src IN LISTS ADAPTIVE_MODULE_TEST_SOURCES)
 
     if(NOT THEMIS_BUILD_MODULAR)
         if(_stem STREQUAL "test_adaptive_flush_controller")
-            add_custom_target(test_adaptive_flush_controller DEPENDS ${_target})
-            add_custom_target(test_adaptive_flush_controller_focused DEPENDS ${_target})
+            add_custom_target(test_adaptive_flush_controller)
+            add_dependencies(test_adaptive_flush_controller ${_target})
+            add_custom_target(test_adaptive_flush_controller_focused)
+            add_dependencies(test_adaptive_flush_controller_focused ${_target})
             gtest_discover_tests(${_target}
                 DISCOVERY_MODE POST_BUILD
                 WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
@@ -51,8 +53,10 @@ foreach(_src IN LISTS ADAPTIVE_MODULE_TEST_SOURCES)
                 CONFIGURATIONS Release Debug
             )
         elseif(_stem STREQUAL "test_adaptive_shard_router")
-            add_custom_target(test_adaptive_shard_router DEPENDS ${_target})
-            add_custom_target(test_adaptive_shard_router_focused DEPENDS ${_target})
+            add_custom_target(test_adaptive_shard_router)
+            add_dependencies(test_adaptive_shard_router ${_target})
+            add_custom_target(test_adaptive_shard_router_focused)
+            add_dependencies(test_adaptive_shard_router_focused ${_target})
             gtest_discover_tests(${_target}
                 DISCOVERY_MODE POST_BUILD
                 WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>

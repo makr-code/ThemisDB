@@ -115,6 +115,8 @@ WALRecoveryStatus toReplicationRecoveryStatus(themis::WALStorage::RecoveryStatus
             return WALRecoveryStatus::TIMED_OUT;
         case themis::WALStorage::RecoveryStatus::Failed:
             return WALRecoveryStatus::FAILED;
+        case themis::WALStorage::RecoveryStatus::InProgress:
+            return WALRecoveryStatus::FAILED;
     }
     return WALRecoveryStatus::FAILED;
 }

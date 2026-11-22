@@ -195,9 +195,9 @@ jobs:
         echo "SCCACHE_DISABLE=1" >> "$GITHUB_ENV"
         SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"
         if [ "$SAN_MODE" = "asan-only" ]; then
-          SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"
+          SAN_FLAGS="-fsanitize=address -fno-sanitize-recover=all -fno-omit-frame-pointer"
         else
-          SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+          SAN_FLAGS="-fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer"
         fi
         cmake -S . -B build-sanitizer -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang \
@@ -249,11 +249,31 @@ jobs:
         ctest --test-dir build-sanitizer --output-on-failure --no-tests=error \
           -R "$TEST_REGEX" \
           -j 1 --timeout 90
+        if [[ "$TEST_REGEX" == *WALProcessCrashRecoveryTests* ]]; then
+          python3 tests/storage/test_wal_process_crash.py \
+            --worker build-sanitizer/bin/test_wal_process_crash_worker \
+            --scenario ack-boundary --iterations 1000 \
+            --report build-sanitizer/test-results/wal-process-crash.json
+          python3 tests/storage/test_wal_process_crash.py \
+            --worker build-sanitizer/bin/test_wal_process_crash_worker \
+            --scenario unobserved-append --iterations 1000 \
+            --report build-sanitizer/test-results/wal-unobserved-append.json
+          python3 tests/storage/test_wal_tail_boundaries.py \
+            --worker build-sanitizer/bin/test_wal_process_crash_worker \
+            --report build-sanitizer/test-results/wal-tail-boundaries.json
+        fi
       artifact_name: sanitizer-nightly-logs-${{ github.run_number }}
       artifact_paths: |
         build-sanitizer/Testing
         build-sanitizer/CMakeCache.txt
       artifact_retention_days: '10'
+      artifact_name_secondary: sanitizer-wal-process-crash-${{ github.run_number }}
+      artifact_paths_secondary: |
+        build-sanitizer/test-results/wal-process-crash.json
+        build-sanitizer/test-results/wal-unobserved-append.json
+        build-sanitizer/test-results/wal-tail-boundaries.json
+        build-sanitizer/test-results/*-failures/
+      artifact_retention_days_secondary: '10'
       summary_title: "Build: Sanitizer Nightly — Critical Path Validation"
       timeout_minutes: '90'
 

@@ -58,7 +58,11 @@ Related milestone: DOC-WEEKLY-2026-W45
   requested traffic shift, and recovered-state verification require an operation
   adapter acknowledgement and a separate read-back proof. Checksums, required
   LSN/term, and recovery-site identity are compared with the plan. Quorum alone
-  is not catch-up proof.
+  is not catch-up proof. Independent verification uses
+  one initial attempt plus `max_verification_retries` and
+  `verification_timeout`; transient mismatches may be retried. Synchronous
+  verifier hooks cannot be interrupted, but any proof returned after the
+  deadline is rejected; persistent mismatch or timeout blocks success.
 - Non-dry-run DR additionally requires quorum, epoch fencing, and a writable
   `metadata_log_path`; a checksummed completion record is appended before
   success is returned and replayed on manager construction. An existing log
@@ -86,6 +90,13 @@ Related milestone: DOC-WEEKLY-2026-W45
 - Shared durable metadata for DR and genuine networked multi-process
   failover/recovery E2E evidence remain open blockers; local same-path process
   locking and shard transaction fencing do not close either gap.
+- The public contract boundary is now explicit:
+  `DisasterRecoveryStorageAdapter`, `DisasterRecoveryTrafficAdapter`, and
+  `DisasterRecoveryMetadataAdapter` separate real side effects, independent
+  read-back, traffic observation, and shared durable metadata from orchestration.
+  Interface registration does not itself create a production adapter or prove
+  network/consensus behavior. Implementations require deployment-specific
+  ACK/durability semantics and networked multi-process acceptance evidence.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

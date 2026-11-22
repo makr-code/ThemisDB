@@ -826,8 +826,8 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
  * @brief Activate Spare If Needed.
  * @param[in] failed_node_id Identifier of the failed node.
  * @return True when the operation succeeds.
- * @details Emits a failure event when a spare manager is present. The caller
- *          must block failover completion when this operation returns false.
+ * @details A missing spare manager, activation hook, or ACTIVE read-back fails.
+ *          The caller emits a failure diagnostic and blocks completion.
  */
 bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_id,
                                                 std::string& activated_spare_id) {

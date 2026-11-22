@@ -41,7 +41,10 @@ bool RewriteRuleLoader::load_rules_from_yaml(
     const std::string& yaml_path,
     std::vector<std::shared_ptr<IRewriteRule>>& rules
 ) {
-    auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+    auto logger = spdlog::get("prompt_engineering");
+    if (!logger) {
+        logger = spdlog::stderr_color_mt("prompt_engineering");
+    }
 
     last_error_ = "";
 
@@ -161,7 +164,10 @@ std::string RewriteRuleLoader::last_error() const {
  * @details Calls: spdlog::get(), spdlog::stderr_color_mt(), YAML::Load(), IsSequence(), test_pattern(), std::string(), what().
  */
 bool RewriteRuleLoader::validate_yaml_rules(const std::string& yaml_content) {
-    auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+    auto logger = spdlog::get("prompt_engineering");
+    if (!logger) {
+        logger = spdlog::stderr_color_mt("prompt_engineering");
+    }
 
     last_error_ = "";
 
@@ -247,7 +253,10 @@ std::shared_ptr<IRewriteRule> RewriteRuleLoader::parse_rule_definition(
     const std::string& description,
     const nlohmann::json& rule_config
 ) {
-    auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+    auto logger = spdlog::get("prompt_engineering");
+    if (!logger) {
+        logger = spdlog::stderr_color_mt("prompt_engineering");
+    }
 
     RewritePhase phase = RewritePhase::PHASE_1_INPUT_NORMALIZATION;
     if (phase_str == "policy") {

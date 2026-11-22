@@ -407,4 +407,14 @@ TEST(WaveAFencing, FO_Promote_08_MISSING_SPARE_ADAPTER_IS_REJECTED) {
     EXPECT_EQ(spare_info->state, themis::sharding::SpareState::AVAILABLE);
 }
 
+TEST(WaveAFencing, SpareActivationMissingManagerFailsClosed) {
+    AutoFailoverConfig cfg = makeFencingTestConfig();
+    cfg.enable_spare_activation = true;
+    AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
+
+    std::string activated_spare_id;
+    EXPECT_FALSE(mgr.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
+}
+
 #endif  // THEMIS_TEST_BUILD

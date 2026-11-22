@@ -649,6 +649,9 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
     std::string wal_recovery_status = "disabled";
     if (wal_) {
         switch (wal_->getRecoveryResult().status) {
+            case themis::WALStorage::RecoveryStatus::InProgress:
+                wal_recovery_status = "in_progress";
+                break;
             case themis::WALStorage::RecoveryStatus::Complete:
                 wal_recovery_status = "complete";
                 break;

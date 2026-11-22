@@ -54,6 +54,23 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
   die aktive Backend-Angabe wird aus sccache-Statistiken protokolliert. macOS behält
   seine lokale Backend-Konfiguration.
 
+### WAL process-crash callers (2026-11-03)
+
+- `gate-pr-core.yml`: storage source/header and harness PR paths trigger the
+  existing workflow; its Quality-Build job explicitly builds the WAL worker,
+  runs report regressions and the 50-iteration CTest, and declares a secondary
+  JSON/test-log artifact with seven-day retention.
+- `build-sanitizer-nightly.yml`: its existing scheduled/manual sanitizer job
+  builds the worker and runs 1,000 ACK-boundary iterations, declaring a JSON
+  artifact with ten-day retention.
+- `reusable-cmake-build.yml`: declared secondary artifacts are attempted after
+  failures as well as success, unless cancelled. Primary uploads are unchanged.
+- No new workflows or publication privileges were added. Linux/sanitizer runs
+  and actual uploads remain unverified until these changes execute on GitHub.
+- Both callers additionally request the `unobserved-append` scenario with
+  50/1,000 iterations and `wal-unobserved-append.json` output. The PR CTest
+  selector includes both scenarios; nightly executes them sequentially.
+
 ### Build-Cache-Aktualisierung (2026-11-01)
 
 | Workflow | Aktualisierter Cache-Vertrag |

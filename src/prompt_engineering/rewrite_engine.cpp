@@ -40,7 +40,10 @@ public:
 
     bool register_rule(std::shared_ptr<IRewriteRule> rule) override {
         if (!rule) {
-            auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+            auto logger = spdlog::get("prompt_engineering");
+            if (!logger) {
+                logger = spdlog::stderr_color_mt("prompt_engineering");
+            }
             logger->warn("Attempted to register null rule");
             return false;
         }
@@ -55,7 +58,10 @@ public:
         // Check for duplicate rule ID
         for (const auto& existing : rules_) {
             if (existing->rule_id() == rule->rule_id()) {
-                auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+                auto logger = spdlog::get("prompt_engineering");
+                if (!logger) {
+                    logger = spdlog::stderr_color_mt("prompt_engineering");
+                }
                 logger->warn("Rule {} already registered, skipping", rule->rule_id());
                 return false;
             }
@@ -64,7 +70,10 @@ public:
         rules_.push_back(rule);
         stats_.total_rules_registered++;
 
-        auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+        auto logger = spdlog::get("prompt_engineering");
+        if (!logger) {
+            logger = spdlog::stderr_color_mt("prompt_engineering");
+        }
         logger->debug("Registered rule: {} (phase={}, priority={})", 
                       rule->rule_id(), 
                       static_cast<int>(rule->execution_phase()),
@@ -127,7 +136,10 @@ public:
     }
 
     bool load_rules_from_yaml(const std::string& yaml_path) override {
-        auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+        auto logger = spdlog::get("prompt_engineering");
+        if (!logger) {
+            logger = spdlog::stderr_color_mt("prompt_engineering");
+        }
 
         RewriteRuleLoader loader;
         std::vector<std::shared_ptr<IRewriteRule>> new_rules;
@@ -163,7 +175,10 @@ public:
     }
 
     RewriteResult rewrite(RewriteDocument& doc, const RewriteContext& ctx) override {
-        auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+        auto logger = spdlog::get("prompt_engineering");
+        if (!logger) {
+            logger = spdlog::stderr_color_mt("prompt_engineering");
+        }
 
         auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -206,7 +221,10 @@ public:
         RewriteDocument& doc,
         const RewriteContext& ctx
     ) override {
-        auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+        auto logger = spdlog::get("prompt_engineering");
+        if (!logger) {
+            logger = spdlog::stderr_color_mt("prompt_engineering");
+        }
 
         RewriteResult result;
         result.success = true;

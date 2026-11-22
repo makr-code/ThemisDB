@@ -27,6 +27,20 @@ foreach(_src IN LISTS PHASE1_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(THEMIS_ENABLE_LLM AND
+       (_stem STREQUAL "test_phase1_flash_attention" OR
+        _stem STREQUAL "test_phase1_kv_cache_reuse"))
+        if(WIN32)
+            themis_sync_runtime_dlls_for_target(${_target})
+        endif()
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE phase1
         NAME ${_ctest}

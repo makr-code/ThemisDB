@@ -458,6 +458,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery
     ../src/storage/wal_storage.cpp
+    ../src/storage/storage_error_diagnostics.cpp
     ../src/storage/transaction_retry_manager.cpp
     # Compaction and GC management
     ../src/storage/compaction_manager.cpp

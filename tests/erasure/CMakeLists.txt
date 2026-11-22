@@ -27,6 +27,18 @@ foreach(_src IN LISTS ERASURE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_erasure_coding_backend")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+                TIMEOUT 60
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE erasure
         NAME ${_ctest}

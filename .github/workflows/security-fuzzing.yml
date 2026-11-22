@@ -225,9 +225,14 @@ jobs:
       inputs.target == 'http_parser' ||
       inputs.target == 'wire_protocol_parser' ||
       inputs.target == 'postgres_importer'))
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      # Ubuntu 26.04's fmt 10 and Clang 21 reject spdlog's FMT_STRING in
+      # C++20 (fmtlib/fmt#4807). Keep format checking and sanitizers enabled.
+      runs_on: ubuntu-24.04
       shell: bash
       fetch_depth: '0'
       working_directory: .
@@ -303,9 +308,13 @@ jobs:
     if: >-
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      runs_on: ubuntu-latest
+      # Match parser-smoke's system fmt/Clang combination (fmtlib/fmt#4807).
+      runs_on: ubuntu-24.04
       shell: bash
       fetch_depth: '0'
       working_directory: .

@@ -25,6 +25,12 @@ foreach(_src IN LISTS TOOLBOX_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
         ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
     )
+    if(_stem STREQUAL "test_toolbox_phase5")
+        list(APPEND _toolbox_impl_sources
+            ${THEMIS_ROOT_DIR}/src/toolbox/content_toolbox_bridge.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    endif()
 
     add_executable(${_target} "${_src}" ${_toolbox_impl_sources})
     target_include_directories(${_target} PRIVATE
@@ -47,4 +53,11 @@ foreach(_src IN LISTS TOOLBOX_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS toolbox
     )
+    if(_stem STREQUAL "test_toolbox_phase5")
+        add_test(NAME ToolboxPhase5Tests COMMAND $<TARGET_FILE:${_target}>)
+        set_tests_properties(ToolboxPhase5Tests PROPERTIES
+            LABELS "toolbox;metrics;prometheus;vectors;registry;phase5;unit"
+            TIMEOUT 60
+        )
+    endif()
 endforeach()

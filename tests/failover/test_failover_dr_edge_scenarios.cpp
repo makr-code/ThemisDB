@@ -25,6 +25,15 @@
  *   DRE-07  dry-run plan completes all steps and reaches COMPLETED state
  *   DRE-08  step hook failure isolates to the faulted step; statistics updated
  *
+ * ### DRE-27..DRE-31 — Verification and adapter contract
+ *   DRE-27 transient mismatch retries then accept independent proof
+ *   DRE-28 persistent mismatch rejects success after the retry budget
+ *   DRE-29 proof returned after deadline rejects success
+ *   DRE-30 typed storage/traffic/metadata adapters complete through the boundary
+ *   DRE-31 shared metadata negative acknowledgement blocks success
+ *   DRE-32 shared metadata replay restores a completed plan idempotently
+ *   DRE-33 shared metadata load failure blocks before external adapters
+ *
  * @see include/failover/disaster_recovery_manager.h
  * @see src/failover/ROADMAP.md — Phase 3 / Phase 4 items
  */
@@ -34,6 +43,7 @@
 #include "failover/disaster_recovery_manager.h"
 #include "sharding/epoch_fencing.h"
 
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
@@ -95,6 +105,64 @@ DisasterRecoveryPlan makeMinimalProductionPlan() {
     plan.required_term = 7;
     return plan;
 }
+
+class ContractStorageAdapter final : public DisasterRecoveryStorageAdapter {
+public:
+    bool execute(DisasterRecoveryStep, const DisasterRecoveryPlan&,
+                 std::string& detail) override {
+        detail = "contract storage adapter acknowledged";
+        return true;
+    }
+
+    std::optional<DisasterRecoveryVerificationProof> verify(
+        DisasterRecoveryStep step,
+        const DisasterRecoveryPlan& plan,
+        std::string& detail) override {
+        detail = "contract storage adapter read back independent proof";
+        DisasterRecoveryVerificationProof proof;
+        if (step == DisasterRecoveryStep::REPLICA_CATCHUP) {
+            proof.lsn = plan.required_lsn;
+            proof.term = plan.required_term;
+        } else {
+            proof.checksum = plan.snapshot_checksum;
+        }
+        return proof;
+    }
+};
+
+class ContractTrafficAdapter final : public DisasterRecoveryTrafficAdapter {
+public:
+    bool shift(const DisasterRecoveryPlan&, std::string& detail) override {
+        detail = "contract traffic adapter acknowledged";
+        return true;
+    }
+
+    std::optional<DisasterRecoveryVerificationProof> verify(
+        const DisasterRecoveryPlan& plan,
+        std::string& detail) override {
+        detail = "contract traffic adapter observed recovery site";
+        return DisasterRecoveryVerificationProof{.observed_site = plan.recovery_site};
+    }
+};
+
+class ContractMetadataAdapter final : public DisasterRecoveryMetadataAdapter {
+public:
+    bool appendCompletedRecord(std::string_view record,
+                               std::string& detail) override {
+        records.push_back(std::string(record));
+        detail = "contract metadata adapter acknowledged durable append";
+        return true;
+    }
+
+    bool loadCompletedRecords(std::vector<std::string>& loaded,
+                              std::string& detail) override {
+        loaded = records;
+        detail = "contract metadata adapter completed shared read";
+        return true;
+    }
+
+    std::vector<std::string> records;
+};
 
 class TemporaryMetadataLog {
 public:
@@ -404,8 +472,10 @@ TEST(DisasterRecoveryEdgeDRE12, ProductionPlanRequiresTrafficShiftAdapter) {
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
                               DisasterRecoveryStep::RESTORE,
                               DisasterRecoveryStep::REPLICA_CATCHUP});
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
 
-    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+    const auto result = mgr.executePlan(plan);
 
     EXPECT_FALSE(result.success);
     ASSERT_EQ(result.step_results.size(), 6u);
@@ -553,7 +623,9 @@ TEST(DisasterRecoveryEdgeDRE21, TrafficShiftToWrongSiteFailsVerification) {
             return proof;
         });
 
-    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = mgr.executePlan(plan);
 
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
@@ -700,6 +772,231 @@ TEST(DisasterRecoveryEdgeDRE26, MissingPreviouslyLoadedMetadataBlocksCachedSucce
     EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
 }
 
+TEST(DisasterRecoveryEdgeDRE27, VerificationAcceptsSuccessAfterTransientMismatch) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.max_verification_retries = 3;
+    config.verification_timeout = std::chrono::milliseconds{100};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan& plan, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            detail = "independent restore read-back";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = (++verification_attempts == 1)
+                                 ? "sha256:wrong-before-retry"
+                                 : plan.snapshot_checksum;
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_TRUE(result.success) << result.error_message;
+    EXPECT_GE(verification_attempts.load(), 2u);
+}
+
+TEST(DisasterRecoveryEdgeDRE28, VerificationFailureAfterRetriesBlocksSuccess) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.max_verification_retries = 3;
+    config.verification_timeout = std::chrono::milliseconds{100};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan&, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            ++verification_attempts;
+            detail = "restore read-back remains mismatched";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = "sha256:persistent-mismatch";
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_EQ(verification_attempts.load(), 4u);
+}
+
+TEST(DisasterRecoveryEdgeDRE29, VerificationProofAfterDeadlineCannotComplete) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.verification_timeout = std::chrono::milliseconds{1};
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    std::atomic<uint32_t> verification_attempts{0};
+    manager.setVerificationHook(
+        DisasterRecoveryStep::RESTORE,
+        [&](const DisasterRecoveryPlan& plan, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            ++verification_attempts;
+            std::this_thread::sleep_for(std::chrono::milliseconds{5});
+            detail = "restore read-back completed after deadline";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = plan.snapshot_checksum;
+            return proof;
+        });
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_NE(result.error_message.find("timed out"), std::string::npos);
+    EXPECT_EQ(verification_attempts.load(), 1u);
+}
+
+TEST(DisasterRecoveryEdgeDRE30, TypedAdaptersCompleteAndPersistThroughContract) {
+    TemporaryMetadataLog local_metadata;
+    DisasterRecoveryManager manager(makeProductionConfig(local_metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    manager.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    manager.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    auto metadata = std::make_shared<ContractMetadataAdapter>();
+    manager.setMetadataAdapter(metadata);
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = manager.executePlan(plan);
+
+    EXPECT_TRUE(result.success) << result.error_message;
+    EXPECT_EQ(result.final_state, DisasterRecoveryState::COMPLETED);
+    EXPECT_EQ(metadata->records.size(), 1u);
+}
+
+TEST(DisasterRecoveryEdgeDRE31, TypedMetadataAdapterNegativeAckBlocksSuccess) {
+    class RejectingMetadataAdapter final : public DisasterRecoveryMetadataAdapter {
+    public:
+        bool appendCompletedRecord(std::string_view, std::string& detail) override {
+            detail = "shared metadata authority rejected durable append";
+            return false;
+        }
+        bool loadCompletedRecords(std::vector<std::string>&, std::string& detail) override {
+            detail = "shared metadata authority read acknowledged";
+            return true;
+        }
+    };
+
+    TemporaryMetadataLog local_metadata;
+    DisasterRecoveryManager manager(makeProductionConfig(local_metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    manager.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    manager.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    manager.setMetadataAdapter(std::make_shared<RejectingMetadataAdapter>());
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = manager.executePlan(plan);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    EXPECT_NE(result.error_message.find("shared metadata authority"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE32, TypedMetadataAdapterReplaysCompletion) {
+    auto metadata = std::make_shared<ContractMetadataAdapter>();
+    auto config = makeTestConfig();
+    config.require_quorum = true;
+    config.enforce_epoch_fencing = true;
+    config.metadata_log_path.clear();
+
+    DisasterRecoveryManager first(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    first.testSetQuorumOverride(true);
+    first.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    first.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    first.setMetadataAdapter(metadata);
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto first_result = first.executePlan(plan);
+    EXPECT_TRUE(first_result.success) << first_result.error_message;
+    EXPECT_EQ(metadata->records.size(), 1u);
+
+    DisasterRecoveryManager restarted(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    restarted.testSetQuorumOverride(true);
+    restarted.setStorageAdapter(std::make_shared<ContractStorageAdapter>());
+    restarted.setTrafficAdapter(std::make_shared<ContractTrafficAdapter>());
+    restarted.setMetadataAdapter(metadata);
+
+    const auto replayed = restarted.executePlan(plan);
+    EXPECT_TRUE(replayed.success) << replayed.error_message;
+    EXPECT_EQ(replayed.final_state, DisasterRecoveryState::COMPLETED);
+}
+
+TEST(DisasterRecoveryEdgeDRE33, TypedMetadataAdapterLoadFailureBlocksBeforeAdapters) {
+    class UnavailableMetadataAdapter final : public DisasterRecoveryMetadataAdapter {
+    public:
+        bool appendCompletedRecord(std::string_view, std::string& detail) override {
+            detail = "must not append";
+            return true;
+        }
+        bool loadCompletedRecords(std::vector<std::string>&, std::string& detail) override {
+            detail = "shared metadata authority is unavailable";
+            return false;
+        }
+    };
+
+    auto config = makeTestConfig();
+    config.require_quorum = true;
+    config.enforce_epoch_fencing = true;
+    config.metadata_log_path.clear();
+
+    DisasterRecoveryManager manager(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    manager.setMetadataAdapter(std::make_shared<UnavailableMetadataAdapter>());
+
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
+    const auto result = manager.executePlan(plan);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    EXPECT_NE(result.error_message.find("shared metadata authority is unavailable"),
+              std::string::npos);
+}
+
 #if defined(__unix__) || defined(__APPLE__)
 TEST(DisasterRecoveryEdgeDRE22, CompletedMetadataReplaysAcrossProcesses) {
     TemporaryMetadataLog metadata;
@@ -738,7 +1035,8 @@ TEST(DisasterRecoveryEdgeDRE24, CompetingProcessesExecutePlanOnce) {
     TemporaryMetadataLog metadata;
     auto operation_log = metadata.path;
     operation_log += ".operations";
-    const auto plan = makeMinimalProductionPlan();
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = true;
     int start_pipe[2] = {-1, -1};
     ASSERT_EQ(::pipe(start_pipe), 0);
 

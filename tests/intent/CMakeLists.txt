@@ -14,6 +14,16 @@ foreach(_src IN LISTS INTENT_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_intent_classifier")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/intent_classifier.cpp
+        )
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

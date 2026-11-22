@@ -92,6 +92,53 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
         )
     endif()
+    if(_stem STREQUAL "test_ai_operation_guard")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/ai_operation_guard.cpp
+        )
+        target_link_libraries(${_target} PRIVATE fmt::fmt nlohmann_json::nlohmann_json)
+        set_target_properties(${_target} PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED ON
+        )
+    endif()
+    if(_stem STREQUAL "test_ai_snapshot_cleanup")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/ai_snapshot_cleanup.cpp
+        )
+        target_link_libraries(${_target} PRIVATE fmt::fmt)
+        set_target_properties(${_target} PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED ON
+        )
+    endif()
+    if(_stem STREQUAL "test_arrow_user_registration_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/arrow_user_registration_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp
+        )
+        target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
+        set(_themis_arrow_user_registration_linked FALSE)
+        if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
+            target_link_libraries(${_target} PRIVATE ${THEMIS_ARROW_TARGET})
+            set(_themis_arrow_user_registration_linked TRUE)
+        elseif(TARGET Arrow::arrow_shared)
+            target_link_libraries(${_target} PRIVATE Arrow::arrow_shared)
+            set(_themis_arrow_user_registration_linked TRUE)
+        elseif(TARGET Arrow::arrow_static)
+            target_link_libraries(${_target} PRIVATE Arrow::arrow_static)
+            set(_themis_arrow_user_registration_linked TRUE)
+        elseif(TARGET Arrow::arrow)
+            target_link_libraries(${_target} PRIVATE Arrow::arrow)
+            set(_themis_arrow_user_registration_linked TRUE)
+        elseif(EXISTS "${_themis_vcpkg_lib_dir}/arrow.lib")
+            target_link_libraries(${_target} PRIVATE "${_themis_vcpkg_lib_dir}/arrow.lib")
+            set(_themis_arrow_user_registration_linked TRUE)
+        endif()
+        if(_themis_arrow_user_registration_linked)
+            target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_ARROW=1)
+        endif()
+    endif()
 
     if(_stem STREQUAL "test_jwt_security")
         themis_register_module_test(

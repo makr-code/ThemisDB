@@ -209,6 +209,9 @@ jobs:
   release_critical_rag_tests:
     name: "Build: release_critical RAG Tests"
     if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-22.04

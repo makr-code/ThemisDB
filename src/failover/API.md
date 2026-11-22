@@ -40,6 +40,13 @@ call timeout, and a 30-second quorum wait. Promotion depends on the injected
 replication and fencing managers. Queue rejection is surfaced to the caller and
 counted; there is no automatic retry of a rejected manual enqueue. A queued
 `target_promote_id` is not currently used to select the promotion candidate.
+When `enable_spare_activation` is true, the failover path requires a configured
+spare manager; absence emits the `SPARE_ACTIVATION_FAILED` diagnostic, notifies
+callbacks with `FAILOVER_DEGRADED`, and blocks completion.
+Setting the option to false explicitly skips spare activation. The configured
+manager path still requires sharding runtime integration, and metadata
+persistence remains unavailable, so the built-in failover path cannot report
+successful completion.
 
 ## Disaster recovery
 
@@ -61,11 +68,27 @@ partial state.
 removes those replacements. Hooks are callable code, not automatically
 side-effect-free test mocks. Protect hook registration from concurrent execution
 and ensure any hook used in a dry run explicitly preserves dry-run safety.
+Typed production integrations may implement
+`DisasterRecoveryStorageAdapter`, `DisasterRecoveryTrafficAdapter`, and
+`DisasterRecoveryMetadataAdapter`. Typed storage/traffic adapters provide
+operation acknowledgement and a separate independent read-back proof. A typed
+metadata adapter provides shared durable append/load operations; a configured
+adapter supersedes the legacy local metadata log. These interfaces define the
+contract only: the repository does not yet contain a production storage/traffic
+implementation or a consensus-backed metadata implementation.
+Configuring a shared metadata adapter reloads completed records immediately.
+Shared load and append failures block DR execution; the legacy `.lock` file is
+not used as a substitute for a deployment's authoritative metadata service.
 
 For non-dry-run plans, snapshot validation, restore, replication-position
 catch-up, requested traffic shift, and recovered-state verification each require
 an operation hook plus a separate verification hook. Acknowledgement alone is
 insufficient: checksum, LSN/term, or recovery-site evidence must match the plan.
+Independent verification makes one initial read-back plus up to
+`max_verification_retries` additional attempts. A proof returned after
+`verification_timeout` is rejected; because hooks are synchronous, this
+deadline does not interrupt a hook that is still running. Exhausted retries or
+stale proof fail the step and prevent completion persistence.
 A disabled traffic shift is treated as an explicit plan choice. Quorum and
 epoch-fencing configuration plus a writable `metadata_log_path` are mandatory;
 the checksummed completion record is appended before a successful result is

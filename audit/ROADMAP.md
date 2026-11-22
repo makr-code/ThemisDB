@@ -166,7 +166,9 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - [~] 2026-11-02: The registered subprocess harness now covers coordinator decision boundaries, participant crashes before PREPARE/after durable PREPARE/during apply/after ACK, replica-WAL crashes across prepare/decision/commit boundaries, and a combined coordinator/participant/replica restart scenario. Build/test execution and CI artifact publication are pending; these WAL-process tests do not establish network replication, RocksDB, backup/restore, or randomized storage-fault coverage.
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
-    jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
+    jeder bestätigte Commit sichtbar, keine uncommitteten Transaktionen sichtbar, Indizes konsistent.
+    Ein fehlendes/beim Abbruch noch nicht beobachtetes Client-ACK beweist keinen Rollback:
+    ein bereits vollständig persistierter Commit darf nach Neustart sichtbar sein.
   - Abdeckung: RocksDB-Primärspeicher, `WALStorage` (Sharding/Replikation), Backup/Restore.
   - Umfang: ≥ 50 Iterationen auf PRs mit Storage-Änderungen, ≥ 1.000 Iterationen nightly; Ergebnis als Artefakt.
   - **Teilweise implementiert, nicht ausgeführt:** `tests/storage/test_wal_process_crash.cpp` startet einen separaten
@@ -177,6 +179,27 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - **Offen:** Testausführung und Artefakte; in-syscall-Kill-Punkte, Backup/Restore, Indexkonsistenz sowie ≥ 50
     PR- und ≥ 1.000 Nightly-Iterationen. Die geforderten STO-07-Gates bleiben bis zu diesen Nachweisen offen.
   - Bestehende In-Process-Tests (`tests/test_crash_recovery_direct.cpp`, `tests/test_wal_chaos.cpp`) bleiben als Unit-Ebene.
+  - [x] Wiederholte Recovery je Crash ergänzt: Nach dem ersten validierten Replay muss ein zweiter separater Prozess exakt denselben Präfix prüfen, ohne weitere Zusatz-PUT-Toleranz. Segmentnamen, Größen und SHA-256-Inhalte dürfen sich dabei nicht mehr ändern. JSON erfasst `verified_reopens` und WAL-Bytes vor/nach der ersten validierten Recovery. Beide 50er-CTest-Szenarien bestanden (100 Abbrüche, 200 validierte Reopens); 28 fokussierte Tests plus acht Subtests bestanden. Dies belegt WAL-Replay-Stabilität, nicht idempotente Anwendung auf RocksDB/Indizes.
+    - Berichtskontrolle: Im ACK-Grenzen-Lauf keine erste Größenänderung; im Unobserved-Append-Lauf zwei erste Größenänderungen bei erfolgreicher Recovery. Alle zweiten Replays blieben byte-/segmentstabil; ein gezielter Syscall-Abbruch ist dadurch weiterhin nicht bewiesen.
+  - [x] Erste-Recovery-Grenze verschärft (2026-11-04): Byte-Snapshots ersetzen den Hashvergleich und prüfen zusätzlich den ersten Replay. Keine Segmente dürfen hinzukommen/verschwinden; ältere Segmente bleiben exakt unverändert. Nur im Unobserved-Append-Szenario darf das numerisch neueste Segment zu einem strikt kürzeren identischen Präfix werden. ACK-Grenzen erlauben keine Byte-Änderung. Beide 50er-CTest-Szenarien bestanden; die neue Regression reproduzierte zuvor unbemerkt akzeptierte Änderungen beim ersten Replay.
+    - Validierung: 30 Report-/Workflow-/Metadaten-Tests plus 14 Subtests bestanden; `git diff --check` sauber. Die gespeicherten Berichte enthalten 100 Abbrüche und 200 validierte Reopens; acht erlaubte erste Tail-Kürzungen im Unobserved-Append-Lauf, keine im ACK-Grenzen-Lauf. Keine Produktions-C++-Änderung und kein erneuter Build erforderlich.
+  - [x] Fehler-Retention ist mit `--report` umgesetzt. Eindeutige berichtsnahe `*-failures/iteration-*`-Ordner erhalten WAL vor Recovery und beim Fehler sowie Reproduktionsparameter und Fehlermeldung; `failure_artifact` verlinkt den Ordner im JSON. Erfolgslaeufe bereinigen weiterhin ihre temporaeren Daten. Beide CI-Caller deklarieren diese Ordner fuer sekundaere Uploads; tatsaechliche GitHub-Publikation bleibt offen. Beide 50er-CTest-Szenarien sowie 33 fokussierte Tests und 14 Subtests bestanden lokal.
+    - Retention-I/O abgesichert: Der Workspace entsteht direkt im Evidenzordner; keine fehleranfaellige nachtraegliche Kopie des Originals. Scheitert `failure.txt`, bleiben beide WAL-Zustaende erhalten; JSON nennt den urspruenglichen Fehler und `retention_error`. 37 fokussierte Tests plus 14 Subtests und beide 50er-Crash-CTest-Szenarien bestanden. Ein echter Worker mit anschliessendem Recovery-Fehler und realem Diagnose-Dateisystemfehler bestaetigte den Erhalt beider WAL-Zustaende.
+  - [~] Sanitizer-Gate fail-closed konfiguriert: `-fno-sanitize-recover=all` fuer C/C++ in beiden Nightly-Modi verhindert recoverable UBSan-Fortsetzung. 38 fokussierte Tests plus 14 Subtests, actionlint und ausgefuehrte Bash-Flag-Auswahl bestanden. Kein Sanitizer-Laufzeit-PASS: der gepruefte develop-Lauf [41760710588](https://github.com/makr-code/ThemisDB/actions/runs/41760710588) scheiterte vor Validierung an `spdlog`-Compilerfehlern in `src/sharding/raft_state.cpp` (Zeilen 130, 150, 358, 408).
+    - Versionsabgleich zum Sanitizer-Compilerblocker (2026-11-04): Lauf 41760710588 baute develop-Revision `d66b7a7f4f50e08c3bebeb8b5ef57d28745b2da5`. Deren neue Raft-Fehlerpfade verwenden `spdlog::error` ohne direkten Include; diese Pfade fehlen im aktuellen Workspace. Der konfigurierte lokale `raft_state.cpp`-Objekt-Build besteht, belegt aber weder eine Reparatur dieser develop-Revision noch Sharding-Link-/Test-/Sanitizer-Erfolg. Kein ungenutzter Include und keine ungepruefte Uebernahme der abweichenden Raft-Implementierung.
+  - [x] Writer-Diagnostik erhalten: `writer.log` sichert kombinierte stdout/stderr nach Prozessende und Reader-Join, einschliesslich konsumierter ACKs und verbleibender Diagnosezeilen. Log-I/O-Fehler scheitern explizit und erhalten den urspruenglichen Writer-Fehler im Bericht. Beide 50er-Crash-Suiten, 40 fokussierte Tests und 14 Subtests bestanden; ein echter Fehlerlauf erhielt alle zwoelf geordneten ACKs. Nicht ausgegebene Kindprozess-Puffer bleiben naturgemaess unbeobachtet.
+  - [x] Reader-Fehler fail-closed: Pipe-I/O- und Dekodierungsfehler werden dem Elternprozess uebergeben statt als Thread-Exception/ACK-Timeout verloren zu gehen. Nach Reader-Join werden auch Fehler hinter dem letzten ACK vor Recovery abgewiesen; partieller Writer-Log bleibt erhalten. Beide 50er-Crash-Suiten und 42 fokussierte Tests plus 16 Subtests bestanden.
+  - [x] Aktuellen gehaerteten Harness erneut skaliert (2026-11-04): je 1.000/1.000 Abbrueche pro Szenario bestanden, insgesamt 4.000 validierte Reopens mit erster/wiederholter Byte-Pruefung. ACK-Grenzen: 783 Rotationen, keine Byte-Aenderung, 378,079 s. Unobserved-Append: 758 Rotationen, 635 Zusatz-PUTs, 365 Praefix-Recoveries, 174 erlaubte erste Tail-Kuerzungen, 560,185 s. Separate `wal-process-crash-hardened-1000.json` und `wal-unobserved-append-hardened-1000.json` im Windows-Build erhalten diesen neuen Pruefstand; Erfolgs-Evidenzordner leer. 42 fokussierte Tests plus 16 Subtests bestanden. Kein Linux-/Sanitizer-/GitHub-PASS und weiterhin kein gezielter Syscall-/Primaerspeicher-Nachweis.
+  - [x] Pruefstand-Zuordnung neuer Berichte: `worker_sha256` und `harness_sha256` identifizieren Binary und Harness-Datei vor den Iterationen; Hash-I/O-Fehler und Abweichungen am Laufende verhindern `passed`. Beide 50er-Crash-Suiten und 46 fokussierte Tests plus 16 Subtests bestanden. Keine DLL-/Build-Attestierung und keine Erkennung zwischenzeitlich rueckgaengig gemachter Aenderungen; vorhandene 1.000er-Berichte werden nicht nachtraeglich mit Hashes versehen.
+  - [x] Sanitizer-Diagnosen im Harness fail-closed: Erkannte ASan/LSan/UBSan/TSan/MSan-Meldungen verhindern Erfolg unabhaengig vom Exitcode. Writer-Pruefung vor ACK und nach Reader-Join, Verifier-Pruefung auf stdout/stderr inklusive N+1-Retry. Beide 50er-Crash-Suiten und 53 fokussierte Tests plus 30 Subtests bestanden. Diagnose-Textregressionen sind keine instrumentierten Sanitizer-Laufzeittests; Signaturerkennung und Beobachtung ungeflushter Ausgabe sind begrenzt.
+  - [x] Verifier-Timeout-Diagnostik erhalten: Das bestehende 30-Sekunden-Limit pro Prozess meldet erwartete Replay-Anzahl und beide Ausgabekanaele via byte-erhaltendem `repr`, auch beim N+1-Retry. Timeout erlaubt keine weitere Toleranz; JSON/`failure.txt` erhalten den Fehler und der WAL bleibt erhalten. Beide 50er-Crash-Suiten und 57 fokussierte Tests plus 33 Subtests bestanden; echter Subprozess-Timeout mit geflushter stdout/stderr geprueft. Kein Produktions-Recovery-Latenznachweis.
+  - [x] Laufenden Fortschritt atomar gesichert: Nach jeder validierten Iteration werden Ergebnis-Praefix und Laufzeit geschrieben; Status bleibt bis zum Abschluss `running`. Harter Elternprozess-Abbruch erhaelt den letzten Checkpoint, nicht den laufenden Versuch oder einen PASS. Schreibfehler stoppen weitere Iterationen. Beide 50er-Crash-Suiten und 60 fokussierte Tests plus 33 Subtests bestanden. Elternprozess-Abbruchregression verwendet ausschliesslich Test-Iterationsergebnisse fuer den Berichtsnachweis; kein neuer WAL-/Stromausfall-Nachweis.
+  - [x] Alle finalen Byte-Grenzen lokal geprueft (2026-11-04): 40 Praefixe des letzten 39-Byte-Frames nach echtem Writer-Kill bestanden; 38 nichtleere Partial-Tails wurden exakt gekuerzt und beim zweiten Replay nicht mehr veraendert. 18 Payload-/CRC-Bitfehler und 36 unvollstaendige Enden eines aelteren Segments scheiterten zweimal geschlossen ohne Dateiaenderung. Bericht `build-msvc-windows-debug/test-results/wal-tail-boundaries-20261104.json`: 94 Faelle, 80 erfolgreiche Reopens, 108 fehlgeschlagene Opens, 189 Verifier-Prozesse inklusive Count-Probe, 31,203 s. Absichtliche Dateifehler nach 12 ACKs pruefen den Erhalt von Eintraegen 1..11; kein ACK-Verlust durch Prozessabbruch allein behauptet. Ad-hoc-Kampagne, nicht CI-registriert und kein gezielter Syscall-/Primaerspeicher-Nachweis.
+  - [x] 94-Faelle-Kampagne reproduzierbar eingecheckt: `tests/storage/test_wal_tail_boundaries.py` mit per-Fall-Bericht, Fehler-WAL-Retention und drei Dateifingerprints. PR/Nightly rufen sie auf und deklarieren `wal-tail-boundaries.json` plus Fehlerordner fuer Upload. Lokal 94/94 bestanden (80 erfolgreiche Reopens, 108 geschlossene Open-Fehler, 189 Verifier-Prozesse, 21,146 s); 64 fokussierte Tests plus 35 Subtests, actionlint und Bash-Syntax bestanden. Tatsaechliche GitHub-/Sanitizer-Ausfuehrung bleibt offen.
+  - [x] Dateifehlerkampagne auf alle drei aelteren Segmente erweitert (2026-11-04): je 36 unvollstaendige Frame-Tails scheitern zweimal geschlossen ohne Byte-Aenderung. Ergebnis und Reproduktionsdaten nennen `affected_segment`. Separater lokaler Bericht `build-msvc-windows-debug/test-results/wal-tail-all-segments.json`: 166 Faelle, 80 erfolgreiche Reopens, 252 geschlossene Fehler-Opens, 333 Verifier-Prozesse, 43,566 s; alle 38 nichtleeren Partial-Tails im neuesten Segment exakt repariert. Exakte Segment-/Offset-Mengen und bestehende Vertraege: 64 Tests plus 35 Subtests bestanden. Historische 94er-Berichte unveraendert; bestehende CI-Aufrufe nutzen das erweiterte Skript, erfolgreiche GitHub-/Sanitizer-Ausfuehrung sowie Syscall-/Primaerspeicher-Nachweise bleiben offen.
+  - [x] Forensische Retention der Dateifehlerkampagne abgesichert (2026-11-04): `before-recovery/` sichert die injizierten WAL-Bytes vor jedem Verifier; Kopierfehler stoppen vor Recovery und erhalten das Original. Regressionen reproduzierten vorher fehlende Eingangsdaten auf beiden Recovery-Pfaden. 166 echte Worker-Faelle erneut bestanden (`wal-tail-forensic-retention.json`, 80 erfolgreiche Reopens, 252 geschlossene Fehler-Opens, 333 Prozesse, 40,822 s); 66 Tests plus 37 Subtests bestanden. Ein diagnostisch absichtlich falscher Count nach echter Tail-Reparatur erhielt 79-Byte-Eingang und 78-Byte-Ausgang sowie einen expliziten Fehlerbericht. Kein Produktions-Recovery-Defekt oder Backup-Durabilitaetsnachweis behauptet; die offenen STO-07-Nachweise bleiben unveraendert.
+  - [x] Payload-/CRC-Korruption aller zwoelf Fixture-Frames geprueft (2026-11-04): je ein Low-Bit-Flip an 198 Bytepositionen scheitert zweimal geschlossen ohne WAL-Aenderung. Absolute `segment_byte_offset`-Angaben in Ergebnis/Reproduktion und explizite Laengenpruefung aelterer Fixture-Segmente. Lokaler Bericht `build-msvc-windows-debug/test-results/wal-all-frame-corruption.json`: 346 Faelle, 80 erfolgreiche Reopens, 612 geschlossene Fehler-Opens, 693 Verifier-Prozesse, 83,410 s. Exakte Bytepositionen je Frame, Fingerprints und Bereinigung unabhaengig geprueft; 67 Tests plus 39 Subtests und Python-Syntax bestanden. Kein Alle-Bits-/Header-Fuzzing oder Syscall-/Primaerspeicher-/Sanitizer-Nachweis; historische Berichte unveraendert.
+  - [x] Magic-/Sequenz-/Typ-Headerkorruption aller zwoelf Frames geprueft (2026-11-04): je ein Low-Bit-Flip an 156 Header-Bytepositionen (Frame-Offsets 0..12) scheitert zweimal geschlossen ohne Dateiaenderung. Absolute Byteoffsets in Ergebnis/Reproduktion. `build-msvc-windows-debug/test-results/wal-all-frame-header-corruption.json`: 502 Faelle, 80 erfolgreiche Reopens, 924 geschlossene Fehler-Opens, 1.005 Verifier-Prozesse, 120,286 s. Exakte Header-/Payload-/CRC-Mengen, Fingerprints und Bereinigung unabhaengig geprueft; 67 Tests plus 40 Subtests bestanden. Laengenfelder (13..20) bleiben wegen der Abgrenzung zu reparierbaren unvollstaendigen neuesten Tails separat; kein pauschaler Ablehnungs-, Alle-Bits-, Syscall-/Primaerspeicher-/Sanitizer-Nachweis behauptet. Historische Berichte unveraendert.
 - [ ] **P0 · STO-04 – Wartungs-Threads mit Lebenszyklus** (Target: M1 · 2027-01-31) – `std::thread(...).detach()` in
   `src/maintenance/database_maintenance_orchestrator.cpp:608-613` durch `std::jthread` mit `std::stop_token` ersetzen;
   `stop()` joint mit Timeout; TSan-Test „Shutdown während laufender Wartung“.
@@ -260,8 +283,18 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 - [~] **P0 · DIS-08 – Failover/DR-Handler fail-closed** (Target: M2 · 2027-04-30)
   - [~] 2026-11-01: Non-dry-run DR steps now fail when snapshot/restore/catch-up/traffic/verification hooks are missing;
     quorum no longer counts as catch-up proof. Spare failure blocks failover and missing metadata persistence returns
+    failure. 2026-11-21: independent verification retries mismatches up to the configured additional-attempt count;
+    proofs returned after `verification_timeout` fail closed. DRE-27..29 cover retry and deadline behavior.
+    2026-11-21 contract follow-up: typed storage, traffic, and shared-metadata adapter boundaries are now explicit;
+    DRE-30..33 cover adapter success, negative append/load, and shared replay behavior. Remaining: implement real
+    storage/traffic adapters and a consensus-backed metadata authority, then add networked multi-process
+    end-to-end coverage.
     failure. Remaining: implement persistent metadata and real adapters with ACK plus independent content/LSN
     verification, then add multi-process end-to-end coverage.
+  - [x] 2026-11-04: When spare activation is enabled but no spare manager is configured, failover now emits
+    `SPARE_ACTIVATION_FAILED` and stops before metadata update; a focused regression covers the missing-manager case.
+    The item remains in progress because the sharding runtime adapter, persistent metadata, independent verification,
+    and multi-process coverage are still absent.
   - Handler ohne konfigurierten Storage-/Traffic-/Metadata-Adapter liefern `NotConfigured`; Erfolg nur nach Adapter-ACK
     **und** Verifikation (Checksumme bzw. LSN/Term-Vergleich); Metadata-Update persistent.
   - Tests: negative Tests je fehlendem Adapter; Ende-zu-Ende-Failover in der Multi-Prozess-Suite.
@@ -431,6 +464,65 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     release-critical `AutoFocusedTests`-CTest-Namen und das `autogen`-Label bleiben erhalten.
     `module_process_test_process_aris_xml_focused` baut; beide Process-CTest-Einträge bestehen. Die Windows-
     Runtime-DLL-Synchronisierung wird am gemeinsam genutzten Target nur einmal angehängt.
+  - [x] 2026-11-03: Neun bisherige Process-Fokustargets verwenden jetzt die kanonischen Modul-Executables;
+    zehn mehrfach kompilierte Testquellen entfallen. Legacy-Buildtarget- und CTest-Namen, Labels, Timeouts sowie
+    der Process-Graph-Filter bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; alle neun Legacy-CTest-
+    Namen sind registriert, und die Compilation Database enthält keine mehrfach registrierte Process-Quelle.
+    Der nicht-modulare Zähler sinkt von 97 auf 87 (86 Testquellen plus der absichtlich gemeinsam genutzte GTest-
+    Runner). Das Inventar umfasst 4.229 Quellen; 2.818/2.908 sind im modularen/nicht-modularen Profil kompiliert,
+    und die Profilunion lässt 1.320 Quellen außerhalb beider Profile. Laufzeit-Build und -Tests sind noch nicht
+    bestätigt.
+  - [x] 2026-11-03: Sieben Replication-Quellen verwenden ihre kanonischen Modul-Executables statt neun separater
+    Root-Buildtargets. Legacy-CTest-Namen, Labels, Timeouts, `RUN_SERIAL`, der Multi-Tier-Filter sowie die
+    `async_wal_shipper.cpp`-/Topology-Handler-Quellen, Zstd-Linkage und HTTP-Server-Compile-Definition bleiben
+    erhalten. Beide Windows-Debug-Profile konfigurieren; alle neun Legacy-CTest-Namen sind registriert, und
+    keine `tests/replication/`-Quelle ist mehrfach fokussiert registriert. Der nicht-modulare Zähler sinkt von
+    87 auf 80 (79 Testquellen plus der absichtlich gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests
+    sind noch nicht bestätigt.
+  - [x] 2026-11-03: Sieben Transaction-Testquellen (Manager Comprehensive, OCC, Bulk, Retry, Timeout, SSI und
+    Semantic Advisor) verwenden ihre kanonischen Modul-Executables. Die sechs Legacy-CTest-Namen sowie
+    Buildtarget-Aliase bleiben erhalten; die Semantic-Advisor-Falltests werden weiter nach dem Build entdeckt.
+    Beide Windows-Debug-Profile konfigurieren, und keine `tests/transaction/`-Quelle ist mehrfach fokussiert
+    registriert. Der nicht-modulare Zähler sinkt von 80 auf 73 (72 Testquellen plus der absichtlich gemeinsam
+    genutzte GTest-Runner). Laufzeit-Build und -Tests sind noch nicht bestätigt.
+  - [x] 2026-11-03: Sieben RAG-Testquellen verwenden ihre kanonischen Modul-Executables. Legacy-Buildtarget-
+    Aliase, sechs bisherige explizite CTest-Namen, Labels, Timeouts, der Ingestion-Bridge-Filter und Self-RAG-
+    Falltest-Discovery bleiben erhalten; die notwendigen Produktionsquellen, Linkabhängigkeiten und
+    Compile-Definitionen sind auf die Modultargets übertragen. Beide Windows-Debug-Profile konfigurieren, und
+    keine `tests/rag/`-Quelle ist mehrfach fokussiert registriert. Der nicht-modulare Zähler sinkt von 73 auf 66
+    (65 Testquellen plus der absichtlich gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests sind noch
+    nicht bestätigt.
+  - [x] 2026-11-03: Sieben Training-Testquellen verwenden ihre kanonischen Modul-Executables. Legacy-Buildtarget-
+    Aliase, beide ModalityParser-/TrainingConvergence-CTest-Namen, alle weiteren fokussierten CTest-Namen und
+    Multi-Task-LoRA-Falltest-Discovery bleiben erhalten; notwendige Trainingsquellen und RocksDB/OpenSSL/JSON-
+    Linkabhängigkeiten wurden übertragen. Beide Windows-Debug-Profile konfigurieren, und keine
+    `tests/training/`-Quelle ist mehrfach fokussiert registriert. Der nicht-modulare Zähler sinkt von 66 auf 59
+    (58 Testquellen plus der absichtlich gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests sind noch
+    nicht bestätigt.
+  - [x] 2026-11-03: Sechs Storage-Testquellen verwenden ihre kanonischen Modul-Executables. Legacy-Buildtarget-
+    Aliase, fünf explizite CTest-Namen und StorageLayoutAdvisor-Falltest-Discovery bleiben erhalten; MVCC-
+    Temporalquellen, Parquet-Exporter/Columnarquellen sowie RocksDB-, LZ4- und Snappy-Linkbedingungen wurden
+    übertragen. Beide Windows-Debug-Profile konfigurieren, und keine `tests/storage/`-Quelle ist mehrfach
+    fokussiert registriert. Der nicht-modulare Zähler sinkt von 59 auf 53 (52 Testquellen plus der absichtlich
+    gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests sind noch nicht bestätigt.
+  - [x] 2026-11-03: Vier Chaos-Testquellen verwenden ihre kanonischen Modul-Executables. Die vier Legacy-CTest-
+    Namen, Labels, Timeouts und der HTTP-Server-Feature-Gate für Network/Scheduler bleiben erhalten; die
+    Chaos-Framework-Quelle und `themis_network`-Linkabhängigkeit sind auf die Modultargets übertragen. Beide
+    Windows-Debug-Profile konfigurieren, und keine `tests/chaos/`-Quelle ist mehrfach fokussiert registriert.
+    Der nicht-modulare Zähler sinkt von 53 auf 49 (48 Testquellen plus der absichtlich gemeinsam genutzte
+    GTest-Runner). Laufzeit-Build und -Tests sind noch nicht bestätigt.
+  - [x] 2026-11-03: Drei PostgreSQL-Importer-Testquellen (FK, Security Audit und Streaming) verwenden nur noch
+    ihre kanonischen Modul-Executables. Der Legacy-Buildtarget- und Aggregat-CTest-Name bleiben erhalten; der
+    Aggregattest führt genau diese drei Modul-CTest-Einträge aus, während die übrigen Importer-Suiten
+    unberührt bleiben. Beide Windows-Debug-Profile konfigurieren, und keine `tests/postgres/`-Quelle ist
+    mehrfach fokussiert registriert. Der nicht-modulare Zähler sinkt von 49 auf 46 (45 Testquellen plus der
+    absichtlich gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests sind noch nicht bestätigt.
+  - [x] 2026-11-03: Zwei AQL-Testquellen (GraphQL-Integration und Multi-Statement-Transaction) verwenden ihre
+    kanonischen Modul-Executables. Legacy-Buildtarget- und CTest-Namen, Labels, Timeouts sowie die expliziten
+    RocksDB-/nlohmann-json-Abhängigkeiten bleiben erhalten. Beide Windows-Debug-Profile konfigurieren, und
+    keine `tests/aql/`-Quelle ist mehrfach fokussiert registriert. Der nicht-modulare Zähler sinkt von 46 auf
+    44 (43 Testquellen plus der absichtlich gemeinsam genutzte GTest-Runner). Laufzeit-Build und -Tests sind
+    noch nicht bestätigt.
   - [x] 2026-11-01: 15 Temporal-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; die
     `AutoFocusedTests`-CTest-Namen und `temporal`-/`autogen`-Labels bleiben erhalten.
     `module_temporal_test_temporal_aggregation_focused` baut und beide Temporal-CTest-Einträge bestehen.
@@ -556,9 +648,182 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     beider Windows-Debug-Profile bestätigen jeweils genau ein fokussiertes Target je geänderter Quelle;
     das nicht-modulare Inventar sinkt von 285 auf 278. Der verteilte Rate-Limiter bleibt separat, weil sein
     Legacy-Target zusätzlich `src/auth/rate_limiter_backend.cpp` kompiliert.
-  - Offen: Das nicht-modulare Profil enthält weiterhin 278 Quellen mit mehreren Nicht-Aggregat-Testtargets.
-    Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
-    geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
+  - [x] 2026-11-02: Zehn Content-Tests (Metrics, Security, LanguageDetector, AudioProcessor,
+    ProcessorChain, Deduplication, Policy, CON-007/CON-012, Embedding Pipeline und Toolbox Bridge) verwenden
+    ihre kanonischen Modul-Executables. Die benötigten `themis_content`, nlohmann-json und OpenSSL-
+    Abhängigkeiten wurden auf die Modulziele übertragen; der Toolbox-Bridge-GTest-Filter und dessen
+    Arbeitsverzeichnis sowie Legacy-Buildtarget-/CTest-Namen, Labels und Timeouts bleiben erhalten.
+    Zusätzlich verwendet Toolbox Primitives sein kanonisches Target für den identischen 11-Quelldatei-
+    Source-Satz. Beide Windows-Debug-Profile konfigurieren; im nicht-modularen Profil haben alle elf
+    Testdateien genau ein fokussiertes Target, das Inventar sinkt von 278 auf 267.
+  - [x] 2026-11-02: Die RAG-Tests ReplugRetriever, MultiHopReasoner, AdaptiveRetrieval und PromptBuilder
+    verwenden ihre kanonischen Modul-Executables; CTest-Namen, Labels, Timeouts und Legacy-Buildtarget-Namen
+    bleiben erhalten. Die C++17-Compile-Feature-Anforderungen der zwei Phase-7-Targets sowie die direkte
+    nlohmann-json-Abhängigkeit des PromptBuilder-Tests sind am Modulziel gesetzt. Beide Windows-Debug-Profile
+    konfigurieren; das nicht-modulare Inventar sinkt von 267 auf 263 Mehrfachregistrierungen.
+  - [x] 2026-11-02: `DatabaseDomainAutoLabeler` verwendet sein kanonisches Database-Modul-Executable;
+    die Testquelle wird nun nur einmal kompiliert. Legacy-Buildtarget und CTest-Name bleiben erhalten,
+    die GTest-Einzelfall-Discovery liegt im CMake-Verzeichnis des Targets. Beide Windows-Debug-Profile
+    konfigurieren; Compilation-Databases zeigen genau ein fokussiertes Target für die Testquelle und
+    das nicht-modulare Inventar sinkt von 263 auf 262 Mehrfachregistrierungen. CTest-Registrierung ist
+    konfiguriert; Laufzeit-Build und -Tests sind wegen des separaten generierten-gRPC/MSVC-Blockers nicht bestätigt.
+  - [x] 2026-11-02: `AIPluginGenerator` verwendet sein kanonisches AI-Modul-Executable. Die drei
+    Observability-Quelldateien und die direkte nlohmann-json-Abhängigkeit des Legacy-Targets wurden
+    übertragen; der Legacy-Buildtarget-Name sowie CTest-Name, Labels und Timeout bleiben erhalten.
+    Beide Windows-Debug-Profile konfigurieren; die Compilation-Databases zeigen nur das Modulziel und
+    das nicht-modulare Inventar sinkt von 262 auf 261 Mehrfachregistrierungen.
+  - [x] 2026-11-02: `GraphAnalytics`, Category-B BFS und Category-B Dijkstra verwenden ihre kanonischen
+    Graph-Modul-Executables. GraphAnalytics behält `fmt`, RocksDB, `THEMIS_GRAPH_EXPORTS` und die
+    Windows-Runtime-DLL-Synchronisierung; die beiden Parity-Tests bewahren ihre Legacy-CTest-Namen,
+    Labels und 180-s-Timeouts. Beide Windows-Debug-Profile konfigurieren; die Compilation-Databases
+    zeigen je Testquelle nur das Modulziel, und das nicht-modulare Inventar sinkt von 261 auf 258.
+  - [x] 2026-11-02: GraphTypeFiltering und Graph Edge Empty Fields QW-45 verwenden ihre kanonischen
+    Graph-Modul-Executables. `fmt`, RocksDB, `THEMIS_GRAPH_EXPORTS` und Windows-Runtime-DLL-Synchronisierung
+    bleiben bei GraphTypeFiltering erhalten; Legacy-Buildtarget, CTest-Name, Labels und Timeouts bleiben
+    für beide Tests erhalten. Beide Windows-Debug-Profile konfigurieren; je Testquelle bleibt nur das
+    Modulziel, und das nicht-modulare Inventar sinkt von 258 auf 256 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Governance Policy Hot-Reload, OPA Adapter, Policy Simulation, Compliance Time-Window
+    und Review Scheduler verwenden ihre kanonischen Governance-Modul-Executables. OpenSSL-, optionale
+    yaml-cpp- und direkte nlohmann-json-Abhängigkeiten wurden übertragen; Legacy-Buildtarget-Namen,
+    CTest-Namen, Labels und 60-s-Timeouts bleiben erhalten. Beide Windows-Debug-Profile konfigurieren,
+    und das nicht-modulare Inventar sinkt von 256 auf 251 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Graph Edge Encryption und Graph Index Comprehensive verwenden ihre kanonischen
+    Graph-Modul-Executables. OpenSSL, fmt, RocksDB, `THEMIS_GRAPH_EXPORTS` und Windows-Runtime-DLL-
+    Synchronisierung für Edge Encryption sowie die RocksDB-Abhängigkeit, Legacy-Buildtargets, CTest-
+    Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; das
+    nicht-modulare Inventar sinkt von 251 auf 249 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Cache Admin API Handler, Cache Interfaces und Cache Phase 6 Interfaces verwenden ihre
+    kanonischen Cache-Modul-Executables. Die direkte RocksDB-Abhängigkeit des Admin-Tests sowie alle
+    Legacy-Buildtarget-Namen, CTest-Namen, Labels und 60-s-Timeouts bleiben erhalten. Beide Windows-Debug-
+    Profile konfigurieren; das nicht-modulare Inventar sinkt von 249 auf 246 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Cache Warmup verwendet sein kanonisches Cache-Modul-Executable mit direkter RocksDB-
+    Abhängigkeit und unverändertem Legacy-Buildtarget, CTest-Namen, Labels und Timeout. TensorFingerprintGraph
+    verwendet sein Graph-Modul-Executable mit denselben Produktionsquellen; die GTest-Einzelfall-Discovery
+    bleibt im Target-Verzeichnis und behält das frühere Arbeitsverzeichnis. Beide Windows-Debug-Profile
+    konfigurieren; das nicht-modulare Inventar sinkt von 246 auf 244 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Index Maintenance, Learned Index und IndexAnalyzer verwenden ihre kanonischen Index-
+    Modul-Executables. Die direkte RocksDB-Abhängigkeit bleibt für Maintenance und Analyzer erhalten;
+    Legacy-Buildtarget-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren, und das nicht-modulare Inventar sinkt von 244 auf 241 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Index Compression und Matryoshka Truncation verwenden ihre kanonischen Index-Modul-
+    Executables statt separater fokussierter Executables. Legacy-Buildtarget-Namen, CTest-Namen, Labels und
+    120-s-Timeouts bleiben erhalten; die Quellmengen stimmen überein und die bedingte `themis_storage`-
+    Abhängigkeit der bisherigen fokussierten Targets bleibt explizit. Beide Windows-Debug-Profile konfigurieren,
+    und das nicht-modulare Inventar sinkt von 241 auf 239 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Distributed Vector Index und HNSW Recall verwenden ihre kanonischen Index-Modul-
+    Executables statt separater Root-Executables. Die bedingte `themis_storage`-Abhängigkeit bleibt für
+    Distributed Vector Index erhalten; HNSW behält die bedingte `hnswlib::hnswlib`-Abhängigkeit. Legacy-
+    Buildtarget-Namen sowie CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren, und das nicht-modulare Inventar sinkt von 239 auf 237 Mehrfachregistrierungen.
+  - [x] 2026-11-02: IndexManagerDI, Tiered Migration, Spatial Correctness, ANN Index und GPU Memory
+    Oversubscription verwenden ihre kanonischen Index-Modul-Executables. Target-spezifische Produktionsquellen,
+    nlohmann-json/RocksDB- und `themis_storage`-Abhängigkeiten sowie der bedingte DiskANN-Schalter wurden
+    übertragen; die ANN-GTest-Einzelfall-Discovery bleibt erhalten. Legacy-Buildtarget-Namen, CTest-Namen,
+    Labels und Timeouts bleiben verfügbar. Beide Windows-Debug-Profile konfigurieren, und das nicht-modulare
+    Inventar sinkt von 237 auf 232 Mehrfachregistrierungen.
+  - [x] 2026-11-03: 13 Graph-Testquellen (Graph Query Optimizer/Rewriter, Advanced Features, Distributed
+    Graph einschließlich Shared-Mutex-Filter, Parallel/Exact Traversal, Query Explain, Scheduled Edge Refresh,
+    Ontology Manager, semantische Path Constraints, KnowledgeGraphReasoner und beide RotatE-Suiten) verwenden
+    ihre kanonischen Graph-Modul-Executables. Target-spezifische Produktionsquellen, Link-Abhängigkeiten,
+    Export-Definitionen, Windows-DLL-Synchronisierung und RotatE-Einzelfall-Discovery wurden übertragen;
+    Legacy-Buildtargets, CTest-Namen, Filter, Labels, Timeouts und PATH-Modifikation bleiben erhalten. Beide
+    Windows-Debug-Profile konfigurieren; das nicht-modulare Inventar sinkt von 232 auf 218 Mehrfachregistrierungen.
+    CTest listet alle Legacy-Registrierungen; Laufzeit-Build und -Tests bleiben wegen des separaten generierten
+    gRPC/MSVC-Fehlers unbestätigt.
+  - [x] 2026-11-03: 37 LLM-Testquellen verwenden ihre kanonischen Modul-Executables. Zusätzliche Produktionsquellen,
+    Link-Abhängigkeiten und Compile-Definitionen für LLM-, RAID- und Inference-Tests wurden übertragen; Legacy-
+    Buildtargets, CTest-Namen, Labels und Timeouts bleiben verfügbar. Der verifizierte nicht-modulare Zähler sinkt
+    von 218 auf 181; die LLM-Duplikate sind null.
+  - [x] 2026-11-03: 27 Geo-Testquellen verwenden ihre kanonischen Modul-Executables. `themis_geo`-Abhängigkeiten,
+    CUDA/HIP-Definitionen und die vorhandenen Geo-Sonderregistrierungen bleiben erhalten; CTest-Verträge und
+    Legacy-Buildtargets bleiben verfügbar. Der verifizierte nicht-modulare Zähler sinkt von 181 auf 154; Geo-
+    Duplikate sind null.
+  - [x] 2026-11-03: 13 Analytics-Testquellen verwenden ihre kanonischen Modul-Executables. Zusätzliche Arrow/
+    Parquet-/Arrow-Flight- und ONNX-Runtime-Produktionsquellen und Linkbedingungen wurden übertragen; CTest-
+    Namen, Labels, Timeouts und Legacy-Buildtargets bleiben erhalten. Beide Windows-Debug-Profile konfigurieren,
+    der nicht-modulare Zähler sinkt von 154 auf 141 und Analytics-Duplikate sind null.
+  - [x] 2026-11-03: 13 Temporal-Testquellen verwenden ihre kanonischen Modul-Executables. Target-spezifische
+    Produktionsquellen, die LZ4-Abhängigkeit, Legacy-Buildtargets und CTest-Verträge bleiben erhalten; GTest-
+    Einzelfall-Discovery liegt im Target-owning CMake-Verzeichnis. Beide Windows-Debug-Profile konfigurieren,
+    der nicht-modulare Zähler sinkt von 141 auf 128 und Temporal-Duplikate sind null. Der Laufzeit-Build dieser
+    Targets ist nicht bestätigt.
+  - [x] 2026-11-03: 12 Voice-Testquellen verwenden ihre kanonischen Modul-Executables. Die erforderlichen
+    Produktionsquellen, JSON-/`themis_voice`-Linkabhängigkeiten und Legacy-Buildtarget-/CTest-Verträge wurden
+    übertragen. Beide Windows-Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von 128 auf 116,
+    Voice-Duplikate sind null.
+  - [x] 2026-11-03: 10 Security-Testquellen verwenden ihre kanonischen Modul-Executables. AI-Safety-Produktions-
+    quellen, C++17-Einstellungen und Arrow-/OpenSSL-Linkbedingungen wurden übertragen; Legacy-Buildtargets,
+    CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; der nicht-
+    modulare Zähler sinkt von 116 auf 106, Security-Duplikate sind null.
+  - [x] 2026-11-03: Neun Performance-Testquellen verwenden ihre kanonischen Modul-Executables. Der
+    Hardware-Accelerator benötigt weiterhin seine direkte Produktionsquelle; bestehende GTest-Einzelfall-
+    Discovery wurde in das Target-owning Modulverzeichnis verschoben, einschließlich C++17- und LLM-
+    Compile-Einstellungen für den TTFT-Benchmark. Legacy-Buildtargets und der Hardware-Accelerator-CTest-
+    Vertrag bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von
+    106 auf 97, Performance-Duplikate sind null.
+  - [x] 2026-11-03: Sieben RAG-, sieben Training- und sechs Storage-Testquellen verwenden ihre kanonischen
+    Modul-Executables. Target-spezifische Produktionsquellen, RocksDB/OpenSSL/JSON-/LZ4-/Snappy-Abhängigkeiten,
+    Compile-Standards, GTest-Fall-Discovery sowie bestehende Buildtarget- und CTest-Verträge bleiben erhalten.
+    Beide Windows-Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von 97 auf 53.
+  - [x] 2026-11-03: Vier Chaos-Quellen, drei PostgreSQL-Importer-Quellen und zwei AQL-Quellen verwenden ihre
+    kanonischen Modul-Executables. Chaos-Produktionsquellen und `themis_network`-Abhängigkeit, PostgreSQL-
+    Aggregat-CTest/Buildtarget sowie AQL-RocksDB/JSON-Abhängigkeiten bleiben erhalten. Beide Windows-Debug-
+    Profile konfigurieren; der nicht-modulare Zähler sinkt von 53 auf 44.
+  - [x] 2026-11-03: Cache Replication und Cache Replication Coordinator verwenden kanonische Cache-Modul-
+    Executables. Die benötigten Coordinator-/gRPC-Peer-/Logger-Quellen, RocksDB- und optionale gRPC-
+    Abhängigkeiten sowie Legacy-Buildtarget- und CTest-Verträge bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren; der nicht-modulare Zähler sinkt von 44 auf 42 (41 actionable Quellen plus der gemeinsam
+    genutzte GTest-Runner).
+  - [x] 2026-11-03: Distributed Knowledge und Distributed Hybrid Search verwenden kanonische Distributed-
+    Modul-Executables. Produktionsquellen, JSON-/C++17-Anforderungen sowie die GTest-Einzelfall-Discovery mit
+    ursprünglichem Arbeitsverzeichnis/Argumenten bleiben erhalten; Legacy-Buildtarget-Namen bleiben Aliase.
+    Beide Windows-Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von 42 auf 40
+    (39 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Multi-Region Active-Active und Multi-GPU Vector Index verwenden kanonische Multi-Modul-
+    Executables. GPU-Implementierungsquellen und bedingte GTest-Einzelfall-Discovery sowie das Multi-Region-
+    CTest-Label-/Timeout-Verhalten bleiben erhalten; Legacy-Buildtarget-Namen bleiben Aliase. Beide Windows-
+    Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von 40 auf 38
+    (37 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: WorkloadAdaptiveOptimizer und WorkloadFingerprintEngine verwenden ihre kanonischen
+    Workload-Modul-Executables. Die spezifischen Produktionsquellen, beide Legacy-Buildtarget-Aliase und die
+    nach dem Build generierten GTest-Einzelfalltests bleiben erhalten; WorkloadAdaptiveOptimizer behält seinen
+    benannten CTest-Vertrag samt Labels/Timeout. Beide Windows-Debug-Profile konfigurieren; der nicht-modulare
+    Zähler sinkt von 38 auf 36 (35 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Flash Attention und KV-Cache Reuse verwenden kanonische Phase-1-Modul-Executables.
+    Die LLM-Feature-Gate-Bedingung, Windows-Runtime-DLL-Synchronisierung und GTest-Einzelfall-Discovery für
+    Release/Debug bleiben erhalten; Legacy-Buildtarget-Namen bleiben Aliase. Beide Windows-Debug-Profile
+    konfigurieren; der nicht-modulare Zähler sinkt von 36 auf 34
+    (33 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Gossip Custom Handler und Module Sandbox WASM Injection verwenden kanonische Modul-
+    Executables. JSON/C++17- und `CMAKE_DL_LIBS`-/`themis_base`-Abhängigkeiten, bestehende GTest-Discovery-
+    Einstellungen, benannte CTest-Verträge sowie Legacy-Buildtarget-Aliase bleiben erhalten. Beide Windows-
+    Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt von 34 auf 32
+    (31 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Erasure Coding Backend und NUMA Memory Manager verwenden kanonische Modul-Executables.
+    Die NUMA-Implementierungsquelle, GTest-Fall-Discovery, beide fokussierten CTest-Verträge und Legacy-
+    Buildtarget-Aliase bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; jeder benannte CTest-
+    Vertrag ist einmal registriert, und der nicht-modulare Zähler sinkt von 32 auf 30
+    (29 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: IncrementalLoRATrainer verwendet ein kanonisches Incremental-Modul-Executable.
+    Die LLM-bedingten Trainings-/Federation-Produktionsquellen und JSON-/optionale YAML-Abhängigkeiten,
+    `THEMIS_ENABLE_LLM`, beide Legacy-Buildtarget-Aliase, die benannte Federation-CTest-Suite und GTest-
+    Einzelfall-Discovery bleiben erhalten. Beide Windows-Debug-Profile konfigurieren; der nicht-modulare
+    Zähler sinkt von 30 auf 29 (28 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Intent Classifier, Knowledge Gap Retrieval Callback und Explainability Reason Builder
+    verwenden kanonische Modul-Executables. Die beiden benötigten Intent-/Knowledge-Produktionsquellen und
+    die Release/Debug-GTest-Discovery für Knowledge bleiben erhalten; Explainability nutzt weiterhin seine
+    modulare Produktionsquelle. Beide Windows-Debug-Profile konfigurieren; der nicht-modulare Zähler sinkt
+    von 29 auf 26 (25 actionable Quellen plus der gemeinsam genutzte GTest-Runner).
+  - [x] 2026-11-03: Die letzte actionable Mehrfachregistrierung, `tests/chunk/test_chunk_level_encryption.cpp`,
+    verwendet jetzt nur noch das kanonische Chunk-Modul-Executable. Der Legacy-Buildtarget-Name bleibt als
+    abhängigkeitsbasierter Custom-Target-Alias erhalten; GTest-Einzelfall-Discovery, Arbeitsverzeichnis,
+    Argumente, Labels und Timeout liegen weiterhin beim target-owning Modulverzeichnis. Die Case-Namen nutzen
+    wie zuvor das unveränderte `Suite.Test`-Format ohne zusätzlichen Target-Präfix. Beide Windows-Debug-Profile
+    konfigurieren; das Inventar meldet in beiden Profilen null actionable Mehrfachregistrierungen und nur den
+    absichtlich gemeinsam genutzten `tests/test_gtest_main.cpp`-Runner. Das Inventar umfasst 4.229
+    Testquellen (2.818 modular / 2.908 nicht-modular kompiliert); 1.320 Quellen liegen außerhalb beider Profile
+    und bleiben für Coverage-/Ausschlussprüfung offen. CTest-Registrierung ist sichtbar, die Test-Binaries
+    wurden nicht gebaut und Laufzeitverhalten ist daher nicht bestätigt.
   - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
     Network-, CDC-, Auth- und Plugin-Aliase ist nicht bestätigt: Der aktuelle MSVC-Versuch stoppt beim Kompilieren der
     generierten gRPC-Quellen mit C2065/C3878 in `vcpkg_installed/x64-windows/include/grpcpp/impl/call_op_set.h:979`.

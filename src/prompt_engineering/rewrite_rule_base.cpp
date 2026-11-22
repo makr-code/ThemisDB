@@ -46,7 +46,10 @@ RegexRewriteRule::RegexRewriteRule(
         // Precompile regex for efficiency
         pattern_ = std::regex(pattern_string_);
     } catch (const std::regex_error& e) {
-        auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+        auto logger = spdlog::get("prompt_engineering");
+        if (!logger) {
+            logger = spdlog::stderr_color_mt("prompt_engineering");
+        }
         logger->error("Failed to compile regex pattern for rule {}: {}", rule_id_, e.what());
         pattern_ = std::regex("(?!)");  // Pattern that never matches
     }
@@ -85,7 +88,10 @@ RewriteResult RegexRewriteRule::apply(
     const RewriteContext& ctx,
     RewriteTrace& trace
 ) {
-    auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
+    auto logger = spdlog::get("prompt_engineering");
+    if (!logger) {
+        logger = spdlog::stderr_color_mt("prompt_engineering");
+    }
 
     RewriteResult result;
     result.success = true;

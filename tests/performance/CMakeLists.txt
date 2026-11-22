@@ -97,6 +97,12 @@ foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(_stem STREQUAL "test_rag_ttft_benchmark")
+        target_compile_features(${_target} PRIVATE cxx_std_17)
+        if(THEMIS_ENABLE_LLM)
+            target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_LLM)
+        endif()
+    endif()
 
     themis_register_module_focused_test(
         MODULE performance
@@ -105,6 +111,20 @@ foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
         TIER unit
         TIMEOUT 120
     )
+    if(_stem STREQUAL "test_adaptive_batch_tuner"
+        OR _stem STREQUAL "test_cycle_metrics"
+        OR _stem STREQUAL "test_memory_pressure"
+        OR _stem STREQUAL "test_numa_topology"
+        OR _stem STREQUAL "test_rag_ttft_benchmark"
+        OR _stem STREQUAL "test_simd_distance"
+        OR _stem STREQUAL "test_wire_perf_benchmark"
+        OR _stem STREQUAL "test_workload_predictor")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: performance

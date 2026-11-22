@@ -851,10 +851,12 @@ TEST(AQLQueryValidatorPolicyTest, TraversalDepthAtMaximumIsAccepted) {
 TEST(AQLQueryValidatorPolicyTest, TraversalDepthAboveMaximumIsRejectedWithStableError) {
     AQLQueryValidator validator;
     const auto result =
-        validator.validate("FOR v IN 0..101 OUTBOUND \"users/1\" GRAPH \"social\" RETURN v");
+        validator.validate("FOR v IN 0..101 OUTBOUND \"users/1\" GRAPH \"social\" LIMIT 1 RETURN v");
 
+    ASSERT_FALSE(result.is_valid);
     ASSERT_TRUE(result.hasErrors());
     ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().severity, ValidationIssue::Severity::FAILURE);
     EXPECT_EQ(result.issues.front().message,
               "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
     EXPECT_EQ(result.issues.front().clause, "FOR");
@@ -864,22 +866,28 @@ TEST(AQLQueryValidatorPolicyTest, TraversalDepthIntegerOverflowReturnsValidation
     AQLQueryValidator validator;
     const auto result = validator.validate(
         "FOR v IN 0..999999999999999999999999999999999999999999 OUTBOUND "
-        "\"users/1\" GRAPH \"social\" RETURN v");
+        "\"users/1\" GRAPH \"social\" LIMIT 1 RETURN v");
 
+    ASSERT_FALSE(result.is_valid);
     ASSERT_TRUE(result.hasErrors());
     ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().severity, ValidationIssue::Severity::FAILURE);
     EXPECT_EQ(result.issues.front().message,
               "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
+    EXPECT_EQ(result.issues.front().clause, "FOR");
 }
 
 TEST(AQLQueryValidatorPolicyTest, TraversalMinimumDepthIntegerOverflowReturnsValidationError) {
     AQLQueryValidator validator;
     const auto result = validator.validate(
         "FOR v IN 999999999999999999999999999999999999999999..100 OUTBOUND "
-        "\"users/1\" GRAPH \"social\" RETURN v");
+        "\"users/1\" GRAPH \"social\" LIMIT 1 RETURN v");
 
+    ASSERT_FALSE(result.is_valid);
     ASSERT_TRUE(result.hasErrors());
     ASSERT_EQ(result.issues.size(), 1u);
+    EXPECT_EQ(result.issues.front().severity, ValidationIssue::Severity::FAILURE);
     EXPECT_EQ(result.issues.front().message,
               "[VALIDATION:TraversalDepthOutOfRange] Graph traversal depth must be between 0 and 100");
+    EXPECT_EQ(result.issues.front().clause, "FOR");
 }

@@ -13,7 +13,21 @@ foreach(_src IN LISTS CACHE_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    set(_extra_sources)
+    if(_stem STREQUAL "test_cache_replication")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/cache/cache_replication_coordinator.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    elseif(_stem STREQUAL "test_cache_replication_coordinator")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/cache/cache_replication_coordinator.cpp
+            ${THEMIS_ROOT_DIR}/src/cache/grpc_remote_cache_peer.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    endif()
+
+    add_executable(${_target} "${_src}" ${_extra_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -24,6 +38,16 @@ foreach(_src IN LISTS CACHE_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_cache_admin_api_handler" OR
+       _stem STREQUAL "test_cache_warmup" OR
+       _stem STREQUAL "test_cache_replication" OR
+       _stem STREQUAL "test_cache_replication_coordinator")
+        target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+    endif()
+    if(_stem STREQUAL "test_cache_replication_coordinator" AND THEMIS_ENABLE_GRPC)
+        target_link_libraries(${_target} PRIVATE gRPC::grpc++)
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     # Phase 3 P3-02 tests get additional labels

@@ -15,6 +15,17 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_websocket_cdc" AND THEMIS_ENABLE_WEBSOCKET)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_WEBSOCKET=1)
+    endif()
     if(_stem STREQUAL "test_transport_security_checker")
         set(_network_test_gmock_link "")
         if(TARGET GTest::gmock)
@@ -67,4 +78,14 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+
+    if(_stem STREQUAL "test_websocket_cdc" AND THEMIS_ENABLE_WEBSOCKET)
+        add_test(NAME WebSocketCdcFocusedTests
+            COMMAND $<TARGET_FILE:${_target}>
+        )
+        set_tests_properties(WebSocketCdcFocusedTests PROPERTIES
+            LABELS "cdc;websocket;streaming;transport;wstransport;metrics;unit"
+            TIMEOUT 120
+        )
+    endif()
 endforeach()
