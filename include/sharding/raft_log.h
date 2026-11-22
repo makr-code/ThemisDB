@@ -15,6 +15,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -47,9 +48,10 @@ struct LogEntry {
 };
 
 /**
- * @brief AppendEntries RPC request structure
- * 
- * Used for both heartbeats (empty entries) and log replication.
+ * @brief AppendEntries RPC request structure.
+ *
+ * Used for both heartbeats (empty entries) and log replication. Entries must
+ * start immediately after `prev_log_index` and be contiguous.
  */
 struct AppendEntriesRequest {
     uint64_t term = 0;              // Leader's term
@@ -64,7 +66,19 @@ struct AppendEntriesRequest {
 };
 
 /**
- * @brief AppendEntries RPC response structure
+ * @brief Shared size limits for Raft AppendEntries requests and replication batches.
+ */
+struct RaftAppendEntriesLimits {
+    static constexpr std::size_t max_entries_per_rpc = 256;  ///< Maximum entries per RPC.
+    static constexpr std::size_t max_command_bytes = 1024 * 1024;  ///< Maximum command bytes.
+    static constexpr std::size_t max_payload_bytes = 3 * 1024 * 1024;  ///< Aggregate command bytes.
+};
+
+/**
+ * @brief AppendEntries RPC response structure.
+ * @note `success` acknowledges the verified prefix through `match_index`.
+ *       A transport callback may report success only after every requested log
+ *       entry is durably appended on the follower.
  */
 struct AppendEntriesResponse {
     uint64_t term = 0;          // Current term, for leader to update itself
@@ -256,6 +270,27 @@ public:
     uint64_t getSnapshotTerm() const;
 
 private:
+    friend class RaftState;
+
+    [[nodiscard]] bool hasDurableJournal() const noexcept {
+        return !persistence_path_.empty();
+    }
+
+    /**
+     * @brief Append a distinct proposal after the current log tail.
+     * @param term Current leader term assigned to a new entry.
+     * @param command Serialized command. Identical command bytes still represent
+     *        distinct proposals and receive distinct log indices.
+     * @return The appended entry and its preceding log term, or no value when
+     *         a current-term append would violate term ordering.
+     * @throws std::runtime_error If the log lock times out or durable append fails.
+     * @note Earlier uncommitted entries are retained. The caller must replicate
+     *       the full prefix and may advance commit only after a current-term
+     *       entry has durable acknowledgements from a quorum.
+     */
+    [[nodiscard]] std::optional<std::pair<LogEntry, uint64_t>> appendProposal(
+        uint64_t term, const std::string& command);
+
     void appendDurableRecord(const std::string& payload);
     void replayJournal();
     void compactJournal();

@@ -15,7 +15,12 @@
 #include <memory>
 #include <cstdint>
 #include <vector>
+#include <functional>
 #include "sharding/shard_rpc_client.h"
+
+namespace themisdb::sharding {
+class RaftConsensus;
+}
 
 namespace themis::sharding {
 
@@ -55,6 +60,17 @@ public:
         std::string property_value;
         std::string coordinator_shard_id;
     };
+
+    /**
+     * @brief Maps an exact authenticated X.509 identity to a Raft member node ID.
+     * @note The claimed candidate/leader ID in each Raft RPC must equal this
+     *       mapping and be a member of the resolved Raft group's configuration.
+     */
+    struct RaftIdentityBinding {
+        std::string property_name;   ///< Exact authenticated gRPC X.509 property name.
+        std::string property_value;  ///< Exact certificate identity value for that property.
+        std::string node_id;         ///< Configured Raft member ID represented by the certificate.
+    };
     
     /**
      * @brief Configuration for the RPC server
@@ -84,6 +100,14 @@ public:
 
         /// Optional shared staging store. Without it, transfer RPCs fail closed.
         std::shared_ptr<ShardTransferStore> transfer_store;
+
+        /// Explicit Raft-group resolver; called concurrently and must be thread-safe.
+        /// Returning null rejects the RPC; resolver exceptions fail the RPC.
+        std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
+            const std::string& raft_group_id)> raft_group_resolver;
+
+        /// Exact X.509 identity-to-member mappings required when Raft is enabled.
+        std::vector<RaftIdentityBinding> raft_identity_bindings;
     };
     
     /**

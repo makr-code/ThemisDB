@@ -207,6 +207,12 @@ RELEASE_CLAIM_EVIDENCE = [
 # Intentionally excluded from default benchmark registration
 INTENTIONAL_EXCLUSIONS = {
     "performance_optimizations/phase2/benchmark_phase2.cpp",
+    "replication/bench_replication_dedicated_gates.cpp",
+    "sharding/bench_sharding_dedicated_gates.cpp",
+}
+NON_BENCHMARK_DIAGNOSTICS = {
+    "bench_replication_dedicated_gates": "replication/bench_replication_dedicated_gates.cpp",
+    "bench_sharding_dedicated_gates": "sharding/bench_sharding_dedicated_gates.cpp",
 }
 
 # CTest entry pattern in CMakeLists.txt (simplified — exact pattern varies)
@@ -225,6 +231,7 @@ class BenchmarkTarget:
     module: str | None = None
     timeout: int | None = None
     labels: List[str] = field(default_factory=list)
+    diagnostic_ctest_entries: List[str] = field(default_factory=list)
     
     def is_registered_in_ctest(self) -> bool:
         return len(self.ctest_entries) > 0
@@ -387,7 +394,28 @@ def collect_cmake_targets(repo_root: Path = REPO_ROOT) -> Dict[str, BenchmarkTar
             targets[target_name].ctest_entries.append(ctest_name)
             if "release_critical" in ctest_options:
                 targets[target_name].labels.append("release_critical")
+
+        # Standalone local-stub diagnostics use the normal module-test policy,
+        # not benchmark JSON smoke registration. Track their CTest coverage
+        # separately so they do not inflate or disappear from benchmark counts.
+        for match in re.finditer(
+            r"themis_register_test_target\(\s*NAME\s+([^\s]+)\s+TARGET\s+([^\s\)]+)(.*?)\)",
+            text,
+            re.S,
+        ):
+            target_name = match.group(2).strip('"').strip("'")
+            if target_name not in NON_BENCHMARK_DIAGNOSTICS:
+                continue
+            test_name = match.group(1).strip('"').strip("'")
+            if target_name not in targets:
+                targets[target_name] = BenchmarkTarget(name=target_name)
+            targets[target_name].diagnostic_ctest_entries.append(test_name)
     
+    for target_name, source_path in NON_BENCHMARK_DIAGNOSTICS.items():
+        target = targets.get(target_name)
+        if target is not None:
+            target.source_file = source_path
+
     return targets
 
 
@@ -409,13 +437,32 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     
     sources = collect_benchmark_sources(repo_root)
     cmake_targets = collect_cmake_targets(repo_root)
+    benchmark_targets = {
+        name: target
+        for name, target in cmake_targets.items()
+        if name not in NON_BENCHMARK_DIAGNOSTICS
+    }
+    diagnostic_targets = {
+        name: cmake_targets.get(name)
+        for name in NON_BENCHMARK_DIAGNOSTICS
+    }
     
     findings: List[AuditFinding] = []
     stats = {
         "total_sources_discovered": len(sources),
         "intentionally_excluded": sum(1 for s in sources.values() if s.is_excluded),
-        "cmake_targets": len(cmake_targets),
-        "ctest_registered": sum(1 for t in cmake_targets.values() if t.is_registered_in_ctest()),
+        "cmake_targets": sum(1 for t in benchmark_targets.values() if t.source_file is not None),
+        "ctest_registered": sum(
+            1 for t in benchmark_targets.values()
+            if t.source_file is not None and t.is_registered_in_ctest()
+        ),
+        "non_benchmark_diagnostic_targets": sum(
+            1 for target in diagnostic_targets.values() if target is not None and target.source_file is not None
+        ),
+        "diagnostic_ctest_registered": sum(
+            1 for target in diagnostic_targets.values()
+            if target is not None and target.diagnostic_ctest_entries
+        ),
         "errors": 0,
         "warnings": 0,
         "info": 0,
@@ -430,7 +477,7 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
         # Check if any target references this source
         found_in_cmake = any(
             target.source_file == rel_path
-            for target in cmake_targets.values()
+            for target in benchmark_targets.values()
         )
         
         if not found_in_cmake:
@@ -450,8 +497,8 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     
     # ===== CHECK 2: Orphaned CTest Entries (CTest references missing target) =====
     orphaned_ctest = []
-    for target_name, target in cmake_targets.items():
-        if target.source_file is None and target.ctest_entries:
+    for target_name, target in benchmark_targets.items():
+        if "${" not in target_name and target.source_file is None and target.ctest_entries:
             orphaned_ctest.extend(target.ctest_entries)
     
     if orphaned_ctest:
@@ -467,7 +514,7 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     
     # ===== CHECK 3: CMake Targets Without CTest (target not exposed to CTest) =====
     not_ctest_registered = []
-    for target_name, target in cmake_targets.items():
+    for target_name, target in benchmark_targets.items():
         if target.source_file and not target.is_registered_in_ctest():
             not_ctest_registered.append(target_name)
     
@@ -481,6 +528,24 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
         )
         findings.append(finding)
         stats["warnings"] += 1
+
+    # Every explicitly classified non-benchmark diagnostic must remain
+    # mapped to its source and registered through the ordinary CTest policy.
+    missing_diagnostic_ctest = [
+        name for name, target in diagnostic_targets.items()
+        if target is None
+        or target.source_file != NON_BENCHMARK_DIAGNOSTICS[name]
+        or not target.diagnostic_ctest_entries
+    ]
+    if missing_diagnostic_ctest:
+        findings.append(AuditFinding(
+            severity="error",
+            code="MISSING_DIAGNOSTIC_CTEST_REGISTRATION",
+            message="Non-benchmark diagnostic target(s) are missing their ordinary CTest registration",
+            affected_items=missing_diagnostic_ctest,
+            remediation="Keep each diagnostic source mapped to its CMake target and register it with themis_register_test_target()",
+        ))
+        stats["errors"] += 1
     
     # ===== CHECK 4: Broken Targets (source doesn't exist on disk) =====
     broken_targets = []
@@ -507,7 +572,7 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     
     # ===== Module-Level Coverage Breakdown =====
     targets_by_module = {}
-    for target_name, target in cmake_targets.items():
+    for target_name, target in benchmark_targets.items():
         if not target.source_file:
             continue
         module = extract_module_from_path(target.source_file) or "unknown"
@@ -534,16 +599,22 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
     
     # ===== Summary Statistics =====
     stats["cmake_registered_with_source"] = sum(
-        1 for t in cmake_targets.values() if t.source_file is not None
+        1 for t in benchmark_targets.values() if t.source_file is not None
     )
     stats["ctest_coverage_percent"] = (
         100 * stats["ctest_registered"] // stats["cmake_registered_with_source"]
         if stats["cmake_registered_with_source"] > 0
         else 0
     )
+    stats["diagnostic_ctest_coverage_percent"] = (
+        100 * stats["diagnostic_ctest_registered"] // stats["non_benchmark_diagnostic_targets"]
+        if stats["non_benchmark_diagnostic_targets"] > 0
+        else 0
+    )
     stats["unregistered_sources"] = len(unregistered_sources)
     stats["orphaned_ctest"] = len(orphaned_ctest)
     stats["missing_ctest"] = len(not_ctest_registered)
+    stats["missing_diagnostic_ctest"] = len(missing_diagnostic_ctest)
     stats["broken_targets"] = len(broken_targets)
     
     return findings_with_modules, stats, targets_by_module
@@ -552,11 +623,15 @@ def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dic
 def generate_target_mapping(repo_root: Path = REPO_ROOT) -> Dict[str, Dict]:
     """Generate benchmark_target_mapping.json (like test_target_mapping.json)."""
     cmake_targets = collect_cmake_targets(repo_root)
-    sources = collect_benchmark_sources(repo_root)
+    benchmark_targets = {
+        name: target
+        for name, target in cmake_targets.items()
+        if name not in NON_BENCHMARK_DIAGNOSTICS
+    }
     
     mapping = {}
     
-    for target_name, target in cmake_targets.items():
+    for target_name, target in benchmark_targets.items():
         if not target.source_file:
             continue
         
@@ -696,12 +771,14 @@ def generate_module_matrix(
     findings, registration_stats, _ = audit_coverage(repo_root)
     source_targets: Dict[str, List[BenchmarkTarget]] = {}
     for target in targets.values():
-        if target.source_file:
+        if target.source_file and target.name not in NON_BENCHMARK_DIAGNOSTICS:
             source_targets.setdefault(target.source_file, []).append(target)
 
     assigned: Dict[str, List[str]] = {module: [] for module in modules}
     unassigned: List[str] = []
     for source in sorted(sources):
+        if sources[source].is_excluded:
+            continue
         module = source.split("/", 1)[0]
         if module in assigned:
             assigned[module].append(source)
@@ -990,6 +1067,9 @@ def main() -> int:
     print(f"  - with source mapping:  {stats['cmake_registered_with_source']}")
     print(f"CTest registered:         {stats['ctest_registered']}")
     print(f"  - coverage:             {stats['ctest_coverage_percent']}%")
+    print(f"Non-benchmark diagnostics: {stats['non_benchmark_diagnostic_targets']}")
+    print(f"Diagnostic CTest entries:  {stats['diagnostic_ctest_registered']}")
+    print(f"  - coverage:             {stats['diagnostic_ctest_coverage_percent']}%")
     print()
     print(f"Findings Summary:")
     print(f"  - Errors:               {stats['errors']}")
@@ -1021,6 +1101,7 @@ def main() -> int:
                 "unregistered_sources": [],
                 "orphaned_ctest": [],
                 "missing_ctest_registration": [],
+                "missing_diagnostic_ctest_registration": [],
                 "broken_targets": [],
             },
             "targets_by_module": targets_by_module,
@@ -1033,6 +1114,8 @@ def main() -> int:
                 output["findings"]["orphaned_ctest"] = finding.affected_items
             elif finding.code == "MISSING_CTEST_REGISTRATION":
                 output["findings"]["missing_ctest_registration"] = finding.affected_items
+            elif finding.code == "MISSING_DIAGNOSTIC_CTEST_REGISTRATION":
+                output["findings"]["missing_diagnostic_ctest_registration"] = finding.affected_items
             elif finding.code == "BROKEN_TARGET":
                 output["findings"]["broken_targets"] = finding.affected_items
         
@@ -1087,7 +1170,7 @@ def main() -> int:
         print("\n⚠️  AUDIT FAILED: Warnings detected (--fail-on-warning)")
         return 2
     else:
-        print("\n✅ AUDIT PASSED")
+        print("\nAUDIT PASSED")
         return 0
 
 

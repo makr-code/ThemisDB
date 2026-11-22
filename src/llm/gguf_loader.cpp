@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <limits>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -242,6 +243,38 @@ void validateTensorOffset(size_t offset, size_t tensor_size, size_t file_size, c
     }
 }
 
+[[nodiscard]] static bool calculateTensorStorageSize(
+    const TensorMetadata& tensor,
+    size_t bytes_per_block,
+    size_t elements_per_block,
+    size_t& storage_size) {
+    if (tensor.shape.empty() || bytes_per_block == 0 || elements_per_block == 0) {
+        return false;
+    }
+
+    const auto row_elements = static_cast<uint64_t>(tensor.shape.front());
+    if (row_elements == 0 || row_elements % elements_per_block != 0) {
+        return false;
+    }
+
+    const uint64_t row_blocks = row_elements / elements_per_block;
+    if (row_blocks > std::numeric_limits<size_t>::max() / bytes_per_block) {
+        return false;
+    }
+    size_t row_size = static_cast<size_t>(row_blocks) * bytes_per_block;
+
+    for (size_t dimension = 1; dimension < tensor.shape.size(); ++dimension) {
+        const auto extent = static_cast<uint64_t>(tensor.shape[dimension]);
+        if (extent > std::numeric_limits<size_t>::max() / row_size) {
+            return false;
+        }
+        row_size *= static_cast<size_t>(extent);
+    }
+
+    storage_size = row_size;
+    return true;
+}
+
 GGUFLoader::GGUFLoader() 
     : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(nullptr) {
 }
@@ -452,7 +485,7 @@ bool GGUFLoader::parseHeader() {
  * @details Calls: std::memcpy(), assign().
  */
 bool GGUFLoader::readString(size_t& offset, std::string& out) {
-    if (offset + 8 > mmap_size_) {
+    if (offset > mmap_size_ || mmap_size_ - offset < sizeof(uint64_t)) {
       return false;
     }
     
@@ -461,7 +494,7 @@ bool GGUFLoader::readString(size_t& offset, std::string& out) {
     std::memcpy(&len, data + offset, sizeof(uint64_t));
     offset += 8;
     
-    if (len > 1000000 || offset + len > mmap_size_) {
+    if (len > 1000000 || len > mmap_size_ - offset) {
       return false;
     }
     
@@ -686,7 +719,7 @@ bool GGUFLoader::parseTensorInfo() {
         offset += 4;
         
         // Read dimensions
-        if (offset + n_dims * 8 > mmap_size_) {
+        if (offset > mmap_size_ || n_dims > (mmap_size_ - offset) / sizeof(uint64_t)) {
           return false;
         }
         tensor.shape.resize(n_dims);
@@ -694,6 +727,10 @@ bool GGUFLoader::parseTensorInfo() {
             uint64_t dim = 0;
             std::memcpy(&dim, data + offset, 8);
             offset += 8;
+            if (dim > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+                last_error_ = "Tensor dimension exceeds the supported range for: " + tensor.name;
+                return false;
+            }
             tensor.shape[j] = static_cast<int64_t>(dim);
         }
         
@@ -725,22 +762,43 @@ bool GGUFLoader::parseTensorInfo() {
         uint64_t tensor_offset = {};
         std::memcpy(&tensor_offset, data + offset, 8);
         offset += 8;
-        
-        // Calculate tensor size based on type and shape
-        size_t num_elements = 1;
-        for (auto dim : tensor.shape) {
-            num_elements *= dim;
+        if (tensor_offset > std::numeric_limits<size_t>::max()) {
+            last_error_ = "Tensor offset exceeds the supported range for: " + tensor.name;
+            return false;
         }
-        tensor.size = num_elements * getGGMLTypeSize(tensor.type);
-        tensor.offset = tensor_offset;
         
-        // BATCH 1.3: Validate tensor shape and bounds before storing
+        tensor.offset = static_cast<size_t>(tensor_offset);
+
+        // Validate dimensions before doing arithmetic on untrusted GGUF values.
         try {
             validateTensorShape(tensor, "GGUFLoader::parseTensorInfo[" + tensor.name + "]");
-            validateTensorOffset(tensor.offset, tensor.size, mmap_size_, 
-                               "GGUFLoader::parseTensorInfo[" + tensor.name + "]");
         } catch (const std::exception& e) {
             last_error_ = e.what();
+            spdlog::error("GGUFLoader: {}", last_error_);
+            return false;
+        }
+
+        // getGGMLTypeSize() returns the bytes in a quantization block for
+        // block-quantized types, not bytes per element. GGUF stores rows using
+        // ceil(ne[0] / block_elements) blocks and repeats that row for each
+        // remaining dimension.
+        size_t elements_per_block = 1;
+        switch (tensor.type) {
+            case GGMLType::Q8_0:
+                elements_per_block = 32;
+                break;
+            case GGMLType::Q4_K:
+            case GGMLType::Q5_K:
+            case GGMLType::Q6_K:
+            case GGMLType::Q8_K:
+                elements_per_block = 256;
+                break;
+            default:
+                break;
+        }
+        if (!calculateTensorStorageSize(
+                tensor, getGGMLTypeSize(tensor.type), elements_per_block, tensor.size)) {
+            last_error_ = "Invalid or overflowing tensor dimensions for: " + tensor.name;
             spdlog::error("GGUFLoader: {}", last_error_);
             return false;
         }
@@ -749,7 +807,30 @@ bool GGUFLoader::parseTensorInfo() {
     }
     
     // Store data offset (aligned to 32 bytes)
+    if (offset > std::numeric_limits<size_t>::max() - 31) {
+        last_error_ = "Tensor metadata offset overflows GGUF bounds";
+        return false;
+    }
     metadata_.data_offset = alignOffset(offset, 32);
+    if (metadata_.data_offset > mmap_size_) {
+        last_error_ = "Tensor data offset exceeds GGUF file size";
+        return false;
+    }
+
+    const size_t tensor_data_size = mmap_size_ - metadata_.data_offset;
+    for (const auto& tensor : metadata_.tensors) {
+        try {
+            validateTensorOffset(
+                tensor.offset,
+                tensor.size,
+                tensor_data_size,
+                "GGUFLoader::parseTensorInfo[" + tensor.name + "]");
+        } catch (const std::exception& e) {
+            last_error_ = e.what();
+            spdlog::error("GGUFLoader: {}", last_error_);
+            return false;
+        }
+    }
     
     return true;
 }

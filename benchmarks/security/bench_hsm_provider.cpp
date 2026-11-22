@@ -13,6 +13,7 @@
 #include <benchmark/benchmark.h>
 #include "security/hsm_provider.h"
 #include <filesystem>
+#include <mutex>
 #include <random>
 
 using namespace themis::security;
@@ -84,7 +85,7 @@ BENCHMARK(BM_HSM_Verify_Stub);
 // Real PKCS#11: Single session
 static void BM_HSM_Sign_Real_Pool1(benchmark::State& state) {
     auto cfg = makeConfig(1);
-    if(cfg.library_path.empty()){ state.SkipWithError("HSM lib not found"); return; }
+    if(cfg.library_path.empty()){ state.SkipWithMessage("Optional HSM library not found"); return; }
     HSMProvider hsm(cfg);
     if(!hsm.initialize()){ state.SkipWithError("Init failed"); return; }
     auto data = randomData(256);
@@ -99,7 +100,7 @@ BENCHMARK(BM_HSM_Sign_Real_Pool1);
 // Pool size 2
 static void BM_HSM_Sign_Real_Pool2(benchmark::State& state) {
     auto cfg = makeConfig(2);
-    if(cfg.library_path.empty()){ state.SkipWithError("HSM lib not found"); return; }
+    if(cfg.library_path.empty()){ state.SkipWithMessage("Optional HSM library not found"); return; }
     HSMProvider hsm(cfg); if(!hsm.initialize()){ state.SkipWithError("Init failed"); return; }
     auto data = randomData(256);
     for(auto _ : state) {
@@ -113,7 +114,7 @@ BENCHMARK(BM_HSM_Sign_Real_Pool2);
 // Pool size 4
 static void BM_HSM_Sign_Real_Pool4(benchmark::State& state) {
     auto cfg = makeConfig(4);
-    if(cfg.library_path.empty()){ state.SkipWithError("HSM lib not found"); return; }
+    if(cfg.library_path.empty()){ state.SkipWithMessage("Optional HSM library not found"); return; }
     HSMProvider hsm(cfg); if(!hsm.initialize()){ state.SkipWithError("Init failed"); return; }
     auto data = randomData(256);
     for(auto _ : state) {
@@ -127,7 +128,7 @@ BENCHMARK(BM_HSM_Sign_Real_Pool4);
 // Verify with pool 4
 static void BM_HSM_Verify_Real_Pool4(benchmark::State& state) {
     auto cfg = makeConfig(4);
-    if(cfg.library_path.empty()){ state.SkipWithError("HSM lib not found"); return; }
+    if(cfg.library_path.empty()){ state.SkipWithMessage("Optional HSM library not found"); return; }
     HSMProvider hsm(cfg); if(!hsm.initialize()){ state.SkipWithError("Init failed"); return; }
     auto data = randomData(256);
     auto sig = hsm.sign(data);
@@ -142,10 +143,15 @@ BENCHMARK(BM_HSM_Verify_Real_Pool4);
 // Parallel sign benchmark (threads)
 static void BM_HSM_Sign_Parallel(benchmark::State& state) {
     auto cfg = makeConfig(4);
-    if(cfg.library_path.empty()){ state.SkipWithError("HSM lib not found"); return; }
+    if(cfg.library_path.empty()){ state.SkipWithMessage("Optional HSM library not found"); return; }
     static HSMProvider hsm(cfg);
+    static std::once_flag initialize_once;
     static bool initialized = false;
-    if(!initialized){ hsm.initialize(); initialized = true; }
+    std::call_once(initialize_once, [&] { initialized = hsm.initialize(); });
+    if (!initialized) {
+        state.SkipWithError("HSM initialization failed");
+        return;
+    }
     auto data = randomData(256);
     for(auto _ : state) {
         auto sig = hsm.sign(data);

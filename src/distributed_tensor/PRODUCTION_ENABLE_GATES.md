@@ -2,7 +2,7 @@
 
 **Module:** Distributed Tensor (`src/distributed_tensor`)  
 **Status:** Historical gate snapshot; current gate status not revalidated
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-21
 **Target GA Enable Date:** Q1 2027 (Phase A/B) + Q2 2027 (Phase C)
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior, build-test
@@ -30,10 +30,12 @@ Exact model backend not verifiable from final document text alone.
 > executed or passed as part of this source review; production enablement
 > remains unverified.
 >
-> **Integrity security caveat:** the active module target uses an FNV-1a
-> demonstration hash behind `simple_sha256_hash()`. Its Merkle-shaped
-> structures are not cryptographic SHA-256/Merkle security evidence; historical
-> integrity/security gate claims below must not be used for that purpose.
+> **Integrity security caveat:** the active module target now uses OpenSSL EVP
+> SHA-256 when OpenSSL Crypto is available and fails closed otherwise. Receipt
+> hashing does not authenticate a producer, and
+> `ArtifactManifest::compute_manifest_hash()` remains non-cryptographic. The
+> implementation and regression sources have not been built or tested here;
+> historical gate claims below are not current validation evidence.
 
 ## Overview
 
@@ -71,7 +73,7 @@ for production deployment.
 | **GATE-PA-03:** Prometheus metrics emit correctly for all manifest updates | 🔄 Pending | `test_manifest_store_phase_a.cpp` (MS-09..12) | Metrics SLO coverage verified |
 | **GATE-PA-04:** Fallback path tested for corrupted manifest scenarios | ✅ Complete | `test_phase3_failure_semantics.cpp` (FS-01..18) | 18 error-path tests passing |
 | **GATE-PA-05:** Documentation: Advisory-only semantics aligned with query planner behavior | ✅ Complete | `ARCHITECTURE.md`, `SECURITY.md` | Design review approved |
-| **GATE-PA-06:** No advisory artifact can corrupt graph-truth layer | Historical, not revalidated | Integrity suite uses demonstration hashing in the active target; not cryptographic proof | Current security review not verified |
+| **GATE-PA-06:** No advisory artifact can corrupt graph-truth layer | Historical, not revalidated | Updated SHA-256 source is not producer authentication; no current test evidence | Current security review not verified |
 
 ### Production Enable Sign-Off
 

@@ -100,7 +100,7 @@ class StaleArtifactDetector {
 
   virtual StaleArtifactMetrics analyzeArtifactStaleness(
       const std::string& artifact_id,
-      const ArtifactManifest& manifest,
+      const detail::ArtifactManifest& manifest,
       uint64_t current_source_seq,
       double worker_throughput = 0.0,
       double delta_arrival_rate = 0.0);

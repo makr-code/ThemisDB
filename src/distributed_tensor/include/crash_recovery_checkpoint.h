@@ -58,7 +58,7 @@ struct Checkpoint {
 
   DeltaWindow delta_window;
 
-  ArtifactManifest current_manifest;
+  detail::ArtifactManifest current_manifest;
 
   uint64_t artifact_size_bytes = 0;
 

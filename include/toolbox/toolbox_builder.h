@@ -231,8 +231,8 @@ public:
      * @brief Construct and return a fully configured `IngestionToolbox`.
      *
      * Steps performed in order:
-     *  1. Create or reuse a `WorkflowEngine` (from `withWorkflowEngine()` or
-     *     via `IngestionToolbox::createDefault()`).
+     *  1. Create a toolbox with the configured tensor steps and use the
+     *     supplied workflow engine when present.
      *  2. Load each workflow profile added via `withWorkflowProfile()`.
      *  3. Inject the text-generation backend if one was provided.
      *  4. Return the configured toolbox instance.
@@ -243,6 +243,8 @@ public:
      * @return Fully configured `shared_ptr<IngestionToolbox>`.
      * @throws std::logic_error if `build()` has already been called on this
      *         builder instance.
+     * @throws std::logic_error if an explicitly configured tensor step cannot
+     *         be registered in a caller-supplied workflow engine.
      */
     [[nodiscard]] std::shared_ptr<IngestionToolbox> build();
 
@@ -283,11 +285,10 @@ public:
     std::size_t profileCount() const noexcept;
 
     /**
-     * @brief Inject a real `ITensorDecompositionBackend` for TT-core production.
+     * @brief Configure the `builtin.chunk_tt_decompose` dependency.
      *
-     * Re-registers the `builtin.chunk_tt_decompose` step with the supplied
-     * backend, replacing the default `NullTensorDecompositionBackend`.
-     * Pass `nullptr` to restore the no-op fallback.
+     * The backend is installed when `build()` constructs the toolbox. Passing
+     * `nullptr` keeps the default unavailable backend.
      *
      * @param backend  A `TensorIngestionBridge` (or any custom implementation).
      * @return `*this` for chaining.
@@ -296,11 +297,10 @@ public:
         std::shared_ptr<ingestion::ITensorDecompositionBackend> backend);
 
     /**
-     * @brief Inject a real `ITensorCoreBridge` for durable TT-core storage.
+     * @brief Configure the `builtin.tensor_core_bridge` dependency.
      *
-     * Re-registers the `builtin.tensor_core_bridge` step with the supplied
-     * sink, replacing the default no-op fallback.
-     * Pass `nullptr` to restore the no-op fallback.
+     * The sink is installed when `build()` constructs the toolbox. Passing
+     * `nullptr` keeps the default in-memory sink.
      *
      * @param sink  A `TensorCoreStorageBridge` (or any custom implementation).
      * @return `*this` for chaining.

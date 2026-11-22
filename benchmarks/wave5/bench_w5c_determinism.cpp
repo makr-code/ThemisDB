@@ -398,7 +398,9 @@ static void BM_W5C_RngDeterminism(benchmark::State& state) {
         }
     }
 
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations() * n);
+#endif
     state.counters["deterministic"] = allMatch ? 1.0 : 0.0;
     state.SetLabel(allMatch ? "PASS: RNG is deterministic"
                             : "FAIL: RNG divergence detected");

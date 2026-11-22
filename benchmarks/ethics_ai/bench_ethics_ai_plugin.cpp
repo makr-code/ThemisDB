@@ -147,6 +147,35 @@ static const std::string& getBenchmarkPhilosophyDirectory() {
     return directory;
 }
 
+static bool hasBenchmarkPhilosophyArtifacts(benchmark::State& state) {
+    namespace fs = std::filesystem;
+    const fs::path directory = getBenchmarkPhilosophyDirectory();
+    if (!fs::exists(directory)) {
+        state.SkipWithMessage(
+            ("Optional benchmark philosophy profile data is unavailable: " +
+             directory.string()).c_str());
+        return false;
+    }
+
+    if (!fs::is_directory(directory)) {
+        return true; // Let the loader report an invalid configured path as an error.
+    }
+
+    for (const auto& entry : fs::directory_iterator(directory)) {
+        if (entry.is_regular_file()) {
+            const auto extension = entry.path().extension();
+            if (extension == ".yaml" || extension == ".yml") {
+                return true;
+            }
+        }
+    }
+
+    state.SkipWithMessage(
+        ("No optional benchmark philosophy profile files found in " +
+         directory.string()).c_str());
+    return false;
+}
+
 static bool initializeStore(benchmark::State& state, ArgumentStore& store) {
     const auto status = store.initialize(nullptr, nullptr);
     if (!status.isOK()) {
@@ -157,9 +186,17 @@ static bool initializeStore(benchmark::State& state, ArgumentStore& store) {
 }
 
 static bool loadBenchmarkProfiles(benchmark::State& state, PhilosophyLoader& loader) {
+    if (!hasBenchmarkPhilosophyArtifacts(state)) {
+        return false;
+    }
+
     const auto result = loader.loadFromDirectory(getBenchmarkPhilosophyDirectory());
     if (!std::holds_alternative<size_t>(result)) {
         state.SkipWithError("Failed to load benchmark philosophy profiles");
+        return false;
+    }
+    if (std::get<size_t>(result) == 0) {
+        state.SkipWithError("Benchmark philosophy profile files could not be loaded");
         return false;
     }
     return true;
@@ -192,6 +229,9 @@ static std::vector<float> createQueryEmbedding(size_t dimensions) {
 
 static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
     PhilosophyLoader loader;
+    if (!hasBenchmarkPhilosophyArtifacts(state)) {
+        return;
+    }
     
     for (auto _ : state) {
         state.PauseTiming();
@@ -201,6 +241,10 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
         auto result = loader.loadFromDirectory(getBenchmarkPhilosophyDirectory());
         if (!std::holds_alternative<size_t>(result)) {
             state.SkipWithError("Failed to load benchmark philosophy profiles");
+            break;
+        }
+        if (std::get<size_t>(result) == 0) {
+            state.SkipWithError("Benchmark philosophy profile files could not be loaded");
             break;
         }
         benchmark::DoNotOptimize(result);

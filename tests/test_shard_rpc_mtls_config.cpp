@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstdlib>
 #include <optional>
 #include <stdexcept>
@@ -5,6 +6,7 @@
 #include <utility>
 
 #include <gtest/gtest.h>
+#include <boost/asio.hpp>
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_rpc_server.h"
 #include "test_crypto_material_utils.h"
@@ -66,6 +68,17 @@ private:
 #endif
 
 namespace {
+
+uint16_t findFreeLoopbackPort() {
+    boost::asio::io_context io;
+    boost::asio::ip::tcp::acceptor acceptor(io);
+    acceptor.open(boost::asio::ip::tcp::v4());
+    acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+    acceptor.bind({boost::asio::ip::address_v4::loopback(), 0});
+    const auto port = acceptor.local_endpoint().port();
+    acceptor.close();
+    return static_cast<uint16_t>(port);
+}
 
 class TemporaryPemFiles {
 public:
@@ -353,7 +366,8 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedPeer) {
     TemporaryPemFiles pem_files;
 
     ShardRPCServer::Config server_config;
-    server_config.listen_address = "127.0.0.1:50066";
+    const auto port = findFreeLoopbackPort();
+    server_config.listen_address = "127.0.0.1:" + std::to_string(port);
     server_config.enable_mtls = true;
     server_config.tls_require_client_cert = true;
     server_config.tls_cert_path =
@@ -371,7 +385,7 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedPeer) {
     ASSERT_TRUE(server.start());
 
     ShardRPCClient::Config client_config;
-    client_config.endpoint = "localhost:50066";
+    client_config.endpoint = "localhost:" + std::to_string(port);
     client_config.enable_mtls = true;
     client_config.tls_verify_server = true;
     client_config.tls_cert_path =
@@ -406,7 +420,8 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsUnmappedAuthenticatedPeer) {
     TemporaryPemFiles pem_files;
 
     ShardRPCServer::Config server_config;
-    server_config.listen_address = "127.0.0.1:50067";
+    const auto port = findFreeLoopbackPort();
+    server_config.listen_address = "127.0.0.1:" + std::to_string(port);
     server_config.enable_mtls = true;
     server_config.tls_require_client_cert = true;
     server_config.tls_cert_path =
@@ -424,7 +439,7 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsUnmappedAuthenticatedPeer) {
     ASSERT_TRUE(server.start());
 
     ShardRPCClient::Config client_config;
-    client_config.endpoint = "localhost:50067";
+    client_config.endpoint = "localhost:" + std::to_string(port);
     client_config.enable_mtls = true;
     client_config.tls_verify_server = true;
     client_config.tls_cert_path =
@@ -456,7 +471,8 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedSanPeer)
     TemporaryPemFiles pem_files;
 
     ShardRPCServer::Config server_config;
-    server_config.listen_address = "127.0.0.1:50068";
+    const auto port = findFreeLoopbackPort();
+    server_config.listen_address = "127.0.0.1:" + std::to_string(port);
     server_config.enable_mtls = true;
     server_config.tls_require_client_cert = true;
     server_config.tls_cert_path =
@@ -474,7 +490,7 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedSanPeer)
     ASSERT_TRUE(server.start());
 
     ShardRPCClient::Config client_config;
-    client_config.endpoint = "localhost:50068";
+    client_config.endpoint = "localhost:" + std::to_string(port);
     client_config.enable_mtls = true;
     client_config.tls_verify_server = true;
     client_config.tls_cert_path =
@@ -506,7 +522,8 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsAmbiguousSanPeer) {
     TemporaryPemFiles pem_files;
 
     ShardRPCServer::Config server_config;
-    server_config.listen_address = "127.0.0.1:50069";
+    const auto port = findFreeLoopbackPort();
+    server_config.listen_address = "127.0.0.1:" + std::to_string(port);
     server_config.enable_mtls = true;
     server_config.tls_require_client_cert = true;
     server_config.tls_cert_path =
@@ -525,7 +542,7 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsAmbiguousSanPeer) {
     ASSERT_TRUE(server.start());
 
     ShardRPCClient::Config client_config;
-    client_config.endpoint = "localhost:50069";
+    client_config.endpoint = "localhost:" + std::to_string(port);
     client_config.enable_mtls = true;
     client_config.tls_verify_server = true;
     client_config.tls_cert_path =

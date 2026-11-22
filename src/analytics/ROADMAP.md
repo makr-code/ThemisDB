@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-06"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-22"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -196,7 +196,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 - [x] dedicated benchmark coverage for distributed coordinator safety controls
    - [x] `benchmarks/analytics/bench_analytics_distributed_coordinator.cpp` — DC-01..DC-04 release gates (2026-08-15)
    - [x] Circuit breaker state transition ≤ 100µs (DC-01)
-   - [x] Concurrent merge startup ≤ 500µs p99 (DC-02)
+   - [x] Coordinator-entry-to-all-shard-executor-start latency ≤ 500µs p99 (DC-02; targeted Windows Release run 2026-11-22: dispatch-startup p99 152.2µs, end-to-end p99 191.9µs diagnostic; gate unchanged)
    - [x] Timeout recovery switchover ≤ 1000µs p99 (DC-03)
    - [x] Degraded-mode throughput ≥ 80% of normal (DC-04)
 - [x] comprehensive test coverage for distributed coordinator

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,7 +36,9 @@ Contract notes:
 - null returns are valid when no index is found or the route is unsupported
 - configuration and cleanup semantics are explicit; no silent fallback is expected for malformed state
 - **Implementation caveat:** `routeFor()` computes a route separately; current `createIndex()` constructs a `FlatTensorIndex` without consulting that route. This differs from the header comment describing `nullptr` for an HNSW route and remains an unresolved source/API contract discrepancy.
-- `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. The legacy function caches a bridge internally so its returned pointers remain valid across index mutations.
+- `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. Its cached
+  bridge keeps pointers valid across index mutations, but cache eviction or
+  manager destruction invalidates them.
 
 ### `TensorFingerprintGraph`
 
@@ -100,6 +102,13 @@ Contract notes:
 The module strongly prefers explicit failure to silent recovery. In API terms that means:
 
 - `addAdapter()` returns `false` for empty or malformed TT cores.
+- `ITensorIndex::add()` rejects malformed TT shape/rank metadata and mode sizes
+  that differ from existing entries; `search()` returns no results for malformed
+  queries or query modes incompatible with the index. `.ttidx` loading rejects
+  mode/core count or dimension mismatches, including mixed shapes across entries,
+  and leaves existing contents intact.
+  Persisted files with incomplete or inconsistent mode metadata must be rebuilt
+  from their source vectors.
 - invalid exact-similarity math is rejected/skipped with diagnostics on the relevant `findSimilar()` paths; empty fingerprint input and `k == 0` return empty results directly.
 - missing index or adapter is represented by `nullptr`, `false`, or an empty result according to the called API.
 - data persistence and cleanup must remain paired

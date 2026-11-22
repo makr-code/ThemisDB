@@ -112,7 +112,7 @@ BENCHMARK(BM_Backend_CPU)
 
 static void BM_Backend_CUDA(benchmark::State& state) {
     if (!backend_available(accel::BackendType::CUDA)) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -164,7 +164,7 @@ BENCHMARK(BM_Backend_CUDA)
 
 static void BM_Backend_HIP(benchmark::State& state) {
     if (!backend_available(accel::BackendType::HIP)) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -216,7 +216,7 @@ BENCHMARK(BM_Backend_HIP)
 
 static void BM_Backend_Vulkan(benchmark::State& state) {
     if (!backend_available(accel::BackendType::VULKAN)) {
-        state.SkipWithError("Vulkan not available");
+        state.SkipWithMessage("Vulkan not available");
         return;
     }
     
@@ -268,7 +268,7 @@ BENCHMARK(BM_Backend_Vulkan)
 #ifdef _WIN32
 static void BM_Backend_DirectX(benchmark::State& state) {
     if (!backend_available(accel::BackendType::DIRECTX)) {
-        state.SkipWithError("DirectX not available");
+        state.SkipWithMessage("DirectX not available");
         return;
     }
     
@@ -336,7 +336,7 @@ BENCHMARK(BM_Backend_Init_CPU)->UseManualTime();
 
 static void BM_Backend_Init_CUDA(benchmark::State& state) {
     if (!backend_available(accel::BackendType::CUDA)) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -357,7 +357,7 @@ BENCHMARK(BM_Backend_Init_CUDA)->UseManualTime();
 
 static void BM_Backend_Init_HIP(benchmark::State& state) {
     if (!backend_available(accel::BackendType::HIP)) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -378,7 +378,7 @@ BENCHMARK(BM_Backend_Init_HIP)->UseManualTime();
 
 static void BM_Backend_Init_Vulkan(benchmark::State& state) {
     if (!backend_available(accel::BackendType::VULKAN)) {
-        state.SkipWithError("Vulkan not available");
+        state.SkipWithMessage("Vulkan not available");
         return;
     }
     
@@ -407,12 +407,12 @@ static void BM_Vulkan_Overhead(benchmark::State& state) {
     Device device = use_vulkan ? Device::vulkan() : Device::cuda();
     
     if (use_vulkan && !backend_available(accel::BackendType::VULKAN)) {
-        state.SkipWithError("Vulkan not available");
+        state.SkipWithMessage("Vulkan not available");
         return;
     }
     
     if (!use_vulkan && !backend_available(accel::BackendType::CUDA)) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -498,7 +498,7 @@ BENCHMARK(BM_Device_Selection)->UseManualTime();
 
 static void BM_CrossBackend_Transfer(benchmark::State& state) {
     if (!backend_available(accel::BackendType::CUDA)) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

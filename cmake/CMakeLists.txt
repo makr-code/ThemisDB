@@ -2110,7 +2110,6 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/compression_strategy.cpp
     ../src/graph/tensor_deduplication_manager.cpp
     ../src/graph/tensor_fingerprint_graph.cpp
-    ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp
@@ -5798,6 +5797,14 @@ if(WIN32 AND THEMIS_ENABLE_MIMALLOC)
     endif()
 endif()
 
+# Tensor is an in-tree runtime module, not an enterprise plugin. Register it
+# before test/benchmark consumers inspect TARGET themis_tensor.
+if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt" AND
+   NOT TARGET themis_tensor)
+    add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
+                     ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
+endif()
+
 # Tests - fully delegated to tests/CMakeLists.txt
 # All individual test target definitions have been moved there.
 if(THEMIS_BUILD_TESTS)
@@ -6232,13 +6239,6 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_knowledge/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_knowledge
                          ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_knowledge)
-    endif()
-
-    # Tensor Mid-Layer Abstractions module (Phase 4, 2026-07-01)
-    # -------------------------------------------------------------------------
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt")
-        add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
-                         ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
     # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)

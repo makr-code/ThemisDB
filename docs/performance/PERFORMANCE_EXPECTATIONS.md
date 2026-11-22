@@ -124,7 +124,7 @@ Release gate interpretation:
 | Root-Release-Gates (Snapshot 2026-05-15) | Ja | Ja | Query P99 / Global P99 / Throughput-Regression mit PASS/FAIL |
 | Replication Wave2 (R-1..R-8) | Ja | Ja | Direkte SLO-Metriken teils nur als Proxy bzw. N/A verifizierbar |
 | Sharding Wave2 (SH-1..SH-12) | Ja | Ja | SH-8 hardware-gated (`not_measurable`), mehrere Ziele als Proxy evaluiert |
-| Transaction Wave2 (TX-1..TX-8) | Ja | Ja | TX-4/TX-6 mangels direkter Artefaktmetrik als N/A markiert |
+| Transaction Wave2 (TX-1..TX-8) | Historischer Snapshot | Historischer Snapshot | Die Workloads wurden seither korrigiert; frühere Werte/Zuordnungen sind keine aktuelle Evidenz. |
 | ONNX-CLIP (OC-1..OC-5) | Ja | Ja | Vollständig numerisch belegt, alle Ziele mit Status bewertet |
 
 Einordnung:
@@ -1359,21 +1359,25 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 13. Transaction-Modul
 
-> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` und `bench_saga_compensation.cpp` — PRODUCTION-READY.
-> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Alle 8 Faelle direkt messbar — kein Proxy mehr.
-> TX-4 und TX-6 wurden von Proxy auf `mapped` umgestellt (Wave2-Abschluss).
-> v1.9.0-Profil: `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
+> TX-1..TX-8 sind aktuellen Workloads zugeordnet; das ist weder eine
+> Production-Ready-Bewertung noch ein Nachweis, dass die Ziele erreicht wurden.
+> Frühere v1.9.0-Messwerte und Proxy-Zuordnungen sind durch Workload-Korrekturen
+> überholt. Die aktuelle Evidenz und Messgrenzen stehen in
+> [`src/transaction/PERFORMANCE_EXPECTATIONS.md`](../../src/transaction/PERFORMANCE_EXPECTATIONS.md).
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Aktuelles `primary_case` | Vergleichbarer `fallback_case` | Aktuelle Messung | Aktuelle Bewertung | Mapping-Status |
 |---------|----------------|-----------------|---------------------|----------------------|----------------------|------------------|-----------------|
-| TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | Historischer Iterationswert: 37.39 µs; kein Commit-P50 | UNCHECKED | `proxy` |
-| TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | Historischer Iterationswert: 1.016 ms; kein Commit-P99 | UNCHECKED | `proxy` |
-| TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `WriteOnlyTransaction`: 6826.67 tps | PASS | `mapped` |
-| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
-| TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `DatabaseWriteCompensation`: direkte SAGA-Kompensation ueber reale Handler (Artefakt: `bench_saga_compensation_v190.json`) | PASS (direkt) | `mapped` |
-| TX-6 Deadlock Detection Overhead | ≤ 1 % overhead | n/a | `DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict` | `DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
-| TX-7 False Positive Rate | < 5 % | n/a | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `OccReadVersionAndUpdate` Threads(1): conflicts-Counter misst direkte OCC-False-Positives (kein echter Contentionpfad aktiv) | PASS (direkt) | `mapped` |
-| TX-8 Low-Contention Success Rate | > 90 % | n/a | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `OccOptimisticPut`: 25284.57 tps (ohne success_rate-Feld) | N/A | `mapped` |
+| TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture/CommitLatency/1` | — | Direkter nearest-rank `p50_real_time`-Counter; neuer Release-Lauf ausstehend | NOT_RUN | `mapped` |
+| TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture/CommitLatency/100` | — | Direkter nearest-rank `p99_real_time`-Counter; neuer Release-Lauf ausstehend | NOT_RUN | `mapped` |
+| TX-3 Write-only committed transaction throughput | > 6 k/s | n/a | `TransactionBenchmarkFixture/WriteOnlyTransaction` | — | Drei 1-s-Läufe: 5.185, 5.921 und 6.040 k/s (Mittelwert 5.715 k/s, CV 8.11 %); reproduzierbare Zielerfüllung nicht belegt | UNCHECKED | `mapped` |
+| TX-4 2PC Latenz (5 durable in-process participants) | ≤ 5 ms | n/a | `TwoPhaseCommitFixture/TwoPhaseCommitLatency/5` | — | Coordinator und Teilnehmer mit je eigenem WAL sowie per-shard fencing; Storage-Anwendung bleibt no-op; gezielter Lauf ausstehend | NOT_RUN | `mapped` |
+| TX-5 SAGA Compensation Time (50 writes) | ≤ 20 ms | n/a | `SagaBenchmarkFixture/DatabaseWriteCompensation/50` | — | Reale DB-Erases werden geprüft; gezielte Laufzeitmessung nach Fix ausstehend | NOT_RUN | `mapped` |
+| TX-6 Deadlock Detection Call Latency | ≤ 1 µs | n/a | `DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict` | — | Direkte Wandzeitmessung; neuer Release-Lauf ausstehend | NOT_RUN | `mapped` |
+| TX-7 Uncontended OCC false-conflict rate | < 5 % | n/a | `TransactionBenchmarkFixture/OccReadVersionAndUpdate` | — | Counter: `false_conflict_rate_percent`; neuer Lauf ausstehend | NOT_RUN | `mapped` |
+| TX-8 Uncontended OCC insert success rate | > 90 % | n/a | `TransactionBenchmarkFixture/OccOptimisticPut` | — | Counter: `success_rate_percent`; Einzelthread ohne konkurrierende Writer | NOT_RUN | `mapped` |
+
+> Diese Tabelle fasst die aktuellen Mapping-/Messverträge zusammen. Der separate
+> v1.9.0-Baseline-Entwurf ist als historisch und überholt gekennzeichnet.
 
 ---
 
@@ -2121,8 +2125,10 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 
 > *SLO tables and measurement data: see §§11-13 / §5.3. Combined SLO/results tables are preserved in §5.*
 >
-> **Wave2 (2026-04-15):** SLO-zu-Benchmark-Matrix vollständig aufgebaut.
-> Alle 28 Ziel-IDs (R-1..R-8 + SH-1..SH-12 + TX-1..TX-8) haben `primary_case` + `fallback_case`.
+> **Wave2 (2026-04-15, historischer Stand):** Die damalige SLO-zu-Benchmark-Matrix ist
+> kein Nachweis aktueller Zuordnungen oder Messungen. Aktuelle Zuordnungen stehen in
+> `benchmarks/benchmark_target_mapping.json`; ein Fallback ist nicht für jedes Ziel
+> sinnvoll oder vergleichbar.
 > v1.9.0-Profile-JSONs: `benchmarks/baselines/distributed/`.
 > Matrix-Dokument: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md)
 > Gesamt-Aufwand offene Gap-Tickets: 72 Tage (Replication 13d + Sharding 46d + Transaction 13d).
@@ -2181,7 +2187,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-3/R-4/R-5/R-6/R-7; Proxy-Cases: R-1/R-8; Gap-Ticket R-8-GAP mit Aufwand 5d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
-| Transaction | **Wave2 SLO-Matrix vollständig kartiert (2026-04-15)** | TX-1..TX-8 haben `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; TX-1/TX-2 sind Timing-Proxys ohne Commit-Perzentile. Eine Fallzuordnung belegt weder direkte Messbarkeit noch Zielerreichung. |
+| Transaction | **Workloads korrigiert; Laufzeitnachweise offen** | TX-1..TX-8 sind aktuellen Fällen zugeordnet. Frühere v1.9.0-Ergebnisse, Proxy-Aussagen und das `BM_TransactionContention`-Mapping sind überholt; Zuordnung allein belegt keine Zielerreichung. |
 | LLM | Model-backed component benchmark; performance baseline pending | `benchmarks/llm/bench_llm_real_models.cpp` (target `bench_llm_inference_performance`); token-simulation and fabricated-context results excluded; TTFT/TPOT and representative-hardware metrics remain open |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |
@@ -2403,7 +2409,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | 4 | ~~Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren~~ **ERLEDIGT** | 1, 5 | S | Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` erstellt: `THEMIS_ENABLE_VOICE_ASSISTANT=ON`, `bench_voice_assistant` gebaut, ≥1 Testlauf dokumentiert, fehlende Dependencies als SKIP ausgewiesen |
 | 5 | ~~GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren~~ **ERLEDIGT** | 1, 3 | L | Workflow `06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml` mit CUDA (sm_80/89/90), HIP (gfx1100/gfx90a) und Vulkan Jobs; `bench_gpu_backends`, `bench_vulkan_lora`, `bench_lora_gpu` als CMake-Targets hinzugefügt; `THEMIS_ENABLE_GPU=1`-Compile-Definitionen für alle GPU-Benchmark-Targets gesetzt — GPU-disabled Stubs werden durch reale Messwerte ersetzt sobald GPU-Runner registriert sind |
 | 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |
-| 7 | ~~Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul)~~ **ERLEDIGT (Wave2, 2026-04-15)** | 4 | M | `benchmark_target_mapping.json` v2.0: alle 191 Ziel-IDs aus `PERFORMANCE_EXPECTATIONS.md` kartiert; R-1..R-8/SH-1..SH-12/TX-1..TX-8 mit `primary_case`+`fallback_case`; v1.9.0-Profile-JSONs; Check 6a in `verify_benchmark_mapping.py` |
+| 7 | ~~Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul)~~ **ERLEDIGT (Wave2, 2026-04-15)** | 4 | M | `benchmark_target_mapping.json` v2.0 enthält Ziel-Fall-Zuordnungen; ein Fallback ist optional und muss vergleichbar sein. Mapping-Validierung prüft Zuordnungen, nicht Laufzeitmessung oder Zielerreichung. |
 | 8 | ~~Build-Check „source exists but binary missing“ als CI-Guard ergänzen~~ **ERLEDIGT** | 5 | S | CI schlägt fehl, wenn `bench_*.cpp` ohne entsprechendes Target/Binary bleibt. Check 8a (CMake-target), 8b (guard script), 8c (built binary) in `05-quality_build_bench-source-guard-ci.yml` implementiert. |
 | 9 | Disabled-Stub-Policy einführen (max. 1 Release erlaubt, danach Pflichtticket) | 2 | S | jede `*_Disabled`-Registrierung trägt Deadline und Issue-Referenz |
 | 10 | ~~Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets~~ **ERLEDIGT** | 1, 3, 4 | L | täglicher Coverage-Report mit Ampel pro Modul und Delta-Vergleich — implementiert via `nightly-benchmark-sweep.yml` (cron 02:00 UTC), CMake-Preset `nightly-bench-sweep`, `tools/bench_coverage_report.py` |

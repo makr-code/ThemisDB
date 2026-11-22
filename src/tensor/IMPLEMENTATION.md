@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-11-21"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "unknown"
-Human_Review: true
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -15,6 +15,18 @@ Exact model backend not verifiable from final document text alone.
 # Tensor Module Implementation Guide
 
 ## Implementation map
+
+The root CMake configuration registers `themis_tensor` after the core targets
+and before tests/benchmarks, outside the enterprise-plugin gate.
+`src/tensor/CMakeLists.txt` compares its sources with the `SOURCES` of a
+static/object `themis_core` or `themis_storage`; overlapping files are dropped
+from `themis_tensor`; eligible shared owners are also used when they export
+symbols (`WINDOWS_EXPORT_ALL_SYMBOLS` on Windows, non-hidden visibility
+elsewhere). The owner is linked privately. Tensor test targets filter direct
+source additions against the same owners. Dependency direction stays tensor
+→ core/storage; neither owner links back to `themis_tensor`. Do not add a
+reverse core-to-tensor dependency. These changes have not been configured,
+built, or tested.
 
 The tensor module is implemented as a small set of tightly related runtime surfaces:
 
@@ -31,7 +43,7 @@ The tensor module is implemented as a small set of tightly related runtime surfa
 
 ### 1. Index manager lifecycle is registry-based and bounded
 
-`TensorIndexManager` keeps a registry keyed by `(tenant_id, collection, field)` and stores a `std::unique_ptr<ITensorIndex>`. `createIndex()` serializes the registry lookup and insertion path with `registry_mutex_`, and it bounds concurrent creates with `pending_operations_`.
+`TensorIndexManager` keeps a registry keyed by `(tenant_id, collection, field)` and stores a `std::unique_ptr<ITensorIndex>`. `createIndex()` serializes the registry lookup and insertion path with `registry_mutex_`, and it bounds concurrent creates with `pending_operations_` (atomic compare-exchange gate, limit 256). New indexes are built via `createFlatTensorIndex(max_rank, epsilon)`; an epsilon outside (0, 1) makes `createIndex()` return `nullptr`. Restoring from `.ttidx` treats the file as untrusted input and keeps the previous contents on any validation failure.
 
 This means the manager is designed to prevent duplicate index instances from racing each other under concurrency, while also limiting the maximum number of simultaneous creates in-flight.
 

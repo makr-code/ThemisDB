@@ -42,7 +42,7 @@ std::string tensorPrefix(std::string_view tensor_name) {
     return std::string(kManifestPrefix) + encodeHex(tensor_name) + "/";
 }
 
-std::string storageKey(const ArtifactManifest& manifest) {
+std::string storageKey(const detail::ArtifactManifest& manifest) {
     constexpr char digits[] = "0123456789abcdef";
     std::array<char, 8> shard_id{};
     for (std::size_t i = 0; i < shard_id.size(); ++i) {
@@ -55,7 +55,8 @@ std::string storageKey(const ArtifactManifest& manifest) {
            encodeHex(manifest.artifact_id);
 }
 
-std::optional<ArtifactManifest> parseStoredManifest(std::string_view serialized) {
+std::optional<detail::ArtifactManifest> parseStoredManifest(
+    std::string_view serialized) {
     try {
         const auto encoded = nlohmann::json::parse(serialized);
         constexpr std::array<std::string_view, 13> required_fields = {
@@ -72,7 +73,7 @@ std::optional<ArtifactManifest> parseStoredManifest(std::string_view serialized)
             !encoded["integrity"].contains("payload_bytes")) {
             return std::nullopt;
         }
-        return ArtifactManifest::fromJSON(encoded.dump());
+        return detail::ArtifactManifest::fromJSON(encoded.dump());
     } catch (...) {
         return std::nullopt;
     }
@@ -152,7 +153,7 @@ ManifestStore::ManifestStore(std::string db_path,
 
     const bool records_valid = visitManifests(
         *storage_, kManifestPrefix,
-        [](const std::string&, const ArtifactManifest&) { return true; });
+        [](const std::string&, const detail::ArtifactManifest&) { return true; });
     if (!records_valid) {
         throw std::runtime_error(
             "ManifestStore could not read or validate persisted manifest data");
@@ -161,7 +162,7 @@ ManifestStore::ManifestStore(std::string db_path,
 
 ManifestStore::~ManifestStore() = default;
 
-bool ManifestStore::store(const ArtifactManifest& manifest) {
+bool ManifestStore::store(const detail::ArtifactManifest& manifest) {
     if (!manifest.validate()) {
         return false;
     }
@@ -205,7 +206,8 @@ std::size_t ManifestStore::evict(const std::string& artifact_id) {
     std::vector<std::string> keys;
     const bool valid = visitManifests(
         *storage_, kManifestPrefix,
-        [&keys, &artifact_id](const std::string& key, const ArtifactManifest& manifest) {
+        [&keys, &artifact_id](const std::string& key,
+                              const detail::ArtifactManifest& manifest) {
             if (manifest.artifact_id == artifact_id) {
                 keys.push_back(key);
             }
@@ -229,7 +231,7 @@ std::size_t ManifestStore::evictStale(double max_age_s) {
     const bool valid = visitManifests(
         *storage_, kManifestPrefix,
         [&keys, max_age_s, now](const std::string& key,
-                                const ArtifactManifest& manifest) {
+                                const detail::ArtifactManifest& manifest) {
             if (!manifest.isFresh(max_age_s, now)) {
                 keys.push_back(key);
             }
@@ -246,13 +248,14 @@ std::size_t ManifestStore::evictStale(double max_age_s) {
     return writeBatch(*storage_, batch).ok() ? keys.size() : 0;
 }
 
-std::optional<ArtifactManifest> ManifestStore::get(
+std::optional<detail::ArtifactManifest> ManifestStore::get(
     const std::string& tensor_name, uint32_t shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::optional<ArtifactManifest> best;
+    std::optional<detail::ArtifactManifest> best;
     const bool valid = visitManifests(
         *storage_, tensorPrefix(tensor_name),
-        [&best, shard_id](const std::string&, const ArtifactManifest& manifest) {
+        [&best, shard_id](const std::string&,
+                          const detail::ArtifactManifest& manifest) {
             if (manifest.shard_id == shard_id &&
                 (!best || manifest.version > best->version)) {
                 best = manifest;
@@ -262,13 +265,14 @@ std::optional<ArtifactManifest> ManifestStore::get(
     return valid ? best : std::nullopt;
 }
 
-std::vector<ArtifactManifest> ManifestStore::list(
+std::vector<detail::ArtifactManifest> ManifestStore::list(
     const std::string& tensor_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ArtifactManifest> result;
+    std::vector<detail::ArtifactManifest> result;
     const bool valid = visitManifests(
         *storage_, tensorPrefix(tensor_name),
-        [&result](const std::string&, const ArtifactManifest& manifest) {
+        [&result](const std::string&,
+                  const detail::ArtifactManifest& manifest) {
             result.push_back(manifest);
             return true;
         });
@@ -277,7 +281,8 @@ std::vector<ArtifactManifest> ManifestStore::list(
     }
 
     std::sort(result.begin(), result.end(),
-              [](const ArtifactManifest& a, const ArtifactManifest& b) {
+              [](const detail::ArtifactManifest& a,
+                 const detail::ArtifactManifest& b) {
                   if (a.shard_id != b.shard_id) {
                       return a.shard_id < b.shard_id;
                   }
@@ -291,7 +296,7 @@ std::size_t ManifestStore::size() const noexcept {
     std::size_t count = 0;
     const bool valid = visitManifests(
         *storage_, kManifestPrefix,
-        [&count](const std::string&, const ArtifactManifest&) {
+        [&count](const std::string&, const detail::ArtifactManifest&) {
             ++count;
             return true;
         });
@@ -309,7 +314,8 @@ void ManifestStore::refreshFreshnessMetrics() const {
         std::lock_guard<std::mutex> lock(mutex_);
         const bool valid = visitManifests(
             *storage_, kManifestPrefix,
-            [&oldest_age, now](const std::string&, const ArtifactManifest& manifest) {
+            [&oldest_age, now](const std::string&,
+                               const detail::ArtifactManifest& manifest) {
                 const double age = manifest.freshnessAgeSeconds(now);
                 auto [it, inserted] = oldest_age.emplace(manifest.tensor_name, age);
                 if (!inserted && age > it->second) {

@@ -98,7 +98,9 @@ void BM_RoutingDispatch(benchmark::State& state) {
     for (auto _ : state) {
         benchmark::DoNotOptimize(accelerator.computeRoutingScores(input, routes, false));
     }
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(routes.size()));
+#endif
 }
 
 BENCHMARK(BM_CompressCpu)->Arg(256)->Arg(4096)->Arg(65536)->Iterations(50000)->Unit(benchmark::kNanosecond);

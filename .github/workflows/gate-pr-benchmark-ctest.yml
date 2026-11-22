@@ -30,6 +30,9 @@ on:
       - 'CMakeLists.txt'
       - '.github/workflows/gate-pr-benchmark-ctest.yml'
       - 'tools/ci/audit_benchmark_coverage.py'
+      - 'tools/ci/check_testing_standards.py'
+      - 'tests/TESTING_STANDARDS.md'
+      - 'benchmarks/BENCHMARK_STANDARDS.md'
   workflow_dispatch:
 
 concurrency:
@@ -75,6 +78,13 @@ jobs:
           python3 tools/ci/audit_benchmark_coverage.py \
             --output /tmp/audit_report.json \
             2>&1 | tee /tmp/audit_output.log
+
+      - name: Inventory test and benchmark standard migration
+        run: |
+          set -euo pipefail
+          python3 tools/ci/check_testing_standards.py \
+            --strict \
+            --output /tmp/testing_standards_inventory.json
           
           # Note: audit tool returns exit code 1 on any errors
           # We handle gate logic in Python script below

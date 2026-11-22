@@ -2,36 +2,40 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-10-31
-Status: archived
+Last Updated: 2026-11-21
+Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Contributor: GitHub Copilot coding agent
 Human_Review: false
 Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: include/transaction/; src/transaction/; tests/transaction/; benchmarks/transaction/
+source: include/transaction/; src/transaction/; tests/transaction/; benchmarks/transaction/
+source_class: generated
+source_weight: 60
 
-Exact model backend not verifiable from final document text alone.
-
-> **Historical generated output:** This snapshot was generated on 2026-09-20 and is not current authority for APIs, paths, build targets, or test inventory. Verify those claims against current headers, source, and CMake definitions. **TODO:** regenerate through the current repository Doxygen workflow.
-
-Source level: 1; SOT domain: module-behavior. Canonical references: current transaction headers and sources, `tests/transaction/CMakeLists.txt`, and `benchmarks/transaction/CMakeLists.txt`. Related issue: #7390.
+> Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: historical local Windows temporary path; unavailable in this repository.
-- Warnings log: historical local Windows temporary path; unavailable in this repository.
+- XML index (relative to the artifact output root): `transaction/xml/index.xml`
+- Warnings log (relative to the artifact output root): `transaction/doxygen-warnings.log`
 
 ## Structure Metrics
-- C/C++ Files (scanned): 82
-- Compounds: 309
-- Classes/Structs: 193
-- Namespaces: 23
-- File Compounds: 82
+- C/C++ Files (scanned): 83
+- Compounds: 315
+- Classes/Structs: 196
+- Namespaces: 25
+- File Compounds: 83
 
 ## Namespaces
 - @030174125317341027325213373254142173326163105150
 - @050305051174032171224071272060246364142065066331
 - @327077047374022350146004022266314357307153174005
+- @362144312110137023243161001113355350263331064240
+- @364357104137215302344326136331130371363110224240
 - @370324226357302207201335272134247057166150316167
 - benchmark
 - plugins
@@ -59,6 +63,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - AdaptiveDeadlockIntegrationTest
 - BenchMockParticipant
 - BulkTransactionTest
+- CommitThrowingParticipant
 - ConnectionLeakTests
 - DeadlockDetectionFixture
 - DeadlockPredictorTest
@@ -68,6 +73,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - OccTest
 - Phase2MockParticipant
 - SSITest
+- ScopedTempWalDir
 - StatefulMockCoordinator
 - Stub2PCCoordinator
 - StubTxStore
@@ -219,6 +225,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - themis::transaction::CrashRecoveryManager::RecoveryResult
 - themis::transaction::DistributedTransaction
 - themis::transaction::DistributedTransactionManager::BatchPrepareEntry
+- themis::transaction::DistributedTransactionManager::StaticRpcBridgeSnapshot
 - themis::transaction::DistributedTransactionManager::Statistics
 - themis::transaction::DistributedTxnManagerConfig
 - themis::transaction::DistributedTxnStatus
@@ -253,29 +260,30 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 
 ## Notes
 - This is a derived artifact. Do not manually edit semantic content.
-- Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
+- Exact model backend is not verifiable from the generated document.
+- Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules transaction --output-root build/module-doxygen --manifest build/module-doxygen/manifest.json --summary-md build/module-doxygen/summary.md --write-module-markdown`.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 1468
+- Functions extracted: 1488
 
 ### AbortThrowingParticipant
 
 #### `void onAbort(const std::string &) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:115
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:116
 - Brief: On Abort.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `void onCommit(const std::string &) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:114
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:115
 - Brief: On Commit.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `bool onPrepare(const std::string &, const std::set< std::string > &) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:111
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:112
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
@@ -296,21 +304,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### BenchMockParticipant
 
 #### `void onAbort(const std::string &) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:90
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:113
 - Brief: On Abort.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `void onCommit(const std::string &) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:89
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:112
 - Brief: On Commit.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `bool onPrepare(const std::string &, const std::set< std::string > &) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:88
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:111
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
@@ -336,6 +344,29 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `name` (const std::string &): n/a
   - `city` (const std::string &): n/a
 
+### CommitThrowingParticipant
+
+#### `void onAbort(const std::string &) override`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:129
+- Brief: On Abort.
+- Parameters:
+  - `txn_id` (const std::string &): Identifier of the txn.
+- Details: txn_id Identifier of the txn.
+
+#### `void onCommit(const std::string &) override`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:126
+- Brief: On Commit.
+- Parameters:
+  - `txn_id` (const std::string &): Identifier of the txn.
+- Details: txn_id Identifier of the txn.
+
+#### `bool onPrepare(const std::string &, const std::set< std::string > &) override`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:123
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const std::string &): n/a
+  - `<unnamed>` (const std::set< std::string > &): n/a
+
 ### ConnectionLeakTests
 
 #### `void SetUp() override`
@@ -351,45 +382,50 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### DeadlockDetectionFixture
 
 #### `void SetUp(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:815
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1104
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:846
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1135
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
 
 #### `DeadlockPredictor & predictor()`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:851
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1140
 - Brief: n/a
 - Parameters: none
 
 ### DistributedPhase4Fixture
 
 #### `void SetUp(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:162
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:188
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:177
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:217
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
 
 #### `std::vector< Participant > makeParticipants()`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:185
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:231
 - Brief: n/a
 - Parameters: none
 
 ### DistributedTxnManagerTest
 
 #### `void SetUp() override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:172
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:201
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:215
 - Brief: n/a
 - Parameters: none
 
@@ -402,33 +438,33 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `p` (Policy): n/a
 
 #### `MockParticipant(Policy policy=Policy::ALWAYS_COMMIT)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:52
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:53
 - Brief: n/a
 - Parameters:
   - `policy` (Policy): n/a
 
 #### `int abortCount() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:82
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:83
 - Brief: n/a
 - Parameters: none
 
 #### `int commitCount() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:81
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:82
 - Brief: n/a
 - Parameters: none
 
 #### `std::string lastAbortTxn() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:92
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:93
 - Brief: n/a
 - Parameters: none
 
 #### `std::string lastCommitTxn() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:88
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:89
 - Brief: n/a
 - Parameters: none
 
 #### `std::string lastPrepareTxn() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:84
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:85
 - Brief: n/a
 - Parameters: none
 
@@ -440,7 +476,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn.
 
 #### `void onAbort(const std::string &txn_id) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:73
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:74
 - Brief: On Abort.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
@@ -454,7 +490,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn.
 
 #### `void onCommit(const std::string &txn_id) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:67
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:68
 - Brief: On Commit.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
@@ -468,14 +504,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (const std::set< std::string > &): n/a
 
 #### `bool onPrepare(const std::string &txn_id, const std::set< std::string > &keys) override`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:55
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:56
 - Brief: n/a
 - Parameters:
   - `txn_id` (const std::string &): n/a
   - `keys` (const std::set< std::string > &): n/a
 
 #### `int prepareCount() const`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:80
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:81
 - Brief: n/a
 - Parameters: none
 
@@ -501,44 +537,44 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### Phase2MockParticipant
 
 #### `Phase2MockParticipant(Policy policy=Policy::ALWAYS_COMMIT)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:46
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:48
 - Brief: n/a
 - Parameters:
   - `policy` (Policy): n/a
 
 #### `int abortCount() const`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:72
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:74
 - Brief: n/a
 - Parameters: none
 
 #### `int commitCount() const`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:71
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:73
 - Brief: n/a
 - Parameters: none
 
 #### `void onAbort(const std::string &txn_id) override`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:64
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:66
 - Brief: On Abort.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `void onCommit(const std::string &txn_id) override`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:58
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:60
 - Brief: On Commit.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `bool onPrepare(const std::string &txn_id, const std::set< std::string > &) override`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:49
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:51
 - Brief: n/a
 - Parameters:
   - `txn_id` (const std::string &): n/a
   - `<unnamed>` (const std::set< std::string > &): n/a
 
 #### `int prepareCount() const`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:70
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:72
 - Brief: n/a
 - Parameters: none
 
@@ -560,6 +596,24 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Parameters:
   - `pk` (const std::string &): n/a
   - `value` (const std::string &): n/a
+
+### ScopedTempWalDir
+
+#### `ScopedTempWalDir(const std::string &suffix)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:180
+- Brief: n/a
+- Parameters:
+  - `suffix` (const std::string &): n/a
+
+#### `const std::string & path() const noexcept`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:187
+- Brief: n/a
+- Parameters: none
+
+#### `~ScopedTempWalDir()`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:183
+- Brief: n/a
+- Parameters: none
 
 ### StatefulMockCoordinator
 
@@ -729,19 +783,19 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### TransactionBenchmarkFixture
 
 #### `void SetUp(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:42
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:48
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:82
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:89
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
 
 #### `void populateTestData(size_t count)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:96
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:104
 - Brief: n/a
 - Parameters:
   - `count` (size_t): n/a
@@ -749,12 +803,12 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### TransactionDistributedPhase2Test
 
 #### `void SetUp() override`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:111
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:116
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:120
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:127
 - Brief: n/a
 - Parameters: none
 
@@ -809,13 +863,13 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### TransactionPhase4Fixture
 
 #### `void SetUp(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:100
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:123
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:132
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:156
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
@@ -835,158 +889,135 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### TwoPhaseCommitFixture
 
 #### `void SetUp(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:706
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:978
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:730
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1013
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const ::benchmark::State &): n/a
 
 #### `themis::sharding::TwoPhaseCommitCoordinator & coordinator()`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:742
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1031
 - Brief: Access from benchmark body.
 - Parameters: none
 
 #### `const std::map< std::string, std::unique_ptr< themis::sharding::TwoPhaseCommitParticipant > > & participants() const`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:745
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1034
 - Brief: n/a
 - Parameters: none
 
 ### bench_branch_manager.cpp
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:275
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:284
 - Brief: n/a
 - Parameters: none
 
 ### bench_transaction_dedicated_gates.cpp
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:138
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:80
 - Brief: n/a
 - Parameters: none
 
 #### `void BM_Transaction_2PCRoundTripP99(benchmark::State &state)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:101
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:59
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Transaction_AbortP95(benchmark::State &state)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:84
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:47
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Transaction_CommitP95(benchmark::State &state)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:67
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:35
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Transaction_ConcurrentThroughput(benchmark::State &state)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:124
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:71
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `Name("BM_Transaction_2PCRoundTripP99") -> Iterations(5000) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:116
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:63
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ("BM_Transaction_2PCRoundTripP99"): n/a
 
 #### `Name("BM_Transaction_AbortP95") -> Iterations(10000) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:93
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:51
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ("BM_Transaction_AbortP95"): n/a
 
 #### `Name("BM_Transaction_CommitP95") -> Iterations(10000) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:76
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:39
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ("BM_Transaction_CommitP95"): n/a
 
 #### `Name("BM_Transaction_ConcurrentThroughput") -> Threads(8) ->Iterations(1000) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:133
+- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:75
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ("BM_Transaction_ConcurrentThroughput"): n/a
 
-#### `bool stub_2pc_commit(uint64_t)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:59
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (uint64_t): n/a
-
-#### `bool stub_2pc_prepare(uint64_t)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:54
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (uint64_t): n/a
-
-#### `bool stub_abort(uint64_t)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:49
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (uint64_t): n/a
-
-#### `uint64_t stub_begin()`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:41
-- Brief: n/a
-- Parameters: none
-
-#### `bool stub_commit(uint64_t)`
-- Source: `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`:45
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (uint64_t): n/a
-
 ### bench_transaction_phase4.cpp
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:450
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:533
 - Brief: n/a
 - Parameters: none
 
 #### `state SetItemsProcessed(state.iterations())`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:227
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:273
 - Brief: n/a
 - Parameters:
   - `iterations` (state.): n/a
 
+#### `state SetItemsProcessed(static_cast< int64_t >(committed))`
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:483
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (static_cast< int64_t >): n/a
+
 #### `UseManualTime() -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:232
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:278
 - Brief: n/a
 - Parameters: none
 
 #### `for(auto _ :state)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:213
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:259
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (auto _ :state): n/a
 
-#### `publishLatencyCounters(state, histogram)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:254
+#### `publishLatencyCounters(state, latencies_us)`
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:303
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (state): n/a
-  - `<unnamed>` (histogram): n/a
+  - `<unnamed>` (latencies_us): n/a
 
 #### `publishLatencyGate(state, kLatencyTailGateMs)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:255
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:304
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (state): n/a
   - `<unnamed>` (kLatencyTailGateMs): n/a
 
 #### `publishThroughputGate(state, average_ms, kDistributedThroughputGateTxnPerSec)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:412
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:486
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (state): n/a
@@ -994,7 +1025,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (kDistributedThroughputGateTxnPerSec): n/a
 
 #### `publishThroughputGate(state, average_ms, kLocalThroughputGateTxnPerSec)`
-- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:229
+- Source: `benchmarks/transaction/bench_transaction_phase4.cpp`:275
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (state): n/a
@@ -1003,125 +1034,125 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 
 ### bench_transaction_throughput.cpp
 
-#### `Arg(1) -> Arg(10) ->Arg(100) ->Arg(1000) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:282
+#### `Arg(1) -> Arg(10) ->Arg(100) ->Arg(1000) ->UseRealTime() ->Unit(benchmark::kMicrosecond)`
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:369
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (1): n/a
 
-#### `Arg(2) -> Arg(5) ->Arg(10) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:416
+#### `Arg(2) -> Arg(5) ->Arg(10) ->UseRealTime() ->Unit(benchmark::kMicrosecond)`
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:568
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (2): n/a
 
 #### `Arg(3) -> Arg(5) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:789
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1078
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (3): n/a
 
-#### `Args({0, 5}) -> Args({5, 5}) ->Args({5, 20}) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:368
+#### `Args({0, 5}) -> Args({5, 5}) ->Args({5, 20}) ->UseRealTime() ->Unit(benchmark::kMicrosecond)`
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:494
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ({0, 5}): n/a
 
 #### `BENCHMARK_DEFINE_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_LockOrder)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:902
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1190
 - Brief: Benchmark: recommendLockOrder() call overhead (TX-6 direct).
 - Parameters:
   - `<unnamed>` (DeadlockDetectionFixture): n/a
   - `<unnamed>` (DeadlockDetectionOverhead_LockOrder): n/a
-- Details: Each iteration asks the pre-trained predictor to sort a 5-key candidate set into a safe acquisition order. This exercises the pair-conflict matrix traversal that dominates the predictor's steady-state cost. SLO TX-6: same overhead budget as DeadlockDetectionOverhead_Predict.
+- Details: Each iteration asks the pre-trained predictor to sort a 5-key candidate set into a safe acquisition order. This exercises the pair-conflict matrix traversal that dominates the predictor's steady-state cost. SLO TX-6: the same 1 us overhead budget as the prediction call.
 
 #### `BENCHMARK_DEFINE_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_Predict)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:865
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1153
 - Brief: Benchmark: predictDeadlockProbability() call overhead (TX-6 direct).
 - Parameters:
   - `<unnamed>` (DeadlockDetectionFixture): n/a
   - `<unnamed>` (DeadlockDetectionOverhead_Predict): n/a
-- Details: Each iteration queries the pre-trained predictor for a 5-key lock set drawn from the hot 20-key space. The result is consumed via DoNotOptimize to prevent the call from being elided. SLO TX-6: this call should consume ≤ 1 % of a typical transaction's wall-clock budget (~0.1 ms base → ≤ 1 µs target).
+- Details: Each iteration queries the pre-trained predictor for a 5-key lock set drawn from the hot 20-key space. The result is consumed via DoNotOptimize to prevent the call from being elided. SLO TX-6: ≤ 1 us, derived from 1 % of a documented 0.1 ms baseline.
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, AbortTransaction)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:292
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:380
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (AbortTransaction): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, CommitLatency)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:247
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:308
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (CommitLatency): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, MixedTransaction)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:208
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:248
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (MixedTransaction): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticErase)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:570
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:802
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (OccOptimisticErase): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticPut)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:465
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:639
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (OccOptimisticPut): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:502
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:687
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (OccReadVersionAndUpdate): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, ReadOnlyTransaction)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:129
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:150
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (ReadOnlyTransaction): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointCreateAndRollback)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:325
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:426
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (SavepointCreateAndRollback): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointNested)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:377
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:504
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (SavepointNested): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointRelease)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:425
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:578
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (SavepointRelease): n/a
 
 #### `BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:164
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:197
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionBenchmarkFixture): n/a
   - `<unnamed>` (WriteOnlyTransaction): n/a
 
 #### `BENCHMARK_DEFINE_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)(benchmark`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:757
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1046
 - Brief: Benchmark: end-to-end 2PC commit latency across N in-process shards.
 - Parameters:
   - `<unnamed>` (TwoPhaseCommitFixture): n/a
@@ -1129,18 +1160,18 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: Each iteration commits one transaction via the full two-phase protocol: PREPARE to all N shards, then COMMIT (or ABORT on failure). The operation payload is a single JSON string per shard — enough to exercise the protocol framing without adding storage overhead. state Benchmark state; range(0) = number of shards. SLO TX-4: ≤ 5 ms per commit for 5 shards.
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:929
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:1217
 - Brief: n/a
 - Parameters: none
 
-#### `void BM_TransactionContention(benchmark::State &state)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:615
+#### `void BM_TransactionHotKeyOverwrite(benchmark::State &state)`
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:870
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
-#### `Threads(1) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:157
+#### `Threads(1) -> UseRealTime() ->Unit(benchmark::kMicrosecond)`
+- Source: `benchmarks/transaction/bench_transaction_throughput.cpp`:189
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (1): n/a
@@ -1617,21 +1648,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (Phase2FnDeliverCommit): n/a
 
 #### `TEST(GrpcRpcAdapterMtls, ConstructWithExplicitInsecureOverride)`
-- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:579
+- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:578
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GrpcRpcAdapterMtls): n/a
   - `<unnamed>` (ConstructWithExplicitInsecureOverride): n/a
 
 #### `TEST(GrpcRpcAdapterMtls, ConstructWithMtlsConfig)`
-- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:528
+- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:527
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GrpcRpcAdapterMtls): n/a
   - `<unnamed>` (ConstructWithMtlsConfig): n/a
 
 #### `TEST(GrpcRpcAdapterMtls, ConstructWithNulloptFailsClosed)`
-- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:557
+- Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:556
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GrpcRpcAdapterMtls): n/a
@@ -1707,12 +1738,12 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (GrpcRpcAdapterPhase2): n/a
   - `<unnamed>` (UnknownNodeThrows): n/a
 
-#### `TEST(GrpcRpcAdapterWal, CommitDecisionDurableBeforePhase2)`
+#### `TEST(GrpcRpcAdapterWal, Phase2CallbackAfterSuccessfulCommit)`
 - Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:496
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GrpcRpcAdapterWal): n/a
-  - `<unnamed>` (CommitDecisionDurableBeforePhase2): n/a
+  - `<unnamed>` (Phase2CallbackAfterSuccessfulCommit): n/a
 
 #### `DistributedTxnManagerConfig makeConfig()`
 - Source: `tests/transaction/test_grpc_rpc_adapter.cpp`:91
@@ -2511,553 +2542,615 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### test_transaction_distributed_2pc.cpp
 
 #### `TEST(Distributed2PCPerfTests, AbortWithThreadPool)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:919
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1137
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (AbortWithThreadPool): n/a
 
 #### `TEST(Distributed2PCPerfTests, BatchWindowCanBeConfigured)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:823
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1037
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (BatchWindowCanBeConfigured): n/a
 
 #### `TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:869
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1085
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (BatchedPrepareWindowGroupsTransactions): n/a
 
 #### `TEST(Distributed2PCPerfTests, ConcurrentTxnsWithThreadPool)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:966
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1188
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (ConcurrentTxnsWithThreadPool): n/a
 
 #### `TEST(Distributed2PCPerfTests, DefaultConfigNoBatchWindow)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:817
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1031
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (DefaultConfigNoBatchWindow): n/a
 
 #### `TEST(Distributed2PCPerfTests, DefaultWorkerThreadCount)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:830
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1044
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (DefaultWorkerThreadCount): n/a
 
 #### `TEST(Distributed2PCPerfTests, FullHappyPathWithThreadPool)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:843
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1057
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (FullHappyPathWithThreadPool): n/a
 
 #### `TEST(Distributed2PCPerfTests, LegacyModeWorkerCount0)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:945
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1165
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (LegacyModeWorkerCount0): n/a
 
 #### `TEST(Distributed2PCPerfTests, P99LatencyFiveShards)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1009
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1233
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (P99LatencyFiveShards): n/a
 
 #### `TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1061
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1287
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (ThroughputAtLeast10kOpsPerSec): n/a
 
 #### `TEST(Distributed2PCPerfTests, WorkerThreadCountCanBeConfigured)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:836
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1050
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCPerfTests): n/a
   - `<unnamed>` (WorkerThreadCountCanBeConfigured): n/a
 
 #### `TEST(Distributed2PCWaveAGapTests, BatchedPrepareFutureTimeout)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2056
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2482
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCWaveAGapTests): n/a
   - `<unnamed>` (BatchedPrepareFutureTimeout): n/a
 
 #### `TEST(Distributed2PCWaveAGapTests, NonBatchedPrepareSucceedsNormally)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2103
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2529
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Distributed2PCWaveAGapTests): n/a
   - `<unnamed>` (NonBatchedPrepareSucceedsNormally): n/a
 
+#### `TEST(DistributedTransactionRecovery, DurableCommitWithoutCompletionRemainsInDoubt)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:399
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTransactionRecovery): n/a
+  - `<unnamed>` (DurableCommitWithoutCompletionRemainsInDoubt): n/a
+
+#### `TEST(DistributedTransactionRecovery, MissingLegacyParticipantStateRemainsInDoubt)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:290
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTransactionRecovery): n/a
+  - `<unnamed>` (MissingLegacyParticipantStateRemainsInDoubt): n/a
+
+#### `TEST(DistributedTransactionRecovery, PersistedParticipantsAreRedrivenAfterRestart)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:329
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTransactionRecovery): n/a
+  - `<unnamed>` (PersistedParticipantsAreRedrivenAfterRestart): n/a
+
+#### `TEST(DistributedTxnManagerDurability, MissingWALDoesNotSendPhase2Commit)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:261
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerDurability): n/a
+  - `<unnamed>` (MissingWALDoesNotSendPhase2Commit): n/a
+
 #### `TEST_F(DistributedTxnManagerTest, AbortBeforePrepare)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:792
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1006
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (AbortBeforePrepare): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, AbortDistributedCallsOnAbortOnAllParticipants)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:304
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:508
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (AbortDistributedCallsOnAbortOnAllParticipants): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, ActiveTransactionCountAfterBegin)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:706
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:920
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (ActiveTransactionCountAfterBegin): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, AffectedKeysForwardedToPrepare)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:719
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:933
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (AffectedKeysForwardedToPrepare): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, ApplyAbortReturnsOkForKnownTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:336
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:540
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (ApplyAbortReturnsOkForKnownTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, ApplyCommitReturnsErrorForUnknownTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:344
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:548
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (ApplyCommitReturnsErrorForUnknownTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, ApplyCommitReturnsOkForKnownTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:327
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:531
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (ApplyCommitReturnsOkForKnownTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BatchedFiveParticipantTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:557
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:769
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BatchedFiveParticipantTransaction): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BeginDistributedAllowsNewTxnAfterCommitReleasesCapacity)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:650
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:862
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BeginDistributedAllowsNewTxnAfterCommitReleasesCapacity): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BeginDistributedEnforcesMaxActiveTransactions)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:637
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:849
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BeginDistributedEnforcesMaxActiveTransactions): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BeginDistributedIdsAreUnique)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:198
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:234
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BeginDistributedIdsAreUnique): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BeginDistributedReturnsNonEmptyId)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:193
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:229
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BeginDistributedReturnsNonEmptyId): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, BeginWithNoParticipantsThrows)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:633
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:845
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (BeginWithNoParticipantsThrows): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1474
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1751
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (CC1_SuccessfulWALWriteDoesNotSuppressPhase2): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, CheckTimeoutsAbortsExpiredTransactions)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:353
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:557
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (CheckTimeoutsAbortsExpiredTransactions): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, CheckTimeoutsDoesNotCountIncompleteAbortDelivery)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:373
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:579
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (CheckTimeoutsDoesNotCountIncompleteAbortDelivery): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, CommitCallsOnCommitOnAllParticipants)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:253
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:455
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (CommitCallsOnCommitOnAllParticipants): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, CommitWithoutPrepareReturnsError)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:696
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:910
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (CommitWithoutPrepareReturnsError): n/a
 
+#### `TEST_F(DistributedTxnManagerTest, CommitWithoutWALFailsClosedBeforePhase2)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1480
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerTest): n/a
+  - `<unnamed>` (CommitWithoutWALFailsClosedBeforePhase2): n/a
+
 #### `TEST_F(DistributedTxnManagerTest, ConcurrentTransactionsAllSucceed)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:515
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:727
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (ConcurrentTransactionsAllSucceed): n/a
 
-#### `TEST_F(DistributedTxnManagerTest, DTM1_MixedLocalAndRemoteVotesAbort)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1150
+#### `TEST_F(DistributedTxnManagerTest, DTM1_MixedParticipantsWithoutTransportsAreRejected)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1394
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
-  - `<unnamed>` (DTM1_MixedLocalAndRemoteVotesAbort): n/a
+  - `<unnamed>` (DTM1_MixedParticipantsWithoutTransportsAreRejected): n/a
 
-#### `TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1163
+#### `TEST_F(DistributedTxnManagerTest, DTM1_Phase2BridgeDoesNotBypassMissingPhase1Transport)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1406
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
-  - `<unnamed>` (DTM1_Phase2BridgeDoesNotBypassMissingPhase1Vote): n/a
+  - `<unnamed>` (DTM1_Phase2BridgeDoesNotBypassMissingPhase1Transport): n/a
 
-#### `TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutCallbackVotesAbort)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1142
+#### `TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutEndpointIsRejected)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1388
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
-  - `<unnamed>` (DTM1_RemoteParticipantWithoutCallbackVotesAbort): n/a
+  - `<unnamed>` (DTM1_RemoteParticipantWithoutEndpointIsRejected): n/a
+
+#### `TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutTransportsIsRejected)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1382
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerTest): n/a
+  - `<unnamed>` (DTM1_RemoteParticipantWithoutTransportsIsRejected): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM2_RecoveryBroadcastsAbortToInMemoryParticipants)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1203
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1444
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM2_RecoveryBroadcastsAbortToInMemoryParticipants): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM2_RecoveryDoesNotMarkResolvedWhenAbortDeliveryFails)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1221
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1462
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM2_RecoveryDoesNotMarkResolvedWhenAbortDeliveryFails): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_InstanceBridgeTakesPriorityOverStaticBridge)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2011
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2434
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_InstanceBridgeTakesPriorityOverStaticBridge): n/a
 
-#### `TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1452
+#### `TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveRecognizesConfiguredRemoteTransport)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1722
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
-  - `<unnamed>` (DTM3_IsParticipantAliveDistinguishesLocalAndRemote): n/a
+  - `<unnamed>` (DTM3_IsParticipantAliveRecognizesConfiguredRemoteTransport): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceCStringExceptionIsNotAlive)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1934
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2348
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_LivenessBridgeInstanceCStringExceptionIsNotAlive): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1912
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2323
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_LivenessBridgeInstanceExceptionIsNotAlive): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsFalse)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1889
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2297
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_LivenessBridgeInstanceReturnsFalse): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsTrue)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1857
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2263
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_LivenessBridgeInstanceReturnsTrue): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1957
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2374
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_StaticLivenessBridgeIsConsulted): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeStringExceptionIsNotAlive)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1986
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2406
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DTM3_StaticLivenessBridgeStringExceptionIsNotAlive): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, DoubleCommitReturnsError)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:779
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:993
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (DoubleCommitReturnsError): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, GetTransactionUnknownReturnsNullopt)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:747
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:961
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (GetTransactionUnknownReturnsNullopt): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, IdempotentAbort)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:669
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:883
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (IdempotentAbort): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, IsParticipantAliveReturnsTrueByDefault)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:397
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:605
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (IsParticipantAliveReturnsTrueByDefault): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PartialCommitAutoRollback)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:469
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:681
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PartialCommitAutoRollback): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Phase2DeadlineExpiryFailsClosedOnCommit)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:279
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:481
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Phase2DeadlineExpiryFailsClosedOnCommit): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PrepareCommitLatency)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:492
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:704
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PrepareCommitLatency): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PrepareExceptionTreatedAsAbortVote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:415
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:625
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PrepareExceptionTreatedAsAbortVote): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PreparePhaseAbortVote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:229
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:431
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PreparePhaseAbortVote): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PreparePhaseAllCommitVotes)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:208
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:244
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PreparePhaseAllCommitVotes): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PrepareTimeoutAbortsTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:439
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:649
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PrepareTimeoutAbortsTransaction): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, PrepareUnknownTxnReturnsError)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:687
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:901
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (PrepareUnknownTxnReturnsError): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, RecoverInDoubtTransactionsWithoutWAL)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:405
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:613
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (RecoverInDoubtTransactionsWithoutWAL): n/a
 
-#### `TEST_F(DistributedTxnManagerTest, RecoveryReplaysCommitForInMemoryCommittingTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1239
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (DistributedTxnManagerTest): n/a
-  - `<unnamed>` (RecoveryReplaysCommitForInMemoryCommittingTransaction): n/a
-
 #### `TEST_F(DistributedTxnManagerTest, RecoveryWithWALDoesNotRecountCommitDecisionAcrossRestartWithoutLiveTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1392
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1663
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (RecoveryWithWALDoesNotRecountCommitDecisionAcrossRestartWithoutLiveTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, RecoveryWithWALIsIdempotentAcrossRestartForPreparedTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1353
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1607
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (RecoveryWithWALIsIdempotentAcrossRestartForPreparedTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, RecoveryWithWALKeepsPreparedTxnAbortingOnAbortDeliveryFailure)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1320
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1574
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (RecoveryWithWALKeepsPreparedTxnAbortingOnAbortDeliveryFailure): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1276
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1518
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (RecoveryWithWALReplaysCommitForInMemoryCommittingTransaction): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, SingleParticipantHappyPath)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:755
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:969
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (SingleParticipantHappyPath): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, StatisticsCountAborts)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:620
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:832
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (StatisticsCountAborts): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, StatisticsCountCommits)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:610
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:822
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (StatisticsCountCommits): n/a
 
+#### `TEST_F(DistributedTxnManagerTest, Stub279_AdmittedTransactionRetainsStaticBridgeSnapshot)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2113
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerTest): n/a
+  - `<unnamed>` (Stub279_AdmittedTransactionRetainsStaticBridgeSnapshot): n/a
+
+#### `TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnRejectsRemoteTransaction)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2163
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerTest): n/a
+  - `<unnamed>` (Stub279_ClearedStaticPhase1FnRejectsRemoteTransaction): n/a
+
+#### `TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase2FnDoesNotCountAsTransportBridge)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2200
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (DistributedTxnManagerTest): n/a
+  - `<unnamed>` (Stub279_ClearedStaticPhase2FnDoesNotCountAsTransportBridge): n/a
+
 #### `TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnExceptionIsAbortVote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1665
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1955
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_Phase1RpcFnExceptionIsAbortVote): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnNoVoteAbortsTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1623
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1911
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_Phase1RpcFnNoVoteAbortsTransaction): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnYesVoteAllowsCommit)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1579
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1865
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_Phase1RpcFnYesVoteAllowsCommit): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase1Rpc)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1733
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2027
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_PureRemoteTransactionSucceedsWithPhase1Rpc): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1490
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1767
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1529
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1813
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase1DispatchCommit)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1693
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1985
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_RemotePhase1DispatchCommit): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesOnPersistentFailure)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1816
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2220
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_RemotePhase2DispatchRetriesThreeTimesOnPersistentFailure): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1780
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:2076
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (Stub279_StaticPhase1FnCommit): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, VoteOnPrepareErrorForUnknownTxn)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:601
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:813
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (VoteOnPrepareErrorForUnknownTxn): n/a
 
 #### `TEST_F(DistributedTxnManagerTest, VoteOnPrepareRegistersCOMMITVote)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:583
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:795
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTxnManagerTest): n/a
   - `<unnamed>` (VoteOnPrepareRegistersCOMMITVote): n/a
 
 #### `std::string beginDistributedWithExplicitTestConsistency(DistributedTransactionManager &mgr, const std::vector< Participant > &participants)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:137
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:149
 - Brief: n/a
 - Parameters:
   - `mgr` (DistributedTransactionManager &): n/a
   - `participants` (const std::vector< Participant > &): n/a
 
+#### `void configureAcceptingRemoteTransports(DistributedTxnManagerConfig &cfg)`
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1368
+- Brief: n/a
+- Parameters:
+  - `cfg` (DistributedTxnManagerConfig &): n/a
+
 #### `Participant makeParticipant(const std::string &node_id, IDistributedParticipantCallback *cb, std::set< std::string > keys={"key1"})`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:124
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:136
 - Brief: n/a
 - Parameters:
   - `node_id` (const std::string &): n/a
@@ -3065,20 +3158,20 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `keys` (std::set< std::string >): n/a
 
 #### `Participant makeRemoteParticipant(const std::string &node_id, std::set< std::string > keys={"key1"})`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1128
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:1356
 - Brief: n/a
 - Parameters:
   - `node_id` (const std::string &): n/a
   - `keys` (std::set< std::string >): n/a
 
 #### `std::string makeTempWalDir(const std::string &suffix)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:145
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:157
 - Brief: n/a
 - Parameters:
   - `suffix` (const std::string &): n/a
 
 #### `void removeTempWalDir(const std::string &wal_dir)`
-- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:155
+- Source: `tests/transaction/test_transaction_distributed_2pc.cpp`:167
 - Brief: n/a
 - Parameters:
   - `wal_dir` (const std::string &): n/a
@@ -3086,14 +3179,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### test_transaction_distributed_phase2.cpp
 
 #### `TEST(TransactionDistributedPhase2Contract, DistributedTxnStatusCarriesCanonicalRetryMetadata)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:488
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:499
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Contract): n/a
   - `<unnamed>` (DistributedTxnStatusCarriesCanonicalRetryMetadata): n/a
 
 #### `TEST_F(TransactionDistributedPhase2Test, CoordinatorProtocol_2PC_AbortPath)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:206
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:217
 - Brief: Validates explicit abort after begin without prepare. @acceptance AC-4.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3101,7 +3194,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestCoordinatorProtocol_2PC_AbortPath
 
 #### `TEST_F(TransactionDistributedPhase2Test, CoordinatorProtocol_2PC_HappyPath)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:138
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:149
 - Brief: Validates basic 2PC: begin → prepare → commit, all participants vote COMMIT. @acceptance AC-4.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3109,7 +3202,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestCoordinatorProtocol_2PC_HappyPath
 
 #### `TEST_F(TransactionDistributedPhase2Test, CoordinatorProtocol_2PC_ParticipantAbort)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:162
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:173
 - Brief: Validates 2PC behavior when one participant votes ABORT during prepare. @acceptance AC-4.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3117,7 +3210,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestCoordinatorProtocol_2PC_ParticipantAbort
 
 #### `TEST_F(TransactionDistributedPhase2Test, CoordinatorProtocol_2PC_ParticipantCrash)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:185
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:196
 - Brief: Validates 2PC behavior when participant throws (crash) during prepare. @acceptance AC-4.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3125,7 +3218,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestCoordinatorProtocol_2PC_ParticipantCrash
 
 #### `TEST_F(TransactionDistributedPhase2Test, FailureRecovery_PrepareAbortFollowedByNewTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:292
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:303
 - Brief: After a prepare failure the manager accepts new transactions. @acceptance AC-5.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3133,7 +3226,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestFailureRecovery_PrepareAbortFollowedByNewTransaction
 
 #### `TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_CommitCountTracked)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:319
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:330
 - Brief: Multiple successful commits increment the internal commit counter. @acceptance AC-6.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3141,7 +3234,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestInDoubtReconciliation_CommitCountTracked
 
 #### `TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_ParticipantRecovery)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:374
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:385
 - Brief: Abort callbacks track in-doubt resolutions correctly. @acceptance AC-6.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3149,7 +3242,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestInDoubtReconciliation_ParticipantRecovery
 
 #### `TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_WalReplay)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:344
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:355
 - Brief: WAL-backed coordinator can be constructed without errors. @acceptance AC-6.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3157,7 +3250,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestInDoubtReconciliation_WalReplay
 
 #### `TEST_F(TransactionDistributedPhase2Test, RetryBehavior_IdempotentAbort)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:278
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:289
 - Brief: Aborting an already-aborted transaction is safe (idempotent). @acceptance AC-5.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3165,7 +3258,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestRetryBehavior_IdempotentAbort
 
 #### `TEST_F(TransactionDistributedPhase2Test, StressTest_ConcurrentDistributedTransactions)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:398
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:409
 - Brief: Stress test: multiple concurrent 2PC transactions. @acceptance AC-4.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3173,7 +3266,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestStressTest_ConcurrentDistributedTransactions
 
 #### `TEST_F(TransactionDistributedPhase2Test, StressTest_HighContentionWithAbortingParticipants)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:447
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:458
 - Brief: Stress test with mixed commit/abort participants under high concurrency. @acceptance AC-4, AC-5, AC-6.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3181,7 +3274,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestStressTest_HighContentionWithAbortingParticipants
 
 #### `TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_RepeatedRetries_ConsistentErrors)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:252
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:263
 - Brief: ABORT votes produce consistent results across multiple retried transactions. @acceptance AC-5.
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3189,7 +3282,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestTimeoutDeterminism_RepeatedRetries_ConsistentErrors
 
 #### `TEST_F(TransactionDistributedPhase2Test, TimeoutDeterminism_ShortTimeoutAbortsTransaction)`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:230
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:241
 - Brief: checkTimeouts() aborts transactions that have exceeded their timeout. @acceptance AC-5
 - Parameters:
   - `<unnamed>` (TransactionDistributedPhase2Test): n/a
@@ -3197,12 +3290,12 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: TestTimeoutDeterminism_ShortTimeoutAbortsTransaction
 
 #### `DistributedTxnManagerConfig makeDefaultConfig()`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:97
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:99
 - Brief: n/a
 - Parameters: none
 
 #### `Participant makeParticipant(const std::string &node_id, IDistributedParticipantCallback *cb, std::set< std::string > keys={"key1"})`
-- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:85
+- Source: `tests/transaction/test_transaction_distributed_phase2.cpp`:87
 - Brief: n/a
 - Parameters:
   - `node_id` (const std::string &): n/a
@@ -3219,28 +3312,28 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (ErrorPropagation_ConcurrentErrorScenarios): n/a
 
 #### `TEST_F(TransactionErrorPathDeterminismPhase1Test, RecoveryPath_ConsistentErrorRecovery)`
-- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:242
+- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:246
 - Brief: AC-2: Recovery path - consistent recovery from error states.
 - Parameters:
   - `<unnamed>` (TransactionErrorPathDeterminismPhase1Test): n/a
   - `<unnamed>` (RecoveryPath_ConsistentErrorRecovery): n/a
 
 #### `TEST_F(TransactionErrorPathDeterminismPhase1Test, RecoveryPath_MultipleConsecutiveRecoveries)`
-- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:266
+- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:270
 - Brief: AC-2: Recovery path - multiple consecutive error recoveries.
 - Parameters:
   - `<unnamed>` (TransactionErrorPathDeterminismPhase1Test): n/a
   - `<unnamed>` (RecoveryPath_MultipleConsecutiveRecoveries): n/a
 
 #### `TEST_F(TransactionErrorPathDeterminismPhase1Test, RetryBehavior_ConsistentRetryOutcomes)`
-- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:293
+- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:297
 - Brief: AC-2: Retry behavior - consistent retry outcomes.
 - Parameters:
   - `<unnamed>` (TransactionErrorPathDeterminismPhase1Test): n/a
   - `<unnamed>` (RetryBehavior_ConsistentRetryOutcomes): n/a
 
 #### `TEST_F(TransactionErrorPathDeterminismPhase1Test, RetryBehavior_TimeoutRetryConsistency)`
-- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:315
+- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:319
 - Brief: AC-7: Retry behavior - timeout retry consistency.
 - Parameters:
   - `<unnamed>` (TransactionErrorPathDeterminismPhase1Test): n/a
@@ -3261,7 +3354,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (RollbackDeterminism_StatusMessagesAreConsistent): n/a
 
 #### `TEST_F(TransactionErrorPathDeterminismPhase1Test, StressTest_HighFrequencyErrorPathExercise)`
-- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:352
+- Source: `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`:356
 - Brief: AC-2, AC-7: Stress test - high-frequency error path exercise.
 - Parameters:
   - `<unnamed>` (TransactionErrorPathDeterminismPhase1Test): n/a
@@ -4030,6 +4123,64 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (OccTest): n/a
   - `<unnamed>` (ReadVersionThenOptimisticPutPattern): n/a
 
+### test_transaction_process_crash_recovery.cpp
+
+#### `TEST(TransactionProcessCrashRecovery, CanonicalDecisionsSurviveProcessCrashesAndLostAcknowledgements)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:837
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (CanonicalDecisionsSurviveProcessCrashesAndLostAcknowledgements): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, CanonicalPredecisionCrashesRecoverAbortAfterParticipantRestart)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:971
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (CanonicalPredecisionCrashesRecoverAbortAfterParticipantRestart): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, CombinedCoordinatorParticipantAndReplicaCrashesRecoverDecision)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1237
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (CombinedCoordinatorParticipantAndReplicaCrashesRecoverDecision): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, ParticipantCrashMatrixRecoversDurableDecision)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1180
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (ParticipantCrashMatrixRecoversDurableDecision): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, ParticipantProcessRestartRecoversPreparedTransaction)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1142
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (ParticipantProcessRestartRecoversPreparedTransaction): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, RecoversDecisionBoundariesAcrossCoordinatorRestart)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1047
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (RecoversDecisionBoundariesAcrossCoordinatorRestart): n/a
+
+#### `TEST(TransactionProcessCrashRecovery, ReplicaProcessCrashMatrixRecoversCommittedDecision)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1318
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TransactionProcessCrashRecovery): n/a
+  - `<unnamed>` (ReplicaProcessCrashMatrixRecoversCommittedDecision): n/a
+
+#### `int main(int argc, char **argv)`
+- Source: `tests/transaction/test_transaction_process_crash_recovery.cpp`:1376
+- Brief: n/a
+- Parameters:
+  - `argc` (int): n/a
+  - `argv` (char **): n/a
+
 ### test_transaction_retry.cpp
 
 #### `TEST(TransactionRetryManager, AlertCallbackCanQueryCircuitState)`
@@ -4264,77 +4415,77 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### test_transaction_ssi.cpp
 
 #### `TEST(LockManagerPredicateTest, AcquireAndCheck)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:539
+- Source: `tests/transaction/test_transaction_ssi.cpp`:542
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (AcquireAndCheck): n/a
 
 #### `TEST(LockManagerPredicateTest, GetMaxPredicateLocks)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:592
+- Source: `tests/transaction/test_transaction_ssi.cpp`:595
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (GetMaxPredicateLocks): n/a
 
 #### `TEST(LockManagerPredicateTest, GetPredicateLockRanges_AfterRelease)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:723
+- Source: `tests/transaction/test_transaction_ssi.cpp`:726
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (GetPredicateLockRanges_AfterRelease): n/a
 
 #### `TEST(LockManagerPredicateTest, GetPredicateLockRanges_Empty)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:695
+- Source: `tests/transaction/test_transaction_ssi.cpp`:698
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (GetPredicateLockRanges_Empty): n/a
 
 #### `TEST(LockManagerPredicateTest, GetPredicateLockRanges_MultipleOwners)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:710
+- Source: `tests/transaction/test_transaction_ssi.cpp`:713
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (GetPredicateLockRanges_MultipleOwners): n/a
 
 #### `TEST(LockManagerPredicateTest, GetPredicateLockRanges_SingleLock)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:701
+- Source: `tests/transaction/test_transaction_ssi.cpp`:704
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (GetPredicateLockRanges_SingleLock): n/a
 
 #### `TEST(LockManagerPredicateTest, MaxPredicateLocksEnforced)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:555
+- Source: `tests/transaction/test_transaction_ssi.cpp`:558
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (MaxPredicateLocksEnforced): n/a
 
 #### `TEST(LockManagerPredicateTest, MaxPredicateLocksZeroMeansUnlimited)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:565
+- Source: `tests/transaction/test_transaction_ssi.cpp`:568
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (MaxPredicateLocksZeroMeansUnlimited): n/a
 
 #### `TEST(LockManagerPredicateTest, ReleaseClears)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:547
+- Source: `tests/transaction/test_transaction_ssi.cpp`:550
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (ReleaseClears): n/a
 
 #### `TEST(LockManagerPredicateTest, SetPredicateLockingDisabled)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:575
+- Source: `tests/transaction/test_transaction_ssi.cpp`:578
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
   - `<unnamed>` (SetPredicateLockingDisabled): n/a
 
 #### `TEST(LockManagerPredicateTest, SetPredicateLockingEnabled_Default)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:583
+- Source: `tests/transaction/test_transaction_ssi.cpp`:586
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LockManagerPredicateTest): n/a
@@ -4348,49 +4499,49 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (BeginTransactionWithSerializableSnapshotAlias): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_EmptyForNonSerializable)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:437
+- Source: `tests/transaction/test_transaction_ssi.cpp`:440
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_EmptyForNonSerializable): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_EmptyForUnknownTxn)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:444
+- Source: `tests/transaction/test_transaction_ssi.cpp`:447
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_EmptyForUnknownTxn): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_EmptyWhenRangesDoNotOverlap)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:650
+- Source: `tests/transaction/test_transaction_ssi.cpp`:653
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_EmptyWhenRangesDoNotOverlap): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_ReturnsConflict_WhenRangesOverlap)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:617
+- Source: `tests/transaction/test_transaction_ssi.cpp`:620
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_ReturnsConflict_WhenRangesOverlap): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_ReturnsEmptyWhenNoConflict)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:423
+- Source: `tests/transaction/test_transaction_ssi.cpp`:426
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_ReturnsEmptyWhenNoConflict): n/a
 
 #### `TEST_F(SSITest, DetectConflicts_SymmetricRanges)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:670
+- Source: `tests/transaction/test_transaction_ssi.cpp`:673
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (DetectConflicts_SymmetricRanges): n/a
 
 #### `TEST_F(SSITest, DisablePredicateLocking_NoConflictDetected)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:391
+- Source: `tests/transaction/test_transaction_ssi.cpp`:394
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
@@ -4404,14 +4555,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (MaxPredicateLocks_Enforced): n/a
 
 #### `TEST_F(SSITest, PredicateLocksReleasedOnCommit)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:451
+- Source: `tests/transaction/test_transaction_ssi.cpp`:454
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
   - `<unnamed>` (PredicateLocksReleasedOnCommit): n/a
 
 #### `TEST_F(SSITest, PredicateLocksReleasedOnRollback)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:467
+- Source: `tests/transaction/test_transaction_ssi.cpp`:470
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
@@ -4467,7 +4618,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (SerializableSnapshotAliasEqualsSerializable): n/a
 
 #### `TEST_F(SSITest, SerializationConflict_FieldsArePopulated)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:601
+- Source: `tests/transaction/test_transaction_ssi.cpp`:604
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
@@ -4516,7 +4667,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (TrackPredicateRead_Serializable_Succeeds): n/a
 
 #### `TEST_F(SSITest, WriteSkew_SerializableIsolation_DetectsConflict)`
-- Source: `tests/transaction/test_transaction_ssi.cpp`:482
+- Source: `tests/transaction/test_transaction_ssi.cpp`:485
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSITest): n/a
@@ -4701,92 +4852,78 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 
 ### test_wave4c_t1t4_hardening.cpp
 
-#### `TEST(Wave4CT1StubNote, Phase2BridgeDocumentsActivation)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:57
+#### `TEST(Wave4CLockWaiter, TimeoutRaceWithReleaseDoesNotLeakGrantedLock)`
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:190
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (Wave4CT1StubNote): n/a
-  - `<unnamed>` (Phase2BridgeDocumentsActivation): n/a
+  - `<unnamed>` (Wave4CLockWaiter): n/a
+  - `<unnamed>` (TimeoutRaceWithReleaseDoesNotLeakGrantedLock): n/a
 
-#### `TEST(Wave4CT1StubNote, Phase2BridgeDocumentsProductionDelta)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:62
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (Wave4CT1StubNote): n/a
-  - `<unnamed>` (Phase2BridgeDocumentsProductionDelta): n/a
-
-#### `TEST(Wave4CT1StubNote, Phase2BridgeDocumentsRemovalPlan)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:67
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (Wave4CT1StubNote): n/a
-  - `<unnamed>` (Phase2BridgeDocumentsRemovalPlan): n/a
-
-#### `TEST(Wave4CT1StubNote, Phase2BridgeHasStubNoteComment)`
+#### `TEST(Wave4CT1StubNote, SimulationPlaceholderRemoved)`
 - Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:52
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT1StubNote): n/a
-  - `<unnamed>` (Phase2BridgeHasStubNoteComment): n/a
+  - `<unnamed>` (SimulationPlaceholderRemoved): n/a
 
 #### `TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:91
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:76
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT2UpgradeDeadlock): n/a
   - `<unnamed>` (MutualUpgradeReturnsDeniedNotTimeout): n/a
 
 #### `TEST(Wave4CT2UpgradeDeadlock, SingleUpgradeSucceeds)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:76
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:61
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT2UpgradeDeadlock): n/a
   - `<unnamed>` (SingleUpgradeSucceeds): n/a
 
 #### `TEST(Wave4CT2UpgradeDeadlock, ThreeConcurrentUpgraders_NoHang)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:151
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:141
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT2UpgradeDeadlock): n/a
   - `<unnamed>` (ThreeConcurrentUpgraders_NoHang): n/a
 
 #### `TEST(Wave4CT3GTMPhase2, Phase2CalledOutsideLock)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:193
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:250
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT3GTMPhase2): n/a
   - `<unnamed>` (Phase2CalledOutsideLock): n/a
 
 #### `TEST(Wave4CT3GTMPhase2, SnapshotPatternPresent)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:188
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:245
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT3GTMPhase2): n/a
   - `<unnamed>` (SnapshotPatternPresent): n/a
 
 #### `TEST(Wave4CT4PredicateLockDrop, CounterReflectsOnlyDrops)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:251
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:308
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT4PredicateLockDrop): n/a
   - `<unnamed>` (CounterReflectsOnlyDrops): n/a
 
 #### `TEST(Wave4CT4PredicateLockDrop, DropIncrementsCounter)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:217
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:274
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT4PredicateLockDrop): n/a
   - `<unnamed>` (DropIncrementsCounter): n/a
 
 #### `TEST(Wave4CT4PredicateLockDrop, MultipleDropsAccumulate)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:234
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:291
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT4PredicateLockDrop): n/a
   - `<unnamed>` (MultipleDropsAccumulate): n/a
 
 #### `TEST(Wave4CT4PredicateLockDrop, SuccessUnderCapacity)`
-- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:206
+- Source: `tests/transaction/test_wave4c_t1t4_hardening.cpp`:263
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (Wave4CT4PredicateLockDrop): n/a
@@ -4809,7 +4946,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `v` (uint64_t): n/a
 
 #### `std::string isolationLevelName(IsolationLevel level)`
-- Source: `src/transaction/transaction_manager.cpp`:2381
+- Source: `src/transaction/transaction_manager.cpp`:2386
 - Brief: Isolation Level Name.
 - Parameters:
   - `level` (IsolationLevel): Input parameter.
@@ -4817,7 +4954,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: level Input parameter. Return value. Implements isolationLevelName without additional internal calls.
 
 #### `std::string lockTypeName(LockType t)`
-- Source: `src/transaction/transaction_manager.cpp`:2397
+- Source: `src/transaction/transaction_manager.cpp`:2402
 - Brief: Lock Type Name.
 - Parameters:
   - `t` (LockType): Input parameter.
@@ -5173,18 +5310,18 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::LockManager
 
 #### `LockManager()`
-- Source: `include/transaction/lock_manager.h`:86
+- Source: `include/transaction/lock_manager.h`:104
 - Brief: n/a
 - Parameters: none
 
 #### `LockManager(const LockManager &)=delete`
-- Source: `include/transaction/lock_manager.h`:89
+- Source: `include/transaction/lock_manager.h`:107
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const LockManager &): n/a
 
 #### `LockResult acquireLock(TransactionId txn_id, const std::string &key, LockType type, std::chrono::milliseconds timeout=DEFAULT_LOCK_TIMEOUT)`
-- Source: `include/transaction/lock_manager.h`:92
+- Source: `include/transaction/lock_manager.h`:110
 - Brief: Acquire Lock.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5195,7 +5332,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. type Input parameter. timeout Input parameter. Return value.
 
 #### `bool acquirePredicateLock(TransactionId txn_id, const std::string &start_key, const std::string &end_key)`
-- Source: `include/transaction/lock_manager.h`:181
+- Source: `include/transaction/lock_manager.h`:210
 - Brief: Acquire Predicate Lock.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5205,14 +5342,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. start_key Input parameter. end_key Input parameter. True when the operation succeeds.
 
 #### `void beginShrinkingPhase(TransactionId txn_id)`
-- Source: `include/transaction/lock_manager.h`:132
+- Source: `include/transaction/lock_manager.h`:161
 - Brief: Begin Shrinking Phase.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
 - Details: ------------------------------------------------------------------------ Two-Phase Locking phase management ------------------------------------------------------------------------ txn_id Identifier of the txn. txn_id Identifier of the txn. Calls: lk(), insert(), THEMIS_DEBUG().
 
 #### `void checkEscalation(TransactionId txn_id, const std::string &key)`
-- Source: `include/transaction/lock_manager.h`:285
+- Source: `include/transaction/lock_manager.h`:322
 - Brief: Check Escalation.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5220,7 +5357,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. txn_id Identifier of the txn. key Input parameter. Calls: find(), end(), load(), size(), substr(), push_back(), tryGrantLock(), erase().
 
 #### `TransactionId checkPredicateConflict(TransactionId writing_txn_id, const std::string &key) const`
-- Source: `include/transaction/lock_manager.h`:221
+- Source: `include/transaction/lock_manager.h`:250
 - Brief: Check Predicate Conflict.
 - Parameters:
   - `writing_txn_id` (TransactionId): Identifier of the writing txn.
@@ -5229,7 +5366,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: writing_txn_id Identifier of the writing txn. key Input parameter. Return value.
 
 #### `bool compatible(LockType held, LockType requested) noexcept`
-- Source: `include/transaction/lock_manager.h`:263
+- Source: `include/transaction/lock_manager.h`:300
 - Brief: Compatible.
 - Parameters:
   - `held` (LockType): Input parameter.
@@ -5238,20 +5375,20 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: held Input parameter. requested Input parameter. True when the operation succeeds. Exception safety: noexcept.
 
 #### `std::vector< std::pair< std::string, LockType > > getLocksHeld(TransactionId txn_id) const`
-- Source: `include/transaction/lock_manager.h`:126
+- Source: `include/transaction/lock_manager.h`:155
 - Brief: n/a
 - Parameters:
   - `txn_id` (TransactionId): n/a
 
 #### `size_t getMaxPredicateLocks() const`
-- Source: `include/transaction/lock_manager.h`:195
+- Source: `include/transaction/lock_manager.h`:224
 - Brief: Get Max Predicate Locks.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `size_t getPredicateLockCount(TransactionId txn_id) const`
-- Source: `include/transaction/lock_manager.h`:229
+- Source: `include/transaction/lock_manager.h`:258
 - Brief: Get Predicate Lock Count.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5259,20 +5396,20 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value.
 
 #### `std::vector< std::pair< std::string, std::string > > getPredicateLockRanges(TransactionId txn_id) const`
-- Source: `include/transaction/lock_manager.h`:231
+- Source: `include/transaction/lock_manager.h`:260
 - Brief: n/a
 - Parameters:
   - `txn_id` (TransactionId): n/a
 
 #### `LockStats getStats() const`
-- Source: `include/transaction/lock_manager.h`:157
+- Source: `include/transaction/lock_manager.h`:186
 - Brief: Get Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `std::vector< TransactionId > getWaiters(const std::string &key) const`
-- Source: `include/transaction/lock_manager.h`:164
+- Source: `include/transaction/lock_manager.h`:193
 - Brief: Get Waiters.
 - Parameters:
   - `key` (const std::string &): Input parameter.
@@ -5280,7 +5417,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: key Input parameter. Return value.
 
 #### `std::vector< std::string > getWaitingFor(TransactionId txn_id) const`
-- Source: `include/transaction/lock_manager.h`:171
+- Source: `include/transaction/lock_manager.h`:200
 - Brief: Get Waiting For.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5288,7 +5425,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value.
 
 #### `bool holdsLock(TransactionId txn_id, const std::string &key, LockType type) const`
-- Source: `include/transaction/lock_manager.h`:124
+- Source: `include/transaction/lock_manager.h`:153
 - Brief: Holds Lock.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5298,7 +5435,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. type Input parameter. True when the operation succeeds.
 
 #### `bool isInShrinkingPhase(TransactionId txn_id) const`
-- Source: `include/transaction/lock_manager.h`:139
+- Source: `include/transaction/lock_manager.h`:168
 - Brief: Is In Shrinking Phase.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5306,39 +5443,41 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. True when the operation succeeds.
 
 #### `bool isPredicateLockingEnabled() const`
-- Source: `include/transaction/lock_manager.h`:207
+- Source: `include/transaction/lock_manager.h`:236
 - Brief: Is Predicate Locking Enabled.
 - Parameters: none
 - Return: True when the operation succeeds.
 - Details: True when the operation succeeds.
 
 #### `LockManager & operator=(const LockManager &)=delete`
-- Source: `include/transaction/lock_manager.h`:90
+- Source: `include/transaction/lock_manager.h`:108
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const LockManager &): n/a
 
 #### `uint64_t predicateLockDropCount() const noexcept`
-- Source: `include/transaction/lock_manager.h`:326
-- Brief: n/a
+- Source: `include/transaction/lock_manager.h`:373
+- Brief: Returns the number of predicate-lock drops recorded by the manager.
 - Parameters: none
+- Return: Number of predicate-lock drops observed since the manager was created.
+- Details: This counter increases when a predicate lock is evicted or dropped due to capacity pressure or invalidation, and is used for diagnostics and tuning. Number of predicate-lock drops observed since the manager was created. The value is updated via relaxed atomic semantics for low-overhead accounting; it is not intended as a strict ordering signal.
 
 #### `void processWaiters(const std::string &key)`
-- Source: `include/transaction/lock_manager.h`:278
+- Source: `include/transaction/lock_manager.h`:315
 - Brief: Process Waiters.
 - Parameters:
   - `key` (const std::string &): Input parameter.
 - Details: key Input parameter. key Input parameter. Calls: find(), end(), compatible(), push_back(), std::chrono::system_clock::now(), notify_one().
 
 #### `void releaseAllLocks(TransactionId txn_id)`
-- Source: `include/transaction/lock_manager.h`:110
+- Source: `include/transaction/lock_manager.h`:128
 - Brief: Release All Locks.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
 - Details: txn_id Identifier of the txn. txn_id Identifier of the txn. Calls: lk(), find(), end(), erase(), reserve(), size(), push_back(), std::remove_if().
 
 #### `bool releaseLock(TransactionId txn_id, const std::string &key)`
-- Source: `include/transaction/lock_manager.h`:104
+- Source: `include/transaction/lock_manager.h`:122
 - Brief: Release Lock.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -5347,42 +5486,42 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. True when the operation succeeds. txn_id Identifier of the txn. key Input parameter. True when the operation succeeds. Calls: lk(), find(), end(), erase(), empty(), std::remove_if(), begin(), processWaiters().
 
 #### `void releasePredicateLocks(TransactionId txn_id)`
-- Source: `include/transaction/lock_manager.h`:213
+- Source: `include/transaction/lock_manager.h`:242
 - Brief: Release Predicate Locks.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
 - Details: txn_id Identifier of the txn.
 
 #### `void setDefaultTimeout(std::chrono::milliseconds timeout)`
-- Source: `include/transaction/lock_manager.h`:151
+- Source: `include/transaction/lock_manager.h`:180
 - Brief: Set Default Timeout.
 - Parameters:
   - `timeout` (std::chrono::milliseconds): Input parameter.
 - Details: timeout Input parameter. timeout Input parameter. Calls: store(), count().
 
 #### `void setEscalationThreshold(size_t threshold)`
-- Source: `include/transaction/lock_manager.h`:145
+- Source: `include/transaction/lock_manager.h`:174
 - Brief: Set Escalation Threshold.
 - Parameters:
   - `threshold` (size_t): Input parameter.
 - Details: threshold Input parameter.
 
 #### `void setMaxPredicateLocks(size_t max_locks)`
-- Source: `include/transaction/lock_manager.h`:189
+- Source: `include/transaction/lock_manager.h`:218
 - Brief: Set Max Predicate Locks.
 - Parameters:
   - `max_locks` (size_t): Input parameter.
 - Details: max_locks Input parameter.
 
 #### `void setPredicateLockingEnabled(bool enabled)`
-- Source: `include/transaction/lock_manager.h`:201
+- Source: `include/transaction/lock_manager.h`:230
 - Brief: Set Predicate Locking Enabled.
 - Parameters:
   - `enabled` (bool): Input parameter.
 - Details: enabled Input parameter.
 
 #### `bool tryGrantLock(const std::string &key, TransactionId txn_id, LockType type)`
-- Source: `include/transaction/lock_manager.h`:272
+- Source: `include/transaction/lock_manager.h`:309
 - Brief: Try Grant Lock.
 - Parameters:
   - `key` (const std::string &): Input parameter.
@@ -5392,24 +5531,24 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: key Input parameter. txn_id Identifier of the txn. type Input parameter. True when the operation succeeds.
 
 #### `LockResult upgradeLock(TransactionId txn_id, const std::string &key, std::chrono::milliseconds timeout=DEFAULT_LOCK_TIMEOUT)`
-- Source: `include/transaction/lock_manager.h`:112
-- Brief: Upgrade Lock.
+- Source: `include/transaction/lock_manager.h`:141
+- Brief: Upgrade a held SHARED lock to EXCLUSIVE.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
   - `key` (const std::string &): Input parameter.
   - `timeout` (std::chrono::milliseconds): Input parameter.
-- Return: Return value.
-- Details: txn_id Identifier of the txn. key Input parameter. timeout Input parameter. Return value.
+- Return: GRANTED on success, DENIED when another holder is already upgrading, or TIMEOUT when the wait expires.
+- Details: Upgrade Lock. txn_id Transaction requesting the upgrade. key Key whose lock is being upgraded. timeout Maximum time to wait for other holders. GRANTED on success, DENIED when another holder is already upgrading, or TIMEOUT when the wait expires. DENIED and TIMEOUT leave the SHARED lock held. A denied upgrader must abort or release its locks so the admitted upgrader can proceed. txn_id Identifier of the txn. key Input parameter. timeout Input parameter. Return value.
 
 #### `~LockManager()=default`
-- Source: `include/transaction/lock_manager.h`:87
+- Source: `include/transaction/lock_manager.h`:105
 - Brief: n/a
 - Parameters: none
 
 ### themis::LockManager::LockRequest
 
 #### `LockRequest(TransactionId t, LockType lt)`
-- Source: `include/transaction/lock_manager.h`:248
+- Source: `include/transaction/lock_manager.h`:285
 - Brief: n/a
 - Parameters:
   - `t` (TransactionId): n/a
@@ -5418,7 +5557,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::LockManager::LockResult
 
 #### `LockResult Denied(std::string msg)`
-- Source: `include/transaction/lock_manager.h`:74
+- Source: `include/transaction/lock_manager.h`:92
 - Brief: Denied.
 - Parameters:
   - `msg` (std::string): Input parameter.
@@ -5426,14 +5565,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: msg Input parameter. Return value. Calls: std::move().
 
 #### `LockResult Granted()`
-- Source: `include/transaction/lock_manager.h`:61
+- Source: `include/transaction/lock_manager.h`:79
 - Brief: Granted.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Implements Granted without additional internal calls.
 
 #### `LockResult Timeout()`
-- Source: `include/transaction/lock_manager.h`:67
+- Source: `include/transaction/lock_manager.h`:85
 - Brief: Timeout.
 - Parameters: none
 - Return: Return value.
@@ -6095,7 +6234,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: db Input/output parameter. secIdx Input/output parameter. graphIdx Input/output parameter. vecIdx Input/output parameter. Return value.
 
 #### `size_t abortTenantTransactions(std::string_view tenant_id)`
-- Source: `include/transaction/transaction_manager.h`:522
+- Source: `include/transaction/transaction_manager.h`:525
 - Brief: Abort Tenant Transactions.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6103,21 +6242,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. Return value. tenant_id Identifier of the tenant. Return value. Calls: lock(), push_back(), rollbackTransaction(), THEMIS_INFO(), size().
 
 #### `size_t abortTimedOutTransactions()`
-- Source: `include/transaction/transaction_manager.h`:593
+- Source: `include/transaction/transaction_manager.h`:596
 - Brief: Abort Timed Out Transactions.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: load(), std::chrono::system_clock::now(), std::chrono::milliseconds(), lock(), isFinished(), getStartTime(), push_back(), THEMIS_WARN().
 
 #### `void applyDefaultTimeout(Transaction &txn) const`
-- Source: `include/transaction/transaction_manager.h`:913
+- Source: `include/transaction/transaction_manager.h`:916
 - Brief: Apply Default Timeout.
 - Parameters:
   - `txn` (Transaction &): Input/output parameter. apply default timeout if configured
 - Details: txn Input/output parameter. apply default timeout if configured
 
 #### `Transaction begin(IsolationLevel isolation=IsolationLevel::ReadCommitted)`
-- Source: `include/transaction/transaction_manager.h`:525
+- Source: `include/transaction/transaction_manager.h`:528
 - Brief: Direct transaction (legacy API).
 - Parameters:
   - `isolation` (IsolationLevel): Input parameter.
@@ -6125,7 +6264,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: isolation Input parameter. Return value. Calls: generateTransactionId(), updateStatsWithSeqLock(), fetch_add(), txn(), applyDefaultTimeout().
 
 #### `TransactionId beginTransaction(IsolationLevel isolation=IsolationLevel::ReadCommitted)`
-- Source: `include/transaction/transaction_manager.h`:449
+- Source: `include/transaction/transaction_manager.h`:452
 - Brief: Begin Transaction.
 - Parameters:
   - `isolation` (IsolationLevel): Input parameter.
@@ -6133,7 +6272,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: isolation Input parameter. Return value. Calls: generateTransactionId(), applyDefaultTimeout(), lock(), updateStatsWithSeqLock(), fetch_add(), THEMIS_INFO(), logBegin().
 
 #### `TransactionId beginTransaction(std::string_view tenant_id, IsolationLevel isolation=IsolationLevel::ReadCommitted)`
-- Source: `include/transaction/transaction_manager.h`:451
+- Source: `include/transaction/transaction_manager.h`:454
 - Brief: Begin Transaction.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6142,21 +6281,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. isolation Input parameter. Return value.
 
 #### `void cleanupOldTransactions(std::chrono::seconds max_age=std::chrono::hours(1))`
-- Source: `include/transaction/transaction_manager.h`:568
+- Source: `include/transaction/transaction_manager.h`:571
 - Brief: Cleanup Old Transactions.
 - Parameters:
   - `max_age` (std::chrono::seconds): Input parameter.
 - Details: max_age Input parameter. Calls: lock(), std::chrono::system_clock::now(), begin(), end(), getStartTime(), erase().
 
 #### `void clearWaiting(TransactionId txn_id)`
-- Source: `include/transaction/transaction_manager.h`:985
+- Source: `include/transaction/transaction_manager.h`:988
 - Brief: Clear Waiting.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
 - Details: txn_id Identifier of the txn. txn_id Identifier of the txn. Calls: load(), lock(), erase().
 
 #### `Status commitTransaction(TransactionId id)`
-- Source: `include/transaction/transaction_manager.h`:465
+- Source: `include/transaction/transaction_manager.h`:468
 - Brief: Commit Transaction.
 - Parameters:
   - `id` (TransactionId): Input parameter.
@@ -6164,7 +6303,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: id Input parameter. Return value. id Input parameter. Return value. Calls: lock(), find(), end(), Status::Error(), commit(), updateStatsWithSeqLock(), fetch_add(), empty().
 
 #### `size_t countActiveTenantTransactionsLocked(std::string_view tenant_id) const`
-- Source: `include/transaction/transaction_manager.h`:901
+- Source: `include/transaction/transaction_manager.h`:904
 - Brief: Count Active Tenant Transactions Locked.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6172,20 +6311,20 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. Return value.
 
 #### `transaction::CrashRecoveryManager::RecoveryResult crashRecover()`
-- Source: `include/transaction/transaction_manager.h`:712
+- Source: `include/transaction/transaction_manager.h`:715
 - Brief: Crash Recover.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `void deadlockDetectorLoop()`
-- Source: `include/transaction/transaction_manager.h`:950
+- Source: `include/transaction/transaction_manager.h`:953
 - Brief: Deadlock Detector Loop.
 - Parameters: none
 - Details: Calls: load(), lock(), std::chrono::milliseconds(), wait_for(), abortTimedOutTransactions(), detectDeadlockCycle(), THEMIS_WARN(), size().
 
 #### `std::vector< SerializationConflict > detectConflicts(TransactionId txn_id) const`
-- Source: `include/transaction/transaction_manager.h`:843
+- Source: `include/transaction/transaction_manager.h`:846
 - Brief: Detect Conflicts.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -6193,7 +6332,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value.
 
 #### `bool detectDeadlockCycle(std::vector< TransactionId > &cycle)`
-- Source: `include/transaction/transaction_manager.h`:956
+- Source: `include/transaction/transaction_manager.h`:959
 - Brief: Detect Deadlock Cycle.
 - Parameters:
   - `cycle` (std::vector< TransactionId > &): Input/output parameter.
@@ -6201,7 +6340,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: cycle Input/output parameter. True when the operation succeeds. cycle Input/output parameter. True when the operation succeeds. Calls: lock(), empty(), find(), end(), insert(), bool(), push_back(), count().
 
 #### `void enableCrashRecovery(const std::string &wal_path, bool sync_on_write=true)`
-- Source: `include/transaction/transaction_manager.h`:699
+- Source: `include/transaction/transaction_manager.h`:702
 - Brief: ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
 - Parameters:
   - `wal_path` (const std::string &): Path to the wal.
@@ -6209,7 +6348,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: wal_path Path to the wal. sync_on_write Input parameter. Calls: lock(), THEMIS_INFO().
 
 #### `std::optional< Transaction::ExplainResult > explainTransaction(TransactionId id) const`
-- Source: `include/transaction/transaction_manager.h`:478
+- Source: `include/transaction/transaction_manager.h`:481
 - Brief: Explain Transaction.
 - Parameters:
   - `id` (TransactionId): Input parameter.
@@ -6217,14 +6356,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: id Input parameter. Return value.
 
 #### `TransactionId generateTransactionId()`
-- Source: `include/transaction/transaction_manager.h`:878
+- Source: `include/transaction/transaction_manager.h`:881
 - Brief: Generate Transaction Id.
 - Parameters: none
 - Return: Return value.
 - Details: Session-based transaction management. Return value. Return value. Calls: fetch_add().
 
 #### `size_t getActiveTenantTransactionCount(std::string_view tenant_id) const`
-- Source: `include/transaction/transaction_manager.h`:508
+- Source: `include/transaction/transaction_manager.h`:511
 - Brief: Get Active Tenant Transaction Count.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6232,98 +6371,98 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. Return value.
 
 #### `std::vector< TenantTransactionStats > getAllTenantTransactionStats() const`
-- Source: `include/transaction/transaction_manager.h`:501
+- Source: `include/transaction/transaction_manager.h`:504
 - Brief: Get All Tenant Transaction Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `transaction::CrashRecoveryManager * getCrashRecoveryManager()`
-- Source: `include/transaction/transaction_manager.h`:719
+- Source: `include/transaction/transaction_manager.h`:722
 - Brief: Get Crash Recovery Manager.
 - Parameters: none
 - Return: Pointer to the result.
 - Details: Pointer to the result. Calls: get().
 
 #### `const transaction::CrashRecoveryManager * getCrashRecoveryManager() const`
-- Source: `include/transaction/transaction_manager.h`:722
+- Source: `include/transaction/transaction_manager.h`:725
 - Brief: n/a
 - Parameters: none
 
 #### `uint64_t getDeadlockCount() const`
-- Source: `include/transaction/transaction_manager.h`:644
+- Source: `include/transaction/transaction_manager.h`:647
 - Brief: n/a
 - Parameters: none
 
 #### `DeadlockMetrics getDeadlockMetrics() const`
-- Source: `include/transaction/transaction_manager.h`:650
+- Source: `include/transaction/transaction_manager.h`:653
 - Brief: Get Deadlock Metrics.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `DeadlockPredictor * getDeadlockPredictor() const`
-- Source: `include/transaction/transaction_manager.h`:663
+- Source: `include/transaction/transaction_manager.h`:666
 - Brief: Get Deadlock Predictor.
 - Parameters: none
 - Return: Pointer to the result.
 - Details: Pointer to the result.
 
 #### `DeadlockVictimPolicy getDeadlockVictimPolicy() const`
-- Source: `include/transaction/transaction_manager.h`:640
+- Source: `include/transaction/transaction_manager.h`:643
 - Brief: Get Deadlock Victim Policy.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `std::vector< DeadlockInfo > getDeadlocks(std::chrono::seconds max_age=std::chrono::hours(24)) const`
-- Source: `include/transaction/transaction_manager.h`:642
+- Source: `include/transaction/transaction_manager.h`:645
 - Brief: n/a
 - Parameters:
   - `max_age` (std::chrono::seconds): n/a
 
 #### `std::chrono::milliseconds getDefaultTransactionTimeout() const`
-- Source: `include/transaction/transaction_manager.h`:538
+- Source: `include/transaction/transaction_manager.h`:541
 - Brief: Get Default Transaction Timeout.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `LockManager & getLockManager()`
-- Source: `include/transaction/transaction_manager.h`:694
+- Source: `include/transaction/transaction_manager.h`:697
 - Brief: Get Lock Manager.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Implements getLockManager without additional internal calls.
 
 #### `const LockManager & getLockManager() const`
-- Source: `include/transaction/transaction_manager.h`:695
+- Source: `include/transaction/transaction_manager.h`:698
 - Brief: n/a
 - Parameters: none
 
 #### `SSIConfig getSSIConfig() const`
-- Source: `include/transaction/transaction_manager.h`:826
+- Source: `include/transaction/transaction_manager.h`:829
 - Brief: Get SSIConfig.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `Stats getStats() const`
-- Source: `include/transaction/transaction_manager.h`:559
+- Source: `include/transaction/transaction_manager.h`:562
 - Brief: Get Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `Stats getStatsLockFree() const`
-- Source: `include/transaction/transaction_manager.h`:565
+- Source: `include/transaction/transaction_manager.h`:568
 - Brief: Get Stats Lock Free.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `TenantTransactionStats getTenantTransactionStats(std::string_view tenant_id) const`
-- Source: `include/transaction/transaction_manager.h`:495
+- Source: `include/transaction/transaction_manager.h`:498
 - Brief: Get Tenant Transaction Stats.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6331,19 +6470,19 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. Return value.
 
 #### `uint64_t getTimedOutCount() const`
-- Source: `include/transaction/transaction_manager.h`:587
+- Source: `include/transaction/transaction_manager.h`:590
 - Brief: Get Timed Out Count.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `uint64_t getTimeoutCount() const`
-- Source: `include/transaction/transaction_manager.h`:540
+- Source: `include/transaction/transaction_manager.h`:543
 - Brief: n/a
 - Parameters: none
 
 #### `std::shared_ptr< Transaction > getTransaction(TransactionId id)`
-- Source: `include/transaction/transaction_manager.h`:459
+- Source: `include/transaction/transaction_manager.h`:462
 - Brief: Get Transaction.
 - Parameters:
   - `id` (TransactionId): Input parameter.
@@ -6351,14 +6490,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: id Input parameter. Return value. id Input parameter. Return value. Calls: lock(), find(), end().
 
 #### `std::chrono::milliseconds getTransactionTimeout() const`
-- Source: `include/transaction/transaction_manager.h`:581
+- Source: `include/transaction/transaction_manager.h`:584
 - Brief: Get Transaction Timeout.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `std::vector< TimeTravelRecord > listEntityVersions(std::string_view table, std::string_view pk) const`
-- Source: `include/transaction/transaction_manager.h`:802
+- Source: `include/transaction/transaction_manager.h`:805
 - Brief: List Entity Versions.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6367,7 +6506,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. Return value.
 
 #### `std::vector< TransactionId > listTenantTransactionIds(std::string_view tenant_id) const`
-- Source: `include/transaction/transaction_manager.h`:515
+- Source: `include/transaction/transaction_manager.h`:518
 - Brief: List Tenant Transaction Ids.
 - Parameters:
   - `tenant_id` (std::string_view): Identifier of the tenant.
@@ -6375,21 +6514,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: tenant_id Identifier of the tenant. Return value.
 
 #### `void moveToCompleted(TransactionId id)`
-- Source: `include/transaction/transaction_manager.h`:883
+- Source: `include/transaction/transaction_manager.h`:886
 - Brief: Move To Completed.
 - Parameters:
   - `id` (TransactionId): Input parameter.
 - Details: id Input parameter. id Input parameter. Calls: lock(), find(), end(), THEMIS_WARN(), erase(), std::move().
 
 #### `bool needsCrashRecovery() const`
-- Source: `include/transaction/transaction_manager.h`:706
+- Source: `include/transaction/transaction_manager.h`:709
 - Brief: Needs Crash Recovery.
 - Parameters: none
 - Return: True when the operation succeeds.
 - Details: True when the operation succeeds.
 
 #### `double predictDeadlockProbability(const std::vector< std::string > &proposed_locks) const`
-- Source: `include/transaction/transaction_manager.h`:670
+- Source: `include/transaction/transaction_manager.h`:673
 - Brief: Predict Deadlock Probability.
 - Parameters:
   - `proposed_locks` (const std::vector< std::string > &): Input parameter.
@@ -6397,7 +6536,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: proposed_locks Input parameter. Return value.
 
 #### `std::optional< TimeTravelRecord > readEntityAtSnapshot(std::string_view table, std::string_view pk, const std::string &tag_name) const`
-- Source: `include/transaction/transaction_manager.h`:791
+- Source: `include/transaction/transaction_manager.h`:794
 - Brief: Read Entity At Snapshot.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6407,7 +6546,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. tag_name Name of the tag. Return value.
 
 #### `std::optional< TimeTravelRecord > readEntityAtTimestamp(std::string_view table, std::string_view pk, HLCTimestamp ts) const`
-- Source: `include/transaction/transaction_manager.h`:767
+- Source: `include/transaction/transaction_manager.h`:770
 - Brief: Read Entity At Timestamp.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6417,7 +6556,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. ts Input parameter. Return value.
 
 #### `std::optional< TimeTravelRecord > readEntityAtUnixMs(std::string_view table, std::string_view pk, int64_t unix_ms) const`
-- Source: `include/transaction/transaction_manager.h`:779
+- Source: `include/transaction/transaction_manager.h`:782
 - Brief: Read Entity At Unix Ms.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6427,7 +6566,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. unix_ms Input parameter. Return value.
 
 #### `std::vector< std::string > recommendLockOrder(const std::vector< std::string > &keys) const`
-- Source: `include/transaction/transaction_manager.h`:678
+- Source: `include/transaction/transaction_manager.h`:681
 - Brief: Recommend Lock Order.
 - Parameters:
   - `keys` (const std::vector< std::string > &): Input parameter.
@@ -6435,7 +6574,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: keys Input parameter. Return value.
 
 #### `std::chrono::milliseconds recommendTimeout(const std::vector< std::string > &keys) const`
-- Source: `include/transaction/transaction_manager.h`:686
+- Source: `include/transaction/transaction_manager.h`:689
 - Brief: Recommend Timeout.
 - Parameters:
   - `keys` (const std::vector< std::string > &): Input parameter.
@@ -6443,14 +6582,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: keys Input parameter. Return value.
 
 #### `void resolveDeadlock(const std::vector< TransactionId > &cycle)`
-- Source: `include/transaction/transaction_manager.h`:961
+- Source: `include/transaction/transaction_manager.h`:964
 - Brief: Resolve Deadlock.
 - Parameters:
   - `cycle` (const std::vector< TransactionId > &): Input parameter.
 - Details: cycle Input parameter. cycle Input parameter. Calls: empty(), load(), std::min_element(), begin(), end(), THEMIS_WARN(), max(), lk().
 
 #### `bool rollbackTransaction(TransactionId id)`
-- Source: `include/transaction/transaction_manager.h`:471
+- Source: `include/transaction/transaction_manager.h`:474
 - Brief: Rollback Transaction.
 - Parameters:
   - `id` (TransactionId): Input parameter.
@@ -6458,83 +6597,83 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: id Input parameter. True when the operation succeeds. id Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), rollback(), updateStatsWithSeqLock(), fetch_add(), empty(), THEMIS_INFO().
 
 #### `void setConflictManager(ConflictManager *mgr)`
-- Source: `include/transaction/transaction_manager.h`:739
+- Source: `include/transaction/transaction_manager.h`:742
 - Brief: Set Conflict Manager.
 - Parameters:
   - `mgr` (ConflictManager *): Input/output parameter.
 - Details: mgr Input/output parameter. Implements setConflictManager without additional internal calls.
 
 #### `void setDeadlockDetection(bool enabled)`
-- Source: `include/transaction/transaction_manager.h`:622
+- Source: `include/transaction/transaction_manager.h`:625
 - Brief: Set Deadlock Detection.
 - Parameters:
   - `enabled` (bool): Input parameter.
 - Details: enabled Input parameter.
 
 #### `void setDeadlockPredictor(DeadlockPredictor *predictor)`
-- Source: `include/transaction/transaction_manager.h`:657
+- Source: `include/transaction/transaction_manager.h`:660
 - Brief: Set Deadlock Predictor.
 - Parameters:
   - `predictor` (DeadlockPredictor *): Input/output parameter.
 - Details: ── Adaptive Deadlock Prevention (v1. predictor Input/output parameter. predictor Input/output parameter. 9.0) ──────────────────────────────────── Calls: store().
 
 #### `void setDeadlockTimeout(std::chrono::milliseconds timeout_ms)`
-- Source: `include/transaction/transaction_manager.h`:628
+- Source: `include/transaction/transaction_manager.h`:631
 - Brief: Set Deadlock Timeout.
 - Parameters:
   - `timeout_ms` (std::chrono::milliseconds): Input parameter.
 - Details: timeout_ms Input parameter. timeout_ms Input parameter. Calls: store(), count(), THEMIS_INFO(), lock(), notify_one().
 
 #### `void setDeadlockVictimPolicy(DeadlockVictimPolicy policy)`
-- Source: `include/transaction/transaction_manager.h`:634
+- Source: `include/transaction/transaction_manager.h`:637
 - Brief: Set Deadlock Victim Policy.
 - Parameters:
   - `policy` (DeadlockVictimPolicy): Input parameter.
 - Details: policy Input parameter. policy Input parameter. Calls: store(), THEMIS_INFO().
 
 #### `void setDefaultTransactionTimeout(std::chrono::milliseconds timeout)`
-- Source: `include/transaction/transaction_manager.h`:532
+- Source: `include/transaction/transaction_manager.h`:535
 - Brief: Set Default Transaction Timeout.
 - Parameters:
   - `timeout` (std::chrono::milliseconds): Input parameter.
 - Details: timeout Input parameter. timeout Input parameter. Calls: count(), store(), THEMIS_INFO().
 
 #### `void setHistoryManager(HistoryManager *mgr)`
-- Source: `include/transaction/transaction_manager.h`:732
+- Source: `include/transaction/transaction_manager.h`:735
 - Brief: Set History Manager.
 - Parameters:
   - `mgr` (HistoryManager *): Input/output parameter.
 - Details: mgr Input/output parameter. Implements setHistoryManager without additional internal calls.
 
 #### `void setSSIConfig(const SSIConfig &config)`
-- Source: `include/transaction/transaction_manager.h`:820
+- Source: `include/transaction/transaction_manager.h`:823
 - Brief: Set SSIConfig.
 - Parameters:
   - `config` (const SSIConfig &): Input parameter.
 - Details: ── Serializable Snapshot Isolation (SSI) ───────────────────────────────────── config Input parameter. config Input parameter. Calls: lock(), setPredicateLockingEnabled(), setMaxPredicateLocks(), THEMIS_INFO(), count().
 
 #### `void setSnapshotManager(transaction::SnapshotManager *mgr)`
-- Source: `include/transaction/transaction_manager.h`:756
+- Source: `include/transaction/transaction_manager.h`:759
 - Brief: Set Snapshot Manager.
 - Parameters:
   - `mgr` (transaction::SnapshotManager *): Input/output parameter.
 - Details: mgr Input/output parameter. Implements setSnapshotManager without additional internal calls.
 
 #### `void setTransactionTimeout(std::chrono::milliseconds timeout_ms)`
-- Source: `include/transaction/transaction_manager.h`:575
+- Source: `include/transaction/transaction_manager.h`:578
 - Brief: Set Transaction Timeout.
 - Parameters:
   - `timeout_ms` (std::chrono::milliseconds): Input parameter.
 - Details: ── Transaction Timeout / Auto-Rollback ────────────────────────────────────── timeout_ms Input parameter. timeout_ms Input parameter. Calls: exchange(), count(), THEMIS_DEBUG().
 
 #### `void timeoutExpiredTransactions()`
-- Source: `include/transaction/transaction_manager.h`:908
+- Source: `include/transaction/transaction_manager.h`:911
 - Brief: Timeout Expired Transactions.
 - Parameters: none
 - Details: roll back active transactions that exceeded their timeout Calls: lock(), isFinished(), isTimedOut(), push_back(), THEMIS_WARN(), rollbackTransaction(), fetch_add().
 
 #### `void trackLockAcquired(TransactionId txn_id, const std::string &key)`
-- Source: `include/transaction/transaction_manager.h`:968
+- Source: `include/transaction/transaction_manager.h`:971
 - Brief: Track Lock Acquired.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -6542,7 +6681,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. txn_id Identifier of the txn. key Input parameter. Calls: load(), lock(), std::chrono::system_clock::now(), find(), end(), erase(), empty().
 
 #### `void trackLockReleased(TransactionId txn_id, const std::string &key)`
-- Source: `include/transaction/transaction_manager.h`:974
+- Source: `include/transaction/transaction_manager.h`:977
 - Brief: Track Lock Released.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -6550,7 +6689,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. txn_id Identifier of the txn. key Input parameter. Calls: load(), lock(), find(), end(), erase().
 
 #### `void trackLockWaiting(TransactionId txn_id, const std::string &key)`
-- Source: `include/transaction/transaction_manager.h`:980
+- Source: `include/transaction/transaction_manager.h`:983
 - Brief: Track Lock Waiting.
 - Parameters:
   - `txn_id` (TransactionId): Identifier of the txn.
@@ -6558,7 +6697,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. key Input parameter. txn_id Identifier of the txn. key Input parameter. Calls: load(), lock(), insert().
 
 #### `void updateStatsWithSeqLock(std::function< void()> update)`
-- Source: `include/transaction/transaction_manager.h`:886
+- Source: `include/transaction/transaction_manager.h`:889
 - Brief: n/a
 - Parameters:
   - `update` (std::function< void()>): n/a
@@ -6640,7 +6779,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: entity Input parameter. vectorField Input parameter. Return value. Calls: isActive(), Status::Error(), isTimedOut(), getPrimaryKey(), makeNamespacedKey(), checkSerializableWriteConflict(), empty(), serialize().
 
 #### `Status bulkEraseEntities(std::string_view table, const std::vector< std::string > &pks)`
-- Source: `include/transaction/transaction_manager.h`:337
+- Source: `include/transaction/transaction_manager.h`:340
 - Brief: Bulk Erase Entities.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6649,7 +6788,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pks Input parameter. Return value.
 
 #### `Status bulkPutEntities(std::string_view table, const std::vector< BaseEntity > &entities)`
-- Source: `include/transaction/transaction_manager.h`:328
+- Source: `include/transaction/transaction_manager.h`:331
 - Brief: Bulk Put Entities.
 - Parameters:
   - `table` (std::string_view): Input parameter.
@@ -6658,13 +6797,13 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. entities Input parameter. Return value.
 
 #### `void captureDuration() noexcept`
-- Source: `include/transaction/transaction_manager.h`:417
+- Source: `include/transaction/transaction_manager.h`:420
 - Brief: Capture Duration.
 - Parameters: none
 - Details: Exception safety: noexcept.
 
 #### `std::string checkSerializableWriteConflict(const std::string &key) const`
-- Source: `include/transaction/transaction_manager.h`:265
+- Source: `include/transaction/transaction_manager.h`:268
 - Brief: Check Serializable Write Conflict.
 - Parameters:
   - `key` (const std::string &): Input parameter.
@@ -6679,7 +6818,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: Return value. Return value. Calls: compare_exchange_strong(), Status::Error(), captureDuration(), isActive(), isTimedOut(), THEMIS_WARN(), getDurationMs(), rollback().
 
 #### `Status createSavepoint(std::string_view name)`
-- Source: `include/transaction/transaction_manager.h`:292
+- Source: `include/transaction/transaction_manager.h`:295
 - Brief: Create Savepoint.
 - Parameters:
   - `name` (std::string_view): Input parameter.
@@ -6704,7 +6843,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. Return value. table Input parameter. pk Input parameter. Return value. Calls: isActive(), Status::Error(), isTimedOut(), makeNamespacedKey(), std::string(), checkSerializableWriteConflict(), empty(), count().
 
 #### `ExplainResult explain() const`
-- Source: `include/transaction/transaction_manager.h`:382
+- Source: `include/transaction/transaction_manager.h`:385
 - Brief: Explain.
 - Parameters: none
 - Return: Return value.
@@ -6737,19 +6876,19 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Parameters: none
 
 #### `Saga & getSaga()`
-- Source: `include/transaction/transaction_manager.h`:354
+- Source: `include/transaction/transaction_manager.h`:357
 - Brief: Get Saga.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Implements getSaga without additional internal calls.
 
 #### `const Saga & getSaga() const`
-- Source: `include/transaction/transaction_manager.h`:355
+- Source: `include/transaction/transaction_manager.h`:358
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< std::string > getSavepoints() const`
-- Source: `include/transaction/transaction_manager.h`:312
+- Source: `include/transaction/transaction_manager.h`:315
 - Brief: Get Savepoints.
 - Parameters: none
 - Return: Return value.
@@ -6771,7 +6910,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Parameters: none
 
 #### `bool hasSavepoint(std::string_view name) const`
-- Source: `include/transaction/transaction_manager.h`:319
+- Source: `include/transaction/transaction_manager.h`:322
 - Brief: Has Savepoint.
 - Parameters:
   - `name` (std::string_view): Input parameter.
@@ -6779,7 +6918,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: name Input parameter. True when the operation succeeds.
 
 #### `bool hasWrites() const`
-- Source: `include/transaction/transaction_manager.h`:346
+- Source: `include/transaction/transaction_manager.h`:349
 - Brief: n/a
 - Parameters: none
 
@@ -6789,7 +6928,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Parameters: none
 
 #### `bool isReadOnly() const`
-- Source: `include/transaction/transaction_manager.h`:344
+- Source: `include/transaction/transaction_manager.h`:347
 - Brief: n/a
 - Parameters: none
 
@@ -6799,13 +6938,13 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Parameters: none
 
 #### `std::string makeNamespacedKey(std::string_view key) const`
-- Source: `include/transaction/transaction_manager.h`:438
+- Source: `include/transaction/transaction_manager.h`:441
 - Brief: n/a
 - Parameters:
   - `key` (std::string_view): n/a
 
 #### `std::string makeNamespacedTable(std::string_view table) const`
-- Source: `include/transaction/transaction_manager.h`:431
+- Source: `include/transaction/transaction_manager.h`:434
 - Brief: n/a
 - Parameters:
   - `table` (std::string_view): n/a
@@ -6843,7 +6982,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. entity Input parameter. expected_version Input parameter. Return value.
 
 #### `Status popSavePoint()`
-- Source: `include/transaction/transaction_manager.h`:284
+- Source: `include/transaction/transaction_manager.h`:287
 - Brief: Pop Save Point.
 - Parameters: none
 - Return: Return value.
@@ -6868,7 +7007,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: table Input parameter. pk Input parameter. Return value. table Input parameter. pk Input parameter. Return value. Calls: isActive(), makeNamespacedKey(), std::string(), get(), BaseEntity::deserialize(), toJson().
 
 #### `Status releaseSavepoint(std::string_view name)`
-- Source: `include/transaction/transaction_manager.h`:306
+- Source: `include/transaction/transaction_manager.h`:309
 - Brief: Release Savepoint.
 - Parameters:
   - `name` (std::string_view): Input parameter.
@@ -6890,14 +7029,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: Calls: compare_exchange_strong(), THEMIS_WARN(), captureDuration(), THEMIS_DEBUG(), stepCount(), isActive(), compensate(), releasePredicateLocks().
 
 #### `Status rollbackToSavePoint()`
-- Source: `include/transaction/transaction_manager.h`:278
+- Source: `include/transaction/transaction_manager.h`:281
 - Brief: Rollback To Save Point.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: load(), Status::Error(), isActive(), Status::OK().
 
 #### `Status rollbackToSavepoint(std::string_view name)`
-- Source: `include/transaction/transaction_manager.h`:299
+- Source: `include/transaction/transaction_manager.h`:302
 - Brief: Rollback To Savepoint.
 - Parameters:
   - `name` (std::string_view): Input parameter.
@@ -6905,13 +7044,13 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: name Input parameter. Return value. name Input parameter. Return value. Calls: load(), Status::Error(), isActive(), sname(), std::find_if(), begin(), end(), popSavePoint().
 
 #### `Status setReadOnly(bool read_only=true)`
-- Source: `include/transaction/transaction_manager.h`:342
+- Source: `include/transaction/transaction_manager.h`:345
 - Brief: n/a
 - Parameters:
   - `read_only` (bool): n/a
 
 #### `Status setSavePoint()`
-- Source: `include/transaction/transaction_manager.h`:272
+- Source: `include/transaction/transaction_manager.h`:275
 - Brief: Set Save Point.
 - Parameters: none
 - Return: Return value.
@@ -6925,16 +7064,16 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: timeout Input parameter. Calls: count(), store().
 
 #### `Status trackPredicateRead(const std::string &start_key, const std::string &end_key)`
-- Source: `include/transaction/transaction_manager.h`:257
-- Brief: Track Predicate Read.
+- Source: `include/transaction/transaction_manager.h`:260
+- Brief: Track a SERIALIZABLE predicate-read range.
 - Parameters:
   - `start_key` (const std::string &): Input parameter.
   - `end_key` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: start_key Input parameter. end_key Input parameter. Return value.
+- Return: OK when a LockManager is available and the range is tracked or predicate locking is disabled; an error when no LockManager is available or enabled predicate locking cannot store the range because capacity is exhausted.
+- Details: Track Predicate Read. start_key Inclusive lower bound of the read range. end_key Inclusive upper bound of the read range. OK when a LockManager is available and the range is tracked or predicate locking is disabled; an error when no LockManager is available or enabled predicate locking cannot store the range because capacity is exhausted. start_key Input parameter. end_key Input parameter. Return value.
 
 #### `void trackWrite(std::string key, std::string operation)`
-- Source: `include/transaction/transaction_manager.h`:390
+- Source: `include/transaction/transaction_manager.h`:393
 - Brief: Track Write.
 - Parameters:
   - `key` (std::string): Input parameter.
@@ -7593,83 +7732,83 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction
 
 #### `Arg(10) -> Arg(50) ->Arg(100) ->Arg(500)`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:131
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:140
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (10): n/a
 
+#### `BENCHMARK_DEFINE_F(BranchManagerBenchmark, GetStats)(benchmark`
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:198
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (BranchManagerBenchmark): n/a
+  - `<unnamed>` (GetStats): n/a
+
+#### `BENCHMARK_DEFINE_F(BranchManagerBenchmark, ListBranches)(benchmark`
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:124
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (BranchManagerBenchmark): n/a
+  - `<unnamed>` (ListBranches): n/a
+
 #### `BENCHMARK_DEFINE_F(BranchManagerBenchmark, ValidateBranchName)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:211
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:220
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (ValidateBranchName): n/a
 
 #### `BENCHMARK_F(BranchManagerBenchmark, BranchExists)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:172
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:181
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (BranchExists): n/a
 
 #### `BENCHMARK_F(BranchManagerBenchmark, CreateBranch)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:83
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:86
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (CreateBranch): n/a
 
 #### `BENCHMARK_F(BranchManagerBenchmark, DeleteBranch)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:154
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (DeleteBranch): n/a
 
 #### `BENCHMARK_F(BranchManagerBenchmark, GetBranch)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:98
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:104
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (GetBranch): n/a
 
-#### `BENCHMARK_F(BranchManagerBenchmark, GetStats)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:189
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (BranchManagerBenchmark): n/a
-  - `<unnamed>` (GetStats): n/a
-
 #### `BENCHMARK_F(BranchManagerBenchmark, JsonSerialization)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:233
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:242
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (JsonSerialization): n/a
 
-#### `BENCHMARK_F(BranchManagerBenchmark, ListBranches)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:115
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (BranchManagerBenchmark): n/a
-  - `<unnamed>` (ListBranches): n/a
-
 #### `BENCHMARK_F(BranchManagerBenchmark, MergeBranchesFastForward)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:248
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:257
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (MergeBranchesFastForward): n/a
 
 #### `BENCHMARK_F(BranchManagerBenchmark, SwitchBranch)(benchmark`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:137
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:146
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
   - `<unnamed>` (SwitchBranch): n/a
 
 #### `BENCHMARK_REGISTER_F(BranchManagerBenchmark, ValidateBranchName)`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:230
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:239
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BranchManagerBenchmark): n/a
@@ -7685,7 +7824,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: Bind Saga Orchestrator From Plugin. This helper wraps PluginManager interaction so callers can retrieve a typed SAGAOrchestrator* from a dynamically loaded plugin DLL. plugin_manager Plugin manager used for discovery/load. plugin_name Plugin manifest name (default: "saga_orchestrator"). Result with typed orchestrator pointer or an error when loading/ binding fails. plugin_manager Input/output parameter. plugin_name Name of the plugin. Return value. Calls: isPluginLoaded(), loadPlugin(), tl::unexpected(), error(), getPlugin(), value(), getInstance().
 
 #### `bool deliverPhase2WithRetry(Fn &&deliver_fn, const char *bridge_name, const std::string &node_id, const std::string &txn_id, const std::string &coordinator_id, bool do_commit)`
-- Source: `src/transaction/distributed_transaction_manager.cpp`:209
+- Source: `src/transaction/distributed_transaction_manager.cpp`:273
 - Brief: Deliver Phase2 With Retry.
 - Parameters:
   - `deliver_fn` (Fn &&): Input parameter.
@@ -7705,23 +7844,23 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `operation` (Func &&): n/a
   - `operation_name` (std::string_view): n/a
 
-#### `DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn()`
-- Source: `src/transaction/distributed_transaction_manager.cpp`:193
-- Brief: Get Liveness Check Fn.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Calls: lock().
-
-#### `DistributedTransactionManager::RpcPhase1Fn getRpcPhase1Fn()`
-- Source: `src/transaction/distributed_transaction_manager.cpp`:155
+#### `std::optional< DistributedTransactionManager::RpcPhase1Fn > getExplicitRpcPhase1Fn()`
+- Source: `src/transaction/distributed_transaction_manager.cpp`:216
 - Brief: Get Rpc Phase1 Fn.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: lock().
 
-#### `DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn()`
-- Source: `src/transaction/distributed_transaction_manager.cpp`:111
+#### `std::optional< DistributedTransactionManager::RpcPhase2Fn > getExplicitRpcPhase2Fn()`
+- Source: `src/transaction/distributed_transaction_manager.cpp`:162
 - Brief: Get Rpc Phase2 Fn.
+- Parameters: none
+- Return: Return value.
+- Details: Return value. Calls: lock().
+
+#### `DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn()`
+- Source: `src/transaction/distributed_transaction_manager.cpp`:257
+- Brief: Get Liveness Check Fn.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: lock().
@@ -8090,13 +8229,13 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction::BranchManagerBenchmark
 
 #### `void SetUp(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:17
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:18
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
 
 #### `void TearDown(const ::benchmark::State &state) override`
-- Source: `benchmarks/transaction/bench_branch_manager.cpp`:62
+- Source: `benchmarks/transaction/bench_branch_manager.cpp`:63
 - Brief: n/a
 - Parameters:
   - `state` (const ::benchmark::State &): n/a
@@ -8464,40 +8603,40 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction::DistributedTransactionManager
 
 #### `DistributedTransactionManager(DistributedTransactionManager &&)=delete`
-- Source: `include/transaction/distributed_transaction_manager.h`:277
+- Source: `include/transaction/distributed_transaction_manager.h`:289
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTransactionManager &&): n/a
 
 #### `DistributedTransactionManager(const DistributedTransactionManager &)=delete`
-- Source: `include/transaction/distributed_transaction_manager.h`:275
+- Source: `include/transaction/distributed_transaction_manager.h`:287
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const DistributedTransactionManager &): n/a
 
 #### `DistributedTransactionManager(std::string coordinator_id, DistributedTxnManagerConfig config={})`
-- Source: `include/transaction/distributed_transaction_manager.h`:267
+- Source: `include/transaction/distributed_transaction_manager.h`:279
 - Brief: n/a
 - Parameters:
   - `coordinator_id` (std::string): n/a
   - `config` (DistributedTxnManagerConfig): n/a
 
 #### `void abortDistributed(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:306
+- Source: `include/transaction/distributed_transaction_manager.h`:331
 - Brief: Abort Distributed.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
-- Details: txn_id Identifier of the txn. txn_id Identifier of the txn. Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flush(), unlock(), runPhase2Unlocked(), empty().
+- Details: txn_id Identifier of the txn. Phase-2 ABORT is sent only after the decision is durably flushed. Persistence or delivery failures leave the transaction unresolved. txn_id Identifier of the txn. Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flushDurable(), unlock(), runPhase2Unlocked(), empty().
 
 #### `size_t activeTransactionCount() const`
-- Source: `include/transaction/distributed_transaction_manager.h`:399
+- Source: `include/transaction/distributed_transaction_manager.h`:432
 - Brief: Active Transaction Count.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `DistributedTxnStatus applyAbort(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:334
+- Source: `include/transaction/distributed_transaction_manager.h`:359
 - Brief: Apply Abort.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8505,7 +8644,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value. txn_id Identifier of the txn. Return value. Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), THEMIS_DEBUG(), DistributedTxnStatus::OK().
 
 #### `DistributedTxnStatus applyCommit(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:327
+- Source: `include/transaction/distributed_transaction_manager.h`:352
 - Brief: Apply Commit.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8513,54 +8652,57 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value. txn_id Identifier of the txn. Return value. Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), THEMIS_DEBUG(), DistributedTxnStatus::OK().
 
 #### `void batchFlushLoop()`
-- Source: `include/transaction/distributed_transaction_manager.h`:548
+- Source: `include/transaction/distributed_transaction_manager.h`:601
 - Brief: Batch Flush Loop.
 - Parameters: none
 - Details: ───────────────────────────────────────────────────────────────────────────── Batch-prepare flush loop (PERF-D4) ───────────────────────────────────────────────────────────────────────────── Calls: load(), lock(), wait_for(), empty(), swap(), THEMIS_DEBUG(), size(), runPhase1Unlocked().
 
 #### `TransactionId beginDistributed(const std::vector< Participant > &participants)`
-- Source: `include/transaction/distributed_transaction_manager.h`:286
-- Brief: Begin Distributed.
+- Source: `include/transaction/distributed_transaction_manager.h`:307
+- Brief: Register a distributed transaction and durably record its participant identities.
 - Parameters:
-  - `participants` (const std::vector< Participant > &): Input parameter.
-- Return: Return value.
-- Details: participants Input parameter. Return value.
+  - `participants` (const std::vector< Participant > &): Non-empty participant descriptors with stable node IDs; callback-less remote participants require a non-empty endpoint.
+- Return: A unique coordinator transaction ID.
+- Throws:
+  - std::invalid_argument: if participants are empty, a remote endpoint is missing, or either remote transport phase is misconfigured.
+  - std::runtime_error: if the active-transaction limit is reached or the configured WAL cannot durably persist the BEGIN record.
+- Details: participants Non-empty participant descriptors with stable node IDs; callback-less remote participants require a non-empty endpoint. A unique coordinator transaction ID. std::invalid_argument if participants are empty, a remote endpoint is missing, or either remote transport phase is misconfigured. std::runtime_error if the active-transaction limit is reached or the configured WAL cannot durably persist the BEGIN record. Callback pointers, endpoints, and affected keys are not persisted. Recovery resolves endpoints from node IDs using the configured resolver. Static RPC hooks used for admission are snapshotted for the transaction and retained until its decision is completed.
 
 #### `size_t checkTimeouts()`
-- Source: `include/transaction/distributed_transaction_manager.h`:352
+- Source: `include/transaction/distributed_transaction_manager.h`:385
 - Brief: Check Timeouts.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: std::chrono::system_clock::now(), lock(), push_back(), THEMIS_WARN(), findTransaction(), abortDistributed().
 
 #### `void clearLivenessCheckFn()`
-- Source: `include/transaction/distributed_transaction_manager.h`:449
+- Source: `include/transaction/distributed_transaction_manager.h`:496
 - Brief: Clear Liveness Check Fn.
 - Parameters: none
 - Details: Calls: lock().
 
 #### `void clearRpcPhase1Fn()`
-- Source: `include/transaction/distributed_transaction_manager.h`:433
-- Brief: Clear Rpc Phase1 Fn.
+- Source: `include/transaction/distributed_transaction_manager.h`:480
+- Brief: Clear Rpc Phase1 Fn and restore the default fail-closed bridge.
 - Parameters: none
-- Details: Calls: lock().
+- Details: Clear Rpc Phase1 Fn. This affects future admissions; already-admitted transactions retain their static transport snapshot until completion. Calls: lock().
 
 #### `void clearRpcPhase2Fn()`
-- Source: `include/transaction/distributed_transaction_manager.h`:416
-- Brief: Clear Rpc Phase2 Fn.
+- Source: `include/transaction/distributed_transaction_manager.h`:456
+- Brief: Clear Rpc Phase2 Fn and restore the default fail-closed bridge.
 - Parameters: none
-- Details: Calls: lock().
+- Details: Clear Rpc Phase2 Fn. This affects future admissions; already-admitted transactions retain their static transport snapshot until completion. Calls: lock().
 
 #### `DistributedTxnStatus commitDistributed(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:300
+- Source: `include/transaction/distributed_transaction_manager.h`:323
 - Brief: Commit Distributed.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
-- Return: Return value.
-- Details: txn_id Identifier of the txn. Return value.
+- Return: Status; Phase-2 COMMIT is sent only after the decision is durably flushed. Delivery or completion-record failure remains unresolved.
+- Details: txn_id Identifier of the txn. Status; Phase-2 COMMIT is sent only after the decision is durably flushed. Delivery or completion-record failure remains unresolved.
 
 #### `DistributedTransaction * findTransaction(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:490
+- Source: `include/transaction/distributed_transaction_manager.h`:543
 - Brief: Find Transaction.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8568,7 +8710,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Pointer to the result.
 
 #### `const DistributedTransaction * findTransaction(const TransactionId &txn_id) const`
-- Source: `include/transaction/distributed_transaction_manager.h`:496
+- Source: `include/transaction/distributed_transaction_manager.h`:549
 - Brief: Find Transaction.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8576,28 +8718,28 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Pointer to the result.
 
 #### `std::string generateTransactionId()`
-- Source: `include/transaction/distributed_transaction_manager.h`:457
+- Source: `include/transaction/distributed_transaction_manager.h`:509
 - Brief: Generate Transaction Id.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str().
 
 #### `std::vector< RecoverableTwoPhaseTransaction > getRecoverableTransactions() const override`
-- Source: `include/transaction/distributed_transaction_manager.h`:345
+- Source: `include/transaction/distributed_transaction_manager.h`:378
 - Brief: Return the currently known recoverable/non-final transactions.
 - Parameters: none
 - Return: Canonical recovery snapshot for global orchestration.
-- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. Canonical recovery snapshot for global orchestration.
+- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. ACTIVE and PREPARING are included because participants may have work to resolve even when no final decision is durable; callers must not treat them as safe to ignore. Canonical recovery snapshot for global orchestration.
 
 #### `Statistics getStatistics() const`
-- Source: `include/transaction/distributed_transaction_manager.h`:393
+- Source: `include/transaction/distributed_transaction_manager.h`:426
 - Brief: Return access control statistics.
 - Parameters: none
 - Return: Access control statistics.
 - Details: Access control statistics.
 
 #### `std::optional< DistributedTransaction > getTransaction(const TransactionId &txn_id) const`
-- Source: `include/transaction/distributed_transaction_manager.h`:387
+- Source: `include/transaction/distributed_transaction_manager.h`:420
 - Brief: Get Transaction.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8605,65 +8747,67 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. Return value.
 
 #### `bool isParticipantAlive(const std::string &node_id) const`
-- Source: `include/transaction/distributed_transaction_manager.h`:379
+- Source: `include/transaction/distributed_transaction_manager.h`:412
 - Brief: Is Participant Alive.
 - Parameters:
   - `node_id` (const std::string &): Identifier of the node.
 - Return: True when the operation succeeds.
 - Details: node_id Identifier of the node. True when the operation succeeds.
 
-#### `void logToWAL(themis::sharding::WALEntryType type, const std::string &txn_id, const std::string &data="")`
-- Source: `include/transaction/distributed_transaction_manager.h`:459
+#### `bool logToWAL(themis::sharding::WALEntryType type, const std::string &txn_id, const std::string &data="", const std::vector< Participant > *participants=nullptr)`
+- Source: `include/transaction/distributed_transaction_manager.h`:511
 - Brief: Log To WAL.
 - Parameters:
   - `type` (themis::sharding::WALEntryType): Input parameter.
   - `txn_id` (const std::string &): Identifier of the txn.
   - `data` (const std::string &): Input parameter.
-- Details: type Input parameter. txn_id Identifier of the txn. data Input parameter. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), append(), THEMIS_ERROR(), what().
+  - `participants` (const std::vector< Participant > *): n/a
+- Return: True when the append succeeds; false when WAL is disabled.
+- Details: type Input parameter. txn_id Identifier of the txn. data Input parameter. True when the append succeeds; false when WAL is disabled. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), append(), THEMIS_ERROR(), what().
 
 #### `DistributedTransactionManager & operator=(DistributedTransactionManager &&)=delete`
-- Source: `include/transaction/distributed_transaction_manager.h`:278
+- Source: `include/transaction/distributed_transaction_manager.h`:290
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DistributedTransactionManager &&): n/a
 
 #### `DistributedTransactionManager & operator=(const DistributedTransactionManager &)=delete`
-- Source: `include/transaction/distributed_transaction_manager.h`:276
+- Source: `include/transaction/distributed_transaction_manager.h`:288
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const DistributedTransactionManager &): n/a
 
 #### `DistributedTxnStatus prepareDistributed(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:293
+- Source: `include/transaction/distributed_transaction_manager.h`:315
 - Brief: Prepare Distributed.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
-- Return: Return value.
-- Details: txn_id Identifier of the txn. Return value.
+- Return: Status; a configured WAL append/flush failure is an error and leaves the transaction unresolved.
+- Details: txn_id Identifier of the txn. Status; a configured WAL append/flush failure is an error and leaves the transaction unresolved.
 
 #### `size_t recoverInDoubtTransactions() override`
-- Source: `include/transaction/distributed_transaction_manager.h`:338
-- Brief: Recover In Doubt Transactions.
+- Source: `include/transaction/distributed_transaction_manager.h`:371
+- Brief: Re-drive unresolved transactions from the coordinator WAL.
 - Parameters: none
-- Return: Return value.
-- Details: Return value. Calls: runPhase2Unlocked(), lock(), findTransaction(), THEMIS_DEBUG(), push_back(), finalizeRecovery(), THEMIS_INFO(), getOldestLSN().
+- Return: Number of transactions whose decision delivery and completion record were both confirmed durable.
+- Details: Recover In Doubt Transactions. Number of transactions whose decision delivery and completion record were both confirmed durable. Legacy or malformed WAL records without valid participant identities, missing endpoint resolution, transport failures, and WAL failures stay unresolved and must keep service readiness false. Return value. Calls: runPhase2Unlocked(), lock(), findTransaction(), THEMIS_DEBUG(), push_back(), finalizeRecovery(), THEMIS_INFO(), getOldestLSN().
 
 #### `std::string recoveryBackendName() const override`
-- Source: `include/transaction/distributed_transaction_manager.h`:342
+- Source: `include/transaction/distributed_transaction_manager.h`:375
 - Brief: Return the durable backend used by this coordinator.
 - Parameters: none
 - Return: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 - Details: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 
 #### `std::string recoveryCoordinatorName() const override`
-- Source: `include/transaction/distributed_transaction_manager.h`:340
+- Source: `include/transaction/distributed_transaction_manager.h`:373
 - Brief: Return a stable coordinator identifier for recovery reports.
 - Parameters: none
 - Return: Human-readable coordinator type name (e.g. "TwoPhaseCommitCoordinator").
 - Details: Human-readable coordinator type name (e.g. "TwoPhaseCommitCoordinator").
 
 #### `bool runPhase1Unlocked(const TransactionId &txn_id)`
-- Source: `include/transaction/distributed_transaction_manager.h`:470
+- Source: `include/transaction/distributed_transaction_manager.h`:523
 - Brief: Run Phase1 Unlocked.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8671,7 +8815,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: ───────────────────────────────────────────────────────────────────────────── Phase 1: send PREPARE to all participants (without holding the mutex) ───────────────────────────────────────────────────────────────────────────── txn_id Identifier of the txn. True when the operation succeeds. txn_id Identifier of the txn. True when the operation succeeds. Calls: lock(), findTransaction(), std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back().
 
 #### `bool runPhase2Unlocked(const TransactionId &txn_id, const std::vector< Participant > &parts, bool do_commit)`
-- Source: `include/transaction/distributed_transaction_manager.h`:479
+- Source: `include/transaction/distributed_transaction_manager.h`:532
 - Brief: Run Phase2 Unlocked.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8681,53 +8825,53 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: ───────────────────────────────────────────────────────────────────────────── Phase 2: send COMMIT or ABORT to all participants (without holding the mutex) ───────────────────────────────────────────────────────────────────────────── txn_id Identifier of the txn. parts Input parameter. do_commit Input parameter. True when the operation succeeds. txn_id Identifier of the txn. parts Input parameter. do_commit Input parameter. True when the operation succeeds. Calls: std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back(), submitTask(), deliverPhase2WithRetry().
 
 #### `void setLivenessCheckFn(StaticLivenessCheckFn fn)`
-- Source: `include/transaction/distributed_transaction_manager.h`:444
+- Source: `include/transaction/distributed_transaction_manager.h`:491
 - Brief: Set Liveness Check Fn.
 - Parameters:
   - `fn` (StaticLivenessCheckFn): Input parameter.
 - Details: fn Input parameter. fn Input parameter. Calls: lock(), std::move().
 
 #### `void setRemotePhase2Fn(RemotePhase2Fn fn)`
-- Source: `include/transaction/distributed_transaction_manager.h`:368
+- Source: `include/transaction/distributed_transaction_manager.h`:401
 - Brief: Set Remote Phase2 Fn.
 - Parameters:
   - `fn` (RemotePhase2Fn): Input parameter.
 - Details: fn Input parameter. Calls: lock(), std::move().
 
 #### `void setRpcPhase1Fn(RpcPhase1Fn fn)`
-- Source: `include/transaction/distributed_transaction_manager.h`:428
-- Brief: Set Rpc Phase1 Fn.
+- Source: `include/transaction/distributed_transaction_manager.h`:473
+- Brief: Install the remote Phase-1 PREPARE transport.
 - Parameters:
   - `fn` (RpcPhase1Fn): Input parameter.
-- Details: fn Input parameter. fn Input parameter. Calls: lock(), std::move().
+- Details: Set Rpc Phase1 Fn. fn Callable that returns the participant's commit vote; an empty callable restores the fail-closed default. Remote participants are rejected by beginDistributed() unless a real Phase-1 transport is configured through this hook or manager config. Transactions admitted through this hook retain its callback snapshot until completion, even if the global hook is later cleared. fn Input parameter. Calls: lock(), std::move().
 
 #### `void setRpcPhase2Fn(RpcPhase2Fn fn)`
-- Source: `include/transaction/distributed_transaction_manager.h`:411
-- Brief: Set Rpc Phase2 Fn.
+- Source: `include/transaction/distributed_transaction_manager.h`:449
+- Brief: Install the remote Phase-2 transport used for participant decisions.
 - Parameters:
   - `fn` (RpcPhase2Fn): Input parameter.
-- Details: fn Input parameter. fn Input parameter. Calls: lock(), std::move().
+- Details: Set Rpc Phase2 Fn. fn Callable that delivers COMMIT or ABORT; an empty callable restores the fail-closed default. Remote participants are rejected by beginDistributed() unless a real Phase-2 transport is configured through this hook or manager config. Transactions admitted through this hook retain its callback snapshot until completion, even if the global hook is later cleared. fn Input parameter. Calls: lock(), std::move().
 
 #### `void startThreadPool()`
-- Source: `include/transaction/distributed_transaction_manager.h`:531
+- Source: `include/transaction/distributed_transaction_manager.h`:584
 - Brief: Start Thread Pool.
 - Parameters: none
 - Details: Calls: reserve(), emplace_back(), void(), lock(), wait_for(), std::chrono::seconds(), empty(), THEMIS_WARN().
 
 #### `void stopThreadPool()`
-- Source: `include/transaction/distributed_transaction_manager.h`:536
+- Source: `include/transaction/distributed_transaction_manager.h`:589
 - Brief: Stop Thread Pool.
 - Parameters: none
 - Details: Calls: lock(), notify_all(), joinable(), join(), clear().
 
 #### `std::future< decltype(f())> submitTask(F &&f)`
-- Source: `include/transaction/distributed_transaction_manager.h`:501
+- Source: `include/transaction/distributed_transaction_manager.h`:554
 - Brief: n/a
 - Parameters:
   - `f` (F &&): n/a
 
 #### `DistributedTxnStatus voteOnPrepare(const TransactionId &txn_id, const std::string &node_id, bool can_commit)`
-- Source: `include/transaction/distributed_transaction_manager.h`:316
+- Source: `include/transaction/distributed_transaction_manager.h`:341
 - Brief: Vote On Prepare.
 - Parameters:
   - `txn_id` (const TransactionId &): Identifier of the txn.
@@ -8737,14 +8881,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. node_id Identifier of the node. can_commit Input parameter. Return value. txn_id Identifier of the txn. node_id Identifier of the node. can_commit Input parameter. Return value. Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), notify_all(), DistributedTxnStatus::OK().
 
 #### `~DistributedTransactionManager()`
-- Source: `include/transaction/distributed_transaction_manager.h`:272
+- Source: `include/transaction/distributed_transaction_manager.h`:284
 - Brief: n/a
 - Parameters: none
 
 ### themis::transaction::DistributedTxnStatus
 
 #### `DistributedTxnStatus Error(std::string msg, std::uint32_t retry_count=0, themis::utils::RetryExhaustionReason exhaustion_reason=themis::utils::RetryExhaustionReason::NONE, themis::utils::RetryTimeoutSource timeout_source=themis::utils::RetryTimeoutSource::NONE, std::string correlation_id={})`
-- Source: `include/transaction/distributed_transaction_manager.h`:171
+- Source: `include/transaction/distributed_transaction_manager.h`:173
 - Brief: n/a
 - Parameters:
   - `msg` (std::string): n/a
@@ -8754,7 +8898,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `correlation_id` (std::string): n/a
 
 #### `DistributedTxnStatus OK()`
-- Source: `include/transaction/distributed_transaction_manager.h`:170
+- Source: `include/transaction/distributed_transaction_manager.h`:172
 - Brief: OK.
 - Parameters: none
 - Return: Return value.
@@ -8788,7 +8932,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: coordinator_id Identifier of the coordinator. truetime Input parameter. config Input parameter. Return value.
 
 #### `bool abort(const std::string &txn_id)`
-- Source: `include/transaction/global_transaction_manager.h`:239
+- Source: `include/transaction/global_transaction_manager.h`:241
 - Brief: Abort.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
@@ -8796,7 +8940,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. True when the operation succeeds. txn_id Identifier of the txn. True when the operation succeeds. Calls: lock(), find(), end(), THEMIS_WARN(), runPhase2(), fetch_add(), logToWAL(), THEMIS_INFO().
 
 #### `bool addOperation(const std::string &txn_id, const std::string &region_id, const nlohmann::json &op)`
-- Source: `include/transaction/global_transaction_manager.h`:221
+- Source: `include/transaction/global_transaction_manager.h`:222
 - Brief: Add Operation.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
@@ -8806,60 +8950,65 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: txn_id Identifier of the txn. region_id Identifier of the region. op Input parameter. True when the operation succeeds. txn_id Identifier of the txn. region_id Identifier of the region. op Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), THEMIS_WARN(), push_back().
 
 #### `std::string beginTransaction(const std::vector< std::string > &region_ids)`
-- Source: `include/transaction/global_transaction_manager.h`:212
+- Source: `include/transaction/global_transaction_manager.h`:213
 - Brief: Begin Transaction.
 - Parameters:
   - `region_ids` (const std::vector< std::string > &): Input parameter.
 - Return: Return value.
 - Throws:
+  - std::runtime_error: when a configured WAL cannot persist BEGIN.
   - std::invalid_argument: if an error occurs.
-- Details: region_ids Input parameter. Return value. region_ids Input parameter. Return value. std::invalid_argument if an error occurs. Calls: empty(), lock(), find(), end(), generateTransactionId(), std::chrono::steady_clock::now(), nlohmann::json::array(), std::move().
+- Details: region_ids Input parameter. Return value. std::runtime_error when a configured WAL cannot persist BEGIN. region_ids Input parameter. Return value. std::invalid_argument if an error occurs. Calls: empty(), lock(), find(), end(), generateTransactionId(), std::chrono::steady_clock::now(), nlohmann::json::array(), std::move().
 
 #### `GlobalTxnOutcome commit(const std::string &txn_id)`
-- Source: `include/transaction/global_transaction_manager.h`:232
+- Source: `include/transaction/global_transaction_manager.h`:234
 - Brief: Commit.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
-- Return: Return value.
-- Details: txn_id Identifier of the txn. Return value. txn_id Identifier of the txn. Return value. Calls: std::chrono::steady_clock::now(), lock(), find(), end(), fetch_add(), runPhase1(), now(), count().
+- Return: Commit outcome; FAILURE if no durable decision can be confirmed.
+- Throws:
+  - No: exception is used to report WAL durability failures.
+- Details: txn_id Identifier of the txn. Commit outcome; FAILURE if no durable decision can be confirmed. No exception is used to report WAL durability failures. txn_id Identifier of the txn. Return value. Calls: std::chrono::steady_clock::now(), lock(), find(), end(), fetch_add(), runPhase1(), now(), count().
 
 #### `std::string generateTransactionId()`
-- Source: `include/transaction/global_transaction_manager.h`:322
+- Source: `include/transaction/global_transaction_manager.h`:327
 - Brief: Generate Transaction Id.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), str().
 
 #### `std::vector< RecoverableTwoPhaseTransaction > getRecoverableTransactions() const override`
-- Source: `include/transaction/global_transaction_manager.h`:250
+- Source: `include/transaction/global_transaction_manager.h`:252
 - Brief: Return the currently known recoverable/non-final transactions.
 - Parameters: none
 - Return: Canonical recovery snapshot for global orchestration.
-- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. Canonical recovery snapshot for global orchestration.
+- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. ACTIVE and PREPARING are included because participants may have work to resolve even when no final decision is durable; callers must not treat them as safe to ignore. Canonical recovery snapshot for global orchestration.
 
 #### `nlohmann::json getStatistics() const`
-- Source: `include/transaction/global_transaction_manager.h`:266
+- Source: `include/transaction/global_transaction_manager.h`:268
 - Brief: Return access control statistics.
 - Parameters: none
 - Return: Access control statistics.
 - Details: Access control statistics.
 
 #### `std::optional< GlobalTxnState > getTransactionState(const std::string &txn_id) const`
-- Source: `include/transaction/global_transaction_manager.h`:258
+- Source: `include/transaction/global_transaction_manager.h`:260
 - Brief: Get Transaction State.
 - Parameters:
   - `txn_id` (const std::string &): Identifier of the txn.
 - Return: Return value.
 - Details: txn_id Identifier of the txn. Return value.
 
-#### `void logToWAL(themis::sharding::WALEntryType type, const std::string &txn_id, const nlohmann::json &data)`
-- Source: `include/transaction/global_transaction_manager.h`:312
+#### `bool logToWAL(themis::sharding::WALEntryType type, const std::string &txn_id, const nlohmann::json &data, bool force_sync=false)`
+- Source: `include/transaction/global_transaction_manager.h`:316
 - Brief: Log To WAL.
 - Parameters:
   - `type` (themis::sharding::WALEntryType): Input parameter.
   - `txn_id` (const std::string &): Identifier of the txn.
   - `data` (const nlohmann::json &): Input parameter.
-- Details: type Input parameter. txn_id Identifier of the txn. data Input parameter. type Input parameter. txn_id Identifier of the txn. data Input parameter. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flush(), THEMIS_ERROR(), what().
+  - `force_sync` (bool): Flush even when asynchronous writes are configured.
+- Return: True when the append and any requested flush succeed.
+- Details: type Input parameter. txn_id Identifier of the txn. data Input parameter. force_sync Flush even when asynchronous writes are configured. True when the append and any requested flush succeed. type Input parameter. txn_id Identifier of the txn. data Input parameter. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flushDurable(), THEMIS_ERROR(), what().
 
 #### `GlobalTransactionManager & operator=(const GlobalTransactionManager &)=delete`
 - Source: `include/transaction/global_transaction_manager.h`:180
@@ -8868,21 +9017,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `<unnamed>` (const GlobalTransactionManager &): n/a
 
 #### `size_t recoverInDoubtTransactions() override`
-- Source: `include/transaction/global_transaction_manager.h`:243
+- Source: `include/transaction/global_transaction_manager.h`:245
 - Brief: Recover In Doubt Transactions.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: THEMIS_INFO(), readRange(), getOldestLSN(), empty(), std::chrono::steady_clock::now(), contains(), nlohmann::json::array(), value().
 
 #### `std::string recoveryBackendName() const override`
-- Source: `include/transaction/global_transaction_manager.h`:247
+- Source: `include/transaction/global_transaction_manager.h`:249
 - Brief: Return the durable backend used by this coordinator.
 - Parameters: none
 - Return: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 - Details: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 
 #### `std::string recoveryCoordinatorName() const override`
-- Source: `include/transaction/global_transaction_manager.h`:245
+- Source: `include/transaction/global_transaction_manager.h`:247
 - Brief: Return a stable coordinator identifier for recovery reports.
 - Parameters: none
 - Return: Human-readable coordinator type name (e.g. "TwoPhaseCommitCoordinator").
@@ -8906,20 +9055,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: region_id Identifier of the region. participant Input/output parameter. region_id Identifier of the region. participant Input/output parameter. std::invalid_argument if an error occurs. Calls: lock(), THEMIS_DEBUG().
 
 #### `bool runPhase1(GlobalTxnRecord &rec)`
-- Source: `include/transaction/global_transaction_manager.h`:297
+- Source: `include/transaction/global_transaction_manager.h`:299
 - Brief: Run Phase1.
 - Parameters:
   - `rec` (GlobalTxnRecord &): Input/output parameter.
 - Return: True when the operation succeeds.
 - Details: ───────────────────────────────────────────────────────────────────────────── Internal helpers (may be called with mutex_ held) ───────────────────────────────────────────────────────────────────────────── rec Input/output parameter. True when the operation succeeds. rec Input/output parameter. True when the operation succeeds. Calls: find(), end(), THEMIS_ERROR(), count(), at(), nlohmann::json::array(), prepare(), what().
 
-#### `void runPhase2(GlobalTxnRecord &rec, bool do_commit)`
-- Source: `include/transaction/global_transaction_manager.h`:304
+#### `bool runPhase2(GlobalTxnRecord &rec, bool do_commit)`
+- Source: `include/transaction/global_transaction_manager.h`:306
 - Brief: Run Phase2.
 - Parameters:
   - `rec` (GlobalTxnRecord &): Input/output parameter.
   - `do_commit` (bool): Input parameter.
-- Details: rec Input/output parameter. do_commit Input parameter. rec Input/output parameter. do_commit Input parameter. Calls: find(), end(), THEMIS_WARN(), commit(), abort(), THEMIS_ERROR(), what().
+- Return: True only when every required region acknowledges Phase-2.
+- Details: rec Input/output parameter. do_commit Input parameter. rec Input/output parameter. do_commit Input parameter. True only when every required region acknowledges Phase-2. Calls: find(), end(), THEMIS_WARN(), commit(), abort(), THEMIS_ERROR(), what().
 
 #### `bool unregisterRegion(const std::string &region_id)`
 - Source: `include/transaction/global_transaction_manager.h`:198
@@ -8937,12 +9087,21 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction::GlobalTwoPhaseCommitRecoveryManager
 
 #### `GlobalTwoPhaseCommitRecoveryReport recoverAll(const std::vector< IRecoverableTwoPhaseCoordinator * > &coordinators)`
-- Source: `include/transaction/recoverable_two_phase_coordinator.h`:179
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:210
 - Brief: Recover all supplied coordinators and return a unified report.
 - Parameters:
   - `coordinators` (const std::vector< IRecoverableTwoPhaseCoordinator * > &): Recovery-capable coordinators to visit exactly once.
-- Return: Aggregated before/after counts and per-coordinator results.
-- Details: Iterates coordinators in order, calls recoverInDoubtTransactions() on each, and accumulates before/after counts and per-coordinator details. Null pointers in the list are silently skipped. coordinators Recovery-capable coordinators to visit exactly once. Aggregated before/after counts and per-coordinator results.
+- Return: Aggregated counts and per-coordinator results. ready_for_service is false when a supplied coordinator is null or any non-COMPLETED transaction remains. Use startupBlocked() to test readiness.
+- Details: Iterates coordinators in order, calls recoverInDoubtTransactions() on each, and accumulates before/after counts and per-coordinator details. Every state except COMPLETED counts as in-doubt; ACTIVE and PREPARING transactions therefore continue to block readiness until resolved. Null pointers in the list are skipped and keep the result not ready. coordinators Recovery-capable coordinators to visit exactly once. Aggregated counts and per-coordinator results. ready_for_service is false when a supplied coordinator is null or any non-COMPLETED transaction remains. Use startupBlocked() to test readiness.
+
+### themis::transaction::GlobalTwoPhaseCommitRecoveryReport
+
+#### `bool startupBlocked() const noexcept`
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:163
+- Brief: Whether startup must remain blocked after the recovery pass.
+- Parameters: none
+- Return: True if any coordinator is missing or any non-COMPLETED transaction remains, including ACTIVE, PREPARING, FAILED, and UNKNOWN states.
+- Details: True if any coordinator is missing or any non-COMPLETED transaction remains, including ACTIVE, PREPARING, FAILED, and UNKNOWN states.
 
 ### themis::transaction::GlobalTxnOutcome
 
@@ -9053,28 +9212,28 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction::IRecoverableTwoPhaseCoordinator
 
 #### `std::vector< RecoverableTwoPhaseTransaction > getRecoverableTransactions() const =0`
-- Source: `include/transaction/recoverable_two_phase_coordinator.h`:116
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:125
 - Brief: Return the currently known recoverable/non-final transactions.
 - Parameters: none
 - Return: Canonical recovery snapshot for global orchestration.
-- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. Canonical recovery snapshot for global orchestration.
+- Details: The returned snapshot reflects the coordinator's view at the time of the call. Non-final means any state except COMPLETED. ACTIVE and PREPARING are included because participants may have work to resolve even when no final decision is durable; callers must not treat them as safe to ignore. Canonical recovery snapshot for global orchestration.
 
 #### `std::string recoveryBackendName() const =0`
-- Source: `include/transaction/recoverable_two_phase_coordinator.h`:105
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:112
 - Brief: Return the durable backend used by this coordinator.
 - Parameters: none
 - Return: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 - Details: Backend name such as "WAL", "WAL/snapshot", or "disabled".
 
 #### `std::string recoveryCoordinatorName() const =0`
-- Source: `include/transaction/recoverable_two_phase_coordinator.h`:99
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:106
 - Brief: Return a stable coordinator identifier for recovery reports.
 - Parameters: none
 - Return: Human-readable coordinator type name (e.g. "TwoPhaseCommitCoordinator").
 - Details: Human-readable coordinator type name (e.g. "TwoPhaseCommitCoordinator").
 
 #### `~IRecoverableTwoPhaseCoordinator() override=default`
-- Source: `include/transaction/recoverable_two_phase_coordinator.h`:93
+- Source: `include/transaction/recoverable_two_phase_coordinator.h`:100
 - Brief: n/a
 - Parameters: none
 
@@ -9922,7 +10081,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 ### themis::transaction::TwoPhaseCommitWALRecovery
 
 #### `void applyBegin(RecoveredTwoPhaseCommitTransaction &rec, const nlohmann::json &data)`
-- Source: `include/transaction/two_phase_commit_wal_recovery.h`:110
+- Source: `include/transaction/two_phase_commit_wal_recovery.h`:137
 - Brief: Apply Begin.
 - Parameters:
   - `rec` (RecoveredTwoPhaseCommitTransaction &): Input/output parameter.
@@ -9930,7 +10089,7 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: rec Input/output parameter. data Input parameter. Calls: contains(), is_string(), mergeParticipants().
 
 #### `void applyDecisionOrComplete(RecoveredTwoPhaseCommitTransaction &rec, const nlohmann::json &data, bool is_commit)`
-- Source: `include/transaction/two_phase_commit_wal_recovery.h`:132
+- Source: `include/transaction/two_phase_commit_wal_recovery.h`:180
 - Brief: Apply Decision Or Complete.
 - Parameters:
   - `rec` (RecoveredTwoPhaseCommitTransaction &): Input/output parameter.
@@ -9938,8 +10097,16 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
   - `is_commit` (bool): Input parameter.
 - Details: rec Input/output parameter. data Input parameter. is_commit Input parameter. Calls: contains(), is_string(), is_number().
 
+#### `void applyEntry(RecoveredTransactions &result, const themis::sharding::WALEntry &entry)`
+- Source: `include/transaction/two_phase_commit_wal_recovery.h`:75
+- Brief: Apply one ordered WAL entry to the in-progress recovery state.
+- Parameters:
+  - `result` (RecoveredTransactions &): Transaction states accumulated from earlier entries.
+  - `entry` (const themis::sharding::WALEntry &): The next WAL entry in physical sequence order.
+- Details: result Transaction states accumulated from earlier entries. entry The next WAL entry in physical sequence order. Callers may stream records through this method to keep recovery memory proportional to transaction state rather than WAL history.
+
 #### `void mergeParticipants(RecoveredTwoPhaseCommitTransaction &rec, const nlohmann::json &data, const char *field_name)`
-- Source: `include/transaction/two_phase_commit_wal_recovery.h`:171
+- Source: `include/transaction/two_phase_commit_wal_recovery.h`:221
 - Brief: Merge Participants.
 - Parameters:
   - `rec` (RecoveredTwoPhaseCommitTransaction &): Input/output parameter.
@@ -9948,10 +10115,12 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 - Details: rec Input/output parameter. data Input parameter. field_name Name of the field. Calls: contains(), is_array(), is_string(), push_back(), is_object().
 
 #### `std::map< std::string, RecoveredTwoPhaseCommitTransaction > reconstruct(const std::vector< themis::sharding::WALEntry > &entries)`
-- Source: `include/transaction/two_phase_commit_wal_recovery.h`:63
-- Brief: n/a
+- Source: `include/transaction/two_phase_commit_wal_recovery.h`:121
+- Brief: Rebuild per-transaction 2PC state from validated, ordered WAL entries.
 - Parameters:
-  - `entries` (const std::vector< themis::sharding::WALEntry > &): n/a
+  - `entries` (const std::vector< themis::sharding::WALEntry > &): WAL entries in physical sequence order; callers must reject corruption before invoking recovery.
+- Return: Recovered transaction states; an empty input produces an empty map.
+- Details: entries WAL entries in physical sequence order; callers must reject corruption before invoking recovery. Recovered transaction states; an empty input produces an empty map. Entries without a transaction ID are ignored. Unsupported entry types with a transaction ID leave a default recovered record and do not change its 2PC state.
 
 ### themis::transaction::TxnCoordinatorResult
 

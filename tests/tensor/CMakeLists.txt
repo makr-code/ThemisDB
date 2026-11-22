@@ -4,6 +4,68 @@ file(GLOB TENSOR_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+function(_themis_tensor_add_test_sources _target)
+    foreach(_source IN LISTS ARGN)
+        get_filename_component(_source_abs "${_source}" ABSOLUTE)
+        set(_source_owned FALSE)
+        foreach(_owner IN ITEMS themis_tensor themis_core themis_storage)
+            if(NOT TARGET ${_owner})
+                continue()
+            endif()
+            get_target_property(_owner_type ${_owner} TYPE)
+            set(_owner_exports_sources FALSE)
+            if(_owner_type STREQUAL "STATIC_LIBRARY" OR
+               _owner_type STREQUAL "OBJECT_LIBRARY")
+                set(_owner_exports_sources TRUE)
+            elseif(_owner_type STREQUAL "SHARED_LIBRARY")
+                if(WIN32)
+                    get_target_property(
+                        _auto_export ${_owner} WINDOWS_EXPORT_ALL_SYMBOLS
+                    )
+                    if(_auto_export)
+                        set(_owner_exports_sources TRUE)
+                    endif()
+                else()
+                    get_target_property(
+                        _visibility ${_owner} CXX_VISIBILITY_PRESET
+                    )
+                    if(NOT "${_visibility}" STREQUAL "hidden")
+                        set(_owner_exports_sources TRUE)
+                    endif()
+                endif()
+            endif()
+            if(NOT _owner_exports_sources)
+                continue()
+            endif()
+            get_target_property(_owner_dir ${_owner} SOURCE_DIR)
+            get_target_property(_owner_sources ${_owner} SOURCES)
+            if(NOT _owner_sources)
+                continue()
+            endif()
+            foreach(_owner_source IN LISTS _owner_sources)
+                if(_owner_source MATCHES "\\$<")
+                    continue()
+                endif()
+                get_filename_component(
+                    _owner_source_abs "${_owner_source}" ABSOLUTE
+                    BASE_DIR "${_owner_dir}"
+                )
+                if("${_owner_source_abs}" STREQUAL "${_source_abs}")
+                    set(_source_owned TRUE)
+                    break()
+                endif()
+            endforeach()
+            if(_source_owned)
+                break()
+            endif()
+        endforeach()
+
+        if(NOT _source_owned)
+            target_sources(${_target} PRIVATE "${_source}")
+        endif()
+    endforeach()
+endfunction()
+
 foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_tensor_${_stem}_focused")
@@ -25,7 +87,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin/tensor_tests/MinSizeRel"
     )
     if("${_stem}" STREQUAL "test_tensor_phase3")
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
             ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
             ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
@@ -38,7 +100,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     endif()
     if("${_stem}" STREQUAL "test_tensor_mid_layer_integration")
         # Integration test for full tensor mid-layer pipeline (Phase 4)
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
@@ -49,7 +111,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     endif()
     if("${_stem}" STREQUAL "test_federated_tensor_summaries")
         # Federated and cross-shard tensor summaries tests (Issue #5427)
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
@@ -62,7 +124,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     set(_extra_labels tensor)
     if("${_stem}" STREQUAL "test_tensor_stress_suite_focused")
         # Stress testing suite for TensorFingerprintGraph concurrent patterns (Block B2)
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
@@ -72,13 +134,13 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         list(APPEND _extra_labels stress wave_a_longrun_search_index_tensor_graph_llm)
     endif()
     if("${_stem}" STREQUAL "test_persistent_tensor_fingerprint_graph")
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/persistent_tensor_fingerprint_graph.cpp
         )
     endif()
     if("${_stem}" STREQUAL "test_tensor_acceleration_observability")
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_compression_routing_accelerator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_workflow_observability.cpp
         )
@@ -86,7 +148,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     if("${_stem}" STREQUAL "test_tensor_bridge_edge_cases_focused")
         # Stream B Block 1 - Deterministic Edge Scenario Handling
         # Comprehensive test suite for edge case handler (TEDGE-01..30)
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_edge_case_handler.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
@@ -97,8 +159,13 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         set(_focused_timeout 180)
     endif()
     if("${_stem}" STREQUAL "test_tensor_dream_orchestrator_lifecycle")
-        target_sources(${_target} PRIVATE
+        _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/dream_orchestrator.cpp
+        )
+    endif()
+    if("${_stem}" STREQUAL "test_tensor_recompress")
+        _themis_tensor_add_test_sources(${_target}
+            ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
         )
     endif()
     target_include_directories(${_target} PRIVATE
@@ -152,7 +219,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         )
         foreach(_impl IN LISTS _tensor_impls)
             if(EXISTS "${_impl}")
-                target_sources(${_target} PRIVATE ${_impl})
+                _themis_tensor_add_test_sources(${_target} ${_impl})
             endif()
         endforeach()
 

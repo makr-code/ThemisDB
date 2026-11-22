@@ -17,6 +17,11 @@
 namespace themis { namespace distributed_tensor { 
 namespace {
 
+constexpr char kSha256Abc[] =
+    "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+constexpr char kSha256Def[] =
+    "cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34";
+
 // ---------------------------------------------------------------------------
 // Helpers shared across test groups
 // ---------------------------------------------------------------------------
@@ -36,14 +41,14 @@ static ArtifactManifest make_complete_manifest(
   s0.shard_id  = artifact_id + ":shard:0";
   s0.node_id   = "node-a";
   s0.shard_size_bytes = 2048;
-  s0.shard_content_hash = "hash-0";
+  s0.shard_content_hash = kSha256Abc;
   m.add_shard_placement(std::move(s0));
 
   ShardPlacement s1;
   s1.shard_id  = artifact_id + ":shard:1";
   s1.node_id   = "node-b";
   s1.shard_size_bytes = 2048;
-  s1.shard_content_hash = "hash-1";
+  s1.shard_content_hash = kSha256Def;
   m.add_shard_placement(std::move(s1));
 
   return m;
@@ -419,20 +424,31 @@ TEST(Phase4ShardPlacement, ValidatePlacementPassesForNoneConstraint) {
 // Group 5: IntegrityVerification (sub-issue 3.4)
 // ===========================================================================
 
+#if defined(THEMIS_TEST_HAS_OPENSSL_SHA256)
 TEST(Phase4IntegrityVerification, VerifyShardPassesForMatchingHash) {
   DefaultIntegrityVerificationEngine engine;
-  // Compute the hash of a known string and verify it matches.
   auto m = make_complete_manifest();
   auto receipt = engine.compute_verification(m);
-  // At least one shard hash must have been computed.
+  ASSERT_TRUE(receipt.is_verified());
+  ASSERT_EQ(m.shard_placements().size(), 2U);
   EXPECT_FALSE(receipt.shard_hashes().empty());
-  // verify_shard: pass when hash matches content used to compute it.
-  for (const auto& shard : m.shard_placements()) {
+  for (std::size_t index = 0; index < m.shard_placements().size(); ++index) {
+    const auto& shard = m.shard_placements()[index];
     auto stored_hash = receipt.get_shard_hash(shard.shard_id);
     ASSERT_TRUE(stored_hash.has_value());
-    EXPECT_TRUE(engine.verify_shard(shard.shard_content_hash, *stored_hash));
+    const auto shard_data = index == 0 ? "abc" : "def";
+    EXPECT_TRUE(engine.verify_shard(shard_data, *stored_hash));
   }
 }
+#else
+TEST(Phase4IntegrityVerification, VerifyShardFailsClosedWithoutOpenSSL) {
+  DefaultIntegrityVerificationEngine engine;
+  auto m = make_complete_manifest();
+  const auto receipt = engine.compute_verification(m);
+  EXPECT_FALSE(receipt.is_verified());
+  EXPECT_FALSE(engine.verify_shard("abc", kSha256Abc));
+}
+#endif
 
 TEST(Phase4IntegrityVerification, VerifyShardFailsForWrongHash) {
   DefaultIntegrityVerificationEngine engine;
@@ -444,6 +460,7 @@ TEST(Phase4IntegrityVerification, VerifyShardFailsForEmptyExpectedHash) {
   EXPECT_FALSE(engine.verify_shard("some-data", ""));
 }
 
+#if defined(THEMIS_TEST_HAS_OPENSSL_SHA256)
 TEST(Phase4IntegrityVerification, ComputeVerificationAndVerifyIntegrityRoundtrip) {
   DefaultIntegrityVerificationEngine engine;
   auto m = make_complete_manifest();
@@ -451,7 +468,17 @@ TEST(Phase4IntegrityVerification, ComputeVerificationAndVerifyIntegrityRoundtrip
   EXPECT_TRUE(receipt.is_verified());
   EXPECT_TRUE(engine.verify_integrity(m, receipt));
 }
+#else
+TEST(Phase4IntegrityVerification, ComputeVerificationFailsClosedWithoutOpenSSL) {
+  DefaultIntegrityVerificationEngine engine;
+  auto m = make_complete_manifest();
+  const auto receipt = engine.compute_verification(m);
+  EXPECT_FALSE(receipt.is_verified());
+  EXPECT_FALSE(engine.verify_integrity(m, receipt));
+}
+#endif
 
+#if defined(THEMIS_TEST_HAS_OPENSSL_SHA256)
 TEST(Phase4IntegrityVerification, VerifyIntegrityFailsForAlteredManifest) {
   DefaultIntegrityVerificationEngine engine;
   auto m = make_complete_manifest();
@@ -463,7 +490,7 @@ TEST(Phase4IntegrityVerification, VerifyIntegrityFailsForAlteredManifest) {
   extra.shard_id  = "art-1:shard:extra";
   extra.node_id   = "node-c";
   extra.shard_size_bytes = 512;
-  extra.shard_content_hash = "extra-hash";
+  extra.shard_content_hash = kSha256Abc;
   m.add_shard_placement(std::move(extra));
 
   // Receipt shard count no longer matches manifest shard count.
@@ -477,6 +504,15 @@ TEST(Phase4IntegrityVerification, MerkleTreeNodesPopulatedForMultiShardManifest)
   // Merkle tree must have at least leaf nodes (one per shard).
   EXPECT_GE(receipt.merkle_tree_nodes().size(), 2U);
 }
+#else
+TEST(Phase4IntegrityVerification, MerkleTreeNotGeneratedWithoutOpenSSL) {
+  DefaultIntegrityVerificationEngine engine;
+  auto m = make_complete_manifest();
+  const auto receipt = engine.compute_verification(m);
+  EXPECT_FALSE(receipt.is_verified());
+  EXPECT_TRUE(receipt.merkle_tree_nodes().empty());
+}
+#endif
 
 TEST(Phase4IntegrityVerification, ReceiptAddAndGetShardHashRoundtrip) {
   IntegrityVerificationReceipt r("art-A", HashAlgorithm::SHA256);

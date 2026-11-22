@@ -25,6 +25,7 @@
 namespace {
 
 using namespace themis::distributed_tensor;
+using namespace themis::distributed_tensor::detail;
 
 constexpr uint64_t kCanonicalRngSeed = 42;
 constexpr uint64_t kArtifactSizeBytes = 1024 * 1024;  // 1 MB

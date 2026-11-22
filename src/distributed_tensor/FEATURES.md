@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-18
-Last Updated: 2026-10-31
+Last Updated: 2026-11-21
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -30,10 +30,12 @@ The module source and public headers define these capability areas:
 - Additional internal update and coordination components listed in
   `src/distributed_tensor/CMakeLists.txt`.
 
-The configured module target's integrity implementation uses an FNV-1a
-demonstration hash behind `simple_sha256_hash()`. It does not provide
-cryptographic SHA-256; Merkle-shaped data structures are not a cryptographic
-security guarantee. See [`SECURITY.md`](SECURITY.md).
+The configured module target's integrity engine uses OpenSSL EVP SHA-256 when
+OpenSSL Crypto is available and fails closed otherwise. It accepts only
+SHA-256 and uses versioned, unambiguous receipt inputs; receipt hashing alone
+does not authenticate a producer. `ArtifactManifest::compute_manifest_hash()`
+is a separate non-cryptographic checksum. These source changes have not been
+built or tested in this task; see [`SECURITY.md`](SECURITY.md).
 
 The current module-local CMake configuration registers three focused test
 executables. The separate EPIC 3 test configuration registers phase/contract

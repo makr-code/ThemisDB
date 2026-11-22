@@ -695,8 +695,3 @@ TEST_F(Neo4jAdapterPhase2Test, UnsupportedOperations) {
 
 } // namespace testing
 } // namespace chimera
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -4,14 +4,13 @@
 from __future__ import annotations
 
 import argparse
-import fnmatch
 import json
 import re
 import subprocess
 import sys
 import unicodedata
 from dataclasses import asdict, dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 HEADING_RE = re.compile(r"^\s{0,3}(#{1,6})\s+(.+?)\s*$")
@@ -129,10 +128,11 @@ def validate_file(file_path: Path, rel_path: str, rule: dict) -> FileResult:
 
 
 def matches_any(path: str, patterns: list[str]) -> bool:
+    candidate = PurePosixPath(path)
     for pattern in patterns:
-        if fnmatch.fnmatch(path, pattern):
+        if candidate.match(pattern):
             return True
-        if "/**/" in pattern and fnmatch.fnmatch(path, pattern.replace("/**/", "/")):
+        if "/**/" in pattern and candidate.match(pattern.replace("/**/", "/")):
             return True
     return False
 

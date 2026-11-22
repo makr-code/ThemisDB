@@ -38,9 +38,11 @@ function(add_integration_test TEST_NAME TEST_SOURCE)
         themis_register_test_target(
             NAME ${TEST_NAME}
             TARGET ${TEST_NAME}
+            TIMEOUT 300
+            LABELS module:integration tier:integration kind:focused integration
         )
     else()
-        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        message(FATAL_ERROR "Canonical test registration helper unavailable for ${TEST_NAME}")
     endif()
     
     set_tests_properties(${TEST_NAME} PROPERTIES

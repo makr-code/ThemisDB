@@ -68,7 +68,7 @@ static bool hip_available() {
 
 static void BM_LoRA_Forward_Unfused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -99,7 +99,7 @@ static void BM_LoRA_Forward_Unfused_CUDA(benchmark::State& state) {
 
 static void BM_LoRA_Forward_Fused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -150,7 +150,7 @@ BENCHMARK(BM_LoRA_Forward_Fused_CUDA)
 
 static void BM_LoRA_Backward_Unfused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -186,7 +186,7 @@ static void BM_LoRA_Backward_Unfused_CUDA(benchmark::State& state) {
 
 static void BM_LoRA_Backward_Fused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -242,7 +242,7 @@ BENCHMARK(BM_LoRA_Backward_Fused_CUDA)
 
 static void BM_SGD_Step_Unfused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -276,7 +276,7 @@ static void BM_SGD_Step_Unfused_CUDA(benchmark::State& state) {
 
 static void BM_LoRA_TrainingStep_Unfused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -317,7 +317,7 @@ static void BM_LoRA_TrainingStep_Unfused_CUDA(benchmark::State& state) {
 
 static void BM_LoRA_TrainingStep_Fused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -374,7 +374,7 @@ BENCHMARK(BM_LoRA_TrainingStep_Fused_CUDA)
 
 static void BM_LoRA_Forward_Fused_HIP(benchmark::State& state) {
     if (!hip_available()) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -406,7 +406,7 @@ BENCHMARK(BM_LoRA_Forward_Fused_HIP)
 
 static void BM_MemoryBandwidth_Unfused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -439,7 +439,7 @@ static void BM_MemoryBandwidth_Unfused_CUDA(benchmark::State& state) {
 
 static void BM_MemoryBandwidth_Fused_CUDA(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

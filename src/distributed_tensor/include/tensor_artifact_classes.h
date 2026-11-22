@@ -40,7 +40,7 @@ struct ArtifactClassifier {
      * @return True when the operation succeeds.
      * @note Exception safety: noexcept.
      */
-    static bool isValidCombination(ArtifactClass klass,
+    static bool isValidCombination(detail::ArtifactClass klass,
                                    TruthSemantic  semantic) noexcept;
 
     /**
@@ -48,14 +48,15 @@ struct ArtifactClassifier {
      * @param[in] klass Input parameter.
      * @return Return value.
      */
-    static std::string classToString(ArtifactClass klass);
+    static std::string classToString(detail::ArtifactClass klass);
 
     /**
      * @brief String To Class.
      * @param[in] class_str Input parameter.
      * @return Return value.
      */
-    static std::optional<ArtifactClass> stringToClass(const std::string& class_str);
+    static std::optional<detail::ArtifactClass> stringToClass(
+        const std::string& class_str);
 
     /**
      * @brief Semantic To String.

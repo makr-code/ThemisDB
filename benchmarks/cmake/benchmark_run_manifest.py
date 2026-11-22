@@ -105,11 +105,17 @@ def read_result(path):
                 not isinstance(row, dict) or not isinstance(row.get("name"), str)
                 or not row["name"] for row in rows):
             raise ValueError("invalid benchmarks")
-        cases = [{"name": row["name"],
-                  "status": "error" if row.get("error_occurred") is True else "observed",
-                  "error_message": row.get("error_message") if row.get("error_occurred") is True else None,
-                  "elapsed_seconds": None}
-                 for row in rows]
+        cases = []
+        for row in rows:
+            is_error = row.get("error_occurred") is True
+            is_skipped = row.get("skipped") is True
+            cases.append({
+                "name": row["name"],
+                "status": "error" if is_error else "skipped" if is_skipped else "observed",
+                "error_message": row.get("error_message") if is_error else None,
+                "skip_message": row.get("skip_message") if is_skipped else None,
+                "elapsed_seconds": None,
+            })
         return "valid", cases
     except (ValueError, KeyError, TypeError):
         return "invalid", []
@@ -201,7 +207,17 @@ def run(args):
     write_json(fragment, data)
     if code != 0:
         return code if code > 0 else 128 - code
-    return 0 if data["json_status"] == "valid" else 1
+    if data["json_status"] != "valid":
+        return 1
+    failed_cases = [case for case in data["cases"] if case["status"] == "error"]
+    if failed_cases:
+        details = "; ".join(
+            f'{case["name"]}: {case["error_message"] or "benchmark case failed"}'
+            for case in failed_cases
+        )
+        print(f"Benchmark case failure(s): {details}", file=sys.stderr)
+        return 1
+    return 0
 
 
 def collect_expectations(src_dir, tests):

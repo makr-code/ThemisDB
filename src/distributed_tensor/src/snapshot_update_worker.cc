@@ -181,7 +181,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   auto recovered = recoverFromCheckpoint(task.artifact_id);
   
   // Determine baseline manifest: use recovered state if available, otherwise use task manifest
-  ArtifactManifest baseline_manifest = task.current_manifest;
+  detail::ArtifactManifest baseline_manifest = task.current_manifest;
   if (recovered) {
     baseline_manifest = *recovered;
     spdlog::info("SnapshotBasedUpdateWorker::processTask: "
@@ -218,7 +218,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
 
   // Execute decision
   auto exec_start = std::chrono::high_resolution_clock::now();
-  ArtifactManifest updated_manifest = baseline_manifest;
+  detail::ArtifactManifest updated_manifest = baseline_manifest;
   bool success = false;
 
   try {
@@ -321,7 +321,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
  */
 UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& artifact_id,
                                                              const DeltaWindow& delta_window,
-                                                             const ArtifactManifest& current_manifest,
+                                                             const detail::ArtifactManifest& current_manifest,
                                                              uint64_t artifact_size_bytes) {
   UpdateTask task;
   task.artifact_id = artifact_id;
@@ -407,7 +407,7 @@ UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow
  */
 bool SnapshotBasedUpdateWorker::executePatch(const std::string& artifact_id,
                                              const DeltaWindow& delta_window,
-                                             ArtifactManifest& current_manifest) {
+                                             detail::ArtifactManifest& current_manifest) {
   (void)artifact_id;
   
   // Phase B: Validate patch applicability and bounds
@@ -462,7 +462,7 @@ bool SnapshotBasedUpdateWorker::executePatch(const std::string& artifact_id,
  */
 bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_id,
                                                     const DeltaWindow& delta_window,
-                                                    ArtifactManifest& current_manifest) {
+                                                    detail::ArtifactManifest& current_manifest) {
   // Phase B: Check rank cap breach (state machine transition guard)
   if (wouldBreachRankCap(current_manifest, delta_window)) {
     if (error_handler_) {
@@ -533,7 +533,7 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
  */
 bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
                                                const DeltaWindow& delta_window,
-                                               ArtifactManifest& current_manifest) {
+                                               detail::ArtifactManifest& current_manifest) {
   if (artifact_id.empty() || delta_window.sequence_end == 0) {
     return false;
   }
@@ -576,7 +576,7 @@ bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
  * @details Calls: validate(), store().
  */
 bool SnapshotBasedUpdateWorker::publishManifest(const std::string& artifact_id,
-                                                const ArtifactManifest& new_manifest,
+                                                const detail::ArtifactManifest& new_manifest,
                                                 uint64_t old_version,
                                                 const std::string& reason) {
   (void)artifact_id;
@@ -667,7 +667,8 @@ void SnapshotBasedUpdateWorker::setManifestStore(ManifestStore* manifest_store) 
  * @return Return value.
  * @details Calls: load(), spdlog::warn(), deleteCheckpoint(), empty(), size(), validate(), isValid(), getCurrentTimeSec().
  */
-std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
+std::optional<detail::ArtifactManifest>
+SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
   if (!checkpoint_manager_) {
     return std::nullopt;  // No checkpoint manager, recovery not applicable
   }
@@ -832,7 +833,7 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
 
   // Step 8: Prepare state machine transition
   // Keep lifecycle in REBUILDING while preserving the chosen update path.
-  ArtifactManifest recovered_manifest = checkpoint.current_manifest;
+  detail::ArtifactManifest recovered_manifest = checkpoint.current_manifest;
   switch (checkpoint_update_mode) {
     case UpdateMode::PATCH:
       recovered_manifest.rebuild_state = RebuildState::PATCHED;
@@ -955,7 +956,7 @@ bool SnapshotBasedUpdateWorker::renewUpdateLock(const std::string& artifact_id, 
  * @details Calls: analyzeArtifactStaleness().
  */
 StaleArtifactMetrics SnapshotBasedUpdateWorker::detectStaleness(const std::string& artifact_id,
-                                                               const ArtifactManifest& current_manifest,
+                                                               const detail::ArtifactManifest& current_manifest,
                                                                uint64_t current_source_seq) {
   static StaleArtifactMetrics default_metrics;  // Default if no detector
 
@@ -999,7 +1000,8 @@ bool SnapshotBasedUpdateWorker::isDeltaLogOverflowingPublic(size_t current_entri
  * @return True when the operation succeeds.
  * @details Calls: countUpdates(), countInserts().
  */
-bool SnapshotBasedUpdateWorker::wouldBreachRankCap(const ArtifactManifest& manifest,
+bool SnapshotBasedUpdateWorker::wouldBreachRankCap(
+                                                   const detail::ArtifactManifest& manifest,
                                                    const DeltaWindow& delta_window) {
   if (manifest.rank_cap == 0) {
     return false;

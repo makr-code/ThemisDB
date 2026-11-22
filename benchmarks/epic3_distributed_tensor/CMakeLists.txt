@@ -6,10 +6,15 @@ message(STATUS "Configuring benchmark module: epic3_distributed_tensor")
 
 set(EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS
     placement_strategy_bench.cc
-    integrity_verification_bench.cc
     recovery_rebuild_bench.cc
     distributed_retrieval_bench.cc
 )
+
+if(OpenSSL_FOUND)
+    list(APPEND EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS
+        integrity_verification_bench.cc
+    )
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_partial_refit.cc")
     message(STATUS "Adding EPIC3: Phase B Partial Refit Benchmark (BP-01..10)")
@@ -86,6 +91,12 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS)
         )
         if(TARGET themis_distributed_tensor)
             target_link_libraries(${_target} PRIVATE themis_distributed_tensor)
+        endif()
+        if(_stem STREQUAL "integrity_verification_bench")
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
+            )
+            target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
         endif()
         themis_register_benchmark_ctest(
             NAME   "${_target}"

@@ -15,6 +15,7 @@
 #pragma once
 
 #include "sharding/raft_consensus.h"
+#include "sharding/shard_rpc_client.h"
 #include "sharding/shard_topology.h"
 #include "sharding/consistent_hash.h"
 #include <memory>
@@ -22,6 +23,7 @@
 #include <string>
 #include <mutex>
 #include <optional>
+#include <functional>
 
 namespace themisdb {
 namespace sharding {
@@ -39,7 +41,7 @@ struct ShardRaftInfo {
     bool has_quorum;                                     ///< True when shard currently has quorum.
     bool is_healthy;                                     ///< Aggregated shard health flag.
     std::chrono::steady_clock::time_point last_heartbeat; ///< Last observed heartbeat timestamp.
-    std::vector<std::string> replica_ids;               ///< Replica IDs participating in shard Raft group.
+    std::vector<std::string> replica_ids;               ///< Remote member node IDs in this shard's Raft group.
 };
 
 /**
@@ -61,10 +63,22 @@ public:
      * @brief Configuration for Raft per shard
      */
     struct Config {
-        RaftConsensus::Config raft_config;                       ///< Base Raft settings inherited per shard.
+        RaftConsensus::Config raft_config;                       ///< Base settings; nested RaftConfig::node_id identifies this process's replica.
         size_t replication_factor{3};                            ///< Required replica count per shard.
         bool enable_auto_start{true};                            ///< Start Raft immediately after initialization.
         std::chrono::milliseconds leader_check_interval{1000};   ///< Polling interval for leader checks/monitoring.
+        /**
+         * @brief Resolve a verified mTLS client configuration for one remote member.
+         * @param peer_node_id Configured member whose endpoint and client identity are needed.
+         * @return Complete client configuration, or `std::nullopt` to fail initialization.
+         *         Resolver exceptions and invalid configurations also make
+         *         `initializeShard()` return false.
+         * @note Each result must identify this local node and the requested remote
+         *       node explicitly. An absent resolver leaves multi-node RPC callbacks
+         *       unset, so elections and proposals remain fail-closed.
+         */
+        std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
+            const std::string& peer_node_id)> raft_peer_config_resolver;
     };
 
     /**
@@ -83,9 +97,12 @@ public:
     /**
      * @brief Initialize Raft for a shard
      * Creates a new Raft consensus instance for the shard
-     * @param shard_id Shard identifier
-     * @param replica_ids List of replica shard IDs in Raft group
+     * @param shard_id Logical Raft group/shard identifier used as the manager key.
+     * @param replica_ids Unique member node IDs, including the local ID configured in
+     *        node ID in the manager's nested Raft configuration.
      * @return true if successful
+     * @note Empty IDs, duplicate members, or a membership that omits the configured
+     *       local node are rejected; the group ID is not treated as a node ID.
      */
     bool initializeShard(const std::string& shard_id,
                         const std::vector<std::string>& replica_ids);
@@ -175,8 +192,8 @@ private:
     
     /**
      * @brief Create Raft configuration for a shard
-        * @param shard_id Shard identifier used as local node ID.
-        * @param replica_ids Replica set for shard consensus group.
+        * @param shard_id Logical Raft group identifier.
+        * @param replica_ids Unique member node IDs including the configured local node.
         * @return Fully populated RaftConsensus configuration for shard.
      */
     RaftConsensus::Config createRaftConfig(const std::string& shard_id,

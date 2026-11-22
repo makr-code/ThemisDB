@@ -2,7 +2,7 @@
  * @file manifest_store.h
  * @brief ManifestStore — advisory-only tensor artifact registry for Phase A.
  *
- * Stores, retrieves, and invalidates ArtifactManifest entries.  The store
+ * Stores, retrieves, and invalidates detail::ArtifactManifest entries.  The store
  * emits Prometheus metrics that the query planner uses as Phase A freshness
  * gates:
  *
@@ -19,7 +19,7 @@
  *   - the entry fails isFresh(); or
  *   - the entry integrity check fails.
  *
- * @see ArtifactManifest for the per-entry schema
+ * @see detail::ArtifactManifest for the per-entry schema
  * @see ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §9 (Phase A observability)
  */
 
@@ -75,7 +75,7 @@ public:
      * @param manifest Manifest to store; its identity and schema must validate.
      * @return True only after the durable RocksDB batch has committed.
      */
-    [[nodiscard]] bool store(const ArtifactManifest& manifest);
+    [[nodiscard]] bool store(const detail::ArtifactManifest& manifest);
 
     /**
      * @brief Evict.
@@ -93,10 +93,10 @@ public:
 
     // ── Read operations ─────────────────────────────────────────────────────
 
-    [[nodiscard]] std::optional<ArtifactManifest>
+    [[nodiscard]] std::optional<detail::ArtifactManifest>
     get(const std::string& tensor_name, uint32_t shard_id) const;
 
-    [[nodiscard]] std::vector<ArtifactManifest>
+    [[nodiscard]] std::vector<detail::ArtifactManifest>
     list(const std::string& tensor_name) const;
 
     [[nodiscard]] std::size_t size() const noexcept;

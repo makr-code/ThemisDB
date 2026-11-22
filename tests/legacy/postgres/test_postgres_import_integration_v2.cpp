@@ -358,8 +358,3 @@ INSERT INTO legacy_data VALUES (1, 'foo', 3.14);
 // ============================================================================
 // Main
 // ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

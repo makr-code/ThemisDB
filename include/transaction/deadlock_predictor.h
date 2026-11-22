@@ -176,6 +176,9 @@ private:
 
     std::unordered_map<std::string, double> pair_conflicts_;
 
+    // Reused by computeConflictScore while mutex_ is held; oversized keys use a local buffer.
+    mutable std::string conflict_key_scratch_;
+
     std::unordered_map<std::string, std::vector<std::chrono::microseconds>> hold_times_;
 
     uint64_t deadlock_count_{0};

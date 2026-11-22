@@ -11,7 +11,10 @@
  */
 
 #include <gtest/gtest.h>
+#include "distributed_tensor/artifact_manifest.h"
 #include "distributed_tensor/distributed_planner.h"
+#include "src/distributed_tensor/include/artifact_manifest.h"
+#include "src/distributed_tensor/include/distributed_planner.h"
 #include "tensor/tensor_summary_types.h"
 #include "rag/graph_truth_validator.h"
 
@@ -20,6 +23,35 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <type_traits>
+
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::ArtifactClass,
+              themis::distributed_tensor::detail::ArtifactClass>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::ArtifactManifest,
+              themis::distributed_tensor::detail::ArtifactManifest>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::RoutingSummary,
+              themis::distributed_tensor::detail::RoutingSummary>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::TensorRetrievalPlan,
+              themis::distributed_tensor::detail::TensorRetrievalPlan>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::FragmentLoadRequest,
+              themis::distributed_tensor::detail::FragmentLoadRequest>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::FragmentLoadResult,
+              themis::distributed_tensor::detail::FragmentLoadResult>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::IFragmentFetcher,
+              themis::distributed_tensor::detail::IFragmentFetcher>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::DistributedTensorPlanner,
+              themis::distributed_tensor::detail::DistributedTensorPlanner>);
+static_assert(!std::is_same_v<
+              themis::distributed_tensor::DistributedTensorPlanner::Config,
+              themis::distributed_tensor::detail::DistributedTensorPlanner::Config>);
 
 namespace themis {
 namespace distributed_tensor {

@@ -30,11 +30,14 @@ foreach(_src IN LISTS _vs_stress_sources)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ${_test_name} COMMAND ${_test_name})
-
-        set_tests_properties(${_test_name} PROPERTIES
-            LABELS  "wave_d;stress;not_release_critical"
+        themis_register_module_test(
+            MODULE vector_search
+            NAME ${_test_name}
+            TARGET ${_test_name}
+            TIER stress
+            KIND focused
             TIMEOUT 120
+            LABELS wave_d stress not_release_critical
         )
     endif()
 endforeach()

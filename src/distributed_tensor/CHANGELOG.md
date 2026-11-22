@@ -20,7 +20,8 @@ Exact model backend not verifiable from final document text alone.
 ## [Unreleased]
 
 ### Changed
-- Reconciled module documentation with current source, public-header, test, benchmark, and CMake inventories; clarified the C++20 `std::span` API requirement, FNV-1a demonstration hashing limitation, and synchronous in-process training callbacks. Historical gate/pass claims remain marked as unverified current status (Issue #7341).
+- Replaced the active integrity engine's FNV-1a demonstration hash with conditional OpenSSL EVP SHA-256, fail-closed behavior, canonical versioned receipt inputs, and rejection of unsupported or malformed digests. Legacy receipts are incompatible; hashing does not authenticate a producer. Build and test evidence remains pending.
+- Reconciled module documentation with current source, public-header, test, benchmark, and CMake inventories; clarified the C++20 `std::span` API requirement and synchronous in-process training callbacks. Historical gate/pass claims remain marked as unverified current status (Issue #7341).
 - Declared `cxx_std_20` as a public compile feature of `themis_distributed_tensor`, matching the C++20 `std::span` public-header requirement.
 - Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to current EPIC 3 scaffold state.
 - Kept roadmap/future planning and historical change tracking separated.

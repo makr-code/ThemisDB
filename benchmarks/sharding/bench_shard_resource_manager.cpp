@@ -25,7 +25,9 @@ static void BM_ResourceManager_GetSnapshot(benchmark::State& state) {
     }
     
     manager.stop();
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
 }
 BENCHMARK(BM_ResourceManager_GetSnapshot)->Unit(benchmark::kMicrosecond);
 

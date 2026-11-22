@@ -17,25 +17,8 @@
 #include <fstream>
 #include <shared_mutex>
 #include <stdexcept>
+#include <thread>
 #include <unordered_map>
-
-// The FlatTensorIndex concrete class is defined in tensor_index.cpp and is
-// not exposed in the header.  We forward-create it here via a factory lambda
-// to keep the concrete type internal to this translation unit.
-namespace themis::tensor {
-
-// ---------------------------------------------------------------------------
-// Forward-declare the concrete class from tensor_index.cpp so we can
-// instantiate it.  In a real build both TUs are linked together.
-// ---------------------------------------------------------------------------
-class FlatTensorIndex;
-
-} // pre-declare
-
-#include "tensor/tensor_index.cpp"   // pull in FlatTensorIndex definition
-                                      // (acceptable for single-TU builds;
-                                      //  in multi-TU builds remove this line
-                                      //  and link separately)
 
 namespace themis {
 namespace tensor {
@@ -110,16 +93,36 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
                                                const std::string& collection,
                                                const std::string& field,
                                                size_t /*dim*/,
-                                               size_t /*max_rank*/,
-                                               double /*epsilon*/) {
+                                               size_t max_rank,
+                                               double epsilon) {
+    // Validate before taking a concurrency slot so invalid requests fail fast.
+    std::unique_ptr<ITensorIndex> candidate;
+    try {
+        candidate = createFlatTensorIndex(max_rank, epsilon);
+    } catch (const std::invalid_argument& e) {
+        THEMIS_WARN("TensorIndexManager::createIndex: rejected parameters: {}", e.what());
+        return nullptr;
+    }
+
     // Bounded concurrency control: wait if too many creates in flight.
+    // Check and increment must be one atomic step, otherwise concurrent
+    // callers can all observe "below limit" and overshoot it.
     // The registry lookup and insertion must also be serialized so multiple
     // threads requesting the same key receive the same singleton object instead
     // of racing to create and publish distinct instances.
-    while (pending_operations_.load(std::memory_order_acquire) >= kMaxConcurrentCreates) {
-        std::this_thread::yield();
+    size_t inflight = pending_operations_.load(std::memory_order_relaxed);
+    for (;;) {
+        if (inflight >= kMaxConcurrentCreates) {
+            std::this_thread::yield();
+            inflight = pending_operations_.load(std::memory_order_relaxed);
+            continue;
+        }
+        if (pending_operations_.compare_exchange_weak(inflight, inflight + 1,
+                                                      std::memory_order_acquire,
+                                                      std::memory_order_relaxed)) {
+            break;
+        }
     }
-    pending_operations_.fetch_add(1, std::memory_order_release);
 
     struct OpGuard {
         std::atomic<size_t>& op_count;
@@ -138,7 +141,7 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
         return it->second.get();
     }
 
-    auto idx = std::make_unique<FlatTensorIndex>();
+    auto idx = std::move(candidate);
 
     // Restore persisted data when a data directory is configured.
     if (!data_dir_.empty()) {

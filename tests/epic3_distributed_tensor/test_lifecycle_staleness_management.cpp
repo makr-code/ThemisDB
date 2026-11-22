@@ -52,6 +52,9 @@
 namespace themis { namespace distributed_tensor { 
 namespace {
 
+using detail::ArtifactClass;
+using detail::ArtifactManifest;
+
 // ---------------------------------------------------------------------------
 // Helper: build a minimal valid lifecycle manifest
 // ---------------------------------------------------------------------------

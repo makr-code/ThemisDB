@@ -554,6 +554,85 @@ TEST(ExecuteDistributedTest, PartialFailureAllowed) {
     EXPECT_EQ(failures, 1);
 }
 
+TEST(ExecuteDistributedTest, HalfOpenRecoveryUsesSingleProbeWithoutRetries) {
+    class CountingFailureExecutor : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
+            calls.fetch_add(1, std::memory_order_relaxed);
+            throw std::runtime_error("temporary shard failure");
+        }
+
+        std::atomic<int> calls{0};
+    };
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{0};
+    cfg.enable_circuit_breaker = true;
+    cfg.circuit_breaker_failure_threshold = 1;
+    cfg.circuit_breaker_recovery_delay_ms = 1;
+    cfg.circuit_breaker_recovery_attempts = 1;
+    cfg.retry_config.max_retries = 2;
+    cfg.retry_config.base_delay_ms = 0;
+    cfg.retry_config.max_delay_ms = 0;
+
+    DistributedAnalyticsSharding coordinator(cfg);
+    auto executor = std::make_shared<CountingFailureExecutor>();
+    coordinator.addShard("recovering", executor);
+    const auto query = makeQuery("value", Measure::Function::Sum);
+
+    const auto initial_failure = coordinator.executeDistributed(query);
+    ASSERT_EQ(executor->calls.load(std::memory_order_relaxed), 3);
+    ASSERT_EQ(initial_failure.shard_info.size(), 1u);
+    EXPECT_EQ(initial_failure.shard_info[0].circuit_state,
+              DistributedAnalyticsSharding::CircuitBreakerState::OPEN);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds{2});
+    const auto failed_probe = coordinator.executeDistributed(query);
+
+    // HALF_OPEN should make exactly one recovery attempt, then reopen the
+    // breaker according to the configured recovery-attempt limit.
+    EXPECT_EQ(executor->calls.load(std::memory_order_relaxed), 4);
+    ASSERT_EQ(failed_probe.shard_info.size(), 1u);
+    EXPECT_EQ(failed_probe.shard_info[0].circuit_state,
+              DistributedAnalyticsSharding::CircuitBreakerState::OPEN);
+}
+
+TEST(ExecuteDistributedTest, ExplicitlyUnhealthyExecutorIsNotRetried) {
+    class UnhealthyFailureExecutor : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
+            calls.fetch_add(1, std::memory_order_relaxed);
+            healthy.store(false, std::memory_order_relaxed);
+            throw std::runtime_error("shard unavailable");
+        }
+
+        bool isHealthy() const override {
+            return healthy.load(std::memory_order_relaxed);
+        }
+
+        std::atomic<int> calls{0};
+        std::atomic<bool> healthy{true};
+    };
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{0};
+    cfg.enable_circuit_breaker = false;
+    cfg.retry_config.max_retries = 2;
+    cfg.retry_config.base_delay_ms = 0;
+    cfg.retry_config.max_delay_ms = 0;
+
+    DistributedAnalyticsSharding coordinator(cfg);
+    auto executor = std::make_shared<UnhealthyFailureExecutor>();
+    coordinator.addShard("unhealthy", executor);
+
+    const auto result =
+        coordinator.executeDistributed(makeQuery("value", Measure::Function::Sum));
+
+    EXPECT_EQ(executor->calls.load(std::memory_order_relaxed), 1);
+    ASSERT_EQ(result.shard_info.size(), 1u);
+    EXPECT_FALSE(result.shard_info[0].success);
+}
+
 // ============================================================================
 // executeDistributed – partial failure with allow_partial_results=false
 // ============================================================================

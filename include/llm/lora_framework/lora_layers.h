@@ -52,7 +52,23 @@ public:
     LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling = 1.0f);
     ~LoRALayer() override = default;
     
+    /**
+     * @brief Applies the low-rank projection to a batch of input rows.
+     * @param input A 2D tensor with shape (batch, in_dim).
+     * @return The scaled projection with shape (batch, out_dim).
+     * @throws std::invalid_argument if input is not 2D or its inner dimension
+     *         does not match in_dim.
+     */
     Tensor forward(const Tensor& input) override;
+
+    /**
+     * @brief Computes gradients for the most recent successful forward pass.
+     * @param grad_output A 2D tensor with shape (batch, out_dim).
+     * @return The input gradient with shape (batch, in_dim).
+     * @throws std::logic_error if forward() has not completed successfully.
+     * @throws std::invalid_argument if grad_output does not match the cached
+     *         input batch and this layer's output dimension.
+     */
     Tensor backward(const Tensor& grad_output) override;
     
     std::vector<Tensor*> parameters() override;
@@ -71,6 +87,11 @@ public:
     void set_weights(const Tensor& B, const Tensor& A);
 
 private:
+    friend class AttentionLoRA;
+
+    Tensor forwardOwned(Tensor&& input);
+    Tensor forwardImpl(const Tensor& input, Tensor* owned_input);
+
     std::string name_;
     size_t in_dim_ = 0;
     size_t out_dim_ = 0;
@@ -81,8 +102,9 @@ private:
     std::unique_ptr<Tensor> B_;  // (in_dim, rank)
     std::unique_ptr<Tensor> A_;  // (rank, out_dim)
     
-    // Cached for backward pass
+    // Cached input for the backward pass
     std::unique_ptr<Tensor> cached_input_;
+    // Stores input @ B; the field name is retained for binary layout compatibility.
     std::unique_ptr<Tensor> cached_BA_;
 };
 

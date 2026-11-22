@@ -2,7 +2,7 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
+Last Updated: 2026-11-21
 Status: active
 
 <!--
@@ -14,19 +14,18 @@ Human_Author: unknown
 Exact model backend not verifiable from final document text alone.
 -->
 
-> **Generated snapshot notice (2026-10-31):** This file records output dated
-> 2026-09-20 from the XML path listed below. It was not regenerated or validated
-> against the current build in this task and is not the canonical current API
-> reference. Consult `include/distributed_tensor/*.h` and
+> **Generated snapshot notice (updated 2026-11-21):** This file records output
+> dated 2026-09-20 from the XML path listed below. It was not regenerated or
+> validated against the current build and is not the canonical current API
+> reference. Its `simple_sha256_hash()` entry is historical and is no longer
+> the active integrity implementation. The active engine uses OpenSSL EVP
+> SHA-256 when available and fails closed otherwise; hashing does not
+> authenticate a producer. Consult `include/distributed_tensor/*.h` and
 > `src/distributed_tensor/CMakeLists.txt` for current declarations and build
 > membership.
->
-> Integrity caveat: this generated snapshot contains SHA-256/Merkle API names.
-> The default module target currently compiles a root-level implementation
-> whose `simple_sha256_hash()` is FNV-1a demonstration code; do not infer
-> cryptographic protection from this snapshot. The current training coordinator
-> invokes registered worker callbacks synchronously in-process, not over a
-> network.
+> `ArtifactManifest::compute_manifest_hash()` remains a separate
+> non-cryptographic checksum. The current training coordinator invokes
+> registered worker callbacks synchronously in-process, not over a network.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.

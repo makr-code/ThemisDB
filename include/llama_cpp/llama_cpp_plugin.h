@@ -49,12 +49,21 @@ public:
     LlamaCppPlugin& operator=(LlamaCppPlugin&&) noexcept = default;
 
     // ── ILLMPlugin ────────────────────────────────────────────────────────
+    /// A non-empty model path succeeds only when the real wrapper loads it.
     bool loadModel(const std::string& model_path, const json& config) override;
     void unloadModel() override;
     std::optional<llm::ModelInfo> getModelInfo() const override;
     bool isModelLoaded() const override { return model_loaded_; }
 
-    /// @copydoc llm::ILLMPlugin::loadLoRA
+    /**
+     * @brief Return whether a real llama.cpp wrapper is loaded.
+     *
+     * Unlike isModelLoaded(), this is false for the test-only no-model stub.
+     */
+    bool hasRealRuntimeLoaded() const;
+
+    /// Loads the adapter through the active LlamaWrapper/LoRA runtime.
+    /// Returns false when no real model runtime or adapter bridge is available.
     bool loadLoRA(const std::string& lora_id, const std::string& lora_path,
                   float scale) override;
     /// @copydoc llm::ILLMPlugin::unloadLoRA

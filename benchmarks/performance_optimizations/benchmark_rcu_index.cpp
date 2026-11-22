@@ -196,7 +196,9 @@ static void BM_GracePeriodOverhead(benchmark::State& state) {
         manager.synchronize_rcu();
     }
     
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
     #else
     state.SkipWithError("RCU not enabled");
     #endif

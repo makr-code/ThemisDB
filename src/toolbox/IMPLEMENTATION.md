@@ -16,7 +16,9 @@ Human_Author: "ThemisDB Team"
 
 ## Construction and lifecycle
 
-`IngestionToolbox::createDefault()` creates a workflow engine, installs the built-in NER and LLM extraction steps, and uses `NullTextGenerationBackend` unless a real backend is injected. Tensor decomposition and tensor-core steps are initially registered with null backends. Configure production dependencies with [`ToolboxBuilder`](../../include/toolbox/toolbox_builder.h), then create the toolbox once and inject or register it in the server bootstrap.
+`IngestionToolbox::createDefault()` creates a workflow engine, installs the built-in NER and LLM extraction steps, and uses `NullTextGenerationBackend` unless a real backend is injected. Its tensor overload installs the supplied decomposition backend and core sink during initial registration; the no-argument overload keeps the unavailable decomposition backend and in-memory sink. `ToolboxBuilder` passes tensor dependencies into that factory, avoiding duplicate `StepRegistry` registrations. In `main_server.cpp`, the configured toolbox is initialized in `ToolboxRegistry` only when `tensor_index` is configured. The server uses the factory directly because `ToolboxBuilder` is optional in modular builds with content disabled.
+
+When a caller supplies its own `WorkflowEngine`, `ToolboxBuilder` registers explicitly configured tensor steps in that engine's registry. A duplicate step registration fails the build with `std::logic_error` instead of silently keeping the wrong backend.
 
 `ToolboxBuilder` is single-use: `build()` or `buildWithBridges()` marks it built, and a second build throws `std::logic_error`. Empty profile paths and null workflow engines, format extractors, or factories are rejected. Profile files are loaded in registration order; a load failure is warned and does not prevent returning the toolbox. Do not treat successful construction as proof that every configured profile loaded.
 

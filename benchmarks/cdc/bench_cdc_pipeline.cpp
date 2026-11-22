@@ -124,7 +124,9 @@ BENCHMARK_DEFINE_F(CdcPipelineBenchFixture, FetchEventsAtLeastOnce)(benchmark::S
         benchmark::DoNotOptimize(events);
     }
 
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations() * batch);
+#endif
 }
 
 BENCHMARK_REGISTER_F(CdcPipelineBenchFixture, FetchEventsAtLeastOnce)
@@ -163,7 +165,9 @@ BENCHMARK_DEFINE_F(CdcPipelineBenchFixture, AcknowledgeEvents)(benchmark::State&
         benchmark::DoNotOptimize(max_seq);
     }
 
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(events.size()));
+#endif
 }
 
 BENCHMARK_REGISTER_F(CdcPipelineBenchFixture, AcknowledgeEvents)
@@ -201,7 +205,9 @@ BENCHMARK_DEFINE_F(CdcPipelineBenchFixture, ConcurrentFetch)(benchmark::State& s
         benchmark::DoNotOptimize(total);
     }
 
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations() * consumers * batch);
+#endif
 }
 
 BENCHMARK_REGISTER_F(CdcPipelineBenchFixture, ConcurrentFetch)

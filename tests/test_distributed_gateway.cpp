@@ -476,6 +476,27 @@ TEST(DistributedGatewayTest, ApplyConfigMultipleRoutesPreserved) {
     EXPECT_EQ(current.rate_limits.at("tenant-2"), static_cast<uint32_t>(1000));
 }
 
+TEST(DistributedGatewayTest, SingleNodeConfigAppliesOnlyAfterLocalRaftCommit) {
+    auto config = makeDistConfig("gw-1", 1);
+    DistributedGateway dg(config, makeGateway());
+    dg.start();
+
+    const auto election_deadline = std::chrono::steady_clock::now() +
+                                   std::chrono::seconds(2);
+    while (!dg.isLeader() && std::chrono::steady_clock::now() < election_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    ASSERT_TRUE(dg.isLeader());
+
+    ClusterGatewayConfig next;
+    next.version = 1;
+    next.updated_by = "gw-1";
+    next.updated_at = std::chrono::system_clock::now();
+    ASSERT_TRUE(dg.proposeConfig(next));
+    EXPECT_EQ(dg.getCurrentConfig().version, 1ULL);
+    dg.stop();
+}
+
 // ============================================================================
 // DistributedGateway – session affinity
 // ============================================================================

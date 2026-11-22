@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,8 +23,30 @@ Human_Author: "ThemisDB Contributors"
 
 Implemented runtime surfaces include tensor index management, bridges, adapter persistence, and fingerprint similarity. Benchmark targets are registered, but current source-specific performance evidence is not established by the historical baseline reports; advanced structural and experimental surfaces continue hardening.
 
+### TT index shape validation (2026-11-22)
+
+`FlatTensorIndex` rejects malformed TT ranks and shapes on add/search, and
+`.ttidx` loading rejects mode/core count and dimension mismatches, including
+mixed mode shapes across entries. Failed loads preserve the current index
+contents. Persisted files with inconsistent metadata must be rebuilt from
+source vectors; focused regression sources are present but not runtime-validated.
+
 ## In Progress
 
+- [~] Consolidate tensor CMake ownership across monolithic and modular builds
+  (Target: v2.5.0). `themis_tensor` is now registered before tests/benchmarks
+  and independently of the enterprise-plugin switch. With
+  `THEMIS_TENSOR_DEDUP_OWNER_SOURCES=ON` (default), sources already compiled
+  into static owners and eligible shared owners (`WINDOWS_EXPORT_ALL_SYMBOLS`
+  on Windows; non-hidden C++ visibility elsewhere) are excluded from
+  `themis_tensor`, which links each owner privately instead. The storage/core
+  owners do not link back to `themis_tensor`, so the dependency graph stays
+  acyclic. Test-specific direct source additions use the same export check.
+  Non-exporting shared owners still retain duplicates. CMake Tools built
+  `themis_tensor` successfully in `build-msvc-windows-bench`; four focused
+  Tensor test targets and `test_tensor_recompress` also built successfully.
+  CTest execution is pending
+  because CMake Tools returned a build-process failure for every test invocation.
 - [x] hardening tensor index/bridge behavior under concurrent workload pressure (Target: Q3 2026) [COMPLETED 2026-08-07]
 - [x] improving diagnostics consistency across tensor index, bridge, and graph operations (Target: Q3 2026) [COMPLETED 2026-08-07]
 - [~] define and validate source-specific release guardrails for tensor fingerprint and dedup paths (Target: Q1 2027 — registered targets exist; representative evidence remains required)

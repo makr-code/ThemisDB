@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-20
+Last Updated: 2026-11-22
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -53,6 +53,7 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 |---|---|
 | routing interfaces | deterministic key-to-shard and adaptive routing semantics |
 | coordination interfaces | explicit distributed decision and quorum behavior |
+| Raft peer transport | Keep logical Raft group IDs distinct from member node IDs; authenticate each RPC peer against the configured member ID before durable vote or append handling |
 | transaction interfaces | stable cross-shard commit/abort contracts |
 | operations interfaces | bounded repair/rebalance/migration with observable states |
 
@@ -64,6 +65,36 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 - broaden benchmark depth for multi-DC and topology-failure scenarios.
 - keep the latency fallback semantics fail-closed when no measured RTT is valid under the timeout budget.
 - GSI stale-entry invalidation must remain deterministic after shard migration or shard removal.
+
+### Raft peer transport delivery boundary
+
+The shard protobuf service now defines vote and AppendEntries RPCs. The client
+binds its local node ID to the request, checks the configured remote member ID
+in the response, verifies the server's DNS SAN through TLS, and enforces a
+positive deadline capped at five seconds. The server requires verified mTLS,
+maps the authenticated certificate SAN to a configured Raft member, resolves
+the requested logical group, and dispatches to the durable `RaftState`
+handlers. `RaftShardManager` installs the configured vote, append, and heartbeat
+callbacks; without an explicit peer-config resolver the callbacks remain absent
+and multi-node consensus cannot obtain quorum.
+
+The acceptance gate is still open. Linux-only two- and three-process test
+sources now cover manager-driven election, durable follower append,
+follower SIGKILL/restart from the same journal, rejection of a conflicting
+persisted log entry, persisted vote rejection, volatile-journal vote/append
+rejection, stale-term/partial-prefix rejection, bounded timeout failure, and
+proposal failure after both remote nodes are killed, plus separate leader-process
+SIGKILL/restart recovery. They have not been compiled or run in the current
+Windows benchmark configuration. Separate leader SIGKILL/restart is source
+coverage and follower processes are now wired for independent re-election.
+The focused gRPC
+runtime test plus stale-term/log, unavailable-journal, partial-prefix, timeout,
+and fault-injection cases must still execute before the gate can close. This
+transport does not add conflict repair, safe membership changes, or a
+quorum-backed 2PC decision state machine. CockroachDB Parallel Commits remain
+out of scope until the full gate passes.
+Installing a snapshot on a follower that has fallen behind the compacted log is
+tracked separately in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 
 ## Test Strategy
 

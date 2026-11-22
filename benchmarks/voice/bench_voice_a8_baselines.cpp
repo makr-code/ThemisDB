@@ -136,13 +136,12 @@ static void BenchSingleChunkValidation(benchmark::State& state) {
     uint32_t seq = 0;
     runLatencyBenchmark(state, [&]() {
         try {
-            auto validated =
-                v.validate_chunk(chunk.data(), chunk.size(), seq, seq * 256, false);
+            // Isolate validation cost from the validator's one-hour stream limit.
+            auto validated = v.validate_chunk(chunk.data(), chunk.size(), seq);
             benchmark::DoNotOptimize(validated);
             seq++;
-        } catch (...) {
-            // Sequence error; reset for next iteration.
-            state.SkipWithError("Sequence error");
+        } catch (const std::exception& error) {
+            state.SkipWithError(error.what());
         }
     }, 100'000.0);
 }
@@ -276,13 +275,14 @@ static void BenchStreamProcessingPipeline(benchmark::State& state) {
     uint32_t seq = 0;
     runLatencyBenchmark(state, [&]() {
         try {
-            auto validated = validator.validate_chunk(chunk.data(), chunk.size(), seq, seq * 256, false);
+            // Isolate validation cost from the validator's one-hour stream limit.
+            auto validated = validator.validate_chunk(chunk.data(), chunk.size(), seq);
             auto liveness_result = liveness.check_audio_chunk(chunk.data(), chunk.size(), 16000);
             benchmark::DoNotOptimize(validated);
             benchmark::DoNotOptimize(liveness_result);
             seq++;
-        } catch (...) {
-            state.SkipWithError("Pipeline error");
+        } catch (const std::exception& error) {
+            state.SkipWithError(error.what());
         }
     });
 }

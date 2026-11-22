@@ -63,11 +63,15 @@ enum class ArtifactKind : uint8_t {
 // ArtifactClass — source-of-truth vs. derived artifact policy
 // ---------------------------------------------------------------------------
 
+namespace detail {
+
 enum class ArtifactClass : uint8_t {
     SOURCE_OF_TRUTH = 0,
     DERIVED         = 1,
     EPHEMERAL       = 2,
 };
+
+} // namespace detail
 
 // ---------------------------------------------------------------------------
 // TruthSemantic — advisory-only vs. authoritative
@@ -223,6 +227,8 @@ struct ArtifactIntegrity {
 // ---------------------------------------------------------------------------
 // ArtifactManifest
 // ---------------------------------------------------------------------------
+
+namespace detail {
 
 struct ArtifactManifest {
 
@@ -390,6 +396,8 @@ struct ArtifactManifest {
     void markPublished(UpdateMode mode, RebuildState rebuild_state,
                       uint64_t new_source_seq);
 };
+
+} // namespace detail
 
 } // namespace distributed_tensor
 } // namespace themis

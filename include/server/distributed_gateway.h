@@ -227,9 +227,13 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Propose Config.
-     * @param[in] new_config Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Commit and apply a gateway configuration through local Raft.
+     * @param new_config Configuration to serialize and propose.
+     * @return True only when the Raft proposal commits and local application succeeds.
+     *         Returns false when this node is not leader, quorum is unavailable,
+     *         or the proposal does not commit before the configured timeout.
+     * @note Multi-node proposals fail closed until a real peer transport and a healthy
+     *       local Raft journal are configured; an in-process callback is not replication.
      */
     bool proposeConfig(const ClusterGatewayConfig& new_config);
 

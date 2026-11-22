@@ -309,7 +309,9 @@ static void BM_Subquery_EXISTS_WithLIMIT1(benchmark::State& state) {
     }
     
     state.counters["TableSize"] = table_size;
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
 }
 BENCHMARK(BM_Subquery_EXISTS_WithLIMIT1)->Arg(100)->Arg(1000)->Arg(10000)->Arg(100000);
 

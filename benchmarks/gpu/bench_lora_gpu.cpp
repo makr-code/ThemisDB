@@ -56,7 +56,7 @@ static void BM_ElementwiseAdd_CUDA(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -108,7 +108,7 @@ static void BM_MatMul_CUDA(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -157,7 +157,7 @@ static void BM_Transpose_CUDA(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -204,7 +204,7 @@ static void BM_ScalarMul_CUDA(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -238,7 +238,7 @@ static void BM_CPUToGPU_Transfer(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -265,7 +265,7 @@ static void BM_GPUToCPU_Transfer(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -326,7 +326,7 @@ static void BM_TrainingStep_CUDA(benchmark::State& state) {
     }
     
     if (!has_cuda) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

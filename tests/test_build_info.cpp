@@ -8,6 +8,8 @@
 /// - getReproducibilityInfo() fields
 /// - exportBuildManifest() / verifyBuildManifest() round-trip
 
+#include <algorithm>
+
 #include <gtest/gtest.h>
 #include "themis/build_info.h"
 

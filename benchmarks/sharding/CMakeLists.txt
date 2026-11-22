@@ -20,6 +20,7 @@ foreach(_src IN LISTS SHARDING_BENCH_SOURCES)
 
     if(_stem STREQUAL "bench_sharding_dedicated_gates")
         add_executable(${_stem} "${_src}")
+        target_link_libraries(${_stem} PRIVATE Threads::Threads)
     else()
         themis_add_standard_benchmark(${_stem} "${_src}")
     endif()

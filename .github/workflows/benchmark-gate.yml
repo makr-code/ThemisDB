@@ -121,7 +121,8 @@ jobs:
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-24.04
-      timeout_minutes: '60'
+      # Cold vcpkg dependency builds exceeded the previous budget during gRPC configuration.
+      timeout_minutes: '180'
       fetch_depth: '1'
       setup_command: |
         set -euo pipefail

@@ -201,7 +201,9 @@ BENCHMARK_DEFINE_F(CdcDeliveryGateFixture, CDG02_AcknowledgeSingleEvent)(
         bool ok = tracker.acknowledge("bench_ack_consumer", s);
         benchmark::DoNotOptimize(ok);
     }
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
 }
 BENCHMARK_REGISTER_F(CdcDeliveryGateFixture, CDG02_AcknowledgeSingleEvent)
     ->Unit(benchmark::kMicrosecond)

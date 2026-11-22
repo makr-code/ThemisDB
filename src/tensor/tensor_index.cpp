@@ -16,6 +16,7 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
+#include <limits>
 #include <mutex>
 #include <shared_mutex>
 #include <stdexcept>
@@ -47,15 +48,15 @@ std::vector<size_t> inferFlatModeShape(size_t dim) {
     return {rows, cols};
 }
 
-} // namespace
-
 // ============================================================================
 // FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl)
+// Internal to this TU; construct via createFlatTensorIndex().
 // ============================================================================
 
 class FlatTensorIndex final : public ITensorIndex {
 public:
-    FlatTensorIndex() = default;
+    FlatTensorIndex(size_t max_rank, double epsilon)
+        : max_rank_(max_rank), epsilon_(epsilon) {}
     ~FlatTensorIndex() override = default;
 
     // -----------------------------------------------------------------------
@@ -64,6 +65,9 @@ public:
 
     [[nodiscard]] bool add(int64_t id,
                            const storage::TTTrain& train) override {
+        if (!isValidTTTrain(train)) {
+            return false;
+        }
         /**
          * @brief Lock.
          * @param[in] rw_mutex_ Input parameter.
@@ -71,7 +75,8 @@ public:
          */
         std::unique_lock lock(rw_mutex_);
         if (store_.count(id)) return false;   // duplicate
-        if (train.cores.empty()) {
+        if (!store_.empty() &&
+            store_.begin()->second.mode_sizes != train.mode_sizes) {
           return false;
         }
         store_.emplace(id, train);
@@ -93,8 +98,8 @@ public:
 
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
-        cfg.max_rank = 32;
-        cfg.eps      = 0.01;
+        cfg.max_rank = max_rank_;
+        cfg.eps      = epsilon_;
 
         std::vector<float> data(vector, vector + dim);
         const auto shape = inferFlatModeShape(dim);
@@ -138,6 +143,11 @@ public:
         std::shared_lock lock(rw_mutex_);
 
         std::vector<TensorSearchResult> results = {};
+        if (!isValidTTTrain(query) ||
+            (!store_.empty() &&
+             store_.begin()->second.mode_sizes != query.mode_sizes)) {
+            return results;
+        }
 
         results.reserve(store_.size());
 
@@ -179,8 +189,8 @@ public:
 
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
-        cfg.max_rank = 32;
-        cfg.eps      = 0.01;
+        cfg.max_rank = max_rank_;
+        cfg.eps      = epsilon_;
         const auto shape = inferFlatModeShape(dim);
         std::vector<float> data(query, query + dim);
 
@@ -311,96 +321,18 @@ public:
     }
 
     bool load(const std::string& path) override {
-        /**
-         * @brief In.
-         * @param[in] path Input parameter.
-         * @param[in] binary Input parameter.
-         * @return Return value.
-         */
-        std::ifstream in(path, std::ios::binary);
-        if (!in) {
-          return false;
-        }
-
-        char magic[11];
-        in.read(magic, 11);
-        if (in.fail() || std::memcmp(magic, kMagic, 10) != 0) {
-          return false;
-        }
-
-        uint8_t version;
-        in.read(reinterpret_cast<char*>(&version), 1);
-        if (in.fail() || version != kVersion) {
-          return false;
-        }
-
-        uint64_t n = {};
-        in.read(reinterpret_cast<char*>(&n), sizeof(n));
-        if (in.fail()) {
-          return false;
-        }
-
-        // Build into a local map; only replace store_ on complete success.
+        // Parse into a local map; only replace store_ on complete success.
         std::unordered_map<int64_t, storage::TTTrain> new_store;
-        new_store.reserve(static_cast<size_t>(n));
-
-        for (uint64_t i = 0; i < n; ++i) {
-            int64_t id;
-            in.read(reinterpret_cast<char*>(&id), sizeof(id));
-
-            uint32_t nm = {};
-            in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
-            if (in.fail()) {
-              return false;
+        try {
+            if (!parseFile(path, new_store)) {
+                return false;
             }
-
-            storage::TTTrain train;
-            train.mode_sizes.resize(nm);
-            for (uint32_t j = 0; j < nm; ++j) {
-                uint64_t v = 0;
-                in.read(reinterpret_cast<char*>(&v), sizeof(v));
-                train.mode_sizes[j] = static_cast<std::size_t>(v);
-            }
-
-            in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));
-            in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));
-
-            uint32_t nc = {};
-            in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
-            if (in.fail()) {
-              return false;
-            }
-
-            train.cores.resize(nc);
-            for (uint32_t k = 0; k < nc; ++k) {
-                uint64_t rl, nn, rr, nf;
-                in.read(reinterpret_cast<char*>(&rl), sizeof(rl));
-                in.read(reinterpret_cast<char*>(&nn), sizeof(nn));
-                in.read(reinterpret_cast<char*>(&rr), sizeof(rr));
-                in.read(reinterpret_cast<char*>(&nf), sizeof(nf));
-                if (in.fail()) {
-                  return false;
-                }
-
-                auto& core = train.cores[k];
-                core.r_left  = static_cast<std::size_t>(rl);
-                core.n       = static_cast<std::size_t>(nn);
-                core.r_right = static_cast<std::size_t>(rr);
-                core.data.resize(static_cast<std::size_t>(nf));
-                in.read(reinterpret_cast<char*>(core.data.data()),
-                        static_cast<std::streamsize>(nf * sizeof(float)));
-                if (in.fail()) {
-                  return false;
-                }
-            }
-            new_store.emplace(id, std::move(train));
+        } catch (const std::exception&) {
+            // A corrupt or hostile file must never propagate bad_alloc /
+            // length_error into server startup (createIndex restores on boot).
+            return false;
         }
 
-        /**
-         * @brief Atomically swap in new data
-         * @param[in] rw_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock lock(rw_mutex_);
         store_ = std::move(new_store);
         stats_ = {};
@@ -462,6 +394,33 @@ private:
     // TT arithmetic helpers
     // -----------------------------------------------------------------------
 
+    static bool isValidTTTrain(const storage::TTTrain& train) {
+        if (train.cores.empty() ||
+            train.cores.size() != train.mode_sizes.size() ||
+            train.cores.size() > kMaxTtOrder) {
+            return false;
+        }
+
+        size_t expected_left_rank = 1;
+        for (size_t index = 0; index < train.cores.size(); ++index) {
+            const auto& core = train.cores[index];
+            if (core.r_left == 0 || core.n == 0 || core.r_right == 0 ||
+                core.r_left != expected_left_rank ||
+                core.n != train.mode_sizes[index] ||
+                core.r_left > std::numeric_limits<size_t>::max() / core.n) {
+                return false;
+            }
+            const size_t left_mode_size = core.r_left * core.n;
+            if (left_mode_size >
+                    std::numeric_limits<size_t>::max() / core.r_right ||
+                core.data.size() != left_mode_size * core.r_right) {
+                return false;
+            }
+            expected_left_rank = core.r_right;
+        }
+        return expected_left_rank == 1;
+    }
+
     /**
      * @brief Tt Inner Product.
      * @param[in] A Input parameter.
@@ -472,7 +431,8 @@ private:
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
         const size_t d = A.cores.size();
-        if (d == 0 || d != B.cores.size()) {
+        if (!isValidTTTrain(A) || !isValidTTTrain(B) ||
+            d != B.cores.size() || A.mode_sizes != B.mode_sizes) {
           return 0.0f;
         }
 
@@ -532,6 +492,162 @@ private:
         return (ip > 0.0f) ? std::sqrt(ip) : 0.0f;
     }
 
+    // -----------------------------------------------------------------------
+    // .ttidx parser — the file is untrusted, so every count is bounded by the
+    // bytes still available before any allocation happens.
+    // -----------------------------------------------------------------------
+
+    /// Minimum on-disk bytes of one entry: id + n_modes + norm + eps + n_cores.
+    static constexpr uint64_t kMinEntryBytes   = 8 + 4 + 8 + 8 + 4;
+    /// On-disk bytes of a core header: r_left, n, r_right, n_floats.
+    static constexpr uint64_t kCoreHeaderBytes = 4 * 8;
+    /// Upper bound on TT order (modes / cores) accepted from disk.
+    static constexpr uint32_t kMaxTtOrder      = 64;
+
+    static bool checkedMul(uint64_t a, uint64_t b, uint64_t& out) {
+        if (a != 0 && b > std::numeric_limits<uint64_t>::max() / a) {
+            return false;
+        }
+        out = a * b;
+        return true;
+    }
+
+    static bool parseFile(const std::string& path,
+                          std::unordered_map<int64_t, storage::TTTrain>& out_store) {
+        std::ifstream in(path, std::ios::binary | std::ios::ate);
+        if (!in) {
+            return false;
+        }
+        const auto end_pos = in.tellg();
+        if (end_pos < 0) {
+            return false;
+        }
+        const auto file_size = static_cast<uint64_t>(end_pos);
+        in.seekg(0, std::ios::beg);
+
+        uint64_t consumed = 0;
+        auto remaining = [&]() { return file_size - consumed; };
+        auto read = [&](void* dst, uint64_t bytes) -> bool {
+            if (bytes > remaining()) {
+                return false;
+            }
+            in.read(static_cast<char*>(dst), static_cast<std::streamsize>(bytes));
+            if (in.fail()) {
+                return false;
+            }
+            consumed += bytes;
+            return true;
+        };
+
+        char magic[11];
+        if (!read(magic, sizeof(magic)) ||
+            std::memcmp(magic, kMagic, sizeof(kMagic)) != 0) {
+            return false;
+        }
+        uint8_t version = 0;
+        if (!read(&version, sizeof(version)) || version != kVersion) {
+            return false;
+        }
+        uint64_t n = 0;
+        if (!read(&n, sizeof(n)) ||
+            n > static_cast<uint64_t>(std::numeric_limits<size_t>::max()) ||
+            n > remaining() / kMinEntryBytes) {
+            return false;
+        }
+
+        std::unordered_map<int64_t, storage::TTTrain> store;
+        store.reserve(static_cast<size_t>(n));
+        std::vector<std::size_t> index_mode_sizes;
+
+        for (uint64_t i = 0; i < n; ++i) {
+            int64_t id = 0;
+            if (!read(&id, sizeof(id)) || store.count(id) != 0) {
+                return false;
+            }
+
+            uint32_t nm = 0;
+            if (!read(&nm, sizeof(nm)) || nm > kMaxTtOrder ||
+                uint64_t{nm} * sizeof(uint64_t) > remaining()) {
+                return false;
+            }
+            storage::TTTrain train;
+            train.mode_sizes.resize(nm);
+            for (auto& ms : train.mode_sizes) {
+                uint64_t v = 0;
+                if (!read(&v, sizeof(v)) ||
+                    v > static_cast<uint64_t>(
+                            std::numeric_limits<size_t>::max())) {
+                    return false;
+                }
+                ms = static_cast<std::size_t>(v);
+            }
+
+            uint32_t nc = 0;
+            if (!read(&train.original_norm, sizeof(double)) ||
+                !read(&train.achieved_eps, sizeof(double)) ||
+                !read(&nc, sizeof(nc))) {
+                return false;
+            }
+            if (nc == 0 || nc > kMaxTtOrder ||
+                uint64_t{nc} * kCoreHeaderBytes > remaining()) {
+                return false;
+            }
+
+            if (nm == 0 || nc != nm) {
+                return false;
+            }
+            if (i == 0) {
+                index_mode_sizes = train.mode_sizes;
+            } else if (train.mode_sizes != index_mode_sizes) {
+                return false;
+            }
+
+            train.cores.resize(nc);
+            uint64_t prev_r_right = 1;  // TT boundary condition: r_0 == 1
+            for (size_t core_index = 0; core_index < train.cores.size();
+                 ++core_index) {
+                auto& core = train.cores[core_index];
+                uint64_t rl = 0, nn = 0, rr = 0, nf = 0;
+                if (!read(&rl, sizeof(rl)) || !read(&nn, sizeof(nn)) ||
+                    !read(&rr, sizeof(rr)) || !read(&nf, sizeof(nf))) {
+                    return false;
+                }
+                if (rl == 0 || nn == 0 || rr == 0 || rl != prev_r_right ||
+                    nn != train.mode_sizes[core_index]) {
+                    return false;
+                }
+                const auto max_size =
+                    static_cast<uint64_t>(std::numeric_limits<size_t>::max());
+                if (rl > max_size || nn > max_size || rr > max_size ||
+                    nf > max_size) {
+                    return false;
+                }
+                uint64_t expected = 0;
+                uint64_t bytes    = 0;
+                if (!checkedMul(rl, nn, expected) ||
+                    !checkedMul(expected, rr, expected) || nf != expected ||
+                    !checkedMul(nf, sizeof(float), bytes) || bytes > remaining()) {
+                    return false;
+                }
+                core.r_left  = static_cast<std::size_t>(rl);
+                core.n       = static_cast<std::size_t>(nn);
+                core.r_right = static_cast<std::size_t>(rr);
+                core.data.resize(static_cast<std::size_t>(nf));
+                if (!read(core.data.data(), bytes)) {
+                    return false;
+                }
+                prev_r_right = rr;
+            }
+            if (prev_r_right != 1) {  // TT boundary condition: r_d == 1
+                return false;
+            }
+            store.emplace(id, std::move(train));
+        }
+
+        out_store = std::move(store);
+        return true;
+    }
+
     /**
      * @brief Estimate Bytes.
      * @param[in] t Input parameter.
@@ -554,7 +670,19 @@ private:
     std::unordered_map<int64_t, storage::TTTrain>      store_;
     size_t                                             dim_ = 0;
     TensorIndexStats                                   stats_;
+    const size_t                                       max_rank_;
+    const double                                       epsilon_;
 };
+
+} // namespace
+
+std::unique_ptr<ITensorIndex> createFlatTensorIndex(size_t max_rank, double epsilon) {
+    if (!std::isfinite(epsilon) || epsilon <= 0.0 || epsilon >= 1.0) {
+        throw std::invalid_argument(
+            "createFlatTensorIndex: epsilon must be finite and in (0, 1)");
+    }
+    return std::make_unique<FlatTensorIndex>(max_rank, epsilon);
+}
 
 } // namespace tensor
 } // namespace themis

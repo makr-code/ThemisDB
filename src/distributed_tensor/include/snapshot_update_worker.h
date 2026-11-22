@@ -89,7 +89,7 @@ struct UpdateTask {
 
   DeltaWindow delta_window;
 
-  ArtifactManifest current_manifest;
+  detail::ArtifactManifest current_manifest;
 
   uint64_t artifact_size_bytes = 0;
 };
@@ -152,7 +152,7 @@ class SnapshotBasedUpdateWorker {
    */
   virtual UpdateDecision processDeltaWindow(const std::string& artifact_id,
                                             const DeltaWindow& delta_window,
-                                            const ArtifactManifest& current_manifest,
+                                            const detail::ArtifactManifest& current_manifest,
                                             uint64_t artifact_size_bytes);
 
   /**
@@ -175,7 +175,7 @@ class SnapshotBasedUpdateWorker {
    */
   virtual bool executePatch(const std::string& artifact_id,
                             const DeltaWindow& delta_window,
-                            ArtifactManifest& current_manifest);
+                            detail::ArtifactManifest& current_manifest);
 
   /**
    * @brief Execute Partial Refit.
@@ -186,7 +186,7 @@ class SnapshotBasedUpdateWorker {
    */
   virtual bool executePartialRefit(const std::string& artifact_id,
                                    const DeltaWindow& delta_window,
-                                   ArtifactManifest& current_manifest);
+                                   detail::ArtifactManifest& current_manifest);
 
   /**
    * @brief Execute Rebuild.
@@ -197,7 +197,7 @@ class SnapshotBasedUpdateWorker {
    */
   virtual bool executeRebuild(const std::string& artifact_id,
                               const DeltaWindow& delta_window,
-                              ArtifactManifest& current_manifest);
+                              detail::ArtifactManifest& current_manifest);
 
   /**
    * @brief Publish Manifest.
@@ -208,7 +208,7 @@ class SnapshotBasedUpdateWorker {
    * @return True when the operation succeeds.
    */
   virtual bool publishManifest(const std::string& artifact_id,
-                               const ArtifactManifest& new_manifest,
+                               const detail::ArtifactManifest& new_manifest,
                                uint64_t old_version,
                                const std::string& reason);
 
@@ -287,7 +287,8 @@ class SnapshotBasedUpdateWorker {
    * @param[in] artifact_id Identifier of the artifact.
    * @return Return value.
    */
-  virtual std::optional<ArtifactManifest> recoverFromCheckpoint(const std::string& artifact_id);
+  virtual std::optional<detail::ArtifactManifest> recoverFromCheckpoint(
+      const std::string& artifact_id);
 
   /**
    * @brief Save Checkpoint.
@@ -318,7 +319,7 @@ class SnapshotBasedUpdateWorker {
    * @return Return value.
    */
   virtual StaleArtifactMetrics detectStaleness(const std::string& artifact_id,
-                                               const ArtifactManifest& current_manifest,
+                                               const detail::ArtifactManifest& current_manifest,
                                                uint64_t current_source_seq);
 
   virtual bool isValidForPatchingPublic(const DeltaWindow& delta_window,
@@ -356,7 +357,8 @@ class SnapshotBasedUpdateWorker {
    * @param[in] delta_window Input parameter.
    * @return True when the operation succeeds.
    */
-  bool wouldBreachRankCap(const ArtifactManifest& manifest, const DeltaWindow& delta_window);
+  bool wouldBreachRankCap(const detail::ArtifactManifest& manifest,
+                          const DeltaWindow& delta_window);
 
   /**
    * @brief Estimate Resulting Residual.

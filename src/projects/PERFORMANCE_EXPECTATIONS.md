@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-20"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,9 +35,9 @@ Human_Author: "ThemisDB Team"
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| PRJP-1 | Measure snapshot creation, retrieval, and restore on `ProjectVersioning` | Not currently measured |
-| PRJP-2 | Measure `ProjectDiff`/`ProjectMerge` workloads with representative document counts and conflicts | Not currently measured |
-| PRJP-3 | Measure template instantiation and collaboration change/lock paths | Not currently measured |
+| PRJP-1 | Measure production `ProjectVersioning` snapshot creation at 100/1,000 documents, metadata retrieval, and 1,000-document restore; numeric release threshold pending a representative baseline | BM_ProjectVersioning_CreateSnapshot/100, BM_ProjectVersioning_CreateSnapshot/1000, BM_ProjectVersioning_GetSnapshot, BM_ProjectVersioning_RestoreSnapshot |
+| PRJP-2 | Measure production snapshot diff at 100/1,000 documents and three-way merge at 1,000 documents with overlapping changes/conflicts; numeric release threshold pending a representative baseline | BM_ProjectDiff_Snapshots/100, BM_ProjectDiff_Snapshots/1000, BM_ProjectMerge_ThreeWay |
+| PRJP-3 | Measure production web-application template instantiation, collaboration lock/unlock cycles, and persisted change notifications; numeric release threshold pending a representative baseline | BM_ProjectTemplate_Instantiate, BM_CollaborationManager_LockCycle, BM_CollaborationManager_ChangeNotification |
 
 ## Release-Gate Status
 
@@ -49,19 +49,20 @@ Human_Author: "ThemisDB Team"
 
 ## Validation
 
-- No project-runtime performance target or release gate is verified by the
-  current benchmark source. Treat the targets above as work to define, not
-  achieved release criteria.
-- Add module-native benchmark cases before setting numeric limits; derive
-  thresholds from repeatable release-profile measurements on declared hardware.
+- The project workflow cases now measure the production APIs listed above, but
+  no numeric project-runtime target or release gate is verified. Treat the
+  measurements as coverage evidence, not achieved release criteria.
+- Derive numeric thresholds from repeatable release-profile measurements on
+  declared hardware before enabling performance gates.
 
 ## Sourcecode Verification (Module: projects/performance)
 
 - Verified benchmark sources:
   - benchmarks/projects/bench_projects_release_gates.cpp
+  - benchmarks/projects/bench_projects_workflows.cpp
   - benchmarks/content/bench_content_versioning.cpp
   - benchmarks/query/bench_query_lazy_eval.cpp
 - Result:
-  - only enum representation/dispatch is directly benchmarked under `projects`;
-    the other workloads belong to separate modules and do not validate project
-    runtime performance.
+  - enum representation/dispatch and project snapshot, diff, merge, template,
+    and collaboration workflows are directly benchmarked under `projects`;
+    content/query cases remain cross-module context only.

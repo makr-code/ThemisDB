@@ -24,7 +24,7 @@ if(TARGET bench_transaction_throughput)
         MODULE       "transaction"
         KIND         "wave_a"
         TIMEOUT      180
-        MIN_TIME     "0.01s"
+        MIN_TIME     "0.2s"
         EXTRA_LABELS wave_a_benchmark_sharding_transaction benchmark-baseline throughput
     )
 endif()

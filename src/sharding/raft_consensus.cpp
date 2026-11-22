@@ -17,6 +17,8 @@
 #include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <iostream>
+#include <limits>
+#include <stdexcept>
 
 namespace themisdb {
 namespace sharding {
@@ -78,62 +80,41 @@ void RaftConsensus::stop() {
  * @brief Propose.
  * @param[in] command Input parameter.
  * @return Return value.
- * @details Calls: get_future(), lock(), isLeader(), set_value(), isReadOnly(), getLog(), getLastLogIndex(), getCurrentTerm().
+ * @details Delegates to proposeWithIndex() and resolves the future synchronously.
  */
 std::future<bool> RaftConsensus::propose(const std::string& command) {
-    auto promise = std::make_shared<std::promise<bool>>();
-    auto future = promise->get_future();
+    std::promise<bool> promise;
+    auto future = promise.get_future();
+    promise.set_value(proposeWithIndex(command).has_value());
+    return future;
+}
 
-    // RAFT-1: Leader check, log append, and reading the term must all happen
-    // atomically under replica_mutex_ so that a concurrent step-down cannot
-    // interleave between the isLeader() test and the log.append() call.
-    uint64_t index = 0;
-    {
-        std::lock_guard<std::mutex> lock(replica_mutex_);
+std::optional<uint64_t> RaftConsensus::proposeWithIndex(const std::string& command) {
 
-        if (!raft_state_.isLeader()) {
-            promise->set_value(false);
-            return future;
-        }
-
-        if (isReadOnly()) {
-            promise->set_value(false);
-            return future;
-        }
-
-        auto& log = raft_state_.getLog();
-        if (!log.isPersistenceHealthy()) {
-            promise->set_value(false);
-            return future;
-        }
-        index = log.getLastLogIndex() + 1;
-        uint64_t term = raft_state_.getCurrentTerm();
-
-        LogEntry entry(term, index, command);
-        try {
-            log.append(entry);
-        } catch (const std::exception& error) {
-            THEMIS_ERROR("[RaftConsensus] durable append failed: {}", error.what());
-            read_only_mode_.store(true);
-            promise->set_value(false);
-            return future;
-        }
-    }
-
-    // RAFT-2: Capture the callback and entry snapshot under the lock so that
-    // the detached thread never races against setReplicationCallback().
     ReplicationCallback cb;
+    AppendEntriesRequest request;
     LogEntry captured_entry;
     {
         std::lock_guard<std::mutex> lock(replica_mutex_);
+        if (isReadOnly()) {
+            return std::nullopt;
+        }
         cb = replication_callback_;
-        auto opt = raft_state_.getLog().getEntry(index);
-        if (opt) {
-            captured_entry = *opt;
-        } else {
-            // Entry was truncated already — give up.
-            promise->set_value(false);
-            return future;
+        if (raft_state_.getClusterMembers().size() > 1 && !cb) {
+            return std::nullopt;
+        }
+
+        try {
+            auto proposal = raft_state_.appendProposalIfLeader(command);
+            if (!proposal) {
+                return std::nullopt;
+            }
+            request = std::move(*proposal);
+            captured_entry = request.entries.back();
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("[RaftConsensus] durable append failed: {}", error.what());
+            read_only_mode_.store(true);
+            return std::nullopt;
         }
     }
 
@@ -146,7 +127,25 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
                 continue;  // Skip self
             }
 
-            if (replicateToFollower(member, captured_entry, cb)) {
+            AppendEntriesRequest peer_request;
+            try {
+                peer_request = buildReplicationRequest(
+                    member, captured_entry.index,
+                    raft_state_.getLog().getCommitIndex(),
+                    request.term);
+            } catch (const std::exception& error) {
+                THEMIS_WARN("[RaftConsensus] cannot build replication batch for {}: {}",
+                            member, error.what());
+                updateReplicaHealth(member, false);
+                continue;
+            }
+
+            const auto response = replicateToFollower(member, peer_request, cb);
+            if (response.term > request.term) {
+                return std::nullopt;
+            }
+            if (response.term == request.term && response.success &&
+                response.match_index >= captured_entry.index) {
                 acks++;
                 if (acks >= required) {
                     break;
@@ -155,40 +154,27 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         }
     }
 
-    bool success = (acks >= required);
-    // RAFT-4: Both the commit-index update and the truncation-on-failure
-    // path must hold replica_mutex_ so that concurrent proposeEntry()
-    // callers cannot observe a partially-updated log state.
+    if (acks < required) {
+        THEMIS_WARN("[RaftConsensus] proposal {} did not reach quorum", captured_entry.index);
+        return std::nullopt;
+    }
+
     {
         std::lock_guard<std::mutex> lock(replica_mutex_);
-        if (success) {
-            try {
-                raft_state_.getLog().setCommitIndex(captured_entry.index);
-            } catch (const std::exception& error) {
-                THEMIS_ERROR("[RaftConsensus] durable commit update failed: {}", error.what());
-                read_only_mode_.store(true);
-                success = false;
+        try {
+            if (!raft_state_.commitProposalIfLeader(captured_entry)) {
+                THEMIS_WARN("[RaftConsensus] proposal {} lost leadership or its log entry",
+                            captured_entry.index);
+                return std::nullopt;
             }
-        } else {
-            // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
-            // so that a future leader does not see an uncommitted tail.
-            if (!raft_state_.isLeader()) {
-                // Already stepped down; the new leader will handle truncation.
-            } else {
-                try {
-                    raft_state_.getLog().truncateFrom(captured_entry.index);
-                } catch (const std::exception& error) {
-                    THEMIS_ERROR("[RaftConsensus] failed to truncate uncommitted entry: {}",
-                                 error.what());
-                    read_only_mode_.store(true);
-                }
-            }
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("[RaftConsensus] durable commit update failed: {}", error.what());
+            read_only_mode_.store(true);
+            return std::nullopt;
         }
     }
 
-    promise->set_value(success);
-
-    return future;
+    return captured_entry.index;
 }
 
 bool RaftConsensus::isLeader() const {
@@ -249,6 +235,11 @@ void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
     replication_callback_ = std::move(callback);
 }
 
+void RaftConsensus::setVoteRequestCallback(VoteRequestCallback callback) {
+    std::lock_guard<std::mutex> lock(replica_mutex_);
+    vote_request_callback_ = std::move(callback);
+}
+
 /**
  * @brief Set Heartbeat Callback.
  * @param[in] callback Input parameter.
@@ -288,23 +279,59 @@ void RaftConsensus::receiveHeartbeat(const Heartbeat& heartbeat) {
  * @brief Receive Append Entries Response.
  * @param[in] node_id Identifier of the node.
  * @param[in] response Input parameter.
- * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), updateReplicaHealthLocked().
+ * @details Rejects unknown peers, persists higher terms before stepping down, and
+ *          advances replica progress only for current-term successful responses.
  */
 void RaftConsensus::receiveAppendEntriesResponse(const std::string& node_id,
                                                  const AppendEntriesResponse& response) {
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+        const auto it = replica_states_.find(node_id);
+        if (it == replica_states_.end()) {
+            return;
+        }
+        it->second.last_contact = std::chrono::steady_clock::now();
+    }
+
+    if (response.term > raft_state_.getCurrentTerm()) {
+        try {
+            raft_state_.becomeFollower(response.term);
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("[RaftConsensus] failed to persist higher AppendEntries response term {}: {}",
+                         response.term, error.what());
+            read_only_mode_.store(true);
+        }
+        return;
+    }
+
     std::lock_guard<std::mutex> lock(replica_mutex_);
     auto it = replica_states_.find(node_id);
-    if (it != replica_states_.end()) {
-        auto now = std::chrono::steady_clock::now();
-        it->second.last_contact = std::chrono::steady_clock::now();
-        if (response.success) {
-            it->second.match_index = response.match_index;
-            it->second.next_index = response.match_index + 1;
-            updateReplicaHealthLocked(it->second, true, now);
-        } else {
-            updateReplicaHealthLocked(it->second, false, now);
-        }
+    if (it == replica_states_.end()) {
+        return;
     }
+
+    const auto now = std::chrono::steady_clock::now();
+    if (response.term != raft_state_.getCurrentTerm() || !response.success) {
+        if (response.term == raft_state_.getCurrentTerm() && !response.success) {
+            const uint64_t decremented =
+                it->second.next_index > 1 ? it->second.next_index - 1 : 1;
+            const uint64_t follower_next =
+                response.match_index == std::numeric_limits<uint64_t>::max()
+                    ? response.match_index
+                    : response.match_index + 1;
+            it->second.next_index = std::max<uint64_t>(
+                1, std::min(decremented, follower_next));
+        }
+        updateReplicaHealthLocked(it->second, false, now);
+        return;
+    }
+
+    it->second.match_index = std::max(it->second.match_index, response.match_index);
+    const auto next_index = response.match_index == std::numeric_limits<uint64_t>::max()
+        ? response.match_index
+        : response.match_index + 1;
+    it->second.next_index = std::max(it->second.next_index, next_index);
+    updateReplicaHealthLocked(it->second, true, now);
 }
 
 /**
@@ -325,22 +352,91 @@ void RaftConsensus::heartbeatLoop() {
 
 /**
  * @brief Election Loop.
- * @details Calls: isFollower(), isElectionTimeout(), isReadOnly(), startElection(), lock(), wait_for(), std::chrono::milliseconds().
+ * @details Calls: isFollower(), isCandidate(), isElectionTimeout(), isReadOnly(), startElection(), lock(), wait_for(), std::chrono::milliseconds().
  */
 void RaftConsensus::electionLoop() {
     while (running_) {
-        if (raft_state_.isFollower() && raft_state_.isElectionTimeout()) {
+        if ((raft_state_.isFollower() || raft_state_.isCandidate()) &&
+            raft_state_.isElectionTimeout()) {
             if (!isReadOnly()) {  // Don't start election if in minority partition
-                try {
-                    raft_state_.startElection();
-                } catch (const std::exception& error) {
-                    THEMIS_ERROR("[RaftConsensus] failed to persist election state: {}",
-                                 error.what());
+                bool election_started = false;
+                const auto members = raft_state_.getClusterMembers();
+                const bool requires_durable_journal = members.size() > 1;
+                if (requires_durable_journal &&
+                    (config_.raft_config.persistence_path.empty() ||
+                     !raft_state_.getLog().isPersistenceHealthy())) {
+                    THEMIS_ERROR("[RaftConsensus] refusing multi-node election without a healthy durable journal");
                     read_only_mode_.store(true);
+                } else {
+                    try {
+                        raft_state_.startElection();
+                        election_started = true;
+                    } catch (const std::exception& error) {
+                        THEMIS_ERROR("[RaftConsensus] failed to persist election state: {}",
+                                     error.what());
+                        read_only_mode_.store(true);
+                    }
                 }
-                
-                // Send vote requests to peers (simplified - would use RPC in production)
-                // For now, rely on external mechanism to handle vote requests
+
+                if (election_started) {
+                    VoteRequestCallback vote_callback;
+                    {
+                        std::lock_guard<std::mutex> lock(replica_mutex_);
+                        vote_callback = vote_request_callback_;
+                    }
+
+                    if (vote_callback) {
+                        VoteRequest request;
+                        request.candidate_id = raft_state_.getNodeId();
+                        request.term = raft_state_.getCurrentTerm();
+                        request.last_log_index = raft_state_.getLog().getLastLogIndex();
+                        request.last_log_term = raft_state_.getLog().getLastLogTerm();
+
+                        for (const auto& member : raft_state_.getClusterMembers()) {
+                            if (member == request.candidate_id) {
+                                continue;
+                            }
+                            if (!running_ || !raft_state_.isCandidate() ||
+                                raft_state_.getCurrentTerm() != request.term) {
+                                break;
+                            }
+
+                            try {
+                                const auto response = vote_callback(member, request);
+                                if (!raft_state_.isCandidate() ||
+                                    raft_state_.getCurrentTerm() != request.term) {
+                                    break;
+                                }
+                                if (response.voter_id != member) {
+                                    updateReplicaHealth(member, false);
+                                    continue;
+                                }
+                                if (response.term > request.term) {
+                                    try {
+                                        raft_state_.becomeFollower(response.term);
+                                    } catch (const std::exception& error) {
+                                        THEMIS_ERROR(
+                                            "[RaftConsensus] failed to persist higher vote-response term {}: {}",
+                                            response.term, error.what());
+                                        read_only_mode_.store(true);
+                                    }
+                                    break;
+                                }
+                                if (response.term != request.term) {
+                                    updateReplicaHealth(member, false);
+                                    continue;
+                                }
+
+                                updateReplicaHealth(member, true);
+                                raft_state_.receiveVote(member, response.vote_granted);
+                            } catch (const std::exception& error) {
+                                THEMIS_WARN("[RaftConsensus] vote request to peer {} failed: {}",
+                                            member, error.what());
+                                updateReplicaHealth(member, false);
+                            }
+                        }
+                    }
+                }
             }
         }
         
@@ -381,6 +477,7 @@ void RaftConsensus::partitionDetectionLoop() {
  * @details Calls: getNodeId(), getCurrentTerm(), getLog(), getCommitIndex(), std::chrono::steady_clock::now(), lock(), reserve(), size().
  */
 void RaftConsensus::sendHeartbeats() {
+    ReplicationCallback replication_cb;
     HeartbeatCallback heartbeat_cb;
     Heartbeat hb;
     hb.leader_id = raft_state_.getNodeId();
@@ -391,8 +488,9 @@ void RaftConsensus::sendHeartbeats() {
     // Collect reachable nodes
     {
         std::lock_guard<std::mutex> lock(replica_mutex_);
+        replication_cb = replication_callback_;
         heartbeat_cb = heartbeat_callback_;
-        if (!heartbeat_cb) {
+        if (!replication_cb && !heartbeat_cb) {
             return;
         }
         hb.reachable_nodes.reserve(replica_states_.size());
@@ -409,9 +507,35 @@ void RaftConsensus::sendHeartbeats() {
         if (member == raft_state_.getNodeId()) {
             continue;  // Skip self
         }
+        if (!raft_state_.isLeader() || raft_state_.getCurrentTerm() != hb.term) {
+            break;
+        }
         
-        bool success = heartbeat_cb(member, hb);
-        updateReplicaHealth(member, success);
+        bool success = false;
+        if (replication_cb) {
+            try {
+                const auto request = buildReplicationRequest(
+                    member, raft_state_.getLog().getLastLogIndex(),
+                    hb.commit_index, hb.term);
+                const auto response = replicateToFollower(
+                    member, request, replication_cb);
+                success = response.term == hb.term && response.success &&
+                    response.match_index >=
+                        (request.entries.empty()
+                             ? request.prev_log_index
+                             : request.entries.back().index);
+            } catch (const std::exception& error) {
+                THEMIS_WARN("[RaftConsensus] heartbeat replication to {} failed: {}",
+                            member, error.what());
+                updateReplicaHealth(member, false);
+            }
+        } else {
+            success = heartbeat_cb(member, hb);
+            updateReplicaHealth(member, success);
+        }
+        if (!raft_state_.isLeader() || raft_state_.getCurrentTerm() != hb.term) {
+            break;
+        }
     }
 }
 
@@ -423,16 +547,123 @@ void RaftConsensus::sendHeartbeats() {
  * @return True when the operation succeeds.
  * @details Calls: callback(), updateReplicaHealth().
  */
-bool RaftConsensus::replicateToFollower(const std::string& node_id,
-                                        const LogEntry& entry,
+AppendEntriesResponse RaftConsensus::replicateToFollower(
+                                        const std::string& node_id,
+                                        const AppendEntriesRequest& request,
                                         const ReplicationCallback& callback) {
     if (!callback) {
-        return false;
+        return AppendEntriesResponse(raft_state_.getCurrentTerm(), false, 0);
     }
     
-    bool success = callback(node_id, entry);
-    updateReplicaHealth(node_id, success);
-    return success;
+    AppendEntriesResponse response;
+    try {
+        response = callback(node_id, request);
+    } catch (const std::exception& error) {
+        THEMIS_WARN("[RaftConsensus] AppendEntries to {} failed: {}",
+                    node_id, error.what());
+        updateReplicaHealth(node_id, false);
+        return AppendEntriesResponse(raft_state_.getCurrentTerm(), false, 0);
+    }
+
+    const uint64_t required_match_index =
+        request.entries.empty() ? request.prev_log_index : request.entries.back().index;
+    const bool success = response.term == request.term && response.success &&
+                         response.match_index >= required_match_index;
+    if (response.term > request.term) {
+        receiveAppendEntriesResponse(node_id, response);
+    } else if (success) {
+        auto verified_prefix = response;
+        verified_prefix.match_index = required_match_index;
+        receiveAppendEntriesResponse(node_id, verified_prefix);
+    } else if (!response.success) {
+        receiveAppendEntriesResponse(node_id, response);
+    } else {
+        auto rejected = response;
+        rejected.success = false;
+        receiveAppendEntriesResponse(node_id, rejected);
+    }
+    return response;
+}
+
+AppendEntriesRequest RaftConsensus::buildReplicationRequest(
+    const std::string& node_id,
+    uint64_t target_index,
+    uint64_t leader_commit,
+    uint64_t term) const {
+    uint64_t next_index = 1;
+    uint64_t match_index = 0;
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+        const auto replica = replica_states_.find(node_id);
+        if (replica == replica_states_.end()) {
+            throw std::runtime_error("Raft replication requested for an unknown peer");
+        }
+        next_index = std::max<uint64_t>(1, replica->second.next_index);
+        match_index = replica->second.match_index;
+    }
+
+    const auto& log = raft_state_.getLog();
+    const uint64_t snapshot_index = log.getSnapshotIndex();
+    const uint64_t snapshot_term = log.getSnapshotTerm();
+    if (snapshot_index > 0 && next_index <= snapshot_index) {
+        if (match_index < snapshot_index) {
+            throw std::runtime_error(
+                "Raft follower requires snapshot installation before AppendEntries catch-up");
+        }
+        next_index = snapshot_index + 1;
+    }
+
+    if (target_index != std::numeric_limits<uint64_t>::max() &&
+        next_index > target_index + 1) {
+        next_index = target_index + 1;
+    }
+    const uint64_t previous_index = next_index - 1;
+    uint64_t previous_term = 0;
+    if (previous_index == snapshot_index && snapshot_index > 0) {
+        previous_term = snapshot_term;
+    } else if (previous_index != 0) {
+        const auto previous_entry = log.getEntry(previous_index);
+        if (!previous_entry) {
+            throw std::runtime_error("Raft replication anchor is not present in the local log");
+        }
+        previous_term = previous_entry->term;
+    }
+
+    AppendEntriesRequest request;
+    request.term = term;
+    request.leader_id = raft_state_.getNodeId();
+    request.prev_log_index = previous_index;
+    request.prev_log_term = previous_term;
+    request.leader_commit = leader_commit;
+
+    std::size_t payload_bytes = 0;
+    uint64_t index = next_index;
+    while (index <= target_index &&
+           request.entries.size() < RaftAppendEntriesLimits::max_entries_per_rpc) {
+        const auto entry = log.getEntry(index);
+        if (!entry) {
+            throw std::runtime_error("Raft replication range is not present in the local log");
+        }
+        if (entry->command.size() > RaftAppendEntriesLimits::max_command_bytes) {
+            throw std::runtime_error("Raft command exceeds the transport's 1 MiB limit");
+        }
+        if (!request.entries.empty() &&
+            entry->command.size() >
+                RaftAppendEntriesLimits::max_payload_bytes - payload_bytes) {
+            break;
+        }
+        if (entry->command.size() >
+            RaftAppendEntriesLimits::max_payload_bytes - payload_bytes) {
+            throw std::runtime_error("Raft replication batch exceeds the transport payload limit");
+        }
+        payload_bytes += entry->command.size();
+        request.entries.push_back(*entry);
+        if (index == std::numeric_limits<uint64_t>::max()) {
+            break;
+        }
+        ++index;
+    }
+    return request;
 }
 
 /**

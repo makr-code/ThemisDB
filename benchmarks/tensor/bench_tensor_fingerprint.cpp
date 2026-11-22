@@ -12,6 +12,7 @@
 #include <benchmark/benchmark.h>
 #include <algorithm>
 #include <cmath>
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <random>
@@ -112,14 +113,18 @@ protected:
 BENCHMARK_DEFINE_F(FingerprintInsertFixture, BM_FingerprintInsert)(
     benchmark::State& state) {
     std::size_t iter = 0;
+    double total_insert_seconds = 0.0;
     for (auto _ : state) {
         const auto idx = iter % trains_.size();
+        const auto start = std::chrono::steady_clock::now();
         graph_->insert("tensor_" + std::to_string(iter), trains_[idx]);
+        total_insert_seconds += std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
         ++iter;
     }
-    state.counters["inserts_per_sec"] = benchmark::Counter(
-        static_cast<double>(iter),
-        benchmark::Counter::kIsRate);
+    // Preserve insert throughput using the measured operation wall time.
+    state.counters["inserts_per_sec"] =
+        benchmark::Counter(static_cast<double>(iter) / total_insert_seconds);
 }
 
 // Range: valid tensor-train mode counts {2,4,8}

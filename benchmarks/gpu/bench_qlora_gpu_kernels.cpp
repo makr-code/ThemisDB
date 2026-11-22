@@ -355,6 +355,12 @@ BENCHMARK(BM_Memory_Transfer_HtoD_Async)
     ->Arg(1024 * 1024)
     ->Unit(benchmark::kMillisecond);
 
+#else
+static void BM_QLoRAGPUKernels_CUDADisabled(benchmark::State& state) {
+    state.SkipWithMessage("CUDA QLoRA kernels are unavailable in this build");
+}
+BENCHMARK(BM_QLoRAGPUKernels_CUDADisabled);
+
 #endif // THEMIS_ENABLE_CUDA
 
 BENCHMARK_MAIN();

@@ -169,7 +169,7 @@ static void BM_GeoGPU_BatchIntersects(benchmark::State& state) {
 
     ISpatialComputeBackend* backend = getGpuSpatialBackend();
     if (!backend || !backend->isAvailable()) {
-        state.SkipWithError("GPU geo backend not available");
+        state.SkipWithMessage("GPU geo backend not available");
         return;
     }
 
@@ -254,7 +254,7 @@ static void BM_GeoGPU_ExactIntersects(benchmark::State& state) {
 
     ISpatialComputeBackend* backend = getGpuSpatialBackend();
     if (!backend || !backend->isAvailable()) {
-        state.SkipWithError("GPU geo backend not available");
+        state.SkipWithMessage("GPU geo backend not available");
         return;
     }
 
@@ -324,7 +324,7 @@ static void BM_GeoGPU_GeodesicDistance(benchmark::State& state) {
 
     ISpatialComputeBackend* backend = getGpuSpatialBackend();
     if (!backend || !backend->isAvailable()) {
-        state.SkipWithError("GPU geo backend not available");
+        state.SkipWithMessage("GPU geo backend not available");
         return;
     }
 
@@ -408,7 +408,7 @@ static void BM_GeoGPU_StBuffer(benchmark::State& state) {
 
     ISpatialComputeBackend* backend = getGpuSpatialBackend();
     if (!backend || !backend->isAvailable()) {
-        state.SkipWithError("GPU geo backend not available");
+        state.SkipWithMessage("GPU geo backend not available");
         return;
     }
 

@@ -28,6 +28,7 @@
 #include <cmath>
 #include <algorithm>
 #include <numeric>
+#include <vector>
 
 using namespace themis::llm::lora;
 using namespace themis::training;
@@ -86,6 +87,17 @@ TEST(LoRAWeightManipulation, LoRALayer_B_InitializedWithKaiming) {
     EXPECT_TRUE(b_has_nonzero) << "B should be Kaiming-initialized (non-zero)";
 }
 
+TEST(LoRAWeightManipulation, KaimingUniform_ValuesRespectFanInBound) {
+    constexpr size_t fan_in = 64;
+    const Tensor weights = tensor_utils::kaiming_uniform({fan_in, 8});
+    const float bound = std::sqrt(6.0f / static_cast<float>(fan_in));
+
+    ASSERT_FALSE(weights.data().empty());
+    for (const float value : weights.data()) {
+        EXPECT_LE(std::abs(value), bound);
+    }
+}
+
 TEST(LoRAWeightManipulation, LoRALayer_A_InitializedWithZeros) {
     // A matrix starts from zero as per the LoRA paper (output is zero at init)
     LoRALayer layer(64, 64, 8, 1.0f);
@@ -112,7 +124,7 @@ TEST(LoRAWeightManipulation, LoRALayer_Forward_OutputShape) {
 }
 
 TEST(LoRAWeightManipulation, LoRALayer_Forward_InitialOutputAllZero) {
-    // Since A=0 at init, forward output = input @ B @ A * scaling = 0
+    // Since A=0 at init, the factorized forward output is zero.
     LoRALayer layer(16, 16, 4, 1.0f);
     Tensor input({2, 16}, 0.5f);
     Tensor output = layer.forward(input);
@@ -126,6 +138,90 @@ TEST(LoRAWeightManipulation, LoRALayer_Forward_InitialOutputAllZero) {
     }
 }
 
+TEST(LoRAWeightManipulation, LoRALayer_ForwardMatchesLowRankProductWithScaling) {
+    LoRALayer layer(3, 2, 2, 0.5f);
+    Tensor B({3, 2});
+    Tensor A({2, 2});
+    const float b_values[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
+    const float a_values[] = {2.0f, 1.0f, -1.0f, 3.0f};
+    for (size_t i = 0; i < B.size(); ++i) {
+        B[i] = b_values[i];
+    }
+    for (size_t i = 0; i < A.size(); ++i) {
+        A[i] = a_values[i];
+    }
+    layer.set_weights(B, A);
+
+    Tensor input({2, 3});
+    input[0] = 1.0f;
+    input[1] = 0.0f;
+    input[2] = 2.0f;
+    input[3] = 0.5f;
+    input[4] = 1.0f;
+    input[5] = -1.0f;
+
+    const Tensor output = layer.forward(input);
+
+    ASSERT_EQ(output.shape(), (std::vector<size_t>{2, 2}));
+    EXPECT_FLOAT_EQ(output[0], 4.0f);
+    EXPECT_FLOAT_EQ(output[1], 26.5f);
+    EXPECT_FLOAT_EQ(output[2], -1.0f);
+    EXPECT_FLOAT_EQ(output[3], -2.25f);
+}
+
+TEST(LoRAWeightManipulation, LoRALayer_BackwardComputesExpectedGradients) {
+    LoRALayer layer(2, 2, 2, 0.5f);
+    Tensor B({2, 2});
+    Tensor A({2, 2});
+    B[0] = 1.0f; B[1] = 2.0f;
+    B[2] = 3.0f; B[3] = 4.0f;
+    A[0] = 2.0f; A[1] = 1.0f;
+    A[2] = -1.0f; A[3] = 3.0f;
+    layer.set_weights(B, A);
+
+    Tensor input({1, 2});
+    input[0] = 1.0f;
+    input[1] = 2.0f;
+    Tensor grad_output({1, 2});
+    grad_output[0] = 0.3f;
+    grad_output[1] = -0.4f;
+
+    const Tensor output = layer.forward(input);
+    ASSERT_EQ(output.shape(), (std::vector<size_t>{1, 2}));
+    const Tensor grad_input = layer.backward(grad_output);
+
+    ASSERT_EQ(grad_input.shape(), (std::vector<size_t>{1, 2}));
+    EXPECT_NEAR(grad_input[0], -1.4f, 1e-6f);
+    EXPECT_NEAR(grad_input[1], -2.7f, 1e-6f);
+
+    const auto parameters = layer.parameters();
+    ASSERT_EQ(parameters.size(), 2u);
+    ASSERT_NE(parameters[0]->grad, nullptr);
+    ASSERT_NE(parameters[1]->grad, nullptr);
+    EXPECT_NEAR((*parameters[0]->grad)[0], 0.1f, 1e-6f);
+    EXPECT_NEAR((*parameters[0]->grad)[1], -0.75f, 1e-6f);
+    EXPECT_NEAR((*parameters[0]->grad)[2], 0.2f, 1e-6f);
+    EXPECT_NEAR((*parameters[0]->grad)[3], -1.5f, 1e-6f);
+    EXPECT_NEAR((*parameters[1]->grad)[0], 1.05f, 1e-6f);
+    EXPECT_NEAR((*parameters[1]->grad)[1], -1.4f, 1e-6f);
+    EXPECT_NEAR((*parameters[1]->grad)[2], 1.5f, 1e-6f);
+    EXPECT_NEAR((*parameters[1]->grad)[3], -2.0f, 1e-6f);
+}
+
+TEST(LoRAWeightManipulation, AttentionLoRA_ForwardBackwardPreserveCallerInput) {
+    AttentionLoRA layer(8, 2);
+    Tensor input({2, 8}, 0.25f);
+    const Tensor original_input = input.clone();
+
+    const Tensor output = layer.forward(input);
+    ASSERT_EQ(output.shape(), input.shape());
+    EXPECT_EQ(input.data(), original_input.data());
+
+    const Tensor grad_input = layer.backward(Tensor({2, 8}, 0.5f));
+    EXPECT_EQ(grad_input.shape(), input.shape());
+    EXPECT_EQ(input.data(), original_input.data());
+}
+
 // ============================================================================
 // LoRALayer + AdamOptimizer – weight update
 // ============================================================================
@@ -136,27 +232,39 @@ TEST(LoRAWeightManipulation, AdamOptimizer_StepMutatesWeights) {
     AdamOptimizer optimizer(0.01f);
     optimizer.add_parameters(layer.parameters());
 
-    // Capture initial B weights
+    // Capture initial weights
     auto [B_before, A_before] = layer.get_weights();
 
-    // One training step
+    // A is zero-initialized, so the first step updates A but cannot update B.
     runStep(layer, optimizer, 2, D, 0);
-
-    auto [B_after, A_after] = layer.get_weights();
-
-    // B should have changed (started from non-zero Kaiming values)
+    auto [B_after_first, A_after_first] = layer.get_weights();
     bool b_changed = false;
     for (size_t i = 0; i < B_before.size(); ++i) {
-        if (std::abs(B_after[i] - B_before[i]) > 1e-9f) { b_changed = true; break; }
+        if (std::abs(B_after_first[i] - B_before[i]) > 1e-9f) { b_changed = true; break; }
     }
-    EXPECT_TRUE(b_changed) << "Adam should update B after one step";
+    EXPECT_FALSE(b_changed) << "B gradient is zero while A is zero-initialized";
 
-    // A should have changed from zero (gradient flows through B)
     bool a_changed = false;
     for (size_t i = 0; i < A_before.size(); ++i) {
-        if (std::abs(A_after[i] - A_before[i]) > 1e-9f) { a_changed = true; break; }
+        if (std::abs(A_after_first[i] - A_before[i]) > 1e-9f) { a_changed = true; break; }
     }
-    EXPECT_TRUE(a_changed) << "Adam should update A after one step";
+    EXPECT_TRUE(a_changed) << "Adam should update A on the first step";
+
+    // Once A is non-zero, the second step can update B.
+    runStep(layer, optimizer, 2, D, 1);
+    auto [B_after_second, A_after_second] = layer.get_weights();
+    b_changed = false;
+    for (size_t i = 0; i < B_before.size(); ++i) {
+        if (std::abs(B_after_second[i] - B_before[i]) > 1e-9f) { b_changed = true; break; }
+    }
+    EXPECT_TRUE(b_changed) << "Adam should update B after A has been updated";
+
+    // A remains trainable after the first step.
+    a_changed = false;
+    for (size_t i = 0; i < A_before.size(); ++i) {
+        if (std::abs(A_after_second[i] - A_before[i]) > 1e-9f) { a_changed = true; break; }
+    }
+    EXPECT_TRUE(a_changed) << "Adam should keep updating A";
 }
 
 // ============================================================================

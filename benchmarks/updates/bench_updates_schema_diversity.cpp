@@ -80,7 +80,9 @@ BENCHMARK_F(SchemaMigrationBenchmark, AddColumn)(::benchmark::State& state) {
         ::benchmark::DoNotOptimize(result);
     }
 
+#if !defined(_WIN32)  // Google Benchmark's rate uses cpu_time, zero in this Windows smoke result.
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+#endif
 }
 
 BENCHMARK_F(SchemaMigrationBenchmark, AddIndex)(::benchmark::State& state) {
@@ -102,7 +104,9 @@ BENCHMARK_F(SchemaMigrationBenchmark, AddIndex)(::benchmark::State& state) {
         ::benchmark::DoNotOptimize(result);
     }
 
+#if !defined(_WIN32)
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+#endif
 }
 
 BENCHMARK_REGISTER_F(SchemaMigrationBenchmark, AddColumn)

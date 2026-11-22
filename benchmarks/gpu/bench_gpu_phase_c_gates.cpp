@@ -86,7 +86,9 @@ BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_query_accel_baseline)(benchmark::St
   }
   
   // Metadata
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
   state.SetItemsProcessed(state.iterations() * data_size);
+#endif
   state.SetLabel("query_accel_baseline");
 }
 
@@ -121,7 +123,9 @@ BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)(be
     benchmark::DoNotOptimize(result);
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations() * data_size);
+#endif
   state.SetLabel("query_accel_with_error_recovery");
 }
 
@@ -156,7 +160,9 @@ BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_memory_alloc_baseline)(benchmark::S
     benchmark::DoNotOptimize(ptrs);
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations() * alloc_count);
+#endif
   state.SetLabel("memory_alloc_baseline");
 }
 
@@ -192,7 +198,9 @@ BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_timeout_guard_overhead)(benchmark::
     benchmark::DoNotOptimize(timed_out);
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations() * data_size);
+#endif
   state.SetLabel("timeout_guard_overhead");
 }
 
@@ -233,7 +241,9 @@ BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_memory_manager_exception_safety)(be
     }
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations() * alloc_count);
+#endif
   state.SetLabel("memory_manager_exception_safety");
 }
 
@@ -267,7 +277,9 @@ BENCHMARK_F(GPUPhaseCBenchmark, bench_error_handler_lookup)(benchmark::State& st
     }
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations() * error_classes.size());
+#endif
   state.SetLabel("error_handler_lookup");
 }
 
@@ -288,7 +300,9 @@ BENCHMARK_F(GPUPhaseCBenchmark, bench_error_recording_concurrent)(benchmark::Sta
     benchmark::DoNotOptimize(class_name);
   }
   
+#if !defined(_WIN32)
   state.SetItemsProcessed(state.iterations());
+#endif
   state.SetLabel("error_recording_concurrent");
 }
 

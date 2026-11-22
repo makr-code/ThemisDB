@@ -612,52 +612,52 @@
         "label": "OCC Commit P50",
         "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
-        "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 100 µs",
-        "notes": "CommitLatency/1 reports whole-iteration timing for a single-write transaction. Neither the primary nor the fallback exports per-commit P50; the SLO remains unverified."
+        "notes": "CommitLatency/1 exports nearest-rank p50_real_time in microseconds from steady-clock samples around only the successful commitTransaction call; setup writes are excluded."
       },
       "TX-2": {
         "label": "OCC Commit P99",
         "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
         "primary_case": "TransactionBenchmarkFixture_CommitLatency",
-        "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 5 ms",
-        "notes": "CommitLatency/100 reports whole-iteration timing for a 100-write transaction. Neither the primary nor the fallback exports per-commit P99; the SLO remains unverified."
+        "notes": "CommitLatency/100 exports nearest-rank p99_real_time in microseconds from steady-clock samples around only the successful commitTransaction call; setup writes are excluded."
       },
       "TX-3": {
         "label": "Write-only transaction throughput (single thread)",
         "primary_benchmark": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
-        "fallback_case": "BM_TransactionContention",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
         "status": "mapped",
         "slo_target": "> 6 k/s",
         "measured_v134": "6.4 k/s",
-        "notes": "WriteOnlyTransaction runs with one thread and performs ten entity writes per committed transaction. items_per_second and the tps counter both represent committed transactions per second."
+        "notes": "WriteOnlyTransaction runs with one thread and performs ten entity writes per committed transaction. items_per_second and the tps counter both represent committed transactions per second. The former BM_TransactionContention case was a single-thread hot-key overwrite, not a contention workload, and is not a fallback."
       },
       "TX-4": {
         "label": "2PC Latenz (5 Shards)",
         "primary_benchmark": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
         "primary_case": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
-        "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
         "status": "mapped",
         "slo_target": "≤ 5 ms",
-        "notes": "TwoPhaseCommitLatency drives TwoPhaseCommitCoordinator + 5 in-process TwoPhaseCommitParticipant mocks (null storage callbacks, WAL disabled) and measures full Phase-1/Phase-2 protocol latency directly. MixedTransaction remains as a single-node fallback."
+        "notes": "TwoPhaseCommitLatency drives the coordinator and five in-process participants with separate durable WALs and valid per-shard fencing tokens; it measures full PREPARE/COMMIT latency but uses no-op storage-application callbacks. A single-node mixed transaction is not a comparable fallback."
       },
       "TX-5": {
         "label": "SAGA Compensation Time",
         "primary_benchmark": "SagaBenchmarkFixture_DatabaseWriteCompensation",
         "primary_case": "SagaBenchmarkFixture_DatabaseWriteCompensation",
-        "fallback_case": "SagaBenchmarkFixture_SimpleCompensation",
+        "fallback_case": null,
         "file": "bench_saga_compensation.cpp",
         "status": "mapped",
         "slo_target": "≤ 20 ms",
-        "notes": "DatabaseWriteCompensation executes Saga::compensate() over real compensation handlers directly; SimpleCompensation remains a lightweight structural fallback."
+        "notes": "DatabaseWriteCompensation/50 is the largest registered write profile; it validates every forward database write, measures only compensation wall time with ManualTime, and fails if any erase/compensation fails. The simulated SimpleCompensation case is not a comparable fallback."
       },
       "TX-6": {
         "label": "Deadlock Detection Overhead",
@@ -666,28 +666,58 @@
         "fallback_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder",
         "file": "bench_transaction_throughput.cpp",
         "status": "mapped",
-        "slo_target": "≤ 1 % overhead (vs. 5 % baseline)",
-        "notes": "DeadlockDetectionOverhead_Predict calls predictDeadlockProbability() on a pre-trained DeadlockPredictor (1 000 patterns, 5 % deadlock rate, 20-key space) and measures per-call latency directly. DeadlockDetectionOverhead_LockOrder benchmarks recommendLockOrder() as a secondary overhead metric."
+        "slo_target": "≤ 1 µs direct predictor-call latency",
+        "notes": "DeadlockDetectionOverhead_Predict calls predictDeadlockProbability() on a pre-trained DeadlockPredictor (1 000 patterns, 5 % deadlock rate, 20-key space) and reports per-call wall time. The 1 µs threshold is a direct latency limit, not a baseline-relative percentage."
       },
       "TX-7": {
-        "label": "False Positive Rate",
+        "label": "Uncontended OCC False Conflict Rate",
         "primary_benchmark": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
         "primary_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
-        "fallback_case": "TransactionBenchmarkFixture_AbortTransaction",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
         "status": "mapped",
         "slo_target": "< 5 %",
-        "notes": "OccReadVersionAndUpdate runs single-threaded (Threads(1)) over a 100-key space; with no concurrent writes the conflicts counter reports implementation-level false positives directly. AbortTransaction remains the fallback for abort-rate regression checks."
+        "notes": "OccReadVersionAndUpdate runs single-threaded over a 100-key space; exports false_conflict_rate_percent = conflict-aborted attempts / (committed + conflict-aborted attempts). No concurrent writer is present, so observed OCC conflicts are false conflicts in this profile."
       },
       "TX-8": {
-        "label": "Low-Contention Success Rate",
+        "label": "Uncontended OCC Insert Success Rate",
         "primary_benchmark": "TransactionBenchmarkFixture_OccOptimisticPut",
         "primary_case": "TransactionBenchmarkFixture_OccOptimisticPut",
-        "fallback_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "fallback_case": null,
         "file": "bench_transaction_throughput.cpp",
         "status": "mapped",
         "slo_target": "> 90 %",
-        "notes": "OccOptimisticPut under low-contention workload measures success rate directly via commit vs. abort counters."
+        "notes": "OccOptimisticPut performs unique-key inserts on one thread (no contending writers); exports success_rate_percent from committed versus attempted inserts. This is an uncontended insertion baseline, not a contention success-rate claim."
+      },
+      "TX-9": {
+        "label": "Distributed 2PC throughput (3 in-process participants)",
+        "primary_benchmark": "DistributedPhase4Fixture_DistributedThroughput_2PC_3Participants",
+        "primary_case": "DistributedPhase4Fixture_DistributedThroughput_2PC_3Participants",
+        "fallback_case": null,
+        "file": "bench_transaction_phase4.cpp",
+        "status": "mapped",
+        "slo_target": "> 5 k/s",
+        "notes": "Maps the existing AC-17 gate to Google Benchmark items_per_second (one item is one completed 2PC transaction). Exports attempted, committed, aborted, and retried counts; this benchmark has no retry path, so retried is zero. The fixture uses three in-process no-op participant callbacks and a durable coordinator WAL; it is not networked, participant-WAL, or representative production evidence. No equivalent fallback is available without changing the protocol and durability workload."
+      },
+      "TX-10": {
+        "label": "Distributed 2PC round-trip P99 (3 in-process participants)",
+        "primary_benchmark": "DistributedPhase4Fixture_DistributedThroughput_2PC_3Participants",
+        "primary_case": "DistributedPhase4Fixture_DistributedThroughput_2PC_3Participants",
+        "fallback_case": null,
+        "file": "bench_transaction_phase4.cpp",
+        "status": "mapped",
+        "slo_target": "≤ 50 ms",
+        "notes": "Checks the existing AC-17 P99 latency gate using nearest-rank p99_real_time in the benchmark time_unit. Exports attempted, committed, aborted, and retried counts; this benchmark has no retry path, so retried is zero. In-process no-op participants and coordinator WAL only; not production network/participant-WAL evidence."
+      },
+      "TX-11": {
+        "label": "Distributed 2PC abort-path P99 (3 in-process participants)",
+        "primary_benchmark": "DistributedPhase4Fixture_DistributedThroughput_AbortPath",
+        "primary_case": "DistributedPhase4Fixture_DistributedThroughput_AbortPath",
+        "fallback_case": null,
+        "file": "bench_transaction_phase4.cpp",
+        "status": "mapped",
+        "slo_target": "≤ 50 ms",
+        "notes": "Checks the existing AC-17 abort-path P99 latency gate using nearest-rank p99_real_time in the benchmark time_unit. Exports attempted, committed, aborted, and retried counts; this benchmark has no retry path, so retried is zero. In-process no-op participants and coordinator WAL only; not production network/participant-WAL evidence."
       }
     },
     "llm": {

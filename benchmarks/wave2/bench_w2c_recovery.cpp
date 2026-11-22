@@ -137,6 +137,7 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
 
     std::mt19937 rng(77);
     std::uniform_int_distribution<int> keyDist(0, numKeys - 1);
+    double total_read_latency_us = 0.0;
 
     for (auto _ : state) {
         // Re-open DB each iteration to flush OS cache effects (cold start)
@@ -147,7 +148,10 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
         // Timed: cold read
         std::string key = "k_" + std::to_string(keyDist(rng));
         std::string out = {};
+        const auto read_start = std::chrono::steady_clock::now();
         bool found = db->get(key, out);
+        total_read_latency_us += std::chrono::duration<double, std::micro>(
+            std::chrono::steady_clock::now() - read_start).count();
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
 
@@ -156,11 +160,8 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
         state.ResumeTiming();
     }
 
-    state.SetItemsProcessed(state.iterations());
     state.counters["latency_us"] = benchmark::Counter(
-        static_cast<double>(state.iterations()),
-        benchmark::Counter::kIsRate | benchmark::Counter::kInvert,
-        benchmark::Counter::OneK::kIs1000);
+        total_read_latency_us / static_cast<double>(state.iterations()));
 
     cleanup_error.clear();
     fs::remove_all(dbPath, cleanup_error);
@@ -224,20 +225,21 @@ protected:
 BENCHMARK_DEFINE_F(W2C_WarmReadFixture, WarmRead)(benchmark::State& state) {
     std::mt19937 rng(88);
     std::uniform_int_distribution<int> keyDist(0, kWarmKeys - 1);
+    double total_read_latency_us = 0.0;
 
     for (auto _ : state) {
         std::string key = "k_" + std::to_string(keyDist(rng));
         std::string out = {};
+        const auto read_start = std::chrono::steady_clock::now();
         bool found = db_->get(key, out);
+        total_read_latency_us += std::chrono::duration<double, std::micro>(
+            std::chrono::steady_clock::now() - read_start).count();
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
     }
 
-    state.SetItemsProcessed(state.iterations());
     state.counters["latency_us"] = benchmark::Counter(
-        static_cast<double>(state.iterations()),
-        benchmark::Counter::kIsRate | benchmark::Counter::kInvert,
-        benchmark::Counter::OneK::kIs1000);
+        total_read_latency_us / static_cast<double>(state.iterations()));
 }
 
 BENCHMARK_REGISTER_F(W2C_WarmReadFixture, WarmRead)

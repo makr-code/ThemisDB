@@ -233,8 +233,3 @@ TEST_F(WasmModuleHashValidationTest, WasmHashValidation_ManifestChain) {
 }  // namespace
 }  // namespace plugins
 }  // namespace themis
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

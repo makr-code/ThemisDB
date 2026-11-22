@@ -83,14 +83,19 @@ static void BM_ExtractEntities_Throughput(benchmark::State& state) {
     auto toolbox = IngestionToolbox::createDefault();
     const std::string text(kMediumText);
 
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         auto entities = toolbox->extractEntities(text, "text/plain", "clause.txt");
         benchmark::DoNotOptimize(entities);
     }
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    const double operations_per_second =
+        static_cast<double>(state.iterations()) / elapsed;
+    // These throughput gates use wall time because cpu_time may be zero on Windows.
+    state.counters["items_per_second"] = benchmark::Counter(operations_per_second);
     state.counters["ops_per_sec"] =
-        benchmark::Counter(static_cast<double>(state.iterations()),
-                           benchmark::Counter::kIsRate);
+        benchmark::Counter(operations_per_second);
 }
 BENCHMARK(BM_ExtractEntities_Throughput)
     ->Iterations(100)
@@ -174,15 +179,20 @@ static void BM_ContentFingerprinting_Throughput(benchmark::State& state) {
     ContentFingerprinter fingerprinter;
     const std::string text = MakeMediumText(1);  // ~1KB
 
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         auto fp = fingerprinter.compute(text);
         benchmark::DoNotOptimize(fp.sha256_hex);
         benchmark::DoNotOptimize(fp.latency_us);
     }
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    const double operations_per_second =
+        static_cast<double>(state.iterations()) / elapsed;
+    // These throughput gates use wall time because cpu_time may be zero on Windows.
+    state.counters["items_per_second"] = benchmark::Counter(operations_per_second);
     state.counters["ops_per_sec"] =
-        benchmark::Counter(static_cast<double>(state.iterations()),
-                           benchmark::Counter::kIsRate);
+        benchmark::Counter(operations_per_second);
 }
 BENCHMARK(BM_ContentFingerprinting_Throughput)
     ->Iterations(1000)

@@ -202,8 +202,11 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
         }
     }
 
-    // ── 1. Create toolbox (uses createDefault() which registers NER + LLM steps)
-    auto toolbox = IngestionToolbox::createDefault();
+    // ── 1. Install a caller-supplied engine before configuring its steps.
+    auto toolbox = impl_->engine
+        ? IngestionToolbox::createDefault()
+        : IngestionToolbox::createDefault(
+              impl_->tensor_decomp_backend, impl_->tensor_core_bridge);
     if (!toolbox) {
         throw std::logic_error("ToolboxBuilder::build(): failed to create default IngestionToolbox");
     }
@@ -215,6 +218,31 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
 
     // ── 3. Register format-extractor backed builtin steps
     auto& reg = toolbox->stepRegistry();
+
+    // A caller-supplied engine replaces the default registry, so inject any
+    // explicitly configured tensor dependencies into that registry as well.
+    if (impl_->engine && impl_->tensor_decomp_backend) {
+        auto registered = reg.registerStep(
+            "builtin.chunk_tt_decompose",
+            ingestion::builtin::createChunkTtDecomposeStep(
+                impl_->tensor_decomp_backend));
+        if (!registered) {
+            throw std::logic_error(
+                "ToolboxBuilder::build(): failed to register tensor decomposition step: " +
+                registered.error().message());
+        }
+    }
+    if (impl_->engine && impl_->tensor_core_bridge) {
+        auto registered = reg.registerStep(
+            "builtin.tensor_core_bridge",
+            ingestion::builtin::createTensorCoreBridgeStep(
+                impl_->tensor_core_bridge));
+        if (!registered) {
+            throw std::logic_error(
+                "ToolboxBuilder::build(): failed to register tensor core sink step: " +
+                registered.error().message());
+        }
+    }
 
     // Helper: determine which category an extractor belongs to based on its
     // supportedMimeTypes() and register the correct builtin step.
@@ -267,16 +295,6 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
     // ── 4. Inject text-generation backend
     if (impl_->text_backend) {
         toolbox->setTextBackend(impl_->text_backend);
-    }
-
-    // ── 4b. Re-register tensor steps with real backends (if provided)
-    if (impl_->tensor_decomp_backend) {
-        (void)reg.registerStep("builtin.chunk_tt_decompose",
-            ingestion::builtin::createChunkTtDecomposeStep(impl_->tensor_decomp_backend));
-    }
-    if (impl_->tensor_core_bridge) {
-        (void)reg.registerStep("builtin.tensor_core_bridge",
-            ingestion::builtin::createTensorCoreBridgeStep(impl_->tensor_core_bridge));
     }
 
     // ── 5. Load workflow profiles

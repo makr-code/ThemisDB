@@ -5,7 +5,7 @@
  *   ITensorDecompositionBackend interface       TIB-01..TIB-04
  *   NullTensorDecompositionBackend (no-op)      TIB-05..TIB-07
  *   TensorIngestionBridge (concrete)            TIB-08..TIB-12
- *   builtin.chunk_tt_decompose step             TIB-13..TIB-18
+ *   builtin.chunk_tt_decompose step             TIB-13..TIB-18, TIB-21
  *   ExtractionContext::tensor_cores field       TIB-19..TIB-20
  *
  * Acceptance criteria:
@@ -36,6 +36,7 @@
  *   TIB-16  Step produces tensor_cores for compressible embeddings
  *   TIB-17  Step propagates provenance metadata (section_ref, page)
  *   TIB-18  Step skips incompressible chunks (min_kappa gate)
+ *   TIB-21  IngestionToolbox factory installs live tensor bridges
  *
  * ExtractionContext extensions (TIB-19..TIB-20)
  *   TIB-19  ExtractionContext::hasTensorCores() returns false on empty context
@@ -49,6 +50,7 @@
 #include "ingestion/builtin_step_factories.h"
 #include "ingestion/ingestion_step.h"
 #include "tensor/tensor_ingestion_bridge.h"
+#include "toolbox/ingestion_toolbox.h"
 
 #include <memory>
 #include <string>
@@ -325,6 +327,30 @@ TEST(ChunkTtDecomposeStep, TIB18_StepSkipsIncompressibleChunks) {
         }
     }
     EXPECT_TRUE(found_skip_warning);
+}
+
+TEST(ChunkTtDecomposeStep, TIB21_ToolboxFactoryUsesLiveTensorBridges) {
+    auto backend = std::make_shared<TensorIngestionBridge>(0.05, 0, 0.0);
+    auto sink = std::make_shared<InMemoryTensorCoreBridge>();
+    auto toolbox = themis::toolbox::IngestionToolbox::createDefault(backend, sink);
+
+    auto decompose = toolbox->stepRegistry().getStep("builtin.chunk_tt_decompose");
+    auto persist = toolbox->stepRegistry().getStep("builtin.tensor_core_bridge");
+    ASSERT_NE(decompose, nullptr);
+    ASSERT_NE(persist, nullptr);
+
+    auto ctx = makeContextWithEmbedding("builder-live", makeRankOneEmbedding(32, 32));
+    StepConfig decompose_config;
+    decompose_config.config = {{"min_kappa", 0.0}, {"epsilon", 0.05}};
+    auto decomposed = decompose->execute(ctx, decompose_config);
+    ASSERT_TRUE(decomposed.has_value());
+    ASSERT_FALSE(ctx.tensor_cores.empty());
+
+    StepConfig persist_config;
+    persist_config.config = {{"tenant_id", "builder-test-tenant"}};
+    auto persisted = persist->execute(ctx, persist_config);
+    ASSERT_TRUE(persisted.has_value());
+    EXPECT_EQ(sink->writeCount(), 1u);
 }
 
 // =============================================================================

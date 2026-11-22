@@ -134,6 +134,7 @@ jobs:
           find . -maxdepth 2 -type f -name '*.a' -exec sudo cp {} /usr/lib/ \;
         fi
       preset: community-release
+      build_mode: tests
       configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
       build_targets: >-
         module_distributed_knowledge_test_adapter_capability_announcement_focused

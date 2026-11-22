@@ -130,6 +130,26 @@ TEST_F(DeadlockPredictorTest, PredictProbabilityIsHigherForDeadlockedPairs) {
     EXPECT_GT(prob_ab, prob_cd);
 }
 
+TEST_F(DeadlockPredictorTest, ReusedPairLookupBufferPreservesCanonicalScoring) {
+    DeadlockPredictor::Config cfg;
+    cfg.min_samples_for_prediction = 1;
+    predictor_.setConfig(cfg);
+
+    const std::string long_key_a(48, 'a');
+    const std::string long_key_b(48, 'b');
+    const std::string long_key_c(48, 'c');
+    predictor_.recordTransaction(1, {long_key_a, long_key_b}, 100us);
+    predictor_.recordDeadlock({long_key_a, long_key_b});
+
+    const auto forward = predictor_.predictDeadlockProbability(
+        {long_key_a, long_key_b, long_key_c}, {});
+    const auto reversed = predictor_.predictDeadlockProbability(
+        {long_key_b, long_key_a, long_key_c}, {});
+
+    EXPECT_GT(forward, 0.0);
+    EXPECT_DOUBLE_EQ(forward, reversed);
+}
+
 TEST_F(DeadlockPredictorTest, RecommendLockOrderIsStableWhenNoData) {
     // No history → lexicographic order.
     std::vector<std::string> keys = {"z", "a", "m"};

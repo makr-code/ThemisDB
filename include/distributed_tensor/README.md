@@ -1,6 +1,6 @@
 # Distributed Tensor Public Headers
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-21
 **Source level:** Level 1 — public API
 **SOT domain:** api-contract
 **Canonical references:** `include/distributed_tensor/*.h`, `src/distributed_tensor/CMakeLists.txt`
@@ -38,12 +38,22 @@ These are declarations, not a guarantee that every strategy or integration is
 enabled in a production deployment. Consult the corresponding header and the
 module CMake source list for current details.
 
+The public types described here remain in `themis::distributed_tensor`.
+Source-private manifest/class definitions and summary-first planner types in
+`src/distributed_tensor/include/` use the separate
+`themis::distributed_tensor::detail` namespace and are not substitutes for
+these public interfaces.
+
 **Integrity caveat:** The module CMake target uses the root-level
-`src/distributed_tensor/integrity_verification.cc`, whose `simple_sha256_hash()`
-is an FNV-1a demonstration hash, not SHA-256. The separate nested
-`src/distributed_tensor/src/integrity_verification.cc` with SHA-256 calls is
-not part of that target's source list. Do not treat the default target's
-Merkle-shaped structures or receipts as cryptographic security.
+`src/distributed_tensor/integrity_verification.cc` uses OpenSSL EVP SHA-256
+when OpenSSL Crypto is available and fails closed otherwise. Its versioned
+receipt format binds the artifact ID, manifest content hash/version, and
+declared shard digests, not all metadata or raw shard bytes. Callers must use
+`verify_shard()` to check raw bytes; neither operation authenticates a
+producer. `ArtifactManifest::compute_manifest_hash()` remains a separate
+non-cryptographic checksum. The nested
+`src/distributed_tensor/src/integrity_verification.cc` implementation is not
+part of the target.
 
 **Training caveat:** `TensorTrainingCoordinator` runs registered worker
 callbacks synchronously in-process; it does not provide networked or

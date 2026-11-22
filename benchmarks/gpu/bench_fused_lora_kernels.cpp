@@ -96,7 +96,7 @@ static void BM_LoRAForward_CPU(benchmark::State& state) {
 
 static void BM_LoRAForward_CUDA_Unfused(benchmark::State& state) {
     if (!has_cuda()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -135,7 +135,7 @@ static void BM_LoRAForward_CUDA_Unfused(benchmark::State& state) {
 
 static void BM_LoRAForward_CUDA_Fused(benchmark::State& state) {
     if (!has_cuda()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -174,7 +174,7 @@ static void BM_LoRAForward_CUDA_Fused(benchmark::State& state) {
 
 static void BM_LoRAForward_HIP_Unfused(benchmark::State& state) {
     if (!has_hip()) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -213,7 +213,7 @@ static void BM_LoRAForward_HIP_Unfused(benchmark::State& state) {
 
 static void BM_LoRAForward_HIP_Fused(benchmark::State& state) {
     if (!has_hip()) {
-        state.SkipWithError("HIP not available");
+        state.SkipWithMessage("HIP not available");
         return;
     }
     
@@ -256,7 +256,7 @@ static void BM_LoRAForward_HIP_Fused(benchmark::State& state) {
 
 static void BM_LoRABackward_CUDA_Unfused(benchmark::State& state) {
     if (!has_cuda()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -296,7 +296,7 @@ static void BM_LoRABackward_CUDA_Unfused(benchmark::State& state) {
 
 static void BM_LoRABackward_CUDA_Fused(benchmark::State& state) {
     if (!has_cuda()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -385,7 +385,7 @@ BENCHMARK(BM_LoRABackward_CUDA_Fused)->Args({16, 768, 768, 8})->Unit(benchmark::
 
 static void BM_LoRAForward_CUDA_Optimized(benchmark::State& state) {
     if (!has_cuda()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

@@ -413,7 +413,7 @@ static void BM_InferenceEngine_Standard(benchmark::State& state) {
 
     engine.shutdown();
 }
-BENCHMARK(BM_InferenceEngine_Standard)->Iterations(10);
+BENCHMARK(BM_InferenceEngine_Standard)->Iterations(10)->UseRealTime();
 
 static void BM_InferenceEngine_Speculative(benchmark::State& state) {
     InferenceEngineEnhanced::Config cfg;
@@ -464,7 +464,8 @@ BENCHMARK(BM_InferenceEngine_Speculative)
     ->Arg(2)
     ->Arg(4)
     ->Arg(8)
-    ->Iterations(10);
+    ->Iterations(10)
+    ->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_AsyncEngine_TokensPerSec
@@ -517,7 +518,8 @@ static void BM_AsyncEngine_TokensPerSec(benchmark::State& state) {
 BENCHMARK(BM_AsyncEngine_TokensPerSec)
     ->Arg(1)
     ->Arg(2)
-    ->Iterations(20);
+    ->Iterations(20)
+    ->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_AsyncEngine_LatencyP99
@@ -578,7 +580,7 @@ static void BM_AsyncEngine_LatencyP99(benchmark::State& state) {
 
     engine.shutdown();
 }
-BENCHMARK(BM_AsyncEngine_LatencyP99)->Iterations(3);
+BENCHMARK(BM_AsyncEngine_LatencyP99)->Iterations(3)->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_EnhancedEngine_TokensPerSec
@@ -631,7 +633,8 @@ static void BM_EnhancedEngine_TokensPerSec(benchmark::State& state) {
 BENCHMARK(BM_EnhancedEngine_TokensPerSec)
     ->Arg(1)
     ->Arg(2)
-    ->Iterations(20);
+    ->Iterations(20)
+    ->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_EnhancedEngine_LatencyP99
@@ -683,7 +686,7 @@ static void BM_EnhancedEngine_LatencyP99(benchmark::State& state) {
 
     engine.shutdown();
 }
-BENCHMARK(BM_EnhancedEngine_LatencyP99)->Iterations(3);
+BENCHMARK(BM_EnhancedEngine_LatencyP99)->Iterations(3)->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_OpenAICompatAdapter_ParseRequest
@@ -720,7 +723,7 @@ static void BM_OpenAICompatAdapter_ParseRequest(benchmark::State& state) {
     state.SetLabel("parse_request");
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_OpenAICompatAdapter_ParseRequest)->Iterations(1000);
+BENCHMARK(BM_OpenAICompatAdapter_ParseRequest)->Iterations(1000)->UseRealTime();
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -742,7 +745,7 @@ static void BM_OpenAICompatAdapter_BuildResponse(benchmark::State& state) {
     state.SetLabel("build_response");
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_OpenAICompatAdapter_BuildResponse)->Iterations(1000);
+BENCHMARK(BM_OpenAICompatAdapter_BuildResponse)->Iterations(1000)->UseRealTime();
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Round-trip: parse + build_response; the combined figure must remain ≤ 2 ms.
@@ -808,7 +811,7 @@ static void BM_OpenAICompatAdapter_RoundTrip(benchmark::State& state) {
     state.SetLabel("round_trip");
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_OpenAICompatAdapter_RoundTrip)->Iterations(1000);
+BENCHMARK(BM_OpenAICompatAdapter_RoundTrip)->Iterations(1000)->UseRealTime();
 
 // ═══════════════════════════════════════════════════════════════════
 // BM_FanOutFailureEnvelope_Aggregation

@@ -51,6 +51,55 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 
 ## Current Status
 
+### Raft proposal and follower-prefix recovery (2026-11-22)
+
+An uncommitted tail is preserved on quorum failure without blocking all later
+proposal attempts. Each proposal invocation appends a distinct current-term
+entry after the retained prefix, including repeated identical command bytes;
+the API has no request-ID/idempotency contract, so retries have at-least-once
+semantics. A new current-term entry can commit the retained prefix after quorum
+durably acknowledges through it. Proposal replication and production
+AppendEntries heartbeats use tracked follower `next_index` and bounded batches
+(256 entries, 1 MiB per command, 3 MiB aggregate); rejection backs up progress
+for a later retry. The leader still commits only after verified durable
+acknowledgements, and does not truncate its uncommitted entries. Followers that
+require a compacted snapshot still need the existing snapshot-installation
+boundary; this change adds no snapshot-transfer path. The missing follower
+installation path is tracked in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
+Multi-node commands above the transport's 1 MiB per-command limit are rejected
+before the leader durably appends them.
+
+Focused source regressions cover quorum restoration with repeated identical
+commands producing distinct entries, pre-append rejection of an oversized
+multi-node command, advancing a retained prefix with a new term's command, and
+durable follower catch-up.
+They are not yet runtime-validated; full build/test and multi-process recovery
+evidence remain open.
+
+### Raft election transport seam (2026-11-20)
+
+`RaftConsensus` now issues peer `VoteRequest`s through an optional callback,
+retries elections after a candidate timeout, validates response identity/term,
+and steps down on a higher-term response. Multi-node candidates and voters
+require healthy durable journals; `RaftState::handleVoteRequest` also rejects
+non-members and stale candidate logs before granting a durable vote. This is
+now wired to shard gRPC vote/append handlers with verified mTLS identity
+bindings, five-second maximum deadlines, and explicit group resolution.
+`RaftShardManager` installs peer callbacks only when a strict per-peer client
+resolver is configured. Without it, multi-node elections remain unable to elect
+a leader. Focused source files compiled directly, but the new gRPC integration
+test and multi-process behavior are not yet runtime-validated. See [API.md](API.md)
+and the open integration boundary in
+[`src/replication/ROADMAP.md`](../replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary).
+
+`RaftShardManager` now treats the manager key as the logical Raft group ID and
+uses the nested `RaftConfig::node_id` field in `Config::raft_config` as the
+local voting member. Existing configurations must set that ID; there is no
+fallback from group ID to member identity.
+Initialization rejects empty/duplicate memberships and groups that omit the
+configured local node. This separates the RPC group-routing key from the mTLS
+identity/member ID; the per-peer resolver now configures network callbacks.
+
 ### DIS-06 / #8200 recovery contract (2026-11-19)
 
 The named coordinator pair uses `TwoPhaseCommitCoordinator` as its durable
@@ -346,6 +395,8 @@ open/in-progress work here.
 
 ## In Progress
 
+- [~] Deliver authenticated Raft peer RPCs for vote requests and AppendEntries over the supported shard transport; bind the verified mTLS peer identity to configured membership, enforce bounded RPC deadlines, and wire requests to the durable `RaftState` handlers. Acceptance: mismatched/non-member identities, stale terms/logs, unavailable journals, partial prefixes, and timeouts cannot count toward quorum; two- and three-process crash/restart tests prove durable ACK and election behavior. No membership change or Parallel Commit optimization is in scope until this gate passes (Target: M2 · 2027-06-30)
+  - Implementation update (2026-11-21): protobuf RPCs, SAN-bound mTLS server identity checks, client-side server-SAN verification, bounded five-second deadlines, durable-handler dispatch, and `RaftShardManager` vote/append/heartbeat callback wiring are present. AppendEntries also rejects empty/non-member leaders before changing term. Linux-only test cases now cover volatile-follower vote/append rejection, manager-driven election, durable follower append, follower SIGKILL/restart from the same journal, persisted log-conflict/vote rejection, stale terms, missing log prefixes, RPC timeout, three-node quorum loss, separate leader SIGKILL/restart, and follower re-election after leader loss. These test sources have not been compiled or run in the current Windows benchmark configuration. Linux runtime evidence and the full 2PC state-machine gate remain open.
 - [~] Verify the CrossShard 2PC adapter to canonical `TwoPhaseCommitCoordinator`: payload/fencing parity, durable decision ordering, endpoint restoration, legacy-record fail-closed behavior, and both public-path regression coverage (DIS-05; Target: M2)
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)

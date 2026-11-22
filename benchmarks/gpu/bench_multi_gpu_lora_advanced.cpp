@@ -19,6 +19,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <filesystem>
 
 using namespace themis::llm;
 
@@ -39,7 +40,12 @@ namespace {
     bool requireBenchmarkAdapter(benchmark::State& state) {
         const char* const configured_path = std::getenv("THEMIS_BENCH_LORA_PATH");
         if (configured_path == nullptr || configured_path[0] == '\0') {
-            state.SkipWithError("Set THEMIS_BENCH_LORA_PATH to an existing LoRA adapter file");
+            state.SkipWithMessage("Optional LoRA adapter is unavailable; set THEMIS_BENCH_LORA_PATH");
+            return false;
+        }
+
+        if (!std::filesystem::exists(configured_path)) {
+            state.SkipWithMessage("Configured optional LoRA adapter file is not present");
             return false;
         }
 

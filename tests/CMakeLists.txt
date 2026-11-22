@@ -1670,8 +1670,12 @@ target_sources(test_wal_storage_focused PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/test_gtest_main.cpp"
 )
 target_compile_definitions(test_wal_storage_focused PRIVATE THEMIS_TEST_BUILD=1)
-add_test(NAME WALStorageFocusedTests COMMAND $<TARGET_FILE:test_wal_storage_focused>)
-set_tests_properties(WALStorageFocusedTests PROPERTIES LABELS "storage;wal;focused;unit" TIMEOUT 60)
+themis_register_test_target(
+    NAME WALStorageFocusedTests
+    TARGET test_wal_storage_focused
+    LABELS storage wal focused unit
+    TIMEOUT 60
+)
 message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
 
 message(STATUS "Adding Security: production-mode and shard mTLS focused tests")
@@ -1696,12 +1700,10 @@ target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_
 if(THEMIS_ENABLE_GRPC AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
     target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_ENABLE_GRPC=1)
 endif()
-add_test(
+themis_register_test_target(
     NAME ProductionModeSecurityFocusedTests
-    COMMAND $<TARGET_FILE:test_production_mode_security_focused>
-)
-set_tests_properties(ProductionModeSecurityFocusedTests PROPERTIES
-    LABELS "security;sharding;mtls;production;focused;unit"
+    TARGET test_production_mode_security_focused
+    LABELS security sharding mtls production focused unit
     TIMEOUT 120
 )
 
@@ -3227,6 +3229,46 @@ else()
     message(STATUS "Raft Configuration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/raft/test_raft_configuration.cpp")
 endif()
 
+# Raft proposal recovery and lagging follower catch-up tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/test_raft_proposal_recovery_focused.cpp")
+    add_executable(test_raft_proposal_recovery_focused
+        sharding/test_raft_proposal_recovery_focused.cpp
+    )
+
+    target_include_directories(test_raft_proposal_recovery_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_raft_proposal_recovery_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
+        target_link_libraries(test_raft_proposal_recovery_focused PRIVATE
+            themis_sharding
+        )
+    endif()
+
+    target_compile_definitions(test_raft_proposal_recovery_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_raft_proposal_recovery_focused)
+        add_dependencies(test_raft_proposal_recovery_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME RaftProposalRecoveryFocusedTests
+        COMMAND $<TARGET_FILE:test_raft_proposal_recovery_focused>)
+
+    set_tests_properties(RaftProposalRecoveryFocusedTests PROPERTIES
+        LABELS "sharding;consensus;raft;recovery;focused;unit"
+        TIMEOUT 60
+    )
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================
@@ -3255,10 +3297,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/property/test_property_graph.cpp")
         add_dependencies(test_property_graph sync_test_runtime_dlls)
     endif()
     
-    add_test(NAME PropertyGraphTests COMMAND $<TARGET_FILE:test_property_graph>)
-    
-    set_tests_properties(PropertyGraphTests PROPERTIES
-        LABELS "index;property-graph;unit"
+    themis_register_test_target(
+        NAME PropertyGraphTests
+        TARGET test_property_graph
+        LABELS index property-graph unit
         TIMEOUT 120
     )
     
@@ -3268,7 +3310,7 @@ else()
 endif()
 
 # ============================================================================
-# Graph Query Optimizer Tests (standalone)
+# Graph Query Optimizer Tests
 # ============================================================================
 
 macro(add_graph_focused_alias target canonical_target test_name labels timeout)
@@ -3296,7 +3338,7 @@ add_graph_focused_alias(
 )
 
 # ============================================================================
-# Graph Query Rewriter Tests (standalone, Issue #250)
+# Graph Query Rewriter Tests (Issue #250)
 # ============================================================================
 
 add_graph_focused_alias(
@@ -3308,8 +3350,7 @@ add_graph_focused_alias(
 )
 
 # ============================================================================
-# Graph Advanced Features Tests (standalone - excluded from unified binary
-# because helper functions use bare assert() calls that abort the process)
+# Graph Advanced Features Tests
 # ============================================================================
 
 add_graph_focused_alias(

@@ -117,7 +117,9 @@ public:
      * @brief Parse GGUF file header and metadata.
      * @param[in] filepath Input parameter.
      * @return True when the operation succeeds.
-     * @details Returns false and sets getLastError() on failure (including unsupported quantization formats).
+     * @details Returns false and sets getLastError() on failure, including
+     *          unsupported quantization formats, invalid quantized dimensions,
+     *          arithmetic overflow, and tensor payloads outside the file.
      */
     bool parseFile(const std::string& filepath);
     
@@ -217,9 +219,10 @@ private:
      */
     size_t getDtypeSize(const std::string& dtype) const;
     /**
-     * @brief Get GGMLType Size.
-     * @param[in] type Input parameter.
-     * @return Return value.
+     * @brief Return the storage width for a GGML type.
+     * @param[in] type GGML element type.
+     * @return Bytes per scalar for unquantized types, or bytes per quantization
+     *         block for block-quantized types.
      */
     size_t getGGMLTypeSize(GGMLType type) const;
     

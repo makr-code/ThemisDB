@@ -132,7 +132,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, MonitoringOverhead)(benchmark::State& state
 // File Detection Latency Benchmarks
 // ============================================================================
 
-BENCHMARK_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(
+    benchmark::State& state) {
     HotPlugConfig config;
     config.enabled = true;
     config.auto_load = false;
@@ -141,7 +142,7 @@ BENCHMARK_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(benchmark::St
     for (auto _ : state) {
         manager->enableHotPlug(test_dir, config);
         
-        auto start = std::chrono::high_resolution_clock::now();
+        auto start = std::chrono::steady_clock::now();
         
         // Create a plugin manifest
         std::string plugin_name = "latency_test_" + std::to_string(iteration++);
@@ -150,21 +151,24 @@ BENCHMARK_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(benchmark::St
         // Wait for detection (monitor debounce is 500ms)
         std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS));
         
-        auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        auto end = std::chrono::steady_clock::now();
+        const auto elapsed = std::chrono::duration<double>(end - start).count();
         
         manager->disableHotPlug();
         
         // Clean up
         fs::remove_all(test_dir + "/" + plugin_name);
         
-        state.SetIterationTime(elapsed.count() / 1000.0);
+        state.SetIterationTime(elapsed);
     }
     state.SetLabel("File creation detection + debounce");
 }
+BENCHMARK_REGISTER_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)
+    ->UseManualTime();
 
 BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::State& state) {
     const int num_files = state.range(0);
+    double total_elapsed_seconds = 0.0;
     
     for (auto _ : state) {
         HotPlugConfig config;
@@ -173,7 +177,7 @@ BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::St
         
         manager->enableHotPlug(test_dir, config);
         
-        auto start = std::chrono::high_resolution_clock::now();
+        auto start = std::chrono::steady_clock::now();
         
         // Create multiple plugin manifests rapidly
         for (int i = 0; i < num_files; i++) {
@@ -183,8 +187,9 @@ BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::St
         // Wait for all detections (debounce + margin)
         std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS + 100));
         
-        auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        auto end = std::chrono::steady_clock::now();
+        const auto elapsed = std::chrono::duration<double>(end - start).count();
+        total_elapsed_seconds += elapsed;
         
         manager->disableHotPlug();
         
@@ -193,13 +198,17 @@ BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::St
             fs::remove_all(test_dir + "/multi_test_" + std::to_string(i));
         }
         
-        state.SetIterationTime(elapsed.count() / 1000.0);
+        state.SetIterationTime(elapsed);
     }
-    state.SetItemsProcessed(state.iterations() * num_files);
+    const auto files_created = state.iterations() * num_files;
+    // The automatic rate uses cpu_time; this manual-time benchmark reports its own wall rate.
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(files_created) / total_elapsed_seconds);
     state.SetLabel("Batch file creation");
 }
 BENCHMARK_REGISTER_F(HotPlugBenchmarkFixture, MultipleFileCreations)
-    ->Arg(1)->Arg(5)->Arg(10)->Arg(50);
+    ->Arg(1)->Arg(5)->Arg(10)->Arg(50)
+    ->UseManualTime();
 
 // ============================================================================
 // Configuration Impact Benchmarks

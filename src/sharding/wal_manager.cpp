@@ -197,6 +197,10 @@ LSN WALManager::append(const WALEntry& entry) {
 
     const auto payload = entry_copy.serialize();
     std::string value(payload.begin(), payload.end());
+    // Any append advances the tail and invalidates our durable-flush marker.
+    // Set this before the storage operation so even a partial/failed append
+    // cannot leave a stale "durable" result visible to a later flushDurable().
+    durability_confirmed_ = false;
     auto append_res = durability_wal_->appendPut("wal_entry", value);
     if (!append_res) {
         throw std::runtime_error("WALManager durable append failed: " +
@@ -214,8 +218,10 @@ LSN WALManager::append(const WALEntry& entry) {
     total_entries_++;
     total_bytes_ += payload.size();
 
-    if (config_.sync_on_write && !flushUnlocked()) {
-        throw std::runtime_error("WALManager synchronous append flush failed");
+    if (config_.sync_on_write) {
+        // WALStorage::appendPut() applies its fsync_on_write policy and reports
+        // sync failures before returning. Do not issue a second fsync here.
+        durability_confirmed_ = true;
     }
 
     return entry_copy.lsn;
@@ -264,7 +270,17 @@ void WALManager::flush() {
 
 bool WALManager::flushDurable() {
     std::lock_guard<std::mutex> lock(mutex_);
-    return flushUnlocked();
+    // A synchronous append already flushed and validated its stable-storage
+    // operation. A caller's immediate confirmation must not repeat that I/O.
+    // Buffered WAL policy still performs every explicitly requested flush.
+    if (config_.sync_on_write && durability_confirmed_) {
+        return true;
+    }
+    const bool flushed = flushUnlocked();
+    if (flushed) {
+        durability_confirmed_ = true;
+    }
+    return flushed;
 }
 
 bool WALManager::flushUnlocked() {
@@ -290,6 +306,9 @@ LSN WALManager::checkpoint() {
     const LSN lsn = append(checkpoint_entry);
 
     std::lock_guard<std::mutex> lock(mutex_);
+    // The checkpoint marker is a separate storage operation after append().
+    // Do not let a later explicit flush be elided by the append's marker.
+    durability_confirmed_ = false;
     if (durability_wal_) {
         auto res = durability_wal_->checkpoint(false);
         if (!res) {
@@ -315,6 +334,8 @@ void WALManager::truncate(const LSN& lsn) {
     }
     trimInMemoryEntries();
 
+    // Truncation/checkpoint maintenance is independent of the last append flush.
+    durability_confirmed_ = false;
     if (durability_wal_) {
         auto res = durability_wal_->checkpoint(true);
         if (!res) {

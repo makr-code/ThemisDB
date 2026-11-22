@@ -44,6 +44,11 @@ service ShardService {
     rpc GetShardStatus(StatusRequest) returns (StatusResponse);
     rpc HealthCheck(HealthRequest) returns (HealthResponse);
     
+    // Per-shard Raft consensus. The group ID selects the local state machine;
+    // the authenticated X.509 identity must map to the claimed member node ID.
+    rpc RequestVote(RaftVoteRequestProto) returns (RaftVoteResponseProto);
+    rpc AppendEntries(RaftAppendEntriesRequestProto) returns (RaftAppendEntriesResponseProto);
+
     // Gossip Protocol
     rpc GossipExchange(GossipMessage) returns (GossipMessage);
 
@@ -234,6 +239,45 @@ message HealthResponse {
     string status = 1;
     string version = 2;
     uint64 uptime_seconds = 3;
+}
+
+message RaftVoteRequestProto {
+    string raft_group_id = 1;
+    string candidate_id = 2;
+    uint64 term = 3;
+    uint64 last_log_index = 4;
+    uint64 last_log_term = 5;
+}
+
+message RaftVoteResponseProto {
+    string voter_id = 1;
+    uint64 term = 2;
+    bool vote_granted = 3;
+    string reason = 4;
+}
+
+message RaftLogEntryProto {
+    uint64 term = 1;
+    uint64 index = 2;
+    bytes command = 3;
+    uint64 timestamp_ns = 4;
+}
+
+message RaftAppendEntriesRequestProto {
+    string raft_group_id = 1;
+    string leader_id = 2;
+    uint64 term = 3;
+    uint64 prev_log_index = 4;
+    uint64 prev_log_term = 5;
+    repeated RaftLogEntryProto entries = 6;
+    uint64 leader_commit = 7;
+}
+
+message RaftAppendEntriesResponseProto {
+    string follower_id = 1;
+    uint64 term = 2;
+    bool success = 3;
+    uint64 match_index = 4;
 }
 
 // Gossip-Enhanced Configuration Management (YARN-Inspired)

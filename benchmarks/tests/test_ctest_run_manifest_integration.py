@@ -1,5 +1,6 @@
 """End-to-end CTest coverage for benchmark run manifests."""
 
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -227,13 +228,113 @@ themis_register_benchmark_ctest(NAME unavailable TARGET no_such_target MODULE m)
         self.assertEqual(entry["attempts"][0]["execution_status"], "completed")
         self.assertTrue((self.results / entry["attempts"][0]["observation_relative"]).exists())
 
-    def test_explicit_case_error_keeps_process_exit_semantics(self):
+    def test_explicit_case_error_fails_ctest(self):
         result = self.ctest("-R", "^error$")
-        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertNotEqual(result.returncode, 0, result.stdout)
         manifest = json.loads((self.results / "manifest").read_text())
         entry = next(item for item in manifest["tests"] if item["test"] == "error")
         self.assertEqual(entry["exit_code"], 0)
         self.assertEqual(entry["cases"][0]["status"], "error")
+
+
+class BenchmarkRunCaseErrorTests(unittest.TestCase):
+    def test_case_error_returns_failure_and_preserves_json(self):
+        with tempfile.TemporaryDirectory(prefix="themis-benchmark-case-error-") as directory:
+            root = Path(directory)
+            results = root / "current"
+            (results / ".manifest").mkdir(parents=True)
+            lease = root / "current.lease"
+            lease.mkdir()
+            run_id = "case-error-run"
+            (lease / "owner").write_text(
+                json.dumps({"ctest_pid": os.getpid(), "run_id": run_id}), encoding="utf-8")
+            (results / "manifest").write_text(json.dumps({
+                "run_id": run_id,
+                "tests": [{"id": "test-id", "test": "case-error",
+                           "executable": sys.executable, "result": "case-error.json"}],
+            }), encoding="utf-8")
+
+            benchmark = root / "fake_benchmark.py"
+            benchmark.write_text(
+                "import json, pathlib, sys\n"
+                "output = next(arg.split('=', 1)[1] for arg in sys.argv "
+                "if arg.startswith('--benchmark_out='))\n"
+                "pathlib.Path(output).write_text(json.dumps({'benchmarks': [{"
+                "'name': 'BM_Failed', 'error_occurred': True, "
+                "'error_message': 'expected failure'}]}))\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [sys.executable, str(RUNNER), "run", "--results-dir", str(results),
+                 "--id", "test-id", "--timeout", "5", "--", sys.executable,
+                 str(benchmark), "--benchmark_out=ignored"],
+                capture_output=True, text=True,
+            )
+
+            self.assertNotEqual(result.returncode, 0, result.stdout)
+            self.assertIn("BM_Failed: expected failure", result.stderr)
+            fragment = json.loads((results / ".manifest" / "test-id").read_text())
+            self.assertEqual(fragment["execution_status"], "completed")
+            self.assertEqual(fragment["cases"][0]["status"], "error")
+            self.assertTrue((results / "case-error.json").exists())
+
+    def test_skip_with_message_returns_success_and_preserves_skip_status(self):
+        with tempfile.TemporaryDirectory(prefix="themis-benchmark-case-skip-") as directory:
+            root = Path(directory)
+            results = root / "current"
+            (results / ".manifest").mkdir(parents=True)
+            lease = root / "current.lease"
+            lease.mkdir()
+            run_id = "case-skip-run"
+            (lease / "owner").write_text(
+                json.dumps({"ctest_pid": os.getpid(), "run_id": run_id}), encoding="utf-8")
+            (results / "manifest").write_text(json.dumps({
+                "run_id": run_id,
+                "tests": [{"id": "test-id", "test": "case-skip",
+                           "executable": sys.executable, "result": "case-skip.json"}],
+            }), encoding="utf-8")
+
+            benchmark = root / "fake_benchmark.py"
+            benchmark.write_text(
+                "import json, pathlib, sys\n"
+                "output = next(arg.split('=', 1)[1] for arg in sys.argv "
+                "if arg.startswith('--benchmark_out='))\n"
+                "pathlib.Path(output).write_text(json.dumps({'benchmarks': [{"
+                "'name': 'BM_Skipped', 'skipped': True, "
+                "'skip_message': 'optional backend unavailable'}]}))\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [sys.executable, str(RUNNER), "run", "--results-dir", str(results),
+                 "--id", "test-id", "--timeout", "5", "--", sys.executable,
+                 str(benchmark), "--benchmark_out=ignored"],
+                capture_output=True, text=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            fragment = json.loads((results / ".manifest" / "test-id").read_text())
+            self.assertEqual(fragment["execution_status"], "completed")
+            self.assertEqual(fragment["cases"][0]["status"], "skipped")
+            self.assertEqual(fragment["cases"][0]["skip_message"],
+                             "optional backend unavailable")
+            self.assertTrue((results / "case-skip.json").exists())
+
+class BenchmarkJsonStrictnessTests(unittest.TestCase):
+    def test_nonstandard_infinity_is_invalid_json(self):
+        spec = importlib.util.spec_from_file_location("benchmark_run_manifest", RUNNER)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+
+        with tempfile.TemporaryDirectory(prefix="themis-benchmark-json-") as directory:
+            result = Path(directory) / "benchmark.json"
+            result.write_text(
+                '{"benchmarks":[{"name":"BM_ZeroCpu","cpu_time":0,'
+                '"items_per_second":Infinity}]}',
+                encoding="utf-8")
+            status, cases = runner.read_result(result)
+
+        self.assertEqual(status, "invalid")
+        self.assertEqual(cases, [])
 
 
 if __name__ == "__main__":

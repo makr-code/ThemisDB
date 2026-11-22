@@ -18,6 +18,7 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/distributed_planner.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/distributed_planner.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_training_coordinator.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_delta_log.cc
@@ -26,6 +27,11 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/snapshot_update_worker.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/shard_summary_coordinator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/artifact_invalidation.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/exact_graph_fallback.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/stale_artifact_detector.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/error_recovery_handler.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/distributed_lock_manager.cc
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
@@ -53,6 +59,13 @@ endif()
 # themis_distributed_tensor automatically get tensor symbols (e.g. ShardSummary).
 if(TARGET themis_tensor)
     target_link_libraries(themis_distributed_tensor PRIVATE themis_tensor)
+endif()
+
+if(OpenSSL_FOUND)
+    target_link_libraries(themis_distributed_tensor PRIVATE OpenSSL::Crypto)
+    target_compile_definitions(themis_distributed_tensor
+        PRIVATE THEMIS_DISTRIBUTED_TENSOR_WITH_OPENSSL=1
+    )
 endif()
 
 target_compile_features(themis_distributed_tensor PUBLIC cxx_std_20)

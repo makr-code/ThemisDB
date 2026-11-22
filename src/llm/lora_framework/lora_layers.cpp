@@ -129,14 +129,14 @@ Tensor Tensor::matmul(const Tensor& other) const {
     
     Tensor result({M, N});
     
-    // Simple matrix multiplication (not optimized)
+    // Keep the reduction order for each output element while traversing the
+    // right-hand matrix in row-major order.
     for (size_t i = 0; i < M; ++i) {
-        for (size_t j = 0; j < N; ++j) {
-            float sum = 0.0f;
-            for (size_t k = 0; k < K; ++k) {
-                sum += data_[i * K + k] * other.data_[k * N + j];
+        for (size_t k = 0; k < K; ++k) {
+            const float lhs_value = data_[i * K + k];
+            for (size_t j = 0; j < N; ++j) {
+                result.data_[i * N + j] += lhs_value * other.data_[k * N + j];
             }
-            result.data_[i * N + j] = sum;
         }
     }
     
@@ -248,9 +248,16 @@ Tensor kaiming_uniform(const std::vector<size_t>& shape, float a) {
     }
     
     float fan_in = static_cast<float>(shape[0]);
-    float std = std::sqrt(2.0f / ((1.0f + a * a) * fan_in));
+    float bound = std::sqrt(6.0f / ((1.0f + a * a) * fan_in));
     
-    return randn(shape, 0.0f, std);
+    thread_local std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<float> dist(-bound, bound);
+
+    Tensor result(shape);
+    for (auto& val : result.data()) {
+        val = dist(gen);
+    }
+    return result;
 }
 
 /**
@@ -293,7 +300,7 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     name_ = "LoRALayer_" + std::to_string(in_dim) + "x" + std::to_string(out_dim) + 
             "_r" + std::to_string(rank);
     
-    spdlog::info("Created {}: in={}, out={}, rank={}, scaling={}",
+    spdlog::debug("Created {}: in={}, out={}, rank={}, scaling={}",
                 name_, in_dim_, out_dim_, rank_, scaling_);
     
     // Initialize B and A matrices with proper initialization
@@ -317,18 +324,32 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
  * @details Calls: spdlog::debug(), shape(), size(), clone(), matmul().
  */
 Tensor LoRALayer::forward(const Tensor& input) {
+    return forwardImpl(input, nullptr);
+}
+
+Tensor LoRALayer::forwardOwned(Tensor&& input) {
+    return forwardImpl(input, &input);
+}
+
+Tensor LoRALayer::forwardImpl(const Tensor& input, Tensor* owned_input) {
     spdlog::debug("{}: forward with input shape ({}, {})", 
                   name_, input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
     
-    // Cache input for backward pass
-    cached_input_ = std::make_unique<Tensor>(input.clone());
-    
-    // Compute BA = B @ A
-    cached_BA_ = std::make_unique<Tensor>(B_->matmul(*A_));
-    
-    // Compute output = input @ BA * scaling
-    Tensor output = input.matmul(*cached_BA_);
-    output = output * scaling_;
+    // Apply the low-rank factors in sequence to avoid materializing B @ A.
+    Tensor low_rank = input.matmul(*B_);
+    Tensor output = low_rank.matmul(*A_);
+    for (auto& value : output.data()) {
+        value *= scaling_;
+    }
+
+    // Cache both inputs required by the backward pass only after the forward
+    // calculation succeeds, moving the low-rank projection without copying it.
+    auto cached_projection = std::make_unique<Tensor>(std::move(low_rank));
+    auto cached_input = owned_input
+        ? std::make_unique<Tensor>(std::move(*owned_input))
+        : std::make_unique<Tensor>(input.clone());
+    cached_input_ = std::move(cached_input);
+    cached_BA_ = std::move(cached_projection);
     
     return output;
 }
@@ -337,38 +358,115 @@ Tensor LoRALayer::forward(const Tensor& input) {
  * @brief Backward.
  * @param[in] grad_output Input parameter.
  * @return Return value.
- * @details Calls: spdlog::debug(), shape(), size(), transpose(), matmul(), std::move().
+ * @details Reuses the projection cached by forward() to compute parameter and
+ *          input gradients without materializing transposed parameter matrices.
  */
 Tensor LoRALayer::backward(const Tensor& grad_output) {
     spdlog::debug("{}: backward with grad_output shape ({}, {})",
                   name_, grad_output.shape()[0], grad_output.shape().size() > 1 ? grad_output.shape()[1] : 0);
     
-    // Scale gradient by scaling factor
-    Tensor scaled_grad = grad_output * scaling_;
-    
-    // For LoRA: output = input @ B @ A * scaling
-    // Need to compute gradients using chain rule
-    
-    // grad_A = B.T @ input.T @ scaled_grad
-    // Shape: (rank, in_dim) @ (in_dim, batch) @ (batch, out_dim) = (rank, out_dim)
-    Tensor B_T = B_->transpose();
-    Tensor input_T = cached_input_->transpose();
-    Tensor temp_BA = B_T.matmul(input_T);  // (rank, batch)
-    auto grad_A_result = temp_BA.matmul(scaled_grad);  // (rank, out_dim)
-    A_->grad = std::make_unique<Tensor>(std::move(grad_A_result));
-    
-    // grad_B = input.T @ scaled_grad @ A.T
-    // Shape: (in_dim, batch) @ (batch, out_dim) @ (out_dim, rank) = (in_dim, rank)
-    Tensor A_T = A_->transpose();
-    Tensor temp_AB = scaled_grad.matmul(A_T);  // (batch, rank)
-    auto grad_B_result = input_T.matmul(temp_AB);  // (in_dim, rank)
-    B_->grad = std::make_unique<Tensor>(std::move(grad_B_result));
-    
-    // grad_input = scaled_grad @ A.T @ B.T
-    // Shape: (batch, out_dim) @ (out_dim, rank) @ (rank, in_dim) = (batch, in_dim)
-    Tensor temp_grad = scaled_grad.matmul(A_T);  // (batch, rank)
-    Tensor grad_input = temp_grad.matmul(B_T);  // (batch, in_dim)
-    
+    if (!cached_input_ || !cached_BA_) {
+        throw std::logic_error("LoRALayer::backward requires a successful forward pass");
+    }
+
+    const size_t batch = cached_input_->shape()[0];
+    if (grad_output.shape() != std::vector<size_t>{batch, out_dim_}) {
+        throw std::invalid_argument("LoRALayer::backward gradient shape does not match the cached input");
+    }
+
+    if (!A_->grad || A_->grad->shape() != std::vector<size_t>{rank_, out_dim_}) {
+        A_->grad = std::make_unique<Tensor>(std::vector<size_t>{rank_, out_dim_});
+    }
+    if (!B_->grad || B_->grad->shape() != std::vector<size_t>{in_dim_, rank_}) {
+        B_->grad = std::make_unique<Tensor>(std::vector<size_t>{in_dim_, rank_});
+    }
+    Tensor& grad_A = *A_->grad;
+    Tensor& grad_B = *B_->grad;
+    Tensor grad_input({batch, in_dim_});
+    Tensor projected_grad({batch, rank_});
+
+    if (batch == 1) {
+        const float* input_data = cached_input_->data().data();
+        const float* projection_data = cached_BA_->data().data();
+        const float* grad_output_data = grad_output.data().data();
+        const float* a_data = A_->data().data();
+        const float* b_data = B_->data().data();
+        float* grad_a_data = grad_A.data().data();
+        float* grad_b_data = grad_B.data().data();
+        float* grad_input_data = grad_input.data().data();
+        float* projected_grad_data = projected_grad.data().data();
+
+        for (size_t r = 0; r < rank_; ++r) {
+            float sum = 0.0f;
+            const float* a_row = a_data + r * out_dim_;
+            for (size_t o = 0; o < out_dim_; ++o) {
+                sum += grad_output_data[o] * a_row[o];
+            }
+            projected_grad_data[r] = sum * scaling_;
+
+            const float projected_input = projection_data[r] * scaling_;
+            float* grad_a_row = grad_a_data + r * out_dim_;
+            for (size_t o = 0; o < out_dim_; ++o) {
+                grad_a_row[o] = projected_input * grad_output_data[o];
+            }
+        }
+
+        for (size_t d = 0; d < in_dim_; ++d) {
+            const float input_value = input_data[d];
+            const float* b_row = b_data + d * rank_;
+            float input_gradient = 0.0f;
+            for (size_t r = 0; r < rank_; ++r) {
+                const float rank_gradient = projected_grad_data[r];
+                grad_b_data[d * rank_ + r] = input_value * rank_gradient;
+                input_gradient += rank_gradient * b_row[r];
+            }
+            grad_input_data[d] = input_gradient;
+        }
+        return grad_input;
+    }
+
+    // Compute (grad_output * scaling) @ A.T without constructing A.T.
+    for (size_t b = 0; b < batch; ++b) {
+        for (size_t r = 0; r < rank_; ++r) {
+            float sum = 0.0f;
+            for (size_t o = 0; o < out_dim_; ++o) {
+                sum += grad_output[b * out_dim_ + o] * (*A_)[r * out_dim_ + o];
+            }
+            projected_grad[b * rank_ + r] = sum * scaling_;
+        }
+    }
+
+    // grad_A = cached(input @ B).T @ grad_output * scaling.
+    for (size_t r = 0; r < rank_; ++r) {
+        for (size_t o = 0; o < out_dim_; ++o) {
+            float sum = 0.0f;
+            for (size_t b = 0; b < batch; ++b) {
+                sum += (*cached_BA_)[b * rank_ + r] * grad_output[b * out_dim_ + o];
+            }
+            grad_A[r * out_dim_ + o] = sum * scaling_;
+        }
+    }
+
+    // grad_B = input.T @ projected_grad; grad_input = projected_grad @ B.T.
+    for (size_t d = 0; d < in_dim_; ++d) {
+        for (size_t r = 0; r < rank_; ++r) {
+            float sum = 0.0f;
+            for (size_t b = 0; b < batch; ++b) {
+                sum += (*cached_input_)[b * in_dim_ + d] * projected_grad[b * rank_ + r];
+            }
+            grad_B[d * rank_ + r] = sum;
+        }
+    }
+    for (size_t b = 0; b < batch; ++b) {
+        for (size_t d = 0; d < in_dim_; ++d) {
+            float sum = 0.0f;
+            for (size_t r = 0; r < rank_; ++r) {
+                sum += projected_grad[b * rank_ + r] * (*B_)[d * rank_ + r];
+            }
+            grad_input[b * in_dim_ + d] = sum;
+        }
+    }
+
     return grad_input;
 }
 
@@ -430,7 +528,7 @@ AttentionLoRA::AttentionLoRA(size_t dim, size_t rank,
             std::to_string(dim) + ", rank=" + std::to_string(rank) + ")");
     }
     
-    spdlog::info("Created AttentionLoRA: dim={}, rank={}, q={}, k={}, v={}, o={}",
+    spdlog::debug("Created AttentionLoRA: dim={}, rank={}, q={}, k={}, v={}, o={}",
                 dim, rank, apply_to_q, apply_to_k, apply_to_v, apply_to_o);
     
     // Initialize LoRA layers for Q, K, V, O
@@ -451,7 +549,7 @@ AttentionLoRA::AttentionLoRA(size_t dim, size_t rank,
         spdlog::debug("AttentionLoRA: Created O LoRA layer");
     }
     
-    spdlog::info("AttentionLoRA: Initialized with {} parameters", parameter_count());
+    spdlog::debug("AttentionLoRA: Initialized with {} parameters", parameter_count());
 }
 
 /**
@@ -464,24 +562,41 @@ Tensor AttentionLoRA::forward(const Tensor& input) {
     spdlog::debug("AttentionLoRA: forward with input shape ({}, {})",
                   input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
     
-    Tensor output = input.clone();
-    
-    // Apply LoRA layers sequentially (simplified version)
-    // In a real implementation, Q, K, V, O would be applied separately in attention mechanism
+    Tensor output;
+    bool has_output = false;
+
+    // Apply LoRA layers sequentially (simplified version). The first layer can
+    // consume input directly because each LoRALayer caches its own backward input.
     if (apply_to_q_ && q_lora_) {
-        output = q_lora_->forward(output);
+        output = q_lora_->forward(input);
+        has_output = true;
     }
     if (apply_to_k_ && k_lora_) {
-        output = k_lora_->forward(output);
+        if (has_output) {
+            output = k_lora_->forwardOwned(std::move(output));
+        } else {
+            output = k_lora_->forward(input);
+        }
+        has_output = true;
     }
     if (apply_to_v_ && v_lora_) {
-        output = v_lora_->forward(output);
+        if (has_output) {
+            output = v_lora_->forwardOwned(std::move(output));
+        } else {
+            output = v_lora_->forward(input);
+        }
+        has_output = true;
     }
     if (apply_to_o_ && o_lora_) {
-        output = o_lora_->forward(output);
+        if (has_output) {
+            output = o_lora_->forwardOwned(std::move(output));
+        } else {
+            output = o_lora_->forward(input);
+        }
+        has_output = true;
     }
-    
-    return output;
+
+    return has_output ? std::move(output) : input.clone();
 }
 
 /**
@@ -494,23 +609,28 @@ Tensor AttentionLoRA::backward(const Tensor& grad_output) {
     spdlog::debug("AttentionLoRA: backward with grad_output shape ({}, {})",
                   grad_output.shape()[0], grad_output.shape().size() > 1 ? grad_output.shape()[1] : 0);
     
-    Tensor grad = grad_output.clone();
-    
+    Tensor grad;
+    bool has_grad = false;
+
     // Backward pass in reverse order
     if (apply_to_o_ && o_lora_) {
-        grad = o_lora_->backward(grad);
+        grad = o_lora_->backward(has_grad ? grad : grad_output);
+        has_grad = true;
     }
     if (apply_to_v_ && v_lora_) {
-        grad = v_lora_->backward(grad);
+        grad = v_lora_->backward(has_grad ? grad : grad_output);
+        has_grad = true;
     }
     if (apply_to_k_ && k_lora_) {
-        grad = k_lora_->backward(grad);
+        grad = k_lora_->backward(has_grad ? grad : grad_output);
+        has_grad = true;
     }
     if (apply_to_q_ && q_lora_) {
-        grad = q_lora_->backward(grad);
+        grad = q_lora_->backward(has_grad ? grad : grad_output);
+        has_grad = true;
     }
-    
-    return grad;
+
+    return has_grad ? std::move(grad) : grad_output.clone();
 }
 
 /**
@@ -570,7 +690,7 @@ size_t AttentionLoRA::memory_bytes() const {
  */
 
 void Sequential::add(std::unique_ptr<ITrainableLayer> layer) {
-    spdlog::info("Sequential: Adding layer {}", layer->name());
+    spdlog::debug("Sequential: Adding layer {}", layer->name());
     layers_.push_back(std::move(layer));
 }
 
@@ -582,10 +702,14 @@ void Sequential::add(std::unique_ptr<ITrainableLayer> layer) {
  */
 Tensor Sequential::forward(const Tensor& input) {
     spdlog::debug("Sequential: forward through {} layers",layers_.size());
-    
-    Tensor output = input.clone();
-    for (auto& layer : layers_) {
-        output = layer->forward(output);
+
+    if (layers_.empty()) {
+        return input.clone();
+    }
+
+    Tensor output = layers_.front()->forward(input);
+    for (size_t i = 1; i < layers_.size(); ++i) {
+        output = layers_[i]->forward(output);
     }
     
     return output;
@@ -599,9 +723,13 @@ Tensor Sequential::forward(const Tensor& input) {
  */
 Tensor Sequential::backward(const Tensor& grad_output) {
     spdlog::debug("Sequential: backward through {} layers",layers_.size());
-    
-    Tensor grad = grad_output.clone();
-    for (auto it = layers_.rbegin(); it != layers_.rend(); ++it) {
+
+    if (layers_.empty()) {
+        return grad_output.clone();
+    }
+
+    Tensor grad = layers_.back()->backward(grad_output);
+    for (auto it = layers_.rbegin() + 1; it != layers_.rend(); ++it) {
         grad = (*it)->backward(grad);
     }
     

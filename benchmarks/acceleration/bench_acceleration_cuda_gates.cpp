@@ -56,7 +56,7 @@ void runSpeedupGate(benchmark::State &state, DistanceMetric metric) {
     }
 
 #ifndef THEMIS_ENABLE_CUDA
-    state.SkipWithError("THEMIS_ENABLE_CUDA is OFF; CUDA speedup gate skipped");
+    state.SkipWithMessage("THEMIS_ENABLE_CUDA is OFF; CUDA speedup gate skipped");
     return;
 #else
     CUDAVectorBackend cuda_backend = {};

@@ -107,11 +107,21 @@ class ArtifactManifest {
     content_hash_ = hash;
   }
 
+  /**
+   * @brief Return the cached manifest checksum.
+   * @return The most recently computed checksum, or an empty string before
+   *         compute_manifest_hash() has been called.
+   * @note This is a non-cryptographic consistency checksum, not tamper
+   *       protection or producer authentication. Mutating the manifest does
+   *       not automatically refresh the cached value.
+   */
   const std::string& manifest_hash() const noexcept { return manifest_hash_; }
 
   /**
-   * @brief Compute manifest hash.
-   * @note Exception safety: noexcept.
+   * @brief Recompute and cache a simple checksum of manifest metadata.
+   * @note The checksum is non-cryptographic and must not be used as an
+   *       integrity or authenticity control. Call this again after changing
+   *       the manifest to refresh the cached value.
    */
   void compute_manifest_hash() noexcept;
 

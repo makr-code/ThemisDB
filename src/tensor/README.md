@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-22"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,11 +17,44 @@ Human_Author: "ThemisDB Contributors"
 <!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
 
-## Module Purpose
+## Zweck
 
 The tensor module provides tensor-aware indexing, retrieval, and graph/fingerprint behavior for ThemisDB, including tensor index management, tensor fingerprint graph operations, and tensor deduplication-related behavior.
 
-## Relevant Interfaces
+## Scope
+
+In scope:
+- tensor-aware indexing and retrieval behavior
+- tensor fingerprint graph and dedup-related runtime behavior
+- tensor bridges, ingestion, and structural helper behavior
+
+Out of scope:
+- non-tensor ANN internals owned by other modules
+- external model-serving orchestration outside tensor boundaries
+
+## Quickstart (Build/Run)
+
+This is an in-tree module guide; use the main ThemisDB build configuration rather
+than treating `themis_tensor` as a separately packaged installation.
+
+The module is a C++17 static library target. From an existing configured build directory:
+
+```sh
+cmake --build <build-dir> --target themis_tensor
+cmake --build <build-dir> --target module_tensor_test_tensor_contract_hardening_focused
+ctest --test-dir <build-dir> -L tensor --output-on-failure
+```
+
+Module tests are discovered from `tests/tensor/test_*.cpp`; the focused CTest name is
+`<source-stem>_tensor_FocusedTests`. The stress target has a 300-second timeout.
+Tensor benchmarks are discovered from `benchmarks/tensor/bench_*.cpp` only when
+`THEMIS_BUILD_BENCHMARKS` is enabled. CMake registration is not evidence that a
+test or benchmark has built or passed.
+
+## API/CLI Einstieg
+
+The module exposes C++ interfaces and no standalone CLI. Include the relevant
+public header from `include/tensor/` and follow its current contract.
 
 | Interface / File | Role |
 |---|---|
@@ -40,18 +73,26 @@ The tensor module provides tensor-aware indexing, retrieval, and graph/fingerpri
 | utr_converter.cpp | UTR conversion behavior |
 | tensor_butterfly_operator.cpp | tensor butterfly operator behavior |
 
-## Scope
+The [public header inventory](../../include/tensor/README.md) and
+[API notes](./API.md) identify runtime behavior and known discrepancies.
 
-In scope:
-- tensor-aware indexing and retrieval behavior
-- tensor fingerprint graph and dedup-related runtime behavior
-- tensor bridges, ingestion, and structural helper behavior
+## Integrationsueberblick
 
-Out of scope:
-- non-tensor ANN internals owned by other modules
-- external model-serving orchestration outside tensor boundaries
+```mermaid
+flowchart LR
+  Caller --> Manager[TensorIndexManager]
+  Manager -->|routeFor estimate| Router[TensorRouter]
+  Manager -->|createIndex| Index[Flat TT index]
+  Ingestion --> CoreBridge[TensorCoreStorageBridge]
+  CoreBridge --> Storage[Injected backend or in-memory fallback]
+  Repository[AdapterRepository] --> Graph[TensorFingerprintGraph]
+```
 
-## Runtime Behavior and Limits
+**Kurzinterpretation:** `routeFor()` returns an estimate that `createIndex()`
+does not apply. The diagram shows separate runtime paths; it does not imply a
+single end-to-end pipeline or durable storage when no backend is injected.
+
+## Known Limitations
 
 - `TensorIndexManager::routeFor()` derives a `TensorRouter::DataProfile` from the dimension and vector count, estimates compressibility from dimension, and returns a route. The current `createIndex()` implementation creates a flat TT index without consuming that route; see [API contract caveat](./API.md).
 - fingerprint graph behavior remains explicit and observable under insert/query/export operations.
@@ -59,32 +100,25 @@ Out of scope:
 - `TensorCoreStorageBridge` uses an injected storage backend or registered factory; without either, it falls back to `InMemoryTensorBackend` and does not persist across process restarts.
 - `TensorIndexManager::mapCores()` defaults to anonymous mapped memory populated by copying TT core data. File-backed `MAP_SHARED` mapping is a separate `buildFromFd()`/injected-mapper path, not the manager's default.
 
-## Installation
+The root configuration registers `themis_tensor` before tests and benchmarks,
+independently of `THEMIS_BUILD_ENTERPRISE_PLUGINS`. Tensor test registration
+can therefore use the module target instead of its missing-target source
+fallback. When `themis_core` or `themis_storage` is a static library that
+already compiles tensor sources, `themis_tensor` omits those sources and links
+the owner privately (`THEMIS_TENSOR_DEDUP_OWNER_SOURCES`, default `ON`; set
+`OFF` to restore the previous full source list). Shared owners are eligible
+when their symbols are exported: Windows auto-export must be enabled, and
+other platforms must not use hidden C++ visibility. Test-specific direct
+source additions are filtered against the same eligible owners. No configure,
+build, or tests were run for these changes.
 
-This is an in-tree module guide; use the main ThemisDB build configuration rather
-than treating `themis_tensor` as a separately packaged installation.
+## Verweise
 
-## Usage
-
-Include the relevant public header from `include/tensor/` and follow its current
-contract. The [public header inventory](../../include/tensor/README.md) and
-[API notes](./API.md) identify runtime behavior and known discrepancies.
-
-## Build and Test
-
-The module is a C++17 static library target. From an existing configured build directory:
-
-```sh
-cmake --build <build-dir> --target themis_tensor
-cmake --build <build-dir> --target module_tensor_test_tensor_contract_hardening_focused
-ctest --test-dir <build-dir> -L tensor --output-on-failure
-```
-
-Module tests are discovered from `tests/tensor/test_*.cpp`; the focused CTest name is
-`<source-stem>_tensor_FocusedTests`. The stress target has a 300-second timeout.
-Tensor benchmarks are discovered from `benchmarks/tensor/bench_*.cpp` only when
-`THEMIS_BUILD_BENCHMARKS` is enabled. CMake registration is not evidence that a
-test or benchmark has built or passed.
+- [Architecture](./ARCHITECTURE.md) · [Roadmap](./ROADMAP.md) ·
+  [Future enhancements](./FUTURE_ENHANCEMENTS.md) · [API notes](./API.md)
+- [Public tensor header inventory](../../include/tensor/README.md)
+- Build, test, and implementation evidence is summarized below and in the
+  linked module documents.
 
 ## Sourcecode Verification (Module: tensor/readme)
 

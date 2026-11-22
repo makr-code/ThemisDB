@@ -147,7 +147,7 @@ static void BM_CUDABackend_DistanceComputation(benchmark::State& state) {
     
     auto backend = std::make_unique<CUDABackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
-        state.SkipWithError("CUDA backend not available");
+        state.SkipWithMessage("CUDA backend not available");
         return;
     }
     
@@ -199,7 +199,7 @@ static void BM_HIPBackend_DistanceComputation(benchmark::State& state) {
     
     auto backend = std::make_unique<HIPBackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
-        state.SkipWithError("HIP backend not available");
+        state.SkipWithMessage("HIP backend not available");
         return;
     }
     
@@ -243,7 +243,7 @@ static void BM_VulkanBackend_DistanceComputation(benchmark::State& state) {
     
     auto backend = std::make_unique<VulkanBackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
-        state.SkipWithError("Vulkan backend not available");
+        state.SkipWithMessage("Vulkan backend not available");
         return;
     }
     

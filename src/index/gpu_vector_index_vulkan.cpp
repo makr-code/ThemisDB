@@ -896,6 +896,7 @@ public:
             // Try multiple shader search paths
             std::vector<std::string> searchPaths = {
                 "shaders/vector_index/",                    // Build directory
+                "../../shaders/vector_index/",               // CTest benchmark working directory
                 "../shaders/vector_index/",                 // One level up
                 "build/shaders/vector_index/",              // Workspace-local build folder
                 "build/windows-release/shaders/vector_index/",       // Common Windows preset

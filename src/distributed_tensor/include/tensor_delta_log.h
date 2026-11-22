@@ -44,9 +44,6 @@
 namespace themis {
 namespace distributed_tensor {
 
-// Forward declarations
-struct ArtifactManifest;
-
 enum class DeltaMutationType : uint8_t {
   INSERT = 0,
 

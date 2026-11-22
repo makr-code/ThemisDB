@@ -70,6 +70,35 @@ void requireTransferStatus(const grpc::Status& status) {
         throw std::runtime_error("Shard transfer RPC failed: " + status.error_message());
     }
 }
+
+void validateRaftTransport(const ShardRPCClient::Config& config,
+                           const std::string& raft_group_id,
+                           const std::string& expected_peer_node_id,
+                           const std::string& claimed_sender_id) {
+    if (config.endpoint.empty() || raft_group_id.empty() || expected_peer_node_id.empty() ||
+        config.local_node_id.empty() || claimed_sender_id != config.local_node_id ||
+        config.expected_peer_node_id != expected_peer_node_id) {
+        throw std::runtime_error("Raft RPC group or node identity is not explicitly bound");
+    }
+    if (!config.enable_mtls || !config.tls_verify_server || config.allow_insecure ||
+        config.timeout_ms <= 0 ||
+        config.expected_peer_identity_property != "x509_subject_alternative_name" ||
+        config.expected_peer_identity_value.empty()) {
+        throw std::runtime_error("Raft RPC requires verified mTLS, a SAN identity, and a positive deadline");
+    }
+}
+
+void setRaftDeadline(grpc::ClientContext& context,
+                     const ShardRPCClient::Config& config) {
+    context.set_deadline(std::chrono::system_clock::now() +
+                         std::chrono::milliseconds(std::min(config.timeout_ms, 5000)));
+}
+
+void requireRaftStatus(const grpc::Status& status) {
+    if (!status.ok()) {
+        throw std::runtime_error("Raft RPC failed: " + status.error_message());
+    }
+}
 } // namespace
 #endif
 
@@ -208,6 +237,13 @@ struct ShardRPCClient::Impl {
     void initializeGrpcChannel() {
         // Configure channel arguments for keepalive and reliability
         grpc::ChannelArguments args;
+        if (!config.expected_peer_identity_value.empty()) {
+            if (config.expected_peer_identity_property != "x509_subject_alternative_name") {
+                throw std::runtime_error(
+                    "Raft peer TLS identity must use the X.509 subject alternative name");
+            }
+            args.SetSslTargetNameOverride(config.expected_peer_identity_value);
+        }
         
         // Keepalive settings
         args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 30000);  // 30 seconds
@@ -664,6 +700,112 @@ bool ShardRPCClient::ping() {
     } catch (...) {
         return false;
     }
+}
+
+themisdb::sharding::VoteResponse ShardRPCClient::requestRaftVote(
+    const std::string& raft_group_id,
+    const std::string& expected_peer_node_id,
+    const themisdb::sharding::VoteRequest& request) {
+#if THEMIS_HAS_SHARD_GRPC
+    validateRaftTransport(impl_->config, raft_group_id, expected_peer_node_id,
+                          request.candidate_id);
+    if (!impl_->stub) {
+        throw std::runtime_error("Raft vote requires a gRPC transport");
+    }
+
+    proto::RaftVoteRequestProto rpc_request;
+    rpc_request.set_raft_group_id(raft_group_id);
+    rpc_request.set_candidate_id(request.candidate_id);
+    rpc_request.set_term(request.term);
+    rpc_request.set_last_log_index(request.last_log_index);
+    rpc_request.set_last_log_term(request.last_log_term);
+    proto::RaftVoteResponseProto rpc_response;
+    grpc::ClientContext context;
+    setRaftDeadline(context, impl_->config);
+    requireRaftStatus(impl_->stub->RequestVote(&context, rpc_request, &rpc_response));
+    if (rpc_response.voter_id() != expected_peer_node_id) {
+        throw std::runtime_error("Raft vote response identity does not match the configured peer");
+    }
+    if (rpc_response.term() < request.term) {
+        throw std::runtime_error("Raft vote response term is stale");
+    }
+
+    return {rpc_response.voter_id(), rpc_response.term(),
+            rpc_response.vote_granted(), rpc_response.reason()};
+#else
+    (void)raft_group_id;
+    (void)expected_peer_node_id;
+    (void)request;
+    throw std::runtime_error("Raft vote gRPC is not available in this build");
+#endif
+}
+
+themisdb::sharding::AppendEntriesResponse ShardRPCClient::appendRaftEntries(
+    const std::string& raft_group_id,
+    const std::string& expected_peer_node_id,
+    const themisdb::sharding::AppendEntriesRequest& request) {
+#if THEMIS_HAS_SHARD_GRPC
+    validateRaftTransport(impl_->config, raft_group_id, expected_peer_node_id,
+                          request.leader_id);
+    if (!impl_->stub) {
+        throw std::runtime_error("Raft AppendEntries requires a gRPC transport");
+    }
+    if (request.entries.size() >
+        themisdb::sharding::RaftAppendEntriesLimits::max_entries_per_rpc) {
+        throw std::runtime_error("Raft AppendEntries contains too many entries");
+    }
+    std::size_t payload_bytes = 0;
+    for (const auto& entry : request.entries) {
+        if (entry.command.size() >
+                themisdb::sharding::RaftAppendEntriesLimits::max_command_bytes ||
+            payload_bytes >
+                themisdb::sharding::RaftAppendEntriesLimits::max_payload_bytes -
+                    entry.command.size()) {
+            throw std::runtime_error("Raft AppendEntries exceeds the configured request limits");
+        }
+        payload_bytes += entry.command.size();
+    }
+
+    proto::RaftAppendEntriesRequestProto rpc_request;
+    rpc_request.set_raft_group_id(raft_group_id);
+    rpc_request.set_leader_id(request.leader_id);
+    rpc_request.set_term(request.term);
+    rpc_request.set_prev_log_index(request.prev_log_index);
+    rpc_request.set_prev_log_term(request.prev_log_term);
+    rpc_request.set_leader_commit(request.leader_commit);
+    for (const auto& entry : request.entries) {
+        auto* rpc_entry = rpc_request.add_entries();
+        rpc_entry->set_term(entry.term);
+        rpc_entry->set_index(entry.index);
+        rpc_entry->set_command(entry.command);
+        rpc_entry->set_timestamp_ns(entry.timestamp_ns);
+    }
+
+    proto::RaftAppendEntriesResponseProto rpc_response;
+    grpc::ClientContext context;
+    setRaftDeadline(context, impl_->config);
+    requireRaftStatus(impl_->stub->AppendEntries(&context, rpc_request, &rpc_response));
+    if (rpc_response.follower_id() != expected_peer_node_id) {
+        throw std::runtime_error(
+            "Raft AppendEntries response identity does not match the configured peer");
+    }
+    if (rpc_response.term() < request.term) {
+        throw std::runtime_error("Raft AppendEntries response term is stale");
+    }
+    const auto required_match_index =
+        request.entries.empty() ? request.prev_log_index : request.entries.back().index;
+    if (rpc_response.success() && rpc_response.match_index() < required_match_index) {
+        throw std::runtime_error(
+            "Raft AppendEntries response does not cover the requested log prefix");
+    }
+
+    return {rpc_response.term(), rpc_response.success(), rpc_response.match_index()};
+#else
+    (void)raft_group_id;
+    (void)expected_peer_node_id;
+    (void)request;
+    throw std::runtime_error("Raft AppendEntries gRPC is not available in this build");
+#endif
 }
 
 /**

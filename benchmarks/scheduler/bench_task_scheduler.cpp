@@ -199,7 +199,9 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ExecuteTaskNow)(benchmark::State& 
         benchmark::DoNotOptimize(result);
     }
 
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
 }
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, ExecuteTaskNow)
@@ -235,7 +237,9 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ListTasks)(benchmark::State& state
         benchmark::DoNotOptimize(task_count);
     }
 
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations() * n);
+#endif
     state.SetLabel("n=" + std::to_string(n));
 }
 
@@ -255,7 +259,9 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, GetStats)(benchmark::State& state)
         auto stats = scheduler_->getStats();
         benchmark::DoNotOptimize(stats);
     }
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations());
+#endif
 }
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, GetStats)

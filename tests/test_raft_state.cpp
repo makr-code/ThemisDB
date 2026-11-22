@@ -1,14 +1,29 @@
 #include "sharding/raft_state.h"
 #include <gtest/gtest.h>
+#include <filesystem>
+#include <system_error>
 #include <thread>
 
 using namespace themisdb::sharding;
 
 class RaftStateTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        const auto nonce = std::chrono::steady_clock::now().time_since_epoch().count();
+        persistence_directory_ = std::filesystem::temp_directory_path() /
+            ("themis_raft_state_" + std::to_string(nonce));
+        std::filesystem::create_directories(persistence_directory_);
+    }
+
+    void TearDown() override {
+        std::error_code error;
+        std::filesystem::remove_all(persistence_directory_, error);
+    }
+
     RaftConfig createConfig(const std::string& node_id, size_t cluster_size = 3) {
         RaftConfig config;
         config.node_id = node_id;
+        config.persistence_path = (persistence_directory_ / "raft.wal").string();
         
         for (size_t i = 1; i <= cluster_size; ++i) {
             config.cluster_members.push_back("node_" + std::to_string(i));
@@ -20,6 +35,8 @@ protected:
         
         return config;
     }
+
+    std::filesystem::path persistence_directory_;
 };
 
 // Test: Initial state is FOLLOWER
@@ -158,6 +175,60 @@ TEST_F(RaftStateTest, VoteRequestHigherTermUpdatesTerm) {
     EXPECT_EQ(response.term, 5);
     EXPECT_EQ(raft.getCurrentTerm(), 5);
     EXPECT_TRUE(raft.isFollower());
+}
+
+TEST_F(RaftStateTest, VoteRequestRejectsCandidateOutsideMembership) {
+    auto config = createConfig("node_1");
+    RaftState raft(config);
+
+    VoteRequest request;
+    request.term = 5;
+    request.candidate_id = "outsider";
+    request.last_log_index = 0;
+    request.last_log_term = 0;
+
+    const auto response = raft.handleVoteRequest(request);
+
+    EXPECT_FALSE(response.vote_granted);
+    EXPECT_EQ(response.term, 0);
+    EXPECT_TRUE(raft.getVotedFor().empty());
+}
+
+TEST_F(RaftStateTest, VoteRequestRequiresDurableJournal) {
+    auto config = createConfig("node_1");
+    config.persistence_path.clear();
+    RaftState raft(config);
+
+    VoteRequest request;
+    request.term = 5;
+    request.candidate_id = "node_2";
+    request.last_log_index = 0;
+    request.last_log_term = 0;
+
+    const auto response = raft.handleVoteRequest(request);
+
+    EXPECT_FALSE(response.vote_granted);
+    EXPECT_EQ(response.term, 0);
+    EXPECT_TRUE(raft.getVotedFor().empty());
+}
+
+TEST_F(RaftStateTest, VoteRequestRejectsCandidateWithStaleLog) {
+    auto config = createConfig("node_1");
+    RaftState raft(config);
+    raft.getLog().append(LogEntry{2, 1, "local"});
+
+    VoteRequest request;
+    request.term = 3;
+    request.candidate_id = "node_2";
+    request.last_log_index = 1;
+    request.last_log_term = 1;
+
+    const auto response = raft.handleVoteRequest(request);
+
+    EXPECT_FALSE(response.vote_granted);
+    EXPECT_EQ(response.term, 3);
+    EXPECT_EQ(raft.getCurrentTerm(), 3);
+    EXPECT_TRUE(raft.getVotedFor().empty());
 }
 
 // Test: Can only vote once per term

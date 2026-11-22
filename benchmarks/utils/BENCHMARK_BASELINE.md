@@ -25,9 +25,10 @@ The runner is not registered in the current `benchmarks/utils/CMakeLists.txt`.
 release gate, or evidence that the named subsystem meets a performance
 target.** They are intentionally not repeated here as current measurements.
 
-The only benchmark target registered by the directory today is
-`bench_utils_release_gates`; it measures configuration-object operations and
-small enum-dispatch cases. See
+The current canonical utility microbenchmarks are `bench_utils_release_gates`
+and `bench_utils_benchmark_runner`; they measure API-contract
+configuration-object operations and small enum-dispatch cases. They are narrow
+value-type microbenchmarks, not production-service performance evidence. See
 [`../../src/utils/PERFORMANCE_EXPECTATIONS.md`](../../src/utils/PERFORMANCE_EXPECTATIONS.md)
 for the current scope and the open work required to establish representative
 performance targets.

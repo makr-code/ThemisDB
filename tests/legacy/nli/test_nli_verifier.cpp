@@ -139,8 +139,3 @@ TEST_F(NLIVerifierTest, CheckEntailmentIsFastEnoughForHeuristicPath) {
         std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     EXPECT_LT(duration_ms, 100);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

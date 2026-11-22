@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - Raft quorum recovery and tensor index shape validation
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- Raft leaders retain uncommitted entries after quorum failure and resume
+  bounded prefix replication when followers recover. Each proposal invocation
+  creates a distinct entry, so retries have at-least-once semantics.
+- Multi-node proposals above the AppendEntries command limit are rejected
+  before durable append. Tensor indexes reject malformed or incompatible TT
+  shapes, including mixed shapes across persisted entries; files with
+  inconsistent mode metadata must be rebuilt from source vectors.
+
 ### Breaking - Host-side skill delegation API/ABI (target: v3.0.0)
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

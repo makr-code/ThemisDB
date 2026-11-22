@@ -1,4 +1,26 @@
-# ThemisDB Cycle Metrics: Comprehensive Performance Measurement
+docs > performance > cycle metrics
+
+---
+Author: "ThemisDB Team"
+Created: "2026-08-08"
+Last Updated: "2026-11-21"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Primary: "[cycle_metrics.h](../../include/performance/cycle_metrics.h)"
+Bezug: "Google Benchmark CTest registration correction"
+---
+
+# ThemisDB Cycle Metrics: Scope and Performance Measurement
+
+The cycle-metrics benchmark target measures only the Google Benchmark cases
+registered in `benchmarks/monitoring/bench_cycle_metrics.cpp`. Prior custom
+console output included synthetic RAG component values and must not be used as
+performance evidence. Expected-cycle constants elsewhere in this document are
+reference values, not verified measurements or release thresholds.
 
 ## Table of Contents
 
@@ -29,18 +51,18 @@ ThemisDB implements a comprehensive, cycle-based performance measurement system 
 
 | Metric | Time-based (ms) | Cycle-based (Cycles) |
 |--------|----------------|---------------------|
-| **System comparability** | ❌ 3.2 GHz vs 4.8 GHz = not comparable | ✅ Normalized to CPU frequency |
+| **System comparability** | Time units are portable, but hardware workloads differ | Counter values are platform-dependent and not normalized |
 | **Turbo Boost effects** | ❌ Highly variable | ✅ Consistent under same load |
-| **CPU/GPU correlation** | ❌ Hard to correlate | ✅ Both measurable in cycles |
+| **CPU/GPU correlation** | Separate device timing is required | Current benchmark reports CPU counter/memory cases only |
 | **Precision** | ~1µs | ~1 cycle (sub-nanosecond @ 4GHz) |
-| **PCIe/Memory bus** | ❌ Not directly measurable | ✅ Bus cycles countable |
+| **PCIe/Memory bus** | Requires device/PMU instrumentation | Not covered by the current benchmark |
 
 ### Key Benefits
 
-1. **System-independent comparison**: Cycle counts are normalized to CPU frequency, making measurements comparable across different systems.
-2. **Sub-nanosecond precision**: At 4 GHz, one cycle = 0.25 nanoseconds.
-3. **Hardware correlation**: Can directly measure CPU, GPU, memory, and PCIe bus cycles.
-4. **Turbo Boost stability**: Less affected by dynamic frequency scaling.
+1. **Cycle-counter observations**: Values are hardware/platform-counter readings where supported; they are not automatically normalized or directly comparable across systems.
+2. **Counter resolution**: Counter resolution depends on the processor and platform.
+3. **Hardware scope**: The current benchmark covers CPU cycle-counter reads and memory primitives only. It does not measure GPU, PCIe, HNSW, or LLM work.
+4. **Frequency effects**: Dynamic frequency scaling and system load remain relevant to interpretation.
 
 ## Architecture
 
@@ -246,7 +268,11 @@ config.clearOperationFilters();
 | 7B params | 80,000,000 | ~26.7 ms |
 | 13B params | 145,000,000 | ~48.3 ms |
 
-### RAG Pipeline Breakdown
+### RAG Pipeline Reference Values (Not Measured)
+
+The following values are constants used for reference only. The benchmark does
+not execute HNSW search, LLM inference, or a RAG pipeline; do not report the
+breakdown or derived percentages as measured performance.
 
 **Scenario**: 10K vector search + 10 token generation (7B model)
 
@@ -257,7 +283,9 @@ config.clearOperationFilters();
 | LLM inference | 800,000,000 | 99.44% |
 | **Total** | **804,500,150** | **100%** |
 
-**Key Insight**: Pointer passing overhead is **negligible** (0.000019%)!
+The percentages above are arithmetic from reference constants only. They are
+not measurements and do not establish pointer-passing overhead in a live RAG
+pipeline.
 
 ### Tolerance Levels
 
@@ -459,51 +487,16 @@ AsyncMetricsExporter::instance().stop();
 
 ### Running Benchmarks
 
-```bash
-cd build
-./benchmarks/bench_cycle_metrics
+```powershell
+cmake --build --preset windows-bench-release --target bench_cycle_metrics
+ctest --preset vscode-windows-benchmark-smokes --tests-regex "^bench_cycle_metrics$" --output-on-failure
 ```
 
-Expected output:
-```
-ThemisDB Cycle Metrics Benchmark
-=================================
-
-System Information:
-  CPU: Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz
-  Frequency: 3600 MHz
-  Cycle metrics: ENABLED
-
-=== Pointer Passing vs Memory Copy ===
-  Pointer passing: 147 cycles
-  Memory copy (10KB): 7842 cycles
-  Speedup: 53.3x
-  Deviation from expected:
-    Pointer: -2.0%
-    Copy: -1.9%
-
-=== Cache Hierarchy ===
-  L1 access: ~4 cycles (expected: 4)
-  L2 access: ~13 cycles (expected: 12)
-  L3 access: ~52 cycles (expected: 50)
-  RAM access: ~245 cycles (expected: 250)
-
-=== RAG Pipeline Breakdown ===
-  HNSW search: 4500000 cycles
-  Pointer passing: 148 cycles
-  LLM inference: 800000000 cycles
-  Total: 804500148 cycles
-
-  Breakdown:
-    HNSW: 0.56%
-    Pointer: 0.000018% (NEGLIGIBLE!)
-    LLM: 99.44%
-
-  Expected values:
-    Pointer overhead: 0.000019%
-
-=== Benchmark Complete ===
-```
+The smoke writes canonical Google Benchmark JSON under
+`build-msvc-windows-bench/bench_results/current/bench_cycle_metrics.json`.
+Cases cover cycle-counter reads, pointer assignment, a 10 KiB copy, and cache-line
+stride reads over the registered working-set sizes. These microbenchmarks do
+not establish RAG or end-to-end application performance.
 
 ### Running Tests
 
@@ -516,12 +509,9 @@ All tests should pass.
 
 ## Conclusion
 
-The ThemisDB cycle metrics system provides:
-
-✅ **Zero-cost abstraction** in production (0% overhead)
-✅ **Sub-nanosecond precision** for accurate measurements
-✅ **System-independent comparison** via cycle normalization
-✅ **Comprehensive monitoring** via Grafana and CHIMERA
-✅ **Demonstrates efficiency** of pointer passing in RAG pipeline
+The cycle counter API and exporters are defined by the implementation and
+configuration. The benchmark is limited to the cases listed above; it does not
+validate production overhead, cross-system comparability, or pointer-passing
+efficiency in a RAG pipeline.
 
 For questions or issues, please refer to the ThemisDB documentation or file an issue on GitHub.

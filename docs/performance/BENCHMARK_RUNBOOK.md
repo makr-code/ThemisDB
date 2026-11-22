@@ -3328,8 +3328,12 @@ tools/
 
 ### Übersicht
 
-LLM- und LoRA-Benchmarks benötigen Modell-Artefakte (gguf-Dateien, LoRA-Adapter) im Dateisystem.
-Diese Sektion beschreibt, wie die Artefakte für CI-Runner und lokale Benchmark-Läufe bereitgestellt werden.
+Modellgestützte LLM- und LoRA-Benchmarks verwenden ausschließlich die konfigurierten,
+realen GGUF- und Adapter-Artefakte. Sie erzeugen keine Ersatzmodelle oder Inferenz-Ausgaben.
+Fehlt ein optionales externes Artefakt, wird nur der davon abhängige Benchmark mit einer
+konkreten Meldung übersprungen; ein übersprungener Fall ist kein Performance-Nachweis.
+Ein vorhandenes, aber fehlerhaftes Artefakt bleibt ein Fehler und darf nicht als Skip
+behandelt oder durch ein anderes Modell ersetzt werden.
 
 ---
 
@@ -3342,47 +3346,23 @@ Wichtige Felder:
 | Feld | Beschreibung |
 |------|-------------|
 | `model_dir_env` | Umgebungsvariable, die das Basis-Modellverzeichnis angibt (`THEMIS_MODEL_DIR`) |
-| `stub_models_cmake_var` | CMake-Variable `THEMIS_LLM_STUB_MODELS` (ON = CI-Stub-Modus) |
-| `models.*.is_stub_model` | `true` = Minimal-Stub für CI; `false` = echtes Produktionsmodell |
-| `benchmark_profiles.ci_stub` | Profil für CI-Runner ohne GPU (TinyLlama Q4, kein VRAM nötig) |
 | `benchmark_profiles.gpu_full` | Profil für vollständige GPU-Benchmarks (Llama-3 8B, ≥8 GB VRAM) |
 
 ---
 
-### Artefakt-Vorbereitung
-
-#### Automatisch (empfohlen)
+### Artefakt-Konfiguration
 
 ```bash
-# CI-Modus: Stub-Modell verwenden (kein echtes Modell erforderlich)
-./scripts/prepare_llm_bench_artifacts.sh --stub-only
-
-# Lokaler Lauf: echte Modelle aus THEMIS_MODEL_DIR
-export THEMIS_MODEL_DIR=/data/models/themis
-./scripts/prepare_llm_bench_artifacts.sh
-
-# Modellverzeichnis explizit angeben
-./scripts/prepare_llm_bench_artifacts.sh --model-dir /opt/models/themis
+# Reales GGUF-Modell explizit festlegen:
+export THEMIS_LLM_MODEL_PATH=/data/models/themis/model.gguf
+export THEMIS_LLM_LORA_PATH=/data/models/themis/adapter.gguf
 ```
 
-Das Skript:
-1. Liest `benchmarks/llm_bench_config.json`
-2. Erstellt die benötigte Verzeichnisstruktur unter `THEMIS_MODEL_DIR`
-3. Lädt den TinyLlama-Stub-Modell falls nötig (wget/curl)
-4. Generiert ein minimales LoRA-Stub-Adapter-Binary für CI
-5. Gibt einen Fehler (Exit 1) aus, wenn kein Modell verfügbar und kein Stub konfiguriert ist
-
-#### Manuell
-
-```bash
-# Stub-Modell manuell platzieren:
-mkdir -p "${THEMIS_MODEL_DIR}/gguf"
-cp tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
-
-# Echtes Llama-3 8B Modell:
-mkdir -p "${THEMIS_MODEL_DIR}/gguf"
-cp Meta-Llama-3-8B-Instruct.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
-```
+`THEMIS_LLM_MODEL_PATH` ist maßgeblich, wenn gesetzt; bei einem fehlenden Pfad wird kein
+anderes Modell stillschweigend gewählt. Ohne expliziten Modellpfad kann `THEMIS_MODEL_DIR`
+als Suchverzeichnis verwendet werden. Ein erfolgreich ausgeführter Modell-Benchmark muss
+die echte Modell- und LoRA-Laufzeit benutzen, einschließlich eines gültigen
+Adapter-/Kontext-Bridges.
 
 ---
 
@@ -3391,7 +3371,8 @@ cp Meta-Llama-3-8B-Instruct.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
 | Variable | Default | Beschreibung |
 |----------|---------|--------------|
 | `THEMIS_MODEL_DIR` | `~/.local/share/themis/models` | Basis-Verzeichnis für Modell-Artefakte |
-| `THEMIS_LLM_MODEL_PATH` | nicht gesetzt | Pfad zum Modellartefakt; ohne Modell wird keine Inferenzmessung ausgegeben |
+| `THEMIS_LLM_MODEL_PATH` | nicht gesetzt | Pfad zum realen GGUF-Modell; bei fehlendem optionalem Artefakt wird der abhängige Fall übersprungen |
+| `THEMIS_LLM_LORA_PATH` | nicht gesetzt | Pfad zum realen LoRA-Adapter für adaptergestützte Fälle |
 
 ---
 
@@ -3399,10 +3380,11 @@ cp Meta-Llama-3-8B-Instruct.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
 
 | Problem | Lösung |
 |---------|--------|
-| `artifact not found` Fehler im CI-Log | `./scripts/prepare_llm_bench_artifacts.sh --stub-only` ausführen |
+| Optionales Modellartefakt fehlt | Reales GGUF bereitstellen; der übersprungene Fall liefert keine Performance-Evidenz |
+| Konfiguriertes Artefakt ist ungültig oder abgeschnitten | Artefakt ersetzen oder korrigieren; der Benchmark muss mit einem echten Fehler enden |
 | `THEMIS_MODEL_DIR` nicht gesetzt | `export THEMIS_MODEL_DIR=/pfad/zu/modellen` |
 | Download schlägt fehl (kein Netzwerk) | Modell manuell in `$THEMIS_MODEL_DIR/gguf/` platzieren |
-| Unzureichend VRAM | `--stub-only` Modus nutzen oder `gpu_full`-Profil mit GPU ≥8 GB VRAM |
+| Adapter kann nicht angewendet werden | LoRA-Datei und angebundene llama.cpp-Laufzeit prüfen; ein fehlender Runtime-Bridge ist ein Fehler |
 
 ---
 

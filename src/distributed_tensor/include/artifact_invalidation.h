@@ -39,21 +39,24 @@ class ArtifactInvalidationManager {
    * @param[in] now_unix_sec Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool shouldInvalidateForStaleness(const ArtifactManifest& manifest, int64_t now_unix_sec) const;
+  virtual bool shouldInvalidateForStaleness(
+      const detail::ArtifactManifest& manifest, int64_t now_unix_sec) const;
 
   /**
    * @brief Should Invalidate For Corruption.
    * @param[in] manifest Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool shouldInvalidateForCorruption(const ArtifactManifest& manifest) const;
+  virtual bool shouldInvalidateForCorruption(
+      const detail::ArtifactManifest& manifest) const;
 
   /**
    * @brief Should Invalidate For Rank Breach.
    * @param[in] manifest Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool shouldInvalidateForRankBreach(const ArtifactManifest& manifest) const;
+  virtual bool shouldInvalidateForRankBreach(
+      const detail::ArtifactManifest& manifest) const;
 
   /**
    * @brief Should Invalidate For Residual.
@@ -61,7 +64,8 @@ class ArtifactInvalidationManager {
    * @param[in] residual_threshold Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool shouldInvalidateForResidual(const ArtifactManifest& manifest,
+  virtual bool shouldInvalidateForResidual(
+                                           const detail::ArtifactManifest& manifest,
                                            double residual_threshold) const;
 
   /**
@@ -69,7 +73,8 @@ class ArtifactInvalidationManager {
    * @param[in] manifest Input parameter.
    * @return Return value.
    */
-  virtual ArtifactManifest markStale(const ArtifactManifest& manifest) const;
+  virtual detail::ArtifactManifest markStale(
+      const detail::ArtifactManifest& manifest) const;
 
   /**
    * @brief Invalidate.
@@ -77,7 +82,8 @@ class ArtifactInvalidationManager {
    * @param[in] reason Input parameter.
    * @return Return value.
    */
-  virtual ArtifactManifest invalidate(const ArtifactManifest& manifest, InvalidationReason reason) const;
+  virtual detail::ArtifactManifest invalidate(
+      const detail::ArtifactManifest& manifest, InvalidationReason reason) const;
 
   /**
    * @brief Transition To Rebuilding.
@@ -86,7 +92,8 @@ class ArtifactInvalidationManager {
    * @param[in] now_unix_sec Input parameter.
    * @return Return value.
    */
-  virtual ArtifactManifest transitionToRebuilding(const ArtifactManifest& manifest,
+  virtual detail::ArtifactManifest transitionToRebuilding(
+                                                  const detail::ArtifactManifest& manifest,
                                                   UpdateMode mode,
                                                   int64_t now_unix_sec) const;
 
@@ -99,7 +106,8 @@ class ArtifactInvalidationManager {
    * @param[in] now_unix_sec Input parameter.
    * @return Return value.
    */
-  virtual ArtifactManifest transitionToReadyAfterRebuild(const ArtifactManifest& manifest,
+  virtual detail::ArtifactManifest transitionToReadyAfterRebuild(
+                                                         const detail::ArtifactManifest& manifest,
                                                          RebuildState rebuild_state,
                                                          uint64_t source_seq_start,
                                                          uint64_t source_seq_end,
@@ -112,7 +120,8 @@ class ArtifactInvalidationManager {
    * @param[in] now_unix_sec Input parameter.
    * @return Return value.
    */
-  virtual ArtifactManifest transitionToFailed(const ArtifactManifest& manifest,
+  virtual detail::ArtifactManifest transitionToFailed(
+                                              const detail::ArtifactManifest& manifest,
                                               InvalidationReason reason,
                                               int64_t now_unix_sec) const;
 
@@ -124,7 +133,7 @@ class ArtifactInvalidationManager {
    * @param[in] max_residual Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool shouldRejectForPlanner(const ArtifactManifest& manifest,
+  virtual bool shouldRejectForPlanner(const detail::ArtifactManifest& manifest,
                                       int64_t now_unix_sec,
                                       uint64_t max_delta_lag,
                                       double max_residual) const;

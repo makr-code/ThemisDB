@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-21"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,7 +50,9 @@ end-to-end service:
    the RocksDB-backed `RocksDBWrapper`. It requires a caller-provided database
    path, writes WAL-backed synchronous batches, and rejects corrupt records on
    open. This persists local placement metadata only; it does not replicate
-   records or shard payloads to other nodes.
+   records or shard payloads to other nodes. Lifecycle invalidation, exact-graph
+   fallback, staleness, recovery, lock, and snapshot-update implementations are
+   part of the module target's private source set.
 
 `TensorTrainingCoordinator` invokes worker callbacks synchronously in-process.
 It does not implement distributed worker execution. Configuration is supplied
@@ -59,6 +61,13 @@ placement options; there is no module configuration file. See the
 [architecture guide](../../src/distributed_tensor/ARCHITECTURE.md) for the
 component map and configuration inventory.
 
+The public declarations under `include/distributed_tensor/` remain in
+`themis::distributed_tensor`. Source-private manifest/class definitions and
+summary-first planner types under `src/distributed_tensor/include/` use
+`themis::distributed_tensor::detail`; these similarly named manifest, class,
+planner, routing, retrieval, and fragment types are distinct from the public
+API types.
+
 ## Public contract and limitations
 
 - The public API requires C++20: `tensor_storage_strategy.h` includes
@@ -66,10 +75,16 @@ component map and configuration inventory.
   `cxx_std_20` to consumers linking the target. Direct users of the installed
   headers must also compile as C++20.
 - The default module target compiles root-level `integrity_verification.cc`,
-  whose `simple_sha256_hash()` is an FNV-1a demonstration hash. The separate
-  nested implementation containing SHA-256 calls is not in this target's
-  source list. Do not treat the active hash or Merkle-shaped data structures as
-  cryptographic integrity evidence.
+  which now uses OpenSSL EVP SHA-256 when OpenSSL Crypto is available and fails
+  closed otherwise. The versioned receipt binds the artifact ID, manifest
+  content hash/version, and declared shard digests, not all metadata or raw
+  shard bytes; callers must use `verify_shard()` for raw bytes. Neither
+  operation authenticates the producer. The nested implementation remains
+  outside the product target and is compiled into EPIC-3 test/benchmark
+  targets only when OpenSSL is found. `ArtifactManifest::compute_manifest_hash()`
+  remains non-cryptographic. The
+  SHA-256 implementation and new regression sources have not been built or
+  tested; the generated `WIKI_STATUS.json` has not been refreshed.
 - Placement plans are not automatically persisted or applied; callers may
   persist placement metadata through `ManifestStore`. Retrieval planning does
   not fetch fragments. Caller-supplied fetchers and transport implementations
@@ -82,6 +97,15 @@ Follow the public headers for exact signatures and edge behavior. The module
 source-linked context.
 
 ## Build, tests, and benchmarks
+
+The root CMake configuration now registers `themis_tensor` before tests and
+benchmarks, independently of `THEMIS_BUILD_ENTERPRISE_PLUGINS`. The
+distributed tensor target can link that tensor module in non-enterprise
+configurations too. Static owners and shared owners with exported symbols are
+de-duplicated against `themis_tensor`, which links those owners privately.
+Tensor test targets filter direct source additions against the same owners.
+Non-exporting shared owners still overlap. These changes have not been
+configured, built, or tested; the generated wiki manifest remains unchanged.
 
 The module-local focused test CMake registers three executables and CTest cases
 from allocation, operations, and performance test sources; see

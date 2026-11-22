@@ -526,7 +526,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
                     : CoordinatorTxnResult::ABORTED;
                 return outcome;
             }
-            if (it->second.state != CoordinatorTxnState::PREPARED) {
+            if (it->second.state != CoordinatorTxnState::PREPARING) {
                 outcome.reason = "transaction already in progress; recovery required";
                 return outcome;
             }
@@ -707,7 +707,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
         stored.state = CoordinatorTxnState::PREPARING;
         prepared_here = runPhase1(stored, lock);
         if (prepared_here) {
-            stored.state = CoordinatorTxnState::PREPARED;
+            stored.state = CoordinatorTxnState::PREPARING;
             outcome.result = CoordinatorTxnResult::COMMITTED;
             return outcome;
         }
@@ -826,12 +826,12 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
     if (all_prepared && phase2_completed) {
         total_commits_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::COMMITTED;
-        THEMIS_INFO("2PC coordinator [{}] txn {} COMMITTED", coordinator_id_, transaction_id);
+        THEMIS_DEBUG("2PC coordinator [{}] txn {} COMMITTED", coordinator_id_, transaction_id);
     } else if (!all_prepared && phase2_completed) {
         total_aborts_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::ABORTED;
         outcome.reason = "one or more participants voted ABORT";
-        THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
+        THEMIS_DEBUG("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
     } else {
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::FAILURE;
@@ -867,7 +867,7 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
         std::lock_guard<std::timed_mutex> lock(mutex_);
         const auto existing = transactions_.find(transaction_id);
         if (existing != transactions_.end()) {
-            if (existing->second.state == CoordinatorTxnState::PREPARED) {
+            if (existing->second.state == CoordinatorTxnState::PREPARING) {
                 return AdapterPrepareResult::PREPARED;
             }
             if (existing->second.state == CoordinatorTxnState::COMPLETED) {
@@ -946,7 +946,7 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
         stored.state = CoordinatorTxnState::PREPARING;
         prepared = runPhase1(stored, lock);
         stored.state = prepared
-            ? CoordinatorTxnState::PREPARED
+            ? CoordinatorTxnState::PREPARING
             : CoordinatorTxnState::ABORT_DECIDED;
         stored.decision_commit = false;
     }
@@ -1020,7 +1020,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commitPreparedForAdapter(
         }
         const auto it = transactions_.find(transaction_id);
         if (it == transactions_.end() ||
-            it->second.state != CoordinatorTxnState::PREPARED) {
+            it->second.state != CoordinatorTxnState::PREPARING) {
             outcome.reason = "transaction is not prepared";
             return outcome;
         }
@@ -1476,9 +1476,6 @@ TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
             break;
         case CoordinatorTxnState::PREPARING:
             rt.state = RecoverableTwoPhaseState::PREPARING;
-            break;
-        case CoordinatorTxnState::PREPARED:
-            rt.state = RecoverableTwoPhaseState::PREPARED;
             break;
         case CoordinatorTxnState::COMMIT_DECIDED:
             rt.state             = RecoverableTwoPhaseState::COMMITTING;

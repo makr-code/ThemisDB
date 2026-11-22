@@ -30,6 +30,11 @@ foreach(_src_name IN LISTS DIST_TENSOR_BLOCK_A_TESTS)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(OpenSSL_FOUND)
+        target_compile_definitions(${_target}
+            PRIVATE THEMIS_TEST_HAS_OPENSSL_SHA256=1
+        )
+    endif()
 
     themis_register_module_focused_test(
         MODULE distributed_tensor
