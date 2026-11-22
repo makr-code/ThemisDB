@@ -183,7 +183,7 @@ This runbook is the operator-facing guide for the principal failure modes in the
   evidence path only; successful CI artifacts and Windows/macOS lanes remain
   unverified.
 - A recent Wave B run
-  [45053427546](https://github.com/makr-code/ThemisDB/actions/runs/45053427546)
+  [45059649533](https://github.com/makr-code/ThemisDB/actions/runs/45059649533)
   ended `action_required` with zero jobs. No successful workflow artifact has
   yet been verified; rerun/approval and artifact inspection remain necessary.
 - These are Linux-only test results, not evidence for Windows/macOS, release
