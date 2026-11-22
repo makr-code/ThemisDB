@@ -181,7 +181,10 @@ construction.
 | storage headers | source-level | TT representation/decomposition, routing, and tensor storage backend contracts |
 
 `themis_tensor` is a static library target requiring C++17. The source list and
-conditional links are defined in `src/tensor/CMakeLists.txt`; test and benchmark
+conditional links are defined in `src/tensor/CMakeLists.txt`; sources already
+owned by static owners or shared owners with exported symbols are excluded and
+the owner is linked privately (`THEMIS_TENSOR_DEDUP_OWNER_SOURCES`). Tensor
+test targets apply the same source-ownership filter. Test and benchmark
 registration are defined in `tests/tensor/CMakeLists.txt` and
 `benchmarks/tensor/CMakeLists.txt`. There is no single tensor-module runtime
 configuration file: behavior is controlled by API arguments, injected backends,

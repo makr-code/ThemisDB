@@ -38,7 +38,7 @@ public:
         lora_path_ = themis::bench::resolveLoraPath();
         if (lora_path_.empty()) {
             preflight_error_ =
-                "LLM artefact preflight FAILED: no LoRA adapter found. "
+                "Optional LoRA adapter not found. "
                 "Run 'scripts/download_models.sh --stub-only' or set "
                 "THEMIS_MODEL_DIR. "
                 "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
@@ -61,7 +61,7 @@ public:
 protected:
     bool ensureReady(benchmark::State& state) const {
         if (!preflight_error_.empty()) {
-            state.SkipWithError(preflight_error_.c_str());
+            state.SkipWithMessage(preflight_error_.c_str());
             return false;
         }
         return true;

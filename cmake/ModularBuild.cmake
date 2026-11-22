@@ -433,6 +433,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/tensor/tensor_mmap_bridge.cpp
     ../src/tensor/hiss_structural_search.cpp
     ../src/tensor/tensor_index_manager.cpp
+    ../src/tensor/tensor_index.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
     ../src/tensor/tensor_fingerprint_graph.cpp
@@ -1757,7 +1758,6 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/rag/rag_ingestion_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/content_toolbox_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/toolbox_builder.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/toolbox_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/importers/huggingface_ingestion_plugin.cpp>
     # Project collaboration and audit (always required by project tests)
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/collaboration_manager.cpp>
@@ -1861,6 +1861,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp
     ../src/ingestion/steps/tensor_core_bridge_step.cpp
     ../src/toolbox/ingestion_toolbox.cpp
+    ../src/toolbox/toolbox_registry.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES

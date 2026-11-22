@@ -39,9 +39,11 @@ if(TARGET epic2_evaluation_lib AND TARGET GTest::gtest_main)
             themis_register_test_target(
                 NAME ${test_name}
                 TARGET ${test_name}
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2
             )
         else()
-            add_test(NAME ${test_name} COMMAND ${test_name})
+            message(FATAL_ERROR "Canonical test registration helper unavailable for ${test_name}")
         endif()
     endforeach()
 endif()
@@ -109,12 +111,11 @@ if(NOT TARGET benchmark_matrix_test)
             themis_register_test_target(
                 NAME benchmark_matrix_test
                 TARGET benchmark_matrix_test
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2 benchmark_matrix
             )
         else()
-            add_test(
-                NAME benchmark_matrix_test
-                COMMAND benchmark_matrix_test
-            )
+            message(FATAL_ERROR "Canonical test registration helper unavailable for benchmark_matrix_test")
         endif()
     else()
         message(STATUS "benchmark_matrix_test: GTest or themis_evaluation not available – skipped")
@@ -147,12 +148,11 @@ if(NOT TARGET retrieval_metrics_test)
             themis_register_test_target(
                 NAME retrieval_metrics_test
                 TARGET retrieval_metrics_test
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2 metrics
             )
         else()
-            add_test(
-                NAME retrieval_metrics_test
-                COMMAND retrieval_metrics_test
-            )
+            message(FATAL_ERROR "Canonical test registration helper unavailable for retrieval_metrics_test")
         endif()
         set_tests_properties(retrieval_metrics_test PROPERTIES
             LABELS "evaluation;epic2;metrics"
@@ -188,12 +188,11 @@ if(NOT TARGET artifact_lifecycle_test)
             themis_register_test_target(
                 NAME artifact_lifecycle_test
                 TARGET artifact_lifecycle_test
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2 lifecycle
             )
         else()
-            add_test(
-                NAME artifact_lifecycle_test
-                COMMAND artifact_lifecycle_test
-            )
+            message(FATAL_ERROR "Canonical test registration helper unavailable for artifact_lifecycle_test")
         endif()
         set_tests_properties(artifact_lifecycle_test PROPERTIES
             LABELS "evaluation;epic2;lifecycle"
@@ -229,12 +228,11 @@ if(NOT TARGET ablation_framework_test)
             themis_register_test_target(
                 NAME ablation_framework_test
                 TARGET ablation_framework_test
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2 ablation
             )
         else()
-            add_test(
-                NAME ablation_framework_test
-                COMMAND ablation_framework_test
-            )
+            message(FATAL_ERROR "Canonical test registration helper unavailable for ablation_framework_test")
         endif()
         set_tests_properties(ablation_framework_test PROPERTIES
             LABELS "evaluation;epic2;ablation"
@@ -277,12 +275,11 @@ if(NOT TARGET test_query_planner_cache)
             themis_register_test_target(
                 NAME test_query_planner_cache
                 TARGET test_query_planner_cache
+                TIMEOUT 120
+                LABELS module:epic2_evaluation tier:unit kind:focused epic2 query
             )
         else()
-            add_test(
-                NAME test_query_planner_cache
-                COMMAND test_query_planner_cache
-            )
+            message(FATAL_ERROR "Canonical test registration helper unavailable for test_query_planner_cache")
         endif()
         set_tests_properties(test_query_planner_cache PROPERTIES
             LABELS "phase3;p3-01;query_optimization;evaluation"

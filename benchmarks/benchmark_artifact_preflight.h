@@ -15,10 +15,9 @@
  * Solution:
  *   This header provides lightweight preflight utilities that every LLM / LoRA /
  *   RAG benchmark fixture can include.  They:
- *     1. Read the standard environment variables (THEMIS_MODEL_DIR,
- *        THEMIS_LLM_STUB_MODELS) to resolve model / adapter paths.
- *     2. Emit a clear, actionable error message (via benchmark::State::SkipWithError
- *        or SkipWithMessage) when an artefact is absent.
+ *     1. Read the documented model and adapter path environment variables.
+ *     2. Emit a clear, actionable message when an optional artefact is absent
+ *        or a configured required artefact cannot be used.
  *     3. Expose a macro (THEMIS_BENCH_REQUIRE_ARTIFACT) for one-line guards in
  *        benchmark body functions.
  *
@@ -229,7 +228,9 @@ inline std::string findRepositoryModel() {
 /**
  * Resolves the primary model path.
  *
- * If THEMIS_LLM_MODEL_PATH is set and the file exists, that path is returned.
+ * If THEMIS_LLM_MODEL_PATH is set, that path is authoritative. A missing
+ * configured artifact resolves to empty; resolution never silently substitutes
+ * a different model.
  * Otherwise falls back to the stub or real model under THEMIS_MODEL_DIR,
  * depending on the THEMIS_LLM_STUB_MODELS flag.
  *
@@ -238,9 +239,13 @@ inline std::string findRepositoryModel() {
 inline std::string resolveModelPath() {
     // 1. Explicit override via THEMIS_LLM_MODEL_PATH
     const char* explicit_path = std::getenv("THEMIS_LLM_MODEL_PATH");
-    if (explicit_path && *explicit_path != '\0' &&
-        std::filesystem::exists(explicit_path)) {
+    if (explicit_path && *explicit_path != '\0') {
         auto p = std::filesystem::path(explicit_path);
+        std::error_code error;
+        const bool exists = std::filesystem::exists(p, error);
+        if (!exists && !error) {
+            return "";
+        }
         p.make_preferred();
         return p.string();
     }
@@ -291,9 +296,13 @@ inline std::string resolveModelPath() {
  */
 inline std::string resolveLoraPath() {
     const char* explicit_path = std::getenv(kEnvLoraPath);
-    if (explicit_path && *explicit_path != '\0' &&
-        std::filesystem::exists(explicit_path)) {
+    if (explicit_path && *explicit_path != '\0') {
         auto p = std::filesystem::path(explicit_path);
+        std::error_code error;
+        const bool exists = std::filesystem::exists(p, error);
+        if (!exists && !error) {
+            return "";
+        }
         p.make_preferred();
         return p.string();
     }
@@ -318,7 +327,8 @@ inline std::string resolveLoraPath() {
  * @brief Preflight check result for LLM/LoRA artefacts.
  *
  * Call LLMArtifactPreflight::create() in a benchmark fixture's SetUp().
- * If ok() is false, pass errorMessage() to state.SkipWithError() and return
+ * If ok() is false, report the missing required artifact with
+ * state.SkipWithError() and return
  * early.
  */
 class LLMArtifactPreflight {
@@ -335,16 +345,13 @@ public:
 
         if (result.model_path_.empty()) {
             result.error_message_ =
-                "LLM artefact preflight FAILED: no model file found. "
-                "Run 'scripts/download_models.sh --stub-only' or set "
-                "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
+                "LLM model artifact not found. Set THEMIS_LLM_MODEL_PATH "
+                "or THEMIS_MODEL_DIR to a real GGUF model. "
                 "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
         } else if (require_lora && result.lora_path_.empty()) {
             result.error_message_ =
-                "LLM artefact preflight FAILED: no LoRA adapter found at "
-                "$THEMIS_MODEL_DIR/lora/. "
-                "Run 'scripts/download_models.sh --stub-only' to generate a "
-                "stub adapter. "
+                "Required LoRA adapter artifact not found. Set "
+                "THEMIS_LLM_LORA_PATH to a real LoRA adapter. "
                 "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
         }
 
@@ -385,7 +392,7 @@ private:
 /**
  * THEMIS_BENCH_REQUIRE_ARTIFACT(state, path_expr)
  *
- * Skips the benchmark with a clear error message if the given path is empty.
+ * Fails the benchmark with a clear error message if the required path is empty.
  * Intended for use at the top of benchmark body functions.
  *
  * @param state      benchmark::State& reference
@@ -405,9 +412,8 @@ private:
         const std::string _themis_artifact_path = (path_expr);                 \
         if (_themis_artifact_path.empty()) {                                    \
             (state).SkipWithError(                                              \
-                "LLM artefact preflight FAILED: required artefact not found. " \
-                "Run 'scripts/download_models.sh --stub-only' or set "          \
-                "THEMIS_MODEL_DIR. "                                            \
+                "Required LLM artifact not found. Set THEMIS_LLM_MODEL_PATH "   \
+                "or THEMIS_MODEL_DIR to a real model artifact. "                \
                 "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".");   \
             return;                                                             \
         }                                                                       \
@@ -416,7 +422,7 @@ private:
 /**
  * THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, path_expr, artifact_label)
  *
- * Variant that includes an artefact label in the error message.
+ * Variant that includes an artefact label in the skip message.
  *
  * Example:
  * @code
@@ -428,10 +434,10 @@ private:
     do {                                                                          \
         const std::string _themis_artifact_path = (path_expr);                   \
         if (_themis_artifact_path.empty()) {                                      \
-            (state).SkipWithError(                                                \
-                "LLM artefact preflight FAILED: " artifact_label " not found. "  \
-                "Run 'scripts/download_models.sh --stub-only' or set "            \
-                "THEMIS_MODEL_DIR. "                                              \
+            (state).SkipWithMessage(                                              \
+                "Optional LLM artefact not found: " artifact_label ". "          \
+                "Set THEMIS_LLM_MODEL_PATH, THEMIS_LLM_LORA_PATH, or "            \
+                "THEMIS_MODEL_DIR to a real artifact. "                           \
                 "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".");     \
             return;                                                               \
         }                                                                         \

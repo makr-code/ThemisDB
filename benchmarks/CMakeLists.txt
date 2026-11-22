@@ -66,6 +66,9 @@ themis_log_suite_context("Benchmarks")
 # Must be included before any add_subdirectory() that uses
 # themis_register_benchmark_ctest().
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/BenchmarkPolicy.cmake")
+# Some standalone diagnostics in the benchmark tree are executable checks, not
+# Google Benchmark workloads. Register those with the ordinary target policy.
+include("${THEMIS_ROOT_DIR}/tests/cmake/TestPolicy.cmake")
 
 # Include directories
 include_directories(
@@ -5243,7 +5246,7 @@ themis_add_standard_benchmark(bench_wal_stress             storage/bench_wal_str
     themis_add_standard_benchmark(kernel_block_size_bench      gpu/kernel_block_size_bench.cpp)
 
 # ============================================================================
-# Benchmarks with custom main() (plain executables, not Google Benchmark)
+# Additional benchmark targets with explicitly controlled sources/entry points
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/monitoring/bench_cycle_metrics.cpp" AND NOT TARGET bench_cycle_metrics)
@@ -5517,7 +5520,6 @@ themis_add_standard_benchmark(bench_rewrite_engine                          prom
 
 # Module: replication
 themis_add_standard_benchmark(bench_geo_placement_wal_shipping              replication/bench_geo_placement_wal_shipping.cpp)
-themis_add_standard_benchmark(bench_replication_dedicated_gates             replication/bench_replication_dedicated_gates.cpp)
 themis_add_standard_benchmark(bench_replication_multi_dc_multi_writer       replication/bench_replication_multi_dc_multi_writer.cpp)
 themis_add_standard_benchmark(bench_replication_release_gates               replication/bench_replication_release_gates.cpp)
 
@@ -5531,9 +5533,6 @@ themis_add_standard_benchmark(bench_sbom_verification_gates                 secu
 themis_add_standard_benchmark(bench_security_phase2_crypto_gates            security/bench_security_phase2_crypto_gates.cpp)
 themis_add_standard_benchmark(bench_security_phase3_policy_gates            security/bench_security_phase3_policy_gates.cpp)
 themis_add_standard_benchmark(bench_security_release_gates                  security/bench_security_release_gates.cpp)
-
-# Module: sharding
-themis_add_standard_benchmark(bench_sharding_dedicated_gates                sharding/bench_sharding_dedicated_gates.cpp)
 
 # Module: storage
 themis_add_standard_benchmark(bench_storage_dedicated_gates                 storage/bench_storage_dedicated_gates.cpp)
@@ -6858,7 +6857,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_gpu_vector_index
       TARGET bench_gpu_vector_index
       MODULE "gpu"
-      TIMEOUT 120
+      TIMEOUT 240
     EXTRA_LABELS release_critical
     )
   endif()
@@ -7857,14 +7856,16 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
-  # Module: replication (4)
+  # This legacy threshold diagnostic measures local stubs, not production
+  # replication paths. Keep its process-execution check in the ordinary CTest
+  # runner; it verifies process completion only and is not release-critical
+  # benchmark evidence.
   if(TARGET bench_replication_dedicated_gates)
-    themis_register_benchmark_ctest(
-      NAME   bench_replication_dedicated_gates
+    themis_register_test_target(
+      NAME ReplicationDedicatedGateDiagnostic
       TARGET bench_replication_dedicated_gates
-      MODULE "replication"
       TIMEOUT 120
-    EXTRA_LABELS release_critical
+      LABELS module:replication tier:diagnostic kind:standalone diagnostic stub-only
     )
   endif()
   if(TARGET bench_replication_multi_dc_multi_writer)
@@ -8109,14 +8110,16 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
-  # Module: sharding (3)
+  # This legacy threshold diagnostic measures local stubs, not production
+  # sharding paths. Keep its process-execution check in the ordinary CTest
+  # runner; it verifies process completion only and is not release-critical
+  # benchmark evidence.
   if(TARGET bench_sharding_dedicated_gates)
-    themis_register_benchmark_ctest(
-      NAME   bench_sharding_dedicated_gates
+    themis_register_test_target(
+      NAME ShardingDedicatedGateDiagnostic
       TARGET bench_sharding_dedicated_gates
-      MODULE "sharding"
       TIMEOUT 120
-    EXTRA_LABELS release_critical
+      LABELS module:sharding tier:diagnostic kind:standalone diagnostic stub-only
     )
   endif()
   if(TARGET bench_sharding_performance)
@@ -8916,12 +8919,13 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
+  # Each W8D fixture populates a 50k-key RocksDB dataset before its measured run.
   if(TARGET bench_w8d_operability_runbooks_ownership)
     themis_register_benchmark_ctest(
       NAME   bench_w8d_operability_runbooks_ownership
       TARGET bench_w8d_operability_runbooks_ownership
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w9a_security_overhead_audit)

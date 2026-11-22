@@ -46,8 +46,11 @@
 #include "tensor/tensor_mmap_bridge.h"
 #include "storage/tensor_router.h"
 
+#include <algorithm>
 #include <cstdio>
+#include <cstdint>
 #include <fstream>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -325,6 +328,146 @@ TEST(FlatTensorIndexPersistence, TFI06_LoadNonExistentPathReturnsFalse) {
     auto mgr = TensorIndexManager::create(nullptr);
     auto* idx = mgr->createIndex("t", "c", "f");
     EXPECT_FALSE(idx->load("/tmp/this_file_does_not_exist_themis_tfi.bin"));
+}
+
+// ============================================================================
+// TFI-07..TFI-10 — load() treats .ttidx files as untrusted input
+// ============================================================================
+
+namespace {
+std::string tfiTempPath(const char* name) {
+    return (std::filesystem::temp_directory_path() /
+            (std::string("themis_tfi_hardening_") + name + ".ttidx")).string();
+}
+
+template <typename T>
+void writePod(std::ofstream& out, T value) {
+    out.write(reinterpret_cast<const char*>(&value), sizeof(value));
+}
+
+void writeTtiHeader(std::ofstream& out, uint64_t n_entries) {
+    out.write("THEMIS_TTI\0", 11);
+    writePod<uint8_t>(out, 1);
+    writePod<uint64_t>(out, n_entries);
+}
+
+// One entry with no mode sizes and a single core whose header is given.
+void writeSingleCoreEntry(std::ofstream& out, uint64_t rl, uint64_t nn,
+                          uint64_t rr, uint64_t nf, size_t floats_to_write) {
+    writePod<int64_t>(out, 1);       // id
+    writePod<uint32_t>(out, 0);      // n_mode_sizes
+    writePod<double>(out, 1.0);      // original_norm
+    writePod<double>(out, 0.0);      // achieved_eps
+    writePod<uint32_t>(out, 1);      // n_cores
+    writePod<uint64_t>(out, rl);
+    writePod<uint64_t>(out, nn);
+    writePod<uint64_t>(out, rr);
+    writePod<uint64_t>(out, nf);
+    for (size_t i = 0; i < floats_to_write; ++i) {
+        writePod<float>(out, 1.0f);
+    }
+}
+
+ITensorIndex* indexWithOneVector(const std::shared_ptr<TensorIndexManager>& mgr) {
+    auto* idx = mgr->createIndex("t", "c", "f");
+    auto v = makeVec(8, 1.0f);
+    EXPECT_TRUE(idx->addFlat(1, v.data(), v.size()));
+    return idx;
+}
+} // namespace
+
+TEST(FlatTensorIndexPersistence, TFI07_TruncatedFileRejectedAndContentsKept) {
+    const std::string path = tfiTempPath("truncated");
+    {
+        auto mgr = TensorIndexManager::create(nullptr);
+        ASSERT_TRUE(indexWithOneVector(mgr)->save(path));
+    }
+    const auto full = std::filesystem::file_size(path);
+    std::filesystem::resize_file(path, full - 3);
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 1u);
+    std::filesystem::remove(path);
+}
+
+TEST(FlatTensorIndexPersistence, TFI08_HugeEntryCountRejectedWithoutThrowing) {
+    const std::string path = tfiTempPath("huge_count");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, uint64_t{1} << 60);
+    }
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = indexWithOneVector(mgr);
+    bool loaded = true;
+    EXPECT_NO_THROW(loaded = idx->load(path));
+    EXPECT_FALSE(loaded);
+    EXPECT_EQ(idx->size(), 1u);
+    std::filesystem::remove(path);
+}
+
+TEST(FlatTensorIndexPersistence, TFI09_CoreSizeMismatchRejected) {
+    const std::string path = tfiTempPath("core_mismatch");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, 1);
+        writeSingleCoreEntry(out, /*rl=*/1, /*nn=*/2, /*rr=*/1, /*nf=*/3, 3);
+    }
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 0u);
+    std::filesystem::remove(path);
+}
+
+TEST(FlatTensorIndexPersistence, TFI10_BrokenRankChainRejected) {
+    const std::string path = tfiTempPath("rank_chain");
+    {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        writeTtiHeader(out, 1);
+        // Single core must have r_left == r_right == 1; r_right == 2 is invalid.
+        writeSingleCoreEntry(out, /*rl=*/1, /*nn=*/2, /*rr=*/2, /*nf=*/4, 4);
+    }
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    EXPECT_FALSE(idx->load(path));
+    EXPECT_EQ(idx->size(), 0u);
+    std::filesystem::remove(path);
+}
+
+// ============================================================================
+// TIM-27..TIM-28 — createIndex() honours max_rank / epsilon
+// ============================================================================
+
+TEST(TensorIndexManager, TIM27_CreateIndexRejectsInvalidEpsilon) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    EXPECT_EQ(mgr->createIndex("t", "c", "zero", 0, 32, 0.0), nullptr);
+    EXPECT_EQ(mgr->createIndex("t", "c", "one", 0, 32, 1.0), nullptr);
+    EXPECT_EQ(mgr->createIndex("t", "c", "nan", 0, 32,
+                               std::numeric_limits<double>::quiet_NaN()), nullptr);
+    EXPECT_TRUE(mgr->listIndexes().empty());
+}
+
+TEST(TensorIndexManager, TIM28_MaxRankIsAppliedToAddFlat) {
+    // v[i] = 1 + 0.1*i reshaped to 8x8 is an affine matrix of rank 2.
+    auto v = makeVec(64, 1.0f);
+    auto maxBond = [](const themis::storage::TTTrain* t) {
+        size_t r = 0;
+        for (const auto& c : t->cores) r = std::max(r, c.r_right);
+        return r;
+    };
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* capped = mgr->createIndex("t", "c", "capped", 0, /*max_rank=*/1, 1e-4);
+    auto* uncapped = mgr->createIndex("t", "c", "free",   0, /*max_rank=*/32, 1e-4);
+    ASSERT_NE(capped, nullptr);
+    ASSERT_NE(uncapped, nullptr);
+    ASSERT_TRUE(capped->addFlat(1, v.data(), v.size()));
+    ASSERT_TRUE(uncapped->addFlat(1, v.data(), v.size()));
+
+    EXPECT_EQ(maxBond(capped->get(1)), 1u);
+    EXPECT_GE(maxBond(uncapped->get(1)), 2u);
 }
 
 // ============================================================================

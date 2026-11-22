@@ -100,12 +100,26 @@ public:
     /**
      * @brief Create (or open existing) TT index for a collection field.
      *
-     * If the index already exists (persisted in RocksDB) it is loaded.
-     * If the routing decision is HNSW the call succeeds but returns nullptr;
-     * callers should then use the standard `src/index` path.
+     * Always creates a linear-scan `FlatTensorIndex`; routing to HNSW is the
+     * caller's responsibility via routeFor(). If a data directory is set and
+     * `<data_dir>/<escaped_key>.ttidx` exists, it is loaded; a corrupt file is
+     * logged and the index starts empty.
      *
-     * @return Pointer to the ITensorIndex (owned by this manager), or nullptr
-     *         on routing rejection or error.
+     * @param tenant_id  Tenant namespace.
+     * @param collection Collection / table name.
+     * @param field      Field / column name.
+     * @param dim        Reserved; currently unused (dimension is inferred
+     *                   from the first inserted vector).
+     * @param max_rank   Max TT bond dimension for addFlat()/searchFlat();
+     *                   0 = uncapped.
+     * @param epsilon    TT-SVD relative tolerance; must be finite and in (0, 1).
+     * @return Pointer to the ITensorIndex (owned by this manager, valid until
+     *         dropIndex()/dropTenantIndexes() or manager destruction), or
+     *         nullptr if @p epsilon is invalid. If the index already exists,
+     *         the existing instance is returned and @p max_rank / @p epsilon
+     *         are ignored.
+     * @note Thread-safe. At most 256 creations run concurrently; further
+     *       callers spin-yield until a slot is free.
      */
     ITensorIndex* createIndex(const std::string& tenant_id,
                                const std::string& collection,

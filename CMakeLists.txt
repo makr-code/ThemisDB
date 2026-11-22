@@ -309,11 +309,13 @@ option(THEMIS_REQUIRE_SHARD_GRPC
 # propagate umbrella include paths reliably. This path is consumed by target-
 # scoped include declarations in module/core targets.
 set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "" CACHE INTERNAL "vcpkg fallback include directory")
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
     set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
-elseif(CMAKE_HOST_WIN32 AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+    set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
     set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
-elseif(CMAKE_HOST_WIN32 AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
     set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
 endif()
 if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)

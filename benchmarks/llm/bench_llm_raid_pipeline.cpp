@@ -10,20 +10,24 @@
  */
 
 #include <benchmark/benchmark.h>
+#include "benchmark_artifact_preflight.h"
 #include "llm/llm_plugin_manager.h"
-#include "llm/multi_lora_manager.h"
+#include "llama_cpp/llama_cpp_plugin.h"
 #include <filesystem>
 #include <fstream>
+#include <array>
+#include <cstdint>
 #include <vector>
 #include <string>
 #include <thread>
 #include <future>
 #include <memory>
+#include <exception>
+#include <utility>
 
 namespace fs = std::filesystem;
 using themis::llm::InferenceRequest;
 using themis::llm::LLMPluginManager;
-using themis::llm::MultiLoRAManager;
 
 namespace {
 
@@ -31,55 +35,116 @@ class RAIDLoRAPipelineFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         (void)state;
-        
-        test_dir_ = "./bench_raid_lora";
-        model_dir_ = test_dir_ + "/models";
-        lora_dir_ = test_dir_ + "/loras";
-        
-        if (fs::exists(test_dir_)) {
-            fs::remove_all(test_dir_);
+        model_path_ = themis::bench::resolveModelPath();
+        lora_path_ = themis::bench::resolveLoraPath();
+        std::error_code error;
+        const auto temporary_dir = fs::temp_directory_path(error);
+        if (!error) {
+            test_dir_ = (temporary_dir /
+                ("themis_bench_raid_lora_" +
+                 std::to_string(reinterpret_cast<std::uintptr_t>(this)))).string();
         }
-        fs::create_directories(model_dir_);
-        fs::create_directories(lora_dir_);
-        
-        // Create base model (100MB)
-        createDummyModel("base.gguf", 100);
-        
-        // Create LoRA adapters (20MB each)
-        createDummyLoRA("legal.bin", 20);
-        createDummyLoRA("medical.bin", 20);
-        createDummyLoRA("finance.bin", 20);
     }
-    
+
     void TearDown(const ::benchmark::State& state) override {
         (void)state;
-        if (fs::exists(test_dir_)) {
-            fs::remove_all(test_dir_);
+        if (!test_dir_.empty()) {
+            std::error_code error;
+            fs::remove_all(test_dir_, error);
         }
     }
     
-    void createDummyModel(const std::string& filename, size_t size_mb) {
-        std::string path = model_dir_ + "/" + filename;
-        std::ofstream file(path, std::ios::binary);
-        file.write("GGUF", 4);
-        std::vector<char> data(size_mb * 1024 * 1024, 0xAB);
-        file.write(data.data(), data.size());
-        file.close();
+    static bool ensureBackend(
+        benchmark::State& state,
+        LLMPluginManager& manager) {
+#ifdef THEMIS_LLAMA_CPP_STUB_MODE
+        state.SkipWithError(
+            "LLM/LoRA performance benchmarks cannot run with synthetic llama.cpp stub mode");
+        return false;
+#else
+        try {
+            if (manager.getPlugin("benchmark_llamacpp") == nullptr) {
+                manager.registerPlugin(
+                    "benchmark_llamacpp",
+                    std::make_unique<themis::llamacpp::LlamaCppPlugin>());
+            }
+            manager.setDefaultPlugin("benchmark_llamacpp");
+        } catch (const std::exception& error) {
+            state.SkipWithError(error.what());
+            return false;
+        }
+        if (manager.getDefaultPlugin() == nullptr) {
+            state.SkipWithError("Failed to register the llama.cpp benchmark backend");
+            return false;
+        }
+        return true;
+#endif
     }
-    
-    void createDummyLoRA(const std::string& filename, size_t size_mb) {
-        std::string path = lora_dir_ + "/" + filename;
-        std::ofstream file(path, std::ios::binary);
-        file.write("LORA", 4);
-        std::vector<char> data(size_mb * 1024 * 1024, 0xCD);
-        file.write(data.data(), data.size());
-        file.close();
+
+    static bool requireRealBackend(
+        benchmark::State& state,
+        LLMPluginManager& manager) {
+        auto* plugin = dynamic_cast<themis::llamacpp::LlamaCppPlugin*>(
+            manager.getDefaultPlugin());
+        if (plugin == nullptr || !plugin->hasRealRuntimeLoaded()) {
+            state.SkipWithError(
+                "Configured model did not initialize a real llama.cpp runtime");
+            return false;
+        }
+        return true;
     }
-    
+
+    bool loadModel(benchmark::State& state, LLMPluginManager& manager,
+                   const std::string& model_id) const {
+        if (model_path_.empty()) {
+            state.SkipWithMessage(
+                "Optional model-backed RAID benchmark skipped: no GGUF model "
+                "artifact was found at the configured model path.");
+            return false;
+        }
+        if (!ensureBackend(state, manager)) {
+            return false;
+        }
+        if (!manager.loadModel(model_id, model_path_)) {
+            state.SkipWithError(
+                "Configured GGUF model failed to load through the llama.cpp runtime");
+            return false;
+        }
+        return requireRealBackend(state, manager);
+    }
+
+    bool loadLoRA(benchmark::State& state, LLMPluginManager& manager,
+                  const std::string& adapter_id, const std::string& model_id) const {
+        if (lora_path_.empty()) {
+            state.SkipWithMessage(
+                "Optional model-backed LoRA benchmark skipped: no external "
+                "LoRA adapter was found at the configured adapter path.");
+            return false;
+        }
+        if (!manager.loadLoRA(adapter_id, lora_path_, model_id)) {
+            state.SkipWithError(
+                "Configured LoRA adapter failed to load into the llama.cpp runtime");
+            return false;
+        }
+        return true;
+    }
+
+    static bool requireInference(benchmark::State& state,
+                                 const themis::llm::InferenceResponse& response) {
+        if (!response.success || response.text.empty() ||
+            response.tokens_generated == 0) {
+            state.SkipWithError(response.error_message.empty()
+                ? "Real-model inference returned no valid generated tokens"
+                : response.error_message.c_str());
+            return false;
+        }
+        return true;
+    }
+
 protected:
     std::string test_dir_;
-    std::string model_dir_;
-    std::string lora_dir_ = {};
+    std::string model_path_;
+    std::string lora_path_;
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -88,13 +153,31 @@ protected:
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_ModelLoadSingleShard)
 (benchmark::State& state) {
-    for (auto _ : state) {
-        LLMPluginManager mgr_iter;
-        // Simulate model load
-        benchmark::DoNotOptimize(model_dir_);
+    if (model_path_.empty()) {
+        state.SkipWithMessage(
+            "Optional model-backed RAID benchmark skipped: no GGUF model "
+            "artifact was found at the configured model path.");
+        return;
     }
-    
-    state.counters["model_size_mb"] = 100;
+
+    LLMPluginManager manager;
+    if (!ensureBackend(state, manager)) {
+        return;
+    }
+
+    for (auto _ : state) {
+        if (!manager.loadModel("benchmark_model", model_path_)) {
+            state.SkipWithError(
+                "Configured GGUF model failed to load through the llama.cpp runtime");
+            return;
+        }
+        if (!requireRealBackend(state, manager)) {
+            return;
+        }
+        manager.unloadModel("benchmark_model");
+    }
+
+    state.counters["model_loads"] = static_cast<double>(state.iterations());
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -103,76 +186,130 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_ModelLoadSingleShard)
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_LoadSingleAdapter)
 (benchmark::State& state) {
-    MultiLoRAManager::Config cfg;
-    cfg.max_lora_slots = 8;
-    cfg.max_lora_vram_mb = 512;
-    
-    MultiLoRAManager mgr(cfg);
-    const std::string base_model = "base";
-    
-    for (auto _ : state) {
-        mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", base_model, 1.0f);
-        benchmark::DoNotOptimize(mgr.listLoRAs().size());
-        mgr.unloadLoRA("legal", true);
+    LLMPluginManager manager;
+    state.PauseTiming();
+    const bool model_ready = loadModel(state, manager, "benchmark_model");
+    state.ResumeTiming();
+    if (!model_ready) {
+        return;
     }
     
-    state.counters["lora_size_mb"] = 20;
+    for (auto _ : state) {
+        if (!loadLoRA(state, manager, "configured_adapter", "benchmark_model")) {
+            return;
+        }
+        benchmark::DoNotOptimize(manager.getDefaultPlugin()->listLoRAs().size());
+        if (!manager.unloadLoRA("configured_adapter")) {
+            state.SkipWithError("Failed to unload the configured LoRA adapter");
+            return;
+        }
+    }
+    
     state.counters["operations"] = 2;  // load + unload
 }
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_LoadMultipleAdapters)
 (benchmark::State& state) {
-    MultiLoRAManager::Config cfg;
-    cfg.max_lora_slots = 8;
-    cfg.max_lora_vram_mb = 512;
-    
-    MultiLoRAManager mgr(cfg);
-    const std::string base_model = "base";
+    LLMPluginManager manager;
+    state.PauseTiming();
+    const bool model_ready = loadModel(state, manager, "benchmark_model");
+    state.ResumeTiming();
+    if (!model_ready) {
+        return;
+    }
+    constexpr size_t adapter_count = 3;
+    const std::array<std::string, adapter_count> adapter_ids = {
+        "configured_adapter_1", "configured_adapter_2", "configured_adapter_3"};
     
     for (auto _ : state) {
-        mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", base_model, 1.0f);
-        mgr.loadLoRA("medical", lora_dir_ + "/medical.bin", base_model, 1.0f);
-        mgr.loadLoRA("finance", lora_dir_ + "/finance.bin", base_model, 1.0f);
-        
-        benchmark::DoNotOptimize(mgr.listLoRAs().size());
-        
-        mgr.unloadLoRA("legal", true);
-        mgr.unloadLoRA("medical", true);
-        mgr.unloadLoRA("finance", true);
+        for (const auto& adapter_id : adapter_ids) {
+            if (!loadLoRA(state, manager, adapter_id, "benchmark_model")) {
+                return;
+            }
+        }
+
+        benchmark::DoNotOptimize(manager.getDefaultPlugin()->listLoRAs().size());
+
+        for (const auto& adapter_id : adapter_ids) {
+            if (!manager.unloadLoRA(adapter_id)) {
+                state.SkipWithError("Failed to unload a configured LoRA adapter");
+                return;
+            }
+        }
     }
     
-    state.counters["num_loras"] = 3;
-    state.counters["total_lora_size_mb"] = 60;
+    state.counters["num_adapter_slots"] = static_cast<double>(adapter_count);
+    state.SetLabel("same configured adapter loaded into distinct runtime slots");
 }
 
 // ═══════════════════════════════════════════════════════════
 // Benchmark: LoRA Switching Latency
+// Uses the production plugin/runtime path so each case binds the adapter to
+// llama.cpp's live inference context instead of calling applyLoRA with null.
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_SwitchingLatency)
 (benchmark::State& state) {
-    MultiLoRAManager::Config cfg;
-    cfg.max_lora_slots = 8;
-    cfg.max_lora_vram_mb = 512;
-    
-    MultiLoRAManager mgr(cfg);
-    const std::string base_model = "base";
-    
-    mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", base_model, 1.0f);
-    mgr.loadLoRA("medical", lora_dir_ + "/medical.bin", base_model, 1.0f);
-    mgr.loadLoRA("finance", lora_dir_ + "/finance.bin", base_model, 1.0f);
-    
-    std::vector<std::string> adapters = {"legal", "medical", "finance"};
-    size_t idx = 0;
+    auto& runtime = LLMPluginManager::instance();
+    if (model_path_.empty()) {
+        state.SkipWithMessage(
+            "Optional model-backed LoRA benchmark skipped: no GGUF model "
+            "artifact was found at the configured model path.");
+        return;
+    }
+    if (lora_path_.empty()) {
+        state.SkipWithMessage(
+            "Optional model-backed LoRA benchmark skipped: no external LoRA "
+            "adapter was found at the configured adapter path.");
+        return;
+    }
+
+    if (!ensureBackend(state, runtime)) {
+        return;
+    }
+    state.PauseTiming();
+    auto* plugin = runtime.getDefaultPlugin();
+    if (plugin != nullptr && plugin->isModelLoaded()) {
+        plugin->unloadModel();
+    }
+    if (!runtime.loadModel("benchmark_base", model_path_)) {
+        state.ResumeTiming();
+        state.SkipWithError("Failed to load the configured GGUF model for LoRA benchmark");
+        return;
+    }
+    if (!requireRealBackend(state, runtime)) {
+        state.ResumeTiming();
+        return;
+    }
+    if (!runtime.loadLoRA("configured_adapter", lora_path_, "benchmark_base")) {
+        state.ResumeTiming();
+        state.SkipWithError(
+            "Configured LoRA adapter failed to load into the llama.cpp runtime");
+        return;
+    }
+    state.ResumeTiming();
+
+    bool use_adapter = false;
     
     for (auto _ : state) {
-        const auto& adapter = adapters[idx++ % adapters.size()];
-        mgr.applyLoRA(adapter, nullptr);
-        benchmark::ClobberMemory();
+        InferenceRequest request;
+        request.prompt = "Measure production adapter activation and deactivation";
+        request.max_tokens = 1;
+        request.lora_adapter_id = use_adapter ? "configured_adapter" : "";
+        use_adapter = !use_adapter;
+        const auto response = runtime.generate(request);
+        if (!response.success || response.tokens_generated == 0) {
+            state.SkipWithError(response.error_message.empty()
+                ? "Production LoRA inference returned no valid output"
+                : response.error_message.c_str());
+            return;
+        }
+        benchmark::DoNotOptimize(response);
     }
     
-    state.counters["num_adapters"] = 3;
-    state.counters["switches"] = static_cast<double>(state.iterations());
+    state.counters["adapter_state_switches"] = static_cast<double>(state.iterations());
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("configured adapter on/off");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -181,8 +318,13 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_SwitchingLatency)
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 (benchmark::State& state) {
-    LLMPluginManager mgr;
-    mgr.loadModel("base", model_dir_ + "/base.gguf");
+    LLMPluginManager manager;
+    state.PauseTiming();
+    const bool model_ready = loadModel(state, manager, "benchmark_model");
+    state.ResumeTiming();
+    if (!model_ready) {
+        return;
+    }
     
     size_t counter = 0;
     for (auto _ : state) {
@@ -190,7 +332,10 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
         req.prompt = "Test query " + std::to_string(counter++);
         req.max_tokens = 64;
         
-        auto resp = mgr.generate(req);
+        auto resp = manager.generate(req);
+        if (!requireInference(state, resp)) {
+            return;
+        }
         benchmark::DoNotOptimize(resp);
     }
     
@@ -204,18 +349,27 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 (benchmark::State& state) {
-    LLMPluginManager mgr;
-    mgr.loadModel("base", model_dir_ + "/base.gguf");
-    mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
+    LLMPluginManager manager;
+    state.PauseTiming();
+    const bool runtime_ready =
+        loadModel(state, manager, "benchmark_model") &&
+        loadLoRA(state, manager, "configured_adapter", "benchmark_model");
+    state.ResumeTiming();
+    if (!runtime_ready) {
+        return;
+    }
     
     size_t counter = 0;
     for (auto _ : state) {
         InferenceRequest req;
         req.prompt = "Legal query " + std::to_string(counter++);
         req.max_tokens = 64;
-        req.lora_adapter_id = "legal";
+        req.lora_adapter_id = "configured_adapter";
         
-        auto resp = mgr.generate(req);
+        auto resp = manager.generate(req);
+        if (!requireInference(state, resp)) {
+            return;
+        }
         benchmark::DoNotOptimize(resp);
     }
     
@@ -229,30 +383,36 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithLoRASwitching)
 (benchmark::State& state) {
-    LLMPluginManager mgr;
-    mgr.loadModel("base", model_dir_ + "/base.gguf");
-    mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
-    mgr.loadLoRA("medical", lora_dir_ + "/medical.bin", "base");
-    mgr.loadLoRA("finance", lora_dir_ + "/finance.bin", "base");
-    
-    std::vector<std::string> adapters = {"legal", "medical", "finance"};
-    size_t idx = 0;
+    LLMPluginManager manager;
+    state.PauseTiming();
+    const bool runtime_ready =
+        loadModel(state, manager, "benchmark_model") &&
+        loadLoRA(state, manager, "configured_adapter", "benchmark_model");
+    state.ResumeTiming();
+    if (!runtime_ready) {
+        return;
+    }
+
+    bool use_adapter = false;
     size_t counter = 0;
     
     for (auto _ : state) {
-        const auto& adapter = adapters[idx++ % adapters.size()];
-        
         InferenceRequest req;
-        req.prompt = adapter + " query " + std::to_string(counter++);
+        req.prompt = "Adapter activation query " + std::to_string(counter++);
         req.max_tokens = 64;
-        req.lora_adapter_id = adapter;
+        req.lora_adapter_id = use_adapter ? "configured_adapter" : "";
+        use_adapter = !use_adapter;
         
-        auto resp = mgr.generate(req);
+        auto resp = manager.generate(req);
+        if (!requireInference(state, resp)) {
+            return;
+        }
         benchmark::DoNotOptimize(resp);
     }
     
-    state.counters["num_loras"] = 3;
+    state.counters["adapter_state_switches"] = static_cast<double>(state.iterations());
     state.counters["max_tokens"] = 64;
+    state.SetLabel("configured adapter on/off");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -265,27 +425,48 @@ BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     std::vector<LLMPluginManager> shard_mgrs(num_shards);
     
     // Initialize all shards
+    state.PauseTiming();
+    bool shards_ready = true;
     for (int i = 0; i < num_shards; i++) {
-        shard_mgrs[i].loadModel("base", model_dir_ + "/base.gguf");
-        shard_mgrs[i].loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
+        const auto model_id = "shard_model_" + std::to_string(i);
+        if (!loadModel(state, shard_mgrs[i], model_id) ||
+            !loadLoRA(state, shard_mgrs[i], "configured_adapter", model_id)) {
+            shards_ready = false;
+            break;
+        }
+    }
+    state.ResumeTiming();
+    if (!shards_ready) {
+        return;
     }
     
     size_t counter = 0;
     for (auto _ : state) {
+        std::vector<std::future<themis::llm::InferenceResponse>> responses;
+        responses.reserve(shard_mgrs.size());
         for (int i = 0; i < num_shards; i++) {
             InferenceRequest req;
             req.prompt = "Shard " + std::to_string(i) + " query " + std::to_string(counter);
             req.max_tokens = 32;
-            req.lora_adapter_id = "legal";
-            
-            auto resp = shard_mgrs[i].generate(req);
+            req.lora_adapter_id = "configured_adapter";
+            responses.push_back(std::async(
+                std::launch::async,
+                [&manager = shard_mgrs[i], request = std::move(req)]() {
+                    return manager.generate(request);
+                }));
+        }
+        for (auto& pending : responses) {
+            const auto resp = pending.get();
+            if (!requireInference(state, resp)) {
+                return;
+            }
             benchmark::DoNotOptimize(resp);
         }
         counter++;
     }
     
     state.counters["num_shards"] = num_shards;
-    state.counters["total_requests"] = num_shards;
+    state.SetItemsProcessed(state.iterations() * num_shards);
 }
 BENCHMARK_REGISTER_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     ->Arg(1)
@@ -301,6 +482,10 @@ BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
 (benchmark::State& state) {
     const int num_shards = state.range(0);
     const int num_records = state.range(1);
+    if (test_dir_.empty()) {
+        state.SkipWithError("Unable to resolve a temporary directory for RAID data benchmark");
+        return;
+    }
     
     std::vector<std::string> shard_paths(num_shards);
     for (int i = 0; i < num_shards; i++) {
@@ -359,35 +544,33 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_CompletePipeline_EndToEnd)
         state.ResumeTiming();
         
         // Load model on all shards
-        for (auto& shard : shards) {
-            shard.loadModel("base", model_dir_ + "/base.gguf");
-        }
-        
-        // Load LoRAs on all shards
-        for (auto& shard : shards) {
-            shard.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
-            shard.loadLoRA("medical", lora_dir_ + "/medical.bin", "base");
+        for (size_t shard_idx = 0; shard_idx < shards.size(); ++shard_idx) {
+            const auto model_id = "pipeline_model_" + std::to_string(shard_idx);
+            if (!loadModel(state, shards[shard_idx], model_id) ||
+                !loadLoRA(state, shards[shard_idx], "configured_adapter", model_id)) {
+                return;
+            }
         }
         
         // Run inferences
-        std::vector<std::string> adapters = {"legal", "medical"};
         for (auto& shard : shards) {
             for (int i = 0; i < inferences_per_shard; i++) {
-                const auto& adapter = adapters[i % adapters.size()];
-                
                 InferenceRequest req;
                 req.prompt = "Query " + std::to_string(i);
                 req.max_tokens = 32;
-                req.lora_adapter_id = adapter;
+                req.lora_adapter_id = (i % 2 == 0) ? "configured_adapter" : "";
                 
                 auto resp = shard.generate(req);
+                if (!requireInference(state, resp)) {
+                    return;
+                }
                 benchmark::DoNotOptimize(resp);
             }
         }
     }
     
     state.counters["num_shards"] = 3;
-    state.counters["num_loras"] = 2;
+    state.counters["num_loras"] = 1;
     state.counters["inferences_per_shard"] = inferences_per_shard;
     state.counters["total_inferences"] = num_shards * inferences_per_shard;
 }

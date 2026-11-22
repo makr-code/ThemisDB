@@ -1,5 +1,7 @@
 #include "sharding/raft_consensus.h"
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -138,6 +140,102 @@ TEST_F(RaftPersistenceTest, ProposalIndexMatchesPersistedEntry) {
     ASSERT_TRUE(second_entry.has_value());
     EXPECT_EQ(first_entry->command, "first");
     EXPECT_EQ(second_entry->command, "second");
+}
+
+TEST_F(RaftPersistenceTest, HigherTermAppendEntriesResponseStepsDownAndPersists) {
+    RaftConsensus::Config config;
+    config.raft_config.node_id = "node1";
+    config.raft_config.cluster_members = {"node1", "node2", "node3"};
+    config.raft_config.persistence_path = journal_path_.string();
+
+    {
+        RaftConsensus consensus(config);
+        auto& state = consensus.getRaftState();
+        state.becomeCandidate();
+        state.receiveVote("node2", true);
+        ASSERT_TRUE(state.isLeader());
+
+        consensus.receiveAppendEntriesResponse(
+            "unknown-peer", AppendEntriesResponse{9, false, 0});
+        EXPECT_EQ(consensus.getCurrentTerm(), 1u);
+        EXPECT_TRUE(consensus.isLeader());
+
+        consensus.receiveAppendEntriesResponse(
+            "node2", AppendEntriesResponse{2, false, 0});
+        EXPECT_EQ(consensus.getCurrentTerm(), 2u);
+        EXPECT_FALSE(consensus.isLeader());
+    }
+
+    RaftConsensus recovered(config);
+    EXPECT_EQ(recovered.getCurrentTerm(), 2u);
+    EXPECT_FALSE(recovered.isLeader());
+}
+
+TEST_F(RaftPersistenceTest, HigherTermHeartbeatResponseStopsFurtherPeerSends) {
+    RaftConsensus::Config config;
+    config.raft_config.node_id = "node1";
+    config.raft_config.cluster_members = {"node1", "node2", "node3"};
+    config.raft_config.persistence_path = journal_path_.string();
+    config.raft_config.election_timeout_min_ms = 10000;
+    config.raft_config.election_timeout_max_ms = 10000;
+    config.raft_config.heartbeat_interval_ms = 10;
+    config.enable_partition_detection = false;
+
+    RaftConsensus consensus(config);
+    auto& state = consensus.getRaftState();
+    state.becomeCandidate();
+    state.receiveVote("node2", true);
+    ASSERT_TRUE(state.isLeader());
+
+    std::promise<void> heartbeat_received;
+    auto received = heartbeat_received.get_future();
+    std::atomic<int> heartbeat_calls{0};
+    consensus.setHeartbeatCallback(
+        [&](const std::string& peer, const Heartbeat& heartbeat) {
+            if (heartbeat_calls.fetch_add(1) == 0) {
+                consensus.receiveAppendEntriesResponse(
+                    peer, AppendEntriesResponse{heartbeat.term + 1, false, 0});
+                heartbeat_received.set_value();
+            }
+            return false;
+        });
+
+    consensus.start();
+    ASSERT_EQ(received.wait_for(std::chrono::seconds(2)),
+              std::future_status::ready);
+    consensus.stop();
+
+    EXPECT_EQ(consensus.getCurrentTerm(), 2u);
+    EXPECT_FALSE(consensus.isLeader());
+    EXPECT_EQ(heartbeat_calls.load(), 1);
+}
+
+TEST_F(RaftPersistenceTest, DelayedAppendEntriesAckDoesNotRegressReplicaProgress) {
+    RaftConsensus::Config config;
+    config.raft_config.node_id = "node1";
+    config.raft_config.cluster_members = {"node1", "node2", "node3"};
+    config.raft_config.persistence_path = journal_path_.string();
+
+    RaftConsensus consensus(config);
+    auto& state = consensus.getRaftState();
+    state.becomeCandidate();
+    state.receiveVote("node2", true);
+    ASSERT_TRUE(state.isLeader());
+
+    consensus.receiveAppendEntriesResponse(
+        "node2", AppendEntriesResponse{1, true, 7});
+    consensus.receiveAppendEntriesResponse(
+        "node2", AppendEntriesResponse{1, true, 5});
+    consensus.receiveAppendEntriesResponse(
+        "node2", AppendEntriesResponse{0, true, 99});
+
+    const auto replicas = consensus.getReplicaStates();
+    const auto node2 = std::find_if(
+        replicas.begin(), replicas.end(),
+        [](const ReplicaState& replica) { return replica.node_id == "node2"; });
+    ASSERT_NE(node2, replicas.end());
+    EXPECT_EQ(node2->match_index, 7u);
+    EXPECT_EQ(node2->next_index, 8u);
 }
 
 TEST_F(RaftPersistenceTest, ProposalIndexIsAbsentWithoutQuorum) {
@@ -489,6 +587,54 @@ TEST_F(RaftPersistenceTest, AppendEntriesRejectsMalformedGapsAndCommittedConflic
     EXPECT_FALSE(follower.handleAppendEntries(committed_conflict).success);
     EXPECT_EQ(follower.getLog().getCommitIndex(), 1u);
     EXPECT_EQ(follower.getLog().getEntry(1)->command, "committed");
+}
+
+TEST_F(RaftPersistenceTest, AppendEntriesRejectsRegressingEntryTerms) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState follower(config);
+        AppendEntriesRequest initial;
+        initial.term = 1;
+        initial.leader_id = "node1";
+        initial.entries = {LogEntry{1, 1, "existing"}};
+        initial.leader_commit = 1;
+        ASSERT_TRUE(follower.handleAppendEntries(initial).success);
+
+        AppendEntriesRequest invalid_empty_anchor;
+        invalid_empty_anchor.term = 2;
+        invalid_empty_anchor.leader_id = "node1";
+        invalid_empty_anchor.prev_log_term = 1;
+        EXPECT_FALSE(follower.handleAppendEntries(invalid_empty_anchor).success);
+
+        AppendEntriesRequest below_previous_term;
+        below_previous_term.term = 2;
+        below_previous_term.leader_id = "node1";
+        below_previous_term.prev_log_index = 1;
+        below_previous_term.prev_log_term = 1;
+        below_previous_term.entries = {LogEntry{0, 2, "term-regression"}};
+        EXPECT_FALSE(follower.handleAppendEntries(below_previous_term).success);
+        EXPECT_EQ(follower.getLog().getLastLogIndex(), 1u);
+
+        AppendEntriesRequest within_batch_regression;
+        within_batch_regression.term = 2;
+        within_batch_regression.leader_id = "node1";
+        within_batch_regression.prev_log_index = 1;
+        within_batch_regression.prev_log_term = 1;
+        within_batch_regression.entries = {
+            LogEntry{2, 2, "valid-term"}, LogEntry{1, 3, "term-regression"}};
+        EXPECT_FALSE(follower.handleAppendEntries(within_batch_regression).success);
+        EXPECT_EQ(follower.getLog().getLastLogIndex(), 1u);
+        EXPECT_EQ(follower.getLog().getCommitIndex(), 1u);
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getLog().getLastLogIndex(), 1u);
+    EXPECT_EQ(recovered.getLog().getCommitIndex(), 1u);
+    EXPECT_FALSE(recovered.getLog().getEntry(2).has_value());
 }
 
 TEST_F(RaftPersistenceTest, SnapshotCompactionRecoversAnchorAndCommitIndex) {

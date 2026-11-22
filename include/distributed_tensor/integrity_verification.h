@@ -24,6 +24,11 @@ namespace themis {
 namespace distributed_tensor {
 
 
+/**
+ * @brief Hash algorithm identifiers stored in integrity receipts.
+ * @note The default engine currently supports SHA-256 only. Other identifiers
+ *       fail closed until an implementation is explicitly enabled.
+ */
 enum class HashAlgorithm {
   SHA256,
 
@@ -168,30 +173,40 @@ class IntegrityVerificationEngine {
   virtual ~IntegrityVerificationEngine() = default;
 
   /**
-   * @brief Compute verification.
-   * @param[in] manifest Input parameter.
-   * @return Return value.
-   * @note Exception safety: noexcept.
+   * @brief Build a versioned integrity receipt for a complete manifest.
+   * @param[in] manifest Complete manifest with unique shard IDs and lowercase
+   *            64-character SHA-256 digests for every shard.
+   * @return A verified receipt on success; otherwise a failed receipt with an
+   *         explanatory error, including when SHA-256 is unavailable.
+   * @note The default engine supports SHA-256 only. Receipts produced by the
+   *       former demonstration hash are incompatible and must be recomputed.
+   * @note The digest binds the artifact ID, manifest content hash and version,
+   *       and sorted shard IDs/digests; it does not hash raw shard bytes or
+   *       authenticate a producer. Use verify_shard() for raw-byte checks.
    */
   virtual IntegrityVerificationReceipt compute_verification(
       const ArtifactManifest& manifest) const noexcept = 0;
 
   /**
-   * @brief Verify integrity.
-   * @param[in] manifest Input parameter.
-   * @param[in] receipt Input parameter.
-   * @return True when the operation succeeds.
+   * @brief Verify a receipt against the current manifest contents.
+   * @param[in] manifest Manifest whose artifact ID, content hash, version,
+   *            unique shard IDs, and shard digests must match the receipt.
+   * @param[in] receipt Previously computed receipt using the same algorithm.
+   * @return True only when the receipt is verified and its digest matches;
+   *         false for stale-format, mismatched, or unsupported receipts.
+   * @note This checks manifest-declared digests, not raw shard bytes or
+   *       producer identity; use verify_shard() to verify shard payloads.
    */
   virtual bool verify_integrity(const ArtifactManifest& manifest,
                                 const IntegrityVerificationReceipt& receipt)
       const noexcept = 0;
 
   /**
-   * @brief Verify shard.
-   * @param[in] shard_data Input parameter.
-   * @param[in] expected_hash Input parameter.
-   * @return True when the operation succeeds.
-   * @note Exception safety: noexcept.
+   * @brief Verify raw shard bytes against a SHA-256 digest.
+   * @param[in] shard_data Raw shard contents; an empty payload is valid.
+   * @param[in] expected_hash Expected lowercase 64-character SHA-256 digest.
+   * @return True when the computed digest matches; false for malformed
+   *         digests, unsupported algorithms, or unavailable crypto support.
    */
   virtual bool verify_shard(const std::string& shard_data,
                             const std::string& expected_hash) const noexcept = 0;
@@ -213,9 +228,10 @@ class DefaultIntegrityVerificationEngine : public IntegrityVerificationEngine {
   DefaultIntegrityVerificationEngine();
 
   /**
-   * @brief Default Integrity Verification Engine.
-   * @param[in] algorithm Input parameter.
-   * @return Return value.
+   * @brief Create the default integrity engine for a requested algorithm.
+   * @param[in] algorithm Requested hash; currently only SHA256 is implemented.
+   * @note Unsupported values are accepted at construction but cause
+   *       verification to fail closed with an error receipt.
    */
   explicit DefaultIntegrityVerificationEngine(HashAlgorithm algorithm);
 

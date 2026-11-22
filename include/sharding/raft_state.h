@@ -201,7 +201,9 @@ public:
 
     /**
      * @brief Validate and durably apply an AppendEntries request from the leader.
-     * @param request Leader term, previous-log anchor, contiguous entries, and commit index.
+     * @param request Leader term, previous-log anchor (term zero at index zero),
+     *                contiguous entries with nondecreasing terms no greater
+     *                than the leader term, and commit index.
      * @return Response with success and the highest prefix verified by this request.
      *         Returns failure when the journal is unavailable, the term is stale,
      *         the leader is empty or outside configured membership, the prefix

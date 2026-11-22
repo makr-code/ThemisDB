@@ -44,6 +44,7 @@ LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
 bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config) {
     std::lock_guard<std::mutex> lock(mutex_);
+    model_loaded_ = false;
     model_path_   = model_path;
     model_id_     = model_path.empty() ? "stub" : model_path;
 
@@ -59,9 +60,8 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
 
 #ifdef THEMIS_LLM_ENABLED
     // When a real model path is supplied, attempt to create a LlamaWrapper and
-    // load the model through it.  Any exception or load failure is caught and
-    // the plugin silently falls back to stub mode so that CI and unit tests
-    // that pass an empty or non-existent path continue to work.
+    // load the model through it. Any exception or load failure leaves the
+    // wrapper unavailable; production builds reject that configured path below.
     wrapper_.reset();
     if (!model_path.empty()) {
         try {
@@ -107,14 +107,38 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
                 }
             }
         } catch (...) {
-            // Fallback to stub mode; wrapper_ remains null.
+            // Leave wrapper_ null; only the test-only stub build may continue.
             wrapper_.reset();
         }
     }
 #endif
 
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    // A configured model path must never be reported as loaded when the real
+    // llama.cpp runtime failed to open it. This keeps malformed artifacts and
+    // unavailable runtime bridges visible to production callers.
+    if (!model_path.empty()) {
+#ifdef THEMIS_LLM_ENABLED
+        if (!wrapper_) {
+            return false;
+        }
+#else
+        return false;
+#endif
+    }
+#endif
+
     model_loaded_ = true;
     return true;
+}
+
+bool LlamaCppPlugin::hasRealRuntimeLoaded() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+#ifdef THEMIS_LLM_ENABLED
+    return model_loaded_ && wrapper_ != nullptr;
+#else
+    return false;
+#endif
 }
 
 /**
@@ -175,33 +199,60 @@ std::string LlamaCppPlugin::getModelId() const {
  * @param[in] lora_path Path to the lora.
  * @param[in] scale Input parameter.
  * @return True when the operation succeeds.
- * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), push_back().
+ * @details Delegates to the live LlamaWrapper/LoRA runtime. The metadata-only
+ *          registry is available exclusively to test-stub builds without a model.
  */
 
 bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
                                const std::string& lora_path, float scale) {
     std::lock_guard<std::mutex> lock(mutex_);
+#ifdef THEMIS_LLM_ENABLED
+    if (wrapper_) {
+        return model_loaded_ && wrapper_->loadLoRA(lora_id, lora_path, scale);
+    }
+#endif
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    // A real configured model requires the live wrapper/adapter bridge.
+    return false;
+#else
+    // Test-only metadata registry for plugin contract tests without a model.
+    if (!model_path_.empty()) {
+        return false;
+    }
     // Remove existing entry with same id
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
                                 [&](const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     loras_.push_back({lora_id, lora_path, scale});
     return true;
+#endif
 }
 
 /**
  * @brief Unload Lo RA.
  * @param[in] lora_id Identifier of the lora.
  * @return True when the operation succeeds.
- * @details Calls: lock(), size(), erase(), std::remove_if(), begin(), end().
+ * @details Delegates adapter removal to the live LlamaWrapper/LoRA runtime.
  */
 bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
+#ifdef THEMIS_LLM_ENABLED
+    if (wrapper_) {
+        return wrapper_->unloadLoRA(lora_id);
+    }
+#endif
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    return false;
+#else
+    if (!model_path_.empty()) {
+        return false;
+    }
     const auto before = loras_.size();
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
                                 [&](const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     return loras_.size() < before;
+#endif
 }
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
@@ -211,6 +262,17 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
      * @return Return value.
      */
     std::lock_guard<std::mutex> lock(mutex_);
+#ifdef THEMIS_LLM_ENABLED
+    if (wrapper_) {
+        return wrapper_->listLoRAs();
+    }
+#endif
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    return {};
+#else
+    if (!model_path_.empty()) {
+        return {};
+    }
     std::vector<llm::LoRAInfo> result = {};
 
     result.reserve(loras_.size());
@@ -222,6 +284,7 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
         result.push_back(std::move(info));
     }
     return result;
+#endif
 }
 
 /**
@@ -563,21 +626,13 @@ llm::LLMCapabilities LlamaCppPlugin::getCapabilities() const {
 }
 
 json LlamaCppPlugin::getMemoryStats() const {
-    json stats = {
-        {"plugin",       "llama_cpp"},
-        {"model_loaded", model_loaded_},
-        {"model_id",     model_id_},
-        {"lora_count",loras_.size()}
-    };
-
-#ifdef THEMIS_LLM_ENABLED
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
+    json stats = {{"plugin", "llama_cpp"}};
     std::lock_guard<std::mutex> lock(mutex_);
+    stats["model_loaded"] = model_loaded_;
+    stats["model_id"] = model_id_;
+#ifdef THEMIS_LLM_ENABLED
     if (wrapper_) {
+        stats["lora_count"] = wrapper_->listLoRAs().size();
         auto info = wrapper_->getModelInfo();
         if (info.has_value()) {
             stats["model_vram_required_mb"] = info->vram_required_mb;
@@ -598,7 +653,11 @@ json LlamaCppPlugin::getMemoryStats() const {
                 stats["runtime_llama_backend_cpu_only_hint"] = info->metadata["runtime_llama_backend_cpu_only_hint"];
             }
         }
+    } else {
+        stats["lora_count"] = loras_.size();
     }
+#else
+    stats["lora_count"] = loras_.size();
 #endif
 
     return stats;

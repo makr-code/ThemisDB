@@ -195,6 +195,29 @@ TEST(WALLoggingHelperTest, HelperEntryCanBeReopenedWithManagerSyncDisabled) {
     EXPECT_EQ(persisted->data["phase"], "decision");
 }
 
+TEST(WALLoggingHelperTest, SyncOnWriteAppendSatisfiesDurabilityWithoutPolicyChange) {
+    TmpWALDir dir;
+    WALManagerConfig cfg;
+    cfg.wal_directory = dir.str();
+    cfg.sync_on_write = true;
+    WALManager wal(cfg);
+
+    const auto result = WALLoggingHelper::appendEntryWithResult(
+        &wal,
+        WALEntryType::COMMIT_TX,
+        "txn-sync-policy",
+        {{"phase", "decision"}},
+        /*sync=*/true,
+        "coordinator",
+        "coord-sync-policy"
+    );
+
+    ASSERT_TRUE(result.has_value());
+    const auto persisted = wal.read(*result);
+    ASSERT_TRUE(persisted.has_value());
+    EXPECT_EQ(persisted->transaction_id, "txn-sync-policy");
+}
+
 TEST(WALLoggingHelperTest, AppendEntryWithResultReportsSerializationFailure) {
     TmpWALDir dir;
     auto wal = makeTmpWAL(dir.str());

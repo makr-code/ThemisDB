@@ -36,7 +36,7 @@ The current benchmark sources are under `benchmarks/replication/` (not
 | `bench_geo_placement_wal_shipping.cpp` | Leader/failover candidate selection, placement validation, WAL shipping, lag-alert latency, stats, and metrics export. |
 | `bench_replication_multi_dc_multi_writer.cpp` | Geographic selection/validation, WAL enqueue/lag, conflict rate, multi-DC write throughput, and alert latency. |
 | `bench_replication_release_gates.cpp` | CRDT merge, LWW resolution, event serialization, WAL apply, partition-offset lookup, and lag checks. |
-| `bench_replication_dedicated_gates.cpp` | A source file exists; the reviewed file did not expose a conventional `BENCHMARK(...)` registration. **TODO:** Determine its actual invocation and gate semantics. |
+| `bench_replication_dedicated_gates.cpp` | Standalone REP-BM-01..04 diagnostic of a bounded queue and local atomic-counter stubs. It is registered as `ReplicationDedicatedGateDiagnostic` through the ordinary CTest target runner, not the Google Benchmark runner. Existing threshold values are warning-only; this is not production-path performance evidence. |
 
 `benchmarks/replication/CMakeLists.txt` enumerates `bench_*.cpp` files when
 `THEMIS_BUILD_BENCHMARKS` is enabled. The root benchmark CMake also registers named

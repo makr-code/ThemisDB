@@ -14,7 +14,7 @@
 
 static void BM_GPUErasure_GPUDisabled(benchmark::State& state) {
     for (auto _ : state) {
-        state.SkipWithError("GPU erasure benchmarks are disabled in this build");
+        state.SkipWithMessage("GPU erasure benchmarks are disabled in this build");
         break;
     }
 }

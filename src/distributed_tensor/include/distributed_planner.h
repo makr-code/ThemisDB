@@ -26,6 +26,8 @@
 namespace themis {
 namespace distributed_tensor {
 
+namespace detail {
+
 // ============================================================================
 // Forward declarations
 // ============================================================================
@@ -238,6 +240,8 @@ public:
         const std::vector<FragmentLoadRequest>& requests,
         const std::string& correlation_id = {}) const noexcept = 0;
 };
+
+} // namespace detail
 
 } // namespace distributed_tensor
 } // namespace themis

@@ -45,8 +45,11 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/distributed_planner_test.cc")
             LABELS epic3 distributed_tensor distributed_planner contract
         )
     else()
-        add_test(NAME DistributedPlannerContractTests
-            COMMAND module_epic3_distributed_tensor_distributed_planner_test_focused
+        themis_register_test_target(
+            NAME DistributedPlannerContractTests
+            TARGET module_epic3_distributed_tensor_distributed_planner_test_focused
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
         )
     endif()
 
@@ -97,7 +100,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
             LABELS distributed_tensor manifest phase-a advisory-only freshness
         )
     else()
-        add_test(NAME ManifestStorePhaseATests COMMAND test_manifest_store_phase_a)
+        themis_register_test_target(
+            NAME ManifestStorePhaseATests
+            TARGET test_manifest_store_phase_a
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
+        )
     endif()
 
     message(STATUS "  ManifestStore: persistence/restart, corruption, freshness, metrics, concurrency (MS-01..20)")
@@ -143,7 +151,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_lifecycle_staleness_management.cpp")
             LABELS distributed_tensor lifecycle staleness advisory-only
         )
     else()
-        add_test(NAME LifecycleStalenessManagementTests COMMAND test_lifecycle_staleness_management)
+        themis_register_test_target(
+            NAME LifecycleStalenessManagementTests
+            TARGET test_lifecycle_staleness_management
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
+        )
     endif()
 
     message(STATUS "  Lifecycle: state machine, staleness, invalidation, advisory-only (LSM-01..31)")
@@ -188,7 +201,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
             LABELS distributed_tensor tensor_delta_log phase-a phase-b
         )
     else()
-        add_test(NAME TensorDeltaLogPhaseATests COMMAND test_tensor_delta_log)
+        themis_register_test_target(
+            NAME TensorDeltaLogPhaseATests
+            TARGET test_tensor_delta_log
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
+        )
     endif()
 
     message(STATUS "  TensorDeltaLog: append, window extraction, serialization, GC, retention (TDL-01..18)")
@@ -238,7 +256,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
             LABELS distributed_tensor tensor_update snapshot_worker phase-b
         )
     else()
-        add_test(NAME TensorRebuildFallbackPhaseBTests COMMAND test_tensor_rebuild_fallback)
+        themis_register_test_target(
+            NAME TensorRebuildFallbackPhaseBTests
+            TARGET test_tensor_rebuild_fallback
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
+        )
     endif()
 
     message(STATUS "  SnapshotUpdateWorker: patch/refit/rebuild decisions, fallback, metrics (RFB-01..10)")
@@ -300,8 +323,11 @@ if(COMMAND themis_register_module_focused_test)
         LABELS epic3 distributed_tensor phase-c shard-summary freshness-consensus exact-on-demand
     )
 else()
-    add_test(NAME TensorShardSummaryPhaseCTests
-        COMMAND module_epic3_distributed_tensor_tensor_shard_summary_focused
+    themis_register_test_target(
+        NAME TensorShardSummaryPhaseCTests
+        TARGET module_epic3_distributed_tensor_tensor_shard_summary_focused
+        TIMEOUT 120
+        LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
     )
 endif()
 
@@ -318,7 +344,8 @@ list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_rebuild_fallback\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_phase_b_edge_cases\\.cpp$")
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc"
+   AND OpenSSL_FOUND)
     list(APPEND EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc"
     )
@@ -366,17 +393,34 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
     if(NOT TARGET themis_distributed_tensor)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
-            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
         )
+        if(OpenSSL_FOUND)
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
+            )
+        endif()
+    endif()
+    if(_stem STREQUAL "integrity_verification_test")
+        if(TARGET themis_distributed_tensor)
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
+            )
+        endif()
+        target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
     endif()
     if(TARGET themis_base)
         target_link_libraries(${_target} PRIVATE themis_base)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(OpenSSL_FOUND)
+        target_compile_definitions(${_target}
+            PRIVATE THEMIS_TEST_HAS_OPENSSL_SHA256=1
+        )
+    endif()
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
@@ -388,17 +432,29 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
             LABELS epic3 distributed_tensor
         )
     else()
-        add_test(NAME ${_ctest} COMMAND ${_target})
+        themis_register_test_target(
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIMEOUT 120
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor
+        )
     endif()
 endforeach()
 
 # ── Integrity Verification Benchmark (IV-BENCH-01..08) ────────────────────────
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc" AND DEFINED THEMIS_HAS_BENCHMARK AND THEMIS_HAS_BENCHMARK)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc"
+   AND DEFINED THEMIS_HAS_BENCHMARK
+   AND THEMIS_HAS_BENCHMARK
+   AND OpenSSL_FOUND)
     message(STATUS "Adding EPIC3: Integrity Verification Benchmark (IV-BENCH-01..08)")
 
     add_executable(module_epic3_distributed_tensor_integrity_verification_bench_focused
         integrity_verification_bench.cc
+    )
+    target_sources(module_epic3_distributed_tensor_integrity_verification_bench_focused
+        PRIVATE
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
     )
 
     target_include_directories(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
@@ -411,6 +467,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc" AND DEFI
     target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
         ${TEST_LIBS}
         themis_distributed_tensor
+        OpenSSL::Crypto
         Threads::Threads
     )
     
@@ -435,14 +492,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc" AND DEFI
             LABELS epic3 distributed_tensor integrity verification benchmark
         )
     else()
-        add_test(NAME IntegrityVerificationBenchmark
-            COMMAND module_epic3_distributed_tensor_integrity_verification_bench_focused
+        themis_register_test_target(
+            NAME IntegrityVerificationBenchmark
+            TARGET module_epic3_distributed_tensor_integrity_verification_bench_focused
+            TIMEOUT 300
+            LABELS module:epic3_distributed_tensor tier:benchmark kind:focused epic3 distributed_tensor integrity verification benchmark
         )
     endif()
 
     message(STATUS "  IntegrityVerificationBenchmark: SHA-256, Merkle proofs, receipt chains (IV-BENCH-01..08)")
 else()
-    message(STATUS "EPIC3 Integrity Verification Benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
+    message(STATUS "EPIC3 integrity benchmark unavailable (source, benchmark support, or OpenSSL Crypto missing)")
 endif()
 
 # ── Phase B Edge Case Tests (test_phase_b_edge_cases.cpp) ───────────────────
@@ -483,8 +543,11 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_phase_b_edge_cases.cpp")
             LABELS epic3 distributed_tensor phase-b edge-cases overflow instability fallback
         )
     else()
-        add_test(NAME PhaseBEdgeCaseTests
-            COMMAND module_epic3_distributed_tensor_phase_b_edge_cases_focused
+        themis_register_test_target(
+            NAME PhaseBEdgeCaseTests
+            TARGET module_epic3_distributed_tensor_phase_b_edge_cases_focused
+            TIMEOUT 180
+            LABELS module:epic3_distributed_tensor tier:unit kind:focused epic3 distributed_tensor phase-b edge-cases
         )
     endif()
 

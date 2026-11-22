@@ -328,10 +328,10 @@ TEST_F(GGUFLoaderTest, IsFormatSupported_UnsupportedTypes) {
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q3_K));
 }
 
-// Helper: write a minimal valid GGUF v3 binary with one tensor of the given type.
-// The tensor data section is left empty (zero bytes) — the test only checks
-// whether parseFile() rejects the unsupported type before trying to read data.
-static std::vector<uint8_t> makeMockGGUF(GGMLType tensor_type) {
+// Helper: write a minimal GGUF v3 binary with one tensor of the given type and
+// a caller-sized tensor payload. This allows valid-size and truncated-payload
+// parsing checks without relying on an external model artifact.
+static std::vector<uint8_t> makeMockGGUF(GGMLType tensor_type, size_t tensor_data_size = 64) {
     // GGUF v3 header:
     //   magic (4) + version (4) + tensor_count (8) + kv_count (8) = 24 bytes
     // One tensor info entry:
@@ -369,8 +369,13 @@ static std::vector<uint8_t> makeMockGGUF(GGMLType tensor_type) {
     uint32_t n_dims = 1;
     appendRaw(&n_dims, 4);
     
-    // dim[0] = 32  (one block for Q-types with 32 el/block, irrelevant for rejection test)
-    uint64_t dim = 32;
+    // Q4_K/Q5_K/Q6_K/Q8_K rows are quantized in 256-element blocks.
+    uint64_t dim = (tensor_type == GGMLType::Q4_K ||
+                    tensor_type == GGMLType::Q5_K ||
+                    tensor_type == GGMLType::Q6_K ||
+                    tensor_type == GGMLType::Q8_K)
+        ? 256
+        : 32;
     appendRaw(&dim, 8);
     
     // tensor type
@@ -384,7 +389,7 @@ static std::vector<uint8_t> makeMockGGUF(GGMLType tensor_type) {
     // Data section: align to 32 bytes, then add minimal placeholder bytes
     size_t current = buf.size();
     size_t aligned = ((current + 31) / 32) * 32;
-    buf.resize(aligned + 64, 0);  // 64 bytes of zero data
+    buf.resize(aligned + tensor_data_size, 0);
     
     return buf;
 }
@@ -447,6 +452,17 @@ TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
     EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 
+TEST_F(GGUFLoaderTest, ParseFileCalculatesQuantizedTensorSizeByBlock) {
+    ScopedTempFile tmp("q4km_valid_tensor.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q4_K, 144));
+
+    GGUFLoader loader;
+    ASSERT_TRUE(loader.parseFile(tmp.str())) << loader.getLastError();
+    ASSERT_EQ(loader.getMetadata().tensors.size(), 1U);
+    EXPECT_EQ(loader.getMetadata().tensors.front().size, 144U);
+    EXPECT_EQ(loader.getTensorData("w.one").size(), 144U);
+}
+
 TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ6_K) {
     // A mock GGUF with Q6_K should pass format validation; if parsing fails,
     // it must not be because the quantization type is rejected.
@@ -458,20 +474,15 @@ TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ6_K) {
     EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 
-TEST_F(GGUFLoaderTest, GetTensorDataRejectsOutOfBoundsRange) {
-    // makeMockGGUF(Q4_K) intentionally writes only a tiny placeholder data area.
-    // The tensor metadata still advertises a Q4_K payload that is larger than
-    // the available bytes, so getTensorData() must reject the copy safely.
+TEST_F(GGUFLoaderTest, ParseFileRejectsTruncatedQuantizedTensor) {
+    // The declared 256-element Q4_K tensor needs 144 bytes, but this file
+    // provides only the 64-byte default payload.
     ScopedTempFile tmp("q4km_oob_tensor_data.gguf");
     tmp.write(makeMockGGUF(GGMLType::Q4_K));
 
-    GGUFLoader loader = {};
-    if (!loader.parseFile(tmp.str())) {
-        GTEST_SKIP() << "Mock GGUF did not parse on this platform: " << loader.getLastError();
-    }
-
-    auto data = loader.getTensorData("w.one");
-    EXPECT_TRUE(data.empty()) << "Out-of-bounds tensor payload must be rejected";
+    GGUFLoader loader;
+    EXPECT_FALSE(loader.parseFile(tmp.str()));
+    EXPECT_NE(loader.getLastError().find("exceeds file bounds"), std::string::npos);
 }
 
 TEST_F(GGUFLoaderTest, GetLastError_ClearedBetweenCalls) {

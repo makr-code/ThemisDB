@@ -40,7 +40,7 @@ was run, passed in CI, or represents end-to-end distributed performance.
 | `bench_shard_routing.cpp` | `BM_ConnectionPoolHitRate`, `BM_DistributionQuality` | See source for fixture and measured operation |
 | `bench_sharding_performance.cpp` | `BM_PercolatorCommitLatency`, `BM_ConcurrentShardAccess` | See source for implementation and configuration |
 | Other sharding benchmark files | Coordinator, gossip/config, locality-router, and resource-manager cases | These are component microbenchmarks; no universal deployment SLO is asserted here |
-| `bench_sharding_dedicated_gates.cpp`: SH-BM-01..04 | Local route hash, atomic-counter commit stub, no-op migration stub, and CPU-loop anti-entropy stub | No production sharding components, RPC, storage, or durable WAL are exercised |
+| `bench_sharding_dedicated_gates.cpp`: SH-BM-01..04 diagnostic | Local route hash, atomic-counter commit stub, no-op migration stub, and CPU-loop anti-entropy stub; ordinary CTest process-completion check `ShardingDedicatedGateDiagnostic`, not a Google Benchmark case | Thresholds remain warning-only; no production sharding components, RPC, storage, or durable WAL are exercised, so this is not performance evidence |
 
 The local benchmark build is gated by `THEMIS_BUILD_BENCHMARKS` (default `OFF` in the root
 `CMakeLists.txt`). `benchmarks/sharding/CMakeLists.txt` discovers `bench_*.cpp`; CMake may also

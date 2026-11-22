@@ -137,7 +137,9 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, PageRankStandard)(benchmark::State&
         benchmark::DoNotOptimize(ranks);
     }
     
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations());
+#endif
     state.counters["num_nodes"] = node_ids_.size();
     state.counters["max_iterations"] = max_iterations;
 }

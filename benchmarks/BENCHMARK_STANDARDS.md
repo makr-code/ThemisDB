@@ -178,7 +178,13 @@ hygiene provides deeper execution detail.
 - [ ] Setup and measurement loops are cleanly separated
 - [ ] benchmark_min_time uses explicit units
 - [ ] I/O paths use real-time measurements where required
-- [ ] CTest smoke registration is valid (if applicable)
+- [x] `tools/ci/audit_benchmark_coverage.py` reports 389 discovered sources:
+  386 eligible benchmark targets have benchmark CTest smokes (100% of that
+  denominator); 3 sources are excluded from benchmark-tier coverage (one
+  existing exclusion and two stub-only diagnostics). The two diagnostics each
+  have ordinary CTest registrations; 0 benchmark targets are broken and 0
+  benchmark CTest entries are orphaned. This is scoped benchmark coverage, not
+  100% CTest coverage of every source in `benchmarks/`.
 - [ ] Reproducibility controls are documented and active
 
 ## 8. Resource And Runner Contract

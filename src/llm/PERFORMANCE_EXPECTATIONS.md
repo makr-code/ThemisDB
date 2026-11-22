@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-09"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-22"
 Status: "review"
 AI_Used: true
 AI_Models: "GitHub Copilot (exact model backend not recorded)"
@@ -25,6 +25,7 @@ Human_Author: "ThemisDB Team"
   - benchmarks/bench_llm_response_cache.cpp
   - benchmarks/bench_llm_raid_pipeline.cpp
   - benchmarks/bench_rag_hybrid_retriever.cpp
+  - benchmarks/llm/bench_lora_training.cpp
 
 ## Specific Expectations
 | Target ID | Expectation | Benchmark case |
@@ -35,6 +36,10 @@ Human_Author: "ThemisDB Team"
 | LLM-5 | Cache hit/miss/mixed workload regressions remain bounded | BM_CacheGetExactHit, BM_CacheGetMiss, BM_CacheMixedWorkload |
 | LLM-6 | RAID routing/fan-out overhead remains bounded | BM_DomainRouting_OverheadPerRequest, BM_BatchFanOut_LatencyScaling |
 | LLM-7 | Hybrid retriever path remains within baseline budget | BM_HybridRetriever_BM25Baseline, BM_HybridRetriever_VectorizerPath |
+| LORA-1 | Layer and attention construction <50 us at dimension 768 | BM_LoRALayer_Construction/768, BM_AttentionLoRA_Construction/768 |
+| LORA-2 | Sequential construction <50 us per layer | BM_Sequential_Construction/1, BM_Sequential_Construction/16 |
+| LORA-3 | Layer forward <100 us/sample; attention forward <150 us/sample at dimension 4096 | BM_LoRALayer_Forward/4096, BM_AttentionLoRA_Forward/4096 |
+| LORA-4 | Layer backward <150 us/sample; attention backward <200 us/sample at dimension 4096 | BM_LoRALayer_Backward/4096, BM_AttentionLoRA_Backward/4096 |
 
 ## Module Hard Gates (v1.0 docs baseline)
 
@@ -114,6 +119,7 @@ prompt = 512 tokens, generation = 256 tokens, context window = 4096.
 ## Validation
 - Expectations are considered met when mapped benchmarks run reproducibly in release profile and stay within configured thresholds.
 - For proxy-only targets, follow-up benchmark hardening tasks must remain tracked.
+- A local Release run on 2026-11-22 (4096 dimensions, 1 s minimum time, 3 repetitions) measured LoRA forward at 52.2 us (pass), AttentionLoRA forward at 286–304 us (fail vs. 150 us), LoRA backward at 139–173.5 us (2/3 repetitions fail vs. 150 us), and AttentionLoRA backward at 578.6–654.9 us (fail vs. 200 us). These are diagnostic local values, not a release baseline. `BM_AttentionLoRA_Construction/768` is now explicitly registered; its relinked runtime measurement remains pending.
 
 ## Sourcecode Verification (Module: llm/performance)
 

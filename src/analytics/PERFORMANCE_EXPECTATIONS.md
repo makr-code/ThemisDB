@@ -41,6 +41,8 @@
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Representative-hardware closure additionally requires the manifest-defined artifact set for every analytics hardware profile.
+- DC-02 gates p99 time from coordinator entry until all shard executors have started. The benchmark also reports full end-to-end p99, including shard work and merge, as a diagnostic counter; that separate value is not the DC-02 startup gate.
+- `DistributedAnalyticsSharding` dispatches through a shared `themis::utils::ThreadPool` with `max(1, min(hardware_concurrency, 16))` workers and the pool's default 1,000-task queue; `max_parallel_shards` is capped by pool capacity, and rejected submissions fail the shard explicitly. A targeted Windows Release DC-02 run passed at dispatch-startup p99 152.2µs (end-to-end p99 191.9µs diagnostic); the focused coordinator test passed. The 500µs gate is unchanged; this targeted run is not full-suite completion. Sources: `src/analytics/distributed_analytics.cpp`, `include/utils/thread_pool_manager.h`, `benchmarks/analytics/bench_analytics_distributed_coordinator.cpp`, `tests/analytics/test_analytics_distributed_coordinator_focused.cpp`.
 - DC-04 measures completed merged queries with five shards, one failing, under the default 20% failure-rate limit. It compares normal and degraded query rates using their actual elapsed windows; it does not treat an unmerged result as successful throughput.
 
 ## Sourcecode Verification (Module: analytics/performance)

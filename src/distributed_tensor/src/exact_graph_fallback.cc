@@ -8,7 +8,8 @@
 namespace themis {
 namespace distributed_tensor {
 
-bool ExactGraphFallbackPolicy::canUseArtifact(const ArtifactManifest& manifest,
+bool ExactGraphFallbackPolicy::canUseArtifact(
+                                              const detail::ArtifactManifest& manifest,
                                               double query_residual_tolerance,
                                               int64_t now_unix_sec) const {
   // Check all fallback conditions
@@ -27,12 +28,14 @@ bool ExactGraphFallbackPolicy::canUseArtifact(const ArtifactManifest& manifest,
   return true;
 }
 
-bool ExactGraphFallbackPolicy::requiresFallbackForState(const ArtifactManifest& manifest) const {
+bool ExactGraphFallbackPolicy::requiresFallbackForState(
+    const detail::ArtifactManifest& manifest) const {
   // Only ACTIVE and STALE states are usable
   return manifest.lifecycle_state != LifecycleState::ACTIVE && manifest.lifecycle_state != LifecycleState::STALE;
 }
 
-bool ExactGraphFallbackPolicy::requiresFallbackForSemantics(const ArtifactManifest& manifest,
+bool ExactGraphFallbackPolicy::requiresFallbackForSemantics(
+                                                            const detail::ArtifactManifest& manifest,
                                                             bool query_requires_truth) const {
   // If query requires truth and artifact is advisory-only, need fallback
   if (query_requires_truth && manifest.advisory_only) {
@@ -41,7 +44,8 @@ bool ExactGraphFallbackPolicy::requiresFallbackForSemantics(const ArtifactManife
   return false;
 }
 
-bool ExactGraphFallbackPolicy::requiresFallbackForResidual(const ArtifactManifest& manifest,
+bool ExactGraphFallbackPolicy::requiresFallbackForResidual(
+                                                           const detail::ArtifactManifest& manifest,
                                                            double query_residual_tolerance) const {
   // If query has residual tolerance requirement and artifact exceeds it
   if (query_residual_tolerance > 0.0 && manifest.residual > query_residual_tolerance) {
@@ -50,7 +54,8 @@ bool ExactGraphFallbackPolicy::requiresFallbackForResidual(const ArtifactManifes
   return false;
 }
 
-bool ExactGraphFallbackPolicy::requiresFallbackForFreshness(const ArtifactManifest& manifest,
+bool ExactGraphFallbackPolicy::requiresFallbackForFreshness(
+                                                            const detail::ArtifactManifest& manifest,
                                                             int64_t now_unix_sec,
                                                             int64_t query_max_age_ms) const {
   // If query requires specific freshness and artifact is too stale

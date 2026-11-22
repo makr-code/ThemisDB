@@ -21,7 +21,7 @@
 
 static void BM_LegalLoRAPipeline_Disabled(benchmark::State& state) {
     for (auto _ : state) {
-        state.SkipWithError("Legal LoRA pipeline benchmarks are disabled in this build");
+        state.SkipWithMessage("Legal LoRA pipeline benchmarks are disabled in this build");
         break;
     }
 }

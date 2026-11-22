@@ -232,6 +232,8 @@ public:
      *         unavailable or reports a write/flush failure.
     * @note This method is thread-safe. Use it when protocol progress depends on
     *       a durable record; `flush()` remains the best-effort compatibility API.
+    *       If a synchronous append already confirmed the current tail durable,
+    *       this call returns that confirmation without issuing another flush.
     */
     [[nodiscard]] bool flushDurable();
     
@@ -273,6 +275,8 @@ private:
     std::unique_ptr<themis::WALStorage> durability_wal_;
     themis::WALStorage::RecoveryResult recovery_result_;
     std::vector<WALEntry> entries_;
+    /** @brief True only when the current WAL tail has been durably flushed. */
+    bool durability_confirmed_{false};
     
     // Current write position
     LSN current_lsn_;

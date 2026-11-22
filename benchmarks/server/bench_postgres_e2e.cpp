@@ -335,6 +335,12 @@ BENCHMARK(BM_SchemaQueryTables);
 
 BENCHMARK(BM_ErrorResponse);
 
+#else
+static void BM_PostgresWireUnavailable(benchmark::State& state) {
+    state.SkipWithMessage("PostgreSQL wire support is disabled in this build");
+}
+BENCHMARK(BM_PostgresWireUnavailable);
+
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
 
 BENCHMARK_MAIN();

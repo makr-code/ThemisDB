@@ -746,7 +746,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
     txn->state = DistributedTxnState::COMMITTED;
     static_rpc_bridges_.erase(txn_id);
     ++stat_committed_;
-    THEMIS_INFO("DistributedTransactionManager [{}] txn={} COMMITTED", coordinator_id_, txn_id);
+    THEMIS_DEBUG("DistributedTransactionManager [{}] txn={} COMMITTED", coordinator_id_, txn_id);
     return DistributedTxnStatus::OK();
 }
 
@@ -856,7 +856,7 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     txn->state = DistributedTxnState::ABORTED;
     static_rpc_bridges_.erase(txn_id);
     ++stat_aborted_;
-    THEMIS_INFO("DistributedTransactionManager [{}] txn={} ABORTED", coordinator_id_, txn_id);
+    THEMIS_DEBUG("DistributedTransactionManager [{}] txn={} ABORTED", coordinator_id_, txn_id);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

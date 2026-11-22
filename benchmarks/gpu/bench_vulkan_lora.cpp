@@ -71,7 +71,7 @@ public:
         if (!initialized) {
             if (!is_vulkan_available()) {
                 auto& mutable_state = const_cast<benchmark::State&>(state);
-                mutable_state.SkipWithError("Vulkan not available");
+                mutable_state.SkipWithMessage("Vulkan not available");
                 return;
             }
             if (!initialize_vulkan_lora(0)) {

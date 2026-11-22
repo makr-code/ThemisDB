@@ -147,13 +147,21 @@ BENCHMARK_DEFINE_F(WalBenchFixture, ReadFrom)(benchmark::State& state) {
         wal_->append(entry);
     }
 
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         auto entries = wal_->readFrom(1, static_cast<uint32_t>(n));
         benchmark::DoNotOptimize(entries);
     }
 
-    state.SetItemsProcessed(state.iterations() * n);
-    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(logical_bytes));
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    const auto items = state.iterations() * n;
+    const auto bytes = static_cast<double>(state.iterations()) *
+        static_cast<double>(logical_bytes);
+    // Keep the read-throughput metrics meaningful when cpu_time is unavailable.
+    state.counters["items_per_second"] =
+        benchmark::Counter(static_cast<double>(items) / elapsed);
+    state.counters["bytes_per_second"] = benchmark::Counter(bytes / elapsed);
     state.SetLabel("n=" + std::to_string(n));
 }
 

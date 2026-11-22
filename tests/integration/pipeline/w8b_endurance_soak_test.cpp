@@ -526,7 +526,3 @@ TEST_F(EnduranceSoakTest, SOK_08_RecoveryAfterBriefSpike) {
     EXPECT_TRUE(metrics_->PassesSoakValidation()) << "Soak validation failed after spike";
 }
 } } // namespace themis::test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -592,7 +592,7 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
             std::lock_guard<std::mutex> lock(sessions_mutex_);
             tenant_stats_[txn->tenant_id_].total_committed++;
         }
-        THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
+        THEMIS_DEBUG("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
         // Phase 8: WAL – log commit
         if (crash_recovery_mgr_) {
           crash_recovery_mgr_->logCommit(id);
@@ -663,7 +663,7 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         tenant_stats_[txn->tenant_id_].total_aborted++;
     }
-    THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
+    THEMIS_DEBUG("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
     // Phase 8: WAL – log abort
     if (crash_recovery_mgr_) {
       crash_recovery_mgr_->logAbort(id);
@@ -2069,7 +2069,7 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     if (lock_manager_) {
       lock_manager_->releasePredicateLocks(id_);
     }
-    THEMIS_INFO("Transaction {} committed successfully (MVCC)", id_);
+    THEMIS_DEBUG("Transaction {} committed successfully (MVCC)", id_);
     return Status::OK();
 }
 

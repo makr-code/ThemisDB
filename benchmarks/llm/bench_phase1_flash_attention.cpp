@@ -50,7 +50,7 @@ static void BM_InferenceBaseline(benchmark::State& state) {
     std::string model_path = getBenchmarkModelPath();
     
     if (model_path.empty()) {
-        state.SkipWithError("No benchmark model found. Set THEMIS_BENCH_MODEL_PATH");
+        state.SkipWithMessage("Optional benchmark model not found. Set THEMIS_BENCH_MODEL_PATH");
         return;
     }
     
@@ -101,7 +101,7 @@ static void BM_InferenceFlashAttention(benchmark::State& state) {
     std::string model_path = getBenchmarkModelPath();
     
     if (model_path.empty()) {
-        state.SkipWithError("No benchmark model found. Set THEMIS_BENCH_MODEL_PATH");
+        state.SkipWithMessage("Optional benchmark model not found. Set THEMIS_BENCH_MODEL_PATH");
         return;
     }
     
@@ -151,7 +151,7 @@ static void BM_CompareFlashAttention(benchmark::State& state) {
     std::string model_path = getBenchmarkModelPath();
     
     if (model_path.empty()) {
-        state.SkipWithError("No benchmark model found");
+        state.SkipWithMessage("Optional benchmark model not found");
         return;
     }
     
@@ -234,7 +234,7 @@ static void BM_Latency100Tokens(benchmark::State& state) {
     std::string model_path = getBenchmarkModelPath();
     
     if (model_path.empty()) {
-        state.SkipWithError("No benchmark model found");
+        state.SkipWithMessage("Optional benchmark model not found");
         return;
     }
     

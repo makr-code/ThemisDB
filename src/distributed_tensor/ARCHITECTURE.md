@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-21
 **Source level:** Level 1 — module implementation
 **SOT domain:** architecture-governance
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `cmake/CMakeLists.txt`
@@ -37,10 +37,18 @@ themselves.
 | Integrity and recovery | `integrity_verification.h`, `recovery_manager.h` | `integrity_verification.cc`, `recovery_manager.cc` |
 | Infrastructure and in-process training jobs | `tensor_infrastructure.h`, `tensor_training_coordinator.h` | `tensor_infrastructure.cc`, `tensor_training_coordinator.cc` |
 | Storage strategy | `tensor_storage_strategy.h` | `src/tensor_storage_strategy.cc` |
-| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, RocksDB-backed manifest store, checkpoint, snapshot-update worker, and shard-summary sources listed in CMake |
+| Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, RocksDB-backed manifest store, checkpoint, snapshot-update worker, shard-summary, artifact invalidation, exact-graph fallback, staleness, recovery, and lock-manager sources listed in CMake |
 
 This table highlights component groups; the CMake file is the authoritative
 complete target source list.
+
+The public declarations in `include/distributed_tensor/` remain in
+`themis::distributed_tensor`. The colliding source-private manifest/class
+definitions and summary-first planner model under
+`src/distributed_tensor/include/` are isolated in
+`themis::distributed_tensor::detail`; their `ArtifactManifest`,
+`ArtifactClass`, planner, routing, retrieval, and fragment types are distinct
+from the public API types.
 
 ## Schnittstellen
 
@@ -89,12 +97,18 @@ These settings describe the public configuration surface. The source does not
 establish that every option is exercised by an end-to-end runtime path; for
 example, no transport implementation is supplied by this module.
 
-The module target compiles the root-level `integrity_verification.cc`, whose
-`simple_sha256_hash()` is an FNV-1a demonstration hash. The separate nested
-`src/integrity_verification.cc` implementation with SHA-256 calls is not listed
-in this target's CMake source list. The compiled default target therefore does
-not provide cryptographic SHA-256; Merkle-shaped structures do not establish
-cryptographic integrity security.
+The module target compiles the root-level `integrity_verification.cc`, which
+uses OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and
+fails closed when it is unavailable. The engine accepts only SHA-256 and uses
+versioned, length-prefixed receipt inputs with sorted shard IDs. Receipts bind
+the artifact ID, manifest content hash and version, and declared shard
+digests—not all manifest metadata or the shard bytes themselves. Callers must
+use `verify_shard()` to check raw bytes. Neither operation authenticates the
+producer. The separate nested
+`src/integrity_verification.cc` implementation remains outside this target and
+is compiled only into its EPIC-3 test/benchmark targets when OpenSSL is found.
+`ArtifactManifest::compute_manifest_hash()` is a separate non-cryptographic
+checksum and must not be used as an integrity or authenticity guarantee.
 
 `TensorTrainingCoordinator::runNextJob()` calls registered
 `ITensorTrainingWorker::processShard()` callbacks synchronously in-process.

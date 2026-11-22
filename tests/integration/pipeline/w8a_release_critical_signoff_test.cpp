@@ -501,7 +501,3 @@ TEST_F(ReleaseSignoffTest, RCS_08_RecoveryFromTransientFailures) {
     EXPECT_EQ(result.value(), "content_0");
 }
 } } // namespace themis::test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -450,13 +450,20 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     }
     response.term = current_term_.load();
 
+    if (request.prev_log_index == 0 && request.prev_log_term != 0) {
+        return response;
+    }
+
     uint64_t expected_index = request.prev_log_index;
+    uint64_t previous_term = request.prev_log_term;
     for (const auto& entry : request.entries) {
         if (expected_index == std::numeric_limits<uint64_t>::max() ||
-            entry.index != expected_index + 1 || entry.term > request.term) {
+            entry.index != expected_index + 1 || entry.term < previous_term ||
+            entry.term > request.term) {
             return response;
         }
         expected_index = entry.index;
+        previous_term = entry.term;
     }
     
     // Valid leader, reset election timeout

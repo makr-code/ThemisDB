@@ -80,13 +80,13 @@ bool ArtifactLifecyclePolicy::isUsableForPlanning(LifecycleState state) noexcept
 // ArtifactClassifier — class/semantic validation and string conversion
 // ============================================================================
 
-bool ArtifactClassifier::isValidCombination(ArtifactClass klass,
-                                             TruthSemantic  semantic) noexcept {
+bool ArtifactClassifier::isValidCombination(detail::ArtifactClass klass,
+                                             TruthSemantic semantic) noexcept {
   switch (klass) {
-    case ArtifactClass::SOURCE_OF_TRUTH:
+    case detail::ArtifactClass::SOURCE_OF_TRUTH:
       return semantic == TruthSemantic::GROUND_TRUTH;
-    case ArtifactClass::DERIVED:
-    case ArtifactClass::EPHEMERAL:
+    case detail::ArtifactClass::DERIVED:
+    case detail::ArtifactClass::EPHEMERAL:
       return semantic == TruthSemantic::ADVISORY_ONLY;
     default:
       return false;
@@ -99,11 +99,11 @@ bool ArtifactClassifier::isValidCombination(ArtifactClass klass,
  * @return Return value.
  * @details Implements classToString without additional internal calls.
  */
-std::string ArtifactClassifier::classToString(ArtifactClass klass) {
+std::string ArtifactClassifier::classToString(detail::ArtifactClass klass) {
   switch (klass) {
-    case ArtifactClass::SOURCE_OF_TRUTH: return "SOURCE_OF_TRUTH";
-    case ArtifactClass::DERIVED:         return "DERIVED";
-    case ArtifactClass::EPHEMERAL:       return "EPHEMERAL";
+    case detail::ArtifactClass::SOURCE_OF_TRUTH: return "SOURCE_OF_TRUTH";
+    case detail::ArtifactClass::DERIVED:         return "DERIVED";
+    case detail::ArtifactClass::EPHEMERAL:       return "EPHEMERAL";
     default:                             return "UNKNOWN";
   }
 }
@@ -114,16 +114,16 @@ std::string ArtifactClassifier::classToString(ArtifactClass klass) {
  * @return Return value.
  * @details Implements stringToClass without additional internal calls.
  */
-std::optional<ArtifactClass> ArtifactClassifier::stringToClass(
+std::optional<detail::ArtifactClass> ArtifactClassifier::stringToClass(
     const std::string& class_str) {
   if (class_str == "SOURCE_OF_TRUTH") {
-    return ArtifactClass::SOURCE_OF_TRUTH;
+    return detail::ArtifactClass::SOURCE_OF_TRUTH;
   }
   if (class_str == "DERIVED") {
-    return ArtifactClass::DERIVED;
+    return detail::ArtifactClass::DERIVED;
   }
   if (class_str == "EPHEMERAL") {
-    return ArtifactClass::EPHEMERAL;
+    return detail::ArtifactClass::EPHEMERAL;
   }
   return std::nullopt;
 }
@@ -307,6 +307,8 @@ std::optional<InvalidationReason> InvalidationReasonUtils::stringToReason(
 // ============================================================================
 // ArtifactManifest methods
 // ============================================================================
+
+namespace detail {
 
 bool ArtifactManifest::validate() const {
   // artifact_id must be non-empty
@@ -890,6 +892,8 @@ void ArtifactManifest::markPublished(UpdateMode mode, RebuildState new_rebuild_s
   // Mark lifecycle as READY after successful publish
   lifecycle_state = LifecycleState::READY;
 }
+
+} // namespace detail
 
 }  // namespace distributed_tensor
 }  // namespace themis

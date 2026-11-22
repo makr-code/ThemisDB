@@ -18,7 +18,7 @@
  *
  * Data flow:
  *   executeDistributed(OLAPQuery, tenant_id)
- *     → fan-out via std::async to each healthy shard endpoint
+ *     → fan-out via the shared bounded dispatch pool to each healthy shard
  *     → per-shard OLAPResult (partial aggregates)
  *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
  *     → returns merged OLAPResult; partial results returned when < 20% shards fail
@@ -44,6 +44,7 @@
 
 #include "analytics/distributed_analytics.h"
 #include "utils/logger.h"
+#include "utils/thread_pool_manager.h"
 
 #include <algorithm>
 #include <chrono>
@@ -78,7 +79,31 @@ using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::stri
 constexpr double EPSILON = 1e-9;
 constexpr int MAX_RETRIES = 3;
 constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
+constexpr size_t kMaxAnalyticsDispatchWorkers = 16;
 std::atomic<uint64_t> g_distributed_operation_counter{0};
+
+size_t analyticsDispatchWorkerCount() {
+    static const size_t worker_count = [] {
+        const auto hardware_threads = std::thread::hardware_concurrency();
+        return hardware_threads == 0
+            ? size_t{1}
+            : std::min(static_cast<size_t>(hardware_threads),
+                       kMaxAnalyticsDispatchWorkers);
+    }();
+    return worker_count;
+}
+
+themis::utils::ThreadPool& analyticsDispatchPool() {
+    static const themis::utils::ThreadPool::Config config = [] {
+        themis::utils::ThreadPool::Config pool_config;
+        pool_config.min_threads = analyticsDispatchWorkerCount();
+        pool_config.max_threads = analyticsDispatchWorkerCount();
+        pool_config.name = "Analytics-Dispatch";
+        return pool_config;
+    }();
+    static themis::utils::ThreadPool pool(config);
+    return pool;
+}
 
 /**
  * @brief Next Distributed Operation Id.
@@ -519,6 +544,7 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
  */
 void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::shared_ptr<ShardQueryExecutor> executor,
                                             const std::string &tenant_id) {
+    (void)analyticsDispatchPool();
     bool initial_healthy = true;
     if (executor) {
         try {
@@ -888,6 +914,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
+    std::vector<bool> half_open_probes;
     {
         /**
          * @brief Lock.
@@ -909,6 +936,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             }
 
             // SAFETY CONTROL: Check circuit breaker state and skip OPEN shards
+            bool half_open_probe = false;
             if (config_.enable_circuit_breaker) {
                 DistributedAnalyticsSharding::CircuitBreakerState cb_state = this->updateCircuitBreakerState(const_cast<ShardEntry&>(e));
                 if (cb_state == DistributedAnalyticsSharding::CircuitBreakerState::OPEN) {
@@ -916,9 +944,12 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                                  e.shard_id);
                     continue;  // Skip OPEN shards - fail-closed
                 }
+                half_open_probe =
+                    cb_state == DistributedAnalyticsSharding::CircuitBreakerState::HALF_OPEN;
             }
 
             active.push_back(e);
+            half_open_probes.push_back(half_open_probe);
         }
     }
 
@@ -953,8 +984,17 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     const bool has_timeout = (effective_timeout_ms > 0);
     const auto per_shard_timeout = std::chrono::milliseconds(effective_timeout_ms);
 
-    const size_t parallel_limit
-        = (config_.max_parallel_shards == 0) ?active.size() : std::min(active.size(), config_.max_parallel_shards);
+    const size_t configured_parallel_limit = config_.max_parallel_shards == 0
+        ? analyticsDispatchWorkerCount()
+        : std::min(config_.max_parallel_shards, analyticsDispatchWorkerCount());
+    const size_t parallel_limit = std::min(active.size(), configured_parallel_limit);
+
+    // Seed retry jitter once per calling thread, not once per shard worker.
+    // random_device can be comparatively expensive and serializes startup on
+    // some platforms; jitter is not security-sensitive.
+    thread_local std::mt19937 retry_rng{std::random_device{}()};
+    std::uniform_int_distribution<uint32_t> seed_dist;
+    const auto shared_query = std::make_shared<const OLAPQuery>(query);
 
     for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
@@ -963,37 +1003,62 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
         for (size_t idx = batch_begin; idx < batch_end; ++idx) {
             const auto &entry = active[idx];
+            const bool half_open_probe = half_open_probes[idx];
+            const auto retry_seed = seed_dist(retry_rng);
 
-            std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
-            FutureResult f = promise.get_future();
-            // Detached worker safety:
-            // 1. std::thread captures all required data by value.
-            // 2. Future (f) synchronizes promise readiness only; it does not join the thread.
-            // 3. The lambda sets the promise as its final action and then exits immediately.
-            // 4. All exception paths set the promise value before returning.
-            std::thread([entry, query, promise = std::move(promise),
-                          retry_cfg = config_.retry_config]() mutable {
+            auto promise =
+                std::make_shared<std::promise<std::pair<OLAPResult, ShardExecutionInfo>>>();
+            FutureResult f = promise->get_future();
+            auto task = std::make_shared<themis::utils::Task>(
+                [entry, shared_query, promise,
+                 retry_cfg = config_.retry_config, retry_seed,
+                 half_open_probe]() mutable {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
 
                 // Wave-A AN1: per-shard retry with exponential backoff
-                std::mt19937 rng(std::random_device{}());
+                std::mt19937 rng(retry_seed);
                 std::uniform_real_distribution<double> jitter_dist(0.0, 1.0);
 
                 const auto t0 = std::chrono::steady_clock::now();
-                const uint32_t max_attempts = retry_cfg.max_retries + 1;
+                // A HALF_OPEN request is the circuit breaker's recovery probe.
+                // Retrying it here would turn one probe into several backend
+                // calls and delay both recovery and degraded-mode queries.
+                const uint32_t max_attempts =
+                    half_open_probe ? 1 : retry_cfg.max_retries + 1;
+                const auto executor_reports_unhealthy = [&entry]() {
+                    if (!entry.executor) {
+                        return true;
+                    }
+                    try {
+                        return !entry.executor->isHealthy();
+                    } catch (const std::exception& ex) {
+                        spdlog::debug(
+                            "DistributedAnalyticsSharding: health check failed for shard '{}': {}",
+                            entry.shard_id, ex.what());
+                        return false;
+                    } catch (...) {
+                        // A failed health check is inconclusive; retain the
+                        // configured retry behavior for transient failures.
+                        spdlog::debug(
+                            "DistributedAnalyticsSharding: health check failed for shard '{}' "
+                            "with an unknown exception",
+                            entry.shard_id);
+                        return false;
+                    }
+                };
 
                 for (uint32_t attempt = 0; attempt < max_attempts; ++attempt) {
                     try {
                         if (!entry.executor) {
                             throw std::runtime_error("shard executor is null");
                         }
-                        auto partial = entry.executor->execute(entry.shard_id, query);
+                        auto partial = entry.executor->execute(entry.shard_id, *shared_query);
                         const auto t1 = std::chrono::steady_clock::now();
                         info.success = true;
                         info.execution_time_ms =
                             std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        promise.set_value({std::move(partial), std::move(info)});
+                        promise->set_value({std::move(partial), std::move(info)});
                         return;
                     } catch (const std::exception& ex) {
                         const std::string err_msg = ex.what();
@@ -1004,8 +1069,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             lower.find("invalid query")    != std::string::npos ||
                             lower.find("permission denied") != std::string::npos ||
                             lower.find("auth")             != std::string::npos;
+                        const bool known_unhealthy =
+                            executor_reports_unhealthy();
 
-                        if (is_permanent || attempt + 1 >= max_attempts) {
+                        if (is_permanent || known_unhealthy ||
+                            attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = err_msg;
@@ -1014,7 +1082,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             spdlog::error(
                                 "DistributedAnalyticsSharding: shard {} failed: {}",
                                 entry.shard_id, err_msg);
-                            promise.set_value({OLAPResult{}, std::move(info)});
+                            promise->set_value({OLAPResult{}, std::move(info)});
                             return;
                         }
                         // Transient: backoff = base * 2^attempt, capped, ±20% jitter.
@@ -1028,7 +1096,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                                     entry.shard_id, attempt + 1, retry_cfg.max_retries);
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     } catch (...) {
-                        if (attempt + 1 >= max_attempts) {
+                        if (executor_reports_unhealthy() ||
+                            attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = "unknown shard error";
@@ -1037,7 +1106,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             spdlog::error(
                                 "DistributedAnalyticsSharding: shard {} failed with unknown exception",
                                 entry.shard_id);
-                            promise.set_value({OLAPResult{}, std::move(info)});
+                            promise->set_value({OLAPResult{}, std::move(info)});
                             return;
                         }
                         const uint32_t raw_ms =
@@ -1051,10 +1120,19 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     }
                 }
-                // The promise is fulfilled as the last observable action before thread exit.
-            }).detach();
-            // detach() is only safe here because the thread owns all captured state,
-            // fulfills the promise before returning, and performs no further work after that.
+            }, themis::utils::Task::Priority::NORMAL,
+                "analytics-shard-query-" + entry.shard_id);
+            if (!analyticsDispatchPool().submit(
+                    std::move(task),
+                    std::chrono::milliseconds(config_.queue_enqueue_timeout_ms))) {
+                ShardExecutionInfo info;
+                info.shard_id = entry.shard_id;
+                info.error = "analytics dispatch queue rejected the shard query";
+                spdlog::error(
+                    "DistributedAnalyticsSharding: dispatch queue rejected shard '{}'",
+                    entry.shard_id);
+                promise->set_value({OLAPResult{}, std::move(info)});
+            }
             futures.push_back(std::move(f));
         }
 
@@ -1063,34 +1141,27 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             const auto active_index = batch_begin + i;
             auto& entry             = active[active_index];
 
-            // Per-shard timeout: use wait_for so we never block forever.
+            // Per-shard timeout: wait directly until the deadline instead of
+            // polling in 1 ms increments (which serialized avoidable latency
+            // across the gathered futures).
             if (has_timeout) {
                 const auto timeout_deadline = std::chrono::steady_clock::now() + per_shard_timeout;
-                bool shard_timed_out = false;
-                while (f.wait_for(std::chrono::milliseconds{0}) != std::future_status::ready) {
-                    if (std::chrono::steady_clock::now() >= timeout_deadline) {
-                        ShardExecutionInfo info;
-                        info.shard_id = entry.shard_id;
-                        info.success  = false;
-                        info.error    = "timeout (" + std::to_string(effective_timeout_ms) + " ms)";
+                if (f.wait_until(timeout_deadline) != std::future_status::ready) {
+                    ShardExecutionInfo info;
+                    info.shard_id = entry.shard_id;
+                    info.success  = false;
+                    info.error    = "timeout (" + std::to_string(effective_timeout_ms) + " ms)";
 
-                        // SAFETY CONTROL: Log timeout as a failure for circuit breaker
-                        if (config_.enable_circuit_breaker) {
-                            onShardFailure(entry, info.error);
-                            std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
-                            info.circuit_state = entry.circuit_breaker_info->state;
-                            info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
-                        }
-
-                        spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", entry.shard_id);
-                        result.shard_info.push_back(std::move(info));
-                        shard_timed_out = true;
-                        break;
+                    // SAFETY CONTROL: Log timeout as a failure for circuit breaker
+                    if (config_.enable_circuit_breaker) {
+                        onShardFailure(entry, info.error);
+                        std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+                        info.circuit_state = entry.circuit_breaker_info->state;
+                        info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
                     }
 
-                    std::this_thread::sleep_for(std::chrono::milliseconds{1});
-                }
-                if (shard_timed_out) {
+                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", entry.shard_id);
+                    result.shard_info.push_back(std::move(info));
                     continue;
                 }
             }

@@ -970,10 +970,7 @@ BENCHMARK_DEFINE_F(RebalancingFixture, GpuReedSolomonThroughput)(benchmark::Stat
 }
 #else
 BENCHMARK_DEFINE_F(RebalancingFixture, GpuReedSolomonThroughput)(benchmark::State& state) {
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(state.iterations());
-    }
-    state.SkipWithError("GpuReedSolomonThroughput requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_OPENCL build");
+    state.SkipWithMessage("GpuReedSolomonThroughput requires a THEMIS_ENABLE_CUDA or THEMIS_ENABLE_OPENCL build");
 }
 #endif
 

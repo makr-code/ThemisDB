@@ -60,8 +60,14 @@ using themis::sharding::ShardTransferManifest;
 using themis::sharding::ShardTransferStore;
 using namespace std::chrono_literals;
 
+[[nodiscard]] themisdb::sharding::RaftShardManager::Config raftManagerConfig(
+    const fs::path& root, const std::vector<std::string>& members,
+    const std::map<std::string, std::string>& addresses,
+    const std::string& local_node_id = "node1");
+
 constexpr char kReceiverMode[] = "--shard-transfer-receiver";
 constexpr char kRaftReceiverMode[] = "--raft-peer-receiver";
+constexpr char kRaftLeaderMode[] = "--raft-leader-process";
 constexpr char kSource[] = "source-shard";
 constexpr char kTarget[] = "target-shard";
 constexpr char kSourceIdentity[] = "source.test";
@@ -309,16 +315,29 @@ public:
 
     [[nodiscard]] std::string start(
         const fs::path& root, const std::string& node_id,
-        const std::vector<std::string>& members) {
-        const auto port = std::to_string(loopbackPort());
+        const std::vector<std::string>& members,
+        const std::map<std::string, std::string>& peer_addresses = {},
+        std::optional<std::string> forced_port = std::nullopt) {
+        const auto port = forced_port.has_value()
+                              ? *forced_port
+                              : std::to_string(loopbackPort());
         const auto parent = std::to_string(::getpid());
         const auto path = root.string();
         std::string member_list;
+        std::string address_list;
         for (const auto& member : members) {
             if (!member_list.empty()) {
                 member_list.push_back(',');
             }
             member_list += member;
+
+            const auto address = peer_addresses.find(member);
+            if (address != peer_addresses.end()) {
+                if (!address_list.empty()) {
+                    address_list.push_back(';');
+                }
+                address_list += member + "=" + address->second;
+            }
         }
 
         // Exec instead of forking a live gRPC runtime on restart.
@@ -329,7 +348,9 @@ public:
             const_cast<char*>(port.c_str()),
             const_cast<char*>(node_id.c_str()),
             const_cast<char*>(member_list.c_str()),
+            const_cast<char*>(address_list.c_str()),
             const_cast<char*>(parent.c_str()),
+            const_cast<char*>(startup_mode),
             nullptr,
         };
         const int error = ::posix_spawn(&pid_, argv[0], nullptr, nullptr, argv, environ);
@@ -359,19 +380,153 @@ private:
     pid_t pid_ = -1;
 };
 
+class RaftLeaderProcess {
+public:
+    RaftLeaderProcess() = default;
+    RaftLeaderProcess(const RaftLeaderProcess&) = delete;
+    RaftLeaderProcess& operator=(const RaftLeaderProcess&) = delete;
+    ~RaftLeaderProcess() {
+        if (pid_ > 0) {
+            (void)crash();
+        }
+    }
+
+    [[nodiscard]] std::string start(
+        const fs::path& root, const std::string& leader_port,
+        const std::vector<std::string>& members,
+        const std::map<std::string, std::string>& peer_addresses,
+        bool commit_on_start = true) {
+        const auto parent = std::to_string(::getpid());
+        const auto path = root.string();
+        const auto startup_mode = commit_on_start ? "commit" : "recover";
+        std::string member_list;
+        std::string address_list;
+        for (const auto& member : members) {
+            if (!member_list.empty()) {
+                member_list.push_back(',');
+            }
+            member_list += member;
+
+            const auto address = peer_addresses.find(member);
+            if (address != peer_addresses.end()) {
+                if (!address_list.empty()) {
+                    address_list.push_back(';');
+                }
+                address_list += member + "=" + address->second;
+            }
+        }
+
+        char* const argv[] = {
+            const_cast<char*>("/proc/self/exe"),
+            const_cast<char*>(kRaftLeaderMode),
+            const_cast<char*>(path.c_str()),
+            const_cast<char*>(leader_port.c_str()),
+            const_cast<char*>(member_list.c_str()),
+            const_cast<char*>(address_list.c_str()),
+            const_cast<char*>(parent.c_str()),
+            nullptr,
+        };
+        const int error = ::posix_spawn(&pid_, argv[0], nullptr, nullptr, argv, environ);
+        if (error != 0) {
+            pid_ = -1;
+            throw std::system_error(error, std::generic_category(), "spawn Raft leader");
+        }
+        return "localhost:" + leader_port;
+    }
+
+    [[nodiscard]] bool crash() {
+        if (pid_ <= 0) {
+            return false;
+        }
+        const int killed = ::kill(pid_, SIGKILL);
+        int status = 0;
+        pid_t finished;
+        do {
+            finished = ::waitpid(pid_, &status, 0);
+        } while (finished < 0 && errno == EINTR);
+        pid_ = -1;
+        return killed == 0 && finished > 0 && WIFSIGNALED(status) &&
+               WTERMSIG(status) == SIGKILL;
+    }
+
+private:
+    pid_t pid_ = -1;
+};
+
 [[nodiscard]] int runRaftReceiver(
     const fs::path& root, const std::string& port, const std::string& node_id,
-    const std::vector<std::string>& members, pid_t parent) {
+    const std::vector<std::string>& members, const std::string& address_list,
+    pid_t parent) {
     // Do not leave a peer behind if the test runner kills the parent.
     if (::prctl(PR_SET_PDEATHSIG, SIGKILL) != 0 || ::getppid() != parent) {
         return EXIT_FAILURE;
     }
 
-    themisdb::sharding::RaftConsensus::Config raft_config;
-    raft_config.raft_config.node_id = node_id;
-    raft_config.raft_config.cluster_members = members;
-    raft_config.raft_config.persistence_path = (root / (node_id + ".journal")).string();
-    auto raft = std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    std::map<std::string, std::string> peer_addresses;
+    std::size_t start = 0;
+    while (start < address_list.size()) {
+        const auto separator = address_list.find(';', start);
+        const auto item = address_list.substr(
+            start, separator == std::string::npos
+                       ? std::string::npos
+                       : separator - start);
+        const auto equals = item.find('=');
+        if (equals == std::string::npos) {
+            return EXIT_FAILURE;
+        }
+        peer_addresses.emplace(item.substr(0, equals), item.substr(equals + 1));
+        if (separator == std::string::npos) {
+            break;
+        }
+        start = separator + 1;
+    }
+
+    if (peer_addresses.empty()) {
+        themisdb::sharding::RaftConsensus::Config raft_config;
+        raft_config.raft_config.node_id = node_id;
+        raft_config.raft_config.cluster_members = members;
+        raft_config.raft_config.persistence_path =
+            (root / (node_id + ".journal")).string();
+        auto raft =
+            std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+
+        ShardRPCServer::Config server_config;
+        server_config.listen_address = "127.0.0.1:" + port;
+        server_config.tls_cert_path = (root / (node_id + "-cert.pem")).string();
+        server_config.tls_key_path = (root / (node_id + "-key.pem")).string();
+        server_config.tls_ca_cert_path = (root / "trusted-clients.pem").string();
+        for (const auto& member : members) {
+            server_config.raft_identity_bindings.push_back(
+                {"x509_subject_alternative_name", member + ".test", member});
+        }
+        server_config.raft_group_resolver =
+            [raft](const std::string& group_id)
+                -> std::shared_ptr<themisdb::sharding::RaftConsensus> {
+                if (group_id == kRaftGroup) {
+                    return raft;
+                }
+                return {};
+            };
+        ShardRPCServer server(server_config);
+        if (!server.start()) {
+            std::cerr << "Raft peer failed to start\n";
+            return EXIT_FAILURE;
+        }
+        raft->start();
+        server.wait();
+        return EXIT_SUCCESS;
+    }
+
+    themisdb::sharding::RaftShardManager::Config manager_config =
+        raftManagerConfig(root, members, peer_addresses, node_id);
+    themisdb::sharding::RaftShardManager manager(manager_config);
+    if (!manager.initializeShard(kRaftGroup, members)) {
+        return EXIT_FAILURE;
+    }
+    const auto raft = manager.getRaftInstance(kRaftGroup);
+    if (!raft) {
+        return EXIT_FAILURE;
+    }
 
     ShardRPCServer::Config server_config;
     server_config.listen_address = "127.0.0.1:" + port;
@@ -396,6 +551,123 @@ private:
         std::cerr << "Raft peer failed to start\n";
         return EXIT_FAILURE;
     }
+    if (!manager.startShard(kRaftGroup)) {
+        std::cerr << "Raft peer failed to start its consensus group\n";
+        return EXIT_FAILURE;
+    }
+    const auto ready = root / (node_id + ".ready");
+    const auto state_path = root / (node_id + ".state");
+    while (true) {
+        std::ofstream state_marker(state_path);
+        if (!state_marker) {
+            std::cerr << "Raft peer failed to write its state marker\n";
+            return EXIT_FAILURE;
+        }
+        state_marker << raft->getCurrentTerm() << '\n'
+                     << raft->getRaftState().getLog().getCommitIndex() << '\n';
+        state_marker.close();
+        if (!state_marker) {
+            std::cerr << "Raft peer failed to persist its state marker\n";
+            return EXIT_FAILURE;
+        }
+
+        if (raft->isLeader()) {
+            std::ofstream marker(ready);
+            marker << raft->getCurrentTerm() << '\n'
+                   << raft->getRaftState().getLog().getCommitIndex() << '\n';
+            marker.close();
+        }
+        std::this_thread::sleep_for(20ms);
+    }
+}
+
+[[nodiscard]] int runRaftLeader(
+    const fs::path& root, const std::string& port,
+    const std::vector<std::string>& members,
+    const std::string& address_list, pid_t parent, bool commit_on_start) {
+    if (::prctl(PR_SET_PDEATHSIG, SIGKILL) != 0 || ::getppid() != parent) {
+        return EXIT_FAILURE;
+    }
+
+    std::map<std::string, std::string> peer_addresses;
+    std::size_t start = 0;
+    while (start < address_list.size()) {
+        const auto separator = address_list.find(';', start);
+        const auto item = address_list.substr(
+            start, separator == std::string::npos
+                       ? std::string::npos
+                       : separator - start);
+        const auto equals = item.find('=');
+        if (equals == std::string::npos) {
+            return EXIT_FAILURE;
+        }
+        peer_addresses.emplace(item.substr(0, equals), item.substr(equals + 1));
+        if (separator == std::string::npos) {
+            break;
+        }
+        start = separator + 1;
+    }
+
+    ShardRPCServer::Config server_config;
+    server_config.listen_address = "127.0.0.1:" + port;
+    server_config.tls_cert_path = (root / "node1-cert.pem").string();
+    server_config.tls_key_path = (root / "node1-key.pem").string();
+    server_config.tls_ca_cert_path = (root / "trusted-clients.pem").string();
+    for (const auto& member : members) {
+        server_config.raft_identity_bindings.push_back(
+            {"x509_subject_alternative_name", member + ".test", member});
+    }
+
+    themisdb::sharding::RaftShardManager::Config manager_config =
+        raftManagerConfig(root, members, peer_addresses);
+    themisdb::sharding::RaftShardManager manager(manager_config);
+    auto raft_group_resolver =
+        [&manager](const std::string& group_id)
+            -> std::shared_ptr<themisdb::sharding::RaftConsensus> {
+            if (group_id == kRaftGroup) {
+                return manager.getRaftInstance(kRaftGroup);
+            }
+            return {};
+        };
+    server_config.raft_group_resolver = std::move(raft_group_resolver);
+
+    ShardRPCServer server(server_config);
+    if (!server.start()) {
+        return EXIT_FAILURE;
+    }
+    if (!manager.initializeShard(kRaftGroup, members)) {
+        return EXIT_FAILURE;
+    }
+
+    const auto leader = manager.getRaftInstance(kRaftGroup);
+    if (!leader) {
+        return EXIT_FAILURE;
+    }
+    if (!manager.startShard(kRaftGroup)) {
+        return EXIT_FAILURE;
+    }
+
+    const auto ready = root / "node1.ready";
+    std::error_code error;
+    fs::remove(ready, error);
+    if (commit_on_start) {
+        const auto deadline = std::chrono::steady_clock::now() + 10s;
+        while (!leader->isLeader() && std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(10ms);
+        }
+        if (!leader->isLeader() ||
+            !manager.proposeWrite(kRaftGroup, "leader-process-durable-entry").get()) {
+            return EXIT_FAILURE;
+        }
+    }
+    std::ofstream marker(ready);
+    marker << leader->getCurrentTerm() << '\n'
+           << leader->getRaftState().getLog().getCommitIndex() << '\n';
+    marker.close();
+    if (!marker) {
+        return EXIT_FAILURE;
+    }
+
     server.wait();
     return EXIT_SUCCESS;
 }
@@ -449,6 +721,57 @@ using RaftCertificates = std::map<std::string, themis::tests::PemMaterial>;
     return certificates;
 }
 
+[[nodiscard]] bool waitForFile(const fs::path& path, std::chrono::milliseconds timeout) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    std::error_code error;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (fs::exists(path, error) && !error) {
+            return true;
+        }
+        std::this_thread::sleep_for(10ms);
+    }
+    return false;
+}
+
+[[nodiscard]] std::optional<std::pair<std::uint64_t, std::uint64_t>>
+readRaftReadyMarker(const fs::path& path) {
+    std::ifstream marker(path);
+    std::uint64_t term = 0;
+    std::uint64_t commit_index = 0;
+    if (!(marker >> term >> commit_index)) {
+        return std::nullopt;
+    }
+    return std::pair<std::uint64_t, std::uint64_t>{term, commit_index};
+}
+
+[[nodiscard]] std::optional<std::pair<std::uint64_t, std::uint64_t>>
+waitForRaftReadyMarker(const fs::path& path, std::chrono::milliseconds timeout) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (const auto marker = readRaftReadyMarker(path)) {
+            return marker;
+        }
+        std::this_thread::sleep_for(10ms);
+    }
+    return std::nullopt;
+}
+
+[[nodiscard]] bool waitForRaftCommitIndex(
+    const std::vector<fs::path>& paths, std::uint64_t expected_commit_index,
+    std::chrono::milliseconds timeout) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        for (const auto& path : paths) {
+            if (const auto marker = readRaftReadyMarker(path);
+                marker && marker->second >= expected_commit_index) {
+                return true;
+            }
+        }
+        std::this_thread::sleep_for(10ms);
+    }
+    return false;
+}
+
 [[nodiscard]] ShardRPCClient::Config raftClientConfig(
     const fs::path& root, const std::string& endpoint,
     const std::string& local_node_id, const std::string& peer_node_id) {
@@ -475,22 +798,25 @@ using RaftCertificates = std::map<std::string, themis::tests::PemMaterial>;
 
 [[nodiscard]] themisdb::sharding::RaftShardManager::Config raftManagerConfig(
     const fs::path& root, const std::vector<std::string>& members,
-    const std::map<std::string, std::string>& addresses) {
+    const std::map<std::string, std::string>& addresses,
+    const std::string& local_node_id = "node1") {
     themisdb::sharding::RaftShardManager::Config config;
-    config.raft_config.raft_config.node_id = "node1";
-    config.raft_config.raft_config.persistence_path = (root / "node1.journal").string();
+    config.raft_config.raft_config.node_id = local_node_id;
+    config.raft_config.raft_config.persistence_path =
+        (root / (local_node_id + ".journal")).string();
+    config.enable_auto_start = false;
     config.raft_config.raft_config.election_timeout_min_ms = 100;
     config.raft_config.raft_config.election_timeout_max_ms = 150;
     config.raft_config.raft_config.heartbeat_interval_ms = 50;
     config.replication_factor = members.size();
     config.raft_peer_config_resolver =
-        [root, addresses](const std::string& peer_node_id)
+        [root, addresses, local_node_id](const std::string& peer_node_id)
             -> std::optional<ShardRPCClient::Config> {
             const auto address = addresses.find(peer_node_id);
             if (address == addresses.end()) {
                 return std::nullopt;
             }
-            return raftClientConfig(root, address->second, "node1", peer_node_id);
+            return raftClientConfig(root, address->second, local_node_id, peer_node_id);
         };
     return config;
 }
@@ -737,6 +1063,7 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     manager_config.raft_config.raft_config.election_timeout_max_ms = 150;
     manager_config.raft_config.raft_config.heartbeat_interval_ms = 50;
     manager_config.replication_factor = 2;
+    manager_config.enable_auto_start = false;
     manager_config.raft_peer_config_resolver =
         [client_config](const std::string& peer_node_id) mutable
             -> std::optional<ShardRPCClient::Config> {
@@ -747,6 +1074,7 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
         };
     themisdb::sharding::RaftShardManager manager(manager_config);
     ASSERT_TRUE(manager.initializeShard("payments", {"node1", "node2"}));
+    ASSERT_TRUE(manager.startShard("payments"));
     const auto leader = manager.getRaftInstance("payments");
     ASSERT_NE(leader, nullptr);
     const auto election_deadline = std::chrono::steady_clock::now() + 5s;
@@ -870,6 +1198,7 @@ TEST(RaftPeerGrpc, TwoProcessRestartRetainsCommittedLogAndRejectsConflicts) {
     const std::map<std::string, std::string> addresses{{"node2", follower_address}};
     themisdb::sharding::RaftShardManager manager(raftManagerConfig(root.path, members, addresses));
     ASSERT_TRUE(manager.initializeShard(kRaftGroup, members));
+    ASSERT_TRUE(manager.startShard(kRaftGroup));
     const auto leader = manager.getRaftInstance(kRaftGroup);
     ASSERT_NE(leader, nullptr);
     const auto election_deadline = std::chrono::steady_clock::now() + 5s;
@@ -961,6 +1290,7 @@ TEST(RaftPeerGrpc, ThreeProcessQuorumLossAndFollowerRestartPreserveDurablePrefix
         {"node2", address2}, {"node3", address3}};
     themisdb::sharding::RaftShardManager manager(raftManagerConfig(root.path, members, addresses));
     ASSERT_TRUE(manager.initializeShard(kRaftGroup, members));
+    ASSERT_TRUE(manager.startShard(kRaftGroup));
     const auto leader = manager.getRaftInstance(kRaftGroup);
     ASSERT_NE(leader, nullptr);
     const auto election_deadline = std::chrono::steady_clock::now() + 5s;
@@ -1032,6 +1362,87 @@ TEST(RaftPeerGrpc, ThreeProcessQuorumLossAndFollowerRestartPreserveDurablePrefix
     EXPECT_EQ(recovered.match_index, entry->index);
 }
 
+TEST(RaftPeerGrpc, LeaderProcessCrashAndRestartPreservesJournalCommit) {
+    const FixtureDirectory root;
+    const std::vector<std::string> members{"node1", "node2", "node3"};
+    const auto certificates = writeRaftCertificates(root.path, members);
+
+    const auto leader_port = std::to_string(loopbackPort());
+    const auto node2_port = std::to_string(loopbackPort());
+    const auto node3_port = std::to_string(loopbackPort());
+    const std::map<std::string, std::string> peer_addresses{
+        {"node1", "localhost:" + leader_port},
+        {"node2", "localhost:" + node2_port},
+        {"node3", "localhost:" + node3_port}};
+
+    RaftPeerProcess follower2;
+    RaftPeerProcess follower3;
+    follower2.start(root.path, "node2", members, peer_addresses, node2_port);
+    follower3.start(root.path, "node3", members, peer_addresses, node3_port);
+    const auto address2 = peer_addresses.at("node2");
+    const auto address3 = peer_addresses.at("node3");
+    ASSERT_TRUE(waitForRaftPeer(address2, certificates, "node1", "node2"));
+    ASSERT_TRUE(waitForRaftPeer(address3, certificates, "node1", "node3"));
+
+    RaftLeaderProcess leader;
+    const auto ready = root.path / "node1.ready";
+    std::error_code error;
+    fs::remove(ready, error);
+    auto leader_address = leader.start(root.path, leader_port, members, peer_addresses);
+    const auto initial_leader_marker =
+        waitForRaftReadyMarker(ready, 10s);
+    ASSERT_TRUE(initial_leader_marker.has_value())
+        << "separate leader process did not elect and commit";
+    ASSERT_GE(initial_leader_marker->second, 1u);
+    ASSERT_TRUE(waitForRaftPeer(leader_address, certificates, "node2", "node1"))
+        << "leader mTLS server did not accept peers";
+
+    ASSERT_TRUE(waitForRaftCommitIndex(
+        {root.path / "node2.state", root.path / "node3.state"},
+        initial_leader_marker->second, 5s))
+        << "no follower applied the leader commit through normal heartbeats";
+
+    ASSERT_TRUE(leader.crash()) << "leader process did not exit after SIGKILL";
+    fs::remove(ready, error);
+    const auto node2_ready = root.path / "node2.ready";
+    const auto node3_ready = root.path / "node3.ready";
+    fs::remove(node2_ready, error);
+    fs::remove(node3_ready, error);
+
+    const auto node2_election =
+        waitForRaftReadyMarker(node2_ready, 10s);
+    const auto node3_election =
+        waitForRaftReadyMarker(node3_ready, 10s);
+    ASSERT_TRUE(node2_election.has_value() || node3_election.has_value())
+        << "a follower did not elect after leader SIGKILL";
+    const auto elected_marker =
+        node2_election.has_value() ? node2_election : node3_election;
+    EXPECT_GT(elected_marker->first, initial_leader_marker->first)
+        << "new follower leader did not advance beyond the crashed leader term";
+    EXPECT_GE(elected_marker->second, initial_leader_marker->second)
+        << "new follower leader lost the committed log prefix";
+
+    leader_address = leader.start(root.path, leader_port, members, peer_addresses, false);
+    const auto restarted_leader_marker =
+        waitForRaftReadyMarker(ready, 10s);
+    ASSERT_TRUE(restarted_leader_marker.has_value())
+        << "restarted node did not report its recovered durable Raft state";
+    EXPECT_GE(restarted_leader_marker->first, initial_leader_marker->first)
+        << "restarted node forgot its durable Raft term";
+    EXPECT_GE(restarted_leader_marker->second, initial_leader_marker->second)
+        << "restarted node forgot its durable committed log prefix";
+    ASSERT_TRUE(waitForRaftPeer(leader_address, certificates, "node2", "node1"))
+        << "leader mTLS server did not recover after restart";
+
+    std::ifstream marker(ready);
+    std::uint64_t term = 0;
+    std::uint64_t commit_index = 0;
+    ASSERT_TRUE(static_cast<bool>(marker >> term >> commit_index));
+    EXPECT_EQ(term, restarted_leader_marker->first);
+    EXPECT_EQ(commit_index, restarted_leader_marker->second);
+    EXPECT_GE(commit_index, 1u);
+}
+
 } // namespace
 
 #else
@@ -1053,7 +1464,7 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         }
     }
-    if (argc == 7 && std::string_view(argv[1]) == kRaftReceiverMode) {
+    if (argc == 8 && std::string_view(argv[1]) == kRaftReceiverMode) {
         try {
             std::vector<std::string> members;
             std::string member_list(argv[5]);
@@ -1074,9 +1485,41 @@ int main(int argc, char** argv) {
                 throw std::invalid_argument("Raft peer membership must not be empty");
             }
             return runRaftReceiver(argv[2], argv[3], argv[4], members,
-                                   static_cast<pid_t>(std::stol(argv[6])));
+                                   argv[6], static_cast<pid_t>(std::stol(argv[7])));
         } catch (const std::exception& e) {
             std::cerr << "Raft peer receiver: " << e.what() << '\n';
+            return EXIT_FAILURE;
+        }
+    }
+    if (argc == 8 && std::string_view(argv[1]) == kRaftLeaderMode) {
+        try {
+            std::vector<std::string> members;
+            std::string member_list(argv[4]);
+            std::size_t start = 0;
+            while (start < member_list.size()) {
+                const auto separator = member_list.find(',', start);
+                members.push_back(member_list.substr(
+                    start, separator == std::string::npos
+                               ? std::string::npos
+                               : separator - start));
+                if (separator == std::string::npos) {
+                    break;
+                }
+                start = separator + 1;
+            }
+            if (members.empty() ||
+                std::find(members.begin(), members.end(), std::string{}) != members.end()) {
+                throw std::invalid_argument("Raft leader membership must not be empty");
+            }
+            const std::string_view startup_mode(argv[7]);
+            if (startup_mode != "commit" && startup_mode != "recover") {
+                throw std::invalid_argument("Raft leader startup mode must be commit or recover");
+            }
+            return runRaftLeader(argv[2], argv[3], members, argv[5],
+                                 static_cast<pid_t>(std::stol(argv[6])),
+                                 startup_mode == "commit");
+        } catch (const std::exception& e) {
+            std::cerr << "Raft leader process: " << e.what() << '\n';
             return EXIT_FAILURE;
         }
     }

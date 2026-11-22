@@ -45,7 +45,7 @@ int64_t StaleArtifactDetector::getCurrentTimeUnixSec() {
  */
 StaleArtifactMetrics StaleArtifactDetector::analyzeArtifactStaleness(
     const std::string& artifact_id,
-    const ArtifactManifest& manifest,
+    const detail::ArtifactManifest& manifest,
     uint64_t current_source_seq,
     double worker_throughput,
     double delta_arrival_rate) {

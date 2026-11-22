@@ -400,10 +400,37 @@ double DeadlockPredictor::computeConflictScore(
         const std::vector<std::string>& keys) const
 {
     double score = 0.0;
+    size_t max_pair_key_size = 0;
     for (size_t i = 0; i < keys.size(); ++i) {
         for (size_t j = i + 1; j < keys.size(); ++j) {
-            const std::string pk = makePairKey(keys[i], keys[j]);
-            auto it = pair_conflicts_.find(pk);
+            max_pair_key_size = std::max(
+                max_pair_key_size, keys[i].size() + keys[j].size() + 1);
+        }
+    }
+
+    // Reuse a bounded buffer across predictions; avoid retaining memory for unusually long keys.
+    constexpr size_t kMaxRetainedPairKeySize = 256;
+    std::string temporary_pair_key;
+    std::string& pair_key = max_pair_key_size <= kMaxRetainedPairKeySize
+        ? conflict_key_scratch_
+        : temporary_pair_key;
+    pair_key.clear();
+    if (pair_key.capacity() < max_pair_key_size) {
+        pair_key.reserve(max_pair_key_size);
+    }
+    for (size_t i = 0; i < keys.size(); ++i) {
+        for (size_t j = i + 1; j < keys.size(); ++j) {
+            pair_key.clear();
+            if (keys[i] <= keys[j]) {
+                pair_key.append(keys[i]);
+                pair_key.push_back('\0');
+                pair_key.append(keys[j]);
+            } else {
+                pair_key.append(keys[j]);
+                pair_key.push_back('\0');
+                pair_key.append(keys[i]);
+            }
+            auto it = pair_conflicts_.find(pair_key);
             if (it != pair_conflicts_.end()) {
                 score += it->second;
             }

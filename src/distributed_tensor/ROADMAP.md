@@ -1,6 +1,6 @@
 # Distributed Tensor Module Roadmap
 
-**Last Updated:** 2026-11-06
+**Last Updated:** 2026-11-21
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -31,11 +31,11 @@ files register three focused test executables and
 one in-process benchmark under `tests/distributed_tensor/` and
 `benchmarks/distributed_tensor/`. Separately, `tests/CMakeLists.txt` adds
 `tests/epic3_distributed_tensor/`, whose CMake registers the EPIC 3
-phase/contract sources and an integrity benchmark test; the integration CMake
-includes the distributed-tensor soak source when present. The benchmark parent
-configuration also adds `benchmarks/epic3_distributed_tensor/` and its
-placement, integrity, recovery, retrieval, partial-refit, and summary-first
-sources.
+phase/contract sources; the integration CMake includes the distributed-tensor
+soak source when present. The benchmark parent configuration adds
+`benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
+retrieval, partial-refit, and summary-first sources. The separate private
+integrity test and benchmark are registered only when OpenSSL Crypto is found.
 
 These registrations confirm configured source paths, not the historical test
 counts or pass claims reported below. A diagnostic configure was attempted for
@@ -48,13 +48,15 @@ enablement, release readiness, or measured runtime behavior. Phase labels and
 gate targets below remain planning/status records unless backed by current
 source and separately verified evidence.
 
-**Integrity/training source caveat:** The active library target compiles
-`integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration
-code, not SHA-256. Merkle-shaped structures built by that target are not
-cryptographic integrity security. The separate nested SHA-256 implementation
-is not listed in the module target's CMake sources. `TensorTrainingCoordinator`
-executes registered worker callbacks synchronously in-process; it does not
-provide networked or distributed worker coordination.
+**Integrity/training source caveat:** The active library target now uses
+OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and fails
+closed otherwise. It accepts only SHA-256 and uses versioned, length-prefixed
+receipt inputs with sorted shard IDs; hashing does not authenticate a producer.
+`ArtifactManifest::compute_manifest_hash()` remains a separate
+non-cryptographic checksum, and the nested integrity implementation is still
+outside the target. No build or test was run for this change by request.
+`TensorTrainingCoordinator` executes registered worker callbacks synchronously
+in-process; it does not provide networked or distributed worker coordination.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -165,7 +167,7 @@ pending.
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
-- [?] Hash/receipt mismatch handling is present, but the active implementation uses an FNV-1a demonstration hash and does not establish cryptographic tamper resistance.
+- [~] Active receipt hashing uses OpenSSL EVP SHA-256 when available, rejects unsupported/malformed inputs, and fails closed without OpenSSL; hashing does not authenticate the producer. Build/test validation remains pending.
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 - [x] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026) ✅ **2026-08-17: delta log overflow detection (95% threshold), instability detection heuristics, fail-closed behavior**
@@ -174,8 +176,7 @@ pending.
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
-- [?] Historical roadmap entries report SHA-256, Merkle, and receipt-chain tests. Test-source presence/pass status was not revalidated here, and such tests do not establish cryptographic behavior for the active module target's FNV-1a demonstration hash.
-- [?] Historical roadmap reported full verification tests; current behavior and pass status are unverified, and the active FNV-1a demonstration hash does not establish cryptographic integrity.
+- [?] Historical test-source/pass claims remain unvalidated; they do not establish current behavior. New SHA-256 regressions are registered in focused test sources but have not been run.
 - [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [x] `test_tensor_delta_log` — Phase A ctest gate ✅ **Done; TDL-01..TDL-18, TDL-A1..A3 (tests/epic3_distributed_tensor/test_tensor_delta_log.cpp)**
@@ -263,7 +264,7 @@ are not established module capabilities.
 | Area | Source evidence | Gap and consequence |
 |---|---|---|
 | Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `executeFragmentLoads()` fails when no fetcher is configured. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | The module can plan/delegate work but does not itself fetch remote shards or coordinate distributed training. No end-to-end user workflow is established by these interfaces. |
-| Integrity and security | The active target includes `src/distributed_tensor/integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration code; the separately present nested SHA implementation is not in the target source list. See `CMakeLists.txt` and `SECURITY.md`. | Hash enum names and Merkle-shaped receipts are not cryptographic evidence. Do not rely on them for tamper resistance or production trust decisions. |
+| Integrity and security | The active target includes `src/distributed_tensor/integrity_verification.cc`, which now uses OpenSSL EVP SHA-256 conditionally and fails closed without it. The nested implementation remains outside the target. See `CMakeLists.txt` and `SECURITY.md`. | Hashing does not authenticate a producer; the manifest's separate `compute_manifest_hash()` remains non-cryptographic. New code/tests are unbuilt and untested; no production trust claim is established. |
 | Recovery and resilience | `recovery_manager.cc` creates in-memory jobs with timestamp-based IDs and heuristic recovery-time estimates; `recovery_manager.h` describes retries and degraded modes. | Durable job state, real shard transfer/reconstruction, idempotency, and observed recovery objectives are not established by this module source. |
 | Tests | `tests/distributed_tensor/CMakeLists.txt` registers allocation, operations, and performance tests; a separate EPIC 3 suite is registered from `tests/epic3_distributed_tensor/`. | Registration is not execution evidence. The latest recorded configure attempt in `TEST_EVIDENCE_COLLECTION.md` stopped before generating targets because `fmt` was unavailable; current pass status is unverified. |
 | Performance and operations | `benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp` benchmarks in-process stubs. Separate EPIC 3 benchmark sources are configured independently. | Stub thresholds are not network/GPU measurements. No representative-hardware p95/p99 baseline, SLO, or production runbook validation is established. |
@@ -315,9 +316,9 @@ criterion to be checked against a recorded baseline.
   verifiable across supported builds and manifest versions.
 - **Dependencies:** Wave 1; selection of an already-approved cryptographic implementation available in the repository’s supported build matrix.
 - **Tasks:**
-  - [ ] Route the active `themis_distributed_tensor` target through a vetted SHA-256 implementation (or another explicitly supported secure hash), reject unsupported algorithm identifiers, and remove misleading success semantics (Target: v2.5.0).
-  - [ ] Define canonical, unambiguous digest inputs including manifest version, artifact identity, and deterministically ordered shard IDs/content hashes; document that hashing alone does not authenticate a producer (Target: v2.5.0).
-  - [ ] Add known-answer, empty/malformed input, missing-shard-hash, reordered-shard, bit-flip, and old/new manifest compatibility tests to the configured focused suite (Target: v2.5.0).
+  - [~] Route the active `themis_distributed_tensor` target through OpenSSL EVP SHA-256 when available; reject unsupported algorithms and fail closed without OpenSSL. Build/security validation is pending (Target: v2.5.0).
+  - [~] Define canonical, unambiguous receipt inputs with a format tag, length-prefixed fields, manifest version, artifact identity, and sorted shard IDs/content hashes; document that hashing alone does not authenticate a producer (Target: v2.5.0).
+  - [~] Add known-answer, empty/malformed input, missing-shard-hash, reordered-shard, bit-flip, and legacy-receipt regression tests to configured focused suites; execution remains pending (Target: v2.5.0).
 - **Risk / trade-off:** a secure hash costs more CPU than the demonstration hash and changing digest inputs invalidates old receipts; version receipts and require explicit re-verification/migration rather than silently accepting old digests.
 - **Exit metrics:** all selected standard known-answer vectors pass; every tested content or identity mutation is rejected; unsupported algorithms never produce a verified receipt; record hashing throughput by payload size and compare it to the pre-change baseline.
 - **Validation:** focused unit tests, sanitizer-enabled integrity tests where available, and a dependency/license/security review; do not claim cryptographic security from source names or test registration alone.

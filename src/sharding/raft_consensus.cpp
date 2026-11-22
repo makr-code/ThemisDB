@@ -17,6 +17,7 @@
 #include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <iostream>
+#include <limits>
 
 namespace themisdb {
 namespace sharding {
@@ -268,23 +269,49 @@ void RaftConsensus::receiveHeartbeat(const Heartbeat& heartbeat) {
  * @brief Receive Append Entries Response.
  * @param[in] node_id Identifier of the node.
  * @param[in] response Input parameter.
- * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), updateReplicaHealthLocked().
+ * @details Rejects unknown peers, persists higher terms before stepping down, and
+ *          advances replica progress only for current-term successful responses.
  */
 void RaftConsensus::receiveAppendEntriesResponse(const std::string& node_id,
                                                  const AppendEntriesResponse& response) {
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+        const auto it = replica_states_.find(node_id);
+        if (it == replica_states_.end()) {
+            return;
+        }
+        it->second.last_contact = std::chrono::steady_clock::now();
+    }
+
+    if (response.term > raft_state_.getCurrentTerm()) {
+        try {
+            raft_state_.becomeFollower(response.term);
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("[RaftConsensus] failed to persist higher AppendEntries response term {}: {}",
+                         response.term, error.what());
+            read_only_mode_.store(true);
+        }
+        return;
+    }
+
     std::lock_guard<std::mutex> lock(replica_mutex_);
     auto it = replica_states_.find(node_id);
-    if (it != replica_states_.end()) {
-        auto now = std::chrono::steady_clock::now();
-        it->second.last_contact = std::chrono::steady_clock::now();
-        if (response.success) {
-            it->second.match_index = response.match_index;
-            it->second.next_index = response.match_index + 1;
-            updateReplicaHealthLocked(it->second, true, now);
-        } else {
-            updateReplicaHealthLocked(it->second, false, now);
-        }
+    if (it == replica_states_.end()) {
+        return;
     }
+
+    const auto now = std::chrono::steady_clock::now();
+    if (response.term != raft_state_.getCurrentTerm() || !response.success) {
+        updateReplicaHealthLocked(it->second, false, now);
+        return;
+    }
+
+    it->second.match_index = std::max(it->second.match_index, response.match_index);
+    const auto next_index = response.match_index == std::numeric_limits<uint64_t>::max()
+        ? response.match_index
+        : response.match_index + 1;
+    it->second.next_index = std::max(it->second.next_index, next_index);
+    updateReplicaHealthLocked(it->second, true, now);
 }
 
 /**
@@ -458,9 +485,15 @@ void RaftConsensus::sendHeartbeats() {
         if (member == raft_state_.getNodeId()) {
             continue;  // Skip self
         }
+        if (!raft_state_.isLeader() || raft_state_.getCurrentTerm() != hb.term) {
+            break;
+        }
         
         bool success = heartbeat_cb(member, hb);
         updateReplicaHealth(member, success);
+        if (!raft_state_.isLeader() || raft_state_.getCurrentTerm() != hb.term) {
+            break;
+        }
     }
 }
 

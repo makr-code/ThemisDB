@@ -48,7 +48,7 @@ class ExactGraphFallbackPolicy {
    * @param[in] now_unix_sec Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool canUseArtifact(const ArtifactManifest& manifest,
+  virtual bool canUseArtifact(const detail::ArtifactManifest& manifest,
                               double query_residual_tolerance,
                               int64_t now_unix_sec) const;
 
@@ -57,7 +57,8 @@ class ExactGraphFallbackPolicy {
    * @param[in] manifest Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool requiresFallbackForState(const ArtifactManifest& manifest) const;
+  virtual bool requiresFallbackForState(
+      const detail::ArtifactManifest& manifest) const;
 
   /**
    * @brief Requires Fallback For Semantics.
@@ -65,7 +66,8 @@ class ExactGraphFallbackPolicy {
    * @param[in] query_requires_truth Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool requiresFallbackForSemantics(const ArtifactManifest& manifest,
+  virtual bool requiresFallbackForSemantics(
+                                            const detail::ArtifactManifest& manifest,
                                             bool query_requires_truth) const;
 
   /**
@@ -74,7 +76,8 @@ class ExactGraphFallbackPolicy {
    * @param[in] query_residual_tolerance Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool requiresFallbackForResidual(const ArtifactManifest& manifest,
+  virtual bool requiresFallbackForResidual(
+                                           const detail::ArtifactManifest& manifest,
                                            double query_residual_tolerance) const;
 
   /**
@@ -84,7 +87,8 @@ class ExactGraphFallbackPolicy {
    * @param[in] query_max_age_ms Input parameter.
    * @return True when the operation succeeds.
    */
-  virtual bool requiresFallbackForFreshness(const ArtifactManifest& manifest,
+  virtual bool requiresFallbackForFreshness(
+                                            const detail::ArtifactManifest& manifest,
                                             int64_t now_unix_sec,
                                             int64_t query_max_age_ms) const;
 

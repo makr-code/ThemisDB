@@ -23,6 +23,7 @@
 #include <benchmark/benchmark.h>
 
 #include <algorithm>
+#include <chrono>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
@@ -123,6 +124,7 @@ BENCHMARK(BM_QueryEngine_ExecuteP95)
 // Gate: ≥ 2 000 queries/sec aggregate throughput.
 // ─────────────────────────────────────────────────────────────────────────────
 static void BM_QueryEngine_ConcurrentThroughput(benchmark::State& state) {
+    const auto start = std::chrono::steady_clock::now();
     uint64_t i = 0;
     for (auto _ : state) {
         const std::string& aql = kAqlTemplates[i++ % kAqlTemplates.size()];
@@ -131,7 +133,11 @@ static void BM_QueryEngine_ConcurrentThroughput(benchmark::State& state) {
         benchmark::DoNotOptimize(stub_execute(cost));
     }
     state.SetLabel("QE-BM-04 gate=2000qps threads=8");
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    // Keep the 8-thread gate tied to wall time; Google Benchmark's rate uses cpu_time.
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(state.iterations()) / elapsed);
 }
 BENCHMARK(BM_QueryEngine_ConcurrentThroughput)
     ->Name("BM_QueryEngine_ConcurrentThroughput")

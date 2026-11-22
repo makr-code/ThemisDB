@@ -21,12 +21,12 @@ std::vector<uint32_t> sortedVertices(const std::vector<uint32_t>& input) {
 
 void BM_CategoryB_BFS_Parity(benchmark::State& state) {
 #ifndef THEMIS_ENABLE_CUDA
-    state.SkipWithError("THEMIS_ENABLE_CUDA is OFF; Category-B BFS parity gate skipped");
+    state.SkipWithMessage("THEMIS_ENABLE_CUDA is OFF; Category-B BFS parity gate skipped");
     return;
 #else
     CUDAGraphBackend gpu_backend;
     if (!gpu_backend.isAvailable() || !gpu_backend.initialize()) {
-        state.SkipWithError("CUDA graph backend unavailable");
+        state.SkipWithMessage("CUDA graph backend unavailable");
         return;
     }
 
@@ -89,12 +89,12 @@ void BM_CategoryB_BFS_Parity(benchmark::State& state) {
 
 void BM_CategoryB_Dijkstra_Parity(benchmark::State& state) {
 #ifndef THEMIS_ENABLE_CUDA
-    state.SkipWithError("THEMIS_ENABLE_CUDA is OFF; Category-B Dijkstra parity gate skipped");
+    state.SkipWithMessage("THEMIS_ENABLE_CUDA is OFF; Category-B Dijkstra parity gate skipped");
     return;
 #else
     CUDAGraphBackend gpu_backend;
     if (!gpu_backend.isAvailable() || !gpu_backend.initialize()) {
-        state.SkipWithError("CUDA graph backend unavailable");
+        state.SkipWithMessage("CUDA graph backend unavailable");
         return;
     }
 
@@ -153,12 +153,12 @@ void BM_CategoryB_Dijkstra_Parity(benchmark::State& state) {
 
 void BM_CategoryB_GeoContains_Parity(benchmark::State& state) {
 #ifndef THEMIS_ENABLE_CUDA
-    state.SkipWithError("THEMIS_ENABLE_CUDA is OFF; Category-B geo parity gate skipped");
+    state.SkipWithMessage("THEMIS_ENABLE_CUDA is OFF; Category-B geo parity gate skipped");
     return;
 #else
     CUDAGeoBackend gpu_backend;
     if (!gpu_backend.isAvailable() || !gpu_backend.initialize()) {
-        state.SkipWithError("CUDA geo backend unavailable");
+        state.SkipWithMessage("CUDA geo backend unavailable");
         return;
     }
 

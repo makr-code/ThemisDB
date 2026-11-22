@@ -74,6 +74,60 @@ public:
     }
 };
 
+TEST(DispatchPoolConcurrencyTest, EnforcesConfiguredParallelShardLimit) {
+    class TrackingExecutor final : public ShardQueryExecutor {
+    public:
+        TrackingExecutor(std::atomic<int>& active,
+                         std::atomic<int>& peak)
+            : active_(active), peak_(peak) {}
+
+        themis::analytics::OLAPResult execute(
+            const std::string&,
+            const themis::analytics::OLAPQuery&) override {
+            const int current = active_.fetch_add(1, std::memory_order_relaxed) + 1;
+            int observed_peak = peak_.load(std::memory_order_relaxed);
+            while (observed_peak < current &&
+                   !peak_.compare_exchange_weak(observed_peak, current,
+                                                std::memory_order_relaxed)) {
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds{25});
+            active_.fetch_sub(1, std::memory_order_relaxed);
+
+            themis::analytics::OLAPResult result;
+            result.rows.push_back({});
+            return result;
+        }
+
+        bool isHealthy() const override { return true; }
+
+    private:
+        std::atomic<int>& active_;
+        std::atomic<int>& peak_;
+    };
+
+    DistributedAnalyticsSharding::Config config;
+    config.enable_circuit_breaker = false;
+    config.max_parallel_shards = 2;
+    config.shard_execution_timeout_ms = 1000;
+    auto coordinator = std::make_shared<DistributedAnalyticsSharding>(config);
+    std::atomic<int> active{0};
+    std::atomic<int> peak{0};
+
+    for (int shard = 0; shard < 4; ++shard) {
+        coordinator->addShard(
+            "dispatch-" + std::to_string(shard),
+            std::make_shared<TrackingExecutor>(active, peak));
+    }
+
+    themis::analytics::OLAPQuery query;
+    const auto result = coordinator->executeDistributed(query);
+
+    EXPECT_EQ(result.total_shards, 4u);
+    EXPECT_EQ(result.successful_shards, 4u);
+    EXPECT_GE(peak.load(std::memory_order_relaxed), 1);
+    EXPECT_LE(peak.load(std::memory_order_relaxed), 2);
+}
+
 // ============================================================================
 // CB-01: Circuit Breaker transitions from CLOSED to OPEN
 // ============================================================================

@@ -215,8 +215,10 @@ public:
     void setVoteRequestCallback(VoteRequestCallback callback);
     
     /**
-     * @brief Set heartbeat callback
-        * @param callback Callback used to send leader heartbeats to peers.
+     * @brief Set the heartbeat transport callback.
+     * @param callback Sends an AppendEntries heartbeat to a peer and returns true
+     *        only when the response term matches the heartbeat and its match index
+     *        covers the requested prefix.
      */
     void setHeartbeatCallback(HeartbeatCallback callback);
     
@@ -227,9 +229,13 @@ public:
     void receiveHeartbeat(const Heartbeat& heartbeat);
     
     /**
-     * @brief Handle append entries response from follower
-        * @param node_id Follower identifier.
-        * @param response AppendEntries RPC response from follower.
+     * @brief Process an AppendEntries response from a configured follower.
+     * @param node_id Follower identifier.
+     * @param response AppendEntries RPC response from the follower.
+     * @note A higher response term is durably persisted before this node steps
+     *       down. Unknown peers and stale-term responses cannot advance replica
+     *       progress; delayed successful responses never regress match/next index.
+     *       The caller must bind @p node_id to the authenticated peer identity.
      */
     void receiveAppendEntriesResponse(const std::string& node_id,
                                      const AppendEntriesResponse& response);

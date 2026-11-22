@@ -1,6 +1,6 @@
 # Distributed Tensor Module — Production Requirements
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-21
 **Level:** 1 (Module Primary Documentation)  
 **SOT Domain:** module-behavior, architecture-governance  
 <!--
@@ -28,13 +28,13 @@ Exact model backend not verifiable from final document text alone.
 > `tests/epic3_distributed_tensor/` and `tests/integration/`. The benchmark
 > configuration includes the local in-process stub source and the EPIC 3
 > workload benchmarks. Source registration does not show that tests or
-> benchmarks passed. This review ran no build, test, benchmark, security scan,
-> or production validation. Also, the library target compiles
-> `src/distributed_tensor/integrity_verification.cc`, whose
-> `simple_sha256_hash()` is an FNV-1a demonstration hash. The nested
-> `src/distributed_tensor/src/integrity_verification.cc` with SHA-256 calls is
-> not in that target's source list. Its Merkle-shaped structures and receipts
-> must not be presented as cryptographic protection.
+> benchmarks passed. No build, test, benchmark, security scan, or production
+> validation was run for the SHA-256 changes recorded here. The active
+> `src/distributed_tensor/integrity_verification.cc` now uses OpenSSL EVP
+> SHA-256 when OpenSSL Crypto is available and fails closed otherwise. Hashing
+> does not authenticate a producer; `ArtifactManifest::compute_manifest_hash()`
+> remains a separate non-cryptographic checksum. The nested integrity
+> implementation remains outside the target.
 
 ---
 
@@ -68,9 +68,9 @@ Exact model backend not verifiable from final document text alone.
 
 #### Security Posture
 
-- **Integrity Verification:** The active module target's root-level `integrity_verification.cc` uses FNV-1a demonstration hashing through `simple_sha256_hash()`, despite the SHA-256 name. Merkle-shaped structures are present, but this implementation is not cryptographic SHA-256 and does not provide cryptographic security.
-  - The separate nested `src/distributed_tensor/src/integrity_verification.cc` contains SHA-256 calls but is not listed in `src/distributed_tensor/CMakeLists.txt`.
-  - Status: **NOT A CRYPTOGRAPHIC SECURITY CONTROL; production security use is unsupported by this source.**
+- **Integrity Verification:** The active module target now uses OpenSSL EVP SHA-256 when OpenSSL Crypto is available and fails closed otherwise. Receipt inputs are versioned and canonicalized; unsupported algorithms and malformed/missing shard digests fail closed.
+  - Receipts bind the artifact ID, manifest content hash/version, and declared shard digests, not all metadata or raw shard bytes; callers must use `verify_shard()` to verify raw bytes. Neither operation authenticates a producer. `ArtifactManifest::compute_manifest_hash()` remains a separate non-cryptographic checksum.
+  - Status: **IMPLEMENTATION UPDATED; build, test, security review, and production approval remain pending.**
 
 - **Recovery Determinism:** All recovery paths must be deterministic and fail-closed under Byzantine conditions.
   - Reference: `FUTURE_ENHANCEMENTS.md` § Byzantine Fault Tolerance for Tensor Recovery
@@ -108,7 +108,7 @@ guarantee; current pass status is unverified:
 | **SG-DT-01: Fail-Closed Invariant** | All phases must fail closed under Byzantine conditions | ✅ PASSED | `PHASE_3_DESIGN_DOCUMENTATION.md` § Byzantine Coordination |
 | **SG-DT-02: Recovery Determinism** | Recovery outcomes deterministic given same input state | ✅ PASSED | `src/distributed_tensor/src/recovery_manager.cc` |
 | **SG-DT-03: Advisory Flag Immutability** | Tensor artifacts never bypass graph verification | ✅ PASSED | `src/distributed_tensor/include/advisory_only_guard.h` |
-| **SG-DT-04: Integrity Always Succeeds (Normal)** | Integrity verification function behavior; not a cryptographic security property | **UNVERIFIED** | Active target source uses FNV-1a demonstration hashing |
+| **SG-DT-04: Integrity Always Succeeds (Normal)** | Integrity verification function behavior; not a cryptographic security property | **UNVERIFIED** | SHA-256 implementation and regression sources updated; no build/test evidence for this change |
 | **SG-DT-05: Staleness Detection** | All artifacts checked against manifest timestamp; stale artifacts rejected | ✅ PASSED | `src/distributed_tensor/src/artifact_invalidation.cc` |
 | **SG-DT-06: Recovery Coordination** | Recovery coordination with failover and storage subsystems atomic | ✅ PASSED | `PHASE_3_DESIGN_DOCUMENTATION.md` § Coordination Protocol |
 
@@ -125,7 +125,7 @@ All focused test suites must pass on target platforms before production deployme
 | **LifecycleStalenessManagementTests (LSM-01..31)** | `test_lifecycle_staleness_management` | 60s | ✅ REQUIRED | `tests/epic3_distributed_tensor/test_lifecycle_staleness_management.cpp` |
 | **TensorDeltaLogPhaseATests (TDL-01..18)** | `test_tensor_delta_log` | 60s | ✅ REQUIRED | `tests/epic3_distributed_tensor/test_tensor_delta_log.cpp` |
 | **TensorRebuildFallbackPhaseBTests (RFB-01..10)** | `test_tensor_rebuild_fallback` | 60s | ✅ REQUIRED | `tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp` |
-| **IntegrityVerificationTests** | `module_epic3_distributed_tensor_integrity_verification_test_focused` | 120s | ✅ REQUIRED | `tests/epic3_distributed_tensor/integrity_verification_test.cc` |
+| **IntegrityVerificationTests** | `module_epic3_distributed_tensor_integrity_verification_test_focused` (registered when OpenSSL Crypto is found) | 120s | ✅ REQUIRED | `tests/epic3_distributed_tensor/integrity_verification_test.cc` |
 
 **Test Registration:** `tests/epic3_distributed_tensor/CMakeLists.txt`  
 **Execution:** All tests registered with `themis_register_module_focused_test()` macro.
@@ -137,7 +137,7 @@ All benchmark gates must establish production baselines on representative hardwa
 | Benchmark | Target | Tier | SLA | Status | Reference |
 |-----------|--------|------|-----|--------|-----------|
 | **Placement Strategy Benchmark** | `bench_epic3_distributed_tensor_placement_strategy_bench` | benchmark | ≤ 50 µs (p99) | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/placement_strategy_bench.cc` |
-| **Integrity Verification Benchmark (IV-BENCH-01..08)** | `bench_epic3_distributed_tensor_integrity_verification_bench` | benchmark | ≤ 10 µs (p99) | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/integrity_verification_bench.cc` |
+| **Integrity Verification Benchmark (IV-BENCH-01..08)** | `bench_epic3_distributed_tensor_integrity_verification_bench` (registered when OpenSSL Crypto is found) | benchmark | ≤ 10 µs (p99) | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/integrity_verification_bench.cc` |
 | **Recovery & Rebuild Benchmark** | `bench_epic3_distributed_tensor_recovery_rebuild_bench` | benchmark | TBD | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/recovery_rebuild_bench.cc` |
 | **Distributed Retrieval Benchmark** | `bench_epic3_distributed_tensor_distributed_retrieval_bench` | benchmark | TBD | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/distributed_retrieval_bench.cc` |
 | **Tensor Partial Refit Benchmark** | `bench_epic3_distributed_tensor_bench_tensor_partial_refit` | benchmark | TBD | ⏳ PENDING | `benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc` |
@@ -192,19 +192,19 @@ The advisory-only artifact placement invariant is the **blocking production requ
 
 ### 3.4 Integrity Verification Limitation
 
-- The active `themis_distributed_tensor` target uses the root-level
-  `integrity_verification.cc`, where `simple_sha256_hash()` is an FNV-1a
-  demonstration hash. Its 64-character output and SHA-256 naming do not make
-  it SHA-256.
-- Merkle-shaped tree/receipt operations built on that function are not
-  cryptographic integrity protection.
-- The nested `src/integrity_verification.cc` SHA-256 implementation is not
-  listed in the module target's CMake source list. Test source presence or a
-  historical test/benchmark status does not establish cryptographic behavior
-  in the active library target.
-- **Status:** Cryptographic integrity protection is not established by the
-  current module target; production security use requires implementation and
-  verification of a real cryptographic hash path.
+- The active `themis_distributed_tensor` target now uses OpenSSL EVP SHA-256
+  when the optional OpenSSL Crypto dependency is available; without it, the
+  engine fails closed.
+- The versioned receipt format binds the artifact ID, manifest content hash,
+  manifest version, and sorted shard IDs/digests. Hashing alone does not
+  authenticate a producer, and legacy demonstration-hash receipts are
+  incompatible.
+- `ArtifactManifest::compute_manifest_hash()` remains a separate
+  non-cryptographic checksum; it must not be treated as an integrity or
+  authenticity control. The nested integrity implementation remains outside
+  the module target.
+- **Status:** Implementation updated; build, tests, security review, and
+  production approval have not been completed.
 
 ---
 

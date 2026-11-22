@@ -174,7 +174,18 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
                         request.prev_log_index = state.getLog().getLastLogIndex();
                         request.prev_log_term = state.getLog().getLastLogTerm();
                         request.leader_commit = heartbeat.commit_index;
-                        return send_append(peer_node_id, request).success;
+                        const auto response = send_append(peer_node_id, request);
+                        if (response.term > heartbeat.term) {
+                            leader->receiveAppendEntriesResponse(peer_node_id, response);
+                            return false;
+                        }
+                        const bool acknowledged =
+                            response.term == heartbeat.term && response.success &&
+                            response.match_index >= request.prev_log_index;
+                        if (acknowledged) {
+                            leader->receiveAppendEntriesResponse(peer_node_id, response);
+                        }
+                        return acknowledged;
                     } catch (const std::exception& error) {
                         spdlog::warn("Raft heartbeat to {} failed: {}",
                                      peer_node_id, error.what());

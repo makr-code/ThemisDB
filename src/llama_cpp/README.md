@@ -23,7 +23,7 @@ points when the plugin is built with export support.
 ## Zweck
 
 `LlamaCppPlugin` adapts the optional `LlamaWrapper` backend to the plugin interface.
-It exposes generation, RAG prompt assembly, embeddings, LoRA metadata/import-export,
+It exposes generation, RAG prompt assembly, embeddings, live LoRA adapter loading,
 capability reporting, and performance counters. A synthetic generation path is
 compiled only for focused tests; it is not a production model backend.
 
@@ -46,11 +46,12 @@ management (`loadLoRA`/`unloadLoRA`/`listLoRAs`), capabilities reporting, perfor
 
 ## Current Delivery Status
 
-**Readiness:** Real inference is available when the build enables
-`THEMIS_LLM_ENABLED` and a usable `LlamaWrapper` has loaded a model. Test-only
-fallbacks and advertised capability flags are not evidence of production readiness.
-In particular, `loadModel()` can return `true` after wrapper initialization or load
-failure; run a real-backend inference probe before admitting traffic.
+**Readiness:** Real inference and LoRA adapter operations require
+`THEMIS_LLM_ENABLED` and a usable `LlamaWrapper`. Outside the explicit test-stub
+build, a non-empty configured model path fails to load if the real wrapper cannot
+open it; `hasRealRuntimeLoaded()` distinguishes that runtime from test-only
+no-model mode. LoRA load/unload calls delegate to the live wrapper and fail when
+its adapter bridge is unavailable.
 
 ## Quickstart (Build/Run)
 
@@ -80,13 +81,15 @@ const nlohmann::json cfg = {
     {"n_gpu_layers", 20}
 };
 plugin.loadModel("/models/demo.gguf", cfg);
+if (!plugin.hasRealRuntimeLoaded()) {
+    // Do not report performance or accept requests without the real runtime.
+}
 
 themis::llm::InferenceRequest req;
 req.prompt = "Was ist ThemisDB?";
 auto resp = plugin.generate(req);
 if (!resp.success) {
-    // Handle the backend error; do not treat loadModel() returning true
-    // as proof that a real model is available.
+    // Handle the backend error.
 }
 
 // Dynamic loading

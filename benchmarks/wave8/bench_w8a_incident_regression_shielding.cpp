@@ -311,6 +311,8 @@ protected:
 BENCHMARK_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& state) {
     static constexpr int kWriterThreads = 4;
     static constexpr int kWritesPerThread = 2'000;
+    double total_elapsed_seconds = 0.0;
+    uint64_t total_operations = 0;
 
     for (auto _ : state) {
         state.PauseTiming();
@@ -319,6 +321,7 @@ BENCHMARK_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& sta
         writers.reserve(kWriterThreads);
         state.ResumeTiming();
 
+        const auto start = std::chrono::steady_clock::now();
         for (int t = 0; t < kWriterThreads; ++t) {
             writers.emplace_back([this, t] {
                 KeyGenerator kg(kW8CanonicalSeed + 200 + static_cast<uint64_t>(t));
@@ -332,8 +335,13 @@ BENCHMARK_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& sta
         for (auto& w : writers) {
           w.join();
         }
+        total_operations += ops_completed_.load(std::memory_order_relaxed);
+        total_elapsed_seconds += std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
     }
-    state.SetItemsProcessed(ops_completed_.load(std::memory_order_relaxed));
+    // This hard gate uses aggregate completed writes over their measured wall time.
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(total_operations) / total_elapsed_seconds);
 }
 BENCHMARK_REGISTER_F(WriteStormFixture, IRS02_WriteStormThroughput)
     ->Repetitions(kRepetitions)

@@ -36,6 +36,21 @@ TEST(LlamaCppPluginFocusedTests, A3_UnloadModel) {
     EXPECT_FALSE(p.isModelLoaded());
 }
 
+TEST(LlamaCppPluginFocusedTests, A4_StubLoadIsNotARealRuntime) {
+    LlamaCppPlugin p;
+    EXPECT_TRUE(p.loadModel("", {}));
+    EXPECT_FALSE(p.hasRealRuntimeLoaded());
+}
+
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+TEST(LlamaCppPluginFocusedTests, A5_InvalidConfiguredModelFailsClosed) {
+    LlamaCppPlugin p;
+    EXPECT_FALSE(p.loadModel("missing-configured-model.gguf", {}));
+    EXPECT_FALSE(p.hasRealRuntimeLoaded());
+    EXPECT_FALSE(p.loadLoRA("adapter", "missing-adapter.gguf", 1.0f));
+}
+#endif
+
 // ── Group B – getModelInfo ────────────────────────────────────────────────────
 
 TEST(LlamaCppPluginFocusedTests, B1_GetModelInfoNulloptWhenNotLoaded) {

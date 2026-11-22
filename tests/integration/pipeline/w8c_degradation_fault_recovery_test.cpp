@@ -455,7 +455,3 @@ TEST_F(DegradationFaultRecoveryTest, DFR_08_NoCascadingFailures) {
     EXPECT_EQ(cluster_->GetHealthyNodeCount(), 4);
 }
 } } // namespace themis::test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

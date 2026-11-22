@@ -82,6 +82,12 @@ IngestionToolbox& IngestionToolbox::operator=(IngestionToolbox&&) noexcept = def
  */
 
 std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
+    return createDefault(nullptr, nullptr);
+}
+
+std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault(
+    std::shared_ptr<ingestion::ITensorDecompositionBackend> tensor_backend,
+    std::shared_ptr<ingestion::ITensorCoreBridge> tensor_sink) {
     auto toolbox = std::make_shared<IngestionToolbox>();
 
     // Register all built-in steps into the engine's StepRegistry
@@ -93,16 +99,13 @@ std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
     (void)reg.registerStep("builtin.llm_extract",
         ingestion::builtin::createLlmExtractStep(toolbox->textBackend()));
 
-    // Register tensor pipeline steps with null backends.
-    // The null backends produce graceful no-ops (skip_when_unavailable=true
-    // default); callers that need real TT-cores should replace these steps
-    // via stepRegistry().registerStep(...) with a live TensorIngestionBridge
-    // and TensorCoreStorageBridge after construction.
+    // Register tensor dependencies at construction; StepRegistry intentionally
+    // rejects duplicate names, so injected steps cannot be added afterward.
     (void)reg.registerStep("builtin.chunk_tt_decompose",
-        ingestion::builtin::createChunkTtDecomposeStep(nullptr));
+        ingestion::builtin::createChunkTtDecomposeStep(std::move(tensor_backend)));
 
     (void)reg.registerStep("builtin.tensor_core_bridge",
-        ingestion::builtin::createTensorCoreBridgeStep(nullptr));
+        ingestion::builtin::createTensorCoreBridgeStep(std::move(tensor_sink)));
 
     return toolbox;
 }

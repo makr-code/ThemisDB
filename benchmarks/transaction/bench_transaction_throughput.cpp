@@ -790,12 +790,26 @@ BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, ReadOnlyTransaction)
 
 BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark::State& state) {
     size_t counter = 0;
-    std::mt19937 rng(std::random_device{}());
+    std::mt19937 rng(99);
     std::uniform_real_distribution<double> balance_dist(0.0, 100000.0);
     uint64_t attempted = 0;
     uint64_t committed = 0;
-    
+    std::vector<BaseEntity> entities;
+    entities.reserve(10);
     for (auto _ : state) {
+        state.PauseTiming();
+        entities.clear();
+        for (int i = 0; i < 10; ++i) {
+            std::string key = "new_user_" + std::to_string(counter++);
+            BaseEntity entity(key);
+            entity.setField("name", std::string("NewUser_") + std::to_string(counter));
+            entity.setField("balance", balance_dist(rng));
+            entity.setField("created_at",
+                            std::chrono::system_clock::now().time_since_epoch().count());
+            entities.push_back(std::move(entity));
+        }
+        state.ResumeTiming();
+
         ++attempted;
         auto txn_id = tx_manager_->beginTransaction();
         auto txn = tx_manager_->getTransaction(txn_id);
@@ -804,15 +818,7 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark:
             return;
         }
         
-        // Write multiple entities
-        for (int i = 0; i < 10; i++) {
-            std::string key = "new_user_" + std::to_string(counter++);
-            
-            BaseEntity entity(key);
-            entity.setField("name", std::string("NewUser_") + std::to_string(counter));
-            entity.setField("balance", balance_dist(rng));
-            entity.setField("created_at", std::chrono::system_clock::now().time_since_epoch().count());
-            
+        for (const auto& entity : entities) {
             auto put_status = txn->putEntity("users", entity);
             if (!put_status.ok) {
                 tx_manager_->rollbackTransaction(txn_id);
@@ -1747,6 +1753,7 @@ BENCHMARK_DEFINE_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)(benchmark::Stat
 BENCHMARK_REGISTER_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)
     ->Arg(3)
     ->Arg(5)
+    ->UseRealTime()
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -1825,16 +1832,23 @@ BENCHMARK_DEFINE_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_Predict)(
     constexpr int kKeySpace = 20;
     std::mt19937  rng(99);
     std::uniform_int_distribution<int> key_dist(0, kKeySpace - 1);
+    constexpr size_t kPreparedQueryCount = 256;
+    std::vector<std::vector<std::string>> proposed_sets;
+    proposed_sets.reserve(kPreparedQueryCount);
+    for (size_t sample = 0; sample < kPreparedQueryCount; ++sample) {
+        std::vector<std::string> proposed;
+        proposed.reserve(5);
+        for (int key = 0; key < 5; ++key) {
+            proposed.push_back("lock_key_" + std::to_string(key_dist(rng)));
+        }
+        proposed_sets.push_back(std::move(proposed));
+    }
+
     const std::set<DeadlockPredictor::TransactionId> active_txns = {1u, 2u, 3u};
+    size_t query_index = 0;
 
     for (auto _ : state) {
-        std::vector<std::string> proposed = {
-            "lock_key_" + std::to_string(key_dist(rng)),
-            "lock_key_" + std::to_string(key_dist(rng)),
-            "lock_key_" + std::to_string(key_dist(rng)),
-            "lock_key_" + std::to_string(key_dist(rng)),
-            "lock_key_" + std::to_string(key_dist(rng)),
-        };
+        const auto& proposed = proposed_sets[query_index++ % proposed_sets.size()];
         const double prob = predictor().predictDeadlockProbability(proposed, active_txns);
         benchmark::DoNotOptimize(prob);
     }

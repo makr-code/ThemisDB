@@ -178,8 +178,15 @@ BENCHMARK_REGISTER_F(WalGrpcApplyFixture, ApplyWalBatch)
     ->Unit(benchmark::kMicrosecond);
 
 #else
-#include <cstdio>
+#include <benchmark/benchmark.h>
 
-// No main function here - let Google Benchmark or test framework provide it
-// If building without gRPC, this file will not be linked
+namespace {
+
+void BM_WalApplyGrpcUnavailable(benchmark::State& state) {
+    state.SkipWithMessage("Generated shard gRPC headers are unavailable in this build");
+}
+
+}
+
+BENCHMARK(BM_WalApplyGrpcUnavailable);
 #endif

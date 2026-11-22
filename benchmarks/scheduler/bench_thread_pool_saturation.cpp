@@ -65,6 +65,7 @@ public:
 BENCHMARK_F(ThreadPoolSaturationFixture, SubmitThroughput_IO)(benchmark::State& state) {
     std::atomic<uint64_t> executed{0};
 
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         bool accepted = mgr->submitTask(
             ThreadPoolManager::PoolType::IO,
@@ -74,7 +75,10 @@ BENCHMARK_F(ThreadPoolSaturationFixture, SubmitThroughput_IO)(benchmark::State& 
         benchmark::DoNotOptimize(accepted);
     }
 
-    state.SetItemsProcessed(state.iterations());
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(state.iterations()) / elapsed);
     state.SetLabel("IO pool submit throughput");
 }
 
@@ -83,6 +87,7 @@ BENCHMARK_F(ThreadPoolSaturationFixture, SubmitThroughput_IO)(benchmark::State& 
 BENCHMARK_F(ThreadPoolSaturationFixture, SubmitThroughput_CPU)(benchmark::State& state) {
     std::atomic<uint64_t> executed{0};
 
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         bool accepted = mgr->submitTask(
             ThreadPoolManager::PoolType::CPU,
@@ -92,7 +97,10 @@ BENCHMARK_F(ThreadPoolSaturationFixture, SubmitThroughput_CPU)(benchmark::State&
         benchmark::DoNotOptimize(accepted);
     }
 
-    state.SetItemsProcessed(state.iterations());
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(state.iterations()) / elapsed);
     state.SetLabel("CPU pool submit throughput");
 }
 

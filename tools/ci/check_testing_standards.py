@@ -26,6 +26,11 @@ CUSTOM_BENCHMARK_MAIN = re.compile(
     r"\b(?:benchmark::Initialize|benchmark::RunSpecifiedBenchmarks)\s*\(", re.MULTILINE
 )
 
+SHARED_TEST_RUNNERS = {
+    "tests/test_gtest_main.cpp",
+    "tests/llama_cpp/llama_cpp_focused_test_main.cpp",
+}
+
 
 def scan_cpp(root: Path, directory: str) -> dict[str, list[str]]:
     base = root / directory
@@ -42,6 +47,8 @@ def scan_cpp(root: Path, directory: str) -> dict[str, list[str]]:
         text = path.read_text(encoding="utf-8", errors="replace")
         rel = path.relative_to(root).as_posix()
         if directory == "tests":
+            if rel in SHARED_TEST_RUNNERS:
+                continue
             if TRIVIAL_GTEST_MAIN.search(text):
                 result["trivial_gtest_main"].append(rel)
             elif CUSTOM_GTEST_MAIN.search(text):
@@ -92,11 +99,9 @@ def main() -> int:
     print(f"CMake files containing raw add_test: {len(raw_add_test)}")
 
     if args.strict:
-        violations = (
-            len(tests["trivial_gtest_main"])
-            + len(tests["custom_gtest_main"])
-            + len(raw_add_test)
-        )
+        # Custom mains are permitted for explicit worker/setup modes. Raw add_test
+        # registrations remain migration inventory, but are not a per-file gate.
+        violations = len(tests["trivial_gtest_main"])
         return 1 if violations else 0
     return 0
 

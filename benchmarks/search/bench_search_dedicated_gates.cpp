@@ -22,6 +22,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include <chrono>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -116,13 +117,18 @@ BENCHMARK(BM_Search_FacetFilterP95)
 // ─────────────────────────────────────────────────────────────────────────────
 static void BM_Search_ConcurrentThroughput(benchmark::State& state) {
     uint64_t i = 0;
+    const auto start = std::chrono::steady_clock::now();
     for (auto _ : state) {
         const std::string& term = kSearchTerms[i++ % kSearchTerms.size()];
         uint32_t hits = stub_fts_search(term, 10);
         benchmark::DoNotOptimize(stub_rank(hits, term));
     }
+    const auto elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    // Keep the 8-thread gate tied to wall time; Google Benchmark's rate uses cpu_time.
+    state.counters["items_per_second"] = benchmark::Counter(
+        static_cast<double>(state.iterations()) / elapsed);
     state.SetLabel("SE-BM-04 gate=5000qps threads=8");
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 BENCHMARK(BM_Search_ConcurrentThroughput)
     ->Name("BM_Search_ConcurrentThroughput")

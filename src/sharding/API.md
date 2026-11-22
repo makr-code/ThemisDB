@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-21"
+Last Updated: "2026-11-22"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -71,14 +71,18 @@ of truncating the tail. A failed result can therefore become committed later.
 it now exchanges `AppendEntriesRequest` and `AppendEntriesResponse`; C++ consumers
 must rebuild against the matching headers. A response counts toward quorum only
 when its term matches the proposal and its `match_index` covers the requested
-entry. The follower handler requires contiguous entries, rejects same-index/term
-payload conflicts, protects committed entries from truncation, and reports only
-the prefix verified by that request. A transport must return success only after
-the follower has durably appended the requested entries. The local
-`handleAppendEntries()` handler also refuses to acknowledge requests unless a
-healthy durable journal is configured; volatile follower state is not a
-replication ACK. Multi-node leaders likewise require a healthy local durable
+entry. The follower handler requires contiguous entries with nondecreasing terms
+from the previous-log anchor (whose term must be zero at index zero), rejects
+same-index/term payload conflicts, protects committed entries from truncation,
+and reports only the prefix verified by that request. A transport must return
+success only after the follower has durably appended the requested entries.
+The local `handleAppendEntries()` handler also refuses to acknowledge requests
+unless a healthy durable journal is configured; volatile follower state is not
+a replication ACK. Multi-node leaders likewise require a healthy local durable
 journal before appending or invoking the transport callback.
+Heartbeat AppendEntries responses with a higher term cause the leader to persist
+that term and step down; delayed successful responses cannot regress tracked
+replica progress.
 
 The local proposal path refuses new entries while any local tail entry is
 uncommitted; that check and append are atomic under the log lock. This
@@ -89,11 +93,15 @@ transport is configured. The Linux gRPC test source now includes manager-driven
 vote/append transport and authenticated identity rejection, plus two- and
 three-process follower crash/restart cases for durable log prefixes, persisted
 vote rejection, volatile journals, stale terms, missing prefixes, bounded RPC
-timeout, and quorum loss. These additions have not been compiled or run in the current Windows
-benchmark configuration; the leader remains in the test process, so
-leader-process failover/re-election is not covered. Independent failure-domain
-evidence, unavailable-journal fault injection, safe membership, and an
-end-to-end quorum-backed 2PC decision store remain open.
+timeout, quorum loss, and separate leader-process SIGKILL/restart recovery.
+These additions have not been compiled or run in the current Windows
+benchmark configuration. The separate leader-process case covers leader
+SIGKILL/restart and journal recovery, and the follower processes now run
+independent Raft managers for re-election after leader loss; that test waits
+for a quorum follower journal to apply the leader's commit through normal
+heartbeats before killing the leader. Runtime evidence for follower
+failover, unavailable-journal fault injection, safe membership, and an end-to-end
+quorum-backed 2PC decision store remains open.
 
 ## Durable 2PC recovery (DIS-06 / #8200)
 

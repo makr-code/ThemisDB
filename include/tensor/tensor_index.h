@@ -13,6 +13,7 @@
 #include "storage/tensor_train_decomposer.h"  // TTTrain, TTCore
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -154,14 +155,26 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * @brief Persist the index to a RocksDB-backed storage path.
+     * @brief Persist the index to a binary file (`.ttidx` format).
      *
-     * Key schema: `__ttidx__:<index_name>:<id>:<core_k>`
+     * @param path Destination file; overwritten if it exists.
+     * @return true if every byte was written successfully.
      */
     virtual bool save(const std::string& path) const = 0;
 
     /**
-     * @brief Load a previously persisted index.
+     * @brief Replace the index contents with a previously persisted file.
+     *
+     * The file is treated as untrusted input: entry/core counts are bounded
+     * by the remaining file size, every core must satisfy
+     * `data.size() == r_left * n * r_right`, the rank chain must be
+     * consistent (first r_left == 1, r_right[k] == r_left[k+1], last
+     * r_right == 1), and IDs must be unique.
+     *
+     * @param path Source file written by save().
+     * @return true on success. On any failure (missing file, bad magic or
+     *         version, truncation, structural violation, allocation failure)
+     *         returns false and leaves the current contents unchanged.
      */
     virtual bool load(const std::string& path) = 0;
 
@@ -172,6 +185,23 @@ public:
     [[nodiscard]] virtual size_t          size()  const = 0;
     [[nodiscard]] virtual TensorIndexStats stats() const = 0;
 };
+
+/**
+ * @brief Create the reference linear-scan TT index (`FlatTensorIndex`).
+ *
+ * The parameters control the TT-SVD used by addFlat() and searchFlat();
+ * trains passed directly to add()/search() are not re-compressed.
+ *
+ * @param max_rank Maximum TT bond dimension; 0 means uncapped (rank is
+ *                 driven solely by @p epsilon).
+ * @param epsilon  Relative Frobenius truncation tolerance; must be finite
+ *                 and in the open interval (0, 1).
+ * @return Owning pointer to a new, empty index. Thread-safe for concurrent
+ *         reads; writes are serialised internally.
+ * @throws std::invalid_argument if @p epsilon is not finite or outside (0, 1).
+ */
+[[nodiscard]] std::unique_ptr<ITensorIndex>
+    createFlatTensorIndex(size_t max_rank = 32, double epsilon = 0.01);
 
 } // namespace tensor
 } // namespace themis

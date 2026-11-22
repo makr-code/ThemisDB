@@ -392,6 +392,7 @@ static void BM_LoRADataPath_IncrementalTrainerCollection(benchmark::State& state
     config.num_epochs = 1;
     config.max_seq_length = 32;
     config.device = "cpu";
+    config.validation_split = 0.0f;
 
     double total_read_ms = 0.0;
     double total_train_ms = 0.0;
@@ -402,9 +403,11 @@ static void BM_LoRADataPath_IncrementalTrainerCollection(benchmark::State& state
         const auto result = trainer.train(themis::training::TrainingMode::INITIAL);
         const auto end = std::chrono::steady_clock::now();
         if (!result.success || result.samples_trained != sample_count) {
-            state.SkipWithError(result.error_message.empty()
-                ? "Incremental trainer did not consume the expected DB samples"
-                : result.error_message.c_str());
+            const std::string error_message = result.error_message.empty()
+                ? "Incremental trainer consumed " + std::to_string(result.samples_trained) +
+                    " DB samples; expected " + std::to_string(sample_count)
+                : result.error_message;
+            state.SkipWithError(error_message.c_str());
             return;
         }
         total_read_ms += result.data_load_time_seconds * 1000.0;

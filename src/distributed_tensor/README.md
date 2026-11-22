@@ -1,6 +1,6 @@
 # Distributed Tensor Module
 
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-21
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -38,12 +38,17 @@ inherit the requirement. Direct users of the installed headers must also
 compile as C++20. The source CMake file links `themis_base` and conditionally
 links `themis_core` and `themis_tensor` when those targets exist.
 
-The module target's `integrity_verification.cc` uses an FNV-1a demonstration
-hash in `simple_sha256_hash()`. The separately present nested
-`src/integrity_verification.cc` contains SHA-256 calls but is not in this
-target's source list. Thus the default module target does not provide
-cryptographic SHA-256; Merkle-shaped receipt/tree structures are not a
-cryptographic security guarantee.
+The module target's root-level `integrity_verification.cc` uses OpenSSL EVP
+SHA-256 when OpenSSL Crypto is available at configure time and fails closed
+when it is not. The engine supports only SHA-256; versioned receipt digests
+bind artifact identity, manifest version, and sorted shard IDs, but hashing
+does not authenticate the producer. Receipts from the former demonstration
+hash are incompatible and must be recomputed. The separate nested
+`src/integrity_verification.cc` remains outside the module target.
+Its private EPIC-3 test and benchmark compile it separately only when OpenSSL
+Crypto is found.
+`ArtifactManifest::compute_manifest_hash()` remains a non-cryptographic
+checksum and is not an integrity or authenticity guarantee.
 
 ## Quickstart (Build/Run)
 

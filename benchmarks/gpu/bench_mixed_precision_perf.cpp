@@ -67,7 +67,7 @@ static bool tensor_cores_available() {
 
 static void BM_Training_FP32(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -143,7 +143,7 @@ BENCHMARK(BM_Training_FP32)
 
 static void BM_Training_FP16(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -220,7 +220,7 @@ BENCHMARK(BM_Training_FP16)
 
 static void BM_Memory_FP32_vs_FP16(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

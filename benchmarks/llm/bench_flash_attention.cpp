@@ -19,7 +19,7 @@
 
 static void BM_FlashAttention_GPUDisabled(benchmark::State& state) {
     for (auto _ : state) {
-        state.SkipWithError("Flash-attention benchmarks are disabled in this build");
+        state.SkipWithMessage("Flash-attention benchmarks are disabled in this build");
         break;
     }
 }

@@ -1,7 +1,6 @@
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <string>
-#include <filesystem>
 #include <cstdlib>
 #include <cmath>
 #include <utility>
@@ -14,29 +13,9 @@
 
 using namespace themis;
 
-// Resolve model path via the standardised preflight utility (Maßnahme #6).
-// Priority: THEMIS_LLM_MODEL_PATH > THEMIS_MODEL_DIR/{stub,real} > legacy paths.
+// Resolve only from the documented model artifact configuration.
 std::string getModelPath() {
-    std::string path = bench::resolveModelPath();
-    if (!path.empty()) {
-        return path;
-    }
-
-    // Legacy fallback for local developer setups that pre-date Maßnahme #6.
-    // Deprecated: set THEMIS_MODEL_DIR or run scripts/download_models.sh instead.
-    const std::vector<std::string> legacy_paths = {
-        "./models/tinyllama_1.1b.gguf",
-        "./models/llama3.2_1b.gguf",
-        "./models/phi3_mini.gguf",
-        "../models/tinyllama_1.1b.gguf",
-    };
-    for (const auto& p : legacy_paths) {
-        if (std::filesystem::exists(p)) {
-            return p;
-        }
-    }
-
-    return "";
+    return bench::resolveModelPath();
 }
 
 #ifdef THEMIS_ENABLE_LLM
@@ -88,11 +67,11 @@ public:
 
         if (model_path_.empty()) {
             ready_ = false;
+            optional_artifact_missing_ = true;
             error_message_ =
-                "LLM artefact preflight FAILED: no model file found. "
-                "Run 'scripts/download_models.sh --stub-only' or set "
-                "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
-                "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
+                "Optional model-backed LLM benchmark skipped: no GGUF model artifact "
+                "was found at the configured model path. Set THEMIS_LLM_MODEL_PATH "
+                "or THEMIS_MODEL_DIR to a real GGUF model to collect performance evidence.";
             return;
         }
 
@@ -130,7 +109,11 @@ public:
 protected:
     bool ensureReady(benchmark::State& state) const {
         if (!ready_) {
-            state.SkipWithError(error_message_.c_str());
+            if (optional_artifact_missing_) {
+                state.SkipWithMessage(error_message_.c_str());
+            } else {
+                state.SkipWithError(error_message_.c_str());
+            }
             return false;
         }
         return true;
@@ -138,6 +121,7 @@ protected:
 
     bool ready_ = false;
     bool loaded_model_ = false;
+    bool optional_artifact_missing_ = false;
     std::string error_message_ = {};
     std::string model_id_ = {};
     std::string model_path_ = {};
@@ -259,11 +243,10 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
     std::string model_path = getModelPath();
 
     if (model_path.empty()) {
-        state.SkipWithError(
-            "LLM artefact preflight FAILED: no model file found. "
-            "Run 'scripts/download_models.sh --stub-only' or set "
-            "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
-            "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".");
+        state.SkipWithMessage(
+            "Optional model-backed LLM benchmark skipped: no GGUF model artifact "
+            "was found at the configured model path. Set THEMIS_LLM_MODEL_PATH "
+            "or THEMIS_MODEL_DIR to a real GGUF model to collect performance evidence.");
         return;
     }
 

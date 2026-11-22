@@ -1,5 +1,6 @@
 """End-to-end CTest coverage for benchmark run manifests."""
 
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -317,6 +318,23 @@ class BenchmarkRunCaseErrorTests(unittest.TestCase):
             self.assertEqual(fragment["cases"][0]["skip_message"],
                              "optional backend unavailable")
             self.assertTrue((results / "case-skip.json").exists())
+
+class BenchmarkJsonStrictnessTests(unittest.TestCase):
+    def test_nonstandard_infinity_is_invalid_json(self):
+        spec = importlib.util.spec_from_file_location("benchmark_run_manifest", RUNNER)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+
+        with tempfile.TemporaryDirectory(prefix="themis-benchmark-json-") as directory:
+            result = Path(directory) / "benchmark.json"
+            result.write_text(
+                '{"benchmarks":[{"name":"BM_ZeroCpu","cpu_time":0,'
+                '"items_per_second":Infinity}]}',
+                encoding="utf-8")
+            status, cases = runner.read_result(result)
+
+        self.assertEqual(status, "invalid")
+        self.assertEqual(cases, [])
 
 
 if __name__ == "__main__":

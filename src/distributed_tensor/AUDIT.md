@@ -1,6 +1,6 @@
 # Distributed Tensor Module Source Audit
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-21
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -20,14 +20,14 @@ Exact model backend not verifiable from final document text alone.
 | Area | Source evidence |
 |---|---|
 | Library/API standard | `src/distributed_tensor/CMakeLists.txt` declares the public `cxx_std_20` compile feature. `tensor_storage_strategy.h` exposes `std::span`, so the installed public API requires C++20; CMake consumers linking the target inherit that requirement. |
-| Integrity implementation | The target compiles root-level `integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration code. The separate nested SHA-256 implementation is not in this target's source list; no cryptographic SHA-256/Merkle security guarantee applies to the default target. |
+| Integrity implementation | The target compiles root-level `integrity_verification.cc`, which now uses OpenSSL EVP SHA-256 conditionally and fails closed when OpenSSL Crypto is unavailable. Only SHA-256 is accepted; versioned receipts bind the artifact ID, manifest content hash/version, and declared shard digests, but not raw shard bytes or producer identity. `ArtifactManifest::compute_manifest_hash()` remains non-cryptographic. The separate nested implementation is still outside this target. The change has not been built or tested. |
 | Training coordinator | `TensorTrainingCoordinator` invokes registered worker callbacks synchronously in-process; it does not implement network transport or distributed worker coordination. |
 | Build graph | `cmake/CMakeLists.txt` conditionally adds the module target. |
 | Public API | Nine headers are listed in the module's `DISTRIBUTED_TENSOR_PUBLIC_HEADERS`. |
 | Local tests | `tests/distributed_tensor/CMakeLists.txt` registers three focused test executables from the three local test source files. |
-| EPIC 3 tests | `tests/CMakeLists.txt` adds `tests/epic3_distributed_tensor/`; its CMake registers the phase/contract test sources and an integrity-verification benchmark target. |
+| EPIC 3 tests | `tests/CMakeLists.txt` adds `tests/epic3_distributed_tensor/`; its CMake registers the phase/contract test sources and the separate private integrity test only when OpenSSL Crypto is found. |
 | Integration test | `tests/integration/CMakeLists.txt` includes `test_distributed_tensor_soak.cpp` when the source exists and assigns it a 120-second timeout. |
-| Benchmarks | `benchmarks/CMakeLists.txt` adds both benchmark directories. `benchmarks/distributed_tensor/` selects the local dedicated-gates source; `benchmarks/epic3_distributed_tensor/` defines four standard benchmark sources plus partial-refit and summary-first targets. |
+| Benchmarks | `benchmarks/CMakeLists.txt` adds both benchmark directories. `benchmarks/distributed_tensor/` selects the local dedicated-gates source; `benchmarks/epic3_distributed_tensor/` defines the workload benchmarks, with its private integrity benchmark only when OpenSSL Crypto is found. |
 
 ## Audit findings
 

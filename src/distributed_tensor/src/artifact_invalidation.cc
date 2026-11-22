@@ -8,56 +8,62 @@
 namespace themis {
 namespace distributed_tensor {
 
-bool ArtifactInvalidationManager::shouldInvalidateForStaleness(const ArtifactManifest& manifest,
+bool ArtifactInvalidationManager::shouldInvalidateForStaleness(
+                                                               const detail::ArtifactManifest& manifest,
                                                                int64_t now_unix_sec) const {
   return manifest.isStale(now_unix_sec);
 }
 
-bool ArtifactInvalidationManager::shouldInvalidateForCorruption(const ArtifactManifest& manifest) const {
+bool ArtifactInvalidationManager::shouldInvalidateForCorruption(
+    const detail::ArtifactManifest& manifest) const {
   return manifest.isCorrupted();
 }
 
-bool ArtifactInvalidationManager::shouldInvalidateForRankBreach(const ArtifactManifest& manifest) const {
+bool ArtifactInvalidationManager::shouldInvalidateForRankBreach(
+    const detail::ArtifactManifest& manifest) const {
   return manifest.rank_status > manifest.rank_cap && manifest.rank_cap > 0;
 }
 
-bool ArtifactInvalidationManager::shouldInvalidateForResidual(const ArtifactManifest& manifest,
+bool ArtifactInvalidationManager::shouldInvalidateForResidual(
+                                                              const detail::ArtifactManifest& manifest,
                                                               double residual_threshold) const {
   return manifest.residual > residual_threshold;
 }
 
-ArtifactManifest ArtifactInvalidationManager::markStale(const ArtifactManifest& manifest) const {
-  ArtifactManifest updated = manifest;
+detail::ArtifactManifest ArtifactInvalidationManager::markStale(
+    const detail::ArtifactManifest& manifest) const {
+  detail::ArtifactManifest updated = manifest;
   updated.lifecycle_state = LifecycleState::STALE;
   return updated;
 }
 
-ArtifactManifest ArtifactInvalidationManager::invalidate(const ArtifactManifest& manifest,
+detail::ArtifactManifest ArtifactInvalidationManager::invalidate(
+                                                         const detail::ArtifactManifest& manifest,
                                                          InvalidationReason reason) const {
-  ArtifactManifest updated = manifest;
+  detail::ArtifactManifest updated = manifest;
   updated.lifecycle_state = LifecycleState::INVALIDATED;
   updated.invalidation_reason = reason;
   return updated;
 }
 
-ArtifactManifest ArtifactInvalidationManager::transitionToRebuilding(
-    const ArtifactManifest& manifest,
+detail::ArtifactManifest ArtifactInvalidationManager::transitionToRebuilding(
+    const detail::ArtifactManifest& manifest,
     UpdateMode mode,
     int64_t now_unix_sec) const {
-  ArtifactManifest updated = manifest;
+  detail::ArtifactManifest updated = manifest;
   updated.lifecycle_state = LifecycleState::REBUILDING;
   updated.update_mode = mode;
   updated.updated_at_unix_sec = now_unix_sec;
   return updated;
 }
 
-ArtifactManifest ArtifactInvalidationManager::transitionToReadyAfterRebuild(
-    const ArtifactManifest& manifest,
+detail::ArtifactManifest ArtifactInvalidationManager::transitionToReadyAfterRebuild(
+    const detail::ArtifactManifest& manifest,
     RebuildState rebuild_state,
     uint64_t source_seq_start,
     uint64_t source_seq_end,
     int64_t now_unix_sec) const {
-  ArtifactManifest updated = manifest;
+  detail::ArtifactManifest updated = manifest;
   updated.lifecycle_state = LifecycleState::READY;
   updated.rebuild_state = rebuild_state;
   updated.source_seq_start = source_seq_start;
@@ -71,11 +77,11 @@ ArtifactManifest ArtifactInvalidationManager::transitionToReadyAfterRebuild(
   return updated;
 }
 
-ArtifactManifest ArtifactInvalidationManager::transitionToFailed(
-    const ArtifactManifest& manifest,
+detail::ArtifactManifest ArtifactInvalidationManager::transitionToFailed(
+    const detail::ArtifactManifest& manifest,
     InvalidationReason reason,
     int64_t now_unix_sec) const {
-  ArtifactManifest updated = manifest;
+  detail::ArtifactManifest updated = manifest;
   updated.lifecycle_state = LifecycleState::FAILED;
   updated.invalidation_reason = reason;
   updated.updated_at_unix_sec = now_unix_sec;
@@ -83,7 +89,7 @@ ArtifactManifest ArtifactInvalidationManager::transitionToFailed(
 }
 
 bool ArtifactInvalidationManager::shouldRejectForPlanner(
-    const ArtifactManifest& manifest,
+    const detail::ArtifactManifest& manifest,
     int64_t now_unix_sec,
     uint64_t max_delta_lag,
     double max_residual) const {

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-21"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -71,6 +71,18 @@ contract. The [public header inventory](../../include/tensor/README.md) and
 [API notes](./API.md) identify runtime behavior and known discrepancies.
 
 ## Build and Test
+
+The root configuration registers `themis_tensor` before tests and benchmarks,
+independently of `THEMIS_BUILD_ENTERPRISE_PLUGINS`. Tensor test registration
+can therefore use the module target instead of its missing-target source
+fallback. When `themis_core` or `themis_storage` is a static library that
+already compiles tensor sources, `themis_tensor` omits those sources and links
+the owner privately (`THEMIS_TENSOR_DEDUP_OWNER_SOURCES`, default `ON`; set
+`OFF` to restore the previous full source list). Shared owners are eligible
+when their symbols are exported: Windows auto-export must be enabled, and
+other platforms must not use hidden C++ visibility. Test-specific direct
+source additions are filtered against the same eligible owners. No configure,
+build, or tests were run for these changes.
 
 The module is a C++17 static library target. From an existing configured build directory:
 

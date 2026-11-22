@@ -34,6 +34,7 @@
 #include <vector>
 
 using namespace themis::distributed_tensor;
+using namespace themis::distributed_tensor::detail;
 
 // ---------------------------------------------------------------------------
 // Helpers

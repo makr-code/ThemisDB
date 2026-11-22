@@ -15,13 +15,44 @@
 
 #include "analytics/distributed_analytics.h"
 #include "benchmark/benchmark.h"
+#include <algorithm>
 #include <atomic>
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <mutex>
 
 namespace themisdb {
 namespace analytics {
+
+class BenchDispatchTrace {
+public:
+    using Clock = std::chrono::steady_clock;
+
+    Clock::time_point begin() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        started_at_ = Clock::now();
+        last_shard_started_at_ = started_at_;
+        return started_at_;
+    }
+
+    void recordShardStart(Clock::time_point started_at) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (started_at > last_shard_started_at_) {
+            last_shard_started_at_ = started_at;
+        }
+    }
+
+    std::chrono::nanoseconds dispatchStartup() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return last_shard_started_at_ - started_at_;
+    }
+
+private:
+    mutable std::mutex mutex_;
+    Clock::time_point started_at_{};
+    Clock::time_point last_shard_started_at_{};
+};
 
 // Mock executor for benchmarking
 class BenchShardExecutor : public ShardQueryExecutor {
@@ -30,10 +61,14 @@ public:
 
     std::atomic<Behavior> behavior{Behavior::FAST};
     std::chrono::microseconds delay{0};
+    std::shared_ptr<BenchDispatchTrace> dispatch_trace;
 
     themis::analytics::OLAPResult execute(
         const std::string& shard_id,
         const themis::analytics::OLAPQuery& query) override {
+        if (dispatch_trace) {
+            dispatch_trace->recordShardStart(BenchDispatchTrace::Clock::now());
+        }
         if (delay.count() > 0) {
             auto start = std::chrono::high_resolution_clock::now();
             while (std::chrono::high_resolution_clock::now() - start < delay) {
@@ -100,10 +135,12 @@ static void BenchConcurrentMergeStartup(benchmark::State& state) {
 
     // Create multiple shards for parallel dispatch
     int num_shards = 10;
+    auto dispatch_trace = std::make_shared<BenchDispatchTrace>();
     for (int i = 0; i < num_shards; ++i) {
         auto executor = std::make_shared<BenchShardExecutor>();
         executor->behavior = BenchShardExecutor::Behavior::FAST;
         executor->delay = std::chrono::microseconds{10};
+        executor->dispatch_trace = dispatch_trace;
         coordinator->addShard("shard-" + std::to_string(i), executor);
     }
 
@@ -115,33 +152,37 @@ static void BenchConcurrentMergeStartup(benchmark::State& state) {
     sum_measure.function = themis::analytics::Measure::Function::Sum;
     query.measures.push_back(sum_measure);
 
-    std::vector<std::chrono::nanoseconds> latencies;
-
+    std::vector<std::chrono::nanoseconds> startup_latencies;
+    std::vector<std::chrono::nanoseconds> end_to_end_latencies;
     for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
-        try {
-            coordinator->executeDistributed(query);
-        } catch (...) {
-            // Expected
-        }
-        auto elapsed = std::chrono::high_resolution_clock::now() - start;
-        latencies.push_back(elapsed);
+        const auto call_started_at = dispatch_trace->begin();
+        coordinator->executeDistributed(query);
+        startup_latencies.push_back(dispatch_trace->dispatchStartup());
+        end_to_end_latencies.push_back(BenchDispatchTrace::Clock::now() - call_started_at);
     }
 
-    // Sort latencies for p99 calculation
-    std::sort(latencies.begin(), latencies.end());
-    if (!latencies.empty()) {
-        auto p99_idx = (latencies.size() * 99) / 100;
-        auto p99_latency = latencies[p99_idx];
-        double p99_us = std::chrono::duration_cast<std::chrono::microseconds>(p99_latency).count();
+    const auto p99Index = [](size_t sample_count) {
+        return (sample_count * 99 + 99) / 100 - 1;
+    };
+    std::sort(startup_latencies.begin(), startup_latencies.end());
+    std::sort(end_to_end_latencies.begin(), end_to_end_latencies.end());
+    if (!startup_latencies.empty()) {
+        const auto p99_idx = p99Index(startup_latencies.size());
+        const double startup_p99_us =
+            std::chrono::duration<double, std::micro>(startup_latencies[p99_idx]).count();
+        const double end_to_end_p99_us =
+            std::chrono::duration<double, std::micro>(end_to_end_latencies[p99_idx]).count();
 
         state.SetLabel(
-            "DC-02: Concurrent merge p99=" + std::to_string(static_cast<long>(p99_us)) + "µs");
+            "DC-02: dispatch startup p99=" + std::to_string(startup_p99_us) +
+            "µs, end-to-end p99=" + std::to_string(end_to_end_p99_us) + "µs");
+        state.counters["end_to_end_p99_us"] = end_to_end_p99_us;
 
-        // Gate check: DC-02 requires ≤ 500µs (p99)
-        if (p99_us > 500.0) {
+        // DC-02 gates time until every shard has started, not shard execution or merge completion.
+        if (startup_p99_us > 500.0) {
             state.SkipWithError(
-                ("DC-02 FAILED: p99=" + std::to_string(static_cast<long>(p99_us)) + "µs > 500µs")
+                ("DC-02 FAILED: dispatch startup p99=" +
+                 std::to_string(startup_p99_us) + "µs > 500µs")
                     .c_str());
         }
     }

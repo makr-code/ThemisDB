@@ -38,8 +38,8 @@
  * and grouping_id.
  *
  * Thread-safety:
- *   - executeDistributed() is thread-safe (reads topology under shared lock,
- *     dispatches work via std::async).
+ *   - executeDistributed() snapshots topology under the coordinator lock and
+ *     dispatches shard work through a shared bounded worker pool.
  *   - addShard() / removeShard() / setExecutor() must not be called
  *     concurrently with executeDistributed().
  *
@@ -122,6 +122,7 @@ private:
 class DistributedAnalyticsSharding {
 public:
     struct Config {
+        // 0 uses the shared dispatch pool capacity (1-16 workers, hardware-capped).
         size_t max_parallel_shards = 0;
 
         bool allow_partial_results = true;

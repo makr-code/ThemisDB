@@ -129,6 +129,7 @@ BENCHMARK_REGISTER_F(SagaBenchmarkFixture, SimpleCompensation)
     ->Arg(5)
     ->Arg(10)
     ->Arg(20)
+    ->UseRealTime()
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -314,6 +315,7 @@ BENCHMARK(BM_ConcurrentSagaCompensation)
     ->Arg(5)
     ->Arg(10)
     ->Arg(20)
+    ->UseRealTime()
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -462,6 +464,7 @@ BENCHMARK(BM_CompensationLatencyDistribution)
     ->Arg(10)
     ->Arg(20)
     ->Iterations(100)
+    ->UseRealTime()
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

@@ -89,6 +89,8 @@
 #include "tensor/tensor_core_bridge.h"
 #include "tensor/tensor_ingestion_bridge.h"
 #include "storage/tensor_network_storage_engine.h"
+#include "toolbox/ingestion_toolbox.h"
+#include "toolbox/toolbox_registry.h"
 #include "transaction/transaction_manager.h"
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
@@ -1462,8 +1464,7 @@ int main(int argc, char* argv[]) {
 
         // ── Tensor Index Manager ────────────────────────────────────────────────
         // Backed by the same RocksDB instance as the main store.  The manager
-        // is optional; it is skipped when no "tensor_index" section is present
-        // in the config, leaving the NullTensorDecompositionBackend active.
+        // and live ingestion steps are enabled only by the "tensor_index" config.
         std::shared_ptr<themis::tensor::TensorIndexManager> tensor_index_mgr;
         std::shared_ptr<themis::tensor::TensorCoreStorageBridge> tensor_core_bridge;
         std::shared_ptr<themis::tensor::TensorIngestionBridge> tensor_ingest_bridge;
@@ -1507,11 +1508,16 @@ int main(int argc, char* argv[]) {
             tensor_ingest_bridge = std::make_shared<themis::tensor::TensorIngestionBridge>(
                 tt_epsilon, tt_max_rank, tt_min_kappa);
 
+            auto tensor_toolbox =
+                themis::toolbox::IngestionToolbox::createDefault(
+                    tensor_ingest_bridge, tensor_core_bridge);
+            themis::toolbox::initializeToolbox(std::move(tensor_toolbox));
+
             THEMIS_INFO("Tensor pipeline initialized (ε={:.4f}, max_rank={}, κ_min={:.2f})",
                         tt_epsilon, tt_max_rank, tt_min_kappa);
         } else {
             THEMIS_INFO("Tensor index not configured (no 'tensor_index' section) — "
-                        "TT decomposition disabled; using NullTensorDecompositionBackend");
+                        "server tensor ingestion toolbox not initialized");
         }
 
 #ifdef THEMIS_ENABLE_LLM

@@ -15,6 +15,7 @@
 
 namespace themis {
 namespace distributed_tensor {
+namespace detail {
 
 // ============================================================================
 // Timestamp Utilities
@@ -350,5 +351,6 @@ std::string DistributedTensorPlanner::buildFallbackRouting(
     return oss.str();
 }
 
+} // namespace detail
 } // namespace distributed_tensor
 } // namespace themis

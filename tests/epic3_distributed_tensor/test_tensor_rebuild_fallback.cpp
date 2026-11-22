@@ -26,6 +26,7 @@
 #include <memory>
 
 using namespace themis::distributed_tensor;
+using namespace themis::distributed_tensor::detail;
 using namespace std::chrono_literals;
 
 // ---------------------------------------------------------------------------

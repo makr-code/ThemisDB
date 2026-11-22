@@ -93,7 +93,24 @@ public:
      * `ITextGenerationBackend` via `setTextBackend()` to enable
      * LLM-backed NER and entity extraction.
      */
-    static std::shared_ptr<IngestionToolbox> createDefault();
+    [[nodiscard]] static std::shared_ptr<IngestionToolbox> createDefault();
+
+    /**
+     * @brief Create the default toolbox with injected tensor pipeline steps.
+     *
+     * The supplied dependencies are registered directly during construction,
+     * replacing the null decomposition and in-memory core-sink defaults.
+     * Either dependency may be null to retain its respective default.
+     *
+     * @param tensor_backend Backend for `builtin.chunk_tt_decompose`; null
+     *                       keeps the unavailable no-op backend.
+     * @param tensor_sink    Sink for `builtin.tensor_core_bridge`; null keeps
+     *                       the default in-memory sink.
+     * @return A ready-to-use toolbox with the configured tensor steps.
+     */
+    [[nodiscard]] static std::shared_ptr<IngestionToolbox> createDefault(
+        std::shared_ptr<ingestion::ITensorDecompositionBackend> tensor_backend,
+        std::shared_ptr<ingestion::ITensorCoreBridge> tensor_sink);
 
     // ── Dependency injection ──────────────────────────────────────────────────
 

@@ -1670,8 +1670,12 @@ target_sources(test_wal_storage_focused PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/test_gtest_main.cpp"
 )
 target_compile_definitions(test_wal_storage_focused PRIVATE THEMIS_TEST_BUILD=1)
-add_test(NAME WALStorageFocusedTests COMMAND $<TARGET_FILE:test_wal_storage_focused>)
-set_tests_properties(WALStorageFocusedTests PROPERTIES LABELS "storage;wal;focused;unit" TIMEOUT 60)
+themis_register_test_target(
+    NAME WALStorageFocusedTests
+    TARGET test_wal_storage_focused
+    LABELS storage wal focused unit
+    TIMEOUT 60
+)
 message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
 
 message(STATUS "Adding Security: production-mode and shard mTLS focused tests")
@@ -1696,12 +1700,10 @@ target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_
 if(THEMIS_ENABLE_GRPC AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
     target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_ENABLE_GRPC=1)
 endif()
-add_test(
+themis_register_test_target(
     NAME ProductionModeSecurityFocusedTests
-    COMMAND $<TARGET_FILE:test_production_mode_security_focused>
-)
-set_tests_properties(ProductionModeSecurityFocusedTests PROPERTIES
-    LABELS "security;sharding;mtls;production;focused;unit"
+    TARGET test_production_mode_security_focused
+    LABELS security sharding mtls production focused unit
     TIMEOUT 120
 )
 
@@ -3255,10 +3257,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/property/test_property_graph.cpp")
         add_dependencies(test_property_graph sync_test_runtime_dlls)
     endif()
     
-    add_test(NAME PropertyGraphTests COMMAND $<TARGET_FILE:test_property_graph>)
-    
-    set_tests_properties(PropertyGraphTests PROPERTIES
-        LABELS "index;property-graph;unit"
+    themis_register_test_target(
+        NAME PropertyGraphTests
+        TARGET test_property_graph
+        LABELS index property-graph unit
         TIMEOUT 120
     )
     
@@ -3301,10 +3303,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp")
         add_dependencies(test_graph_query_optimizer sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphQueryOptimizerTests COMMAND $<TARGET_FILE:test_graph_query_optimizer>)
-
-    set_tests_properties(GraphQueryOptimizerTests PROPERTIES
-        LABELS "graph;optimizer;query;unit"
+    themis_register_test_target(
+        NAME GraphQueryOptimizerTests
+        TARGET test_graph_query_optimizer
+        LABELS graph optimizer query unit
         TIMEOUT 120
     )
 
@@ -3347,10 +3349,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_rewriter.cpp")
         add_dependencies(test_graph_query_rewriter sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphQueryRewriterTests COMMAND $<TARGET_FILE:test_graph_query_rewriter>)
-
-    set_tests_properties(GraphQueryRewriterTests PROPERTIES
-        LABELS "graph;rewriter;query;optimization;unit"
+    themis_register_test_target(
+        NAME GraphQueryRewriterTests
+        TARGET test_graph_query_rewriter
+        LABELS graph rewriter query optimization unit
         TIMEOUT 60
     )
 
@@ -3394,10 +3396,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_advanced_features.cpp")
         add_dependencies(test_graph_advanced_features sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphAdvancedFeaturesTests COMMAND $<TARGET_FILE:test_graph_advanced_features>)
-
-    set_tests_properties(GraphAdvancedFeaturesTests PROPERTIES
-        LABELS "graph;path-constraints;advanced;unit"
+    themis_register_test_target(
+        NAME GraphAdvancedFeaturesTests
+        TARGET test_graph_advanced_features
+        LABELS graph path-constraints advanced unit
         TIMEOUT 120
     )
 

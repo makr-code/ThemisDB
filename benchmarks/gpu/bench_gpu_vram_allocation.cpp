@@ -355,7 +355,15 @@ BENCHMARK_DEFINE_F(VRAMBenchmark, Throughput_BatchedInference)(benchmark::State&
     auto plan = allocator.calculateOptimalAllocation(model, hw, config);
     
     if (!plan.fits_in_vram) {
-        state.SkipWithError("Configuration doesn't fit in VRAM");
+        if (plan.recommendation.find("Allocation exceeds available VRAM.") !=
+            std::string::npos) {
+            state.SkipWithMessage(plan.recommendation.c_str());
+        } else {
+            state.SkipWithError(
+                plan.recommendation.empty()
+                    ? "VRAM allocation planning failed"
+                    : plan.recommendation.c_str());
+        }
         return;
     }
     

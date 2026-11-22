@@ -558,8 +558,3 @@ TEST_F(Phase13IntegrationTest, MultiModelComparison) {
   EXPECT_GT(agg1.mean_recall_10, agg2.mean_recall_10);
   EXPECT_GT(agg1.mean_ndcg_10, agg2.mean_ndcg_10);
 }
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

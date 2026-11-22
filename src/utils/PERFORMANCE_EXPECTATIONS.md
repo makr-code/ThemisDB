@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Utils Performance Expectations
 
-## Current registered benchmark
+## Current registered benchmarks
 
 `benchmarks/utils/CMakeLists.txt` registers only
 [`bench_utils_release_gates.cpp`](../../benchmarks/utils/bench_utils_release_gates.cpp)
@@ -24,7 +24,15 @@ small `UtilsError` cast/switch operations. These are narrow microbenchmarks;
 they do not establish end-to-end or production-path latency for utility
 subsystems.
 
-Other sources in `benchmarks/utils/` are not registered by that CMake file.
+The root benchmark CMake also registers
+[`benchmark_runner.cpp`](../../benchmarks/utils/benchmark_runner.cpp) as
+`bench_utils_benchmark_runner`. It now uses the types from
+`include/utils/utils_api_contract.h` and Google Benchmark's canonical JSON
+output. Its construction, copy, cast, and switch cases are likewise narrow
+value-type microbenchmarks, not measurements of the production utility
+services. Do not treat either target as service-level performance evidence.
+
+Other sources in `benchmarks/utils/` are not registered by those CMake files.
 In particular, `phase_a3_benchmark_runner.cpp` uses simulated work rather than
 the production privacy, compression, rate-limiting, thread-pool, HKDF, or key
 rotation implementations.
@@ -45,6 +53,7 @@ rotation implementations.
 ## Validation
 
 Configure a preset with `THEMIS_BUILD_BENCHMARKS=ON`, build
-`bench_utils_release_gates`, and record the compiler, build type, host, and
-benchmark command with any reported result. A microbenchmark result does not
-replace subsystem-specific tests or measurements.
+`bench_utils_release_gates` or `bench_utils_benchmark_runner`, and record the
+compiler, build type, host, benchmark arguments, and raw Google Benchmark JSON
+with any reported result. A microbenchmark result does not replace
+subsystem-specific tests or measurements.

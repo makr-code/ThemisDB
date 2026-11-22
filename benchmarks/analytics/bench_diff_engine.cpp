@@ -78,7 +78,9 @@ BENCHMARK_DEFINE_F(DiffEngineBenchmark, Diff100Changes)(benchmark::State& state)
         benchmark::DoNotOptimize(result);
     }
     
+#if !defined(_WIN32)  // The generated rate divides by cpu_time, which is zero in this Windows smoke result.
     state.SetItemsProcessed(state.iterations() * 100);
+#endif
 }
 
 // Benchmark: Diff with 1K changes
@@ -91,7 +93,9 @@ BENCHMARK_DEFINE_F(DiffEngineBenchmark, Diff1KChanges)(benchmark::State& state) 
         benchmark::DoNotOptimize(result);
     }
     
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations() * 1000);
+#endif
 }
 
 // Benchmark: Diff with 10K changes
@@ -169,7 +173,9 @@ BENCHMARK_DEFINE_F(DiffEngineBenchmark, DiffWithCaching)(benchmark::State& state
         benchmark::DoNotOptimize(result);
     }
     
+#if !defined(_WIN32)
     state.SetItemsProcessed(state.iterations() * 1000);
+#endif
 }
 
 // Benchmark: Diff by timestamp

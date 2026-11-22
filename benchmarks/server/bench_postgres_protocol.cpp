@@ -350,6 +350,12 @@ BENCHMARK(BM_BindParameterValue_TextWithQuotes);
 BENCHMARK(BM_ParameterSubstitution)->Range(1, 16);
 BENCHMARK(BM_COPYDataParsing)->Range(1, 10000);
 
+#else
+static void BM_PostgresWireUnavailable(benchmark::State& state) {
+    state.SkipWithMessage("PostgreSQL wire support is disabled in this build");
+}
+BENCHMARK(BM_PostgresWireUnavailable);
+
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
 
 BENCHMARK_MAIN();

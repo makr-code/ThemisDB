@@ -83,9 +83,11 @@ sources now cover manager-driven election, durable follower append,
 follower SIGKILL/restart from the same journal, rejection of a conflicting
 persisted log entry, persisted vote rejection, volatile-journal vote/append
 rejection, stale-term/partial-prefix rejection, bounded timeout failure, and
-proposal failure after both remote nodes are killed. They have not been compiled or run in the current
-Windows benchmark configuration, and the manager/leader remains in the test
-process; leader-process failover/re-election is not covered. The focused gRPC
+proposal failure after both remote nodes are killed, plus separate leader-process
+SIGKILL/restart recovery. They have not been compiled or run in the current
+Windows benchmark configuration. Separate leader SIGKILL/restart is source
+coverage and follower processes are now wired for independent re-election.
+The focused gRPC
 runtime test plus stale-term/log, unavailable-journal, partial-prefix, timeout,
 and fault-injection cases must still execute before the gate can close. This
 transport does not add conflict repair, safe membership changes, or a

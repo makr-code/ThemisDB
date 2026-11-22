@@ -46,7 +46,7 @@ static bool cuda_available() {
 
 static void BM_CPUtoGPU_Transfer(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -95,7 +95,7 @@ BENCHMARK(BM_CPUtoGPU_Transfer)
 
 static void BM_GPUtoCPU_Transfer(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -145,7 +145,7 @@ BENCHMARK(BM_GPUtoCPU_Transfer)
 
 static void BM_PinnedMemory_Transfer(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -224,7 +224,7 @@ private:
 
 static void BM_DataLoader_WithPrefetch(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -305,7 +305,7 @@ BENCHMARK(BM_DataLoader_WithPrefetch)
 
 static void BM_BatchLoading_Throughput(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -377,7 +377,7 @@ BENCHMARK(BM_BatchLoading_Throughput)
 
 static void BM_MemoryBandwidth_Utilization(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     
@@ -426,7 +426,7 @@ BENCHMARK(BM_MemoryBandwidth_Utilization)
 
 static void BM_Cache_HitMiss_Pattern(benchmark::State& state) {
     if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
+        state.SkipWithMessage("CUDA not available");
         return;
     }
     

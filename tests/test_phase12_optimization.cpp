@@ -469,8 +469,3 @@ TEST_F(Phase12IntegrationTest, BudgetReservationFullCycle) {
 }
 
 }  // namespace themis::rag::optimization
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
