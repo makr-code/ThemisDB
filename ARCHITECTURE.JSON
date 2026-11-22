@@ -757,12 +757,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "d56714b319c98fa6"
+      "sha256_prefix": "af2dc2de31392913"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "d9e0bc6308a2d73a"
+      "sha256_prefix": "2950fdd7042f43ce"
     },
     {
       "category": "governance",
@@ -787,7 +787,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "7878b0f44d7d5dbe"
+      "sha256_prefix": "f1b14a1d59e7e2d6"
     },
     {
       "category": "governance",
@@ -1846,6 +1846,11 @@
     },
     {
       "category": "docs",
+      "path": "docs/architecture/cross_shard_block_replication_target.md",
+      "sha256_prefix": "7f1e4930da46331e"
+    },
+    {
+      "category": "docs",
       "path": "docs/architecture/experimental-logarithmic-vector-storage.md",
       "sha256_prefix": "eb8c8704a80040e8"
     },
@@ -1887,7 +1892,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/transaction_coordinators.md",
-      "sha256_prefix": "eaec5d94f68e895a"
+      "sha256_prefix": "7aaf77ae858e7a6d"
     },
     {
       "category": "docs",
@@ -2517,7 +2522,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "2921d1798053e60b"
+      "sha256_prefix": "1a4eaa1252dad89a"
     },
     {
       "category": "docs",
@@ -7045,7 +7050,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-20T08:40:02.600194+00:00",
+  "generated_at": "2026-11-22T12:37:38.463170+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -7364,9 +7369,9 @@
         {
           "api": "WAL durability and sequencing",
           "errors": "",
-          "input_contract": "`WALStorage` has a real file-backed append/replay/checkpoint API. STR-01–04 and STR-09–11 in the contract-hardening test use `MockWal` and `MockKvStore`; they do not call `WALStorage` or exercise disk I/O. `tests/test_mvcc_wal_integration.cpp` configures RocksDB's internal WAL through `RocksDBWrapper`; it does not call `WALStorage` or test ACK ordering.",
-          "namespace": "Write-before-ack, idempotent replay, monotonic sequence numbers, checkpoint ordering, and fixed WAL limits/timeouts.",
-          "output_contract": "Not demonstrated end to end. Test the actual WAL and engine write path together, including restart and failure cases."
+          "input_contract": "`WALStorage` has a real file-backed append/replay/checkpoint API. `Config::recovery_timeout` applies one millisecond-duration deadline across segments (`0` means unbounded). The standalone Windows WAL runner passed all 29 cases, including timeout handling, 10,000 seeded single-bit mutations, 1,024 seeded two-bit mutations, 256 seeded single-bit and 384 seeded two-bit mutations across 12 segments with varied payload lengths, and corruption detected in a later segment. `WALProcessCrashRecoveryTests` additionally passed 50 real child-process terminations after the parent observed successful fsynced PUT ACKs; replay contained exactly those ACKs, with segment-rotation coverage. STR-01–04 and STR-09–11 in the contract-hardening test use `MockWal` and `MockKvStore`; they do not call `WALStorage` or exercise disk I/O. `tests/test_mvcc_wal_integration.cpp` configures RocksDB's internal WAL through `RocksDBWrapper`; it does not call `WALStorage`.",
+          "namespace": "Write-before-ack, idempotent replay, monotonic sequence numbers, checkpoint ordering, and bounded replay when a timeout is configured.",
+          "output_contract": "File-backed timeout/corruption and process termination at ACK boundaries are demonstrated for the separate `WALStorage` API. Interruption during an in-flight append/fsync, the RocksDB primary-store path, and checkpoint ordering under process kill remain unverified."
         },
         {
           "api": "MVCC isolation",
@@ -7378,9 +7383,9 @@
         {
           "api": "Recovery",
           "errors": "",
-          "input_contract": "The contract-hardening replay helper operates on mock entries. The MVCC integration test source includes normal database close/reopen persistence using RocksDB, not a crash/torn-tail test of `WALStorage`. `WALStorage::open()` provides a recovery callback, but that is not evidence the full declaration is met after a real process crash.",
-          "namespace": "Checkpoint-based replay, torn-tail handling, and recovery limits/diagnostics.",
-          "output_contract": "Normal MVCC persistence has test source; standalone WAL crash/recovery conformance still requires file-backed fault-injection tests."
+          "input_contract": "`WALStorage::open()` exposes `RecoveryResult` output and per-record progress snapshots; `MetricsCollector` records cumulative replay progress and terminal attempt/duration; non-complete outcomes emit through `storage.audit`. The standalone Windows WAL runner passed 29 file-backed cases, including timeout, torn-tail, checksum, 10,000 seeded single-bit cases, 1,024 seeded two-bit cases, 256 seeded single-bit and 384 seeded two-bit mutations across 12 segments and varied payload lengths, and rejection of incomplete records in earlier segments without truncation. `WALChecksumTest.InvalidSerializedEntryAbortsRecovery` also passed in a separately linked replication runner. `WALProcessCrashRecoveryTests` passed 50 process-kill/reopen iterations for ACK-gated WAL writes. The contract-hardening replay helper operates on mock entries. The MVCC integration test source includes normal database close/reopen persistence using RocksDB, not a crash/torn-tail test of `WALStorage`.",
+          "namespace": "Checkpoint-based replay, torn-tail handling, structured recovery status/progress, and recovery limits/diagnostics.",
+          "output_contract": "Structured report, metrics, timeout, torn-tail, sampled corruption, later-segment fail-closed handling, invalid replication payload failure, and ACK-boundary process restart are demonstrated; in-flight crash, RocksDB/index recovery, checkpoint/backup coverage, and quarantine override remain open."
         },
         {
           "api": "Backup and PITR",
@@ -8584,9 +8589,9 @@
         {
           "api": "Recovery",
           "errors": "",
-          "input_contract": "N/A",
-          "namespace": "On participant failure, coordinator retries or aborts; idempotent",
-          "output_contract": "test_txn_2pc_recovery.cpp"
+          "input_contract": "Blocking until decision reachable",
+          "namespace": "Replay immutable durable decision; without a decision only coordinator recovery may select durable ABORT; participants never timeout-abort after YES",
+          "output_contract": "See sharding crash/recovery tests below"
         },
         {
           "api": "Gate",
@@ -8980,19 +8985,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "d56714b319c98fa6",
+    "ARCHITECTURE.md": "af2dc2de31392913",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
-    "ROADMAP.md": "d9e0bc6308a2d73a",
+    "ROADMAP.md": "2950fdd7042f43ce",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "05045a45f9033a7c",
-    "ai_context/developer_llm_wiki/": "c2f0ea5bffaf4bc4",
+    "ai_context/api_contracts/": "a3d4c385a6c55454",
+    "ai_context/developer_llm_wiki/": "edc9c9fcfa596b2f",
     "ai_working/": "2da2d31a22a9695b",
-    "docs/": "5b5903242e3a8b9d"
+    "docs/": "72983fda8504c295"
   },
   "statistics": {
     "ai_working_artifact_count": 30,
-    "documentation_source_count": 1258,
+    "documentation_source_count": 1259,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 5,
     "modules_with_private_plugin": 4,
