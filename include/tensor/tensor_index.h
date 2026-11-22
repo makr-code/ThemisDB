@@ -179,6 +179,8 @@ public:
      * @return true on success. On any failure (missing file, bad magic or
      *         version, truncation, structural violation, allocation failure)
      *         returns false and leaves the current contents unchanged.
+     * @note Files persisted with incomplete or inconsistent mode metadata are
+     *       rejected and must be rebuilt from their source vectors.
      */
     virtual bool load(const std::string& path) = 0;
 
