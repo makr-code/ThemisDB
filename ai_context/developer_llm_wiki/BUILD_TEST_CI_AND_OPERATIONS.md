@@ -45,6 +45,9 @@ Status: Active
   the commit and workflow run ID. The release matrix runs and uploads this
   focused in-process test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64;
   those lanes do not establish cross-platform gRPC/process transport.
+- The portable target passed three repeated local CTest runs on 2026-11-22.
+  This is in-process Linux validation only; successful CI artifacts and
+  Windows/macOS release-platform lanes remain open.
 - A recent Wave B PR run
   [45053427546](https://github.com/makr-code/ThemisDB/actions/runs/45053427546)
   ended `action_required` with zero jobs. No successful workflow artifact or

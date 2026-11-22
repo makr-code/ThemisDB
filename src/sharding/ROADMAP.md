@@ -142,6 +142,9 @@ contains a passing, commit-linked history. The release build matrix also runs
 this focused test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64 and
 uploads lane-specific evidence. These are test-coverage and workflow changes,
 not evidence that those platform lanes have passed.
+The portable target passed three repeated local CTest runs on 2026-11-22 in
+Ubuntu 24.04/Linux Debug. This validates the in-process history checker only;
+it does not add Windows/macOS or real-transport evidence.
 
 The proxy preserves TCP's byte order. Reordering TCP stream bytes would corrupt
 TLS rather than model an application-visible reordered RPC; raw duplication of
