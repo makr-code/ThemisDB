@@ -24,6 +24,7 @@
 #include <poll.h>
 #include <spawn.h>
 
+#include <atomic>
 #include <cerrno>
 #include <chrono>
 #include <csignal>
@@ -308,6 +309,18 @@ private:
         });
 }
 
+[[nodiscard]] bool waitForFile(const fs::path& path,
+                               const std::chrono::milliseconds timeout = 8s) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (fs::exists(path)) {
+            return true;
+        }
+        std::this_thread::sleep_for(20ms);
+    }
+    return fs::exists(path);
+}
+
 ShardRPCClient::Config makeRpcConfig(const fs::path& root,
                                      const std::string& endpoint,
                                      const std::string& shard_id,
@@ -324,6 +337,175 @@ ShardRPCClient::Config makeRpcConfig(const fs::path& root,
     config.tls_ca_cert_path = (root / "participant-cert.pem").string();
     return config;
 }
+
+class TcpPartitionProxy {
+public:
+    explicit TcpPartitionProxy(const int target_port) {
+        listener_ = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
+        if (listener_ < 0) {
+            throw std::system_error(errno, std::generic_category(), "partition proxy socket");
+        }
+
+        int reuse_address = 1;
+        (void)::setsockopt(listener_, SOL_SOCKET, SO_REUSEADDR, &reuse_address, sizeof(reuse_address));
+        sockaddr_in address{};
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        address.sin_port = 0;
+        if (::bind(listener_, reinterpret_cast<const sockaddr*>(&address), sizeof(address)) != 0 ||
+            ::listen(listener_, 8) != 0) {
+            const int error = errno;
+            ::close(listener_);
+            listener_ = -1;
+            throw std::system_error(error, std::generic_category(), "partition proxy bind/listen");
+        }
+
+        socklen_t address_size = sizeof(address);
+        if (::getsockname(listener_, reinterpret_cast<sockaddr*>(&address), &address_size) != 0) {
+            const int error = errno;
+            ::close(listener_);
+            listener_ = -1;
+            throw std::system_error(error, std::generic_category(), "partition proxy getsockname");
+        }
+        port_ = ntohs(address.sin_port);
+        target_port_ = target_port;
+        accept_thread_ = std::thread([this] { acceptConnections(); });
+    }
+
+    TcpPartitionProxy(const TcpPartitionProxy&) = delete;
+    TcpPartitionProxy& operator=(const TcpPartitionProxy&) = delete;
+
+    ~TcpPartitionProxy() {
+        stopping_.store(true, std::memory_order_release);
+        if (listener_ >= 0) {
+            (void)::shutdown(listener_, SHUT_RDWR);
+        }
+        if (accept_thread_.joinable()) {
+            accept_thread_.join();
+        }
+        for (const int socket : sockets_) {
+            (void)::shutdown(socket, SHUT_RDWR);
+        }
+        for (auto& thread : connection_threads_) {
+            if (thread.joinable()) {
+                thread.join();
+            }
+        }
+        for (const int socket : sockets_) {
+            ::close(socket);
+        }
+        if (listener_ >= 0) {
+            ::close(listener_);
+        }
+    }
+
+    [[nodiscard]] std::string endpoint() const { return endpointForPort(port_); }
+
+    void partition() { partitioned_.store(true, std::memory_order_release); }
+    void heal() { partitioned_.store(false, std::memory_order_release); }
+
+private:
+    void acceptConnections() {
+        while (!stopping_.load(std::memory_order_acquire)) {
+            pollfd descriptor{listener_, POLLIN, 0};
+            const int ready = ::poll(&descriptor, 1, 50);
+            if (ready <= 0 || (descriptor.revents & POLLIN) == 0) {
+                continue;
+            }
+
+            const int client = ::accept4(listener_, nullptr, nullptr, SOCK_CLOEXEC);
+            if (client < 0) {
+                if (errno == EINTR || stopping_.load(std::memory_order_acquire)) {
+                    continue;
+                }
+                continue;
+            }
+
+            const int upstream = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
+            if (upstream < 0) {
+                ::close(client);
+                continue;
+            }
+            sockaddr_in target{};
+            target.sin_family = AF_INET;
+            target.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+            target.sin_port = htons(static_cast<uint16_t>(target_port_));
+            if (::connect(upstream, reinterpret_cast<const sockaddr*>(&target), sizeof(target)) != 0) {
+                ::close(client);
+                ::close(upstream);
+                continue;
+            }
+
+            sockets_.push_back(client);
+            sockets_.push_back(upstream);
+            connection_threads_.emplace_back([this, client, upstream] {
+                relayConnection(client, upstream);
+            });
+        }
+    }
+
+    [[nodiscard]] static bool forwardBytes(const int source, const int destination) {
+        char buffer[16 * 1024];
+        const ssize_t received = ::recv(source, buffer, sizeof(buffer), 0);
+        if (received <= 0) {
+            return false;
+        }
+
+        ssize_t sent = 0;
+        while (sent < received) {
+            const ssize_t count = ::send(destination, buffer + sent,
+                                         static_cast<std::size_t>(received - sent), MSG_NOSIGNAL);
+            if (count < 0 && errno == EINTR) {
+                continue;
+            }
+            if (count <= 0) {
+                return false;
+            }
+            sent += count;
+        }
+        return true;
+    }
+
+    void relayConnection(const int client, const int upstream) {
+        pollfd descriptors[2]{{client, 0, 0}, {upstream, 0, 0}};
+        while (!stopping_.load(std::memory_order_acquire)) {
+            const short read_events = partitioned_.load(std::memory_order_acquire) ? 0 : POLLIN;
+            descriptors[0].events = read_events;
+            descriptors[1].events = read_events;
+            descriptors[0].revents = 0;
+            descriptors[1].revents = 0;
+
+            const int ready = ::poll(descriptors, 2, 50);
+            if (ready < 0 && errno == EINTR) {
+                continue;
+            }
+            if (ready < 0) {
+                return;
+            }
+            for (int index = 0; index < 2; ++index) {
+                if ((descriptors[index].revents & (POLLERR | POLLHUP | POLLNVAL)) != 0) {
+                    return;
+                }
+                if ((descriptors[index].revents & POLLIN) != 0) {
+                    const int source = descriptors[index].fd;
+                    const int destination = descriptors[1 - index].fd;
+                    if (!forwardBytes(source, destination)) {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    int listener_ = -1;
+    int port_ = 0;
+    int target_port_ = 0;
+    std::atomic<bool> partitioned_{false};
+    std::atomic<bool> stopping_{false};
+    std::thread accept_thread_;
+    std::vector<std::thread> connection_threads_;
+    std::vector<int> sockets_;
+};
 
 class ParticipantProcess {
 public:
@@ -469,6 +651,13 @@ int runParticipantProcess(const fs::path& root,
         participant_config,
         [](const std::string&, const nlohmann::json&) { return true; },
         [&](const std::string&, const nlohmann::json&, int64_t) {
+            if (behavior == "signal_then_hang_on_commit" && first_commit) {
+                first_commit = false;
+                writePem(root / "participant-a-commit-entered", "S");
+                for (;;) {
+                    ::pause();
+                }
+            }
             if (behavior == "hang_on_commit" && first_commit) {
                 first_commit = false;
                 for (;;) {
@@ -669,6 +858,52 @@ TEST(DIS10RealTransportProcessRecovery, HealsParticipantUnavailabilityAfterResta
     EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
     EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardA} + "-wal"), transaction_id));
     EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardB} + "-wal"), transaction_id));
+}
+
+TEST(DIS10RealTransportProcessRecovery, RecoversCommitAfterTcpPartitionHeals) {
+    const FixtureDirectory fixture("dis10-real-transport-partition");
+    writeCryptoMaterial(fixture.path());
+
+    ParticipantProcess participant_a(
+        fixture.path(), std::string{kShardA}, "signal_then_hang_on_commit");
+    ParticipantProcess participant_b(fixture.path(), std::string{kShardB}, "normal");
+    TcpPartitionProxy proxy(participant_b.port());
+
+    const std::string transaction_id = "dis10-partition-healing";
+    CoordinatorRunner coordinator(
+        fixture.path(), transaction_id, "commit", participant_a.endpoint(), proxy.endpoint());
+
+    const auto coordinator_wal = fixture.path() / "coordinator-wal";
+    ASSERT_TRUE(waitForCoordinatorDecision(coordinator_wal, transaction_id));
+    ASSERT_TRUE(waitForFile(fixture.path() / "participant-a-commit-entered"));
+
+    proxy.partition();
+    int status = 0;
+    ASSERT_TRUE(coordinator.waitForExit(20000, &status));
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 2);
+
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "decision"), 1u);
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 0u);
+    const auto participant_b_wal = fixture.path() / (std::string{kShardB} + "-wal");
+    EXPECT_GE(countWalEntries(participant_b_wal, transaction_id, WALEntryType::PREPARE_TX), 1u);
+    EXPECT_EQ(countWalEntries(participant_b_wal, transaction_id, WALEntryType::COMMIT_TX), 0u);
+
+    ASSERT_TRUE(participant_a.crash());
+    ParticipantProcess restarted_a(
+        fixture.path(), std::string{kShardA}, "normal", participant_a.port());
+    proxy.heal();
+
+    CoordinatorRunner recovery(
+        fixture.path(), transaction_id, "recover", restarted_a.endpoint(), proxy.endpoint());
+    int recovery_status = 0;
+    ASSERT_TRUE(recovery.waitForExit(20000, &recovery_status));
+    ASSERT_TRUE(WIFEXITED(recovery_status));
+    ASSERT_EQ(WEXITSTATUS(recovery_status), 0);
+
+    EXPECT_EQ(countWalEntries(coordinator_wal, transaction_id, WALEntryType::COMMIT_TX, "complete"), 1u);
+    EXPECT_TRUE(waitForParticipantCommit(fixture.path() / (std::string{kShardA} + "-wal"), transaction_id));
+    EXPECT_TRUE(waitForParticipantCommit(participant_b_wal, transaction_id));
 }
 
 } // namespace
