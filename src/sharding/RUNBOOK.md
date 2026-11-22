@@ -122,6 +122,8 @@ This runbook is the operator-facing guide for the principal failure modes in the
   `test_dis10_real_transport_process_recovery.cpp` source and required production
   objects passed 3/3 real gRPC/mTLS subprocess cases: commit success,
   coordinator SIGKILL recovery, and participant crash/restart healing.
+- On 2026-11-22, the same direct executable passed 3 repeated iterations:
+  9/9 individual test executions.
 - The direct pass is not a registered CMake/CTest or release-platform gate.
   The full registered target build remains blocked locally by unrelated
   training-module dependency/build graph gaps.

@@ -274,6 +274,8 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     (Commit-Erfolg, Coordinator-SIGKILL-Recovery, Participant-Crash/Restart-Heilung). Dies ist
     kein Nachweis für ein registriertes CMake/CTest-Target oder Release-Platforms; der lokale
     Vollbuild des registrierten Targets bleibt durch einen getrennten Training-Abhängigkeiten-/Build-Graph-Blocker offen.
+  - Wiederholungsnachweis am 2026-11-22: 3 Iterationen × 3 Fälle = 9/9 erfolgreiche
+    Prozess-Testausführungen im direkten Diagnostik-Binary; kein Ersatz für CTest-/CI-Evidenz.
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).

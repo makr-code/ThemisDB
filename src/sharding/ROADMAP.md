@@ -87,6 +87,8 @@ healing (3/3). This is execution evidence for the real gRPC/mTLS subprocess
 path, not yet a registered CMake/CTest or release-platform gate. The registered
 target remained blocked from a full Ninja build by unrelated training-module
 dependency/build graph gaps in the local diagnostic environment.
+On 2026-11-22, the same direct executable passed a 3-run repeat check:
+9/9 individual test executions passed (3 iterations × 3 cases).
 
 Remaining DIS-10 work is explicitly open: real gRPC/mTLS transport across
 processes, deterministic network partitions with latency/reordering/duplicates,
