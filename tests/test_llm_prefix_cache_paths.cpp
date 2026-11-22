@@ -209,7 +209,7 @@ TEST_F(LLMPrefixCachePathTest, NoWorldWritableDirectories) {
     // On Unix, verify permissions don't include world write
     #ifdef __unix__
     auto perms = fs::status(test_cache_dir).permissions();
-    EXPECT_FALSE(perms & fs::perms::others_write);
+    EXPECT_EQ(perms & fs::perms::others_write, fs::perms::none);
     #endif
 }
 
