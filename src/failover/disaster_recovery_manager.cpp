@@ -551,23 +551,37 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
     }
 
     MetadataFileLock metadata_lock;
-    if (!plan.dry_run && !config_.metadata_log_path.empty()) {
-        std::string lock_error;
-        if (!metadata_lock.acquire(config_.metadata_log_path,
-                                   config_.metadata_lock_timeout,
-                                   lock_error)) {
-            result.success = false;
-            result.final_state = DisasterRecoveryState::FAILED;
-            result.error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
-            result.error_message = std::move(lock_error);
-            result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - started_at);
-            transitionState(DisasterRecoveryState::FAILED);
-            updateStatistics(result);
-            return result;
+    if (!plan.dry_run &&
+        (metadata_adapter_ || !config_.metadata_log_path.empty())) {
+        if (metadata_adapter_) {
+            loadCompletedPlans(false);
+        } else {
+            std::string lock_error;
+            if (!metadata_lock.acquire(config_.metadata_log_path,
+                                       config_.metadata_lock_timeout,
+                                       lock_error)) {
+                result.success = false;
+                result.final_state = DisasterRecoveryState::FAILED;
+                result.error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
+                const bool is_lock_timeout =
+                    lock_error.find("timed out") != std::string::npos;
+                result.error_message = std::move(lock_error);
+                result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - started_at);
+                if (!is_lock_timeout) {
+                    result.step_results.push_back({
+                        DisasterRecoveryStep::PRECHECKS,
+                        false,
+                        result.error_message,
+                        result.error_code
+                    });
+                }
+                transitionState(DisasterRecoveryState::FAILED);
+                updateStatistics(result);
+                return result;
+            }
+            loadCompletedPlans(true);
         }
-
-        loadCompletedPlans(true);
         if (!metadata_load_error_.empty()) {
             std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
             const auto it = completed_plans_.find(plan.plan_id);
@@ -597,6 +611,28 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
                              "for plan_id='{}' (idempotent)", plan.plan_id);
                 return it->second;
             }
+        }
+        if (!metadata_load_error_.empty()) {
+            result.success = false;
+            result.final_state = DisasterRecoveryState::FAILED;
+            result.error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
+            result.error_message = metadata_load_error_;
+            result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - started_at);
+            result.step_results.push_back({
+                DisasterRecoveryStep::PRECHECKS,
+                false,
+                result.error_message,
+                result.error_code
+            });
+            transitionState(DisasterRecoveryState::FAILED);
+            updateStatistics(result);
+            if (!plan.plan_id.empty()) {
+                std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+                completed_plans_[plan.plan_id] = result;
+                completed_plan_fingerprints_[plan.plan_id] = fingerprint;
+            }
+            return result;
         }
     }
 
@@ -765,6 +801,26 @@ void DisasterRecoveryManager::clearStepHooks() {
     verification_hooks_.clear();
 }
 
+void DisasterRecoveryManager::setStorageAdapter(
+    std::shared_ptr<DisasterRecoveryStorageAdapter> adapter) noexcept {
+    storage_adapter_ = std::move(adapter);
+}
+
+void DisasterRecoveryManager::setTrafficAdapter(
+    std::shared_ptr<DisasterRecoveryTrafficAdapter> adapter) noexcept {
+    traffic_adapter_ = std::move(adapter);
+}
+
+void DisasterRecoveryManager::setMetadataAdapter(
+    std::shared_ptr<DisasterRecoveryMetadataAdapter> adapter) noexcept {
+    metadata_adapter_ = std::move(adapter);
+    if (metadata_adapter_) {
+        loadCompletedPlans(false);
+    } else {
+        loadCompletedPlans();
+    }
+}
+
 DisasterRecoveryState DisasterRecoveryManager::getState() const noexcept {
     return state_.load();
 }
@@ -839,21 +895,44 @@ bool DisasterRecoveryManager::runAdapterStep(
     const DisasterRecoveryPlan& plan,
     std::string& detail,
     DisasterRecoveryErrorCode& error_code) {
-    const auto adapter = hooks_.find(step);
-    if (adapter == hooks_.end()) {
+    const auto legacy_adapter = hooks_.find(step);
+    const bool uses_typed_storage =
+        legacy_adapter == hooks_.end() &&
+        storage_adapter_ &&
+        (step == DisasterRecoveryStep::SNAPSHOT_VALIDATION ||
+         step == DisasterRecoveryStep::RESTORE ||
+         step == DisasterRecoveryStep::REPLICA_CATCHUP ||
+         step == DisasterRecoveryStep::VERIFICATION);
+    const bool uses_typed_traffic =
+        legacy_adapter == hooks_.end() &&
+        traffic_adapter_ &&
+        step == DisasterRecoveryStep::TRAFFIC_SHIFT;
+    if (legacy_adapter == hooks_.end() &&
+        !uses_typed_storage &&
+        !uses_typed_traffic) {
         detail = "required operation adapter is not configured";
         error_code = DisasterRecoveryErrorCode::NOT_CONFIGURED;
         return false;
     }
-    const auto verifier = verification_hooks_.find(step);
-    if (verifier == verification_hooks_.end()) {
+    const auto legacy_verifier = verification_hooks_.find(step);
+    if (legacy_verifier == verification_hooks_.end() &&
+        !uses_typed_storage &&
+        !uses_typed_traffic) {
         detail = "independent verification adapter is not configured";
         error_code = DisasterRecoveryErrorCode::NOT_CONFIGURED;
         return false;
     }
 
     try {
-        if (!adapter->second(plan, detail)) {
+        bool acknowledged = false;
+        if (legacy_adapter != hooks_.end()) {
+            acknowledged = legacy_adapter->second(plan, detail);
+        } else if (uses_typed_storage) {
+            acknowledged = storage_adapter_->execute(step, plan, detail);
+        } else if (uses_typed_traffic) {
+            acknowledged = traffic_adapter_->shift(plan, detail);
+        }
+        if (!acknowledged) {
             if (detail.empty()) {
                 detail = "operation adapter did not acknowledge the request";
             }
@@ -871,16 +950,74 @@ bool DisasterRecoveryManager::runAdapterStep(
     }
 
     std::optional<DisasterRecoveryVerificationProof> proof;
-    try {
-        proof = verifier->second(plan, detail);
-    } catch (const std::exception& exception) {
-        detail = std::string("verification adapter threw: ") + exception.what();
-        error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
-        return false;
-    } catch (...) {
-        detail = "verification adapter threw an unknown exception";
-        error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
-        return false;
+    const auto verification_started = std::chrono::steady_clock::now();
+    const auto verification_timeout =
+        std::max(config_.verification_timeout, std::chrono::milliseconds::zero());
+    const auto verification_timed_out = [&] {
+        return std::chrono::steady_clock::now() - verification_started >=
+               verification_timeout;
+    };
+    const auto verification_attempts =
+        static_cast<uint64_t>(config_.max_verification_retries) + 1;
+
+    for (uint64_t attempt = 0; attempt < verification_attempts; ++attempt) {
+        if (verification_timed_out()) {
+            detail = "independent verification timed out";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+        try {
+            if (legacy_verifier != verification_hooks_.end()) {
+                proof = legacy_verifier->second(plan, detail);
+            } else if (uses_typed_storage) {
+                proof = storage_adapter_->verify(step, plan, detail);
+            } else if (uses_typed_traffic) {
+                proof = traffic_adapter_->verify(plan, detail);
+            }
+        } catch (const std::exception& exception) {
+            detail = std::string("verification adapter threw: ") + exception.what();
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        } catch (...) {
+            detail = "verification adapter threw an unknown exception";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+        if (verification_timed_out()) {
+            detail = "independent verification timed out";
+            error_code = DisasterRecoveryErrorCode::VERIFICATION_FAILED;
+            return false;
+        }
+
+        if (!proof) {
+            continue;
+        }
+
+        bool proof_matches = false;
+        switch (step) {
+            case DisasterRecoveryStep::SNAPSHOT_VALIDATION:
+            case DisasterRecoveryStep::RESTORE:
+            case DisasterRecoveryStep::VERIFICATION:
+                proof_matches =
+                    !proof->checksum.empty() &&
+                    proof->checksum == plan.snapshot_checksum;
+                break;
+            case DisasterRecoveryStep::REPLICA_CATCHUP:
+                proof_matches =
+                    proof->term == plan.required_term &&
+                    proof->lsn >= plan.required_lsn;
+                break;
+            case DisasterRecoveryStep::TRAFFIC_SHIFT:
+                proof_matches = proof->observed_site == plan.recovery_site;
+                break;
+            case DisasterRecoveryStep::PRECHECKS:
+            case DisasterRecoveryStep::EPOCH_FENCING:
+                proof_matches = false;
+                break;
+        }
+        if (proof_matches) {
+            break;
+        }
     }
 
     if (!proof) {
@@ -936,6 +1073,38 @@ bool DisasterRecoveryManager::persistCompletedPlan(
     const DisasterRecoveryPlan& plan,
     const DisasterRecoveryResult& result,
     std::string& detail) {
+    const std::string payload = encodeHex(plan.plan_id) + "|" +
+                                planFingerprint(plan) + "|" +
+                                std::to_string(result.fenced_epoch) + "|" +
+                                std::to_string(result.duration.count()) + "|" +
+                                encodeStepResults(result.step_results);
+    std::ostringstream record;
+    record << payload << '|' << std::hex << metadataChecksum(payload) << '\n';
+
+    if (metadata_adapter_) {
+        std::string adapter_detail;
+        bool appended = false;
+        try {
+            appended = metadata_adapter_->appendCompletedRecord(record.str(), adapter_detail);
+        } catch (const std::exception& exception) {
+            detail = std::string("shared DR metadata adapter threw: ") + exception.what();
+            return false;
+        } catch (...) {
+            detail = "shared DR metadata adapter threw an unknown exception";
+            return false;
+        }
+        if (!appended) {
+            detail = adapter_detail.empty()
+                         ? "shared DR metadata adapter rejected durable append"
+                         : adapter_detail;
+            return false;
+        }
+        detail = adapter_detail.empty()
+                     ? "shared DR metadata adapter acknowledged durable append"
+                     : adapter_detail;
+        return true;
+    }
+
     if (config_.metadata_log_path.empty()) {
         detail = "DR metadata persistence adapter is not configured";
         return false;
@@ -950,19 +1119,130 @@ bool DisasterRecoveryManager::persistCompletedPlan(
             return false;
         }
     }
-
-    const std::string payload = encodeHex(plan.plan_id) + "|" +
-                                planFingerprint(plan) + "|" +
-                                std::to_string(result.fenced_epoch) + "|" +
-                                std::to_string(result.duration.count()) + "|" +
-                                encodeStepResults(result.step_results);
-    std::ostringstream record;
-    record << payload << '|' << std::hex << metadataChecksum(payload) << '\n';
     return appendDurableMetadataRecord(metadata_path, record.str(), detail);
 }
 
 void DisasterRecoveryManager::loadCompletedPlans(bool metadata_lock_held) {
     metadata_load_error_.clear();
+    if (metadata_adapter_) {
+        std::vector<std::string> records;
+        std::string adapter_detail;
+        bool loaded = false;
+        try {
+            loaded = metadata_adapter_->loadCompletedRecords(records, adapter_detail);
+        } catch (const std::exception& exception) {
+            metadata_load_error_ =
+                std::string("shared DR metadata adapter threw: ") + exception.what();
+            return;
+        } catch (...) {
+            metadata_load_error_ =
+                "shared DR metadata adapter threw an unknown exception";
+            return;
+        }
+        if (!loaded) {
+            metadata_load_error_ = adapter_detail.empty()
+                                      ? "shared DR metadata adapter failed to load records"
+                                      : adapter_detail;
+            return;
+        }
+        std::ostringstream combined;
+        for (const auto& record : records) {
+            combined << record;
+        }
+
+        std::istringstream input(combined.str());
+        std::unordered_map<std::string, DisasterRecoveryResult> loaded_plans;
+        std::unordered_map<std::string, std::string> loaded_fingerprints;
+        std::string line;
+        while (std::getline(input, line)) {
+            std::array<std::string, 6> fields;
+            if (!splitMetadataRecord(line, fields)) {
+                metadata_load_error_ = "shared DR metadata contains a malformed record";
+                break;
+            }
+            const std::string payload = fields[0] + "|" + fields[1] + "|" + fields[2] +
+                                        "|" + fields[3] + "|" + fields[4];
+            uint64_t stored_checksum = 0;
+            uint64_t fenced_epoch = 0;
+            uint64_t duration_ms = 0;
+            try {
+                std::size_t checksum_chars = 0;
+                stored_checksum = std::stoull(fields[5], &checksum_chars, 16);
+                if (checksum_chars != fields[5].size()) {
+                    metadata_load_error_ = "shared DR metadata contains an invalid checksum";
+                    break;
+                }
+                std::size_t epoch_chars = 0;
+                fenced_epoch = std::stoull(fields[2], &epoch_chars);
+                if (epoch_chars != fields[2].size()) {
+                    metadata_load_error_ = "shared DR metadata contains an invalid fencing epoch";
+                    break;
+                }
+                std::size_t duration_chars = 0;
+                duration_ms = std::stoull(fields[3], &duration_chars);
+                if (duration_chars != fields[3].size() ||
+                    duration_ms > static_cast<uint64_t>(
+                        std::numeric_limits<std::chrono::milliseconds::rep>::max())) {
+                    metadata_load_error_ = "shared DR metadata contains an invalid duration";
+                    break;
+                }
+            } catch (const std::exception&) {
+                metadata_load_error_ = "shared DR metadata contains an invalid numeric field";
+                break;
+            }
+            if (stored_checksum != metadataChecksum(payload)) {
+                metadata_load_error_ = "shared DR metadata checksum validation failed";
+                break;
+            }
+            std::string plan_id;
+            std::string fingerprint;
+            std::vector<DisasterRecoveryStepResult> step_results;
+            if (!decodeHex(fields[0], plan_id) ||
+                !decodeHex(fields[1], fingerprint) ||
+                !decodeStepResults(fields[4], step_results) ||
+                plan_id.empty() || fingerprint.empty()) {
+                metadata_load_error_ = "shared DR metadata contains an invalid completion record";
+                break;
+            }
+            DisasterRecoveryResult recovered;
+            recovered.success = true;
+            recovered.final_state = DisasterRecoveryState::COMPLETED;
+            recovered.fenced_epoch = fenced_epoch;
+            recovered.duration = std::chrono::milliseconds(duration_ms);
+            recovered.step_results = std::move(step_results);
+            const auto existing = loaded_fingerprints.find(plan_id);
+            if (existing != loaded_fingerprints.end() && existing->second != fields[1]) {
+                metadata_load_error_ =
+                    "shared DR metadata contains conflicting records for one plan_id";
+                break;
+            }
+            loaded_plans[plan_id] = std::move(recovered);
+            loaded_fingerprints[plan_id] = fields[1];
+        }
+        if (!metadata_load_error_.empty()) {
+            return;
+        }
+        std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+        for (const auto& persisted_plan_id : persisted_plan_ids_) {
+            if (loaded_plans.find(persisted_plan_id) == loaded_plans.end()) {
+                metadata_load_error_ =
+                    "shared DR metadata lost a previously loaded completion record";
+                return;
+            }
+        }
+        for (const auto& persisted_plan_id : persisted_plan_ids_) {
+            completed_plans_.erase(persisted_plan_id);
+            completed_plan_fingerprints_.erase(persisted_plan_id);
+        }
+        persisted_plan_ids_.clear();
+        for (auto& [plan_id, recovered] : loaded_plans) {
+            completed_plans_[plan_id] = std::move(recovered);
+            completed_plan_fingerprints_[plan_id] = std::move(loaded_fingerprints[plan_id]);
+            persisted_plan_ids_.insert(plan_id);
+        }
+        return;
+    }
+
     if (config_.metadata_log_path.empty()) {
         return;
     }
@@ -1151,17 +1431,19 @@ bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan,
         error_code = DisasterRecoveryErrorCode::FENCING_UNAVAILABLE;
         return false;
     }
-    if (config_.metadata_log_path.empty()) {
+    if (!metadata_adapter_ && config_.metadata_log_path.empty()) {
         detail = "DR metadata persistence adapter is not configured";
         error_code = DisasterRecoveryErrorCode::NOT_CONFIGURED;
         return false;
     }
 
-    std::string metadata_error;
-    if (!appendDurableMetadataRecord(config_.metadata_log_path, {}, metadata_error)) {
-        detail = std::move(metadata_error);
-        error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
-        return false;
+    if (!metadata_adapter_) {
+        std::string metadata_error;
+        if (!appendDurableMetadataRecord(config_.metadata_log_path, {}, metadata_error)) {
+            detail = std::move(metadata_error);
+            error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
+            return false;
+        }
     }
 #ifdef THEMIS_TEST_BUILD
     if (test_quorum_override_) {
