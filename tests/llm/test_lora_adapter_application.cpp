@@ -24,10 +24,22 @@
 #include <filesystem>
 #include <chrono>
 #include <fstream>
+#include <fmt/format.h>
 #include <spdlog/spdlog.h>
 
 using namespace themis::llm;
 using namespace std::chrono;
+
+TEST(LoraAdapterFileTimestampTest, FormatsNativeAndWideCountsWithoutNarrowing) {
+    const std::filesystem::file_time_type::duration native_count{-123456789};
+    EXPECT_EQ(fmt::format("{}", native_count.count()), "-123456789");
+
+#if defined(__SIZEOF_INT128__)
+    const __int128 wide_count = static_cast<__int128>(1) << 100;
+    EXPECT_EQ(fmt::format("{}", wide_count), "1267650600228229401496703205376");
+    EXPECT_EQ(fmt::format("{}", -wide_count), "-1267650600228229401496703205376");
+#endif
+}
 
 class LoraAdapterApplicationTest : public ::testing::Test {
 protected:

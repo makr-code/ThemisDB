@@ -14,6 +14,7 @@
 #include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
 #include "utils/thread_join_utils.h"
+#include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <array>
@@ -654,7 +655,7 @@ namespace {
     std::error_code time_ec;
     const auto mtime = fs::last_write_time(path, time_ec);
     key += "|" + (time_ec ? std::string("?")
-                          : std::to_string(mtime.time_since_epoch().count()));
+                          : fmt::format("{}", mtime.time_since_epoch().count()));
     return key;
 }
 
