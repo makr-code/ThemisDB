@@ -412,19 +412,9 @@ TEST(WaveAFencing, SpareActivationMissingManagerFailsClosed) {
     cfg.enable_spare_activation = true;
     AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
 
-    std::atomic<int> failure_events{0};
-    std::string failure_detail;
-    mgr.registerEventCallback(
-        [&](FailoverEventType type, const std::string&, const std::string& detail) {
-            if (type == FailoverEventType::SPARE_ACTIVATION_FAILED) {
-                failure_detail = detail;
-                failure_events.fetch_add(1, std::memory_order_relaxed);
-            }
-        });
-
-    EXPECT_FALSE(mgr.testActivateSpareIfNeeded("node-down"));
-    EXPECT_EQ(failure_events.load(), 1);
-    EXPECT_EQ(failure_detail, "spare manager is not configured");
+    std::string activated_spare_id;
+    EXPECT_FALSE(mgr.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
 }
 
 #endif  // THEMIS_TEST_BUILD

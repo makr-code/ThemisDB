@@ -7,6 +7,7 @@ import queue
 from pathlib import Path
 import sys
 import tempfile
+import time
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -612,6 +613,107 @@ class CrashReportTests(unittest.TestCase):
         response = subprocess.CompletedProcess([], 0, "VERIFIED 3\n", "")
         with patch.object(HARNESS.subprocess, "run", return_value=response):
             self.assertEqual(HARNESS.verify_replay(Path("worker"), Path("wal"), 3, True), 3)
+
+    def test_real_writer_late_append_failure_and_successful_pending_outcomes(self):
+        # A protocol fixture, not WALStorage: exercise real pipes, process kill,
+        # report retention, and verifier subprocesses with a deterministic prefix.
+        original_popen = subprocess.Popen
+        original_wait = HARNESS.wait_for_append_started
+        for outcome in (
+            "failure_stdout", "failure_stderr", "failure_with_prior_error",
+            "failure_with_sanitizer", "absent", "appended",
+        ):
+            with self.subTest(outcome=outcome), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                ready = root / "ready"
+                verified = root / "verified"
+                fixture = root / "worker.py"
+                fixture.write_text(
+                    "import pathlib, sys, time\n"
+                    f"outcome = {outcome!r}\n"
+                    f"ready = pathlib.Path({str(ready)!r})\n"
+                    f"verified = pathlib.Path({str(verified)!r})\n"
+                    "mode, directory, count = sys.argv[1:]\n"
+                    "wal = pathlib.Path(directory)\n"
+                    "if mode == 'verify':\n"
+                    "    verified.write_text('called')\n"
+                    "    entries = ''.join(p.read_text() for p in sorted(wal.glob('wal_*.log'))).splitlines()\n"
+                    "    expected = int(count)\n"
+                    "    if len(entries) != expected:\n"
+                    "        print(f'Expected {expected} recovered entries, got {len(entries)}', file=sys.stderr)\n"
+                    "        sys.exit(6)\n"
+                    "    if entries != [f'ack_{i}' for i in range(1, expected + 1)]:\n"
+                    "        sys.exit(7)\n"
+                    "    print(f'VERIFIED {expected}')\n"
+                    "    sys.exit(0)\n"
+                    "wal.mkdir()\n"
+                    "for i in range(1, 13):\n"
+                    "    print(f'APPEND_STARTED {i}', flush=True)\n"
+                    "    if i == 12 and outcome.startswith('failure'):\n"
+                    "        print('WAL append failed: injected failure', flush=True,\n"
+                    "              file=sys.stderr if outcome.endswith('stderr') else sys.stdout)\n"
+                    "        if outcome == 'failure_with_sanitizer':\n"
+                    "            print('wal.cpp:12:3: runtime error: invalid load', flush=True)\n"
+                    "    if i < 12 or outcome == 'appended':\n"
+                    "        with (wal / f'wal_{(i - 1) // 3 + 1:06}.log').open('a') as f:\n"
+                    "            f.write(f'ack_{i}\\n')\n"
+                    "        print(f'ACK {i} {i}', flush=True)\n"
+                    "    if i == 12:\n"
+                    "        ready.write_text('emitted')\n"
+                    "        time.sleep(30)\n"
+                    "    if sys.stdin.readline().strip() != 'continue': sys.exit(4)\n",
+                    encoding="utf-8",
+                )
+
+                def start_process(args, **kwargs):
+                    return original_popen([sys.executable, str(fixture), *args[1:]], **kwargs)
+
+                def wait_for_start(output, process, index):
+                    original_wait(output, process, index)
+                    if index == 12:
+                        deadline = time.monotonic() + 10
+                        while not ready.exists() and time.monotonic() < deadline:
+                            time.sleep(0.01)
+                        self.assertTrue(ready.exists(), "writer did not emit pending outcome")
+                        self.assertIsNone(process.poll(), "writer exited before forced kill")
+                        if outcome == "failure_with_prior_error":
+                            raise RuntimeError("handshake failure")
+
+                report = root / "report.json"
+                with patch.object(HARNESS.subprocess, "Popen", side_effect=start_process), \
+                     patch.object(HARNESS, "wait_for_append_started", side_effect=wait_for_start):
+                    if outcome.startswith("failure"):
+                        with self.assertRaisesRegex(HARNESS.CrashIterationFailure,
+                                                    "WAL append failed: injected failure"):
+                            HARNESS.main(["--worker", sys.executable, "--iterations", "1",
+                                          "--scenario", "unobserved-append",
+                                          "--report", str(report)])
+                    else:
+                        self.assertEqual(HARNESS.main([
+                            "--worker", sys.executable, "--iterations", "1",
+                            "--scenario", "unobserved-append", "--report", str(report),
+                        ]), 0)
+                saved = json.loads(report.read_text())
+                if outcome.startswith("failure"):
+                    self.assertEqual(saved["status"], "failed")
+                    self.assertEqual(saved["results"], [])
+                    self.assertIn("WAL append failed: injected failure", saved["error"])
+                    self.assertFalse(verified.exists())
+                    artifact = Path(saved["failure_artifact"])
+                    self.assertIn("WAL append failed: injected failure",
+                                  (artifact / "writer.log").read_text())
+                    self.assertIn("WAL append failed: injected failure",
+                                  (artifact / "failure.txt").read_text())
+                    if outcome == "failure_with_prior_error":
+                        self.assertIn("handshake failure", saved["error"])
+                    if outcome == "failure_with_sanitizer":
+                        self.assertIn("writer sanitizer", saved["error"])
+                else:
+                    self.assertEqual(saved["status"], "passed")
+                    self.assertTrue(verified.exists())
+                    self.assertEqual(saved["results"][0]["recovered_entries"],
+                                     12 if outcome == "appended" else 11)
+                    self.assertEqual(saved["results"][0]["verified_reopens"], 2)
 
     def test_verifier_timeout_preserves_output_and_never_retries(self):
         for stdout, stderr in (

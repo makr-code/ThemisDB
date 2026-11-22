@@ -374,6 +374,8 @@ def run_iteration(
             if process.stdout is not None:
                 process.stdout.close()
             reader_error: OSError | UnicodeError | None = None
+            late_writer_error: RuntimeError | None = None
+            # A released append can fail after its start marker but before the kill.
             while True:
                 try:
                     remaining = output.get_nowait()
@@ -381,6 +383,17 @@ def run_iteration(
                     break
                 if isinstance(remaining, (OSError, UnicodeError)):
                     reader_error = remaining
+                elif isinstance(remaining, str) and (
+                    remaining.startswith("WAL open failed:")
+                    or remaining.startswith("WAL append failed:")
+                ):
+                    if late_writer_error is None:
+                        late_writer_error = RuntimeError(f"writer failed: {remaining}")
+            if late_writer_error is not None:
+                if writer_error is not None:
+                    writer_error = RuntimeError(f"{writer_error}; {late_writer_error}")
+                else:
+                    writer_error = late_writer_error
             if failure_dir is not None:
                 try:
                     (workspace / "writer.log").write_text(
@@ -403,6 +416,9 @@ def run_iteration(
                 if writer_error is not None:
                     raise RuntimeError(f"{writer_error}; {sanitizer_error}") from sanitizer_error
                 raise
+            if late_writer_error is not None:
+                assert writer_error is not None
+                raise writer_error
 
         segments = list(wal_dir.glob("wal_*.log"))
         if failure_dir is not None:

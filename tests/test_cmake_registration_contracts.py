@@ -17,6 +17,94 @@ ROOT = Path(__file__).resolve().parents[1]
     "CMake, CTest and Ninja are required",
 )
 class CMakeRegistrationContracts(unittest.TestCase):
+    def test_module_dependencies_and_scraper_includes(self):
+        test_sources = {
+            "chaos": ("test_chaos_network.cpp",),
+            "content": ("test_content_metrics.cpp",),
+            "ethics": ("test_ethics_ai_pipeline.cpp",),
+            "scraper": ("test_scraper_plugin.cpp", "test_scraper_v12_features_focused.cpp"),
+        }
+        with tempfile.TemporaryDirectory(prefix="themis-module-registration-") as directory:
+            source = Path(directory) / "src"
+            source.mkdir()
+            for module, names in test_sources.items():
+                module_dir = source / module
+                module_dir.mkdir()
+                shutil.copyfile(ROOT / "tests" / module / "CMakeLists.txt",
+                                module_dir / "CMakeLists.txt")
+                for name in names:
+                    (module_dir / name).touch()
+            (source / "CMakeLists.txt").write_text(
+                f"""cmake_minimum_required(VERSION 3.20)
+project(ModuleRegistrationContracts NONE)
+set(THEMIS_ROOT_DIR [[{ROOT}]])
+add_library(themis_core INTERFACE)
+add_library(spdlog::spdlog INTERFACE IMPORTED)
+add_library(Threads::Threads INTERFACE IMPORTED)
+add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
+foreach(module IN ITEMS network content query storage)
+    if(ENABLE_${{module}})
+        add_library(themis_${{module}} INTERFACE)
+    endif()
+endforeach()
+function(add_executable target)
+    add_library(${{target}} INTERFACE)
+endfunction()
+function(target_include_directories target visibility)
+    _target_include_directories(${{target}} INTERFACE ${{ARGN}})
+endfunction()
+function(target_link_libraries target visibility)
+    _target_link_libraries(${{target}} INTERFACE ${{ARGN}})
+endfunction()
+function(target_sources)
+endfunction()
+function(target_compile_definitions)
+endfunction()
+function(target_compile_features)
+endfunction()
+function(themis_register_module_focused_test)
+endfunction()
+function(add_test)
+endfunction()
+function(set_tests_properties)
+endfunction()
+foreach(module IN ITEMS chaos content ethics scraper)
+    add_subdirectory(${{module}})
+endforeach()
+function(check_link target dependency enabled)
+    get_target_property(links ${{target}} INTERFACE_LINK_LIBRARIES)
+    if(NOT "themis_core" IN_LIST links)
+        message(FATAL_ERROR "${{target}} is missing themis_core")
+    endif()
+    if(enabled AND NOT "${{dependency}}" IN_LIST links)
+        message(FATAL_ERROR "${{target}} is missing ${{dependency}}")
+    elseif(NOT enabled AND "${{dependency}}" IN_LIST links)
+        message(FATAL_ERROR "${{target}} links missing ${{dependency}}")
+    endif()
+endfunction()
+check_link(module_chaos_test_chaos_network_focused themis_network "${{ENABLE_network}}")
+check_link(module_content_test_content_metrics_focused themis_content "${{ENABLE_content}}")
+check_link(module_ethics_test_ethics_ai_pipeline_focused themis_query "${{ENABLE_query}}")
+check_link(module_ethics_test_ethics_ai_pipeline_focused themis_storage "${{ENABLE_storage}}")
+get_target_property(plugin_includes module_scraper_test_scraper_plugin_focused INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(other_includes module_scraper_test_scraper_v12_features_focused_focused INTERFACE_INCLUDE_DIRECTORIES)
+set(plugin_dir "${{THEMIS_ROOT_DIR}}/plugins/scraper/include")
+if(NOT plugin_dir IN_LIST plugin_includes OR plugin_dir IN_LIST other_includes)
+    message(FATAL_ERROR "Scraper plugin include is missing or leaked to another target")
+endif()
+""",
+                encoding="utf-8",
+            )
+            for enabled in ((), ("network", "content", "query", "storage"),
+                            ("query",), ("storage",)):
+                with self.subTest(enabled=enabled):
+                    build = Path(directory) / ("build-" + ("-".join(enabled) or "none"))
+                    subprocess.run(
+                        ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja",
+                         *(f"-DENABLE_{module}=ON" for module in enabled)],
+                        text=True, capture_output=True, check=True,
+                    )
+
     def test_registration_with_and_without_python(self):
         test_cmake = (ROOT / "tests" / "CMakeLists.txt").read_text(encoding="utf-8")
         storage_cmake = (ROOT / "tests" / "storage" / "CMakeLists.txt").read_text(encoding="utf-8")

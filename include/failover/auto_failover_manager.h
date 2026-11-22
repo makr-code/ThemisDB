@@ -326,14 +326,6 @@ public:
         updateStatistics(result);
         return result;
     }
-    /**
-     * @brief Test spare activation adapter availability.
-     * @param[in] failed_node_id Identifier of the failed node.
-     * @return True only when the configured spare path can activate successfully.
-     */
-    bool testActivateSpareIfNeeded(const std::string& failed_node_id) {
-        return activateSpareIfNeeded(failed_node_id);
-    }
     void testSetHealthCheckOverride(
         std::function<std::map<std::string, bool>()> fn) {
         health_check_override_ = std::move(fn);

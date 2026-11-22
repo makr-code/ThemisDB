@@ -33,7 +33,9 @@ foreach(_src IN LISTS CONTENT_MODULE_TEST_SOURCES)
        _stem STREQUAL "test_content_deduplication" OR
        _stem STREQUAL "test_content_policy" OR
        _stem STREQUAL "test_content_con007_con012_remediations")
-        target_link_libraries(${_target} PRIVATE themis_content)
+        if(TARGET themis_content)
+            target_link_libraries(${_target} PRIVATE themis_content)
+        endif()
     endif()
     if(_stem STREQUAL "test_content_metrics" OR
        _stem STREQUAL "test_content_security" OR

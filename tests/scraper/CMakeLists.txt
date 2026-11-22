@@ -8,19 +8,13 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_scraper_${_stem}_focused")
     set(_ctest "${_stem}_scraper_FocusedTests")
+    set(_extra_sources)
+    set(_extra_include_dirs)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-        ${_extra_include_dirs}
-    )
-    set(_extra_sources)
-    set(_extra_include_dirs)
     if("${_stem}" STREQUAL "test_scraper_plugin")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_config.cpp
@@ -47,6 +41,12 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/scraper/scraper_plugin.cpp
         )
     endif()
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${_extra_include_dirs}
+    )
     if(_extra_sources)
         target_sources(${_target} PRIVATE ${_extra_sources})
     endif()
