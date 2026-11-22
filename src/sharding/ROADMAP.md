@@ -155,8 +155,8 @@ application-level RPC reordering, coordinator/participant/leader crash
 matrices beyond this five-process four-participant case, a true
 concurrent-history checker beyond the bounded write-conflict/read-replay test,
 72-hour nightly evidence, Windows/macOS process-transport coverage, and
-successful release-platform/CI artifact runs. The latest Wave B PR run
-[45051384136](https://github.com/makr-code/ThemisDB/actions/runs/45051384136)
+successful release-platform/CI artifact runs. A recent Wave B PR run
+[45053427546](https://github.com/makr-code/ThemisDB/actions/runs/45053427546)
 ended `action_required` with zero jobs and no artifact; the workflow wiring
 must not be counted as execution evidence until a completed run and artifact
 are verified.

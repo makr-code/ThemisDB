@@ -178,8 +178,8 @@ This runbook is the operator-facing guide for the principal failure modes in the
   commit-linked JSON artifact; the release matrix runs the focused test on
   Linux AMD64/ARM64, Windows AMD64, and macOS ARM64, uploading one artifact per
   lane. These artifacts are not real-network or process-transport evidence.
-- The latest observed Wave B run
-  [45051384136](https://github.com/makr-code/ThemisDB/actions/runs/45051384136)
+- A recent Wave B run
+  [45053427546](https://github.com/makr-code/ThemisDB/actions/runs/45053427546)
   ended `action_required` with zero jobs. No successful workflow artifact has
   yet been verified; rerun/approval and artifact inspection remain necessary.
 - These are Linux-only test results, not evidence for Windows/macOS, release

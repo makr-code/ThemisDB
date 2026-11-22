@@ -45,8 +45,8 @@ Status: Active
   the commit and workflow run ID. The release matrix runs and uploads this
   focused in-process test on Linux AMD64/ARM64, Windows AMD64, and macOS ARM64;
   those lanes do not establish cross-platform gRPC/process transport.
-- The latest observed Wave B PR run
-  [45051384136](https://github.com/makr-code/ThemisDB/actions/runs/45051384136)
+- A recent Wave B PR run
+  [45053427546](https://github.com/makr-code/ThemisDB/actions/runs/45053427546)
   ended `action_required` with zero jobs. No successful workflow artifact or
   release-platform test pass has yet been verified.
 
