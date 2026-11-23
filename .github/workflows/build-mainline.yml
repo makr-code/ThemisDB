@@ -82,6 +82,7 @@ jobs:
     uses: ./.github/workflows/release-build-matrix.yml
     with:
       build_matrix: community-only
+      run_ctest: false
       os: all
       architecture: all
       edition: community
@@ -219,30 +220,40 @@ jobs:
           MACOS_RESULT: ${{ needs.validation-gates.outputs.macos_kqueue_result }}
         run: |
           if [[ "${MATRIX_RESULT}" == success && "${BUILD_RESULT}" == success && "${FAST_RESULT}" == success && "${CTEST_RESULT}" == success && "${BENCHMARK_RESULT}" == success && "${MACOS_RESULT}" == success ]]; then
-            echo "status_label=ci/build-ok" >> "$GITHUB_OUTPUT"
-            echo "status_text=passing" >> "$GITHUB_OUTPUT"
-            echo "status_icon=✅" >> "$GITHUB_OUTPUT"
-            echo "status_reason=platform builds and all reusable validation gates succeeded" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-ok"
+              echo "status_text=passing"
+              echo "status_icon=✅"
+              echo "status_reason=platform builds and all reusable validation gates succeeded"
+            } >> "$GITHUB_OUTPUT"
           elif [[ "${MATRIX_RESULT}" == cancelled || "${BUILD_RESULT}" == cancelled || "${FAST_RESULT}" == cancelled || "${CTEST_RESULT}" == cancelled || "${BENCHMARK_RESULT}" == cancelled || "${MACOS_RESULT}" == cancelled || "${MATRIX_RESULT}" == skipped || "${BUILD_RESULT}" == skipped || "${FAST_RESULT}" == skipped || "${CTEST_RESULT}" == skipped || "${BENCHMARK_RESULT}" == skipped || "${MACOS_RESULT}" == skipped ]]; then
-            echo "status_label=ci/build-cancelled" >> "$GITHUB_OUTPUT"
-            echo "status_text=cancelled, skipped, or incomplete" >> "$GITHUB_OUTPUT"
-            echo "status_icon=⏭️" >> "$GITHUB_OUTPUT"
-            echo "status_reason=a required platform build or validation gate did not complete" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-cancelled"
+              echo "status_text=cancelled, skipped, or incomplete"
+              echo "status_icon=⏭️"
+              echo "status_reason=a required platform build or validation gate did not complete"
+            } >> "$GITHUB_OUTPUT"
           elif [[ "${BUILD_RESULT}" == failure || "${FAST_RESULT}" == failure || "${MATRIX_RESULT}" == failure ]]; then
-            echo "status_label=ci/build-failed" >> "$GITHUB_OUTPUT"
-            echo "status_text=failing (platform or compiler build)" >> "$GITHUB_OUTPUT"
-            echo "status_icon=❌" >> "$GITHUB_OUTPUT"
-            echo "status_reason=mainline platform matrix or runtime build failed" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing (platform or compiler build)"
+              echo "status_icon=❌"
+              echo "status_reason=mainline platform matrix or runtime build failed"
+            } >> "$GITHUB_OUTPUT"
           elif [[ "${CTEST_RESULT}" == failure || "${BENCHMARK_RESULT}" == failure || "${MACOS_RESULT}" == failure ]]; then
-            echo "status_label=ci/build-ok,ci/test-failed" >> "$GITHUB_OUTPUT"
-            echo "status_text=build ok, validation gate failing" >> "$GITHUB_OUTPUT"
-            echo "status_icon=⚠️" >> "$GITHUB_OUTPUT"
-            echo "status_reason=platform builds passed but a CTest or benchmark gate failed" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-ok,ci/test-failed"
+              echo "status_text=build ok, validation gate failing"
+              echo "status_icon=⚠️"
+              echo "status_reason=platform builds passed but a CTest or benchmark gate failed"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "status_label=ci/build-cancelled" >> "$GITHUB_OUTPUT"
-            echo "status_text=unknown or incomplete" >> "$GITHUB_OUTPUT"
-            echo "status_icon=⚠️" >> "$GITHUB_OUTPUT"
-            echo "status_reason=one or more required outcomes were unavailable" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-cancelled"
+              echo "status_text=unknown or incomplete"
+              echo "status_icon=⚠️"
+              echo "status_reason=one or more required outcomes were unavailable"
+            } >> "$GITHUB_OUTPUT"
           fi
 
       - name: Upsert build tracker issue

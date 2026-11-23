@@ -216,12 +216,19 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
 
         for target in (
-            "module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests",
-            "module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests",
-            "module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests",
+            "module_config_test_config_file_watcher_focused",
+            "module_plugins_test_plugin_hot_plug_focused",
+            "module_plugins_test_plugin_hot_reload_enhanced_focused",
         ):
             with self.subTest(target=target):
                 self.assertIn(f"build_target {target}", macos_kqueue_job)
+        for test_name in (
+            "test_config_file_watcher_config_FocusedTests",
+            "test_plugin_hot_plug_plugins_FocusedTests",
+            "test_plugin_hot_reload_enhanced_plugins_FocusedTests",
+        ):
+            with self.subTest(test_name=test_name):
+                self.assertIn(test_name, macos_kqueue_job)
 
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
         workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
@@ -352,13 +359,20 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_mainline_delegates_ctest_and_benchmarks_to_reusable_gates(self) -> None:
         mainline = MAINLINE_WORKFLOW.read_text(encoding="utf-8")
         gates = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        release_matrix = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
         build_job = extract_yaml_job_block(mainline, "build")
+        platform_matrix_job = extract_yaml_job_block(mainline, "step2-platform-matrix")
 
         self.assertIn("uses: ./.github/workflows/reusable-mainline-validation-gates.yml", mainline)
+        self.assertIn("run_ctest: false", platform_matrix_job)
         self.assertIn("-DTHEMIS_BUILD_TESTS=OFF", build_job)
         self.assertIn("-DTHEMIS_BUILD_BENCHMARKS=OFF", build_job)
         self.assertNotRegex(mainline, re.compile(r"\bctest\s+--", re.IGNORECASE))
         self.assertNotIn("themis_benchmarks_all_eligible", mainline)
+        self.assertIn("run_ctest:", release_matrix)
+        self.assertIn('if not run_ctest:', release_matrix)
+        self.assertIn('entry["dis10_serializability_test"] = False', release_matrix)
+        self.assertIn('r"(?m)^ctest --preset [^\\n]*\\n"', release_matrix)
         self.assertIn("workflow_call:", gates)
         self.assertIn("uses: ./.github/workflows/reusable-cmake-build.yml", gates)
         self.assertIn("uses: ./.github/workflows/reusable-benchmark-runner.yml", gates)

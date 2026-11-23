@@ -158,7 +158,7 @@ bash .github/workflows/gate-release-benchmark-validation.yml
 ### Key Changes After build-mainline Refactoring
 
 1. **Mainline builds and validation gates are separated**
-   - `build-mainline` owns platform/runtime builds through `release-build-matrix.yml`
+   - `build-mainline` owns platform/runtime builds through `release-build-matrix.yml` with `run_ctest: false`; CTest/benchmark work is owned by reusable validation gates
    - Linux CTest, benchmark execution, and macOS kqueue validation are delegated to
      `reusable-mainline-validation-gates.yml`
    - PR-focused gates retain their independent triggers and fast feedback scope

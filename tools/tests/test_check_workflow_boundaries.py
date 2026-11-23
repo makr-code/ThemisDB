@@ -809,14 +809,15 @@ def test_cache_snapshots_save_only_growth_before_downstream_failures(
     assert steps.index(save) < next(i for i, step in enumerate(steps) if step.get("name") == next_step)
     if workflow_name == "reusable-cmake-build.yml":
         assert "inputs.enable_sccache_gha" in restore["with"]["key"]
-        assert "-gha" in restore["with"]["key"]
-        assert "github.run_id" not in restore["with"]["restore-keys"]
+        assert "-gha-snapshot-" in restore["with"]["key"]
+        assert "github.run_id" in restore["with"]["key"]
+        assert "-gha-snapshot-" in restore["with"]["restore-keys"]
         assert "cache-hit != 'true'" in save["if"]
         after = next(step for step in steps if step.get("id") == "cache_after")
         assert "steps.configure.outcome == 'failure'" in after["if"]
         assert len(restore["with"]["restore-keys"].strip().splitlines()) == 2
         sccache_path = next(step for step in steps if step.get("name") == "Prioritize the configured sccache binary")
-        assert 'echo "$(dirname "${SCCACHE_PATH}")" >> "$GITHUB_PATH"' in sccache_path["run"]
+        assert 'dirname "${SCCACHE_PATH}" >> "$GITHUB_PATH"' in sccache_path["run"]
         assert 'echo "SCCACHE_DISABLE=1" >> "$GITHUB_ENV"' in sccache_path["run"]
     else:
         assert "github.run_id" in restore["with"]["key"]

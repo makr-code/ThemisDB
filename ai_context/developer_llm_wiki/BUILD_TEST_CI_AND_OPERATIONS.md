@@ -95,6 +95,7 @@ Status: Active
 ## Platform-independent release artifacts
 
 - [`release-build-matrix.yml`](../../.github/workflows/release-build-matrix.yml) validates packages per selected OS/architecture lane. If a lane fails before producing its package artifact, the runtime gate skips that lane rather than treating the missing package as a validation failure.
+- `release-build-matrix.yml` defaults to `run_ctest: true` for existing release callers. `build-mainline.yml` sets `run_ctest: false` and runs CTest/benchmarks only through its separate reusable validation gates.
 - Mainline packaging and nightly GitHub Release publication may proceed when at least one package exists and every produced package passes the runtime gate. A runtime validation failure still blocks publication, and a release with no distributable package fails closed.
 - A partial platform release does not hide the failed build lane: the aggregate matrix and final release status remain failed. Nightly Docker manifest promotion still requires both validated `amd64` and `arm64` image digests.
 ## .github/workflows/benchmark-gate.yml

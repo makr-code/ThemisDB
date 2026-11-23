@@ -96,7 +96,7 @@ endif()
             self.assertEqual(after.returncode, 0, after.stdout + after.stderr)
 
     def plan(self, selector="all", edition="community", build_type="Release", concurrency="2",
-             ref="", source_sha=""):
+             ref="", source_sha="", run_ctest=True):
         command = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
         result = subprocess.run(
             ["bash", "-euo", "pipefail", "-c", command.replace(' >> "$GITHUB_OUTPUT"', "")],
@@ -104,10 +104,30 @@ endif()
                  "ARCH_SELECTOR": "all", "EDITION": edition, "BUILD_TYPE": build_type,
                  "PACKAGING": "auto", "DISTRIBUTION": "all", "RUN_NUMBER": "1",
                  "WINDOWS_DEPENDENCY_CONCURRENCY": concurrency, "GITHUB_REF": ref,
-                 "GITHUB_SHA": "test-sha", "GITHUB_RUN_ID": "123", "SOURCE_SHA": source_sha},
+                 "GITHUB_SHA": "test-sha", "GITHUB_RUN_ID": "123", "SOURCE_SHA": source_sha,
+                 "RUN_CTEST": str(run_ctest).lower()},
             capture_output=True, text=True,
         )
         return result, dict(line.split("=", 1) for line in result.stdout.splitlines() if "=" in line)
+
+    def test_ctest_can_be_disabled_for_matrix_callers_with_external_gates(self):
+        for run_ctest in (True, False):
+            with self.subTest(run_ctest=run_ctest):
+                result, values = self.plan(run_ctest=run_ctest)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                lanes = json.loads(values["matrix"])["include"]
+                for lane in lanes:
+                    if lane["id"].startswith("windows-"):
+                        self.assertNotIn("ctest", lane["validation_command"].lower())
+                        continue
+                    if run_ctest:
+                        self.assertIn("ctest --preset", lane["validation_command"])
+                        self.assertTrue(lane["dis10_serializability_test"])
+                    else:
+                        self.assertNotIn("ctest", lane["validation_command"].lower())
+                        self.assertFalse(lane["dis10_serializability_test"])
+                    self.assertIn("cmake --install", lane["validation_command"])
+                    self.assertIn("cpack --config", lane["validation_command"])
 
     def test_timeout_kills_descendants_and_preserves_completed_archives(self):
         with tempfile.TemporaryDirectory(prefix="dependency space ") as temp:
@@ -309,7 +329,7 @@ endif()
         step = self.named("Install sccache")
         self.assertEqual(
             step["if"],
-            "inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')",
+            "steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')",
         )
         self.assertEqual(step["uses"], "mozilla-actions/sccache-action@v0.0.6")
 
@@ -601,7 +621,10 @@ endif()
         self.assertTrue(download["with"]["merge-multiple"])
         self.assertNotIn("github.run_attempt", str(download))
         self.assertNotIn("continue-on-error", download)
-        self.assertEqual(self.named("Restore CMake build caches")["if"], "inputs.windows_dependency_mode != 'consume'")
+        self.assertEqual(
+            self.named("Restore CMake build caches")["if"],
+            "inputs.windows_dependency_mode != 'consume' && steps.reuse_validate.outcome != 'success'",
+        )
         consumer = self.release["jobs"]["release-platform-matrix"]
         self.assertIn("windows-dependencies", consumer["needs"])
         self.assertIn("needs.windows-dependencies.outputs.dependency-artifact-id",

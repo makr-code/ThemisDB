@@ -228,7 +228,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus runtime/benchmark CTest gates; manual dry-run preserves tests and artifacts) | active |
+| `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus reusable Linux CTest, benchmark, and macOS kqueue gates) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (scheduled/manual cache-free ASan+UBSan suite and TSan transaction/sharding/LLM; run evidence) | active |

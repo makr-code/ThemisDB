@@ -45,6 +45,11 @@ on:
         required: false
         default: all
         type: string
+      run_ctest:
+        description: Run CTest in platform lanes (disable when a separate reusable gate owns tests)
+        required: false
+        default: true
+        type: boolean
       windows_dependency_concurrency:
         description: Modest vcpkg parallelism, independent of serial ThemisDB MSVC
         required: false
@@ -137,6 +142,7 @@ jobs:
           BUILD_TYPE: ${{ inputs.build_type }}
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
+          RUN_CTEST: ${{ inputs.run_ctest }}
           RUN_NUMBER: ${{ github.run_number }}
           SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
@@ -155,6 +161,7 @@ jobs:
           build_type = os.environ["BUILD_TYPE"].strip()
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
+          run_ctest = os.environ.get("RUN_CTEST", "true").strip().lower() == "true"
           run_number = os.environ["RUN_NUMBER"]
           dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
@@ -394,6 +401,18 @@ jobs:
           for entry in entries:
               if not entry.get("enabled"):
                   continue
+              if not run_ctest:
+                  entry["dis10_serializability_test"] = False
+                  entry["validation_command"] = re.sub(
+                      r"(?m)^ctest --preset [^\n]*\n",
+                      "",
+                      entry["validation_command"],
+                  )
+                  entry["artifact_paths"] = re.sub(
+                      r"(?m)^test-[^\n]*\n",
+                      "",
+                      entry["artifact_paths"],
+                  )
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
               if lane_os == "linux":
                   entry["setup_command"] = entry["setup_command"].replace(

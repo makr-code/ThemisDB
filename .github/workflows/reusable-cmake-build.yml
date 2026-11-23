@@ -476,10 +476,10 @@ jobs:
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-          key: ${{ inputs.dependency_cache_key || (inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-gha', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) || format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-{6}-{7}{8}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt, inputs.windows_dependency_mode != 'off' && '-prepare' || '')) }}
+          key: ${{ inputs.dependency_cache_key || (inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-gha-snapshot-{6}-{7}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt) || format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-{6}-{7}{8}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt, inputs.windows_dependency_mode != 'off' && '-prepare' || '')) }}
           restore-keys: |
-            ${{ inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) || '' }}
-            ${{ inputs.windows_dependency_mode != 'consume' && !(inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha) && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
+            ${{ inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-gha-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) || '' }}
+            ${{ inputs.windows_dependency_mode != 'consume' && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
           enableCrossOsArchive: false
 
       - name: Download completed Windows dependency snapshot
@@ -568,7 +568,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -n "${SCCACHE_PATH:-}" ] && [ -x "${SCCACHE_PATH}" ]; then
-            echo "$(dirname "${SCCACHE_PATH}")" >> "$GITHUB_PATH"
+            dirname "${SCCACHE_PATH}" >> "$GITHUB_PATH"
             echo "SCCACHE_PATH=${SCCACHE_PATH}" >> "$GITHUB_ENV"
             echo "Using configured sccache binary: ${SCCACHE_PATH}"
           else
