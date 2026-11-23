@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 #include "storage/rocksdb_wrapper.h"
+#endif
 #include "storage/tensor_network_storage_engine.h"
 #include "tensor/dream_candidate_store.h"
 
@@ -10,6 +12,7 @@
 #include <filesystem>
 #include <functional>
 #include <stdexcept>
+#include <string>
 #include <thread>
 #include <unordered_map>
 #include <vector>

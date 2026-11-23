@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T11:04:34+00:00",
+  "generated_at": "2026-11-23T11:16:04+00:00",
   "source_count": 8111,
   "sources": [
     {
@@ -51835,9 +51835,9 @@
     {
       "path": "include/storage/tensor_network_storage_engine.h",
       "category": "modules_and_api",
-      "size": 15868,
-      "sha256": "f66faafc0e9b658ef58bd6053eb43a5657449196a050c61edd01dfa5e0833d6e",
-      "modified_utc": "2026-11-23T10:28:26+00:00"
+      "size": 15946,
+      "sha256": "258f15fc351454504c389b03c5e7ac310f0a814994f52d426cbb91850aca7b46",
+      "modified_utc": "2026-11-23T11:15:24+00:00"
     },
     {
       "path": "include/storage/tensor_router.h",
