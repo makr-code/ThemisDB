@@ -3,7 +3,11 @@
 #include "storage/tensor_network_storage_engine.h"
 #include "tensor/dream_candidate_store.h"
 
+#include <atomic>
+#include <cstdint>
+#include <functional>
 #include <stdexcept>
+#include <thread>
 #include <vector>
 
 using themis::tensor::DreamCandidateProvenance;
@@ -99,6 +103,11 @@ TEST(DreamCandidateStore, ImportRejectsMissingTagsMalformedEnvelopeAndChecksumMi
     envelope["payload"]["value"] = 99;
     DreamCandidateStore corrupted;
     EXPECT_FALSE(corrupted.importArtifact(envelope.dump()));
+
+    envelope = nlohmann::json::parse(*exported);
+    envelope["schema_version"] = std::uint64_t{4294967297ULL};
+    DreamCandidateStore unsupported_version;
+    EXPECT_FALSE(unsupported_version.importArtifact(envelope.dump()));
 }
 
 TEST(DreamCandidateStore, InstancesRemainIsolatedAndDuplicateIdsAreRejected) {
@@ -134,6 +143,10 @@ TEST(DreamCandidateStore, PersistsProvenanceAcrossStoreInstancesInIsolatedNamesp
     EXPECT_EQ(keys.front(), storageKey("candidate/persisted"));
     EXPECT_EQ(backend->get("__production_truth__:untouched"),
               std::optional<std::vector<uint8_t>>(std::vector<uint8_t>{1, 2, 3}));
+    std::string error;
+    EXPECT_FALSE(reopened.store("candidate/persisted", {{"value", 43}},
+                                validProvenance(), &error));
+    EXPECT_NE(error.find("already exists"), std::string::npos);
 }
 
 TEST(DreamCandidateStore, RejectsCorruptedPersistedEnvelopeOnRead) {
@@ -154,4 +167,58 @@ TEST(DreamCandidateStore, RejectsCorruptedPersistedEnvelopeOnRead) {
 
 TEST(DreamCandidateStore, RejectsNullInjectedBackend) {
     EXPECT_THROW(DreamCandidateStore(nullptr), std::invalid_argument);
+}
+
+TEST(DreamCandidateStore, ImportedEnvelopePersistsAcrossSharedBackendInstances) {
+    DreamCandidateStore source;
+    ASSERT_TRUE(source.store("candidate/imported", {{"value", 9}}, validProvenance()));
+    const auto exported = source.exportArtifact("candidate/imported");
+    ASSERT_TRUE(exported.has_value());
+
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    {
+        DreamCandidateStore importer(backend);
+        ASSERT_TRUE(importer.importArtifact(*exported));
+    }
+
+    DreamCandidateStore reopened(backend);
+    const auto loaded = reopened.get("candidate/imported");
+    ASSERT_TRUE(loaded.has_value());
+    EXPECT_EQ(loaded->provenance.run_id, "dream-run-17");
+    EXPECT_EQ(reopened.exportArtifact("candidate/imported"), exported);
+}
+
+TEST(DreamCandidateStore, ConcurrentWritersCannotOverwriteSharedBackendCandidate) {
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    DreamCandidateStore first(backend);
+    DreamCandidateStore second(backend);
+    std::atomic<int> ready{0};
+    std::atomic<bool> start{false};
+    bool first_result = false;
+    bool second_result = false;
+
+    auto write_candidate = [&](DreamCandidateStore& store, bool& result,
+                               int value) {
+        ready.fetch_add(1, std::memory_order_release);
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        result = store.store("candidate-race", {{"value", value}}, validProvenance());
+    };
+
+    std::thread first_writer(write_candidate, std::ref(first),
+                             std::ref(first_result), 1);
+    std::thread second_writer(write_candidate, std::ref(second),
+                              std::ref(second_result), 2);
+    while (ready.load(std::memory_order_acquire) != 2) {
+        std::this_thread::yield();
+    }
+    start.store(true, std::memory_order_release);
+    first_writer.join();
+    second_writer.join();
+
+    EXPECT_NE(first_result, second_result);
+    const auto stored = first.get("candidate-race");
+    ASSERT_TRUE(stored.has_value());
+    EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*stored));
 }

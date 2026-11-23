@@ -56,9 +56,9 @@ public:
      * @param backend Non-null backend; use a durable backend to retain candidates
      *        across process restarts.
      * @throws std::invalid_argument if backend is null.
-     * @note Operations on one instance are serialized. Callers sharing a backend
-     *       between multiple writers must serialize writes to preserve duplicate-ID
-     *       rejection because the backend interface has no conditional put.
+     * @note Duplicate IDs are rejected atomically by the backend's
+     *       putIfAbsent() contract, including concurrent store instances that
+     *       share this backend object.
      */
     explicit DreamCandidateStore(
         std::shared_ptr<storage::ITensorStorageBackend> backend);
@@ -69,8 +69,8 @@ public:
      * @param payload Non-null JSON candidate payload.
      * @param provenance Must contain both true labels and a non-blank run ID.
      * @param error Optional failure reason; cleared on success.
-     * @return True when the candidate was stored; false for malformed input or
-     *         a duplicate ID.
+     * @return True when the candidate was stored; false for malformed input,
+     *         a duplicate ID, or a backend failure.
      * @note The checksum detects accidental corruption; it is not an authenticity
      *       proof. Backend failures cause the write to fail without fallback.
      */
@@ -99,7 +99,8 @@ public:
      * @brief Validates a serialized envelope before storing it in this isolated store.
      * @param serialized JSON envelope emitted by exportArtifact().
      * @param error Optional failure reason; cleared on success.
-     * @return True when the envelope is valid and its candidate ID was not present.
+     * @return True when the envelope is valid and inserted atomically; false for
+     *         malformed input, a duplicate ID, or a backend failure.
      */
     [[nodiscard]] bool importArtifact(const std::string& serialized,
                                       std::string* error = nullptr);

@@ -51,9 +51,11 @@ tests only demonstrate retention across store instances sharing a backend.
 The store has no production truth-store dependency and exposes no production
 write or promotion API. The dedicated key prefix isolates candidate records
 logically, but does not establish a separate physical database or access-control
-boundary. One store instance serializes its operations; callers sharing a
-backend across multiple writers must serialize writes because the backend
-interface does not provide conditional put.
+boundary. Candidate insertion and import use the backend's atomic
+`putIfAbsent()` operation. The in-memory backend serializes this operation;
+the RocksDB backend uses a transaction lock. Custom backends inherit an
+in-process per-backend-object implementation and should override it with a
+storage-native atomic operation when shared across processes.
 
 ## Envelope and integrity boundaries
 
@@ -78,7 +80,9 @@ covers successful store/read/export/import with provenance retention, missing
 or false labels, whitespace run IDs, null payloads, malformed envelopes,
 checksum mismatch, duplicate IDs, default-backend per-instance isolation,
 shared-backend re-open, namespace isolation, and rejection of a corrupted
-persisted envelope.
+persisted envelope. It also checks large unsupported schema versions,
+persisted import round trips, and concurrent duplicate writes through a shared
+in-memory backend.
 [`tests/tensor/CMakeLists.txt`](../../tests/tensor/CMakeLists.txt) discovers
 `test_*.cpp` and registers the focused test target. Registration and source
 coverage do not establish that the CTest target has built or passed.

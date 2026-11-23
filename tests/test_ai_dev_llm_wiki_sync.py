@@ -49,7 +49,10 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[ai_working module context](AI_WORKING.md)", modules)
         self.assertIn("AI_Used: true", index)
         self.assertIn("[Distributed tensor module context](DISTRIBUTED_TENSOR.md)", modules)
-        self.assertIn("[Tensor Dream-Mode context](TENSOR_DREAM_MODE.md)", modules)
+        self.assertIn(
+            "[Tensor Dream-Mode context](TENSOR_DREAM_MODE.md) — candidate provenance and backend persistence, atomic duplicate rejection, logical isolation, and evidence limits.",
+            modules,
+        )
         self.assertIn("[Temporal module context](TEMPORAL.md)", modules)
         self.assertIn("[Storage module context](STORAGE.md)", modules)
         self.assertIn("[Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md)", modules)

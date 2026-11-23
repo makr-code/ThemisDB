@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstdint>
 #include <exception>
 #include <initializer_list>
 #include <stdexcept>
@@ -51,6 +52,18 @@ bool hasExactKeys(const nlohmann::json& value,
                        [&value](const char* key) { return value.contains(key); });
 }
 
+bool hasSupportedSchemaVersion(const nlohmann::json& value) {
+    if (!value.is_number_integer()) {
+        return false;
+    }
+    if (value.is_number_unsigned()) {
+        return value.get<std::uint64_t>() ==
+               static_cast<std::uint64_t>(kEnvelopeSchemaVersion);
+    }
+    return value.get<std::int64_t>() ==
+           static_cast<std::int64_t>(kEnvelopeSchemaVersion);
+}
+
 void setError(std::string* error, const std::string& message) {
     if (error != nullptr) {
         *error = message;
@@ -62,8 +75,7 @@ std::optional<DreamCandidateArtifact> parseSerializedArtifact(
     const auto envelope = nlohmann::json::parse(serialized);
     if (!hasExactKeys(envelope, {"schema_version", "candidate_id", "payload",
                                  "provenance", "checksum_algorithm", "checksum"}) ||
-        !envelope["schema_version"].is_number_integer() ||
-        envelope["schema_version"].get<int>() != kEnvelopeSchemaVersion ||
+        !hasSupportedSchemaVersion(envelope["schema_version"]) ||
         !envelope["candidate_id"].is_string() ||
         !envelope["checksum_algorithm"].is_string() ||
         envelope["checksum_algorithm"] != kChecksumAlgorithm ||
@@ -178,11 +190,12 @@ bool DreamCandidateStore::store(const std::string& candidate_id,
     try {
         std::lock_guard<std::mutex> lock(mutex_);
         const auto key = storageKeyFor(candidate_id);
-        if (backend_->get(key).has_value()) {
+        const auto result = backend_->putIfAbsent(key, serialized);
+        if (result == storage::ITensorStorageBackend::PutIfAbsentResult::AlreadyExists) {
             setError(error, "candidate_id already exists");
             return false;
         }
-        if (!backend_->put(key, serialized)) {
+        if (result != storage::ITensorStorageBackend::PutIfAbsentResult::Inserted) {
             setError(error, "candidate storage backend rejected the write");
             return false;
         }
@@ -249,11 +262,12 @@ bool DreamCandidateStore::importArtifact(const std::string& serialized,
         const auto key = storageKeyFor(artifact->candidate_id);
         const auto bytes = asBytes(serialized);
         std::lock_guard<std::mutex> lock(mutex_);
-        if (backend_->get(key).has_value()) {
+        const auto result = backend_->putIfAbsent(key, bytes);
+        if (result == storage::ITensorStorageBackend::PutIfAbsentResult::AlreadyExists) {
             setError(error, "candidate_id already exists");
             return false;
         }
-        if (!backend_->put(key, bytes)) {
+        if (result != storage::ITensorStorageBackend::PutIfAbsentResult::Inserted) {
             setError(error, "candidate storage backend rejected the write");
             return false;
         }

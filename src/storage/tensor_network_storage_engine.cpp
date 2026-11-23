@@ -88,6 +88,16 @@ std::size_t TensorFieldKeyHash::operator()(const TensorFieldKey& k) const noexce
 // InMemoryTensorBackend
 // ============================================================================
 
+ITensorStorageBackend::PutIfAbsentResult
+InMemoryTensorBackend::putIfAbsent(const std::string& key,
+                                   const std::vector<uint8_t>& value) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto [it, inserted] = store_.emplace(key, value);
+    (void)it;
+    return inserted ? PutIfAbsentResult::Inserted
+                    : PutIfAbsentResult::AlreadyExists;
+}
+
 /**
  * @brief Put.
  * @param[in] key Input parameter.
@@ -157,6 +167,30 @@ RocksDBTensorBackend::RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db)
 {
     if (!db_)
         throw std::invalid_argument("RocksDBTensorBackend: db must not be null");
+}
+
+ITensorStorageBackend::PutIfAbsentResult
+RocksDBTensorBackend::putIfAbsent(const std::string& key,
+                                  const std::vector<uint8_t>& value) {
+    auto transaction = db_->beginTransaction();
+    if (!transaction || !transaction->isActive() ||
+        !transaction->getForUpdate(key)) {
+        if (transaction) {
+            transaction->rollback();
+        }
+        return PutIfAbsentResult::Error;
+    }
+
+    if (transaction->get(key).has_value()) {
+        transaction->rollback();
+        return PutIfAbsentResult::AlreadyExists;
+    }
+    if (!transaction->put(key, value)) {
+        transaction->rollback();
+        return PutIfAbsentResult::Error;
+    }
+    return transaction->commit() ? PutIfAbsentResult::Inserted
+                                 : PutIfAbsentResult::Error;
 }
 
 /**
@@ -697,4 +731,3 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
-
