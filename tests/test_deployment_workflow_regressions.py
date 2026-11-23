@@ -1098,8 +1098,13 @@ class DeploymentWorkflowTests(unittest.TestCase):
             download = next(s for s in jobs[job]["steps"] if s.get("uses", "").startswith("actions/download-artifact"))
             self.assertEqual(download["with"]["path"], "${{ needs.generate-manifests.outputs.manifest-dir }}")
         self.assertIn("new-winget-manifest.ps1", step("release-winget.yml", "generate-manifests", "generate")["run"])
+        download_script = next(s["run"] for s in jobs["download-artifacts"]["steps"] if s.get("id") == "download")
+        self.assertIn('--repo "makr-code/ThemisDB"', download_script)
+        self.assertIn('--repo "makr-code/ThemisDB"', step("release-winget.yml", "detect-release", "detect")["run"])
+        submit_step = next(s for s in jobs["create-fork-pr"]["steps"] if s.get("name") == "Submit WinGet PR")
+        self.assertEqual(submit_step["env"]["RELEASE_GH_TOKEN"], "${{ github.token }}")
 
-    def test_winget_detection_skips_prereleases_and_accepts_published_stable_versions(self):
+    def test_winget_detection_enforces_opt_in_and_release_status(self):
         script = step("release-winget.yml", "detect-release", "detect")["run"]
         script = script.replace("${{ github.repository }}", "makr-code/ThemisDB")
         with tempfile.TemporaryDirectory() as temp:
@@ -1110,12 +1115,16 @@ class DeploymentWorkflowTests(unittest.TestCase):
             gh.write_text(
                 '#!/bin/sh\n'
                 'printf "%s\\n" "$*" >> "$GH_CALL_LOG"\n'
-                'echo \'{"isDraft":false,"isPrerelease":false}\'\n'
+                'if [ "${GH_MISSING:-false}" = true ]; then exit 1; fi\n'
+                'printf \'{"isDraft":%s,"isPrerelease":%s,"publishedAt":%s}\\n\' "$GH_DRAFT" "$GH_PRE" "$GH_PUBLISHED"\n'
             )
             gh.chmod(0o755)
             environment = {
                 "PATH": f"{binaries}{os.pathsep}{os.environ['PATH']}",
                 "GH_CALL_LOG": str(directory / "gh-calls"),
+                "GH_DRAFT": "false",
+                "GH_PRE": "false",
+                "GH_PUBLISHED": '"2026-11-23T00:00:00Z"',
             }
 
             prerelease, prerelease_outputs = run_bash(
@@ -1128,17 +1137,77 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertEqual(prerelease_outputs["should-submit"], "false")
             self.assertFalse((directory / "gh-calls").exists())
 
-            stable, stable_outputs = run_bash(
-                script, directory, VERSION_INPUT="v2.4.0", **environment,
-            )
-            self.assertEqual(stable.returncode, 0, stable.stderr)
-            self.assertEqual(stable_outputs["release-type"], "stable")
-            self.assertEqual(stable_outputs["is-stable"], "true")
-            self.assertEqual(stable_outputs["should-submit"], "true")
-            self.assertEqual(
-                (directory / "gh-calls").read_text(),
-                "release view v2.4.0 --repo makr-code/ThemisDB --json isDraft,isPrerelease\n",
-            )
+            for version, allow, pre, draft, missing, success, submit, identifier in [
+                ("2.4.0", "false", "false", "false", "false", True, "true", "ThemisDB.ThemisDB"),
+                ("2.4.0", "true", "false", "false", "false", True, "true", "ThemisDB.ThemisDB"),
+                ("2.4.0-alpha", "true", "false", "false", "false", True, "true", "ThemisDB.ThemisDB.Preview"),
+                ("2.4.0", "true", "true", "false", "false", True, "true", "ThemisDB.ThemisDB.Preview"),
+                ("2.4.0", "false", "true", "false", "false", True, "false", "ThemisDB.ThemisDB.Preview"),
+                ("2.4.0-alpha", "true", "true", "true", "false", False, None, None),
+                ("2.4.0", "true", "false", "true", "false", False, None, None),
+                ("2.4.0-alpha", "true", "false", "false", "true", False, None, None),
+                ("2.4.0", "true", "false", "false", "true", False, None, None),
+                ("2.4.0/../../bad", "true", "false", "false", "false", False, None, None),
+            ]:
+                with self.subTest(version=version, allow=allow, pre=pre, draft=draft, missing=missing):
+                    env = {**environment, "GH_PRE": pre, "GH_DRAFT": draft, "GH_MISSING": missing}
+                    result, outputs = run_bash(script, directory, VERSION_INPUT=version,
+                                               ALLOW_PRERELEASE=allow, **env)
+                    self.assertEqual(result.returncode == 0, success, result.stderr)
+                    if success:
+                        self.assertEqual(outputs["should-submit"], submit)
+                        self.assertEqual(outputs["package-identifier"], identifier)
+                        self.assertEqual(outputs["is-stable"], str(identifier == "ThemisDB.ThemisDB").lower())
+                        self.assertEqual(outputs["release-type"], "stable" if identifier == "ThemisDB.ThemisDB" else "prerelease")
+            for published in ("null", '""', '"today"'):
+                result, _ = run_bash(script, directory, VERSION_INPUT="2.4.0-alpha",
+                                     ALLOW_PRERELEASE="true",
+                                     **{**environment, "GH_PUBLISHED": published})
+                self.assertNotEqual(result.returncode, 0)
+
+    @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
+    def test_winget_workflow_generates_isolated_preview_and_stable_manifests(self):
+        script = step("release-winget.yml", "generate-manifests", "generate")["run"]
+        for version, identifier in [("2.4.0", "ThemisDB.ThemisDB"),
+                                    ("2.4.0-alpha", "ThemisDB.ThemisDB.Preview"),
+                                    ("2.4.0", "ThemisDB.ThemisDB.Preview")]:
+            with self.subTest(version=version, identifier=identifier), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                scripts = directory / "scripts/release"
+                scripts.mkdir(parents=True)
+                shutil.copy(ROOT / "scripts/release/new-winget-manifest.ps1", scripts)
+                (scripts / "validate_runtime_payload.py").write_text("pass\n")
+                artifacts = directory / "release-artifacts"
+                artifacts.mkdir()
+                archive = artifacts / "ThemisDB-Windows-x64.zip"
+                with zipfile.ZipFile(archive, "w") as package:
+                    package.writestr("bin/themis_server.exe", b"test")
+                (directory / "checksums.json").write_text(json.dumps({"artifacts": [{
+                    "filename": archive.name, "sha256": hashlib.sha256(archive.read_bytes()).hexdigest()
+                }]}))
+                output = directory / "output"
+                output.touch()
+                command = (script.replace("${{ needs.detect-release.outputs.version }}", version)
+                           .replace("${{ needs.detect-release.outputs.package-identifier }}", identifier)
+                           .replace("${{ github.repository }}", "makr-code/ThemisDB"))
+                result = subprocess.run(["pwsh", "-NoProfile", "-Command", command], cwd=directory,
+                                        env={**os.environ, "GITHUB_OUTPUT": str(output)},
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                path = Path("packaging/winget/manifests/t") / Path(*identifier.split(".")) / version
+                self.assertIn(f"manifest-dir={path.as_posix()}", output.read_text())
+                manifests = directory / path
+                installer = yaml.safe_load((manifests / f"{identifier}.installer.yaml").read_text())
+                locale = yaml.safe_load((manifests / f"{identifier}.locale.en-US.yaml").read_text())
+                version_manifest = yaml.safe_load((manifests / f"{identifier}.yaml").read_text())
+                self.assertEqual(version_manifest["PackageIdentifier"], identifier)
+                self.assertEqual(installer["Installers"][0]["InstallerUrl"],
+                                 f"https://github.com/makr-code/ThemisDB/releases/download/v{version}/{archive.name}")
+                preview = identifier.endswith(".Preview")
+                self.assertEqual(locale["PackageName"], "ThemisDB Preview" if preview else "ThemisDB")
+                self.assertEqual(locale["Moniker"], "themisdb-preview" if preview else "themisdb")
+                self.assertEqual(installer["Installers"][0]["NestedInstallerFiles"][0]["PortableCommandAlias"],
+                                 "themis_server_preview" if preview else "themis_server")
 
     @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
     def test_winget_checksums_and_generator_handle_actual_zip_layout(self):
@@ -1201,7 +1270,10 @@ class DeploymentWorkflowTests(unittest.TestCase):
             binary.mkdir()
             commands = {
                 "winget": "#!/bin/sh\nexit 0\n",
-                "gh": '#!/bin/sh\nif [ "$1 $2" = "pr create" ]; then exit 1; fi\nexit 0\n',
+                "gh": ('#!/bin/sh\n'
+                       'if [ "$1 $2" = "release view" ]; then '
+                       'echo \'{"isDraft":false,"isPrerelease":false,"publishedAt":"2026-11-23T00:00:00Z"}\'; fi\n'
+                       'if [ "$1 $2" = "pr create" ]; then exit 1; fi\nexit 0\n'),
                 "git": '#!/bin/sh\nif [ "$1" = "clone" ]; then mkdir -p "$3"; fi\nexit 0\n',
             }
             for name, command in commands.items():
@@ -1217,6 +1289,127 @@ class DeploymentWorkflowTests(unittest.TestCase):
             )
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("WinGet pull request creation failed", result.stderr)
+
+    @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
+    def test_winget_submission_paths_and_input_validation(self):
+        for identifier, version in [("ThemisDB.ThemisDB", "2.4.0"),
+                                    ("ThemisDB.ThemisDB.Preview", "2.4.0-alpha"),
+                                    ("ThemisDB.ThemisDB.Preview", "2.4.0")]:
+            with self.subTest(identifier=identifier, version=version), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                scripts = directory / "scripts/release"
+                scripts.mkdir(parents=True)
+                shutil.copy(ROOT / "scripts/release/submit-winget-pkgs.ps1", scripts)
+                relative = Path("manifests/t") / Path(*identifier.split(".")) / version
+                manifests = directory / "packaging/winget" / relative
+                manifests.mkdir(parents=True)
+                for suffix in [".yaml", ".installer.yaml", ".locale.en-US.yaml"]:
+                    (manifests / f"{identifier}{suffix}").write_text(f"PackageIdentifier: {identifier}\n")
+                binary = directory / "bin"
+                binary.mkdir()
+                commands = {
+                    "winget": "#!/bin/sh\nexit 0\n",
+                    "gh": ('#!/bin/sh\nprintf "%s\\n" "$@" >> "$GH_CALL_LOG"\n'
+                           'if [ "$1 $2" = "release view" ]; then '
+                           'echo \'{"isDraft":false,"isPrerelease":false,"publishedAt":"2026-11-23T00:00:00Z"}\'; fi\n'
+                           'exit 0\n'),
+                    "git": '#!/bin/sh\nif [ "$1" = "clone" ]; then mkdir -p "$3"; fi\nexit 0\n',
+                }
+                for name, command in commands.items():
+                    path = binary / name
+                    path.write_text(command)
+                    path.chmod(0o755)
+                env = {**os.environ, "PATH": f"{binary}:{os.environ['PATH']}", "TEMP": str(directory),
+                       "GH_TOKEN": "test-only", "GH_CALL_LOG": str(directory / "gh-calls")}
+                cmd = ["pwsh", "-NoProfile", "-File", str(scripts / "submit-winget-pkgs.ps1"),
+                       "-Version", version, "-ForkOwner", "test", "-PackageIdentifier", identifier]
+                result = subprocess.run(cmd, env=env, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                clone_name = f"winget-pkgs-submit-{'Preview-' if identifier.endswith('.Preview') else ''}{version}"
+                clone = directory / clone_name
+                self.assertTrue((clone / relative / f"{identifier}.yaml").is_file())
+                gh_calls = (directory / "gh-calls").read_text()
+                self.assertIn(f"**Package Identifier:** `{identifier}`", gh_calls)
+                self.assertIn("--draft", gh_calls)
+                for bad_version, bad_id in [("../2.4.0", identifier), ("2.4.0", "../ThemisDB"),
+                                            ("2.4.0-alpha", "ThemisDB.ThemisDB")]:
+                    result = subprocess.run(
+                        ["pwsh", "-NoProfile", "-File", str(scripts / "submit-winget-pkgs.ps1"),
+                         "-Version", bad_version, "-ForkOwner", "test", "-PackageIdentifier", bad_id],
+                        env=env, capture_output=True, text=True,
+                    )
+                    self.assertNotEqual(result.returncode, 0)
+
+    @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
+    def test_winget_standalone_checks_release_and_preserves_positional_arguments(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            scripts = directory / "scripts/release"
+            scripts.mkdir(parents=True)
+            shutil.copy(ROOT / "scripts/release/submit-winget-pkgs.ps1", scripts)
+            for identifier in ("ThemisDB.ThemisDB", "ThemisDB.ThemisDB.Preview"):
+                manifests = directory / "packaging/winget/manifests/t" / Path(*identifier.split(".")) / "2.4.0"
+                manifests.mkdir(parents=True)
+                for suffix in (".yaml", ".installer.yaml", ".locale.en-US.yaml"):
+                    (manifests / f"{identifier}{suffix}").write_text(f"PackageIdentifier: {identifier}\n")
+            binary = directory / "bin"
+            binary.mkdir()
+            commands = {
+                "winget": '#!/bin/sh\necho winget >> "$ACTION_LOG"\nexit 0\n',
+                "git": '#!/bin/sh\necho git >> "$ACTION_LOG"\n'
+                       'if [ "$1" = "clone" ]; then mkdir -p "$3"; fi\nexit 0\n',
+                "gh": '#!/bin/sh\n'
+                      'if [ "$1 $2" = "release view" ]; then\n'
+                      '  printf "release %s %s\\n" "$GH_TOKEN" "$5" >> "$ACTION_LOG"\n'
+                      '  [ "$GH_MISSING" = true ] && exit 1\n'
+                      '  printf "%s\\n" "$RELEASE_JSON"\n'
+                      'else\n'
+                      '  printf "gh %s %s %s\\n" "$1" "$2" "$GH_TOKEN" >> "$ACTION_LOG"\n'
+                      'fi\nexit 0\n',
+            }
+            for name, command in commands.items():
+                path = binary / name
+                path.write_text(command)
+                path.chmod(0o755)
+            env = {**os.environ, "PATH": f"{binary}:{os.environ['PATH']}", "TEMP": str(directory),
+                   "GH_TOKEN": "", "RELEASE_GH_TOKEN": "release-token", "GH_MISSING": "false",
+                   "ACTION_LOG": str(directory / "actions")}
+            stable = '{"isDraft":false,"isPrerelease":false,"publishedAt":"2026-11-23T00:00:00Z"}'
+            preview = '{"isDraft":false,"isPrerelease":true,"publishedAt":"2026-11-23T00:00:00Z"}'
+            cases = [
+                (stable, "false", "ThemisDB.ThemisDB", True),
+                (preview, "false", "ThemisDB.ThemisDB", False),
+                (preview, "false", "ThemisDB.ThemisDB.Preview", True),
+                ('{"isDraft":true,"isPrerelease":false,"publishedAt":"2026-11-23T00:00:00Z"}', "false", "ThemisDB.ThemisDB", False),
+                ('{"isDraft":false,"isPrerelease":false,"publishedAt":null}', "false", "ThemisDB.ThemisDB", False),
+                ('{"isDraft":false,"isPrerelease":false,"publishedAt":"today"}', "false", "ThemisDB.ThemisDB", False),
+                ('{"isDraft":false,"isPrerelease":false}', "false", "ThemisDB.ThemisDB", False),
+                ('{"isDraft":"false","isPrerelease":false,"publishedAt":"today"}', "false", "ThemisDB.ThemisDB", False),
+                ("not json", "false", "ThemisDB.ThemisDB", False),
+                (stable, "true", "ThemisDB.ThemisDB", False),
+            ]
+            for metadata, missing, identifier, succeeds in cases:
+                with self.subTest(metadata=metadata, missing=missing, identifier=identifier):
+                    log = directory / "actions"
+                    log.unlink(missing_ok=True)
+                    result = subprocess.run(
+                        ["pwsh", "-NoProfile", "-File", str(scripts / "submit-winget-pkgs.ps1"),
+                         "2.4.0", "test", "fork-token", "-PackageIdentifier", identifier],
+                        env={**env, "RELEASE_JSON": metadata, "GH_MISSING": missing},
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode == 0, succeeds, result.stdout + result.stderr)
+                    actions = log.read_text()
+                    self.assertIn("gh auth setup-git fork-token", actions)
+                    self.assertIn("release release-token makr-code/ThemisDB", actions)
+                    if succeeds:
+                        self.assertIn("winget", actions)
+                        self.assertIn("gh pr create fork-token", actions)
+                    else:
+                        self.assertNotIn("winget", actions)
+                        self.assertNotIn("git\n", actions)
+                        self.assertNotIn("gh repo", actions)
+                        self.assertNotIn("gh pr", actions)
 
 
 @unittest.skipUnless(
