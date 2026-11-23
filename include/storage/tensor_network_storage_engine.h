@@ -110,21 +110,24 @@ class ITensorStorageBackend {
 public:
     virtual ~ITensorStorageBackend() = default;
 
+    /** @brief Outcome of a conditional insert operation. */
+    enum class PutIfAbsentResult { Inserted, AlreadyExists, Error };
+
     /**
      * @brief Insert a value only when the key is absent.
      * @param key Lookup key.
      * @param value Bytes to insert.
-     * @return Inserted when the key was created, AlreadyExists when it was
-     *         present, or Error when the backend operation failed.
+     * @return Inserted when created, AlreadyExists when already present, or
+     *         Error when unsupported or failed.
      * @note The default implementation returns Error to fail closed. Concrete
-     *       backends must override this method with an atomic operation before
-     *       they can be used by writers that require no-overwrite semantics.
+     *       backends must override with storage-atomic semantics before callers
+     *       can rely on no-overwrite behavior.
      */
-    enum class PutIfAbsentResult { Inserted, AlreadyExists, Error };
-
-    virtual PutIfAbsentResult putIfAbsent(
-        const std::string&,
-        const std::vector<uint8_t>&) {
+    [[nodiscard]] virtual PutIfAbsentResult putIfAbsent(
+        const std::string& key,
+        const std::vector<uint8_t>& value) {
+        (void)key;
+        (void)value;
         return PutIfAbsentResult::Error;
     }
 
