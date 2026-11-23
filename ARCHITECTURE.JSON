@@ -97,6 +97,12 @@
       "type": "wave_report"
     },
     {
+      "name": "TENSOR_INTEGRATION_PLAN.md",
+      "sha256_prefix": "1d467a50860f32f8",
+      "size_bytes": "4828",
+      "type": "design"
+    },
+    {
       "name": "WAVE10_PHASE1_EXECUTIVE_SUMMARY.md",
       "sha256_prefix": "9727f0f62e3b390a",
       "size_bytes": "7432",
@@ -131,6 +137,12 @@
       "sha256_prefix": "c2c287cea9e41879",
       "size_bytes": "110964",
       "type": "json"
+    },
+    {
+      "name": "dc02-dispatch-pool-plan.md",
+      "sha256_prefix": "4fbf20aaaeaf9787",
+      "size_bytes": "456",
+      "type": "design"
     },
     {
       "name": "gap_scanner_verified_llm.json",
@@ -179,6 +191,12 @@
       "sha256_prefix": "0a5e2a5a5641d28b",
       "size_bytes": "13820",
       "type": "report"
+    },
+    {
+      "name": "lora-forward-optimization-plan.md",
+      "sha256_prefix": "f82a44684d283897",
+      "size_bytes": "439",
+      "type": "design"
     }
   ],
   "analysis": {
@@ -757,7 +775,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "af2dc2de31392913"
+      "sha256_prefix": "1f9bf20516fdc001"
     },
     {
       "category": "governance",
@@ -787,7 +805,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "f1b14a1d59e7e2d6"
+      "sha256_prefix": "8c1ad43c7157ce4e"
     },
     {
       "category": "governance",
@@ -2147,7 +2165,7 @@
     {
       "category": "docs",
       "path": "docs/benchmarks/slo_benchmark_matrix_v190.md",
-      "sha256_prefix": "81a647b4b6f496d3"
+      "sha256_prefix": "134c60331c5e542c"
     },
     {
       "category": "docs",
@@ -2522,7 +2540,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "1a4eaa1252dad89a"
+      "sha256_prefix": "2cbce3593f4d6187"
     },
     {
       "category": "docs",
@@ -5372,7 +5390,7 @@
     {
       "category": "docs",
       "path": "docs/performance/BENCHMARK_RUNBOOK.md",
-      "sha256_prefix": "63cf23b14e17a37e"
+      "sha256_prefix": "3e98f20dcc6d7b97"
     },
     {
       "category": "docs",
@@ -5387,7 +5405,7 @@
     {
       "category": "docs",
       "path": "docs/performance/CYCLE_METRICS.md",
-      "sha256_prefix": "8dd9907b98f4dc49"
+      "sha256_prefix": "d831f2459e2b61f1"
     },
     {
       "category": "docs",
@@ -5432,7 +5450,7 @@
     {
       "category": "docs",
       "path": "docs/performance/PERFORMANCE_EXPECTATIONS.md",
-      "sha256_prefix": "ca909884caa212e2"
+      "sha256_prefix": "0632b9f59989ff8b"
     },
     {
       "category": "docs",
@@ -7050,7 +7068,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-22T12:37:38.463170+00:00",
+  "generated_at": "2026-11-23T02:02:15.878047+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8985,18 +9003,18 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "af2dc2de31392913",
+    "ARCHITECTURE.md": "1f9bf20516fdc001",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
     "ROADMAP.md": "2950fdd7042f43ce",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "a3d4c385a6c55454",
-    "ai_context/developer_llm_wiki/": "edc9c9fcfa596b2f",
-    "ai_working/": "2da2d31a22a9695b",
-    "docs/": "72983fda8504c295"
+    "ai_context/developer_llm_wiki/": "9a7f66ee4f18492c",
+    "ai_working/": "b5a8382e2d911c54",
+    "docs/": "e7a1329082dac5d8"
   },
   "statistics": {
-    "ai_working_artifact_count": 30,
+    "ai_working_artifact_count": 33,
     "documentation_source_count": 1259,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 5,
