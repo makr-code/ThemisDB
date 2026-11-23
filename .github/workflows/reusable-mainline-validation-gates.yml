@@ -34,8 +34,22 @@ jobs:
       fetch_depth: '0'
       submodules: false
       working_directory: .
-      setup_command: >-
-        set -euo pipefail; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "CTest gate dependencies installed"
+      setup_command: |-
+        set -euo pipefail
+        for plugin in themisdb_ethic_ai themisdb_importer themisdb_storage themisdb_llm_wiki themisdb_plugin_signer; do
+          section="submodule.plugins/${plugin}"
+          if git config --file .git/config --get "${section}.path" >/dev/null; then
+            git config --file .git/config --remove-section "${section}"
+          fi
+        done
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev \
+          libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev \
+          libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev \
+          glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+          libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm
+        echo "CTest gate dependencies installed"
       configure_command: >-
         cmake -S . -B build-mainline-ctest -G Ninja
         -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
@@ -98,14 +112,14 @@ jobs:
 
       - name: Setup sccache (toolchain-native)
         id: sccache-setup
-        continue-on-error: true
         run: |
           set -euo pipefail
           if command -v sccache >/dev/null 2>&1; then
-            sccache --start-server || true
-            if sccache --show-stats >/dev/null 2>&1; then
+            if sccache --start-server >/dev/null 2>&1 \
+              && sccache --show-stats >/dev/null 2>&1; then
               echo "status=ready" >> "$GITHUB_OUTPUT"
             else
+              echo "::warning::sccache is unavailable; continuing without compiler caching"
               echo "status=unavailable" >> "$GITHUB_OUTPUT"
             fi
           else
@@ -157,12 +171,13 @@ jobs:
           SCCACHE_FALLBACK_APPLIED=0
           disable_sccache_and_reconfigure() {
             echo "::warning::Transient sccache backend failure detected; retrying without sccache"
-            sccache --stop-server >/dev/null 2>&1 || true
+            if command -v sccache >/dev/null 2>&1 \
+              && ! sccache --stop-server >/dev/null 2>&1; then
+              echo "::warning::Unable to stop the optional sccache server"
+            fi
             cmake -S . -B build-macos \
               -DCMAKE_C_COMPILER_LAUNCHER= \
-              -DCMAKE_CXX_COMPILER_LAUNCHER= || {
-              echo "::warning::cmake reconfigure failed while disabling sccache"
-            }
+              -DCMAKE_CXX_COMPILER_LAUNCHER=
             SCCACHE_FALLBACK_APPLIED=1
           }
           build_target() {
