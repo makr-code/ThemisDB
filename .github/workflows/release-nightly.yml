@@ -111,7 +111,7 @@ jobs:
       has-changes: ${{ steps.check.outputs.has-changes }}
       last-nightly-tag: ${{ steps.check.outputs.last-nightly-tag }}
       commit-count: ${{ steps.check.outputs.commit-count }}
-    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
+    if: github.event_name != 'workflow_run' || ((github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure') && github.event.workflow_run.event == 'schedule')
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -189,6 +189,7 @@ jobs:
   generate-metadata:
     name: "Release: Generate Build Metadata"
     needs: build-matrix
+    if: ${{ always() && !cancelled() && (needs.build-matrix.result == 'success' || (needs.build-matrix.result == 'failure' && needs.build-matrix.outputs.runtime_gate_result == 'success')) }}
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.metadata.outputs.build-version }}
@@ -235,6 +236,7 @@ jobs:
   publish-release:
     name: "Publish: GitHub Release"
     needs: [check-changes, generate-metadata, build-matrix]
+    if: ${{ always() && !cancelled() && needs.check-changes.result == 'success' && needs.generate-metadata.result == 'success' && (needs.build-matrix.result == 'success' || (needs.build-matrix.result == 'failure' && needs.build-matrix.outputs.runtime_gate_result == 'success')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -253,7 +255,19 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
+          pattern: packages-*-release-${{ github.run_number }}
+          merge-multiple: true
           path: release-artifacts
+          if-no-artifact-found: ignore
+
+      - name: Require at least one distributable platform package
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! find release-artifacts -type f \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.zip' -o -name '*.deb' -o -name '*.rpm' -o -name '*.msi' \) -print -quit | grep -q .; then
+            echo "::error::No successful OS lane produced a distributable package."
+            exit 1
+          fi
 
       - name: Generate nightly release notes
         id: release-notes
