@@ -11,11 +11,28 @@ param(
     [string]$GitHubToken,
 
     # Ob ein Draft-PR geoeffnet werden soll (Standard: $true fuer manuellen Review)
-    [switch]$DraftPR = $true
+    [switch]$DraftPR = $true,
+
+    # Stable and preview packages have separate WinGet identities.
+    [string]$PackageIdentifier = "ThemisDB.ThemisDB"
 )
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+
+if ($Version -cnotmatch '\A[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?\z') {
+    throw "Invalid WinGet version: '$Version'."
+}
+if ($PackageIdentifier -cnotin @("ThemisDB.ThemisDB", "ThemisDB.ThemisDB.Preview")) {
+    throw "Invalid WinGet package identifier: '$PackageIdentifier'."
+}
+if ($Version.Contains("-") -and $PackageIdentifier -ceq "ThemisDB.ThemisDB") {
+    throw "A prerelease version must use ThemisDB.ThemisDB.Preview."
+}
+if ($ForkOwner -notmatch '\A[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?\z') {
+    throw "Invalid GitHub fork owner."
+}
+$ReleaseRepository = "makr-code/ThemisDB"
 
 function Require-Command {
     param([string]$CommandName)
@@ -35,8 +52,44 @@ if (-not [string]::IsNullOrWhiteSpace($GitHubToken)) {
     throw "Ein GH_TOKEN oder -GitHubToken ist fuer die automatische Fork-/PR-Erstellung erforderlich."
 }
 
+$forkToken = $env:GH_TOKEN
+try {
+    if (-not [string]::IsNullOrWhiteSpace($env:RELEASE_GH_TOKEN)) {
+        $env:GH_TOKEN = $env:RELEASE_GH_TOKEN
+    }
+    $releaseJson = gh release view "v$Version" --repo $ReleaseRepository --json isDraft,isPrerelease,publishedAt
+    if ($LASTEXITCODE -ne 0) { throw "GitHub release v$Version could not be retrieved." }
+} finally {
+    $env:GH_TOKEN = $forkToken
+}
+try {
+    $document = [System.Text.Json.JsonDocument]::Parse(($releaseJson -join "`n"))
+    try {
+        $release = $document.RootElement
+        $draft = $release.GetProperty("isDraft")
+        $prerelease = $release.GetProperty("isPrerelease")
+        $publishedAt = $release.GetProperty("publishedAt")
+        $publishedDate = [DateTimeOffset]::MinValue
+        if ($draft.ValueKind -notin @([System.Text.Json.JsonValueKind]::True, [System.Text.Json.JsonValueKind]::False) -or
+            $prerelease.ValueKind -notin @([System.Text.Json.JsonValueKind]::True, [System.Text.Json.JsonValueKind]::False) -or
+            $publishedAt.ValueKind -ne [System.Text.Json.JsonValueKind]::String -or
+            -not $publishedAt.TryGetDateTimeOffset([ref]$publishedDate)) {
+            throw "Malformed release metadata."
+        }
+        if ($draft.GetBoolean()) { throw "GitHub release v$Version is a draft." }
+        if ($prerelease.GetBoolean() -and $PackageIdentifier -ceq "ThemisDB.ThemisDB") {
+            throw "GitHub prereleases must use ThemisDB.ThemisDB.Preview."
+        }
+    } finally {
+        $document.Dispose()
+    }
+} catch {
+    throw "GitHub release validation failed: $_"
+}
+
 $repoRoot  = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\.."))
-$srcDir    = Join-Path $repoRoot "packaging\winget\manifests\t\ThemisDB\ThemisDB\$Version"
+$packagePath = ($PackageIdentifier -split '\.') -join '\'
+$srcDir    = Join-Path $repoRoot "packaging\winget\manifests\t\$packagePath\$Version"
 
 if (-not (Test-Path $srcDir)) {
     throw "Kein Manifest-Ordner fuer Version '$Version' gefunden unter: $srcDir`nBitte zuerst new-winget-manifest.ps1 ausfuehren."
@@ -44,9 +97,9 @@ if (-not (Test-Path $srcDir)) {
 
 # Pflicht-Dateien pruefen
 foreach ($f in @(
-    "ThemisDB.ThemisDB.yaml",
-    "ThemisDB.ThemisDB.installer.yaml",
-    "ThemisDB.ThemisDB.locale.en-US.yaml"
+    "$PackageIdentifier.yaml",
+    "$PackageIdentifier.installer.yaml",
+    "$PackageIdentifier.locale.en-US.yaml"
 )) {
     if (-not (Test-Path (Join-Path $srcDir $f))) {
         throw "Pflichtdatei fehlt: $f"
@@ -61,7 +114,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "[ OK ] Manifest valide" -ForegroundColor Green
 
-$installerManifestPath = Join-Path $srcDir "ThemisDB.ThemisDB.installer.yaml"
+$installerManifestPath = Join-Path $srcDir "$PackageIdentifier.installer.yaml"
 if (-not (Test-Path $installerManifestPath)) {
     throw "Installer manifest fehlt: $installerManifestPath"
 }
@@ -82,7 +135,17 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Arbeitsverzeichnis: temporaerer Klon des eigenen Forks
-$workDir = Join-Path $env:TEMP "winget-pkgs-submit-$Version"
+$submissionName = if ($PackageIdentifier -ceq "ThemisDB.ThemisDB") {
+    "ThemisDB"
+} else {
+    "ThemisDB-Preview"
+}
+$workDirName = if ($PackageIdentifier -ceq "ThemisDB.ThemisDB") {
+    "winget-pkgs-submit-$Version"
+} else {
+    "winget-pkgs-submit-Preview-$Version"
+}
+$workDir = Join-Path $env:TEMP $workDirName
 if (Test-Path $workDir) { Remove-Item -Recurse -Force $workDir }
 
 Write-Host "[STEP] Klone Fork $ForkOwner/winget-pkgs ..." -ForegroundColor Cyan
@@ -99,18 +162,22 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "WinGet fork synchronization failed." }
 
     # Feature-Branch
-    $branch = "add-ThemisDB-$Version"
+    $branch = if ($PackageIdentifier -ceq "ThemisDB.ThemisDB") {
+        "add-ThemisDB-$Version"
+    } else {
+        "add-ThemisDB-Preview-$Version"
+    }
     git checkout -b $branch --quiet
     if ($LASTEXITCODE -ne 0) { throw "WinGet submission branch creation failed." }
 
     # Manifest-Dateien kopieren
-    $destDir = "manifests\t\ThemisDB\ThemisDB\$Version"
+    $destDir = "manifests\t\$packagePath\$Version"
     New-Item -ItemType Directory -Force -Path $destDir | Out-Null
     Copy-Item -Path (Join-Path $srcDir "*") -Destination $destDir -Force
 
     git add $destDir
     if ($LASTEXITCODE -ne 0) { throw "WinGet manifest staging failed." }
-    git commit -m "Add ThemisDB version $Version" --quiet
+    git commit -m "Add $submissionName version $Version" --quiet
     if ($LASTEXITCODE -ne 0) { throw "WinGet manifest commit failed." }
 
     # Push in den Fork
@@ -119,11 +186,11 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "WinGet manifest push failed." }
 
     # PR-Text
-    $prTitle = "New package: ThemisDB version $Version"
+    $prTitle = "New package: $submissionName version $Version"
     $prBody  = @"
 ## ThemisDB $Version
 
-**Package Identifier:** ``ThemisDB.ThemisDB``
+**Package Identifier:** ``$PackageIdentifier``
 **Version:** ``$Version``
 
 ### Changes
@@ -135,7 +202,7 @@ try {
 ### Verification
 - Manifests validated locally with ``winget validate``
 - SHA256 checksum sourced from official GitHub Release assets
-- Release URL: https://github.com/makr-code/ThemisDB/releases/tag/v$Version
+- Release URL: https://github.com/$ReleaseRepository/releases/tag/v$Version
 - Installer manifest contains the portable ZIP root folder path and runtime dependency
 
 ### Package Information

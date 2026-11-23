@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-19"
+Last Updated: "2026-11-23"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Release Target Architecture
 
 > Status: Target state
@@ -11,7 +25,7 @@ The release system should behave like a single canonical pipeline with clearly s
 - one canonical release orchestrator
 - one canonical package build layer
 - one canonical container publication policy
-- one canonical WinGet route for stable community releases
+- one canonical WinGet route for stable community releases and separately identified opt-in prereleases
 - one canonical documentation and governance source-of-truth
 
 This reduces drift, keeps branch rules predictable, and makes packaging metadata auditable.
@@ -50,7 +64,7 @@ Supporting reusable layers are:
 
 - `.github/workflows/release-build-matrix.yml` — platform/package build matrix
 - `.github/workflows/release-docker-image.yml` — Docker registry publication
-- `.github/workflows/release-winget.yml` — stable public WinGet submission
+- `.github/workflows/release-winget.yml` — stable WinGet submission and opt-in preview submission
 - `.github/workflows/release-linux-distribution.yml` — Linux distro bundle/repository metadata preparation and optional semi-automated publish
 - `.github/workflows/release-windows-distribution.yml` — Windows Scoop/Chocolatey candidate bundle preparation and optional semi-automated publish
 
@@ -136,7 +150,7 @@ Target layout:
 | CPack | build matrix | produce native packages and archives |
 | GitHub Release | release-mainline | publish versioned release assets and metadata |
 | Docker registry | release-docker-image | publish OCI images |
-| WinGet | release-winget | publish stable package metadata for Windows |
+| WinGet | release-winget | submit stable metadata by default; opt-in preview metadata uses a separate identifier |
 | Documentation | root docs | define versioning, policy, and registry references |
 
 ### 3.3 Canonical artifact naming
@@ -206,7 +220,7 @@ For the current delivery scope, the active distribution channels are Windows and
 | Platform | Channel | Producer workflow | Consumer workflow | Status |
 |---|---|---|---|---|
 | Windows | GitHub Release assets (ZIP/MSI) | `release-build-matrix.yml` + `release-mainline.yml` | direct download | active |
-| Windows | WinGet (stable only) | `release-mainline.yml` release bundle | `release-winget.yml` | active |
+| Windows | WinGet (stable default; prerelease opt-in) | `release-mainline.yml` release bundle | `release-winget.yml` | stable active; preview upstream acceptance unproven |
 | Windows | Scoop/Chocolatey candidate bundle channels (`stable`, `testing`, `nightly`) | published GitHub Release assets | `release-windows-distribution.yml` (optional semi-automated publish) | active |
 | Linux | GitHub Release assets (TGZ/DEB/RPM) | `release-build-matrix.yml` + `release-mainline.yml` | direct download / package manager install | active |
 | Linux | Container registry (OCI images) | release identity from `release-mainline.yml` | `release-docker-image.yml` to Docker Hub + GHCR | active |
@@ -268,13 +282,18 @@ The Docker publication path must remain scoped to the intentional release pipeli
 
 ### 5.1 Canonical WinGet policy
 
-The canonical stable WinGet path is:
+The canonical WinGet path is:
 
 - `.github/workflows/release-winget.yml`
 - community public submission to the official `microsoft/winget-pkgs` repository
-- stable version only
-- no nightly publication
+- stable package `ThemisDB.ThemisDB` by default
+- prerelease package `ThemisDB.ThemisDB.Preview` only on manual dispatch or reusable call with `allow_prerelease=true`; the separate identifier is intended to protect stable upgrades, but that behavior is not yet verified
+- `dry_run=true` by default; `dry_run=false` is required to request a draft PR
+- a published, non-draft GitHub Release and its assets are required
+- no automatic nightly or prerelease submission; the approval wrapper retains `allow_prerelease=false`
 - no ad hoc fork-based alternative as the canonical release source
+
+The Preview identifier and prerelease versions have not yet been proven accepted by `microsoft/winget-pkgs`; a draft submission is not proof of publication.
 
 ### 5.2 E2E / validation role
 
@@ -286,7 +305,7 @@ The `build-widget.yml` flow can remain as a validation or E2E helper for manifes
 
 ### 5.3 Public package policy
 
-WinGet should only publish community-stable packages. Private and edition-specific distribution remains outside the community package manager channel unless an explicit editorial policy is introduced.
+WinGet's stable community package remains the default. Community prereleases may be submitted only by the explicit opt-in above and under the isolated Preview identifier. Private and edition-specific distribution remains outside the community package manager channel unless an explicit editorial policy is introduced.
 
 ## 6. Documentation governance target
 
@@ -318,7 +337,7 @@ The release architecture is considered complete when all of the following are tr
 - one canonical workflow orchestrates stable release publication
 - package generation remains rooted in CPack and not a second ad hoc packaging system
 - stable Docker publication uses one explicit registry policy
-- WinGet submission is a single stable public path
+- WinGet submission uses one public workflow, with stable default and isolated opt-in preview
 - release artifacts share one naming and checksum model
 - root docs and workflow registry remain synchronized
 - duplicate or historical workflow paths are clearly marked as non-canonical or retired

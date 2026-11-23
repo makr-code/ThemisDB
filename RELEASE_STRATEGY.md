@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-03-15"
+Last Updated: "2026-11-23"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Release Strategy
 
 > Status: Active
@@ -354,7 +368,7 @@ Nightly releases include:
 
 - Nightly releases are marked as `prerelease=true` on GitHub
 - Pre-release images do not receive the `latest` tag
-- Nightly artifacts are not submitted to WinGet
+- Nightly artifacts are not submitted to WinGet automatically; any prerelease submission requires the explicit opt-in below.
 - Nightly changelog is auto-generated from `git log` since last nightly
 - Old nightly releases (>30 days) may be cleaned up to manage storage
 
@@ -442,7 +456,7 @@ The auto-generated release PR includes this checklist:
 3. Sets `RELEASE_TYPE=alpha`
 4. Creates PR: `release/v2.5.0-alpha1` → `develop`
 5. After approval & merge, maintainer tags: `v2.5.0-alpha1`
-6. Tag triggers `release-publish.yml` → builds and publishes to all registries
+6. Publish the GitHub prerelease and use the controlled downstream publication workflows; WinGet preview requires the explicit opt-in below
 
 **Example 2: Stable Release from RC**
 1. PR merged with label `release/stable`
@@ -450,7 +464,7 @@ The auto-generated release PR includes this checklist:
 3. Sets `RELEASE_TYPE=stable`
 4. Creates PR with release checklist
 5. After approval & merge, maintainer tags: `v2.5.0`
-6. Tag triggers `release-publish.yml` → builds, publishes to GitHub + Docker + WinGet
+6. Publish the GitHub release and use the controlled downstream Docker and stable WinGet publication workflows
 
 ---
 
@@ -518,7 +532,7 @@ Rules:
 
 ## 11. Artefacts
 
-ThemisDB Community releases are published to the [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs) under the identifier `ThemisDB.ThemisDB`.
+The stable ThemisDB Community package uses `ThemisDB.ThemisDB` in the [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs). Opt-in prerelease submissions use the separate `ThemisDB.ThemisDB.Preview` identifier; upstream acceptance of that package and its prerelease versions has not yet been proven.
 
 ### Installation for end users
 
@@ -533,11 +547,14 @@ winget install ThemisDB.ThemisDB --version <version>
 
 # Upgrade to latest stable
 winget upgrade ThemisDB.ThemisDB
+
+# Preview, only after the package has been accepted upstream
+winget install ThemisDB.ThemisDB.Preview
 ```
 
 ### Manifest files
 
-Manifests live under `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/` and consist of three required files:
+Stable manifests live under `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/` and consist of three required files; preview manifests use `packaging/winget/manifests/t/ThemisDB/ThemisDB/Preview/<version>/` and the `ThemisDB.ThemisDB.Preview` filename prefix:
 
 | File | Purpose |
 |---|---|
@@ -567,9 +584,29 @@ pwsh scripts/release/new-winget-manifest.ps1 `
     -IncludeGermanLocale
 ```
 
+These examples use stable defaults and must not be used unchanged for a
+prerelease. For a prerelease, explicitly set the Preview identity, name,
+moniker and portable command alias to match the workflow, and use the actual
+published prerelease ZIP and checksum:
+
+```powershell
+pwsh scripts/release/new-winget-manifest.ps1 `
+    -Version <prerelease-version> `
+    -PackageIdentifier ThemisDB.ThemisDB.Preview `
+    -PackageName "ThemisDB Preview" `
+    -Moniker themisdb-preview `
+    -PortableCommandAlias themis_server_preview `
+    -InstallerType zip `
+    -InstallerUrl <PUBLISHED_PRERELEASE_ZIP_URL> `
+    -InstallerSha256 <SHA256_FROM_RELEASE> `
+    -InstallerArchivePath <LOCAL_RELEASE_ZIP> `
+    -PackageDependencies Microsoft.VCRedist.2015+.x64 `
+    -IncludeGermanLocale
+```
+
 Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) are represented by the package version itself, for example `2.4.0-alpha`. The WinGet installer manifest does not accept an `IsPreRelease` field in the current schema.
 
-### Submitting a release
+### Submitting a stable release manually
 
 ```powershell
 # Erstellt Fork, Branch, Commit und Draft-PR gegen microsoft/winget-pkgs
@@ -578,10 +615,21 @@ pwsh scripts/release/submit-winget-pkgs.ps1 `
     -ForkOwner <github-username>
 ```
 
+For a manually generated prerelease manifest, also pass
+`-PackageIdentifier ThemisDB.ThemisDB.Preview` to the submission script;
+its default is the stable identifier. Before using the direct scripts, verify
+that the corresponding GitHub Release is published and non-draft. The submission
+script independently checks the canonical `makr-code/ThemisDB` release and
+rejects the stable identifier for a GitHub prerelease; manifest generation
+alone does not check release state. The workflow's `allow_prerelease` opt-in
+does not apply to direct script invocation. Submission requires a fork-write
+`GH_TOKEN` or `-GitHubToken`; `RELEASE_GH_TOKEN`, when set, is used separately
+to read release metadata, otherwise the fork token is used.
+
 Rules:
 
 - Submit only one version per PR. Wait for approval before submitting the next version.
-- Submit stable releases first. RC/alpha may follow after the stable PR is merged.
+- Stable is the default; prereleases require the separate opt-in policy below.
 - Never submit a version with a placeholder SHA256.
 - Validate locally before submitting: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>`
 - ZIP manifests must include `Microsoft.VCRedist.2015+.x64` so the portable binary can start on clean Windows machines.
@@ -589,9 +637,11 @@ Rules:
 
 ### Pre-release policy
 
-Pre-release versions (`-rc*`, `-alpha`, `-beta`) are published to winget-pkgs only after the corresponding stable release is accepted. This prevents `winget upgrade` from pushing pre-release software to users who installed a stable version.
+The `release-winget.yml` manual dispatch and reusable call default to `allow_prerelease=false` and `dry_run=true`. Set `allow_prerelease=true` to opt in to a prerelease (a version with a suffix or a GitHub Release marked prerelease); set `dry_run=false` to request creation of a draft PR. Both stable and opted-in prerelease submissions require an existing, published, non-draft GitHub Release and its release assets. A dry run generates and validates manifests but does not submit a PR.
 
-## 11.1 Windows Package Manager (WinGet) Distribution
+The separate `ThemisDB.ThemisDB.Preview` identifier is intended to isolate preview versions from `ThemisDB.ThemisDB` stable upgrades; that upgrade behavior remains to be verified. No prior stable PR merge is required by this policy. The approval wrapper dispatches with the default prerelease opt-out, so it does not opt in to preview publication. Upstream validation and acceptance of the Preview identifier and prerelease versions remain unproven: a draft PR is not publication, and availability must be verified after upstream review and merge.
+
+## 11.1 Docker Distribution
 
 ThemisDB Community images are published to Docker Hub as `themisdb/themisdb`.
 
@@ -724,7 +774,7 @@ For historical reassignment work, also verify:
 
 ## 11.4 Release Publishing Approval Gates (2026 Security Hardening)
 
-All external registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows distributions) now requires explicit human maintainer approval via issue comment keywords. This prevents accidental publication of incomplete or problematic releases.
+External registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows distributions) is human-gated to prevent accidental publication of incomplete or problematic releases. The approval wrappers use issue comment keywords; the explicit WinGet manual or reusable opt-in follows the controlled workflow and its `winget-production` environment gate instead.
 
 ### Flow Overview
 
@@ -783,19 +833,18 @@ After the GitHub Release exists, maintainers can independently approve these dow
 **Requirements:**
 - Comment author must have `admin` or `maintain` role
 - Issue must have `winget-release` label
-- Corresponding GitHub Release must exist
+- Corresponding GitHub Release must be published and non-draft
 
 **Action:**
 1. Validates commenter permissions
 2. Extracts version from issue
 3. Dispatches `release-winget.yml` workflow
-4. Workflow generates WinGet manifests and creates PR to `microsoft/winget-pkgs`
+4. Workflow generates stable WinGet manifests and attempts to create a draft PR to `microsoft/winget-pkgs`
 5. Community reviewers validate and merge
 6. Package becomes available via `winget install ThemisDB.ThemisDB`
 
 **Policy:**
-- Submit only stable releases to WinGet first
-- Pre-release versions follow after stable PR is merged
+- The approval wrapper leaves `allow_prerelease` at its default `false`; prerelease submission requires a separate explicit manual or reusable opt-in as described above.
 - Community reviewers control merge timing (not automatic)
 
 ### Docker Registry Publication (`release-docker-approval.yml`)
