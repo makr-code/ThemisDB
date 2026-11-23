@@ -19,14 +19,13 @@ Status: Active
 
 ## Summary
 
-- Added: 2
+- Added: 0
 - Removed: 0
-- Changed: 4
+- Changed: 2
 
 ## Added
 
-- ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md
-- include/tensor/dream_candidate_store.h
+- none
 
 ## Removed
 
@@ -34,7 +33,5 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/release-docker-image.yml
-- .github/workflows/release-winget.yml
-- docs/code_maturity_report.md
-- scripts/ai-dev-llm-wiki-sync.py
+- ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md
+- include/tensor/dream_candidate_store.h
