@@ -96,6 +96,7 @@ struct DreamGateReport {
     bool ethics_veto_triggered = false; ///< Whether the ethics checker vetoed.
     bool security_veto_triggered = false; ///< Whether security left a veto unresolved.
     bool security_leakage_detected = false; ///< Whether leakage was confirmed.
+    bool invalidated_by_reset = false; ///< Whether abort/failure requires fresh validation.
     std::optional<double> utility_delta_recall_at_10; ///< Recall delta or unavailable.
     std::optional<double> utility_delta_ndcg_at_10; ///< nDCG delta or unavailable.
     std::optional<double> online_hallucination_delta; ///< Hallucination delta or unavailable.
@@ -237,12 +238,16 @@ public:
 
     /**
      * @brief Records a run abort in the audit log and resets to the safe baseline state.
+     * @note Any existing gate report remains available for audit but cannot
+     *       authorize transitions until fresh validation completes.
      */
     [[nodiscard]] bool abortRun(const std::string& run_id,
                                 const std::string& reason);
 
     /**
      * @brief Records an explicit failure reason and preserves the audit trail.
+     * @note Any existing gate report remains available for audit but cannot
+     *       authorize transitions until fresh validation completes.
      */
     [[nodiscard]] bool failRun(const std::string& run_id,
                                const std::string& reason,

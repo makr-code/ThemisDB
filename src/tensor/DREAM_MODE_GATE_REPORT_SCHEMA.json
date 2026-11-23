@@ -7,6 +7,7 @@
     "report_version",
     "run_id",
     "status",
+    "invalidated_by_reset",
     "gates",
     "reasons",
     "security",
@@ -24,6 +25,9 @@
     },
     "status": {
       "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+    },
+    "invalidated_by_reset": {
+      "type": "boolean"
     },
     "gates": {
       "type": "object",
@@ -174,7 +178,8 @@
       "additionalProperties": false,
       "required": [
         "recommendation",
-        "rationale"
+        "rationale",
+        "transition_eligible"
       ],
       "properties": {
         "recommendation": {
@@ -187,6 +192,9 @@
         "rationale": {
           "type": "string",
           "minLength": 1
+        },
+        "transition_eligible": {
+          "type": "boolean"
         }
       }
     }

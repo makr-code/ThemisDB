@@ -213,6 +213,7 @@ nlohmann::json DreamGateReport::toJson() const {
         {"report_version", "1.0"},
         {"run_id", run_id},
         {"status", DreamOrchestrator::gateStatusToString(status)},
+        {"invalidated_by_reset", invalidated_by_reset},
         {"gates", std::move(gates)},
         {"reasons", std::move(reasons)},
         {"security",
@@ -234,12 +235,15 @@ nlohmann::json DreamGateReport::toJson() const {
           {"security",
            security_veto_triggered ? nlohmann::json(security_leakage.reason)
                                    : nlohmann::json(nullptr)}}},
-        {"decision", {{"recommendation", recommendation}, {"rationale", rationale}}},
+        {"decision",
+         {{"recommendation", recommendation},
+          {"rationale", rationale},
+          {"transition_eligible", permitsPromotionCandidate()}}},
     };
 }
 
 bool DreamGateReport::permitsPromotionCandidate() const noexcept {
-    return allRequiredGatesPass(*this);
+    return !invalidated_by_reset && allRequiredGatesPass(*this);
 }
 
 nlohmann::json DreamRunDescriptor::toJson() const {
@@ -466,16 +470,22 @@ bool DreamOrchestrator::transitionRun(const std::string& run_id,
     }
 
     const auto report_it = gate_reports_.find(run_id);
+    const bool report_invalidated =
+        report_it != gate_reports_.end() && report_it->second.invalidated_by_reset;
     const bool validation_passed =
         report_it != gate_reports_.end() && report_it->second.permitsPromotionCandidate();
     const bool requires_passing_gates =
         next_state == DreamRunState::R1 || next_state == DreamRunState::R2 ||
         next_state == DreamRunState::R3;
     if (requires_passing_gates && !validation_passed) {
-        const std::string error =
-            next_state == DreamRunState::R1
-                ? "Transition requires utility, nonregression, and safety gates to pass"
-                : "Promotion-candidate transition requires all Dream-Mode gates to pass";
+        const std::string error = report_invalidated
+                                      ? "Gate report invalidated by abort/failure; fresh "
+                                        "validation is required"
+                                  : next_state == DreamRunState::R1
+                                      ? "Transition requires utility, nonregression, and "
+                                        "safety gates to pass"
+                                      : "Promotion-candidate transition requires all "
+                                        "Dream-Mode gates to pass";
         if (detail) {
             *detail = error;
         }
@@ -505,6 +515,7 @@ std::optional<DreamGateReport> DreamOrchestrator::validateRun(
 
     auto report = buildGateReport(run_id, evidence);
     gate_reports_[run_id] = report;
+    gate_reports_[run_id].invalidated_by_reset = false;
     run_it->second.updated_at_utc = formatUtcTimestampNow();
     const auto reason_class =
         report.status == DreamGateStatus::pass ? DreamRunAuditReasonClass::none
@@ -530,6 +541,12 @@ bool DreamOrchestrator::abortRun(const std::string& run_id, const std::string& r
     if (it == runs_.end()) {
         return false;
     }
+    if (auto report = gate_reports_.find(run_id); report != gate_reports_.end()) {
+        report->second.invalidated_by_reset = true;
+        report->second.recommendation = "research_only";
+        report->second.rationale =
+            "gate report invalidated by abort; fresh validation is required";
+    }
     it->second.state = DreamRunState::R0;
     it->second.updated_at_utc = formatUtcTimestampNow();
     recordAuditLocked(run_id, DreamRunState::R0, "abort", reason,
@@ -544,6 +561,12 @@ bool DreamOrchestrator::failRun(const std::string& run_id,
     auto it = runs_.find(run_id);
     if (it == runs_.end()) {
         return false;
+    }
+    if (auto report = gate_reports_.find(run_id); report != gate_reports_.end()) {
+        report->second.invalidated_by_reset = true;
+        report->second.recommendation = "research_only";
+        report->second.rationale =
+            "gate report invalidated by failure; fresh validation is required";
     }
     it->second.state = DreamRunState::R0;
     it->second.updated_at_utc = formatUtcTimestampNow();

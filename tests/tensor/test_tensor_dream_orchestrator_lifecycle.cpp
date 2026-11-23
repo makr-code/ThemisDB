@@ -209,6 +209,8 @@ TEST(DreamOrchestratorLifecycle, DOR06_PassReportIsPersistedAndSchemaConformant)
     EXPECT_EQ(json.at("run_id"), descriptor->run_id);
     EXPECT_EQ(json.at("status"), "pass");
     EXPECT_EQ(json.at("decision").at("recommendation"), "promotion_candidate");
+    EXPECT_TRUE(json.at("decision").at("transition_eligible").get<bool>());
+    EXPECT_FALSE(json.at("invalidated_by_reset").get<bool>());
     EXPECT_EQ(json.at("gates").size(), 5u);
     EXPECT_EQ(json.at("gates").at("BRAIN-DREAM-ISOLATION"), "pass");
     EXPECT_EQ(json.at("gates").at("BRAIN-DREAM-LABEL-INTEGRITY"), "pass");
@@ -325,4 +327,40 @@ TEST(DreamOrchestratorLifecycle, DOR11_DetectedSecurityLeakageFailsIsolation) {
     EXPECT_EQ(report->recommendation, "no_go");
     EXPECT_EQ(report->toJson().at("security").at("leakage_detected"), true);
     EXPECT_FALSE(orchestrator.transitionRun(descriptor->run_id, DreamRunState::R1));
+}
+
+TEST(DreamOrchestratorLifecycle, DOR12_AbortAndFailureInvalidateStoredGateReports) {
+    DreamOrchestrator orchestrator;
+    const auto descriptor = orchestrator.StartDreamRun(
+        "dream_research", "policy-v1", "dataset://alpha/snapshot-42", {1, 2, 3});
+    ASSERT_TRUE(descriptor.has_value());
+
+    ASSERT_TRUE(orchestrator.validateRun(descriptor->run_id, passingEvidence()).has_value());
+    ASSERT_TRUE(orchestrator.transitionRun(descriptor->run_id, DreamRunState::R1));
+    ASSERT_TRUE(orchestrator.abortRun(descriptor->run_id, "operator abort"));
+
+    auto report = orchestrator.getGateReportByRunId(descriptor->run_id);
+    ASSERT_TRUE(report.has_value());
+    EXPECT_TRUE(report->invalidated_by_reset);
+    EXPECT_EQ(report->recommendation, "research_only");
+    EXPECT_FALSE(report->permitsPromotionCandidate());
+    EXPECT_FALSE(
+        report->toJson().at("decision").at("transition_eligible").get<bool>());
+    expectReportConformsToSchema(report->toJson());
+    std::string detail;
+    EXPECT_FALSE(orchestrator.transitionRun(descriptor->run_id, DreamRunState::R1, &detail));
+    EXPECT_NE(detail.find("fresh validation"), std::string::npos);
+
+    ASSERT_TRUE(orchestrator.validateRun(descriptor->run_id, passingEvidence()).has_value());
+    EXPECT_TRUE(orchestrator.transitionRun(descriptor->run_id, DreamRunState::R1));
+    ASSERT_TRUE(orchestrator.failRun(
+        descriptor->run_id, "synthetic failure", DreamRunAuditReasonClass::generic_failure));
+    EXPECT_FALSE(orchestrator.transitionRun(descriptor->run_id, DreamRunState::R1, &detail));
+    EXPECT_NE(detail.find("fresh validation"), std::string::npos);
+
+    report = orchestrator.getGateReportByRunId(descriptor->run_id);
+    ASSERT_TRUE(report.has_value());
+    EXPECT_TRUE(report->invalidated_by_reset);
+    EXPECT_FALSE(report->permitsPromotionCandidate());
+    expectReportConformsToSchema(report->toJson());
 }

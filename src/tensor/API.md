@@ -124,7 +124,8 @@ Contract notes:
   pass. Reaching R3 records lifecycle state only; it does not authorize or
   execute promotion transfer. Callers that previously transitioned without
   validation evidence must call `validateRun()` first and handle a rejected
-  transition.
+  transition. Abort and failure retain the last report for audit, mark it
+  ineligible for transitions, and require fresh validation before re-entry.
 
 ## Error and edge-case contract
 
