@@ -3,6 +3,9 @@
 #include "storage/tensor_network_storage_engine.h"
 #include "tensor/dream_candidate_store.h"
 
+#include <stdexcept>
+#include <vector>
+
 using themis::tensor::DreamCandidateProvenance;
 using themis::tensor::DreamCandidateStore;
 
@@ -130,7 +133,7 @@ TEST(DreamCandidateStore, PersistsProvenanceAcrossStoreInstancesInIsolatedNamesp
     ASSERT_EQ(keys.size(), 1U);
     EXPECT_EQ(keys.front(), storageKey("candidate/persisted"));
     EXPECT_EQ(backend->get("__production_truth__:untouched"),
-              std::optional<std::vector<uint8_t>>({1, 2, 3}));
+              std::optional<std::vector<uint8_t>>(std::vector<uint8_t>{1, 2, 3}));
 }
 
 TEST(DreamCandidateStore, RejectsCorruptedPersistedEnvelopeOnRead) {

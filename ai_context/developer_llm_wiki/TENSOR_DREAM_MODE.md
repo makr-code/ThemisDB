@@ -41,39 +41,49 @@ required true labels `synthetic=true`, `dream_mode=true`, and a non-blank
 rejected; read and export return no value when an item is missing or fails
 validation.
 
-The store keeps artifacts in a mutex-protected map owned by one store instance.
-It has no injected production storage or truth-store dependency and exposes no
-production-write or promotion API. Separate instances do not share stored
-candidates. It is process-local and volatile: it does not persist across
-process restarts, provide a durable storage backend, or establish physical
-storage isolation beyond its separate in-memory map.
+The default constructor uses an in-memory backend. Callers may inject an
+`ITensorStorageBackend`; records are stored as versioned envelopes beneath the
+dedicated `__dream_candidate__:v1:` namespace, with candidate IDs hex-encoded
+in keys. Reads re-parse and revalidate the provenance and checksum. Persistence
+across process restarts depends on selecting a durable backend; the focused
+tests only demonstrate retention across store instances sharing a backend.
+
+The store has no production truth-store dependency and exposes no production
+write or promotion API. The dedicated key prefix isolates candidate records
+logically, but does not establish a separate physical database or access-control
+boundary. One store instance serializes its operations; callers sharing a
+backend across multiple writers must serialize writes because the backend
+interface does not provide conditional put.
 
 ## Envelope and integrity boundaries
 
 `exportArtifact()` emits a version-1 JSON envelope containing the candidate ID,
 payload, provenance labels, checksum algorithm, and checksum.
 `importArtifact()` requires the exact envelope and provenance keys, validates
-field types and required labels, then verifies the checksum before inserting
-the artifact. Reads and exports also verify the stored artifact.
+field types and required labels, then verifies the checksum before writing the
+artifact to the configured backend. Reads and exports also verify the stored
+artifact; malformed persisted records fail closed.
 
 The checksum is FNV-1a 64-bit over the serialized envelope without the checksum
 fields. It detects accidental content changes but is not cryptographic, does
 not authenticate a producer, and must not be used as evidence of trust or
 authorization. `run_id` is checked only for non-blank content; the store does
-not verify that it belongs to a persisted `DreamOrchestrator` run. Import is a
-serialization round trip, not a durable persistence or trusted promotion path.
+not verify that it belongs to a persisted `DreamOrchestrator` run. The envelope
+checksum is not authentication and no trusted promotion path is implemented.
 
 ## Tests and evidence limits
 
 [`test_tensor_dream_candidate_store.cpp`](../../tests/tensor/test_tensor_dream_candidate_store.cpp)
 covers successful store/read/export/import with provenance retention, missing
 or false labels, whitespace run IDs, null payloads, malformed envelopes,
-checksum mismatch, duplicate IDs, and per-instance isolation.
+checksum mismatch, duplicate IDs, default-backend per-instance isolation,
+shared-backend re-open, namespace isolation, and rejection of a corrupted
+persisted envelope.
 [`tests/tensor/CMakeLists.txt`](../../tests/tensor/CMakeLists.txt) discovers
 `test_*.cpp` and registers the focused test target. Registration and source
 coverage do not establish that the CTest target has built or passed.
 
-The tests do not establish restart durability, integration with the
+The tests do not establish process-restart durability, integration with the
 orchestrator, production retrieval isolation, cryptographic authenticity,
 utility/nonregression, or ethics-gate behavior. The module roadmap continues
 to track broader Dream-Mode work under WP-BRAIN-04 and BRAIN-GATE-02; do not

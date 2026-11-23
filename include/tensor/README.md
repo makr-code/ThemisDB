@@ -31,6 +31,15 @@ production-ready. The module target requires C++17.
 
 ## Main runtime contracts
 
+### Dream-Mode candidate storage
+
+`DreamCandidateStore` uses an in-memory backend by default or accepts an
+`ITensorStorageBackend` for persistence. Candidate envelopes are isolated under
+the `__dream_candidate__:v1:` key prefix and revalidated on reads; persistence
+across process restarts depends on the injected backend. This is a logical
+namespace only, not a separate physical database or access-control boundary.
+The store has no production truth-write or promotion API.
+
 ### Tensor indexes
 
 `ITensorIndex` defines TT and flat-vector insert/search operations. The

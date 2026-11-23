@@ -233,13 +233,19 @@ bool DreamCandidateStore::importArtifact(const std::string& serialized,
         error->clear();
     }
 
+    std::optional<DreamCandidateArtifact> artifact;
     try {
-        auto artifact = parseSerializedArtifact(serialized);
-        if (!artifact) {
-            setError(error, "candidate envelope schema, provenance, or checksum validation failed");
-            return false;
-        }
+        artifact = parseSerializedArtifact(serialized);
+    } catch (const std::exception&) {
+        setError(error, "candidate envelope is not valid JSON");
+        return false;
+    }
+    if (!artifact) {
+        setError(error, "candidate envelope schema, provenance, or checksum validation failed");
+        return false;
+    }
 
+    try {
         const auto key = storageKeyFor(artifact->candidate_id);
         const auto bytes = asBytes(serialized);
         std::lock_guard<std::mutex> lock(mutex_);
@@ -253,7 +259,7 @@ bool DreamCandidateStore::importArtifact(const std::string& serialized,
         }
         return true;
     } catch (const std::exception&) {
-        setError(error, "candidate envelope is not valid JSON");
+        setError(error, "candidate storage backend failed");
         return false;
     } catch (...) {
         setError(error, "candidate storage backend failed");
