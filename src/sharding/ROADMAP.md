@@ -201,6 +201,13 @@ bounded local source/test evidence only. The Wave B workflow selects the same
 lanes, and maintainer sign-off remain required and are not inferred from
 workflow wiring.
 
+The Wave B workflow now executes the label in three independent CTest invocations,
+requires at least one test with `--no-tests=error`, writes one JUnit XML per run,
+and validates them through `tools/ci/validate_dis11_evidence.py`. The artifact
+collector rejects missing, failed, skipped, wrong-test, or commit-mismatched
+DIS-11 evidence. This closes silent-zero-test and machine-readable artifact gaps;
+it does not add platform coverage or 72-hour chaos evidence.
+
 The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
 transactions across two durable participant objects, records per-shard reads
 and writes, rejects a synthetic opposing-conflict cycle, and searches the

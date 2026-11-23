@@ -345,6 +345,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     24.04/Linux Debug alle drei Wiederholungen (ein registrierter CTest-Target). Ein erfolgreicher
     Actions-Lauf samt Artefakt, andere Plattformen und Maintainer-Freigabe bleiben offen. Diese
     Teilerfüllung schließt den kombinierten DIS-10/DIS-11/TST-03-Gatepunkt nicht.
+    - Evidenz-Härtung am 2026-11-23: Der Wave-B-Job führt drei unabhängige CTest-Läufe mit
+      `--no-tests=error` aus, erzeugt pro Lauf JUnit und validiert Testname, Fehler-, Skip- und
+      Run-Anzahl sowie Commit-Metadaten per `tools/ci/validate_dis11_evidence.py`. Die Sammlung
+      blockiert fehlende oder inkonsistente DIS-11-Artefakte. Dies schließt stille Null-Testläufe
+      und unstrukturierte Ergebnisprüfung ab, aber weder andere Plattformen noch 72h-Chaos.
   - Der Wave-B-Workflow baut das Linux-Real-Transport-Target und archiviert drei CTest-
     Wiederholungen; ein erfolgreicher Workflow-Lauf samt Artefakt ist noch nicht nachgewiesen.
   - TCP erhält die Byte-Reihenfolge; rohe Reordering-/Duplikat-Injektion verschlüsselter TLS-Bytes
