@@ -1766,15 +1766,20 @@ if(THEMIS_ENABLE_LLM)
     endif()
 
     # Homebrew Clang diagnoses fixed-underlying-type enum declarations in the
-    # Xcode 15.4 Accelerate SDK headers included by ggml-cpu C++ sources.
+    # Xcode 15.4 Accelerate SDK headers included by ggml-cpu/ggml-blas C++ sources.
     # Probe the positive diagnostic form so unknown warning groups cannot pass
     # silently, then demote only this diagnostic; retain all other -Werror checks.
-    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND TARGET ggml-cpu)
+    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
+       (TARGET ggml-cpu OR TARGET ggml-blas))
         include(CheckCXXCompilerFlag)
         check_cxx_compiler_flag("-Werror=elaborated-enum-base" _THEMIS_HAVE_ELABORATED_ENUM_BASE)
         if(_THEMIS_HAVE_ELABORATED_ENUM_BASE)
-            target_compile_options(ggml-cpu PRIVATE
-                "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
+            foreach(_themis_accelerate_target IN ITEMS ggml-cpu ggml-blas)
+                if(TARGET ${_themis_accelerate_target})
+                    target_compile_options(${_themis_accelerate_target} PRIVATE
+                        "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
+                endif()
+            endforeach()
         endif()
     endif()
 
