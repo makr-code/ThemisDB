@@ -169,6 +169,11 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha || inputs.tag_name || github.event.release.tag_name || github.sha }}
+      - name: Checkout workflow revision for release policy
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: release-policy
       - name: Resolve release source
         id: identity
         shell: bash
@@ -229,6 +234,7 @@ jobs:
           enforce: 'true'
           fail-if-missing: 'true'
       - name: Validate canonical version contract
+        working-directory: release-policy
         run: |
           set -euo pipefail
           chmod +x .github/scripts/version-release-type-manager.sh
