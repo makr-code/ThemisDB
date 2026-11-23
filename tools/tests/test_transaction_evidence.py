@@ -298,7 +298,7 @@ class TransactionWorkflowTests(unittest.TestCase):
             self.assertNotEqual(incomplete.returncode, 0)
             self.assertIn("Missing required results.xml", incomplete.stderr)
 
-    def test_distributed_knowledge_consumers_accept_flattened_build_artifact(self):
+    def test_distributed_knowledge_consumers_restore_original_build_directory(self):
         workflow = yaml.safe_load(
             (ROOT / ".github/workflows/gate-distributed-knowledge.yml").read_text()
         )
@@ -306,11 +306,17 @@ class TransactionWorkflowTests(unittest.TestCase):
             ("validate-unit-tests", "Run module unit tests from producer artifact"),
             ("validate-benchmarks", "Run benchmark gate from producer artifact"),
         ):
+            download_step = next(
+                step
+                for step in workflow["jobs"][job_name]["steps"]
+                if step.get("name") == "Download build tree"
+            )
+            self.assertEqual(download_step["with"]["path"], "build-community-release")
             for layout in ("flattened", "nested"):
                 with self.subTest(job=job_name, layout=layout), tempfile.TemporaryDirectory() as temporary:
                     root = Path(temporary)
                     build_tree = (
-                        root
+                        root / "build-community-release"
                         if layout == "flattened"
                         else root / "build-community-release" / "build-community-release"
                     )
@@ -343,7 +349,7 @@ class TransactionWorkflowTests(unittest.TestCase):
                     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                     arguments = (root / "ctest-args.txt").read_text().splitlines()
                     expected_build_tree = (
-                        "."
+                        "build-community-release"
                         if layout == "flattened"
                         else "build-community-release/build-community-release"
                     )

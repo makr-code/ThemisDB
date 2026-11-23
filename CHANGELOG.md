@@ -14,13 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 > Exact model backend not verifiable from final document text alone.
 
-- Distributed-knowledge CI consumers now accept the flattened CMake build-tree
-  artifact layout produced by `upload-artifact`, while retaining support for
-  nested artifacts. The transaction evidence test supplies the required DIS-10
-  serializability artifact in its successful fixture. The producer build budget
-  is 60 minutes after a 45-minute run stopped at 1,864 of 1,995 build steps.
+- Distributed-knowledge CI consumers download flattened artifacts into the
+  original `build-community-release` path, preserving CMake's absolute test
+  include paths while retaining support for nested artifacts. The transaction
+  evidence test supplies the required DIS-10 serializability artifact. The
+  producer build budget is 60 minutes after a 45-minute run stopped at 1,864 of
+  1,995 build steps.
 - The Wave 4 release benchmark runner installs `libkrb5-dev`, providing the
-  Kerberos libraries required when linking `libthemis_security.so`.
+  Kerberos libraries required when linking `libthemis_security.so`; its Wave 4-A
+  benchmark explicitly appends zlib to resolve compression symbols from that
+  shared library.
 
 ### Fixed - Raft quorum recovery and tensor index shape validation
 

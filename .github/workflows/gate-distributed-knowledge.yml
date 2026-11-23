@@ -173,7 +173,7 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: dk-build-tree-${{ github.run_number }}
-          path: .
+          path: build-community-release
 
       - name: Run module unit tests from producer artifact
         run: |
@@ -181,11 +181,12 @@ jobs:
           build_tree="build-community-release"
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
-          elif [ -f CMakeCache.txt ] && [ -f CTestTestfile.cmake ] && [ -f build.ninja ]; then
-            build_tree="."
           fi
-          if [ ! -d "${build_tree}" ]; then
-            echo "::error::Build tree missing after artifact download: ${build_tree}"
+          if [ ! -d "${build_tree}" ] || \
+             [ ! -f "${build_tree}/CMakeCache.txt" ] || \
+             [ ! -f "${build_tree}/CTestTestfile.cmake" ] || \
+             [ ! -f "${build_tree}/build.ninja" ]; then
+            echo "::error::Build tree or required CMake markers missing after artifact download: ${build_tree}"
             echo "Workspace contents:"
             ls -la
             exit 1
@@ -216,7 +217,7 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: dk-build-tree-${{ github.run_number }}
-          path: .
+          path: build-community-release
 
       - name: Run benchmark gate from producer artifact
         run: |
@@ -224,11 +225,12 @@ jobs:
           build_tree="build-community-release"
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
-          elif [ -f CMakeCache.txt ] && [ -f CTestTestfile.cmake ] && [ -f build.ninja ]; then
-            build_tree="."
           fi
-          if [ ! -d "${build_tree}" ]; then
-            echo "::error::Build tree missing after artifact download: ${build_tree}"
+          if [ ! -d "${build_tree}" ] || \
+             [ ! -f "${build_tree}/CMakeCache.txt" ] || \
+             [ ! -f "${build_tree}/CTestTestfile.cmake" ] || \
+             [ ! -f "${build_tree}/build.ninja" ]; then
+            echo "::error::Build tree or required CMake markers missing after artifact download: ${build_tree}"
             echo "Workspace contents:"
             ls -la
             exit 1
