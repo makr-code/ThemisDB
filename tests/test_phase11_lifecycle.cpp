@@ -6,11 +6,12 @@
  * for complete lifecycle from training through deployment.
  */
 
-#include <cassert>
 #include <chrono>
 #include <filesystem>
 #include <iostream>
 #include <sstream>
+
+#include <gtest/gtest.h>
 
 #include "rag/model_evaluator.h"
 #include "rag/model_promoter.h"
@@ -30,45 +31,45 @@ void TestModelRegistry() {
   uint32_t v1 = registry.RegisterModel("cost-optimizer", "dataset-1",
                                        R"({"ndcg@10": 0.75})", R"({"latency_ms": 42.5})",
                                        "/models/cost-v1", 0);
-  assert(v1 == 1);
-  assert(registry.Count() == 1);
+  ASSERT_TRUE(v1 == 1);
+  ASSERT_TRUE(registry.Count() == 1);
 
   // Test 1.2: Register second model with lineage
   uint32_t v2 = registry.RegisterModel("cost-optimizer", "dataset-2",
                                        R"({"ndcg@10": 0.78})", R"({"latency_ms": 40.0})",
                                        "/models/cost-v2", v1);
-  assert(v2 == 2);
+  ASSERT_TRUE(v2 == 2);
 
   // Test 1.3: Get by version
   auto meta = registry.GetByVersion(v1);
-  assert(meta.has_value());
-  assert(meta->version == v1);
-  assert(meta->status == ModelStatus::kDraft);
+  ASSERT_TRUE(meta.has_value());
+  ASSERT_TRUE(meta->version == v1);
+  ASSERT_TRUE(meta->status == ModelStatus::kDraft);
 
   // Test 1.4: Update status (draft → validated)
   bool ok = registry.UpdateModelStatus(v1, ModelStatus::kValidated, "Validation passed");
-  assert(ok);
+  ASSERT_TRUE(ok);
   meta = registry.GetByVersion(v1);
-  assert(meta->status == ModelStatus::kValidated);
+  ASSERT_TRUE(meta->status == ModelStatus::kValidated);
 
   // Test 1.5: Invalid transition should fail
   ok = registry.UpdateModelStatus(v1, ModelStatus::kValidated, "Should fail");
-  assert(!ok);  // Can't transition from validated to validated
+  ASSERT_TRUE(!ok);  // Can't transition from validated to validated
 
   // Test 1.6: Valid transition (validated → candidate)
   ok = registry.UpdateModelStatus(v1, ModelStatus::kCandidate, "Ready for canary");
-  assert(ok);
+  ASSERT_TRUE(ok);
 
   // Test 1.7: Get models by status
   auto candidates = registry.GetByStatus(ModelStatus::kCandidate);
-  assert(candidates.size() == 1);
-  assert(candidates[0].version == v1);
+  ASSERT_TRUE(candidates.size() == 1);
+  ASSERT_TRUE(candidates[0].version == v1);
 
   // Test 1.8: Get lineage
   auto lineage = registry.GetLineage(v2);
-  assert(lineage.size() == 2);
-  assert(lineage[0].version == v2);  // Most recent first
-  assert(lineage[1].version == v1);
+  ASSERT_TRUE(lineage.size() == 2);
+  ASSERT_TRUE(lineage[0].version == v2);  // Most recent first
+  ASSERT_TRUE(lineage[1].version == v1);
 
   // Test 1.9: Persist and restore round-trip
   const std::string persistence_path = "/tmp/test_registry_persistence_roundtrip.json";
@@ -77,15 +78,15 @@ void TestModelRegistry() {
   const uint32_t v3 = persisted_registry.RegisterModel(
       "cost-optimizer", "dataset-3", R"({""ndcg@10"": 0.81})",
       R"({""latency_ms"": 39.0})", "/models/cost-v3", 0);
-  assert(v3 == 1);
-  assert(persisted_registry.Persist());
+  ASSERT_TRUE(v3 == 1);
+  ASSERT_TRUE(persisted_registry.Persist());
 
   ModelRegistry loaded_registry(persistence_path);
   auto restored = loaded_registry.GetByVersion(v3);
-  assert(restored.has_value());
-  assert(restored->model_id == "cost-optimizer");
-  assert(restored->status == ModelStatus::kDraft);
-  assert(loaded_registry.Count() == 1);
+  ASSERT_TRUE(restored.has_value());
+  ASSERT_TRUE(restored->model_id == "cost-optimizer");
+  ASSERT_TRUE(restored->status == ModelStatus::kDraft);
+  ASSERT_TRUE(loaded_registry.Count() == 1);
 
   std::cout << "  ✅ ModelRegistry tests passed" << std::endl;
 }
@@ -99,11 +100,11 @@ void TestRetariningScheduler() {
 
   // Test 2.1: Manual retraining request
   bool ok = scheduler.RequestRetraining();
-  assert(ok);
-  assert(scheduler.IsRetariningInProgress());
+  ASSERT_TRUE(ok);
+  ASSERT_TRUE(scheduler.IsRetariningInProgress());
 
   auto [trigger, reason] = scheduler.GetLastTriggerReason();
-  assert(trigger == RetariningTrigger::kManualRequest);
+  ASSERT_TRUE(trigger == RetariningTrigger::kManualRequest);
 
   // Test 2.2: Cost model drift detection
   scheduler.ReportCostModelDrift(50.0, 40.0);  // 25% increase, above 15% threshold
@@ -121,7 +122,8 @@ void TestModelEvaluator() {
   std::cout << "Test: ModelEvaluator Statistical Validation..." << std::endl;
 
   ModelRegistry registry("/tmp/test_registry3.db");
-  ModelEvaluator evaluator(registry, 0.02, true, 0.3);
+  // Isolate quality-threshold behavior from cost scoring.
+  ModelEvaluator evaluator(registry, 0.02, true, 0.0);
 
   // Register baseline and candidate models
   uint32_t baseline = registry.RegisterModel(
@@ -136,14 +138,14 @@ void TestModelEvaluator() {
   auto decision = evaluator.Evaluate(candidate, R"({"ndcg@10": 0.75, "recall@10": 0.82})",
                                      R"({"latency_ms": 42.5, "cost_per_query": 0.01})");
 
-  assert(decision.approved);  // 4% ndcg improvement + 3% recall improvement > 2% threshold
-  assert(decision.metric_results.size() >= 2);  // At least ndcg and recall metrics
+  ASSERT_TRUE(decision.approved);  // 4% ndcg improvement + 3% recall improvement > 2% threshold
+  ASSERT_TRUE(decision.metric_results.size() >= 2);  // At least ndcg and recall metrics
 
   // Test 3.2: Threshold configuration
   evaluator.SetMinImprovementThreshold(0.10);  // Require 10% improvement
   decision = evaluator.Evaluate(candidate, R"({"ndcg@10": 0.75, "recall@10": 0.82})",
                                R"({"latency_ms": 42.5, "cost_per_query": 0.01})");
-  assert(!decision.approved);  // Now requires > 10% improvement
+  ASSERT_TRUE(!decision.approved);  // Now requires > 10% improvement
 
   std::cout << "  ✅ ModelEvaluator tests passed" << std::endl;
 }
@@ -170,32 +172,32 @@ void TestModelPromoter() {
 
   // Test 4.1: Start canary
   bool ok = promoter.StartCanary(candidate);
-  assert(ok);
-  assert(promoter.IsCanaryActive());
-  assert(promoter.GetCurrentPhase() == CanaryPhase::kShadow);
+  ASSERT_TRUE(ok);
+  ASSERT_TRUE(promoter.IsCanaryActive());
+  ASSERT_TRUE(promoter.GetCurrentPhase() == CanaryPhase::kShadow);
 
   // Test 4.2: Get traffic split (shadow = 0% traffic)
   auto split = promoter.GetTrafficSplit();
-  assert(split.baseline_version == baseline);
-  assert(split.canary_version == candidate);
-  assert(split.canary_traffic_pct == 0.0);
+  ASSERT_TRUE(split.baseline_version == baseline);
+  ASSERT_TRUE(split.canary_version == candidate);
+  ASSERT_TRUE(split.canary_traffic_pct == 0.0);
 
   // Test 4.3: Advance through phases
   ok = promoter.AdvancePhase();
-  assert(ok);
-  assert(promoter.GetCurrentPhase() == CanaryPhase::kCanary5);
+  ASSERT_TRUE(ok);
+  ASSERT_TRUE(promoter.GetCurrentPhase() == CanaryPhase::kCanary5);
 
   split = promoter.GetTrafficSplit();
-  assert(split.canary_traffic_pct == 5.0);
+  ASSERT_TRUE(split.canary_traffic_pct == 5.0);
 
   // Test 4.4: Report good metrics (no regression)
   bool passes = promoter.ReportMetric("ndcg@10", 0.76, 0.75);
-  assert(passes);  // 1.3% improvement, below 5% threshold
+  ASSERT_TRUE(passes);  // 1.3% improvement, below 5% threshold
 
   // Test 4.5: Report bad metric (regression)
   passes = promoter.ReportMetric("ndcg@10", 0.70, 0.75);
-  assert(!passes);  // 6.7% regression, above 5% threshold, triggers rollback
-  assert(!promoter.IsCanaryActive());  // Rollback removes canary
+  ASSERT_TRUE(!passes);  // 6.7% regression, above 5% threshold, triggers rollback
+  ASSERT_TRUE(!promoter.IsCanaryActive());  // Rollback removes canary
 
   std::cout << "  ✅ ModelPromoter tests passed" << std::endl;
 }
@@ -205,19 +207,20 @@ void TestEndToEndLifecycle() {
   std::cout << "Test: End-to-End Lifecycle..." << std::endl;
 
   ModelRegistry registry("/tmp/test_registry_e2e.db");
-  ModelEvaluator evaluator(registry, 0.02, true, 0.3);
+  // This scenario advances based on the quality improvement.
+  ModelEvaluator evaluator(registry, 0.02, true, 0.0);
   ModelPromoter promoter(registry, evaluator, 0.05, 1);
 
   // Step 1: Train new model (register as draft)
   uint32_t trained_model = registry.RegisterModel(
       "complete-rag", "dataset-prod", R"({"ndcg@10": 0.80, "recall@10": 0.85})",
       R"({"latency_ms": 45.0, "cost": 0.011})", "/models/complete-rag-v1", 0);
-  assert(registry.GetByVersion(trained_model)->status == ModelStatus::kDraft);
+  ASSERT_TRUE(registry.GetByVersion(trained_model)->status == ModelStatus::kDraft);
 
   // Step 2: Validate model (draft → validated)
   registry.UpdateModelStatus(trained_model, ModelStatus::kValidated,
                              "Training completed successfully");
-  assert(registry.GetByVersion(trained_model)->status == ModelStatus::kValidated);
+  ASSERT_TRUE(registry.GetByVersion(trained_model)->status == ModelStatus::kValidated);
 
   // Step 3: Approve for deployment (validated → candidate)
   auto decision = evaluator.Evaluate(trained_model, R"({"ndcg@10": 0.75, "recall@10": 0.80})",
@@ -225,12 +228,12 @@ void TestEndToEndLifecycle() {
   if (decision.approved) {
     registry.UpdateModelStatus(trained_model, ModelStatus::kCandidate, "Evaluation approved");
   }
-  assert(registry.GetByVersion(trained_model)->status == ModelStatus::kCandidate);
+  ASSERT_TRUE(registry.GetByVersion(trained_model)->status == ModelStatus::kCandidate);
 
   // Step 4: Start canary deployment
   bool ok = promoter.StartCanary(trained_model);
-  assert(ok);
-  assert(promoter.GetCurrentPhase() == CanaryPhase::kShadow);
+  ASSERT_TRUE(ok);
+  ASSERT_TRUE(promoter.GetCurrentPhase() == CanaryPhase::kShadow);
 
   // Step 5: Progress through canary phases
   for (int i = 0; i < 6; i++) {
@@ -239,36 +242,26 @@ void TestEndToEndLifecycle() {
     promoter.ReportMetric("ndcg@10", 0.79, 0.75);
     promoter.ReportMetric("recall@10", 0.84, 0.80);
   }
-  assert(promoter.GetCurrentPhase() == CanaryPhase::kDeployed);
+  ASSERT_TRUE(promoter.GetCurrentPhase() == CanaryPhase::kDeployed);
 
   // Step 6: Finalize deployment
   ok = promoter.FinalizeDeployment();
-  assert(ok);
-  assert(!promoter.IsCanaryActive());
+  ASSERT_TRUE(ok);
+  ASSERT_TRUE(!promoter.IsCanaryActive());
 
   // Verify final state
   auto deployed = registry.GetDeployedModel();
-  assert(deployed.has_value());
-  assert(deployed->version == trained_model);
-  assert(deployed->status == ModelStatus::kDeployed);
+  ASSERT_TRUE(deployed.has_value());
+  ASSERT_TRUE(deployed->version == trained_model);
+  ASSERT_TRUE(deployed->status == ModelStatus::kDeployed);
 
   std::cout << "  ✅ End-to-End Lifecycle tests passed" << std::endl;
 }
 
-int main() {
-  try {
-    std::cout << "\n=== RAG Phase 11 Lifecycle Tests ===" << std::endl;
-
-    TestModelRegistry();
-    TestRetariningScheduler();
-    TestModelEvaluator();
-    TestModelPromoter();
-    TestEndToEndLifecycle();
-
-    std::cout << "\n✅ All Phase 11 tests passed!" << std::endl;
-    return 0;
-  } catch (const std::exception& e) {
-    std::cerr << "\n❌ Test failed: " << e.what() << std::endl;
-    return 1;
-  }
+TEST(RAGPhase11LifecycleTest, CompleteLifecycle) {
+  TestModelRegistry();
+  TestRetariningScheduler();
+  TestModelEvaluator();
+  TestModelPromoter();
+  TestEndToEndLifecycle();
 }

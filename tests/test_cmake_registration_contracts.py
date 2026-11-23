@@ -18,6 +18,59 @@ ROOT = Path(__file__).resolve().parents[1]
     "CMake, CTest and Ninja are required",
 )
 class CMakeRegistrationContracts(unittest.TestCase):
+    def test_unified_rag_sources_do_not_duplicate_suites(self):
+        test_cmake = (ROOT / "tests" / "CMakeLists.txt").read_text(encoding="utf-8")
+        selection = test_cmake[
+            test_cmake.index("file(GLOB_RECURSE ALL_TEST_SOURCES"):
+            test_cmake.index("# Additional GoogleTest sources")
+        ]
+        prompt = test_cmake[
+            test_cmake.index("set(_themis_reincluded_prompt_tests\n"):
+            test_cmake.index("# Re-include additional prompt_engineering tests")
+        ]
+        llm = test_cmake[
+            test_cmake.index("if(THEMIS_ENABLE_LLM)\n    target_sources(themis_tests PRIVATE\n        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp"):
+            test_cmake.index("# Re-include the ROCm/HIP backend test")
+        ]
+        phase11 = (ROOT / "tests" / "test_phase11_lifecycle.cpp").read_text(encoding="utf-8")
+        self.assertNotRegex(phase11, r"\bint\s+main\s*\(")
+        self.assertIn("TEST(RAGPhase11LifecycleTest, CompleteLifecycle)", phase11)
+
+        with tempfile.TemporaryDirectory(prefix="themis-unified-rag-") as directory:
+            source = Path(directory) / "src"
+            source.mkdir()
+            cmake_source = selection + """
+add_library(themis_tests INTERFACE)
+function(target_sources target visibility)
+    _target_sources(${target} INTERFACE ${ARGN})
+endfunction()
+""" + prompt + llm + """
+get_target_property(reincluded themis_tests INTERFACE_SOURCES)
+file(WRITE "${CMAKE_BINARY_DIR}/sources.txt" "${ALL_TEST_SOURCES};${reincluded}")
+"""
+            cmake_source = cmake_source.replace(
+                "${CMAKE_CURRENT_SOURCE_DIR}", (ROOT / "tests").as_posix()
+            )
+            (source / "CMakeLists.txt").write_text(
+                "cmake_minimum_required(VERSION 3.20)\n"
+                "project(UnifiedRagSources NONE)\n" + cmake_source,
+                encoding="utf-8",
+            )
+            for enabled in (False, True):
+                with self.subTest(llm_enabled=enabled):
+                    build = Path(directory) / f"build-{enabled}"
+                    subprocess.run(
+                        ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja",
+                         f"-DTHEMIS_ENABLE_LLM={'ON' if enabled else 'OFF'}"],
+                        text=True, capture_output=True, check=True,
+                    )
+                    sources = (build / "sources.txt").read_text(encoding="utf-8").split(";")
+                    for stem, expected in (("builder", 1), ("injection", int(enabled))):
+                        root_copy = str(ROOT / "tests" / f"test_rag_prompt_{stem}.cpp")
+                        module_copy = str(ROOT / "tests" / "rag" / f"test_rag_prompt_{stem}.cpp")
+                        self.assertNotIn(root_copy, sources)
+                        self.assertEqual(sources.count(module_copy), expected)
+
     def test_module_dependencies_and_scraper_includes(self):
         test_sources = {
             "chaos": ("test_chaos_network.cpp",),
