@@ -1,6 +1,8 @@
 #pragma once
 
-#include <map>
+#include "storage/tensor_network_storage_engine.h"
+
+#include <memory>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <optional>
@@ -35,13 +37,32 @@ struct DreamCandidateArtifact {
 };
 
 /**
- * @brief Isolated, process-local storage for synthetic Dream-Mode candidates.
+ * @brief Isolated storage for synthetic Dream-Mode candidate envelopes.
  *
- * This store has no production truth-store dependency or write API. Exported
- * envelopes retain all provenance labels and are validated again when imported.
+ * The default constructor uses an in-memory backend. Supplying a durable
+ * ITensorStorageBackend persists envelopes there under a dedicated key prefix.
+ * This store has no production truth-store dependency or promotion API.
  */
 class DreamCandidateStore {
 public:
+    /**
+     * @brief Creates a process-local store for callers that do not inject storage.
+     * @note Data is volatile and is not shared with other store instances.
+     */
+    DreamCandidateStore();
+
+    /**
+     * @brief Creates a store backed by an isolated tensor key namespace.
+     * @param backend Non-null backend; use a durable backend to retain candidates
+     *        across process restarts.
+     * @throws std::invalid_argument if backend is null.
+     * @note Operations on one instance are serialized. Callers sharing a backend
+     *       between multiple writers must serialize writes to preserve duplicate-ID
+     *       rejection because the backend interface has no conditional put.
+     */
+    explicit DreamCandidateStore(
+        std::shared_ptr<storage::ITensorStorageBackend> backend);
+
     /**
      * @brief Validates and stores a synthetic candidate without overwriting IDs.
      * @param candidate_id Non-empty candidate identifier.
@@ -51,7 +72,7 @@ public:
      * @return True when the candidate was stored; false for malformed input or
      *         a duplicate ID.
      * @note The checksum detects accidental corruption; it is not an authenticity
-     *       proof. Storage is in-memory and scoped to this store instance.
+     *       proof. Backend failures cause the write to fail without fallback.
      */
     [[nodiscard]] bool store(const std::string& candidate_id,
                              const nlohmann::json& payload,
@@ -92,7 +113,9 @@ public:
         const DreamCandidateArtifact& artifact) noexcept;
 
 private:
-    std::map<std::string, DreamCandidateArtifact> artifacts_;
+    [[nodiscard]] static std::string storageKeyFor(const std::string& candidate_id);
+
+    std::shared_ptr<storage::ITensorStorageBackend> backend_;
     mutable std::mutex mutex_;
 };
 
