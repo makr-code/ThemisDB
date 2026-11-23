@@ -368,6 +368,13 @@ endif()
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
+# The module-local versions are re-included below and contain the same test
+# symbols as these root-level copies.
+list(REMOVE_ITEM ALL_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_builder.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_injection.cpp"
+)
+
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 # Guard against stale references to removed files from older test rounds.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp")
