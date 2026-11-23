@@ -616,19 +616,43 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Check for platform package artifact
+        id: package_artifact
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        env:
+          ARTIFACT_NAME: ${{ matrix.artifact_name_secondary }}
+        with:
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100,
+              },
+            );
+            const found = artifacts.some(
+              (artifact) => artifact.name === process.env.ARTIFACT_NAME && !artifact.expired,
+            );
+            core.setOutput('found', String(found));
+            if (!found) {
+              core.warning(`No package artifact was produced for ${process.env.ARTIFACT_NAME}; this platform lane will not be released.`);
+            }
+
       - name: Download final platform packages
+        if: steps.package_artifact.outputs.found == 'true'
         uses: actions/download-artifact@v5
         with:
           name: ${{ matrix.artifact_name_secondary }}
           path: runtime-packages
-          if-no-artifact-found: ignore
 
       - name: Check platform package availability
         id: packages
         shell: bash
         run: |
           set -euo pipefail
-          if find runtime-packages -type f -print -quit 2>/dev/null | grep -q .; then
+          if [ "${ARTIFACT_AVAILABLE}" = "true" ] && find runtime-packages -type f -print -quit 2>/dev/null | grep -q .; then
             echo "available=true" >> "$GITHUB_OUTPUT"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
@@ -636,6 +660,7 @@ jobs:
           fi
         env:
           PLATFORM: ${{ matrix.id }}
+          ARTIFACT_AVAILABLE: ${{ steps.package_artifact.outputs.found }}
 
       - name: Validate Linux packages in clean Ubuntu runtime
         if: steps.packages.outputs.available == 'true' && startsWith(matrix.id, 'linux-')

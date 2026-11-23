@@ -287,7 +287,9 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         run_summary = extract_yaml_job_block(workflow_text, "run-summary")
 
         self.assertIn("if: ${{ always() && !cancelled() && needs.prepare-release-matrix.result == 'success' }}", runtime_gate)
-        self.assertIn("if-no-artifact-found: ignore", runtime_gate)
+        self.assertIn("actions/github-script@", runtime_gate)
+        self.assertIn("artifact.name === process.env.ARTIFACT_NAME", runtime_gate)
+        self.assertIn("steps.package_artifact.outputs.found == 'true'", runtime_gate)
         self.assertIn("No package artifact was produced for ${PLATFORM}", runtime_gate)
         self.assertIn("steps.packages.outputs.available == 'true'", runtime_gate)
         self.assertIn("runtime_gate_result: ${{ steps.release_gate.outputs.runtime_gate_result }}", run_summary)
@@ -317,7 +319,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         for job_block in (metadata_job, release_job):
             self.assertIn("needs.build-matrix.result == 'failure'", job_block)
             self.assertIn("needs.build-matrix.outputs.runtime_gate_result == 'success'", job_block)
-        self.assertIn("if-no-artifact-found: ignore", release_job)
+        self.assertIn("actions/github-script@", release_job)
+        self.assertIn("artifact.name.startsWith('packages-')", release_job)
         self.assertIn("No successful OS lane produced a distributable package.", release_job)
         self.assertIn("needs: [generate-metadata, publish-docker]", docker_manifest_job)
         self.assertIn("for arch in amd64 arm64", docker_manifest_job)

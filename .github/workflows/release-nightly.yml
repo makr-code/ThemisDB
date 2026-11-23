@@ -239,6 +239,7 @@ jobs:
     if: ${{ always() && !cancelled() && needs.check-changes.result == 'success' && needs.generate-metadata.result == 'success' && (needs.build-matrix.result == 'success' || (needs.build-matrix.result == 'failure' && needs.build-matrix.outputs.runtime_gate_result == 'success')) }}
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: write
     steps:
       - name: Checkout
@@ -252,22 +253,36 @@ jobs:
         with:
           name: build-metadata
 
+      - name: Require at least one successful platform package artifact
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        with:
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100,
+              },
+            );
+            const suffix = `-release-${process.env.RUN_NUMBER}`;
+            const found = artifacts.some(
+              (artifact) => artifact.name.startsWith('packages-') &&
+                artifact.name.endsWith(suffix) && !artifact.expired,
+            );
+            if (!found) {
+              core.setFailed('No successful OS lane produced a distributable package.');
+            }
+
       - name: Download build artifacts
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           pattern: packages-*-release-${{ github.run_number }}
           merge-multiple: true
           path: release-artifacts
-          if-no-artifact-found: ignore
-
-      - name: Require at least one distributable platform package
-        shell: bash
-        run: |
-          set -euo pipefail
-          if ! find release-artifacts -type f \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.zip' -o -name '*.deb' -o -name '*.rpm' -o -name '*.msi' \) -print -quit | grep -q .; then
-            echo "::error::No successful OS lane produced a distributable package."
-            exit 1
-          fi
 
       - name: Generate nightly release notes
         id: release-notes
