@@ -13,6 +13,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
 RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
+RELEASE_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-mainline.yml"
+RELEASE_NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 REUSABLE_CMAKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "reusable-cmake-build.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
@@ -278,6 +280,47 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertNotIn(linux_error, windows_amd64_lane)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
+
+    def test_release_matrix_runtime_gate_skips_missing_lane_artifacts(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        runtime_gate = extract_yaml_job_block(workflow_text, "runtime-artifact-gate")
+        run_summary = extract_yaml_job_block(workflow_text, "run-summary")
+
+        self.assertIn("if: ${{ always() && !cancelled() && needs.prepare-release-matrix.result == 'success' }}", runtime_gate)
+        self.assertIn("if-no-artifact-found: ignore", runtime_gate)
+        self.assertIn("No package artifact was produced for ${PLATFORM}", runtime_gate)
+        self.assertIn("steps.packages.outputs.available == 'true'", runtime_gate)
+        self.assertIn("runtime_gate_result: ${{ steps.release_gate.outputs.runtime_gate_result }}", run_summary)
+        self.assertIn("RUNTIME_GATE_RESULT: ${{ needs.runtime-artifact-gate.result }}", run_summary)
+
+    def test_mainline_publishes_validated_platform_artifacts_after_upstream_failure(self) -> None:
+        workflow_text = RELEASE_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        pending_job = extract_yaml_job_block(workflow_text, "mark-release-pending")
+        preflight_job = extract_yaml_job_block(workflow_text, "preflight-release-policy")
+        package_job = extract_yaml_job_block(workflow_text, "package")
+
+        for job_block in (pending_job, preflight_job):
+            self.assertIn("github.event.workflow_run.conclusion == 'failure'", job_block)
+            self.assertIn("github.event.workflow_run.event == 'schedule'", job_block)
+        self.assertIn("needs.build-matrix.result == 'failure'", package_job)
+        self.assertIn("needs.build-matrix.outputs.runtime_gate_result == 'success'", package_job)
+        self.assertIn("!cancelled()", package_job)
+
+    def test_nightly_publishes_partial_platform_packages_but_keeps_docker_multiarch_gate(self) -> None:
+        workflow_text = RELEASE_NIGHTLY_WORKFLOW.read_text(encoding="utf-8")
+        change_job = extract_yaml_job_block(workflow_text, "check-changes")
+        metadata_job = extract_yaml_job_block(workflow_text, "generate-metadata")
+        release_job = extract_yaml_job_block(workflow_text, "publish-release")
+        docker_manifest_job = extract_yaml_job_block(workflow_text, "publish-docker-manifest")
+
+        self.assertIn("github.event.workflow_run.conclusion == 'failure'", change_job)
+        for job_block in (metadata_job, release_job):
+            self.assertIn("needs.build-matrix.result == 'failure'", job_block)
+            self.assertIn("needs.build-matrix.outputs.runtime_gate_result == 'success'", job_block)
+        self.assertIn("if-no-artifact-found: ignore", release_job)
+        self.assertIn("No successful OS lane produced a distributable package.", release_job)
+        self.assertIn("needs: [generate-metadata, publish-docker]", docker_manifest_job)
+        self.assertIn("for arch in amd64 arm64", docker_manifest_job)
 
     def test_release_build_matrix_community_only_excludes_experimental_macos_lane(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
