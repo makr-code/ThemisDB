@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -96,6 +96,35 @@ Contract notes:
 - bridge lifetime must be kept alive as long as mapped slices are used
 - memory resets and munmap behavior are part of the object contract
 - the manager's `mapCores()` path currently builds from an in-memory TT train; the bridge uses anonymous mapping plus a copy unless an SST mapper is injected. `buildFromFd()` separately supports a file-backed `MAP_SHARED` path where available.
+
+### `DreamOrchestrator`
+
+Location: `include/tensor/dream_orchestrator.h`
+
+Responsibilities:
+
+- create research-mode runs and retain their descriptors by `run_id`
+- aggregate completed evaluation, ethics, isolation, provenance, and security evidence
+- retain and serialize the unified report with all five `BRAIN-DREAM-*` gate statuses
+
+Contract notes:
+
+- `DreamGateStatus` is the shared `pass|hold|fail` vocabulary. Missing evidence is
+  `hold`; non-finite metrics and detected regressions fail closed.
+- Ethics vetoes fail `BRAIN-DREAM-ETHICS-BOUNDARY`; unresolved security vetoes
+  hold, and confirmed leakage fails the security outcome and isolation gate.
+- Utility requires finite Recall@10 and nDCG@10 deltas, neither below baseline,
+  and a positive gain in at least one. Positive hallucination or error-rate
+  deltas fail nonregression.
+- Reports conform to `src/tensor/DREAM_MODE_GATE_REPORT_SCHEMA.json` and are
+  queryable by run ID for the orchestrator instance lifetime; they are not
+  durable across process restarts. Callers must supply evidence from the
+  evaluation, ethics, and security checks.
+- Lifecycle transitions to R1/R2/R3 require all five gates and security to
+  pass. Reaching R3 records lifecycle state only; it does not authorize or
+  execute promotion transfer. Callers that previously transitioned without
+  validation evidence must call `validateRun()` first and handle a rejected
+  transition.
 
 ## Error and edge-case contract
 

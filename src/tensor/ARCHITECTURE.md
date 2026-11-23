@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-11-13"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,6 +17,8 @@ Canonical_References:
   - "../../include/tensor/tensor_index_manager.h"
   - "../../include/tensor/tensor_core_bridge.h"
   - "../../include/tensor/tensor_fingerprint_graph.h"
+  - "../../include/tensor/dream_orchestrator.h"
+  - "./DREAM_MODE_GATE_REPORT_SCHEMA.json"
 Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
@@ -83,12 +85,17 @@ backend capability, numerical/quality tests and runtime evidence. See
 3. Fingerprint and structural plane
 - `AdapterRepository` may register TT trains with `TensorFingerprintGraph`. The graph stores first-core fingerprints and registered trains; key-based search uses TT inner products, while raw-fingerprint search scans candidates using approximate cosine similarity. Structural helpers are separate public surfaces.
 
+4. Dream-Mode validation plane
+- `DreamOrchestrator` accepts completed evaluation, ethics, isolation, provenance, and security evidence and emits all five `BRAIN-DREAM-*` statuses in the versioned report schema. It does not execute those external checks; missing evidence maps to `hold`.
+- Reports and run descriptors are keyed in the orchestrator's in-memory maps and are not durable across process restarts. Promotion-candidate lifecycle transitions require passing gate evidence.
+
 ## Datenfluss
 
 1. A caller supplies dimensions and vector count to `routeFor()` for a routing estimate.
 2. `createIndex()` creates or restores the manager's flat TT index; `addFlat()`/`searchFlat()` compress flat vectors, while `add()`/`search()` accept `TTTrain` values directly.
 3. Ingestion records are serialized and passed to the configured tensor storage backend. Adapter storage uses its own required backend and can optionally wire the fingerprint graph.
 4. Similarity requests use either registered-train comparison or the approximate first-core fingerprint path; invalid/missing registered-train state is rejected or skipped, with diagnostics on the corresponding error paths.
+5. Dream-Mode callers provide completed evaluation, ethics, and security evidence to `DreamOrchestrator`; its report is queryable by `run_id` for the lifetime of that orchestrator.
 
 ## Schnittstellen
 
@@ -98,6 +105,7 @@ backend capability, numerical/quality tests and runtime evidence. See
 | bridge contract | explicit ingestion/core/mmap bridge outcomes |
 | fingerprint contract | observable insert/query/neighbour/export behavior |
 | structural contract | bounded behavior for tensor helper and transformation paths |
+| Dream gate contract | normalized `pass|hold|fail` report and fail-closed candidate transitions |
 
 ## Performance Expectations
 

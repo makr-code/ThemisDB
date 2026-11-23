@@ -162,6 +162,10 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/tensor/dream_orchestrator.cpp
         )
+        target_compile_definitions(${_target} PRIVATE
+            "THEMIS_TENSOR_DREAM_GATE_REPORT_SCHEMA_PATH=\"${THEMIS_ROOT_DIR}/src/tensor/DREAM_MODE_GATE_REPORT_SCHEMA.json\""
+            "THEMIS_TENSOR_DREAM_MANIFEST_SCHEMA_PATH=\"${THEMIS_ROOT_DIR}/src/tensor/DREAM_MODE_MANIFEST_SCHEMA.json\""
+        )
     endif()
     if("${_stem}" STREQUAL "test_tensor_recompress")
         _themis_tensor_add_test_sources(${_target}
@@ -234,4 +238,3 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         LABELS ${_extra_labels}
     )
 endforeach()
-

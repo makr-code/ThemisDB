@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ThemisDB Dream Mode Gate Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_version",
+    "run_id",
+    "status",
+    "gates",
+    "reasons",
+    "security",
+    "results",
+    "vetoes",
+    "decision"
+  ],
+  "properties": {
+    "report_version": {
+      "const": "1.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "BRAIN-DREAM-ISOLATION",
+        "BRAIN-DREAM-LABEL-INTEGRITY",
+        "BRAIN-DREAM-UTILITY",
+        "BRAIN-DREAM-NONREGRESSION",
+        "BRAIN-DREAM-ETHICS-BOUNDARY"
+      ],
+      "properties": {
+        "BRAIN-DREAM-ISOLATION": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-LABEL-INTEGRITY": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-UTILITY": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-NONREGRESSION": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-ETHICS-BOUNDARY": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        }
+      }
+    },
+    "reasons": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "BRAIN-DREAM-ISOLATION",
+        "BRAIN-DREAM-LABEL-INTEGRITY",
+        "BRAIN-DREAM-UTILITY",
+        "BRAIN-DREAM-NONREGRESSION",
+        "BRAIN-DREAM-ETHICS-BOUNDARY"
+      ],
+      "properties": {
+        "BRAIN-DREAM-ISOLATION": {
+          "type": "string",
+          "minLength": 1
+        },
+        "BRAIN-DREAM-LABEL-INTEGRITY": {
+          "type": "string",
+          "minLength": 1
+        },
+        "BRAIN-DREAM-UTILITY": {
+          "type": "string",
+          "minLength": 1
+        },
+        "BRAIN-DREAM-NONREGRESSION": {
+          "type": "string",
+          "minLength": 1
+        },
+        "BRAIN-DREAM-ETHICS-BOUNDARY": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "veto",
+        "leakage_detected",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "DREAM_MODE_MANIFEST_SCHEMA.json#/$defs/gateStatus"
+        },
+        "veto": {
+          "type": "boolean"
+        },
+        "leakage_detected": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "utility_delta_recall_at_10",
+        "utility_delta_ndcg_at_10",
+        "online_hallucination_delta",
+        "online_error_delta"
+      ],
+      "properties": {
+        "utility_delta_recall_at_10": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "utility_delta_ndcg_at_10": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "online_hallucination_delta": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "online_error_delta": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "vetoes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ethics",
+        "security"
+      ],
+      "properties": {
+        "ethics": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "security": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation",
+        "rationale"
+      ],
+      "properties": {
+        "recommendation": {
+          "enum": [
+            "no_go",
+            "research_only",
+            "promotion_candidate"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

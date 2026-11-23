@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -144,25 +144,41 @@ cmake --build --preset windows-release --target bench_tensor_release_gates bench
   - label-integrity pass rate
   - veto-path activation counts
 
+## Dream-Mode Validation Plane
+
+`DreamOrchestrator::validateRun()` aggregates evidence produced by evaluation,
+ethics, and security checks into a report conforming to
+[`DREAM_MODE_GATE_REPORT_SCHEMA.json`](DREAM_MODE_GATE_REPORT_SCHEMA.json). The
+report is stored by `run_id`; absent checks or metrics produce `hold`, not
+`pass`. Utility requires finite Recall@10 and nDCG@10 deltas, no regression in either
+metric, and a positive gain in at least one. A positive online hallucination or
+error-rate delta fails nonregression. An ethics veto fails the ethics gate; an
+unresolved security veto holds the security/isolation gates, while detected
+leakage fails them. Promotion-candidate transitions require all five
+`BRAIN-DREAM-*` gates and the security outcome to pass.
+
 ## CTest Validation Protocol (Tensor + RoPE)
 
 The tensor focused-test commands below refer to targets registered in
-`tests/tensor/CMakeLists.txt`. The RoPE, neurocognitive, and machine-dreaming
-test names in the following "acceptance additions" sections are planned
-deliverables only: their source files and CMake registrations are not present
-in the current checkout. They cannot be run as current gates.
+`tests/tensor/CMakeLists.txt`. The RoPE and neurocognitive test names below are
+planned deliverables only. The five individual machine-dreaming test names are
+also planned; the implemented unified-report contract and veto/transition
+coverage is in `test_tensor_dream_orchestrator_lifecycle.cpp`. That integration
+coverage validates aggregation behavior, not execution of external evaluation,
+ethics, or security checkers, and does not by itself close the BRAIN-DREAM
+evidence gates.
 
 ### 1) Build focused tensor tests
 
 ```powershell
 cmake --preset windows-release
-cmake --build --preset windows-release --target module_tensor_test_tensor_ingestion_bridge_focused module_tensor_test_tensor_index_manager_focused module_tensor_test_tensor_contract_hardening_focused module_tensor_test_tensor_bridge_edge_cases_focused
+cmake --build --preset windows-release --target module_tensor_test_tensor_ingestion_bridge_focused module_tensor_test_tensor_index_manager_focused module_tensor_test_tensor_contract_hardening_focused module_tensor_test_tensor_bridge_edge_cases_focused module_tensor_test_tensor_dream_orchestrator_lifecycle_focused
 ```
 
 ### 2) Run tensor focused suites
 
 ```powershell
-ctest --preset windows-release -R "test_tensor_ingestion_bridge_tensor_FocusedTests|test_tensor_index_manager_tensor_FocusedTests|test_tensor_contract_hardening_focused_tensor_FocusedTests|test_tensor_bridge_edge_cases_focused_tensor_FocusedTests" --output-on-failure
+ctest --preset windows-release -R "test_tensor_ingestion_bridge_tensor_FocusedTests|test_tensor_index_manager_tensor_FocusedTests|test_tensor_contract_hardening_focused_tensor_FocusedTests|test_tensor_bridge_edge_cases_focused_tensor_FocusedTests|test_tensor_dream_orchestrator_lifecycle_tensor_FocusedTests" --output-on-failure
 ```
 
 ### 3) Run full tensor-labeled slice
