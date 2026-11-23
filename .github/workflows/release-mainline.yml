@@ -121,7 +121,7 @@ jobs:
     name: "Release: Mark Pending State"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
+    if: github.event_name != 'workflow_run' || ((github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure') && github.event.workflow_run.event == 'schedule')
     permissions:
       contents: read
       issues: write
@@ -155,7 +155,7 @@ jobs:
   preflight-release-policy:
     name: "Validate: Preflight Release Policy"
     runs-on: ubuntu-24.04
-    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
+    if: github.event_name != 'workflow_run' || ((github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure') && github.event.workflow_run.event == 'schedule')
     permissions:
       contents: read
       issues: write
@@ -169,6 +169,11 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha || inputs.tag_name || github.event.release.tag_name || github.sha }}
+      - name: Checkout workflow revision for release policy
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: release-policy
       - name: Resolve release source
         id: identity
         shell: bash
@@ -229,6 +234,7 @@ jobs:
           enforce: 'true'
           fail-if-missing: 'true'
       - name: Validate canonical version contract
+        working-directory: release-policy
         run: |
           set -euo pipefail
           chmod +x .github/scripts/version-release-type-manager.sh
@@ -348,7 +354,7 @@ jobs:
     name: "Build: Package Release Artifacts"
     runs-on: ubuntu-24.04
     needs: build-matrix
-    if: ${{ !cancelled() && needs.build-matrix.result == 'success' }}
+    if: ${{ always() && !cancelled() && (needs.build-matrix.result == 'success' || (needs.build-matrix.result == 'failure' && needs.build-matrix.outputs.runtime_gate_result == 'success')) }}
 
     steps:
       - uses: actions/checkout@v5

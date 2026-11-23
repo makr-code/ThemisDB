@@ -5,7 +5,7 @@
 > Last Updated: 2026-11-23
 > Update Note: PR CI now runs one release-critical build and one final-runtime gate; sanitizer and Wave B transaction campaigns run on schedule or manually.
 > Status: active
-> Total Workflows: 102 (verified 2026-11-10)
+> Total Workflows: 103 (verified 2026-11-23)
 > AI_Used: true
 > AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
 > AI_Contributor: "GitHub Copilot"
@@ -83,25 +83,25 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
   and all-path file-size check stay required. This repository workflow change
   does not alter live branch-protection settings.
 
-### Build-Cache-Aktualisierung (2026-11-01)
+### Build-Cache-Aktualisierung (2026-11-23)
 
 | Workflow | Aktualisierter Cache-Vertrag |
 |---|---|
-| [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml) | Persistiert vcpkg-Downloads, Binary-Archive und lokalen sccache-Speicher; entfernt den nicht verwendeten Root-Installationspfad aus dem Cache. Loggt Archivanzahl/-größe und behält Archive auch bei fehlendem exakten Cache-Treffer. |
+| [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml) | Persistiert vcpkg-Downloads, Binary-Archive und sccache-Speicher. GHA-sccache-Lanes verwenden einen stabilen, plattform-/Toolchain-/Manifest-gebundenen Schlüssel und migrieren passende Snapshot-Caches; Run-Snapshots bleiben für übrige Lanes erhalten. Das Setup stellt das von der Action gelieferte sccache-Binary vor Runner-Versionen in `PATH`. |
 | [release-build-matrix.yml](workflows/release-build-matrix.yml) | Linux AMD64/ARM64 und Windows aktivieren GHA-sccache; das Backend wird pro Plattform aus sccache-Statistiken ausgewiesen. Windows-Parallelitätslimits bleiben unverändert. |
 | [msvc.yml](workflows/msvc.yml) | Initialisiert das vcpkg-Submodul vor Restore, cached den klassischen Installationspfad `vcpkg/installed` und bindet den Schlüssel an Submodul-Commit und Manifest-/Configuration-Hash. Aktiviert den dateibasierten Binary-Cache explizit. |
 
-Workflow-Anzahl, Trigger, Concurrency und Release-/Security-Gates werden durch
-diese Änderungen nicht geändert. Der Reusable und die MSVC-Analyse verwenden
-weiterhin getrennte Cache-Namensräume. Die Reparatur führt weder einen gemeinsamen
-Windows-Paketfeed noch einen zusätzlichen Cache-Warming-Workflow ein.
+Der Reusable und die MSVC-Analyse verwenden weiterhin getrennte Cache-Namensräume.
+Die Reparatur führt weder einen gemeinsamen Windows-Paketfeed noch einen
+Cache-Warming-Workflow ein.
 
-### Geteilte Mainline-Release-Builds (2026-11-18)
+### Geteilte Mainline-Release-Builds und Validierungsgates (2026-11-23)
 
-`build-mainline.yml` bleibt der vorhandene Orchestrator für Runtime- und
-Benchmark-CTest-Gates und ruft `release-build-matrix.yml` als einzigen
-plattformübergreifenden Release-Build-Provider auf. Es gibt keine zusätzliche
-Provider-Workflow-Ebene. Ein erfolgreicher Mainline-Lauf veröffentlicht
+`build-mainline.yml` bleibt Build-Orchestrator und ruft
+`release-build-matrix.yml` als plattformübergreifenden Release-Build-Provider
+sowie `reusable-mainline-validation-gates.yml` für Linux CTest, Benchmarks und
+macOS-kqueue-Tests auf. CTest- und Benchmark-Kommandos liegen nicht in
+`build-mainline.yml`. Ein erfolgreicher Mainline-Lauf veröffentlicht
 pro-Plattform-Paketartefakte mit Manifest, Konfigurationsdigest, Toolchain-
 Provenienz und Paketchecksummen. `release-nightly.yml` und `release-mainline.yml`
 starten nach diesem Lauf per `workflow_run`; die Matrix übernimmt nur Artefakte,
@@ -117,7 +117,9 @@ Packaging je Plattform nur dann ohne neuen Release-Build, wenn ihr Mainline-Pake
 die vollständige Identitäts- und Prüfsummenvalidierung besteht.
 
 Zusätzlich verwenden Reusable und MSVC getrennte Restore-/Save-Schritte mit
-Run-/Attempt-Snapshot-Schlüsseln. Nur geänderte Dateiinventare werden gespeichert:
+Run-/Attempt-Snapshot-Schlüsseln für übrige Lanes. GHA-sccache-Lanes verwenden
+einen stabilen Abhängigkeits-Schlüssel; nach exakt wiederhergestellten Caches wird
+kein neuer Snapshot hochgeladen. Nur geänderte Dateiinventare werden gespeichert:
 im Reusable nach Configure/Build (auch bei Fehlern), in MSVC nach erfolgreicher
 Dependency-Vorbereitung und jeweils vor nachgelagerten Validierungs-/Analyseschritten.
 Abgebrochene Läufe speichern nicht. Reusable-Restore-Präfixe bleiben innerhalb
@@ -226,7 +228,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus runtime/benchmark CTest gates; manual dry-run preserves tests and artifacts) | active |
+| `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus reusable Linux CTest, benchmark, and macOS kqueue gates) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (scheduled/manual cache-free ASan+UBSan suite and TSan transaction/sharding/LLM; run evidence) | active |
@@ -347,7 +349,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 | `crda.yml` | Security: Trivy Dependency Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
 | `msvc.yml` | Security: Microsoft C++ Code Analysis (Windows static analysis + SARIF upload) | scheduled |
 
-### 6. REUSABLE WORKFLOWS (10 Workflows)
+### 6. REUSABLE WORKFLOWS (11 Workflows)
 
 | Workflow | Purpose | Consumers |
 |----------|---------|-----------|
@@ -359,6 +361,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform build + runtime gate + validated digest handoff) | release-docker-image |
 | `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
 | `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (single required release-critical suite for PRs) | gate-pr-core |
+| `reusable-mainline-validation-gates.yml` | Reusable: Mainline Validation Gates (Linux CTest, benchmark execution, macOS kqueue tests) | build-mainline |
 | `reusable-rag-phase-gate.yml` | Reusable: RAG Phase Gate (Shared PR gate for RAG phase file/semantic/compile checks) | gate-pr-rag-phase7/8/9/10 |
 | `reusable-release-approval-comment-gate.yml` | Reusable: Release Approval Comment Gate (Maintainer-command issue_comment release dispatch gate) | release-*-approval workflows |
 

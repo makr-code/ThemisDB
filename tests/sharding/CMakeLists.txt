@@ -55,19 +55,26 @@ endif()
 add_executable(test_dis10_concurrent_serializability
     test_dis10_concurrent_serializability.cpp)
 target_link_libraries(test_dis10_concurrent_serializability PRIVATE
-    ${TEST_LIBS} Threads::Threads)
+    ${TEST_LIBS} Threads::Threads ZLIB::ZLIB)
 if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
     target_link_libraries(test_dis10_concurrent_serializability PRIVATE themis_sharding)
 endif()
 target_compile_definitions(test_dis10_concurrent_serializability PRIVATE
     THEMIS_TEST_BUILD=1)
+set(DIS10_SERIALIZABILITY_TEST_ENVIRONMENT)
+if(DEFINED ENV{THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE}
+   AND NOT "$ENV{THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE}" STREQUAL "")
+    list(APPEND DIS10_SERIALIZABILITY_TEST_ENVIRONMENT
+        "THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE=$ENV{THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE}")
+endif()
 themis_register_module_focused_test(
     MODULE sharding
     NAME DIS10ConcurrentSerializabilityTests
     TARGET test_dis10_concurrent_serializability
     TIER unit
     TIMEOUT 60
-    LABELS DIS-10 2pc serializability concurrency portable release-platform)
+    LABELS DIS-10 2pc serializability concurrency portable release-platform
+    ENVIRONMENT "${DIS10_SERIALIZABILITY_TEST_ENVIRONMENT}")
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_wal_logging_helper.cpp")
     message(STATUS "Adding Sharding: WALLoggingHelper focused tests (Issue #5375)")
