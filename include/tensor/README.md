@@ -38,7 +38,9 @@ production-ready. The module target requires C++17.
 the `__dream_candidate__:v1:` key prefix and revalidated on reads; persistence
 across process restarts depends on the injected backend. This is a logical
 namespace only, not a separate physical database or access-control boundary.
-The store has no production truth-write or promotion API.
+Store and import reject duplicate IDs through the backend's atomic
+`putIfAbsent()` operation. The store has no production truth-write or promotion
+API.
 
 ### Tensor indexes
 

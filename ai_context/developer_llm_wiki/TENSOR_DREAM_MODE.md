@@ -54,8 +54,9 @@ logically, but does not establish a separate physical database or access-control
 boundary. Candidate insertion and import use the backend's atomic
 `putIfAbsent()` operation. The in-memory backend serializes this operation;
 the RocksDB backend uses a transaction lock. Custom backends inherit an
-in-process per-backend-object implementation and should override it with a
-storage-native atomic operation when shared across processes.
+fail-closed default that rejects inserts and must override it with an atomic
+operation before writes are accepted; implementations shared across processes
+need a storage-native atomic operation.
 
 ## Envelope and integrity boundaries
 

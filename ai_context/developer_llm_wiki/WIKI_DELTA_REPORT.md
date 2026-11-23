@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 2
+- Changed: 0
 
 ## Added
 
@@ -33,5 +33,4 @@ Status: Active
 
 ## Changed
 
-- ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md
-- include/tensor/dream_candidate_store.h
+- none

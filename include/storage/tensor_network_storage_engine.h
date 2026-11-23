@@ -116,21 +116,16 @@ public:
      * @param value Bytes to insert.
      * @return Inserted when the key was created, AlreadyExists when it was
      *         present, or Error when the backend operation failed.
-     * @note Calls through the same backend object are serialized by default.
-     *       Backends shared across processes should override this method with a
-     *       storage-native atomic operation.
+     * @note The default implementation returns Error to fail closed. Concrete
+     *       backends must override this method with an atomic operation before
+     *       they can be used by writers that require no-overwrite semantics.
      */
     enum class PutIfAbsentResult { Inserted, AlreadyExists, Error };
 
     virtual PutIfAbsentResult putIfAbsent(
-        const std::string& key,
-        const std::vector<uint8_t>& value) {
-        std::lock_guard<std::mutex> lock(conditional_put_mutex_);
-        if (get(key).has_value()) {
-            return PutIfAbsentResult::AlreadyExists;
-        }
-        return put(key, value) ? PutIfAbsentResult::Inserted
-                               : PutIfAbsentResult::Error;
+        const std::string&,
+        const std::vector<uint8_t>&) {
+        return PutIfAbsentResult::Error;
     }
 
     virtual bool put(const std::string& key,
@@ -145,8 +140,6 @@ public:
     virtual std::vector<std::string>
     listKeys(const std::string& prefix) const = 0;
 
-private:
-    mutable std::mutex conditional_put_mutex_;
 };
 
 // ============================================================================

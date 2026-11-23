@@ -56,9 +56,9 @@ public:
      * @param backend Non-null backend; use a durable backend to retain candidates
      *        across process restarts.
      * @throws std::invalid_argument if backend is null.
-     * @note Duplicate IDs are rejected atomically by the backend's
-     *       putIfAbsent() contract, including concurrent store instances that
-     *       share this backend object.
+     * @note Duplicate IDs are rejected atomically when the backend implements
+     *       putIfAbsent(); unsupported backends fail closed. Backends shared
+     *       across processes must provide storage-native atomic insertion.
      */
     explicit DreamCandidateStore(
         std::shared_ptr<storage::ITensorStorageBackend> backend);

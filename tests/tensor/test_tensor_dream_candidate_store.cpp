@@ -8,6 +8,7 @@
 #include <functional>
 #include <stdexcept>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 using themis::tensor::DreamCandidateProvenance;
@@ -38,6 +39,37 @@ std::vector<uint8_t> asBytes(const std::string& value) {
     }
     return bytes;
 }
+
+class BackendWithoutAtomicInsert final : public themis::storage::ITensorStorageBackend {
+public:
+    bool put(const std::string& key, const std::vector<uint8_t>& value) override {
+        values_[key] = value;
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> get(const std::string& key) const override {
+        const auto it = values_.find(key);
+        return it == values_.end() ? std::nullopt
+                                   : std::optional<std::vector<uint8_t>>(it->second);
+    }
+
+    bool del(const std::string& key) override {
+        return values_.erase(key) > 0;
+    }
+
+    std::vector<std::string> listKeys(const std::string& prefix) const override {
+        std::vector<std::string> keys;
+        for (const auto& entry : values_) {
+            if (entry.first.compare(0, prefix.size(), prefix) == 0) {
+                keys.push_back(entry.first);
+            }
+        }
+        return keys;
+    }
+
+private:
+    std::unordered_map<std::string, std::vector<uint8_t>> values_;
+};
 
 } // namespace
 
@@ -167,6 +199,17 @@ TEST(DreamCandidateStore, RejectsCorruptedPersistedEnvelopeOnRead) {
 
 TEST(DreamCandidateStore, RejectsNullInjectedBackend) {
     EXPECT_THROW(DreamCandidateStore(nullptr), std::invalid_argument);
+}
+
+TEST(DreamCandidateStore, UnsupportedBackendFailsClosed) {
+    auto backend = std::make_shared<BackendWithoutAtomicInsert>();
+    DreamCandidateStore store(backend);
+    std::string error;
+
+    EXPECT_FALSE(store.store("candidate-unsupported", {{"value", 1}},
+                             validProvenance(), &error));
+    EXPECT_FALSE(error.empty());
+    EXPECT_FALSE(store.get("candidate-unsupported").has_value());
 }
 
 TEST(DreamCandidateStore, ImportedEnvelopePersistsAcrossSharedBackendInstances) {

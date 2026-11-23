@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T10:11:16+00:00",
+  "generated_at": "2026-11-23T10:27:08+00:00",
   "source_count": 8111,
   "sources": [
     {
@@ -1148,9 +1148,9 @@
     {
       "path": "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
       "category": "governance_and_docs",
-      "size": 4914,
-      "sha256": "d62b091f91ec4f0251682c83fdbc02591946e17c2c776854400144b3ac56de79",
-      "modified_utc": "2026-11-23T10:10:35+00:00"
+      "size": 5221,
+      "sha256": "9432de03ef5fd57661d63a3881b111bbd9b27aed4373c1af121b626969cac5ff",
+      "modified_utc": "2026-11-23T10:25:32+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
@@ -51835,9 +51835,9 @@
     {
       "path": "include/storage/tensor_network_storage_engine.h",
       "category": "modules_and_api",
-      "size": 14875,
-      "sha256": "dd84a337f2fd54c67c7640ecf72aaf9f89c05f3abeedbd511b1742af85a37a18",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 16146,
+      "sha256": "3c3b9a3226d1b347b3ef484860525d02ff1947841f91494f364b4725c43c9fe6",
+      "modified_utc": "2026-11-23T10:24:53+00:00"
     },
     {
       "path": "include/storage/tensor_router.h",
@@ -52038,9 +52038,9 @@
     {
       "path": "include/tensor/dream_candidate_store.h",
       "category": "modules_and_api",
-      "size": 4654,
-      "sha256": "03e81c398187f80da910de03cc4c193c492c58dcc3d2b181f1727b0b6ec78d31",
-      "modified_utc": "2026-11-23T10:09:47+00:00"
+      "size": 4684,
+      "sha256": "961a2a934a65cc8c02cb0a0d4842208d90a862310745fbb94bb27d00e23aab0e",
+      "modified_utc": "2026-11-23T10:25:07+00:00"
     },
     {
       "path": "include/tensor/dream_orchestrator.h",
@@ -54446,9 +54446,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 29117,
-      "sha256": "b2acd6d72201edf08326be558d923c05f16ca6e566539055a80d60df1f0d4069",
-      "modified_utc": "2026-11-23T09:43:14+00:00"
+      "size": 29162,
+      "sha256": "be9f92ad661560e65eda5e178c59e194ce02a898cada9c9db8ca2f222d010363",
+      "modified_utc": "2026-11-23T10:25:24+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",
