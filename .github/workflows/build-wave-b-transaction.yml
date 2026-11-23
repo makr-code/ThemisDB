@@ -408,7 +408,7 @@ jobs:
             -DTHEMIS_ENABLE_GRPC=ON \
             -DTHEMIS_REQUIRE_SHARD_GRPC=ON
 
-      - name: "Run chaos/recovery release-critical transaction suites"
+      - name: "Run DIS-10/DIS-11 chaos and recovery suites"
         run: |
           set -euo pipefail
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
@@ -430,9 +430,9 @@ jobs:
             --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
             2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-build.txt"
           ctest --test-dir "$BUILD_DIR" \
-            -R '^DIS10RealTransportProcessRecoveryTests$' \
+            -L '^DIS-11$' \
             --repeat until-fail:3 --output-on-failure \
-            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-real-transport-ctest.txt"
+            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-dis11-real-transport-ctest.txt"
           THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$BUILD_DIR/transaction-chaos-evidence/dis10-concurrent-serializability.json" \
             ctest --test-dir "$BUILD_DIR" \
               -R '^DIS10ConcurrentSerializabilityTests$' \
