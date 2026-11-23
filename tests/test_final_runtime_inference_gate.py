@@ -9,21 +9,42 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
-    def test_release_critical_jobs_use_matching_supported_boost_runners(self) -> None:
-        workflow = (
+    def test_release_critical_suite_has_one_pr_build_path(self) -> None:
+        core = (
+            REPO_ROOT / ".github" / "workflows" / "gate-pr-core.yml"
+        ).read_text(encoding="utf-8")
+        reusable = (
+            REPO_ROOT / ".github" / "workflows" / "reusable-pr-build-components-gate.yml"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("quality-test-build:", core)
+        self.assertNotIn("quality-test-gate:", core)
+        self.assertIn("release-critical-tests:", reusable)
+        self.assertIn("target themis_release_critical_tests", reusable)
+
+    def test_final_runtime_gate_is_invoked_once_by_merge_readiness(self) -> None:
+        core = (
+            REPO_ROOT / ".github" / "workflows" / "gate-pr-core.yml"
+        ).read_text(encoding="utf-8")
+        components = (
             REPO_ROOT
             / ".github"
             / "workflows"
-            / "gate-pr-core.yml"
+            / "reusable-pr-build-components-gate.yml"
         ).read_text(encoding="utf-8")
-        build_job = workflow.split("\n  quality-test-build:", 1)[1]
-        build_job, gate_job = build_job.split("\n  quality-test-gate:", 1)
-        gate_job = re.split(r"\n  [\w-]+:", gate_job, maxsplit=1)[0]
-        self.assertIn("runs_on: ubuntu-24.04", build_job)
-        self.assertIn("runs-on: ubuntu-24.04", gate_job)
-        for job in (build_job, gate_job):
-            for package in ("libboost-dev", "libboost-system-dev", "libboost-filesystem-dev"):
-                self.assertRegex(job, rf"\b{package}\b")
+        merge_readiness = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "gate-pr-merge-readiness.yml"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("gate-pr-final-runtime-api.yml", core)
+        self.assertNotIn("gate-pr-final-runtime-api.yml", components)
+        self.assertEqual(
+            merge_readiness.count(
+                "uses: ./.github/workflows/gate-pr-final-runtime-api.yml"
+            ),
+            1,
+        )
 
     def test_build_components_gate_uses_supported_boost_runner(self) -> None:
         workflow = (
@@ -33,7 +54,7 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
             / "reusable-pr-build-components-gate.yml"
         ).read_text(encoding="utf-8")
         release_job = workflow.split("\n  release-critical-tests:", 1)[1]
-        release_job = release_job.split("\n  final-runtime-api-gate:", 1)[0]
+        release_job = release_job.split("\n  build-components-summary:", 1)[0]
         self.assertIn("runs-on: ubuntu-24.04", release_job)
         for package in ("libboost-system-dev", "libboost-filesystem-dev"):
             self.assertRegex(release_job, rf"\b{package}\b")

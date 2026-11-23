@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-19
+> Last Updated: 2026-11-23
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -92,11 +92,12 @@ flowchart TD
 ### WAL-Prozess-Crash-Evidenz (STO-07)
 
 - `gate-pr-core.yml` startet jetzt auch bei Änderungen unter `src/storage/`,
-  `include/storage/` und am Python-Harness. Die bestehende Quality-Build-Lane
-  baut `test_wal_process_crash_worker` und führt den 50er-CTest im Build-Job aus,
-  damit dessen Laufzeitbibliotheken verfügbar bleiben.
-- `build-sanitizer-nightly.yml` führt das ACK-Grenzen-Szenario mit 1.000
-  Iterationen vor den bisherigen CTests aus. Ein Fehler stoppt die Validierung.
+  `include/storage/` und am Python-Harness. Der PR-Pfad nutzt die zentrale
+  Release-Critical-Suite; CMake-Registrierungs- und WAL-Berichtsverträge laufen
+  zusätzlich als schnelle Python-Checks im Preflight.
+- `build-sanitizer-nightly.yml` führt ausschließlich nach Zeitplan oder manuell
+  das ACK-Grenzen-Szenario mit 1.000 Iterationen vor den bisherigen CTests aus.
+  Ein Fehler stoppt die Validierung.
   Beide Sanitizer-Modi setzen fuer C und C++ `-fno-sanitize-recover=all`,
   damit insbesondere UBSan-Befunde nicht mit erfolgreichem Exit weiterlaufen.
   Dies aendert die Sanitizer-Build-Lane, nicht regulaere Produktionsbuilds.
@@ -112,8 +113,8 @@ flowchart TD
 - Lokale Workflow-Vertragstests und Lint sind kein erfolgreicher Linux-/
   Sanitizer-CI-Nachweis. Erst veröffentlichte Läufe belegen diese Verdrahtung.
   Abbrüche innerhalb laufender Appends/fsyncs sind nicht abgedeckt.
-- Beide Caller führen zusätzlich `unobserved-append` mit 50/1.000 Iterationen
-  aus und laden `wal-unobserved-append.json` separat hoch: ein weiterer Append
+- Der Nightly-Sanitizer führt zusätzlich `unobserved-append` mit 1.000 Iterationen
+  aus und lädt `wal-unobserved-append.json` separat hoch: ein weiterer Append
   wird freigegeben, sein ACK nicht abgewartet. Replay darf genau diesen
   vollständig persistierten Eintrag zusätzlich enthalten; fehlende ACKs sind
   kein Rollback-Beweis. Ein gezielter Syscall-Abbruch ist weiter offen.
@@ -121,7 +122,7 @@ flowchart TD
   `test-results/<report-stem>-failures/iteration-<number>-<unique-id>` erhalten.
   Der JSON-Pfad `failure_artifact` verweist auf WAL vor Recovery, aktuellen WAL,
   Reproduktionsparameter und Fehlermeldung. Vor Recovery gescheiterte Writer
-  haben gegebenenfalls noch keinen WAL/Snapshot. Beide Caller deklarieren
+  haben gegebenenfalls noch keinen WAL/Snapshot. Der Nightly-Caller deklariert
   `test-results/*-failures/` fuer den sekundaeren Upload. Erfolgslaeufe erzeugen
   keine Retention-Artefakte; ein leerer Evidenzwurzelordner kann bestehen bleiben.
   Workspaces entstehen direkt dort, ohne Kopie des Originals im Fehlerpfad.
@@ -174,10 +175,10 @@ flowchart TD
   Recovery konfiguriert das vorhandene Cache-Verzeichnis, nicht pauschal die Root-Quelle.
   Configure- und Build-Recovery entfernen außerdem beide Launcher-Umgebungsvariablen,
   damit verschachtelte Dependency-Builds keinen deaktivierten Launcher rediscovern.
-  Die apt-basierte Release-Critical-Quality-Lane in `gate-pr-core.yml` setzt
-  `CMAKE_TOOLCHAIN_FILE` explizit leer und verwendet lokalen sccache-Speicher.
-  So bleibt Systempaket-Modus auch beim Reconfigure erhalten, ohne einen
-  fehlenden vcpkg-Submodulpfad als Toolchain zu aktivieren.
+  `gate-pr-core.yml` delegiert den verpflichtenden Release-Critical-Build an
+  genau einen Reusable-Gate-Pfad; der frühere parallele Quality-Build wurde
+  entfernt. Die Reusable-Build-Recovery erhält beim Reconfigure weiterhin die
+  vorhandene Toolchain-Konfiguration.
 - Fehlgeschlagene Läufe ohne Jobs können abgelaufene Ausführungsfreigaben sein.
   Dies ist kein Testfehler; Maintainer müssen die Ausführung freigeben.
 - Beim Wave-4-Gate wird das CMake-Preset explizit ausgeführt. Der Benchmark läuft
@@ -247,11 +248,9 @@ jobs:
 - [ ] **Lokale Vorprüfung dokumentiert**: mindestens `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
 
 ### Sanitizer- und Parser-Fuzz-Gates
-- `build-sanitizer-nightly.yml` führt bei Änderungen in den Storage-, Transaction-,
-  Query/AQL-, Server-, Auth-, Network- und Sharding-Modulen nur die betroffenen
-  fokussierten ASan+UBSan-Tests aus (Jobbudget höchstens 45 Minuten). Änderungen
-  an der Root-CMake-Konfiguration wählen die volle Testsuite; Zeitplan/Dispatch
-  führen die volle ASan+UBSan-Suite sowie TSan für Transaction, Sharding und LLM aus.
+- `build-sanitizer-nightly.yml` führt nach Zeitplan die volle ASan+UBSan-Suite
+  sowie TSan für Transaction, Sharding und LLM aus; manuelle Läufe bleiben
+  verfügbar. Die Sanitizer-Kampagne blockiert keine PRs mehr.
 - Der Sanitizer-Run-Beleg enthält URL, getesteten SHA, Ziele, Laufzeit und rohes
   Job-Ergebnis. Fehlgeschlagene oder abgebrochene Läufe sind kein PASS; mögliche
   Runner-/Infrastrukturfehler müssen anhand der Logs separat klassifiziert werden.
@@ -830,10 +829,16 @@ Implementierungshinweis:
 - Pro Domäne muss ein fester `status-group` mit `replace_status_group` verwendet werden, damit alte Zustandslabels atomar entfernt werden (kein Label-Drift).
 
 ### Trigger-Policy für Workflows
-- **Schwere Build-Workflows** (C++ compile, test, scan, > 15 min) triggern **nur auf `push` zu kanonischen Branches**, nicht auf `pull_request`.
-  - Betrifft: `build-mainline.yml`, `compliance-supply-chain.yml`
-- **Leichtgewichtige PR-Gate-Workflows** (Policy-Checks, Lint, < 5 min) triggern auf `pull_request`.
-  - Betrifft: `gate-pr-core.yml`, `gate-pr-*.yml`, `compliance-governance-gates.yml`, `gate-*.yml`
+- **Schwere Build-Workflows** (C++ compile, test, scan, > 15 min) triggern
+  grundsätzlich zeitgesteuert/manuell oder nach `push`, nicht auf `pull_request`.
+  - Betrifft: `build-mainline.yml`, `build-sanitizer-nightly.yml`,
+    `build-wave-b-transaction.yml`, `compliance-supply-chain.yml`
+- **Explizite PR-Sicherheits-/Release-Ausnahmen** bleiben eng begrenzt:
+  `gate-pr-core.yml` führt genau eine verpflichtende Release-Critical-Suite aus,
+  weil `RELEASE_STRATEGY.md` sie als Entry-Gate verlangt. Ein zweiter identischer
+  Build oder eine zweite Final-Runtime-API-Ausführung ist nicht zulässig.
+- **Übrige PR-Gates** (Policy, Lint, Sicherheits-/Governance-Prüfungen und
+  fokussierte Modultests) triggern auf `pull_request`.
 - Jeder PR-Workflow muss `concurrency` mit `cancel-in-progress: true` setzen.
 - `paths:` muss für PR-Workflows eng begrenzt sein — kein `src/**` oder `include/**` als einziges Muster.
 - `test-helm-chart.yml` owns the shipped configuration and package-version integrity gate: config or supported package metadata changes run the fail-closed lint/tests and publish their log plus machine-readable version matrix; Helm changes run the chart checks.

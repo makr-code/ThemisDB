@@ -10,6 +10,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import yaml
+
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPT_PATH = REPO_ROOT / "tools" / "ci" / "generate_transaction_baseline_manifest.py"
@@ -29,6 +31,13 @@ generator = load_module()
 
 
 class TransactionBaselineManifestTests(unittest.TestCase):
+    def test_wave_b_chaos_campaign_is_scheduled_not_pr_blocking(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW_PATH.read_text(encoding="utf-8"))
+        triggers = workflow.get("on", workflow.get(True))
+        self.assertNotIn("pull_request", triggers)
+        self.assertIn("schedule", triggers)
+        self.assertIn("workflow_dispatch", triggers)
+
     def test_script_generates_manifest_with_rollup_metrics(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

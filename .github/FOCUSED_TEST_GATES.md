@@ -1,8 +1,13 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-09-29
-Last Updated: 2026-09-29
+Last Updated: 2026-11-23
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
 
 # Focused Test Gates and Benchmark Gates Architecture
@@ -15,7 +20,7 @@ This document describes how ctest focus gates and benchmark validation gates are
 
 ### 1. Release-Critical Tests (30 marked)
 **Purpose:** Core functionality validation for all changes
-**Trigger:** PR gates (`gate-pr-core.yml`, `gate-pr-rag-*.yml`)
+**Trigger:** One required PR gate (`reusable-pr-build-components-gate.yml`, called by `gate-pr-core.yml`)
 **Build Target:** `themis_release_critical_tests` (aggregate)
 **CTest Filter:** `--label-regex "release_critical"`
 **Scope:** Essential library paths, transaction handling, RAG evaluation
@@ -54,11 +59,13 @@ Example aggregate targets:
 
 | Workflow | Trigger | Target | Filter | Purpose |
 |----------|---------|--------|--------|---------|
-| `gate-pr-core.yml` | PR + dispatch | `themis_release_critical_tests` | `release_critical` | Core library validation |
+| `reusable-pr-build-components-gate.yml` | PR through `gate-pr-core.yml` | `themis_release_critical_tests` | `release_critical` | Required core/release validation; the duplicate PR quality build was removed |
 | `gate-pr-rag-eval.yml` | PR + dispatch | Explicit targets | `release_critical` + regex "rag" | RAG metric validation |
 | `gate-pr-benchmark-ctest.yml` | PR (benchmarks/\*\*) | N/A | Coverage audit | Benchmark CTest registration enforcement |
 | `build-clang-fast.yml` | PR (distributed_tensor) | Explicit targets | Regex | Fast feedback on tensor changes |
-| `build-sanitizer-nightly.yml` | Nightly schedule | Explicit targets | Regex | Memory/UB detection |
+| `build-sanitizer-nightly.yml` | Nightly schedule + dispatch | Explicit targets | Regex | Memory/UB detection; no PR-triggered sanitizer builds |
+| `build-wave-b-transaction.yml` | Nightly schedule + dispatch | Explicit targets | Transaction evidence | Full transaction/chaos/recovery campaign outside PR critical path |
+| `gate-pr-merge-readiness.yml` | PR | Runtime API reusable gate | Runtime checks | Calls Final Runtime API once; build-components does not duplicate it |
 
 ### Benchmark Validation Gates
 

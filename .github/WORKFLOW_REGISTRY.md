@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-18
-> Update Note: The Helm validation lane also checks shipped config safety and package-version consistency, publishing a config lint log and version matrix.
+> Last Updated: 2026-11-23
+> Update Note: PR CI now runs one release-critical build and one final-runtime gate; sanitizer and Wave B transaction campaigns run on schedule or manually.
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -57,19 +57,31 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 ### WAL process-crash callers (2026-11-03)
 
 - `gate-pr-core.yml`: storage source/header and harness PR paths trigger the
-  existing workflow; its Quality-Build job explicitly builds the WAL worker,
-  runs report regressions and the 50-iteration CTest, and declares a secondary
-  JSON/test-log artifact with seven-day retention.
-- `build-sanitizer-nightly.yml`: its existing scheduled/manual sanitizer job
-  builds the worker and runs 1,000 ACK-boundary iterations, declaring a JSON
-  artifact with ten-day retention.
+  existing workflow; it keeps one required release-critical suite and runs
+  CMake-registration and WAL-report contracts as fast Python preflight checks.
+- `build-sanitizer-nightly.yml`: the scheduled/manual sanitizer job builds the
+  worker and runs 1,000 ACK-boundary iterations, declaring a JSON artifact with
+  ten-day retention. It no longer runs on PRs.
 - `reusable-cmake-build.yml`: declared secondary artifacts are attempted after
   failures as well as success, unless cancelled. Primary uploads are unchanged.
 - No new workflows or publication privileges were added. Linux/sanitizer runs
   and actual uploads remain unverified until these changes execute on GitHub.
-- Both callers additionally request the `unobserved-append` scenario with
-  50/1,000 iterations and `wal-unobserved-append.json` output. The PR CTest
-  selector includes both scenarios; nightly executes them sequentially.
+- The nightly caller additionally requests the `unobserved-append` scenario
+  with 1,000 iterations and `wal-unobserved-append.json` output.
+
+### PR gate cost consolidation (2026-11-23)
+
+- `gate-pr-core.yml` no longer runs a second apt-based release-critical build
+  and CTest lane; the required suite remains in
+  `reusable-pr-build-components-gate.yml`.
+- `gate-pr-merge-readiness.yml` owns the single Final Runtime API invocation;
+  the build-components reusable workflow now checks only its release-critical
+  suite.
+- `build-sanitizer-nightly.yml` and `build-wave-b-transaction.yml` retain their
+  scheduled/manual runs, but no longer trigger for PRs.
+- Branch-protection requirements remain unchanged: the release-critical check
+  and all-path file-size check stay required. This repository workflow change
+  does not alter live branch-protection settings.
 
 ### Build-Cache-Aktualisierung (2026-11-01)
 
@@ -137,15 +149,13 @@ Jobs unter denselben Cache-Key zusammenzufassen. Automatische Saves, Trigger
 und Build-/Testverhalten bleiben unverändert. Einmaliger Cold-Start beim Wechsel
 der Schlüsselstruktur und weiterhin erfolgsabhängige Saves sind zu beachten.
 
-### Release-Critical-Quality-Recovery (2026-11-01)
+### Release-Critical-Quality-Recovery (2026-11-01; duplicate lane removed 2026-11-23)
 
-Die apt-basierte Quality-Build-Lane in `gate-pr-core.yml` verwendet lokalen
-sccache-Speicher und setzt `CMAKE_TOOLCHAIN_FILE` explizit leer. Dies verhindert
-die im CI beobachtete Retry-Kaskade aus GHA-sccache-Backendausfall und anschließend
-fehlender vcpkg-Toolchain beim Reconfigure. Reusable-Build-Recovery entfernt nun
-wie Configure-Recovery beide Launcher-Umgebungsvariablen. Bestehende echte
-Toolchain-Verträge anderer Lanes bleiben unverändert; Testselektion und Gates
-werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nachzuweisen.
+Die frühere apt-basierte Quality-Build-Lane in `gate-pr-core.yml` wurde als
+doppelter Release-Critical-Build entfernt. Der verpflichtende Testpfad bleibt
+im Reusable-Build-Gate; dessen Cache-Recovery entfernt wie Configure-Recovery
+beide Launcher-Umgebungsvariablen. Bestehende Toolchain-Verträge bleiben
+unverändert und die Testselektion wird nicht abgeschwächt.
 
 ## Leitprinzipien
 
@@ -219,7 +229,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-mainline.yml` | Build: Mainline (shared release-matrix provider plus runtime/benchmark CTest gates; manual dry-run preserves tests and artifacts) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
-| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (cache-free changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
+| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (scheduled/manual cache-free ASan+UBSan suite and TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (registered targets built per runner; required Smoke/Full/Chaos suites with strict JUnit evidence; scheduled/manual baseline; fail-closed result gate) | active |
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
@@ -235,7 +245,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
-| `gate-pr-core.yml` | Gate: PR Core (Primary PR gate: tests, boundaries, policies) | fast-path |
+| `gate-pr-core.yml` | Gate: PR Core (policy checks plus the single required release-critical suite) | core |
 | `gate-pr-artifact-size.yml` | Gate: PR Artifact Size (rejects added files over 5 MiB unless exact-path allowlisted) | repository-hygiene |
 | `gate-pr-file-size.yml` | Gate: PR File Size (Rejects newly introduced or enlarged files above 5 MiB) | repository-hygiene |
 | `gate-pr-community-failclosed.yml` | Gate: PR Core [Community Fail-Closed] (Community-specific gate) | fail-closed |
@@ -348,7 +358,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform build + runtime gate + validated digest handoff) | release-docker-image |
 | `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
-| `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (Release-critical + runtime API gate bundle for PRs) | gate-pr-core |
+| `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (single required release-critical suite for PRs) | gate-pr-core |
 | `reusable-rag-phase-gate.yml` | Reusable: RAG Phase Gate (Shared PR gate for RAG phase file/semantic/compile checks) | gate-pr-rag-phase7/8/9/10 |
 | `reusable-release-approval-comment-gate.yml` | Reusable: Release Approval Comment Gate (Maintainer-command issue_comment release dispatch gate) | release-*-approval workflows |
 

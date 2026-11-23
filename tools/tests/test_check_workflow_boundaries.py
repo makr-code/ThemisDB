@@ -432,24 +432,16 @@ def test_sanitizer_gates_use_supported_ubuntu_runner():
     assert sanitizer["jobs"]["tsan-build"]["with"]["runs_on"] == "ubuntu-24.04"
 
 
-def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):
+def test_core_gate_avoids_duplicate_release_critical_build():
     root = Path(__file__).resolve().parents[2]
     core = yaml.safe_load((root / ".github/workflows/gate-pr-core.yml").read_text())
-    inputs = core["jobs"]["quality-test-build"]["with"]
-    assert inputs["enable_sccache_gha"] is False
-    assert "-DCMAKE_TOOLCHAIN_FILE=" in inputs["configure_flags"].split()
-    assert "dependencies installed via apt" in inputs["setup_command"]
-    reusable = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())
-    resolver = next(step for step in reusable["jobs"]["build"]["steps"] if step.get("id") == "resolve_mode")
-    output = tmp_path / "output"
-    subprocess.run(
-        ["bash", "-c", resolver["run"]],
-        env={**os.environ, **{key: "" for key in resolver["env"]},
-             "BUILD_MODE": inputs["build_mode"], "PRESET": inputs["preset"],
-             "CONFIGURE_FLAGS": inputs["configure_flags"], "GITHUB_OUTPUT": str(output)},
-        check=True, capture_output=True,
+    components = yaml.safe_load(
+        (root / ".github/workflows/reusable-pr-build-components-gate.yml").read_text()
     )
-    assert "-DCMAKE_TOOLCHAIN_FILE=" in output.read_text()
+    assert "quality-test-build" not in core["jobs"]
+    assert "quality-test-gate" not in core["jobs"]
+    assert "release-critical-tests" in components["jobs"]
+    assert "build-components-gate" in core["jobs"]
 
 
 def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain():

@@ -13,8 +13,9 @@ name: "Gate: PR Core"
 #           09-pr-gates_workflow-boundary-guard.yml
 #
 # Governance (RELEASE_STRATEGY.md §2.3):
-#   release-critical-tests is a MANDATORY entry gate for PRs targeting develop
-#   and all edition branches (community, enterprise, hyperscaler, military).
+#   One release-critical suite remains a MANDATORY entry gate for PRs targeting
+#   develop and all edition branches (community, enterprise, hyperscaler, military).
+#   The duplicate quality build and the second runtime-gate invocation were removed.
 
 on:
   pull_request:
@@ -246,6 +247,12 @@ jobs:
       - name: Test test-registration guard
         run: python3 tests/test_test_registration.py
 
+      - name: Test CMake registration contracts
+        run: |
+          python3 -m unittest discover -s tests -p test_cmake_registration_contracts.py
+          python3 -m unittest discover -s tests -p test_wal_process_crash_report.py
+          python3 -m unittest discover -s tests -p test_wal_process_crash_workflows.py
+
       - name: Test final runtime inference gate configuration
         run: |
           python3 tests/test_final_runtime_inference_gate.py
@@ -259,221 +266,6 @@ jobs:
         run: |
           python3 -m unittest test_runtime_smoke_gate test_docker_runtime_package_regressions \
             test_docker_platform_validation test_release_runtime_payload -q
-
-  quality-test-build:
-    name: "Build: PR Release-Critical Test Quality Line"
-    needs: preflight-ci-policy
-    if: github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-      actions: read
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      enable_sccache_gha: false
-      build_mode: tests
-      preset: pr-release-critical
-      setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev; echo "PR release-critical test dependencies installed via apt"
-      # This build artifact is executed on a separate Ubuntu 24.04 runner.
-      # Compile the pure-C++ GPU module while keeping hardware backends disabled.
-      # Keep its CPU baseline portable rather than inheriting the builder's ISA.
-      configure_flags: >-
-        -DTHEMIS_BUILD_TESTS=ON
-        -DTHEMIS_BUILD_BENCHMARKS=OFF
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-        -DTHEMIS_ENABLE_LLM=ON
-        -DTHEMIS_ENABLE_GPU=ON
-        -DTHEMIS_GPU_AUTO_DETECT=OFF
-        -DTHEMIS_ENABLE_CUDA=OFF
-        -DTHEMIS_ENABLE_HIP=OFF
-        -DTHEMIS_ENABLE_VULKAN=OFF
-        -DTHEMIS_ENABLE_VECTOR_SEARCH=ON
-        -DTHEMIS_ENABLE_AVX2=OFF
-        -DGGML_NATIVE=OFF
-        -DGGML_SSE42=OFF
-        -DGGML_AVX=OFF
-        -DGGML_AVX2=OFF
-        -DGGML_BMI2=OFF
-        -DGGML_FMA=OFF
-        -DGGML_F16C=OFF
-        -DCMAKE_TOOLCHAIN_FILE=
-      build_command: >-
-        set -euo pipefail;
-        PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
-        cmake --build build-pr-release-critical --target test_wal_process_crash_worker --parallel "${PARALLEL_JOBS}";
-        if cmake --build build-pr-release-critical --target help | grep -Eq '^[[:space:]]*themis_release_critical_tests:'; then
-          cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel "${PARALLEL_JOBS}";
-        else
-          echo "release-critical aggregate target missing; falling back to full test build";
-          cmake --build build-pr-release-critical --parallel "${PARALLEL_JOBS}";
-        fi;
-        tar -cf pr-release-critical-build-dir.tar build-pr-release-critical
-      validation_mode: none
-      validation_command: >-
-        set -euo pipefail;
-        cmake --version; ctest --version; ninja --version;
-        python3 -m unittest discover -s tests -p test_cmake_registration_contracts.py;
-        python3 -m unittest discover -s tests -p test_wal_process_crash_report.py;
-        ctest --test-dir build-pr-release-critical --output-on-failure --no-tests=error
-        -R '^WALProcess(CrashRecovery|UnobservedAppend)Tests$';
-        python3 tests/storage/test_wal_tail_boundaries.py
-        --worker build-pr-release-critical/bin/test_wal_process_crash_worker
-        --report build-pr-release-critical/test-results/wal-tail-boundaries.json
-      artifact_name: pr-release-critical-build-dir
-      artifact_paths: pr-release-critical-build-dir.tar
-      artifact_retention_days: '7'
-      artifact_name_secondary: wal-recovery-evidence-${{ github.run_number }}
-      artifact_paths_secondary: |
-        build-pr-release-critical/test-results/wal-process-crash.json
-        build-pr-release-critical/test-results/wal-unobserved-append.json
-        build-pr-release-critical/test-results/wal-tail-boundaries.json
-        build-pr-release-critical/test-results/*-failures/
-      artifact_retention_days_secondary: '7'
-      # Keep Boost.System available and match the artifact consumer's ABI.
-      runs_on: ubuntu-24.04
-      shell: bash
-      fetch_depth: '0'
-      working_directory: .
-      summary_title: "Build: PR Release-Critical Test Quality Line"
-
-  quality-test-gate:
-    name: "Gate: PR Release-Critical CTest Quality"
-    needs: quality-test-build
-    if: needs.quality-test-build.result == 'success'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    permissions:
-      contents: read
-      issues: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Install release-critical CTest runtime dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            cmake librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev \
-            libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
-            nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev \
-            libcurl4-openssl-dev libboost-dev libboost-system-dev \
-            libboost-filesystem-dev libgrpc++-dev libprotobuf-dev \
-            protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev
-
-      - name: Restore release-critical build directory
-        uses: actions/download-artifact@v5
-        with:
-          name: pr-release-critical-build-dir
-          path: .
-
-      - name: Extract release-critical build directory
-        run: tar -xf pr-release-critical-build-dir.tar
-
-      - name: Install release-critical test runtime dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends libspdlog-dev
-
-      - name: Check changed C++ test source registration
-        shell: bash
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: |
-          set -euo pipefail
-          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
-          git diff --name-only --diff-filter=ACMRT \
-            "origin/${BASE_REF}" HEAD -- 'tests/*.cpp' 'tests/**/*.cpp' \
-            > "$RUNNER_TEMP/changed-test-files.txt"
-          git diff --unified=0 "origin/${BASE_REF}" HEAD -- \
-            'tests/**/CMakeLists.txt' 'tests/CMakeLists.txt' \
-            > "$RUNNER_TEMP/test-cmake.diff"
-          python3 tools/ci/check_test_registration.py \
-            --compile-commands build-pr-release-critical/compile_commands.json \
-            --changed-files "$RUNNER_TEMP/changed-test-files.txt" \
-            --cmake-diff "$RUNNER_TEMP/test-cmake.diff" \
-            --inventory-report "$RUNNER_TEMP/test-registration-inventory.json"
-
-      - name: Upload test-registration inventory
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: test-registration-inventory-${{ github.run_number }}
-          path: ${{ runner.temp }}/test-registration-inventory.json
-          retention-days: 7
-          if-no-files-found: ignore
-
-      - name: Run release-critical CTest gate
-        id: ctest_gate
-        shell: bash
-        run: |
-          set -euo pipefail
-          LOG_FILE="$RUNNER_TEMP/release-critical-ctest.log"
-          rm -f "$LOG_FILE"
-          if [ ! -d build-pr-release-critical ]; then
-            echo "::error::Release-critical build artifact did not restore build-pr-release-critical; refusing to skip the CTest quality gate."
-            exit 1
-          fi
-          set +e
-          ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 \
-            --label-regex '(^|;)release_critical($|;)' \
-            --label-exclude '(^|;)(not_release_critical|focus|kind:focused|autogen)($|;)' \
-            --output-junit build-pr-release-critical/ctest-release-critical.xml \
-            2>&1 | tee "$LOG_FILE"
-          CT_EXIT=${PIPESTATUS[0]}
-          set -e
-          echo "ctest_exit=${CT_EXIT}" >> "$GITHUB_OUTPUT"
-          exit "$CT_EXIT"
-
-      - name: Upload key-lifecycle CTest evidence
-        if: always() && !cancelled()
-        uses: actions/upload-artifact@v5
-        with:
-          name: key-lifecycle-ci-evidence-${{ github.run_number }}
-          path: |
-            build-pr-release-critical/ctest-release-critical.xml
-            build-pr-release-critical/c5-key-lifecycle-audit/key-rotated.jsonl
-          retention-days: 90
-          if-no-files-found: warn
-
-      - name: Summarize CTest gate issues
-        id: ctest_triage
-        if: always()
-        shell: bash
-        run: |
-          LOG_PATH="$RUNNER_TEMP/release-critical-ctest.log"
-          if [ ! -f "$LOG_PATH" ]; then
-            echo "has_actionable_issues=false" >> "$GITHUB_OUTPUT"
-            echo "issue_count=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          set +e
-          python3 scripts/ci/log_issue_triage.py \
-            --ctest-log "$LOG_PATH" \
-            --output-markdown "$RUNNER_TEMP/ctest-triage.md" \
-            --output-json "$RUNNER_TEMP/ctest-triage.json" \
-            --issue-kind ctest \
-            --title "[CI] CTest Validation Triage" \
-            --write-github-output "$GITHUB_OUTPUT"
-          TRIAGE_EXIT=$?
-          set -e
-          echo "triage_exit=${TRIAGE_EXIT}" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Upsert CTest triage issue
-        if: steps.ctest_triage.outputs.has_actionable_issues == 'true'
-        uses: ./.github/actions/status-flags-and-issues
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: upsert_issue
-          issue-title: '[CI] CTest Validation Triage'
-          issue-marker: '<!-- ci-ctest:type:test-triage -->'
-          issue-body-file: ${{ runner.temp }}/ctest-triage.md
-          labels-to-add: 'ci/test-failed,ci/failure,status/needs-triage'
-          source-workflow: ${{ github.workflow }}
-          source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
 
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
@@ -1282,7 +1074,7 @@ jobs:
             echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
             echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
             echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
-            echo "| Build Components (release_critical + final runtime API) | ${{ needs.build-components-gate.result }} |"
+            echo "| Required Release-Critical Suite | ${{ needs.build-components-gate.result }} |"
             echo "| Reproducible Builds | ${{ needs.reproducible-builds.result }} |"
             echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
             echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
@@ -1295,5 +1087,5 @@ jobs:
       - name: Fail if mandatory release-critical gate failed
         if: needs.build-components-gate.result != '' && needs.build-components-gate.result == 'failure'
         run: |
-          echo "::error::build-components-gate FAILED — mandatory release-critical/final-runtime checks did not pass."
+          echo "::error::build-components-gate FAILED — mandatory release-critical tests did not pass."
           exit 1

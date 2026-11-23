@@ -88,30 +88,17 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
-  final-runtime-api-gate:
-    name: "Validate: Final Runtime API Gate (TinyLlama + docs.db)"
-    needs: release-critical-tests
-    if: >
-      github.event_name == 'pull_request' &&
-      (github.base_ref == 'develop' || github.base_ref == 'community')
-    permissions:
-      contents: read
-    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
-
   build-components-summary:
     name: "Validate: Build Components Summary"
     runs-on: ubuntu-latest
     if: always() && github.event_name == 'pull_request'
-    needs:
-      - release-critical-tests
-      - final-runtime-api-gate
+    needs: [release-critical-tests]
     steps:
       - name: Validate reusable build components outcomes
         run: |
           set -euo pipefail
 
           release_result="${{ needs.release-critical-tests.result }}"
-          runtime_result="${{ needs.final-runtime-api-gate.result }}"
 
           {
             echo "## Build Components Gate"
@@ -119,19 +106,11 @@ jobs:
             echo "| Gate | Result |"
             echo "|------|--------|"
             echo "| Release-Critical Tests | ${release_result} |"
-            echo "| Final Runtime API Gate | ${runtime_result} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [[ "${release_result}" != "success" && "${release_result}" != "skipped" ]]; then
             echo "::error::release-critical-tests failed with result=${release_result}"
             exit 1
-          fi
-
-          if [[ "${{ github.base_ref }}" == "develop" || "${{ github.base_ref }}" == "community" ]]; then
-            if [[ "${runtime_result}" != "success" ]]; then
-              echo "::error::final-runtime-api-gate failed for ${GITHUB_BASE_REF} with result=${runtime_result}"
-              exit 1
-            fi
           fi
 
   human-loop-escalation:

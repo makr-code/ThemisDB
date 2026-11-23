@@ -310,11 +310,15 @@ class WorkflowDryRunContractTests(unittest.TestCase):
     def test_cmake_reusable_callers_allow_required_read_permissions(self) -> None:
         expected = {"contents": "read", "actions": "read"}
         cases = {
-            "gate-pr-core.yml": ("quality-test-build",),
             "gate-pr-rag-eval.yml": ("release_critical_rag_tests",),
             "benchmark-gate.yml": ("build-wave4-release-gates",),
             "security-fuzzing.yml": ("parser-smoke", "afl-fuzz"),
         }
+        core = load_workflow("gate-pr-core.yml")
+        self.assertEqual(
+            core["jobs"]["build-components-gate"]["uses"],
+            "./.github/workflows/reusable-pr-build-components-gate.yml",
+        )
         reusable = load_workflow("reusable-cmake-build.yml")
         self.assertEqual(reusable["permissions"], expected)
         for name, jobs in cases.items():
