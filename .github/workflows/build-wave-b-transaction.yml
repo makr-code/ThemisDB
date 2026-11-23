@@ -429,10 +429,19 @@ jobs:
                      test_dis10_concurrent_serializability \
             --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
             2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-build.txt"
-          ctest --test-dir "$BUILD_DIR" \
-            -L '^DIS-11$' \
-            --repeat until-fail:3 --output-on-failure \
-            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/dis10-dis11-real-transport-ctest.txt"
+          : > "$BUILD_DIR/transaction-chaos-evidence/dis10-dis11-real-transport-ctest.txt"
+          for run in 1 2 3; do
+            ctest --test-dir "$BUILD_DIR" \
+              -L '^DIS-11$' \
+              --no-tests=error --output-on-failure \
+              --output-junit "$BUILD_DIR/transaction-chaos-evidence/dis11-run-${run}.xml" \
+              2>&1 | tee -a "$BUILD_DIR/transaction-chaos-evidence/dis10-dis11-real-transport-ctest.txt"
+          done
+          python3 tools/ci/validate_dis11_evidence.py \
+            --evidence-dir "$BUILD_DIR/transaction-chaos-evidence" \
+            --commit-sha "${{ github.sha }}" \
+            --workflow-run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --expected-runs 3
           THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$BUILD_DIR/transaction-chaos-evidence/dis10-concurrent-serializability.json" \
             ctest --test-dir "$BUILD_DIR" \
               -R '^DIS10ConcurrentSerializabilityTests$' \
@@ -619,6 +628,20 @@ jobs:
                               or any(call.get("outcome") != "COMMITTED"
                                      for call in evidence.get("client_calls", []))):
                           raise SystemExit("DIS-10 serializability artifact is incomplete or failed")
+                      dis11_files = list(Path(artifact).rglob("dis11-evidence.json"))
+                      if len(dis11_files) != 1:
+                          raise SystemExit("Expected one DIS-11 evidence artifact")
+                      dis11 = json.loads(dis11_files[0].read_text())
+                      if (dis11.get("schema") != "themisdb.dis11.network-chaos.v1"
+                              or dis11.get("passed") is not True
+                              or dis11.get("expected_runs") != 3
+                              or dis11.get("commit_sha") != os.environ.get("GITHUB_SHA")
+                              or len(dis11.get("runs", [])) != 3
+                              or not all(run.get("passed") is True
+                                         and run.get("failures") == 0
+                                         and run.get("skipped") == 0
+                                         for run in dis11["runs"])):
+                          raise SystemExit("DIS-11 evidence is missing, incomplete, or failed")
           PY
           mkdir -p transaction-ci-results
           for artifact in cmake-configuration-log compile-transaction-log \

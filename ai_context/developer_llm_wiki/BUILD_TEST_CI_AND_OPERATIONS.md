@@ -63,6 +63,11 @@ Status: Active
 - The workflow integration is not a passing CI result until a run URL and
   uploaded artifact are verified. It provides no Windows/macOS process
   coverage or 72-hour chaos evidence.
+- `build-wave-b-transaction.yml` now executes the DIS-11 CTest label three
+  separate times with `--no-tests=error`, writes one JUnit file per run, and
+  validates all three results with `tools/ci/validate_dis11_evidence.py`.
+  Artifact collection rejects missing, failed, skipped, wrong-test, or
+  commit-mismatched DIS-11 evidence.
 - The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
   transactions across two durable participant objects, records read/write
   events, checks a conflict-precedence graph, and requires a serial replay that
