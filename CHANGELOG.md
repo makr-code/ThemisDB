@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Kerberos libraries required when linking `libthemis_security.so`; its Wave 4-A
   benchmark explicitly appends zlib to resolve compression symbols from that
   shared library.
+- The distributed-knowledge producer disables the optional Vulkan backend,
+  which is not needed by its selected targets and had introduced unresolved
+  `matmul_id_subgroup_*` shader symbols while linking DK tests.
 
 ### Fixed - Raft quorum recovery and tensor index shape validation
 

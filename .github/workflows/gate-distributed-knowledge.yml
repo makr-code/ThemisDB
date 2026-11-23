@@ -114,7 +114,7 @@ jobs:
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
           cmake ninja-build gcc-12 g++-12 libgtest-dev pkg-config git libfmt-dev libboost-dev \
-          libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev \
+          libboost-filesystem-dev libcpp-httplib-dev \
           librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev \
           libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
           libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev \
@@ -135,7 +135,11 @@ jobs:
         fi
       preset: community-release
       build_mode: tests
-      configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
+      # Keep this module-focused build independent of the optional Vulkan shader backend.
+      configure_flags: >-
+        -DTHEMIS_BUILD_TESTS=ON
+        -DTHEMIS_BUILD_BENCHMARKS=ON
+        -DTHEMIS_ENABLE_VULKAN=OFF
       build_targets: >-
         module_distributed_knowledge_test_adapter_capability_announcement_focused
         module_distributed_knowledge_test_cross_shard_feedback_sync_focused
