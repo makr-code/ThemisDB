@@ -930,6 +930,21 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.assertEqual(platforms["source_sha"], "${{ needs.prepare-release-context.outputs.source_sha }}")
         self.assertEqual(platforms["edition"], "${{ needs.prepare-release-context.outputs.edition }}")
 
+    def test_release_version_contract_uses_workflow_revision(self):
+        steps = workflow("release-mainline.yml")["jobs"]["preflight-release-policy"]["steps"]
+        policy_checkout = next(
+            item for item in steps if item.get("name") == "Checkout workflow revision for release policy"
+        )
+        self.assertEqual(policy_checkout["uses"], "actions/checkout@v5")
+        self.assertEqual(policy_checkout["with"]["ref"], "${{ github.workflow_sha }}")
+        self.assertEqual(policy_checkout["with"]["path"], "release-policy")
+
+        validation = next(
+            item for item in steps if item.get("name") == "Validate canonical version contract"
+        )
+        self.assertEqual(validation["working-directory"], "release-policy")
+        self.assertIn(".github/scripts/version-release-type-manager.sh validate", validation["run"])
+
     def test_packaging_resolves_release_tags_and_rejects_edition_mismatch(self):
         script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
         for tag, edition, should_pass in [
