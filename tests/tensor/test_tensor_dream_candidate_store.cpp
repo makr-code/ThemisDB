@@ -1,10 +1,13 @@
 #include <gtest/gtest.h>
 
+#include "storage/rocksdb_wrapper.h"
 #include "storage/tensor_network_storage_engine.h"
 #include "tensor/dream_candidate_store.h"
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <stdexcept>
 #include <thread>
@@ -69,6 +72,28 @@ public:
 
 private:
     std::unordered_map<std::string, std::vector<uint8_t>> values_;
+};
+
+class TemporaryDatabasePaths {
+public:
+    TemporaryDatabasePaths() {
+        const auto nonce = std::chrono::steady_clock::now().time_since_epoch().count();
+        root_ = std::filesystem::temp_directory_path() /
+                ("themis_dream_candidate_store_" + std::to_string(nonce));
+        std::filesystem::create_directories(root_);
+    }
+
+    ~TemporaryDatabasePaths() {
+        std::error_code error;
+        std::filesystem::remove_all(root_, error);
+    }
+
+    std::string pathFor(const std::string& name) const {
+        return (root_ / name).string();
+    }
+
+private:
+    std::filesystem::path root_;
 };
 
 } // namespace
@@ -271,4 +296,51 @@ TEST(DreamCandidateStore, ConcurrentWritersCannotOverwriteSharedBackendCandidate
     const auto stored = first.get("candidate-race");
     ASSERT_TRUE(stored.has_value());
     EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*stored));
+}
+
+TEST(DreamCandidateStore, RocksDBPersistenceIsSeparateFromTruthDatabase) {
+#ifdef THEMIS_ROCKSDB_AVAILABLE
+    TemporaryDatabasePaths paths;
+    themis::RocksDBWrapper::Config dream_config;
+    dream_config.db_path = paths.pathFor("dream");
+    dream_config.create_if_missing = true;
+    dream_config.enable_blobdb = false;
+    auto dream_db = std::make_shared<themis::RocksDBWrapper>(dream_config);
+    ASSERT_TRUE(dream_db->open());
+
+    themis::RocksDBWrapper::Config truth_config;
+    truth_config.db_path = paths.pathFor("truth");
+    truth_config.create_if_missing = true;
+    truth_config.enable_blobdb = false;
+    auto truth_db = std::make_shared<themis::RocksDBWrapper>(truth_config);
+    ASSERT_TRUE(truth_db->open());
+
+    const std::string candidate_id = "candidate-durable";
+    const auto candidate_key = storageKey(candidate_id);
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(dream_db);
+        DreamCandidateStore store(backend);
+        ASSERT_TRUE(store.store(candidate_id, {{"value", "synthetic"}},
+                                validProvenance()));
+        EXPECT_FALSE(truth_db->get(candidate_key).has_value());
+    }
+    dream_db->close();
+    dream_db.reset();
+
+    dream_db = std::make_shared<themis::RocksDBWrapper>(dream_config);
+    ASSERT_TRUE(dream_db->open());
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(dream_db);
+        DreamCandidateStore reopened(backend);
+        const auto loaded = reopened.get(candidate_id);
+        ASSERT_TRUE(loaded.has_value());
+        EXPECT_EQ(loaded->provenance.run_id, "dream-run-17");
+        EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*loaded));
+        EXPECT_TRUE(truth_db->get(candidate_key) == std::nullopt);
+    }
+    dream_db->close();
+    truth_db->close();
+#else
+    GTEST_SKIP() << "RocksDB support is not enabled in this build";
+#endif
 }

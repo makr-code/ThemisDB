@@ -83,13 +83,19 @@ checksum mismatch, duplicate IDs, default-backend per-instance isolation,
 shared-backend re-open, namespace isolation, and rejection of a corrupted
 persisted envelope. It also checks large unsupported schema versions,
 persisted import round trips, and concurrent duplicate writes through a shared
-in-memory backend.
+in-memory backend. A RocksDB-conditional integration case writes to one
+temporary database, verifies the candidate key is absent from a separate truth
+database, reopens the candidate database, then validates the persisted
+provenance and checksum. That case is skipped when RocksDB support is disabled;
+registration and source coverage do not establish that it has executed.
 [`tests/tensor/CMakeLists.txt`](../../tests/tensor/CMakeLists.txt) discovers
 `test_*.cpp` and registers the focused test target. Registration and source
 coverage do not establish that the CTest target has built or passed.
 
-The tests do not establish process-restart durability, integration with the
-orchestrator, production retrieval isolation, cryptographic authenticity,
+The in-memory tests do not establish process-restart durability; the
+RocksDB-conditional test covers close/reopen persistence when executed.
+Neither establishes integration with the orchestrator, production retrieval
+isolation, cryptographic authenticity,
 utility/nonregression, or ethics-gate behavior. The module roadmap continues
 to track broader Dream-Mode work under WP-BRAIN-04 and BRAIN-GATE-02; do not
 infer completion from this candidate-store component.
