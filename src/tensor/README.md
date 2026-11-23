@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -66,6 +66,7 @@ public header from `include/tensor/` and follow its current contract.
 | hnsw_tt_bridge.cpp | hybrid HNSW-TT bridge behavior |
 | ht_index.cpp | hierarchical tensor index behavior |
 | tensor_fingerprint_graph.cpp | tensor fingerprint graph behavior |
+| dream_orchestrator.cpp | Dream-Mode lifecycle and unified validation reports |
 | adapter_repository.cpp | tensor adapter repository behavior |
 | hyper_index_builder.cpp | tensor hyper-index builder behavior |
 | hiss_structural_search.cpp | structural search behavior for tensor data |
@@ -91,6 +92,13 @@ flowchart LR
 **Kurzinterpretation:** `routeFor()` returns an estimate that `createIndex()`
 does not apply. The diagram shows separate runtime paths; it does not imply a
 single end-to-end pipeline or durable storage when no backend is injected.
+
+`DreamOrchestrator` aggregates utility, nonregression, ethics, isolation, label,
+and security evidence into a schema-versioned report keyed by `run_id`. It
+consumes evidence supplied by its caller rather than invoking the evaluation,
+ethics, or security checkers itself. Reports are retained in the orchestrator's
+in-memory store only; missing evidence remains `hold`, and reports do not survive
+process restart.
 
 ## Known Limitations
 

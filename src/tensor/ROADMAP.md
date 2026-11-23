@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-08-07"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,13 @@ Human_Author: "ThemisDB Contributors"
 ## Current Status
 
 Implemented runtime surfaces include tensor index management, bridges, adapter persistence, and fingerprint similarity. Benchmark targets are registered, but current source-specific performance evidence is not established by the historical baseline reports; advanced structural and experimental surfaces continue hardening.
+
+**Dream-Mode validation contract (2026-11-23):** the in-process report
+aggregator now emits the five normalized gate statuses, records ethics/security
+veto reasons, and blocks candidate transitions when required evidence is not
+passing. It consumes caller-produced evaluation/ethics/security evidence and
+stores reports only for the lifetime of the orchestrator; the individual
+BRAIN-DREAM evidence gates and benchmark closure remain open.
 
 ### TT index shape validation (2026-11-22)
 
