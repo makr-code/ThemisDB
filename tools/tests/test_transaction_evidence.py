@@ -250,7 +250,12 @@ class TransactionWorkflowTests(unittest.TestCase):
         results = {name: {"result": "success"} for name in job["needs"]}
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            env = {**os.environ, "UPSTREAM_RESULTS": json.dumps(results)}
+            env = {
+                **os.environ,
+                "UPSTREAM_RESULTS": json.dumps(results),
+                "GITHUB_SHA": "fixture-sha",
+                "GITHUB_RUN_ID": "fixture-run",
+            }
             missing = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                      cwd=root, env=env, capture_output=True, text=True)
             self.assertNotEqual(missing.returncode, 0)
@@ -264,6 +269,31 @@ class TransactionWorkflowTests(unittest.TestCase):
                 (directory / "execution.log").touch()
                 for filename in ("results.xml", "inventory.json", "summary.md"):
                     (directory / filename).touch()
+            chaos = root / "transaction-chaos-recovery-evidence"
+            (chaos / "dis10-concurrent-serializability.json").write_text(json.dumps({
+                "schema": "themisdb.dis10.concurrent-serializability.v1",
+                "serializable": True,
+                "transactions": [{}, {}, {}, {}],
+                "participants": [{}, {}],
+                "commit_sha": "fixture-sha",
+                "workflow_run_id": "fixture-run",
+                "client_calls": [
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                ],
+            }))
+            (chaos / "dis11-evidence.json").write_text(json.dumps({
+                "schema": "themisdb.dis11.network-chaos.v1",
+                "passed": True,
+                "expected_runs": 3,
+                "commit_sha": "fixture-sha",
+                "runs": [
+                    {"passed": True, "failures": 0, "skipped": 0}
+                    for _ in range(3)
+                ],
+            }))
             complete = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                       cwd=root, env=env, capture_output=True, text=True)
             self.assertEqual(complete.returncode, 0, complete.stdout + complete.stderr)
