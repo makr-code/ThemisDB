@@ -157,8 +157,18 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="${VERSION_INPUT#v}"
-          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if ! [[ "$VERSION" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([a-zA-Z0-9.]+))?$ ]]; then
             echo "::error::WinGet requires a stable community version."; exit 1
+          fi
+          if [[ -n "${BASH_REMATCH[3]:-}" ]]; then
+            {
+              echo "version=$VERSION"
+              echo "release-type=prerelease"
+              echo "is-stable=false"
+              echo "should-submit=false"
+            } >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping WinGet submission for prerelease version $VERSION."
+            exit 0
           fi
           release="$(gh release view "v${VERSION}" --repo "${{ github.repository }}" --json isDraft,isPrerelease)"
           if [[ "$(jq -r '.isDraft or .isPrerelease' <<< "$release")" != "false" ]]; then

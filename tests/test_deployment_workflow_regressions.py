@@ -1049,6 +1049,47 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertEqual(download["with"]["path"], "${{ needs.generate-manifests.outputs.manifest-dir }}")
         self.assertIn("new-winget-manifest.ps1", step("release-winget.yml", "generate-manifests", "generate")["run"])
 
+    def test_winget_detection_skips_prereleases_and_accepts_published_stable_versions(self):
+        script = step("release-winget.yml", "detect-release", "detect")["run"]
+        script = script.replace("${{ github.repository }}", "makr-code/ThemisDB")
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            binaries = directory / "bin"
+            binaries.mkdir()
+            gh = binaries / "gh"
+            gh.write_text(
+                '#!/bin/sh\n'
+                'printf "%s\\n" "$*" >> "$GH_CALL_LOG"\n'
+                'echo \'{"isDraft":false,"isPrerelease":false}\'\n'
+            )
+            gh.chmod(0o755)
+            environment = {
+                "PATH": f"{binaries}{os.pathsep}{os.environ['PATH']}",
+                "GH_CALL_LOG": str(directory / "gh-calls"),
+            }
+
+            prerelease, prerelease_outputs = run_bash(
+                script, directory, VERSION_INPUT="v2.4.0-alpha", **environment,
+            )
+            self.assertEqual(prerelease.returncode, 0, prerelease.stderr)
+            self.assertEqual(prerelease_outputs["version"], "2.4.0-alpha")
+            self.assertEqual(prerelease_outputs["release-type"], "prerelease")
+            self.assertEqual(prerelease_outputs["is-stable"], "false")
+            self.assertEqual(prerelease_outputs["should-submit"], "false")
+            self.assertFalse((directory / "gh-calls").exists())
+
+            stable, stable_outputs = run_bash(
+                script, directory, VERSION_INPUT="v2.4.0", **environment,
+            )
+            self.assertEqual(stable.returncode, 0, stable.stderr)
+            self.assertEqual(stable_outputs["release-type"], "stable")
+            self.assertEqual(stable_outputs["is-stable"], "true")
+            self.assertEqual(stable_outputs["should-submit"], "true")
+            self.assertEqual(
+                (directory / "gh-calls").read_text(),
+                "release view v2.4.0 --repo makr-code/ThemisDB --json isDraft,isPrerelease\n",
+            )
+
     @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
     def test_winget_checksums_and_generator_handle_actual_zip_layout(self):
         for executable in ["bin/themis_server.exe", "unexpected-root/bin/themis_server.exe",
