@@ -106,7 +106,7 @@ jobs:
       actions: read
     with:
       runs_on: ubuntu-latest
-      timeout_minutes: '45'
+      timeout_minutes: '60'
       fetch_depth: '0'
       enable_sccache_gha: false
       setup_command: |

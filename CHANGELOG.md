@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Distributed-knowledge CI consumers now accept the flattened CMake build-tree
   artifact layout produced by `upload-artifact`, while retaining support for
   nested artifacts. The transaction evidence test supplies the required DIS-10
-  serializability artifact in its successful fixture.
+  serializability artifact in its successful fixture. The producer build budget
+  is 60 minutes after a 45-minute run stopped at 1,864 of 1,995 build steps.
 - The Wave 4 release benchmark runner installs `libkrb5-dev`, providing the
   Kerberos libraries required when linking `libthemis_security.so`.
 
