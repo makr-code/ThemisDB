@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T10:27:08+00:00",
+  "generated_at": "2026-11-23T10:29:37+00:00",
   "source_count": 8111,
   "sources": [
     {
@@ -1148,9 +1148,9 @@
     {
       "path": "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
       "category": "governance_and_docs",
-      "size": 5221,
-      "sha256": "9432de03ef5fd57661d63a3881b111bbd9b27aed4373c1af121b626969cac5ff",
-      "modified_utc": "2026-11-23T10:25:32+00:00"
+      "size": 5279,
+      "sha256": "34da62f47a94fb151a555a413af49076ff112558a16ffabba24aa3ac35f278d5",
+      "modified_utc": "2026-11-23T10:28:41+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
@@ -51835,9 +51835,9 @@
     {
       "path": "include/storage/tensor_network_storage_engine.h",
       "category": "modules_and_api",
-      "size": 16146,
-      "sha256": "3c3b9a3226d1b347b3ef484860525d02ff1947841f91494f364b4725c43c9fe6",
-      "modified_utc": "2026-11-23T10:24:53+00:00"
+      "size": 15868,
+      "sha256": "f66faafc0e9b658ef58bd6053eb43a5657449196a050c61edd01dfa5e0833d6e",
+      "modified_utc": "2026-11-23T10:28:26+00:00"
     },
     {
       "path": "include/storage/tensor_router.h",
@@ -52038,9 +52038,9 @@
     {
       "path": "include/tensor/dream_candidate_store.h",
       "category": "modules_and_api",
-      "size": 4684,
-      "sha256": "961a2a934a65cc8c02cb0a0d4842208d90a862310745fbb94bb27d00e23aab0e",
-      "modified_utc": "2026-11-23T10:25:07+00:00"
+      "size": 4730,
+      "sha256": "de99dc3b85f5cfd849333accf90735b0ddb74bb1ca96ac8dcd90e88d64f43b95",
+      "modified_utc": "2026-11-23T10:28:36+00:00"
     },
     {
       "path": "include/tensor/dream_orchestrator.h",

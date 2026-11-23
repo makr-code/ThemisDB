@@ -205,11 +205,18 @@ TEST(DreamCandidateStore, UnsupportedBackendFailsClosed) {
     auto backend = std::make_shared<BackendWithoutAtomicInsert>();
     DreamCandidateStore store(backend);
     std::string error;
+    DreamCandidateStore source;
+    ASSERT_TRUE(source.store("candidate-import", {{"value", 2}}, validProvenance()));
+    const auto exported = source.exportArtifact("candidate-import");
+    ASSERT_TRUE(exported.has_value());
 
     EXPECT_FALSE(store.store("candidate-unsupported", {{"value", 1}},
                              validProvenance(), &error));
     EXPECT_FALSE(error.empty());
+    EXPECT_FALSE(store.importArtifact(*exported, &error));
+    EXPECT_FALSE(error.empty());
     EXPECT_FALSE(store.get("candidate-unsupported").has_value());
+    EXPECT_FALSE(store.get("candidate-import").has_value());
 }
 
 TEST(DreamCandidateStore, ImportedEnvelopePersistsAcrossSharedBackendInstances) {

@@ -1,18 +1,22 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T10:27:08+00:00",
+  "generated_at": "2026-11-23T10:29:37+00:00",
   "mode": "incremental",
   "source_count": 8111,
-  "source_hash": "568bff3b28c6377eb365802f468ae3a6ed532b3839b755314d9d94100e8bd664",
+  "source_hash": "172e5a1265906d6c7e007b9976aaff1a4f1ba4c133128cff982d384a3ab72a1a",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 0,
+    "changed_count": 3,
     "added_preview": [],
     "removed_preview": [],
-    "changed_preview": []
+    "changed_preview": [
+      "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
+      "include/storage/tensor_network_storage_engine.h",
+      "include/tensor/dream_candidate_store.h"
+    ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "722c2bf60a47c251992eab75d02e5616363ada6cf084f27514ef3252c21238b9"
+  "manifest_sha256": "50d156310472125a97085988314dae9f3516e95f7dced968d9068715007dab37"
 }
