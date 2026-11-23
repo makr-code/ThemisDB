@@ -5,6 +5,7 @@ import re
 import shlex
 import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 import unittest
@@ -17,6 +18,54 @@ DOCKERFILE = ROOT / "docker" / "Dockerfile.unified"
 
 
 class DockerVcpkgArchiveTests(unittest.TestCase):
+    def test_boost_locale_overlay_features_do_not_depend_on_vcpkg_layout(self) -> None:
+        overlay = ROOT / "ports" / "boost-locale"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shutil.copytree(overlay, root / "build" / "ports" / "boost-locale")
+            portfile = root / "build" / "ports" / "boost-locale" / "portfile.cmake"
+            script = root / "test.cmake"
+            script.write_text(
+                'cmake_minimum_required(VERSION 3.21)\n'
+                'function(vcpkg_from_github)\nendfunction()\n'
+                'function(vcpkg_check_features)\n'
+                '  if(NOT "${ARGV}" STREQUAL "OUT_FEATURE_OPTIONS;FEATURE_OPTIONS;FEATURES;icu;BOOST_LOCALE_ENABLE_ICU")\n'
+                '    message(FATAL_ERROR "Unexpected feature mapping: ${ARGV}")\n'
+                '  endif()\n'
+                '  if("icu" IN_LIST FEATURES)\n'
+                '    set(FEATURE_OPTIONS "-DBOOST_LOCALE_ENABLE_ICU=ON" PARENT_SCOPE)\n'
+                '  else()\n'
+                '    set(FEATURE_OPTIONS "-DBOOST_LOCALE_ENABLE_ICU=OFF" PARENT_SCOPE)\n'
+                '  endif()\n'
+                'endfunction()\n'
+                'function(boost_configure_and_install)\n'
+                '  if(NOT "${ARGV}" STREQUAL "SOURCE_PATH;${SOURCE_PATH};OPTIONS;${FEATURE_OPTIONS}")\n'
+                '    message(FATAL_ERROR "Options not passed to Boost configure: ${ARGV}")\n'
+                '  endif()\n'
+                '  file(WRITE "${OUTPUT}" "${FEATURE_OPTIONS}")\n'
+                'endfunction()\n'
+                f'include("{portfile.as_posix()}")\n',
+                encoding="utf-8",
+            )
+            for name, flags, expected in (
+                ("linux", [], ["ICU=OFF", "ICONV=on", "POSIX=on"]),
+                ("linux-icu", ["-DFEATURES=icu"], ["ICU=ON", "ICONV=on", "POSIX=on"]),
+                ("windows", ["-DVCPKG_TARGET_IS_WINDOWS=ON"], ["ICU=OFF", "ICONV=off", "POSIX=off"]),
+                ("android", ["-DVCPKG_TARGET_IS_ANDROID=ON"], ["ICU=OFF", "ICONV=on", "POSIX=off"]),
+                ("mingw", ["-DVCPKG_TARGET_IS_WINDOWS=ON", "-DVCPKG_TARGET_IS_MINGW=ON"],
+                 ["ICU=OFF", "ICONV=off", "POSIX=off"]
+                 + (["STD=OFF"] if sys.platform.startswith("linux") else [])),
+            ):
+                with self.subTest(target=name):
+                    output = root / f"{name}.txt"
+                    result = subprocess.run(
+                        ["cmake", f"-DOUTPUT={output}", *flags, "-P", str(script)],
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    options = output.read_text().split(";")
+                    self.assertEqual(options, [f"-DBOOST_LOCALE_ENABLE_{value}" for value in expected])
+
     def test_bootstrap_retries_are_bounded_and_fail_closed(self) -> None:
         base = DOCKERFILE.read_text(encoding="utf-8").split("FROM base AS deps", 1)[0]
         match = re.search(r"BOOTSTRAP_ATTEMPT=1 && \\\n.*?\bdone", base, re.DOTALL)

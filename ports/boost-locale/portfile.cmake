@@ -8,8 +8,25 @@ vcpkg_from_github(
     PATCHES fix-header-source-group.patch
 )
 
-set(FEATURE_OPTIONS "")
-include("${CMAKE_CURRENT_LIST_DIR}/../../vcpkg/ports/boost-locale/features.cmake")
+vcpkg_check_features(
+    OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES icu BOOST_LOCALE_ENABLE_ICU
+)
+if(VCPKG_TARGET_IS_WINDOWS)
+    set(BOOST_LOCALE_ENABLE_ICONV off)
+    set(BOOST_LOCALE_ENABLE_POSIX off)
+else()
+    set(BOOST_LOCALE_ENABLE_ICONV on)
+    if(VCPKG_TARGET_IS_ANDROID)
+        set(BOOST_LOCALE_ENABLE_POSIX off)
+    else()
+        set(BOOST_LOCALE_ENABLE_POSIX on)
+    endif()
+endif()
+list(APPEND FEATURE_OPTIONS
+    -DBOOST_LOCALE_ENABLE_ICONV=${BOOST_LOCALE_ENABLE_ICONV}
+    -DBOOST_LOCALE_ENABLE_POSIX=${BOOST_LOCALE_ENABLE_POSIX}
+)
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux" AND VCPKG_TARGET_IS_MINGW)
     list(APPEND FEATURE_OPTIONS "-DBOOST_LOCALE_ENABLE_STD=OFF")
 endif()
