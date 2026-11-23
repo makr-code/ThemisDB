@@ -239,6 +239,12 @@ jobs:
             ls -la
             exit 1
           fi
+          benchmark_binary="${build_tree}/bin/bench_dk_release_gates"
+          if [ ! -f "${benchmark_binary}" ]; then
+            echo "::error::Benchmark executable missing from producer artifact: ${benchmark_binary}"
+            exit 1
+          fi
+          chmod u+x "${benchmark_binary}"
           ctest --test-dir "${build_tree}" \
             -R bench_dk_release_gates \
             --verbose \

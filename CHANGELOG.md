@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The distributed-knowledge producer disables the optional Vulkan backend,
   which is not needed by its selected targets and had introduced unresolved
   `matmul_id_subgroup_*` shader symbols while linking DK tests.
+- The distributed-knowledge benchmark consumer restores the benchmark binary's
+  executable bit after downloading the producer build artifact, whose file
+  mode did not permit CTest to launch it.
 
 ### Fixed - Raft quorum recovery and tensor index shape validation
 
