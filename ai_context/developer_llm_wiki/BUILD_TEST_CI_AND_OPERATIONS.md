@@ -38,9 +38,10 @@ Status: Active
 ## DIS-10 real-transport process recovery
 
 - `.github/workflows/build-wave-b-transaction.yml` builds the Linux-only
-  `test_dis10_real_transport_process_recovery` target and stores three
-  `DIS10RealTransportProcessRecoveryTests` CTest repeats with the chaos/recovery
-  artifact.
+  `test_dis10_real_transport_process_recovery` target and selects its
+  `DIS-11`-labeled CTest registration for three repeats with the chaos/recovery
+  artifact. The registration remains named
+  `DIS10RealTransportProcessRecoveryTests`.
 - The target covers gRPC/mTLS participant processes, WAL recovery, directional
   TCP loss, bounded request latency, and crash/recovery transactions with three,
   four, and five participants. The five-participant transaction runs across six
@@ -52,9 +53,21 @@ Status: Active
   Ubuntu 24.04/Linux Debug. This local result does not verify a GitHub Actions
   run/artifact, Windows/macOS transport, 72-hour chaos, or release-platform
   evidence.
+- The same process target is the bounded DIS-11 test suite, not a second or
+  simulated transport. Select it with
+  `ctest --test-dir <build-dir> -L '^DIS-11$' --output-on-failure`. On
+  2026-11-23, the strict target build and
+  `ctest --test-dir /tmp/themis-dis11-network -L '^DIS-11$' --repeat until-fail:3
+  --output-on-failure` passed all three runs in Ubuntu 24.04/Linux Debug. This
+  local result is separate from workflow, platform, and maintainer evidence.
 - The workflow integration is not a passing CI result until a run URL and
   uploaded artifact are verified. It provides no Windows/macOS process
   coverage or 72-hour chaos evidence.
+- `build-wave-b-transaction.yml` now executes the DIS-11 CTest label three
+  separate times with `--no-tests=error`, writes one JUnit file per run, and
+  validates all three results with `tools/ci/validate_dis11_evidence.py`.
+  Artifact collection rejects missing, failed, skipped, wrong-test, or
+  commit-mismatched DIS-11 evidence.
 - The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
   transactions across two durable participant objects, records read/write
   events, checks a conflict-precedence graph, and requires a serial replay that

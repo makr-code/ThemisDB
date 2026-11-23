@@ -49,7 +49,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
         TARGET test_dis10_real_transport_process_recovery
         TIER integration
         TIMEOUT 180
-        LABELS DIS-10 2pc grpc mtls process crash-recovery)
+        LABELS DIS-10 DIS-11 2pc grpc mtls process crash-recovery
+               network-fault-injection asymmetric-partition latency
+               semantic-rpc-ordering)
 endif()
 
 add_executable(test_dis10_concurrent_serializability

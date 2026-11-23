@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -328,23 +328,38 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     mit `FAILURE`, ohne Coordinator-Complete-Record, und Participant B bleibt PREPARED ohne
     COMMIT-Record. Nach Heilung und frischer Recovery erhält Participant B genau einen COMMIT;
     der Coordinator-Complete-Record ist genau einer. Der 6-Test-CMake/CTest-Lauf ist Linux-
-    real-gRPC/mTLS-Evidenz und schließt DIS-10 nicht. Weitere asymmetrische Fehler,
-    Reordering/Duplikate, 3–5 Knoten und Plattform-/CI-Gates bleiben offen.
+    real-gRPC/mTLS-Evidenz und schließt DIS-10 nicht.
   - Siebter Fall ergänzt deterministische Coordinator-to-Participant-Latenz nach persistierter
     COMMIT-Entscheidung und validiert Recovery; achter Fall crasht den dritten Teilnehmer in
     einer Transaktion mit drei Teilnehmern, startet ihn neu und prüft die konsistente terminale
     WAL-Historie (eine COMMIT-Entscheidung/Completion, ein COMMIT je Teilnehmer, kein ABORT).
     Der einfache WAL-Konsistenzcheck ist kein Serialisierbarkeits-/Linearizierbarkeits-Checker;
     der 8-Test-Lauf bestand in Ubuntu 24.04/Linux Debug einmal und in drei CTest-Wiederholungen.
+  - DIS-11 source follow-up 2026-11-23: Der bestehende Linux-Prozesstest deckt die begrenzte
+    Empfehlung für Netzwerk-Fault-Injection ab: bidirektionales Blackholing, beide
+    Partition-Richtungen, Coordinator-to-Participant-Latenz sowie semantische COMMIT-Duplikation
+    und terminale RPC-Reihenfolge mit WAL-/Recovery-Assertions. CTest registriert dieselbe
+    Suite zusätzlich mit `DIS-11`; der Wave-B-Job selektiert das Label und wiederholt den Test
+    dreimal. Der lokale Target-Build und `ctest --test-dir /tmp/themis-dis11-network -L
+    '^DIS-11$' --repeat until-fail:3 --output-on-failure` bestanden am 2026-11-23 in Ubuntu
+    24.04/Linux Debug alle drei Wiederholungen (ein registrierter CTest-Target). Ein erfolgreicher
+    Actions-Lauf samt Artefakt, andere Plattformen und Maintainer-Freigabe bleiben offen. Diese
+    Teilerfüllung schließt den kombinierten DIS-10/DIS-11/TST-03-Gatepunkt nicht.
+    - Evidenz-Härtung am 2026-11-23: Der Wave-B-Job führt drei unabhängige CTest-Läufe mit
+      `--no-tests=error` aus, erzeugt pro Lauf JUnit und validiert Testname, Fehler-, Skip- und
+      Run-Anzahl sowie Commit-Metadaten per `tools/ci/validate_dis11_evidence.py`. Die Sammlung
+      blockiert fehlende oder inkonsistente DIS-11-Artefakte. Dies schließt stille Null-Testläufe
+      und unstrukturierte Ergebnisprüfung ab, aber weder andere Plattformen noch 72h-Chaos.
   - Der Wave-B-Workflow baut das Linux-Real-Transport-Target und archiviert drei CTest-
     Wiederholungen; ein erfolgreicher Workflow-Lauf samt Artefakt ist noch nicht nachgewiesen.
   - TCP erhält die Byte-Reihenfolge; rohe Reordering-/Duplikat-Injektion verschlüsselter TLS-Bytes
     würde den Stream beschädigen und bildet keine anwendungsseitig beobachtbare RPC-Semantik ab.
     Semantische COMMIT-Wiederholung nach ACK-Verlust ist bereits durch Recovery-Fälle mit
     dedupliziertem Participant-WAL abgedeckt.
-  - Offen: zusätzliche asymmetrische Fehlerzeitpunkte, Coordinator-/Participant-/Leader-Crashmatrix
-    über das begrenzte 3-Teilnehmer-Szenario hinaus, echter konkurrierender History-Checker,
-    72-Stunden-Nightly, Windows/macOS-Prozess-Transportabdeckung und Release-/CI-Artefakte.
+  - Offen: zusätzliche Fehlerzeitpunkte und RPC-Reihenfolgen über die abgedeckten terminalen
+    COMMIT/ABORT-Fälle hinaus, Coordinator-/Participant-/Leader-Crashmatrix über die getesteten
+    Fälle hinaus, echter konkurrierender History-Checker, 72-Stunden-Nightly,
+    Windows/macOS-Prozess-Transportabdeckung und Release-/CI-Artefakte.
   - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
     geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.

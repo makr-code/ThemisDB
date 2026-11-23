@@ -254,7 +254,7 @@ class TransactionWorkflowTests(unittest.TestCase):
                 **os.environ,
                 "UPSTREAM_RESULTS": json.dumps(results),
                 "GITHUB_SHA": "fixture-sha",
-                "GITHUB_RUN_ID": "123",
+                "GITHUB_RUN_ID": "fixture-run",
             }
             missing = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                      cwd=root, env=env, capture_output=True, text=True)
@@ -269,25 +269,30 @@ class TransactionWorkflowTests(unittest.TestCase):
                 (directory / "execution.log").touch()
                 for filename in ("results.xml", "inventory.json", "summary.md"):
                     (directory / filename).touch()
-            dis10_artifact = (
-                root / "transaction-chaos-recovery-evidence"
-                / "dis10-concurrent-serializability.json"
-            )
-            missing_dis10 = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
-                                           cwd=root, env=env, capture_output=True, text=True)
-            self.assertNotEqual(missing_dis10.returncode, 0)
-            self.assertIn("Expected one DIS-10 concurrent serializability artifact",
-                          missing_dis10.stderr)
-            dis10_artifact.write_text(json.dumps({
+            chaos = root / "transaction-chaos-recovery-evidence"
+            (chaos / "dis10-concurrent-serializability.json").write_text(json.dumps({
                 "schema": "themisdb.dis10.concurrent-serializability.v1",
-                "result": "passed",
                 "serializable": True,
                 "transactions": [{}, {}, {}, {}],
                 "participants": [{}, {}],
-                "commit_sha": env["GITHUB_SHA"],
-                "workflow_run_id": env["GITHUB_RUN_ID"],
-                "serial_order": ["txn-a", "txn-b", "txn-c", "txn-d"],
-                "client_calls": [{"outcome": "COMMITTED"} for _ in range(4)],
+                "commit_sha": "fixture-sha",
+                "workflow_run_id": "fixture-run",
+                "client_calls": [
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                    {"outcome": "COMMITTED"},
+                ],
+            }))
+            (chaos / "dis11-evidence.json").write_text(json.dumps({
+                "schema": "themisdb.dis11.network-chaos.v1",
+                "passed": True,
+                "expected_runs": 3,
+                "commit_sha": "fixture-sha",
+                "runs": [
+                    {"passed": True, "failures": 0, "skipped": 0}
+                    for _ in range(3)
+                ],
             }))
             complete = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                       cwd=root, env=env, capture_output=True, text=True)

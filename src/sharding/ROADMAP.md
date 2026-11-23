@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-22
+Last Updated: 2026-11-23
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -181,6 +181,33 @@ A Wave B CI job builds this Linux-only integration target and records three
 CTest repeats; an actual workflow artifact is still required before counting
 CI evidence.
 
+#### DIS-11 network-fault regression mapping
+
+The existing multi-process real-transport suite supplies DIS-11's bounded
+network-fault coverage without adding a separate injector or dependency. Its
+registered CTest case is selected by the `DIS-11` label and includes
+bidirectional TCP blackholing, loss in each direction, coordinator-request
+latency beyond the RPC deadline, and semantic duplicate/reordered terminal
+RPCs. Failure-state and WAL assertions verify that completion does not occur
+before recovery and that healing/replay produces one durable COMMIT outcome.
+The proxy forwards real gRPC/mTLS TCP traffic; it does not reorder or duplicate
+encrypted TLS bytes.
+
+On 2026-11-23, the target built and
+`ctest --test-dir /tmp/themis-dis11-network -L '^DIS-11$' --repeat until-fail:3
+--output-on-failure` passed all three runs in Ubuntu 24.04/Linux Debug. This is
+bounded local source/test evidence only. The Wave B workflow selects the same
+`DIS-11` label and repeats it three times, but its run artifact, other platform
+lanes, and maintainer sign-off remain required and are not inferred from
+workflow wiring.
+
+The Wave B workflow now executes the label in three independent CTest invocations,
+requires at least one test with `--no-tests=error`, writes one JUnit XML per run,
+and validates them through `tools/ci/validate_dis11_evidence.py`. The artifact
+collector rejects missing, failed, skipped, wrong-test, or commit-mismatched
+DIS-11 evidence. This closes silent-zero-test and machine-readable artifact gaps;
+it does not add platform coverage or 72-hour chaos evidence.
+
 The portable `DIS10ConcurrentSerializabilityTests` target overlaps four
 transactions across two durable participant objects, records per-shard reads
 and writes, rejects a synthetic opposing-conflict cycle, and searches the
@@ -202,9 +229,9 @@ cases exercise repeated semantic COMMIT delivery and verify participant WAL
 deduplication. No claim is made for independent RPC reordering or a general
 serializability checker.
 
-Remaining DIS-10 work is explicitly open: additional asymmetric fault timing,
-application-level RPC reordering, coordinator/participant/leader crash
-matrices beyond this five-process four-participant case, a true
+Remaining DIS-10/TST-03 work is explicitly open: additional fault timings and
+application-level RPC ordering beyond the bounded terminal COMMIT/ABORT case,
+coordinator/participant/leader crash matrices beyond the tested cases, a true
 concurrent-history checker beyond the bounded write-conflict/read-replay test,
 72-hour nightly evidence, Windows/macOS process-transport coverage, and
 successful release-platform/CI artifact runs. A recent Wave B PR run
@@ -219,9 +246,9 @@ test's transaction traffic uses real gRPC/mTLS through the TCP proxy.
 Current registered reproduction commands (Linux Debug, system dependencies):
 
 ```sh
-cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis10-asymmetric -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_DIAGNOSTIC_MODE=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
-ninja -C /tmp/themis-dis10-asymmetric test_dis10_real_transport_process_recovery -j4
-ctest --test-dir /tmp/themis-dis10-asymmetric -R '^DIS10RealTransportProcessRecoveryTests$' --output-on-failure
+cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis11-network -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_DIAGNOSTIC_MODE=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TOOLS=OFF -DTHEMIS_BUILD_MODULAR=ON -DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_MODULE_GEO=OFF -DTHEMIS_MODULE_GRAPH=OFF -DTHEMIS_MODULE_CONTENT=OFF -DTHEMIS_MODULE_TIMESERIES=OFF -DTHEMIS_MODULE_INGESTION=OFF -DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON
+ninja -C /tmp/themis-dis11-network test_dis10_real_transport_process_recovery -j4
+ctest --test-dir /tmp/themis-dis11-network -L '^DIS-11$' --output-on-failure
 
 cmake -S /home/runner/work/ThemisDB/ThemisDB -B /tmp/themis-dis06-build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_GRPC=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF
 cmake --build /tmp/themis-dis06-build --target test_two_phase_commit_focused -j4

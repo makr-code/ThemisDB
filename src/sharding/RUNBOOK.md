@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -115,6 +115,12 @@ This runbook is the operator-facing guide for the principal failure modes in the
 
 ### DIS-10 multi-process evidence
 
+- The Linux real-transport CTest target is also registered with the `DIS-11`
+  label for network-fault regressions. Use
+  `ctest --test-dir <build-dir> -L '^DIS-11$' --output-on-failure` to select
+  it; this includes partition healing, directional TCP loss, bounded latency,
+  and semantic terminal-RPC duplicate/order checks. The label is not evidence
+  that a GitHub Actions artifact or a non-Linux platform passed.
 - `TransactionProcessCrashRecoveryTests` proves the canonical
   coordinator/participant objects, WAL replay, locks and RocksDB apply callbacks
   across POSIX process boundaries.
