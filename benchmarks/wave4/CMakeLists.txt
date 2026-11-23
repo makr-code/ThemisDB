@@ -21,6 +21,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # B4-A: Release-Critical Benchmark Governance
 # ----------------------------------------------------------------------------
 themis_add_standard_benchmark(bench_w4a_release_gates bench_w4a_release_gates.cpp)
+themis_link_zlib_if_available(bench_w4a_release_gates)
 
 # ----------------------------------------------------------------------------
 # B4-B: Resilience / Degradation Performance Scenarios

@@ -250,7 +250,12 @@ class TransactionWorkflowTests(unittest.TestCase):
         results = {name: {"result": "success"} for name in job["needs"]}
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            env = {**os.environ, "UPSTREAM_RESULTS": json.dumps(results)}
+            env = {
+                **os.environ,
+                "UPSTREAM_RESULTS": json.dumps(results),
+                "GITHUB_SHA": "fixture-sha",
+                "GITHUB_RUN_ID": "123",
+            }
             missing = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                      cwd=root, env=env, capture_output=True, text=True)
             self.assertNotEqual(missing.returncode, 0)
@@ -264,6 +269,26 @@ class TransactionWorkflowTests(unittest.TestCase):
                 (directory / "execution.log").touch()
                 for filename in ("results.xml", "inventory.json", "summary.md"):
                     (directory / filename).touch()
+            dis10_artifact = (
+                root / "transaction-chaos-recovery-evidence"
+                / "dis10-concurrent-serializability.json"
+            )
+            missing_dis10 = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
+                                           cwd=root, env=env, capture_output=True, text=True)
+            self.assertNotEqual(missing_dis10.returncode, 0)
+            self.assertIn("Expected one DIS-10 concurrent serializability artifact",
+                          missing_dis10.stderr)
+            dis10_artifact.write_text(json.dumps({
+                "schema": "themisdb.dis10.concurrent-serializability.v1",
+                "result": "passed",
+                "serializable": True,
+                "transactions": [{}, {}, {}, {}],
+                "participants": [{}, {}],
+                "commit_sha": env["GITHUB_SHA"],
+                "workflow_run_id": env["GITHUB_RUN_ID"],
+                "serial_order": ["txn-a", "txn-b", "txn-c", "txn-d"],
+                "client_calls": [{"outcome": "COMMITTED"} for _ in range(4)],
+            }))
             complete = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                       cwd=root, env=env, capture_output=True, text=True)
             self.assertEqual(complete.returncode, 0, complete.stdout + complete.stderr)
@@ -272,6 +297,66 @@ class TransactionWorkflowTests(unittest.TestCase):
                                         cwd=root, env=env, capture_output=True, text=True)
             self.assertNotEqual(incomplete.returncode, 0)
             self.assertIn("Missing required results.xml", incomplete.stderr)
+
+    def test_distributed_knowledge_consumers_restore_original_build_directory(self):
+        workflow = yaml.safe_load(
+            (ROOT / ".github/workflows/gate-distributed-knowledge.yml").read_text()
+        )
+        for job_name, step_name in (
+            ("validate-unit-tests", "Run module unit tests from producer artifact"),
+            ("validate-benchmarks", "Run benchmark gate from producer artifact"),
+        ):
+            download_step = next(
+                step
+                for step in workflow["jobs"][job_name]["steps"]
+                if step.get("name") == "Download build tree"
+            )
+            self.assertEqual(download_step["with"]["path"], "build-community-release")
+            for layout in ("flattened", "nested"):
+                with self.subTest(job=job_name, layout=layout), tempfile.TemporaryDirectory() as temporary:
+                    root = Path(temporary)
+                    build_tree = (
+                        root / "build-community-release"
+                        if layout == "flattened"
+                        else root / "build-community-release" / "build-community-release"
+                    )
+                    build_tree.mkdir(parents=True, exist_ok=True)
+                    for filename in ("CMakeCache.txt", "CTestTestfile.cmake", "build.ninja"):
+                        (build_tree / filename).touch()
+                    bin_dir = root / "bin"
+                    bin_dir.mkdir()
+                    ctest = bin_dir / "ctest"
+                    ctest.write_text(
+                        '#!/bin/sh\nprintf "%s\\n" "$@" > "$CTEST_ARGS"\n'
+                    )
+                    ctest.chmod(0o755)
+                    script = next(
+                        step["run"]
+                        for step in workflow["jobs"][job_name]["steps"]
+                        if step.get("name") == step_name
+                    )
+                    result = subprocess.run(
+                        ["bash", "-e", "-o", "pipefail", "-c", script],
+                        cwd=root,
+                        env={
+                            **os.environ,
+                            "PATH": f"{bin_dir}:{os.environ['PATH']}",
+                            "CTEST_ARGS": str(root / "ctest-args.txt"),
+                        },
+                        capture_output=True,
+                        text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    arguments = (root / "ctest-args.txt").read_text().splitlines()
+                    expected_build_tree = (
+                        "build-community-release"
+                        if layout == "flattened"
+                        else "build-community-release/build-community-release"
+                    )
+                    self.assertEqual(
+                        arguments[arguments.index("--test-dir") + 1],
+                        expected_build_tree,
+                    )
 
     def test_closure_requires_all_source_flags_and_collected_artifacts(self):
         steps = self.workflow["jobs"]["publish-results"]["steps"]
