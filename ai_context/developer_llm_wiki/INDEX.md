@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: INCREMENTAL
-- Quellen gesamt: 8109
-- Quellen-Hash: `dcf72815007b5f6acf1db41836a8f44b554009b1279fee6fcbfa0d128eebfbce`
+- Quellen gesamt: 8111
+- Quellen-Hash: `262896b4101fc4c22cc3f75ae4682329290c511441c92f44683a5934d1b9ae5b`
 
 ## Status And Source-of-Truth Governance
 
@@ -45,7 +45,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
-- [TENSOR_DREAM_MODE.md](TENSOR_DREAM_MODE.md) — Dream-Mode candidate store provenance contract, isolation, and evidence boundaries
+- [TENSOR_DREAM_MODE.md](TENSOR_DREAM_MODE.md) — Dream-Mode candidate store provenance, isolation, and evidence boundaries
 - [PROCESS.md](PROCESS.md) — curated Process module context
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
@@ -58,9 +58,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 2400
+- modules_and_api: 2401
 - build_test_ci: 208
-- governance_and_docs: 5501
+- governance_and_docs: 5502
 - misc: 0
 
 ## Source-Priority / Konfliktregel

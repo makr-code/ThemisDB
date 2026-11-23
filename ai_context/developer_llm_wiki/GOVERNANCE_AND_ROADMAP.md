@@ -552,6 +552,15 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-11-01"
 
+## ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md
+- Kategorie: governance_and_docs
+- Hash: `c03c7b40e1a002b5`
+- Titel: Tensor Dream-Mode — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-23"
+
 ## ai_context/developer_llm_wiki/UPDATES.md
 - Kategorie: governance_and_docs
 - Hash: `78ab134dbfecd1cb`
@@ -713,12 +722,3 @@ Status: Active
   - **Date**: 2026-07-19
   - **Objective**: Complete acceleration module production readiness per user request "fix all. Fehlende Implementierung ergänzen"
   - 1. **f9894e30**: epic3_distributed_tensor/CMakeLists.txt - Added missing `endforeach()` after foreach loop (line 17)
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE5_DELIVERY_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `ef68cb8346198531`
-- Titel: Access Model Phase 5.1-5.3 Observability Implementation - Delivery Summary
-- Auszug:
-  - **Date:** 2026-08-17
-  - **Status:** ✅ COMPLETE
-  - **Scope:** Structured logging, correlation ID propagation, and enhanced metrics

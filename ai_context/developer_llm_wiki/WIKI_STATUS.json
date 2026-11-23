@@ -1,18 +1,26 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T06:18:07+00:00",
+  "generated_at": "2026-11-23T09:43:18+00:00",
   "mode": "incremental",
-  "source_count": 8109,
-  "source_hash": "dcf72815007b5f6acf1db41836a8f44b554009b1279fee6fcbfa0d128eebfbce",
+  "source_count": 8111,
+  "source_hash": "262896b4101fc4c22cc3f75ae4682329290c511441c92f44683a5934d1b9ae5b",
   "delta": {
-    "added_count": 0,
+    "added_count": 2,
     "removed_count": 0,
-    "changed_count": 0,
-    "added_preview": [],
+    "changed_count": 4,
+    "added_preview": [
+      "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
+      "include/tensor/dream_candidate_store.h"
+    ],
     "removed_preview": [],
-    "changed_preview": []
+    "changed_preview": [
+      ".github/workflows/release-docker-image.yml",
+      ".github/workflows/release-winget.yml",
+      "docs/code_maturity_report.md",
+      "scripts/ai-dev-llm-wiki-sync.py"
+    ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "f9f78256b8bd06c6499bf85f78c04980ce5982fef1dd5e29ff0610d064de0802"
+  "manifest_sha256": "476c9bb8ca5cca23ca28bddd965652cbe8b4ad6e5ed2359cc0c919bc901d4169"
 }

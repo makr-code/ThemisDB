@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T06:18:07+00:00",
-  "source_count": 8109,
+  "generated_at": "2026-11-23T09:43:18+00:00",
+  "source_count": 8111,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -476,9 +476,9 @@
     {
       "path": ".github/workflows/release-docker-image.yml",
       "category": "build_test_ci",
-      "size": 41850,
-      "sha256": "4f84eb59191bcf58ebf8e2684e15bf44e7fc9f03c9ec38b88a2e3b6bf2ec6537",
-      "modified_utc": "2026-11-13T11:09:09+00:00"
+      "size": 41750,
+      "sha256": "f9ad6daeb2c1a6a4e41b93280a8f79b182314cde8546869a3dfdc96b70d7f5b9",
+      "modified_utc": "2026-11-23T09:39:34+00:00"
     },
     {
       "path": ".github/workflows/release-evidence-chain.yml",
@@ -560,9 +560,9 @@
     {
       "path": ".github/workflows/release-winget.yml",
       "category": "build_test_ci",
-      "size": 22108,
-      "sha256": "759ff11fe3c8efd0ddfe071f2448c38f2a84081e364a56f49ceee9767a9e5a00",
-      "modified_utc": "2026-11-13T11:08:06+00:00"
+      "size": 22510,
+      "sha256": "930ab8ec4a9bfa901baa7f00406dc8b048ec84334c45f4b615361ff40c71d58d",
+      "modified_utc": "2026-11-23T09:39:34+00:00"
     },
     {
       "path": ".github/workflows/release-wordpress-press.yml",
@@ -1144,6 +1144,13 @@
       "size": 6577,
       "sha256": "4f614935b868eb333471b6321f71c070465d01915a1abab7631566eba4dba3f6",
       "modified_utc": "2026-11-23T03:02:27+00:00"
+    },
+    {
+      "path": "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
+      "category": "governance_and_docs",
+      "size": 4282,
+      "sha256": "c03c7b40e1a002b5e9845a6b1d03c03eaca8f9f152a45a848065eef54b12dbd9",
+      "modified_utc": "2026-11-23T09:42:06+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
@@ -20924,8 +20931,8 @@
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
       "size": 2322551,
-      "sha256": "8fa16cf995f414bb69def780c4d99601cd2fb345a4c32f907ad16acd44d8103a",
-      "modified_utc": "2026-11-23T06:09:52+00:00"
+      "sha256": "93fdcd34bfce79200b48e2a4f3aa16a450ac7cb9c016199e9ef70e336c17b736",
+      "modified_utc": "2026-11-23T09:39:35+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -52029,6 +52036,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/tensor/dream_candidate_store.h",
+      "category": "modules_and_api",
+      "size": 3630,
+      "sha256": "097a4499739e1293f04b41ae53ac7cb144e1883914e9cabb939676281a9ce2f2",
+      "modified_utc": "2026-11-23T09:39:36+00:00"
+    },
+    {
       "path": "include/tensor/dream_orchestrator.h",
       "category": "modules_and_api",
       "size": 6259,
@@ -54432,9 +54446,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 28806,
-      "sha256": "67c4638496ef9663e800a43ae8d8859b24ea4022df5463c83859858b0044bb77",
-      "modified_utc": "2026-11-18T14:18:46+00:00"
+      "size": 29117,
+      "sha256": "b2acd6d72201edf08326be558d923c05f16ca6e566539055a80d60df1f0d4069",
+      "modified_utc": "2026-11-23T09:43:14+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",
