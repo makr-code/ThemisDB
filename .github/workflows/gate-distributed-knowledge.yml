@@ -106,7 +106,7 @@ jobs:
       actions: read
     with:
       runs_on: ubuntu-latest
-      timeout_minutes: '45'
+      timeout_minutes: '60'
       fetch_depth: '0'
       enable_sccache_gha: false
       setup_command: |
@@ -114,7 +114,7 @@ jobs:
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
           cmake ninja-build gcc-12 g++-12 libgtest-dev pkg-config git libfmt-dev libboost-dev \
-          libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev \
+          libboost-filesystem-dev libcpp-httplib-dev \
           librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev \
           libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
           libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev \
@@ -135,7 +135,11 @@ jobs:
         fi
       preset: community-release
       build_mode: tests
-      configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
+      # Keep this module-focused build independent of the optional Vulkan shader backend.
+      configure_flags: >-
+        -DTHEMIS_BUILD_TESTS=ON
+        -DTHEMIS_BUILD_BENCHMARKS=ON
+        -DTHEMIS_ENABLE_VULKAN=OFF
       build_targets: >-
         module_distributed_knowledge_test_adapter_capability_announcement_focused
         module_distributed_knowledge_test_cross_shard_feedback_sync_focused
@@ -173,7 +177,7 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: dk-build-tree-${{ github.run_number }}
-          path: .
+          path: build-community-release
 
       - name: Run module unit tests from producer artifact
         run: |
@@ -182,8 +186,11 @@ jobs:
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
           fi
-          if [ ! -d "${build_tree}" ]; then
-            echo "::error::Build tree missing after artifact download: ${build_tree}"
+          if [ ! -d "${build_tree}" ] || \
+             [ ! -f "${build_tree}/CMakeCache.txt" ] || \
+             [ ! -f "${build_tree}/CTestTestfile.cmake" ] || \
+             [ ! -f "${build_tree}/build.ninja" ]; then
+            echo "::error::Build tree or required CMake markers missing after artifact download: ${build_tree}"
             echo "Workspace contents:"
             ls -la
             exit 1
@@ -214,7 +221,7 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: dk-build-tree-${{ github.run_number }}
-          path: .
+          path: build-community-release
 
       - name: Run benchmark gate from producer artifact
         run: |
@@ -223,12 +230,21 @@ jobs:
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
           fi
-          if [ ! -d "${build_tree}" ]; then
-            echo "::error::Build tree missing after artifact download: ${build_tree}"
+          if [ ! -d "${build_tree}" ] || \
+             [ ! -f "${build_tree}/CMakeCache.txt" ] || \
+             [ ! -f "${build_tree}/CTestTestfile.cmake" ] || \
+             [ ! -f "${build_tree}/build.ninja" ]; then
+            echo "::error::Build tree or required CMake markers missing after artifact download: ${build_tree}"
             echo "Workspace contents:"
             ls -la
             exit 1
           fi
+          benchmark_binary="${build_tree}/bin/bench_dk_release_gates"
+          if [ ! -f "${benchmark_binary}" ]; then
+            echo "::error::Benchmark executable missing from producer artifact: ${benchmark_binary}"
+            exit 1
+          fi
+          chmod u+x "${benchmark_binary}"
           ctest --test-dir "${build_tree}" \
             -R bench_dk_release_gates \
             --verbose \

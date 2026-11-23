@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - CI evidence consumers and Wave 4 linker dependency
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- Distributed-knowledge CI consumers download flattened artifacts into the
+  original `build-community-release` path, preserving CMake's absolute test
+  include paths while retaining support for nested artifacts. The transaction
+  evidence test supplies the required DIS-10 serializability artifact. The
+  producer build budget is 60 minutes after a 45-minute run stopped at 1,864 of
+  1,995 build steps.
+- The Wave 4 release benchmark runner installs `libkrb5-dev`, providing the
+  Kerberos libraries required when linking `libthemis_security.so`; its Wave 4-A
+  benchmark explicitly appends zlib to resolve compression symbols from that
+  shared library.
+- The distributed-knowledge producer disables the optional Vulkan backend,
+  which is not needed by its selected targets and had introduced unresolved
+  `matmul_id_subgroup_*` shader symbols while linking DK tests.
+- The distributed-knowledge benchmark consumer restores the benchmark binary's
+  executable bit after downloading the producer build artifact, whose file
+  mode did not permit CTest to launch it.
+
 ### Fixed - Raft quorum recovery and tensor index shape validation
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

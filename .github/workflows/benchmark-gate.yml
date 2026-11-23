@@ -132,6 +132,7 @@ jobs:
           autoconf \
           autoconf-archive \
           automake \
+          libkrb5-dev \
           libtool
         git submodule sync -- vcpkg
         git submodule update --init --depth 1 vcpkg
