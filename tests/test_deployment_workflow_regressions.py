@@ -696,7 +696,6 @@ class DeploymentWorkflowTests(unittest.TestCase):
             {"TAG_INPUT": ""},
             {"PUSH_INPUT": "false"},
             {"REGISTRY": "ghcr.io"},
-            {"DRY_RUN": "true"},
             {"BUILD_FROM_WORKFLOW_SOURCE": "true"},
             {"OVERRIDE_SOURCE_PREFLIGHT": "true"},
         ]
@@ -719,6 +718,42 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 }
                 result, _ = run_bash(script, directory, **environment)
                 self.assertNotEqual(result.returncode, 0)
+
+    def test_dockerhub_overwrite_dry_run_uses_workflow_source_without_publishing(self):
+        version_script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        policy_script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        for dry_run in ("true", "True"):
+            with self.subTest(dry_run=dry_run), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                tagged_sha = self.make_source(directory)
+                workflow_sha = subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+                ).strip()
+                result, version = run_bash(
+                    version_script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                    TAG_INPUT="v2.4.0-alpha", PUSH_INPUT="true", DRY_RUN=dry_run,
+                    BUILD_FROM_WORKFLOW_SOURCE="false", OVERWRITE_DOCKERHUB_IMAGE="true",
+                    REGISTRY="both", OVERRIDE_SOURCE_PREFLIGHT="false", GITHUB_EVENT_PATH="/dev/null",
+                )
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+                self.assertEqual(version["source_sha"], workflow_sha)
+                self.assertNotEqual(version["source_sha"], tagged_sha)
+                self.assertEqual(version["registry"], "docker.io")
+                self.assertIn("dry-run only", result.stdout)
+                result, policy = run_bash(
+                    policy_script, directory, PUSH_REQUESTED="true", DRY_RUN=dry_run,
+                    BUILD_FROM_WORKFLOW_SOURCE="false", OVERWRITE_DOCKERHUB_IMAGE="true",
+                    TAG_NAME=version["version"], REGISTRY=version["registry"],
+                    INCLUDE_TINYLLAMA="true", LLM_MODEL="tinyllama", LLM_MODEL_URL="",
+                    LLM_MODEL_FILE="", FORCE_DOWNLOAD="false",
+                    GITHUB_STEP_SUMMARY=str(directory / "summary"),
+                )
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+                self.assertEqual(policy["push_requested"], "false")
+                self.assertEqual(policy["dry_run"], "true")
+                self.assertNotIn("will replace", result.stdout)
+                self.assertIn("### Docker dry-run", (directory / "summary").read_text())
+                self.assertNotIn("### Docker Hub image overwrite", (directory / "summary").read_text())
 
     def test_dockerhub_overwrite_policy_preserves_registry_push(self):
         script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
