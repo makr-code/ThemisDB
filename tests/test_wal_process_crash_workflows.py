@@ -36,32 +36,24 @@ def sanitizer_selection(mode, *paths):
 
 
 class WALCrashWorkflowTests(unittest.TestCase):
-    def test_pr_storage_changes_trigger_fifty_iteration_ctest(self):
+    def test_pr_storage_gate_stays_release_critical_and_stress_runs_nightly(self):
         document = workflow("gate-pr-core.yml")
         trigger = document.get("on", document.get(True))["pull_request"]
         self.assertIn("develop", trigger["branches"])
-        for path in (
-            "src/storage/**", "include/storage/**", "tests/storage/**",
-            "tests/test_cmake_registration_contracts.py",
-            "tests/test_wal_process_crash_report.py",
-            "tests/test_wal_process_crash_workflows.py",
-        ):
-            self.assertIn(path, trigger["paths"])
-        settings = document["jobs"]["quality-test-build"]["with"]
-        self.assertIn("--target test_wal_process_crash_worker", settings["build_command"])
-        self.assertIn("set -euo pipefail", settings["build_command"])
-        self.assertIn("--no-tests=error", settings["validation_command"])
-        self.assertIn("-R '^WALProcess(CrashRecovery|UnobservedAppend)Tests$'",
-                      settings["validation_command"])
-        self.assertIn("test_wal_process_crash_report.py", settings["validation_command"])
-        self.assertIn("test_cmake_registration_contracts.py", settings["validation_command"])
-        self.assertIn("ninja --version", settings["validation_command"])
-        self.assertIn("wal-process-crash.json", settings["artifact_paths_secondary"])
-        self.assertIn("wal-unobserved-append.json", settings["artifact_paths_secondary"])
-        self.assertIn("test-results/*-failures/", settings["artifact_paths_secondary"])
+        self.assertIn("src/storage/**", trigger["paths"])
+        self.assertIn("include/storage/**", trigger["paths"])
+        self.assertIn("tests/storage/**", trigger["paths"])
+        self.assertNotIn("quality-test-build", document["jobs"])
+        self.assertIn("build-components-gate", document["jobs"])
+
+        sanitizer = workflow("build-sanitizer-nightly.yml")
+        sanitizer_events = sanitizer.get("on", sanitizer.get(True))
+        self.assertNotIn("pull_request", sanitizer_events)
+        settings = sanitizer["jobs"]["sanitizer-build"]["with"]
+        self.assertIn("--iterations 1000", settings["validation_command"])
+        self.assertTrue(sanitizer_events["schedule"])
+
         cmake = (ROOT / "tests" / "storage" / "CMakeLists.txt").read_text()
-        self.assertIn("--iterations 50", cmake)
-        self.assertIn('--report "${CMAKE_BINARY_DIR}/test-results/wal-process-crash.json"', cmake)
         self.assertIn("NAME WALProcessUnobservedAppendTests", cmake)
         self.assertIn("--scenario unobserved-append", cmake)
 
@@ -103,21 +95,16 @@ class WALCrashWorkflowTests(unittest.TestCase):
         self.assertNotIn("success()", upload["if"])
         self.assertEqual(upload["with"]["path"], "${{ inputs.artifact_paths_secondary }}")
 
-    def test_boundary_campaign_runs_and_uploads_in_both_callers(self):
-        for name, job, build in (
-            ("gate-pr-core.yml", "quality-test-build", "build-pr-release-critical"),
-            ("build-sanitizer-nightly.yml", "sanitizer-build", "build-sanitizer"),
-        ):
-            with self.subTest(workflow=name):
-                settings = workflow(name)["jobs"][job]["with"]
-                self.assertIn("python3 tests/storage/test_wal_tail_boundaries.py",
-                              settings["validation_command"])
-                self.assertIn(f"--worker {build}/bin/test_wal_process_crash_worker",
-                              settings["validation_command"])
-                self.assertIn(f"--report {build}/test-results/wal-tail-boundaries.json",
-                              settings["validation_command"])
-                self.assertIn(f"{build}/test-results/wal-tail-boundaries.json",
-                              settings["artifact_paths_secondary"])
+    def test_boundary_campaign_runs_and_uploads_nightly(self):
+        settings = workflow("build-sanitizer-nightly.yml")["jobs"]["sanitizer-build"]["with"]
+        self.assertIn("python3 tests/storage/test_wal_tail_boundaries.py",
+                      settings["validation_command"])
+        self.assertIn("--worker build-sanitizer/bin/test_wal_process_crash_worker",
+                      settings["validation_command"])
+        self.assertIn("--report build-sanitizer/test-results/wal-tail-boundaries.json",
+                      settings["validation_command"])
+        self.assertIn("build-sanitizer/test-results/wal-tail-boundaries.json",
+                      settings["artifact_paths_secondary"])
 
     def test_sanitizer_build_disables_recovery_for_both_modes(self):
         settings = workflow("build-sanitizer-nightly.yml")["jobs"]["sanitizer-build"]["with"]

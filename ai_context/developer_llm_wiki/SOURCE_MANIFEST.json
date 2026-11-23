@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T03:02:30+00:00",
+  "generated_at": "2026-11-23T06:18:07+00:00",
   "source_count": 8109,
   "sources": [
     {
@@ -70,9 +70,9 @@
     {
       "path": ".github/workflows/build-sanitizer-nightly.yml",
       "category": "build_test_ci",
-      "size": 13318,
-      "sha256": "09ae4f0ab9f75a51a4cb103aa0d13839c8afe3c36f9fdb7aa7ccad422ea5e875",
-      "modified_utc": "2026-11-23T03:02:27+00:00"
+      "size": 12188,
+      "sha256": "ed65f0eca6070be61aaea43949ae088d6e370bc687179350e21c3f3568d25bd5",
+      "modified_utc": "2026-11-23T06:14:47+00:00"
     },
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
@@ -91,9 +91,9 @@
     {
       "path": ".github/workflows/build-wave-b-transaction.yml",
       "category": "build_test_ci",
-      "size": 36739,
-      "sha256": "e095bc85fd8d597194dc2fa4ade66543fbab710e0932138e3e138ca7723b87b5",
-      "modified_utc": "2026-11-23T03:02:27+00:00"
+      "size": 35430,
+      "sha256": "bf79b0ee296c033664f7a2350ce35e7805c17fb1b8365b4c876274095cdc9263",
+      "modified_utc": "2026-11-23T06:14:50+00:00"
     },
     {
       "path": ".github/workflows/build-widget.yml",
@@ -196,9 +196,9 @@
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
-      "size": 60782,
-      "sha256": "daa3f865e4286e341739cea3e459071a3596d1fff90d31bdffe826b894a9e7b4",
-      "modified_utc": "2026-11-23T03:02:27+00:00"
+      "size": 51426,
+      "sha256": "2868abbfc13dd19b466a4f7a0da65d1b050921f20bcdc71cdf357b19bd134944",
+      "modified_utc": "2026-11-23T06:15:34+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -616,9 +616,9 @@
     {
       "path": ".github/workflows/reusable-pr-build-components-gate.yml",
       "category": "build_test_ci",
-      "size": 7525,
-      "sha256": "82e3a029e457839ded32371e7bb1cf899accedb705e3bf7106136b6697389f7d",
-      "modified_utc": "2026-11-18T19:02:17+00:00"
+      "size": 6671,
+      "sha256": "f5ed37e0b448604d3b25dab5e953c8d635288dae53b1620d37b9691ce5736e84",
+      "modified_utc": "2026-11-23T06:12:46+00:00"
     },
     {
       "path": ".github/workflows/reusable-rag-phase-gate.yml",
@@ -20923,9 +20923,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2322540,
-      "sha256": "2cbce3593f4d6187d280767cef2b1db1f931267027b0d24017a8316104bf24fe",
-      "modified_utc": "2026-11-23T03:02:28+00:00"
+      "size": 2322551,
+      "sha256": "8fa16cf995f414bb69def780c4d99601cd2fb345a4c32f907ad16acd44d8103a",
+      "modified_utc": "2026-11-23T06:09:52+00:00"
     },
     {
       "path": "docs/community/Supporters.md",

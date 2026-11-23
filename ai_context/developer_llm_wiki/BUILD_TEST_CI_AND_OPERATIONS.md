@@ -17,6 +17,23 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-23
 Status: Active
 
+## PR gate scope and large campaigns (2026-11-23)
+
+- `gate-pr-core.yml` retains one required release-critical build/test path; its
+  duplicate quality build was removed. Registration and WAL-report contracts
+  remain fast Python preflight checks.
+- `gate-pr-merge-readiness.yml` runs the Final Runtime API gate once. It is no
+  longer duplicated inside `reusable-pr-build-components-gate.yml`.
+- `build-sanitizer-nightly.yml` and `build-wave-b-transaction.yml` run on their
+  schedules or by manual dispatch, not on PRs. Their sanitizer, chaos, and
+  recovery evidence remains separate from per-PR results.
+- `build-mainline.yml` remains scheduled/manual for the complete platform,
+  runtime, benchmark, and test validation. Scheduled success is not a result
+  for an individual PR commit.
+- Local YAML, policy, and workflow-contract checks do not prove GitHub Actions
+  runtime or runner-minute savings; compare post-change job durations after
+  successful scheduled and PR runs.
+
 ## DIS-10 real-transport process recovery
 
 - `.github/workflows/build-wave-b-transaction.yml` builds the Linux-only
@@ -120,7 +137,7 @@ Status: Active
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `09ae4f0ab9f75a51`
+- Hash: `ed65f0eca6070be6`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
@@ -135,7 +152,7 @@ Status: Active
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `e095bc85fd8d5971`
+- Hash: `bf79b0ee296c0336`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -210,7 +227,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `daa3f865e4286e34`
+- Hash: `2868abbfc13dd19b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml

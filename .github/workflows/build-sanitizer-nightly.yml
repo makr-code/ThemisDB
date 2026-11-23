@@ -6,46 +6,6 @@ name: "Build: Sanitizer Nightly"
 # Nightly sanitizer lane (ASan/UBSan by default) on selected critical targets.
 
 on:
-  pull_request:
-    branches:
-      - develop
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-      - minimal
-    paths:
-      - 'src/storage/**'
-      - 'include/storage/**'
-      - 'tests/storage/**'
-      - 'src/transaction/**'
-      - 'include/transaction/**'
-      - 'tests/transaction/**'
-      - 'src/query/**'
-      - 'include/query/**'
-      - 'tests/query/**'
-      - 'src/aql/**'
-      - 'include/aql/**'
-      - 'tests/aql/**'
-      - 'src/server/**'
-      - 'include/server/**'
-      - 'tests/server/**'
-      - 'src/auth/**'
-      - 'include/auth/**'
-      - 'tests/auth/**'
-      - 'src/network/**'
-      - 'include/network/**'
-      - 'tests/network/**'
-      - 'src/sharding/**'
-      - 'include/sharding/**'
-      - 'tests/sharding/**'
-      - 'tests/themis/test_themis_wire_protocol*'
-      - 'tests/test_transaction_auditor.cpp'
-      - 'tests/test_shard_router_focused.cpp'
-      - 'tests/test_query_engine.cpp'
-      - 'tests/test_themis_wire_protocol_server.cpp'
-      - 'CMakeLists.txt'
-      - '.github/workflows/build-sanitizer-nightly.yml'
   schedule:
     - cron: '20 2 * * *'
   workflow_dispatch:
@@ -65,7 +25,7 @@ permissions:
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 jobs:
   run-summary:

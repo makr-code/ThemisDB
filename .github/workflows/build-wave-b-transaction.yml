@@ -1,38 +1,6 @@
 name: "Build: Wave B Transaction"
 
 on:
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - .github/workflows/build-wave-b-transaction.yml
-      - tools/ci/run_transaction_tests.py
-      - tools/ci/summarize_ctest_evidence.py
-      - tools/ci/generate_transaction_baseline_manifest.py
-      - tools/tests/test_transaction_evidence.py
-      - CMakeLists.txt
-      - CMakePresets.json
-      - cmake/ModularBuild.cmake
-      - tests/CMakeLists.txt
-      - tests/cmake/RegisterModuleTests.cmake
-      - tests/cmake/TestPolicy.cmake
-      - tests/cmake/RunRegisteredTest.cmake
-      - include/transaction/**
-      - include/sharding/distributed_transaction.h
-      - include/server/http_server.h
-      - include/server/monitoring_api_handler.h
-      - include/sharding/two_phase_commit_participant.h
-      - src/transaction/**
-      - src/sharding/distributed_transaction.cpp
-      - src/sharding/two_phase_commit_participant.cpp
-      - src/server/http_server.cpp
-      - src/server/monitoring_api_handler.cpp
-      - tests/transaction/**
-      - tests/test_distributed_txn_api_handler.cpp
-      - tests/test_two_phase_commit.cpp
-      - tests/sharding/CMakeLists.txt
-      - tests/sharding/test_dis10_real_transport_process_recovery.cpp
-      - tests/sharding/test_dis10_concurrent_serializability.cpp
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
@@ -58,7 +26,7 @@ defaults:
 
 concurrency:
   group: build-wave-b-transaction-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 env:
   CMAKE_BUILD_TYPE: Release
