@@ -27,9 +27,21 @@ production-ready. The module target requires C++17.
 | Ingestion and storage | `tensor_ingestion_bridge.h`, `tensor_core_bridge.h`, `tensor_mmap_bridge.h`, `adapter_repository.h`, `persistent_tensor_fingerprint_graph.h` |
 | Fingerprints and summaries | `tensor_fingerprint_graph.h`, `tensor_summary_types.h`, `tensor_mid_layer.h` |
 | Compression and operations | `compression_strategy.h`, `tensor_compression_routing_accelerator.h`, `tensor_butterfly_operator.h`, `tensor_redundancy_detection.h`, `hiss_structural_search.h` |
-| Workflow and types | `dream_orchestrator.h`, `encoder_interface.h`, `tensor_api_contract.h`, `tensor_compat.h`, `tensor_edge_case_handler.h`, `tensor_error_handling.h`, `tensor_workflow_observability.h`, `tnsr_task.h`, `utr_converter.h` |
+| Workflow and types | `dream_candidate_store.h`, `dream_orchestrator.h`, `encoder_interface.h`, `tensor_api_contract.h`, `tensor_compat.h`, `tensor_edge_case_handler.h`, `tensor_error_handling.h`, `tensor_workflow_observability.h`, `tnsr_task.h`, `utr_converter.h` |
 
 ## Main runtime contracts
+
+### Dream-Mode candidate storage
+
+`DreamCandidateStore` uses an in-memory backend by default or accepts an
+`ITensorStorageBackend` for persistence. Candidate envelopes are isolated under
+the `__dream_candidate__:v1:` key prefix and revalidated on reads; persistence
+across process restarts depends on the injected backend. This is a logical
+namespace only, not a separate physical database or access-control boundary.
+Store and import reject duplicate IDs through the backend's atomic
+`putIfAbsent()` operation. Custom backends must implement this operation;
+otherwise store and import fail closed. The store has no production truth-write
+or promotion API.
 
 ### Tensor indexes
 

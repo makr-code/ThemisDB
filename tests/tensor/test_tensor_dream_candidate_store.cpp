@@ -1,0 +1,349 @@
+#include <gtest/gtest.h>
+
+#ifdef THEMIS_ROCKSDB_AVAILABLE
+#include "storage/rocksdb_wrapper.h"
+#endif
+#include "storage/tensor_network_storage_engine.h"
+#include "tensor/dream_candidate_store.h"
+
+#include <atomic>
+#include <chrono>
+#include <cstdint>
+#include <filesystem>
+#include <functional>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <vector>
+
+using themis::tensor::DreamCandidateProvenance;
+using themis::tensor::DreamCandidateStore;
+
+namespace {
+
+DreamCandidateProvenance validProvenance() {
+    return {true, true, "dream-run-17"};
+}
+
+std::string storageKey(const std::string& candidate_id) {
+    constexpr char kHexDigits[] = "0123456789abcdef";
+    std::string key = "__dream_candidate__:v1:";
+    for (const auto ch : candidate_id) {
+        const auto byte = static_cast<unsigned char>(ch);
+        key.push_back(kHexDigits[byte >> 4]);
+        key.push_back(kHexDigits[byte & 0x0f]);
+    }
+    return key;
+}
+
+std::vector<uint8_t> asBytes(const std::string& value) {
+    std::vector<uint8_t> bytes;
+    bytes.reserve(value.size());
+    for (const auto ch : value) {
+        bytes.push_back(static_cast<uint8_t>(static_cast<unsigned char>(ch)));
+    }
+    return bytes;
+}
+
+class BackendWithoutAtomicInsert final : public themis::storage::ITensorStorageBackend {
+public:
+    bool put(const std::string& key, const std::vector<uint8_t>& value) override {
+        values_[key] = value;
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> get(const std::string& key) const override {
+        const auto it = values_.find(key);
+        return it == values_.end() ? std::nullopt
+                                   : std::optional<std::vector<uint8_t>>(it->second);
+    }
+
+    bool del(const std::string& key) override {
+        return values_.erase(key) > 0;
+    }
+
+    std::vector<std::string> listKeys(const std::string& prefix) const override {
+        std::vector<std::string> keys;
+        for (const auto& entry : values_) {
+            if (entry.first.compare(0, prefix.size(), prefix) == 0) {
+                keys.push_back(entry.first);
+            }
+        }
+        return keys;
+    }
+
+private:
+    std::unordered_map<std::string, std::vector<uint8_t>> values_;
+};
+
+class TemporaryDatabasePaths {
+public:
+    TemporaryDatabasePaths() {
+        const auto nonce = std::chrono::steady_clock::now().time_since_epoch().count();
+        root_ = std::filesystem::temp_directory_path() /
+                ("themis_dream_candidate_store_" + std::to_string(nonce));
+        std::filesystem::create_directories(root_);
+    }
+
+    ~TemporaryDatabasePaths() {
+        std::error_code error;
+        std::filesystem::remove_all(root_, error);
+    }
+
+    std::string pathFor(const std::string& name) const {
+        return (root_ / name).string();
+    }
+
+private:
+    std::filesystem::path root_;
+};
+
+} // namespace
+
+TEST(DreamCandidateStore, StoresReadsAndRoundTripsProvenance) {
+    DreamCandidateStore store;
+    const nlohmann::json payload = {{"hypothesis", "candidate"}, {"score", 0.75}};
+
+    ASSERT_TRUE(store.store("candidate-1", payload, validProvenance()));
+    const auto stored = store.get("candidate-1");
+    ASSERT_TRUE(stored.has_value());
+    EXPECT_EQ(stored->payload, payload);
+    EXPECT_TRUE(stored->provenance.synthetic);
+    EXPECT_TRUE(stored->provenance.dream_mode);
+    EXPECT_EQ(stored->provenance.run_id, "dream-run-17");
+    EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*stored));
+
+    const auto exported = store.exportArtifact("candidate-1");
+    ASSERT_TRUE(exported.has_value());
+    DreamCandidateStore imported;
+    ASSERT_TRUE(imported.importArtifact(*exported));
+    const auto round_tripped = imported.get("candidate-1");
+    ASSERT_TRUE(round_tripped.has_value());
+    EXPECT_EQ(round_tripped->toJson(), stored->toJson());
+}
+
+TEST(DreamCandidateStore, RejectsMissingOrMalformedProvenance) {
+    DreamCandidateStore store;
+    std::string error;
+
+    auto provenance = validProvenance();
+    provenance.synthetic = false;
+    EXPECT_FALSE(store.store("missing-synthetic", {{"value", 1}}, provenance, &error));
+    EXPECT_FALSE(error.empty());
+
+    provenance = validProvenance();
+    provenance.dream_mode = false;
+    EXPECT_FALSE(store.store("missing-dream-mode", {{"value", 1}}, provenance, &error));
+
+    provenance = validProvenance();
+    provenance.run_id = "  \t";
+    EXPECT_FALSE(store.store("missing-run-id", {{"value", 1}}, provenance, &error));
+    EXPECT_FALSE(store.store("null-payload", nullptr, validProvenance(), &error));
+    EXPECT_FALSE(store.get("missing-synthetic").has_value());
+}
+
+TEST(DreamCandidateStore, ImportRejectsMissingTagsMalformedEnvelopeAndChecksumMismatch) {
+    DreamCandidateStore source;
+    ASSERT_TRUE(source.store("candidate-2", {{"value", 2}}, validProvenance()));
+    const auto exported = source.exportArtifact("candidate-2");
+    ASSERT_TRUE(exported.has_value());
+
+    auto envelope = nlohmann::json::parse(*exported);
+    envelope["provenance"].erase("synthetic");
+    DreamCandidateStore missing_tag;
+    EXPECT_FALSE(missing_tag.importArtifact(envelope.dump()));
+
+    envelope = nlohmann::json::parse(*exported);
+    envelope["provenance"]["dream_mode"] = false;
+    DreamCandidateStore malformed_tag;
+    EXPECT_FALSE(malformed_tag.importArtifact(envelope.dump()));
+
+    envelope = nlohmann::json::parse(*exported);
+    envelope["payload"]["value"] = 99;
+    DreamCandidateStore corrupted;
+    EXPECT_FALSE(corrupted.importArtifact(envelope.dump()));
+
+    envelope = nlohmann::json::parse(*exported);
+    envelope["schema_version"] = std::uint64_t{4294967297ULL};
+    DreamCandidateStore unsupported_version;
+    EXPECT_FALSE(unsupported_version.importArtifact(envelope.dump()));
+}
+
+TEST(DreamCandidateStore, InstancesRemainIsolatedAndDuplicateIdsAreRejected) {
+    DreamCandidateStore first;
+    DreamCandidateStore second;
+    ASSERT_TRUE(first.store("candidate-3", {{"value", 3}}, validProvenance()));
+
+    EXPECT_FALSE(second.get("candidate-3").has_value());
+    std::string error;
+    EXPECT_FALSE(first.store("candidate-3", {{"value", 4}}, validProvenance(), &error));
+    EXPECT_NE(error.find("already exists"), std::string::npos);
+}
+
+TEST(DreamCandidateStore, PersistsProvenanceAcrossStoreInstancesInIsolatedNamespace) {
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    ASSERT_TRUE(backend->put("__production_truth__:untouched", {1, 2, 3}));
+
+    {
+        DreamCandidateStore writer(backend);
+        ASSERT_TRUE(writer.store("candidate/persisted", {{"value", 42}}, validProvenance()));
+    }
+
+    DreamCandidateStore reopened(backend);
+    const auto loaded = reopened.get("candidate/persisted");
+    ASSERT_TRUE(loaded.has_value());
+    EXPECT_TRUE(loaded->provenance.synthetic);
+    EXPECT_TRUE(loaded->provenance.dream_mode);
+    EXPECT_EQ(loaded->provenance.run_id, "dream-run-17");
+    EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*loaded));
+
+    const auto keys = backend->listKeys("__dream_candidate__:");
+    ASSERT_EQ(keys.size(), 1U);
+    EXPECT_EQ(keys.front(), storageKey("candidate/persisted"));
+    EXPECT_EQ(backend->get("__production_truth__:untouched"),
+              std::optional<std::vector<uint8_t>>(std::vector<uint8_t>{1, 2, 3}));
+    std::string error;
+    EXPECT_FALSE(reopened.store("candidate/persisted", {{"value", 43}},
+                                validProvenance(), &error));
+    EXPECT_NE(error.find("already exists"), std::string::npos);
+}
+
+TEST(DreamCandidateStore, RejectsCorruptedPersistedEnvelopeOnRead) {
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    DreamCandidateStore writer(backend);
+    ASSERT_TRUE(writer.store("candidate-corrupt", {{"value", 1}}, validProvenance()));
+    const auto exported = writer.exportArtifact("candidate-corrupt");
+    ASSERT_TRUE(exported.has_value());
+
+    auto corrupted = nlohmann::json::parse(*exported);
+    corrupted["payload"]["value"] = 2;
+    ASSERT_TRUE(backend->put(storageKey("candidate-corrupt"), asBytes(corrupted.dump())));
+
+    DreamCandidateStore reopened(backend);
+    EXPECT_FALSE(reopened.get("candidate-corrupt").has_value());
+    EXPECT_FALSE(reopened.exportArtifact("candidate-corrupt").has_value());
+}
+
+TEST(DreamCandidateStore, RejectsNullInjectedBackend) {
+    EXPECT_THROW(DreamCandidateStore(nullptr), std::invalid_argument);
+}
+
+TEST(DreamCandidateStore, UnsupportedBackendFailsClosed) {
+    auto backend = std::make_shared<BackendWithoutAtomicInsert>();
+    DreamCandidateStore store(backend);
+    std::string error;
+    DreamCandidateStore source;
+    ASSERT_TRUE(source.store("candidate-import", {{"value", 2}}, validProvenance()));
+    const auto exported = source.exportArtifact("candidate-import");
+    ASSERT_TRUE(exported.has_value());
+
+    EXPECT_FALSE(store.store("candidate-unsupported", {{"value", 1}},
+                             validProvenance(), &error));
+    EXPECT_FALSE(error.empty());
+    EXPECT_FALSE(store.importArtifact(*exported, &error));
+    EXPECT_FALSE(error.empty());
+    EXPECT_FALSE(store.get("candidate-unsupported").has_value());
+    EXPECT_FALSE(store.get("candidate-import").has_value());
+}
+
+TEST(DreamCandidateStore, ImportedEnvelopePersistsAcrossSharedBackendInstances) {
+    DreamCandidateStore source;
+    ASSERT_TRUE(source.store("candidate/imported", {{"value", 9}}, validProvenance()));
+    const auto exported = source.exportArtifact("candidate/imported");
+    ASSERT_TRUE(exported.has_value());
+
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    {
+        DreamCandidateStore importer(backend);
+        ASSERT_TRUE(importer.importArtifact(*exported));
+    }
+
+    DreamCandidateStore reopened(backend);
+    const auto loaded = reopened.get("candidate/imported");
+    ASSERT_TRUE(loaded.has_value());
+    EXPECT_EQ(loaded->provenance.run_id, "dream-run-17");
+    EXPECT_EQ(reopened.exportArtifact("candidate/imported"), exported);
+}
+
+TEST(DreamCandidateStore, ConcurrentWritersCannotOverwriteSharedBackendCandidate) {
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+    DreamCandidateStore first(backend);
+    DreamCandidateStore second(backend);
+    std::atomic<int> ready{0};
+    std::atomic<bool> start{false};
+    bool first_result = false;
+    bool second_result = false;
+
+    auto write_candidate = [&](DreamCandidateStore& store, bool& result,
+                               int value) {
+        ready.fetch_add(1, std::memory_order_release);
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        result = store.store("candidate-race", {{"value", value}}, validProvenance());
+    };
+
+    std::thread first_writer(write_candidate, std::ref(first),
+                             std::ref(first_result), 1);
+    std::thread second_writer(write_candidate, std::ref(second),
+                              std::ref(second_result), 2);
+    while (ready.load(std::memory_order_acquire) != 2) {
+        std::this_thread::yield();
+    }
+    start.store(true, std::memory_order_release);
+    first_writer.join();
+    second_writer.join();
+
+    EXPECT_NE(first_result, second_result);
+    const auto stored = first.get("candidate-race");
+    ASSERT_TRUE(stored.has_value());
+    EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*stored));
+}
+
+TEST(DreamCandidateStore, RocksDBPersistenceIsSeparateFromTruthDatabase) {
+#ifdef THEMIS_ROCKSDB_AVAILABLE
+    TemporaryDatabasePaths paths;
+    themis::RocksDBWrapper::Config dream_config;
+    dream_config.db_path = paths.pathFor("dream");
+    dream_config.create_if_missing = true;
+    dream_config.enable_blobdb = false;
+    auto dream_db = std::make_shared<themis::RocksDBWrapper>(dream_config);
+    ASSERT_TRUE(dream_db->open());
+
+    themis::RocksDBWrapper::Config truth_config;
+    truth_config.db_path = paths.pathFor("truth");
+    truth_config.create_if_missing = true;
+    truth_config.enable_blobdb = false;
+    auto truth_db = std::make_shared<themis::RocksDBWrapper>(truth_config);
+    ASSERT_TRUE(truth_db->open());
+
+    const std::string candidate_id = "candidate-durable";
+    const auto candidate_key = storageKey(candidate_id);
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(dream_db);
+        DreamCandidateStore store(backend);
+        ASSERT_TRUE(store.store(candidate_id, {{"value", "synthetic"}},
+                                validProvenance()));
+        EXPECT_FALSE(truth_db->get(candidate_key).has_value());
+    }
+    dream_db->close();
+    dream_db.reset();
+
+    dream_db = std::make_shared<themis::RocksDBWrapper>(dream_config);
+    ASSERT_TRUE(dream_db->open());
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(dream_db);
+        DreamCandidateStore reopened(backend);
+        const auto loaded = reopened.get(candidate_id);
+        ASSERT_TRUE(loaded.has_value());
+        EXPECT_EQ(loaded->provenance.run_id, "dream-run-17");
+        EXPECT_TRUE(DreamCandidateStore::verifyArtifact(*loaded));
+        EXPECT_TRUE(truth_db->get(candidate_key) == std::nullopt);
+    }
+    dream_db->close();
+    truth_db->close();
+#else
+    GTEST_SKIP() << "RocksDB support is not enabled in this build";
+#endif
+}

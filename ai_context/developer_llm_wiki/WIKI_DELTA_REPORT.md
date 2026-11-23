@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 0
+- Changed: 1
 
 ## Added
 
@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- none
+- include/storage/tensor_network_storage_engine.h

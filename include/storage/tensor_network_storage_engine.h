@@ -110,6 +110,27 @@ class ITensorStorageBackend {
 public:
     virtual ~ITensorStorageBackend() = default;
 
+    /** @brief Outcome of a conditional insert operation. */
+    enum class PutIfAbsentResult { Inserted, AlreadyExists, Error };
+
+    /**
+     * @brief Insert a value only when the key is absent.
+     * @param key Lookup key.
+     * @param value Bytes to insert.
+     * @return Inserted when created, AlreadyExists when already present, or
+     *         Error when unsupported or failed.
+     * @note The default implementation returns Error to fail closed. Concrete
+     *       backends must override with storage-atomic semantics before callers
+     *       can rely on no-overwrite behavior.
+     */
+    [[nodiscard]] virtual PutIfAbsentResult putIfAbsent(
+        const std::string& key,
+        const std::vector<uint8_t>& value) {
+        (void)key;
+        (void)value;
+        return PutIfAbsentResult::Error;
+    }
+
     virtual bool put(const std::string& key,
                      const std::vector<uint8_t>& value) = 0;
 
@@ -121,6 +142,7 @@ public:
     /// Iterate over all keys with the given prefix.
     virtual std::vector<std::string>
     listKeys(const std::string& prefix) const = 0;
+
 };
 
 // ============================================================================
@@ -130,6 +152,10 @@ public:
 /** @brief InMemoryTensorBackend — testing implementation. */
 class InMemoryTensorBackend final : public ITensorStorageBackend {
 public:
+    PutIfAbsentResult putIfAbsent(
+        const std::string& key,
+        const std::vector<uint8_t>& value) override;
+
     bool put(const std::string& key,
              const std::vector<uint8_t>& value) override;
 
@@ -173,6 +199,10 @@ public:
      * @throws std::invalid_argument when db is null.
      */
     explicit RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db);
+
+    PutIfAbsentResult putIfAbsent(
+        const std::string& key,
+        const std::vector<uint8_t>& value) override;
 
     bool put(const std::string& key,
              const std::vector<uint8_t>& value) override;

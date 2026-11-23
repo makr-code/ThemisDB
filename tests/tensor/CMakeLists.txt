@@ -167,6 +167,11 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             "THEMIS_TENSOR_DREAM_MANIFEST_SCHEMA_PATH=\"${THEMIS_ROOT_DIR}/src/tensor/DREAM_MODE_MANIFEST_SCHEMA.json\""
         )
     endif()
+    if("${_stem}" STREQUAL "test_tensor_dream_candidate_store")
+        _themis_tensor_add_test_sources(${_target}
+            ${THEMIS_ROOT_DIR}/src/tensor/dream_candidate_store.cpp
+        )
+    endif()
     if("${_stem}" STREQUAL "test_tensor_recompress")
         _themis_tensor_add_test_sources(${_target}
             ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
@@ -206,6 +211,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_compression_routing_accelerator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_core_bridge.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/dream_candidate_store.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/dream_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
