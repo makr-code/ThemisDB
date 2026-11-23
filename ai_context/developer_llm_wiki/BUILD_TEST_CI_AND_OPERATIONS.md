@@ -27,9 +27,10 @@ Status: Active
 - `build-sanitizer-nightly.yml` and `build-wave-b-transaction.yml` run on their
   schedules or by manual dispatch, not on PRs. Their sanitizer, chaos, and
   recovery evidence remains separate from per-PR results.
-- `build-mainline.yml` remains scheduled/manual for the complete platform,
-  runtime, benchmark, and test validation. Scheduled success is not a result
-  for an individual PR commit.
+- `build-mainline.yml` remains scheduled/manual for platform/runtime builds and
+  calls `reusable-mainline-validation-gates.yml` for Linux CTest, benchmarks,
+  and macOS kqueue tests. It does not execute CTest or benchmarks inline.
+  Scheduled success is not a result for an individual PR commit.
 - Local YAML, policy, and workflow-contract checks do not prove GitHub Actions
   runtime or runner-minute savings; compare post-change job durations after
   successful scheduled and PR runs.
@@ -90,6 +91,13 @@ Status: Active
 - [`tools/ci/check_workflow_fail_open.py`](../../tools/ci/check_workflow_fail_open.py) scans gate workflows and their transitively invoked local reusable workflows for `continue-on-error` and `|| true`.
 - Each remaining exception is matched exactly in [`tools/ci/workflow_fail_open_allowlist.json`](../../tools/ci/workflow_fail_open_allowlist.json) and requires a rationale, owner, expiry, and occurrence count. Gate callers that enable reusable `*_continue_on_error` inputs are also inventoried.
 - Focused regressions: [`tools/tests/test_workflow_fail_open.py`](../../tools/tests/test_workflow_fail_open.py). This policy check does not itself provide platform gate-run evidence or maintainer sign-off.
+
+## Platform-independent release artifacts
+
+- [`release-build-matrix.yml`](../../.github/workflows/release-build-matrix.yml) validates packages per selected OS/architecture lane. If a lane fails before producing its package artifact, the runtime gate skips that lane rather than treating the missing package as a validation failure.
+- `release-build-matrix.yml` defaults to `run_ctest: true` for existing release callers. `build-mainline.yml` sets `run_ctest: false` and runs CTest/benchmarks only through its separate reusable validation gates.
+- Mainline packaging and nightly GitHub Release publication may proceed when at least one package exists and every produced package passes the runtime gate. A runtime validation failure still blocks publication, and a release with no distributable package fails closed.
+- A partial platform release does not hide the failed build lane: the aggregate matrix and final release status remain failed. Nightly Docker manifest promotion still requires both validated `amd64` and `arm64` image digests.
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `ff58415b236088a7`

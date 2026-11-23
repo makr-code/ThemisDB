@@ -15,6 +15,8 @@
 - Releases are created manually by a release manager.
 - One source tag identifies one released source state.
 - A release may contain multiple artefacts, but those artefacts are produced once by the canonical CPack-backed release build matrix.
+- Package availability is evaluated per OS/architecture lane. A failed lane does not block publication of other lanes when at least one distributable package exists and all produced packages pass runtime validation; the aggregate workflow status remains failed to expose the incomplete platform set.
+- Nightly Docker manifest promotion remains multi-architecture and requires successful runtime-validated `amd64` and `arm64` images, even when a partial GitHub package release is available.
 - Do not create separate Git tags for ZIP, MSI, Docker image, or other package variants.
 - Every release tag must have release notes.
 - GitHub Issues for a release must be linked via the corresponding milestone.

@@ -13,9 +13,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
 RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
+RELEASE_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-mainline.yml"
+RELEASE_NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 REUSABLE_CMAKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "reusable-cmake-build.yml"
+MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
+MAINLINE_VALIDATION_GATES = REPO_ROOT / ".github" / "workflows" / "reusable-mainline-validation-gates.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
+SHARDING_CMAKELISTS = REPO_ROOT / "tests" / "sharding" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
 
 
@@ -198,8 +203,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 )
 
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
 
         self.assertRegex(
             macos_kqueue_job,
@@ -207,20 +212,27 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         )
 
     def test_macos_kqueue_lane_uses_modular_test_targets(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
 
         for target in (
-            "module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests",
-            "module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests",
-            "module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests",
+            "module_config_test_config_file_watcher_focused",
+            "module_plugins_test_plugin_hot_plug_focused",
+            "module_plugins_test_plugin_hot_reload_enhanced_focused",
         ):
             with self.subTest(target=target):
                 self.assertIn(f"build_target {target}", macos_kqueue_job)
+        for test_name in (
+            "test_config_file_watcher_config_FocusedTests",
+            "test_plugin_hot_plug_plugins_FocusedTests",
+            "test_plugin_hot_reload_enhanced_plugins_FocusedTests",
+        ):
+            with self.subTest(test_name=test_name):
+                self.assertIn(test_name, macos_kqueue_job)
 
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
         helper_match = re.search(
             r"disable_sccache_and_reconfigure\(\) \{(?P<body>.*?)\n\s+\}",
             macos_kqueue_job,
@@ -279,6 +291,50 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
 
+    def test_release_matrix_runtime_gate_skips_missing_lane_artifacts(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        runtime_gate = extract_yaml_job_block(workflow_text, "runtime-artifact-gate")
+        run_summary = extract_yaml_job_block(workflow_text, "run-summary")
+
+        self.assertIn("if: ${{ always() && !cancelled() && needs.prepare-release-matrix.result == 'success' }}", runtime_gate)
+        self.assertIn("actions/github-script@", runtime_gate)
+        self.assertIn("artifact.name === process.env.ARTIFACT_NAME", runtime_gate)
+        self.assertIn("steps.package_artifact.outputs.found == 'true'", runtime_gate)
+        self.assertIn("No package artifact was produced for ${PLATFORM}", runtime_gate)
+        self.assertIn("steps.packages.outputs.available == 'true'", runtime_gate)
+        self.assertIn("runtime_gate_result: ${{ steps.release_gate.outputs.runtime_gate_result }}", run_summary)
+        self.assertIn("RUNTIME_GATE_RESULT: ${{ needs.runtime-artifact-gate.result }}", run_summary)
+
+    def test_mainline_publishes_validated_platform_artifacts_after_upstream_failure(self) -> None:
+        workflow_text = RELEASE_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        pending_job = extract_yaml_job_block(workflow_text, "mark-release-pending")
+        preflight_job = extract_yaml_job_block(workflow_text, "preflight-release-policy")
+        package_job = extract_yaml_job_block(workflow_text, "package")
+
+        for job_block in (pending_job, preflight_job):
+            self.assertIn("github.event.workflow_run.conclusion == 'failure'", job_block)
+            self.assertIn("github.event.workflow_run.event == 'schedule'", job_block)
+        self.assertIn("needs.build-matrix.result == 'failure'", package_job)
+        self.assertIn("needs.build-matrix.outputs.runtime_gate_result == 'success'", package_job)
+        self.assertIn("!cancelled()", package_job)
+
+    def test_nightly_publishes_partial_platform_packages_but_keeps_docker_multiarch_gate(self) -> None:
+        workflow_text = RELEASE_NIGHTLY_WORKFLOW.read_text(encoding="utf-8")
+        change_job = extract_yaml_job_block(workflow_text, "check-changes")
+        metadata_job = extract_yaml_job_block(workflow_text, "generate-metadata")
+        release_job = extract_yaml_job_block(workflow_text, "publish-release")
+        docker_manifest_job = extract_yaml_job_block(workflow_text, "publish-docker-manifest")
+
+        self.assertIn("github.event.workflow_run.conclusion == 'failure'", change_job)
+        for job_block in (metadata_job, release_job):
+            self.assertIn("needs.build-matrix.result == 'failure'", job_block)
+            self.assertIn("needs.build-matrix.outputs.runtime_gate_result == 'success'", job_block)
+        self.assertIn("actions/github-script@", release_job)
+        self.assertIn("artifact.name.startsWith('packages-')", release_job)
+        self.assertIn("No successful OS lane produced a distributable package.", release_job)
+        self.assertIn("needs: [generate-metadata, publish-docker]", docker_manifest_job)
+        self.assertIn("for arch in amd64 arm64", docker_manifest_job)
+
     def test_release_build_matrix_community_only_excludes_experimental_macos_lane(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
 
@@ -299,6 +355,39 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn('sccache --stop-server || true', lane_block)
         self.assertIn('SCCACHE_GHA_ENABLED=false', lane_block)
         self.assertIn('if command -v sccache >/dev/null 2>&1 && [ \\\"${SCCACHE_GHA_ENABLED:-true}\\\" != \\\"false\\\" ]; then', lane_block)
+
+    def test_mainline_delegates_ctest_and_benchmarks_to_reusable_gates(self) -> None:
+        mainline = MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        gates = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        release_matrix = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        build_job = extract_yaml_job_block(mainline, "build")
+        platform_matrix_job = extract_yaml_job_block(mainline, "step2-platform-matrix")
+
+        self.assertIn("uses: ./.github/workflows/reusable-mainline-validation-gates.yml", mainline)
+        self.assertIn("run_ctest: false", platform_matrix_job)
+        self.assertIn("-DTHEMIS_BUILD_TESTS=OFF", build_job)
+        self.assertIn("-DTHEMIS_BUILD_BENCHMARKS=OFF", build_job)
+        self.assertNotRegex(mainline, re.compile(r"\bctest\s+--", re.IGNORECASE))
+        self.assertNotIn("themis_benchmarks_all_eligible", mainline)
+        self.assertIn("run_ctest:", release_matrix)
+        self.assertIn('if not run_ctest:', release_matrix)
+        self.assertIn('entry["dis10_serializability_test"] = False', release_matrix)
+        self.assertIn('r"(?m)^ctest --preset [^\\n]*\\n"', release_matrix)
+        self.assertIn("workflow_call:", gates)
+        self.assertIn("uses: ./.github/workflows/reusable-cmake-build.yml", gates)
+        self.assertIn("uses: ./.github/workflows/reusable-benchmark-runner.yml", gates)
+        self.assertIn("ctest --test-dir build-macos", gates)
+
+    def test_dis10_release_platform_test_links_zlib_and_registers_evidence_environment(self) -> None:
+        sharding_cmake = SHARDING_CMAKELISTS.read_text(encoding="utf-8")
+        reusable_workflow = REUSABLE_CMAKE_WORKFLOW.read_text(encoding="utf-8")
+
+        target_block = sharding_cmake.split("add_executable(test_dis10_concurrent_serializability", 1)[1]
+        target_block = target_block.split("if(EXISTS", 1)[0]
+        self.assertIn("Threads::Threads ZLIB::ZLIB", target_block)
+        self.assertIn("ENVIRONMENT \"${DIS10_SERIALIZABILITY_TEST_ENVIRONMENT}\"", target_block)
+        self.assertIn("export THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE=", reusable_workflow)
+        self.assertIn("THEMIS_CTEST_STRICT_EVIDENCE=1 THEMIS_CTEST_EMIT_TEST_OUTPUT=1", reusable_workflow)
 
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")

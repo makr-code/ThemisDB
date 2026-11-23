@@ -382,7 +382,7 @@ Kurzbeispiele:
 - Gate-Workflows duerfen Fehler nicht mit `continue-on-error` oder `|| true` verbergen. Jede verbleibende Ausnahme muss in `tools/ci/workflow_fail_open_allowlist.json` exakt nach Workflow/Job/Step und Muster mit Begruendung, Owner und Ablaufdatum klassifiziert sein.
 - `tools/ci/check_workflow_fail_open.py` prueft Gate-Workflows und lokal aufgerufene reusable Workflows transitiv; neue, abgelaufene, geaenderte oder veraltete Ausnahmen blockieren den Workflow. Gate-Aufrufe, die reusable `*_continue_on_error`-Inputs aktivieren, werden ebenfalls erfasst.
 - `pull_request_target` darf weder PR-Head-Code auschecken noch PR-Head-Daten an ausfuehrbare Schritte oder Actions weitergeben. Der Workflow Boundary Guard erlaubt explizite Base-Ref-Checkouts.
-- Der Develop-Volllauf in `Build: Mainline` baut die registrierten Testziele vor CTest. `THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1` macht fehlende Executables zu einem eindeutigen Fehler statt zu einem parallelen Build.
+- `Build: Mainline` baut Runtime und Plattformpakete; es übergibt `run_ctest: false` an `release-build-matrix.yml`, damit die Plattform-Builds keine Tests ausführen. Linux CTest, Benchmark-Ausführung und macOS-kqueue-Tests laufen über `reusable-mainline-validation-gates.yml`. Der CTest-Gate baut registrierte Testziele vor dem Lauf. `THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1` macht fehlende Executables zu einem eindeutigen Fehler statt zu einem parallelen Build. Andere Aufrufer behalten den Standard `run_ctest: true`.
 - Der CTest-Evidenzbericht muss die JUnit-Testmenge mit dem registrierten CTest-Inventar abgleichen; fehlende, fehlgeschlagene oder uebersprungene Tests sind kein Pass. Linux- und Windows-JUnit samt Modulsummary bleiben 90 Tage erhalten und werden in die Release-Evidenzkette aufgenommen.
 - **Push-vs-PR-Doppelfeuer vermeiden**: Wenn ein Workflow sowohl `push:` (auf Branches) als auch `pull_request:` hat,
   feuert er doppelt für denselben Commit. Entweder `push:` oder `pull_request:` verwenden, nicht beide für Branch-Events.
@@ -452,6 +452,7 @@ Siehe `.github/ACTION_PIN_POLICY.md` fuer vollstaendige Dokumentation und Allowl
 - `.github/actions/status-flags-and-issues/`  — Kanonische Schnittstelle für Issue-/PR-Kommentare, Labels und Status-Tracker; ersetzt direkte `github.rest.issues.*`/`createComment`-Blöcke in Workflows.
 - `.github/actions/manage-governance-issue/`  — Kanonische create/update Issue-Action (close-if-empty ist policy-bedingt no-op; aktuell noch nicht von Workflows verwendet)
 - `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
+- `reusable-cmake-build.yml` priorisiert das von sccache-action bereitgestellte Binary in `PATH`; Compiler-Launcher und Statistik müssen denselben Client/Server verwenden.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Der wiederverwendbare CMake-Workflow persistiert vcpkg-Downloads und Binary-Archive;
   diese Archive sind der portable Cache für manifest-basierte Build-Lanes. Keine
@@ -471,7 +472,7 @@ Kanonische Implementierungen: [reusable-cmake-build.yml](workflows/reusable-cmak
 
 | Cache-Ebene | Persistierter Inhalt | Schlüssel und Backend |
 |---|---|---|
-| Reusable-Abhängigkeiten | `.cache/vcpkg-downloads/<tag>`, `.cache/vcpkg-binary/<tag>` und lokaler sccache-Speicher | `cmake-cache-<OS>-<tag>-<Dependency-Hash>-<vcpkg-Revision>-<Compilerkennung>-snapshot-<run_id>-<run_attempt>`; Restore nur innerhalb desselben `<tag>` (OS, Architektur, Compiler und Triplet) |
+| Reusable-Abhängigkeiten | `.cache/vcpkg-downloads/<tag>`, `.cache/vcpkg-binary/<tag>` und sccache-Speicher | GHA-sccache-Lanes: stabiler `cmake-cache-<OS>-<tag>-<Dependency-Hash>-<vcpkg-Revision>-<Compilerkennung>-gha`-Schlüssel; passende frühere Run-Snapshots dienen einmalig als Migrations-Restore. Andere Lanes behalten Run-/Attempt-Snapshots. |
 | CMake-Konfiguration | CMakeCache, CMakeFiles und Ninja-Metadaten im deklarierten `build_directory` | Separater `cmake-build-tree`-Key mit Lane, Build-Modus, Binärverzeichnis und CMake-/Manifest-Hash; kein vollständiger Objektdatei-Cache |
 | MSVC-Analyse | `.vcpkg-downloads`, `.vcpkg-binary-cache`, `vcpkg/installed` | `msvc-vcpkg-<OS>-<vcpkg-Commit>-<Dependency-Hash>-snapshot-<run_id>-<run_attempt>`; Restore-Präfix bleibt beim gleichen vcpkg-Commit |
 
@@ -498,10 +499,11 @@ von zwei Jobs bei; eine Erhöhung ist nicht Bestandteil der Cache-Reparatur.
 
 ### Mainline als geteilter Release-Build
 
-`build-mainline.yml` bleibt der Orchestrator der Laufzeit- und Benchmark-CTest-Gates
-und ruft den vorhandenen `release-build-matrix.yml`-Provider auf. Es wird keine
-zusätzliche Provider-Workflow-Ebene eingeführt. Nightly und Packaging reagieren auf
-einen erfolgreichen Mainline-Lauf und übernehmen je Plattform nur Pakete, deren
+`build-mainline.yml` baut Runtime und Plattformpakete und ruft
+`reusable-mainline-validation-gates.yml` auf. Dieses Reusable enthält die Linux
+CTest-, Benchmark- und macOS-kqueue-Gates; `build-mainline.yml` führt diese
+Kommandos nicht direkt aus. Nightly und Packaging reagieren auf einen
+erfolgreichen Mainline-Lauf und übernehmen je Plattform nur Pakete, deren
 Manifest Source-SHA, Edition, Build-Profil, Plattform, Architektur, Compiler,
 Triplet, Runner-Konfiguration und Konfigurationsdigest exakt bestätigt; die
 SHA-256-Prüfung validiert die Paketbytes. Fehlende oder inkompatible Artefakte

@@ -45,11 +45,20 @@ on:
         required: false
         default: all
         type: string
+      run_ctest:
+        description: Run CTest in platform lanes (disable when a separate reusable gate owns tests)
+        required: false
+        default: true
+        type: boolean
       windows_dependency_concurrency:
         description: Modest vcpkg parallelism, independent of serial ThemisDB MSVC
         required: false
         default: '4'
         type: string
+    outputs:
+      runtime_gate_result:
+        description: Result of runtime validation for packages produced by successful platform lanes.
+        value: ${{ jobs.run-summary.outputs.runtime_gate_result }}
 
 permissions:
   contents: read
@@ -64,10 +73,18 @@ jobs:
     name: "Validate: Run Summary"
     if: always()
     needs: [linux-release, windows-release, prepare-release-matrix, windows-dependencies, release-platform-matrix, runtime-artifact-gate]
+    outputs:
+      runtime_gate_result: ${{ steps.release_gate.outputs.runtime_gate_result }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
+      - name: Expose packaged runtime gate result
+        id: release_gate
+        env:
+          RUNTIME_GATE_RESULT: ${{ needs.runtime-artifact-gate.result }}
+        run: echo "runtime_gate_result=${RUNTIME_GATE_RESULT}" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
@@ -125,6 +142,7 @@ jobs:
           BUILD_TYPE: ${{ inputs.build_type }}
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
+          RUN_CTEST: ${{ inputs.run_ctest }}
           RUN_NUMBER: ${{ github.run_number }}
           SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
@@ -143,6 +161,7 @@ jobs:
           build_type = os.environ["BUILD_TYPE"].strip()
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
+          run_ctest = os.environ.get("RUN_CTEST", "true").strip().lower() == "true"
           run_number = os.environ["RUN_NUMBER"]
           dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
@@ -382,6 +401,18 @@ jobs:
           for entry in entries:
               if not entry.get("enabled"):
                   continue
+              if not run_ctest:
+                  entry["dis10_serializability_test"] = False
+                  entry["validation_command"] = re.sub(
+                      r"(?m)^ctest --preset [^\n]*\n",
+                      "",
+                      entry["validation_command"],
+                  )
+                  entry["artifact_paths"] = re.sub(
+                      r"(?m)^test-[^\n]*\n",
+                      "",
+                      entry["artifact_paths"],
+                  )
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
               if lane_os == "linux":
                   entry["setup_command"] = entry["setup_command"].replace(
@@ -592,6 +623,7 @@ jobs:
   runtime-artifact-gate:
     name: "Validate: Packaged Runtime (${{ matrix.id }})"
     needs: [prepare-release-matrix, release-platform-matrix]
+    if: ${{ always() && !cancelled() && needs.prepare-release-matrix.result == 'success' }}
     runs-on: ${{ matrix.runs_on }}
     timeout-minutes: 30
     strategy:
@@ -603,14 +635,54 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Check for platform package artifact
+        id: package_artifact
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        env:
+          ARTIFACT_NAME: ${{ matrix.artifact_name_secondary }}
+        with:
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100,
+              },
+            );
+            const found = artifacts.some(
+              (artifact) => artifact.name === process.env.ARTIFACT_NAME && !artifact.expired,
+            );
+            core.setOutput('found', String(found));
+            if (!found) {
+              core.warning(`No package artifact was produced for ${process.env.ARTIFACT_NAME}; this platform lane will not be released.`);
+            }
+
       - name: Download final platform packages
+        if: steps.package_artifact.outputs.found == 'true'
         uses: actions/download-artifact@v5
         with:
           name: ${{ matrix.artifact_name_secondary }}
           path: runtime-packages
 
+      - name: Check platform package availability
+        id: packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${ARTIFACT_AVAILABLE}" = "true" ] && find runtime-packages -type f -print -quit 2>/dev/null | grep -q .; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No package artifact was produced for ${PLATFORM}; this platform lane will not be released."
+          fi
+        env:
+          PLATFORM: ${{ matrix.id }}
+          ARTIFACT_AVAILABLE: ${{ steps.package_artifact.outputs.found }}
+
       - name: Validate Linux packages in clean Ubuntu runtime
-        if: startsWith(matrix.id, 'linux-')
+        if: steps.packages.outputs.available == 'true' && startsWith(matrix.id, 'linux-')
         shell: bash
         run: |
           set -euo pipefail
@@ -627,13 +699,13 @@ jobs:
             '
 
       - name: Set up Python for native runtime gate
-        if: "!startsWith(matrix.id, 'linux-')"
+        if: steps.packages.outputs.available == 'true' && !startsWith(matrix.id, 'linux-')
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
       - name: Validate Windows and macOS packages without build tools on PATH
-        if: "!startsWith(matrix.id, 'linux-')"
+        if: steps.packages.outputs.available == 'true' && !startsWith(matrix.id, 'linux-')
         shell: bash
         run: |
           set -euo pipefail

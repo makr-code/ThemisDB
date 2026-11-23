@@ -1,22 +1,11 @@
 name: "Build: Mainline"
 
-# Rechenaufwand-Score: R=7 (K=8, L=7, N=7) | last-calibrated: 2026-08-25
-# Trigger policy: repo framework score calibration for workflow cost controls.
-# ──────────────────────────────────────────────────────────────────────────────
-# Trigger policy: nightly verification plus manual dispatch only.
-# Heavy C++ builds (up to 360 min) are intentionally not initiated by every develop push.
-# This avoids long-running matrix churn and reduces cancellation noise from competing builds.
-# Performance optimizations: sccache compiler caching (30-50% speedup), parallel jobs (12-16),
-# vcpkg binary caching, and GitHub Actions cache layer to avoid redundant dependency builds.
-# PR-level feedback is provided by lightweight build-clang-fast.yml and gate-pr-*.yml.
-# Concurrency remains scoped per platform matrix lane so slower jobs are not cancelled by
-# unrelated events while still allowing explicit manual reruns.
-# See: https://github.com/makr-code/ThemisDB/issues/xxxx
-# ──────────────────────────────────────────────────────────────────────────────
+# Mainline owns platform/runtime builds. CTest, benchmark execution, and the
+# macOS kqueue suite are delegated to reusable validation gates.
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # Build provider; Nightly and Packaging consume this run.
+    - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -31,7 +20,7 @@ on:
         default: false
         type: boolean
       dry_run:
-        description: 'Run all build and test validation without updating the build tracker (scheduled runs remain live)'
+        description: 'Run all build and gate validation without updating the build tracker'
         required: false
         default: true
         type: boolean
@@ -49,7 +38,6 @@ jobs:
     name: "Build: Mark Pending State"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       issues: write
@@ -73,7 +61,7 @@ jobs:
 
             Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
 
-            _This issue tracks post-merge build health on develop._
+            _This issue tracks post-merge build and validation health on develop._
             _Labels: `status/build-pending` = build running; final state is applied after workflow completion._
           labels-to-add: 'status/build-pending'
           source-workflow: ${{ github.workflow }}
@@ -88,15 +76,13 @@ jobs:
             echo "Would set the tracker to pending; no issue or label was changed."
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # ── Step 2: Cross-architecture layout lane ───────────────────────────────
-  # Consolidated matrix reduces duplicated setup/configure/build blocks while
-  # keeping the platform matrix visible in the GitHub Actions UI.
   step2-platform-matrix:
     name: "Build: Step 2 · Matrix (Mainline Orchestration)"
     needs: mark-build-pending
     uses: ./.github/workflows/release-build-matrix.yml
     with:
       build_matrix: community-only
+      run_ctest: false
       os: all
       architecture: all
       edition: community
@@ -164,396 +150,57 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
+        set -euo pipefail; echo "Build: Mainline runtime build"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "Runtime build dependencies installed"
       configure_command: >-
-        cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}" -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
-      build_command: >-
-        set -euo pipefail;
-        "${SCCACHE_PATH:-sccache}" --show-stats || true;
-        BUILD_LOG="$(mktemp)";
-        BUILD_EXIT_FILE="$(mktemp)";
-        trap 'rm -f "${BUILD_LOG}" "${BUILD_EXIT_FILE}"' EXIT;
-        set +e;
-        ( cmake --build build --parallel 16; echo "$?" > "${BUILD_EXIT_FILE}" ) 2>&1 | tee "${BUILD_LOG}";
-        BUILD_EXIT="$(cat "${BUILD_EXIT_FILE}")";
-        set -e;
-        if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
-          echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
-          export SCCACHE_GHA_ENABLED=false;
-          echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV";
-          "${SCCACHE_PATH:-sccache}" --stop-server || true;
-          toolchain_file="";
-          if [ -f build/CMakeCache.txt ]; then
-            toolchain_file="$(sed -n 's/^CMAKE_TOOLCHAIN_FILE:[^=]*=//p' build/CMakeCache.txt | tail -n 1)";
-          fi
-          if [[ "${toolchain_file}" == */vcpkg/scripts/buildsystems/vcpkg.cmake && ! -f "${toolchain_file}" ]]; then
-            echo "Restoring the pinned vcpkg submodule required by the cached CMake toolchain";
-            git -C "${GITHUB_WORKSPACE}" submodule update --init -- vcpkg;
-          fi
-          cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
-          cmake --build build --parallel 16;
-          cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
-        else
-          if [ "${BUILD_EXIT}" -eq 0 ]; then
-            cmake --build build --parallel 16 --target themis_benchmarks_all_eligible;
-          fi
-          "${SCCACHE_PATH:-sccache}" --show-stats || true;
-          exit "${BUILD_EXIT}";
-        fi
-      validation_command: >-
-        set -euo pipefail;
-        THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --test-dir build --output-on-failure -j 1 --timeout 60 --no-tests=error -LE 'tier:benchmark' --output-junit "${GITHUB_WORKSPACE}/build/ctest-results.xml";
-        ctest --test-dir build -N --no-tests=error -L 'tier:benchmark'
-      artifact_name: ctest-evidence-linux-${{ github.sha }}-${{ github.run_id }}
-      artifact_paths: |
-        build/Testing
-        build/ctest-results.xml
-        build/ctest-summary.md
-        build/ctest-output.txt
-        build/c5-key-lifecycle-audit
-        build/benchmarks/
-      artifact_retention_days: '90'
-      ctest_build_directory: build
-      ctest_junit_path: build/ctest-results.xml
-      ctest_summary_path: build/ctest-summary.md
-      summary_title: "Build: Mainline"
-
-  # ── macOS kqueue path validation ──────────────────────────────────────────
-  # Validates that kqueue-backed file watchers (ConfigFileWatcher,
-  # PluginHotPlugMonitor) build and pass tests on macOS runners.
-  # Must be resilient to transient sccache/GHA-cache backend outages so that
-  # infrastructure blips never block platform validation.
-  macos-kqueue-validation:
-    name: "Validate: 🍎 macOS kqueue paths"
-    runs-on: macos-latest
-    timeout-minutes: 45
-    needs: step2-architecture-summary
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-
-    steps:
-      - name: "Validate: Print macOS kqueue job context"
-        run: |
-          echo "============================================================"
-          echo "  Build: Mainline  |  Validate: macOS kqueue paths"
-          echo "============================================================"
-          echo "  Trigger  : ${{ github.event_name }}"
-          echo "  SHA      : ${{ github.sha }}"
-          echo "  OS       : $(sw_vers -productVersion) ($(uname -m))"
-          echo "  Scope    : config_file_watcher + plugin_hot_plug_monitor kqueue paths"
-          echo "============================================================"
-
-      - uses: actions/checkout@v5
-
-      - name: Install Homebrew dependencies
-        run: |
-          echo "  Installing macOS build dependencies via Homebrew..."
-          brew update --quiet
-          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
-          echo "  ✅ Homebrew packages installed"
-          cmake --version
-          ninja --version
-
-      # sccache is configured from toolchain packages instead of a Node action.
-      # This avoids runtime deprecation warnings while keeping cache behavior
-      # best-effort and non-fatal.
-      - name: Setup sccache (toolchain-native)
-        id: sccache-setup
-        continue-on-error: true
-        run: |
-          set -euo pipefail
-          if command -v sccache >/dev/null 2>&1; then
-            echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
-            sccache --start-server || true
-            sccache --show-stats || true
-            echo "status=ready" >> "$GITHUB_OUTPUT"
-          else
-            echo "::warning::sccache binary not found in PATH after Homebrew install"
-            echo "status=missing" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Configure CMake (macOS, kqueue-enabled modules only)
-        id: cmake_configure_macos
-        run: |
-          echo "──────────────────────────────────────────────"
-          echo "  CMake configure (macOS) — scoped to config + plugins"
-          echo "──────────────────────────────────────────────"
-          T0=$(date +%s)
-          OPENSSL_ROOT=$(brew --prefix openssl)
-          BREW_PREFIX=$(brew --prefix)
-
-          # Conditionally enable sccache compiler launcher only when the
-          # sccache server actually started successfully.  This prevents the
-          # build from failing when the GHA cache backend is unavailable.
-          if [ "${{ steps.sccache-setup.outcome }}" = "success" ] && sccache --show-stats &>/dev/null; then
-            echo "  sccache available — enabling compiler launcher"
-            C_LAUNCHER="-DCMAKE_C_COMPILER_LAUNCHER=sccache"
-            CXX_LAUNCHER="-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
-          else
-            echo "::warning::sccache unavailable or not running; building without cache"
-            C_LAUNCHER=""
-            CXX_LAUNCHER=""
-          fi
-
-          cmake -S . -B build-macos \
-            -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_C_FLAGS="-Wno-unused-command-line-argument" \
-            -DCMAKE_CXX_FLAGS="-Wno-unused-command-line-argument -Wno-deprecated-literal-operator -Wno-nan-infinity-disabled" \
-            ${C_LAUNCHER:+$C_LAUNCHER} \
-            ${CXX_LAUNCHER:+$CXX_LAUNCHER} \
-            -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
-            -DCMAKE_PREFIX_PATH="${BREW_PREFIX}" \
-            -DCMAKE_EXE_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
-            -DCMAKE_SHARED_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
-            -DCMAKE_MODULE_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
-            -DTHEMIS_BUILD_TESTS=ON \
+        cmake -S . -B build -G Ninja
+        -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF
+        -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+        -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+      build_command: |
+        set -euo pipefail
+        build_log="$(mktemp)"
+        exit_file="$(mktemp)"
+        trap 'rm -f "${build_log}" "${exit_file}"' EXIT
+        set +e
+        (cmake --build build --parallel 16; echo "$?" > "${exit_file}") 2>&1 | tee "${build_log}"
+        build_exit="$(cat "${exit_file}")"
+        set -e
+        if [ "${build_exit}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${build_log}"; then
+          echo "::warning::Transient sccache backend failure detected; retrying the runtime build without compiler cache"
+          export SCCACHE_GHA_ENABLED=false
+          echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
+          "${SCCACHE_PATH:-sccache}" --stop-server || true
+          cmake -S . -B build \
+            -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
-            -DTHEMIS_ENABLE_LLM=ON \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_GRPC=OFF \
-            -DTHEMIS_ENABLE_GRAPHQL=OFF \
-            -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
-            -DTHEMIS_ENABLE_MCP=OFF \
-            -DTHEMIS_ENABLE_MQTT=OFF \
-            -DTHEMIS_ENABLE_SSE=OFF \
-            -DTHEMIS_ENABLE_VECTOR_SEARCH=OFF \
-            -DTHEMIS_ENABLE_WEBSOCKET=OFF \
-            -DTHEMIS_MODELS_MODE=SKIP \
-            -DTHEMIS_EDITION=COMMUNITY
-          echo "  ✅ Configure completed in $(( $(date +%s) - T0 ))s"
+            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+            -DCMAKE_C_COMPILER_LAUNCHER= \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=
+          cmake --build build --parallel 16
+        else
+          "${SCCACHE_PATH:-sccache}" --show-stats || true
+          exit "${build_exit}"
+        fi
+      summary_title: "Build: Mainline Runtime"
 
-      # Build only the three kqueue-scoped test targets.  Scoping to specific
-      # targets means that unrelated C++ compile errors elsewhere in the tree
-      # cannot block kqueue path validation.  Each target is built in a
-      # separate cmake --build invocation so that a failure in one target
-      # (e.g. a source file removed by a refactor) is recorded as a warning
-      # rather than immediately aborting the step.
-      - name: Build kqueue-scoped test targets (macOS)
-        id: macos_build
-        run: |
-          set -euo pipefail
-          T0=$(date +%s)
-          NCPU="$(sysctl -n hw.logicalcpu)"
-          BUILD_WARN=0
-          BUILT_COUNT=0
-          BUILT_TEST_REGEX=""
-          DECLARED_COUNT=0
-          SCCACHE_FALLBACK_APPLIED=0
+  validation-gates:
+    name: "Gate: Mainline CTest, Benchmarks, and macOS"
+    needs: step2-architecture-summary
+    uses: ./.github/workflows/reusable-mainline-validation-gates.yml
+    permissions:
+      contents: read
+      actions: read
 
-          DECLARED_TARGETS=()
-          while IFS= read -r _line; do
-            DECLARED_TARGETS+=("$_line")
-          done < <(
-            ninja -C build-macos -t targets all \
-              | awk -F: '{print $1}' \
-              | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
-              | sort -u
-          )
-
-          has_declared_target() {
-            local wanted="$1"
-            for declared in "${DECLARED_TARGETS[@]}"; do
-              if [ "${declared}" = "${wanted}" ]; then
-                return 0
-              fi
-            done
-            return 1
-          }
-
-          disable_sccache_and_reconfigure() {
-            echo "::warning::Transient sccache backend failure detected; patching build caches to remove sccache compiler launcher and retrying once"
-            sccache --stop-server >/dev/null 2>&1 || true
-            # Directly patch CMakeCache.txt in the top-level build and any
-            # FetchContent sub-builds (which have separate CMakeCache.txt
-            # files that are not updated by a top-level cmake reconfigure).
-            # This ensures the launcher is cleared even if the cmake reconfigure
-            # below fails for a transient reason.
-            # Use process substitution so the while loop is not in a subshell
-            # and pipefail cannot trigger on a find failure.
-            while IFS= read -r -d '' _cache; do
-              # Use perl -i (portable across macOS BSD and GNU Linux) and
-              # match any non-empty launcher value so full sccache paths
-              # (e.g. /opt/homebrew/bin/sccache) are also cleared.
-              perl -i -pe \
-                's|CMAKE_C_COMPILER_LAUNCHER:STRING=\S+|CMAKE_C_COMPILER_LAUNCHER:STRING=|g;
-                 s|CMAKE_CXX_COMPILER_LAUNCHER:STRING=\S+|CMAKE_CXX_COMPILER_LAUNCHER:STRING=|g' \
-                "${_cache}" || true
-            done < <(find build-macos -maxdepth 4 -name 'CMakeCache.txt' -print0 2>/dev/null) || true
-            # Re-run cmake configure so Ninja regenerates build files without
-            # the sccache launcher.  Non-fatal: if cmake reconfigure fails for
-            # any transient reason (e.g. FetchContent network check while the
-            # same cache backend outage is still active), the direct cache
-            # patches above still take effect on the next cmake --build call.
-            cmake -S . -B build-macos \
-              -DCMAKE_C_COMPILER_LAUNCHER= \
-              -DCMAKE_CXX_COMPILER_LAUNCHER= || {
-              echo "::warning::cmake reconfigure failed during sccache disable; build will proceed with direct CMakeCache.txt patch only"
-            }
-            SCCACHE_FALLBACK_APPLIED=1
-          }
-
-          build_target() {
-            local target="$1"
-            local test_name="$2"
-            local build_log
-            local build_exit
-            local keep_build_log=0
-            if ! has_declared_target "${target}"; then
-              echo "::warning::Target ${target} is not registered in this CMake graph; skipping"
-              BUILD_WARN=$(( BUILD_WARN + 1 ))
-              return 0
-            fi
-            DECLARED_COUNT=$(( DECLARED_COUNT + 1 ))
-            echo "  → Building ${target}…"
-            build_log="$(mktemp)"
-            set +e
-            cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
-            build_exit="${PIPESTATUS[0]}"
-            set -e
-            if [ "${build_exit}" -eq 0 ]; then
-              echo "    ✅ ${target} built"
-              BUILT_COUNT=$(( BUILT_COUNT + 1 ))
-              if [ -z "${BUILT_TEST_REGEX}" ]; then
-                BUILT_TEST_REGEX="${test_name}"
-              else
-                BUILT_TEST_REGEX="${BUILT_TEST_REGEX}|${test_name}"
-              fi
-            elif [ "${SCCACHE_FALLBACK_APPLIED}" -eq 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${build_log}"; then
-              disable_sccache_and_reconfigure
-              echo "  ↻ Retrying ${target} without sccache…"
-              set +e
-              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
-              build_exit="${PIPESTATUS[0]}"
-              set -e
-              if [ "${build_exit}" -eq 0 ]; then
-                echo "    ✅ ${target} built after disabling sccache"
-                BUILT_COUNT=$(( BUILT_COUNT + 1 ))
-                if [ -z "${BUILT_TEST_REGEX}" ]; then
-                  BUILT_TEST_REGEX="${test_name}"
-                else
-                  BUILT_TEST_REGEX="${BUILT_TEST_REGEX}|${test_name}"
-                fi
-              else
-                echo "::warning::Target ${target} failed to build after disabling sccache; log preserved at ${build_log}"
-                keep_build_log=1
-                BUILD_WARN=$(( BUILD_WARN + 1 ))
-              fi
-            else
-              echo "::warning::Target ${target} failed to build; log preserved at ${build_log}"
-              keep_build_log=1
-              BUILD_WARN=$(( BUILD_WARN + 1 ))
-            fi
-            if [ "${keep_build_log}" -eq 0 ]; then
-              rm -f "${build_log}"
-            fi
-          }
-
-          build_target module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests
-          build_target module_plugins_test_plugin_hot_plug_focused test_plugin_hot_plug_plugins_FocusedTests
-          build_target module_plugins_test_plugin_hot_reload_enhanced_focused test_plugin_hot_reload_enhanced_plugins_FocusedTests
-
-          SECS=$(( $(date +%s) - T0 ))
-          echo "  ✅ kqueue-scoped targets built in ${SECS}s (${BUILD_WARN} target(s) with warnings)"
-
-          if [ "${DECLARED_COUNT}" -eq 0 ]; then
-            echo "::error::No kqueue-focused targets are registered by CMake on this runner"
-            exit 1
-          fi
-          if [ "${BUILT_COUNT}" -eq 0 ]; then
-            echo "::error::No declared kqueue-focused target built successfully; see build output above"
-            exit 1
-          fi
-          {
-            echo "built_count=${BUILT_COUNT}"
-            echo "built_test_regex=${BUILT_TEST_REGEX}"
-            echo "warn_count=${BUILD_WARN}"
-          } >> "$GITHUB_OUTPUT"
-
-      # Emit a discovery table so engineers can immediately see which test
-      # binaries are present before the test run starts.
-      - name: Verify kqueue test binaries
-        run: |
-          echo "──────────────────────────────────────────────"
-          echo "  kqueue test discovery"
-          echo "──────────────────────────────────────────────"
-          TEST_REGEX="${{ steps.macos_build.outputs.built_test_regex }}"
-          if [ -z "${TEST_REGEX}" ]; then
-            echo "::error::No built kqueue tests were exported by macOS build step"
-            exit 1
-          fi
-          echo "  Built test regex: ${TEST_REGEX}"
-          ctest --test-dir build-macos -N -R "${TEST_REGEX}" || true
-          {
-            echo "#### 🍎 kqueue test discovery"
-            echo "| Signal | Value |"
-            echo "|---|---|"
-            echo "| Built targets | \`${{ steps.macos_build.outputs.built_count }}\` |"
-            echo "| Build warnings | \`${{ steps.macos_build.outputs.warn_count }}\` |"
-            echo "| Built test regex | \`${TEST_REGEX}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Run kqueue-related tests
-        run: |
-          set -o pipefail
-          TEST_REGEX="${{ steps.macos_build.outputs.built_test_regex }}"
-          if [ -z "${TEST_REGEX}" ]; then
-            echo "::error::No built kqueue tests available to run"
-            exit 1
-          fi
-          echo "──────────────────────────────────────────────"
-          echo "  Running config + plugin tests (kqueue paths)"
-          echo "  Test regex: ${TEST_REGEX}"
-          echo "──────────────────────────────────────────────"
-          T0=$(date +%s)
-          ctest --test-dir build-macos \
-            --output-on-failure \
-            --parallel 2 \
-            --timeout 120 \
-            -R "${TEST_REGEX}" \
-            2>&1 | tee macos-kqueue-output.txt
-          EXIT_CODE="${PIPESTATUS[0]}"
-          SECS=$(( $(date +%s) - T0 ))
-          if [ "${EXIT_CODE}" -eq 0 ]; then
-            echo "  ✅ kqueue tests completed in ${SECS}s"
-          else
-            echo "::error::kqueue tests failed (exit ${EXIT_CODE}); see macos-kqueue-output.txt artifact"
-          fi
-          {
-            echo "### Validate: 🍎 macOS kqueue results"
-            echo ""
-            if [ "${EXIT_CODE}" -eq 0 ]; then
-              echo "✅ Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
-            else
-              echo "❌ Tests **FAILED** after ${SECS}s (exit ${EXIT_CODE}). Check \`macos-kqueue-results\` artifact."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
-          exit "${EXIT_CODE}"
-
-      - name: Print sccache statistics
-        if: always() && steps.sccache-setup.outputs.status == 'ready'
-        run: sccache --show-stats || true
-
-      - name: Upload macOS kqueue results
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: macos-kqueue-results-${{ github.run_number }}
-          path: macos-kqueue-output.txt
-          retention-days: 7
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # Build-status label management
-  # Sets ci/build-ok or ci/build-failed on the develop branch after each run.
-  # These labels are used by branch protection rules and downstream workflows.
-  # ──────────────────────────────────────────────────────────────────────────
   update-build-labels:
     name: "Build: Update build-status labels"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     needs:
+      - step2-platform-matrix
       - build
-      - macos-kqueue-validation
-    if: always() && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      - fast-compile-check
+      - validation-gates
+    if: always()
     permissions:
       contents: read
       issues: write
@@ -561,79 +208,51 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Derive status payload
+      - name: Derive build and gate status
         id: status
         shell: bash
         env:
+          MATRIX_RESULT: ${{ needs.step2-platform-matrix.result }}
           BUILD_RESULT: ${{ needs.build.result }}
-          MACOS_RESULT: ${{ needs.macos-kqueue-validation.result }}
-          CONFIGURE_OUTCOME: ${{ needs.build.outputs.configure-outcome }}
-          BUILD_OUTCOME: ${{ needs.build.outputs.build-outcome }}
-          VALIDATION_OUTCOME: ${{ needs.build.outputs.validation-outcome }}
+          FAST_RESULT: ${{ needs.fast-compile-check.result }}
+          CTEST_RESULT: ${{ needs.validation-gates.outputs.ctest_result }}
+          BENCHMARK_RESULT: ${{ needs.validation-gates.outputs.benchmark_result }}
+          MACOS_RESULT: ${{ needs.validation-gates.outputs.macos_kqueue_result }}
         run: |
-          if [ "${BUILD_RESULT}" = "success" ] && [ "${MACOS_RESULT}" = "success" ]; then
+          if [[ "${MATRIX_RESULT}" == success && "${BUILD_RESULT}" == success && "${FAST_RESULT}" == success && "${CTEST_RESULT}" == success && "${BENCHMARK_RESULT}" == success && "${MACOS_RESULT}" == success ]]; then
             {
               echo "status_label=ci/build-ok"
               echo "status_text=passing"
               echo "status_icon=✅"
-              echo "status_reason=linux+macos pipeline succeeded"
-              echo "status_markers="
+              echo "status_reason=platform builds and all reusable validation gates succeeded"
             } >> "$GITHUB_OUTPUT"
-          elif [ "${BUILD_RESULT}" = "cancelled" ] || [ "${MACOS_RESULT}" = "cancelled" ]; then
+          elif [[ "${MATRIX_RESULT}" == cancelled || "${BUILD_RESULT}" == cancelled || "${FAST_RESULT}" == cancelled || "${CTEST_RESULT}" == cancelled || "${BENCHMARK_RESULT}" == cancelled || "${MACOS_RESULT}" == cancelled || "${MATRIX_RESULT}" == skipped || "${BUILD_RESULT}" == skipped || "${FAST_RESULT}" == skipped || "${CTEST_RESULT}" == skipped || "${BENCHMARK_RESULT}" == skipped || "${MACOS_RESULT}" == skipped ]]; then
             {
               echo "status_label=ci/build-cancelled"
-              echo "status_text=cancelled or interrupted"
-              echo "status_icon=⏹️"
-              echo "status_reason=workflow was cancelled before completion"
-              echo "status_markers=ci/build-cancelled"
-            } >> "$GITHUB_OUTPUT"
-          elif [ "${BUILD_RESULT}" = "skipped" ] || [ "${MACOS_RESULT}" = "skipped" ] || [ "${BUILD_RESULT}" = "not_run" ] || [ "${MACOS_RESULT}" = "not_run" ] || [ "${BUILD_RESULT}" = "timed_out" ] || [ "${MACOS_RESULT}" = "timed_out" ] || [ "${BUILD_RESULT}" = "startup_failure" ] || [ "${MACOS_RESULT}" = "startup_failure" ] || [ "${BUILD_RESULT}" = "neutral" ] || [ "${MACOS_RESULT}" = "neutral" ]; then
-            {
-              echo "status_label=ci/build-cancelled"
-              echo "status_text=not run / skipped"
+              echo "status_text=cancelled, skipped, or incomplete"
               echo "status_icon=⏭️"
-              echo "status_reason=required build lane was skipped, not run, or interrupted before completion"
-              echo "status_markers=ci/build-cancelled"
+              echo "status_reason=a required platform build or validation gate did not complete"
             } >> "$GITHUB_OUTPUT"
-          elif [ "${MACOS_RESULT}" = "failure" ]; then
+          elif [[ "${BUILD_RESULT}" == failure || "${FAST_RESULT}" == failure || "${MATRIX_RESULT}" == failure ]]; then
             {
               echo "status_label=ci/build-failed"
-              echo "status_text=failing (macOS kqueue validation)"
+              echo "status_text=failing (platform or compiler build)"
               echo "status_icon=❌"
-              echo "status_reason=macOS kqueue validation stage failed"
-              echo "status_markers=ci/build-failed"
+              echo "status_reason=mainline platform matrix or runtime build failed"
             } >> "$GITHUB_OUTPUT"
-          elif [ "${BUILD_OUTCOME}" = "failure" ]; then
-            {
-              echo "status_label=ci/build-failed,ci/compiler-linker-failed"
-              echo "status_text=failing (compiler/linker)"
-              echo "status_icon=❌"
-              echo "status_reason=build step failed (compiler/linker stage)"
-              echo "status_markers=ci/compiler-linker-failed"
-            } >> "$GITHUB_OUTPUT"
-          elif [ "${BUILD_RESULT}" = "skipped" ] || [ "${MACOS_RESULT}" = "skipped" ] || [ "${BUILD_RESULT}" = "not_run" ] || [ "${MACOS_RESULT}" = "not_run" ]; then
-            {
-              echo "status_label=ci/build-cancelled"
-              echo "status_text=not run / skipped"
-              echo "status_icon=⏭️"
-              echo "status_reason=required build lane was skipped or did not run"
-              echo "status_markers=ci/build-cancelled"
-            } >> "$GITHUB_OUTPUT"
-          elif [ "${VALIDATION_OUTCOME}" = "failure" ]; then
+          elif [[ "${CTEST_RESULT}" == failure || "${BENCHMARK_RESULT}" == failure || "${MACOS_RESULT}" == failure ]]; then
             {
               echo "status_label=ci/build-ok,ci/test-failed"
-              echo "status_text=build ok, tests failing"
+              echo "status_text=build ok, validation gate failing"
               echo "status_icon=⚠️"
-              echo "status_reason=validation/test stage failed (non-build blocker)"
-              echo "status_markers=ci/test-failed"
+              echo "status_reason=platform builds passed but a CTest or benchmark gate failed"
             } >> "$GITHUB_OUTPUT"
           else
             {
-              echo "status_label=ci/build-ok"
-              echo "status_text=build status unknown (non compiler/linker failure)"
+              echo "status_label=ci/build-cancelled"
+              echo "status_text=unknown or incomplete"
               echo "status_icon=⚠️"
-              echo "status_reason=configure/setup or non-build stage failed"
-              echo "status_markers="
+              echo "status_reason=one or more required outcomes were unavailable"
             } >> "$GITHUB_OUTPUT"
           fi
 
@@ -652,12 +271,11 @@ jobs:
 
             Current status: **${{ steps.status.outputs.status_icon }} ${{ steps.status.outputs.status_text }}**
             Reason: `${{ steps.status.outputs.status_reason }}`
-            Marker: `${{ steps.status.outputs.status_markers || 'none' }}`
 
             Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
-
-            _This issue tracks post-merge build health on develop._
-            _Labels: `ci/build-failed` + `ci/compiler-linker-failed` = compiler/linker blocker; `ci/test-failed` = non-build blocker; `status/build-pending` = in progress._
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Replace status labels atomically
         if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
@@ -667,7 +285,7 @@ jobs:
           operation: replace_status_group
           issue-number: ${{ steps.tracker.outputs.issue-number }}
           labels-to-add: ${{ steps.status.outputs.status_label }}
-          status-group: 'ci/build-ok,ci/build-failed,ci/compiler-linker-failed,ci/test-failed,status/build-pending'
+          status-group: 'ci/build-ok,ci/build-failed,ci/compiler-linker-failed,ci/test-failed,status/build-pending,ci/build-cancelled'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -679,7 +297,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: comment_issue
           issue-number: ${{ steps.tracker.outputs.issue-number }}
-          issue-body: '${{ steps.status.outputs.status_icon }} Build ${{ needs.build.result }} for `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          issue-body: '${{ steps.status.outputs.status_icon }} Mainline: ${{ steps.status.outputs.status_text }} for `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -687,14 +305,10 @@ jobs:
       - name: Preview build tracker status
         if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
         env:
-          BUILD_RESULT: ${{ needs.build.result }}
-          MACOS_RESULT: ${{ needs.macos-kqueue-validation.result }}
           STATUS_TEXT: ${{ steps.status.outputs.status_text }}
         run: |
           {
             echo "## Build tracker dry-run preview"
-            echo "- Build result: \`${BUILD_RESULT}\`"
-            echo "- macOS validation result: \`${MACOS_RESULT}\`"
             echo "- Resolved status: \`${STATUS_TEXT:-unavailable}\`"
             echo "- Preview: issue upsert, status-label replacement, and comment were suppressed."
           } >> "$GITHUB_STEP_SUMMARY"
