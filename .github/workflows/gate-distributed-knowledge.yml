@@ -181,6 +181,8 @@ jobs:
           build_tree="build-community-release"
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
+          elif [ -f CMakeCache.txt ] && [ -f CTestTestfile.cmake ] && [ -f build.ninja ]; then
+            build_tree="."
           fi
           if [ ! -d "${build_tree}" ]; then
             echo "::error::Build tree missing after artifact download: ${build_tree}"
@@ -222,6 +224,8 @@ jobs:
           build_tree="build-community-release"
           if [ -d "${build_tree}/build-community-release" ]; then
             build_tree="${build_tree}/build-community-release"
+          elif [ -f CMakeCache.txt ] && [ -f CTestTestfile.cmake ] && [ -f build.ninja ]; then
+            build_tree="."
           fi
           if [ ! -d "${build_tree}" ]; then
             echo "::error::Build tree missing after artifact download: ${build_tree}"

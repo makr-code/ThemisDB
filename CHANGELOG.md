@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - CI evidence consumers and Wave 4 linker dependency
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- Distributed-knowledge CI consumers now accept the flattened CMake build-tree
+  artifact layout produced by `upload-artifact`, while retaining support for
+  nested artifacts. The transaction evidence test supplies the required DIS-10
+  serializability artifact in its successful fixture.
+- The Wave 4 release benchmark runner installs `libkrb5-dev`, providing the
+  Kerberos libraries required when linking `libthemis_security.so`.
+
 ### Fixed - Raft quorum recovery and tensor index shape validation
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
