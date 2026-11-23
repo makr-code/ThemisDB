@@ -1,20 +1,20 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-19
+Datum: 2026-11-23
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
 - Kategorie: governance_and_docs
-- Hash: `c22f201e19477f22`
+- Hash: `34faaeee0bd6b2fe`
 - Titel: AI Wiki Integration Playbook fuer ThemisDB
 - Auszug:
-  - Datum: 2026-07-28
-  - Status: Active
-  - Bezug: Uebertragung des LLM-Wiki-Musters auf ThemisDB Development-Management und AI Vibe Coding
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-07-28"
 
 ## BRANCHING_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `bc5b076360285457`
+- Hash: `0e5e1cd9d6791b65`
 - Titel: ThemisDB Branching Strategy
 - Auszug:
   - > Status: Active
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `8a7bde3764105fe6`
+- Hash: `8c1ad43c7157ce4e`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `0f803551945562cf`
+- Hash: `2950fdd7042f43ce`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-11-17 (Portable Agent Skill package proposal and module interface/acceptance plan added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
+  - **Last Updated:** 2026-11-19 (Portable Agent Skill package proposal and module interface/acceptance plan added; source-backed status summary below reflects the 2026-11-09 reconciliation: STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence reviewed 2026-11-09; access_model Wave B and readiness claims reconciled to current source evidence)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -338,7 +338,7 @@ Status: Active
 
 ## ai_context/api_contracts/llm.md
 - Kategorie: governance_and_docs
-- Hash: `14383af68b29aa7f`
+- Hash: `81a4c31cc4dc9df0`
 - Titel: LLM Module Contract
 - Auszug:
   - ---
@@ -347,7 +347,7 @@ Status: Active
 
 ## ai_context/api_contracts/storage.md
 - Kategorie: governance_and_docs
-- Hash: `f2048ef75de33288`
+- Hash: `9c5f8f5fd7673d9d`
 - Titel: Storage API contract and conformance evidence
 - Auszug:
   - ---
@@ -356,7 +356,7 @@ Status: Active
 
 ## ai_context/api_contracts/transaction.md
 - Kategorie: governance_and_docs
-- Hash: `90249237cdf9f7e5`
+- Hash: `a6f46dd2fe19b4a8`
 - Titel: Transaction Module Contract
 - Auszug:
   - ---
@@ -392,16 +392,25 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
 - Kategorie: governance_and_docs
-- Hash: `167b78362aee22b3`
+- Hash: `ba8cc286b942528c`
 - Titel: Distributed Tensor — Developer LLM Wiki
 - Auszug:
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/DOCUMENT.md
+- Kategorie: governance_and_docs
+- Hash: `49f53e754d6fb7dc`
+- Titel: Document — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-19"
+
 ## ai_context/developer_llm_wiki/ETHICS_AI.md
 - Kategorie: governance_and_docs
-- Hash: `5f63b2a306085ad1`
+- Hash: `5634e437b0a2d54b`
 - Titel: Ethics AI — Developer LLM Wiki
 - Auszug:
   - ---
@@ -410,7 +419,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/GRAPH.md
 - Kategorie: governance_and_docs
-- Hash: `03b7c914fbba252f`
+- Hash: `826bacf256d509b2`
 - Titel: Graph — Developer LLM Wiki
 - Auszug:
   - ---
@@ -428,7 +437,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/LLM_SKILLS.md
 - Kategorie: governance_and_docs
-- Hash: `da65d61c8654080f`
+- Hash: `438bb6e2ad06b3eb`
 - Titel: LLM Agent Skills
 - Auszug:
   - ---
@@ -527,7 +536,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/STORAGE.md
 - Kategorie: governance_and_docs
-- Hash: `d6117be4e8e41142`
+- Hash: `9e150e038ef494bd`
 - Titel: Storage — Developer LLM Wiki
 - Auszug:
   - ---
@@ -536,7 +545,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/TEMPORAL.md
 - Kategorie: governance_and_docs
-- Hash: `ebb0fa94ae8ec94a`
+- Hash: `4f614935b868eb33`
 - Titel: Temporal — Developer LLM Wiki
 - Auszug:
   - ---
@@ -713,12 +722,3 @@ Status: Active
   - **Date:** 2026-08-17
   - **Status:** ✅ COMPLETE
   - **Scope:** Structured logging, correlation ID propagation, and enhanced metrics
-
-## docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
-- Kategorie: governance_and_docs
-- Hash: `e86995224b29939c`
-- Titel: Access Model Phase 5-6 Implementation Plan
-- Auszug:
-  - **Document Version:** 1.0.0
-  - **Status:** Detailed Planning
-  - **Target:** Wave B Exit Criteria (Q3-Q4 2026)

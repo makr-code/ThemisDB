@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-22
+Datum: 2026-11-23
 Status: Active
 
 ## DIS-10 real-transport process recovery
@@ -67,15 +67,15 @@ Status: Active
 - The verified model is passed to the inference, embedding, LoRA adapter, RAG, AdaLoRA, and Wiki Phase B suites. Each test invocation enforces an `llm` skip budget of zero, and the final report fails if any required suite is skipped or unsuccessful.
 - Focused binaries and the RAG golden dataset are transferred under `build/bin/tests_by_module/llm/Release`; the generated LLM CTest file is restored under `build/cmake/tests/llm`. Suite jobs run CTest from that directory and emit GoogleTest output so the zero-skip checker can verify actual test execution.
 - A passing run is evidence only for those executed suites; it does not establish Vision/Whisper coverage, the repository-wide `GTEST_SKIP` target, or a successful run until workflow evidence exists.
+
 ## Gate workflow failure-tolerance guard
 
 - [`tools/ci/check_workflow_fail_open.py`](../../tools/ci/check_workflow_fail_open.py) scans gate workflows and their transitively invoked local reusable workflows for `continue-on-error` and `|| true`.
 - Each remaining exception is matched exactly in [`tools/ci/workflow_fail_open_allowlist.json`](../../tools/ci/workflow_fail_open_allowlist.json) and requires a rationale, owner, expiry, and occurrence count. Gate callers that enable reusable `*_continue_on_error` inputs are also inventoried.
 - Focused regressions: [`tools/tests/test_workflow_fail_open.py`](../../tools/tests/test_workflow_fail_open.py). This policy check does not itself provide platform gate-run evidence or maintainer sign-off.
-
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
-- Hash: `59518d7978eca388`
+- Hash: `ff58415b236088a7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-performance-gate.yml
@@ -105,12 +105,12 @@ Status: Active
 
 ## .github/workflows/build-llm-inference.yml
 - Kategorie: build_test_ci
-- Hash: `c356fe67d0f05f45`
+- Hash: `f5cc675a0dda3302`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `bcdc0f849b4f448a`
+- Hash: `b080ee84d2ad128b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -120,7 +120,7 @@ Status: Active
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `3a215515d9ae0c0d`
+- Hash: `09ae4f0ab9f75a51`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
@@ -135,7 +135,7 @@ Status: Active
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `2a1e15fa0e6f980f`
+- Hash: `e095bc85fd8d5971`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -165,7 +165,7 @@ Status: Active
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `30baed213b68c90b`
+- Hash: `7fbf3390118b7219`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml
@@ -190,7 +190,7 @@ Status: Active
 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `1aa145681c44e0bf`
+- Hash: `da815ebe2fd31684`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-artifact-size.yml
@@ -200,7 +200,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-benchmark-ctest.yml
 - Kategorie: build_test_ci
-- Hash: `45f653c23c060bff`
+- Hash: `cae2121c15ac636a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-community-failclosed.yml
@@ -210,7 +210,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `e6959306c65069e3`
+- Hash: `daa3f865e4286e34`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -265,7 +265,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-rag-eval.yml
 - Kategorie: build_test_ci
-- Hash: `dd96084910101341`
+- Hash: `40775771c777a109`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-phase10.yml
@@ -300,7 +300,7 @@ Status: Active
 
 ## .github/workflows/gate-pr-version-targeting.yml
 - Kategorie: build_test_ci
-- Hash: `98ab5a2139e4fb1b`
+- Hash: `75b4fe420b06a5a3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-release-benchmark-validation.yml
@@ -315,7 +315,7 @@ Status: Active
 
 ## .github/workflows/gate-workflow-guidelines.yml
 - Kategorie: build_test_ci
-- Hash: `f4407fe1cd234dbe`
+- Hash: `ab48765994565c25`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-ai-working.yml
@@ -395,7 +395,7 @@ Status: Active
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `16fc9e94adba012f`
+- Hash: `878efca4ec2d080f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml

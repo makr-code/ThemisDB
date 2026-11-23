@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Index
 
-Datum: 2026-11-19
+Datum: 2026-11-23
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: INCREMENTAL
-- Quellen gesamt: 8110
-- Quellen-Hash: `1172ea3ff93f55ea752d9a5625dc643ec1695f8ccd91849af93d8b7f24f3bc05`
+- Quellen gesamt: 8109
+- Quellen-Hash: `9d6c5396d8448770f54cd8c64b6accab46b1110aab3400e4f7603d340bedea3d`
 
 ## Status And Source-of-Truth Governance
 
@@ -47,11 +47,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
 - [PROCESS.md](PROCESS.md) — curated Process module context
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
-- [Evaluation module contract and evidence](../../src/evaluation/README.md) — metric/scoring semantics, planner confidence gates, and unverified release evidence
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
 - [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates
-- [DOCUMENT.md](DOCUMENT.md) — document API/schema semantics, failure boundaries, focused test evidence, benchmark limitations, and rollout context
 - [AI_WORKING.md](AI_WORKING.md) — working-artifact authority boundaries, compaction/archive semantics, tests, and current workflow evidence
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
@@ -59,9 +57,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 2395
+- modules_and_api: 2400
 - build_test_ci: 208
-- governance_and_docs: 5507
+- governance_and_docs: 5501
 - misc: 0
 
 ## Source-Priority / Konfliktregel

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,56 +14,10 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-22
+Datum: 2026-11-23
 Status: Active
 
 ## Curated module contexts
-
-- [Governance policy validation APIs](../../src/governance/API.md#result-handling) — `PolicyRuleSetValidator` analyzes caller-supplied rules or managers; `PolicyValidator` holds a manager. The two headers can be used together.
-
-### Sharding recovery authority (DIS-06 / #8200)
-
-For the `TwoPhaseCommitCoordinator` / `CrossShardTransactionCoordinator` pair,
-the former owns durable 2PC decisions; CrossShard delegates only 2PC and keeps
-its lifecycle/other protocols. PREPARED participants retain locks across
-timeouts; unavailable decisions block readiness, not decision-delivery RPCs.
-Coordinator, participant and replication WAL formats remain separate; do not
-silently migrate old unresolved CrossShard records or infer replica transport
-coverage from local WAL replay tests. API/source truth:
-`include/sharding/two_phase_commit_coordinator.h`,
-`include/sharding/two_phase_commit_participant.h`, `src/sharding/API.md` and
-`src/sharding/RUNBOOK.md`. Open evidence gates: `audit/ROADMAP.md`,
-`src/sharding/ROADMAP.md`. This curated note supersedes older inventory-only
-recovery descriptions, not the referenced source contracts.
-
-The Linux-only `DIS10RealTransportProcessRecoveryTests` uses real gRPC/mTLS
-participant processes and WAL replay. Its bounded cases include both
-asymmetric TCP directions, coordinator-request latency, and crash/recovery
-transactions with three, four, and five participants. It also injects
-application-level duplicate COMMIT/reordered ABORT RPCs without modifying
-encrypted TCP/TLS bytes. The five-participant case uses six processes including
-the coordinator. History assertions check terminal WAL consistency only; they
-are not a concurrent serializability checker. The 11-case
-registered target passed once and in three repeated CTest runs in Ubuntu
-24.04/Linux Debug. Wave B CI records three CTest repeats, but platform,
-72-hour, and workflow run artifacts remain separate evidence gates. See
-`src/sharding/ROADMAP.md` and `src/sharding/RUNBOOK.md`.
-
-The portable `DIS10ConcurrentSerializabilityTests` companion overlaps four
-transactions through two durable participant objects, records per-shard read
-and write events, checks a conflict-precedence graph, and requires a serial
-replay matching the observed reads. A synthetic opposing-order history verifies
-that the checker rejects cycles. It does not exercise gRPC, process failures,
-or a production storage engine. Wave B validates a commit-linked JSON artifact;
-the release matrix is wired to run and upload this focused test on Linux
-AMD64/ARM64, Windows AMD64, and macOS ARM64. The most recent observed Wave B
-PR run ended `action_required` with zero jobs, so no successful workflow
-artifact or release-platform pass is yet established.
-
-- [Shard transfer contract and evidence boundary](../../src/sharding/API.md#shard-transfer-dis-03) — bounded logical snapshot materialization, durable mTLS staging, local verified reads, and rebalance completion separate from transfer verification.
-- [DIS-03 routing and snapshot foundations](../../src/sharding/ARCHITECTURE.md#dis-03-routing--und-snapshot-grundlagen) — approved and partially implemented typed token resolution, exact ring ownership segments, and process-local MVCC snapshots; durable assignment, restart/resume, write quiescence, and authoritative cutover remain open. The generated wiki manifest is not fresh source-scan evidence.
-- [Raft/2PC/replication evidence boundary](../../src/replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary) — per-shard Raft, cross-shard transaction coordination, and WAL/segment shipping remain separate contracts; the end-to-end durable-block/decision/client-ACK sequence is not established.
-  The local `RaftConsensus` proposal path now rejects appends while its log tail is uncommitted, checking and appending atomically under the Raft-log lock. A candidate with exactly one configured cluster member promotes itself from its self-vote; larger clusters require healthy durable journals and send `VoteRequest`s through the optional `VoteRequestCallback`, retry after election timeout, and count only responses whose voter ID and term match. Higher-term responses force a persisted step-down; `RaftState::handleVoteRequest` rejects non-members and stale candidate logs, and will not grant a vote without a healthy durable journal. Multi-node proposals also require a healthy durable leader journal. Replication callbacks exchange `AppendEntriesRequest`/`AppendEntriesResponse`; term and `match_index` are checked, and the follower handler returns only a prefix persisted by a healthy durable journal (volatile followers reject ACKs). The shard service now exposes mTLS `RequestVote` and `AppendEntries` RPCs: the server binds authenticated certificate SANs to configured member IDs and group membership before dispatching to durable state handlers; the client verifies the configured peer's TLS DNS SAN, response node ID, and bounded deadline. `RaftShardManager` uses an explicit peer-config resolver to install vote, append, and heartbeat callbacks; without it, multi-node consensus stays fail-closed. The Linux gRPC test source now covers the manager-driven transport, identity rejection, volatile-journal vote/append rejection, two-/three-process follower restart, stale-term/partial-prefix rejection, bounded timeout, three-node quorum loss, separate leader-process SIGKILL/restart, and follower processes capable of independent re-election after leader loss. It has not been compiled or executed; actual runtime evidence remains unverified. `RaftShardManager` keys instances by logical group ID while the nested `RaftConfig::node_id` in `Config::raft_config` supplies the local member ID; initialization rejects missing, empty, or duplicate membership IDs. There is still no conflict-repair path, safe membership change, or end-to-end 2PC decision proof. `WIKI_STATUS.json` remains generated 2026-11-19 and has not been refreshed for this change.
 
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.
@@ -75,97 +29,95 @@ artifact or release-platform pass is yet established.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.
 - [Process module context](PROCESS.md) — process model lifecycle, retrieval boundaries, test registration, and benchmark evidence.
 - [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.
-- [Evaluation module contract and evidence](../../src/evaluation/API.md) — metric semantics, exact fallbacks, and caller-supplied confidence limits.
 - [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 - [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.
 - [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.
-- [Document module context](DOCUMENT.md) — schema/version semantics, failure boundaries, test evidence, and benchmark limitations.
 - [ai_working module context](AI_WORKING.md) — no runtime API; artifact lifecycle, structural checks, compactor failure behavior, test limits, and workflow evidence.
 
 
 ## include/acceleration/ai_hardware_dispatcher.h
 - Kategorie: modules_and_api
-- Hash: `9ded277956ff475c`
+- Hash: `8bc387f785588675`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/batch_validator.h
 - Kategorie: modules_and_api
-- Hash: `c5acdfb907f27ed0`
+- Hash: `55efab38ef468cf7`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/break_even_validator.h
 - Kategorie: modules_and_api
-- Hash: `b9cfca072b47a842`
+- Hash: `50fb6d0e555a21cf`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_backend.h
 - Kategorie: modules_and_api
-- Hash: `3d2015eecd4b6cf6`
+- Hash: `5ff2ba20ae8a3aed`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_future.h
 - Kategorie: modules_and_api
-- Hash: `bf0a8d611a6da167`
+- Hash: `eafdc8fd81b007c6`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_graph.h
 - Kategorie: modules_and_api
-- Hash: `f790afc3b77f058d`
+- Hash: `e97a1a68c4a61ee8`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/cpu_backend.h
 - Kategorie: modules_and_api
-- Hash: `b862b4b7d05faa81`
+- Hash: `989b540fc9d84f03`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/cuda_backend.h
 - Kategorie: modules_and_api
-- Hash: `6d444273b95c4937`
+- Hash: `e17c1f5159d5f551`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/device_manager.h
 - Kategorie: modules_and_api
-- Hash: `09ff17cb8fa48e05`
+- Hash: `cf1580b0e35c0489`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/error_codes.h
 - Kategorie: modules_and_api
-- Hash: `8e9f401a9bd61216`
+- Hash: `ca96dc5e6789dd4d`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/error_context.h
 - Kategorie: modules_and_api
-- Hash: `b51c0f986b3c38bd`
+- Hash: `c81193b4ff3bbfb4`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/faiss_gpu_backend.h
 - Kategorie: modules_and_api
-- Hash: `68b037b67ecd9946`
+- Hash: `aa540c54d4b05d73`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/fp16_vector_kernels.h
 - Kategorie: modules_and_api
-- Hash: `d967fab8304c8466`
+- Hash: `ea6049fe6eed8ea6`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/geo_acceleration_bridge.h
 - Kategorie: modules_and_api
-- Hash: `f9d309c844153744`
+- Hash: `3fa350950dde91c3`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/graph_kernel_classification.h
 - Kategorie: modules_and_api
-- Hash: `004baf5766ec8eda`
+- Hash: `feda34dbfecf9d8b`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/graphics_backends.h
 - Kategorie: modules_and_api
-- Hash: `f2b77545cc7ea95a`
+- Hash: `7e70645e9125c044`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/hip_backend.h
 - Kategorie: modules_and_api
-- Hash: `f450cfb7a8f77e9f`
+- Hash: `077e8bbae5119e50`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/kernel_fallback_dispatcher.h
@@ -175,7 +127,7 @@ artifact or release-platform pass is yet established.
 
 ## include/acceleration/kernel_invocation.h
 - Kategorie: modules_and_api
-- Hash: `e6f0c563429353e5`
+- Hash: `a0a2fbd3c390290b`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/kernel_registry.h
@@ -185,27 +137,27 @@ artifact or release-platform pass is yet established.
 
 ## include/acceleration/metrics/backend_metrics.h
 - Kategorie: modules_and_api
-- Hash: `d4cb5774193a7833`
+- Hash: `dc88679841bcaec1`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/metrics/metrics_collector.h
 - Kategorie: modules_and_api
-- Hash: `4983ccefff0c28b8`
+- Hash: `1087181861acc594`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/multi_gpu_backend.h
 - Kategorie: modules_and_api
-- Hash: `d46a0f46d506c24a`
+- Hash: `85b547a905748ccb`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/nccl_vector_backend.h
 - Kategorie: modules_and_api
-- Hash: `b5f0a349f28550d3`
+- Hash: `072faea9d9c9b871`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/opencl_backend.h
 - Kategorie: modules_and_api
-- Hash: `75013ffd8fb584af`
+- Hash: `1e9c5ab8e79b440a`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/plugin_loader.h
@@ -220,62 +172,62 @@ artifact or release-platform pass is yet established.
 
 ## include/acceleration/quantized_backend.h
 - Kategorie: modules_and_api
-- Hash: `27add24a15f75b3e`
+- Hash: `9c965a8cfb3f82f6`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/cuda_raii.h
 - Kategorie: modules_and_api
-- Hash: `4011547e43af20eb`
+- Hash: `20d9c2af7b431376`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/hip_raii.h
 - Kategorie: modules_and_api
-- Hash: `33a561b709a48dfd`
+- Hash: `4c314569215de785`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/opencl_raii.h
 - Kategorie: modules_and_api
-- Hash: `030f0ba838c178dc`
+- Hash: `6135da1115dd7ec5`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/vulkan_raii.h
 - Kategorie: modules_and_api
-- Hash: `c69316917e378897`
+- Hash: `1d2433f6fd5c4c5a`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/rccl_vector_backend.h
 - Kategorie: modules_and_api
-- Hash: `e26bc97cdb5c33a0`
+- Hash: `2bf57c8792690e8b`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/shader_integrity.h
 - Kategorie: modules_and_api
-- Hash: `2b551446cd8a622f`
+- Hash: `3af1ff3d9ee801a8`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/tensor_core_matmul.h
 - Kategorie: modules_and_api
-- Hash: `cb373064a51b6e73`
+- Hash: `c30446d271b0d574`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/vec_knn.h
 - Kategorie: modules_and_api
-- Hash: `f883a9f705f215f3`
+- Hash: `b3d25d6e233f95b4`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/vllm_resource_manager.h
 - Kategorie: modules_and_api
-- Hash: `d263fca11564dccc`
+- Hash: `4ba45e95cf2fba44`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/vulkan_backend.h
 - Kategorie: modules_and_api
-- Hash: `225aa9d1b6a1df23`
+- Hash: `2781ec30c3c6f292`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/zluda_backend.h
 - Kategorie: modules_and_api
-- Hash: `87f78bd45bceb0c8`
+- Hash: `8e1f7364c1de4788`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_coordinator.h
@@ -325,7 +277,7 @@ artifact or release-platform pass is yet established.
 
 ## include/analytics/aggregation.h
 - Kategorie: modules_and_api
-- Hash: `849a2e1ad977cd5e`
+- Hash: `b2e467444085e683`
 - Titel: (binary or unreadable)
 
 ## include/analytics/analytics_api_contract.h
@@ -335,42 +287,42 @@ artifact or release-platform pass is yet established.
 
 ## include/analytics/analytics_engine.h
 - Kategorie: modules_and_api
-- Hash: `6b9945c33e50987a`
+- Hash: `87210f3a17291a86`
 - Titel: (binary or unreadable)
 
 ## include/analytics/analytics_export.h
 - Kategorie: modules_and_api
-- Hash: `06195b731a43f68b`
+- Hash: `71a4e1b6b3187a41`
 - Titel: (binary or unreadable)
 
 ## include/analytics/anomaly_detection.h
 - Kategorie: modules_and_api
-- Hash: `df30ab9f72cfe3f2`
+- Hash: `3595a3c7c52fc182`
 - Titel: (binary or unreadable)
 
 ## include/analytics/arrow_export.h
 - Kategorie: modules_and_api
-- Hash: `6388988c127d80c9`
+- Hash: `b0849764e05947a7`
 - Titel: (binary or unreadable)
 
 ## include/analytics/arrow_flight.h
 - Kategorie: modules_and_api
-- Hash: `3aca4b0d04e35ce6`
+- Hash: `67caf72c8c3c872e`
 - Titel: (binary or unreadable)
 
 ## include/analytics/automl.h
 - Kategorie: modules_and_api
-- Hash: `b91ddce2abeb7b0e`
+- Hash: `b25ca554c4fc9a8e`
 - Titel: (binary or unreadable)
 
 ## include/analytics/cep_engine.h
 - Kategorie: modules_and_api
-- Hash: `f6bd2b0a2e239e4d`
+- Hash: `de9fac3c60e491c0`
 - Titel: (binary or unreadable)
 
 ## include/analytics/columnar_execution.h
 - Kategorie: modules_and_api
-- Hash: `03fde147aeac6c39`
+- Hash: `36a4f45cfe2a6c81`
 - Titel: (binary or unreadable)
 
 ## include/analytics/connection_guard.h
@@ -380,7 +332,7 @@ artifact or release-platform pass is yet established.
 
 ## include/analytics/detail/lru_cache.h
 - Kategorie: modules_and_api
-- Hash: `fa20c9fdc1cb6a30`
+- Hash: `cd53dc43990ac809`
 - Titel: (binary or unreadable)
 
 ## include/analytics/detail/memory_pool.h
@@ -390,95 +342,95 @@ artifact or release-platform pass is yet established.
 
 ## include/analytics/detail/ring_buffer.h
 - Kategorie: modules_and_api
-- Hash: `23447572ceeabdba`
+- Hash: `e6b43e78f0d2c504`
 - Titel: (binary or unreadable)
 
 ## include/analytics/detail/stats.h
 - Kategorie: modules_and_api
-- Hash: `61120425903874a6`
+- Hash: `e747288d4e30b7be`
 - Titel: (binary or unreadable)
 
 ## include/analytics/diff_engine.h
 - Kategorie: modules_and_api
-- Hash: `87ac07d7fb7425a6`
+- Hash: `f3cfb745250625af`
 - Titel: (binary or unreadable)
 
 ## include/analytics/distributed_analytics.h
 - Kategorie: modules_and_api
-- Hash: `90e6778622f259ba`
+- Hash: `55dd7a3067ba7a7b`
 - Titel: (binary or unreadable)
 
 ## include/analytics/expert_system_engine.h
 - Kategorie: modules_and_api
-- Hash: `78121c564dd71def`
+- Hash: `24abe1f6a0038d12`
 - Titel: (binary or unreadable)
 
 ## include/analytics/forecasting.h
 - Kategorie: modules_and_api
-- Hash: `839be65d1e032360`
+- Hash: `fc922e99bdee835a`
 - Titel: (binary or unreadable)
 
 ## include/analytics/incremental_view.h
 - Kategorie: modules_and_api
-- Hash: `d2a9d078af8a1270`
+- Hash: `65cce7e6e2821602`
 - Titel: (binary or unreadable)
 
 ## include/analytics/jit_aggregation.h
 - Kategorie: modules_and_api
-- Hash: `44e0ab6c6374258a`
+- Hash: `654de7eca31b74b2`
 - Titel: (binary or unreadable)
 
 ## include/analytics/knowledge_base.h
 - Kategorie: modules_and_api
-- Hash: `3175752c4f7a0b6e`
+- Hash: `69ebd1b4ad5d1749`
 - Titel: (binary or unreadable)
 
 ## include/analytics/llm_process_analyzer.h
 - Kategorie: modules_and_api
-- Hash: `ec8e1e44fadb2ee0`
+- Hash: `ef291e9bb46be66f`
 - Titel: (binary or unreadable)
 
 ## include/analytics/lora_pattern_classifier.h
 - Kategorie: modules_and_api
-- Hash: `b745144de43a1310`
+- Hash: `7338f63565917698`
 - Titel: (binary or unreadable)
 
 ## include/analytics/ml_serving.h
 - Kategorie: modules_and_api
-- Hash: `9c3f5abc96a99b08`
+- Hash: `17a3cd230258673f`
 - Titel: (binary or unreadable)
 
 ## include/analytics/model_serving.h
 - Kategorie: modules_and_api
-- Hash: `579b76e7ce760072`
+- Hash: `424d84e921e18e3b`
 - Titel: (binary or unreadable)
 
 ## include/analytics/nlp_text_analyzer.h
 - Kategorie: modules_and_api
-- Hash: `7cf645626f75630c`
+- Hash: `8fc404cddd329061`
 - Titel: (binary or unreadable)
 
 ## include/analytics/olap.h
 - Kategorie: modules_and_api
-- Hash: `73b84887e37722c1`
+- Hash: `b8827cbf54e486cf`
 - Titel: (binary or unreadable)
 
 ## include/analytics/process_mining.h
 - Kategorie: modules_and_api
-- Hash: `eaa1f7ecbcb09b3e`
+- Hash: `d96c1880492d7a8a`
 - Titel: (binary or unreadable)
 
 ## include/analytics/process_pattern_matcher.h
 - Kategorie: modules_and_api
-- Hash: `6f1474086e2a0fde`
+- Hash: `2c6f18783b3a0ac5`
 - Titel: (binary or unreadable)
 
 ## include/analytics/result_aggregator.h
 - Kategorie: modules_and_api
-- Hash: `c41b72f169c6fc5c`
+- Hash: `8bd94b35c43aaafb`
 - Titel: (binary or unreadable)
 
 ## include/analytics/streaming_join.h
 - Kategorie: modules_and_api
-- Hash: `86f5d96c701010d4`
+- Hash: `3a6d3f94c8a1c9f6`
 - Titel: (binary or unreadable)
