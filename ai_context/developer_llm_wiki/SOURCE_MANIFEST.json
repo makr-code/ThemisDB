@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T10:29:37+00:00",
+  "generated_at": "2026-11-23T11:04:34+00:00",
   "source_count": 8111,
   "sources": [
     {
@@ -1148,9 +1148,9 @@
     {
       "path": "ai_context/developer_llm_wiki/TENSOR_DREAM_MODE.md",
       "category": "governance_and_docs",
-      "size": 5279,
-      "sha256": "34da62f47a94fb151a555a413af49076ff112558a16ffabba24aa3ac35f278d5",
-      "modified_utc": "2026-11-23T10:28:41+00:00"
+      "size": 5740,
+      "sha256": "44a3151ecf3e13e68caf99ae455280dc35dc507d92f11a4b4b319d60aee951cb",
+      "modified_utc": "2026-11-23T11:04:09+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
