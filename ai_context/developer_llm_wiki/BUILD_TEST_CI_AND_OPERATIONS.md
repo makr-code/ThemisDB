@@ -27,9 +27,10 @@ Status: Active
 - `build-sanitizer-nightly.yml` and `build-wave-b-transaction.yml` run on their
   schedules or by manual dispatch, not on PRs. Their sanitizer, chaos, and
   recovery evidence remains separate from per-PR results.
-- `build-mainline.yml` remains scheduled/manual for the complete platform,
-  runtime, benchmark, and test validation. Scheduled success is not a result
-  for an individual PR commit.
+- `build-mainline.yml` remains scheduled/manual for platform/runtime builds and
+  calls `reusable-mainline-validation-gates.yml` for Linux CTest, benchmarks,
+  and macOS kqueue tests. It does not execute CTest or benchmarks inline.
+  Scheduled success is not a result for an individual PR commit.
 - Local YAML, policy, and workflow-contract checks do not prove GitHub Actions
   runtime or runner-minute savings; compare post-change job durations after
   successful scheduled and PR runs.

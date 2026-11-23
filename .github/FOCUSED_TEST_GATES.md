@@ -157,10 +157,11 @@ bash .github/workflows/gate-release-benchmark-validation.yml
 
 ### Key Changes After build-mainline Refactoring
 
-1. **Focused test gates remain independent** from `build-mainline.yml`
-   - `build-mainline` runs full matrix via `release-build-matrix.yml`
-   - Focused gates run separately for fast PR feedback
-   - No cross-dependencies between flows
+1. **Mainline builds and validation gates are separated**
+   - `build-mainline` owns platform/runtime builds through `release-build-matrix.yml`
+   - Linux CTest, benchmark execution, and macOS kqueue validation are delegated to
+     `reusable-mainline-validation-gates.yml`
+   - PR-focused gates retain their independent triggers and fast feedback scope
 
 2. **Aggregate target construction**
    - Release-critical: global property collection in `tests/CMakeLists.txt`

@@ -476,9 +476,10 @@ jobs:
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-          key: ${{ inputs.dependency_cache_key || format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-{6}-{7}{8}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt, inputs.windows_dependency_mode != 'off' && '-prepare' || '') }}
+          key: ${{ inputs.dependency_cache_key || (inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-gha', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) || format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-{6}-{7}{8}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt, inputs.windows_dependency_mode != 'off' && '-prepare' || '')) }}
           restore-keys: |
-            ${{ inputs.windows_dependency_mode != 'consume' && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
+            ${{ inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha && format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) || '' }}
+            ${{ inputs.windows_dependency_mode != 'consume' && !(inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha) && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
           enableCrossOsArchive: false
 
       - name: Download completed Windows dependency snapshot
@@ -560,6 +561,20 @@ jobs:
         if: steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
         continue-on-error: true
         uses: mozilla-actions/sccache-action@v0.0.6
+
+      - name: Prioritize the configured sccache binary
+        if: steps.reuse_validate.outcome != 'success' && inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${SCCACHE_PATH:-}" ] && [ -x "${SCCACHE_PATH}" ]; then
+            echo "$(dirname "${SCCACHE_PATH}")" >> "$GITHUB_PATH"
+            echo "SCCACHE_PATH=${SCCACHE_PATH}" >> "$GITHUB_ENV"
+            echo "Using configured sccache binary: ${SCCACHE_PATH}"
+          else
+            echo "::warning::sccache action did not provide a usable binary; disabling the compiler cache for this job"
+            echo "SCCACHE_DISABLE=1" >> "$GITHUB_ENV"
+          fi
 
       - name: Setup
         if: steps.reuse_validate.outcome != 'success' && inputs.setup_command != ''
@@ -1076,7 +1091,7 @@ jobs:
           echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
 
       - name: Save updated compiler and dependency cache
-        if: ${{ !cancelled() && steps.cache_after.outcome == 'success' && steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint }}
+        if: ${{ !cancelled() && steps.cache_after.outcome == 'success' && steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint && (!(inputs.windows_dependency_mode == 'off' && inputs.enable_sccache_gha) || steps.restore_cmake_cache.outputs.cache-hit != 'true') }}
         uses: actions/cache/save@v5
         with:
           path: |
@@ -1131,12 +1146,13 @@ jobs:
           BUILD_DIR="${GITHUB_WORKSPACE}/${BUILD_DIRECTORY}"
           EVIDENCE_DIR="${BUILD_DIR}/dis10-release-platform"
           mkdir -p "$EVIDENCE_DIR"
+          export THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$EVIDENCE_DIR/history.json"
           cmake -S "$GITHUB_WORKSPACE" -B "$BUILD_DIR" -DTHEMIS_BUILD_TESTS=ON
           cmake --build "$BUILD_DIR" \
             --target test_dis10_concurrent_serializability \
             --config Release --parallel 2 \
             2>&1 | tee "$EVIDENCE_DIR/build.txt"
-          THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE="$EVIDENCE_DIR/history.json" \
+          THEMIS_CTEST_STRICT_EVIDENCE=1 THEMIS_CTEST_EMIT_TEST_OUTPUT=1 \
             ctest --test-dir "$BUILD_DIR" -C Release \
               -R '^DIS10ConcurrentSerializabilityTests$' \
               --output-on-failure --timeout 60 \

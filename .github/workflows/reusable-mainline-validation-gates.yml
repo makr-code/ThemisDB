@@ -1,0 +1,240 @@
+name: "Reusable: Mainline Validation Gates"
+
+on:
+  workflow_call:
+    outputs:
+      ctest_result:
+        description: Result of the Linux CTest gate.
+        value: ${{ jobs.gate-summary.outputs.ctest_result }}
+      benchmark_result:
+        description: Result of the benchmark gate.
+        value: ${{ jobs.gate-summary.outputs.benchmark_result }}
+      macos_kqueue_result:
+        description: Result of the macOS kqueue test gate.
+        value: ${{ jobs.gate-summary.outputs.macos_kqueue_result }}
+
+permissions:
+  contents: read
+
+jobs:
+  linux-ctest:
+    name: "Gate: Mainline Linux CTest"
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      build_directory: build-mainline-ctest
+      enable_sccache_gha: true
+      runs_on: ubuntu-24.04
+      cache_arch: x64
+      cache_compiler: gcc
+      vcpkg_triplet: x64-linux
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "CTest gate dependencies installed"
+      configure_command: >-
+        cmake -S . -B build-mainline-ctest -G Ninja
+        -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+        -DCMAKE_C_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+        -DCMAKE_CXX_COMPILER_LAUNCHER="${SCCACHE_PATH:-sccache}"
+      build_command: >-
+        set -euo pipefail;
+        cmake --build build-mainline-ctest --parallel 16
+      validation_command: >-
+        set -euo pipefail;
+        THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1
+        ctest --test-dir build-mainline-ctest --output-on-failure -j 1
+        --timeout 60 --no-tests=error -LE 'tier:benchmark'
+        --output-junit "${GITHUB_WORKSPACE}/build-mainline-ctest/ctest-results.xml"
+      artifact_name: ctest-evidence-linux-${{ github.sha }}-${{ github.run_id }}
+      artifact_paths: |
+        build-mainline-ctest/Testing
+        build-mainline-ctest/ctest-results.xml
+        build-mainline-ctest/ctest-summary.md
+        build-mainline-ctest/ctest-output.txt
+        build-mainline-ctest/c5-key-lifecycle-audit
+      artifact_retention_days: '90'
+      ctest_build_directory: build-mainline-ctest
+      ctest_junit_path: build-mainline-ctest/ctest-results.xml
+      ctest_summary_path: build-mainline-ctest/ctest-summary.md
+      summary_title: "Gate: Mainline Linux CTest"
+
+  benchmarks:
+    name: "Gate: Mainline Benchmarks"
+    permissions:
+      contents: read
+    uses: ./.github/workflows/reusable-benchmark-runner.yml
+    with:
+      configure_flags: >-
+        -DTHEMIS_BUILD_BENCHMARKS=ON
+        -DTHEMIS_BUILD_TESTS=OFF
+        -DTHEMIS_ENABLE_LLM=OFF
+        -DTHEMIS_MODELS_MODE=SKIP
+      benchmark_filter: ''
+      benchmark_format: json
+      timeout_minutes: 360
+      runs_on: ubuntu-24.04
+      artifact_retention_days: '30'
+
+  macos-kqueue:
+    name: "Gate: Mainline macOS kqueue Tests"
+    runs-on: macos-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install macOS dependencies
+        run: |
+          set -euo pipefail
+          brew update --quiet
+          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
+
+      - name: Setup sccache (toolchain-native)
+        id: sccache-setup
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          if command -v sccache >/dev/null 2>&1; then
+            sccache --start-server || true
+            if sccache --show-stats >/dev/null 2>&1; then
+              echo "status=ready" >> "$GITHUB_OUTPUT"
+            else
+              echo "status=unavailable" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "::warning::sccache binary not found in PATH after Homebrew install"
+            echo "status=missing" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure kqueue test build
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew_prefix="$(brew --prefix)"
+          if [ "${{ steps.sccache-setup.outputs.status }}" = "ready" ]; then
+            c_launcher="-DCMAKE_C_COMPILER_LAUNCHER=sccache"
+            cxx_launcher="-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
+          else
+            c_launcher=""
+            cxx_launcher=""
+          fi
+          cmake -S . -B build-macos -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH="${brew_prefix}" \
+            ${c_launcher:+"${c_launcher}"} \
+            ${cxx_launcher:+"${cxx_launcher}"} \
+            -DCMAKE_EXE_LINKER_FLAGS="-L${brew_prefix}/lib" \
+            -DCMAKE_SHARED_LINKER_FLAGS="-L${brew_prefix}/lib" \
+            -DCMAKE_MODULE_LINKER_FLAGS="-L${brew_prefix}/lib" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_LLM=ON \
+            -DTHEMIS_ENABLE_GPU=OFF \
+            -DTHEMIS_ENABLE_GRPC=OFF \
+            -DTHEMIS_ENABLE_GRAPHQL=OFF \
+            -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
+            -DTHEMIS_ENABLE_MCP=OFF \
+            -DTHEMIS_ENABLE_MQTT=OFF \
+            -DTHEMIS_ENABLE_SSE=OFF \
+            -DTHEMIS_ENABLE_VECTOR_SEARCH=OFF \
+            -DTHEMIS_ENABLE_WEBSOCKET=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -DTHEMIS_EDITION=COMMUNITY
+
+      - name: Build kqueue test targets
+        id: macos_build
+        shell: bash
+        run: |
+          set -euo pipefail
+          NCPU="$(sysctl -n hw.logicalcpu)"
+          SCCACHE_FALLBACK_APPLIED=0
+          disable_sccache_and_reconfigure() {
+            echo "::warning::Transient sccache backend failure detected; retrying without sccache"
+            sccache --stop-server >/dev/null 2>&1 || true
+            cmake -S . -B build-macos \
+              -DCMAKE_C_COMPILER_LAUNCHER= \
+              -DCMAKE_CXX_COMPILER_LAUNCHER= || {
+              echo "::warning::cmake reconfigure failed while disabling sccache"
+            }
+            SCCACHE_FALLBACK_APPLIED=1
+          }
+          build_target() {
+            local target="$1"
+            local build_log
+            local build_exit
+            build_log="$(mktemp)"
+            set +e
+            cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
+            build_exit="${PIPESTATUS[0]}"
+            set -e
+            if [ "${build_exit}" -ne 0 ] && [ "${SCCACHE_FALLBACK_APPLIED}" -eq 0 ] \
+              && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${build_log}"; then
+              disable_sccache_and_reconfigure
+              set +e
+              cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1 | tee "${build_log}"
+              build_exit="${PIPESTATUS[0]}"
+              set -e
+            fi
+            rm -f "${build_log}"
+            return "${build_exit}"
+          }
+          build_target module_config_test_config_file_watcher_focused
+          build_target module_plugins_test_plugin_hot_plug_focused
+          build_target module_plugins_test_plugin_hot_reload_enhanced_focused
+
+      - name: Run kqueue CTest suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          test_regex='test_config_file_watcher_config_FocusedTests|test_plugin_hot_plug_plugins_FocusedTests|test_plugin_hot_reload_enhanced_plugins_FocusedTests'
+          ctest --test-dir build-macos -N --no-tests=error -R "${test_regex}"
+          ctest --test-dir build-macos \
+            --output-on-failure \
+            --parallel 2 \
+            --timeout 120 \
+            -R "${test_regex}" \
+            2>&1 | tee macos-kqueue-output.txt
+
+      - name: Upload macOS kqueue evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: macos-kqueue-results-${{ github.run_number }}
+          path: macos-kqueue-output.txt
+          retention-days: 7
+          if-no-files-found: warn
+
+  gate-summary:
+    name: "Validate: Mainline Gate Summary"
+    runs-on: ubuntu-24.04
+    needs: [linux-ctest, benchmarks, macos-kqueue]
+    if: always()
+    permissions:
+      contents: read
+    outputs:
+      ctest_result: ${{ needs.linux-ctest.result }}
+      benchmark_result: ${{ needs.benchmarks.result }}
+      macos_kqueue_result: ${{ needs.macos-kqueue.result }}
+    steps:
+      - name: Summarize validation gate results
+        env:
+          CTEST_RESULT: ${{ needs.linux-ctest.result }}
+          BENCHMARK_RESULT: ${{ needs.benchmarks.result }}
+          MACOS_RESULT: ${{ needs.macos-kqueue.result }}
+        run: |
+          {
+            echo "## Mainline validation gates"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|---|---|"
+            echo "| Linux CTest | ${CTEST_RESULT} |"
+            echo "| Benchmarks | ${BENCHMARK_RESULT} |"
+            echo "| macOS kqueue CTest | ${MACOS_RESULT} |"
+          } >> "$GITHUB_STEP_SUMMARY"

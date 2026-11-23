@@ -16,8 +16,11 @@ RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-b
 RELEASE_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-mainline.yml"
 RELEASE_NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 REUSABLE_CMAKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "reusable-cmake-build.yml"
+MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
+MAINLINE_VALIDATION_GATES = REPO_ROOT / ".github" / "workflows" / "reusable-mainline-validation-gates.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
+SHARDING_CMAKELISTS = REPO_ROOT / "tests" / "sharding" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
 
 
@@ -200,8 +203,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 )
 
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
 
         self.assertRegex(
             macos_kqueue_job,
@@ -209,8 +212,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         )
 
     def test_macos_kqueue_lane_uses_modular_test_targets(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
 
         for target in (
             "module_config_test_config_file_watcher_focused test_config_file_watcher_config_FocusedTests",
@@ -221,8 +224,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 self.assertIn(f"build_target {target}", macos_kqueue_job)
 
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
-        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
-        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
         helper_match = re.search(
             r"disable_sccache_and_reconfigure\(\) \{(?P<body>.*?)\n\s+\}",
             macos_kqueue_job,
@@ -345,6 +348,32 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn('sccache --stop-server || true', lane_block)
         self.assertIn('SCCACHE_GHA_ENABLED=false', lane_block)
         self.assertIn('if command -v sccache >/dev/null 2>&1 && [ \\\"${SCCACHE_GHA_ENABLED:-true}\\\" != \\\"false\\\" ]; then', lane_block)
+
+    def test_mainline_delegates_ctest_and_benchmarks_to_reusable_gates(self) -> None:
+        mainline = MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        gates = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        build_job = extract_yaml_job_block(mainline, "build")
+
+        self.assertIn("uses: ./.github/workflows/reusable-mainline-validation-gates.yml", mainline)
+        self.assertIn("-DTHEMIS_BUILD_TESTS=OFF", build_job)
+        self.assertIn("-DTHEMIS_BUILD_BENCHMARKS=OFF", build_job)
+        self.assertNotRegex(mainline, re.compile(r"\bctest\s+--", re.IGNORECASE))
+        self.assertNotIn("themis_benchmarks_all_eligible", mainline)
+        self.assertIn("workflow_call:", gates)
+        self.assertIn("uses: ./.github/workflows/reusable-cmake-build.yml", gates)
+        self.assertIn("uses: ./.github/workflows/reusable-benchmark-runner.yml", gates)
+        self.assertIn("ctest --test-dir build-macos", gates)
+
+    def test_dis10_release_platform_test_links_zlib_and_registers_evidence_environment(self) -> None:
+        sharding_cmake = SHARDING_CMAKELISTS.read_text(encoding="utf-8")
+        reusable_workflow = REUSABLE_CMAKE_WORKFLOW.read_text(encoding="utf-8")
+
+        target_block = sharding_cmake.split("add_executable(test_dis10_concurrent_serializability", 1)[1]
+        target_block = target_block.split("if(EXISTS", 1)[0]
+        self.assertIn("Threads::Threads ZLIB::ZLIB", target_block)
+        self.assertIn("ENVIRONMENT \"${DIS10_SERIALIZABILITY_TEST_ENVIRONMENT}\"", target_block)
+        self.assertIn("export THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE=", reusable_workflow)
+        self.assertIn("THEMIS_CTEST_STRICT_EVIDENCE=1 THEMIS_CTEST_EMIT_TEST_OUTPUT=1", reusable_workflow)
 
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
