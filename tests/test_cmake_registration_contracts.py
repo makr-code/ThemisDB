@@ -18,6 +18,59 @@ ROOT = Path(__file__).resolve().parents[1]
     "CMake, CTest and Ninja are required",
 )
 class CMakeRegistrationContracts(unittest.TestCase):
+    def test_analytics_gap_closure_registers_expert_system_sources(self):
+        with tempfile.TemporaryDirectory(prefix="themis-analytics-registration-") as directory:
+            source = Path(directory) / "src"
+            analytics = source / "analytics"
+            analytics.mkdir(parents=True)
+            shutil.copyfile(ROOT / "tests" / "analytics" / "CMakeLists.txt",
+                            analytics / "CMakeLists.txt")
+            for name in ("test_analytics_gap_closure.cpp", "test_streaming_join.cpp"):
+                (analytics / name).touch()
+            (source / "CMakeLists.txt").write_text(
+                f"""cmake_minimum_required(VERSION 3.20)
+project(AnalyticsRegistrationContracts NONE)
+set(THEMIS_ROOT_DIR [[{ROOT}]])
+add_library(themis_core INTERFACE)
+add_library(spdlog::spdlog INTERFACE IMPORTED)
+add_library(Threads::Threads INTERFACE IMPORTED)
+if(ENABLE_ANALYTICS)
+    add_library(themis_analytics INTERFACE)
+endif()
+function(add_executable target)
+    add_library(${{target}} INTERFACE)
+    target_sources(${{target}} INTERFACE ${{ARGN}})
+endfunction()
+function(target_include_directories target visibility)
+    _target_include_directories(${{target}} INTERFACE ${{ARGN}})
+endfunction()
+function(target_link_libraries target visibility)
+    _target_link_libraries(${{target}} INTERFACE ${{ARGN}})
+endfunction()
+function(target_compile_definitions)
+endfunction()
+function(themis_register_module_focused_test)
+endfunction()
+add_subdirectory(analytics)
+get_target_property(gap_sources module_analytics_test_analytics_gap_closure_focused INTERFACE_SOURCES)
+get_target_property(join_sources module_analytics_test_streaming_join_focused INTERFACE_SOURCES)
+foreach(stem IN ITEMS expert_system_engine knowledge_base model_serving automl)
+    set(impl "${{THEMIS_ROOT_DIR}}/src/analytics/${{stem}}.cpp")
+    if(NOT impl IN_LIST gap_sources OR impl IN_LIST join_sources)
+        message(FATAL_ERROR "Incorrect analytics source registration: ${{impl}}")
+    endif()
+endforeach()
+""",
+                encoding="utf-8",
+            )
+            for enabled in (False, True):
+                with self.subTest(analytics_enabled=enabled):
+                    subprocess.run(
+                        ["cmake", "-S", str(source), "-B", str(Path(directory) / f"build-{enabled}"),
+                         "-G", "Ninja", f"-DENABLE_ANALYTICS={'ON' if enabled else 'OFF'}"],
+                        text=True, capture_output=True, check=True,
+                    )
+
     def test_unified_rag_sources_do_not_duplicate_suites(self):
         test_cmake = (ROOT / "tests" / "CMakeLists.txt").read_text(encoding="utf-8")
         selection = test_cmake[
