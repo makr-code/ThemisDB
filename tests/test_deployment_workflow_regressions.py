@@ -1510,7 +1510,7 @@ class GgmlErrnoWorkaroundTests(unittest.TestCase):
 )
 class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
     def configure(self, directory, apple=True, targets=True, compiler_id="Clang",
-                  supported=True, explicit_memory=False, sdk_enum=False):
+                  supported=True, explicit_memory=False, sdk_enum=False, cpu_target=True):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
         block = dependencies.split(
             "    # The pinned ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
@@ -1524,7 +1524,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "typedef enum SDKEnum : unsigned SDKEnum;\n"
         ) if sdk_enum else ""
         (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
-        (directory / "blas.cpp").write_text("int blas() { return 0; }\n")
+        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
         (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
         (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
         target_definitions = (
@@ -1534,6 +1534,10 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "add_library(consumer STATIC consumer.cpp)\n"
             "target_link_libraries(consumer PRIVATE ggml-metal ggml-cpu ggml-blas)\n"
         ) if targets else ""
+        if targets and not cpu_target:
+            target_definitions = target_definitions.replace(
+                "add_library(ggml-cpu STATIC cpu.cpp helper.c)\n", ""
+            ).replace("ggml-metal ggml-cpu ggml-blas", "ggml-metal ggml-blas")
         (directory / "CMakeLists.txt").write_text(
             "cmake_minimum_required(VERSION 3.16)\n"
             "project(apple_backends LANGUAGES C CXX)\n"
@@ -1574,7 +1578,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
                         self.assertEqual(words[words.index("-include") + 1], "memory")
                     self.assertEqual(
                         "-Wno-error=elaborated-enum-base" in words,
-                        source == "cpu.cpp",
+                        source in {"cpu.cpp", "blas.cpp"},
                     )
 
     def test_nonapple_build_has_no_workaround_flags(self):
@@ -1617,6 +1621,16 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             self.configure(Path(temp), targets=False)
 
+    def test_blas_sdk_enum_exception_does_not_require_cpu_target(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, cpu_target=False, supported=None, sdk_enum=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            blas = next(item for item in commands if Path(item["file"]).name == "blas.cpp")
+            self.assertIn("-Wno-error=elaborated-enum-base", blas["command"].split())
+
     def test_sdk_flag_is_detected_by_compiler_probe(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
@@ -1624,8 +1638,9 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             result = self.build(directory)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             commands = json.loads((directory / "build/compile_commands.json").read_text())
-            cpu = next(item for item in commands if Path(item["file"]).name == "cpu.cpp")
-            self.assertIn("-Wno-error=elaborated-enum-base", cpu["command"].split())
+            for source in ("cpu.cpp", "blas.cpp"):
+                item = next(item for item in commands if Path(item["file"]).name == source)
+                self.assertIn("-Wno-error=elaborated-enum-base", item["command"].split())
 
     def test_sdk_flag_requires_supported_homebrew_clang(self):
         for compiler_id, supported in (("AppleClang", True), ("GNU", True), ("Clang", False)):

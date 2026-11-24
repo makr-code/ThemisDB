@@ -17,6 +17,21 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-23
 Status: Active
 
+## macOS ARM64 Accelerate SDK compilation
+
+- Actions job [127417305713](https://github.com/makr-code/ThemisDB/actions/runs/42075920970/job/127417305713)
+  failed in GGML Metal, CPU, and BLAS compilation. The Metal `<memory>`
+  force-include is already scoped to that target's C++ sources.
+- `cmake/Dependencies.cmake` probes Homebrew Clang's
+  `elaborated-enum-base` diagnostic and demotes only that Xcode 15.4 Accelerate
+  header diagnostic for existing `ggml-cpu` and `ggml-blas` C++ targets.
+  BLAS does not require the CPU target to be present. C sources, consumers,
+  non-Apple platforms, and unrelated warning-as-error checks are unchanged.
+- `tests/cmake/ggml_portability` and the backend tests in
+  `tests/test_deployment_workflow_regressions.py` verify target/language scope,
+  compiler probing, missing targets, and negative compilation controls.
+  Local fixture success does not establish a successful macOS release run.
+
 ## PR gate scope and large campaigns (2026-11-23)
 
 - `gate-pr-core.yml` retains one required release-critical build/test path; its
