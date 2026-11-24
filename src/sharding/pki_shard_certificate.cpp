@@ -80,18 +80,27 @@ namespace {
             return std::nullopt;
         }
         
-        X509_EXTENSION* ext = X509_get_ext(cert, idx);
+        auto* ext = X509_get_ext(cert, idx);
         if (!ext) {
             return std::nullopt;
         }
         
-        ASN1_OCTET_STRING* data = X509_EXTENSION_get_data(ext);
+        auto* data = X509_EXTENSION_get_data(ext);
         if (!data) {
             return std::nullopt;
         }
         
-        const unsigned char* p = data->data;
-        long len = data->length;
+        const unsigned char* p = ASN1_STRING_get0_data(data);
+        int len = ASN1_STRING_length(data);
+        if (len < 0) {
+            return std::nullopt;
+        }
+        if (len == 0) {
+            return std::string{};
+        }
+        if (!p) {
+            return std::nullopt;
+        }
         
         return std::string(reinterpret_cast<const char*>(p), len);
     }
@@ -480,12 +489,16 @@ bool PKIShardCertificate::parseSAN(void* x509_cert_ptr, ShardCertificateInfo& in
             info.san_dns.push_back(dns_str);
         }
         else if (gen_name->type == GEN_IPADD) {
-            ASN1_OCTET_STRING* ip = gen_name->d.iPAddress;
+            const ASN1_OCTET_STRING* ip = gen_name->d.iPAddress;
             // Convert IP address to string
-            if (ip->length == 4) { // IPv4
+            if (ip && ASN1_STRING_length(ip) == 4) { // IPv4
+                const unsigned char* data = ASN1_STRING_get0_data(ip);
+                if (!data) {
+                    continue;
+                }
                 char ip_str[16];
                 snprintf(ip_str, sizeof(ip_str), "%d.%d.%d.%d",
-                        ip->data[0], ip->data[1], ip->data[2], ip->data[3]);
+                        data[0], data[1], data[2], data[3]);
                 info.san_ip.push_back(ip_str);
             }
         }
