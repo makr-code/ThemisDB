@@ -63,9 +63,12 @@ end-to-end service:
    peer/principal bindings. An opt-in `main_server` configuration now loads
    validated adapter trains for one tenant and publishes one query projection
    at startup; its source ID is operator-supplied, it does not refresh on
-   writes, and it requires the principal in the mTLS identity bindings. Trusted
-   artifact discovery, revocation, freshness, and multi-shard publication
-   remain open. When `TensorMidLayer`
+   writes, and it requires the principal in the mTLS identity bindings. A
+   local minimal-profile startup smoke published a projection, and a helper
+   reopened RocksDB after process exit to read the manifest and nonempty
+   fragment. Production configuration, graceful shutdown, and power-loss
+   behavior remain unverified. Trusted artifact discovery, revocation,
+   freshness, and multi-shard publication remain open. When `TensorMidLayer`
    queries an adapter repository, it rejects a mismatched or empty tenant;
    graph fallback also checks the registered query tenant under the graph lock.
    Neither check authenticates the caller or validates injected candidates.
@@ -122,9 +125,11 @@ API types.
   persist placement metadata through `ManifestStore`. The planner itself does
   not fetch fragments; the optional ShardRPC adapter transports manifest-bound
   bytes. The Linux mTLS fixture path passed and `themis_server` compiled and
-  linked with the optional adapter in an HTTP-server-disabled build. This does
-  not validate configured host startup, trusted artifact discovery, or
-  freshness. The mapping is not a `TensorNetworkStorageEngine` mapping.
+  linked with the optional adapter in an HTTP-server-disabled build. A local
+  minimal-profile startup smoke also verified manifest and fragment readback
+  after process exit; it is not production-profile or graceful-shutdown
+  evidence. Trusted artifact discovery and freshness remain unverified. The
+  mapping is not a `TensorNetworkStorageEngine` mapping.
   Graph-truth validation fails closed for missing, invalid, or unsupported
   projections.
 
@@ -166,7 +171,10 @@ The existing `ShardTransferStoreTests` target also contains RocksDB-backed
 fragment-store regressions; the target built and passed 1/1 in the Linux WSL
 build tree on 2026-11-24. The regressions cover WAL sync, immutable
 principal/shard/artifact mapping, size and digest checks, and reopen. Neither
-fixture test validates configured production startup.
+fixture test validates configured production startup. A separate local
+minimal-profile host smoke published a projection and a helper verified its
+manifest and nonempty fragment after process exit; production configuration,
+graceful shutdown, and power-loss behavior remain unverified.
 The nightly coverage workflow runs `distributed_tensor`-labelled tests,
 publishes module-level summaries and LCOV data, and enforces 70% line / 60%
 branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.

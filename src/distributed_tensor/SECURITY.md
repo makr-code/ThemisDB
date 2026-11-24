@@ -1,6 +1,6 @@
 # Distributed Tensor Module Security Notes
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** security
 **Canonical references:** `include/distributed_tensor/integrity_verification.h`, `include/distributed_tensor/distributed_planner.h`, `include/distributed_tensor/graph_summary_projection.h`, `include/distributed_tensor/shard_rpc_fragment_fetcher.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_server.h`, `proto/sharding/shard_rpc.proto`, `include/distributed_tensor/tensor_storage_strategy.h`, `src/distributed_tensor/integrity_verification.cc`, `src/distributed_tensor/CMakeLists.txt`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/shard_rpc_server.cpp`
@@ -67,7 +67,9 @@ loading payload bytes and verifies the stored SHA-256; the manifest-bound
 adapter performs the final comparison against the trusted manifest. The
 principal must be tenant-bound by host policy, and publishers must persist
 bytes before advertising the matching placement. Missing TLS credentials or
-identity bindings fail startup closed. The source has not been built or run.
+identity bindings fail startup closed. The host integration was built and a
+local minimal-profile startup smoke exercised publication, but production
+configuration, graceful shutdown, and power-loss behavior remain unverified.
 `LocalProjectionPublisher` requires a trusted caller to supply an authenticated
 tenant, tenant-bound principal, authoritative shard/node and summary provenance.
 `loadRemote()` binds the record to the configured mTLS peer and validates its
@@ -81,9 +83,10 @@ or caller authorization.
 `publishFromGraph()` also checks query metadata from the tenant-scoped graph
 snapshot; the graph, scoring callbacks, principal binding, freshness and
 exclusion of concurrent graph mutations remain trusted host responsibilities.
-The Linux mTLS test suite includes an unrun source case composing the RocksDB
-fragment reader and manifest-bound adapter, with wrong-digest and unbound
-client rejection; it does not verify production host startup composition.
+The Linux mTLS test suite passed 8/8 directly and 1/1 in CTest on retry. Its
+fixture case composes the RocksDB fragment reader and manifest-bound adapter,
+including wrong-digest and unbound-client rejection; it does not verify
+production host startup composition.
 
 Graph validation accepts only the bounded, versioned
 `themis.tensor.adapter-similarity/v1` projection. The decoder rejects unknown

@@ -84,6 +84,10 @@ checksum and is not an integrity or authenticity guarantee.
   do not exercise production startup. Production server startup is opt-in through
   `sharding.tensor_fragment_rpc`; see the runbook and `src/sharding/API.md` for
   required mTLS configuration and the canonical storage mapping.
+  A separate local minimal-profile host startup smoke published a projection;
+  a helper reopened RocksDB after process exit and read its manifest and
+  nonempty fragment. It did not validate production configuration, graceful
+  shutdown, power-loss durability, or a client RPC against the running host.
 - `benchmarks/distributed_tensor/CMakeLists.txt` conditionally registers
   `bench_distributed_tensor_dedicated_gates.cpp` when
   `THEMIS_BUILD_BENCHMARKS` is enabled. That benchmark uses in-process stubs;
@@ -154,7 +158,10 @@ unsupported projections fail closed. The opt-in startup publisher encodes
 this format from stored tenant adapters, but trusted artifact discovery,
 refresh/invalidation, and multi-shard publication are not implemented. The
 publisher, host wiring, codec, and planner built in the focused Linux targets;
-the mTLS fixture case passed. The configured host startup has not been run.
+the mTLS fixture case passed. A local minimal-profile startup smoke published
+a projection and verified manifest/fragment readback after process exit.
+Production configuration, graceful shutdown, and power-loss behavior remain
+unverified.
 
 This integration applies to the public
 `themis::distributed_tensor::DistributedTensorPlanner`. The separate
@@ -191,9 +198,11 @@ explicit projection format before calling `GraphTruthValidator`.
 Fragment-load success alone remains insufficient: identity, digest metadata,
 projection validity, and graph-backed evidence are all required.
 The codec, planner, publisher, and host composition have now built, and the
-focused mTLS fixture test passed. Configured production startup has not been run;
-trusted artifact discovery, refresh/invalidation, and multi-shard publication
-remain unimplemented.
+focused mTLS fixture test passed. A local minimal-profile startup smoke also
+published a projection and verified manifest/fragment readback after process
+exit. Production configuration, graceful shutdown, power-loss behavior, trusted
+artifact discovery, refresh/invalidation, and multi-shard publication remain
+unverified or unimplemented.
 
 ## Historical verification attempt (2026-10-31)
 

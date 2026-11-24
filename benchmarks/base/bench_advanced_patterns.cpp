@@ -399,6 +399,7 @@ BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_8Threads) (benchmark::State
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2Final, Phase2Final_8Threads)->UseRealTime();
 
 // Phase 2F: 16 threads
 BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_16Threads) (benchmark::State& state) {
@@ -1843,6 +1844,7 @@ BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_1Thread) (benchmark::State
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_1Thread)->UseRealTime();
 
 BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
@@ -1962,6 +1964,7 @@ BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_1Thread) (benchmark::Stat
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_1Thread)->UseRealTime();
 
 BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
@@ -2177,6 +2180,7 @@ BENCHMARK_F(ParallelityBench, ParallelInserts_1Thread) (benchmark::State& state)
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBench, ParallelInserts_1Thread)->UseRealTime();
 
 // Parallel inserts - 4 threads
 BENCHMARK_F(ParallelityBench, ParallelInserts_4Threads) (benchmark::State& state) {

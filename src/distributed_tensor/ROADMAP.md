@@ -58,8 +58,11 @@ projection and fail-closed planner validation are source-implemented and were
 built and exercised by the focused mTLS test. The RocksDB fragment-store
 regressions also built and passed in `ShardTransferStoreTests` on 2026-11-24.
 `themis_server` also built with
-the ShardRPC adapter linked while `THEMIS_ENABLE_HTTP_SERVER=OFF`; production
-configuration and live startup remain untested. The benchmark parent configuration adds
+the ShardRPC adapter linked while `THEMIS_ENABLE_HTTP_SERVER=OFF`. A local
+minimal-profile startup smoke published a projection, and a separate helper
+reopened RocksDB after process exit to read its manifest and nonempty fragment.
+This did not validate graceful shutdown, power-loss durability, or a production
+configuration. The benchmark parent configuration adds
 `benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
 retrieval, partial-refit, and summary-first sources. The separate private
 integrity test and benchmark are registered only when OpenSSL Crypto is found.
@@ -72,12 +75,13 @@ generated no targets and is superseded for the focused paths by the
 - `cmake --build build-linux-raft-grpc --target test_shard_transfer_store --parallel 6` — passed.
 - `ctest --test-dir build-linux-raft-grpc -R "^ShardTransferStoreTests$" --output-on-failure` — passed, 1/1 CTest test.
 - `cmake --build build-linux-raft-grpc --target themis_server --parallel 6` — passed; compile/link evidence only, not a production startup test.
+- Manual Linux WSL minimal-profile startup smoke with the opt-in publisher — published artifact `tspj1-524ac927fe0140255f04d6d3d9de9ec54f0b60d06ef605190e8e7e11a1c7e677`; a separate helper reopened RocksDB after process exit and read the manifest plus nonempty fragment. The build had HTTP/HSM disabled and used explicit HSM-stub opt-in; no graceful shutdown, power-loss, production-profile, or host RPC-client test is claimed.
 - `./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc --gtest_filter="ShardFragmentGrpc.*"` — passed, 2/2 tests.
 - `./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc` — passed, 8/8 tests.
 - `THEMIS_CTEST_EMIT_TEST_OUTPUT=1 ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure` — passed, 1/1 CTest test on retry; the first attempt timed out at 90 seconds.
 - The changed test translation unit compiled from its existing `compile_commands.json` entry and linked using the generated Ninja link command. A standard CMake rebuild was stopped after regeneration expanded the target to 731 actions (8 had started).
 
-No full module suite, benchmark, production-configured startup, or soak test
+No full module suite, benchmark, production-profile startup, or soak test
 was run. Source registration and this focused evidence do not establish
 production enablement or release readiness.
 
@@ -214,7 +218,7 @@ pending.
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
-- [~] RocksDB fragment-store regressions and opt-in host startup publication are implemented in source. The Linux mTLS fixture case built and passed through publisher, RocksDB reopen, transport, and manifest-bound retrieval; `themis_server` compiled and linked with the adapter. Production configuration and live startup remain untested.
+- [~] RocksDB fragment-store regressions and opt-in host startup publication are implemented in source. The Linux mTLS fixture case built and passed through publisher, RocksDB reopen, transport, and manifest-bound retrieval. A local minimal-profile host startup smoke published a projection and a separate helper read its manifest and fragment after process exit; production configuration, graceful shutdown, and power-loss behavior remain untested.
 - [?] Historical test-source/pass claims remain unvalidated; they do not establish current behavior. New SHA-256 regressions are registered in focused test sources but have not been run.
 - [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
@@ -466,8 +470,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
   fixture-graph case composing the production fragment store and mTLS adapter
   passed in the Linux focused CTest run on 2026-11-24. The
   production storage mapping, optional mTLS serving, and an opt-in one-shot
-  startup publisher now build successfully; only the fixture path has runtime
-  test evidence, not the configured production startup.
+  startup publisher now build successfully. The fixture path has runtime test
+  evidence; a separate minimal-profile host startup smoke also verified local
+  manifest and fragment readback after process exit. Production configuration
+  and graceful lifecycle remain unverified.
   Trusted artifact discovery and refresh remain open. A bounded adapter-similarity projection
   and planner validation path are exercised by that fixture case. No
   consumer discovery path or distributed-tensor soak exists; those ownership

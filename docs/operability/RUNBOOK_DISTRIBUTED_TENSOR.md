@@ -15,9 +15,14 @@ Human_Author: "ThemisDB Team"
 > **Not validated for production operations:** The opt-in mTLS fragment RPC
 > listener, RocksDB fragment store, publisher, and planner were built and the
 > Linux fixture-graph publisher-to-mTLS case passed in `ShardTransferGrpcTests`
-> (2026-11-24). The `themis_server` target compiled and linked with this adapter,
-> but configured production startup was not run. No live freshness, trusted
-> artifact discovery, or distributed worker service is claimed.
+> (2026-11-24). A local WSL minimal-profile `themis_server` smoke also started
+> the opt-in mTLS listener and published artifact
+> `tspj1-524ac927fe0140255f04d6d3d9de9ec54f0b60d06ef605190e8e7e11a1c7e677`;
+> a separate helper reopened RocksDB after process exit and read its manifest
+> and nonempty fragment. This is not production-profile, graceful-shutdown, or
+> power-loss evidence: HTTP and HSM were unavailable in the build, with the HSM
+> stub explicitly opted into. No live freshness, trusted artifact discovery,
+> or distributed worker service is claimed.
 > The former in-process
 > stub soak was removed; no transport-backed soak result is claimed.
 
@@ -124,9 +129,10 @@ projection, not arbitrary opaque tensor fragments. The publisher remains
 single-shard and startup-only; discovery, refresh, revocation, and
 multi-shard coordination are not implemented.
 
-The fixture path is runtime-tested; the configured host startup and production
-lifecycle are not. Do not treat compilation or the focused test as production
-readiness evidence.
+The fixture path and the limited local startup smoke are runtime-tested; the
+production configuration and graceful host lifecycle are not. The smoke did
+not exercise a client RPC against the running host. Do not treat this evidence
+as production readiness.
 
 ## Scenario 1 — Shard Sync Failure
 

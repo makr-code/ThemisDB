@@ -1,6 +1,6 @@
 # Distributed Tensor Test Evidence Collection
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** build-test
 **Canonical references:** `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -63,11 +63,15 @@ the database, fetches it via mTLS and the planner, and checks rejection of
 an incorrect manifest digest and an unbound certificate. Its graph-validation
 assertions are compiled only when the query and LLM targets exist. This is
 fixture-driven publication, not an automatically wired production producer.
-`ShardTransferStoreTests` now also contains source regressions for the
-RocksDB-backed principal/shard/artifact mapping, immutable replay/conflict,
-size and digest checks, and restart persistence. The production mapping and
-opt-in `main_server.cpp` startup are source-backed, but neither target has been
-built or run; the gRPC tests do not exercise production startup composition.
+`ShardTransferStoreTests` also contains RocksDB-backed regressions for the
+principal/shard/artifact mapping, immutable replay/conflict, size and digest
+checks, and restart persistence. On 2026-11-24 the target passed 1/1 in CTest;
+the complete `test_shard_transfer_grpc` executable passed 8/8 and its CTest
+selection passed 1/1 on retry. A separate local minimal-profile `themis_server`
+startup smoke published a projection, and a helper reopened RocksDB after
+process exit to read its manifest and nonempty fragment. That smoke did not
+test production configuration, graceful shutdown, power-loss durability, or a
+client RPC against the running host.
 
 ## Benchmark registration
 
@@ -110,6 +114,20 @@ The EPIC 3 paths and registrations are present in the current CMake
 configuration. Historical test counts and pass-status statements still require
 their original execution artifacts; source registration alone does not confirm
 that they passed.
+
+## Focused validation evidence (2026-11-24)
+
+The Linux WSL Debug build passed `ShardTransferStoreTests` (1/1) and
+`ShardTransferGrpcTests` (1/1 on retry); direct execution of
+`test_shard_transfer_grpc` passed 8/8. A separate manual minimal-profile host
+smoke published artifact
+`tspj1-524ac927fe0140255f04d6d3d9de9ec54f0b60d06ef605190e8e7e11a1c7e677`;
+after the server process exited, a helper reopened the database and read the
+manifest and a nonempty fragment. The host smoke used an HTTP-disabled build
+with HSM unavailable and explicitly opted into the HSM stub. It is not
+production-profile, graceful-shutdown, power-loss, or RPC-client evidence.
+Trusted discovery, freshness/invalidation, continuous updates, benchmarks, and
+soak coverage remain open.
 
 ## Validation attempt (2026-10-31)
 

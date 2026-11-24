@@ -1,6 +1,6 @@
 # Distributed Tensor Module Source Audit
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/sharding/shard_artifact_fragment_store.h`, `src/sharding/shard_artifact_fragment_store.cpp`, `src/main_server.cpp`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_store.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -26,7 +26,7 @@ Exact model backend not verifiable from final document text alone.
 | Public API | Ten headers are listed in the module's `DISTRIBUTED_TENSOR_PUBLIC_HEADERS`. |
 | Local tests | `tests/distributed_tensor/CMakeLists.txt` registers three focused test executables from the three local test source files. |
 | EPIC 3 tests | `tests/CMakeLists.txt` adds `tests/epic3_distributed_tensor/`; its CMake registers the phase/contract test sources and the separate private integrity test only when OpenSSL Crypto is found. |
-| Integration and storage tests | No distributed-tensor soak is registered under `tests/integration`; the former in-process stub-only source was removed. `ShardTransferStoreTests` includes RocksDB-backed fragment-store regressions for principal/shard isolation, immutable replay/conflict, digest/size bounds, and restart persistence. The Linux/gRPC-conditional `ShardTransferGrpcTests` includes an unrun source case composing the local publisher, database reopen, mTLS, and manifest-bound retrieval with a fixture summary. It does not exercise production startup or an automatic producer. Neither target has been built or run in this session. |
+| Integration and storage tests | No distributed-tensor soak is registered under `tests/integration`; the former in-process stub-only source was removed. `ShardTransferStoreTests` built and passed 1/1, and `ShardTransferGrpcTests` passed 8/8 directly and 1/1 in CTest on 2026-11-24. Their fixture coverage includes RocksDB persistence, publisher composition, mTLS retrieval, and manifest-bound planning; it does not exercise production startup or an automatic producer. A local minimal-profile host startup smoke published a projection, and an external helper reopened RocksDB after process exit to read its manifest and nonempty fragment. Production configuration, graceful shutdown, and power-loss behavior remain unverified. |
 | Benchmarks | `benchmarks/CMakeLists.txt` adds both benchmark directories. `benchmarks/distributed_tensor/` selects the local dedicated-gates source; `benchmarks/epic3_distributed_tensor/` defines the workload benchmarks, with its private integrity benchmark only when OpenSSL Crypto is found. |
 
 ## Audit findings
@@ -36,16 +36,17 @@ Exact model backend not verifiable from final document text alone.
 - The EPIC 3 directories are present and configured separately from the
   `distributed_tensor/` directories. They are current source registrations;
   historical pass-status claims still require original execution artifacts.
-- Current CMake registration confirms targets and source paths only. A
-  diagnostic configure was attempted for this follow-up but stopped at
+- The historical 2026-10-31 diagnostic configure stopped at
   `cmake/Dependencies.cmake:727` because the required `fmt` library was
-  unavailable; no build tree or module targets were generated.
+  unavailable; that attempt generated no targets. The focused Linux target
+  build and runtime evidence from 2026-11-24 is recorded in the integration
+  test row above.
 - A standalone syntax-only compile of the public storage-strategy header passed
   as C++20 and was rejected as C++17 at `std::span`, matching the declared
   language requirement.
-- No distributed-tensor test or benchmark execution, measured performance
-  result, or production-readiness conclusion is established by this source
-  audit.
+- No full distributed-tensor suite or benchmark execution, measured
+  performance result, or production-readiness conclusion is established by
+  this source audit.
 
 ## Open verification gaps
 

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T17:51:41+00:00",
+  "generated_at": "2026-11-24T18:45:05+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -581,9 +581,9 @@
     {
       "path": ".github/workflows/reusable-benchmark-runner.yml",
       "category": "build_test_ci",
-      "size": 7504,
-      "sha256": "d68ea2869a7aca961fb3c313069606df8399b86c567e27e1113e4994a00c91d7",
-      "modified_utc": "2026-11-24T11:41:08+00:00"
+      "size": 7537,
+      "sha256": "5d33f594c0e508a3902c563899c2f79813bee1ae6899d74a5a06d7df688404d2",
+      "modified_utc": "2026-11-24T18:26:29+00:00"
     },
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
@@ -595,9 +595,9 @@
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
       "category": "build_test_ci",
-      "size": 26173,
-      "sha256": "d5b3490bf130be366cdf0b4c6144a829b63c15a85064e49689210ea9323eba21",
-      "modified_utc": "2026-11-24T13:39:31+00:00"
+      "size": 27298,
+      "sha256": "150d2b3138a19ab7102b9b2cc34ea6d5a6ad3653c3ea7b8cad0bca8d6e850879",
+      "modified_utc": "2026-11-24T18:26:29+00:00"
     },
     {
       "path": ".github/workflows/reusable-docs-db-builder.yml",
@@ -1029,9 +1029,9 @@
     {
       "path": "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
       "category": "governance_and_docs",
-      "size": 12489,
-      "sha256": "640e4ba8c1139d2f703cc8a6c78a49b7931a6d5549c4edc00a8f7dacd8b84014",
-      "modified_utc": "2026-11-24T17:00:01+00:00"
+      "size": 13110,
+      "sha256": "654559b4c2be87b561d0538b5a8bdee97b2856f2846d85b3bf6512edd56de855",
+      "modified_utc": "2026-11-24T18:43:55+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/DOCUMENT.md",
@@ -21000,9 +21000,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2327551,
-      "sha256": "b98350725e2a8fd6266ee803d3b81d71ba344ca6dd80056edfc123df17345738",
-      "modified_utc": "2026-11-24T17:34:58+00:00"
+      "size": 2327556,
+      "sha256": "4c0d97bd983cb80a43443a0aaab30908fbdfd4f118b1bcffbc370882359eee58",
+      "modified_utc": "2026-11-24T18:26:29+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -35966,9 +35966,9 @@
     {
       "path": "docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md",
       "category": "governance_and_docs",
-      "size": 13248,
-      "sha256": "34e564b8fe191930be15173ce3460bcf229a52553dca8c39373445e35b5fd4ec",
-      "modified_utc": "2026-11-24T13:44:54+00:00"
+      "size": 13669,
+      "sha256": "db1ea9d4c396026f8f4ce421e80d8ee9aac3718339272a35df48bca68fead541",
+      "modified_utc": "2026-11-24T18:41:52+00:00"
     },
     {
       "path": "docs/operability/RUNBOOK_DOCUMENT_STORE.md",
@@ -55671,23 +55671,23 @@
     {
       "path": "src/distributed_tensor/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4881,
-      "sha256": "6b779e652e57b2b3cb93625559377fa8de64af263019b635498d87be8513bca9",
-      "modified_utc": "2026-11-24T13:44:54+00:00"
+      "size": 5078,
+      "sha256": "ea6942927c650116934953ae3e350112c343a2d28ff6052fd5d979d664d8e214",
+      "modified_utc": "2026-11-24T18:41:52+00:00"
     },
     {
       "path": "src/distributed_tensor/README.md",
       "category": "modules_and_api",
-      "size": 17264,
-      "sha256": "db8d7a806dd1120a050e914b28b0ecd84e447641089bc2edad8d17fcfbe9d1f0",
-      "modified_utc": "2026-11-24T17:00:27+00:00"
+      "size": 17889,
+      "sha256": "b62c41e842dc5cfc91d49435562199c95dea0f848009127948c70d41c649a339",
+      "modified_utc": "2026-11-24T18:42:49+00:00"
     },
     {
       "path": "src/distributed_tensor/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 44845,
-      "sha256": "994b11db441944406d5fc211627ea09ab9934573fb0ab3974222d658c7d36506",
-      "modified_utc": "2026-11-24T16:59:21+00:00"
+      "size": 45727,
+      "sha256": "2c8dece7f2a1fbf6962574668a47d6c7c1cfaf5f6f6770b75b336ac80526a971",
+      "modified_utc": "2026-11-24T18:41:52+00:00"
     },
     {
       "path": "src/distributed_tensor/include/README.md",

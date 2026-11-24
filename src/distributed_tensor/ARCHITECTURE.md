@@ -131,7 +131,10 @@ adapters through `AdapterRepository`, reopens RocksDB, reloads them to build
 the graph, and composes the local publisher and fragment store with mTLS
 retrieval and manifest-bound planning. Its two focused gtests passed 2/2 and
 the complete executable passed 8/8; its CTest selection passed 1/1 on retry.
-It does not exercise host config.
+It does not exercise host config. A separate local minimal-profile host startup
+smoke published a projection; a helper reopened RocksDB after process exit and
+read the manifest and nonempty fragment. This was not a production-profile,
+graceful-shutdown, or power-loss test.
 
 The module target compiles the root-level `integrity_verification.cc`, which
 uses OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and
@@ -171,7 +174,9 @@ by this coordinator.
   RocksDB after reopen. The same
   `ShardTransferStoreTests` target includes RocksDB-backed fragment-store
   regressions and passed 1/1 in the Linux WSL build tree on 2026-11-24. The
-  production startup path has not been run.
+  a separate local minimal-profile startup smoke published a projection and a
+  helper read the manifest and fragment after process exit. Production
+  configuration, graceful shutdown, and power-loss behavior remain unverified.
 
 The earlier architecture text described a direct LLM-training pipeline and
 overstated storage persistence and sharding integration. The current ShardRPC
@@ -185,7 +190,9 @@ to `TensorNetworkStorageEngine` field keys.
 The graph projection codec and planner path were built and exercised by the
 focused Linux mTLS fixture test on 2026-11-24. The `themis_server` target also
 compiled and linked with the adapter in an HTTP-server-disabled configuration;
-the production host configuration and live startup have not been run.
+a local minimal-profile startup smoke exercised publication and local
+manifest/fragment readback after process exit. Production host configuration
+and graceful lifecycle remain unverified.
 
 ## Sequenz (kritischer Ablauf)
 
