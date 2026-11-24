@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import re
 import shutil
@@ -229,6 +230,61 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         ):
             with self.subTest(test_name=test_name):
                 self.assertIn(test_name, macos_kqueue_job)
+
+    @unittest.skipUnless(shutil.which("cmake") and shutil.which("ninja"), "requires CMake and Ninja")
+    def test_macos_kqueue_targets_are_registered_by_module_discovery(self) -> None:
+        root_cmake = TESTS_CMAKELISTS.read_text(encoding="utf-8")
+        discovery = root_cmake.split("# Auto-discover modularized test folders", 1)[1].split("\n", 1)[1].split(
+            "set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED", 1
+        )[0]
+        expected = {
+            "test_config_file_watcher_config_FocusedTests": "module_config_test_config_file_watcher_focused",
+            "test_plugin_hot_plug_plugins_FocusedTests": "module_plugins_test_plugin_hot_plug_focused",
+            "test_plugin_hot_reload_enhanced_plugins_FocusedTests": "module_plugins_test_plugin_hot_reload_enhanced_focused",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp)
+            for module in ("config", "plugins"):
+                (source / module).symlink_to(REPO_ROOT / "tests" / module, target_is_directory=True)
+            (source / "CMakeLists.txt").write_text(
+                'cmake_minimum_required(VERSION 3.20)\n'
+                'project(KqueueRegistration LANGUAGES CXX)\n'
+                'enable_testing()\n'
+                f'set(THEMIS_ROOT_DIR "{REPO_ROOT.as_posix()}")\n'
+                'add_library(themis_core INTERFACE)\n'
+                'add_library(spdlog::spdlog INTERFACE IMPORTED)\n'
+                'add_library(Threads::Threads INTERFACE IMPORTED)\n'
+                'include("${THEMIS_ROOT_DIR}/tests/cmake/RegisterModuleTests.cmake")\n'
+                + discovery
+            )
+            build = source / "build"
+            for modular in ("ON", "OFF", "ON"):
+                configure = subprocess.run(
+                    ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja",
+                     f"-DTHEMIS_BUILD_MODULAR={modular}"],
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(configure.returncode, 0, configure.stdout + configure.stderr)
+                listing = subprocess.run(
+                    ["ctest", "--test-dir", str(build), "--show-only=json-v1"],
+                    capture_output=True, text=True, check=True,
+                )
+                names = {test["name"] for test in json.loads(listing.stdout)["tests"]}
+                self.assertEqual("test_config_file_watcher_config_FocusedTests" in names, modular == "ON")
+            targets = subprocess.run(
+                ["cmake", "--build", str(build), "--target", "help"],
+                capture_output=True, text=True, check=True,
+            ).stdout
+            listing = subprocess.run(
+                ["ctest", "--test-dir", str(build), "--show-only=json-v1"],
+                capture_output=True, text=True, check=True,
+            )
+            tests = {test["name"]: test for test in json.loads(listing.stdout)["tests"]}
+            for name, target in expected.items():
+                with self.subTest(name=name):
+                    self.assertIn(f"{target}:", targets)
+                    self.assertIn(name, tests)
+                    self.assertIn(f"-DTARGET_NAME={target}", tests[name]["command"])
 
     def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
         workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")

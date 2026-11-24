@@ -289,7 +289,7 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
        _module_dir STREQUAL "integration" OR
        _module_dir STREQUAL "fixtures" OR
        _module_dir STREQUAL "data" OR
-       _module_dir STREQUAL "config" OR
+       (_module_dir STREQUAL "config" AND NOT THEMIS_BUILD_MODULAR) OR
        _module_dir STREQUAL "epic1_retrieval" OR
        _module_dir STREQUAL "epic2_evaluation" OR
        _module_dir STREQUAL "epic3_distributed_tensor")
