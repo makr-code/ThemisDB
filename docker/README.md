@@ -194,6 +194,18 @@ https://github.com/grafana/grafana.
 Grafana usage reporting, update checks, and plugin preinstallation are disabled
 by default; configure Grafana's `GF_` environment variables to opt in.
 
+The reusable Docker platform workflow retains a full-image HIGH/CRITICAL Trivy
+report, but findings in upstream `/usr/local/bin/prometheus` and the
+`/usr/share/grafana` tree (including datasource plugins and bundled libraries)
+are advisory: these payloads are outside ThemisDB source-code governance.
+A second, blocking scan excludes only those paths; the OS, ThemisDB payload,
+and all other libraries remain subject to the existing fixed HIGH/CRITICAL
+gate. Scanner, database, and image-export errors still fail the job.
+Both reports are retained for 30 days in the `docker-trivy-<platform>-<run>`
+artifact, including when the gate fails. This scope exception does not mean
+the bundled monitoring components are vulnerability-free; review the full
+report before enabling them or exposing their ports.
+
 To enable both services, provide a non-empty Grafana admin password. Publish
 their ports on loopback or protect them with your own authenticated proxy;
 Prometheus itself has no authentication. Grafana's default user is `admin`.

@@ -16,6 +16,93 @@ NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 
 
 class DockerPlatformValidationTests(unittest.TestCase):
+    def test_trivy_external_monitoring_is_advisory_with_scoped_gate(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        steps = workflow["jobs"]["build"]["steps"]
+        scan = next(step for step in steps if step.get("name") == "Trivy vulnerability scan")
+        upload = next(step for step in steps if step.get("name") == "Upload Docker vulnerability reports")
+        self.assertNotIn("continue-on-error", scan)
+        self.assertIn("set -euo pipefail", scan["run"])
+        self.assertIn('"${SCAN[@]}" --exit-code 0', scan["run"])
+        self.assertIn("--skip-files usr/local/bin/prometheus", scan["run"])
+        self.assertIn("--skip-dirs usr/share/grafana", scan["run"])
+        self.assertIn("--exit-code 1", scan["run"])
+        self.assertEqual(scan["run"].count("--skip-files"), 1)
+        self.assertEqual(scan["run"].count("--skip-dirs"), 1)
+        self.assertNotIn("|| true", scan["run"])
+        self.assertEqual(upload["if"], "always() && (inputs.push_to_registry || inputs.dry_run)")
+        self.assertIn("trivy-full-", upload["with"]["path"])
+        self.assertIn("trivy-gate-", upload["with"]["path"])
+        self.assertEqual(upload["with"]["retention-days"], 30)
+        self.assertLess(steps.index(scan), steps.index(upload))
+        self.assertLess(steps.index(upload), next(
+            index for index, step in enumerate(steps) if step.get("name") == "Write digest artifact"
+        ))
+        for dockerfile in (REPO_ROOT / "Dockerfile", REPO_ROOT / "docker/Dockerfile.unified"):
+            text = dockerfile.read_text(encoding="utf-8")
+            self.assertIn("COPY --from=prometheus-upstream /bin/prometheus /usr/local/bin/prometheus", text)
+            self.assertIn("COPY --from=grafana-upstream /usr/share/grafana /usr/share/grafana", text)
+
+    def test_trivy_reports_findings_but_fails_on_gate_and_operational_errors(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        scan = next(
+            step for step in workflow["jobs"]["build"]["steps"]
+            if step.get("name") == "Trivy vulnerability scan"
+        )
+        functions = """
+docker() {
+    printf '%s\\n' "$*" >> "$CALLS"
+    case "$1" in
+        image) return "$INSPECT_EXIT" ;;
+        save) [ "$SAVE_EMPTY" = true ] || printf image > "$4" ;;
+        run)
+            if [[ " $* " == *" --exit-code 0 "* ]]; then
+                printf 'HIGH upstream monitoring vulnerability\\n'
+                return "$FULL_EXIT"
+            fi
+            printf 'Scoped gate report\\n'
+            return "$GATE_EXIT"
+            ;;
+    esac
+}
+"""
+        for full_exit, gate_exit, inspect_exit, save_empty, success, scans in (
+            (0, 0, 0, False, True, 2),
+            (0, 1, 0, False, False, 2),
+            (0, 2, 0, False, False, 2),
+            (2, 0, 0, False, False, 1),
+            (0, 0, 1, False, False, 0),
+            (0, 0, 0, True, False, 0),
+        ):
+            with self.subTest(full_exit=full_exit, gate_exit=gate_exit,
+                              inspect_exit=inspect_exit, save_empty=save_empty):
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    bash_env = root / "functions"
+                    bash_env.write_text(functions, encoding="utf-8")
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", scan["run"]],
+                        env={**os.environ, "BASH_ENV": str(bash_env), "RUNNER_TEMP": tmp,
+                             "CALLS": str(root / "calls"), "IMAGE_REF": "image",
+                             "PLATFORM_TAG": "linux-amd64", "FULL_EXIT": str(full_exit),
+                             "GATE_EXIT": str(gate_exit), "INSPECT_EXIT": str(inspect_exit),
+                             "SAVE_EMPTY": str(save_empty).lower()},
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode == 0, success, result.stderr)
+                    calls = (root / "calls").read_text(encoding="utf-8").splitlines()
+                    runs = [call for call in calls if call.startswith("run ")]
+                    self.assertEqual(len(runs), scans)
+                    if scans:
+                        self.assertNotIn("--skip-", runs[0])
+                        self.assertIn("--exit-code 0", runs[0])
+                        self.assertIn("HIGH upstream", (root / "trivy-full-linux-amd64.txt").read_text())
+                    if scans == 2:
+                        self.assertIn("--skip-files usr/local/bin/prometheus", runs[1])
+                        self.assertIn("--skip-dirs usr/share/grafana", runs[1])
+                        self.assertIn("--exit-code 1", runs[1])
+                        self.assertTrue((root / "trivy-gate-linux-amd64.txt").is_file())
+
     def test_monitoring_gate_blocks_release_before_digest_upload(self) -> None:
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         steps = workflow["jobs"]["build"]["steps"]
