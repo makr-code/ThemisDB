@@ -4,12 +4,32 @@
 
 using namespace themis::sharding;
 
-// Note: These tests are stubs for Phase 2
-// Full implementation would require actual test certificates
-
 namespace {
 constexpr const char* kValidNotBefore = "Jan  1 00:00:00 2024 GMT";
 constexpr const char* kValidNotAfter = "Jan  1 00:00:00 2099 GMT";
+constexpr const char* kCertificateWithSANs = R"(-----BEGIN CERTIFICATE-----
+MIIB5zCCAYygAwIBAgIUex2xbCGLWo1rtrfEFKmwPibM244wCgYIKoZIzj0EAwIw
+ITEfMB0GA1UEAwwWc2hhcmQtMDAxLmV4YW1wbGUudGVzdDAeFw0yNjExMjQxODI1
+NThaFw0yNjExMjUxODI1NThaMCExHzAdBgNVBAMMFnNoYXJkLTAwMS5leGFtcGxl
+LnRlc3QwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARCGVwbKdSnJ/k1hjkkhH2q
+GWgMso0UCML/OpFKAzIYQwccusBmsTpHoUJLrUP6chrC2okV3sp+UXjTji10CYwD
+o4GhMIGeMB0GA1UdDgQWBBRtCyjz7F72XPr4kjLxsQsKEDuwNDAfBgNVHSMEGDAW
+gBRtCyjz7F72XPr4kjLxsQsKEDuwNDAPBgNVHRMBAf8EBTADAQH/MEsGA1UdEQRE
+MEKCEnNoYXJkLmV4YW1wbGUudGVzdIcEwAACgocQIAENuAAAAAAAAAAAAAAAAYYU
+dXJuOnRoZW1pczpzaGFyZDowMDEwCgYIKoZIzj0EAwIDSQAwRgIhANlh/4MazZ8S
+RoKLsDNAhq+Q6DhGxn/bJuc934m+LRR8AiEAoj3crSAKm9Q63gnt4Fkp8mldGX6W
+zjQUZhuNkoQYrd0=
+-----END CERTIFICATE-----
+)";
+}
+
+TEST(PKIShardCertificateTest, ParseSubjectAlternativeNames) {
+    const auto info = PKIShardCertificate::parseCertificatePEM(kCertificateWithSANs);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->subject_cn, "shard-001.example.test");
+    EXPECT_EQ(info->san_dns, (std::vector<std::string>{"shard.example.test"}));
+    EXPECT_EQ(info->san_ip, (std::vector<std::string>{"192.0.2.130"}));
+    EXPECT_EQ(info->san_uri, (std::vector<std::string>{"urn:themis:shard:001"}));
 }
 
 TEST(PKIShardCertificateTest, ParseCertificateStructure) {
