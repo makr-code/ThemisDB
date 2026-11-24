@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - Release metadata resolved from GitHub for all deployment paths
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- New `scripts/release/resolve_release_metadata.py` resolves the published
+  GitHub Release (explicit version or newest published canonical release),
+  required assets, and repository metadata (description, homepage, topics,
+  license with `LICENSE` fallback, publisher) with explicit errors for missing
+  or invalid values.
+- `release-winget.yml` no longer requires a `version` input; manifests take the
+  installer URL, license, publisher, description, release notes and tags from
+  resolved metadata, and the downloaded ZIP checksum is cross-checked against
+  the GitHub asset digest. Payload validation, the Preview identifier,
+  prerelease opt-in, dry-run defaults and human approval are unchanged.
+- Windows distribution Scoop/Chocolatey candidates use resolved metadata
+  (previously a wrong `Apache-2.0` license), Linux distribution bundles ship and
+  validate the metadata and now hand release assets to the bundle job via an
+  artifact, and Docker platform images receive OCI labels from repository
+  metadata.
+- The published `v2.4.0-alpha` Windows ZIP remains defective (missing
+  `data/docs.db` and bundled model); `RELEASE_STRATEGY.md` documents the
+  maintainer-gated correction path.
+
 ### Fixed - CI evidence consumers and Wave 4 linker dependency
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

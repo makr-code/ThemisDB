@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-03-15"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -639,6 +639,27 @@ Rules:
 
 The `release-winget.yml` manual dispatch and reusable call default to `allow_prerelease=false` and `dry_run=true`. Set `allow_prerelease=true` to opt in to a prerelease (a version with a suffix or a GitHub Release marked prerelease); set `dry_run=false` to request creation of a draft PR. Both stable and opted-in prerelease submissions require an existing, published, non-draft GitHub Release and its release assets. A dry run generates and validates manifests but does not submit a PR.
 
+### Release metadata resolution
+
+All downstream build and deployment paths resolve release and package metadata through `scripts/release/resolve_release_metadata.py` instead of hard-coded values:
+
+| Workflow | Resolution | Metadata consumers |
+|---|---|---|
+| `release-winget.yml` | `version` input optional; blank resolves the newest published canonical `vX.Y.Z[-suffix]` release (prereleases only with `allow_prerelease=true`, nightly tags excluded). Requires exactly one non-empty `windows-x64/amd64 .zip` asset. | Installer URL from the GitHub asset, SHA-256 cross-checked against the GitHub asset digest, `-MetadataPath` for publisher, URLs, license, short description, release notes, tags |
+| `release-windows-distribution.yml` | Explicit release tag; release must be published | Scoop `homepage`/`license`/`description`, Chocolatey `authors`/`projectUrl`/`licenseUrl`/`description`/`releaseNotes`/`tags`; JSON in `meta/release-metadata.json` |
+| `release-linux-distribution.yml` | Explicit release tag; release must be published | DEB `Release` description; JSON validated and shipped in `meta/release-metadata.json` |
+| `reusable-docker-image-platform.yml` | Repository metadata only (`--repository-only`) | OCI labels `source`, `url`, `documentation`, `description`, `licenses`, `vendor`, `version`, `revision` |
+
+Field sources: GitHub repository `description`, `homepage` (invalid values such as `https:\\host` fall back to the repository URL with a warning), `topics` (tags), the license SPDX id (or the first line of `LICENSE` when GitHub reports `NOASSERTION`), the `LICENSE` copyright holder (publisher), and the GitHub Release body/URL. Missing description, missing license, unpublished/draft releases, non-ISO `published_at`, missing/ambiguous/empty assets, and invalid version or repository values stop the workflow with an `::error::` message. Payload validation (`validate_runtime_payload.py`), the separate Preview identifier, prerelease opt-in, `dry_run=true` defaults and human approval are unchanged.
+
+### Correcting a defective published asset
+
+The resolver does not repair release payloads. A published Windows ZIP that fails `validate_runtime_payload.py` (as `ThemisDB-COMMUNITY-2.4.0-alpha-windows-x64.zip` of `v2.4.0-alpha` does: `data/docs.db` and the bundled GGUF model are missing) must be replaced by a maintainer:
+
+1. Preferred: cut a corrected prerelease (for example `v2.4.0-alpha.1`) through `release-mainline.yml` (`tag_name=2.4.0-alpha.1`, `edition=community`, `distribution=github`, first with `dry_run=true`, then `dry_run=false`) and approve it with `/publish-release`. Published tags are immutable and `stage-github-release.js` refuses to overwrite published releases.
+2. Alternatively, a maintainer converts `v2.4.0-alpha` back to draft and re-runs `release-mainline.yml` for that tag; this temporarily withdraws an already downloaded release and needs explicit human approval.
+3. Afterwards run `release-winget.yml` with `allow_prerelease=true` and `dry_run=true`; submit only after the dry run passes payload and checksum validation.
+
 The separate `ThemisDB.ThemisDB.Preview` identifier is intended to isolate preview versions from `ThemisDB.ThemisDB` stable upgrades; that upgrade behavior remains to be verified. No prior stable PR merge is required by this policy. The approval wrapper dispatches with the default prerelease opt-out, so it does not opt in to preview publication. Upstream validation and acceptance of the Preview identifier and prerelease versions remain unproven: a draft PR is not publication, and availability must be verified after upstream review and merge.
 
 ## 11.1 Docker Distribution
@@ -837,8 +858,8 @@ After the GitHub Release exists, maintainers can independently approve these dow
 
 **Action:**
 1. Validates commenter permissions
-2. Extracts version from issue
-3. Dispatches `release-winget.yml` workflow
+2. Dispatches `release-winget.yml` without a version
+3. `release-winget.yml` resolves the newest published stable GitHub Release and its Windows ZIP asset
 4. Workflow generates stable WinGet manifests and attempts to create a draft PR to `microsoft/winget-pkgs`
 5. Community reviewers validate and merge
 6. Package becomes available via `winget install ThemisDB.ThemisDB`
