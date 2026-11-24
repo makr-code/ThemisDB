@@ -181,7 +181,12 @@ RocksDBTensorBackend::putIfAbsent(const std::string& key,
         return PutIfAbsentResult::Error;
     }
 
-    if (transaction->get(key).has_value()) {
+    const auto existing = transaction->getChecked(key);
+    if (!existing) {
+        transaction->rollback();
+        return PutIfAbsentResult::Error;
+    }
+    if (*existing) {
         transaction->rollback();
         return PutIfAbsentResult::AlreadyExists;
     }
@@ -208,7 +213,17 @@ bool RocksDBTensorBackend::put(const std::string& key,
 std::optional<std::vector<uint8_t>>
 RocksDBTensorBackend::get(const std::string& key) const
 {
-    return db_->get(key);
+    auto transaction = db_->beginTransaction();
+    if (!transaction || !transaction->isActive()) {
+        throw std::runtime_error("RocksDBTensorBackend: unable to begin read transaction");
+    }
+    auto result = transaction->getChecked(key);
+    transaction->rollback();
+    if (!result) {
+        throw std::runtime_error("RocksDBTensorBackend: read failed: " +
+                                 result.error().message());
+    }
+    return std::move(*result);
 }
 
 /**
@@ -224,15 +239,26 @@ bool RocksDBTensorBackend::del(const std::string& key)
 std::vector<std::string>
 RocksDBTensorBackend::listKeys(const std::string& prefix) const
 {
-    std::vector<std::string> result;
-    // scanPrefix callback returns true to continue iteration.
-    db_->scanPrefix(prefix,
-        [&result](std::string_view k, std::string_view) -> bool {
-            result.emplace_back(k);
-            return true;  // continue
-        });
-    std::sort(result.begin(), result.end());
-    return result;
+    auto iterator_result = db_->prefixIterator(prefix);
+    if (!iterator_result) {
+        throw std::runtime_error("RocksDBTensorBackend: unable to create prefix iterator: " +
+                                 iterator_result.error().message());
+    }
+    auto iterator = std::move(iterator_result.value());
+    std::vector<std::string> keys;
+    while (iterator.Valid()) {
+        const auto key = iterator.key();
+        if (key.substr(0, prefix.size()) != prefix) {
+            break;
+        }
+        keys.emplace_back(key);
+        iterator.Next();
+    }
+    const auto status = iterator.statusMessage();
+    if (!status.empty()) {
+        throw std::runtime_error("RocksDBTensorBackend: prefix scan failed: " + status);
+    }
+    return keys;
 }
 
 // ============================================================================

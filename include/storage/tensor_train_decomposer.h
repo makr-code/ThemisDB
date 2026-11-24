@@ -93,7 +93,15 @@ struct TTTrain {
     /// Serialise to bytes for RocksDB storage
     std::vector<uint8_t> serialize() const;
 
-    /// Deserialise from bytes
+    /**
+     * @brief Decode a serialized train without authenticating its origin.
+     * @param bytes Complete serialized train; truncated, oversized length fields,
+     *              arithmetic overflow and trailing data are rejected.
+     * @return Decoded train, or std::nullopt for malformed bytes.
+     * @throws std::bad_alloc if memory allocation fails.
+     * @note Callers must independently establish integrity and validate tensor
+     *       shapes and semantics before using the train.
+     */
     static std::optional<TTTrain> deserialize(const std::vector<uint8_t>& bytes);
 };
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-16"
+Last Updated: "2026-11-23"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -66,6 +66,15 @@ remain open.
 
 The context struct and `InferenceRequest::cancellation_token` public types changed
 in this update; binary consumers should rebuild.
+
+### Tensor RAG context
+
+`TensorRAGPipelineConfig` separates correlation `session_id` from
+`tensor_tenant_id` and `tensor_scope_id`. Attaching a tensor mid-layer requires
+both tensor fields; a missing field throws `std::invalid_argument`. The host
+must obtain and authorize them from a trusted request context. No HTTP route
+currently wires this pipeline or authenticates these fields on its behalf.
+Existing mid-layer callers must supply the fields and rebuild.
 
 ### `themis::rag::HybridRetriever`
 

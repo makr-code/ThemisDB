@@ -222,7 +222,8 @@ rag::GraphTruthValidationResult DistributedTensorPlanner::validateAgainstGraphTr
     const TensorRetrievalPlan& plan,
     const std::string& query,
     const rag::GraphTruthValidatorConfig& config) const noexcept {
-    
+    (void)query;
+    (void)config;
     rag::GraphTruthValidationResult result;
     
     if (!graph_validator_) {
@@ -238,35 +239,9 @@ rag::GraphTruthValidationResult DistributedTensorPlanner::validateAgainstGraphTr
         return result;
     }
 
-    // Validate fragments against graph truth
-    // In production, this would project fragments into graph candidates
-    // and validate using KG retrieval or ontology-aware retrieval
-    
-    // For MVP: Just verify fragment loading was successful
-    // (In real implementation, this would use actual fragment data for validation)
-    
-    if (config_.strict_graph_validation) {
-        // Require all fragments loaded successfully
-        std::size_t success_count = 0;
-        for (const auto& result : plan.fragment_results) {
-            if (result.success) {
-                success_count++;
-            }
-        }
-        
-        float success_rate = plan.fragment_results.empty() ? 0.0f :
-            static_cast<float>(success_count) / plan.fragment_results.size();
-
-        if (success_rate < config_.min_fragment_success_rate) {
-            result.routing_reason = "Insufficient fragment load success rate for validation";
-            result.routing_reason_code = "LOW_SUCCESS_RATE";
-            return result;
-        }
-    }
-
-    // Mark validation as passed (in real implementation, would check actual graph)
-    result.routing_reason = "Graph truth validation passed";
-    result.routing_reason_code = "GRAPH_VALIDATED";
+    result.routing_reason =
+        "Fragment bytes cannot be projected into graph-truth candidates";
+    result.routing_reason_code = "FRAGMENT_PROJECTION_UNAVAILABLE";
     return result;
 }
 
@@ -278,27 +253,41 @@ bool DistributedTensorPlanner::isValidFinalPlan(
         return false;
     }
 
-    // Rule 2: Must have fragment loading results
-    if (plan.fragment_results.empty() && !plan.fragment_requests.empty()) {
-        return false;  // Expected fragments but none loaded
-    }
-
-    // Rule 3: Graph validation must have passed
-    if (config_.strict_graph_validation && !plan.passed_graph_validation) {
+    // Every requested fragment must have exactly one corresponding result.
+    if (plan.fragment_requests.empty() ||
+        plan.fragment_results.size() != plan.fragment_requests.size()) {
         return false;
     }
 
-    // Rule 4: No summary-only-truth (at least one fragment must be loaded)
-    bool has_loaded_fragment = false;
-    for (const auto& result : plan.fragment_results) {
+    if (!(config_.min_fragment_success_rate >= 0.0f &&
+          config_.min_fragment_success_rate <= 1.0f)) {
+        return false;
+    }
+
+    std::size_t successful_fragments = 0;
+    for (std::size_t index = 0; index < plan.fragment_requests.size(); ++index) {
+        const auto& request = plan.fragment_requests[index];
+        const auto& result = plan.fragment_results[index];
+        if (request.shard_id != result.shard_id ||
+            request.artifact_id != result.artifact_id) {
+            return false;
+        }
         if (result.success) {
-            has_loaded_fragment = true;
-            break;
+            ++successful_fragments;
         }
     }
 
-    if (plan.fragment_requests.size() > 0 && !has_loaded_fragment) {
-        return false;  // Expected fragments but none succeeded
+    const auto success_rate =
+        static_cast<float>(successful_fragments) /
+        static_cast<float>(plan.fragment_requests.size());
+    if (successful_fragments == 0 ||
+        success_rate < config_.min_fragment_success_rate) {
+        return false;
+    }
+
+    // Transport success alone cannot establish graph truth.
+    if (config_.strict_graph_validation && !plan.passed_graph_validation) {
+        return false;
     }
 
     return true;

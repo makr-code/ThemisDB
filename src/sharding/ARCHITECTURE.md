@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -16,6 +16,11 @@ Canonical_References:
   - "../../include/sharding/shard_router.h"
   - "../../include/sharding/distributed_coordinator.h"
   - "../../include/sharding/consensus_factory.h"
+  - "../../include/sharding/shard_rpc_client.h"
+  - "../../include/sharding/shard_rpc_server.h"
+  - "../../include/sharding/shard_artifact_fragment_store.h"
+  - "../../proto/sharding/shard_rpc.proto"
+  - "../../include/distributed_tensor/shard_rpc_fragment_fetcher.h"
   - "../../include/sharding/cross_shard_transaction.h"
   - "../../include/sharding/wal_manager.h"
   - "../../include/sharding/auto_rebalancer.h"
@@ -23,6 +28,8 @@ Canonical_References:
   - "../../include/storage/mvcc_store.h"
   - "../../include/storage/rocksdb_wrapper.h"
   - "../../src/sharding/consistent_hash.cpp"
+  - "../../src/sharding/shard_artifact_fragment_store.cpp"
+  - "../../src/main_server.cpp"
   - "../../src/storage/mvcc_store.cpp"
   - "../../tests/sharding/test_dis03_routing_contract_focused.cpp"
   - "../../tests/storage/test_mvcc_range_export.cpp"
@@ -53,6 +60,7 @@ Exact model backend not verifiable from final document text alone.
 | Topology and routing | [`ShardRouter`](../../include/sharding/shard_router.h), [`ShardTopology`](../../include/sharding/shard_topology.h), [`AdaptiveShardRouter`](../../include/sharding/adaptive_shard_router.h) | Select routing strategy and address requests against configured shard topology. |
 | Coordination | [`DistributedCoordinator`](../../include/sharding/distributed_coordinator.h), [`ConsensusFactory`](../../include/sharding/consensus_factory.h), [`QuorumManager`](../../include/sharding/quorum_manager.h) | Coordinate tasks and choose among the available consensus implementations. |
 | Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Preserve both public APIs; CrossShard retains its lifecycle, SSI and multi-protocol facade while delegating 2PC participant calls, durable decisions and replay to the canonical coordinator. |
+| Tensor fragment transport and storage | [`ShardRPCClient`](../../include/sharding/shard_rpc_client.h), [`ShardRPCServer`](../../include/sharding/shard_rpc_server.h), [`ShardArtifactFragmentStore`](../../include/sharding/shard_artifact_fragment_store.h), [`FetchTensorFragment`](../../proto/sharding/shard_rpc.proto) | Stream bounded immutable fragment bytes over authenticated gRPC/mTLS; the host starts the server explicitly and reads principal-scoped fragments from a versioned RocksDB keyspace, while the optional distributed-tensor adapter verifies manifest SHA-256. |
 | Durability and operations | [`WALManager`](../../include/sharding/wal_manager.h), [`WALApplier`](../../include/sharding/wal_applier.h), [`AutoRebalancer`](../../include/sharding/auto_rebalancer.h), [`DataMigrator`](../../include/sharding/data_migrator.h) | Record/apply shard WAL state and manage rebalance/migration work. |
 
 The source contains multiple consensus adapters (including Raft, Paxos, and Gossip); this architecture does not treat one adapter as the only supported implementation.
@@ -102,6 +110,27 @@ no broader external-caller migration or API removal is claimed.
 2. Remote execution and shard-local operations return results/status to the routing/coordinator path.
 3. Cross-shard transactions coordinate participant work; the CrossShard 2PC lifecycle delegates prepare, decision, and phase two to `TwoPhaseCommitCoordinator`. Its canonical WAL records participant endpoints for restart replay; CrossShard WAL/snapshots remain for other protocols.
 4. Rebalance, migration, and repair components act on topology/health information and report operation state to their callers.
+5. Tensor fragment reads authenticate the remote peer, resolve its explicit storage principal, and stream opaque artifact bytes from `ShardArtifactFragmentStore`. The canonical key is `(principal_id, shard_id, artifact_id)` in a dedicated versioned RocksDB namespace; it is not derived from tensor-field keys. The optional distributed-tensor adapter checks the response against the manifest digest.
+
+## Tensor fragment storage and startup
+
+`src/main_server.cpp` starts the fragment listener only when
+`sharding.tensor_fragment_rpc.enabled` is true. Enabling it requires an
+explicit local `sharding.shard_id` (or non-empty `SHARD_ID`), a listener
+address, server certificate/key, client CA, and explicit X.509 identity to
+storage-principal bindings. The listener always requires verified mTLS and
+fails server startup rather than falling back to an insecure endpoint. It is
+stopped before the shared RocksDB instance is closed.
+
+The fragment store atomically writes versioned metadata and payload keys,
+rejects conflicting replacement bytes, allows identical replay, checks the
+stored size before fetching payload bytes, and verifies SHA-256 on read.
+Producers must choose a principal bound to the tenant authorization policy and
+persist each `(principal_id, shard_id, artifact_id)` payload before advertising
+that placement in a manifest. This does not automatically publish from
+`ManifestStore`, map to `TensorNetworkStorageEngine` fields, replicate manifests,
+or project opaque bytes into graph summaries. The source regression is
+registered but has not been built or run.
 
 Evidence includes [`shard_router.cpp`](shard_router.cpp), [`cross_shard_transaction.cpp`](cross_shard_transaction.cpp), [`wal_manager.cpp`](wal_manager.cpp), and [`auto_rebalancer.cpp`](auto_rebalancer.cpp).
 

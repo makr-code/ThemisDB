@@ -1,4 +1,4 @@
-name: "Benchmark: Wave 4 Release Gate"
+name: "Benchmark: Wave 4 Smoke (not a performance gate)"
 
 on:
   pull_request:
@@ -11,10 +11,12 @@ on:
       - minimal
     paths:
       - 'benchmarks/wave4/**'
+      - 'benchmarks/tests/test_wave4_smoke_completeness.py'
       - 'CMakeLists.txt'
       - 'benchmarks/wave4/release_gate_manifest.json'
       - '.github/workflows/benchmark-gate.yml'
       - '.github/workflows/reusable-cmake-build.yml'
+      - 'tools/ci/validate_benchmark_smoke.py'
   push:
     branches:
       - develop
@@ -26,13 +28,8 @@ on:
       - 'benchmarks/wave4/release_gate_manifest.json'
       - '.github/workflows/benchmark-gate.yml'
       - '.github/workflows/reusable-cmake-build.yml'
+      - 'tools/ci/validate_benchmark_smoke.py'
   workflow_dispatch:
-    inputs:
-      benchmark_filter:
-        description: 'Optional Google Benchmark filter (empty = all W4A gates)'
-        required: false
-        default: ''
-        type: string
 
 permissions:
   contents: read
@@ -45,7 +42,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [validate-baselines, build-wave4-release-gates, run-wave4-release-gates]
+    needs: [build-wave4-release-gates, run-wave4-release-gates]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -55,66 +52,11 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Wave 4 release benchmark gates"
+          scope: "Wave 4 smoke only; not a performance or release gate"
           job-results: ${{ toJSON(needs) }}
 
-  validate-baselines:
-    name: "Validate: Baseline evidence"
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 1
-
-      - name: Set up Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
-        with:
-          python-version: '3.11'
-
-      - name: Validate canonical benchmark baselines
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-
-          repo = Path('.')
-          manifest_path = repo / 'benchmarks' / 'wave4' / 'release_gate_manifest.json'
-          baseline_dir = repo / 'benchmarks' / 'wave4' / 'baselines'
-          baseline_path = baseline_dir / 'baseline_v1.5.0.json'
-
-          if not manifest_path.exists():
-              raise SystemExit(f'Missing required manifest: {manifest_path}')
-
-          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-          if not baseline_path.exists():
-              raise SystemExit(f'Missing required baseline artifact: {baseline_path}')
-
-          baseline = json.loads(baseline_path.read_text(encoding='utf-8'))
-          baseline_names = {entry.get('name') for entry in baseline.get('benchmarks', []) if entry.get('name')}
-          required_names = {
-              gate.get('benchmark_filter')
-              for gate in manifest.get('gates', [])
-              if gate.get('benchmark_filter')
-          }
-          required_names |= {
-              gate.get('benchmark_filter')
-              for gate in manifest.get('resilience_reference_gates', [])
-              if gate.get('benchmark_filter')
-          }
-
-          missing = sorted(required_names - baseline_names)
-          if missing:
-              raise SystemExit(f'Baseline is stale or incomplete; missing required benchmark names: {missing}')
-
-          print(f'Validated {len(baseline_names)} baseline entries against {len(required_names)} required Wave 4 gates.')
-          PY
-
   build-wave4-release-gates:
-    name: "Build: Wave 4 release gate benchmark"
-    needs: validate-baselines
+    name: "Build and run: Wave 4 smoke"
     permissions:
       contents: read
       actions: read
@@ -156,11 +98,11 @@ jobs:
       artifact_name: wave4-gate-results-${{ github.run_number }}
       artifact_paths: benchmark-artifacts/w4a_release_gates.json
       artifact_retention_days: '7'
-      summary_title: "Build: Wave 4 release gate benchmark"
+      summary_title: "Build and run: Wave 4 smoke (not performance evidence)"
 
   run-wave4-release-gates:
-    name: "Validate: Wave 4 release critical gates"
-    needs: [validate-baselines, build-wave4-release-gates]
+    name: "Validate: Wave 4 smoke artifact"
+    needs: [build-wave4-release-gates]
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -180,15 +122,24 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Compare against baseline and fail on stale or missing evidence
-        env:
-          BENCHMARK_FILTER: ${{ inputs.benchmark_filter || 'W4A' }}
+      - name: Verify the W4A smoke contract matches source and invocation
+        run: python3 benchmarks/tests/test_wave4_smoke_completeness.py
+
+      - name: Validate complete W4A smoke execution
+        run: |
+          python3 benchmarks/wave4/validate_smoke.py \
+            --input benchmark-artifacts/w4a_release_gates.json \
+            --contract benchmarks/wave4/smoke_contract.json
+
+      - name: Validate smoke results and report diagnostics
         run: |
           set -euo pipefail
+          echo "::notice::Smoke only: no performance or release gate is active."
+          python3 tools/ci/validate_benchmark_smoke.py benchmark-artifacts/w4a_release_gates.json \
+            --wave4-manifest benchmarks/wave4/release_gate_manifest.json
           python3 benchmarks/wave4/report_variance.py \
             --input benchmark-artifacts/w4a_release_gates.json \
-            --baseline benchmarks/wave4/baselines/baseline_v1.5.0.json \
-            --manifest benchmarks/wave4/release_gate_manifest.json \
+            --no-gates \
             --output benchmark-artifacts/w4a_gate_report.json
 
       - name: Upload benchmark evidence artifact

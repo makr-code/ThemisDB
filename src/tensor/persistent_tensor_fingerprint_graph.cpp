@@ -75,27 +75,39 @@ bool PersistentTensorFingerprintGraph::rehydrate() {
         return false;
     }
 
-    for (const auto& key : graph_->adapterKeys()) {
-        graph_->removeAdapter(key);
-    }
-
+    std::vector<std::pair<PersistedEntry, storage::TTTrain>> entries;
+    TensorFingerprintGraph validated;
     const auto keys = backend_->listKeys(entryPrefix());
     for (const auto& key : keys) {
         const auto persisted = readEntry(key);
-        if (!persisted) {
+        if (!persisted || !entryMatchesKey(*persisted, key)) {
             return false;
         }
 
-        const auto train_opt = storage::TTTrain::deserialize(persisted->serialized_train);
+        auto train_opt = storage::TTTrain::deserialize(persisted->serialized_train);
         if (!train_opt) {
             return false;
         }
+        const auto existing = graph_->entry(persisted->adapter_key);
+        if ((existing && (existing->tenant_id != tenant_id_ ||
+                          existing->domain != domain_)) ||
+            !validated.addAdapter(persisted->adapter_key, *train_opt,
+                                  persisted->domain, persisted->base_model_id,
+                                  persisted->tenant_id)) {
+            return false;
+        }
+        entries.emplace_back(*persisted, std::move(*train_opt));
+    }
 
-        if (!graph_->addAdapter(persisted->adapter_key,
-                                *train_opt,
-                                persisted->domain,
-                                persisted->base_model_id,
-                                persisted->tenant_id)) {
+    for (const auto& key : graph_->adapterKeys()) {
+        const auto existing = graph_->entry(key);
+        if (existing && existing->tenant_id == tenant_id_ && existing->domain == domain_) {
+            graph_->removeAdapter(key);
+        }
+    }
+    for (const auto& [entry, train] : entries) {
+        if (!graph_->addAdapter(entry.adapter_key, train, entry.domain,
+                                entry.base_model_id, entry.tenant_id)) {
             return false;
         }
     }
@@ -118,8 +130,17 @@ bool PersistentTensorFingerprintGraph::addAdapter(const std::string& adapter_key
         return false;
     }
 
-    if (!graph_->addAdapter(adapter_key, train, domain_, base_model_id, tenant_id_)) {
+    const auto previous = graph_->entry(adapter_key);
+    if (previous && (previous->tenant_id != tenant_id_ || previous->domain != domain_)) {
         return false;
+    }
+    const auto key = entryKeyFor(adapter_key);
+    const auto stored = backend_->get(key);
+    if (stored) {
+        const auto persisted = deserializeEntry(*stored);
+        if (!persisted || !entryMatchesKey(*persisted, key)) {
+            return false;
+        }
     }
 
     PersistedEntry entry;
@@ -129,8 +150,17 @@ bool PersistentTensorFingerprintGraph::addAdapter(const std::string& adapter_key
     entry.base_model_id = base_model_id;
     entry.serialized_train = train.serialize();
 
+    if (!graph_->addAdapter(adapter_key, train, domain_, base_model_id, tenant_id_)) {
+        return false;
+    }
+
     if (!writeEntry(entry)) {
-        graph_->removeAdapter(adapter_key);
+        if (previous) {
+            graph_->addAdapter(adapter_key, previous->exact_train, previous->domain,
+                               previous->base_model_id, previous->tenant_id);
+        } else {
+            graph_->removeAdapter(adapter_key);
+        }
         return false;
     }
 
@@ -149,7 +179,12 @@ bool PersistentTensorFingerprintGraph::removeAdapter(const std::string& adapter_
     }
 
     const auto existing = graph_->entry(adapter_key);
-    if (!existing) {
+    if (!existing || existing->tenant_id != tenant_id_ || existing->domain != domain_) {
+        return false;
+    }
+    const auto key = entryKeyFor(adapter_key);
+    const auto persisted = readEntry(key);
+    if (!persisted || !entryMatchesKey(*persisted, key)) {
         return false;
     }
 
@@ -209,6 +244,12 @@ PersistentTensorFingerprintGraph::readEntry(const std::string& key) const {
     return deserializeEntry(*bytes);
 }
 
+bool PersistentTensorFingerprintGraph::entryMatchesKey(
+    const PersistedEntry& entry, const std::string& key) const {
+    return !entry.adapter_key.empty() && entry.tenant_id == tenant_id_ &&
+           entry.domain == domain_ && entryKeyFor(entry.adapter_key) == key;
+}
+
 /**
  * @brief Write With Journal.
  * @param[in] op Input parameter.
@@ -257,14 +298,30 @@ bool PersistentTensorFingerprintGraph::recoverJournal() {
         std::string target_key = {};
         std::vector<uint8_t> target_payload = {};
 
-        if (!deserializeJournalRecord(*payload, op, target_key, target_payload)) {
+        if (!deserializeJournalRecord(*payload, op, target_key, target_payload) ||
+            target_key.size() <= entryPrefix().size() ||
+            target_key.rfind(entryPrefix(), 0) != 0) {
             return false;
         }
 
         bool applied = false;
         if (op == JournalOp::Put) {
+            const auto entry = deserializeEntry(target_payload);
+            if (!entry || !entryMatchesKey(*entry, target_key)) {
+                return false;
+            }
             applied = backend_->put(target_key, target_payload);
         } else {
+            if (!target_payload.empty()) {
+                return false;
+            }
+            const auto existing = backend_->get(target_key);
+            if (existing) {
+                const auto entry = deserializeEntry(*existing);
+                if (!entry || !entryMatchesKey(*entry, target_key)) {
+                    return false;
+                }
+            }
             applied = deleteIfPresent(*backend_, target_key);
         }
 

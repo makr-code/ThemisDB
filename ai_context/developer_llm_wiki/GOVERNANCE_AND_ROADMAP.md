@@ -14,7 +14,7 @@ Status: Active
 
 ## BRANCHING_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `0e5e1cd9d6791b65`
+- Hash: `bc5b076360285457`
 - Titel: ThemisDB Branching Strategy
 - Auszug:
   - > Status: Active
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `8c1ad43c7157ce4e`
+- Hash: `dac925e61578a00e`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -59,7 +59,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `4a22ab385c00d15c`
+- Hash: `dc721ee703bf1a31`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -383,7 +383,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `0da159f87bbb69a4`
+- Hash: `306545e6369d9697`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -392,7 +392,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
 - Kategorie: governance_and_docs
-- Hash: `ba8cc286b942528c`
+- Hash: `749b4c1d7f749440`
 - Titel: Distributed Tensor — Developer LLM Wiki
 - Auszug:
   - ---

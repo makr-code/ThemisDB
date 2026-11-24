@@ -5,6 +5,7 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/integrity_verification.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/recovery_manager.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/distributed_planner.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/graph_summary_projection.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_training_coordinator.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_infrastructure.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_storage_strategy.h
@@ -18,6 +19,7 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/distributed_planner.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/graph_summary_projection.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/distributed_planner.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_training_coordinator.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
@@ -79,3 +81,29 @@ endif()
 install(FILES ${DISTRIBUTED_TENSOR_PUBLIC_HEADERS}
     DESTINATION include/distributed_tensor
 )
+
+# Keep the transport bridge separate from the core module so neither sharding
+# nor distributed-tensor storage acquires a reverse dependency on the other.
+if(TARGET themis_sharding AND TARGET themis_shard_proto AND THEMIS_ENABLE_GRPC)
+    add_library(themis_distributed_tensor_shard_rpc_adapter STATIC
+        shard_rpc_fragment_fetcher.cc
+        local_projection_publisher.cc)
+    target_include_directories(themis_distributed_tensor_shard_rpc_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include)
+    target_link_libraries(themis_distributed_tensor_shard_rpc_adapter
+        PUBLIC themis_distributed_tensor themis_sharding
+        PRIVATE nlohmann_json::nlohmann_json OpenSSL::Crypto)
+    target_compile_features(themis_distributed_tensor_shard_rpc_adapter
+        PUBLIC cxx_std_20)
+    if(MSVC)
+        target_compile_options(themis_distributed_tensor_shard_rpc_adapter
+            PRIVATE /W4)
+    else()
+        target_compile_options(themis_distributed_tensor_shard_rpc_adapter
+            PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/include/distributed_tensor/shard_rpc_fragment_fetcher.h
+        ${CMAKE_SOURCE_DIR}/include/distributed_tensor/local_projection_publisher.h
+        DESTINATION include/distributed_tensor)
+endif()

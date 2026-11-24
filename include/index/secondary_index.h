@@ -525,6 +525,8 @@ private:
 
     // Range-Index-Metadaten: ridxmeta:<table>:<column>
     static std::string makeRangeIndexMetaKey(std::string_view table, std::string_view column);
+    // Range-Index-Lifecycle: ridxstate:<table>:<column> -> active|rebuilding|invalid
+    static std::string makeRangeIndexStateKey(std::string_view table, std::string_view column);
 
     // Sparse-Index-Metadaten: sidxmeta:<table>:<column>
     static std::string makeSparseIndexMetaKey(std::string_view table, std::string_view column);
@@ -551,7 +553,8 @@ private:
     static std::string makeUniqueSentinelKey_(std::string_view table, std::string_view col, std::string_view encodedVal);
     static std::string makeCompositeUniqueSentinelKey_(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
-    // Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
+    // Range-Index-Key-Builder: ridx:v1:table:column:encodedValue:PK
+    // and the matching unbound/value prefix.
     static std::string makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
     static std::string makeRangeIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix);
 

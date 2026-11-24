@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://themisdb.org/schemas/benchmark-workload-profiles-1.json",
+  "title": "ThemisDB benchmark workload profile catalog",
+  "x-provenance": {
+    "last_updated": "2026-11-23",
+    "source_level": 1,
+    "sot_domain": "module-behavior",
+    "canonical_sources": [
+      "benchmarks/BENCHMARK_STANDARDS.md",
+      "benchmarks/MEASUREMENT_HYGIENE.md"
+    ],
+    "related_milestone": "DOC-WEEKLY-2026-48"
+  },
+  "type": "object",
+  "required": ["schema_version", "provenance", "id_policy", "profiles"],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "last_updated",
+        "source_level",
+        "sot_domain",
+        "canonical_sources",
+        "related_milestone"
+      ],
+      "properties": {
+        "last_updated": {"type": "string", "format": "date"},
+        "source_level": {"const": 1},
+        "sot_domain": {"const": "module-behavior"},
+        "canonical_sources": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "related_milestone": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "id_policy": {
+      "type": "string"
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "required": [
+        "workload_id",
+        "status",
+        "workload_class",
+        "semantics",
+        "dataset",
+        "seed",
+        "concurrency",
+        "duration",
+        "warmup",
+        "correctness",
+        "metrics",
+        "environment",
+        "evidence_outputs",
+        "sources",
+        "limitations"
+      ],
+      "properties": {
+        "workload_id": {
+          "type": "string",
+          "pattern": "^themisdb:(micro|component|integration|e2e|reference_workload)/[a-z0-9._-]+@[1-9][0-9]*$"
+        },
+        "status": {
+          "enum": ["source-described", "simulation-only", "candidate-unverified"]
+        },
+        "workload_class": {
+          "enum": ["micro", "component", "integration", "e2e", "reference_workload"]
+        },
+        "semantics": {
+          "type": "object"
+        },
+        "dataset": {
+          "type": ["object", "null"]
+        },
+        "seed": {
+          "type": ["object", "null"]
+        },
+        "concurrency": {
+          "type": ["object", "null"]
+        },
+        "duration": {
+          "type": ["object", "null"]
+        },
+        "warmup": {
+          "type": ["object", "null"]
+        },
+        "correctness": {
+          "type": "object"
+        },
+        "metrics": {
+          "type": "object"
+        },
+        "environment": {
+          "type": "object"
+        },
+        "evidence_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artifact", "availability"],
+            "properties": {
+              "artifact": {"type": "string"},
+              "availability": {"type": "string"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

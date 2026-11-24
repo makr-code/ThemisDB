@@ -1,6 +1,13 @@
 # Wave 4 Benchmark Runbook
 
-**Scope:** Release-readiness, performance governance, resilience scenarios,
+> **Current CI status:** Wave 4 is a smoke/diagnostic lane, not a release or
+> performance gate. Gate evaluation in `report_variance.py` is disabled.
+> The historical baseline does not provide verified matching hardware/build
+> identity; its OS description also conflicts with the manifest freeze.
+> The manifest's gate definitions and thresholds are historical proposals,
+> not release evidence. Use `--no-gates` for variance diagnostics only.
+
+**Scope:** Benchmark smoke, variance diagnostics, resilience scenarios,
 determinism/variance control, and diagnostics for ThemisDB benchmarks.
 
 **Applies to:** Branch `develop` / release `v1.5.0+`
@@ -26,12 +33,12 @@ determinism/variance control, and diagnostics for ThemisDB benchmarks.
 
 ## Overview
 
-Wave 4 lifts the ThemisDB benchmark pipeline to **release-decision level**.  It
-introduces:
+Wave 4 contains benchmark scenarios and historical gate proposals. The CI lane
+and reporter currently provide smoke and diagnostic output only:
 
 | PR   | Area                               | Key Deliverables                                    |
 |------|------------------------------------|-----------------------------------------------------|
-| B4-A | Release-Critical Governance        | 6 release gates (W4A-01..06), gate manifest JSON    |
+| B4-A | Governance scenarios               | 6 proposed gates (W4A-01..06), manifest JSON        |
 | B4-B | Resilience/Degradation Scenarios   | 6 degraded-state benchmarks (W4B-01..06)            |
 | B4-C | Determinism & Variance Control     | 6 determinism benchmarks (W4C-01..06), CV ≤ 15%    |
 | B4-D | Diagnostics & Maintainability      | 5 diagnostic benchmarks, report_variance.py tool    |
@@ -41,34 +48,30 @@ introduces:
 ## Quick Start
 
 ```bash
-# 1. Build (linux-release preset recommended for stable numbers)
-cmake --preset linux-release
-cmake --build --preset linux-release --parallel 16
+# 1. Configure and build the Wave 4 benchmarks
+cmake --preset linux-release -B build-linux-release -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build-linux-release --target \
+  bench_w4a_release_gates bench_w4b_resilience \
+  bench_w4c_determinism bench_w4d_diagnostics --parallel 2
 
 # 2. Run all Wave 4 benchmarks
-./build/linux-release/bin/benchmarks/bench_w4a_release_gates \
+./build-linux-release/bin/bench_w4a_release_gates \
   --benchmark_out=results_w4a.json --benchmark_out_format=json
 
-./build/linux-release/bin/benchmarks/bench_w4b_resilience \
+./build-linux-release/bin/bench_w4b_resilience \
   --benchmark_out=results_w4b.json --benchmark_out_format=json
 
-./build/linux-release/bin/benchmarks/bench_w4c_determinism \
+./build-linux-release/bin/bench_w4c_determinism \
   --benchmark_out=results_w4c.json --benchmark_out_format=json
 
-./build/linux-release/bin/benchmarks/bench_w4d_diagnostics \
+./build-linux-release/bin/bench_w4d_diagnostics \
   --benchmark_out=results_w4d.json --benchmark_out_format=json
 
-# 3. Analyse variance
+# 3. Analyse variance (diagnostic only)
 python3 benchmarks/wave4/report_variance.py \
   --input results_w4a.json \
-  --manifest benchmarks/wave4/release_gate_manifest.json
-
-# 4. Compare against baseline (if available)
-python3 benchmarks/wave4/report_variance.py \
-  --input results_w4a.json \
-  --baseline benchmarks/wave4/baselines/baseline_v1.5.0.json \
-  --manifest benchmarks/wave4/release_gate_manifest.json \
-  --output release_gate_report.json
+  --no-gates \
+  --output variance_report.json
 ```
 
 ---
@@ -77,9 +80,11 @@ python3 benchmarks/wave4/report_variance.py \
 
 ### B4-A: Release-Critical Governance (`bench_w4a_release_gates`)
 
+These are historical manifest thresholds, not active CI performance gates.
+
 | Gate ID | Benchmark                              | Metric                 | Threshold |
 |---------|----------------------------------------|------------------------|-----------|
-| W4A-01  | `W4A_01_WriteThoughput/500`            | `items_per_second`     | −10% max  |
+| W4A-01  | `W4A_01_WriteThroughput/500`           | `items_per_second`     | −10% max  |
 | W4A-02  | `W4A_02_ReadLatencyP99/10000`          | `p99_ns`               | +15% max  |
 | W4A-03  | `W4A_03_VectorInsertThroughput/200`    | `items_per_second`     | −10% max  |
 | W4A-04  | `W4A_04_VectorSearchLatency/10000`     | `p99_ns`               | +15% max  |
@@ -122,50 +127,60 @@ python3 benchmarks/wave4/report_variance.py \
 
 ## Release Gates
 
-Release gates are defined in `release_gate_manifest.json`.  The manifest
-distinguishes two criticality levels:
+`release_gate_manifest.json` describes proposed thresholds and criticality
+levels, but neither is enforced as a release or performance decision:
 
-| Criticality         | CI Effect                              |
-|---------------------|----------------------------------------|
-| `release-blocking`  | Gate failure **blocks** release/merge  |
-| `advisory`          | Gate failure emits a warning; non-blocking |
+| Manifest criticality | Intended historical classification |
+|----------------------|------------------------------------|
+| `release-blocking`   | Proposed release-blocking check    |
+| `advisory`           | Proposed non-blocking check        |
 
-**Release-blocking gates:** W4A-01, W4A-02, W4A-03, W4A-04, W4A-06.
+**Proposed release-blocking:** W4A-01, W4A-02, W4A-03, W4A-04, W4A-06.
 
-**Advisory gates:** W4A-05, all W4B gates.
+**Proposed advisory:** W4A-05, all W4B gates.
 
 ### Gate Evaluation
 
-```bash
-python3 benchmarks/wave4/report_variance.py \
-  --input results_w4a.json \
-  --baseline baselines/baseline_v1.5.0.json \
-  --manifest benchmarks/wave4/release_gate_manifest.json \
-  --output gate_report.json
-```
-
-Exit codes:
-- `0` — all release-blocking gates passed.
-- `1` — one or more release-blocking gates failed.
-- `2` — input file not found or invalid.
+Gate evaluation is disabled: requesting it exits `2`, including when a
+baseline and manifest are supplied. `--baseline` is also rejected with
+`--no-gates`. A successful `--no-gates` invocation exits `0` for diagnostic
+analysis only; missing or invalid input exits nonzero. Its JSON report has
+`release_blocked: null`, not a release pass.
 
 ---
 
 ## Running Wave 4 Benchmarks
+
+### W4A Smoke Completeness
+
+The CI smoke invocation selects `W4A` and requests five Google Benchmark
+repetitions. Its explicit case list and repetition count live in
+`smoke_contract.json`; the contract is checked against the registered source
+arguments by `benchmarks/tests/test_wave4_smoke_completeness.py`. After the
+run, `validate_smoke.py` requires exactly one raw `run_type: "iteration"` row
+for every expected case and each `repetition_index` from 0 through 4.
+`run_type: "aggregate"` rows are not repetitions. Missing, duplicate, extra,
+skipped, errored, or malformed cases fail validation.
+
+This validates execution completeness only. A passing smoke is not a
+performance result, does not validate metrics or hardware identity, and does
+not approve or update a baseline. Performance comparison remains a separate
+reporting operation.
 
 ### Reproducibility Requirements
 
 1. Use the `linux-release` or `windows-release` CMake preset.
 2. Pin the `BENCHMARK_SEED` environment variable to `42`.
 3. Close other background processes to reduce OS noise.
-4. Run on the same machine (or CI runner class) as the baseline.
+4. Record the actual machine and build identity; a shared CI runner class is
+   not proof of baseline equivalence.
 5. Archive `--benchmark_out` JSON files as build artifacts.
 
-### Single-gate Repro
+### Single-case Diagnostic Repro
 
 ```bash
 # Example: Reproduce W4A-02 (read latency p99)
-./bin/benchmarks/bench_w4a_release_gates \
+./build-linux-release/bin/bench_w4a_release_gates \
   --benchmark_filter='StorageBenchFixture/W4A_02_ReadLatencyP99/10000' \
   --benchmark_repetitions=5 \
   --benchmark_out=repro_w4a02.json \
@@ -174,26 +189,27 @@ Exit codes:
 
 ### CI Integration (GitHub Actions)
 
-When GitHub Actions workflows are enabled, add a job to
-`.github/workflows/benchmark-gate.yml`:
+The active `.github/workflows/benchmark-gate.yml` builds and runs W4A as a
+smoke. The contract test checks the declared cases against source registration;
+validation requires all five raw repetitions for all 13 cases and rejects
+reported failures and skips before running diagnostics:
 
 ```yaml
-- name: Run Wave 4 Release Gates
+- name: Validate Wave 4 smoke
   run: |
-    ./build/linux-release/bin/benchmarks/bench_w4a_release_gates \
-      --benchmark_filter='W4A' \
-      --benchmark_out=results_w4a.json \
-      --benchmark_out_format=json
+    python3 benchmarks/wave4/validate_smoke.py --input results_w4a.json \
+      --contract benchmarks/wave4/smoke_contract.json
+    python3 tools/ci/validate_benchmark_smoke.py results_w4a.json \
+      --wave4-manifest benchmarks/wave4/release_gate_manifest.json
     python3 benchmarks/wave4/report_variance.py \
       --input results_w4a.json \
-      --baseline benchmarks/wave4/baselines/baseline_v1.5.0.json \
-      --manifest benchmarks/wave4/release_gate_manifest.json \
-      --output gate_report.json
-  env:
-    BENCHMARK_SEED: 42
+      --no-gates \
+      --output variance_report.json
 ```
 
-See `benchmarks/docs/CI_GATE.md` for the full CI gate specification.
+This verifies execution completeness, not metric correctness or performance
+evidence. The separate scientific framework specification in
+`benchmarks/docs/CI_GATE.md` does not activate a Wave 4 gate.
 
 ---
 
@@ -204,13 +220,8 @@ See `benchmarks/docs/CI_GATE.md` for the full CI gate specification.
 1. **Variance table** — p50/p95/p99/CV for all Wave 4 benchmarks that
    emit VarianceTracker counters.
 
-2. **Gate evaluation** — compares current metrics against a baseline JSON
-   and the thresholds in `release_gate_manifest.json`.
-
-3. **Regression hints** — for each failing gate, emits a repro command and
-   the exact pct-change to help triage.
-
-4. **Structured JSON output** — machine-readable report for CI artifacts.
+2. **Structured JSON output** — machine-readable diagnostic report for CI
+   artifacts. Gate evaluation and baseline comparison are disabled.
 
 ### Inspecting the CV
 
@@ -231,28 +242,11 @@ detection.  Common causes:
 
 ## Baseline Strategy
 
-### Recording a New Baseline
-
-```bash
-# Run the full W4A suite with high repetitions.
-./bin/benchmarks/bench_w4a_release_gates \
-  --benchmark_repetitions=10 \
-  --benchmark_out=benchmarks/wave4/baselines/baseline_v1.5.0.json \
-  --benchmark_out_format=json
-
-git add benchmarks/wave4/baselines/baseline_v1.5.0.json
-git commit -m "chore(bench): record W4A baseline for v1.5.0"
-```
-
-### Baseline Freeze Policy
-
-A new baseline is recorded when:
-- A deliberate performance improvement is merged and verified.
-- The CI runner hardware is upgraded.
-- A new release branch is cut.
-
-Baselines are versioned by release tag.  The active baseline for the
-`develop` branch is `baseline_v1.5.0.json`.
+The checked-in `baseline_v1.5.0.json` is historical, not an active CI
+baseline. Before a gate can be enabled, maintainers must review provenance,
+establish matching hardware/build and measurement configuration, validate
+complete successful case/repetition evidence and the comparison policy, and
+approve a suitable baseline. Repetitions alone do not establish readiness.
 
 ---
 
@@ -271,9 +265,8 @@ degradation modes applied:
 **Interpreting results:**
 
 Compare the `p99_ns` counter from the degraded run (mode ≥ 1) against
-mode 0 (baseline).  Document the degradation ratio in release notes if
-it exceeds the advisory threshold in the manifest
-(`max_degradation_pct_vs_baseline`).
+mode 0 (baseline) only as a diagnostic under comparable conditions.
+The historical manifest's advisory thresholds are not evaluated by the CLI.
 
 **Deviation patterns to investigate:**
 
@@ -296,8 +289,8 @@ it exceeds the advisory threshold in the manifest
 | isolation_ok  | W4C-05  | 1.0     | No state leak between fixture iterations   |
 | min_tick_ns   | W4C-06  | < 1000  | Sub-µs timing resolution available         |
 
-If any criterion fails in CI, investigate the environment before
-recording a new baseline.
+These are historical criteria, not active CI decisions. Investigate variance
+and environment before proposing a baseline.
 
 ---
 
@@ -306,7 +299,7 @@ recording a new baseline.
 ### Pipeline Health Check (W4D-03)
 
 ```bash
-./bin/benchmarks/bench_w4d_diagnostics \
+./build-linux-release/bin/bench_w4d_diagnostics \
   --benchmark_filter='BM_W4D_03_PipelineHealthCheck' \
   --benchmark_out=health.json --benchmark_out_format=json
 
@@ -322,9 +315,9 @@ A value of `7` means all three passed.
 
 ### Regression Sentinel (W4D-02)
 
-The `sentinel_hash` counter must match the recorded baseline value for
-the same seed and index size.  If it differs, the index algorithm has
-changed in a way that affects result sets — investigate before release.
+The `sentinel_hash` counter can be inspected with a separately verified
+reference using the same seed and index size. A difference warrants
+investigation; no such check is performed by the reporter or CI smoke.
 
 ### Fixture Overhead (W4D-04)
 
@@ -336,10 +329,10 @@ cost dominates (typically only for very fast micro-benchmarks).
 
 ## Known Limitations
 
-1. **No live CI activation yet:** GitHub Actions workflow definitions are
-   stored in `.github/no_workflows`.  Gate enforcement requires manual
-   or downstream pipeline invocation until workflows are activated.
-   See `benchmarks/docs/CI_GATE.md` for the intended gate contract.
+1. **Smoke-only CI:** `.github/workflows/benchmark-gate.yml` is active as a
+   smoke, not as performance gate enforcement. The reporter CLI rejects gate
+   evaluation, even when called outside CI. Legacy evaluation functions remain
+   importable and are not validated release-decision APIs.
 
 2. **Degradation modes are synthetic:** B4-B latency injection uses
    `std::this_thread::sleep_for` which has OS scheduling jitter.  Results
@@ -351,10 +344,9 @@ cost dominates (typically only for very fast micro-benchmarks).
    concurrent benchmark bodies.  For multi-threaded backpressure tests,
    use per-thread instances.
 
-4. **Baseline directory is initially empty:** The
-   `benchmarks/wave4/baselines/` directory must be populated by running
-   the baseline recording procedure (see [Baseline Strategy](#baseline-strategy))
-   before gate comparison becomes meaningful.
+4. **No verified comparable baseline:** The checked-in historical baseline
+   lacks established hardware/build identity and conflicts with the manifest
+   OS freeze. A new measurement alone cannot authorize gate activation.
 
 5. **CV criterion applies to release builds only:** In debug builds,
    CV > 0.15 is expected due to additional instrumentation.
@@ -363,7 +355,7 @@ cost dominates (typically only for very fast micro-benchmarks).
 
 ## Extension Guide
 
-### Adding a New Release Gate
+### Proposing a New Release Gate
 
 1. Add a new `BENCHMARK_DEFINE_F` / `BENCHMARK` in
    `bench_w4a_release_gates.cpp` with the next `W4A-NN` ID.
@@ -375,7 +367,8 @@ cost dominates (typically only for very fast micro-benchmarks).
    `INTENTIONAL_EXCLUSIONS` if needed.
 5. Run `python3 benchmarks/scripts/audit_benchmark_registration.py`
    to verify all sources are registered.
-6. Record a new baseline after the gate is validated.
+6. Review baseline provenance and gate readiness before any activation; the
+   current reporter cannot evaluate the proposed gate.
 
 ### Adding a New Resilience Scenario
 
@@ -387,9 +380,9 @@ cost dominates (typically only for very fast micro-benchmarks).
 
 ### Modifying Variance Thresholds
 
-Edit `release_gate_manifest.json` → `variance_acceptance_criteria`.
-Update this runbook and `ROADMAP.md` accordingly.
+Changes to `variance_acceptance_criteria` require review and do not activate
+enforcement. Update the runbook to describe any approved changes.
 
 ---
 
-*Runbook version: 1.0 | Last updated: 2026-07-16 | Owner: ThemisDB Performance Team*
+*Runbook version: 1.1 | Last updated: 2026-11-23 | Owner: ThemisDB Performance Team*

@@ -124,6 +124,38 @@ struct CoordinatorTxnRecord {
     std::optional<int64_t> commit_timestamp_ns;
 };
 
+/** @brief Immutable decision payload shared with the quorum authority. */
+struct TwoPhaseCommitDecision {
+    bool commit = false; ///< Selected terminal decision; never change COMMIT to ABORT.
+    /// Optional positive COMMIT timestamp; must be empty for ABORT and preserved exactly.
+    std::optional<int64_t> commit_timestamp_ns;
+};
+
+/**
+ * @brief Persist a coordinator decision in an external quorum-backed authority.
+ *
+ * Returns true only after the decision and optional timestamp are durably
+ * committed. Must be idempotent for identical requests and reject conflicting
+ * committed or retained-uncommitted decisions for the same coordinator/transaction
+ * pair, since Raft may later commit an existing suffix.
+ */
+using TwoPhaseCommitDecisionWriter = std::function<bool(
+    const std::string& coordinator_id,
+    const std::string& transaction_id,
+    const TwoPhaseCommitDecision& decision)>;
+
+/**
+ * @brief Read a previously committed coordinator decision.
+ *
+ * `nullopt` means no committed decision was found. Implementations must not
+ * report a decision from an uncommitted Raft log suffix. Corrupt, conflicting,
+ * or unavailable history must fail closed; the paired writer must reject writes
+ * when authority is unavailable or a conflicting retained decision exists.
+ */
+using TwoPhaseCommitDecisionLookup = std::function<std::optional<TwoPhaseCommitDecision>(
+    const std::string& coordinator_id,
+    const std::string& transaction_id)>;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // TwoPhaseCommitCoordinator
 // ─────────────────────────────────────────────────────────────────────────────
@@ -177,6 +209,13 @@ public:
         /// endpoint replay reuses it and never allocates a replacement.
         std::function<std::optional<int64_t>(const std::string&)>
             commit_timestamp_provider;
+
+        /// Optional quorum-backed decision writer. When configured, its durable
+        /// success is required before the local WAL decision and participant phase two.
+        TwoPhaseCommitDecisionWriter decision_writer;
+
+        /// Required together with decision_writer; reconciles local WAL during recovery.
+        TwoPhaseCommitDecisionLookup decision_lookup;
 
         /// Optional phase-two RPC timeouts; unset values inherit prepare_timeout.
         std::optional<std::chrono::milliseconds> commit_timeout;

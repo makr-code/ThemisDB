@@ -469,9 +469,9 @@ TEST(FlatTensorIndexSearch, TFI12_IncompatibleQueryModeSizesRejected) {
     auto mgr = TensorIndexManager::create(nullptr);
     auto* idx = indexWithOneVector(mgr);
 
-    storage::TTTrain query;
+    themis::storage::TTTrain query;
     query.mode_sizes = {8};
-    storage::TTCore core;
+    themis::storage::TTCore core;
     core.r_left = 1;
     core.n = 8;
     core.r_right = 1;

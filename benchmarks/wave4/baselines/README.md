@@ -1,5 +1,10 @@
 # Wave 4 Baselines
 
+> The existing baseline is not currently valid for a CI performance gate:
+> comparable hardware and build identity are not established, and its OS
+> description conflicts with the manifest freeze. The workflow is smoke-only;
+> the recording recipe below does not by itself establish gate readiness.
+
 This directory stores versioned Google Benchmark JSON output files used as
 performance baselines for Wave 4 release gate comparison.
 

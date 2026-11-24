@@ -1779,6 +1779,8 @@ TEST(TensorRAGPipeline, TRPL14_final_layer_resolution_attached_when_orchestrator
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "session-final";
+    cfg.tensor_tenant_id = "session-final";
+    cfg.tensor_scope_id = "__adapters__:session-final:legal:mA";
     cfg.final_layer_package_id = "session-final";
     cfg.final_layer_base_model = "llama-7b";
     cfg.final_layer_base_model_version = "3.1";
@@ -1874,6 +1876,8 @@ TEST(TensorRAGPipeline, TRPL17_correlation_and_reason_codes_propagate_to_graph_a
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "corr-17";
+    cfg.tensor_tenant_id = "session-17";
+    cfg.tensor_scope_id = "__adapters__:session-17:legal:mA";
     cfg.final_layer_package_id = "session-17";
     cfg.final_layer_base_model = "llama-7b";
     cfg.final_layer_base_model_version = "3.1";
@@ -1976,6 +1980,8 @@ TEST(TensorRAGPipeline, TRPL19_provenance_record_populated_after_step) {
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "corr-19";
+    cfg.tensor_tenant_id = "session-19";
+    cfg.tensor_scope_id = "__adapters__:session-19:legal:mA";
     cfg.final_layer_package_id = "session-19";
     cfg.final_layer_base_model = "llama-7b";
     cfg.final_layer_base_model_version = "3.1";

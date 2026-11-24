@@ -320,6 +320,44 @@ class BenchmarkRunCaseErrorTests(unittest.TestCase):
             self.assertTrue((results / "case-skip.json").exists())
 
 class BenchmarkJsonStrictnessTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location("benchmark_run_manifest", RUNNER)
+        cls.runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.runner)
+
+    def test_exact_unknown_and_ambiguous_workload_link_resolution(self):
+        self.assertEqual(
+            self.runner.resolve_workload_id("bench_p0_crud_baseline", "BM_P0_InsertHeavy/min_time:1.000/iterations:10000/real_time"),
+            "themisdb:micro/phase0-crud-inmemory@1")
+        self.assertEqual(
+            self.runner.resolve_workload_id(
+                "bench_mmdb", "MMDBFixture/IndexedProductLookup/1000/real_time"),
+            "themisdb:component/mmdb-secondary-index@1")
+        self.assertIsNone(
+            self.runner.resolve_workload_id("bench_p0_crud_baseline", "UnknownCase"))
+        self.assertIsNone(
+            self.runner.resolve_workload_id("unknown_benchmark", "BM_P0_InsertHeavy"))
+        ambiguous = {
+            ("fixture", "SameCase"): frozenset({"profile:a", "profile:b"}),
+        }
+        self.assertEqual(self.runner.resolve_workload_id(
+            "fixture.exe", "SameCase", {("fixture", "SameCase"): {"profile:a"}}), "profile:a")
+        self.assertIsNone(
+            self.runner.resolve_workload_id("fixture.exe", "SameCase", ambiguous))
+
+    def test_backward_compatible_unknown_case_reads(self):
+        spec = importlib.util.spec_from_file_location("benchmark_run_manifest", RUNNER)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        with tempfile.TemporaryDirectory(prefix="themis-benchmark-linkage-") as directory:
+            result = Path(directory) / "benchmark.json"
+            result.write_text(
+                '{"benchmarks":[{"name":"UnknownCase"}]}', encoding="utf-8")
+            status, cases = runner.read_result(result)
+        self.assertEqual(status, "valid")
+        self.assertEqual(cases[0]["workload_id"], None)
+
     def test_nonstandard_infinity_is_invalid_json(self):
         spec = importlib.util.spec_from_file_location("benchmark_run_manifest", RUNNER)
         runner = importlib.util.module_from_spec(spec)

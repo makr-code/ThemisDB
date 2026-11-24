@@ -1,9 +1,9 @@
 # Distributed Tensor Module Roadmap
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
-**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/shard_rpc_fragment_fetcher.h`, `proto/sharding/shard_rpc.proto`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
 **Related:** Issues #7341, #7414
 
 <!--
@@ -23,7 +23,7 @@ Exact model backend not verifiable from final document text alone.
 ## Current Status
 
 The current module target is `themis_distributed_tensor`, built from the source
-list in `src/distributed_tensor/CMakeLists.txt`. It declares nine public headers.
+list in `src/distributed_tensor/CMakeLists.txt`. It declares ten public headers.
 The target publicly requests `cxx_std_20`, matching the `std::span` API in
 `tensor_storage_strategy.h`; CMake consumers linking the target inherit the
 requirement, and direct header consumers must compile as C++20. Local CMake
@@ -31,8 +31,22 @@ files register three focused test executables and
 one in-process benchmark under `tests/distributed_tensor/` and
 `benchmarks/distributed_tensor/`. Separately, `tests/CMakeLists.txt` adds
 `tests/epic3_distributed_tensor/`, whose CMake registers the EPIC 3
-phase/contract sources; the integration CMake includes the distributed-tensor
-soak source when present. The benchmark parent configuration adds
+phase/contract sources. No distributed-tensor soak is registered under
+`tests/integration`: the former in-process stub-only source was removed because
+it exercised no production transport. A focused ShardRPC gRPC/mTLS
+fragment-fetch test is conditionally registered as `ShardTransferGrpcTests`
+under `tests/sharding/`; its original case uses a test reader. An additional
+unrun source case uses a fixture fingerprint graph and the local publisher, reopens
+RocksDB, and retrieves it through mTLS and the manifest-bound adapter; graph validation
+is included when the query and LLM module targets are available. It does not
+exercise host startup, an automatic publisher, or a distributed-tensor soak.
+A versioned principal/shard/artifact RocksDB mapping
+and opt-in `main_server.cpp` startup are now implemented in source. A local
+single-shard publisher persists a remote-readable manifest record; callers can
+fetch it through mTLS when they already have a trusted artifact ID. Authenticated
+producer, host integration, discovery and freshness remain open. A versioned adapter-similarity graph
+projection and fail-closed planner validation are source-implemented, but have
+not been built or run. The benchmark parent configuration adds
 `benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
 retrieval, partial-refit, and summary-first sources. The separate private
 integrity test and benchmark are registered only when OpenSSL Crypto is found.
@@ -176,6 +190,7 @@ pending.
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
+- [~] RocksDB fragment-store regressions and opt-in host startup are registered/implemented in source; no build or runtime validation has been performed. A Linux mTLS case composes the local publisher, fragment store and adapter with a fixture summary; host startup and automatic publication remain untested.
 - [?] Historical test-source/pass claims remain unvalidated; they do not establish current behavior. New SHA-256 regressions are registered in focused test sources but have not been run.
 - [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
@@ -229,8 +244,12 @@ and [`../../benchmarks/distributed_tensor/CMakeLists.txt`](../../benchmarks/dist
 
 `tests/epic3_distributed_tensor/` additionally configures phase/contract tests
 and an integrity-verification benchmark test; see its `CMakeLists.txt` for
-guards and exact targets. The integration CMake conditionally adds
-`test_distributed_tensor_soak.cpp`. `benchmarks/epic3_distributed_tensor/`
+guards and exact targets. A real ShardRPC fragment-transport integration test
+is conditionally configured under `tests/sharding/`; one case uses the
+local publisher and RocksDB reader with a fixture summary, but does not exercise
+production startup or automatic publication. `ShardTransferStoreTests` also
+contains source regressions for the dedicated RocksDB mapping, but it has not
+been built or run. `benchmarks/epic3_distributed_tensor/`
 configures four standard benchmark sources and the partial-refit and
 summary-first targets when benchmarks are enabled.
 
@@ -263,7 +282,7 @@ are not established module capabilities.
 
 | Area | Source evidence | Gap and consequence |
 |---|---|---|
-| Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `executeFragmentLoads()` fails when no fetcher is configured. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | The module can plan/delegate work but does not itself fetch remote shards or coordinate distributed training. No end-to-end user workflow is established by these interfaces. |
+| Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `ShardRPCFragmentFetcher` supplies manifest-verifying gRPC/mTLS transport. `GraphSummaryProjectionCodec` accepts only the versioned adapter-similarity payload and the planner requires graph-backed evidence. `ShardArtifactFragmentStore` maps `(principal_id, shard_id, artifact_id)` into a versioned RocksDB keyspace, and `main_server.cpp` starts its reader only under explicit mTLS configuration. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | Payload producers must persist bytes before publishing the matching manifest; no automatic publisher or distributed manifest consensus exists. The mapping is not a `TensorNetworkStorageEngine` field mapping, arbitrary tensor bytes are not projectable, and none of the new paths has runtime evidence. |
 | Integrity and security | The active target includes `src/distributed_tensor/integrity_verification.cc`, which now uses OpenSSL EVP SHA-256 conditionally and fails closed without it. The nested implementation remains outside the target. See `CMakeLists.txt` and `SECURITY.md`. | Hashing does not authenticate a producer; the manifest's separate `compute_manifest_hash()` remains non-cryptographic. New code/tests are unbuilt and untested; no production trust claim is established. |
 | Recovery and resilience | `recovery_manager.cc` creates in-memory jobs with timestamp-based IDs and heuristic recovery-time estimates; `recovery_manager.h` describes retries and degraded modes. | Durable job state, real shard transfer/reconstruction, idempotency, and observed recovery objectives are not established by this module source. |
 | Tests | `tests/distributed_tensor/CMakeLists.txt` registers allocation, operations, and performance tests; a separate EPIC 3 suite is registered from `tests/epic3_distributed_tensor/`. | Registration is not execution evidence. The latest recorded configure attempt in `TEST_EVIDENCE_COLLECTION.md` stopped before generating targets because `fmt` was unavailable; current pass status is unverified. |
@@ -304,8 +323,9 @@ criterion to be checked against a recorded baseline.
 - **Dependencies:** none.
 - **Tasks:**
   - [ ] Reconcile the active CMake target, public headers, and registered local/EPIC 3 test and benchmark targets; label source registration separately from executed evidence (Target: v2.5.0).
-  - [ ] Specify manifest/receipt versioning, shard identity and ordering, freshness, graph-truth fallback, and failure semantics in the module contracts (Target: v2.5.0).
-  - [ ] Select and record the owning transport and durable-job-state interfaces with the relevant module maintainers; if ownership is unresolved, keep network execution out of scope (Target: v2.5.0).
+  - [~] Specify manifest/receipt versioning, shard identity and ordering, freshness, graph-truth fallback, and failure semantics in the module contracts; the adapter-similarity projection and fail-closed planner path are now specified in source/docs, while runtime evidence remains open (Target: v2.5.0).
+  - [x] Select ShardRPC gRPC/mTLS as the optional fragment transport and add the manifest-bound adapter; host storage and opt-in startup are source-implemented, while durable-job-state ownership remains unresolved (Target: v2.5.0).
+  - [~] Integrate fragment writes into the owner-side artifact publication path and validate the production startup/storage composition; source registration alone is not acceptance evidence (Target: v2.5.0).
 - **Risk / trade-off:** premature API commitments can create compatibility debt; limit changes to additive/versioned contracts and record unresolved integration ownership.
 - **Exit metrics:** 100% of public distributed operations have a documented owner, input/validation rule, failure outcome, and test target; every current performance claim is either linked to a raw result or marked as a target/unverified.
 - **Validation:** review CMake inventories and call paths; run focused tests after the required dependencies are available; retain exact configure/build/CTest output and mark unavailable runs as blocked, not passed.
@@ -327,15 +347,15 @@ criterion to be checked against a recorded baseline.
 
 - **Goal:** make delegated fetch and recovery behavior observable, bounded, and
   safe under partial failure without introducing an implicit transport.
-- **Dependencies:** Wave 1 interface ownership; Wave 2 integrity verification; an approved transport and persistence owner before production adapter work.
+- **Dependencies:** Wave 1 interface ownership; Wave 2 integrity verification; publisher-side fragment writes, recovery-persistence ownership, and runtime validation before end-to-end production acceptance.
 - **Tasks:**
-  - [ ] Define the adapter contract for deadlines, cancellation, maximum response size, shard/artifact identity checks, and structured failure results around `IFragmentFetcher` (Target: v2.5.0).
+  - [~] Define the manifest-bound adapter contract for deadlines, byte ceilings, shard/artifact identity, digest verification, and structured failures; caller-driven cancellation remains unsupported (Target: v2.5.0).
   - [ ] Bound retries by both count and elapsed time, make retry eligibility/idempotency explicit, and prevent incomplete or unverified shards from becoming successful results (Target: v2.5.0).
   - [ ] Define persistence and restart semantics for recovery jobs; keep the in-memory `DefaultRecoveryManager` explicitly non-durable until a compatible persistence backend is selected (Target: v2.5.0).
   - [ ] Add contract tests for missing fetcher, timeout, cancellation, duplicate/unknown shard, partial response, corruption, exhausted retries, and primary-artifact degraded-mode rejection (Target: v2.5.0).
 - **Risk / trade-off:** retries and degraded reads can amplify load or weaken correctness; default to bounded fail-closed behavior for primary/ground-truth artifacts and make any advisory path explicit.
 - **Exit metrics:** 100% of injected failure cases terminate within the configured deadline plus documented test tolerance; retry count never exceeds the configured cap; zero incomplete, wrong-identity, or invalid-integrity results are accepted as success.
-- **Validation:** deterministic fault-injection tests; concurrency/race checks for recovery state; integration tests against the selected real adapter (not the in-process benchmark stubs); verify cancellation and resource cleanup.
+- **Validation:** deterministic fault-injection tests; concurrency/race checks for recovery state; the RocksDB store regressions and ShardRPC mTLS integration test are registered but unbuilt/unrun; production startup/storage runtime evidence and caller-driven cancellation remain unverified.
 
 #### Wave 4 — v2.5.0 integration and performance evidence (P0; 2–4 engineering weeks)
 
@@ -343,7 +363,7 @@ criterion to be checked against a recorded baseline.
   recovery on an explicitly described deployment profile.
 - **Dependencies:** Waves 1–3 and a provisioned representative multi-process or multi-node environment.
 - **Tasks:**
-  - [ ] Add end-to-end tests that exercise placement → fetch → integrity check → fallback/recovery with the selected adapter, including a failed node and stale summary (Target: v2.5.0).
+  - [~] Add end-to-end tests that exercise placement → fetch → integrity check → fallback/recovery with the selected adapter, including a failed node and stale summary; a new unrun test source composes local fixture-summary publication, RocksDB reopen, mTLS, manifest-bound fetch and conditional graph validation, but does not cover distributed recovery (Target: v2.5.0).
   - [ ] Replace any release decision based on DT-BM-01..04 stub thresholds with measurements from the real execution path; retain the stubs only as isolated microbenchmarks (Target: v2.5.0).
   - [ ] Capture p50/p95/p99 latency, throughput, bytes transferred, resource use, and recovery time for 1/2/4-node profiles and 1 MiB/64 MiB/1 GiB artifacts; run each profile at least three times and archive raw outputs with topology/build metadata (Target: v2.5.0).
 - **Risk / trade-off:** representative hardware and network variability may block or dominate results; publish environment and variance, and do not generalize a single topology’s result.
@@ -395,7 +415,7 @@ criterion to be checked against a recorded baseline.
 ### Open assumptions and decision points
 
 - The root roadmap currently identifies v2.4.0-alpha as the current release; v2.5.0 and v3.0.0 are planning targets in this issue, not release dates or approved compatibility commitments.
-- A production transport, durable recovery store, authorization/key-management owner, and representative cluster are not established by the module sources reviewed here. Waves depending on these remain blocked until their owners and contracts are named.
+- The ShardRPC transport and manifest-verifying adapter, a canonical principal/shard/artifact RocksDB mapping, and opt-in host startup are implemented in source but unbuilt/unvalidated. Owner-side payload publication, durable recovery store, authorization/key-management ownership beyond configured principals, and representative cluster evidence remain open. Waves depending on those gaps remain blocked.
 - The target hash library, receipt migration policy, supported topology matrix, workload mix, and deployment SLOs require maintainer decisions. Numeric performance targets above are proposed gates, not measured baselines.
 - Research papers report results for their own systems and hardware. Reproduce relevant comparisons using ThemisDB’s real execution path before adopting algorithmic or performance claims.
 
@@ -414,9 +434,16 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 ### Wave D Contribution for `distributed_tensor`
 - A 2026-09-16 entry reported a high-cardinality test and runbook; their
   current source/artifact availability was not verified here.
-- `tests/integration/test_distributed_tensor_soak.cpp` is present and
-  `tests/integration/CMakeLists.txt` conditionally registers it with a
-  120-second timeout. Its runtime result was not checked.
+- The previous `tests/integration/test_distributed_tensor_soak.cpp` used only
+  in-process queue, sync, and routing stubs; it has been removed and is not
+  integration evidence. A focused ShardRPC mTLS integration test now
+  exercises real fragment transport with a test-only storage reader; another
+  unrun case composes the production fragment store and mTLS adapter. The
+  production storage mapping and optional host startup now exist in source;
+  neither has build/runtime evidence. A bounded adapter-similarity projection
+  and planner validation path are also source-implemented but unverified. No
+  publisher call site or distributed-tensor soak exists; those ownership and
+  deployment gates remain open.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)

@@ -16,6 +16,10 @@
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/consensus_module.h"
 #include "sharding/detail/two_phase_commit_contract.h"
+#include "sharding/raft_consensus.h"
+#include "sharding/raft_log.h"
+#include "sharding/raft_shard_manager.h"
+#include "sharding/raft_two_phase_commit_decision_store.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include <algorithm>
 #include <vector>
@@ -30,6 +34,7 @@
 #include <fstream>
 #include <random>
 #include <stdexcept>
+#include <string_view>
 #include <system_error>
 
 using namespace themis::sharding;
@@ -924,7 +929,6 @@ static_assert(static_cast<int>(CoordinatorTxnState::COMMIT_DECIDED) == 2);
 static_assert(static_cast<int>(CoordinatorTxnState::ABORT_DECIDED) == 3);
 static_assert(static_cast<int>(CoordinatorTxnState::COMPLETED) == 4);
 static_assert(static_cast<int>(CoordinatorTxnState::FAILED) == 5);
-static_assert(static_cast<int>(CoordinatorTxnState::PREPARED) == 6);
 
 // Helper: build a durable TwoPhaseCommitParticipant with no-op callbacks.
 static std::unique_ptr<TwoPhaseCommitParticipant>
@@ -964,6 +968,274 @@ protected:
     std::unique_ptr<TwoPhaseCommitCoordinator> coord_;
     std::unique_ptr<TwoPhaseCommitParticipant> p1_, p2_, p3_;
 };
+
+namespace {
+
+constexpr std::string_view kRaft2PCDecisionPrefix = "themisdb.2pc.decision.v1:";
+
+} // namespace
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
+       RecoveryReconcilesQuorumDecisionCommittedBeforeLocalWalDecision) {
+    TemporaryTransactionLog coordinator_log("themis_2pc_raft_reconcile");
+    TemporaryTransactionLog raft_log("themis_2pc_raft_journal");
+    themisdb::sharding::RaftConsensus::Config raft_config;
+    raft_config.raft_config.node_id = "coord-test";
+    raft_config.raft_config.cluster_members = {"coord-test"};
+    raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_config.enable_partition_detection = false;
+
+    {
+        auto consensus = std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+        auto& state = consensus->getRaftState();
+        state.becomeCandidate();
+        state.becomeLeader();
+
+        auto decision_store =
+            std::make_shared<RaftTwoPhaseCommitDecisionStore>(
+                consensus, "coord-test-raft-group");
+        TwoPhaseCommitCoordinator::Config config;
+        config.wal_directory = coordinator_log.logPath().parent_path().string();
+        config.sync_wal_writes = true;
+        config.fencing_token_provider = testTokenProvider("coord-test");
+        config.decision_writer = decision_store->writer();
+        config.decision_lookup = decision_store->lookup();
+        TwoPhaseCommitCoordinator coordinator("coord-test", config);
+        coordinator.registerParticipant("shard-1", p1_.get());
+        coordinator.registerParticipant("shard-2", p2_.get());
+        coordinator.registerParticipant("shard-3", p3_.get());
+
+        auto shard_operations = nlohmann::json::array();
+        shard_operations.push_back({{"key", "raft-reconcile"}});
+        const std::map<std::string, nlohmann::json> operations = {
+            {"shard-1", shard_operations},
+            {"shard-2", shard_operations},
+            {"shard-3", shard_operations}
+        };
+        ASSERT_TRUE(coordinator.prepare("txn-raft-reconcile", operations));
+
+        const auto writer = decision_store->writer();
+        ASSERT_TRUE(writer(
+            "coord-test", "txn-raft-reconcile",
+            TwoPhaseCommitDecision{true, 123456789}));
+        const auto last_index =
+            consensus->getRaftState().getLog().getLastLogIndex();
+        EXPECT_TRUE(writer(
+            "coord-test", "txn-raft-reconcile",
+            TwoPhaseCommitDecision{true, 123456789}));
+        EXPECT_FALSE(writer(
+            "coord-test", "txn-raft-reconcile",
+            TwoPhaseCommitDecision{false, std::nullopt}));
+        EXPECT_EQ(consensus->getRaftState().getLog().getLastLogIndex(), last_index);
+    }
+
+    auto recovered_consensus =
+        std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    recovered_consensus->getRaftState().becomeCandidate();
+    recovered_consensus->getRaftState().becomeLeader();
+    auto recovered_decision_store =
+        std::make_shared<RaftTwoPhaseCommitDecisionStore>(
+            recovered_consensus, "coord-test-raft-group");
+    TwoPhaseCommitCoordinator::Config recovered_config;
+    recovered_config.wal_directory = coordinator_log.logPath().parent_path().string();
+    recovered_config.sync_wal_writes = true;
+    recovered_config.fencing_token_provider = testTokenProvider("coord-test");
+    recovered_config.decision_writer = recovered_decision_store->writer();
+    recovered_config.decision_lookup = recovered_decision_store->lookup();
+
+    TwoPhaseCommitCoordinator recovered("coord-test", recovered_config);
+    recovered.registerParticipant("shard-1", p1_.get());
+    recovered.registerParticipant("shard-2", p2_.get());
+    recovered.registerParticipant("shard-3", p3_.get());
+    EXPECT_EQ(recovered.recoverInDoubtTransactions(), 1u);
+    EXPECT_EQ(recovered.getTransactionState("txn-raft-reconcile"),
+              CoordinatorTxnState::COMPLETED);
+    EXPECT_EQ(p1_->getTransactionState("txn-raft-reconcile"),
+              ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(p2_->getTransactionState("txn-raft-reconcile"),
+              ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(p3_->getTransactionState("txn-raft-reconcile"),
+              ParticipantTxnState::COMMITTED);
+    const auto recovered_record = recovered.getTransactionRecord("txn-raft-reconcile");
+    ASSERT_TRUE(recovered_record.has_value());
+    ASSERT_TRUE(recovered_record->commit_timestamp_ns.has_value());
+    EXPECT_EQ(*recovered_record->commit_timestamp_ns, 123456789);
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
+       RetainedUncommittedRaftDecisionBlocksConflictingDecision) {
+    TemporaryTransactionLog raft_log("themis_2pc_raft_retained_tail");
+    themisdb::sharding::RaftConsensus::Config raft_config;
+    raft_config.raft_config.node_id = "coord-test";
+    raft_config.raft_config.cluster_members = {"coord-test"};
+    raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_config.enable_partition_detection = false;
+
+    auto consensus = std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    auto& state = consensus->getRaftState();
+    state.becomeCandidate();
+    state.becomeLeader();
+
+    const nlohmann::json payload = {
+        {"schema", "themisdb.2pc.decision.v1"},
+        {"raft_group_id", "coord-test-raft-group"},
+        {"coordinator_id", "coord-test"},
+        {"transaction_id", "txn-retained-tail"},
+        {"decision", "commit"},
+        {"commit_timestamp_ns", 123456789}
+    };
+    const auto command = std::string(kRaft2PCDecisionPrefix) + payload.dump();
+    state.getLog().append(themisdb::sharding::LogEntry{
+        state.getCurrentTerm(), 1, command});
+
+    RaftTwoPhaseCommitDecisionStore decision_store(
+        consensus, "coord-test-raft-group");
+    EXPECT_FALSE(decision_store.writer()(
+        "coord-test", "txn-retained-tail",
+        TwoPhaseCommitDecision{false, std::nullopt}));
+    EXPECT_FALSE(decision_store.writer()(
+        "coord-test", "txn-retained-tail",
+        TwoPhaseCommitDecision{true, 123456789}));
+    EXPECT_FALSE(decision_store.lookup()(
+        "coord-test", "txn-retained-tail").has_value());
+    EXPECT_EQ(state.getLog().getCommitIndex(), 0u);
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
+       CommitUsesDurableRaftDecisionBeforeParticipantPhaseTwo) {
+    TemporaryTransactionLog coordinator_log("themis_2pc_raft_commit_path");
+    TemporaryTransactionLog raft_log("themis_2pc_raft_commit_authority");
+    TemporaryTransactionLog participant_log("themis_2pc_raft_commit_participant");
+    themisdb::sharding::RaftConsensus::Config raft_config;
+    raft_config.raft_config.node_id = "coord-test";
+    raft_config.raft_config.cluster_members = {"coord-test"};
+    raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_config.enable_partition_detection = false;
+
+    auto consensus = std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    consensus->getRaftState().becomeCandidate();
+    consensus->getRaftState().becomeLeader();
+    auto decision_store = std::make_shared<RaftTwoPhaseCommitDecisionStore>(
+        consensus, "coord-test-raft-group");
+
+    bool authority_visible_when_apply_runs = false;
+    TwoPhaseCommitParticipant::Config participant_config;
+    participant_config.wal_directory =
+        participant_log.logPath().parent_path().string();
+    participant_config.sync_wal_writes = true;
+    participant_config.fencing_manager = testFencingManager("shard-1");
+    TwoPhaseCommitParticipant participant(
+        "shard-1", participant_config,
+        [](const std::string&, const nlohmann::json&) { return true; },
+        [&](const std::string& transaction_id, const nlohmann::json&, int64_t) {
+            const auto authority_decision = decision_store->lookup()(
+                "coord-test", transaction_id);
+            authority_visible_when_apply_runs =
+                authority_decision.has_value() && authority_decision->commit;
+            return authority_visible_when_apply_runs;
+        },
+        [](const std::string&) {});
+
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = coordinator_log.logPath().parent_path().string();
+    config.sync_wal_writes = true;
+    config.fencing_token_provider = testTokenProvider("coord-test");
+    config.decision_writer = decision_store->writer();
+    config.decision_lookup = decision_store->lookup();
+    TwoPhaseCommitCoordinator coordinator("coord-test", config);
+    coordinator.registerParticipant("shard-1", &participant);
+
+    auto operations_for_shard = nlohmann::json::array();
+    operations_for_shard.push_back({{"key", "raft-backed-commit"}});
+    const auto outcome = coordinator.commit(
+        "txn-raft-backed-commit", {{"shard-1", operations_for_shard}});
+    ASSERT_TRUE(outcome.committed()) << outcome.reason;
+
+    const auto decision = decision_store->lookup()(
+        "coord-test", "txn-raft-backed-commit");
+    ASSERT_TRUE(decision.has_value());
+    EXPECT_TRUE(decision->commit);
+    EXPECT_TRUE(authority_visible_when_apply_runs);
+    EXPECT_EQ(participant.getTransactionState("txn-raft-backed-commit"),
+              ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(consensus->getRaftState().getLog().getCommitIndex(), 1u);
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
+       DecisionStoreFailsClosedAfterRaftSnapshotCompaction) {
+    TemporaryTransactionLog raft_log("themis_2pc_raft_snapshot_boundary");
+    themisdb::sharding::RaftConsensus::Config raft_config;
+    raft_config.raft_config.node_id = "coord-test";
+    raft_config.raft_config.cluster_members = {"coord-test"};
+    raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_config.enable_partition_detection = false;
+
+    auto consensus = std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    consensus->getRaftState().becomeCandidate();
+    consensus->getRaftState().becomeLeader();
+    const auto snapshot_index = consensus->proposeWithIndex("snapshot-anchor");
+    ASSERT_TRUE(snapshot_index.has_value());
+
+    const auto entry = consensus->getRaftState().getLog().getEntry(*snapshot_index);
+    ASSERT_TRUE(entry.has_value());
+
+    themisdb::sharding::RaftSnapshotManager::Config snapshot_config;
+    snapshot_config.snapshot_directory =
+        (raft_log.logPath().parent_path() / "snapshots").string();
+    themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
+    const std::vector<uint8_t> snapshot_state{'s', 't', 'a', 't', 'e'};
+    ASSERT_TRUE(snapshot_manager.createAndInstall(
+        consensus->getRaftState().getLog(), *snapshot_index, entry->term,
+        snapshot_state));
+
+    RaftTwoPhaseCommitDecisionStore decision_store(
+        consensus, "coord-test-raft-group");
+    EXPECT_THROW(
+        decision_store.lookup()("coord-test", "txn-after-snapshot"),
+        std::runtime_error);
+    EXPECT_THROW(
+        decision_store.writer()(
+            "coord-test", "txn-after-snapshot",
+            TwoPhaseCommitDecision{true, std::nullopt}),
+        std::runtime_error);
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
+       FailedQuorumDecisionDoesNotSendParticipantPhaseTwo) {
+    TemporaryTransactionLog coordinator_log("themis_2pc_raft_decision_gate");
+    TwoPhaseCommitCoordinator::Config config;
+    config.wal_directory = coordinator_log.logPath().parent_path().string();
+    config.sync_wal_writes = true;
+    config.fencing_token_provider = testTokenProvider("coord-test");
+    config.decision_writer = [](
+        const std::string&, const std::string&, const TwoPhaseCommitDecision&) {
+        return false;
+    };
+    config.decision_lookup = [](
+        const std::string&, const std::string&)
+        -> std::optional<TwoPhaseCommitDecision> {
+        return std::nullopt;
+    };
+
+    TwoPhaseCommitCoordinator coordinator("coord-test", config);
+    coordinator.registerParticipant("shard-1", p1_.get());
+    auto shard_operations = nlohmann::json::array();
+    shard_operations.push_back({{"key", "quorum-gate"}});
+    const auto outcome = coordinator.commit(
+        "txn-quorum-unavailable",
+        {{"shard-1", shard_operations}});
+
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
+    EXPECT_EQ(p1_->getTransactionState("txn-quorum-unavailable"),
+              ParticipantTxnState::PREPARED);
+    const auto state = coordinator.getTransactionState("txn-quorum-unavailable");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, CoordinatorTxnState::FAILED);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Basic registration
@@ -1302,10 +1574,30 @@ durableCrossShardConfig(const TemporaryTransactionLog& log) {
 
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommitMatchCanonicalDecision) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-contract");
+    TemporaryTransactionLog raft_log("themis-cross-shard-2pc-raft-authority");
     auto config = durableCrossShardConfig(transaction_log);
     config.prepare_timeout = std::chrono::milliseconds(20);
     config.commit_timeout = std::chrono::milliseconds(20);
     config.abort_timeout = std::chrono::milliseconds(20);
+    themisdb::sharding::RaftShardManager::Config raft_manager_config;
+    raft_manager_config.raft_config.raft_config.node_id = "coord-cross-test";
+    raft_manager_config.raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_manager_config.replication_factor = 1;
+    raft_manager_config.enable_auto_start = false;
+    themisdb::sharding::RaftShardManager raft_manager(raft_manager_config);
+    ASSERT_TRUE(raft_manager.initializeShard(
+        "coord-cross-test-raft-group", {"coord-cross-test"}));
+    auto consensus = raft_manager.getRaftInstance("coord-cross-test-raft-group");
+    ASSERT_NE(consensus, nullptr);
+    consensus->getRaftState().becomeCandidate();
+    consensus->getRaftState().becomeLeader();
+    auto decision_store =
+        std::make_shared<RaftTwoPhaseCommitDecisionStore>(
+            consensus, "coord-cross-test-raft-group");
+    config.decision_writer = decision_store->writer();
+    config.decision_lookup = decision_store->lookup();
+
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(
         config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
     ASSERT_TRUE(coordinator.initialize());
@@ -1326,6 +1618,11 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
 
     EXPECT_TRUE(coordinator.commit("txn-cross-2pc-contract"));
     EXPECT_TRUE(coordinator.commit("txn-cross-2pc-contract"));
+    const auto authority_decision = decision_store->lookup()(
+        config.coordinator_id, "txn-cross-2pc-contract");
+    ASSERT_TRUE(authority_decision.has_value());
+    EXPECT_TRUE(authority_decision->commit);
+    EXPECT_EQ(consensus->getRaftState().getLog().getCommitIndex(), 1u);
     EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-contract"),
               themisdb::sharding::TransactionState::COMMITTED);
 }

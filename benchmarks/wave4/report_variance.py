@@ -11,21 +11,17 @@ emits:
 
 Usage
 -----
-  # Analyse a single result file (no baseline comparison):
-  python3 report_variance.py --input results.json
+  # Analyse a single result file without evaluating gates:
+  python3 report_variance.py --input results.json --no-gates
 
-  # Compare against a baseline and check Wave 4 gates:
-  python3 report_variance.py \\
-    --input current.json \\
-    --baseline baseline.json \\
-    --manifest benchmarks/wave4/release_gate_manifest.json \\
-    --output report.json
+Gate evaluation is disabled: the available baseline cannot establish comparable
+hardware and build identity, and this reporter does not validate complete,
+successful repetitions. Its output must not be used for release decisions.
 
 Exit codes
 ----------
-  0  All gates passed (or no gates defined).
-  1  One or more RELEASE-BLOCKING gates failed.
-  2  Input file not found or invalid format.
+  0  Diagnostic analysis completed.
+  2  Gate evaluation requested, or input missing or invalid.
 """
 
 from __future__ import annotations
@@ -419,7 +415,7 @@ def write_json_report(
             "total_gates": len(gate_results),
             "passed": sum(1 for r in gate_results if r.passed),
             "blocking_failures": len(blocking_failures),
-            "release_blocked": len(blocking_failures) > 0,
+            "release_blocked": None if not gate_results else len(blocking_failures) > 0,
         },
         "gates": [
             {
@@ -487,40 +483,27 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    if not args.no_gates:
+        print(
+            "ERROR: Wave 4 gate evaluation is disabled: comparable baseline "
+            "identity and complete successful repetitions are not verified. "
+            "Use --no-gates for diagnostics only.",
+            file=sys.stderr,
+        )
+        return 2
+    if args.baseline is not None:
+        print("ERROR: --baseline is unavailable in diagnostic-only mode.", file=sys.stderr)
+        return 2
+
     # Load inputs.
     entries = load_benchmark_json(args.input)
-    current_lookup = build_lookup(entries)
-
-    baseline_lookup: Optional[Dict[str, BenchmarkEntry]] = None
-    if args.baseline is not None:
-        baseline_entries = load_benchmark_json(args.baseline)
-        baseline_lookup = build_lookup(baseline_entries)
-
     # Variance table.
     print_variance_table(entries)
 
-    gate_results: List[GateResult] = []
-    blocking_failures: List[GateResult] = []
-
-    if not args.no_gates and args.manifest.exists():
-        try:
-            manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
-            print(f"ERROR: Invalid manifest JSON: {exc}", file=sys.stderr)
-            return 2
-
-        gate_results, blocking_failures = evaluate_all_gates(
-            manifest, current_lookup, baseline_lookup
-        )
-        print_gate_report(gate_results)
-        print_summary(gate_results, blocking_failures)
-    elif not args.no_gates:
-        print(f"INFO: Manifest not found at {args.manifest} — skipping gate evaluation.")
-
     if args.output is not None:
-        write_json_report(args.output, entries, gate_results, blocking_failures)
+        write_json_report(args.output, entries, [], [])
 
-    return 1 if blocking_failures else 0
+    return 0
 
 
 if __name__ == "__main__":

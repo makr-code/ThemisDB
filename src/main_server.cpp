@@ -111,6 +111,10 @@
 #include "sharding/shard_topology.h"
 #include "sharding/shard_repair_engine.h"
 #include "sharding/sharding_manager.h"
+#ifdef THEMIS_ENABLE_GRPC
+#include "sharding/shard_artifact_fragment_store.h"
+#include "sharding/shard_rpc_server.h"
+#endif
 #include "core/concerns/concerns_context.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
@@ -1689,6 +1693,118 @@ int main(int argc, char* argv[]) {
          !(*cfg)["sharding"].contains("shards") ||
          (*cfg)["sharding"]["shards"].size() <= 1)) {
         local_shard_id = "shard-0";
+    }
+
+#ifdef THEMIS_ENABLE_GRPC
+    std::shared_ptr<themis::sharding::ShardArtifactFragmentStore> tensor_fragment_store;
+    std::unique_ptr<themis::sharding::ShardRPCServer> tensor_fragment_rpc_server;
+#endif
+    if (cfg && cfg->contains("sharding") &&
+        (*cfg)["sharding"].contains("tensor_fragment_rpc")) {
+        const auto& fragment_rpc_cfg = (*cfg)["sharding"]["tensor_fragment_rpc"];
+        if (!fragment_rpc_cfg.is_object()) {
+            THEMIS_CRITICAL("sharding.tensor_fragment_rpc must be an object");
+            return 1;
+        }
+        if (fragment_rpc_cfg.value("enabled", false)) {
+#ifdef THEMIS_ENABLE_GRPC
+            bool explicit_shard_id = false;
+            if ((*cfg)["sharding"].contains("shard_id")) {
+                explicit_shard_id = !(*cfg)["sharding"].value("shard_id", std::string{}).empty();
+            }
+            if (const char* env_shard_id = std::getenv("SHARD_ID")) {
+                explicit_shard_id = explicit_shard_id || *env_shard_id != '\0';
+            }
+            if (!explicit_shard_id || local_shard_id.empty()) {
+                THEMIS_CRITICAL(
+                    "Tensor fragment RPC requires an explicit sharding.shard_id or non-empty SHARD_ID");
+                return 1;
+            }
+            if (!fragment_rpc_cfg.contains("identity_bindings") ||
+                !fragment_rpc_cfg["identity_bindings"].is_array() ||
+                fragment_rpc_cfg["identity_bindings"].empty()) {
+                THEMIS_CRITICAL(
+                    "Tensor fragment RPC requires explicit mTLS identity_bindings");
+                return 1;
+            }
+
+            themis::sharding::ShardRPCServer::Config fragment_server_cfg;
+            fragment_server_cfg.listen_address =
+                fragment_rpc_cfg.value("listen_address", std::string{});
+            fragment_server_cfg.enable_mtls = true;
+            fragment_server_cfg.tls_require_client_cert = true;
+            fragment_server_cfg.tls_cert_path =
+                fragment_rpc_cfg.value("tls_cert_path", std::string{});
+            fragment_server_cfg.tls_key_path =
+                fragment_rpc_cfg.value("tls_key_path", std::string{});
+            fragment_server_cfg.tls_ca_cert_path =
+                fragment_rpc_cfg.value("tls_ca_cert_path", std::string{});
+            fragment_server_cfg.tensor_fragment_shard_id = local_shard_id;
+            fragment_server_cfg.max_tensor_fragment_bytes =
+                fragment_rpc_cfg.value("max_tensor_fragment_bytes",
+                    uint64_t{64ULL * 1024ULL * 1024ULL});
+            fragment_server_cfg.tensor_fragment_chunk_bytes =
+                fragment_rpc_cfg.value("chunk_bytes", uint32_t{1024U * 1024U});
+            fragment_server_cfg.tensor_fragment_max_deadline_ms =
+                fragment_rpc_cfg.value("max_deadline_ms", uint32_t{30000U});
+
+            for (const auto& binding : fragment_rpc_cfg["identity_bindings"]) {
+                if (!binding.is_object()) {
+                    THEMIS_CRITICAL("Each tensor fragment identity binding must be an object");
+                    return 1;
+                }
+                themis::sharding::ShardRPCServer::Config::FragmentFetchIdentityBinding
+                    identity_binding;
+                identity_binding.property_name =
+                    binding.value("property_name", std::string{});
+                identity_binding.property_value =
+                    binding.value("property_value", std::string{});
+                identity_binding.principal_id =
+                    binding.value("principal_id", std::string{});
+                if (identity_binding.property_name.empty() ||
+                    identity_binding.property_value.empty() ||
+                    identity_binding.principal_id.empty()) {
+                    THEMIS_CRITICAL(
+                        "Tensor fragment identity bindings require property_name, property_value, and principal_id");
+                    return 1;
+                }
+                fragment_server_cfg.tensor_fragment_identity_bindings.emplace_back(
+                    std::move(identity_binding));
+            }
+
+            try {
+                tensor_fragment_store =
+                    std::make_shared<themis::sharding::ShardArtifactFragmentStore>(
+                        db, fragment_server_cfg.max_tensor_fragment_bytes);
+            } catch (const std::exception& error) {
+                THEMIS_CRITICAL("Unable to initialize tensor fragment storage: {}", error.what());
+                return 1;
+            }
+            fragment_server_cfg.tensor_fragment_reader =
+                [tensor_fragment_store](
+                    const std::string& principal_id,
+                    const std::string& shard_id,
+                    const std::string& artifact_id,
+                    uint64_t max_bytes) {
+                    return tensor_fragment_store->read(
+                        principal_id, shard_id, artifact_id, max_bytes);
+                };
+
+            tensor_fragment_rpc_server =
+                std::make_unique<themis::sharding::ShardRPCServer>(fragment_server_cfg);
+            if (!tensor_fragment_rpc_server->start()) {
+                THEMIS_CRITICAL("Tensor fragment ShardRPC server failed to start; startup aborted");
+                return 1;
+            }
+            THEMIS_INFO(
+                "Tensor fragment ShardRPC server listening on {} for shard {}",
+                fragment_server_cfg.listen_address, local_shard_id);
+#else
+            THEMIS_CRITICAL(
+                "Tensor fragment RPC is enabled in configuration, but this binary lacks gRPC support");
+            return 1;
+#endif
+        }
     }
 
     // Create and start HTTP server
@@ -3351,6 +3467,15 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
+
+#ifdef THEMIS_ENABLE_GRPC
+        if (tensor_fragment_rpc_server) {
+            THEMIS_INFO("Stopping tensor fragment ShardRPC server...");
+            tensor_fragment_rpc_server->stop();
+            tensor_fragment_rpc_server.reset();
+        }
+        tensor_fragment_store.reset();
+#endif
         
         // Stop WALShipper before other services
         if (g_wal_shipper) {

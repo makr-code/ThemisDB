@@ -18,6 +18,63 @@ import time
 import uuid
 
 
+BENCHMARKS_DIR = Path(__file__).resolve().parents[1]
+
+
+def load_workload_links(directory=BENCHMARKS_DIR):
+    """Load exact links only if the catalog and every reference are valid."""
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key")
+            result[key] = value
+        return result
+
+    try:
+        def read(name):
+            return json.loads((directory / name).read_text(encoding="utf-8-sig"),
+                              object_pairs_hook=unique_object)
+        mapping = read("benchmark_suite_map.json")
+        if mapping["workload_profile_catalog"] != "workload_profiles.json":
+            raise ValueError("unexpected workload profile catalog")
+        profiles = read("workload_profiles.json")["profiles"]
+        ids = [p["workload_id"] for p in profiles]
+        if not ids or any(not isinstance(i, str) or not i for i in ids) or len(set(ids)) != len(ids):
+            raise ValueError("invalid or duplicate workload profile IDs")
+        links = {}
+        for target, entries in mapping["observed_case_workload_links"].items():
+            if not isinstance(target, str) or not target:
+                raise ValueError("invalid workload link target")
+            for entry in entries if isinstance(entries, list) else [entries]:
+                profile_id = entry["workload_id"]
+                cases = entry["exact_observed_cases"]
+                if profile_id not in ids or not isinstance(cases, list) or not cases:
+                    raise ValueError("invalid workload link or profile reference")
+                for case in cases:
+                    if not isinstance(case, str) or not case:
+                        raise ValueError("invalid workload link case")
+                    links.setdefault((target, case), set()).add(profile_id)
+        return links
+    except (OSError, UnicodeError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        print(f"Warning: workload links unavailable: {exc}", file=sys.stderr)
+        return {}
+
+
+def resolve_workload_id(target, observed_name, links=None):
+    """Return one exact profile ID, or None for unknown/ambiguous observations."""
+    if not isinstance(target, str) or not isinstance(observed_name, str):
+        return None
+    target_name = Path(target).stem
+    candidates = set()
+    for (linked_target, linked_case), profile_ids in (load_workload_links() if links is None else links).items():
+        if linked_target == target_name and linked_case == observed_name:
+            candidates.update(profile_ids)
+    if len(candidates) == 1:
+        return next(iter(candidates))
+    return None
+
+
 def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     scratch = path.with_name(path.name + "." + uuid.uuid4().hex)
@@ -72,7 +129,7 @@ def prepare(args):
         for item in registry:
             relative = (str(Path(item["result"]).relative_to(results))
                         if item["result"] is not None else None)
-            tests.append({**item, "result": relative, "result_path_at_run": item["result"],
+            tests.append({**item, "workload_id": None, "result": relative, "result_path_at_run": item["result"],
                           "result_relative": relative,
                           "execution_status": "unknown", "json_status": "unknown",
                           "build_status": ("unknown" if item["executable"] is None else
@@ -91,7 +148,7 @@ def prepare(args):
         raise
 
 
-def read_result(path):
+def read_result(path, target=None):
     try:
         text = path.read_text(encoding="utf-8")
     except FileNotFoundError:
@@ -106,6 +163,7 @@ def read_result(path):
                 or not row["name"] for row in rows):
             raise ValueError("invalid benchmarks")
         cases = []
+        links = load_workload_links()
         for row in rows:
             is_error = row.get("error_occurred") is True
             is_skipped = row.get("skipped") is True
@@ -115,6 +173,7 @@ def read_result(path):
                 "error_message": row.get("error_message") if is_error else None,
                 "skip_message": row.get("skip_message") if is_skipped else None,
                 "elapsed_seconds": None,
+                "workload_id": resolve_workload_id(target, row["name"], links),
             })
         return "valid", cases
     except (ValueError, KeyError, TypeError):
@@ -193,7 +252,7 @@ def run(args):
         data["build_status"] = "present" if Path(entry["executable"]).exists() else "unknown"
         data["execution_status"] = "launch_failure"
     data["elapsed_seconds"] = time.monotonic() - started
-    data["json_status"], data["cases"] = read_result(staged_result)
+    data["json_status"], data["cases"] = read_result(staged_result, entry.get("target"))
     if data["json_status"] == "valid":
         data["observation_path"] = str(staged_result)
         data["observation_relative"] = str(staged_result.relative_to(results))

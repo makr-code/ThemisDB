@@ -480,12 +480,31 @@ public:
         };
 
         explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
+        /**
+         * @brief Begin a transaction with an explicit synchronous WAL policy.
+         * @param db Borrowed open database; it must outlive the transaction.
+         * @param isolation Transaction isolation level.
+         * @param synchronous_wal When true, enable the WAL and sync its commit
+         *        independently of the database's default write options.
+         * @note A failed transaction creation leaves the wrapper inactive.
+         */
+        TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation,
+                           bool synchronous_wal);
         ~TransactionWrapper();
 
         /// @brief Get a value with isolation-dependent behavior.
         /// @param key Lookup key.
         /// @return Value bytes if found.
         std::optional<std::vector<uint8_t>> get(std::string_view key);
+
+        /**
+         * @brief Read a transaction value without conflating absence with storage failure.
+         * @param key Lookup key.
+         * @return The value, an empty optional if the key is absent, or an error
+         *         if the transaction is inactive or RocksDB cannot read the key.
+         */
+        [[nodiscard]] Result<std::optional<std::vector<uint8_t>>> getChecked(
+            std::string_view key);
 
         /// @brief Acquire an exclusive write lock on a key.
         /// @param key Lookup key.
@@ -577,6 +596,16 @@ public:
     };
 
     std::unique_ptr<TransactionWrapper> beginTransaction(TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
+
+    /**
+     * @brief Create a transaction whose writes use a synchronous RocksDB WAL.
+     * @param isolation Transaction isolation level.
+     * @return Transaction wrapper; check isActive() before use.
+     * @note The database must outlive the wrapper and must not be closed while
+     *       it is active. Only this transaction's write options are changed.
+     */
+    [[nodiscard]] std::unique_ptr<TransactionWrapper> beginDurableTransaction(
+        TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
 
     // ===== Iteration / Scanning =====
 

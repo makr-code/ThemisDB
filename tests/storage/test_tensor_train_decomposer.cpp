@@ -40,6 +40,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 #include <numeric>
 #include <random>
 #include <vector>
@@ -204,6 +205,50 @@ TEST_F(TensorTrainDecomposerTest, TTD09_SerializeDeserializeRoundTrip) {
     EXPECT_EQ(loaded->order(), train.order());
     EXPECT_EQ(loaded->mode_sizes, train.mode_sizes);
     EXPECT_EQ(loaded->cores.size(), train.cores.size());
+}
+
+TEST(TensorTrainDecodeTest, RejectsTruncationTrailingBytesAndForgedLengths) {
+    TTTrain train;
+    train.mode_sizes = {2};
+    TTCore core;
+    core.n = 2;
+    core.data = {1.0f, 2.0f};
+    train.cores.push_back(core);
+    const auto bytes = train.serialize();
+    ASSERT_TRUE(TTTrain::deserialize(bytes));
+
+    for (std::size_t length = 0; length < bytes.size(); ++length) {
+        EXPECT_FALSE(TTTrain::deserialize(
+            std::vector<uint8_t>(bytes.begin(), bytes.begin() + length)))
+            << "accepted truncated prefix of length " << length;
+    }
+
+    auto trailing = bytes;
+    trailing.push_back(0);
+    EXPECT_FALSE(TTTrain::deserialize(trailing));
+
+    const auto setU64 = [](std::vector<uint8_t>& data, std::size_t offset,
+                           uint64_t value) {
+        for (unsigned i = 0; i < 8; ++i) {
+            data[offset + i] = static_cast<uint8_t>(value >> (8 * i));
+        }
+    };
+    auto forged_order = bytes;
+    setU64(forged_order, 0, std::numeric_limits<uint64_t>::max());
+    EXPECT_FALSE(TTTrain::deserialize(forged_order));
+
+    auto forged_core_count = bytes;
+    setU64(forged_core_count, 32, std::numeric_limits<uint64_t>::max());
+    EXPECT_FALSE(TTTrain::deserialize(forged_core_count));
+
+    auto overflowing_shape = bytes;
+    setU64(overflowing_shape, 40, std::numeric_limits<uint64_t>::max());
+    setU64(overflowing_shape, 48, 2);
+    EXPECT_FALSE(TTTrain::deserialize(overflowing_shape));
+
+    auto oversized_core = bytes;
+    setU64(oversized_core, 48, 3);
+    EXPECT_FALSE(TTTrain::deserialize(oversized_core));
 }
 
 // TTD-10: decomposeF64

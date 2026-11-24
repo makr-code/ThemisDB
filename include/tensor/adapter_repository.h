@@ -141,6 +141,14 @@ public:
      */
     AdapterRepository() : AdapterRepository(std::make_shared<storage::InMemoryTensorBackend>(), "default") {}
 
+    /**
+     * @brief Return the tenant namespace fixed when this repository was created.
+     * @return Borrowed reference valid while this repository remains alive.
+     * @note This value identifies the storage namespace; it does not authenticate
+     *       or authorize the caller.
+     */
+    [[nodiscard]] const std::string& tenantId() const noexcept { return tenant_id_; }
+
     // ─── Write API ───────────────────────────────────────────────────────────
 
     /**
@@ -155,7 +163,9 @@ public:
      * @param adapter_train  TT-format adapter weights.
      * @param meta           Optional provenance metadata.
      *
-     * @return true on success, false if serialisation or backend write failed.
+     * @return true on success; false for invalid identifiers or tensor shape,
+     *         or if serialization or the backend write failed.
+     * @throws std::runtime_error if the backend cannot read an existing record.
      */
     [[nodiscard]] bool store(const std::string&      domain,
                               const std::string&      base_model_id,

@@ -126,6 +126,34 @@ std::optional<std::string> resolveRaftNodeId(
     return resolved_node_id;
 }
 
+std::optional<std::string> resolveFragmentPrincipal(
+    const AuthenticatedPeerIdentity& peer_identity,
+    const std::vector<ShardRPCServer::Config::FragmentFetchIdentityBinding>& bindings) {
+    std::optional<std::string> resolved_principal;
+    for (const auto& binding : bindings) {
+        if (binding.property_name != peer_identity.property_name) {
+            continue;
+        }
+        for (const auto& value : peer_identity.values) {
+            if (binding.property_value != value) {
+                continue;
+            }
+            if (resolved_principal && *resolved_principal != binding.principal_id) {
+                return std::nullopt;
+            }
+            resolved_principal = binding.principal_id;
+        }
+    }
+    return resolved_principal;
+}
+
+bool isLowercaseSha256(const std::string& digest) {
+    return digest.size() == 64 &&
+           std::all_of(digest.begin(), digest.end(), [](unsigned char ch) {
+               return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f');
+           });
+}
+
 } // namespace
 
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
@@ -140,6 +168,13 @@ public:
         std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings,
         std::shared_ptr<ShardTransferStore> transfer_store,
         std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings,
+        std::string tensor_fragment_shard_id,
+        ShardRPCServer::Config::TensorFragmentReader tensor_fragment_reader,
+        std::vector<ShardRPCServer::Config::FragmentFetchIdentityBinding>
+            tensor_fragment_identity_bindings,
+        uint64_t max_tensor_fragment_bytes,
+        uint32_t tensor_fragment_chunk_bytes,
+        uint32_t tensor_fragment_max_deadline_ms,
         std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
             const std::string&)> raft_group_resolver,
         std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings)
@@ -147,6 +182,13 @@ public:
           identity_bindings_(std::move(identity_bindings)),
           transfer_store_(std::move(transfer_store)),
           transfer_bindings_(std::move(transfer_bindings)),
+          tensor_fragment_shard_id_(std::move(tensor_fragment_shard_id)),
+          tensor_fragment_reader_(std::move(tensor_fragment_reader)),
+          tensor_fragment_identity_bindings_(
+              std::move(tensor_fragment_identity_bindings)),
+          max_tensor_fragment_bytes_(max_tensor_fragment_bytes),
+          tensor_fragment_chunk_bytes_(tensor_fragment_chunk_bytes),
+          tensor_fragment_max_deadline_ms_(tensor_fragment_max_deadline_ms),
           raft_group_resolver_(std::move(raft_group_resolver)),
           raft_identity_bindings_(std::move(raft_identity_bindings)) {}
 
@@ -218,6 +260,91 @@ public:
         return withTransferPrincipal(context, [&](const std::string& principal) {
             transfer_store_->abort(request->migration_id(), principal);
             response->set_aborted(true);
+            return grpc::Status::OK;
+        });
+    }
+
+    grpc::Status FetchTensorFragment(
+        grpc::ServerContext* context,
+        const proto::FetchTensorFragmentRequest* request,
+        grpc::ServerWriter<proto::FetchTensorFragmentChunk>* writer) override {
+        return withFragmentPrincipal(context, [&](const std::string& principal) {
+            if (request->shard_id() != tensor_fragment_shard_id_) {
+                return grpc::Status(grpc::StatusCode::PERMISSION_DENIED,
+                                    "requested shard is not served by this endpoint");
+            }
+            if (request->artifact_id().empty() ||
+                request->correlation_id().size() > 256 ||
+                request->max_bytes() == 0 ||
+                request->max_bytes() > max_tensor_fragment_bytes_) {
+                return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT,
+                                    "invalid tensor fragment request bounds");
+            }
+
+            std::optional<TensorFragmentPayload> payload;
+            try {
+                payload = tensor_fragment_reader_(
+                    principal, tensor_fragment_shard_id_, request->artifact_id(),
+                    request->max_bytes());
+            } catch (const std::invalid_argument&) {
+                return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT,
+                                    "invalid tensor fragment request");
+            } catch (const std::exception& error) {
+                THEMIS_ERROR("Tensor fragment storage reader failed: {}", error.what());
+                return grpc::Status(grpc::StatusCode::INTERNAL,
+                                    "tensor fragment storage read failed");
+            } catch (...) {
+                return grpc::Status(grpc::StatusCode::INTERNAL,
+                                    "tensor fragment storage read failed");
+            }
+            if (!payload) {
+                return grpc::Status(grpc::StatusCode::NOT_FOUND,
+                                    "tensor fragment not found");
+            }
+            if (payload->bytes.size() > request->max_bytes() ||
+                payload->bytes.size() > max_tensor_fragment_bytes_) {
+                return grpc::Status(grpc::StatusCode::RESOURCE_EXHAUSTED,
+                                    "tensor fragment exceeds the requested limit");
+            }
+            if (!isLowercaseSha256(payload->sha256)) {
+                return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION,
+                                    "storage reader returned an invalid SHA-256 digest");
+            }
+
+            const auto total_size = static_cast<uint64_t>(payload->bytes.size());
+            const auto frame_count = total_size == 0
+                ? 1
+                : 1 + (total_size - 1) / tensor_fragment_chunk_bytes_;
+            uint64_t offset = 0;
+            for (uint64_t sequence = 0; sequence < frame_count; ++sequence) {
+                if (context->IsCancelled()) {
+                    return grpc::Status(grpc::StatusCode::CANCELLED,
+                                        "tensor fragment stream cancelled");
+                }
+                const auto frame_size = static_cast<std::size_t>(
+                    std::min<uint64_t>(tensor_fragment_chunk_bytes_,
+                                       total_size - offset));
+                proto::FetchTensorFragmentChunk frame;
+                frame.set_shard_id(tensor_fragment_shard_id_);
+                frame.set_artifact_id(request->artifact_id());
+                frame.set_correlation_id(request->correlation_id());
+                frame.set_sequence(sequence);
+                frame.set_total_size_bytes(total_size);
+                frame.set_content_sha256(payload->sha256);
+                frame.set_is_final(sequence + 1 == frame_count);
+                if (frame_size == 0) {
+                    frame.set_payload("", 0);
+                } else {
+                    frame.set_payload(
+                        reinterpret_cast<const char*>(payload->bytes.data() + offset),
+                        frame_size);
+                }
+                if (!writer->Write(frame)) {
+                    return grpc::Status(grpc::StatusCode::CANCELLED,
+                                        "tensor fragment stream interrupted");
+                }
+                offset += frame_size;
+            }
             return grpc::Status::OK;
         });
     }
@@ -583,10 +710,52 @@ private:
         }
     }
 
+    template <typename Operation>
+    grpc::Status withFragmentPrincipal(grpc::ServerContext* context,
+                                       Operation&& operation) {
+        if (!tensor_fragment_reader_) {
+            return {grpc::StatusCode::FAILED_PRECONDITION,
+                    "no tensor fragment storage reader configured"};
+        }
+        const auto now = std::chrono::system_clock::now();
+        if (!context || context->deadline() <= now ||
+            context->deadline() >
+                now + std::chrono::milliseconds(tensor_fragment_max_deadline_ms_)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "tensor fragment deadline is missing or exceeds the configured maximum"};
+        }
+        try {
+            const auto peer = getAuthenticatedPeerIdentity(context);
+            if (!peer) {
+                return {grpc::StatusCode::UNAUTHENTICATED,
+                        "verified X.509 peer required"};
+            }
+            const auto principal = resolveFragmentPrincipal(
+                *peer, tensor_fragment_identity_bindings_);
+            if (!principal) {
+                return {grpc::StatusCode::PERMISSION_DENIED,
+                        "no matching tensor fragment principal"};
+            }
+            return operation(*principal);
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("Tensor fragment RPC failed: {}", error.what());
+            return {grpc::StatusCode::INTERNAL, "tensor fragment RPC failed"};
+        } catch (...) {
+            return {grpc::StatusCode::INTERNAL, "tensor fragment RPC failed"};
+        }
+    }
+
     ShardRPCServer::RequestHandler* handler_;
     std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings_;
     std::shared_ptr<ShardTransferStore> transfer_store_;
     std::vector<ShardRPCServer::CoordinatorIdentityBinding> transfer_bindings_;
+    std::string tensor_fragment_shard_id_;
+    ShardRPCServer::Config::TensorFragmentReader tensor_fragment_reader_;
+    std::vector<ShardRPCServer::Config::FragmentFetchIdentityBinding>
+        tensor_fragment_identity_bindings_;
+    uint64_t max_tensor_fragment_bytes_;
+    uint32_t tensor_fragment_chunk_bytes_;
+    uint32_t tensor_fragment_max_deadline_ms_;
     std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
         const std::string&)> raft_group_resolver_;
     std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings_;
@@ -660,6 +829,31 @@ bool ShardRPCServer::start() {
                 "ShardRPCServer: transfer storage requires verified mTLS and transfer identities");
         }
 
+        const bool has_tensor_fragment_reader =
+            static_cast<bool>(impl_->config.tensor_fragment_reader);
+        if (has_tensor_fragment_reader !=
+                !impl_->config.tensor_fragment_identity_bindings.empty() ||
+            has_tensor_fragment_reader !=
+                !impl_->config.tensor_fragment_shard_id.empty()) {
+            throw std::runtime_error(
+                "ShardRPCServer: tensor fragment serving requires a local shard ID, "
+                "storage reader, and explicit identity bindings");
+        }
+        if (has_tensor_fragment_reader &&
+            (!impl_->config.enable_mtls || !impl_->config.tls_require_client_cert ||
+             impl_->config.max_tensor_fragment_bytes == 0 ||
+             impl_->config.max_tensor_fragment_bytes > (1ULL << 30) ||
+             impl_->config.tensor_fragment_chunk_bytes == 0 ||
+             impl_->config.tensor_fragment_chunk_bytes > (4U * 1024U * 1024U) ||
+             1 + (impl_->config.max_tensor_fragment_bytes - 1) /
+                     impl_->config.tensor_fragment_chunk_bytes > 4096 ||
+             impl_->config.tensor_fragment_max_deadline_ms == 0 ||
+             impl_->config.tensor_fragment_max_deadline_ms > 30000)) {
+            throw std::runtime_error(
+                "ShardRPCServer: tensor fragment serving requires verified mTLS "
+                "and bounded byte, frame, and deadline limits");
+        }
+
         const auto validate_bindings = [](const auto& bindings) {
             std::set<std::pair<std::string, std::string>> configured_identities;
             for (const auto& binding : bindings) {
@@ -676,6 +870,19 @@ bool ShardRPCServer::start() {
         };
         validate_bindings(impl_->config.coordinator_identity_bindings);
         validate_bindings(impl_->config.transfer_identity_bindings);
+
+        std::set<std::pair<std::string, std::string>> fragment_identities;
+        for (const auto& binding :
+             impl_->config.tensor_fragment_identity_bindings) {
+            if (binding.property_name.rfind("x509_", 0) != 0 ||
+                binding.property_value.empty() || binding.principal_id.empty() ||
+                !fragment_identities.emplace(binding.property_name,
+                                             binding.property_value).second) {
+                throw std::runtime_error(
+                    "ShardRPCServer: tensor fragment identities must be unique, "
+                    "non-empty X.509 mappings");
+            }
+        }
 
         if (static_cast<bool>(impl_->config.raft_group_resolver) !=
             !impl_->config.raft_identity_bindings.empty()) {
@@ -701,6 +908,12 @@ bool ShardRPCServer::start() {
         impl_->service = std::make_unique<ShardServiceImpl>(
             impl_->handler, impl_->config.coordinator_identity_bindings,
             impl_->config.transfer_store, impl_->config.transfer_identity_bindings,
+            impl_->config.tensor_fragment_shard_id,
+            impl_->config.tensor_fragment_reader,
+            impl_->config.tensor_fragment_identity_bindings,
+            impl_->config.max_tensor_fragment_bytes,
+            impl_->config.tensor_fragment_chunk_bytes,
+            impl_->config.tensor_fragment_max_deadline_ms,
             impl_->config.raft_group_resolver, impl_->config.raft_identity_bindings);
         impl_->service->setImplRef(impl_->listen_address);
         

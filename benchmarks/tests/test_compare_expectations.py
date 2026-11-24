@@ -320,6 +320,24 @@ class ComparatorHardeningTests(unittest.TestCase):
             with self.subTest(text=text):
                 self.assertEqual(_parse_constraint(text), expected)
 
+    def test_per_sample_threshold_is_not_compared_as_elapsed_time(self):
+        expectation_text = "≤ 100 ns/sample"
+        result = BenchmarkResult("BM_Read", real_time_ns=1)
+
+        verdict = self.verdict(expectation_text, {"BM_Read": result})
+
+        self.assertEqual(verdict.status, "UNCHECKED")
+        self.assertIn("Unsupported or unspecified constraint unit", verdict.detail)
+
+    def test_unverified_time_counter_does_not_fall_back_to_elapsed_time(self):
+        expectation_text = "≤ 100 ns (benchmark counter: work_ns_per_sample)"
+        result = BenchmarkResult("BM_Read", real_time_ns=1)
+
+        verdict = self.verdict(expectation_text, {"BM_Read": result})
+
+        self.assertEqual(verdict.status, "UNCHECKED")
+        self.assertIn("Time benchmark-counter units are not verified", verdict.detail)
+
     def test_separate_threshold_column_keeps_context_and_case(self):
         with workspace() as root:
             path = root / "PERFORMANCE_EXPECTATIONS.md"
@@ -542,6 +560,27 @@ class ComparatorHardeningTests(unittest.TestCase):
             }, tx8.benchmark_cases).status,
             "FAIL",
         )
+
+    def test_missing_transaction_percentage_counter_is_not_a_latency_pass(self):
+        expectation_file = (
+            Path(__file__).resolve().parents[2]
+            / "src" / "transaction" / "PERFORMANCE_EXPECTATIONS.md"
+        )
+        tx7 = next(
+            expectation
+            for expectation in _parse_performance_expectations(
+                expectation_file, "transaction"
+            )
+            if expectation.target_id == "TX-7"
+        )
+        result = BenchmarkResult(tx7.benchmark_cases[0], real_time_ns=1)
+
+        verdict = _evaluate_expectation(
+            tx7, {result.name: result}
+        )
+
+        self.assertEqual(verdict.status, "UNCHECKED")
+        self.assertIn("unavailable for unit '%'", verdict.detail)
 
     def test_transaction_saga_latency_maps_to_largest_measured_write_case(self):
         repository_root = Path(__file__).resolve().parents[2]

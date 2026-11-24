@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-02"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-23"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -107,7 +107,51 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 - [x] harden long-running reliability under sustained multi-tenant index pressure (Target: Q1 2027)
   - **Evidence**: `IndexSoak_ConcurrentAccessReliability` validates 4 writer + 4 reader threads for the full soak window without data races
 
+### Secondary Range Index Correctness and Migration
+- [x] Define a typed range-value and mixed-type comparison contract shared by index scans, AQL predicates, and sorting (Target: Q1 2027)
+- [x] Add a range-index-specific versioned key codec; do not change the shared `encodeKeyComponent()` format used by equality, sparse, full-text, and partial indexes (Target: Q1 2027)
+  - Implementation: v1 range keys use `ridx:v1:<table>:<column>:<encoded-value>:<pk>` and a separate decimal/exponent/text encoder.
+  - Evidence: `tests/test_range_index.cpp` covers v1 creation, positive/negative decimals, integers, text, restart, update/delete, legacy migration, and rebuild resume.
+- [x] Backfill existing records and migrate persisted range indexes without exposing partially rebuilt keys; interrupted migration must resume safely or leave the index explicitly unavailable (Target: Q1 2027)
+  - Implementation: `createRangeIndex()`/`dropRangeIndex()` now use atomic write batches and backfill relational records.
+  - Evidence: create/backfill, legacy-marker migration, RocksDB close/open restart, and interrupted rebuild resume are covered by focused RangeIndexTests.
+- [x] Keep insert, update, and delete maintenance on the same codec and reject or safely scan values outside the index's declared type contract (Target: Q1 2027)
+- [~] Validate negative integers, positive/negative decimals, exponent notation, integer precision boundaries, mixed numeric/text values, null/missing fields, inclusive/exclusive bounds, and restart/rebuild behavior (Target: Q1 2027)
+  - Evidence: 16 RangeIndexTests pass for lifecycle, bound, update/delete, restart, legacy migration, and rebuild resume.
+  - Remaining: independent storage-crash subprocess and high-volume stress evidence.
+- [ ] Measure range-scan correctness and rebuild cost on deterministic fixtures; document operator migration, rollback, and unsupported-query behavior (Target: Q1 2027)
+
 ## Implementation Phases
+
+### Secondary Range Index Correctness and Migration
+
+#### Phase 1: Design / API Contract
+- [x] Define how typed integers, floating-point values, numeric strings, and ordinary strings compare in AQL predicates and ordering; specify behavior for mixed-type columns (Target: Q1 2027)
+- [x] Define a versioned range-index metadata contract and the observable state for an absent, rebuilding, active, or invalidated index (Target: Q1 2027)
+
+#### Phase 2: Core Implementation
+- [x] Implement a range-index-specific order-preserving codec without changing shared equality/sparse/full-text/partial key encoding (Target: Q1 2027)
+- [x] Backfill records present when a range index is created and use the same typed codec for subsequent inserts, updates, and deletes (Target: Q1 2027)
+
+#### Phase 3: Error Handling and Edge Cases
+- [x] Use exact full-scan filtering and ordering for indexed query range paths until legacy key ordering is proven safe (implementation updated 2026-11-23; 16 RangeIndexTests pass; regressions: `RangePredicatesUseExactFilteringForNegativeDecimals`, `RangeOrderByUsesExactNumericOrderingAndCursor`)
+- [x] Compare valid decimal/exponent range values without floating-point precision loss; define numeric-before-text ordering for mixed scalar values (implementation updated 2026-11-23; RangeIndexTest and QueryEngine regressions cover exact ordering)
+- [x] Reject or safely bypass index scans when persisted codec metadata is missing, unsupported, or inconsistent with a query's value types (Target: Q1 2027)
+- [x] Make rebuild publication atomic or keep the index unavailable until complete; interruption/retry must not expose partial keys or silently reactivate a generation that fails the declared semantics (Target: Q1 2027)
+
+#### Phase 4: Tests
+- [~] Add storage-backed regression tests for negative integers, positive/negative decimals, exponent notation, precision boundaries, mixed numeric/text fields, null/missing values, and inclusive/exclusive bounds (Target: Q1 2027)
+  - Evidence: 16 RangeIndexTests pass; exponent/precision regressions remain in focused QueryEngine coverage.
+- [x] Test create-after-data backfill, insert/update/delete maintenance, old-format migration, restart, and interrupted rebuild recovery (Target: Q1 2027)
+- [~] Verify AQL range predicates and sorted results against an exact full-scan oracle (Target: Q1 2027)
+
+#### Phase 5: Performance / Hardening
+- [ ] Measure deterministic scan selectivity, rebuild duration, and write overhead; set thresholds only from recorded baselines (Target: Q1 2027)
+- [ ] Stress concurrent writes and rebuilds; retain fail-closed behavior whenever index completeness or ordering cannot be proven (Target: Q1 2027)
+
+#### Phase 6: Documentation and Acceptance
+- [ ] Document the typed comparison contract, supported query paths, migration/recovery procedure, and rollback behavior in the index and AQL API docs (Target: Q1 2027)
+- [ ] Record focused test and benchmark evidence before marking range-index correctness complete (Target: Q1 2027)
 
 ### Phase 1: Design / API Contract — ANN Frontdoor (issue #5424)
 - [x] AnnFrontdoor abstraction API defined (`include/index/ann_frontdoor.h`)
@@ -180,6 +224,7 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 - distributed and advanced acceleration edge scenarios need continued hardening.
 - benchmark breadth should continue expanding for specialized index workflows.
 - shard-aware routing metadata (ShardMetadata) uses fixed defaults; real cost/freshness injection is future work.
+- Secondary range indexes use a dedicated v1 codec under `ridx:v1:<table>:<column>:...`; the shared component encoder remains unchanged. `createRangeIndex()` atomically backfills existing records and records active lifecycle state. Legacy range metadata/keys are migrated during create. Interrupted online rebuilds retain rebuilding state and stale shadow entries are cleared before resume. Direct v1 range scans use the exact relational-scan comparator until index-key iteration is independently hardened.
 
 ## Breaking Changes
 

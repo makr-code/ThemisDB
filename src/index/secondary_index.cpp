@@ -33,6 +33,8 @@
 #include <cstdio>
 #include <cctype>
 #include <chrono>
+#include <cstdint>
+#include <limits>
 #include <thread>
 #include "utils/geometric_distances.h"
 
@@ -47,6 +49,227 @@ namespace {
  */
 inline std::vector<uint8_t> toBytes(std::string_view sv) {
 	return std::vector<uint8_t>(sv.begin(), sv.end());
+}
+
+inline std::string encodeRangeDecimal_(std::string_view raw) {
+	std::string_view text = raw;
+	while (!text.empty() && std::isspace(static_cast<unsigned char>(text.front()))) text.remove_prefix(1);
+	while (!text.empty() && std::isspace(static_cast<unsigned char>(text.back()))) text.remove_suffix(1);
+	if (text.empty()) return {};
+
+	bool negative = false;
+	if (text.front() == '+' || text.front() == '-') {
+		negative = text.front() == '-';
+		text.remove_prefix(1);
+	}
+
+	const std::size_t exponent_pos = [&]() {
+		const std::size_t e = text.find_first_of("eE");
+		return e;
+	}();
+	std::string_view mantissa = exponent_pos == std::string_view::npos ? text : text.substr(0, exponent_pos);
+	int64_t explicit_exponent = 0;
+	if (exponent_pos != std::string_view::npos) {
+		std::string exponent_text(text.substr(exponent_pos + 1));
+		size_t consumed = 0;
+		try {
+			explicit_exponent = std::stoll(exponent_text, &consumed);
+			if (consumed != exponent_text.size()) return {};
+		} catch (...) {
+			return {};
+		}
+	}
+
+	std::string digits;
+	digits.reserve(mantissa.size());
+	std::size_t fractional_digits = 0;
+	bool seen_dot = false;
+	bool has_digit = false;
+	for (char ch : mantissa) {
+		if (ch == '.' && !seen_dot) {
+			seen_dot = true;
+			continue;
+		}
+		if (ch < '0' || ch > '9') return {};
+		has_digit = true;
+		digits.push_back(ch);
+		if (seen_dot) ++fractional_digits;
+	}
+	if (!has_digit) return {};
+
+	const std::size_t leading = digits.find_first_not_of('0');
+	if (leading == std::string::npos) return "N0";
+	digits.erase(0, leading);
+
+	if (fractional_digits > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()) ||
+		digits.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max())) {
+		return {};
+	}
+	const auto fractional_count = static_cast<int64_t>(fractional_digits);
+	if (explicit_exponent < std::numeric_limits<int64_t>::min() + fractional_count) {
+		return {};
+	}
+	int64_t decimal_exponent = explicit_exponent - fractional_count;
+	const auto exponent_adjustment = static_cast<int64_t>(digits.size()) - 1;
+	if (decimal_exponent > std::numeric_limits<int64_t>::max() - exponent_adjustment) {
+		return {};
+	}
+	decimal_exponent += exponent_adjustment;
+	constexpr int64_t kMaxExactDecimalExponent = 9007199254740991LL;
+	if (decimal_exponent < -kMaxExactDecimalExponent ||
+		decimal_exponent > kMaxExactDecimalExponent) {
+		return {};
+	}
+
+	while (digits.size() > 1 && digits.back() == '0') {
+		digits.pop_back();
+	}
+
+	const int64_t adjusted = decimal_exponent;
+	uint64_t biased = static_cast<uint64_t>(adjusted) ^ (uint64_t{1} << 63);
+	if (negative) {
+		biased = ~biased;
+	}
+	char exponent_hex[17];
+	for (size_t i = 0; i < 16; ++i) {
+		const unsigned nibble = static_cast<unsigned>((biased >> ((15 - i) * 4)) & 0x0F);
+		exponent_hex[i] = nibble < 10 ? static_cast<char>('0' + nibble) : static_cast<char>('a' + nibble - 10);
+	}
+	exponent_hex[16] = '\0';
+
+	std::string encoded;
+	encoded.reserve(19 + digits.size());
+	encoded.push_back('N');
+	encoded.push_back(negative ? '0' : '1');
+	encoded.append(exponent_hex);
+	if (negative) {
+		for (char ch : digits) {
+			encoded.push_back(static_cast<char>('9' - (ch - '0')));
+		}
+	} else {
+		encoded.append(digits);
+	}
+	return encoded;
+}
+
+inline bool tryParseRangeDecimal_(std::string_view raw, std::string& encoded) {
+	encoded = encodeRangeDecimal_(raw);
+	return !encoded.empty();
+}
+
+struct RangeDecimalParts {
+	bool numeric = false;
+	bool negative = false;
+	int64_t adjusted_exponent = 0;
+	std::string digits;
+};
+
+RangeDecimalParts parseRangeDecimalParts_(std::string_view raw) {
+	RangeDecimalParts parts;
+	std::string encoded;
+	if (!tryParseRangeDecimal_(raw, encoded) || encoded == "N0") {
+		if (encoded == "N0") {
+			parts.numeric = true;
+			parts.digits = "0";
+		}
+		return parts;
+	}
+	if (encoded.empty() || encoded[0] != 'N') return parts;
+
+	std::string_view text = raw;
+	while (!text.empty() && std::isspace(static_cast<unsigned char>(text.front()))) text.remove_prefix(1);
+	while (!text.empty() && std::isspace(static_cast<unsigned char>(text.back()))) text.remove_suffix(1);
+	if (text.empty()) return parts;
+	if (text.front() == '+' || text.front() == '-') {
+		parts.negative = text.front() == '-';
+		text.remove_prefix(1);
+	}
+	const std::size_t exponent_pos = text.find_first_of("eE");
+	std::string_view mantissa = exponent_pos == std::string_view::npos ? text : text.substr(0, exponent_pos);
+	int64_t explicit_exponent = 0;
+	if (exponent_pos != std::string_view::npos) {
+		try {
+			std::string exponent_text(text.substr(exponent_pos + 1));
+			std::size_t consumed = 0;
+			explicit_exponent = std::stoll(exponent_text, &consumed);
+			if (consumed != exponent_text.size()) return RangeDecimalParts{};
+		} catch (...) {
+			return RangeDecimalParts{};
+		}
+	}
+	std::string digits;
+	std::size_t fractional_digits = 0;
+	bool seen_dot = false;
+	bool has_digit = false;
+	for (char ch : mantissa) {
+		if (ch == '.' && !seen_dot) {
+			seen_dot = true;
+			continue;
+		}
+		if (ch < '0' || ch > '9') return RangeDecimalParts{};
+		has_digit = true;
+		digits.push_back(ch);
+		if (seen_dot) ++fractional_digits;
+	}
+	if (!has_digit) return RangeDecimalParts{};
+	const std::size_t leading = digits.find_first_not_of('0');
+	if (leading == std::string::npos) {
+		parts.numeric = true;
+		parts.digits = "0";
+		return parts;
+	}
+	digits.erase(0, leading);
+	if (fractional_digits > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()) ||
+	    digits.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max())) {
+		return RangeDecimalParts{};
+	}
+	const int64_t fractional_count = static_cast<int64_t>(fractional_digits);
+	if (explicit_exponent < std::numeric_limits<int64_t>::min() + fractional_count) return RangeDecimalParts{};
+	int64_t exponent = explicit_exponent - fractional_count;
+	const int64_t adjustment = static_cast<int64_t>(digits.size()) - 1;
+	if (exponent > std::numeric_limits<int64_t>::max() - adjustment) return RangeDecimalParts{};
+	exponent += adjustment;
+	while (digits.size() > 1 && digits.back() == '0') {
+		digits.pop_back();
+	}
+	parts.numeric = true;
+	parts.adjusted_exponent = exponent;
+	parts.digits = std::move(digits);
+	return parts;
+}
+
+int compareRangeDecimalParts_(const RangeDecimalParts& lhs, const RangeDecimalParts& rhs) {
+	if (!lhs.numeric && rhs.numeric) return 1;
+	if (lhs.numeric && !rhs.numeric) return -1;
+	if (!lhs.numeric || !rhs.numeric) return 0;
+	if (lhs.digits == "0" && rhs.digits == "0") return 0;
+	if (lhs.digits == "0") return lhs.negative ? 1 : -1;
+	if (rhs.digits == "0") return rhs.negative ? -1 : 1;
+	if (lhs.negative != rhs.negative) return lhs.negative ? -1 : 1;
+	int magnitude = 0;
+	if (lhs.adjusted_exponent != rhs.adjusted_exponent) {
+		magnitude = lhs.adjusted_exponent < rhs.adjusted_exponent ? -1 : 1;
+	} else {
+		const std::size_t width = std::max(lhs.digits.size(), rhs.digits.size());
+		std::string lhs_padded = lhs.digits;
+		std::string rhs_padded = rhs.digits;
+		lhs_padded.append(width - lhs_padded.size(), '0');
+		rhs_padded.append(width - rhs_padded.size(), '0');
+		magnitude = lhs_padded == rhs_padded ? 0 : (lhs_padded < rhs_padded ? -1 : 1);
+	}
+	return lhs.negative ? -magnitude : magnitude;
+}
+
+int compareRangeValue_(std::string_view lhs, std::string_view rhs) {
+	const auto lhs_parts = parseRangeDecimalParts_(lhs);
+	const auto rhs_parts = parseRangeDecimalParts_(rhs);
+	if (lhs_parts.numeric && rhs_parts.numeric) {
+		return compareRangeDecimalParts_(lhs_parts, rhs_parts);
+	}
+	if (lhs_parts.numeric != rhs_parts.numeric) {
+		return lhs_parts.numeric ? -1 : 1;
+	}
+	return lhs == rhs ? 0 : (lhs < rhs ? -1 : 1);
 }
 } // namespace
 /**
@@ -450,6 +673,10 @@ std::string SecondaryIndexManager::makeRangeIndexMetaKey(std::string_view table,
 	return std::string("ridxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
+std::string SecondaryIndexManager::makeRangeIndexStateKey(std::string_view table, std::string_view column) {
+	return std::string("ridxstate:") + std::string(table) + ":" + std::string(column);
+}
+
 /**
  * @brief static
  * @param[in] table Input parameter.
@@ -504,8 +731,14 @@ std::string SecondaryIndexManager::makeFulltextIndexMetaKey(std::string_view tab
  * @details Calls: std::string(), encodeKeyComponent().
  */
 std::string SecondaryIndexManager::makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
-	std::string key = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
-	key += encodeKeyComponent(value);
+	std::string key = "ridx:v1:" + std::string(table) + ":" + std::string(column) + ":";
+	std::string encoded;
+	if (tryParseRangeDecimal_(value, encoded)) {
+		key += encoded;
+	} else {
+		key.push_back('T');
+		key += encodeKeyComponent(value);
+	}
 	key += ":";
 	key += std::string(pk);
 	return key;
@@ -520,9 +753,15 @@ std::string SecondaryIndexManager::makeRangeIndexKey(std::string_view table, std
  * @details Calls: std::string(), empty(), encodeKeyComponent().
  */
 std::string SecondaryIndexManager::makeRangeIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix) {
-	std::string key = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
+	std::string key = "ridx:v1:" + std::string(table) + ":" + std::string(column) + ":";
 	if (!valuePrefix.empty()) {
-		key += encodeKeyComponent(valuePrefix);
+		std::string encoded;
+		if (tryParseRangeDecimal_(valuePrefix, encoded)) {
+			key += encoded;
+		} else {
+			key.push_back('T');
+			key += encodeKeyComponent(valuePrefix);
+		}
 		key += ":";
 	}
 	return key;
@@ -836,8 +1075,44 @@ SecondaryIndexManager::Status SecondaryIndexManager::createRangeIndex(std::strin
 		return Status::Error("createRangeIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
-	std::vector<uint8_t> marker = {1};
-	if (!db_.put(metaKey, marker)) {
+	const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
+	const std::string legacyPrefix = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
+	const std::string v1Prefix = "ridx:v1:" + std::string(table) + ":" + std::string(column) + ":";
+	auto batch = db_.createWriteBatch();
+	if (!batch) {
+		return Status::Error("createRangeIndex: Write-Batch konnte nicht erzeugt werden");
+	}
+
+	db_.scanPrefix(legacyPrefix, [&batch](std::string_view key, [[maybe_unused]] std::string_view value) {
+		batch->del(key);
+		return true;
+	});
+	db_.scanPrefix(v1Prefix, [&batch](std::string_view key, [[maybe_unused]] std::string_view value) {
+		batch->del(key);
+		return true;
+	});
+
+	db_.scanPrefix(entityPrefix, [this, &table, &column, &batch](std::string_view key, std::string_view value) {
+		const std::size_t separator = key.rfind(':');
+		if (separator == std::string_view::npos) {
+			return true;
+		}
+		const std::string pk(key.substr(separator + 1));
+		BaseEntity::Blob blob(value.begin(), value.end());
+		const BaseEntity entity = BaseEntity::deserialize(pk, blob);
+		const auto maybe = entity.extractField(column);
+		if (!maybe) {
+			return true;
+		}
+		const std::string rangeKey = makeRangeIndexKey(table, column, *maybe, pk);
+		batch->put(rangeKey, toBytes(pk));
+		return true;
+	});
+	const std::vector<uint8_t> marker = {'r', '1'};
+	batch->put(metaKey, marker);
+	const std::vector<uint8_t> state = {'a','c','t','i','v','e'};
+	batch->put(makeRangeIndexStateKey(table, column), state);
+	if (!batch->commit()) {
 	  return Status::Error("createRangeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
@@ -857,7 +1132,23 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropRangeIndex(std::string_
 	  return Status::Error("dropRangeIndex: table/column darf nicht leer sein");
 	}
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) {
+	const std::string legacyPrefix = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
+	const std::string v1Prefix = "ridx:v1:" + std::string(table) + ":" + std::string(column) + ":";
+	auto batch = db_.createWriteBatch();
+	if (!batch) {
+		return Status::Error("dropRangeIndex: Write-Batch konnte nicht erzeugt werden");
+	}
+	db_.scanPrefix(legacyPrefix, [&batch](std::string_view key, [[maybe_unused]] std::string_view value) {
+		batch->del(key);
+		return true;
+	});
+	db_.scanPrefix(v1Prefix, [&batch](std::string_view key, [[maybe_unused]] std::string_view value) {
+		batch->del(key);
+		return true;
+	});
+	batch->del(metaKey);
+	batch->del(makeRangeIndexStateKey(table, column));
+	if (!batch->commit()) {
 	  return Status::Error("dropRangeIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
@@ -867,7 +1158,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropRangeIndex(std::string_
 
 bool SecondaryIndexManager::hasRangeIndex(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
-	return db_.get(metaKey).has_value();
+	if (!db_.get(metaKey).has_value()) return false;
+	const auto state = db_.get(makeRangeIndexStateKey(table, column));
+	if (state.has_value()) {
+		const std::string stateValue(state->begin(), state->end());
+		return stateValue == "active";
+	}
+	return true;
 }
 
 /**
@@ -2824,27 +3121,95 @@ SecondaryIndexManager::scanKeysRange(
     std::vector<std::string> result;
     std::vector<std::string> reversed_result;
     std::string startKey, endKey;
+    const auto metadata = db_.get(makeRangeIndexMetaKey(table, column));
+    const bool is_v1 = metadata.has_value() && metadata->size() == 2 &&
+                       (*metadata)[0] == 'r' && (*metadata)[1] == '1';
+    const auto state = db_.get(makeRangeIndexStateKey(table, column));
+    if (state.has_value()) {
+        const std::string stateValue(state->begin(), state->end());
+        if (stateValue == "rebuilding" || stateValue == "invalid") {
+            return {Status::Error("scanKeysRange: Range-Index wird neu aufgebaut oder ist ungültig"), {}};
+        }
+    }
+    const std::string basePrefix = is_v1
+        ? "ridx:v1:" + std::string(table) + ":" + std::string(column) + ":"
+        : "ridx:" + std::string(table) + ":" + std::string(column) + ":";
+
+    if (is_v1) {
+        std::vector<std::pair<std::string, std::string>> exact_result;
+        uint64_t exact_steps = 0;
+        const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
+        db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view value) {
+            if ((exact_steps & 63U) == 0U && shouldStop()) {
+                return false;
+            }
+            ++exact_steps;
+            const std::size_t separator = key.rfind(':');
+            if (separator == std::string_view::npos) return true;
+            const std::string pk(key.substr(separator + 1));
+            const BaseEntity entity = BaseEntity::deserialize(
+                pk, BaseEntity::Blob(value.begin(), value.end()));
+            const auto field = entity.extractField(column);
+            if (!field) return true;
+            if (lower.has_value()) {
+                const int lower_cmp = compareRangeValue_(*field, *lower);
+                if (lower_cmp < 0 || (!includeLower && lower_cmp == 0)) return true;
+            }
+            if (upper.has_value()) {
+                const int upper_cmp = compareRangeValue_(*field, *upper);
+                if (upper_cmp > 0 || (!includeUpper && upper_cmp == 0)) return true;
+            }
+            exact_result.emplace_back(std::string(*field), pk);
+            return true;
+        });
+        query_metrics_.range_scan_steps_total.fetch_add(exact_steps, std::memory_order_relaxed);
+        if (shouldStop()) {
+            return stopped();
+        }
+        std::sort(exact_result.begin(), exact_result.end(),
+                  [reversed](const auto& lhs, const auto& rhs) {
+                      const int cmp = compareRangeValue_(lhs.first, rhs.first);
+                      if (cmp != 0) return reversed ? cmp > 0 : cmp < 0;
+                      return reversed ? lhs.second > rhs.second : lhs.second < rhs.second;
+                  });
+        if (exact_result.size() > limit) exact_result.resize(limit);
+        std::vector<std::string> exact_keys;
+        exact_keys.reserve(exact_result.size());
+        for (auto& entry : exact_result) exact_keys.emplace_back(std::move(entry.second));
+        return {Status::OK(), std::move(exact_keys)};
+    }
 
     // RocksDB scanRange is [start, end) - exclusive on end
     if (lower.has_value()) {
-        startKey = makeRangeIndexPrefix(table, column, *lower);
+        if (is_v1) {
+            startKey = makeRangeIndexPrefix(table, column, *lower);
+        } else {
+            startKey = basePrefix + encodeKeyComponent(*lower);
+            if (!includeLower) {
+                startKey += ":";
+            }
+        }
         // If lower is exclusive, seek past all keys with this value
-        if (!includeLower) {
+        if (is_v1 && !includeLower) {
             startKey += '\xFF'; // Skip to next value
         }
     } else {
-        startKey = std::string("ridx:") + std::string(table) + ":" + std::string(column) + ":";
+        startKey = basePrefix;
     }
 
     if (upper.has_value()) {
-        endKey = makeRangeIndexPrefix(table, column, *upper);
+        if (is_v1) {
+            endKey = makeRangeIndexPrefix(table, column, *upper);
+        } else {
+            endKey = basePrefix + encodeKeyComponent(*upper);
+        }
         // If upper is inclusive, extend range to include all keys with this value
         if (includeUpper) {
             endKey += '\xFF';
         }
         // else: scanRange is already exclusive on end, so we're good
     } else {
-        endKey = std::string("ridx:") + std::string(table) + ":" + std::string(column) + ":\xFF";
+        endKey = basePrefix + "\xFF";
     }
 
 	uint64_t steps = 0;
@@ -2928,7 +3293,16 @@ SecondaryIndexManager::scanKeysRange(
 		// 1) Innerhalb des gleichen Wertes selektieren
 		//    Für asc: PKs > anchorPk, für desc: PKs < anchorPk
 		{
-			std::string prefix = makeRangeIndexPrefix(table, column, anchorValue);
+			const auto metadata = db_.get(makeRangeIndexMetaKey(table, column));
+			const bool is_v1 = metadata.has_value() && metadata->size() == 2 &&
+			                   (*metadata)[0] == 'r' && (*metadata)[1] == '1';
+			std::string prefix;
+			if (is_v1) {
+				prefix = makeRangeIndexPrefix(table, column, anchorValue);
+			} else {
+				prefix = "ridx:" + std::string(table) + ":" + std::string(column) + ":" +
+				         encodeKeyComponent(anchorValue) + ":";
+			}
 			std::vector<std::string> sameValuePks;
 			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, [[maybe_unused]] std::string_view val){
 				size_t lastColon = key.rfind(':');
@@ -4398,7 +4772,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		livePrefix = std::string("sidx:") + table + ":" + column + ":";
 	} else if (db_.get(makeRangeIndexMetaKey(table, column)).has_value()) {
 		indexType = "range";
-		livePrefix = std::string("ridx:") + table + ":" + column + ":";
+		livePrefix = std::string("ridx:v1:") + table + ":" + column + ":";
 	} else if (column.find('+') != std::string::npos) {
 		std::vector<std::string> cols;
 		size_t pos = 0;
@@ -4436,6 +4810,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		for (const auto& k : stale) {
 		  db_.del(k);
 		}
+	}
+	if (indexType == "range") {
+		db_.put(makeRangeIndexStateKey(table, column), toBytes("rebuilding"));
 	}
 
 	// Step 4: Count entities for progress reporting
@@ -4636,8 +5013,14 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		batch->del(k);
 		return true;
 	});
-
-	batch->commit();
+	if (indexType == "range") {
+		batch->put(
+			makeRangeIndexStateKey(table, column),
+			toBytes("active"));
+	}
+	if (!batch->commit()) {
+		return;
+	}
 
 	// Step 7: Update metrics
 	auto end_time = std::chrono::steady_clock::now();
@@ -4796,11 +5179,19 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.unique = false;
 			stats.additional_info = "sorted";
 
-			std::string prefix = std::string("ridx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
-				stats.entry_count++;
-				return true;
-			});
+			if (mv && mv->size() == 2 && (*mv)[0] == 'r' && (*mv)[1] == '1') {
+				const std::string v1Prefix = "ridx:v1:" + tableStr + ":" + columnStr + ":";
+				db_.scanPrefix(v1Prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
+					stats.entry_count++;
+					return true;
+				});
+			} else {
+				std::string prefix = std::string("ridx:") + tableStr + ":" + columnStr + ":";
+				db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
+					stats.entry_count++;
+					return true;
+				});
+			}
 			found = true;
 		}
 	}

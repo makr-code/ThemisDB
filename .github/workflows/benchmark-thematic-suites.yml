@@ -1,4 +1,4 @@
-name: "Benchmark: Thematic Suites"
+name: "Benchmark: Thematic Diagnostics (not a performance gate)"
 
 # Rechenaufwand-Score: R=6 (K=6, L=6, N=5) | last-calibrated: 2026-10-22
 # Purpose: Run separated thematic benchmark suites (baseline/core/index/search/llm)
@@ -53,7 +53,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Thematic benchmark suites"
+          scope: "Thematic benchmark diagnostics; not a performance gate"
           job-results: ${{ toJSON(needs) }}
 
   hardware-detection:

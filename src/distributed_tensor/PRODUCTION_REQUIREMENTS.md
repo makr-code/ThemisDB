@@ -1,6 +1,6 @@
 # Distributed Tensor Module — Production Requirements
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Level:** 1 (Module Primary Documentation)  
 **SOT Domain:** module-behavior, architecture-governance  
 <!--
@@ -22,8 +22,10 @@ Exact model backend not verifiable from final document text alone.
 > pass/production-ready claims have not been verified against current CI
 > artifacts and are not current status evidence. The referenced EPIC 3 test
 > and benchmark directories do exist and are added by parent CMake files. In
-> this checkout, the module CMake file lists nine public headers and fifteen
-> implementation translation units; `tests/distributed_tensor/` registers
+> that audit, the module CMake file listed nine public headers and fifteen
+> implementation translation units. The current source list includes ten
+> public headers, adding the graph-summary projection contract;
+> `tests/distributed_tensor/` registers
 > three local focused test executables, with additional tests registered by
 > `tests/epic3_distributed_tensor/` and `tests/integration/`. The benchmark
 > configuration includes the local in-process stub source and the EPIC 3

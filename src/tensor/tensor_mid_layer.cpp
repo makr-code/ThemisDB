@@ -89,6 +89,9 @@ TensorLayerSummary TensorMidLayer::summarize(const TensorLayerContext& context) 
     // production exact TT inner-product backends). If the repository yields
     // no candidates, fall back to the fingerprint graph (approximate).
     if (adapter_repository_ && !context.domain.empty() && !context.base_model_id.empty()) {
+        if (context.tenant_id.empty() || context.tenant_id != adapter_repository_->tenantId()) {
+            throw std::invalid_argument("tensor context tenant does not match adapter repository");
+        }
         summary.similar_adapters = adapter_repository_->findSimilarAdapters(
             context.domain,
             context.base_model_id,
@@ -99,7 +102,8 @@ TensorLayerSummary TensorMidLayer::summarize(const TensorLayerContext& context) 
     }
 
     if (summary.similar_adapters.empty() && fingerprint_graph_) {
-        summary.similar_adapters = fingerprint_graph_->findSimilar(summary.scope_key, context.top_k);
+        summary.similar_adapters = fingerprint_graph_->findSimilarForTenant(
+            summary.scope_key, context.tenant_id, context.top_k);
     }
 
     summary.candidate_count = summary.similar_adapters.size();

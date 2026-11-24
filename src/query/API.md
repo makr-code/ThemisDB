@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -37,6 +37,24 @@ This page is for callers and maintainers integrating the AQL parser and query ex
 - Use the matching parse/execution method for the requested query form; do not infer support from a similarly named AST node alone.
 - Add regression coverage for malformed input and error propagation on the changed method.
 - Do not interpret a Process Mining function error as an empty event log, empty variant list, or valid empty BPMN document.
+
+## Range predicate execution boundary
+
+For `ConjunctiveQuery` range predicates, `QueryEngine` uses an exact collection
+scan when the required equality and range indexes exist. Queries with
+`ORDER BY` also scan and sort matching entities rather than trusting legacy
+range-key ordering; the fallback applies the requested direction, cursor, and
+limit. Finite decimal values compare exactly (including exponent notation and
+integers larger than 2^53); numeric-looking strings use numeric comparison,
+while ordinary text sorts after numbers and is ordered lexicographically.
+Typed floating-point fields are converted with `max_digits10` before
+comparison. Missing and null sort fields are omitted. Decimal exponents outside
+the signed 64-bit range are treated as text. These correctness paths trade
+index efficiency for a collection scan until the versioned range-key codec and migration in
+[`src/index/ROADMAP.md`](../index/ROADMAP.md) are delivered. Direct
+`SecondaryIndexManager::scanKeysRange()` calls still use persisted key order.
+The RLS wrapper continues to reject range predicates rather than relying on
+these paths.
 
 ## Validation references
 

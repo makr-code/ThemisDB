@@ -72,7 +72,7 @@ struct TensorRAGPipelineConfig {
     /**
      * @brief Optional session identifier for logging and diagnostics.
      *
-     * Not used by pipeline logic; propagated to stats for tracing.
+     * Used for correlation and tracing; never treated as a tenant identity.
      */
     std::string session_id;
 
@@ -103,6 +103,19 @@ struct TensorRAGPipelineConfig {
      * allowing post-generation chain queryability by query_id.
      */
     std::shared_ptr<observability::IProvenanceStore> provenance_store;
+
+    /**
+     * @brief Tenant authenticated and authorized by the host for tensor retrieval.
+     * @note Required when attaching a tensor mid-layer.
+     *       Setting this field does not itself authenticate the caller.
+     */
+    std::string tensor_tenant_id;
+
+    /**
+     * @brief Tensor query scope authorized by the host for this tenant.
+     * @note Required when attaching a tensor mid-layer.
+     */
+    std::string tensor_scope_id;
 };
 
 // ============================================================================
@@ -306,6 +319,10 @@ public:
      *
      * When set, `step()` derives a tensor-layer summary after FLARE/TARG
      * triggers and exposes it through `RAGDecision`.
+     * @param tensor_mid_layer Shared mid-layer, or null to detach it.
+     * @throws std::invalid_argument if attaching a mid-layer without both an
+     *         authorized tenant and scope in the pipeline configuration.
+     * @note The caller remains responsible for authorization.
      */
     void setTensorMidLayer(std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer);
 

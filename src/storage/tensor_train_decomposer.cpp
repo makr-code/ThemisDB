@@ -17,6 +17,7 @@
 #include <numeric>
 #include <stdexcept>
 #include <cstring>
+#include <limits>
 #include "utils/logger.h"
 
 namespace themis::storage {
@@ -168,21 +169,13 @@ std::vector<uint8_t> TTTrain::serialize() const {
  * @details Calls: size(), std::memcpy(), readU64(), resize(), readF64(), numElements(), readF32(), THEMIS_WARN().
  */
 std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
-    // model_integrity_gap scanner alert: this function parses a binary blob whose
-    // integrity (HMAC-SHA-256) is verified by the caller (TensorTrainDecomposer::load)
-    // before invoking deserialize.  The raw deserialiser intentionally does not
-    // re-verify the HMAC to avoid double-computing it; callers must always invoke
-    // the integrity check before deserialization.
     if (bytes.size() < 8) {
       return std::nullopt;
     }
     std::size_t pos = 0;
 
     auto readU64 = [&]() -> uint64_t {
-        // uncaught_exception scanner alert: this throw is enclosed by the
-        // surrounding try/catch below, which converts parse failures to
-        // std::nullopt — false positive.
-        if (pos + 8 > bytes.size()) {
+        if (bytes.size() - pos < 8) {
           throw std::runtime_error("TTTrain::deserialize: underflow");
         }
         uint64_t v = 0;
@@ -192,6 +185,9 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         return v;
     };
     auto readF32 = [&]() -> float {
+        if (bytes.size() - pos < 4) {
+            throw std::runtime_error("TTTrain::deserialize: underflow");
+        }
         uint32_t u = 0;
         for (int i = 0; i < 4; ++i) {
           u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
@@ -204,31 +200,57 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         double v = 0; std::memcpy(&v, &u, 8);
         return v;
     };
+    auto readSize = [&]() -> std::size_t {
+        const auto value = readU64();
+        if (value > std::numeric_limits<std::size_t>::max()) {
+            throw std::runtime_error("TTTrain::deserialize: size overflow");
+        }
+        return static_cast<std::size_t>(value);
+    };
 
     try {
         TTTrain t;
-        std::size_t order = static_cast<std::size_t>(readU64());
+        const auto order = readSize();
+        if (order > (bytes.size() - pos) / 8) {
+            throw std::runtime_error("TTTrain::deserialize: invalid order");
+        }
         t.mode_sizes.resize(order);
         for (auto& n : t.mode_sizes) {
-          n = static_cast<std::size_t>(readU64());
+          n = readSize();
         }
         t.original_norm = readF64();
         t.achieved_eps  = readF64();
 
-        std::size_t num_cores = static_cast<std::size_t>(readU64());
+        const auto num_cores = readSize();
+        if (num_cores > (bytes.size() - pos) / 24) {
+            throw std::runtime_error("TTTrain::deserialize: invalid core count");
+        }
         t.cores.resize(num_cores);
         for (auto& c : t.cores) {
-            c.r_left  = static_cast<std::size_t>(readU64());
-            c.n       = static_cast<std::size_t>(readU64());
-            c.r_right = static_cast<std::size_t>(readU64());
-            c.data.resize(c.numElements());
+            c.r_left = readSize();
+            c.n = readSize();
+            c.r_right = readSize();
+            const auto max_size = std::numeric_limits<std::size_t>::max();
+            if ((c.r_left != 0 && c.n > max_size / c.r_left) ||
+                (c.r_left * c.n != 0 &&
+                 c.r_right > max_size / (c.r_left * c.n))) {
+                throw std::runtime_error("TTTrain::deserialize: core size overflow");
+            }
+            const auto elements = c.r_left * c.n * c.r_right;
+            if (elements > (bytes.size() - pos) / 4) {
+                throw std::runtime_error("TTTrain::deserialize: truncated core");
+            }
+            c.data.resize(elements);
             for (auto& f : c.data) {
               f = readF32();
             }
         }
+        if (pos != bytes.size()) {
+            throw std::runtime_error("TTTrain::deserialize: trailing bytes");
+        }
         return t;
-    } catch (...) {
-        THEMIS_WARN("tensor_train_decomposer: unhandled exception caught");
+    } catch (const std::runtime_error& ex) {
+        THEMIS_WARN("TTTrain::deserialize: {}", ex.what());
         return std::nullopt;
     }
 }

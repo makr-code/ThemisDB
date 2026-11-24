@@ -816,6 +816,9 @@ def _evaluate_expectation(
         reason = "Unsupported or ambiguous percentile; only p50, p95, and p99 are supported."
     elif exp.constraint_unit not in ("ns", "us", "µs", "ms", "s", "ops/s", "k/s", "mops/s", "%"):
         reason = f"Unsupported or unspecified constraint unit: {exp.constraint_unit!r}."
+    elif (exp.constraint_unit in ("ns", "us", "µs", "ms", "s")
+          and re.search(r"\bbenchmark\s+counter\s*:", text, re.IGNORECASE)):
+        reason = "Time benchmark-counter units are not verified; elapsed time cannot substitute."
     elif percentile and exp.constraint_unit not in ("ns", "us", "µs", "ms", "s"):
         reason = f"{percentile} requires a percentile time measurement."
     elif exp.constraint_unit in ("ops/s", "k/s", "mops/s") and not re.search(

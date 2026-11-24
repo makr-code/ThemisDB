@@ -170,12 +170,17 @@ public:
     bool hasQuorum(const std::string& shard_id) const;
     
     /**
-     * @brief Get the Raft consensus instance for a shard
-     * For advanced operations (testing, debugging)
-     * @param shard_id Shard identifier
-     * @return Raft consensus instance or nullptr
+     * @brief Obtain shared access to a shard's local Raft consensus instance.
+     * @param shard_id Logical Raft group identifier.
+     * @return Shared local consensus instance, or nullptr if the group is absent.
+     * @note Typed adapters such as `RaftTwoPhaseCommitDecisionStore` use this
+     *       handle to attach group-specific state. It does not route requests to
+     *       a remote leader; each operation must still validate local authority.
+     * @note Shared ownership keeps the object alive, but does not keep a removed
+     *       group registered or running.
      */
-    std::shared_ptr<RaftConsensus> getRaftInstance(const std::string& shard_id) const;
+    [[nodiscard]] std::shared_ptr<RaftConsensus> getRaftInstance(
+        const std::string& shard_id) const;
     
     /**
      * @brief Get configuration

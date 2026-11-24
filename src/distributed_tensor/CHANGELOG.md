@@ -19,6 +19,9 @@ Exact model backend not verifiable from final document text alone.
 
 ## [Unreleased]
 
+### Added
+- Added a bounded, versioned adapter-similarity graph projection codec and public planner validation path. Only graph-supported evidence can pass strict validation; the source and focused regression tests remain unbuilt and unrun.
+
 ### Changed
 - Replaced the active integrity engine's FNV-1a demonstration hash with conditional OpenSSL EVP SHA-256, fail-closed behavior, canonical versioned receipt inputs, and rejection of unsupported or malformed digests. Legacy receipts are incompatible; hashing does not authenticate a producer. Build and test evidence remains pending.
 - Reconciled module documentation with current source, public-header, test, benchmark, and CMake inventories; clarified the C++20 `std::span` API requirement and synchronous in-process training callbacks. Historical gate/pass claims remain marked as unverified current status (Issue #7341).

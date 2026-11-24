@@ -2513,6 +2513,10 @@ if(WIN32)
     add_dependencies(themis_tests sync_test_runtime_dlls)
 endif()
 
+# Integration tests have their own targets and registration helper, so they
+# remain available when modular builds skip the legacy root-level tests.
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/integration" "${CMAKE_CURRENT_BINARY_DIR}/integration")
+
 if(THEMIS_BUILD_MODULAR)
     message(STATUS "Legacy root-level test registrations are skipped in modular build mode; module-scoped test executables own the CTest registry.")
 else()
@@ -25449,11 +25453,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/debug_graph_keys_test.cpp")
         TIMEOUT 60
     )
 endif()
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Integration tests (separate executables, own CTest entries)
-# ─────────────────────────────────────────────────────────────────────────────
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/integration" "${CMAKE_CURRENT_BINARY_DIR}/integration")
 
 # ============================================================================
 # Additional test targets migrated from cmake/CMakeLists.txt

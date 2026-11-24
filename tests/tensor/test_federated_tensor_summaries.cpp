@@ -142,7 +142,7 @@ TEST_F(FederatedTensorSummariesTest, FS_02_MultipleSummariesDifferentSizes) {
 TEST_F(FederatedTensorSummariesTest, FS_03_FederatedAggregation) {
     // Setup: Create federated context with multiple shard scopes
     TensorLayerContext context;
-    context.tenant_id = "tenant1";
+    context.tenant_id = "default";
     context.domain = "legal";
     context.base_model_id = "llama3";
     context.top_k = 5;
@@ -166,7 +166,7 @@ TEST_F(FederatedTensorSummariesTest, FS_03_FederatedAggregation) {
 TEST_F(FederatedTensorSummariesTest, FS_04_ShardMetadataInFederated) {
     // Setup: Create context with multiple shards
     TensorLayerContext context;
-    context.tenant_id = "tenant1";
+    context.tenant_id = "default";
     context.domain = "medical";
     context.base_model_id = "biobert";
     context.top_k = 10;
@@ -233,7 +233,7 @@ TEST_F(FederatedTensorSummariesTest, FS_06_MergingShardResults) {
     fp_graph_->addAdapter("__adapters__:default:research:model_a", core, "research", "model_a");
 
     TensorLayerContext context;
-    context.tenant_id = "tenant1";
+    context.tenant_id = "default";
     context.domain = "research";
     context.base_model_id = "model_a";
     context.shard_scope_ids = {"shard_0", "shard_1"};
@@ -352,7 +352,7 @@ TEST_F(FederatedTensorSummariesTest, FS_10_ShardAwareClassification) {
 TEST_F(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts) {
     // Setup: Create context with known candidate counts
     TensorLayerContext context;
-    context.tenant_id = "t1";
+    context.tenant_id = "default";
     context.domain = "d1";
     context.base_model_id = "m1";
     context.shard_scope_ids = {"s1", "s2", "s3"};
@@ -402,7 +402,7 @@ TEST_F(FederatedTensorSummariesTest, FS_12_CrossShardRetrievalFlow) {
     // Setup: Simulate a cross-shard retrieval flow
     // 1. Plan step
     TensorLayerContext plan_context;
-    plan_context.tenant_id = "t1";
+    plan_context.tenant_id = "default";
     plan_context.domain = "d1";
     plan_context.base_model_id = "m1";
     plan_context.shard_scope_ids = {"shard_0", "shard_1", "shard_2"};

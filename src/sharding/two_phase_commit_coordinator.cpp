@@ -226,6 +226,12 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
     : coordinator_id_(coordinator_id)
     , config_(config)
 {
+    if (static_cast<bool>(config_.decision_writer) !=
+        static_cast<bool>(config_.decision_lookup)) {
+        throw std::invalid_argument(
+            "quorum-backed 2PC decision writer and lookup must be configured together");
+    }
+
     if (!config_.wal_directory.empty()) {
         WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = config_.wal_directory;
@@ -739,14 +745,33 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::execute(
                 {"phase", "decision"},
                 {"decision", do_commit ? "commit" : "abort"}
             };
+            std::optional<int64_t> commit_timestamp;
             if (do_commit && config_.commit_timestamp_provider) {
-                const auto timestamp = config_.commit_timestamp_provider(transaction_id);
-                if (!timestamp || *timestamp <= 0) {
+                commit_timestamp = config_.commit_timestamp_provider(transaction_id);
+                if (!commit_timestamp || *commit_timestamp <= 0) {
                     return false;
                 }
-                decision_data["commit_timestamp_ns"] = *timestamp;
+                decision_data["commit_timestamp_ns"] = *commit_timestamp;
                 std::lock_guard<std::timed_mutex> lock(mutex_);
-                transactions_.at(transaction_id).commit_timestamp_ns = timestamp;
+                transactions_.at(transaction_id).commit_timestamp_ns = commit_timestamp;
+            }
+            if (config_.decision_writer) {
+                bool quorum_decision_recorded = false;
+                try {
+                    quorum_decision_recorded = config_.decision_writer(
+                        coordinator_id_, transaction_id,
+                        TwoPhaseCommitDecision{do_commit, commit_timestamp});
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("2PC coordinator [{}] quorum decision write failed for txn {}: {}",
+                                 coordinator_id_, transaction_id, e.what());
+                    return false;
+                }
+                if (!quorum_decision_recorded) {
+                    THEMIS_ERROR("2PC coordinator [{}] quorum decision was not committed for txn {}; "
+                                 "phase two was not sent",
+                                 coordinator_id_, transaction_id);
+                    return false;
+                }
             }
             const bool persisted = logToWAL(
                 do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
@@ -1333,9 +1358,135 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            const bool has_decision = rec.state == CoordinatorTxnState::COMMIT_DECIDED ||
-                                      rec.state == CoordinatorTxnState::ABORT_DECIDED;
+            bool has_decision = rec.state == CoordinatorTxnState::COMMIT_DECIDED ||
+                                rec.state == CoordinatorTxnState::ABORT_DECIDED;
             bool do_commit = rec.state == CoordinatorTxnState::COMMIT_DECIDED;
+
+            const auto call_without_coordinator_lock = [this, &lock](auto&& callback) {
+                lock.unlock();
+                try {
+                    auto result = callback();
+                    if (!lock.try_lock_for(config_.prepare_timeout)) {
+                        throw std::runtime_error(
+                            "could not reacquire coordinator state lock after decision authority call");
+                    }
+                    return result;
+                } catch (const std::exception&) {
+                    if (!lock.owns_lock() && !lock.try_lock_for(config_.prepare_timeout)) {
+                        throw std::runtime_error(
+                            "could not reacquire coordinator state lock after decision authority failure");
+                    }
+                    throw;
+                }
+            };
+
+            if (config_.decision_lookup) {
+                std::optional<TwoPhaseCommitDecision> authoritative;
+                try {
+                    authoritative = call_without_coordinator_lock([&] {
+                        return config_.decision_lookup(coordinator_id_, txn_id);
+                    });
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("2PC coordinator [{}] could not read quorum decision for txn {}: {}",
+                                 coordinator_id_, txn_id, e.what());
+                    throw;
+                }
+
+                if (authoritative) {
+                    if ((has_decision && authoritative->commit != do_commit) ||
+                        (has_decision && do_commit &&
+                         authoritative->commit_timestamp_ns != rec.commit_timestamp_ns) ||
+                        (authoritative->commit && authoritative->commit_timestamp_ns &&
+                         *authoritative->commit_timestamp_ns <= 0) ||
+                        (!authoritative->commit &&
+                         authoritative->commit_timestamp_ns.has_value())) {
+                        rec.state = CoordinatorTxnState::FAILED;
+                        transactions_[txn_id] = rec;
+                        throw std::runtime_error(
+                            "local coordinator WAL decision or timestamp conflicts with quorum decision for txn " +
+                            txn_id);
+                    }
+                    do_commit = authoritative->commit;
+                    rec.commit_timestamp_ns = authoritative->commit_timestamp_ns;
+                    rec.decision_commit = do_commit;
+                    if (!has_decision) {
+                        rec.state = do_commit
+                            ? CoordinatorTxnState::COMMIT_DECIDED
+                            : CoordinatorTxnState::ABORT_DECIDED;
+                        nlohmann::json decision_data = {
+                            {"transaction_id", txn_id},
+                            {"coordinator_id", coordinator_id_},
+                            {"phase", "decision"},
+                            {"decision", do_commit ? "commit" : "abort"},
+                            {"recovery", true},
+                            {"reason", "reconciled_from_quorum_authority"}
+                        };
+                        if (rec.commit_timestamp_ns) {
+                            decision_data["commit_timestamp_ns"] = *rec.commit_timestamp_ns;
+                        }
+                        const bool local_decision_recorded = logToWAL(
+                            do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                            txn_id, decision_data, /*force_sync=*/true);
+                        if (!local_decision_recorded) {
+                            rec.state = CoordinatorTxnState::FAILED;
+                            transactions_[txn_id] = rec;
+                            throw std::runtime_error(
+                                "could not reconcile quorum decision to coordinator WAL for txn " +
+                                txn_id);
+                        }
+                        has_decision = true;
+                    }
+                } else {
+                    if (!has_decision) {
+                        // No committed authority record: recovery may only select ABORT
+                        // after the quorum-backed writer confirms that decision.
+                        do_commit = false;
+                        rec.state = CoordinatorTxnState::ABORT_DECIDED;
+                    }
+
+                    bool quorum_decision_recorded = false;
+                    try {
+                        quorum_decision_recorded = call_without_coordinator_lock([&] {
+                            return config_.decision_writer(
+                                coordinator_id_, txn_id,
+                                TwoPhaseCommitDecision{
+                                    do_commit, rec.commit_timestamp_ns});
+                        });
+                    } catch (const std::exception& e) {
+                        THEMIS_ERROR("2PC coordinator [{}] could not commit recovered quorum decision "
+                                     "for txn {}: {}",
+                                     coordinator_id_, txn_id, e.what());
+                        throw;
+                    }
+                    if (!quorum_decision_recorded) {
+                        rec.state = CoordinatorTxnState::FAILED;
+                        transactions_[txn_id] = rec;
+                        throw std::runtime_error(
+                            "quorum decision unavailable or conflicting during recovery for txn " +
+                            txn_id);
+                    }
+
+                    if (!has_decision) {
+                        const bool local_decision_recorded = logToWAL(
+                            WALEntryType::ABORT_TX, txn_id, {
+                                {"transaction_id", txn_id},
+                                {"coordinator_id", coordinator_id_},
+                                {"phase", "decision"},
+                                {"decision", "abort"},
+                                {"recovery", true},
+                                {"reason", "no_decision_conservative_abort"}
+                            }, /*force_sync=*/true);
+                        if (!local_decision_recorded) {
+                            rec.state = CoordinatorTxnState::FAILED;
+                            transactions_[txn_id] = rec;
+                            throw std::runtime_error(
+                                "could not persist quorum-backed recovery ABORT for txn " + txn_id);
+                        }
+                        has_decision = true;
+                    }
+                }
+            }
+
             if (!has_decision) {
                 // No decision logged → abort conservatively and broadcast ABORT
                 // to release participants from PREPARED state (2PC-2 fix).

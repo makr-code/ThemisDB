@@ -1,6 +1,24 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-16"
+Last Updated: "2026-11-23"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Runbook: Distributed Tensor Module
 
-<!-- Status: current | validated: 2026-09-16 | Wave D operability deliverable -->
+> **Not validated for production operations:** Source now includes an opt-in
+> mTLS fragment RPC listener and a RocksDB-backed immutable fragment store, but
+> neither has been built or exercised in this session. The Linux transport
+> integration suite includes an unrun publisher-to-mTLS manifest and fragment case
+> with a fixture fingerprint graph; no end-to-end production startup, automatic publisher, or distributed
+> worker service is claimed. The former in-process
+> stub soak was removed; no transport-backed soak result is claimed.
 
 ## Purpose
 
@@ -9,6 +27,70 @@ the five most critical incident classes, their log patterns, triage steps, and
 recommended remediation actions.
 
 ---
+
+## Optional ShardRPC fragment serving
+
+The main server starts this listener only when
+`sharding.tensor_fragment_rpc.enabled` is `true`. A production configuration
+must use a distinct listener address and provide an explicit shard ID, server
+certificate/private key, client CA, and exact X.509 identity-to-principal
+bindings. There is no insecure fallback:
+
+```yaml
+sharding:
+  shard_id: "shard-1"
+  tensor_fragment_rpc:
+    enabled: true
+    listen_address: "0.0.0.0:50052"
+    tls_cert_path: "/etc/themisdb/tls/shard-server.crt"
+    tls_key_path: "/etc/themisdb/tls/shard-server.key"
+    tls_ca_cert_path: "/etc/themisdb/tls/cluster-ca.crt"
+    max_tensor_fragment_bytes: 67108864
+    chunk_bytes: 1048576
+    max_deadline_ms: 30000
+    identity_bindings:
+      - property_name: "x509_subject_alternative_name"
+        property_value: "spiffe://example.invalid/tenant-a/worker-2"
+        principal_id: "tenant-a"
+```
+
+`property_value` must exactly match the gRPC-authenticated certificate value.
+Choose `principal_id` as a tenant-bound storage authorization namespace; the
+server derives it from mTLS rather than accepting it from the request. Before
+advertising a manifest placement, the owner-side publisher must store the
+complete fragment with `ShardArtifactFragmentStore::put(principal_id,
+shard_id, artifact_id, bytes)`. The store uses a versioned RocksDB key derived
+from that tuple, permits identical replay, rejects replacement with different
+bytes, checks size metadata before loading payload bytes, and verifies SHA-256
+on reads. It is separate from `TensorNetworkStorageEngine` field keys.
+Fragment writes and identical replays request a synchronous RocksDB WAL commit
+independently of the database's default write options. This is source-level
+behavior, not tested power-loss evidence, and depends on the storage stack
+honoring sync operations. A publisher must commit the manifest only after the
+fragment write succeeds.
+
+`LocalProjectionPublisher` additionally stores a manifest record readable through
+the same mTLS fragment endpoint. `loadRemote()` requires a trusted artifact ID,
+tenant-bound principal, expected shard and node, and an explicitly configured
+peer SAN; client and server response limits must allow at least 16 KiB. It fetches
+and verifies the projection before returning the manifest; the planner may fetch
+the projection again. Both RPCs share the requested deadline budget. It does
+not discover current artifacts or authenticate the original producer. Records
+published before this transport was added must be republished to create the
+remote-readable record. The three synchronous writes are not one transaction;
+retry the same publication after failure.
+
+If enabled configuration lacks an explicit shard identity, listener/TLS fields,
+or identity bindings, server startup fails. During shutdown the fragment RPC
+listener stops before the shared RocksDB database closes. Missing or
+over-limit fragments are not served; corrupt metadata or payload causes a
+failed RPC. Graph validation accepts the versioned adapter-similarity
+projection, not arbitrary opaque tensor fragments; an automatic projection
+publisher is not yet implemented.
+
+This configuration and lifecycle are source-backed but not runtime-validated.
+Do not treat registration of the focused tests as a production readiness
+result.
 
 ## Scenario 1 — Shard Sync Failure
 
@@ -178,7 +260,8 @@ distributed tensor state reset; escalate to the ML operations team immediately.
 
 **Related resources**
 - `src/distributed_tensor/ROADMAP.md` — Wave D operability tracking
-- `tests/integration/test_distributed_tensor_soak.cpp` — Soak test evidence
+- `src/distributed_tensor/TEST_EVIDENCE_COLLECTION.md` — current test and
+  transport evidence boundaries
 - `tests/distributed_tensor/test_distributed_tensor_highcardinality_stress.cpp`
 - `benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp`
 - `src/distributed_tensor/include/artifact_manifest.h` — lifecycle states

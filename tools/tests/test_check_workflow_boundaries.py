@@ -1033,7 +1033,7 @@ def test_docker_local_export_avoids_attestation_manifest_and_uses_native_runners
     assert candidate["target"] == "runtime"
 
 
-def test_wave4_gate_runs_benchmark_with_build_runtime_and_transfers_results():
+def test_wave4_smoke_runs_benchmark_with_build_runtime_and_transfers_results():
     workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "benchmark-gate.yml"
     jobs = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]
     build = jobs["build-wave4-release-gates"]["with"]
@@ -1043,14 +1043,33 @@ def test_wave4_gate_runs_benchmark_with_build_runtime_and_transfers_results():
     results = Path(build["artifact_paths"])
     assert results == Path("benchmark-artifacts/w4a_release_gates.json")
     assert "./build-linux-release/bin/bench_w4a_release_gates" in build["validation_command"]
-    assert f"--benchmark_out={results}" in build["validation_command"]
+    assert f"--benchmark_out={results.as_posix()}" in build["validation_command"]
     assert "BENCHMARK_SEED=42" in build["validation_command"]
     steps = jobs["run-wave4-release-gates"]["steps"]
     download = next(step for step in steps if step.get("uses", "").startswith("actions/download-artifact@"))
     assert download["with"]["name"] == build["artifact_name"]
-    assert download["with"]["path"] == str(results.parent)
+    assert download["with"]["path"] == results.parent.as_posix()
     compare = next(step["run"] for step in steps if "report_variance.py" in step.get("run", ""))
-    assert f"--input {results}" in compare
+    assert f"--input {results.as_posix()}" in compare
+    assert "--no-gates" in compare
+    assert "--baseline" not in compare
+    assert "validate_benchmark_smoke.py" in compare
+    assert "--wave4-manifest benchmarks/wave4/release_gate_manifest.json" in compare
+    assert "not a performance gate" in yaml.safe_load(workflow.read_text(encoding="utf-8"))["name"]
+
+
+def test_expectations_diagnostic_cannot_succeed_on_incomplete_or_failed_execution():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "benchmark-performance-gate.yml"
+    data = yaml.safe_load(workflow.read_text(encoding="utf-8"))
+    assert "not a performance gate" in data["name"]
+    report = data["jobs"]["report"]
+    assert "always()" in report["if"]
+    assert "skipped" not in report["if"]
+    steps = report["steps"]
+    conclusion = next(step for step in steps if step["name"] == "Enforce diagnostic completeness")
+    assert "always()" in conclusion["if"]
+    assert '!= "success"' in conclusion["run"]
+    assert '!= "PASS"' in conclusion["run"]
 
 
 def test_coverage_installs_real_test_and_storage_dependencies():

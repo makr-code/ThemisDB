@@ -64,6 +64,13 @@ struct SimilarityResult {
     float       score = 0.0f;  ///< Cosine similarity ∈ [−1, 1]
 };
 
+/** @brief Query metadata and candidates selected from one graph snapshot. */
+struct TenantSimilaritySnapshot {
+    std::string query_domain;
+    std::string query_base_model_id;
+    std::vector<SimilarityResult> candidates;
+};
+
 // ============================================================================
 // TensorFingerprintGraph
 // ============================================================================
@@ -90,6 +97,14 @@ public:
     // ─── Write API ────────────────────────────────────────────────────────
 
     /**
+     * @brief Check whether a train is structurally safe for graph scoring.
+     * @param train Train to validate; cores and modes must be nonempty and aligned.
+     * @return True when core sizes, bond ranks, and finite values are valid.
+     * @note This does not authenticate data or impose a fixed computation limit.
+     */
+    [[nodiscard]] static bool isTrainValid(const storage::TTTrain& train) noexcept;
+
+    /**
      * @brief Add or update an adapter's fingerprint in the graph.
      *
      * Extracts the column-mean fingerprint from `train.cores[0]` and
@@ -101,7 +116,9 @@ public:
      * @param domain        Domain tag.
      * @param base_model_id Base model identifier.
      * @param tenant_id     Owning tenant namespace.
-     * @return false if `train.cores` is empty (nothing inserted).
+     * @return false without modifying the graph if the train is empty, has
+     *         inconsistent mode sizes or adjacent ranks, overflowing core
+     *         dimensions, or non-finite core values.
      */
     bool addAdapter(const std::string&        adapter_key,
                     const storage::TTTrain&   train,
@@ -132,7 +149,8 @@ public:
      *
      * Similarity is computed as cosine similarity in the TT domain using
      * `TensorTrainDecomposer::innerProduct()`.  The query adapter itself is
-     * excluded from the result list.
+     * excluded from the result list. Only adapters with the same stored tenant
+     * as the query adapter are considered; this is not caller authorization.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
@@ -146,16 +164,50 @@ public:
         findSimilar(const std::string& query_key, std::size_t k) const;
 
     /**
+     * @brief Find similar adapters only if the query belongs to the expected tenant.
+     * @param query_key Registered adapter key.
+     * @param tenant_id Non-empty tenant established by the caller's authorization policy.
+     * @param k Maximum number of results; zero returns an empty result.
+     * @return Sorted results from the tenant, or empty for an absent query.
+     * @throws std::invalid_argument if the tenant is empty or a registered
+     *         query belongs to another tenant when k is nonzero.
+     * @note The tenant check and candidate snapshot use the same graph lock.
+     *       This method does not authenticate the caller. An injected scoring
+     *       callback is responsible for its own data access and synchronization.
+     */
+    [[nodiscard]] std::vector<SimilarityResult>
+        findSimilarForTenant(const std::string& query_key,
+                             const std::string& tenant_id,
+                             std::size_t k) const;
+
+    /**
+     * @brief Retrieve query metadata and similar candidates for a tenant.
+     * @param query_key Registered adapter key.
+     * @param tenant_id Non-empty tenant authorized by the caller.
+     * @param k Positive maximum candidate count.
+     * @return Empty if the query is absent; otherwise metadata from the same
+     *         locked query snapshot and its similarity results.
+     * @throws std::invalid_argument for empty tenant, zero k, or a tenant mismatch.
+     * @note Candidate scoring may occur after the snapshot; injected scoring
+     *       callbacks must enforce their own access and synchronization.
+     */
+    [[nodiscard]] std::optional<TenantSimilaritySnapshot>
+        snapshotSimilarForTenant(const std::string& query_key,
+                                 const std::string& tenant_id,
+                                 std::size_t k) const;
+
+    /**
      * @brief Find similar adapters while observing request cancellation and deadline.
      * @param query_key Storage key of the query adapter; must be registered.
      * @param k Maximum number of results; zero returns an empty result.
      * @param request Absolute deadline and cancellation state; not retained.
      * @param stop_reason Receives the stop cause, or None on completion; may be null.
-     * @return Sorted top-k results, or empty when the query is invalid or stopped.
+     * @return Sorted top-k results from the query adapter's stored tenant, or
+     *         empty when the query is invalid or stopped.
      * @note Candidate collection and inter-score boundaries poll cooperatively.
      *       Each TT inner-product, injected exact-similarity callback, and result sort
      *       is synchronous and checkpoint-only; partial results are discarded if the
-     *       request stops.
+     *       request stops. The caller must authorize access to the query key.
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilar(const std::string& query_key,
@@ -228,6 +280,12 @@ public:
     static void clearExactSimilarityFn();
 
 private:
+    [[nodiscard]] std::vector<SimilarityResult> findSimilarImpl(
+        const std::string& query_key, std::size_t k,
+        const query::RequestContext& request, query::StopReason* stop_reason,
+        const std::string* expected_tenant,
+        std::optional<TenantSimilaritySnapshot>* snapshot = nullptr) const;
+
     /// Compute column means of a TT-core data block.
     /// data layout: [n_rows × n_cols] row-major.
     static std::vector<float> columnMeans(const std::vector<float>& data,

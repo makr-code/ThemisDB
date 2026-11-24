@@ -6,6 +6,9 @@
 #include "storage/base_entity.h"
 #include <filesystem>
 #include <memory>
+#include <thread>
+#include <chrono>
+#include <system_error>
 
 namespace fs = std::filesystem;
 
@@ -15,7 +18,14 @@ class RangeIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
         testPath_ = "./data/test_range_index";
-        fs::remove_all(testPath_);
+        for (int retry = 0; retry < 20; ++retry) {
+            std::error_code cleanup_error;
+            fs::remove_all(testPath_, cleanup_error);
+            if (!cleanup_error) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
         
         RocksDBWrapper::Config cfg;
         cfg.db_path = testPath_;
@@ -28,8 +38,18 @@ protected:
     
     void TearDown() override {
         mgr_.reset();
+        if (db_) {
+            db_->close();
+        }
         db_.reset();
-        fs::remove_all(testPath_);
+        for (int retry = 0; retry < 20; ++retry) {
+            std::error_code cleanup_error;
+            fs::remove_all(testPath_, cleanup_error);
+            if (!cleanup_error) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
     }
     
     std::string testPath_;
@@ -48,6 +68,42 @@ TEST_F(RangeIndexTest, CreateAndDrop) {
     ASSERT_TRUE(st.ok) << st.message;
     
     EXPECT_FALSE(mgr_->hasRangeIndex("users", "age"));
+}
+
+TEST_F(RangeIndexTest, CreateBackfillsExistingEntitiesAndUsesNumericOrdering) {
+    BaseEntity negative("u-negative");
+    negative.setField("age", "-25");
+    ASSERT_TRUE(mgr_->put("users", negative).ok);
+
+    BaseEntity decimal("u-decimal");
+    decimal.setField("age", "-1.5");
+    ASSERT_TRUE(mgr_->put("users", decimal).ok);
+
+    BaseEntity positive("u-positive");
+    positive.setField("age", "25");
+    ASSERT_TRUE(mgr_->put("users", positive).ok);
+
+    auto st = mgr_->createRangeIndex("users", "age");
+    ASSERT_TRUE(st.ok) << st.message;
+
+    auto [negative_status, negative_keys] =
+        mgr_->scanKeysRange("users", "age", "-30", "-1", true, true, 100, false);
+    ASSERT_TRUE(negative_status.ok) << negative_status.message;
+    EXPECT_EQ(negative_keys.size(), 2);
+    EXPECT_NE(std::find(negative_keys.begin(), negative_keys.end(), "u-negative"), negative_keys.end());
+    EXPECT_NE(std::find(negative_keys.begin(), negative_keys.end(), "u-decimal"), negative_keys.end());
+
+    auto [ascending_status, ascending_keys] =
+        mgr_->scanKeysRange("users", "age", "-30", "30", true, true, 100, false);
+    ASSERT_TRUE(ascending_status.ok) << ascending_status.message;
+    ASSERT_EQ(ascending_keys.size(), 3);
+    EXPECT_EQ(ascending_keys[0], "u-negative");
+
+    auto [reversed_status, reversed_keys] =
+        mgr_->scanKeysRange("users", "age", "-30", "30", true, true, 100, true);
+    ASSERT_TRUE(reversed_status.ok) << reversed_status.message;
+    ASSERT_EQ(reversed_keys.size(), 3);
+    EXPECT_EQ(reversed_keys[0], "u-positive");
 }
 
 // Test 2: Automatische Index-Pflege bei Put

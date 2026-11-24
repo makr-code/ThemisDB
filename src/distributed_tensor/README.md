@@ -1,9 +1,9 @@
 # Distributed Tensor Module
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
-**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `include/sharding/shard_artifact_fragment_store.h`, `include/sharding/shard_rpc_server.h`, `src/main_server.cpp`, `proto/sharding/shard_rpc.proto`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_store.cpp`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
 **Related:** Issue #7341
 
 <!--
@@ -28,8 +28,8 @@ production readiness or measured performance.
 
 The public header directory currently contains contracts for artifact classes,
 manifests, shard placement, integrity verification, recovery, distributed
-planning, tensor infrastructure, in-process training-job coordination, and
-storage strategy.
+planning and graph-summary projection, tensor infrastructure, in-process
+training-job coordination, and storage strategy.
 The module target is the static library `themis_distributed_tensor`. The
 `include/distributed_tensor/tensor_storage_strategy.h` includes `<span>` and
 exposes `std::span`, so the public API requires C++20. The target declares
@@ -63,9 +63,23 @@ checksum and is not an integrity or authenticity guarantee.
   establish that they were built or passed.
 - `tests/epic3_distributed_tensor/CMakeLists.txt` separately registers the
   EPIC 3 contract/update test sources and an integrity benchmark test target;
-  `tests/CMakeLists.txt` conditionally adds that directory. The integration
-  test configuration also includes `test_distributed_tensor_soak.cpp` when
-  present.
+  `tests/CMakeLists.txt` conditionally adds that directory. No distributed
+  tensor soak test is registered under `tests/integration`: its former
+  in-process stub-only source was removed because it did not exercise a real
+  shard transport. A focused mTLS fragment-fetch test is registered in
+  `tests/sharding/test_shard_transfer_grpc.cpp`; it exercises the real
+  ShardRPC stream and a test-only storage reader, but has not been run. An
+  additional source case publishes a fixture summary through the local
+  publisher, reopens RocksDB, and fetches it over mTLS using a manifest-bound
+  planner; it also checks
+  graph validation when the query and LLM module targets exist. It does not
+  cover the host startup or an automatic publisher, and has not been run. The
+  existing `ShardTransferStoreTests` target now also registers RocksDB-backed
+  fragment-store regressions for principal/shard isolation, immutable replay,
+  digest/size checks, and restart persistence; those sources have not been
+  built or run. Production server startup is opt-in through
+  `sharding.tensor_fragment_rpc`; see the runbook and `src/sharding/API.md` for
+  required mTLS configuration and the canonical storage mapping.
 - `benchmarks/distributed_tensor/CMakeLists.txt` conditionally registers
   `bench_distributed_tensor_dedicated_gates.cpp` when
   `THEMIS_BUILD_BENCHMARKS` is enabled. That benchmark uses in-process stubs;
@@ -80,6 +94,60 @@ This module provides C++ APIs and no standalone CLI. `ManifestStore` is an
 internal API; callers construct it with a persistent RocksDB directory and
 check the `[[nodiscard]]` result of `store()`.
 
+The manifest-bound planner overload and ShardRPC adapter are additive C++ APIs,
+but public struct additions require consumers to rebuild against matching
+headers; mixed-version binary ABI compatibility is not claimed. Strict graph
+validation accepts only the versioned adapter-similarity projection defined by
+`GraphSummaryProjectionCodec`; arbitrary tensor bytes and unknown formats
+remain fail-closed.
+Host publishers persist each fragment through `ShardArtifactFragmentStore`
+using `(principal_id, shard_id, artifact_id)` before advertising the matching
+manifest placement. This dedicated keyspace is not a `TensorFieldKey` mapping,
+and no automatic host publisher is currently installed. `LocalProjectionPublisher`
+provides a single-shard local publisher and persistent public-manifest reader.
+`publishFromGraph()` builds the summary from a tenant-checked fingerprint
+graph query and requires query metadata and candidate keys to match the tenant.
+Its `loadRemote()` reads an immutable manifest record over the existing mTLS
+fragment transport, for an artifact ID supplied by the caller, and verifies the
+referenced projection's digest, scope and candidate keys before returning. The caller must
+supply authenticated tenant/principal and authoritative placement, verify
+summary provenance, establish peer-to-node trust, and obtain a fresh artifact
+ID through a trusted channel. There is no discovery or authorization service.
+
+## Graph-summary projection
+
+`GraphSummaryProjectionCodec` uses a versioned `TSPJ` binary envelope
+(`themis.tensor.adapter-similarity/v1`) rather than serializing C++ object
+layouts. The big-endian header carries version, zero-valued flags, and a
+candidate count. Length-prefixed UTF-8 fields carry one scope key and, per
+candidate, adapter key, domain, base-model ID, and an IEEE-754 binary32 cosine
+score.
+
+The codec caps payloads at 16 MiB, each text field at 4096 bytes, and each
+summary at 1024 candidates. It rejects invalid UTF-8/control characters,
+non-finite or out-of-range scores, duplicate/non-canonical candidates,
+unknown versions or flags, truncation, and trailing bytes. Merge requires one
+identical scope; duplicate adapter IDs must agree on domain and base model,
+then retain the highest score. Encoding accepts only non-federated Adapter or
+FingerprintSummary summaries with Adapter ANN scope. This format carries
+advisory adapter candidates only, not arbitrary tensor weights or graph
+assertions.
+
+The planner requires complete request/result identity and a manifest-bound
+digest reported as verified by the fetcher before decoding. It merges the
+decoded candidates and invokes `GraphTruthValidator`; strict validation passes
+only when every evidence item is validated, meets the configured graph-score
+threshold, and has supporting graph nodes. Missing, malformed, conflicting, or
+unsupported projections fail closed. The local publisher encodes this format
+and persists its manifest after the fragment; automatic producer and host
+integration are not implemented. The codec, publisher, and planner changes have not been
+built or run.
+
+This integration applies to the public
+`themis::distributed_tensor::DistributedTensorPlanner`. The separate
+source-private `detail::DistributedTensorPlanner` remains fail-closed and is
+covered by its internal contract test; it is not the public planner entry point.
+
 ## Integrationsueberblick
 
 ```mermaid
@@ -89,10 +157,26 @@ flowchart LR
   RocksDB --> Restart[Validated restart state]
   Caller --> Placement[Placement plan]
   Placement -. caller applies .-> ManifestStore
+  Caller --> Planner[Manifest-bound planner]
+  Planner --> Fetcher[ShardRPCFragmentFetcher]
+  Fetcher --> ShardRPC[Verified mTLS stream]
+  ShardRPC --> Reader[Principal-scoped RocksDB fragment store]
+  Publisher --> Reader
+  Host[main_server opt-in startup] --> ShardRPC
 ```
 
 **Kurzinterpretation:** Manifest metadata is durable on the local node;
-placement plans are caller-applied and are not replicated by this module.
+placement plans remain caller-applied. The host can explicitly enable the
+gRPC/mTLS server; fragment storage uses a versioned, principal/shard/artifact
+key and verifies stored size and SHA-256. Publishers still own the write and
+manifest-publication sequence. The codec projects only the explicit
+adapter-similarity payload; the adapter does not replicate metadata, and the
+publisher must produce the supported payload format.
+
+`DistributedTensorPlanner::validateAgainstGraphTruth()` decodes and merges the
+explicit projection format before calling `GraphTruthValidator`.
+Fragment-load success alone remains insufficient: identity, digest metadata,
+projection validity, and graph-backed evidence are all required.
 
 ## Verification attempt (2026-10-31)
 
@@ -132,9 +216,12 @@ closed. Read and eviction paths also fail closed rather than serving malformed
 records.
 
 The durable metadata includes manifest identity, version, placement, integrity
-fields, and creation time used by freshness decisions. This is local persistent
-metadata, not shard-payload replication: the module still has no built-in
-network transport or multi-node recovery protocol. The nightly coverage
+fields, and creation time used by freshness decisions. This remains local
+manifest metadata, separate from shard payloads. The host fragment store
+persists payload and SHA-256 metadata atomically in a separate RocksDB
+keyspace; the server starts only under explicit mTLS configuration. Payload
+publication and multi-node manifest recovery remain caller responsibilities.
+The nightly coverage
 workflow runs the tests labelled `distributed_tensor`, publishes module-level
 summaries and LCOV reports, and enforces 70% line / 60% branch coverage on
 `manifest_store.cpp` and `src/artifact_manifest.cc`.

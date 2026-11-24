@@ -8,6 +8,8 @@ Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 
 - [`README.md`](README.md)
 - [`ROADMAP.md`](ROADMAP.md)
+- Source catalog and triage: [`SOURCE_CATALOG.md`](SOURCE_CATALOG.md)
+- Machine-readable workload profiles: [`workload_profiles.json`](workload_profiles.json)
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
 - [`AUDIT.md`](AUDIT.md)
 - [`SECURITY.md`](SECURITY.md)

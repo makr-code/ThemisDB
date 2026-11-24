@@ -39,6 +39,11 @@ service ShardService {
     // Blob Transfer for LoRA Adapters and Large Files (NEW)
     rpc TransferBlob(BlobTransferRequest) returns (stream BlobChunk);
     rpc VerifyBlob(BlobVerifyRequest) returns (BlobVerifyResponse);
+
+    // Read immutable bytes from an explicitly configured, authenticated storage owner.
+    // The server streams bounded frames; clients must verify the returned digest
+    // against a trusted artifact manifest before using the payload.
+    rpc FetchTensorFragment(FetchTensorFragmentRequest) returns (stream FetchTensorFragmentChunk);
     
     // Status & Health
     rpc GetShardStatus(StatusRequest) returns (StatusResponse);
@@ -485,6 +490,24 @@ message BlobVerifyResponse {
     uint64 total_bytes_received = 5;
     uint64 total_bytes_uncompressed = 6;
     double compression_ratio = 7;        // Uncompressed / Compressed
+}
+
+message FetchTensorFragmentRequest {
+    string shard_id = 1;        // Must equal the local shard served by this endpoint.
+    string artifact_id = 2;     // Opaque ID; never interpreted as a filesystem path.
+    string correlation_id = 3;  // Optional; echoed unchanged in every frame.
+    uint64 max_bytes = 4;       // Positive caller ceiling, bounded by server configuration.
+}
+
+message FetchTensorFragmentChunk {
+    string shard_id = 1;          // Repeated so clients can reject cross-shard streams.
+    string artifact_id = 2;       // Repeated so clients can reject artifact substitution.
+    string correlation_id = 3;    // Repeated so clients can reject stream mixing.
+    uint64 sequence = 4;          // Zero-based and contiguous.
+    bytes payload = 5;            // Empty only for a valid empty artifact.
+    uint64 total_size_bytes = 6;  // Must be constant across all frames.
+    string content_sha256 = 7;    // Lowercase SHA-256, constant across all frames.
+    bool is_final = 8;            // Exactly one final frame is required.
 }
 
 // Snapshot isolation levels

@@ -1688,6 +1688,10 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::crea
 // TransactionWrapper implementation (MVCC)
 
 RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation)
+    : TransactionWrapper(db, isolation, false) {}
+
+RocksDBWrapper::TransactionWrapper::TransactionWrapper(
+    RocksDBWrapper* db, TransactionIsolationLevel isolation, bool synchronous_wal)
     : db_(db), isolation_(isolation), state_(State::NotStarted) {
     if (!db_ || !db_->db_) {
         THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
@@ -1695,7 +1699,12 @@ RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db, Trans
         return;
     }
 
-    txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
+    auto write_options = *db_->write_options_;
+    if (synchronous_wal) {
+        write_options.sync = true;
+        write_options.disableWAL = false;
+    }
+    txn_.reset(db_->db_->BeginTransaction(write_options, *db_->txn_options_));
     if (!txn_) {
         THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
         state_ = State::CreationFailed;
@@ -1766,7 +1775,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
         THEMIS_ERROR("TransactionWrapper::get: transaction not active");
         return std::nullopt;
     }
-    
+
     std::string value = {};
     rocksdb::ReadOptions read_opts;
     
@@ -1784,6 +1793,31 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     }
     
     return std::nullopt;
+}
+
+Result<std::optional<std::vector<uint8_t>>>
+RocksDBWrapper::TransactionWrapper::getChecked(std::string_view key) {
+    using Value = std::optional<std::vector<uint8_t>>;
+    if (!txn_ || state_ != State::Active) {
+        return Err<Value>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                          "TransactionWrapper::getChecked: transaction not active");
+    }
+
+    rocksdb::ReadOptions read_options;
+    if (isolation_ == TransactionIsolationLevel::Snapshot) {
+        read_options.snapshot = txn_->GetSnapshot();
+    }
+    std::string value;
+    const auto status = txn_->Get(
+        read_options, rocksdb::Slice(key.data(), key.size()), &value);
+    if (status.IsNotFound()) {
+        return Value{};
+    }
+    if (!status.ok()) {
+        return Err<Value>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                          "TransactionWrapper::getChecked: " + status.ToString());
+    }
+    return Value{std::vector<uint8_t>(value.begin(), value.end())};
 }
 
 /**
@@ -2075,6 +2109,11 @@ bool RocksDBWrapper::TransactionWrapper::popSavePoint() {
  */
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
     return std::make_unique<TransactionWrapper>(this, isolation);
+}
+
+std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginDurableTransaction(
+    TransactionIsolationLevel isolation) {
+    return std::make_unique<TransactionWrapper>(this, isolation, true);
 }
 
 /**

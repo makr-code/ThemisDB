@@ -385,6 +385,21 @@ TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
     closeAndCleanupTempRdb(db, path);
 }
 
+TEST(TCS, RocksDBTensorBackendReportsUnavailableDatabase) {
+    auto path = makeTempRdbPath("closed");
+    auto db = openTempRdb(path);
+    ASSERT_TRUE(db);
+    storage::RocksDBTensorBackend backend(db);
+    ASSERT_TRUE(backend.put("prefix:key", {1}));
+    db->close();
+
+    EXPECT_THROW(backend.get("prefix:key"), std::runtime_error);
+    EXPECT_THROW(backend.listKeys("prefix:"), std::runtime_error);
+    EXPECT_EQ(backend.putIfAbsent("prefix:key", {2}),
+              storage::ITensorStorageBackend::PutIfAbsentResult::Error);
+    closeAndCleanupTempRdb(db, path);
+}
+
 // Also verify RocksDBTensorBackend can be injected into TensorCoreStorageBridge.
 TEST(TCS, TCB_RDB_06_IntegratedWithTensorCoreStorageBridge) {
     auto path = makeTempRdbPath("06");

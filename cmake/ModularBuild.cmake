@@ -1164,6 +1164,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
+    ../src/sharding/shard_artifact_fragment_store.cpp
     
     # WAL and replication
     ../src/sharding/stream_protocol.cpp
@@ -1183,6 +1184,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/transaction/distributed_transaction_manager.cpp    # Two-Phase Commit coordinator (moved from transaction module to resolve WALManager dependency)
     ../src/sharding/two_phase_commit_participant.cpp
     ../src/sharding/two_phase_commit_coordinator.cpp
+    ../src/sharding/raft_two_phase_commit_decision_store.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp

@@ -1,26 +1,68 @@
 {
   "version": "1.0.0",
+  "workload_profile_catalog": "workload_profiles.json",
+  "observed_case_workload_links": {
+    "bench_p0_crud_baseline": {
+      "workload_id": "themisdb:micro/phase0-crud-inmemory@1",
+      "exact_observed_cases": [
+        "BM_P0_InsertHeavy/min_time:1.000/iterations:10000/real_time",
+        "BM_P0_ReadHeavy/min_time:1.000/iterations:10000/real_time",
+        "BM_P0_UpdateHeavy/min_time:1.000/iterations:10000/real_time",
+        "BM_P0_DeleteHeavy/min_time:1.000/iterations:10000/real_time"
+      ],
+      "source": "benchmarks/phase0/bench_p0_crud_baseline.cpp"
+    },
+    "bench_mmdb": {
+      "workload_id": "themisdb:component/mmdb-secondary-index@1",
+      "exact_observed_cases": [
+        "MMDBFixture/IndexedProductLookup/1000/real_time",
+        "MMDBFixture/CategoryDocumentJoin/1000/real_time",
+        "MMDBFixture/GraphOneHop/1000/real_time",
+        "MMDBFixture/MultiModelContextAssembly/1000/real_time"
+      ],
+      "source": "benchmarks/mmdb/bench_mmdb.cpp"
+    }
+  },
   "suites": {
     "all": {
-      "binary_regex": "^bench_"
+      "binary_regex": "^bench_",
+      "workload_profile_ids": [
+        "themisdb:micro/phase0-crud-inmemory@1",
+        "themisdb:component/mmdb-secondary-index@1"
+      ]
     },
     "baseline": {
-      "binary_regex": "bench_(w4a_release_gates|p0_crud_baseline|sanity|smoke|phase1_.*|phase0_.*)"
+      "binary_regex": "bench_(w4a_release_gates|p0_crud_baseline|sanity|smoke|phase1_.*|phase0_.*)",
+      "workload_profile_ids": [
+        "themisdb:micro/phase0-crud-inmemory@1"
+      ]
     },
     "core": {
-      "binary_regex": "bench_(crud|mvcc|wal_stress|simple_insert_test|cross_functional_end_to_end|latency_comprehensive|scalability_comprehensive)"
+      "binary_regex": "bench_(crud|mvcc|wal_stress|simple_insert_test|cross_functional_end_to_end|latency_comprehensive|scalability_comprehensive)",
+      "workload_profile_ids": [],
+      "related_http_workload_profile_ids": [
+        "themisdb:e2e/core-http-crud-mix@1",
+        "themisdb:e2e/core-http-aql-index-equality@1"
+      ]
     },
     "index": {
-      "binary_regex": "bench_(ann_.*|cuda_vs_cpu|simd_distance|category_b_gpu_cpu_parity|tensor_cpu_gpu_dispatch|gpu_backends)"
+      "binary_regex": "bench_(ann_.*|cuda_vs_cpu|simd_distance|category_b_gpu_cpu_parity|tensor_cpu_gpu_dispatch|gpu_backends)",
+      "workload_profile_ids": [],
+      "related_http_workload_profile_ids": [
+        "themisdb:e2e/core-http-aql-index-equality@1"
+      ]
     },
     "search": {
-      "binary_regex": "bench_(rag_.*|.*search.*|fts_.*|hybrid_search)"
+      "binary_regex": "bench_(rag_.*|.*search.*|fts_.*|hybrid_search)",
+      "workload_profile_ids": []
     },
     "llm": {
-      "binary_regex": "bench_(llm_.*|lora_.*|embedded_llm|phase1_flash_attention|raid_lora|legal_lora_pipeline)"
+      "binary_regex": "bench_(llm_.*|lora_.*|embedded_llm|phase1_flash_attention|raid_lora|legal_lora_pipeline)",
+      "workload_profile_ids": []
     },
     "metadata": {
-      "binary_regex": "^bench_metadata_cache$"
+      "binary_regex": "^bench_metadata_cache$",
+      "workload_profile_ids": []
     }
   }
 }

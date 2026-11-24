@@ -110,6 +110,7 @@ struct TensorRetrievalPlan {
 
     std::size_t stale_shards_rejected = 0;
 
+    /// Set only after an actual graph-truth check; transport success is insufficient.
     bool passed_graph_validation = false;
 
     rag::GraphTruthValidationResult validation_result;
@@ -174,11 +175,29 @@ public:
         const std::vector<FragmentLoadRequest>& requests,
         const std::string& correlation_id = {}) noexcept;
 
+    /**
+     * @brief Report whether fetched fragments can be checked against graph truth.
+     * @param plan Retrieval plan containing exact fragment results.
+     * @param query Query used by the graph-truth layer.
+     * @param config Graph-truth validation policy.
+     * @return Explicit failure when no validator, fragment results, or supported
+     *         projection to TensorLayerSummary is available.
+     * @note Successful fragment transport is not graph validation. The current
+     *       opaque byte format has no graph-candidate projection contract.
+     */
     [[nodiscard]] rag::GraphTruthValidationResult validateAgainstGraphTruth(
         const TensorRetrievalPlan& plan,
         const std::string& query,
         const rag::GraphTruthValidatorConfig& config = {}) const noexcept;
 
+    /**
+     * @brief Validate that a retrieval plan has complete, matching fragment results.
+     * @param plan Plan whose results must contain one entry per request in order.
+     * @return True when the configured success-rate threshold is met and, when
+     *         strict graph validation is enabled, graph truth has passed; false
+     *         for empty, incomplete, mismatched, or otherwise invalid plans.
+     * @note Fragment transport by itself is not evidence of graph truth.
+     */
     [[nodiscard]] bool isValidFinalPlan(const TensorRetrievalPlan& plan) const noexcept;
 
     // ─── Configuration ────────────────────────────────────────────────────
@@ -186,6 +205,7 @@ public:
     struct Config {
         uint32_t max_summary_ttl_seconds = 3600;
 
+        /// Minimum successful request fraction required for a final plan, in [0, 1].
         float min_fragment_success_rate = 0.8f;
 
         bool enable_fallback_routing = true;
@@ -236,6 +256,13 @@ public:
         const FragmentLoadRequest& request,
         const std::string& correlation_id = {}) const noexcept = 0;
 
+    /**
+     * @brief Fetch a batch while preserving request/result correspondence.
+     * @param requests Ordered fragment requests.
+     * @param correlation_id Optional request correlation identifier.
+     * @return Exactly one result per request, in the same order, including failed
+     *         results for requests that could not be fetched.
+     */
     [[nodiscard]] virtual std::vector<FragmentLoadResult> fetchFragments(
         const std::vector<FragmentLoadRequest>& requests,
         const std::string& correlation_id = {}) const noexcept = 0;

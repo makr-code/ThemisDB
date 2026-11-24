@@ -22,7 +22,8 @@ namespace themis::tensor {
  * @brief Durable wrapper for TensorFingerprintGraph using ITensorStorageBackend.
  *
  * Persists each fingerprint graph entry under tenant/domain scoped keys and uses
- * a small operation journal for crash-safe recovery of partial writes.
+ * a small operation journal for recovery of partial writes. Callers must
+ * serialize graph and backend mutations made through these wrappers.
  */
 class PersistentTensorFingerprintGraph {
 public:
@@ -31,12 +32,35 @@ public:
                                      std::string tenant_id,
                                      std::string domain);
 
+    /**
+     * @brief Recover the journal and replace this tenant/domain's graph entries.
+     * @return False for invalid or out-of-scope journal/entry records or failed
+     *         writes; unrelated tenant/domain graph entries are preserved.
+     * @throws std::runtime_error when a backend reports a read or scan failure.
+     * @note Callers must exclude concurrent graph reads and mutations, and
+     *       backend mutations, throughout recovery. Recovered entries are
+     *       validated before the existing graph is modified, but replacement
+     *       is not atomic. Journal replay may modify the backend even if
+     *       validation later fails.
+     */
     [[nodiscard]] bool rehydrate();
 
+    /**
+     * @brief Persist an adapter and update the graph.
+     * @param adapter_key Non-empty graph key, owned by this tenant and domain.
+     * @param train Adapter tensor train.
+     * @param base_model_id Adapter model identifier.
+     * @return False on invalid input, a conflicting namespace, or a failed write.
+     */
     [[nodiscard]] bool addAdapter(const std::string& adapter_key,
                                   const storage::TTTrain& train,
                                   const std::string& base_model_id);
 
+    /**
+     * @brief Remove an adapter belonging to this tenant and domain.
+     * @param adapter_key Non-empty graph key.
+     * @return False if absent, conflicting, or a storage operation fails.
+     */
     [[nodiscard]] bool removeAdapter(const std::string& adapter_key);
 
     [[nodiscard]] std::shared_ptr<TensorFingerprintGraph> graph() const noexcept { return graph_; }
@@ -59,6 +83,8 @@ private:
     [[nodiscard]] bool writeEntry(const PersistedEntry& entry);
     [[nodiscard]] bool deleteEntry(const std::string& adapter_key);
     [[nodiscard]] std::optional<PersistedEntry> readEntry(const std::string& key) const;
+    [[nodiscard]] bool entryMatchesKey(const PersistedEntry& entry,
+                                       const std::string& key) const;
 
     [[nodiscard]] bool writeWithJournal(JournalOp op,
                                         const std::string& target_key,

@@ -113,17 +113,17 @@ Status: Active
 - A partial platform release does not hide the failed build lane: the aggregate matrix and final release status remain failed. Nightly Docker manifest promotion still requires both validated `amd64` and `arm64` image digests.
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
-- Hash: `ff58415b236088a7`
+- Hash: `c9eef9353efbb853`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-performance-gate.yml
 - Kategorie: build_test_ci
-- Hash: `8e6a4182f3878296`
+- Hash: `3511e9dc0d1245d7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-thematic-suites.yml
 - Kategorie: build_test_ci
-- Hash: `4924c5315f997ad1`
+- Hash: `5c7b5be27f22e3dc`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-benchmarks.yml
@@ -148,7 +148,7 @@ Status: Active
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `b080ee84d2ad128b`
+- Hash: `73431f5c5bc224bd`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -173,7 +173,7 @@ Status: Active
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `bf79b0ee296c0336`
+- Hash: `9dab210b8d58d19b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -228,7 +228,7 @@ Status: Active
 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `da815ebe2fd31684`
+- Hash: `944d779cdb300320`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-artifact-size.yml
@@ -433,7 +433,7 @@ Status: Active
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `878efca4ec2d080f`
+- Hash: `5a98421d3dee9a71`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -473,12 +473,12 @@ Status: Active
 
 ## .github/workflows/release-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `cedb6f723ecc52b5`
+- Hash: `99796199c0c96b95`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `1dfd2df4871ae65e`
+- Hash: `5cf6b9b9d9c5fd9c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-promote.yml

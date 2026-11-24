@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "last_updated": "2026-11-23",
+    "source_level": 1,
+    "sot_domain": "module-behavior",
+    "canonical_sources": [
+      "benchmarks/BENCHMARK_STANDARDS.md",
+      "benchmarks/MEASUREMENT_HYGIENE.md",
+      "benchmarks/phase0/bench_p0_crud_baseline.cpp",
+      "benchmarks/mmdb/bench_mmdb.cpp",
+      "benchmarks/standard_benchmarks_integration.py",
+      "benchmarks/core_http_mix.py",
+      "benchmarks/core_http_aql_index.py"
+    ],
+    "related_milestone": "DOC-WEEKLY-2026-48"
+  },
+  "id_policy": "themisdb:<class>/<domain-workload>@<major>; IDs identify workload semantics, not binaries. Do not reuse an ID after a semantic change.",
+  "profiles": [
+    {
+      "workload_id": "themisdb:micro/phase0-crud-inmemory@1",
+      "status": "simulation-only",
+      "workload_class": "micro",
+      "semantics": {
+        "operation": "Single-thread in-memory key/value CRUD mix over a local BaselineKVStore unordered_map mock.",
+        "cases": {
+          "BM_P0_InsertHeavy": "80% inserts, 20% reads",
+          "BM_P0_ReadHeavy": "80% reads, 20% writes",
+          "BM_P0_UpdateHeavy": "80% updates, 20% reads",
+          "BM_P0_DeleteHeavy": "80% deletes, 20% inserts"
+        },
+        "production_path": false
+      },
+      "dataset": {
+        "kind": "Deterministic synthetic key/value entries in process memory",
+        "initial_records": {
+          "insert_read_update": 50,
+          "delete": 100
+        },
+        "key_format": "key_<index>",
+        "value_format": "64 'v' characters followed by the index",
+        "distribution": "Deterministic indexed keys; no external dataset"
+      },
+      "seed": {
+        "value": 42,
+        "source": "benchmarks/phase0/phase0_fixtures.h:kP0CanonicalSeed"
+      },
+      "concurrency": {
+        "threads": 1,
+        "arrival_model": "Single-thread Google Benchmark iteration loop"
+      },
+      "duration": {
+        "mode": "Google Benchmark minimum run time per case",
+        "minimum_seconds": 1.0,
+        "source": "BENCHMARK registration in bench_p0_crud_baseline.cpp"
+      },
+      "warmup": {
+        "outside_measured_loop": true,
+        "phases": [
+          {"name": "cold", "operations": 50, "purpose": "Initial store writes"},
+          {"name": "warm", "operations": 100, "purpose": "Sequential reads"},
+          {"name": "hot", "operations": 200, "purpose": "Seeded random reads"}
+        ],
+        "source": "benchmarks/phase0/phase0_fixtures.h"
+      },
+      "correctness": {
+        "operation_success_checked": false,
+        "expected_state_asserted": false,
+        "readback_validated": false,
+        "notes": "Operation return values are not consistently checked; this profile describes a simulation, not a correctness-qualified database workload."
+      },
+      "metrics": {
+        "items_processed": true,
+        "operations_counter": true,
+        "store_size_counter": true,
+        "request_latency_percentiles": false,
+        "server_resources": false
+      },
+      "environment": {
+        "execution": "In-process C++ mock; no ThemisDB storage engine, server, or network",
+        "build_and_hardware": "Must be taken from the run manifest for an actual run",
+        "external_comparison_ready": false
+      },
+      "evidence_outputs": [
+        {
+          "artifact": "Google Benchmark JSON output",
+          "availability": "Runner-configured; raw case output is retained by the existing benchmark result flow"
+        },
+        {
+          "artifact": "benchmark_run_manifest.json / run_manifest.json",
+          "availability": "CTest case observations and MSVC normalized records/repeatability include workload_id only for exact, unambiguous catalog links; executable-level identity is null."
+        }
+      ],
+      "sources": [
+        "benchmarks/phase0/bench_p0_crud_baseline.cpp",
+        "benchmarks/phase0/phase0_fixtures.h",
+        "benchmarks/BENCHMARK_STANDARDS.md"
+      ],
+      "limitations": [
+        "Simulation-only; do not use for ThemisDB production performance claims.",
+        "No performance target or acceptance threshold is defined by this profile."
+      ]
+    },
+    {
+      "workload_id": "themisdb:component/mmdb-secondary-index@1",
+      "status": "source-described",
+      "workload_class": "component",
+      "semantics": {
+        "operation": "Persisted local RocksDB-backed indexed product/document/edge reads through SecondaryIndexManager.",
+        "cases": [
+          "IndexedProductLookup",
+          "CategoryDocumentJoin",
+          "GraphOneHop",
+          "MultiModelContextAssembly"
+        ],
+        "production_path": true
+      },
+      "dataset": {
+        "products": 1000,
+        "documents_per_product": 1,
+        "edges_per_product": 4,
+        "categories": 10,
+        "generation": "Deterministic IDs and category_id = product_id modulo 10"
+      },
+      "seed": {
+        "value": null,
+        "applicability": "No PRNG is used; fixture data is generated deterministically from the product index."
+      },
+      "concurrency": {
+        "threads": 1,
+        "arrival_model": "Single-thread Google Benchmark fixture; no Threads registration in this source"
+      },
+      "duration": {
+        "mode": "Google Benchmark runner/CMake registration",
+        "minimum_seconds": null,
+        "note": "The case does not set MinTime locally; capture the effective runner value from the run configuration."
+      },
+      "warmup": {
+        "outside_measured_loop": true,
+        "sequential_reads": 100,
+        "patterned_reads": 200,
+        "note": "Fixture load creates the persisted records before these reads."
+      },
+      "correctness": {
+        "operation_success_checked": true,
+        "expected_state_asserted": true,
+        "readback_validated": true,
+        "checks": [
+          "Expected product/document/edge result counts",
+          "Product and document IDs match",
+          "Category joins retain the requested category",
+          "One-hop edges match the expected target set"
+        ]
+      },
+      "metrics": {
+        "items_processed": true,
+        "request_latency_percentiles": false,
+        "index_build_time": false,
+        "server_resources": false,
+        "units": "Google Benchmark case time; items_processed counters"
+      },
+      "environment": {
+        "execution": "Local RocksDB and SecondaryIndexManager; no remote server",
+        "rocksdb_compression_default": "lz4",
+        "rocksdb_compression_bottommost": "zstd",
+        "block_cache_size_mb": 128,
+        "memtable_size_mb": 64,
+        "database_path": "Unique child of the OS temporary directory",
+        "build_and_hardware": "Must be taken from the run manifest for an actual run",
+        "external_comparison_ready": false
+      },
+      "evidence_outputs": [
+        {
+          "artifact": "Google Benchmark JSON output",
+          "availability": "Runner-configured; raw case output is retained by the existing benchmark result flow"
+        },
+        {
+          "artifact": "benchmark_run_manifest.json / run_manifest.json",
+          "availability": "CTest case observations and MSVC normalized records/repeatability include workload_id only for exact, unambiguous catalog links; executable-level identity is null."
+        }
+      ],
+      "sources": [
+        "benchmarks/mmdb/bench_mmdb.cpp",
+        "benchmarks/BENCHMARK_STANDARDS.md"
+      ],
+      "limitations": [
+        "Profile is derived from source inspection only; no benchmark was executed for this task.",
+        "No performance target, baseline, or release threshold is defined by this profile."
+      ]
+    },
+    {
+      "workload_id": "themisdb:e2e/ycsb-inspired-http-abcf@1",
+      "status": "source-described",
+      "workload_class": "e2e",
+      "semantics": {
+        "operation": "Serial HTTP Entity API workload with readback validation and owned-key cleanup.",
+        "supported_workloads": {
+          "A": "50% read / 50% update",
+          "B": "95% read / 5% update",
+          "C": "Read only",
+          "F": "50% read / 50% read-modify-write"
+        },
+        "deviations": [
+          "Uniform rather than upstream Zipfian key distribution",
+          "Whole-record updates; RMW is two non-atomic HTTP calls",
+          "No fixed-duration steady-state or concurrent load"
+        ],
+        "measurement_includes": [
+          "HTTP client and dispatch",
+          "Record generation",
+          "Validation work"
+        ],
+        "external_comparison_ready": false
+      },
+      "dataset": {
+        "record_count_default": 1000,
+        "operation_count_default": 10000,
+        "field_count_default": 10,
+        "field_length_default": 100,
+        "source": "CLI defaults in benchmarks/standard_benchmarks_integration.py"
+      },
+      "seed": {
+        "value": 42,
+        "source": "CLI default in benchmarks/standard_benchmarks_integration.py"
+      },
+      "concurrency": {
+        "clients": 1,
+        "arrival_model": "Serial calls; concurrency is not implemented by this adapter"
+      },
+      "duration": {
+        "mode": "Fixed operation count",
+        "operations": "Caller-configured; default 10000",
+        "fixed_wall_time": false,
+        "request_timeout_seconds_default": 10.0
+      },
+      "warmup": {
+        "separate_warmup_phase": false,
+        "dataset_load_and_readback": "Outside measurement; dataset is warm after load/readback"
+      },
+      "correctness": {
+        "write_success_checked": true,
+        "readback_validated": true,
+        "cleanup_owned_keys_only": true,
+        "http_errors_or_mismatched_reads": "Abort publication"
+      },
+      "metrics": {
+        "request_latency_percentiles": ["p50", "p95", "p99"],
+        "throughput": true,
+        "operation_counts": true,
+        "errors": true,
+        "server_resources": "Optional local PID observer; unavailable values remain null"
+      },
+      "environment": {
+        "endpoint": "Required dedicated loopback ThemisDB server",
+        "rate_limit": "Server limit is part of configuration; record it in run evidence",
+        "authentication_and_durability": "Not configured by this CLI",
+        "build_and_hardware": "Capture server binary/build and host details separately",
+        "production_instance": false
+      },
+      "evidence_outputs": [
+        {
+          "artifact": "Caller-selected JSON report",
+          "availability": "Published only after measurement and cleanup succeed"
+        },
+        {
+          "artifact": "Optional server resource snapshots",
+          "availability": "Only with --server-pid; scope and unavailable metrics are documented in ycsb/README.md"
+        },
+        {
+          "artifact": "benchmark_run_manifest.json / run_manifest.json",
+          "availability": "Not emitted by this CLI; preserve separately if wrapping the run"
+        }
+      ],
+      "sources": [
+        "benchmarks/standard_benchmarks_integration.py",
+        "benchmarks/ycsb/README.md",
+        "benchmarks/BENCHMARK_STANDARDS.md"
+      ],
+      "limitations": [
+        "YCSB-inspired, not official YCSB and not a reference_workload classification.",
+        "Profile is documentation derived from current sources; no run was executed for this task.",
+        "No performance target or external comparison claim is defined by this profile."
+      ]
+    },
+    {
+      "workload_id": "themisdb:e2e/core-http-crud-mix@1",
+      "status": "source-described",
+      "workload_class": "e2e",
+      "semantics": {
+        "operation": "Equal single-request Entity API create, read, update and delete on disjoint keys, shuffled with a seeded PRNG.",
+        "phases": ["load", "warmup", "measurement", "validation", "cleanup"],
+        "measurement_includes": "Client HTTP calls, scheduling and response status/write-envelope checks; final-state and measured-read validation follow measurement.",
+        "external_comparison_ready": false
+      },
+      "dataset": {
+        "kind": "Synthetic entities in a unique owned collection",
+        "records_per_operation_default": 1000,
+        "records_per_operation_minimum": 1,
+        "records_per_operation_maximum": null,
+        "load_records": "3 times records per operation, with readback",
+        "measured_requests": "4 times records per operation"
+      },
+      "seed": {"value": 42, "source": "benchmarks/benchmark_batch_operations.py:RANDOM_SEED"},
+      "concurrency": {
+        "default": 1,
+        "minimum": 1,
+        "maximum": 64,
+        "arrival_model": "Closed-loop bounded in-flight requests; seeded submission order does not fix concurrent completion order."
+      },
+      "duration": {
+        "mode": "Fixed operation count; no fixed wall-time or arrival rate",
+        "request_timeout_seconds_default": 30
+      },
+      "warmup": {
+        "outside_measured_loop": true,
+        "batch_writes": 50,
+        "sequential_reads": 100,
+        "seeded_random_reads": 200
+      },
+      "correctness": {
+        "checks": ["Load readback", "Measured response status and write envelopes", "Measured reads and all final states", "Attempted-key cleanup and absence"],
+        "publication": "Only after validation and cleanup succeed; timed-out writes may still commit after cleanup."
+      },
+      "metrics": {
+        "request_counts_and_throughput": true,
+        "per_operation_latency_samples_ms": true,
+        "per_operation_percentiles": "p50 median; p95/p99 nearest-rank only with at least 20/100 samples per operation",
+        "phase_wall_times": true,
+        "process_resources": "Optional client and selected server phase snapshots and CPU/process-I/O deltas; unavailable counters are null."
+      },
+      "environment": {
+        "endpoint": "Caller-selected HTTP(S) origin; use a dedicated configured server",
+        "server_pid": "Optional; requires psutil and a local numeric loopback listener owned by the selected PID",
+        "authentication": "Optional bearer token via environment variable",
+        "build_and_hardware": "Capture independently; server configuration and rate limits affect results."
+      },
+      "evidence_outputs": [
+        {"artifact": "Caller-selected JSON report", "availability": "Published after successful validation and cleanup; contains workload_id and configurable records/concurrency."},
+        {"artifact": "Client and server process observations", "availability": "Client when available; server only with verified --server-pid. Endpoint snapshots are not phase memory peaks."},
+        {"artifact": "Run manifest", "availability": "Not emitted; capture revision, build, hardware and full configuration separately."}
+      ],
+      "sources": ["benchmarks/core_http_mix.py", "benchmarks/benchmark_batch_operations.py", "benchmarks/docs/CORE_HTTP_MIX.md"],
+      "limitations": [
+        "Not a reference workload, transaction, AQL, multi-node or restart-durability test.",
+        "Server resources can include background activity; process I/O is not physical disk I/O, and GPU, energy and disk footprint are not measured.",
+        "No performance target or external comparison is defined. Functional smokes are not current-build performance evidence."
+      ]
+    },
+    {
+      "workload_id": "themisdb:e2e/core-http-aql-index-equality@1",
+      "status": "source-described",
+      "workload_class": "e2e",
+      "semantics": {
+        "operation": "Serial HTTP AQL equality lookups on a synthetic lookup field with an owned non-unique secondary index created before load; full-scan fallback disabled.",
+        "phases": ["load_and_index_setup", "warmup_and_plan_check", "measurement", "validation", "cleanup"],
+        "measurement_includes": "Client HTTP calls and loop/status checks; measured result validation follows measurement.",
+        "external_comparison_ready": false
+      },
+      "dataset": {
+        "kind": "Synthetic id, alphabetic unique lookup and value fields in a unique owned collection",
+        "records_default": 1000,
+        "records_minimum": 1,
+        "records_maximum": 100000,
+        "queries_default": 10000,
+        "queries_minimum": 1,
+        "queries_maximum": 100000,
+        "key_selection": "Seeded uniform selection with replacement"
+      },
+      "seed": {"value": 42, "source": "benchmarks/benchmark_batch_operations.py:RANDOM_SEED"},
+      "concurrency": {"clients": 1, "arrival_model": "Serial requests"},
+      "duration": {
+        "mode": "Fixed query count; no fixed wall-time",
+        "request_timeout_seconds_default": 30
+      },
+      "warmup": {
+        "outside_measured_loop": true,
+        "batch_writes": 50,
+        "sequential_reads": 100,
+        "seeded_random_reads": 200,
+        "aql_lookups": "Up to 10 validated lookups and one explain check"
+      },
+      "correctness": {
+        "checks": ["Loaded entity readback", "Reported index_optimized plan and predicate", "Every measured query result and loaded entity", "Attempted entity absence, zero index entries and dropped metadata"],
+        "publication": "Only after validation and cleanup succeed; timed-out writes or index changes may still commit after cleanup."
+      },
+      "metrics": {
+        "request_counts_and_throughput": true,
+        "latency_summary_ms": "Mean, p50 median, p95/p99 nearest-rank only with at least 20/100 samples",
+        "raw_latency_samples_in_report": false,
+        "phase_wall_times": true,
+        "process_resources": "Optional client and selected server phase snapshots and CPU/process-I/O deltas; unavailable counters are null."
+      },
+      "environment": {
+        "endpoint": "Caller-selected HTTP(S) origin; use a dedicated configured server with aql_request schema",
+        "server_pid": "Optional; requires psutil and a local numeric loopback listener owned by the selected PID",
+        "authentication": "Optional bearer token via environment variable",
+        "build_and_hardware": "Capture independently; server configuration and rate limits affect results."
+      },
+      "evidence_outputs": [
+        {"artifact": "Caller-selected JSON report", "availability": "Published after successful validation and cleanup; contains workload_id, record count and measured request count."},
+        {"artifact": "Client and server process observations", "availability": "Client when available; server only with verified --server-pid. Endpoint snapshots are not phase memory peaks."},
+        {"artifact": "Run manifest", "availability": "Not emitted; capture revision, build, hardware and full configuration separately."}
+      ],
+      "sources": ["benchmarks/core_http_aql_index.py", "benchmarks/core_http_mix.py", "benchmarks/benchmark_batch_operations.py", "benchmarks/docs/CORE_HTTP_AQL_INDEX.md"],
+      "limitations": [
+        "The explain check is a server-reported plan, not an independent physical I/O trace.",
+        "Not a reference workload, broad AQL, concurrent-load, transaction, multi-node or restart-durability test.",
+        "Server resources can include background activity; process I/O is not physical disk I/O, and GPU, energy and disk footprint are not measured.",
+        "No performance target or external comparison is defined. The authenticated live functional smoke used a cached binary, not a verified current-worktree build; it is not production authentication policy or performance evidence."
+      ]
+    }
+  ]
+}

@@ -14,9 +14,21 @@
 #include "sharding/raft_shard_manager.h"
 #include "shard_rpc.grpc.pb.h"
 
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER)
+#include "distributed_tensor/shard_rpc_fragment_fetcher.h"
+#include "distributed_tensor/graph_summary_projection.h"
+#include "distributed_tensor/local_projection_publisher.h"
+#include "sharding/shard_artifact_fragment_store.h"
+#endif
+
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH)
+#include "rag/graph_truth_validator.h"
+#endif
+
 #include "../test_crypto_material_utils.h"
 
 #include <grpcpp/grpcpp.h>
+#include <nlohmann/json.hpp>
 #include <openssl/evp.h>
 
 #include <algorithm>
@@ -44,6 +56,7 @@
 #include <string_view>
 #include <system_error>
 #include <thread>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -828,6 +841,374 @@ waitForRaftReadyMarker(const fs::path& path, std::chrono::milliseconds timeout) 
     context.set_deadline(deadline());
     return stub.PrepareShardTransfer(&context, request, &checkpoint);
 }
+
+TEST(ShardFragmentGrpc, FetchesBoundedManifestVerifiedPayloadOverMtls) {
+    const FixtureDirectory root;
+    const std::vector<std::string> members{"node1", "node2", "node3"};
+    writeRaftCertificates(root.path, members);
+    const std::string payload("tensor\0fragment", 15);
+    const auto digest = sha256(payload);
+
+    ShardRPCServer::Config server_config;
+    server_config.listen_address =
+        "127.0.0.1:" + std::to_string(loopbackPort());
+    server_config.tls_cert_path = (root.path / "node2-cert.pem").string();
+    server_config.tls_key_path = (root.path / "node2-key.pem").string();
+    server_config.tls_ca_cert_path =
+        (root.path / "trusted-clients.pem").string();
+    server_config.tensor_fragment_shard_id = "shard-a";
+    server_config.tensor_fragment_identity_bindings.push_back(
+        {"x509_subject_alternative_name", "node1.test", "principal-a"});
+    server_config.tensor_fragment_reader =
+        [payload, digest](const std::string& principal,
+                         const std::string& shard_id,
+                         const std::string& artifact_id,
+                         uint64_t max_bytes)
+            -> std::optional<themis::sharding::TensorFragmentPayload> {
+        if (principal != "principal-a" || shard_id != "shard-a" ||
+            (artifact_id != "artifact-a" &&
+             artifact_id != "corrupt-artifact")) {
+            return std::nullopt;
+        }
+        (void)max_bytes;
+        auto stored_bytes = payload;
+        if (artifact_id == "corrupt-artifact") {
+            stored_bytes[0] = 'X';
+        }
+        return themis::sharding::TensorFragmentPayload{
+            std::vector<uint8_t>(stored_bytes.begin(), stored_bytes.end()), digest};
+    };
+
+    ShardRPCServer server(server_config);
+    ASSERT_TRUE(server.start());
+    const auto endpoint = server_config.listen_address;
+
+    auto client_config = raftClientConfig(root.path, endpoint, "node1", "node2");
+    ShardRPCClient client(client_config);
+    const auto fetched = client.fetchTensorFragment(
+        "node2", "shard-a", "artifact-a", payload.size(), 1000, "corr-a");
+    EXPECT_EQ(std::string(fetched.bytes.begin(), fetched.bytes.end()), payload);
+    EXPECT_EQ(fetched.sha256, digest);
+
+    auto undersized = ShardRPCClient(client_config);
+    EXPECT_THROW(undersized.fetchTensorFragment(
+                     "node2", "shard-a", "artifact-a", payload.size() - 1,
+                     1000, "corr-a"),
+                 std::runtime_error);
+
+    auto unauthorized_config =
+        raftClientConfig(root.path, endpoint, "node3", "node2");
+    ShardRPCClient unauthorized_client(unauthorized_config);
+    EXPECT_THROW(unauthorized_client.fetchTensorFragment(
+                     "node2", "shard-a", "artifact-a", payload.size(), 1000,
+                     "corr-a"),
+                 std::runtime_error);
+
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER)
+    auto adapter_client = std::make_shared<ShardRPCClient>(client_config);
+    themis::distributed_tensor::ShardRPCFragmentFetcher fetcher(
+        {{"node2", adapter_client}});
+    themis::distributed_tensor::FragmentLoadRequest request;
+    request.target_node_id = "node2";
+    request.shard_id = "shard-a";
+    request.artifact_id = "artifact-a";
+    request.expected_content_hash = digest;
+    request.max_response_bytes = payload.size();
+    request.timeout_ms = 1000;
+    const auto result = fetcher.fetchFragment(request, "corr-a");
+    ASSERT_TRUE(result.success) << result.error_reason;
+    EXPECT_EQ(std::string(result.fragment_data.begin(), result.fragment_data.end()),
+              payload);
+
+    request.artifact_id = "corrupt-artifact";
+    const auto altered_bytes = fetcher.fetchFragment(request, "corr-a");
+    EXPECT_FALSE(altered_bytes.success);
+    EXPECT_TRUE(altered_bytes.fragment_data.empty());
+
+    request.artifact_id = "artifact-a";
+    request.expected_content_hash = sha256("wrong");
+    const auto corrupt = fetcher.fetchFragment(request, "corr-a");
+    EXPECT_FALSE(corrupt.success);
+    EXPECT_TRUE(corrupt.fragment_data.empty());
+
+    themis::distributed_tensor::ArtifactManifest manifest(
+        "artifact-a", themis::distributed_tensor::ArtifactClass::PRIMARY);
+    manifest.set_version("v1");
+    manifest.set_content_hash(digest);
+    themis::distributed_tensor::ShardPlacement placement;
+    placement.shard_id = "shard-a";
+    placement.node_id = "node2";
+    placement.shard_content_hash = digest;
+    placement.shard_size_bytes = payload.size();
+    manifest.add_shard_placement(std::move(placement));
+    themis::distributed_tensor::DistributedTensorPlanner planner;
+    themis::tensor::ShardSummary summary;
+    summary.shard_id = "shard-a";
+    summary.shard_relevance = 0.95f;
+    auto plan = planner.buildRetrievalPlan(
+        std::vector<themis::tensor::ShardSummary>{summary}, manifest,
+        "query", "corr-a");
+    ASSERT_EQ(plan.fragment_requests.size(), 1u);
+    EXPECT_EQ(plan.fragment_requests.front().target_node_id, "node2");
+    EXPECT_EQ(plan.fragment_requests.front().expected_content_hash, digest);
+    plan.fragment_results.push_back(corrupt);
+    auto planner_config = planner.config();
+    planner_config.strict_graph_validation = false;
+    planner.setConfig(planner_config);
+    EXPECT_FALSE(planner.isValidFinalPlan(plan));
+    plan.fragment_results.front() = result;
+    EXPECT_TRUE(planner.isValidFinalPlan(plan));
+#endif
+}
+
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER)
+TEST(ShardFragmentGrpc, StoredProjectionFlowsThroughMtlsAndManifestBoundPlanner) {
+    namespace dt = themis::distributed_tensor;
+    namespace tensor = themis::tensor;
+    const FixtureDirectory root;
+    writeRaftCertificates(root.path, {"node1", "node2", "node3"});
+
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = (root.path / "fragment-db").string();
+    auto db = std::make_shared<themis::RocksDBWrapper>(db_config);
+    ASSERT_TRUE(db->open());
+    auto store = std::make_shared<themis::sharding::ShardArtifactFragmentStore>(db);
+
+    themis::storage::TTTrain train;
+    themis::storage::TTCore core;
+    core.r_left = 1;
+    core.n = 2;
+    core.r_right = 2;
+    core.data = {1.0f, 2.0f, 3.0f, 4.0f};
+    train.cores.push_back(core);
+    train.mode_sizes = {2};
+    tensor::TensorFingerprintGraph graph_source;
+    const std::string query_key = "__adapters__:tenant-a:alpha:model-a";
+    ASSERT_TRUE(graph_source.addAdapter(query_key, train, "alpha", "model-a", "tenant-a"));
+    ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-a:Alpha:Alpha", train,
+                                        "Alpha", "Alpha", "tenant-a"));
+    const auto source_snapshot = graph_source.snapshotSimilarForTenant(query_key, "tenant-a", 1);
+    ASSERT_TRUE(source_snapshot);
+    ASSERT_EQ(source_snapshot->candidates.size(), 1u);
+    tensor::TensorLayerSummary summary;
+    summary.scope_key = query_key;
+    summary.layer_kind = tensor::TensorLayerKind::FingerprintSummary;
+    summary.similar_adapters = source_snapshot->candidates;
+    summary.candidate_count = summary.similar_adapters.size();
+    const auto payload = dt::GraphSummaryProjectionCodec::encode(summary);
+    const auto digest = sha256(std::string_view(
+        reinterpret_cast<const char*>(payload.data()), payload.size()));
+    auto publisher = std::make_unique<dt::LocalProjectionPublisher>(
+        db, "shard-a", "node2",
+        themis::sharding::ShardArtifactFragmentStore::kDefaultMaxFragmentBytes);
+    auto manifest = publisher->publishFromGraph(
+        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 1);
+    EXPECT_THROW((void)publisher->publishFromGraph(
+        graph_source, "principal-a", "tenant-b", "source-a", "alpha", "model-a", 1),
+        std::runtime_error);
+    EXPECT_THROW((void)publisher->publishFromGraph(
+        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "missing", 1),
+        std::runtime_error);
+    EXPECT_THROW((void)publisher->publishFromGraph(
+        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 0),
+        std::invalid_argument);
+    tensor::TensorFingerprintGraph invalid_query;
+    ASSERT_TRUE(invalid_query.addAdapter(query_key, train, "other", "model-a", "tenant-a"));
+    EXPECT_THROW((void)publisher->publishFromGraph(
+        invalid_query, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 1),
+        std::runtime_error);
+    ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-b:foreign:model", train,
+                                        "foreign", "model", "tenant-a"));
+    EXPECT_THROW((void)publisher->publishFromGraph(
+        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 2),
+        std::invalid_argument);
+    ASSERT_TRUE(graph_source.removeAdapter("__adapters__:tenant-b:foreign:model"));
+    EXPECT_EQ(publisher->publish("principal-a", "tenant-a", "source-a", summary).artifact_id(),
+              manifest.artifact_id());
+    EXPECT_NE(publisher->publish("principal-a", "tenant-a", "source-b", summary).artifact_id(),
+              manifest.artifact_id());
+    EXPECT_THROW((void)publisher->publish("principal-a", "tenant-b", "source-a", summary),
+                 std::invalid_argument);
+    auto foreign_summary = summary;
+    foreign_summary.similar_adapters.front().adapter_key =
+        "__adapters__:tenant-b:alpha:peer";
+    EXPECT_THROW((void)publisher->publish(
+        "principal-a", "tenant-a", "source-a", foreign_summary), std::invalid_argument);
+    auto inconsistent_summary = summary;
+    inconsistent_summary.similar_adapters.front().domain = "Other";
+    EXPECT_THROW((void)publisher->publish(
+        "principal-a", "tenant-a", "source-a", inconsistent_summary), std::invalid_argument);
+    publisher.reset();
+    store.reset();
+    db->close();
+    ASSERT_TRUE(db->open());
+    store = std::make_shared<themis::sharding::ShardArtifactFragmentStore>(db);
+    publisher = std::make_unique<dt::LocalProjectionPublisher>(
+        db, "shard-a", "node2",
+        themis::sharding::ShardArtifactFragmentStore::kDefaultMaxFragmentBytes);
+    auto restored_manifest = publisher->load("principal-a", manifest.artifact_id());
+    ASSERT_TRUE(restored_manifest);
+    EXPECT_EQ(restored_manifest->artifact_id(), manifest.artifact_id());
+    EXPECT_FALSE(publisher->load("principal-b", manifest.artifact_id()));
+    dt::LocalProjectionPublisher smaller_limit(db, "shard-a", "node2", 1);
+    EXPECT_THROW((void)smaller_limit.load("principal-a", manifest.artifact_id()),
+                 std::runtime_error);
+    manifest = std::move(*restored_manifest);
+
+    ShardRPCServer::Config config;
+    config.listen_address = "127.0.0.1:" + std::to_string(loopbackPort());
+    config.tls_cert_path = (root.path / "node2-cert.pem").string();
+    config.tls_key_path = (root.path / "node2-key.pem").string();
+    config.tls_ca_cert_path = (root.path / "trusted-clients.pem").string();
+    config.tensor_fragment_shard_id = "shard-a";
+    config.tensor_fragment_identity_bindings.push_back(
+        {"x509_subject_alternative_name", "node1.test", "principal-a"});
+    config.tensor_fragment_reader =
+        [store](const std::string& principal, const std::string& shard,
+                const std::string& artifact, uint64_t max_bytes) {
+            return store->read(principal, shard, artifact, max_bytes);
+        };
+    ShardRPCServer server(config);
+    ASSERT_TRUE(server.start());
+    const auto client_config =
+        raftClientConfig(root.path, config.listen_address, "node1", "node2");
+    auto rpc_client = std::make_shared<ShardRPCClient>(client_config);
+    auto remote_manifest = dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-a", "tenant-a", "shard-a", "node2",
+        manifest.artifact_id(), payload.size(), 1000, "manifest-a");
+    EXPECT_EQ(remote_manifest.artifact_id(), manifest.artifact_id());
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-a", "tenant-b", "shard-a", "node2",
+        manifest.artifact_id(), payload.size(), 1000, "manifest-b"),
+        std::runtime_error);
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-b", "tenant-a", "shard-a", "node2",
+        manifest.artifact_id(), payload.size(), 1000, "manifest-c"),
+        std::runtime_error);
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-a", "tenant-a", "shard-a", "node2",
+        manifest.artifact_id(), 1, 1000, "manifest-d"),
+        std::runtime_error);
+    const std::string invalid_id = "tspj1-" + std::string(64, '0');
+    ASSERT_EQ(store->put("principal-a", "shard-a", "tspjm1-" + invalid_id,
+                         std::vector<uint8_t>{'{', '}'}),
+              themis::sharding::ShardArtifactFragmentStore::PutResult::Stored);
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-a", "tenant-a", "shard-a", "node2",
+        invalid_id, payload.size(), 1000, "manifest-invalid"),
+        std::runtime_error);
+    const auto foreign_payload = dt::GraphSummaryProjectionCodec::encode(foreign_summary);
+    const auto foreign_digest = sha256(std::string_view(
+        reinterpret_cast<const char*>(foreign_payload.data()), foreign_payload.size()));
+    std::string id_input = "themis.tensor.local-projection/v1";
+    for (const auto& field : {std::string("principal-a"), std::string("tenant-a"),
+                              std::string("source-foreign"), std::string("shard-a"),
+                              std::string("node2"), foreign_summary.scope_key,
+                              foreign_digest}) {
+        id_input += std::to_string(field.size()) + ":" + field;
+    }
+    const auto foreign_id = "tspj1-" + sha256(id_input);
+    const nlohmann::json foreign_record = {
+        {"format", 1}, {"principal", "principal-a"}, {"tenant", "tenant-a"},
+        {"source", "source-foreign"}, {"shard", "shard-a"}, {"node", "node2"},
+        {"scope", foreign_summary.scope_key}, {"digest", foreign_digest},
+        {"size", foreign_payload.size()}, {"artifact", foreign_id}};
+    const auto foreign_record_text = foreign_record.dump();
+    ASSERT_EQ(store->put("principal-a", "shard-a", foreign_id, foreign_payload),
+              themis::sharding::ShardArtifactFragmentStore::PutResult::Stored);
+    ASSERT_EQ(store->put("principal-a", "shard-a", "tspjm1-" + foreign_id,
+                         std::vector<uint8_t>(foreign_record_text.begin(),
+                                              foreign_record_text.end())),
+              themis::sharding::ShardArtifactFragmentStore::PutResult::Stored);
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        *rpc_client, "principal-a", "tenant-a", "shard-a", "node2",
+        foreign_id, foreign_payload.size(), 1000, "manifest-foreign"),
+        std::runtime_error);
+    manifest = std::move(remote_manifest);
+    auto fetcher = std::make_shared<dt::ShardRPCFragmentFetcher>(
+        std::unordered_map<std::string, std::shared_ptr<ShardRPCClient>>{
+            {"node2", rpc_client}});
+
+    ASSERT_EQ(manifest.shard_placements().size(), 1u);
+    auto placement = manifest.shard_placements().front();
+    ASSERT_EQ(placement.shard_content_hash, digest);
+
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH)
+    namespace kg = themis::rag::kg;
+    kg::KnowledgeGraph graph;
+    kg::KGNode node;
+    node.id = "alpha-node";
+    node.canonical_name = "Alpha";
+    node.type = kg::EntityType::CONCEPT;
+    graph.addNode(std::move(node));
+    auto validator = std::make_shared<themis::rag::GraphTruthValidator>();
+    validator->setKnowledgeGraphRetriever(
+        std::make_shared<kg::KnowledgeGraphRetriever>(graph));
+#endif
+    dt::DistributedTensorPlanner planner;
+    planner.setFragmentFetcher(fetcher);
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH)
+    planner.setGraphValidator(validator);
+#endif
+    tensor::ShardSummary routing;
+    routing.shard_id = "shard-a";
+    routing.shard_relevance = 0.9f;
+
+    auto plan = planner.buildRetrievalPlan({routing}, manifest, "Alpha", "corr-a");
+    ASSERT_EQ(plan.fragment_requests.size(), 1u);
+    plan.fragment_results = planner.executeFragmentLoads(plan.fragment_requests, "corr-a");
+    ASSERT_EQ(plan.fragment_results.size(), 1u);
+    ASSERT_TRUE(plan.fragment_results[0].success) << plan.fragment_results[0].error_reason;
+    EXPECT_EQ(plan.fragment_results[0].fragment_data, payload);
+    const auto decoded = dt::GraphSummaryProjectionCodec::decode(
+        plan.fragment_results[0].fragment_data);
+    ASSERT_TRUE(decoded.ok());
+    EXPECT_EQ(decoded.summary->scope_key, summary.scope_key);
+#if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH)
+    const auto validation = planner.validateAgainstGraphTruth(plan, "Alpha");
+    ASSERT_FALSE(validation.evidences.empty());
+    EXPECT_TRUE(plan.passed_graph_validation);
+    EXPECT_TRUE(planner.isValidFinalPlan(plan));
+#endif
+
+    placement.shard_content_hash = sha256("wrong");
+    manifest.add_shard_placement(placement);
+    auto corrupt_plan =
+        planner.buildRetrievalPlan({routing}, manifest, "Alpha", "corr-b");
+    ASSERT_EQ(corrupt_plan.fragment_requests.size(), 1u);
+    corrupt_plan.fragment_results =
+        planner.executeFragmentLoads(corrupt_plan.fragment_requests, "corr-b");
+    ASSERT_EQ(corrupt_plan.fragment_results.size(), 1u);
+    EXPECT_FALSE(corrupt_plan.fragment_results[0].success);
+    EXPECT_TRUE(corrupt_plan.fragment_results[0].fragment_data.empty());
+    EXPECT_FALSE(planner.isValidFinalPlan(corrupt_plan));
+
+    const auto unauthorized_config =
+        raftClientConfig(root.path, config.listen_address, "node3", "node2");
+    ShardRPCClient unauthorized(unauthorized_config);
+    EXPECT_THROW((void)dt::LocalProjectionPublisher::loadRemote(
+        unauthorized, "principal-a", "tenant-a", "shard-a", "node2",
+        manifest.artifact_id(), payload.size(), 1000, "manifest-e"),
+        std::runtime_error);
+    EXPECT_THROW(unauthorized.fetchTensorFragment(
+        "node2", "shard-a", manifest.artifact_id(), payload.size(), 1000, "corr-c"),
+        std::runtime_error);
+
+    constexpr char digits[] = "0123456789abcdef";
+    std::string artifact_hex;
+    for (const unsigned char byte : manifest.artifact_id()) {
+        artifact_hex.push_back(digits[byte >> 4]);
+        artifact_hex.push_back(digits[byte & 15]);
+    }
+    const auto manifest_key =
+        "themis/tensor-projection-manifest/v1/7072696e636970616c2d61/" + artifact_hex;
+    ASSERT_TRUE(db->put(manifest_key, std::string_view{"invalid"}));
+    EXPECT_THROW((void)publisher->load("principal-a", manifest.artifact_id()),
+                 std::runtime_error);
+    EXPECT_THROW((void)publisher->publish("principal-a", "tenant-a", "source-a", summary),
+                 std::runtime_error);
+}
+#endif
 
 void sendChunk(rpc::ShardService::Stub& stub, const rpc::ShardTransferChunk& request,
                grpc::StatusCode expected_status, std::uint64_t expected_checkpoint = 0) {

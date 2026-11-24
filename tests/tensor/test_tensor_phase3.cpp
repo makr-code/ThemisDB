@@ -1124,6 +1124,19 @@ static TTTrain makeTFGTrain(float fill_value = 1.0f) {
 }
 
 // TFG-01: addAdapter registers the entry; size increases
+TEST(AdapterRepository, RejectsInvalidTrainBeforeReplacingStoredAdapter) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant");
+    const auto valid = makeTFGTrain();
+    ASSERT_TRUE(repo.store("domain", "model", valid));
+    auto invalid = valid;
+    invalid.mode_sizes.front() += 1;
+    EXPECT_FALSE(repo.store("domain", "model", invalid));
+    const auto stored = backend->get("__adapters__:tenant:domain:model");
+    ASSERT_TRUE(stored);
+    EXPECT_EQ(*stored, valid.serialize());
+}
+
 TEST(TensorFingerprintGraph, TFG01_addAdapter_registers_entry) {
     TensorFingerprintGraph graph;
     EXPECT_EQ(graph.size(), 0u);
@@ -1179,6 +1192,45 @@ TEST(TensorFingerprintGraph, TFG04_findSimilar_excludes_query_adapter) {
     for (const auto& r : results) {
         EXPECT_NE(r.adapter_key, "key_query");
     }
+}
+
+TEST(TensorFingerprintGraph, FindSimilarRestrictsCandidatesToQueryTenant) {
+    TensorFingerprintGraph graph;
+    const auto train = makeTFGTrain();
+    ASSERT_TRUE(graph.addAdapter("query", train, "legal", "model", "tenant-a"));
+    ASSERT_TRUE(graph.addAdapter("peer", train, "legal", "model", "tenant-a"));
+    ASSERT_TRUE(graph.addAdapter("foreign", train, "legal", "model", "tenant-b"));
+
+    const auto results = graph.findSimilar("query", 10);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results.front().adapter_key, "peer");
+    const auto scoped = graph.findSimilarForTenant("query", "tenant-a", 10);
+    ASSERT_EQ(scoped.size(), 1u);
+    EXPECT_EQ(scoped.front().adapter_key, "peer");
+    EXPECT_THROW((void)graph.findSimilarForTenant("query", "tenant-b", 10),
+                 std::invalid_argument);
+    EXPECT_THROW((void)graph.findSimilarForTenant("query", "", 10),
+                 std::invalid_argument);
+    EXPECT_TRUE(graph.findSimilarForTenant("missing", "tenant-a", 10).empty());
+    EXPECT_TRUE(graph.findSimilarForTenant("query", "tenant-a", 0).empty());
+    const auto snapshot = graph.snapshotSimilarForTenant("query", "tenant-a", 10);
+    ASSERT_TRUE(snapshot);
+    EXPECT_EQ(snapshot->query_domain, "legal");
+    EXPECT_EQ(snapshot->query_base_model_id, "model");
+    ASSERT_EQ(snapshot->candidates.size(), 1u);
+    EXPECT_EQ(snapshot->candidates.front().adapter_key, "peer");
+    EXPECT_FALSE(graph.snapshotSimilarForTenant("missing", "tenant-a", 10));
+    EXPECT_THROW((void)graph.snapshotSimilarForTenant("query", "tenant-b", 10),
+                 std::invalid_argument);
+
+    themis::query::StopReason stop_reason = themis::query::StopReason::None;
+    const auto request_results = graph.findSimilar(
+        "query", 10, themis::query::RequestContext{}, &stop_reason);
+    ASSERT_EQ(request_results.size(), 1u);
+    EXPECT_EQ(request_results.front().adapter_key, "peer");
+    EXPECT_EQ(stop_reason, themis::query::StopReason::None);
+
+    EXPECT_TRUE(graph.findSimilar("foreign", 10).empty());
 }
 
 // TFG-05: removeAdapter removes the entry
@@ -2405,6 +2457,8 @@ TEST(TensorRAGPipeline, TRPL12_tensor_mid_layer_summary_attached_when_retrieval_
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "session-rag";
+    cfg.tensor_tenant_id = "session-rag";
+    cfg.tensor_scope_id = "__adapters__:session-rag:legal:mA";
     cfg.use_flare = true;
     cfg.use_targ = false;
     cfg.flare_config.confidence_threshold = -2.303f;
@@ -2416,6 +2470,41 @@ TEST(TensorRAGPipeline, TRPL12_tensor_mid_layer_summary_attached_when_retrieval_
     auto decision = pipeline.step("tok", -5.0f, uncertainLogits2());
     EXPECT_TRUE(decision.should_retrieve);
     EXPECT_FALSE(decision.tensor_routing_reason.empty());
+}
+
+TEST(TensorRAGPipeline, TensorRetrievalRequiresExplicitTenantAndScope) {
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setFingerprintGraph(graph);
+    ASSERT_TRUE(graph->addAdapter("query", makeTFGTrain(), "legal", "mA", "tenant-a"));
+    ASSERT_TRUE(graph->addAdapter("peer", makeTFGTrain(), "legal", "mB", "tenant-a"));
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "unrelated-session";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    TensorRAGPipeline missing(cfg);
+    EXPECT_THROW(missing.setTensorMidLayer(mid), std::invalid_argument);
+
+    cfg.tensor_tenant_id = "tenant-a";
+    TensorRAGPipeline missing_scope(cfg);
+    EXPECT_THROW(missing_scope.setTensorMidLayer(mid), std::invalid_argument);
+    cfg.tensor_scope_id = "query";
+    TensorRAGPipeline allowed(cfg);
+    allowed.setTensorMidLayer(mid);
+    const auto decision = allowed.step("tok", -5.0f, uncertainLogits2());
+    ASSERT_TRUE(decision.should_retrieve);
+    ASSERT_EQ(decision.tensor_summary_candidates.size(), 1u);
+    EXPECT_EQ(decision.tensor_summary_candidates.front().adapter_key, "peer");
+    EXPECT_EQ(decision.correlation_id, "unrelated-session");
+
+    cfg.tensor_tenant_id = "tenant-b";
+    TensorRAGPipeline forbidden(cfg);
+    forbidden.setTensorMidLayer(mid);
+    EXPECT_THROW((void)forbidden.step("tok", -5.0f, uncertainLogits2()),
+                 std::invalid_argument);
 }
 
 TEST(TensorRAGPipeline, TRPL13_graph_truth_evidence_attached_when_validator_set) {
@@ -2442,6 +2531,8 @@ TEST(TensorRAGPipeline, TRPL13_graph_truth_evidence_attached_when_validator_set)
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "session-graph";
+    cfg.tensor_tenant_id = "session-graph";
+    cfg.tensor_scope_id = "__adapters__:session-graph:legal:mA";
     cfg.use_flare = true;
     cfg.use_targ = false;
     cfg.flare_config.confidence_threshold = -2.303f;
@@ -2495,6 +2586,8 @@ TEST(TensorRAGPipeline, TRPL14_final_layer_resolution_attached_when_orchestrator
 
     TensorRAGPipelineConfig cfg;
     cfg.session_id = "session-final";
+    cfg.tensor_tenant_id = "session-final";
+    cfg.tensor_scope_id = "__adapters__:session-final:legal:mA";
     cfg.final_layer_package_id = "session-final";
     cfg.final_layer_base_model = "llama-7b";
     cfg.final_layer_base_model_version = "3.1";

@@ -13,7 +13,7 @@ Exact model backend not verifiable from final document text alone.
 - [x] Dokumentierter End-to-End-Playbook- und Katalogpfad in `benchmarks/docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md` bereitgestellt (Target: 2026-Q2)
 - [x] CI-Gate-Spezifikation für Framework-CLI als verpflichtender Gate-Job in `benchmarks/docs/CI_GATE.md` dokumentiert (Target: 2026-Q2)
 - [x] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (README, INDEX, AUDIT, SECURITY, ROADMAP) (Target: 2026-Q2)
-- [x] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` liefert reproduzierbare Drift-Erkennung — Re-Audit 2026-07-17: 217 Quellen entdeckt, 216 registriert, 1 intentional excluded, 0 unregistrierte (Target: 2026-Q3)
+- [x] Static coverage audit `tools/ci/audit_benchmark_coverage.py` — Re-Audit 2026-11-23: 389 Quellen entdeckt, 386 eligible benchmark targets mit CTest-Smoke registriert, 3 intentional excluded; zwei weitere stub-only diagnostics sind separat als normale CTest-Targets registriert. Die 51 unassigned paths sind ein src-Modul-Zuordnungsproblem, keine CMake-Registrierungslücke.
 - [x] Syntax-Fehler (C-Block-Header) in `scientific_evaluation_framework.py` behoben (Target: 2026-Q2)
 - [x] Wave-6-Release-Candidate-Suite inkl. finaler Guardrails/Drift-/Sättigungs-/Recovery-Auswertung über `benchmarks/ci_wave6_release_candidate_experiments.json` und Framework-Reportfelder umgesetzt (Target: 2026-Q3)
 
@@ -75,8 +75,196 @@ Exact model backend not verifiable from final document text alone.
   - [x] Suite-zu-Benchmark-Mapping in `benchmarks/benchmark_suite_map.json` versioniert
   - [x] Cadence split: baseline daily, heavy suites weekly
 - [x] Baseline-Verzeichnis mit initialen Wave-4-Baseline-JSONs befüllen und in CI integrieren (Target: 2026-Q4)
-- [x] GitHub Actions Workflow `.github/workflows/benchmark-gate.yml` aktivieren (Wave 4 gate contract) (Target: 2026-Q4)
+- [~] GitHub Actions Workflow `.github/workflows/benchmark-gate.yml` als Wave-4-Smoke betreiben; ein echtes Performance-Gate bleibt bis zu validierter Baseline und vergleichbarer Hardware deaktiviert (Target: 2026-Q4)
 - [x] `report_variance.py` als eigenständiges CI-Test-Target registrieren (Target: 2026-Q4)
+
+## Benchmark source inventory and workload identity (Blocks A+B)
+
+**Scope:** Keep the 389-source inventory auditable; distinguish source discovery,
+CMake/CTest registration, measured execution class, correctness evidence, and
+reference-workload conformance. Define stable workload IDs and machine-readable
+profile fields without duplicating
+[`BENCHMARK_STANDARDS.md`](BENCHMARK_STANDARDS.md) or
+[`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md), and without introducing
+performance targets.
+
+**Current state:** The source-to-CMake-to-CTest static audit passes for 386
+eligible benchmark sources; three sources are excluded from benchmark-tier
+coverage. It also reports 51 registered paths that cannot be assigned to an
+immediate `src/` module directory and two `src/` directories with no assigned
+sources. These counts describe the dirty worktree snapshot and are not release
+evidence. The detailed snapshot and source-backed triage are in
+[`SOURCE_CATALOG.md`](SOURCE_CATALOG.md). The machine-readable profile contract
+and its first source-described profiles are in
+[`workload_profiles.schema.json`](workload_profiles.schema.json) and
+[`workload_profiles.json`](workload_profiles.json). Workload-profile references
+are linked from `benchmark_suite_map.json`; they are descriptive and do not
+alter runner selection.
+
+### Phases and tasks
+
+1. **Inventory and attribution**
+   - [x] Re-run source-to-CMake-to-CTest audit; record eligible and excluded
+     denominators separately from source-to-module assignment.
+   - [x] Record all 51 unassigned paths, no-source module directories, and the
+     three benchmark-tier exclusions with their distinct CTest treatment.
+   - [~] Review remaining sources individually and assign `micro`, `component`,
+     `integration`, `e2e`, or `reference_workload` only from the measured code
+     path and correctness checks; retain source/target/CTest evidence.
+2. **Stable profile catalog**
+   - [x] Define immutable `themisdb:<class>/<domain-workload>@<major>` IDs and
+     require semantics, dataset, seed, concurrency, duration, warmup,
+     correctness, metrics, environment, evidence outputs, source references,
+     and limitations.
+   - [x] Add source-described examples for the simulated Phase-0 workload,
+     persisted MMDB component workload, and non-conformant HTTP YCSB-inspired
+     workload. Use explicit nulls or caller-configured values where evidence is
+     absent; define no performance targets.
+   - [~] Expand the profile catalog only as source reviews verify semantics;
+     do not allocate reference-workload IDs until upstream driver, protocol,
+     datasets, and correctness evidence are pinned.
+3. **Run evidence integration**
+   - [x] Add descriptive profile-catalog references to the existing suite map
+     without changing its binary filters.
+   - [x] Add additive workload-ID references to CTest and MSVC run records only
+     for exact, source-verifiable observed target/case pairs. Unknown and
+     ambiguous cases remain `null`; no suite regex or filename heuristic is used.
+     Current concrete links cover the four Phase-0 source cases and the four
+     registered MMDB source cases (including their explicit Google Benchmark
+     argument names).
+   - [x] Validate profile schema, suite-map references, CTest case linkage and
+     unknown/ambiguous/backward-compatible manifest behavior in focused static
+     and runner tests.
+
+### Acceptance criteria
+
+- Every discovered source appears in the current static inventory; excluded,
+  registered, module-assigned, and semantically classified counts are reported
+  as separate denominators.
+- Each source has one reviewed execution class or an explicit unresolved
+  classification with an owner/action; registration and naming alone never
+  determine the class.
+- Simulated, stub, placeholder, synthetic, and label-only/non-failing gates
+  are explicitly marked and excluded from production performance claims unless
+  their measured path and gate behavior are independently verified.
+- Stable profile IDs resolve from the suite map and include all required
+  dimensions. Unknown values stay null/unknown, not zero or inferred defaults.
+- Run manifests link an ID only when the exact observed case has a unique
+  mapping. Raw result, manifest, source revision, configuration, and failed or
+  skipped case evidence remain retained under the existing standards.
+- Reference-workload classification requires pinned upstream protocol/driver
+  and data provenance; `YCSB-inspired`, TPC-named, or other familiar labels are
+  not compliance evidence.
+
+### Dependencies
+
+- The static inventory depends on `tools/ci/audit_benchmark_coverage.py`,
+  source-tree module names, and benchmark CMake registration.
+- Semantic class review depends on source-level inspection of measured APIs,
+  setup/warmup boundaries, result validation, and gate failure behavior.
+- Profile-to-manifest linkage depends on exact target/case mappings in the
+  CTest and MSVC runners; suite regexes alone are not case mappings.
+- Reference profiles depend on upstream revisions, legal/provenance review,
+  pinned datasets and correctness/ground-truth checks.
+
+### Known limitations
+
+- The static audit proves discovery and registration, not production-path
+  fidelity or workload correctness. Its 51 unassigned paths are module
+  attribution gaps despite full eligible CTest registration.
+- Semantic classification is not complete for all 389 sources; the catalog
+  intentionally does not infer a class from filenames or folders.
+- Profile references in the suite map are descriptive; CTest case records and
+  MSVC normalized/repeatability
+  records now add `workload_id` only for the explicitly source-listed Phase-0
+  and MMDB exact target/case pairs. This is an additive field; no gate or
+  workload-selection behavior changes.
+- The Phase-0 profile is a mock-only simulation. The MMDB profile is source
+  evidence only. The HTTP YCSB-inspired profile is not upstream YCSB and does
+  not establish cross-database comparability.
+
+## Core HTTP workload and CI governance (Blocks C+D)
+
+- [~] Implement a single-node core workload using the real Entity API (Target: 2026-Q4).
+  `core_http_mix.py` runs a seeded, bounded closed-loop CRUD mix with separate load, warmup,
+  measurement, validation and owned-key cleanup phases. Request-level
+  percentiles use individual HTTP timings. Contract tests and a two-record isolated live
+  functional smoke passed on an existing copied server binary; this is neither
+  evidence for the current worktree build nor a performance baseline.
+- [~] Implement a real HTTP AQL equality workload with an owned secondary
+  index and validated results (Target: 2026-Q4). Contract tests and an isolated
+  three-record live smoke, including authenticated requests, passed against an
+  existing copied server binary. Its reported indexed plan is not a physical
+  I/O trace, and the smoke does not verify the current source build or
+  production authentication policy.
+- [x] Add source-described profile IDs for both HTTP workloads to the profile
+  catalog, descriptive suite-map references and their JSON reports
+  (Target: 2026-Q4). They do not alter Google Benchmark selection or claim CI
+  execution; CTest/MSVC manifest linkage remains open.
+- [?] Add a verified HTTP transaction workload only after transaction session
+  finalization and rollback reporting are fixed and covered by production tests
+  (Target: 2027-Q1). An isolated diagnostic observed a retained active session
+  after a rolled-back batch and a successful response for an unknown rollback
+  ID; it did not establish atomic visibility or durability. See
+  `docs/CORE_HTTP_TRANSACTION_BLOCKER.md`. The required C++ symbol-info,
+  reference and call-hierarchy tools were unavailable during this attempt;
+  no production C++ fix or associated build was performed.
+- [~] Capture separately scoped client and optional local server process
+  snapshots and CPU/process-I/O deltas for each phase of the CRUD and AQL
+  workloads (Target: 2026-Q4). Missing counters remain unavailable; endpoint
+  memory samples are not phase peaks, and server PID/listener ownership is
+  verified before writes. Isolated functional smokes observed both processes;
+  they do not establish performance or current-build compatibility.
+- [~] Add bounded concurrent mixed CRUD load with validated results and owned
+  cleanup (Target: 2026-Q4). The default remains serial; an isolated
+  four-worker functional smoke passed on an existing copied server binary.
+  Additional workload profiles, scale and representative performance evidence
+  remain open.
+- [~] Add restart/durability checks where applicable; retain explicit failures
+  and workload-specific correctness checks (Target: 2027-Q1). An opt-in,
+  isolated Windows check verified clean shutdown and HTTP readback after restart
+  on an existing copied server binary. Console membership checks are not atomic
+  against concurrent attachment. Linux, current-build compatibility, crash and
+  physical durability remain unverified; see
+  `docs/CORE_HTTP_RESTART_DURABILITY_BLOCKER.md`.
+- [~] Separate hosted Wave-4 smoke, expectations and thematic diagnostics
+  from performance/release decisions (Target: 2026-Q4). The Wave-4 smoke checks
+  all 13 registered W4A cases and five raw repetitions per case; it does not
+  establish performance evidence.
+- [~] Provide an opt-in identity and complete-case/repetition preflight in
+  `tools/ci/inspect_benchmark_evidence.py` (Target: 2026-Q4). It checks
+  declared baseline/current identities and raw result consistency, but does not
+  attest declarations or enable a performance gate.
+- [?] Bind executable and result identity to an isolated, bounded benchmark
+  execution without overwriting existing results (Target: 2027-Q1). Existing
+  runners do not establish this chain or Windows descendant containment; see
+  `docs/BENCHMARK_EXECUTION_CHAIN_BLOCKER.md`.
+- [x] Add optional paired local-observation consistency checks to the offline
+  preflight (Target: 2026-Q4): compare compatible artifact/workload hashes and
+  CPU/memory fields with each sidecar, result/catalog bytes with their hashes,
+  and structured OS fingerprints with each other. Configuration hashes and
+  the sidecar's free-form OS image have no unambiguous mapping and are not
+  compared. Capture time, source, execution and host/file association remain
+  unattested claims; this is not a gate or baseline approval.
+- [x] Add an offline local identity-capture CLI for exact executable, runner,
+  raw-result and effective-configuration hashes plus an observed Windows/Linux
+  OS/CPU/memory fingerprint. Workload IDs require exact existing
+  target/case/catalog resolution; the record is explicitly not attestation or
+  a comparison sidecar and does not execute benchmarks (Target: 2026-Q4).
+- [ ] Define dedicated runner identity, collect build/hardware fingerprints and
+  reviewed comparable baseline evidence, and validate complete expected cases,
+  repetitions and comparison policy before enabling performance gates
+  (Target: 2027-Q1). Missing, failed, skipped or mismatched evidence must not
+  pass. Record PR/nightly/heavy/release lane ownership and enforce the approved
+  cadence only after this evidence exists.
+
+The current diagnostic workflow names and reporter CLI change existing check
+names and invocation behavior; branch-protection rules and direct callers must
+be reviewed before rollout. See `docs/CORE_HTTP_MIX.md`,
+`docs/CORE_HTTP_AQL_INDEX.md`,
+`docs/CORE_HTTP_TRANSACTION_BLOCKER.md`,
+`docs/CORE_HTTP_RESTART_DURABILITY_BLOCKER.md`, and
+`.github/BENCHMARK_CI.md` for current scope and limitations.
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
@@ -116,14 +304,16 @@ Exact model backend not verifiable from final document text alone.
 - [x] Security-Review: keine externen Netzwerkabhängigkeiten, nur lokale JSON-I/O
 - [x] Monitoring/Observability via strukturierte JSON-Reports und Ticket-Outputs
 - [x] Dokumentation für Betrieb und Entwicklung vollständig für das Framework-CLI
-- [x] Wave 4 release-kritische Gates (W4A-01..W4A-06) mit versioniertem Manifest implementiert
+- [~] Wave-4-Messfälle W4A-01..W4A-06 und Manifest vorhanden; Performance-Gate bis zu validierter Baseline deaktiviert
 - [x] Wave 4 Resilience/Degradation-Szenarien (W4B) für verwertbare Performance-Aussagen implementiert
 - [x] Wave 4 Varianz-Akzeptanzkriterien (CV ≤ 15%) und Determinismus-Protokoll definiert und benchmarkabgedeckt
 
 ## Known Issues & Limitations
 - [I] Statistische Verfahren basieren auf CPU-seitiger Python-Auswertung; sehr große Stichproben erhöhen Laufzeit deutlich.
-- [I] Wave-4 Gate (`.github/workflows/benchmark-gate.yml`) ist aktiv; zusätzliche representative-hardware Läufe für ANN/Tensor/LLM Break-Even sind weiterhin als separates Evidence-Pack erforderlich.
-- [I] Wave 4 Baseline-Verzeichnis (`benchmarks/wave4/baselines/`) ist initial leer — muss nach erstem validen Release-Lauf befüllt werden.
+- [I] `.github/workflows/benchmark-gate.yml` ist ein Smoke, kein aktives Wave-4-Performance-Gate; repräsentative Hardware und überprüfte Baselines fehlen weiterhin.
+- [I] `baseline_v1.5.0.json` ist vorhanden, aber mangels vergleichbarer
+  Hardware-/Build-Identität und dokumentierter Baseline-Evidenz nicht als
+  Performance-Gate-Baseline freigegeben.
 - [I] `BackpressureSimulator` in `wave4_fixtures.h` ist nicht thread-safe für parallele Benchmark-Bodies; für Multi-Thread-Szenarien pro Thread instanziieren.
 
 ## Breaking Changes
@@ -133,4 +323,7 @@ Exact model backend not verifiable from final document text alone.
 - `standard_benchmarks_integration.py` CLI now requires `--endpoint`, `--workload` and `--output` and runs only the canonical HTTP YCSB-inspired path. Workloads D/E are not supported by this adapter. Optional `--server-pid` observes a verified local listening process; no SDK namespace encoding is used.
 - `llm_nlp_integration_test_suite.py` now runs only ThemisDB vector insert/search HTTP measurements over synthetic vectors. Its previous mock LLM/NLP scenarios and fixed-success outputs are removed; this runner does not measure embedding generation or RAG.
 - Unverified YCSB expectation/ratio fields are now `null`; industry-grade comparisons are no longer emitted. Consumers must not interpret missing reference evidence as zero performance.
-- Wave 4 additions remain additive.
+- Wave-4 `report_variance.py` requires `--no-gates` for diagnostic use; gate
+  evaluation now fails closed until comparable baseline evidence is available.
+  Benchmark workflow display/check names changed; update branch protection only
+  after reviewing the replacement checks.

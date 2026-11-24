@@ -211,6 +211,14 @@ public:
     [[nodiscard]] bool isPersistenceHealthy() const;
 
     /**
+     * @brief Report whether the log is backed by a durable journal.
+     * @return True when a persistence path is configured.
+     */
+    [[nodiscard]] bool hasDurableJournal() const noexcept {
+        return !persistence_path_.empty();
+    }
+
+    /**
      * @brief Read the most recently persisted Raft term and vote.
      * @return Pair of current term and candidate voted for in that term.
      */
@@ -271,10 +279,6 @@ public:
 
 private:
     friend class RaftState;
-
-    [[nodiscard]] bool hasDurableJournal() const noexcept {
-        return !persistence_path_.empty();
-    }
 
     /**
      * @brief Append a distinct proposal after the current log tail.

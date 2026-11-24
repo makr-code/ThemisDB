@@ -3003,6 +3003,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/distributed_transaction.cpp
     ../src/sharding/two_phase_commit_participant.cpp
     ../src/sharding/two_phase_commit_coordinator.cpp
+    ../src/sharding/raft_two_phase_commit_decision_store.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
@@ -3758,6 +3759,7 @@ if(NOT Protobuf_FOUND)
     list(REMOVE_ITEM THEMIS_CORE_SOURCES
         ../src/sharding/shard_repair_engine.cpp
         ../src/sharding/shard_rpc_server.cpp
+        ../src/sharding/shard_artifact_fragment_store.cpp
         ../src/server/rpc/blob_transfer_handler.cpp
         ../src/sharding/gossip_config_manager.cpp
         ../src/sharding/gossip_consensus_adapter.cpp
@@ -6313,6 +6315,23 @@ if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
    NOT TARGET themis_distributed_tensor)
     add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
                      ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
+endif()
+
+# The sharding tests are registered before the distributed-tensor module.
+if(THEMIS_BUILD_MODULAR AND TARGET test_shard_transfer_grpc AND
+   TARGET themis_distributed_tensor_shard_rpc_adapter)
+    target_link_libraries(test_shard_transfer_grpc PRIVATE
+        themis_distributed_tensor_shard_rpc_adapter)
+    target_compile_definitions(test_shard_transfer_grpc PRIVATE
+        THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER=1)
+    if(TARGET themis_query AND TARGET themis_llm)
+        target_link_libraries(test_shard_transfer_grpc PRIVATE themis_query themis_llm)
+        if(TARGET themis_llm_ext)
+            target_link_libraries(test_shard_transfer_grpc PRIVATE themis_llm_ext)
+        endif()
+        target_compile_definitions(test_shard_transfer_grpc PRIVATE
+            THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH=1)
+    endif()
 endif()
 
 if(THEMIS_BUILD_BENCHMARKS AND TARGET themis_distributed_tensor)

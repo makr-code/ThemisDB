@@ -675,7 +675,7 @@ TEST_F(CrossShardTransactionCoordinatorTest, RecoveryOnlyEndpointReusesRecordedT
     };
     std::vector<int64_t> timestamps;
     bool acknowledge = false;
-    config.in_process_rpc_response_handler =
+    config.in_process_response_handler =
         [&](std::string method, nlohmann::json parameters) -> nlohmann::json {
         if (method == "prepare") {
             return {{"vote", "commit"}, {"status", "prepared"}};

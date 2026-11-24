@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-22"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: api-contract
-Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/consistent_hash.h`, `include/sharding/epoch_fencing.h`, `include/sharding/raft_consensus.h`, `include/sharding/raft_state.h`, `include/sharding/raft_log.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `include/storage/mvcc_store.h`, `include/storage/rocksdb_wrapper.h`, `src/sharding/consistent_hash.cpp`, `src/storage/mvcc_store.cpp`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `src/sharding/raft_consensus.cpp`, `src/sharding/raft_state.cpp`, `src/sharding/raft_log.cpp`, `tests/sharding/test_dis03_routing_contract_focused.cpp`, `tests/storage/test_mvcc_range_export.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `tests/test_raft_persistence_focused.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `include/sharding/consistent_hash.h`, `include/sharding/epoch_fencing.h`, `include/sharding/raft_consensus.h`, `include/sharding/raft_shard_manager.h`, `include/sharding/raft_state.h`, `include/sharding/raft_log.h`, `include/sharding/raft_two_phase_commit_decision_store.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_server.h`, `include/sharding/shard_artifact_fragment_store.h`, `include/sharding/shard_rpc_client_adapter.h`, `proto/sharding/shard_rpc.proto`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `include/sharding/mtls_client.h`, `include/sharding/remote_executor.h`, `include/storage/mvcc_store.h`, `include/storage/rocksdb_wrapper.h`, `src/sharding/consistent_hash.cpp`, `src/storage/mvcc_store.cpp`, `src/sharding/mtls_client.cpp`, `src/sharding/remote_executor.cpp`, `src/sharding/raft_consensus.cpp`, `src/sharding/raft_shard_manager.cpp`, `src/sharding/raft_state.cpp`, `src/sharding/raft_log.cpp`, `src/sharding/raft_two_phase_commit_decision_store.cpp`, `tests/sharding/test_dis03_routing_contract_focused.cpp`, `tests/storage/test_mvcc_range_export.cpp`, `tests/sharding/test_mtls_client_cancellation.cpp`, `tests/test_raft_persistence_focused.cpp`, `tests/test_two_phase_commit.cpp`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/shard_rpc_server.cpp`, `src/sharding/shard_artifact_fragment_store.cpp`, `src/main_server.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -117,6 +117,71 @@ before killing the leader. Runtime evidence for follower failover,
 unavailable-journal fault injection, safe membership, and an end-to-end
 quorum-backed 2PC decision store remains open.
 
+## Tensor fragment RPC
+
+`FetchTensorFragment` is an additive server-streaming RPC for immutable
+fragment bytes. The client requires a configured expected peer identity and
+verified mTLS/DNS SAN, sends a positive deadline and byte ceiling, and does not
+retry. It validates shard/artifact/correlation identity on every frame,
+contiguous sequence numbers, a single final frame, consistent size/digest
+metadata, and the total response size. Streams are limited to 4096 frames,
+4 MiB per frame, and the configured client byte ceiling (at most 1 GiB).
+The server additionally applies its configured maximum response bytes,
+maximum deadline (default 30 seconds), and chunk size (default 1 MiB).
+
+The server requires an explicit X.509 identity-to-storage-principal binding,
+the exact locally served shard ID, and a configured `TensorFragmentReader`.
+That callback receives opaque artifact IDs rather than filesystem paths and
+must be thread-safe, enforce any additional tenant policy, obey the byte cap,
+and return complete payload bytes with a lowercase SHA-256. Missing readers or
+bindings fail closed. `ShardRPCClient` validates the stream and digest format;
+it does not establish that the bytes match a manifest. The optional
+`ShardRPCFragmentFetcher` performs that final SHA-256 comparison against the
+trusted artifact manifest before returning success.
+
+`ShardArtifactFragmentStore` defines a dedicated versioned RocksDB mapping:
+the exact `(principal_id, shard_id, artifact_id)` tuple is hex-encoded into
+`themis/shard-artifact-fragment/v1/`; metadata and payload are committed
+atomically. Fragments are immutable, identical replays are synchronously
+committed again, conflicting bytes are rejected, and reads check stored size metadata
+before loading the payload and then verify SHA-256. The principal is the
+authorization namespace resolved from the verified client certificate; host
+publishers must select a tenant-bound principal and store the bytes before
+publishing the matching manifest placement. Fragment transactions explicitly
+enable and synchronize the RocksDB WAL independently of the database defaults;
+power-loss behavior remains untested and depends on the storage stack honoring
+sync operations. This mapping intentionally does
+not reinterpret `TensorNetworkStorageEngine` field keys.
+
+`src/main_server.cpp` now starts `ShardRPCServer` only when
+`sharding.tensor_fragment_rpc.enabled` is explicitly true. Startup requires an
+explicit `sharding.shard_id` or non-empty `SHARD_ID`, listener address, server
+certificate, private key, client CA, and non-empty X.509 `identity_bindings`
+mapping to storage principals. It always requires mTLS/client-certificate
+verification, fails startup on invalid or unavailable configuration, and
+stops the listener before closing the shared database. The server uses the
+same RocksDB-backed fragment store as its reader. No mapping to tensor-field
+keys or automatic metadata/payload publisher is implied. ShardRPC transports
+opaque bytes; the separate distributed-tensor
+[`GraphSummaryProjectionCodec`](../distributed_tensor/README.md#graph-summary-projection)
+accepts only its versioned adapter-similarity format and does not change the
+transport or storage contract.
+
+`ShardTransferStoreTests` now includes source regressions for principal/shard
+isolation, digest verification, size bounds, immutable replay/conflict
+behavior, and database restart persistence. The Linux-only
+`ShardTransferGrpcTests` includes an additional unrun case composing the
+local publisher and RocksDB fragment reader with the mTLS adapter and a
+fixture summary.
+Production startup, automatic publishing, and gRPC-to-RocksDB runtime evidence
+remain unverified.
+
+Compatibility: the protobuf addition is additive and leaves existing RPCs
+unchanged. The new `ShardRPCClient::Config` and `ShardRPCServer::Config`
+members change C++ object layout, and `ShardArtifactFragmentStore` adds a
+public C++ API, so consumers must rebuild against matching headers;
+mixed-version binary ABI compatibility is not claimed.
+
 ## Durable 2PC recovery (DIS-06 / #8200)
 
 `TwoPhaseCommitCoordinator` owns the immutable COMMIT/ABORT decision for the named
@@ -145,6 +210,33 @@ participants and recovery retries. The binary WAL encoding is unchanged; this
 does not make the participant or replication logs compatible with coordinator
 logs. `getTransactionRecord()` exposes a value snapshot for lifecycle/participant
 status synchronization; it does not transfer ownership of internal state.
+
+The canonical coordinator and CrossShard configuration also accept an optional
+`decision_writer`/`decision_lookup` pair for a quorum-backed decision authority.
+`RaftTwoPhaseCommitDecisionStore` provides these callbacks for a
+`RaftShardManager::getRaftInstance()` result and logical Raft group ID. Both
+callbacks must be installed together. The store requires the current leader, a
+quorum, and a healthy durable journal; it serializes writers sharing the same
+Raft instance, scans committed and retained-uncommitted entries, and rejects
+conflicting decisions. The lookup returns only committed decisions. A missing
+or corrupt log entry, unavailable authority, term change, or conflicting history
+fails closed.
+
+When configured, a normal commit must pass the authority before local decision
+WAL or phase two; recovery checks the authority first, rejects
+local/authoritative conflicts, and reconciles a quorum decision into the local
+WAL before replaying phase two. If the authority has no committed decision,
+recovery can proceed with ABORT only after the writer confirms it. If these
+callbacks are absent, behavior remains local-WAL-only.
+
+The current Raft snapshot format does not contain this decision state machine.
+The adapter therefore refuses reads and writes after log compaction rather than
+treating compacted history as absence; snapshot integration remains required
+for operation across compaction. It also does not route requests to a remote
+leader: the coordinator must receive the current leader's Raft instance or
+provide an external leader-routing layer. Multi-node transport, crash/failover,
+compaction, and release-platform evidence remain required before claiming
+end-to-end quorum-backed 2PC.
 
 Roll out only after quiescing older coordinators and preserving all log domains.
 Unresolved older records require explicit maintainer reconciliation. Rolling

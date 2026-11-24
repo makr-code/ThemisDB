@@ -1,15 +1,21 @@
 #include "sharding/shard_transfer_store.h"
 #include "sharding/shard_range_snapshot.h"
+#include "sharding/shard_artifact_fragment_store.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/rocksdb_open_compat.h"
 
+#include <chrono>
 #include <filesystem>
 #include <memory>
 #include <random>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
 #include <rocksdb/db.h>
+#include <rocksdb/statistics.h>
+#include <rocksdb/utilities/transaction_db.h>
 
 namespace themis::sharding {
 namespace {
@@ -246,6 +252,132 @@ TEST_F(ShardTransferStoreTest, RejectsPersistedMissingChunkEvenAfterVerification
     EXPECT_THROW(store->readVerified(manifest, [&](std::string_view) { ++consumed; }),
                  std::runtime_error);
     EXPECT_EQ(consumed, 0u);
+}
+
+class ShardArtifactFragmentStoreTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        const auto suffix = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        path = std::filesystem::temp_directory_path() /
+               ("themis-shard-artifact-fragments-" + suffix);
+        ASSERT_TRUE(std::filesystem::create_directory(path));
+        ASSERT_TRUE(openDatabase());
+    }
+
+    void TearDown() override {
+        fragment_store.reset();
+        if (database) {
+            database->close();
+            database.reset();
+        }
+        std::error_code error;
+        std::filesystem::remove_all(path, error);
+        EXPECT_FALSE(error) << error.message();
+    }
+
+    bool openDatabase(bool disable_wal_for_benchmark = false) {
+        themis::storage::RocksDBWrapper::Config config;
+        config.db_path = path.string();
+        config.disable_wal_for_benchmark = disable_wal_for_benchmark;
+        database = std::make_shared<themis::storage::RocksDBWrapper>(config);
+        if (!database->open()) {
+            return false;
+        }
+        fragment_store =
+            std::make_unique<ShardArtifactFragmentStore>(database, 16);
+        return true;
+    }
+
+    std::filesystem::path path;
+    std::shared_ptr<themis::storage::RocksDBWrapper> database;
+    std::unique_ptr<ShardArtifactFragmentStore> fragment_store;
+};
+
+TEST_F(ShardArtifactFragmentStoreTest, SyncsWalForNewAndRepeatedFragments) {
+    fragment_store.reset();
+    database->close();
+    database.reset();
+    ASSERT_TRUE(openDatabase(true));
+    auto statistics = database->getRawDB()->GetOptions().statistics;
+    ASSERT_TRUE(statistics);
+    auto sync_count = statistics->getTickerCount(rocksdb::WAL_FILE_SYNCED);
+    const std::vector<uint8_t> payload{'a', 'b', 'c'};
+
+    ASSERT_EQ(fragment_store->put("tenant-a", "shard-1", "artifact", payload),
+              ShardArtifactFragmentStore::PutResult::Stored);
+    auto after_write = statistics->getTickerCount(rocksdb::WAL_FILE_SYNCED);
+    EXPECT_GT(after_write, sync_count);
+    ASSERT_EQ(fragment_store->put("tenant-a", "shard-1", "artifact", payload),
+              ShardArtifactFragmentStore::PutResult::Unchanged);
+    EXPECT_GT(statistics->getTickerCount(rocksdb::WAL_FILE_SYNCED), after_write);
+    EXPECT_TRUE(database->getConfig().disable_wal_for_benchmark);
+    EXPECT_FALSE(database->getConfig().force_sync_on_write);
+
+    fragment_store.reset();
+    database->close();
+    database.reset();
+    ASSERT_TRUE(openDatabase(true));
+    const auto restored = fragment_store->read("tenant-a", "shard-1", "artifact", 3);
+    ASSERT_TRUE(restored);
+    EXPECT_EQ(restored->bytes, payload);
+}
+
+TEST_F(ShardArtifactFragmentStoreTest, CheckedTransactionReadDistinguishesAbsenceAndFailure) {
+    auto transaction = database->beginTransaction();
+    ASSERT_TRUE(transaction);
+    ASSERT_TRUE(transaction->isActive());
+    const auto missing = transaction->getChecked("missing-key");
+    ASSERT_TRUE(missing);
+    EXPECT_FALSE(missing->has_value());
+    ASSERT_TRUE(transaction->put("present-key", std::vector<uint8_t>{'x'}));
+    const auto present = transaction->getChecked("present-key");
+    ASSERT_TRUE(present);
+    ASSERT_TRUE(present->has_value());
+    EXPECT_EQ(**present, (std::vector<uint8_t>{'x'}));
+    transaction->rollback();
+    EXPECT_FALSE(transaction->getChecked("missing-key"));
+}
+
+TEST_F(ShardArtifactFragmentStoreTest, EnforcesImmutablePrincipalScopedManifestMapping) {
+    const std::vector<uint8_t> payload{'a', 'b', 'c'};
+    EXPECT_EQ(fragment_store->put("tenant-a", "shard-1", "artifact-7", payload),
+              ShardArtifactFragmentStore::PutResult::Stored);
+    EXPECT_EQ(fragment_store->put("tenant-a", "shard-1", "artifact-7", payload),
+              ShardArtifactFragmentStore::PutResult::Unchanged);
+
+    const auto fetched = fragment_store->read("tenant-a", "shard-1", "artifact-7", 3);
+    ASSERT_TRUE(fetched);
+    EXPECT_EQ(fetched->bytes, payload);
+    EXPECT_EQ(fetched->sha256,
+              "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
+
+    EXPECT_FALSE(fragment_store->read("tenant-b", "shard-1", "artifact-7", 3));
+    EXPECT_FALSE(fragment_store->read("tenant-a", "shard-2", "artifact-7", 3));
+    EXPECT_FALSE(fragment_store->read("tenant-a", "shard-1", "artifact-7", 2));
+    EXPECT_EQ(fragment_store->put("tenant-a", "shard-1", "artifact-7",
+                                  std::vector<uint8_t>{'a', 'b', 'd'}),
+              ShardArtifactFragmentStore::PutResult::Conflict);
+    EXPECT_EQ(fragment_store->put("tenant-a", "shard-1", "oversized",
+                                  std::vector<uint8_t>(17, 0)),
+              ShardArtifactFragmentStore::PutResult::InvalidInput);
+    EXPECT_EQ(fragment_store->put("tenant-a", "shard-1", "empty",
+                                  std::vector<uint8_t>{}),
+              ShardArtifactFragmentStore::PutResult::Stored);
+    const auto empty = fragment_store->read("tenant-a", "shard-1", "empty", 1);
+    ASSERT_TRUE(empty);
+    EXPECT_TRUE(empty->bytes.empty());
+    EXPECT_EQ(empty->sha256,
+              "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+
+    fragment_store.reset();
+    database->close();
+    database.reset();
+    ASSERT_TRUE(openDatabase());
+    const auto after_restart =
+        fragment_store->read("tenant-a", "shard-1", "artifact-7", 3);
+    ASSERT_TRUE(after_restart);
+    EXPECT_EQ(after_restart->bytes, payload);
 }
 
 } // namespace

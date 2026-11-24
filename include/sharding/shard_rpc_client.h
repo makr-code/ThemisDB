@@ -16,6 +16,8 @@
 #include <stdexcept>
 #include <functional>
 #include <utility>
+#include <cstdint>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include "sharding/epoch_fencing.h"
 #include "sharding/consensus_module.h"
@@ -39,6 +41,16 @@ class OperationalMetrics;
 }
 
 namespace themis::sharding {
+
+/**
+ * @brief Complete tensor-fragment bytes and the digest asserted by the shard.
+ * @note The transport validates stream framing and metadata. Consumers must
+ *       verify `sha256` against their trusted manifest before accepting bytes.
+ */
+struct TensorFragmentPayload {
+    std::vector<uint8_t> bytes;
+    std::string sha256;
+};
 
 /**
  * @brief Exception thrown for non-retryable RPC errors.
@@ -119,6 +131,9 @@ public:
         // Metrics (optional, non-owning pointers; nullptr disables the respective metric sink)
         themisdb::sharding::OperationalMetrics* operational_metrics = nullptr;
         PrometheusMetrics*  prometheus_metrics  = nullptr;
+
+        /// Local hard cap for tensor fragment responses; values above 1 GiB are rejected.
+        uint64_t max_tensor_fragment_bytes = 64ULL * 1024ULL * 1024ULL;
     };
     
     /**
@@ -262,6 +277,30 @@ public:
         const std::string& raft_group_id,
         const std::string& expected_peer_node_id,
         const themisdb::sharding::AppendEntriesRequest& request);
+
+    /**
+     * @brief Fetch one bounded tensor fragment from an explicitly bound shard.
+     * @param expected_peer_node_id Configured remote node; must match this
+     *        client's peer binding and verified TLS SAN configuration.
+     * @param shard_id Shard identifier expected in every response frame.
+     * @param artifact_id Immutable artifact identifier, not a storage path.
+     * @param max_bytes Maximum response size; must be positive and no greater
+     *        than `Config::max_tensor_fragment_bytes`.
+     * @param timeout_ms Positive deadline in milliseconds, capped at 30 seconds.
+     * @param correlation_id Optional request correlation identifier.
+     * @return Complete payload and the shard-asserted lowercase SHA-256 digest.
+     * @throws std::runtime_error for unverified transport, identity or framing
+     *         mismatch, oversized/truncated responses, timeout, or RPC failure.
+     * @note The call is not retried. The caller must compare the digest with a
+     *       trusted manifest and verify the bytes before accepting the fragment.
+     */
+    [[nodiscard]] TensorFragmentPayload fetchTensorFragment(
+        const std::string& expected_peer_node_id,
+        const std::string& shard_id,
+        const std::string& artifact_id,
+        uint64_t max_bytes,
+        uint32_t timeout_ms,
+        const std::string& correlation_id = {});
 
     /**
      * @brief Stage and verify an immutable logical range export over mTLS.

@@ -1,6 +1,6 @@
 # Distributed Tensor Public Headers
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — public API
 **SOT domain:** api-contract
 **Canonical references:** `include/distributed_tensor/*.h`, `src/distributed_tensor/CMakeLists.txt`
@@ -26,6 +26,7 @@ and [`../../src/distributed_tensor/ROADMAP.md`](../../src/distributed_tensor/ROA
 |---|---|
 | `artifact_manifest.h` | Artifact manifests, shard placements, integrity receipts, reconstruction metadata |
 | `distributed_planner.h` | Distributed retrieval plans, summary-first routing and exact-on-demand request interfaces |
+| `graph_summary_projection.h` | Versioned, bounded adapter-similarity projection codec for graph validation |
 | `integrity_verification.h` | Integrity receipts, hash algorithm enumeration, verification engine interfaces |
 | `recovery_manager.h` | Recovery strategies and manager interface |
 | `shard_placement.h` | Placement constraints, node capacity and placement strategy |
@@ -37,6 +38,11 @@ and [`../../src/distributed_tensor/ROADMAP.md`](../../src/distributed_tensor/ROA
 These are declarations, not a guarantee that every strategy or integration is
 enabled in a production deployment. Consult the corresponding header and the
 module CMake source list for current details.
+
+`GraphSummaryProjectionCodec` accepts only its explicit
+`themis.tensor.adapter-similarity/v1` wire format. It does not interpret
+arbitrary tensor bytes; successful decoding produces advisory adapter
+candidates that still require `GraphTruthValidator` evidence.
 
 The public types described here remain in `themis::distributed_tensor`.
 Source-private manifest/class definitions and summary-first planner types in

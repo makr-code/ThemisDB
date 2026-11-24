@@ -13,6 +13,7 @@
 
 #define _USE_MATH_DEFINES
 #include <atomic>
+#include <charconv>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -73,6 +74,7 @@
 #include <queue>
 #include <thread>
 #include <chrono>
+#include <type_traits>
 #include "utils/audit_logger.h"
 
 namespace geo = themis::geo;
@@ -3407,6 +3409,197 @@ bool QueryEngine::evaluateCondition(
 namespace themis {
 namespace query {
 
+namespace {
+
+struct ParsedRangeNumber {
+	bool negative = false;
+	bool zero = false;
+	std::string digits;
+	int64_t decimal_position = 0;
+};
+
+bool parseRangeNumber(std::string_view value, ParsedRangeNumber& parsed) {
+	if (value.empty()) {
+		return false;
+	}
+
+	size_t position = 0;
+	if (value[position] == '-' || value[position] == '+') {
+		parsed.negative = value[position] == '-';
+		if (++position == value.size()) {
+			return false;
+		}
+	}
+
+	const size_t integer_start = position;
+	while (position < value.size() && value[position] >= '0' && value[position] <= '9') {
+		parsed.digits.push_back(value[position++]);
+	}
+	if (position == integer_start) {
+		return false;
+	}
+
+	int64_t fractional_digits = 0;
+	if (position < value.size() && value[position] == '.') {
+		++position;
+		const size_t fraction_start = position;
+		while (position < value.size() && value[position] >= '0' && value[position] <= '9') {
+			parsed.digits.push_back(value[position++]);
+		}
+		if (position == fraction_start ||
+			position - fraction_start > static_cast<size_t>(std::numeric_limits<int64_t>::max())) {
+			return false;
+		}
+		fractional_digits = static_cast<int64_t>(position - fraction_start);
+	}
+
+	int64_t exponent = 0;
+	if (position < value.size() && (value[position] == 'e' || value[position] == 'E')) {
+		++position;
+		bool exponent_negative = false;
+		if (position < value.size() && (value[position] == '-' || value[position] == '+')) {
+			exponent_negative = value[position] == '-';
+			++position;
+		}
+		const size_t exponent_start = position;
+		uint64_t magnitude = 0;
+		const auto [end, error] = std::from_chars(
+			value.data() + position, value.data() + value.size(), magnitude);
+		if (position == exponent_start || error != std::errc{} || end != value.data() + value.size()) {
+			return false;
+		}
+		constexpr uint64_t kMinMagnitude =
+			static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) + 1U;
+		if (exponent_negative) {
+			if (magnitude > kMinMagnitude) {
+				return false;
+			}
+			exponent = magnitude == kMinMagnitude
+				? std::numeric_limits<int64_t>::min()
+				: -static_cast<int64_t>(magnitude);
+		} else {
+			if (magnitude > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+				return false;
+			}
+			exponent = static_cast<int64_t>(magnitude);
+		}
+		position = value.size();
+	}
+	if (position != value.size() ||
+		parsed.digits.size() > static_cast<size_t>(std::numeric_limits<int64_t>::max())) {
+		return false;
+	}
+
+	const auto first_significant = parsed.digits.find_first_not_of('0');
+	if (first_significant == std::string::npos) {
+		parsed.negative = false;
+		parsed.zero = true;
+		parsed.digits = "0";
+		parsed.decimal_position = 0;
+		return true;
+	}
+	parsed.digits.erase(0, first_significant);
+
+	if (exponent < std::numeric_limits<int64_t>::min() + fractional_digits) {
+		return false;
+	}
+	exponent -= fractional_digits;
+	while (parsed.digits.size() > 1 && parsed.digits.back() == '0') {
+		if (exponent == std::numeric_limits<int64_t>::max()) {
+			return false;
+		}
+		parsed.digits.pop_back();
+		++exponent;
+	}
+
+	const auto digit_count = static_cast<int64_t>(parsed.digits.size());
+	if (exponent > std::numeric_limits<int64_t>::max() - digit_count) {
+		return false;
+	}
+	parsed.decimal_position = exponent + digit_count;
+	return true;
+}
+
+int compareRangeValues(std::string_view left, std::string_view right) {
+	// Bounded decimal literals compare exactly; ordinary text follows numbers.
+	ParsedRangeNumber left_number;
+	ParsedRangeNumber right_number;
+	const bool left_is_number = parseRangeNumber(left, left_number);
+	const bool right_is_number = parseRangeNumber(right, right_number);
+	if (left_is_number != right_is_number) {
+		return left_is_number ? -1 : 1;
+	}
+	if (!left_is_number) {
+		const int comparison = left.compare(right);
+		return (comparison > 0) - (comparison < 0);
+	}
+	if (left_number.zero || right_number.zero) {
+		if (left_number.zero == right_number.zero) {
+			return 0;
+		}
+		return left_number.zero
+			? (right_number.negative ? 1 : -1)
+			: (left_number.negative ? -1 : 1);
+	}
+	if (left_number.negative != right_number.negative) {
+		return left_number.negative ? -1 : 1;
+	}
+
+	int magnitude_comparison = 0;
+	if (left_number.decimal_position != right_number.decimal_position) {
+		magnitude_comparison =
+			left_number.decimal_position < right_number.decimal_position ? -1 : 1;
+	} else {
+		const size_t digits = std::max(left_number.digits.size(), right_number.digits.size());
+		for (size_t i = 0; i < digits; ++i) {
+			const char left_digit = i < left_number.digits.size() ? left_number.digits[i] : '0';
+			const char right_digit = i < right_number.digits.size() ? right_number.digits[i] : '0';
+			if (left_digit != right_digit) {
+				magnitude_comparison = left_digit < right_digit ? -1 : 1;
+				break;
+			}
+		}
+	}
+	return left_number.negative ? -magnitude_comparison : magnitude_comparison;
+}
+
+std::optional<std::string> extractRangeField(
+	const BaseEntity& entity,
+	const std::string& column
+) {
+	if (column == "_key") {
+		return entity.getPrimaryKey();
+	}
+	const auto field = entity.getField(column);
+	if (!field) {
+		return std::nullopt;
+	}
+	return std::visit([](const auto& value) -> std::optional<std::string> {
+		using T = std::decay_t<decltype(value)>;
+		if constexpr (std::is_same_v<T, std::string>) {
+			return value;
+		} else if constexpr (std::is_same_v<T, int64_t>) {
+			return std::to_string(value);
+		} else if constexpr (std::is_same_v<T, double>) {
+			std::array<char, 128> buffer{};
+			const auto [end, error] = std::to_chars(
+				buffer.data(), buffer.data() + buffer.size(), value,
+				std::chars_format::general, std::numeric_limits<double>::max_digits10);
+			if (error != std::errc{}) {
+				THEMIS_ERROR("Range query could not format a floating-point field");
+				return std::nullopt;
+			}
+			return std::string(buffer.data(), end);
+		} else if constexpr (std::is_same_v<T, bool>) {
+			return value ? "true" : "false";
+		} else {
+			return std::nullopt;
+		}
+	}, *field);
+}
+
+} // namespace
+
 std::vector<std::string> QueryEngine::fullScanAndFilter_(
 	const ConjunctiveQuery& q,
 	const RequestContext* request,
@@ -3443,50 +3636,8 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(
 	}
 	const std::string prefix = KeySchema::makeRelationalKey(q.table, "");
 
-	// Helper for numeric comparison: try to parse as numbers, fall back to string comparison
-	auto compareValues = [](const std::string& a, const std::string& b) -> int {
-		try {
-			// Try integer comparison first
-			size_t pos_a = 0, pos_b = 0;
-			long long num_a = std::stoll(a, &pos_a);
-			long long num_b = std::stoll(b, &pos_b);
-
-			// Only use numeric comparison if entire strings parsed
-			if (pos_a == a.size() && pos_b == b.size()) {
-				if (num_a < num_b) {
-				  return -1;
-				}
-				if (num_a > num_b) {
-				  return 1;
-				}
-				return 0;
-			}
-		} catch (...) {
-      THEMIS_WARN("query_engine: unhandled exception caught");
-			// Not integers, try doubles
-			try {
-				size_t pos_a = 0, pos_b = 0;
-				double num_a = std::stod(a, &pos_a);
-				double num_b = std::stod(b, &pos_b);
-
-				if (pos_a == a.size() && pos_b == b.size()) {
-					if (num_a < num_b) {
-					  return -1;
-					}
-					if (num_a > num_b) {
-					  return 1;
-					}
-					return 0;
-				}
-			} catch (...) {}
-		}
-
-		// Fall back to lexicographic string comparison
-		return a.compare(b);
-	};
-
 	// Predicate evaluation helper – called from both sequential and parallel paths.
-	// q and compareValues are captured by reference; each invocation is independent.
+	// q and the range comparison contract are shared by both scan paths.
 	const auto extractPredicateField = [](const BaseEntity& entity, const std::string& column) {
 		if (column == "_key") {
 			return std::optional<std::string>{entity.getPrimaryKey()};
@@ -3501,18 +3652,18 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(
 			}
 		}
 		for (const auto& r : q.rangePredicates) {
-			auto v = extractPredicateField(e, r.column);
+			auto v = extractRangeField(e, r.column);
 			if (!v) {
 			  return false;
 			}
 			if (r.lower.has_value()) {
-				int cmp = compareValues(*v, *r.lower);
+				const int cmp = compareRangeValues(*v, *r.lower);
 				if ((cmp < 0) || ((cmp == 0) && (!r.includeLower))) {
 				  return false;
 				}
 			}
 			if (r.upper.has_value()) {
-				int cmp = compareValues(*v, *r.upper);
+				const int cmp = compareRangeValues(*v, *r.upper);
 				if ((cmp > 0) || ((cmp == 0) && (!r.includeUpper))) {
 				  return false;
 				}
@@ -3982,6 +4133,119 @@ QueryEngine::executeAndKeysRangeAware_(
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
+
+	const bool allEqualityIndexesExist = std::all_of(
+		q.predicates.begin(), q.predicates.end(),
+		[this, &q](const PredicateEq& predicate) {
+			return secIdx_->hasIndex(q.table, predicate.column) ||
+				secIdx_->hasSparseIndex(q.table, predicate.column);
+		});
+	const bool allRangeIndexesExist = std::all_of(
+		q.rangePredicates.begin(), q.rangePredicates.end(),
+		[this, &q](const PredicateRange& predicate) {
+			return secIdx_->hasRangeIndex(q.table, predicate.column);
+		});
+	if (!q.rangePredicates.empty() && !q.orderBy.has_value() &&
+		allEqualityIndexesExist && allRangeIndexesExist) {
+		// The persisted range key format is not numerically order-preserving for
+		// negative or decimal values, so it cannot safely prune query candidates.
+		auto keys = fullScanAndFilter_(q, request, stop_reason);
+		if (shouldStop()) {
+			return stopped();
+		}
+		span.setAttribute("query.range_filter_mode", "exact_full_scan");
+		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
+		span.setStatus(true);
+		return Ok(std::move(keys));
+	}
+	if (q.orderBy.has_value()) {
+		const auto& order = *q.orderBy;
+		if (!secIdx_->hasRangeIndex(q.table, order.column)) {
+			return Err<std::vector<std::string>>(
+				errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+				"ORDER BY requires range index on column: " + order.column);
+		}
+		if (!allEqualityIndexesExist || !allRangeIndexesExist) {
+			return Err<std::vector<std::string>>(
+				errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+				"ORDER BY requires all query indexes to exist");
+		}
+		if (order.limit == 0) {
+			span.setAttribute("query.range_filter_mode", "exact_full_scan_sort");
+			span.setAttribute("query.ordered_count", static_cast<int64_t>(0));
+			span.setStatus(true);
+			return Ok(std::vector<std::string>{});
+		}
+
+		auto matching_keys = fullScanAndFilter_(q, request, stop_reason);
+		if (shouldStop()) {
+			return stopped();
+		}
+		struct OrderedKey {
+			std::string pk;
+			std::string value;
+		};
+		std::vector<OrderedKey> ordered_keys;
+		ordered_keys.reserve(matching_keys.size());
+		for (size_t i = 0; i < matching_keys.size(); ++i) {
+			if ((i & 63U) == 0U && shouldStop()) {
+				return stopped();
+			}
+			const auto& pk = matching_keys[i];
+			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+			if (!blob) {
+				continue;
+			}
+			try {
+				auto entity = BaseEntity::deserialize(pk, *blob);
+				auto value = extractRangeField(entity, order.column);
+				if (!value) {
+					continue;
+				}
+				if (order.cursor_value && order.cursor_pk) {
+					const int value_comparison = compareRangeValues(*value, *order.cursor_value);
+					const bool after_cursor = order.desc
+						? (value_comparison < 0 ||
+							(value_comparison == 0 && pk < *order.cursor_pk))
+						: (value_comparison > 0 ||
+							(value_comparison == 0 && pk > *order.cursor_pk));
+					if (!after_cursor) {
+						continue;
+					}
+				}
+				ordered_keys.push_back({pk, std::move(*value)});
+			} catch (const std::exception& error) {
+				THEMIS_WARN("ORDER BY: Deserialisierung fehlgeschlagen für PK={}: {}", pk, error.what());
+			}
+		}
+		if (shouldStop()) {
+			return stopped();
+		}
+		std::sort(ordered_keys.begin(), ordered_keys.end(),
+			[&order](const OrderedKey& left, const OrderedKey& right) {
+				const int comparison = compareRangeValues(left.value, right.value);
+				if (comparison == 0) {
+					return order.desc ? left.pk > right.pk : left.pk < right.pk;
+				}
+				return order.desc ? comparison > 0 : comparison < 0;
+			});
+		if (shouldStop()) {
+			return stopped();
+		}
+
+		std::vector<std::string> ordered;
+		ordered.reserve(std::min(order.limit, ordered_keys.size()));
+		for (size_t i = 0; i < ordered_keys.size() && i < order.limit; ++i) {
+			if ((i & 63U) == 0U && shouldStop()) {
+				return stopped();
+			}
+			ordered.emplace_back(std::move(ordered_keys[i].pk));
+		}
+		span.setAttribute("query.range_filter_mode", "exact_full_scan_sort");
+		span.setAttribute("query.ordered_count", static_cast<int64_t>(ordered.size()));
+		span.setStatus(true);
+		return Ok(std::move(ordered));
+	}
 
 	// Cardinality-based predicate reordering: if statistics are available,
 	// sort equality predicates by ascending selectivity (most selective first)

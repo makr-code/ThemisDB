@@ -1,9 +1,9 @@
 # Distributed Tensor Module Security Notes
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — module implementation
 **SOT domain:** security
-**Canonical references:** `include/distributed_tensor/integrity_verification.h`, `include/distributed_tensor/distributed_planner.h`, `include/distributed_tensor/tensor_storage_strategy.h`, `src/distributed_tensor/integrity_verification.cc`, `src/distributed_tensor/CMakeLists.txt`
+**Canonical references:** `include/distributed_tensor/integrity_verification.h`, `include/distributed_tensor/distributed_planner.h`, `include/distributed_tensor/graph_summary_projection.h`, `include/distributed_tensor/shard_rpc_fragment_fetcher.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_server.h`, `proto/sharding/shard_rpc.proto`, `include/distributed_tensor/tensor_storage_strategy.h`, `src/distributed_tensor/integrity_verification.cc`, `src/distributed_tensor/CMakeLists.txt`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/shard_rpc_server.cpp`
 **Related:** Issue #7341
 
 <!--
@@ -48,6 +48,58 @@ The training coordinator is also limited: `TensorTrainingCoordinator` invokes
 registered `ITensorTrainingWorker::processShard` callbacks synchronously
 in-process. It does not implement network transport or distributed worker
 coordination.
+
+The optional `ShardRPCFragmentFetcher` path uses bounded gRPC streaming over
+verified mTLS. The client checks the configured peer ID and DNS SAN, stream
+identities and sequence, a single final frame, size/digest metadata, and the
+requested byte/deadline limits. The adapter then recomputes SHA-256 and compares
+the bytes with the trusted manifest digest. This detects mismatch against that
+manifest; it does not authenticate the manifest producer or grant authorization
+to its contents.
+
+The server requires an explicit X.509 identity-to-principal binding and an
+explicit local shard ID. When
+`sharding.tensor_fragment_rpc.enabled` is set, `main_server.cpp` supplies a
+thread-safe RocksDB reader backed by `ShardArtifactFragmentStore`. Its key is
+the versioned `(principal_id, shard_id, artifact_id)` tuple, separate from
+`TensorNetworkStorageEngine` field keys. The store checks size metadata before
+loading payload bytes and verifies the stored SHA-256; the manifest-bound
+adapter performs the final comparison against the trusted manifest. The
+principal must be tenant-bound by host policy, and publishers must persist
+bytes before advertising the matching placement. Missing TLS credentials or
+identity bindings fail startup closed. The source has not been built or run.
+`LocalProjectionPublisher` requires a trusted caller to supply an authenticated
+tenant, tenant-bound principal, authoritative shard/node and summary provenance.
+`loadRemote()` binds the record to the configured mTLS peer and validates its
+content-bound artifact ID and expected tenant, principal, shard and node. It
+also verifies the fetched projection's digest, scope and candidate keys. It
+does not authenticate the original producer, discover artifacts, or establish
+freshness; these remain caller responsibilities. The publisher
+checks the scope tenant prefix and requires each candidate key to match its
+tenant, domain and base-model fields; these checks do not establish provenance
+or caller authorization.
+`publishFromGraph()` also checks query metadata from the tenant-scoped graph
+snapshot; the graph, scoring callbacks, principal binding, freshness and
+exclusion of concurrent graph mutations remain trusted host responsibilities.
+The Linux mTLS test suite includes an unrun source case composing the RocksDB
+fragment reader and manifest-bound adapter, with wrong-digest and unbound
+client rejection; it does not verify production host startup composition.
+
+Graph validation accepts only the bounded, versioned
+`themis.tensor.adapter-similarity/v1` projection. The decoder rejects unknown
+versions, malformed or non-canonical payloads, oversized fields, invalid
+UTF-8/control characters, and non-finite or out-of-range scores. The planner
+also checks request/result identity and the fetcher's manifest-digest
+verification claim, merges only matching scopes, and requires validated
+evidence meeting the configured graph-score threshold with supporting graph
+nodes. Arbitrary tensor payloads and transport success alone never establish
+graph truth.
+
+This boundary still depends on a trusted manifest and a conforming fetcher;
+the format does not authenticate its publisher or authorize graph assertions.
+No automatic publisher emits the projection today, and the implementation and
+new tests have not been built or run. These controls are source-level design,
+not verified production guarantees.
 
 More generally, declarations do not establish that every runtime path enforces
 advisory-only behavior or that the module has passed a security review. The

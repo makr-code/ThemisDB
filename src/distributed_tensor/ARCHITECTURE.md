@@ -1,9 +1,9 @@
 # Distributed Tensor Module Architecture
 
-**Last Updated:** 2026-11-21
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — module implementation
 **SOT domain:** architecture-governance
-**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `cmake/CMakeLists.txt`
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `include/sharding/shard_artifact_fragment_store.h`, `include/sharding/shard_rpc_server.h`, `src/sharding/shard_artifact_fragment_store.cpp`, `src/main_server.cpp`, `cmake/CMakeLists.txt`
 **Related:** Issue #7341
 
 <!--
@@ -38,6 +38,7 @@ themselves.
 | Infrastructure and in-process training jobs | `tensor_infrastructure.h`, `tensor_training_coordinator.h` | `tensor_infrastructure.cc`, `tensor_training_coordinator.cc` |
 | Storage strategy | `tensor_storage_strategy.h` | `src/tensor_storage_strategy.cc` |
 | Update and coordination support | Private headers under `src/distributed_tensor/include/` | Delta log, RocksDB-backed manifest store, checkpoint, snapshot-update worker, shard-summary, artifact invalidation, exact-graph fallback, staleness, recovery, and lock-manager sources listed in CMake |
+| Host fragment storage and RPC startup | `ShardArtifactFragmentStore`, `ShardRPCServer` | `src/sharding/shard_artifact_fragment_store.cpp`, opt-in composition in `src/main_server.cpp` |
 
 This table highlights component groups; the CMake file is the authoritative
 complete target source list.
@@ -53,8 +54,9 @@ from the public API types.
 ## Schnittstellen
 
 The module exposes placement, retrieval, integrity, recovery, manifest-store,
-and training-coordinator interfaces described below. It does not own a shard
-payload transport or distributed manifest consensus interface.
+and training-coordinator interfaces described below. An optional ShardRPC
+adapter provides bounded shard-payload transport; the module does not own
+storage selection or distributed manifest consensus.
 
 ## Datenfluss
 
@@ -72,9 +74,25 @@ end-to-end network execution pipeline:
    and dependencies, then returns a retrieval plan with shard IDs and estimates.
    It does not fetch shard data.
 4. The separate `DistributedTensorPlanner` builds summary-first routing and
-   exact-on-demand requests. `executeFragmentLoads()` delegates to an injected
-   `IFragmentFetcher`; without one it returns failed results. It has no built-in
-   network transport.
+   exact-on-demand requests. Its manifest overload binds each request to the
+   artifact ID, selected peer, shard digest, and response-size ceiling.
+   `ShardRPCFragmentFetcher` implements the public `IFragmentFetcher` contract
+   when both gRPC and sharding are enabled; it requires configured mTLS clients
+   and verifies the returned bytes against the manifest SHA-256 before success.
+   The shard server streams only through an explicitly configured storage-owner
+   callback and rejects unbound identities, wrong local shard IDs, expired or
+   oversized requests, incomplete streams, and invalid digests.
+   `main_server.cpp` installs the RocksDB-backed reader only when
+   `sharding.tensor_fragment_rpc.enabled` is true. The storage key is the
+   versioned, principal-scoped tuple `(principal_id, shard_id, artifact_id)`;
+   metadata and payload writes are atomic, replacement is immutable, and reads
+   validate size before loading and verify SHA-256 afterward. Publishers must
+   persist payloads under a tenant-bound principal before publishing their
+   manifest placement. `GraphSummaryProjectionCodec` decodes only the
+   versioned, bounded adapter-similarity format into `TensorLayerSummary`;
+   arbitrary tensor bytes, unknown versions, malformed data, and conflicting
+   fragment scopes fail closed. The planner merges these advisory candidates
+   and calls `GraphTruthValidator`; transport success is not graph truth.
 5. Integrity and recovery APIs operate on the supplied manifest/receipt and
    recovery request; they do not turn placement plans into network operations.
 6. `ManifestStore` persists validated manifest metadata in the caller-provided
@@ -89,13 +107,21 @@ file:
 | Surface | Declared settings |
 |---|---|
 | `DistributedTensorPlanner::Config` | Summary TTL, minimum fragment success rate, fallback routing, fragment-load timeout, strict graph validation |
+| `FragmentLoadRequest` / `ShardRPCFragmentFetcher::Config` | Manifest-selected peer and digest, positive timeout, per-fragment and aggregate response byte ceilings |
+| `sharding.tensor_fragment_rpc` host config | Explicit enable flag, listen address, certificate/key/client CA, identity-to-principal bindings, maximum payload, chunk size, and maximum deadline |
 | `StripeTransport` | Protocol, compression/encryption flags and algorithms, streams, timeout, retries, backoff |
 | `StorageStrategyAssessor::Config` | Quantization constraints, NVMe, multi-consumer, mmap support, and page-lock availability |
 | `ShardPlacementStrategy::compute_placement()` | Node capacities, optional factorization hints, and placement constraints |
 
-These settings describe the public configuration surface. The source does not
-establish that every option is exercised by an end-to-end runtime path; for
-example, no transport implementation is supplied by this module.
+The host-owned fragment store and opt-in server startup are implemented in
+source, but they are not a `TensorNetworkStorageEngine` field mapping and are
+not wired into an automatic manifest/payload publisher. The host publisher
+must choose the tenant-bound principal and write the fragment before publishing
+its manifest. Startup requires explicit mTLS identity bindings and fails closed
+when the RPC feature is enabled without its configuration. The focused storage
+regressions are registered but have not been built or run. A Linux mTLS source
+test now composes the local publisher, fragment store, and adapter using a
+fixture summary; it does not exercise host startup or automatic publication.
 
 The module target compiles the root-level `integrity_verification.cc`, which
 uses OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and
@@ -127,15 +153,24 @@ by this coordinator.
   directories each register their local module-focused sources. Separate
   `tests/epic3_distributed_tensor/` and
   `benchmarks/epic3_distributed_tensor/` CMake files are also added by their
-  parent configurations. `tests/integration/CMakeLists.txt` includes the
-  distributed-tensor soak source when present.
+  parent configurations. No distributed-tensor soak source is currently
+  registered in `tests/integration/`; the former stub-only source was removed.
+  The focused real mTLS fragment-transport tests are registered under
+  `tests/sharding/`; one uses a test-only reader and another composes the
+  local publisher, RocksDB store, and adapter with a fixture summary. The same
+  `ShardTransferStoreTests` target now includes RocksDB-backed fragment-store
+  source regressions, but neither the source regressions nor the production
+  startup path has been built or run.
 
-The earlier architecture text described a direct LLM-training pipeline,
-storage persistence, and sharding integration with specific behavior and
-thread-safety guarantees. Those connections are not established by the current
-module CMake configuration or the reviewed public headers; treat them as
-unverified until a canonical integration contract or implementation reference
-is identified.
+The earlier architecture text described a direct LLM-training pipeline and
+overstated storage persistence and sharding integration. The current ShardRPC
+path has a canonical principal/shard/artifact key mapping and opt-in production
+server composition. A local publisher commits the fragment, local manifest and
+remote-readable manifest record in order. A consumer with a trusted artifact ID
+can fetch that record via mTLS, but automatic publication, discovery and freshness
+management remain unwired. There is no mapping to `TensorNetworkStorageEngine` field keys.
+The graph projection codec and planner path are source-implemented but have not
+been built or run; source registration is not runtime evidence.
 
 ## Sequenz (kritischer Ablauf)
 

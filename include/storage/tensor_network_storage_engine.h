@@ -134,12 +134,23 @@ public:
     virtual bool put(const std::string& key,
                      const std::vector<uint8_t>& value) = 0;
 
+    /**
+     * @brief Retrieve one value.
+     * @param key Exact storage key.
+     * @return Stored value, or empty when no value exists.
+     * @throws std::runtime_error if a backend cannot complete the read.
+     */
     virtual std::optional<std::vector<uint8_t>>
     get(const std::string& key) const = 0;
 
     virtual bool del(const std::string& key) = 0;
 
-    /// Iterate over all keys with the given prefix.
+    /**
+     * @brief Enumerate keys with the given prefix.
+     * @param prefix Prefix to match; empty selects all keys.
+     * @return Matching keys.
+     * @throws std::runtime_error if a backend cannot complete the scan.
+     */
     virtual std::vector<std::string>
     listKeys(const std::string& prefix) const = 0;
 
@@ -207,12 +218,24 @@ public:
     bool put(const std::string& key,
              const std::vector<uint8_t>& value) override;
 
+    /**
+     * @brief Read one value from RocksDB.
+     * @param key Exact storage key.
+     * @return The value, or an empty optional only when the key is absent.
+     * @throws std::runtime_error if the database or read is unavailable.
+     * @note The caller must not close the shared database during this operation.
+     */
     std::optional<std::vector<uint8_t>>
     get(const std::string& key) const override;
 
     bool del(const std::string& key) override;
 
-    /// Returns all keys that start with @p prefix (sorted lexicographically).
+    /**
+     * @brief Enumerate all keys beginning with a prefix.
+     * @param prefix Prefix to match; empty selects all keys.
+     * @return Matching keys in RocksDB key order.
+     * @throws std::runtime_error if iterator creation or enumeration fails.
+     */
     std::vector<std::string>
     listKeys(const std::string& prefix) const override;
 

@@ -1,9 +1,9 @@
 # Distributed Tensor Test Evidence Collection
 
-**Last Updated:** 2026-11-19
+**Last Updated:** 2026-11-23
 **Source level:** Level 1 — module implementation
 **SOT domain:** build-test
-**Canonical references:** `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Canonical references:** `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
 **Related:** Issue #7341
 
 <!--
@@ -44,8 +44,30 @@ phase/contract sources, including `distributed_planner_test.cc`,
 available. See that CMake file for exact guards, target names, labels, and
 timeouts.
 
-`tests/integration/CMakeLists.txt` includes `test_distributed_tensor_soak.cpp`
-when present and assigns that soak test a 120-second timeout.
+`DistributedPlannerContractTests` now includes source regressions for
+projection encoding/decoding, canonical ordering, malformed and unsupported
+payload rejection, deterministic multi-fragment merge, graph-backed planner
+validation, and unsupported fragment payload failure. These test cases are
+registered through the existing EPIC 3 planner target; none was built or run
+for this change.
+
+The root `tests/CMakeLists.txt` adds `tests/integration/` outside the legacy
+root-test guard in both modular and non-modular configurations. No
+distributed-tensor soak is registered there: the former
+`test_distributed_tensor_soak.cpp` used only in-process queue, sync, and
+routing stubs and has been removed. A Linux/gRPC-conditional
+`ShardTransferGrpcTests` target in `tests/sharding/CMakeLists.txt` includes the
+real mTLS fragment stream and manifest adapter with a test storage reader. An
+additional case publishes a fixture summary through the local publisher, reopens
+the database, fetches it via mTLS and the planner, and checks rejection of
+an incorrect manifest digest and an unbound certificate. Its graph-validation
+assertions are compiled only when the query and LLM targets exist. This is
+fixture-driven publication, not an automatically wired production producer.
+`ShardTransferStoreTests` now also contains source regressions for the
+RocksDB-backed principal/shard/artifact mapping, immutable replay/conflict,
+size and digest checks, and restart persistence. The production mapping and
+opt-in `main_server.cpp` startup are source-backed, but neither target has been
+built or run; the gRPC tests do not exercise production startup composition.
 
 ## Benchmark registration
 

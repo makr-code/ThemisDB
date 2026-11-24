@@ -1,4 +1,4 @@
-name: "Benchmark: Performance Gate"
+name: "Benchmark: Expectations Diagnostic (not a performance gate)"
 
 # Rechenaufwand-Score: R=4 (K=4, L=4, N=3) | last-calibrated: 2026-09-23
 # Trigger policy: weekly schedule + manual dispatch only; no PR trigger.
@@ -12,9 +12,9 @@ name: "Benchmark: Performance Gate"
 # Issue marker: <!-- ci-benchmark:type:perf-results -->
 # Issue title:  [Perf] Benchmark Results Tracker
 #
-# Decision gate: if compare_expectations.py exits 1 (FAILs detected) the
-# "report" job sets conclusion=failure so the run is marked red, prompting
-# maintainers to decide whether a performance task is required.
+# This hosted-runner diagnostic does not establish hardware/build equivalence
+# to a reviewed baseline and must not be used as a performance release gate.
+# Incomplete or failed diagnostics are reported as failed jobs, not passes.
 
 on:
   schedule:
@@ -59,7 +59,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Benchmark build, performance run, and quality report"
+          scope: "Benchmark expectations diagnostic; not a performance gate"
           job-results: ${{ toJSON(needs) }}
 
   benchmark-quality-build:
@@ -101,8 +101,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build-and-run]
-    # Run even when build-and-run failed so artifact-check and error reporting still execute
-    if: ${{ always() && needs.build-and-run.result != 'skipped' }}
+    # Missing, failed, or skipped execution must not make the diagnostic green.
+    if: ${{ always() }}
     permissions:
       contents: read
       issues: write
@@ -116,6 +116,7 @@ jobs:
             benchmarks/compare_expectations.py
             src
             .github/actions
+            scripts/ci/log_issue_triage.py
           sparse-checkout-cone-mode: false
 
       - name: Download benchmark artifact
@@ -247,7 +248,7 @@ jobs:
 
           # Prepend a run header to the report before posting
           case "${{ steps.compare.outputs.compare_status }}" in
-            PASS) STATUS_TEXT="✅ PASS — no failing targets reported; review warnings" ;;
+            PASS) STATUS_TEXT="✅ Diagnostic comparison completed — not a performance gate" ;;
             INCOMPLETE) STATUS_TEXT="⚠️ INCOMPLETE — some targets could not be evaluated" ;;
             *) STATUS_TEXT="❌ FAIL — comparison failed or targets exceeded thresholds" ;;
           esac
@@ -274,10 +275,14 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
-      - name: Set gate conclusion
-        if: steps.compare.outputs.compare_status == 'FAIL'
+      - name: Enforce diagnostic completeness
+        if: ${{ always() }}
+        env:
+          EXECUTION_RESULT: ${{ needs.build-and-run.result }}
+          COMPARE_STATUS: ${{ steps.compare.outputs.compare_status }}
         run: |
-          echo "::error::Performance gate FAILED — one or more targets exceed their " \
-               "PERFORMANCE_EXPECTATIONS.md thresholds. Review the '[Perf] Benchmark " \
-               "Results Tracker' issue and determine whether a performance task is required."
-          exit 1
+          if [[ "${EXECUTION_RESULT}" != "success" || "${COMPARE_STATUS}" != "PASS" ]]; then
+            echo "::error::Expectations diagnostic failed or is incomplete (execution=${EXECUTION_RESULT}, comparison=${COMPARE_STATUS:-missing})."
+            exit 1
+          fi
+          echo "::notice::Diagnostic comparison completed; this is not a performance gate."

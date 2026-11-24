@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-18"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -65,6 +65,13 @@ do not override root release status.
   `QueryEngine::executeJoin()`. Collection-read denial and mining failures are
   function errors, not empty-result fallbacks; this does not remove the
   platform-specific Process Mining implementation limitations.
+- `ConjunctiveQuery` range predicates with required indexes use an exact
+  collection scan; `ORDER BY` also scans and sorts exact values rather than
+  trusting the legacy range-key ordering. Numeric-looking strings and typed
+  numbers use exact decimal comparison; ordinary text sorts afterward. Direct
+  range-index scans still use legacy keys; see the
+  [query API boundary](../../src/query/API.md#range-predicate-execution-boundary)
+  and [index migration roadmap](../../src/index/ROADMAP.md).
 - `POST /api/v1/llm/aql/rag` is the current authenticated HTTP composition of
   `LLMAQLHandler::executeRAG()`: it uses the live server storage/index managers,
   exact collection policy, and tenant context from the successful access check.

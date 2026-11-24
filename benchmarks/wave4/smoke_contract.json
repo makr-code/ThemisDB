@@ -1,0 +1,23 @@
+{
+  "schema": "themisdb.wave4_smoke_contract",
+  "schema_version": 1,
+  "description": "Execution-completeness contract only; passing it is not performance evidence.",
+  "benchmark_filter": "W4A",
+  "required_repetitions": 5,
+  "source": "benchmarks/wave4/bench_w4a_release_gates.cpp",
+  "expected_cases": [
+    "StorageBenchFixture/W4A_01_WriteThroughput/100",
+    "StorageBenchFixture/W4A_01_WriteThroughput/500",
+    "StorageBenchFixture/W4A_01_WriteThroughput/1000",
+    "StorageBenchFixture/W4A_02_ReadLatencyP99/1000",
+    "StorageBenchFixture/W4A_02_ReadLatencyP99/10000",
+    "VectorBenchFixture/W4A_03_VectorInsertThroughput/50",
+    "VectorBenchFixture/W4A_03_VectorInsertThroughput/200",
+    "VectorBenchFixture/W4A_04_VectorSearchLatency/1000",
+    "VectorBenchFixture/W4A_04_VectorSearchLatency/10000",
+    "GraphBenchFixture/W4A_05_GraphBFSDepth2/1000",
+    "GraphBenchFixture/W4A_05_GraphBFSDepth2/5000",
+    "BM_W4A_06_MixedConcurrent/100",
+    "BM_W4A_06_MixedConcurrent/500"
+  ]
+}

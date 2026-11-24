@@ -70,6 +70,11 @@ TensorRAGPipeline::TensorRAGPipeline(TensorRAGPipelineConfig cfg)
  */
 void TensorRAGPipeline::setTensorMidLayer(
     std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer) {
+    if (tensor_mid_layer &&
+        (cfg_.tensor_tenant_id.empty() || cfg_.tensor_scope_id.empty())) {
+        throw std::invalid_argument(
+            "tensor retrieval requires an authorized tenant and scope");
+    }
     tensor_mid_layer_ = std::move(tensor_mid_layer);
 }
 
@@ -185,8 +190,8 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
     if (decision.should_retrieve && tensor_mid_layer_) {
         decision.escalation_source_layer = std::string(observability::telemetry::layers::kTensor);
         tensor::TensorLayerContext tensor_context;
-        tensor_context.tenant_id = cfg_.session_id;
-        tensor_context.scope_id = cfg_.session_id.empty() ? "__tensor_rag_pipeline__" : cfg_.session_id;
+        tensor_context.tenant_id = cfg_.tensor_tenant_id;
+        tensor_context.scope_id = cfg_.tensor_scope_id;
         tensor_context.top_k = 5;
         tensor_context.use_fingerprint_summary = true;
 

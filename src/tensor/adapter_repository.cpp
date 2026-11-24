@@ -163,7 +163,8 @@ bool AdapterRepository::store(const std::string&      domain,
                                const std::string&      base_model_id,
                                const storage::TTTrain& adapter_train,
                                const AdapterMetadata&  /*meta*/) {
-    if (domain.empty() || base_model_id.empty()) {
+    if (domain.empty() || base_model_id.empty() ||
+        !TensorFingerprintGraph::isTrainValid(adapter_train)) {
         return false;
     }
 

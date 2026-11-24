@@ -101,7 +101,24 @@ public:
     void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
 
     [[nodiscard]] TensorLayerPlan plan(const TensorLayerContext& context) const noexcept;
+    /**
+     * @brief Summarize candidates for a tensor scope.
+     * @param context Caller-supplied scope and tenant; callers must authenticate
+     *        and authorize this tenant and scope before invoking the method.
+     * @return Routing information and available similarity candidates.
+     * @throws std::invalid_argument when a repository or graph query has an
+     *         empty tenant, or the query's tenant differs from the context.
+     * @note This check does not authenticate candidates returned by injected
+     *       similarity backends or authenticate the caller.
+     */
     [[nodiscard]] TensorLayerSummary summarize(const TensorLayerContext& context) const;
+    /**
+     * @brief Summarize each supplied shard scope and merge its candidates.
+     * @param context Shard scopes and tenant, authenticated and authorized by the caller.
+     * @return Per-shard summaries and merged candidates, or an empty result if
+     *         no shard scopes are supplied.
+     * @throws std::invalid_argument if a repository query has a mismatched tenant.
+     */
     [[nodiscard]] FederatedTensorSummary summarizeFederatedShards(
         const TensorLayerContext& context) const;
 

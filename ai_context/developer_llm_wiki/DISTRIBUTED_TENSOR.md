@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-21"
+Last Updated: "2026-11-23"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -42,8 +42,34 @@ end-to-end service:
    manifest and lifecycle conditions and returns shard IDs and estimates; it
    does not fetch shard data.
 4. The separate `DistributedTensorPlanner` supports summary-first routing and
-   exact-on-demand requests. `executeFragmentLoads()` delegates to an injected
-   `IFragmentFetcher`; no built-in network transport is provided.
+   exact-on-demand requests. Its manifest overload binds peer, shard, artifact,
+   digest, and response ceiling. When gRPC and sharding are enabled,
+   `ShardRPCFragmentFetcher` implements `IFragmentFetcher` over the real
+   ShardRPC gRPC/mTLS stream and verifies returned bytes against the trusted
+   manifest digest. `ShardArtifactFragmentStore` provides an immutable,
+   versioned RocksDB mapping from `(principal_id, shard_id, artifact_id)` to
+   complete payload bytes and a verified SHA-256. `main_server.cpp` starts the
+   server/reader only when `sharding.tensor_fragment_rpc.enabled` is explicit
+   and requires verified mTLS plus identity-to-principal bindings. Publishers
+   must persist bytes before publishing the matching manifest. Fragment writes
+   and identical replays request synchronous WAL commits; this is untested.
+   `LocalProjectionPublisher` persists a local and mTLS-readable manifest after
+   the fragment; `publishFromGraph()` derives a summary from a tenant-checked
+   fingerprint graph. Remote loading requires a trusted artifact ID and established
+   peer/principal bindings; discovery, freshness and automatic host integration
+   remain open. When `TensorMidLayer`
+   queries an adapter repository, it rejects a mismatched or empty tenant;
+   graph fallback also checks the registered query tenant under the graph lock.
+   Neither check authenticates the caller or validates injected candidates.
+   `TensorRAGPipeline` now requires an explicit tenant and scope when a tensor
+   mid-layer is attached; its session ID is only correlation data. The host
+   must authenticate and authorize that context.
+   There is no mapping to
+   `TensorNetworkStorageEngine` field keys.
+   `GraphSummaryProjectionCodec` accepts only a bounded, versioned
+   adapter-similarity payload and the public planner passes its merged
+   candidates to `GraphTruthValidator`; arbitrary tensor payloads remain
+   unsupported.
 5. Integrity and recovery APIs operate on the supplied manifest, receipt, and
    recovery request; they do not execute placement or network operations.
 6. The internal `ManifestStore` persists validated manifest metadata through
@@ -86,9 +112,13 @@ API types.
   SHA-256 implementation and new regression sources have not been built or
   tested; the generated `WIKI_STATUS.json` has not been refreshed.
 - Placement plans are not automatically persisted or applied; callers may
-  persist placement metadata through `ManifestStore`. Retrieval planning does
-  not fetch fragments. Caller-supplied fetchers and transport implementations
-  remain outside this module's built-in behavior.
+  persist placement metadata through `ManifestStore`. The planner itself does
+  not fetch fragments; the optional ShardRPC adapter transports manifest-bound
+  bytes. Host fragment storage and opt-in server composition are source-backed,
+  but publisher-side writes, production startup/storage runtime evidence, and
+  a mapping to `TensorNetworkStorageEngine` remain outside the module. Graph-
+  truth validation fails closed for missing, invalid, or unsupported
+  projections; the new codec and planner changes have not been built or run.
 
 Follow the public headers for exact signatures and edge behavior. The module
 [README](../../src/distributed_tensor/README.md),
@@ -110,10 +140,19 @@ configured, built, or tested; the generated wiki manifest remains unchanged.
 The module-local focused test CMake registers three executables and CTest cases
 from allocation, operations, and performance test sources; see
 [`tests/distributed_tensor/CMakeLists.txt`](../../tests/distributed_tensor/CMakeLists.txt).
-The separately included EPIC 3 directory registers contract and phase tests,
+the separately included EPIC 3 directory registers contract and phase tests,
 including durable manifest restart, corrupt-record rejection, WAL recovery, and
-concurrent update coverage. Integration CMake may include the distributed-tensor
-soak test. Registration alone is not evidence that a target built or passed.
+concurrent update coverage. No distributed-tensor soak test is registered in
+`tests/integration`: the former in-process stub-only source was removed because
+it did not exercise a production transport. A Linux-only `ShardTransferGrpcTests`
+target under `tests/sharding/` includes the mTLS stream and manifest
+adapter with a test storage reader. A second unrun case publishes a fixture
+summary through the local publisher and composes the RocksDB fragment store
+with the transport and planner; its graph-validation assertions require query
+and LLM module targets. Neither case exercises production startup.
+The existing `ShardTransferStoreTests` target also contains RocksDB-backed
+fragment-store regressions. These sources are registered but have not been
+built or run. Registration alone is not evidence that a target passed.
 The nightly coverage workflow runs `distributed_tensor`-labelled tests,
 publishes module-level summaries and LCOV data, and enforces 70% line / 60%
 branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.

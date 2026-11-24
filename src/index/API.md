@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-17"
+Last Updated: "2026-11-23"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -121,6 +121,32 @@ not itself persist into RocksDB or execute rollback. See
 backend, rebuild, and distribution error categories. Use a structured error
 when the calling interface returns one; do not map a partial result to full
 success without checking its metadata.
+
+## Secondary range-index caveat
+
+`SecondaryIndexManager::createRangeIndex()` writes a v1 range-index metadata
+marker, atomically removes legacy/v1 range entries for that table and column,
+and backfills existing relational records into the versioned range key space.
+The range codec is separate from `encodeKeyComponent()` and supports exact
+decimal/exponent classification plus numeric-before-text ordering. Values
+outside the supported typed numeric contract remain text values.
+
+Direct `SecondaryIndexManager::scanKeysRange()` recognizes v1 metadata and
+uses the exact relational-scan comparator for v1 ranges while the key format
+is migration-hardened. It retains a read-only legacy prefix fallback for
+existing indexes that have not yet been recreated or migrated. Range-index
+maintenance uses the v1 key builder for subsequent puts and deletes. Dropping
+the index removes both legacy and v1 key prefixes atomically.
+
+The v1 lifecycle state is persisted as `ridxstate:<table>:<column>` with
+`active`, `rebuilding`, or `invalid` values. `rebuilding` and `invalid` states
+make range scans unavailable until rebuild completion or explicit repair.
+
+`QueryEngine` range predicates and `ORDER BY` still use exact collection scan
+paths while direct range-index compatibility and migration hardening are
+validated; this prevents unsafe legacy key ordering from changing query
+results. The remaining migration and storage-backed validation work is tracked
+in the [index roadmap](ROADMAP.md).
 
 ## Contract validation and canonical references
 

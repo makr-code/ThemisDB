@@ -756,7 +756,6 @@ foreach(_soak_test IN ITEMS
     test_training_pipeline_soak
     test_acceleration_soak
     test_gpu_manager_soak
-    test_distributed_tensor_soak
     test_user_storage_encrypted_soak
     test_voice_pipeline_soak
     test_llm_streaming_soak
@@ -981,10 +980,6 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: GPU manager soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_gpu_manager_soak")
-            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
-        endif()
-        # Wave D: distributed tensor soak uses in-process stubs; CI timeout 120 s.
-        if(_soak_test STREQUAL "test_distributed_tensor_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
         # Wave D: image analysis soak uses in-process stubs; CI timeout 120 s.

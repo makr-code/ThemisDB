@@ -23,6 +23,8 @@
 #include "utils/file_utils.h"
 #include <thread>
 #include <chrono>
+#include <limits>
+#include <optional>
 #include <stdexcept>
 #include <algorithm>
 #include "sharding/shard_transfer_store.h"
@@ -97,6 +99,59 @@ void setRaftDeadline(grpc::ClientContext& context,
 void requireRaftStatus(const grpc::Status& status) {
     if (!status.ok()) {
         throw std::runtime_error("Raft RPC failed: " + status.error_message());
+    }
+}
+
+bool isLowercaseSha256(const std::string& digest) {
+    return digest.size() == 64 &&
+           std::all_of(digest.begin(), digest.end(), [](unsigned char ch) {
+               return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f');
+           });
+}
+
+void validateTensorFragmentTransport(
+    const ShardRPCClient::Config& config,
+    const std::string& expected_peer_node_id,
+    const std::string& shard_id,
+    const std::string& artifact_id,
+    uint64_t max_bytes,
+    uint32_t timeout_ms,
+    const std::string& correlation_id) {
+    if (config.endpoint.empty() || config.local_node_id.empty() ||
+        expected_peer_node_id.empty() ||
+        config.expected_peer_node_id != expected_peer_node_id ||
+        shard_id.empty() || artifact_id.empty() || max_bytes == 0 ||
+        max_bytes > config.max_tensor_fragment_bytes ||
+        config.max_tensor_fragment_bytes == 0 ||
+        config.max_tensor_fragment_bytes > (1ULL << 30) ||
+        timeout_ms == 0 || timeout_ms > 30000 ||
+        correlation_id.size() > 256) {
+        throw std::runtime_error(
+            "Tensor fragment RPC has invalid identity or resource bounds");
+    }
+    if (!config.enable_mtls || !config.tls_verify_server || config.allow_insecure ||
+        config.timeout_ms <= 0 ||
+        config.expected_peer_identity_property !=
+            "x509_subject_alternative_name" ||
+        config.expected_peer_identity_value.empty()) {
+        throw std::runtime_error(
+            "Tensor fragment RPC requires verified mTLS and an explicit peer SAN");
+    }
+}
+
+void setTensorFragmentDeadline(grpc::ClientContext& context,
+                              const ShardRPCClient::Config& config,
+                              uint32_t timeout_ms) {
+    const auto effective_timeout =
+        std::min({timeout_ms, static_cast<uint32_t>(config.timeout_ms), 30000U});
+    context.set_deadline(std::chrono::system_clock::now() +
+                         std::chrono::milliseconds(effective_timeout));
+}
+
+void requireTensorFragmentStatus(const grpc::Status& status) {
+    if (!status.ok()) {
+        throw std::runtime_error("Tensor fragment RPC failed: " +
+                                 status.error_message());
     }
 }
 } // namespace
@@ -805,6 +860,124 @@ themisdb::sharding::AppendEntriesResponse ShardRPCClient::appendRaftEntries(
     (void)expected_peer_node_id;
     (void)request;
     throw std::runtime_error("Raft AppendEntries gRPC is not available in this build");
+#endif
+}
+
+TensorFragmentPayload ShardRPCClient::fetchTensorFragment(
+    const std::string& expected_peer_node_id,
+    const std::string& shard_id,
+    const std::string& artifact_id,
+    uint64_t max_bytes,
+    uint32_t timeout_ms,
+    const std::string& correlation_id) {
+#if THEMIS_HAS_SHARD_GRPC
+    validateTensorFragmentTransport(impl_->config, expected_peer_node_id,
+                                    shard_id, artifact_id, max_bytes,
+                                    timeout_ms, correlation_id);
+    if (!impl_->stub) {
+        throw std::runtime_error("Tensor fragment fetch requires a gRPC transport");
+    }
+    if (impl_->config.enable_circuit_breaker &&
+        !impl_->circuit_breaker.allowRequest()) {
+        impl_->recordMetrics("FetchTensorFragment", "circuit_open", 0);
+        throw std::runtime_error("Tensor fragment RPC circuit breaker is open");
+    }
+
+    const auto started = std::chrono::steady_clock::now();
+    try {
+        proto::FetchTensorFragmentRequest request;
+        request.set_shard_id(shard_id);
+        request.set_artifact_id(artifact_id);
+        request.set_correlation_id(correlation_id);
+        request.set_max_bytes(max_bytes);
+
+        grpc::ClientContext context;
+        setTensorFragmentDeadline(context, impl_->config, timeout_ms);
+        auto reader = impl_->stub->FetchTensorFragment(&context, request);
+        proto::FetchTensorFragmentChunk chunk;
+        TensorFragmentPayload payload;
+        std::optional<uint64_t> total_size;
+        std::string response_hash;
+        uint64_t expected_sequence = 0;
+        bool saw_final = false;
+        try {
+            while (reader->Read(&chunk)) {
+                if (saw_final || chunk.shard_id() != shard_id ||
+                    chunk.artifact_id() != artifact_id ||
+                    chunk.correlation_id() != correlation_id ||
+                    expected_sequence >= 4096 ||
+                    chunk.sequence() != expected_sequence ||
+                    chunk.payload().size() > 4U * 1024U * 1024U ||
+                    chunk.total_size_bytes() > max_bytes ||
+                    chunk.total_size_bytes() >
+                        static_cast<uint64_t>(
+                            std::numeric_limits<std::size_t>::max()) ||
+                    (total_size && *total_size != chunk.total_size_bytes()) ||
+                    (!response_hash.empty() &&
+                     response_hash != chunk.content_sha256()) ||
+                    !isLowercaseSha256(chunk.content_sha256())) {
+                    throw std::runtime_error(
+                        "Tensor fragment response metadata or framing is invalid");
+                }
+                total_size = chunk.total_size_bytes();
+                response_hash = chunk.content_sha256();
+                if (chunk.payload().size() > max_bytes - payload.bytes.size()) {
+                    throw std::runtime_error(
+                        "Tensor fragment response exceeds the requested limit");
+                }
+                if (expected_sequence == 0) {
+                    payload.bytes.reserve(
+                        static_cast<std::size_t>(*total_size));
+                }
+                payload.bytes.insert(payload.bytes.end(),
+                                     chunk.payload().begin(),
+                                     chunk.payload().end());
+                saw_final = chunk.is_final();
+                ++expected_sequence;
+            }
+        } catch (...) {
+            context.TryCancel();
+            (void)reader->Finish();
+            throw;
+        }
+        const auto status = reader->Finish();
+        requireTensorFragmentStatus(status);
+        if (!saw_final || !total_size ||
+            payload.bytes.size() != *total_size) {
+            throw std::runtime_error(
+                "Tensor fragment stream ended before a complete final frame");
+        }
+        payload.sha256 = std::move(response_hash);
+
+        if (impl_->config.enable_circuit_breaker) {
+            impl_->circuit_breaker.recordSuccess();
+        }
+        const auto latency_us = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - started)
+                .count());
+        impl_->recordMetrics("FetchTensorFragment", "success", latency_us);
+        return payload;
+    } catch (...) {
+        if (impl_->config.enable_circuit_breaker) {
+            impl_->circuit_breaker.recordFailure();
+        }
+        const auto latency_us = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - started)
+                .count());
+        impl_->recordMetrics("FetchTensorFragment", "error", latency_us);
+        throw;
+    }
+#else
+    (void)expected_peer_node_id;
+    (void)shard_id;
+    (void)artifact_id;
+    (void)max_bytes;
+    (void)timeout_ms;
+    (void)correlation_id;
+    throw std::runtime_error(
+        "Tensor fragment gRPC is not available in this build");
 #endif
 }
 

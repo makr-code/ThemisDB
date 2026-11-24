@@ -258,7 +258,7 @@ TEST_F(TensorMidLayerIntegrationTest, FullEndToEndPipeline) {
     // Input → Classify → Route → Retrieve → Deduplicate → Output
     
     TensorLayerContext input_ctx;
-    input_ctx.tenant_id = "tenant_prod";
+    input_ctx.tenant_id = "tenant1";
     input_ctx.domain = "semantic_search";
     input_ctx.base_model_id = "embedding_v2";
     input_ctx.top_k = 10;
@@ -281,31 +281,24 @@ TEST_F(TensorMidLayerIntegrationTest, FullEndToEndPipeline) {
 // ============================================================================
 
 TEST_F(TensorMidLayerIntegrationTest, TenantIsolation) {
-    // Setup: Store adapters for two tenants
-    TensorTrainCore core = makeValidTensorTrain();
+    ASSERT_TRUE(adapter_repo_->store("domain1", "model", makeValidTensorTrain()));
+    ASSERT_TRUE(adapter_repo_->store("domain1", "peer", makeValidTensorTrain(2, 2.0f)));
 
-    adapter_repo_->store("tenant_a", "domain1", "adapter_a1", core);
-    adapter_repo_->store("tenant_b", "domain1", "adapter_b1", core);
-    
-    fingerprint_graph_->addAdapter("adapter_a1", core, "tenant_a", "domain1");
-    fingerprint_graph_->addAdapter("adapter_b1", core, "tenant_b", "domain1");
-    
-    // Execute: Query for each tenant
-    TensorLayerContext ctx_a;
-    ctx_a.tenant_id = "tenant_a";
-    ctx_a.domain = "domain1";
-    ctx_a.base_model_id = "model";
-    
-    TensorLayerContext ctx_b;
-    ctx_b.tenant_id = "tenant_b";
-    ctx_b.domain = "domain1";
-    ctx_b.base_model_id = "model";
-    
-    auto summary_a = mid_layer_->summarize(ctx_a);
-    auto summary_b = mid_layer_->summarize(ctx_b);
-    
-    // Verify: Tenants are isolated (scope keys differ)
-    EXPECT_NE(summary_a.scope_key, summary_b.scope_key);
+    TensorLayerContext ctx;
+    ctx.tenant_id = "tenant1";
+    ctx.domain = "domain1";
+    ctx.base_model_id = "model";
+    const auto summary = mid_layer_->summarize(ctx);
+    ASSERT_FALSE(summary.similar_adapters.empty());
+    EXPECT_EQ(summary.similar_adapters.front().adapter_key,
+              "__adapters__:tenant1:domain1:peer");
+
+    ctx.tenant_id = "tenant_b";
+    EXPECT_THROW((void)mid_layer_->summarize(ctx), std::invalid_argument);
+    ctx.shard_scope_ids = {"shard:one"};
+    EXPECT_THROW((void)mid_layer_->summarizeFederatedShards(ctx), std::invalid_argument);
+    ctx.tenant_id.clear();
+    EXPECT_THROW((void)mid_layer_->summarize(ctx), std::invalid_argument);
 }
 
 // ============================================================================

@@ -18,6 +18,7 @@
 #include <mutex>
 #include <numeric>
 #include <shared_mutex>
+#include <stdexcept>
 #include <utility>
 
 namespace themis {
@@ -129,30 +130,37 @@ float TensorFingerprintGraph::cosineSimilarityZeroPadded(
 // addAdapter()
 // ============================================================================
 
-/**
- * @brief Add Adapter.
- * @param[in] adapter_key Input parameter.
- * @param[in] train Input parameter.
- * @param[in] domain Input parameter.
- * @param[in] base_model_id Identifier of the base model.
- * @param[in] tenant_id Identifier of the tenant.
- * @return True when the operation succeeds.
- * @details Calls: empty(), columnMeans(), std::sqrt(), std::move(), storage::TensorTrainDecomposer::innerProduct(), lock(), slock(), size().
- */
+bool TensorFingerprintGraph::isTrainValid(const storage::TTTrain& train) noexcept {
+    if (train.cores.empty() || train.mode_sizes.size() != train.cores.size()) {
+      return false;
+    }
+
+    std::size_t previous_rank = 1;
+    for (std::size_t i = 0; i < train.cores.size(); ++i) {
+        const auto& core = train.cores[i];
+        const auto max_size = std::numeric_limits<std::size_t>::max();
+        if (core.n == 0 || core.r_left == 0 || core.r_right == 0 ||
+            core.r_left != previous_rank || core.n != train.mode_sizes[i] ||
+            core.n > max_size / core.r_left ||
+            core.r_right > max_size / (core.r_left * core.n) ||
+            core.r_right > max_size / core.r_right ||
+            core.data.size() != core.numElements() ||
+            !std::all_of(core.data.begin(), core.data.end(),
+                         [](float value) { return std::isfinite(value); })) {
+            return false;
+        }
+        previous_rank = core.r_right;
+    }
+    return true;
+}
+
 bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
                                          const storage::TTTrain&   train,
                                          const std::string&        domain,
                                          const std::string&        base_model_id,
                                          const std::string&        tenant_id) {
-    if (train.cores.empty()) {
-      return false;
-    }
-
-    for (const auto& core : train.cores) {
-        if (core.n == 0 || core.r_left == 0 || core.r_right == 0 ||
-            core.data.size() != core.numElements()) {
-            return false;
-        }
+    if (!isTrainValid(train)) {
+        return false;
     }
 
     const auto& G0 = train.cores[0];
@@ -314,11 +322,46 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 }
 
 std::vector<SimilarityResult>
+TensorFingerprintGraph::findSimilarForTenant(
+        const std::string& query_key, const std::string& tenant_id, std::size_t k) const {
+    if (tenant_id.empty()) {
+        throw std::invalid_argument("tensor fingerprint tenant is empty");
+    }
+    return findSimilarImpl(query_key, k, query::RequestContext{}, nullptr, &tenant_id);
+}
+
+std::optional<TenantSimilaritySnapshot>
+TensorFingerprintGraph::snapshotSimilarForTenant(
+        const std::string& query_key, const std::string& tenant_id, std::size_t k) const {
+    if (tenant_id.empty() || k == 0) {
+        throw std::invalid_argument("tensor fingerprint snapshot requires tenant and positive k");
+    }
+    std::optional<TenantSimilaritySnapshot> snapshot;
+    auto results = findSimilarImpl(query_key, k, query::RequestContext{}, nullptr,
+                                   &tenant_id, &snapshot);
+    if (snapshot) {
+        snapshot->candidates = std::move(results);
+    }
+    return snapshot;
+}
+
+std::vector<SimilarityResult>
 TensorFingerprintGraph::findSimilar(
         const std::string& query_key,
         std::size_t k,
         const query::RequestContext& request,
         query::StopReason* stop_reason) const {
+    return findSimilarImpl(query_key, k, request, stop_reason, nullptr);
+}
+
+std::vector<SimilarityResult>
+TensorFingerprintGraph::findSimilarImpl(
+        const std::string& query_key,
+        std::size_t k,
+        const query::RequestContext& request,
+        query::StopReason* stop_reason,
+        const std::string* expected_tenant,
+        std::optional<TenantSimilaritySnapshot>* snapshot) const {
     if (stop_reason) {
         *stop_reason = query::StopReason::None;
     }
@@ -346,7 +389,15 @@ TensorFingerprintGraph::findSimilar(
          */
         std::shared_lock lock(mutex_);
         const auto it_train = trains_.find(query_key);
-        if (it_train == trains_.end()) return {};
+        const auto it_query = entries_.find(query_key);
+        if (it_train == trains_.end() || it_query == entries_.end()) return {};
+        if (expected_tenant && it_query->second.tenant_id != *expected_tenant) {
+            throw std::invalid_argument("tensor fingerprint query tenant mismatch");
+        }
+        if (snapshot) {
+            snapshot->emplace(TenantSimilaritySnapshot{
+                it_query->second.domain, it_query->second.base_model_id, {}});
+        }
         query_train = it_train->second;
 
         if (stopIfRequested()) return {};
@@ -362,7 +413,7 @@ TensorFingerprintGraph::findSimilar(
         candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
         for (const auto& [key, entry] : entries_) {
             if (stopIfRequested()) return {};
-            if (key == query_key) {
+            if (key == query_key || entry.tenant_id != it_query->second.tenant_id) {
               continue;
             }
             candidates.emplace_back(key, entry);
@@ -427,6 +478,14 @@ TensorFingerprintGraph::findSimilar(
         std::shared_lock lock(mutex_);
         for (const auto& [key, entry] : candidates) {
             if (stopIfRequested()) return {};
+            const auto current_entry = entries_.find(key);
+            if (current_entry == entries_.end() ||
+                current_entry->second.tenant_id != entry.tenant_id ||
+                current_entry->second.adapter_key != entry.adapter_key ||
+                current_entry->second.domain != entry.domain ||
+                current_entry->second.base_model_id != entry.base_model_id) {
+                continue;
+            }
             const auto it_train = trains_.find(key);
             if (it_train == trains_.end()) {
                 // CRITICAL-1: Emit diagnostic when referenced train not found

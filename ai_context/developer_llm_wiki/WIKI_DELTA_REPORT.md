@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 1
+- Changed: 10
 
 ## Added
 
@@ -33,4 +33,13 @@ Status: Active
 
 ## Changed
 
-- include/storage/tensor_network_storage_engine.h
+- ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
+- docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md
+- include/distributed_tensor/local_projection_publisher.h
+- include/sharding/raft_shard_manager.h
+- include/storage/tensor_train_decomposer.h
+- include/tensor/persistent_tensor_fingerprint_graph.h
+- include/tensor/tensor_fingerprint_graph.h
+- src/distributed_tensor/README.md
+- src/distributed_tensor/ROADMAP.md
+- src/sharding/ROADMAP.md

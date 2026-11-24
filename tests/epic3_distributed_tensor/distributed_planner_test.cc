@@ -11,8 +11,10 @@
  */
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include "distributed_tensor/artifact_manifest.h"
 #include "distributed_tensor/distributed_planner.h"
+#include "distributed_tensor/graph_summary_projection.h"
 #include "src/distributed_tensor/include/artifact_manifest.h"
 #include "src/distributed_tensor/include/distributed_planner.h"
 #include "tensor/tensor_summary_types.h"
@@ -22,7 +24,9 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+#include <limits>
 #include <sstream>
+#include <stdexcept>
 #include <type_traits>
 
 static_assert(!std::is_same_v<
@@ -110,19 +114,6 @@ private:
     float load_latency_ms_ = 10.0f;
 };
 
-/**
- * @brief Mock graph validator for testing.
- */
-class MockGraphValidator : public rag::GraphTruthValidator {
-public:
-    MockGraphValidator() = default;
-
-    void setShouldValidate(bool valid) { should_validate_ = valid; }
-
-private:
-    bool should_validate_ = true;
-};
-
 // ============================================================================
 // Test Fixtures
 // ============================================================================
@@ -135,6 +126,7 @@ protected:
         planner_->setFragmentFetcher(fetcher_);
     }
 
+    std::shared_ptr<rag::kg::KnowledgeGraph> graph_;
     std::unique_ptr<DistributedTensorPlanner> planner_;
     std::shared_ptr<MockFragmentFetcher> fetcher_;
 
@@ -261,14 +253,15 @@ TEST_F(DistributedPlannerTest, PlanExactOnDemandFragmentLoading) {
 }
 
 /**
- * @brief Test 3: Graph override validation before finalization
+ * @brief Test 3: Graph-truth validation fails closed before finalization
  *
- * Verifies that the planner enforces graph validation before allowing
- * any result to be returned (no-summary-only-truth rule).
+ * Verifies that raw mock bytes and non-manifest-bound requests remain
+ * fail-closed instead of being treated as graph candidates.
  */
-TEST_F(DistributedPlannerTest, EnforceGraphValidationBeforeFinalization) {
+TEST_F(DistributedPlannerTest, GraphTruthValidationFailsClosedBeforeFinalization) {
     std::vector<tensor::ShardSummary> summaries;
     summaries.push_back(createFreshSummary("shard_0", 0.9f));
+    planner_->setGraphValidator(std::make_shared<rag::GraphTruthValidator>());
 
     // Build plan
     auto plan = planner_->buildRetrievalPlan(summaries, "test_query");
@@ -279,12 +272,14 @@ TEST_F(DistributedPlannerTest, EnforceGraphValidationBeforeFinalization) {
     // Execute fragment loads
     plan.fragment_results = planner_->executeFragmentLoads(plan.fragment_requests);
 
-    // Mark as passed validation (in real flow, GraphTruthValidator would do this)
-    rag::GraphTruthValidatorConfig config;
-    plan.passed_graph_validation = true;
+    const auto validation =
+        planner_->validateAgainstGraphTruth(plan, "test_query");
+    EXPECT_EQ(validation.routing_reason_code,
+              "FRAGMENT_REQUEST_UNBOUND");
+    EXPECT_FALSE(plan.passed_graph_validation);
 
-    // Now plan should be valid for output
-    EXPECT_TRUE(planner_->isValidFinalPlan(plan));
+    // Transport success alone cannot satisfy graph-truth validation.
+    EXPECT_FALSE(planner_->isValidFinalPlan(plan));
 }
 
 /**
@@ -312,13 +307,12 @@ TEST_F(DistributedPlannerTest, RejectSummaryOnlyResults) {
 }
 
 /**
- * @brief Test 5: Distributed fan-out reduction without correctness loss
+ * @brief Test 5: Distributed fan-out reduction without claiming graph truth
  *
- * Verifies that stale summaries are rejected to reduce fan-out,
- * but correctness is maintained through exact fragment loading and
- * graph validation.
+ * Verifies that stale summaries reduce fragment-fetch fan-out while successful
+ * transport remains distinct from graph-truth validation.
  */
-TEST_F(DistributedPlannerTest, ReduceFanOutWhileMaintainingCorrectness) {
+TEST_F(DistributedPlannerTest, ReduceFanOutWithoutClaimingGraphValidation) {
     // Create 10 summaries: 5 fresh, 5 stale
     std::vector<tensor::ShardSummary> summaries = {};
 
@@ -351,9 +345,9 @@ TEST_F(DistributedPlannerTest, ReduceFanOutWhileMaintainingCorrectness) {
         EXPECT_TRUE(result.success);
     }
 
-    // Correctness is maintained through fragments + graph validation
-    plan.passed_graph_validation = true;
-    EXPECT_TRUE(planner_->isValidFinalPlan(plan));
+    // Successful transport is not graph-truth evidence.
+    EXPECT_FALSE(plan.passed_graph_validation);
+    EXPECT_FALSE(planner_->isValidFinalPlan(plan));
 }
 
 /**
@@ -378,6 +372,223 @@ TEST_F(DistributedPlannerTest, HandleMissingDependenciesGracefully) {
     EXPECT_FALSE(results.empty());
     EXPECT_FALSE(results[0].success);
     EXPECT_EQ(results[0].error_reason, "No fragment fetcher configured");
+}
+
+TEST_F(DistributedPlannerTest, GraphTruthValidationRejectsUnboundResults) {
+    auto validator = std::make_shared<rag::GraphTruthValidator>();
+    planner_->setGraphValidator(validator);
+
+    TensorRetrievalPlan public_plan;
+    FragmentLoadResult public_fragment;
+    public_fragment.success = true;
+    public_plan.fragment_results.push_back(public_fragment);
+    const auto public_result =
+        planner_->validateAgainstGraphTruth(public_plan, "query");
+    EXPECT_EQ(public_result.routing_reason_code,
+              "NO_FRAGMENTS");
+
+    detail::DistributedTensorPlanner internal_planner;
+    internal_planner.setGraphValidator(validator);
+    detail::TensorRetrievalPlan internal_plan;
+    detail::FragmentLoadResult internal_fragment;
+    internal_fragment.success = true;
+    internal_plan.fragment_results.push_back(internal_fragment);
+    const auto internal_result =
+        internal_planner.validateAgainstGraphTruth(
+            internal_plan, "query", rag::GraphTruthValidatorConfig{});
+    EXPECT_EQ(internal_result.routing_reason_code,
+              "FRAGMENT_PROJECTION_UNAVAILABLE");
+    EXPECT_FALSE(internal_planner.isValidFinalPlan(internal_plan));
+}
+
+TEST_F(DistributedPlannerTest, GraphSummaryProjectionCodecIsVersionedAndBounded) {
+    tensor::TensorLayerSummary summary;
+    summary.scope_key = "__adapters__:tenant-a:science:model-a";
+    summary.layer_kind = tensor::TensorLayerKind::FingerprintSummary;
+    summary.ann_scope_kind = index::AnnScopeKind::Adapter;
+    summary.similar_adapters = {
+        {"adapter-z", "science", "model-a", 0.6f},
+        {"adapter-a", "science", "model-a", 0.9f},
+    };
+    summary.candidate_count = summary.similar_adapters.size();
+
+    const auto encoded = GraphSummaryProjectionCodec::encode(summary);
+    auto decoded = GraphSummaryProjectionCodec::decode(encoded);
+    ASSERT_TRUE(decoded.ok());
+    EXPECT_EQ(decoded.summary->scope_key, summary.scope_key);
+    ASSERT_EQ(decoded.summary->similar_adapters.size(), 2U);
+    EXPECT_EQ(decoded.summary->similar_adapters[0].adapter_key, "adapter-a");
+    EXPECT_FLOAT_EQ(decoded.summary->similar_adapters[0].score, 0.9f);
+
+    auto unsupported_format = encoded;
+    unsupported_format[0] = 'X';
+    EXPECT_EQ(GraphSummaryProjectionCodec::decode(unsupported_format).error,
+              GraphSummaryProjectionError::UnsupportedFormat);
+
+    auto unsupported_version = encoded;
+    unsupported_version[5] = 2;
+    EXPECT_EQ(GraphSummaryProjectionCodec::decode(unsupported_version).error,
+              GraphSummaryProjectionError::UnsupportedVersion);
+
+    auto trailing_data = encoded;
+    trailing_data.push_back(0);
+    EXPECT_EQ(GraphSummaryProjectionCodec::decode(trailing_data).error,
+              GraphSummaryProjectionError::MalformedPayload);
+
+    auto duplicate_summary = summary;
+    duplicate_summary.similar_adapters.push_back(
+        {"adapter-m", "science", "model-a", 0.75f});
+    duplicate_summary.candidate_count =
+        duplicate_summary.similar_adapters.size();
+    auto duplicate_candidate_payload =
+        GraphSummaryProjectionCodec::encode(duplicate_summary);
+    const std::string original_key = "adapter-z";
+    const std::string duplicate_key = "adapter-a";
+    auto original_key_position = std::search(
+        duplicate_candidate_payload.begin(), duplicate_candidate_payload.end(),
+        original_key.begin(), original_key.end());
+    ASSERT_NE(original_key_position, duplicate_candidate_payload.end());
+    std::copy(duplicate_key.begin(), duplicate_key.end(),
+              original_key_position);
+    EXPECT_EQ(
+        GraphSummaryProjectionCodec::decode(duplicate_candidate_payload).error,
+        GraphSummaryProjectionError::NonCanonicalPayload);
+
+    auto invalid_summary = summary;
+    invalid_summary.similar_adapters[0].score =
+        std::numeric_limits<float>::quiet_NaN();
+    EXPECT_THROW(GraphSummaryProjectionCodec::encode(invalid_summary),
+                 std::invalid_argument);
+
+    tensor::TensorLayerSummary second_summary;
+    second_summary.scope_key = summary.scope_key;
+    second_summary.similar_adapters = {
+        {"adapter-a", "science", "model-a", 0.95f},
+    };
+    second_summary.candidate_count = 1;
+    const std::vector<tensor::TensorLayerSummary> merge_inputs{
+        *decoded.summary, second_summary};
+    const auto merged = GraphSummaryProjectionCodec::merge(merge_inputs);
+    ASSERT_TRUE(merged.ok());
+    EXPECT_TRUE(merged.summary->federated);
+    EXPECT_EQ(merged.summary->participating_shards, 2U);
+    ASSERT_EQ(merged.summary->similar_adapters.size(), 2U);
+    EXPECT_FLOAT_EQ(merged.summary->similar_adapters[0].score, 0.95f);
+}
+
+TEST_F(DistributedPlannerTest, GraphTruthValidationProjectsVerifiedFragments) {
+    graph_ = std::make_shared<rag::kg::KnowledgeGraph>();
+    rag::kg::KGNode graph_node;
+    graph_node.id = "alpha-node";
+    graph_node.canonical_name = "Alpha";
+    graph_node.type = rag::kg::EntityType::CONCEPT;
+    graph_->addNode(std::move(graph_node));
+
+    auto validator = std::make_shared<rag::GraphTruthValidator>();
+    validator->setKnowledgeGraphRetriever(
+        std::make_shared<rag::kg::KnowledgeGraphRetriever>(*graph_));
+    planner_->setGraphValidator(validator);
+
+    tensor::TensorLayerSummary summary;
+    summary.scope_key = "__adapters__:tenant-a:alpha:model-a";
+    summary.similar_adapters = {
+        {"adapter-alpha", "Alpha", "Alpha", 0.9f},
+    };
+    summary.candidate_count = 1;
+    const auto payload = GraphSummaryProjectionCodec::encode(summary);
+
+    TensorRetrievalPlan plan;
+    plan.correlation_id = "graph-projection-test";
+    FragmentLoadRequest request;
+    request.shard_id = "shard-a";
+    request.artifact_id = "artifact-a";
+    request.target_node_id = "node-a";
+    request.expected_content_hash = std::string(64, 'a');
+    request.max_response_bytes = payload.size();
+    plan.fragment_requests.push_back(request);
+
+    FragmentLoadResult fragment;
+    fragment.shard_id = request.shard_id;
+    fragment.artifact_id = request.artifact_id;
+    fragment.success = true;
+    fragment.content_hash = request.expected_content_hash;
+    fragment.fragment_data = payload;
+    plan.fragment_results.push_back(std::move(fragment));
+
+    const auto validation = planner_->validateAgainstGraphTruth(plan, "Alpha");
+    EXPECT_FALSE(validation.evidences.empty());
+    EXPECT_TRUE(plan.passed_graph_validation);
+    EXPECT_EQ(plan.validation_result.correlation_id, plan.correlation_id);
+    EXPECT_TRUE(planner_->isValidFinalPlan(plan));
+}
+
+TEST_F(DistributedPlannerTest, GraphTruthValidationRejectsUnsupportedProjection) {
+    auto validator = std::make_shared<rag::GraphTruthValidator>();
+    planner_->setGraphValidator(validator);
+
+    TensorRetrievalPlan plan;
+    FragmentLoadRequest request;
+    request.shard_id = "shard-a";
+    request.artifact_id = "artifact-a";
+    request.target_node_id = "node-a";
+    request.expected_content_hash = std::string(64, 'b');
+    request.max_response_bytes = 16;
+    plan.fragment_requests.push_back(request);
+
+    FragmentLoadResult fragment;
+    fragment.shard_id = request.shard_id;
+    fragment.artifact_id = request.artifact_id;
+    fragment.success = true;
+    fragment.content_hash = request.expected_content_hash;
+    fragment.fragment_data.resize(16, 0xde);
+    plan.fragment_results.push_back(std::move(fragment));
+
+    const auto validation = planner_->validateAgainstGraphTruth(plan, "query");
+    EXPECT_EQ(validation.routing_reason_code,
+              "FRAGMENT_PROJECTION_UNSUPPORTED_FORMAT");
+    EXPECT_FALSE(plan.passed_graph_validation);
+    EXPECT_FALSE(planner_->isValidFinalPlan(plan));
+}
+
+TEST_F(DistributedPlannerTest, InternalFinalPlanChecksFragmentIdentityAndSuccessRate) {
+    detail::DistributedTensorPlanner internal_planner;
+    auto config = internal_planner.config();
+    config.strict_graph_validation = false;
+    config.min_fragment_success_rate = 0.75f;
+    internal_planner.setConfig(config);
+
+    detail::TensorRetrievalPlan plan;
+    detail::FragmentLoadRequest first_request;
+    first_request.shard_id = "shard-a";
+    first_request.artifact_id = "artifact-a";
+    plan.fragment_requests.push_back(first_request);
+    detail::FragmentLoadRequest second_request;
+    second_request.shard_id = "shard-b";
+    second_request.artifact_id = "artifact-b";
+    plan.fragment_requests.push_back(second_request);
+
+    detail::FragmentLoadResult first_result;
+    first_result.shard_id = first_request.shard_id;
+    first_result.artifact_id = first_request.artifact_id;
+    first_result.success = true;
+    plan.fragment_results.push_back(first_result);
+    detail::FragmentLoadResult second_result;
+    second_result.shard_id = second_request.shard_id;
+    second_result.artifact_id = second_request.artifact_id;
+    plan.fragment_results.push_back(second_result);
+
+    EXPECT_FALSE(internal_planner.isValidFinalPlan(plan));
+
+    config.min_fragment_success_rate = 0.5f;
+    internal_planner.setConfig(config);
+    EXPECT_TRUE(internal_planner.isValidFinalPlan(plan));
+
+    plan.fragment_results.pop_back();
+    EXPECT_FALSE(internal_planner.isValidFinalPlan(plan));
+
+    plan.fragment_results.push_back(second_result);
+    plan.fragment_results.back().artifact_id = "unexpected-artifact";
+    EXPECT_FALSE(internal_planner.isValidFinalPlan(plan));
 }
 
 /**

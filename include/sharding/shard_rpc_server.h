@@ -16,6 +16,7 @@
 #include <cstdint>
 #include <vector>
 #include <functional>
+#include <optional>
 #include "sharding/shard_rpc_client.h"
 
 namespace themisdb::sharding {
@@ -101,6 +102,33 @@ public:
         /// Optional shared staging store. Without it, transfer RPCs fail closed.
         std::shared_ptr<ShardTransferStore> transfer_store;
 
+        /**
+         * @brief Maps exact authenticated X.509 identities to storage principals
+         *        allowed to request tensor fragments.
+         */
+        struct FragmentFetchIdentityBinding {
+            std::string property_name;   ///< Exact authenticated X.509 property name.
+            std::string property_value;  ///< Exact value provided by gRPC authentication.
+            std::string principal_id;    ///< Storage authorization principal for this identity.
+        };
+
+        /**
+         * @brief Reads immutable bytes from the authoritative local payload store.
+         * @param principal_id Authenticated principal resolved from mTLS identity.
+         * @param shard_id Local shard ID configured on this server.
+         * @param artifact_id Opaque artifact ID; never interpreted as a path.
+         * @param max_bytes Request's enforced response-size ceiling.
+         * @return Payload and its lowercase SHA-256, or empty when not found.
+         * @note Called concurrently by gRPC workers. Implementations must be
+         *       thread-safe, enforce tenant/authorization rules not represented
+         *       by the principal, honor max_bytes, and never return partial data.
+         */
+        using TensorFragmentReader = std::function<std::optional<TensorFragmentPayload>(
+            const std::string& principal_id,
+            const std::string& shard_id,
+            const std::string& artifact_id,
+            uint64_t max_bytes)>;
+
         /// Explicit Raft-group resolver; called concurrently and must be thread-safe.
         /// Returning null rejects the RPC; resolver exceptions fail the RPC.
         std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
@@ -108,6 +136,19 @@ public:
 
         /// Exact X.509 identity-to-member mappings required when Raft is enabled.
         std::vector<RaftIdentityBinding> raft_identity_bindings;
+
+        /// Local shard identity served by the fragment reader.
+        std::string tensor_fragment_shard_id;
+        /// Storage-owner callback. If absent, the fragment RPC is unavailable.
+        TensorFragmentReader tensor_fragment_reader;
+        /// Explicit client certificate identities allowed to invoke the reader.
+        std::vector<FragmentFetchIdentityBinding> tensor_fragment_identity_bindings;
+        /// Hard response limit enforced before streaming.
+        uint64_t max_tensor_fragment_bytes = 64ULL * 1024ULL * 1024ULL;
+        /// Maximum bytes sent in one gRPC response frame.
+        uint32_t tensor_fragment_chunk_bytes = 1024U * 1024U;
+        /// Hard server-side RPC deadline limit.
+        uint32_t tensor_fragment_max_deadline_ms = 30000;
     };
     
     /**

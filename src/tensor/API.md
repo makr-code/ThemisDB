@@ -24,7 +24,7 @@ Location: `include/tensor/tensor_index_manager.h`
 
 Responsibilities:
 
-- choose a route for a tenant/collection/field using `routeFor()`
+- report a heuristic route recommendation using `routeFor()`
 - create or retrieve index instances using `createIndex()` and `getIndex()`
 - remove and list indexes through `dropIndex()`, `dropTenantIndexes()`, `listIndexes()`
 - optionally pin TT-core pages using `mapCores()` and `ggmlCorePtrs()`
@@ -32,10 +32,13 @@ Responsibilities:
 
 Contract notes:
 
-- route decisions are `TENSOR_TRAIN`, `HYBRID`, or `HNSW`
-- null returns are valid when no index is found or the route is unsupported
+- `routeFor()` returns `TENSOR_TRAIN`, `HYBRID`, or `HNSW` from dimension and
+  estimated vector count; it does not select or instantiate an index.
+- `createIndex()` always creates a `FlatTensorIndex`; the manager does not
+  automatically construct HNSW or HYBRID implementations from a route.
+- `createIndex()` returns `nullptr` for an invalid `epsilon`;
+  `getIndex()` returns `nullptr` when the key is not registered.
 - configuration and cleanup semantics are explicit; no silent fallback is expected for malformed state
-- **Implementation caveat:** `routeFor()` computes a route separately; current `createIndex()` constructs a `FlatTensorIndex` without consulting that route. This differs from the header comment describing `nullptr` for an HNSW route and remains an unresolved source/API contract discrepancy.
 - `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. Its cached
   bridge keeps pointers valid across index mutations, but cache eviction or
   manager destruction invalidates them.
@@ -53,7 +56,13 @@ Responsibilities:
 
 Contract notes:
 
-- `findSimilar()` excludes the query key from the result set
+- `findSimilar()` excludes the query key and other tenants' candidates; callers
+  must still authorize the query key themselves
+- `findSimilarForTenant()` additionally rejects an empty or mismatching expected
+  tenant while holding the graph lock; callers must authenticate that tenant
+- `snapshotSimilarForTenant()` returns the query domain and base model with the
+  selected candidates, or no snapshot for a missing query. Scoring can run
+  after candidate selection and injected callbacks remain trusted.
 - the request-aware `findSimilar(query_key, k, request, stop_reason)` overload
   polls while collecting candidates and between per-candidate similarity
   operations; it discards partial results and reports cancellation or deadline
@@ -78,8 +87,20 @@ Responsibilities:
 Contract notes:
 
 - storage is tenant-scoped and keyed by domain + base-model metadata
+- `store()` rejects trains that cannot be safely scored by the fingerprint
+  graph before writing or replacing the stored adapter
+- `tenantId()` exposes the repository's fixed namespace, not caller authentication
 - the repository is responsible for adapter provenance and retrieval orchestration
 - missing or malformed adapter state is treated as a fail-safe condition
+
+### `TensorMidLayer`
+
+- When querying a configured repository by domain and base model, `summarize()`
+  rejects an empty or different context tenant with `std::invalid_argument`.
+- Graph fallback checks the registered query's tenant against the supplied
+  context under the graph lock. Callers must still authenticate the tenant and
+  authorize the scope. Injected similarity backends remain responsible for
+  their own data access and candidate provenance.
 
 ### `TensorMmapBridge`
 
@@ -96,6 +117,25 @@ Contract notes:
 - bridge lifetime must be kept alive as long as mapped slices are used
 - memory resets and munmap behavior are part of the object contract
 - the manager's `mapCores()` path currently builds from an in-memory TT train; the bridge uses anonymous mapping plus a copy unless an SST mapper is injected. `buildFromFd()` separately supports a file-backed `MAP_SHARED` path where available.
+
+### `PersistentTensorFingerprintGraph`
+
+- `rehydrate()` checks persisted entries and journal targets against the
+  configured tenant and domain before replay or graph replacement. It preserves
+  unrelated graph entries and returns `false` for invalid or conflicting data.
+- TT-train decoding rejects truncated data, overflowing lengths and trailing
+  bytes; graph insertion additionally checks mode sizes, adjacent ranks,
+  allocation-size overflow and finite core values. Decoding does not
+  authenticate records or impose a fixed scoring resource limit.
+- The RocksDB tensor backend reports read and iterator failures as exceptions,
+  rather than treating them as missing records or a complete prefix scan.
+  Existing callers of the backend must handle `std::runtime_error`.
+- During recovery the caller must exclude graph readers and writers as well as
+  backend mutations. Replacement is not atomic, and journal replay may change
+  the backend even when later validation fails. Add/remove also require
+  serialized mutations and reject conflicting tenant/domain graph keys.
+  Recovery is not a transactional storage snapshot and callers must handle
+  failures explicitly.
 
 ### `DreamOrchestrator`
 

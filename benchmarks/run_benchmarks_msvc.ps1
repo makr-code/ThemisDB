@@ -202,10 +202,13 @@ function Get-CMakeCacheSettings {
     return $settings
 }
 
+. (Join-Path $PSScriptRoot 'workload_link_resolver.ps1')
+
 function ConvertFrom-GoogleBenchmarkJson {
     param(
         [Parameter(Mandatory = $true)][string]$JsonPath,
-        [Parameter(Mandatory = $true)][string]$SuiteName
+        [Parameter(Mandatory = $true)][string]$SuiteName,
+        [Parameter(Mandatory = $true)][string]$ExecutableName
     )
 
     if (-not (Test-Path -LiteralPath $JsonPath)) {
@@ -239,6 +242,7 @@ function ConvertFrom-GoogleBenchmarkJson {
             benchmark_kind = 'google'
             suite = $SuiteName
             name = $name
+            workload_id = Resolve-BenchmarkWorkloadId -ExecutableName $ExecutableName -ObservedName $name
             source = $JsonPath
             timestamp_utc = $json.context.date
             category = $null
@@ -438,6 +442,7 @@ $manifest['executables'] = @($exeList | ForEach-Object {
         name = $executableName
         path = $_
         sha256 = (Get-FileHash $_ -Algorithm SHA256).Hash
+        workload_id = $null
         raw_json = $rawJsonName
         raw_json_path = Join-Path $OutDir $rawJsonName
         benchmark_arguments = $benchmarkArguments
@@ -588,6 +593,7 @@ foreach ($exe in $exeList) {
                 $manifest.repeatability += [ordered]@{
                     executable = $name
                     benchmark = $group.Name
+                    workload_id = Resolve-BenchmarkWorkloadId -ExecutableName $name -ObservedName $group.Name
                     metric = $metricName
                     sample_count = $values.Count
                     mean = $mean
@@ -619,7 +625,7 @@ foreach ($exe in $exeList) {
             $rows += $row
         }
         $rows | Export-Csv -LiteralPath $csvOut -NoTypeInformation -Encoding UTF8
-        $googleRecords = ConvertFrom-GoogleBenchmarkJson -JsonPath $jsonOut -SuiteName $name
+        $googleRecords = ConvertFrom-GoogleBenchmarkJson -JsonPath $jsonOut -SuiteName $name -ExecutableName $name
         $normalized += $googleRecords
         $ran += [PSCustomObject]@{ Name = $name; Json = $jsonOut; Csv = $csvOut }
         $executionSummary += [pscustomobject]@{
