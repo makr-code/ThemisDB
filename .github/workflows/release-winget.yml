@@ -7,12 +7,11 @@ name: "Release: WinGet Consumer"
 #
 # Rechenaufwand-Score: R=3 (K=2, L=3, N=2) | last-calibrated: 2026-09-04
 # Trigger policy: repo framework score calibration for workflow cost controls.
-# Automated WinGet community package submission (after stable release).
+# Automated WinGet community package submission for published releases.
 #
 # Trigger:
-#   - Runs after successful GitHub Release creation (release event)
-#   - Triggers only on stable releases (not pre-release)
-#   - Can be manually triggered with explicit version
+#   - Manually or via workflow_call with an explicit version
+#   - Prereleases require allow_prerelease and use a separate Preview package
 #
 # Pipeline stages:
 #   detect-release → download-artifacts → generate-checksums
@@ -40,6 +39,11 @@ on:
         required: false
         default: true
         type: boolean
+      allow_prerelease:
+        description: "Allow published prereleases in the separate ThemisDB.ThemisDB.Preview package."
+        required: false
+        default: false
+        type: boolean
       fork_owner:
         description: "GitHub username or org that owns the winget-pkgs fork"
         required: false
@@ -58,6 +62,11 @@ on:
         description: "Generate and validate manifests without submitting a PR or updating GitHub issue status."
         required: false
         default: true
+        type: boolean
+      allow_prerelease:
+        description: "Allow published prereleases in the separate ThemisDB.ThemisDB.Preview package."
+        required: false
+        default: false
         type: boolean
       fork_owner:
         description: "GitHub username or org that owns the winget-pkgs fork"
@@ -138,6 +147,7 @@ jobs:
       release-type: ${{ steps.detect.outputs.release-type }}
       is-stable: ${{ steps.detect.outputs.is-stable }}
       should-submit: ${{ steps.detect.outputs.should-submit }}
+      package-identifier: ${{ steps.detect.outputs.package-identifier }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -153,32 +163,48 @@ jobs:
         id: detect
         env:
           VERSION_INPUT: ${{ inputs.version }}
+          ALLOW_PRERELEASE: ${{ inputs.allow_prerelease }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           VERSION="${VERSION_INPUT#v}"
           if ! [[ "$VERSION" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([a-zA-Z0-9.]+))?$ ]]; then
-            echo "::error::WinGet requires a stable community version."; exit 1
+            echo "::error::Invalid WinGet release version."; exit 1
           fi
-          if [[ -n "${BASH_REMATCH[3]:-}" ]]; then
+          suffix="${BASH_REMATCH[3]:-}"
+          if [[ -n "$suffix" && "${ALLOW_PRERELEASE:-false}" != "true" ]]; then
             {
               echo "version=$VERSION"
               echo "release-type=prerelease"
               echo "is-stable=false"
               echo "should-submit=false"
             } >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping WinGet submission for prerelease version $VERSION."
+            echo "::notice::Skipping prerelease version $VERSION; allow_prerelease is false."
             exit 0
           fi
-          release="$(gh release view "v${VERSION}" --repo "${{ github.repository }}" --json isDraft,isPrerelease)"
-          if [[ "$(jq -r '.isDraft or .isPrerelease' <<< "$release")" != "false" ]]; then
-            echo "::error::WinGet requires an already published stable release."; exit 1
+          release="$(gh release view "v${VERSION}" --repo "makr-code/ThemisDB" --json isDraft,isPrerelease,publishedAt)"
+          if ! jq -e '(.isDraft | type == "boolean") and (.isPrerelease | type == "boolean") and (.isDraft == false) and (.publishedAt | if type == "string" then (try fromdateiso8601 catch null) | type == "number" else false end)' <<< "$release" > /dev/null; then
+            echo "::error::WinGet requires an existing published, non-draft release."; exit 1
+          fi
+          release_type=stable
+          is_stable=true
+          package_identifier=ThemisDB.ThemisDB
+          should_submit=true
+          if [[ -n "$suffix" ]] || [[ "$(jq -r '.isPrerelease' <<< "$release")" == "true" ]]; then
+            release_type=prerelease
+            is_stable=false
+            package_identifier=ThemisDB.ThemisDB.Preview
+            if [[ "${ALLOW_PRERELEASE:-false}" != "true" ]]; then
+              should_submit=false
+              echo "::notice::Skipping GitHub prerelease $VERSION; allow_prerelease is false."
+            fi
           fi
           {
             echo "version=$VERSION"
-            echo "release-type=stable"
-            echo "is-stable=true"
-            echo "should-submit=true"
+            echo "release-type=$release_type"
+            echo "is-stable=$is_stable"
+            echo "package-identifier=$package_identifier"
+            echo "should-submit=$should_submit"
           } >> "$GITHUB_OUTPUT"
 
   download-artifacts:
@@ -195,7 +221,7 @@ jobs:
           set -euo pipefail
           TAG="v${{ needs.detect-release.outputs.version }}"
           mkdir -p release-artifacts
-          gh release download "$TAG" --repo "${{ github.repository }}" --dir release-artifacts --clobber
+          gh release download "$TAG" --repo "makr-code/ThemisDB" --dir release-artifacts --clobber
           if [[ -z "$(find release-artifacts -type f -print -quit)" ]]; then
             echo "::error::No release assets downloaded for tag $TAG"
             exit 1
@@ -275,7 +301,9 @@ jobs:
         shell: pwsh
         run: |
           $Version = "${{ needs.detect-release.outputs.version }}"
-          $ManifestDir = "packaging/winget/manifests/t/ThemisDB/ThemisDB/$Version"
+          $PackageIdentifier = "${{ needs.detect-release.outputs.package-identifier }}"
+          $PackagePath = ($PackageIdentifier -split '\.') -join '/'
+          $ManifestDir = "packaging/winget/manifests/t/$PackagePath/$Version"
           $Checksums = Get-Content checksums.json | ConvertFrom-Json
           $Zip64 = @($Checksums.artifacts | Where-Object { $_.filename -match '(?i)windows.*(x64|amd64).*\.zip$' })
           if ($Zip64.Count -ne 1) {
@@ -284,12 +312,22 @@ jobs:
           $Artifact = $Zip64[0]
           python3 scripts/release/validate_runtime_payload.py (Join-Path "release-artifacts" $Artifact.filename)
           if ($LASTEXITCODE -ne 0) { throw 'Windows ZIP must contain compiled docs.db and TinyLlama.' }
+          $PreviewArgs = @{}
+          if ($PackageIdentifier -eq 'ThemisDB.ThemisDB.Preview') {
+            $PreviewArgs = @{
+              PackageName = 'ThemisDB Preview'
+              Moniker = 'themisdb-preview'
+              PortableCommandAlias = 'themis_server_preview'
+            }
+          }
           & ./scripts/release/new-winget-manifest.ps1 `
             -Version $Version `
-            -InstallerUrl "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Artifact.filename)" `
+            -PackageIdentifier $PackageIdentifier `
+            -InstallerUrl "https://github.com/makr-code/ThemisDB/releases/download/v${Version}/$($Artifact.filename)" `
             -InstallerSha256 $Artifact.sha256 `
             -InstallerArchivePath (Join-Path "release-artifacts" $Artifact.filename) `
-            -IncludeGermanLocale
+            -IncludeGermanLocale @PreviewArgs
+          if (-not $?) { throw 'WinGet manifest generation failed.' }
           echo "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
 
       - name: Upload WinGet manifests
@@ -353,8 +391,9 @@ jobs:
       - name: Restore manifest layout
         shell: pwsh
         run: |
-          $expectedDir = Join-Path $env:GITHUB_WORKSPACE 'packaging\winget\manifests\t\ThemisDB\ThemisDB\${{ needs.detect-release.outputs.version }}'
-          foreach ($file in @('ThemisDB.ThemisDB.yaml', 'ThemisDB.ThemisDB.installer.yaml', 'ThemisDB.ThemisDB.locale.en-US.yaml')) {
+          $expectedDir = Join-Path $env:GITHUB_WORKSPACE '${{ needs.generate-manifests.outputs.manifest-dir }}'
+          $packageIdentifier = '${{ needs.detect-release.outputs.package-identifier }}'
+          foreach ($file in @("$packageIdentifier.yaml", "$packageIdentifier.installer.yaml", "$packageIdentifier.locale.en-US.yaml")) {
             if (-not (Test-Path (Join-Path $expectedDir $file))) {
               throw "WinGet manifest artifact is missing $file."
             }
@@ -367,6 +406,7 @@ jobs:
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.winget_pr_token }}
+          RELEASE_GH_TOKEN: ${{ github.token }}
           WINGET_FORK_OWNER: ${{ inputs.fork_owner || vars.WINGET_FORK_OWNER }}
         run: |
           if ([string]::IsNullOrWhiteSpace($env:GH_TOKEN)) {
@@ -378,6 +418,7 @@ jobs:
 
           pwsh -File .\scripts\release\submit-winget-pkgs.ps1 `
             -Version "${{ needs.detect-release.outputs.version }}" `
+            -PackageIdentifier "${{ needs.detect-release.outputs.package-identifier }}" `
             -ForkOwner "$env:WINGET_FORK_OWNER" `
             -GitHubToken "$env:GH_TOKEN"
           if ($LASTEXITCODE -ne 0) { throw 'WinGet submission script failed.' }
@@ -513,7 +554,7 @@ jobs:
           echo "Manifests Generated: ${MANIFEST_DIR:-none}"
           echo ""
           if [ "${DRY_RUN_ENABLED}" = "true" ]; then
-            echo "Dry-run: manifest generation and validation ran; no WinGet PR or GitHub issue update was attempted."
+            echo "Dry-run: no WinGet PR or GitHub issue update was attempted; see job results for validation status."
             echo "Download artifact: winget-manifests-${VERSION:-unknown}"
           elif [ "${SHOULD_SUBMIT:-false}" = "true" ]; then
             echo "WinGet submission job result: ${{ needs.create-fork-pr.result }}"

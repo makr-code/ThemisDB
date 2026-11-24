@@ -834,6 +834,9 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             with self.subTest(trigger=trigger_name):
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], True)
+                allow_prerelease = triggers[trigger_name]["inputs"]["allow_prerelease"]
+                self.assertEqual(allow_prerelease["type"], "boolean")
+                self.assertIs(allow_prerelease["default"], False)
 
         self.assertEqual(
             workflow["permissions"],
@@ -857,6 +860,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertNotIn("dry_run", manifest_validation["if"])
         submit = jobs["create-fork-pr"]
         self.assertIn("inputs.dry_run != true", submit["if"])
+        self.assertIn("needs.detect-release.outputs.should-submit == 'true'", submit["if"])
+        self.assertEqual(submit["environment"], "winget-production")
         self.assertEqual(submit["permissions"], {"contents": "read"})
         notify = jobs["notify"]["steps"][0]
         self.assertIn("no WinGet PR or GitHub issue update was attempted", notify["run"])

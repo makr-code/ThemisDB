@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-04"
+Last Updated: "2026-11-23"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Release Process Quick Reference
 
 > **Status:** Active  
@@ -150,11 +164,20 @@ gh workflow run release-rollback.yml \
 | **GitHub Releases** | ✅ All types | ✅ Stable/RC | ✅ Stable | ✅ Stable | ✅ Stable |
 | **Docker Hub** | ✅ Stable + pre-release | — | — | — | — |
 | **GHCR** | ✅ Stable + pre-release | — | — | — | — |
-| **WinGet** | ✅ Stable only | — | — | — | — |
+| **WinGet** | Stable default; prerelease opt-in Preview (upstream acceptance unproven) | — | — | — | — |
 | **DEB/RPM** | ✅ Stable + pre-release | — | — | — | — |
 | **Private Registry** | — | ✅ (enterprise-reg) | ✅ (oem-reg) | ✅ (mil-reg) | — |
 
 **See also:** [RELEASE_ARTIFACT_LOCATIONS.md](RELEASE_ARTIFACT_LOCATIONS.md)
+
+WinGet prereleases use the separate `ThemisDB.ThemisDB.Preview` identifier rather
+than stable `ThemisDB.ThemisDB`, intended to protect stable upgrades; upgrade
+isolation remains unverified. A manual dispatch
+or reusable call to `release-winget.yml` must set `allow_prerelease=true` and
+`dry_run=false` to request a draft PR; the defaults are `false` and `true`,
+respectively. The GitHub Release must already be published and non-draft.
+The approval wrapper leaves prerelease opt-in disabled. A draft PR does not
+establish upstream acceptance or package availability.
 
 ---
 
@@ -209,7 +232,7 @@ A: Push fixes to the release branch; CI will re-run automatically. Once green, r
 A: Check the three registries:
 1. GitHub Release: `gh release view v<version>`
 2. Docker: `docker pull themisdb:v<version>`
-3. WinGet: `winget show ThemisDB.ThemisDB --version <version>` (stable only)
+3. WinGet, after upstream merge: `winget show ThemisDB.ThemisDB --version <version>` for stable, or `winget show ThemisDB.ThemisDB.Preview --version <version>` for an accepted preview.
 
 ---
 
