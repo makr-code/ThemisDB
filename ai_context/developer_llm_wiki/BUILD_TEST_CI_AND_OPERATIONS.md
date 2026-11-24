@@ -17,6 +17,19 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-24
 Status: Active
 
+## Docker release Trivy ownership boundary
+
+- `.github/workflows/reusable-docker-image-platform.yml` retains a full-image
+  advisory report and a blocking fixed HIGH/CRITICAL OS/library scan.
+- Only upstream `/usr/local/bin/prometheus` and `/usr/share/grafana` (including
+  datasource plugins and bundled libraries) are excluded from the blocking
+  scan, per the source-governance boundary. Other image paths remain gated.
+  Scanner/database/export errors still fail; runtime monitoring smoke tests
+  remain mandatory.
+- Both reports are uploaded as `docker-trivy-<platform>-<run>` artifacts for
+  30 days, even on gate failure. Advisory findings are accepted scope, not
+  evidence of security. See `docker/README.md` for the operational contract.
+
 ## macOS ARM64 Accelerate SDK compilation
 
 - Actions job [127417305713](https://github.com/makr-code/ThemisDB/actions/runs/42075920970/job/127417305713)

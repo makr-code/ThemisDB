@@ -95,6 +95,7 @@ jobs:
             libtbb-dev \
             nlohmann-json3-dev \
             libbenchmark-dev \
+            libcpp-httplib-dev \
             libboost-dev \
             libboost-system-dev \
             libboost-filesystem-dev

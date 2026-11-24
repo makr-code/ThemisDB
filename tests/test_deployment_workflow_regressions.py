@@ -37,10 +37,12 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
-    def test_benchmark_runner_installs_boost_filesystem(self):
+    def test_benchmark_runner_installs_required_system_dependencies(self):
         steps = workflow("reusable-benchmark-runner.yml")["jobs"]["run-benchmarks"]["steps"]
         install = next(item["run"] for item in steps if item.get("name") == "Install system dependencies")
-        self.assertIn("libboost-filesystem-dev", shlex.split(install.replace("\\\n", " ")))
+        packages = shlex.split(install.replace("\\\n", " "))
+        self.assertIn("libboost-filesystem-dev", packages)
+        self.assertIn("libcpp-httplib-dev", packages)
 
     def test_fast_compile_uses_system_packages_without_vcpkg_checkout(self):
         lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
