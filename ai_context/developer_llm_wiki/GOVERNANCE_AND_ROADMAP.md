@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `ff6ccdeb872847ea`
+- Hash: `f6ed97ee8d1f3015`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.

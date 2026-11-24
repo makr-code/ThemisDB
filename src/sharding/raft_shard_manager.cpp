@@ -474,7 +474,7 @@ RaftShardManager::createTwoPhaseCommitDecisionStore(
     return store;
 }
 
-size_t RaftShardManager::restoreActiveTwoPhaseCommitDecisionStores(
+std::size_t RaftShardManager::restoreActiveTwoPhaseCommitDecisionStores(
     const std::string& shard_id,
     const RaftSnapshot& snapshot) const {
     std::lock_guard<std::mutex> lock(mutex_);

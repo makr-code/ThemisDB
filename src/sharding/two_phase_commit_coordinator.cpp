@@ -1060,6 +1060,26 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commitPreparedForAdapter(
     if (commit_timestamp) {
         decision_data["commit_timestamp_ns"] = *commit_timestamp;
     }
+    if (config_.decision_writer) {
+        bool quorum_decision_recorded = false;
+        try {
+            quorum_decision_recorded = config_.decision_writer(
+                coordinator_id_, transaction_id,
+                TwoPhaseCommitDecision{true, commit_timestamp});
+        } catch (const std::exception& error) {
+            THEMIS_ERROR(
+                "2PC coordinator [{}] quorum COMMIT write failed for txn {}: {}",
+                coordinator_id_, transaction_id, error.what());
+            outcome.reason = "failed to record quorum-backed COMMIT decision";
+            ++total_errors_;
+            return outcome;
+        }
+        if (!quorum_decision_recorded) {
+            outcome.reason = "quorum-backed COMMIT decision was not committed";
+            ++total_errors_;
+            return outcome;
+        }
+    }
     if (!logToWAL(WALEntryType::COMMIT_TX, transaction_id, decision_data,
                   /*force_sync=*/true)) {
         std::lock_guard<std::timed_mutex> lock(mutex_);

@@ -18,6 +18,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_topology.h"
 #include "sharding/consistent_hash.h"
+#include <cstddef>
 #include <memory>
 #include <map>
 #include <string>
@@ -210,6 +211,8 @@ public:
      * @throws std::runtime_error if its installed snapshot cannot be restored.
      * @note Callers should share the returned store among coordinators using this
      *       group so each observes the same restored in-memory decision state.
+     *       The manager weakly tracks this instance for later snapshot refresh;
+     *       it does not extend the store's lifetime.
      */
     [[nodiscard]] std::shared_ptr<
         themis::sharding::RaftTwoPhaseCommitDecisionStore>
@@ -229,7 +232,7 @@ public:
      *       `RaftState::installSnapshotFromLeader()` succeed. The method serializes
      *       with store creation so no active adapter misses the refresh.
      */
-    [[nodiscard]] size_t restoreActiveTwoPhaseCommitDecisionStores(
+    [[nodiscard]] std::size_t restoreActiveTwoPhaseCommitDecisionStores(
         const std::string& shard_id,
         const RaftSnapshot& snapshot) const;
     

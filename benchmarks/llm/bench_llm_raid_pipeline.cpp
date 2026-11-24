@@ -656,6 +656,7 @@ static void BM_DomainRouting_OverheadPerRequest(benchmark::State& state)
 
 BENCHMARK(BM_DomainRouting_OverheadPerRequest)
     ->Iterations(100'000)
+    ->UseRealTime()
     ->Unit(benchmark::kMicrosecond);
 
 // ─────────────────────────────────────────────────────────────────────────

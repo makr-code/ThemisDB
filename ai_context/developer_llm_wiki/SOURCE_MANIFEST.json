@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T17:11:04+00:00",
+  "generated_at": "2026-11-24T17:51:41+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -742,9 +742,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 163714,
-      "sha256": "ff6ccdeb872847ea7dee8e27b55f7d0ed87f83d1a6f0efa5c5e6998f1ee407ae",
-      "modified_utc": "2026-11-24T17:00:44+00:00"
+      "size": 163934,
+      "sha256": "f6ed97ee8d1f301520e344478910eb9c43433e8053e5c12094329eea762605a9",
+      "modified_utc": "2026-11-24T17:51:34+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -21000,9 +21000,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2327314,
-      "sha256": "2db1ae0bebb7496db057aa1ccf5ffe94759669cc5bd7ead04749047b8bf989bd",
-      "modified_utc": "2026-11-24T13:48:28+00:00"
+      "size": 2327551,
+      "sha256": "b98350725e2a8fd6266ee803d3b81d71ba344ca6dd80056edfc123df17345738",
+      "modified_utc": "2026-11-24T17:34:58+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -51156,9 +51156,9 @@
     {
       "path": "include/sharding/raft_shard_manager.h",
       "category": "modules_and_api",
-      "size": 10774,
-      "sha256": "1b3a470a000bf6bbc1ac4bb484171ce9ce6cb0db4eef7a58467026cd46e86bf2",
-      "modified_utc": "2026-11-24T17:01:01+00:00"
+      "size": 12037,
+      "sha256": "d88ade7b8ca5657c04149f4b1ff674c5860ede8b2e3d0a6975c5db5c6e7800f7",
+      "modified_utc": "2026-11-24T17:50:32+00:00"
     },
     {
       "path": "include/sharding/raft_state.h",
@@ -56560,9 +56560,9 @@
     {
       "path": "src/sharding/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 16171,
-      "sha256": "19319d51fc7bfea8aa15a01b20b4ca2d869353aab195678f808367cddbae0995",
-      "modified_utc": "2026-11-24T17:10:54+00:00"
+      "size": 16417,
+      "sha256": "1c344381e70c334717f885396df14449a7b33111c05b62b3820cad7d8d593a1e",
+      "modified_utc": "2026-11-24T17:19:12+00:00"
     },
     {
       "path": "src/sharding/README.md",
@@ -56574,9 +56574,9 @@
     {
       "path": "src/sharding/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 47528,
-      "sha256": "1187a5f80441fe11e8203aec49cd0cb004932bcc8d067c5d31e892192f41ddb4",
-      "modified_utc": "2026-11-24T17:00:36+00:00"
+      "size": 47811,
+      "sha256": "3a1ed56d731453e255354f2decd3b2434248844bb8a3ea7b96a485959a41475e",
+      "modified_utc": "2026-11-24T17:19:02+00:00"
     },
     {
       "path": "src/stable_diffusion/FUTURE_ENHANCEMENTS.md",

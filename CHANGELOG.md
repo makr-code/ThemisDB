@@ -75,7 +75,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   now authenticates the leader, validates every frame and only acknowledges
   after a configured restorer reports success and the durable Raft boundary is
   verified. `RaftShardManager` can initiate this transfer when follower
-  progress falls behind compaction, then continue with AppendEntries. These
+  progress falls behind compaction, then continue with AppendEntries. The
+  manager weakly tracks active stores created by its 2PC factory and provides
+  `restoreActiveTwoPhaseCommitDecisionStores()` to refresh them from the
+  installed snapshot extension after the journal anchor changes. These
   callbacks remain opt-in: the production application must bind them to a
   crash-recoverable application/active-2PC-state restore, and multi-process
   snapshot/failover evidence is still required before claiming end-to-end

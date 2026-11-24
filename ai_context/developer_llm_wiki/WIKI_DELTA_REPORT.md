@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- src/sharding/FUTURE_ENHANCEMENTS.md
+- CHANGELOG.md

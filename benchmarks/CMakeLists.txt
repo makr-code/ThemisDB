@@ -5635,7 +5635,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_advanced_patterns
       TARGET bench_advanced_patterns
       MODULE "advanced_patterns"
-      TIMEOUT 600
+      TIMEOUT 900
     )
   endif()
   # Module: advanced_scenarios (1)

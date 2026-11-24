@@ -149,7 +149,7 @@ BENCHMARK_F(FaultInjectorFixture, RecoverFault_Throughput)(benchmark::State& sta
 
 // ─── 6. getActiveFaults() snapshot under high churn ──────────────────────────
 
-BENCHMARK_F(FaultInjectorFixture, GetActiveFaults_HighChurn)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(FaultInjectorFixture, GetActiveFaults_HighChurn)(benchmark::State& state) {
     const int kFaults = static_cast<int>(state.range(0));
 
     // Populate

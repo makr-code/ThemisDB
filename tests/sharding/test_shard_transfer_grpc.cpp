@@ -12,6 +12,7 @@
 #include "sharding/shard_transfer_store.h"
 #include "sharding/raft_consensus.h"
 #include "sharding/raft_shard_manager.h"
+#include "sharding/raft_two_phase_commit_decision_store.h"
 #include "utils/zstd_codec.h"
 #include "shard_rpc.grpc.pb.h"
 
@@ -1461,6 +1462,9 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     auto receiver_snapshots =
         std::make_shared<themisdb::sharding::RaftSnapshotManager>(
             receiver_snapshot_config);
+    auto receiver_decisions =
+        std::make_shared<themis::sharding::RaftTwoPhaseCommitDecisionStore>(
+            raft, "payments");
     auto restored_application_state =
         std::make_shared<std::vector<uint8_t>>();
     server_config.raft_snapshot_manager_resolver =
@@ -1468,19 +1472,29 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
             return group_id == "payments" ? receiver_snapshots : nullptr;
         };
     server_config.raft_snapshot_install_handler =
-        [restored_application_state](
+        [receiver_decisions, restored_application_state](
             themisdb::sharding::RaftConsensus& receiver,
             themisdb::sharding::RaftSnapshotManager&,
             const std::string& leader_id,
             uint64_t leader_term,
             const themisdb::sharding::RaftSnapshot& snapshot) {
+            const auto extension = snapshot.extensions.find(std::string(
+                themis::sharding::RaftTwoPhaseCommitDecisionStore::
+                    kSnapshotExtensionName));
+            if (extension == snapshot.extensions.end()) {
+                return false;
+            }
+            auto application_state =
+                themis::utils::zstd_decompress(snapshot.data);
             if (!receiver.getRaftState().installSnapshotFromLeader(
                     leader_id, leader_term, snapshot.snapshot_index,
                     snapshot.snapshot_term)) {
                 return false;
             }
-            *restored_application_state =
-                themis::utils::zstd_decompress(snapshot.data);
+            receiver_decisions->restoreSnapshotState(
+                snapshot.snapshot_index, snapshot.snapshot_term,
+                extension->second);
+            *restored_application_state = std::move(application_state);
             return true;
         };
     ShardRPCServer server(server_config);
@@ -1536,18 +1550,39 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
         source_snapshot_config);
     const std::vector<uint8_t> application_state{
         'd', 'u', 'r', 'a', 'b', 'l', 'e', '-', 's', 't', 'a', 't', 'e'};
-    const auto snapshot_entry = leader->getRaftState().getLog().getEntry(1);
+    auto source_decisions = manager.createTwoPhaseCommitDecisionStore(
+        "payments", source_snapshots);
+    ASSERT_TRUE(source_decisions->writer()(
+        "grpc-snapshot-coordinator", "grpc-snapshot-transaction",
+        {true, std::optional<int64_t>{123}}));
+    const auto snapshot_index =
+        leader->getRaftState().getLog().getCommitIndex();
+    const auto snapshot_entry =
+        leader->getRaftState().getLog().getEntry(snapshot_index);
     ASSERT_TRUE(snapshot_entry.has_value());
-    ASSERT_TRUE(source_snapshots.createAndInstall(
-        leader->getRaftState(), 1, snapshot_entry->term, application_state));
+    ASSERT_TRUE(source_decisions->createAndInstallSnapshot(
+        source_snapshots, snapshot_index, snapshot_entry->term,
+        application_state));
     const auto snapshot_result = client.installRaftSnapshot(
-        "payments", "node2", source_snapshots, leader->getCurrentTerm(), 1, 5000);
+        "payments", "node2", source_snapshots, leader->getCurrentTerm(),
+        snapshot_index, 5000);
     ASSERT_TRUE(snapshot_result.installed);
-    EXPECT_EQ(snapshot_result.snapshot_index, 1u);
+    EXPECT_EQ(snapshot_result.snapshot_index, snapshot_index);
     EXPECT_EQ(snapshot_result.snapshot_term, snapshot_entry->term);
-    EXPECT_EQ(raft->getRaftState().getSnapshotIndex(), 1u);
+    EXPECT_EQ(raft->getRaftState().getSnapshotIndex(), snapshot_index);
     EXPECT_EQ(raft->getRaftState().getSnapshotTerm(), snapshot_entry->term);
     EXPECT_EQ(*restored_application_state, application_state);
+    const auto source_snapshot = source_snapshots.loadSnapshot(snapshot_index);
+    const auto receiver_snapshot = receiver_snapshots->loadSnapshot(snapshot_index);
+    ASSERT_TRUE(source_snapshot.has_value());
+    ASSERT_TRUE(receiver_snapshot.has_value());
+    const auto extension_name = std::string(
+        themis::sharding::RaftTwoPhaseCommitDecisionStore::
+            kSnapshotExtensionName);
+    ASSERT_TRUE(source_snapshot->extensions.contains(extension_name));
+    ASSERT_TRUE(receiver_snapshot->extensions.contains(extension_name));
+    EXPECT_EQ(receiver_snapshot->extensions.at(extension_name),
+              source_snapshot->extensions.at(extension_name));
 
     grpc::SslCredentialsOptions unbound_credentials;
     unbound_credentials.pem_root_certs = server_tls.certificate_pem;
