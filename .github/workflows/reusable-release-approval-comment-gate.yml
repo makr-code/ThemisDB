@@ -64,6 +64,11 @@ on:
         required: false
         default: ""
         type: string
+      require_prerelease_opt_in:
+        description: "Require an explicit issue opt-in for WinGet prerelease submissions."
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -73,21 +78,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  approval-gate:
-    name: "Validate: Release Approval Comment Gate"
+  pre-validation:
+    name: "Validate: Maintainer and Command"
     runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
-      actions: write
     outputs:
       gate-skip: ${{ steps.gate.outputs.skip }}
       gate-status: ${{ steps.gate.outputs.status }}
       gate-is-maintainer: ${{ steps.gate.outputs.is_maintainer }}
-      gate-version: ${{ steps.extract_version.outputs.version }}
-    environment:
-      name: ${{ inputs.environment_name }}
-      url: ${{ inputs.environment_url }}
     steps:
       - name: Validate maintainer and command
         id: gate
@@ -105,15 +105,27 @@ jobs:
             const user = context.payload.comment.user.login;
             const labels = (issue.labels || []).map((l) => l.name);
 
+            if (context.payload.action !== 'created') {
+              core.setOutput('skip', 'true');
+              core.notice('Skipping: only newly created comments can authorize an action.');
+              return;
+            }
+
             if (!labels.includes(process.env.ISSUE_LABEL)) {
               core.setOutput('skip', 'true');
               core.notice(`Skipping: issue label '${process.env.ISSUE_LABEL}' not found`);
               return;
             }
 
-            if (!(new RegExp(process.env.MATCH_REGEX, 'i')).test(body)) {
+            const exact = (pattern) => new RegExp(`^(?:${pattern})$`, 'i').test(body);
+            if (!exact(process.env.MATCH_REGEX)) {
               core.setOutput('skip', 'true');
-              core.notice('Skipping: comment does not contain an approval/hold/reject/rollback command');
+              core.notice('Skipping: comment is not an exact approval/hold/reject/rollback command');
+              return;
+            }
+
+            if (issue.state !== 'open') {
+              core.setFailed('Approval issue is closed. Reopen or create the correct review issue before requesting approval.');
               return;
             }
 
@@ -131,9 +143,19 @@ jobs:
               return;
             }
 
-            const hold = new RegExp(process.env.HOLD_REGEX, 'i').test(body);
-            const reject = new RegExp(process.env.REJECT_REGEX, 'i').test(body);
-            const rollback = new RegExp(process.env.ROLLBACK_REGEX, 'i').test(body);
+            const currentIssue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+            });
+            if (currentIssue.data.state !== 'open') {
+              core.setFailed('Approval issue is closed. Reopen or create the correct review issue before requesting approval.');
+              return;
+            }
+
+            const hold = exact(process.env.HOLD_REGEX);
+            const reject = exact(process.env.REJECT_REGEX);
+            const rollback = exact(process.env.ROLLBACK_REGEX);
             core.setOutput('status', hold ? 'hold' : reject ? 'reject' : rollback ? 'rollback' : 'approve');
 
       - name: Handle hold/reject/rollback requests
@@ -158,9 +180,23 @@ jobs:
               body,
             });
 
+  approval-gate:
+    name: "Publish: Approved Release Dispatch"
+    needs: [pre-validation]
+    if: needs.pre-validation.result == 'success' && needs.pre-validation.outputs.gate-skip != 'true' && needs.pre-validation.outputs.gate-is-maintainer == 'true' && needs.pre-validation.outputs.gate-status == 'approve'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      actions: write
+    outputs:
+      gate-version: ${{ steps.extract_version.outputs.version }}
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.environment_url }}
+    steps:
       - name: Extract version from issue body
         id: extract_version
-        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -173,7 +209,6 @@ jobs:
             core.setOutput('version', match[1]);
 
       - name: Verify release tag exists
-        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -189,14 +224,49 @@ jobs:
               core.setFailed(`Release tag ${tag} does not exist. Cannot publish.`);
             }
 
+      - name: Validate WinGet prerelease authorization
+        id: prerelease
+        if: inputs.require_prerelease_opt_in
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        env:
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const fields = body.split(/\r?\n/).filter((line) =>
+              /^\s*\*\*WinGet prerelease opt-in:\*\*/i.test(line));
+            if (fields.length > 1 || (fields.length === 1 &&
+                !/^\s*\*\*WinGet prerelease opt-in:\*\*\s*(?:true|false)\s*$/i.test(fields[0]))) {
+              core.setFailed('Invalid or duplicate WinGet prerelease opt-in issue field. Use **WinGet prerelease opt-in:** true or false.');
+              return;
+            }
+            const allowed = fields.length === 1 &&
+              /^\s*\*\*WinGet prerelease opt-in:\*\*\s*true\s*$/i.test(fields[0]);
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: `v${process.env.VERSION}`,
+            });
+            if (release.data.draft) {
+              core.setFailed('WinGet requires a published GitHub Release.');
+              return;
+            }
+            if ((process.env.VERSION.includes('-') || release.data.prerelease) && !allowed) {
+              core.setFailed('WinGet prereleases require the issue field **WinGet prerelease opt-in:** true.');
+              return;
+            }
+            core.setOutput('allowed', allowed ? 'true' : 'false');
+
       - name: Dispatch target workflow
-        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         env:
           WORKFLOW_ID: ${{ inputs.target_workflow_id }}
           TARGET_REF: ${{ inputs.target_ref }}
           EXTRA_INPUTS_JSON: ${{ inputs.dispatch_inputs_json }}
           VERSION_INPUT_NAME: ${{ inputs.version_input_name }}
+          REQUIRE_PRERELEASE_OPT_IN: ${{ inputs.require_prerelease_opt_in }}
+          PRERELEASE_ALLOWED: ${{ steps.prerelease.outputs.allowed }}
+          ISSUE_LABEL: ${{ inputs.issue_label }}
         with:
           script: |
             const version = '${{ steps.extract_version.outputs.version }}';
@@ -212,7 +282,43 @@ jobs:
               return;
             }
             const versionInputName = process.env.VERSION_INPUT_NAME || 'version';
+            if (process.env.REQUIRE_PRERELEASE_OPT_IN === 'true') {
+              if (!['true', 'false'].includes(process.env.PRERELEASE_ALLOWED)) {
+                core.setFailed('WinGet prerelease authorization was not verified.');
+                return;
+              }
+              if (versionInputName === 'allow_prerelease' || Object.hasOwn(extraInputs, 'allow_prerelease')) {
+                core.setFailed('allow_prerelease must be authorized by the issue field, not dispatch_inputs_json.');
+                return;
+              }
+              if (process.env.PRERELEASE_ALLOWED === 'true') {
+                extraInputs.allow_prerelease = 'true';
+              }
+            }
             const workflowInputs = { ...extraInputs, [versionInputName]: version };
+            const currentIssue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+            });
+            if (currentIssue.data.state !== 'open') {
+              core.setFailed('Approval issue was closed before dispatch. Reopen or create the correct review issue before retrying.');
+              return;
+            }
+            if ((currentIssue.data.body || '') !== (context.payload.issue.body || '') ||
+                !(currentIssue.data.labels || []).some((label) => label.name === process.env.ISSUE_LABEL)) {
+              core.setFailed('Approval issue body or required label changed before dispatch. Review the current issue and request approval again.');
+              return;
+            }
+            const permission = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: context.payload.comment.user.login,
+            });
+            if (!['admin', 'maintain'].includes(permission.data.permission)) {
+              core.setFailed('Comment author no longer has maintainer permissions. Request a new maintainer approval.');
+              return;
+            }
 
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
@@ -223,7 +329,6 @@ jobs:
             });
 
       - name: Comment approval status
-        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -234,7 +339,8 @@ jobs:
             const note = `${{ inputs.approval_note }}`.trim();
             const extra = note ? `\n\n${note}` : '';
 
-            const body = `✅ **${subject} Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Environment:** \`${{ inputs.environment_name }}\`\n**Workflow:** \`${{ inputs.target_workflow_id }}\`\n**Status:** Workflow dispatched after maintainer approval.${extra}`;
+            const workflowUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/workflows/${encodeURIComponent('${{ inputs.target_workflow_id }}')}`;
+            const body = `✅ **${subject} Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Environment:** \`${{ inputs.environment_name }}\`\n**Workflow:** [${{ inputs.target_workflow_id }}](${workflowUrl})\n**Status:** Dispatch requested after maintainer approval; publication has not been confirmed. Check the workflow runs for the corresponding execution.${extra}`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -244,7 +350,6 @@ jobs:
             });
 
       - name: Update issue label
-        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -255,14 +360,22 @@ jobs:
               labels: ['${{ inputs.approved_label }}'],
             });
 
+  summary:
+    name: "Validate: Approval Gate Summary"
+    needs: [pre-validation, approval-gate]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
       - name: Write workflow summary
         if: always()
         run: |
           set -euo pipefail
-          gate_skip="${{ steps.gate.outputs.skip }}"
-          gate_status="${{ steps.gate.outputs.status }}"
-          gate_maintainer="${{ steps.gate.outputs.is_maintainer }}"
-          gate_version="${{ steps.extract_version.outputs.version }}"
+          gate_skip="${{ needs.pre-validation.outputs.gate-skip }}"
+          gate_status="${{ needs.pre-validation.outputs.gate-status }}"
+          gate_maintainer="${{ needs.pre-validation.outputs.gate-is-maintainer }}"
+          gate_version="${{ needs.approval-gate.outputs.gate-version }}"
           if [[ -z "${gate_status}" ]]; then
             gate_status="n/a"
           fi
@@ -282,6 +395,8 @@ jobs:
             echo "| Maintainer | ${gate_maintainer} |"
             echo "| Command Status | ${gate_status} |"
             echo "| Skipped | ${gate_skip} |"
+            echo "| Pre-validation result | ${{ needs.pre-validation.result }} |"
+            echo "| Protected dispatch result | ${{ needs.approval-gate.result }} |"
             echo "| Extracted Version | ${gate_version} |"
             echo "| Target Workflow | ${{ inputs.target_workflow_id }} |"
             echo "| Environment | ${{ inputs.environment_name }} |"
@@ -290,8 +405,8 @@ jobs:
 
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
-    needs: [approval-gate]
-    if: always() && needs.approval-gate.result != 'success' && github.event_name == 'issue_comment'
+    needs: [pre-validation, approval-gate]
+    if: always() && (needs.pre-validation.result == 'failure' || needs.pre-validation.result == 'cancelled' || needs.approval-gate.result == 'failure' || needs.approval-gate.result == 'cancelled') && github.event_name == 'issue_comment'
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
@@ -316,7 +431,8 @@ jobs:
         - **Workflow:** `${{ github.workflow }}`
         - **Ref:** `${{ github.ref }}`
         - **Actor:** `${{ github.actor }}`
-        - **Result:** `${{ needs.approval-gate.result }}`
+        - **Pre-validation result:** `${{ needs.pre-validation.result }}`
+        - **Protected dispatch result:** `${{ needs.approval-gate.result }}`
 
         ## Required Maintainer Decision
 

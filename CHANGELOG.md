@@ -9,6 +9,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - Consolidated release approval tracking
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: unknown -->
+> Exact model backend not verifiable from final document text alone.
+
+- A maintainer approves the staged GitHub Release with a newly created standalone
+  issue comment; edits do not trigger commands, and retries require a new
+  comment. Downstream registry issues are reconciled by version and registry
+  and require separate issue commands and protected environment approval.
+  Restaging preserves the human review checklist and requires a fresh review.
+- Registry wrappers skip closed-issue comments rather than reopening issues; a
+  direct reusable-gate call fails, and a closed or duplicate downstream match
+  blocks reconciliation. Legacy open issue bodies are preserved while updated
+  instructions are appended as comments.
+- WinGet approval dispatches the issue's version, not the newest release.
+  A prerelease requires `**WinGet prerelease opt-in:** true` on its issue;
+  the downstream run attempts a draft PR, not direct package publication.
+- Reused issues do not prevent repeated dispatches. Gate failures remain visible;
+  job summaries describe gate results, not downstream publication or PR merge.
+
+### Fixed - Mainline dry-run for not-yet-created release tags
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- `release-mainline.yml` now checks out the selected workflow ref before resolving
+  an optional target tag. This allows dry-run builds for new tags to reach
+  preflight and payload validation without creating a tag, release, or PR.
+- Added a regression assertion for the checkout/ref contract.
+
+### Changed - Release metadata resolved from GitHub for all deployment paths
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- New `scripts/release/resolve_release_metadata.py` resolves the published
+  GitHub Release (explicit version or newest published canonical release),
+  required assets, and repository metadata (description, homepage, topics,
+  license with `LICENSE` fallback, publisher) with explicit errors for missing
+  or invalid values.
+- `release-winget.yml` no longer requires a `version` input; manifests take the
+  installer URL, license, publisher, description, release notes and tags from
+  resolved metadata, and the downloaded ZIP checksum is cross-checked against
+  the GitHub asset digest. Payload validation, the Preview identifier,
+  prerelease opt-in, dry-run defaults and human approval are unchanged.
+- Windows distribution Scoop/Chocolatey candidates use resolved metadata
+  (previously a wrong `Apache-2.0` license), Linux distribution bundles ship and
+  validate the metadata and now hand release assets to the bundle job via an
+  artifact, and Docker platform images receive OCI labels from repository
+  metadata.
+- The published `v2.4.0-alpha` Windows ZIP remains defective (missing
+  `data/docs.db` and bundled model); `RELEASE_STRATEGY.md` documents the
+  maintainer-gated correction path.
+
 ### Fixed - CI evidence consumers and Wave 4 linker dependency
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

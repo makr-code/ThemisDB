@@ -320,6 +320,31 @@ jobs:
     needs: detect-release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Resolve release metadata from GitHub and repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.detect-release.outputs.tag }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/release/resolve_release_metadata.py \
+            --repo "${REPOSITORY}" \
+            --version "${RELEASE_TAG}" \
+            --github-output /dev/null \
+            --output release-metadata/release-metadata.json
+
+      - name: Upload resolved release metadata
+        uses: actions/upload-artifact@v5
+        with:
+          name: windows-release-metadata-${{ github.run_number }}
+          path: release-metadata/release-metadata.json
+          retention-days: 90
+          if-no-files-found: error
+
       - name: Download release assets
         env:
           GH_TOKEN: ${{ github.token }}
@@ -356,6 +381,12 @@ jobs:
         with:
           name: windows-release-assets-${{ github.run_number }}
           path: release-assets/
+
+      - name: Download resolved release metadata
+        uses: actions/download-artifact@v5
+        with:
+          name: windows-release-metadata-${{ github.run_number }}
+          path: release-metadata/
 
       - name: Build bundle content
         id: bundle
@@ -397,7 +428,31 @@ jobs:
             MSI_SHA256="$(sha256sum "${MSI_FILE}" | awk '{print $1}')"
           fi
 
-          DOWNLOAD_BASE="https://github.com/${{ github.repository }}/releases/download/${{ needs.detect-release.outputs.tag }}"
+          METADATA="release-metadata/release-metadata.json"
+          meta() {
+            local value
+            value="$(jq -er --arg key "$1" '.[$key] | select(type == "string" and length > 0)' "${METADATA}")" || {
+              echo "::error::Resolved release metadata is missing required field '$1'."
+              exit 1
+            }
+            printf '%s' "${value}"
+          }
+          xml_escape() { printf '%s' "$1" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/"/\&quot;/g'; }
+          if [ "$(meta version)" != "${VERSION}" ]; then
+            echo "::error::Resolved release metadata version does not match ${VERSION}."
+            exit 1
+          fi
+          REPOSITORY_URL="$(meta repository_url)"
+          HOMEPAGE="$(meta homepage)"
+          LICENSE_NAME="$(meta license)"
+          LICENSE_URL="$(meta license_url)"
+          DESCRIPTION="$(meta description)"
+          PUBLISHER="$(meta publisher)"
+          RELEASE_URL="$(meta release_url)"
+          TAGS="$(jq -r '(.tags // []) | join(" ")' "${METADATA}")"
+          cp "${METADATA}" "${META_DIR}/release-metadata.json"
+
+          DOWNLOAD_BASE="${REPOSITORY_URL}/releases/download/${{ needs.detect-release.outputs.tag }}"
 
           if [ "${{ needs.detect-release.outputs.prepare_scoop }}" = "true" ] && [ -n "${ZIP_NAME}" ]; then
             jq -n \
@@ -405,13 +460,18 @@ jobs:
               --arg channel "${CHANNEL}" \
               --arg url "${DOWNLOAD_BASE}/${ZIP_NAME}" \
               --arg hash "${ZIP_SHA256}" \
+              --arg homepage "${HOMEPAGE}" \
+              --arg description "${DESCRIPTION}" \
+              --arg license "${LICENSE_NAME}" \
+              --arg license_url "${LICENSE_URL}" \
               '{
                 version: $version,
+                description: $description,
                 channel: $channel,
                 architecture: {"64bit": {url: $url, hash: $hash}},
                 bin: "themisdb.exe",
-                homepage: "https://github.com/makr-code/ThemisDB",
-                license: "Apache-2.0",
+                homepage: $homepage,
+                license: {identifier: $license, url: $license_url},
                 notes: ["Generated candidate manifest for Scoop consumer lane"]
               }' > "${SCOOP_DIR}/themisdb.json"
           fi
@@ -424,12 +484,13 @@ jobs:
               '    <id>ThemisDB</id>' \
               "    <version>${VERSION}</version>" \
               '    <title>ThemisDB</title>' \
-              '    <authors>ThemisDB Contributors</authors>' \
-              '    <projectUrl>https://github.com/makr-code/ThemisDB</projectUrl>' \
-              '    <licenseUrl>https://github.com/makr-code/ThemisDB/blob/develop/LICENSE</licenseUrl>' \
+              "    <authors>$(xml_escape "${PUBLISHER}")</authors>" \
+              "    <projectUrl>$(xml_escape "${HOMEPAGE}")</projectUrl>" \
+              "    <licenseUrl>$(xml_escape "${LICENSE_URL}")</licenseUrl>" \
               '    <requireLicenseAcceptance>false</requireLicenseAcceptance>' \
-              '    <description>ThemisDB Windows distribution candidate package metadata.</description>' \
-              '    <tags>database graph distributed ai</tags>' \
+              "    <description>$(xml_escape "${DESCRIPTION}")</description>" \
+              "    <releaseNotes>$(xml_escape "${RELEASE_URL}")</releaseNotes>" \
+              "    <tags>$(xml_escape "${TAGS:-database}")</tags>" \
               '  </metadata>' \
               '</package>' \
               > "${CHOCO_DIR}/themisdb.nuspec"

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-03-15"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -639,7 +639,30 @@ Rules:
 
 The `release-winget.yml` manual dispatch and reusable call default to `allow_prerelease=false` and `dry_run=true`. Set `allow_prerelease=true` to opt in to a prerelease (a version with a suffix or a GitHub Release marked prerelease); set `dry_run=false` to request creation of a draft PR. Both stable and opted-in prerelease submissions require an existing, published, non-draft GitHub Release and its release assets. A dry run generates and validates manifests but does not submit a PR.
 
-The separate `ThemisDB.ThemisDB.Preview` identifier is intended to isolate preview versions from `ThemisDB.ThemisDB` stable upgrades; that upgrade behavior remains to be verified. No prior stable PR merge is required by this policy. The approval wrapper dispatches with the default prerelease opt-out, so it does not opt in to preview publication. Upstream validation and acceptance of the Preview identifier and prerelease versions remain unproven: a draft PR is not publication, and availability must be verified after upstream review and merge.
+For `release-mainline.yml` manual dispatches, preflight checks out the selected workflow ref first, then switches to `tag_name` if that tag already exists. A not-yet-created tag is resolved against the selected workflow ref, allowing a dry-run build and payload validation without creating a tag, release, or publication PR. Actual publication remains separately approval-gated.
+
+### Release metadata resolution
+
+All downstream build and deployment paths resolve release and package metadata through `scripts/release/resolve_release_metadata.py` instead of hard-coded values:
+
+| Workflow | Resolution | Metadata consumers |
+|---|---|---|
+| `release-winget.yml` | `version` input optional; blank resolves the newest published canonical `vX.Y.Z[-suffix]` release (prereleases only with `allow_prerelease=true`, nightly tags excluded). Requires exactly one non-empty `windows-x64/amd64 .zip` asset. | Installer URL from the GitHub asset, SHA-256 cross-checked against the GitHub asset digest, `-MetadataPath` for publisher, URLs, license, short description, release notes, tags |
+| `release-windows-distribution.yml` | Explicit release tag; release must be published | Scoop `homepage`/`license`/`description`, Chocolatey `authors`/`projectUrl`/`licenseUrl`/`description`/`releaseNotes`/`tags`; JSON in `meta/release-metadata.json` |
+| `release-linux-distribution.yml` | Explicit release tag; release must be published | DEB `Release` description; JSON validated and shipped in `meta/release-metadata.json` |
+| `reusable-docker-image-platform.yml` | Repository metadata only (`--repository-only`) | OCI labels `source`, `url`, `documentation`, `description`, `licenses`, `vendor`, `version`, `revision` |
+
+Field sources: GitHub repository `description`, `homepage` (invalid values such as `https:\\host` fall back to the repository URL with a warning), `topics` (tags), the license SPDX id (or the first line of `LICENSE` when GitHub reports `NOASSERTION`), the `LICENSE` copyright holder (publisher), and the GitHub Release body/URL. Missing description, missing license, unpublished/draft releases, non-ISO `published_at`, missing/ambiguous/empty assets, and invalid version or repository values stop the workflow with an `::error::` message. Payload validation (`validate_runtime_payload.py`), the separate Preview identifier, prerelease opt-in, `dry_run=true` defaults and human approval are unchanged.
+
+### Correcting a defective published asset
+
+The resolver does not repair release payloads. A published Windows ZIP that fails `validate_runtime_payload.py` (as `ThemisDB-COMMUNITY-2.4.0-alpha-windows-x64.zip` of `v2.4.0-alpha` does: `data/docs.db` and the bundled GGUF model are missing) must be replaced by a maintainer:
+
+1. Preferred: cut a corrected prerelease (for example `v2.4.0-alpha.1`) through `release-mainline.yml` (`tag_name=2.4.0-alpha.1`, `edition=community`, `distribution=github`, first with `dry_run=true`, then `dry_run=false`) and approve it with `/publish-release`. Published tags are immutable and `stage-github-release.js` refuses to overwrite published releases.
+2. Alternatively, a maintainer converts `v2.4.0-alpha` back to draft and re-runs `release-mainline.yml` for that tag; this temporarily withdraws an already downloaded release and needs explicit human approval.
+3. Afterwards run `release-winget.yml` with `allow_prerelease=true` and `dry_run=true`; submit only after the dry run passes payload and checksum validation.
+
+The separate `ThemisDB.ThemisDB.Preview` identifier is intended to isolate preview versions from `ThemisDB.ThemisDB` stable upgrades; that upgrade behavior remains to be verified. No prior stable PR merge is required by this policy. The issue-based approval path also requires explicit prerelease opt-in as described in §11.4. Upstream validation and acceptance of the Preview identifier and prerelease versions remain unproven: a draft PR is not publication, and availability must be verified after upstream review and merge.
 
 ## 11.1 Docker Distribution
 
@@ -774,48 +797,47 @@ For historical reassignment work, also verify:
 
 ## 11.4 Release Publishing Approval Gates (2026 Security Hardening)
 
-External registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows distributions) is human-gated to prevent accidental publication of incomplete or problematic releases. The approval wrappers use issue comment keywords; the explicit WinGet manual or reusable opt-in follows the controlled workflow and its `winget-production` environment gate instead.
+External publishing is human-gated to prevent accidental publication of incomplete or problematic releases. The mainline and registry gates use commands on their respective tracking issues. The registry wrappers additionally require their protected GitHub Environment approval. Manual or reusable WinGet dispatch remains separately controlled and defaults to prerelease opt-out and dry-run.
 
 ### Flow Overview
 
 ```
 release-mainline.yml (builds + signs artifacts)
         ↓
-Creates GitHub Release + tracking issue
+Stages draft GitHub Release + release-review issue
         ↓
 Maintainer reviews metrics, checksums, signatures
         ↓
-Posts approval comment: /publish-release, /publish-docker, /publish-winget, etc.
+Posts standalone /publish-release comment
         ↓
-Corresponding approval workflow continues with external publishing
+Publishes GitHub Release; creates or reuses downstream tracking issues
         ↓
-Closes tracking issue on success
+Each downstream issue requires its own command and environment approval;
+monitor the dispatched workflow and verify its result separately
 ```
 
 ### GitHub Release Publication (`release-mainline-approval.yml`)
 
-**Trigger:** Issue comment containing `/publish-release`, `/approve-release`, or `@publish-release`
+**Trigger:** A newly created whole comment containing exactly one command, with no additional text: `/publish-release`, `/approve-release`, or `@publish-release`. Use the lowercase commands shown, alone and not alongside review notes. Edited comments do not trigger commands; post a new comment for a retry. `/hold-release` or `/pause-release`, `/reject-release` or `/cancel-release`, and `/rollback-release` record the corresponding decision without publishing.
 
 **Requirements:**
 - Comment author must have `admin` or `maintain` role in repository
-- Issue must have `release-review` label
+- Issue must be open and have the `release-review` label
 - Release must exist on GitHub
 
 **Action:**
 1. Validates commenter permissions
 2. Extracts version from issue body
-3. Fetches the existing release by tag and creates downstream tracking issues
-4. Ensures the release is publicly visible on GitHub (idempotent if already published)
-5. Creates comment with next-steps guidance
-6. Auto-closes tracking issue
+3. Fetches the release by the issue version, downloads assets, verifies the checksum file and required manifest and archive, then publishes the draft
+4. Creates or reuses a tracking issue per version and downstream registry, and comments with next steps
+5. Leaves the review issue open; the command does not close it
 
 **Example approval:**
 ```
 /publish-release
-
-I've verified the checksums, signatures, and CHANGELOG.
-Ready to publish.
 ```
+
+Put review notes in a separate comment. Restaging the same draft reuses its open review issue without overwriting the human checklist; its restaging comment requires a fresh review because prior approvals may no longer apply. Duplicate review issues or a closed review issue block staging. Published releases cannot be overwritten by staging.
 
 ### GitHub Release → Downstream Approval Paths
 
@@ -828,78 +850,50 @@ After the GitHub Release exists, maintainers can independently approve these dow
 
 ### WinGet Community Publication (`release-winget-approval.yml`)
 
-**Trigger:** Issue comment containing `/publish-winget`, `/approve-winget`, or `@publish-winget`
+**Trigger:** A standalone whole-comment `/publish-winget`, `/approve-winget`, or `@publish-winget`, case-insensitive.
 
 **Requirements:**
 - Comment author must have `admin` or `maintain` role
-- Issue must have `winget-release` label
+- Issue must be open and have the `winget-release` label
 - Corresponding GitHub Release must be published and non-draft
 
 **Action:**
 1. Validates commenter permissions
-2. Extracts version from issue
-3. Dispatches `release-winget.yml` workflow
-4. Workflow generates stable WinGet manifests and attempts to create a draft PR to `microsoft/winget-pkgs`
-5. Community reviewers validate and merge
-6. Package becomes available via `winget install ThemisDB.ThemisDB`
+2. After protected environment approval, dispatches `release-winget.yml` with the version extracted from that issue
+3. The downstream workflow resolves that published, non-draft GitHub Release and its Windows ZIP, validates the payload and generates manifests
+4. It attempts to create a draft PR to `microsoft/winget-pkgs`; monitor the downstream run and PR separately
+5. Community review and merge are required before verifying package availability
 
 **Policy:**
-- The approval wrapper leaves `allow_prerelease` at its default `false`; prerelease submission requires a separate explicit manual or reusable opt-in as described above.
+- A version with a suffix or a GitHub Release marked prerelease requires explicit opt-in on the WinGet issue, as well as a published, non-draft release. Change the issue field from `**WinGet prerelease opt-in:** false` to `**WinGet prerelease opt-in:** true` before approving. Missing means false; invalid or duplicate fields fail the gate. The wrapper does not infer opt-in from the release.
 - Community reviewers control merge timing (not automatic)
 
 ### Docker Registry Publication (`release-docker-approval.yml`)
 
-**Trigger:** Issue comment containing `/publish-docker`, `/approve-docker`, or `@publish-docker`
+**Trigger:** A standalone whole-comment `/publish-docker`, `/approve-docker`, or `@publish-docker`, case-insensitive.
 
 **Requirements:**
 - Comment author must have `admin` or `maintain` role
-- Issue must have `docker-release` label
+- Issue must be open and have the `docker-release` label
 - Corresponding GitHub Release must exist
 
 **Action:**
 1. Validates commenter permissions
-2. Dispatches `release-docker-image.yml` with `push_to_registry=true`
-3. Builds multi-arch images (amd64, arm64)
-4. Publishes to GHCR (primary) and optional Docker Hub
-5. Creates comment with pull command
-6. Auto-closes tracking issue
+2. After protected environment approval, dispatches `release-docker-image.yml` for the issue version with `push_to_registry=true`
+3. Comments that dispatch was requested; inspect the downstream run for build and publication results
 
 **Security Note:**
 - `release-docker-image.yml` defaults to `push_to_registry=false` in `workflow_dispatch` (manual safety)
 - Must be explicitly set to `true` via approval gate
 - OIDC-based auth to GHCR (no long-lived secrets)
 
-### Linux Distribution Bundle (`release-linux-distribution.yml`)
+### Linux and Windows Distribution Bundles
 
-**Trigger:** Automatic after GitHub Release creation (for stable channel)
+On the corresponding open tracking issue, use standalone `/publish-linux`, `/approve-linux`, or `@publish-linux` for `release-linux-distro-approval.yml`, and `/publish-windows`, `/approve-windows`, or `@publish-windows` for `release-windows-distro-approval.yml`. These wrappers dispatch the respective distribution workflows after environment approval; a dispatch is not confirmation that a bundle was published or that a community submission was merged.
 
-**Action:**
-1. Prepares DEB, RPM, and TGZ packages
-2. Generates repository metadata
-3. Creates tracking issue (`distro-tracking` label)
-4. Bundles as artifact for semi-automated or manual deployment
-5. Can optionally publish to configured endpoint if `publish_bundle=true`
+All four registry gates also accept the standalone `/hold-<registry>` or `/pause-<registry>`, `/reject-<registry>` or `/cancel-<registry>`, and `/rollback-<registry>` commands, where `<registry>` is `winget`, `docker`, `linux`, or `windows`. These decisions do not dispatch the downstream workflow. Commands must be newly created comments; editing an existing comment does not trigger a command, so post a new comment to retry. Extra text or multiple commands are not valid approval comments.
 
-**Policy:**
-- Stable channel requires `publish_bundle=false` by default (manual gate)
-- Testing/nightly can auto-publish if endpoint is configured
-- GPG signing optional (via secrets)
-
-### Windows Distribution Bundle (`release-windows-distribution.yml`)
-
-**Trigger:** Automatic after GitHub Release creation (for stable channel)
-
-**Action:**
-1. Prepares Scoop and Chocolatey manifest candidates
-2. Validates manifests on Windows
-3. Creates tracking issue (`distro-tracking` label)
-4. Bundles as artifact for community review
-5. Can optionally publish if `publish_bundle=true`
-
-**Policy:**
-- Requires community review before submission to Scoop/Chocolatey
-- Official publication must be done by maintainer with proper credentials
-- Candidates remain in artifacts for manual PR submission if desired
+After environment approval and before dispatch, the reusable registry gate rechecks that the issue is open and its body and required label have not changed. If that check fails, inspect the issue and post a fresh command after resolving the change.
 
 ### Approval Workflow Permission Model
 
@@ -916,19 +910,15 @@ All approval gates enforce the same permission model:
 
 ### Tracking Issues
 
-Each major publishing action creates or updates a corresponding tracking issue with:
+Downstream tracking issues are keyed by release version and registry. A retry reuses a matching open issue rather than creating another; a closed match or duplicate matches fail visibly and require human reconciliation. Registry wrappers skip comments on closed issues before requesting environment approval, and their summaries report the skip; the reusable gate fails if called directly with a closed issue. Neither reopens the issue. Legacy open issues receive updated instructions in an appended comment rather than having their human-edited bodies overwritten. A missing WinGet opt-in field remains false and is not automatically added. Idempotent issue creation does **not** make dispatch idempotent: repeated new approval comments can request multiple runs. Check existing runs before retrying.
 
-- Release version and channel
-- Build/bundle metrics (checksums, artifact counts)
-- Run number and action link
-- Approval timestamp and approver identity
-- Status comment trail for audit
+The approval comment identifies the requested workflow and its run listing, not a confirmed downstream run or publication. Failures are visible in workflow results and the human-loop escalation issue. If GitHub publication succeeds but downstream issue creation fails, the release remains public and the review issue reports that reconciliation is needed. A gate summary reports job outcomes (`FAIL`, `CANCELLED`, `PASS WITH SKIPS`, or `PASS`); a successful wrapper summary is not evidence that the downstream workflow, upstream PR merge, or package publication succeeded.
 
 **Labels:**
 - `release-review` — GitHub Release approval tracking
 - `winget-release` — WinGet submission approval tracking
 - `docker-release` — Docker publication approval tracking
-- `distro-tracking` — Linux/Windows bundle tracking
+- `linux-distro-review`, `windows-distro-review` — respective distribution approval tracking
 
 ### Emergency Override Procedure
 

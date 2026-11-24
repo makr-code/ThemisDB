@@ -2,7 +2,7 @@ name: "Release: Docker Approval Gate"
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: read
@@ -15,17 +15,9 @@ jobs:
   docker_publish_from_issue:
     name: "Publish: Docker Images on Approval Comment"
     if: |
+      github.event.issue.state == 'open' &&
       contains(github.event.issue.labels.*.name, 'docker-release') &&
-      (
-        contains(github.event.comment.body, '/publish-docker') ||
-        contains(github.event.comment.body, '/approve-docker') ||
-        contains(github.event.comment.body, '@publish-docker') ||
-        contains(github.event.comment.body, '/hold-docker') ||
-        contains(github.event.comment.body, '/pause-docker') ||
-        contains(github.event.comment.body, '/reject-docker') ||
-        contains(github.event.comment.body, '/cancel-docker') ||
-        contains(github.event.comment.body, '/rollback-docker')
-      )
+      contains(fromJSON('["/publish-docker","/approve-docker","@publish-docker","/hold-docker","/pause-docker","/reject-docker","/cancel-docker","/rollback-docker"]'), github.event.comment.body)
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
     permissions:
       contents: read
@@ -58,13 +50,10 @@ jobs:
     needs: [docker_publish_from_issue]
     if: always()
     steps:
-      - name: Write summary
-        run: |
-          {
-            echo "## Validate: Release Docker Approval Wrapper"
-            echo ""
-            echo "| Job | Result |"
-            echo "|-----|--------|"
-            echo "| docker_publish_from_issue | ${{ needs.docker_publish_from_issue.result }} |"
-            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
-          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Docker approval gate only; downstream publication is not confirmed"
+          job-results: ${{ toJSON(needs) }}
