@@ -96,7 +96,8 @@ jobs:
             nlohmann-json3-dev \
             libbenchmark-dev \
             libboost-dev \
-            libboost-system-dev
+            libboost-system-dev \
+            libboost-filesystem-dev
 
       - name: Set artifact name
         id: set-artifact-name
