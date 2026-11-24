@@ -23,18 +23,20 @@
 #include <stdexcept>
 #include <utility>
 
-// Check if Vulkan headers are available
-#if defined(__has_include)
-#  if __has_include(<vulkan/vulkan.h>)
-#    define THEMIS_HAS_VULKAN_IMPL 1
+// Allow white-box tests to force the non-Vulkan bridge implementation.
+#ifndef THEMIS_HAS_VULKAN_IMPL
+#  if defined(__has_include)
+#    if __has_include(<vulkan/vulkan.h>)
+#      define THEMIS_HAS_VULKAN_IMPL 1
+#    else
+#      define THEMIS_HAS_VULKAN_IMPL 0
+#    endif
 #  else
-#    define THEMIS_HAS_VULKAN_IMPL 0
-#  endif
-#else
-#  if defined(THEMIS_ENABLE_VULKAN)
-#    define THEMIS_HAS_VULKAN_IMPL 1
-#  else
-#    define THEMIS_HAS_VULKAN_IMPL 0
+#    if defined(THEMIS_ENABLE_VULKAN)
+#      define THEMIS_HAS_VULKAN_IMPL 1
+#    else
+#      define THEMIS_HAS_VULKAN_IMPL 0
+#    endif
 #  endif
 #endif
 
@@ -1320,4 +1322,3 @@ bool VulkanVectorIndexBackend::isInitialized() const { return pImpl->isInitializ
 } // namespace themis
 
 #endif // THEMIS_HAS_VULKAN_IMPL
-
