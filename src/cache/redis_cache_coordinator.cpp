@@ -13,7 +13,7 @@
 // Licensed under MIT License
 
 /*
- * RedisCacheCoordinator – Redis pub/sub backed ICacheCoordinator implementation.
+ * HiredisRedisCacheCoordinator – Redis pub/sub backed ICacheCoordinator implementation.
  *
  * When THEMIS_ENABLE_REDIS is defined (hiredis available), full pub/sub
  * connectivity is established.  When undefined the coordinator compiles to a
@@ -44,6 +44,7 @@
 
 namespace themis {
 namespace cache {
+
 
 // ============================================================================
 // LOCKING:
@@ -82,17 +83,17 @@ constexpr int kPublishRetryDelayMs = 50;  ///< initial retry delay: 50 ms
  * @param[in] fn Input parameter.
  * @details Calls: lk(), std::move().
  */
-void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
+void HiredisRedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex);
     s_redis_pub_fn = std::move(fn);
 }
 
-uint64_t RedisCacheCoordinator::beginPublishStatusUpdate() {
+uint64_t HiredisRedisCacheCoordinator::beginPublishStatusUpdate() {
     std::lock_guard<std::mutex> lk(publish_status_mutex_);
     return ++publish_sequence_;
 }
 
-void RedisCacheCoordinator::recordPublishStatus(uint64_t sequence, bool success, bool invalidation) {
+void HiredisRedisCacheCoordinator::recordPublishStatus(uint64_t sequence, bool success, bool invalidation) {
     std::lock_guard<std::mutex> lk(publish_status_mutex_);
     if (sequence >= latest_publish_status_sequence_) {
         latest_publish_status_sequence_ = sequence;
@@ -108,7 +109,7 @@ void RedisCacheCoordinator::recordPublishStatus(uint64_t sequence, bool success,
 // Constructor / destructor
 // ============================================================================
 
-RedisCacheCoordinator::RedisCacheCoordinator(const Config &config) : config_(config) {
+HiredisRedisCacheCoordinator::HiredisRedisCacheCoordinator(const Config &config) : config_(config) {
     // Derive channel name and effective node_id
     channel_ = config_.channel_prefix + ":replication";
     node_id_ = config_.node_id.empty() ? (config_.host + ":" + std::to_string(config_.port)) : config_.node_id;
@@ -128,7 +129,7 @@ RedisCacheCoordinator::RedisCacheCoordinator(const Config &config) : config_(con
 #endif
 }
 
-RedisCacheCoordinator::~RedisCacheCoordinator() {
+HiredisRedisCacheCoordinator::~HiredisRedisCacheCoordinator() {
 #ifdef THEMIS_ENABLE_REDIS
     // Signal the subscribe loop to exit, then wait for it to do so before
     // freeing any connections.
@@ -175,7 +176,7 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
  * @param[in] tenant_id Identifier of the tenant.
  * @details Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str().
  */
-void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
+void HiredisRedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
@@ -259,7 +260,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
  * @param[in] tenant_id Identifier of the tenant.
  * @details Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str().
  */
-void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
+void HiredisRedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
     msg.type      = ReplicationMessage::Type::INVALIDATE;
@@ -339,7 +340,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
  * @param[in] callback Input parameter.
  * @details Calls: lk(), std::move().
  */
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void HiredisRedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     entry_cb_ = std::move(callback);
 }
@@ -349,7 +350,7 @@ void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
  * @param[in] callback Input parameter.
  * @details Calls: lk(), std::move().
  */
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void HiredisRedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -358,15 +359,15 @@ void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback
 // Health / diagnostics
 // ============================================================================
 
-bool RedisCacheCoordinator::isConnected() const {
+bool HiredisRedisCacheCoordinator::isConnected() const {
     return pub_connected_.load() && sub_connected_.load();
 }
 
-std::string RedisCacheCoordinator::name() const {
+std::string HiredisRedisCacheCoordinator::name() const {
     return "RedisCacheCoordinator(" + config_.host + ":" + std::to_string(config_.port) + ")";
 }
 
-nlohmann::json RedisCacheCoordinator::getStats() const {
+nlohmann::json HiredisRedisCacheCoordinator::getStats() const {
     uint64_t pub, recv, err, invalidation_err, reconn;
     {
         /**
@@ -432,7 +433,7 @@ constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
  * @return True when the operation succeeds.
  * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), store(), std::to_string(), empty(), redisCommand().
  */
-bool RedisCacheCoordinator::connectPublish() {
+bool HiredisRedisCacheCoordinator::connectPublish() {
     // Caller must hold pub_mutex_
     if (pub_ctx_ != nullptr && !pub_ctx_->err) {
         return true; // Already connected
@@ -491,7 +492,7 @@ bool RedisCacheCoordinator::connectPublish() {
  * @return True when the operation succeeds.
  * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), empty(), redisCommand(), freeReplyObject(), redisSetTimeout().
  */
-bool RedisCacheCoordinator::connectSubscribe() {
+bool HiredisRedisCacheCoordinator::connectSubscribe() {
     sub_connected_.store(false);
     if (sub_ctx_) {
         redisFree(sub_ctx_);
@@ -563,7 +564,7 @@ bool RedisCacheCoordinator::connectSubscribe() {
  * @brief Subscribe Loop.
  * @details Calls: std::max(), load(), connectSubscribe(), slk(), observability::MetricsCollector::getInstance(), addCounter(), THEMIS_DEBUG(), what().
  */
-void RedisCacheCoordinator::subscribeLoop() {
+void HiredisRedisCacheCoordinator::subscribeLoop() {
     // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
     // each failed attempt, capped at kReconnectBackoffMaxMs.
     // Resets to the base interval on a successful connection.
@@ -713,7 +714,7 @@ void RedisCacheCoordinator::subscribeLoop() {
  * @return True when the operation succeeds.
  * @details Implements connectPublish without additional internal calls.
  */
-bool RedisCacheCoordinator::connectPublish() {
+bool HiredisRedisCacheCoordinator::connectPublish() {
     return false;
 }
 /**
@@ -721,14 +722,14 @@ bool RedisCacheCoordinator::connectPublish() {
  * @return True when the operation succeeds.
  * @details Implements connectSubscribe without additional internal calls.
  */
-bool RedisCacheCoordinator::connectSubscribe() {
+bool HiredisRedisCacheCoordinator::connectSubscribe() {
     return false;
 }
 /**
  * @brief Subscribe Loop.
  * @details Implements subscribeLoop without additional internal calls.
  */
-void RedisCacheCoordinator::subscribeLoop() {}
+void HiredisRedisCacheCoordinator::subscribeLoop() {}
 
 #endif // THEMIS_ENABLE_REDIS
 
@@ -737,7 +738,7 @@ void RedisCacheCoordinator::subscribeLoop() {}
  * @param[in] payload Input parameter.
  * @details Calls: nlohmann::json::parse(), verifyHmac(), value(), THEMIS_WARN(), lk(), entry_cb(), inv_cb(), what().
  */
-void RedisCacheCoordinator::handleMessage(const std::string &payload) {
+void HiredisRedisCacheCoordinator::handleMessage(const std::string &payload) {
     // Parse once; check self-echo before dispatching to avoid spurious evictions.
     try {
         auto j = nlohmann::json::parse(payload);
@@ -786,7 +787,7 @@ void RedisCacheCoordinator::handleMessage(const std::string &payload) {
     }
 }
 
-std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage &msg) const {
+std::string HiredisRedisCacheCoordinator::serializeMessage(const ReplicationMessage &msg) const {
     nlohmann::json j;
     j["type"]        = (msg.type == ReplicationMessage::Type::ENTRY_PUT) ? "ENTRY_PUT" : "INVALIDATE";
     j["key"]         = msg.key;
@@ -809,7 +810,7 @@ std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage &ms
     return payload;
 }
 
-std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const {
+std::string HiredisRedisCacheCoordinator::computeHmac(const std::string &payload) const {
     if (config_.hmac_secret.empty()) {
         return {};
     }
@@ -836,7 +837,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     return oss.str();
 }
 
-bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
+bool HiredisRedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
     // Signing disabled – all messages are accepted.
     if (config_.hmac_secret.empty()) {
         return true;
@@ -879,7 +880,7 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
     }
 }
 
-std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(const std::string &data) const {
+std::optional<ReplicationMessage> HiredisRedisCacheCoordinator::deserializeMessage(const std::string &data) const {
     // Note: handleMessage() already parses and dispatches; this helper is
     // provided for callers that need a standalone deserialise step.
     try {

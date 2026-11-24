@@ -28,7 +28,11 @@ param(
     [switch]$IncludeGermanLocale,
     [string]$GermanShortDescription = "Multi-Modell-Datenbanksystem mit ACID-Transaktionen",
     [string]$GermanReleaseNotes = "",
-    [string]$OutputRoot = "packaging/winget/manifests"
+    [string]$OutputRoot = "packaging/winget/manifests",
+    # JSON produced by scripts/release/resolve_release_metadata.py. When supplied,
+    # publisher/project URLs, license, description, release notes and tags are taken
+    # from GitHub/repository metadata unless the caller passed an explicit parameter.
+    [string]$MetadataPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -96,8 +100,76 @@ function ConvertTo-YamlBlock {
     return "|-`n" + ($indented -join "`n")
 }
 
+function Get-RequiredMetadataValue {
+    param($Metadata, [string]$Name)
+
+    $property = $Metadata.PSObject.Properties[$Name]
+    if ($null -eq $property -or [string]::IsNullOrWhiteSpace([string]$property.Value)) {
+        throw "Release metadata '$MetadataPath' is missing required field '$Name'."
+    }
+    return [string]$property.Value
+}
+
+function Assert-HttpsUrl {
+    param([string]$Name, [string]$Value)
+
+    $uri = $null
+    if (-not [System.Uri]::TryCreate($Value, [System.UriKind]::Absolute, [ref]$uri) -or $uri.Scheme -notin @('https', 'http')) {
+        throw "Release metadata field '$Name' is not a valid http(s) URL: '$Value'."
+    }
+}
+
 Assert-VersionFormat -Value $Version
 Assert-Sha256Format -Value $InstallerSha256
+
+$repositoryUrl = "https://github.com/makr-code/ThemisDB"
+$licenseUrlOverride = ""
+$releaseNotesUrlOverride = ""
+$copyrightOverride = ""
+$metadataTags = @()
+if (-not [string]::IsNullOrWhiteSpace($MetadataPath)) {
+    if (-not (Test-Path -LiteralPath $MetadataPath -PathType Leaf)) {
+        throw "Release metadata file not found: $MetadataPath"
+    }
+    try {
+        $metadata = Get-Content -LiteralPath $MetadataPath -Raw | ConvertFrom-Json
+    } catch {
+        throw "Release metadata file '$MetadataPath' is not valid JSON: $($_.Exception.Message)"
+    }
+    $metadataVersion = Get-RequiredMetadataValue -Metadata $metadata -Name 'version'
+    if ($metadataVersion -ne $Version.TrimStart('v')) {
+        throw "Release metadata version '$metadataVersion' does not match requested version '$Version'."
+    }
+    $repositoryUrl = Get-RequiredMetadataValue -Metadata $metadata -Name 'repository_url'
+    $values = @{
+        Publisher           = Get-RequiredMetadataValue -Metadata $metadata -Name 'publisher'
+        PublisherUrl        = Get-RequiredMetadataValue -Metadata $metadata -Name 'publisher_url'
+        PublisherSupportUrl = Get-RequiredMetadataValue -Metadata $metadata -Name 'publisher_support_url'
+        PackageUrl          = Get-RequiredMetadataValue -Metadata $metadata -Name 'homepage'
+        License             = Get-RequiredMetadataValue -Metadata $metadata -Name 'license'
+        ShortDescription    = Get-RequiredMetadataValue -Metadata $metadata -Name 'description'
+    }
+    foreach ($name in @('PublisherUrl', 'PublisherSupportUrl', 'PackageUrl')) {
+        Assert-HttpsUrl -Name $name -Value $values[$name]
+    }
+    foreach ($entry in $values.GetEnumerator()) {
+        if (-not $PSBoundParameters.ContainsKey($entry.Key)) {
+            Set-Variable -Name $entry.Key -Value $entry.Value
+        }
+    }
+    $licenseUrlOverride = Get-RequiredMetadataValue -Metadata $metadata -Name 'license_url'
+    $releaseNotesUrlOverride = Get-RequiredMetadataValue -Metadata $metadata -Name 'release_url'
+    Assert-HttpsUrl -Name 'repository_url' -Value $repositoryUrl
+    Assert-HttpsUrl -Name 'license_url' -Value $licenseUrlOverride
+    Assert-HttpsUrl -Name 'release_url' -Value $releaseNotesUrlOverride
+    $copyrightOverride = [string]$metadata.copyright
+    if (-not $PSBoundParameters.ContainsKey('ReleaseNotes') -and $metadata.PSObject.Properties['release_notes']) {
+        $ReleaseNotes = [string]$metadata.release_notes
+    }
+    if ($metadata.PSObject.Properties['tags']) {
+        $metadataTags = @($metadata.tags | Where-Object { $_ -match '^[a-z0-9][a-z0-9+._-]{0,39}$' })
+    }
+}
 
 # Pre-release versions are represented via the package version string (e.g. 2.4.0-alpha).
 # Winget does not accept an IsPreRelease field in the installer manifest schema.
@@ -113,10 +185,13 @@ $manifestDir = Join-Path $manifestRoot ((@($PackageIdentifier.Substring(0, 1).To
 New-Item -ItemType Directory -Force -Path $manifestDir | Out-Null
 
 $releaseTag = if ($Version.StartsWith("v")) { $Version } else { "v$Version" }
-$licenseUrl = "https://github.com/makr-code/ThemisDB/blob/$releaseTag/LICENSE"
-$releaseNotesUrl = "https://github.com/makr-code/ThemisDB/releases/tag/$releaseTag"
+$licenseUrl = if ($licenseUrlOverride) { $licenseUrlOverride } else { "$repositoryUrl/blob/$releaseTag/LICENSE" }
+$releaseNotesUrl = if ($releaseNotesUrlOverride) { $releaseNotesUrlOverride } else { "$repositoryUrl/releases/tag/$releaseTag" }
 $author = $Publisher
-$copyright = "Copyright (c) 2026 ThemisDB Team"
+$copyright = if ($copyrightOverride) { $copyrightOverride } else { "Copyright (c) 2026 ThemisDB Team" }
+$defaultTags = @('database', 'multi-model', 'graph', 'vector', 'timeseries', 'nosql', 'acid', 'mvcc', 'aql')
+$manifestTags = if ($metadataTags.Count -gt 0) { $metadataTags } else { $defaultTags }
+$tagsBlock = ($manifestTags | ForEach-Object { "- $(ConvertTo-YamlScalar -Value $_)" }) -join "`n"
 
 $versionManifestPath = Join-Path $manifestDir "$PackageIdentifier.yaml"
 $installerManifestPath = Join-Path $manifestDir "$PackageIdentifier.installer.yaml"
@@ -231,15 +306,7 @@ Description: |-
   - Operational observability with metrics and tracing
 Moniker: $(ConvertTo-YamlScalar -Value $Moniker)
 Tags:
-- database
-- multi-model
-- graph
-- vector
-- timeseries
-- nosql
-- acid
-- mvcc
-- aql
+$tagsBlock
 ReleaseNotes: $releaseNotesBlock
 ReleaseNotesUrl: $(ConvertTo-YamlScalar -Value $releaseNotesUrl)
 ManifestType: defaultLocale

@@ -316,6 +316,23 @@ jobs:
     outputs:
       assets_dir: ${{ steps.fetch.outputs.assets_dir }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Resolve release metadata from GitHub and repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.detect-release.outputs.tag }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/release/resolve_release_metadata.py \
+            --repo "${REPOSITORY}" \
+            --version "${RELEASE_TAG}" \
+            --github-output /dev/null \
+            --output release-metadata/release-metadata.json
+
       - name: Download release assets
         id: fetch
         env:
@@ -340,6 +357,16 @@ jobs:
           set -euo pipefail
           find release-assets -maxdepth 1 -type f -printf "%f\n" | sort
 
+      - name: Upload release assets and metadata
+        uses: actions/upload-artifact@v5
+        with:
+          name: linux-release-assets-${{ github.run_number }}
+          path: |
+            release-assets/
+            release-metadata/
+          retention-days: 7
+          if-no-files-found: error
+
   prepare-linux-distro-bundle:
     name: "Build: Prepare Linux Distro Bundle"
     needs: [detect-release, download-assets]
@@ -354,6 +381,12 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends dpkg-dev createrepo-c jq gnupg
+
+      - name: Download release assets and metadata
+        uses: actions/download-artifact@v5
+        with:
+          name: linux-release-assets-${{ github.run_number }}
+          path: .
 
       - name: Import signing key (optional)
         id: import-key
@@ -484,6 +517,13 @@ jobs:
 
           mkdir -p "${DEB_DIR}/pool/main" "${RPM_DIR}/packages" "${TGZ_DIR}" "${OUT_DIR}/meta"
 
+          RELEASE_METADATA="release-metadata/release-metadata.json"
+          if ! jq -e --arg version "${VERSION}" '.version == $version and (.repository_url | type == "string" and startswith("https://")) and (.license | type == "string" and length > 0) and (.description | type == "string" and length > 0)' "${RELEASE_METADATA}" >/dev/null; then
+            echo "::error::Resolved release metadata (${RELEASE_METADATA}) is missing, invalid, or does not match version ${VERSION}."
+            exit 1
+          fi
+          cp "${RELEASE_METADATA}" "${OUT_DIR}/meta/release-metadata.json"
+
           mapfile -t DEB_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f -name '*.deb' | sort)
           mapfile -t RPM_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f -name '*.rpm' | sort)
           mapfile -t TGZ_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f \( -name '*.tar.gz' -o -name '*.tgz' \) | sort)
@@ -504,7 +544,7 @@ jobs:
               echo "Codename: ${{ steps.profile.outputs.deb_codename }}"
               echo "Architectures: ${{ steps.profile.outputs.deb_architectures }}"
               echo "Components: ${{ steps.profile.outputs.deb_components }}"
-              echo "Description: ThemisDB Linux DEB repository metadata (${PROFILE})"
+              echo "Description: $(jq -r '.description' "${RELEASE_METADATA}" | tr '\n' ' ') (${PROFILE})"
             } > Release
             popd >/dev/null
           fi

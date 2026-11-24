@@ -37,6 +37,11 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_benchmark_runner_installs_boost_filesystem(self):
+        steps = workflow("reusable-benchmark-runner.yml")["jobs"]["run-benchmarks"]["steps"]
+        install = next(item["run"] for item in steps if item.get("name") == "Install system dependencies")
+        self.assertIn("libboost-filesystem-dev", shlex.split(install.replace("\\\n", " ")))
+
     def test_fast_compile_uses_system_packages_without_vcpkg_checkout(self):
         lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
         self.assertIs(lane["submodules"], False)
@@ -932,6 +937,13 @@ class DeploymentWorkflowTests(unittest.TestCase):
 
     def test_release_version_contract_uses_workflow_revision(self):
         steps = workflow("release-mainline.yml")["jobs"]["preflight-release-policy"]["steps"]
+        source_checkout = next(item for item in steps if item.get("name") == "Checkout repository")
+        self.assertEqual(
+            source_checkout["with"]["ref"],
+            "${{ github.event.workflow_run.head_sha || github.event.release.tag_name || github.sha }}",
+        )
+        self.assertNotIn("inputs.tag_name", source_checkout["with"]["ref"])
+
         policy_checkout = next(
             item for item in steps if item.get("name") == "Checkout workflow revision for release policy"
         )
@@ -1099,24 +1111,49 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertEqual(download["with"]["path"], "${{ needs.generate-manifests.outputs.manifest-dir }}")
         self.assertIn("new-winget-manifest.ps1", step("release-winget.yml", "generate-manifests", "generate")["run"])
         download_script = next(s["run"] for s in jobs["download-artifacts"]["steps"] if s.get("id") == "download")
-        self.assertIn('--repo "makr-code/ThemisDB"', download_script)
-        self.assertIn('--repo "makr-code/ThemisDB"', step("release-winget.yml", "detect-release", "detect")["run"])
+        self.assertIn('--repo "${{ github.repository }}"', download_script)
+        self.assertIn("${{ needs.detect-release.outputs.tag }}", download_script)
+        detect = step("release-winget.yml", "detect-release", "detect")
+        self.assertEqual(detect["env"]["REPOSITORY"], "${{ github.repository }}")
+        self.assertIn("scripts/release/resolve_release_metadata.py", detect["run"])
+        metadata_upload = next(s for s in jobs["detect-release"]["steps"]
+                               if s.get("uses", "").startswith("actions/upload-artifact"))
+        self.assertIn({"name": metadata_upload["with"]["name"], "path": "release-metadata/"},
+                      [s["with"] for s in jobs["generate-manifests"]["steps"]
+                       if s.get("uses", "").startswith("actions/download-artifact")])
+        self.assertIn("-MetadataPath", step("release-winget.yml", "generate-manifests", "generate")["run"])
         submit_step = next(s for s in jobs["create-fork-pr"]["steps"] if s.get("name") == "Submit WinGet PR")
         self.assertEqual(submit_step["env"]["RELEASE_GH_TOKEN"], "${{ github.token }}")
 
     def test_winget_detection_enforces_opt_in_and_release_status(self):
         script = step("release-winget.yml", "detect-release", "detect")["run"]
-        script = script.replace("${{ github.repository }}", "makr-code/ThemisDB")
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
+            (directory / "scripts/release").mkdir(parents=True)
+            shutil.copy(ROOT / "scripts/release/resolve_release_metadata.py", directory / "scripts/release")
+            shutil.copy(ROOT / "LICENSE", directory)
             binaries = directory / "bin"
             binaries.mkdir()
             gh = binaries / "gh"
             gh.write_text(
-                '#!/bin/sh\n'
-                'printf "%s\\n" "$*" >> "$GH_CALL_LOG"\n'
-                'if [ "${GH_MISSING:-false}" = true ]; then exit 1; fi\n'
-                'printf \'{"isDraft":%s,"isPrerelease":%s,"publishedAt":%s}\\n\' "$GH_DRAFT" "$GH_PRE" "$GH_PUBLISHED"\n'
+                "#!/usr/bin/env python3\n"
+                "import json, os, sys\n"
+                "open(os.environ['GH_CALL_LOG'], 'a').write(' '.join(sys.argv[1:]) + '\\n')\n"
+                "path = sys.argv[-1]\n"
+                "repo = 'repos/makr-code/ThemisDB'\n"
+                "if path == repo:\n"
+                "    print(json.dumps({'html_url': 'https://github.com/makr-code/ThemisDB', 'description': 'ThemisDB',\n"
+                "                      'license': {'spdx_id': 'NOASSERTION'}, 'default_branch': 'develop',\n"
+                "                      'owner': {'login': 'makr-code'}, 'topics': ['database']}))\n"
+                "    sys.exit(0)\n"
+                "if os.environ.get('GH_MISSING') == 'true' or not path.startswith(repo + '/releases/tags/v'):\n"
+                "    print('gh: Not Found (HTTP 404)', file=sys.stderr); sys.exit(1)\n"
+                "tag = path.rsplit('/', 1)[1]\n"
+                "name = f'ThemisDB-COMMUNITY-{tag[1:]}-windows-x64.zip'\n"
+                "print(json.dumps({'tag_name': tag, 'html_url': f'https://github.com/makr-code/ThemisDB/releases/tag/{tag}',\n"
+                "                  'draft': json.loads(os.environ['GH_DRAFT']), 'prerelease': json.loads(os.environ['GH_PRE']),\n"
+                "                  'published_at': json.loads(os.environ['GH_PUBLISHED']), 'body': 'notes',\n"
+                "                  'assets': [{'name': name, 'size': 1, 'browser_download_url': 'https://github.com/x/' + name}]}))\n"
             )
             gh.chmod(0o755)
             environment = {
@@ -1125,6 +1162,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 "GH_DRAFT": "false",
                 "GH_PRE": "false",
                 "GH_PUBLISHED": '"2026-11-23T00:00:00Z"',
+                "REPOSITORY": "makr-code/ThemisDB",
             }
 
             prerelease, prerelease_outputs = run_bash(
@@ -1159,6 +1197,10 @@ class DeploymentWorkflowTests(unittest.TestCase):
                         self.assertEqual(outputs["package-identifier"], identifier)
                         self.assertEqual(outputs["is-stable"], str(identifier == "ThemisDB.ThemisDB").lower())
                         self.assertEqual(outputs["release-type"], "stable" if identifier == "ThemisDB.ThemisDB" else "prerelease")
+                        self.assertEqual(outputs["tag"], f"v{version}")
+                        self.assertEqual(outputs["version-source"], "explicit")
+                        metadata = json.loads((directory / "release-metadata/release-metadata.json").read_text())
+                        self.assertEqual(metadata["license"], "MIT License with Government Clause")
             for published in ("null", '""', '"today"'):
                 result, _ = run_bash(script, directory, VERSION_INPUT="2.4.0-alpha",
                                      ALLOW_PRERELEASE="true",
@@ -1182,9 +1224,25 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 archive = artifacts / "ThemisDB-Windows-x64.zip"
                 with zipfile.ZipFile(archive, "w") as package:
                     package.writestr("bin/themis_server.exe", b"test")
+                digest = hashlib.sha256(archive.read_bytes()).hexdigest()
                 (directory / "checksums.json").write_text(json.dumps({"artifacts": [{
-                    "filename": archive.name, "sha256": hashlib.sha256(archive.read_bytes()).hexdigest()
+                    "filename": archive.name, "sha256": digest
                 }]}))
+                asset_url = f"https://github.com/example/ThemisDB/releases/download/v{version}/{archive.name}"
+                (directory / "release-metadata").mkdir()
+                (directory / "release-metadata/release-metadata.json").write_text(json.dumps({
+                    "version": version, "tag": f"v{version}",
+                    "repository_url": "https://github.com/example/ThemisDB",
+                    "homepage": "https://www.example.org", "description": "Hybrid database from GitHub metadata",
+                    "license": "MIT License with Government Clause",
+                    "license_url": f"https://github.com/example/ThemisDB/blob/v{version}/LICENSE",
+                    "publisher": "The ThemisDB Authors", "publisher_url": "https://github.com/example/ThemisDB",
+                    "publisher_support_url": "https://github.com/example/ThemisDB/issues",
+                    "copyright": "Copyright (c) 2025 The ThemisDB Authors",
+                    "release_url": f"https://github.com/example/ThemisDB/releases/tag/v{version}",
+                    "release_notes": "Release notes from GitHub", "tags": ["database", "vector"],
+                    "assets": [{"name": archive.name, "url": asset_url, "size": 1, "sha256": digest}],
+                }))
                 output = directory / "output"
                 output.touch()
                 command = (script.replace("${{ needs.detect-release.outputs.version }}", version)
@@ -1201,13 +1259,58 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 locale = yaml.safe_load((manifests / f"{identifier}.locale.en-US.yaml").read_text())
                 version_manifest = yaml.safe_load((manifests / f"{identifier}.yaml").read_text())
                 self.assertEqual(version_manifest["PackageIdentifier"], identifier)
-                self.assertEqual(installer["Installers"][0]["InstallerUrl"],
-                                 f"https://github.com/makr-code/ThemisDB/releases/download/v{version}/{archive.name}")
+                self.assertEqual(installer["Installers"][0]["InstallerUrl"], asset_url)
+                self.assertEqual(locale["License"], "MIT License with Government Clause")
+                self.assertEqual(locale["PackageUrl"], "https://www.example.org")
+                self.assertEqual(locale["Publisher"], "The ThemisDB Authors")
+                self.assertEqual(locale["ShortDescription"], "Hybrid database from GitHub metadata")
+                self.assertEqual(locale["ReleaseNotes"], "Release notes from GitHub")
+                self.assertEqual(locale["Tags"], ["database", "vector"])
+                metadata_file = directory / "release-metadata/release-metadata.json"
+                metadata = json.loads(metadata_file.read_text())
+                metadata["assets"][0]["sha256"] = "b" * 64
+                metadata_file.write_text(json.dumps(metadata))
+                mismatch = subprocess.run(["pwsh", "-NoProfile", "-Command", command], cwd=directory,
+                                          env={**os.environ, "GITHUB_OUTPUT": str(output)},
+                                          capture_output=True, text=True)
+                self.assertNotEqual(mismatch.returncode, 0)
+                self.assertIn("does not match downloaded checksum", mismatch.stdout + mismatch.stderr)
+                metadata_file.unlink()
+                missing = subprocess.run(["pwsh", "-NoProfile", "-Command", command], cwd=directory,
+                                         env={**os.environ, "GITHUB_OUTPUT": str(output)},
+                                         capture_output=True, text=True)
+                self.assertNotEqual(missing.returncode, 0)
+                self.assertIn("Resolved release metadata is missing", missing.stdout + missing.stderr)
+
                 preview = identifier.endswith(".Preview")
                 self.assertEqual(locale["PackageName"], "ThemisDB Preview" if preview else "ThemisDB")
                 self.assertEqual(locale["Moniker"], "themisdb-preview" if preview else "themisdb")
                 self.assertEqual(installer["Installers"][0]["NestedInstallerFiles"][0]["PortableCommandAlias"],
                                  "themis_server_preview" if preview else "themis_server")
+
+    def test_distribution_and_docker_workflows_use_shared_release_metadata_resolver(self):
+        resolver = "scripts/release/resolve_release_metadata.py"
+        for name, job in [("release-windows-distribution.yml", "download-assets"),
+                          ("release-linux-distribution.yml", "download-assets")]:
+            with self.subTest(name=name):
+                steps = workflow(name)["jobs"][job]["steps"]
+                self.assertTrue(steps[0]["uses"].startswith("actions/checkout"))
+                resolve = next(s for s in steps if resolver in s.get("run", ""))
+                self.assertIn('--version "${RELEASE_TAG}"', resolve["run"])
+                self.assertEqual(resolve["env"]["REPOSITORY"], "${{ github.repository }}")
+        windows = workflow("release-windows-distribution.yml")["jobs"]["prepare-windows-distro-bundle"]
+        bundle = next(s["run"] for s in windows["steps"] if s.get("id") == "bundle")
+        self.assertNotIn("Apache-2.0", bundle)
+        self.assertNotIn("https://github.com/makr-code/ThemisDB", bundle)
+        self.assertIn("meta license", bundle)
+        linux = workflow("release-linux-distribution.yml")["jobs"]["prepare-linux-distro-bundle"]
+        self.assertTrue(any(s.get("uses", "").startswith("actions/download-artifact") for s in linux["steps"]))
+        self.assertIn("release-metadata.json", next(s["run"] for s in linux["steps"] if s.get("id") == "bundle"))
+        docker = workflow("reusable-docker-image-platform.yml")["jobs"]["build"]["steps"]
+        oci = next(s for s in docker if s.get("id") == "oci-metadata")
+        self.assertIn("--repository-only", oci["run"])
+        build = next(s for s in docker if s.get("id") == "build-candidate")
+        self.assertEqual(build["with"]["labels"], "${{ steps.oci-metadata.outputs.labels }}")
 
     @unittest.skipUnless(shutil.which("pwsh"), "PowerShell is required")
     def test_winget_checksums_and_generator_handle_actual_zip_layout(self):
@@ -1510,7 +1613,7 @@ class GgmlErrnoWorkaroundTests(unittest.TestCase):
 )
 class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
     def configure(self, directory, apple=True, targets=True, compiler_id="Clang",
-                  supported=True, explicit_memory=False, sdk_enum=False):
+                  supported=True, explicit_memory=False, sdk_enum=False, cpu_target=True):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
         block = dependencies.split(
             "    # The pinned ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
@@ -1524,7 +1627,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "typedef enum SDKEnum : unsigned SDKEnum;\n"
         ) if sdk_enum else ""
         (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
-        (directory / "blas.cpp").write_text("int blas() { return 0; }\n")
+        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
         (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
         (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
         target_definitions = (
@@ -1534,6 +1637,10 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "add_library(consumer STATIC consumer.cpp)\n"
             "target_link_libraries(consumer PRIVATE ggml-metal ggml-cpu ggml-blas)\n"
         ) if targets else ""
+        if targets and not cpu_target:
+            target_definitions = target_definitions.replace(
+                "add_library(ggml-cpu STATIC cpu.cpp helper.c)\n", ""
+            ).replace("ggml-metal ggml-cpu ggml-blas", "ggml-metal ggml-blas")
         (directory / "CMakeLists.txt").write_text(
             "cmake_minimum_required(VERSION 3.16)\n"
             "project(apple_backends LANGUAGES C CXX)\n"
@@ -1574,7 +1681,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
                         self.assertEqual(words[words.index("-include") + 1], "memory")
                     self.assertEqual(
                         "-Wno-error=elaborated-enum-base" in words,
-                        source == "cpu.cpp",
+                        source in {"cpu.cpp", "blas.cpp"},
                     )
 
     def test_nonapple_build_has_no_workaround_flags(self):
@@ -1617,6 +1724,16 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             self.configure(Path(temp), targets=False)
 
+    def test_blas_sdk_enum_exception_does_not_require_cpu_target(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, cpu_target=False, supported=None, sdk_enum=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            blas = next(item for item in commands if Path(item["file"]).name == "blas.cpp")
+            self.assertIn("-Wno-error=elaborated-enum-base", blas["command"].split())
+
     def test_sdk_flag_is_detected_by_compiler_probe(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
@@ -1624,8 +1741,9 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             result = self.build(directory)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             commands = json.loads((directory / "build/compile_commands.json").read_text())
-            cpu = next(item for item in commands if Path(item["file"]).name == "cpu.cpp")
-            self.assertIn("-Wno-error=elaborated-enum-base", cpu["command"].split())
+            for source in ("cpu.cpp", "blas.cpp"):
+                item = next(item for item in commands if Path(item["file"]).name == source)
+                self.assertIn("-Wno-error=elaborated-enum-base", item["command"].split())
 
     def test_sdk_flag_requires_supported_homebrew_clang(self):
         for compiler_id, supported in (("AppleClang", True), ("GNU", True), ("Clang", False)):

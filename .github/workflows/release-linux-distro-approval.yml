@@ -2,7 +2,7 @@ name: "Release: Linux Distro Approval Gate"
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: read
@@ -15,17 +15,9 @@ jobs:
   linux_distro_publish_from_issue:
     name: "Publish: Linux Distro Packages on Approval Comment"
     if: |
+      github.event.issue.state == 'open' &&
       contains(github.event.issue.labels.*.name, 'linux-distro-review') &&
-      (
-        contains(github.event.comment.body, '/publish-linux') ||
-        contains(github.event.comment.body, '/approve-linux') ||
-        contains(github.event.comment.body, '@publish-linux') ||
-        contains(github.event.comment.body, '/hold-linux') ||
-        contains(github.event.comment.body, '/pause-linux') ||
-        contains(github.event.comment.body, '/reject-linux') ||
-        contains(github.event.comment.body, '/cancel-linux') ||
-        contains(github.event.comment.body, '/rollback-linux')
-      )
+      contains(fromJSON('["/publish-linux","/approve-linux","@publish-linux","/hold-linux","/pause-linux","/reject-linux","/cancel-linux","/rollback-linux"]'), github.event.comment.body)
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
     permissions:
       contents: read
@@ -57,13 +49,10 @@ jobs:
     needs: [linux_distro_publish_from_issue]
     if: always()
     steps:
-      - name: Write summary
-        run: |
-          {
-            echo "## Validate: Release Linux Distro Approval Wrapper"
-            echo ""
-            echo "| Job | Result |"
-            echo "|-----|--------|"
-            echo "| linux_distro_publish_from_issue | ${{ needs.linux_distro_publish_from_issue.result }} |"
-            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
-          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Linux distro approval gate only; downstream publication is not confirmed"
+          job-results: ${{ toJSON(needs) }}

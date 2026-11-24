@@ -168,7 +168,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          ref: ${{ github.event.workflow_run.head_sha || inputs.tag_name || github.event.release.tag_name || github.sha }}
+          ref: ${{ github.event.workflow_run.head_sha || github.event.release.tag_name || github.sha }}
       - name: Checkout workflow revision for release policy
         uses: actions/checkout@v5
         with:

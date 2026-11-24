@@ -21,7 +21,7 @@ foreach(_index RANGE ${_last})
             set(_include cerrno)
         elseif(_name STREQUAL "metal.cpp")
             set(_include memory)
-        elseif(_name STREQUAL "cpu.cpp" AND
+        elseif(_name MATCHES "^(cpu|blas)\\.cpp$" AND
                NOT CASE MATCHES "^(OtherCompiler|AppleClangID|Unsupported)$")
             set(_enum TRUE)
         endif()
