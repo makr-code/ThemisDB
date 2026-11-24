@@ -37,6 +37,11 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_benchmark_runner_installs_boost_filesystem(self):
+        steps = workflow("reusable-benchmark-runner.yml")["jobs"]["run-benchmarks"]["steps"]
+        install = next(item["run"] for item in steps if item.get("name") == "Install system dependencies")
+        self.assertIn("libboost-filesystem-dev", shlex.split(install.replace("\\\n", " ")))
+
     def test_fast_compile_uses_system_packages_without_vcpkg_checkout(self):
         lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
         self.assertIs(lane["submodules"], False)
