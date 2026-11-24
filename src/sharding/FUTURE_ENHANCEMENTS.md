@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-22
+Last Updated: 2026-11-24
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -91,8 +91,32 @@ The focused gRPC
 runtime test plus stale-term/log, unavailable-journal, partial-prefix, timeout,
 and fault-injection cases must still execute before the gate can close. This
 transport does not add conflict repair, safe membership changes, or a
-quorum-backed 2PC decision state machine. CockroachDB Parallel Commits remain
-out of scope until the full gate passes.
+quorum-backed 2PC decision state machine. `RaftSnapshotManager` now has a
+`createAndInstall(RaftState&, ...)` overload that keeps local snapshot metadata
+aligned with the compacted log anchor. It retains the legacy snapshot encoding
+when no extensions are supplied and supports versioned, independently
+checksummed extensions otherwise. `RaftTwoPhaseCommitDecisionStore` can capture
+and restore committed decisions through that boundary, including the previous
+snapshot state and checks for conflicts with the retained log.
+`createAndInstallSnapshot()` on the decision store now captures and persists
+the named extension with the application snapshot before compacting Raft, then
+advances the shared in-memory snapshot state. Callers still choose the snapshot
+boundary and supply complete application state; `captureSnapshotState()` stays
+available for custom snapshot assembly. Its snapshot-aware constructor
+restores the extension from the Raft journal's installed boundary before
+returning and fails if that snapshot or extension is missing. Production
+CrossShard configuration exposes only a shared `raft_decision_store` and
+installs its callbacks as a pair; direct writer/lookup callbacks remain only on
+the lower-level `TwoPhaseCommitCoordinator::Config`. The CrossShard callback
+fields are removed for v3.0.0, so consumers must migrate to the store factory
+and rebuild. `RaftShardManager::createTwoPhaseCommitDecisionStore()` constructs
+it for an initialized shard and restores its installed snapshot, but the
+application must still call the factory and inject the shared store; no store
+is created automatically at manager startup. Follower snapshot installation
+is still absent. Older binaries cannot read
+extension-bearing version-2 snapshots, so downgrade requires explicit state
+reconciliation. CockroachDB Parallel Commits remain out of scope until the full
+gate passes.
 Installing a snapshot on a follower that has fallen behind the compacted log is
 tracked separately in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 

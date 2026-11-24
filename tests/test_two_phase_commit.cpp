@@ -1165,6 +1165,130 @@ TEST_F(TwoPhaseCommitCoordinatorTest,
 }
 
 TEST_F(TwoPhaseCommitCoordinatorTest,
+       DecisionStoreSnapshotSurvivesCompactionAndRestart) {
+    TemporaryTransactionLog raft_log("themis_2pc_raft_decision_snapshot");
+    themisdb::sharding::RaftConsensus::Config raft_config;
+    raft_config.raft_config.node_id = "coord-test";
+    raft_config.raft_config.cluster_members = {"coord-test"};
+    raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_config.enable_partition_detection = false;
+
+    themisdb::sharding::RaftSnapshotManager::Config snapshot_config;
+    snapshot_config.snapshot_directory =
+        (raft_log.logPath().parent_path() / "snapshots").string();
+    themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
+    const std::vector<uint8_t> application_state{'a', 'p', 'p'};
+    const auto extension_name = std::string(
+        RaftTwoPhaseCommitDecisionStore::kSnapshotExtensionName);
+
+    uint64_t snapshot_index = 0;
+    uint64_t snapshot_term = 0;
+    {
+        auto consensus =
+            std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+        consensus->getRaftState().becomeCandidate();
+        consensus->getRaftState().becomeLeader();
+        RaftTwoPhaseCommitDecisionStore decision_store(
+            consensus, "coord-test-raft-group");
+
+        ASSERT_TRUE(decision_store.writer()(
+            "coord-test", "txn-snapshot-restore",
+            TwoPhaseCommitDecision{true, 987654321}));
+        snapshot_index = consensus->getRaftState().getLog().getCommitIndex();
+        EXPECT_THROW(
+            (void)decision_store.createAndInstallSnapshot(
+                snapshot_manager, snapshot_index + 1, snapshot_term,
+                application_state),
+            std::runtime_error);
+        EXPECT_EQ(consensus->getRaftState().getSnapshotIndex(), 0u);
+        const auto boundary =
+            consensus->getRaftState().getLog().getEntry(snapshot_index);
+        ASSERT_TRUE(boundary.has_value());
+        snapshot_term = boundary->term;
+        ASSERT_TRUE(decision_store.createAndInstallSnapshot(
+            snapshot_manager, snapshot_index, snapshot_term, application_state));
+
+        const auto persisted = snapshot_manager.loadLatestSnapshot();
+        ASSERT_TRUE(persisted.has_value());
+        ASSERT_TRUE(persisted->extensions.contains(
+            std::string(RaftTwoPhaseCommitDecisionStore::kSnapshotExtensionName)));
+
+        const auto recovered = decision_store.lookup()(
+            "coord-test", "txn-snapshot-restore");
+        ASSERT_TRUE(recovered.has_value());
+        EXPECT_TRUE(recovered->commit);
+        ASSERT_TRUE(recovered->commit_timestamp_ns.has_value());
+        EXPECT_EQ(*recovered->commit_timestamp_ns, 987654321);
+    }
+
+    auto restarted =
+        std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
+    const auto persisted = snapshot_manager.loadLatestSnapshot();
+    ASSERT_TRUE(persisted.has_value());
+    ASSERT_EQ(persisted->snapshot_index, snapshot_index);
+    auto restarted_store = std::make_shared<RaftTwoPhaseCommitDecisionStore>(
+        restarted, "coord-test-raft-group", snapshot_manager);
+    restarted->getRaftState().becomeCandidate();
+    restarted->getRaftState().becomeLeader();
+
+    const auto recovered = restarted_store->lookup()(
+        "coord-test", "txn-snapshot-restore");
+    ASSERT_TRUE(recovered.has_value());
+    EXPECT_TRUE(recovered->commit);
+    ASSERT_TRUE(recovered->commit_timestamp_ns.has_value());
+    EXPECT_EQ(*recovered->commit_timestamp_ns, 987654321);
+    EXPECT_TRUE(restarted_store->writer()(
+        "coord-test", "txn-snapshot-restore",
+        TwoPhaseCommitDecision{true, 987654321}));
+    EXPECT_FALSE(restarted_store->writer()(
+        "coord-test", "txn-snapshot-restore",
+        TwoPhaseCommitDecision{false, std::nullopt}));
+
+    ASSERT_TRUE(restarted_store->writer()(
+        "coord-test", "txn-snapshot-restore-2",
+        TwoPhaseCommitDecision{false, std::nullopt}));
+    snapshot_index = restarted->getRaftState().getLog().getCommitIndex();
+    const auto second_boundary =
+        restarted->getRaftState().getLog().getEntry(snapshot_index);
+    ASSERT_TRUE(second_boundary.has_value());
+    snapshot_term = second_boundary->term;
+    ASSERT_TRUE(restarted_store->createAndInstallSnapshot(
+        snapshot_manager, snapshot_index, snapshot_term, application_state));
+    const auto second_persisted = snapshot_manager.loadLatestSnapshot();
+    ASSERT_TRUE(second_persisted.has_value());
+    ASSERT_EQ(second_persisted->snapshot_index, snapshot_index);
+    ASSERT_TRUE(second_persisted->extensions.contains(extension_name));
+    const auto first_decision = restarted_store->lookup()(
+        "coord-test", "txn-snapshot-restore");
+    const auto second_decision = restarted_store->lookup()(
+        "coord-test", "txn-snapshot-restore-2");
+    ASSERT_TRUE(first_decision.has_value());
+    ASSERT_TRUE(second_decision.has_value());
+    EXPECT_TRUE(first_decision->commit);
+    EXPECT_FALSE(second_decision->commit);
+
+    const auto snapshot_path = std::filesystem::path(
+        snapshot_config.snapshot_directory) /
+        ("raft_snapshot_" + std::to_string(snapshot_index) + ".bin");
+    std::fstream snapshot_file(
+        snapshot_path, std::ios::in | std::ios::out | std::ios::binary);
+    ASSERT_TRUE(snapshot_file.is_open());
+    const auto extension_payload_offset =
+        static_cast<std::streamoff>(64 + extension_name.size() + 64);
+    snapshot_file.seekg(extension_payload_offset);
+    char first_extension_byte = '\0';
+    snapshot_file.read(&first_extension_byte, 1);
+    ASSERT_TRUE(snapshot_file.good());
+    snapshot_file.seekp(extension_payload_offset);
+    snapshot_file.put(static_cast<char>(first_extension_byte ^ 0x01));
+    snapshot_file.flush();
+    ASSERT_TRUE(snapshot_file.good());
+    snapshot_file.close();
+    EXPECT_FALSE(snapshot_manager.loadSnapshot(snapshot_index).has_value());
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest,
        DecisionStoreFailsClosedAfterRaftSnapshotCompaction) {
     TemporaryTransactionLog raft_log("themis_2pc_raft_snapshot_boundary");
     themisdb::sharding::RaftConsensus::Config raft_config;
@@ -1188,12 +1312,28 @@ TEST_F(TwoPhaseCommitCoordinatorTest,
         (raft_log.logPath().parent_path() / "snapshots").string();
     themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
     const std::vector<uint8_t> snapshot_state{'s', 't', 'a', 't', 'e'};
-    ASSERT_TRUE(snapshot_manager.createAndInstall(
-        consensus->getRaftState().getLog(), *snapshot_index, entry->term,
+    EXPECT_FALSE(snapshot_manager.createAndInstall(
+        consensus->getRaftState(), *snapshot_index + 1, entry->term,
         snapshot_state));
+    EXPECT_EQ(consensus->getRaftState().getSnapshotIndex(), 0u);
+    EXPECT_TRUE(consensus->getRaftState().getLog().getEntry(*snapshot_index).has_value());
+    ASSERT_TRUE(snapshot_manager.createAndInstall(
+        consensus->getRaftState(), *snapshot_index, entry->term,
+        snapshot_state));
+    const auto legacy_format_snapshot =
+        snapshot_manager.loadSnapshot(*snapshot_index);
+    ASSERT_TRUE(legacy_format_snapshot.has_value());
+    EXPECT_TRUE(legacy_format_snapshot->extensions.empty());
+    EXPECT_EQ(consensus->getRaftState().getSnapshotIndex(), *snapshot_index);
+    EXPECT_EQ(consensus->getRaftState().getSnapshotTerm(), entry->term);
+    EXPECT_EQ(consensus->getRaftState().getLog().getSnapshotIndex(), *snapshot_index);
 
     RaftTwoPhaseCommitDecisionStore decision_store(
         consensus, "coord-test-raft-group");
+    EXPECT_THROW(
+        RaftTwoPhaseCommitDecisionStore(
+            consensus, "coord-test-raft-group", snapshot_manager),
+        std::runtime_error);
     EXPECT_THROW(
         decision_store.lookup()("coord-test", "txn-after-snapshot"),
         std::runtime_error);
@@ -1592,11 +1732,17 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
     ASSERT_NE(consensus, nullptr);
     consensus->getRaftState().becomeCandidate();
     consensus->getRaftState().becomeLeader();
-    auto decision_store =
-        std::make_shared<RaftTwoPhaseCommitDecisionStore>(
-            consensus, "coord-cross-test-raft-group");
-    config.decision_writer = decision_store->writer();
-    config.decision_lookup = decision_store->lookup();
+    themisdb::sharding::RaftSnapshotManager::Config snapshot_config;
+    snapshot_config.snapshot_directory =
+        (raft_log.logPath().parent_path() / "snapshots").string();
+    themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
+    auto decision_store = raft_manager.createTwoPhaseCommitDecisionStore(
+        "coord-cross-test-raft-group", snapshot_manager);
+    EXPECT_THROW(
+        (void)raft_manager.createTwoPhaseCommitDecisionStore(
+            "missing-2pc-decision-group", snapshot_manager),
+        std::invalid_argument);
+    config.raft_decision_store = decision_store;
 
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(
         config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());

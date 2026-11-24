@@ -569,6 +569,36 @@ bool RaftState::hasQuorum() const {
     return votes >= getQuorumSize();
 }
 
+void RaftState::compactLogForSnapshot(uint64_t index, uint64_t term) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    if (index == 0 || index > log_.getCommitIndex()) {
+        throw std::runtime_error("Raft snapshot boundary must reference a committed entry");
+    }
+
+    const auto current_snapshot_index = log_.getSnapshotIndex();
+    const auto current_snapshot_term = log_.getSnapshotTerm();
+    if (index < current_snapshot_index) {
+        throw std::runtime_error("Raft snapshot boundary cannot regress");
+    }
+    if (index == current_snapshot_index) {
+        if (term != current_snapshot_term) {
+            throw std::runtime_error("Raft snapshot term conflicts with the current anchor");
+        }
+    } else {
+        const auto entry = log_.getEntry(index);
+        if (!entry || entry->term != term) {
+            throw std::runtime_error("Raft snapshot boundary does not match the retained log");
+        }
+    }
+
+    log_.compactUpTo(index, term);
+    if (log_.getSnapshotIndex() != index || log_.getSnapshotTerm() != term) {
+        throw std::runtime_error("Raft log did not advance to the requested snapshot boundary");
+    }
+    snapshot_index_ = index;
+    snapshot_term_ = term;
+}
+
 /**
  * @brief Set Snapshot Meta.
  * @param[in] index Input parameter.

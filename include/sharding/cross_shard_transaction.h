@@ -33,6 +33,7 @@
 
 namespace themis::sharding {
 class TwoPhaseCommitCoordinator;
+class RaftTwoPhaseCommitDecisionStore;
 }
 
 namespace sharding {
@@ -219,10 +220,11 @@ struct CrossShardTransactionConfig {
     std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
         fencing_token_provider; ///< Current per-shard write credential; 2PC rejects missing, zero-epoch, wrong-shard, or wrong-issuer tokens.
 
-    /// Optional quorum-backed authority for canonical 2PC decisions. Both callbacks
-    /// must be supplied together; the writer must commit durably and reject conflicts.
-    themis::sharding::TwoPhaseCommitDecisionWriter decision_writer;
-    themis::sharding::TwoPhaseCommitDecisionLookup decision_lookup;
+    /// Optional quorum-backed 2PC authority. The store is shared with the
+    /// canonical coordinator; direct writer/lookup callbacks are not part of
+    /// the CrossShard configuration API.
+    std::shared_ptr<themis::sharding::RaftTwoPhaseCommitDecisionStore>
+        raft_decision_store;
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").

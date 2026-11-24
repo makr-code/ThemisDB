@@ -6,6 +6,10 @@ file(GLOB TRAINING_MODULE_TEST_SOURCES
 
 foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+    if(_stem STREQUAL "test_adalora_training_pipeline" AND NOT THEMIS_ENABLE_LLM)
+        message(STATUS "Skipping AdaLoRA training pipeline test because THEMIS_ENABLE_LLM=OFF")
+        continue()
+    endif()
     set(_target "module_training_${_stem}_focused")
     set(_ctest "${_stem}_training_FocusedTests")
     set(_tier unit)

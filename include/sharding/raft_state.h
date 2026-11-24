@@ -264,6 +264,19 @@ public:
      */
     size_t getVotesReceived() const;
 
+    /**
+     * @brief Compact the log at a committed snapshot boundary and synchronize state metadata.
+     * @param index Last committed log index represented by the durable snapshot.
+     * @param term Term of the entry at @p index.
+     * @throws std::runtime_error if the boundary is uncommitted, regresses, or
+     *         does not match the retained log or existing snapshot anchor.
+     * @note The caller must persist the complete application state snapshot
+     *       before invoking this method. The method does not restore application state.
+     * @note Log compaction and the RaftState snapshot metadata update are serialized
+     *       with Raft state transitions.
+     */
+    void compactLogForSnapshot(uint64_t index, uint64_t term);
+
     // ------------------------------------------------------------------
     // Snapshot state (persistent – survives restarts / log compaction)
     // ------------------------------------------------------------------

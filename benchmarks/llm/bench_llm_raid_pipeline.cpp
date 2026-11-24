@@ -17,6 +17,7 @@
 #include <fstream>
 #include <array>
 #include <cstdint>
+#include <cstdlib>
 #include <vector>
 #include <string>
 #include <thread>
@@ -35,8 +36,14 @@ class RAIDLoRAPipelineFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         (void)state;
-        model_path_ = themis::bench::resolveModelPath();
-        lora_path_ = themis::bench::resolveLoraPath();
+        const char* configured_model_path = std::getenv("THEMIS_LLM_MODEL_PATH");
+        const char* configured_model_dir = std::getenv("THEMIS_MODEL_DIR");
+        // CTest must not load an arbitrary model discovered in a user or repository directory.
+        if ((configured_model_path && *configured_model_path != '\0') ||
+            (configured_model_dir && *configured_model_dir != '\0')) {
+            model_path_ = themis::bench::resolveModelPath();
+            lora_path_ = themis::bench::resolveLoraPath();
+        }
         std::error_code error;
         const auto temporary_dir = fs::temp_directory_path(error);
         if (!error) {
@@ -98,8 +105,8 @@ public:
                    const std::string& model_id) const {
         if (model_path_.empty()) {
             state.SkipWithMessage(
-                "Optional model-backed RAID benchmark skipped: no GGUF model "
-                "artifact was found at the configured model path.");
+                "Optional model-backed RAID benchmark skipped: set "
+                "THEMIS_LLM_MODEL_PATH or THEMIS_MODEL_DIR to opt in to a GGUF model.");
             return false;
         }
         if (!ensureBackend(state, manager)) {
@@ -155,8 +162,8 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_ModelLoadSingleShard)
 (benchmark::State& state) {
     if (model_path_.empty()) {
         state.SkipWithMessage(
-            "Optional model-backed RAID benchmark skipped: no GGUF model "
-            "artifact was found at the configured model path.");
+            "Optional model-backed RAID benchmark skipped: set "
+            "THEMIS_LLM_MODEL_PATH or THEMIS_MODEL_DIR to opt in to a GGUF model.");
         return;
     }
 
@@ -253,8 +260,8 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_SwitchingLatency)
     auto& runtime = LLMPluginManager::instance();
     if (model_path_.empty()) {
         state.SkipWithMessage(
-            "Optional model-backed LoRA benchmark skipped: no GGUF model "
-            "artifact was found at the configured model path.");
+            "Optional model-backed LoRA benchmark skipped: set "
+            "THEMIS_LLM_MODEL_PATH or THEMIS_MODEL_DIR to opt in to a GGUF model.");
         return;
     }
     if (lora_path_.empty()) {

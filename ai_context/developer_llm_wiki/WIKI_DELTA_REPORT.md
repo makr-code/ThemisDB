@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,14 +14,14 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-11-23
+Datum: 2026-11-24
 Status: Active
 
 ## Summary
 
 - Added: 0
 - Removed: 0
-- Changed: 10
+- Changed: 5
 
 ## Added
 
@@ -33,13 +33,8 @@ Status: Active
 
 ## Changed
 
-- ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
-- docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md
-- include/distributed_tensor/local_projection_publisher.h
-- include/sharding/raft_shard_manager.h
-- include/storage/tensor_train_decomposer.h
-- include/tensor/persistent_tensor_fingerprint_graph.h
-- include/tensor/tensor_fingerprint_graph.h
-- src/distributed_tensor/README.md
-- src/distributed_tensor/ROADMAP.md
+- CHANGELOG.md
+- ai_context/api_contracts/transaction.md
+- include/sharding/raft_two_phase_commit_decision_store.h
+- src/sharding/FUTURE_ENHANCEMENTS.md
 - src/sharding/ROADMAP.md

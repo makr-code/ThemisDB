@@ -6945,7 +6945,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_graph_traversal
       TARGET bench_graph_traversal
       MODULE "graph"
-      TIMEOUT 120
+      TIMEOUT 180
     EXTRA_LABELS release_critical
     )
   endif()

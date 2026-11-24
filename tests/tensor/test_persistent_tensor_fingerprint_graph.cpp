@@ -94,8 +94,8 @@ storage::TTTrain makeTrain(float base) {
     storage::TTCore core;
     core.r_left = 1;
     core.n = 2;
-    core.r_right = 2;
-    core.data = {base, base + 1.0f, base + 2.0f, base + 3.0f};
+    core.r_right = 1;
+    core.data = {base, base + 1.0f};
     train.cores.push_back(core);
     train.mode_sizes = {2};
     return train;
@@ -163,19 +163,44 @@ TEST(PersistentTensorFingerprintGraphTest, RehydratesAcrossRestartSimulation) {
     EXPECT_TRUE(graph_after_restart->entry("adapter_2").has_value());
 }
 
-TEST(PersistentTensorFingerprintGraphTest, RecoversDeleteJournalReplayWhenTargetAlreadyMissing) {
+TEST(PersistentTensorFingerprintGraphTest, RecoversPendingMutationBeforeNextWrite) {
     auto backend = std::make_shared<JournalDeleteFailBackend>();
     auto graph = std::make_shared<TensorFingerprintGraph>();
     PersistentTensorFingerprintGraph persistent(graph, backend, "tenant", "domain");
     ASSERT_TRUE(persistent.addAdapter("adapter", makeTrain(1.0f), "model"));
 
     backend->armJournalDeleteFailure();
-    EXPECT_FALSE(persistent.removeAdapter("adapter"));
+    EXPECT_TRUE(persistent.removeAdapter("adapter"));
+    EXPECT_FALSE(graph->entry("adapter").has_value());
+    EXPECT_TRUE(backend->get("__tfgp__:tenant:domain:txn:active"));
+    ASSERT_TRUE(persistent.addAdapter("another", makeTrain(2.0f), "model"));
+    EXPECT_FALSE(graph->entry("adapter").has_value());
+    EXPECT_TRUE(graph->entry("another").has_value());
 
     auto graph_after_restart = std::make_shared<TensorFingerprintGraph>();
     PersistentTensorFingerprintGraph restored(graph_after_restart, backend, "tenant", "domain");
     ASSERT_TRUE(restored.rehydrate());
     EXPECT_FALSE(graph_after_restart->entry("adapter").has_value());
+    EXPECT_TRUE(graph_after_restart->entry("another").has_value());
+}
+
+TEST(PersistentTensorFingerprintGraphTest, RejectsAmbiguousJournalsBeforeFurtherWrites) {
+    auto backend = std::make_shared<MapBackend>();
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    PersistentTensorFingerprintGraph persistent(graph, backend, "tenant", "domain");
+    ASSERT_TRUE(persistent.addAdapter("adapter", makeTrain(1.0f), "model"));
+
+    const std::string target = "__tfgp__:tenant:domain:entry:adapter";
+    ASSERT_TRUE(backend->put("__tfgp__:tenant:domain:txn:legacy-a",
+                             deleteJournal(target)));
+    ASSERT_TRUE(backend->put("__tfgp__:tenant:domain:txn:legacy-b",
+                             deleteJournal(target)));
+
+    EXPECT_FALSE(persistent.addAdapter("another", makeTrain(2.0f), "model"));
+    EXPECT_TRUE(graph->entry("adapter"));
+    EXPECT_FALSE(graph->entry("another"));
+    EXPECT_TRUE(backend->get(target));
+    EXPECT_FALSE(backend->get("__tfgp__:tenant:domain:entry:another"));
 }
 
 TEST(PersistentTensorFingerprintGraphTest, RehydratePreservesOtherTenantsAndRejectsCorruptEntries) {

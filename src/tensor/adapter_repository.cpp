@@ -300,6 +300,10 @@ AdapterRepository::loadAdapter(const std::string& domain,
             if (mapped.adapter_key.empty()) {
               mapped.adapter_key = desc.adapter_key;
             }
+            if (mapped.valid && !TensorFingerprintGraph::isTrainValid(mapped.train)) {
+                throw std::runtime_error(
+                    "injected MmapLoadFn returned an invalid tensor train");
+            }
             {
                 /**
                  * @brief Lock.
@@ -344,7 +348,8 @@ AdapterRepository::loadAdapter(const std::string& domain,
     }
 
     auto train_opt = storage::TTTrain::deserialize(*raw);
-    if (!train_opt.has_value()) {
+    if (!train_opt.has_value() ||
+        !TensorFingerprintGraph::isTrainValid(*train_opt)) {
         /**
          * @brief Lock.
          * @param[in] stats_mutex_ Input parameter.

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -56,7 +56,11 @@ end-to-end service:
    `LocalProjectionPublisher` persists a local and mTLS-readable manifest after
    the fragment; `publishFromGraph()` derives a summary from a tenant-checked
    fingerprint graph. Remote loading requires a trusted artifact ID and established
-   peer/principal bindings; discovery, freshness and automatic host integration
+   peer/principal bindings. An opt-in `main_server` configuration now loads
+   validated adapter trains for one tenant and publishes one query projection
+   at startup; its source ID is operator-supplied, it does not refresh on
+   writes, and it requires the principal in the mTLS identity bindings. Trusted
+   artifact discovery, revocation, freshness, and multi-shard publication
    remain open. When `TensorMidLayer`
    queries an adapter repository, it rejects a mismatched or empty tenant;
    graph fallback also checks the registered query tenant under the graph lock.
@@ -114,9 +118,11 @@ API types.
 - Placement plans are not automatically persisted or applied; callers may
   persist placement metadata through `ManifestStore`. The planner itself does
   not fetch fragments; the optional ShardRPC adapter transports manifest-bound
-  bytes. Host fragment storage and opt-in server composition are source-backed,
-  but publisher-side writes, production startup/storage runtime evidence, and
-  a mapping to `TensorNetworkStorageEngine` remain outside the module. Graph-
+  bytes. Host fragment storage and opt-in server composition, including a
+  one-shot startup publisher, are source-backed but have no build/runtime
+  evidence; server linkage is independent of test registration, but trusted
+  discovery and freshness are still absent. The mapping is not a
+  `TensorNetworkStorageEngine` mapping. Graph-
   truth validation fails closed for missing, invalid, or unsupported
   projections; the new codec and planner changes have not been built or run.
 
@@ -149,7 +155,8 @@ target under `tests/sharding/` includes the mTLS stream and manifest
 adapter with a test storage reader. A second unrun case publishes a fixture
 summary through the local publisher and composes the RocksDB fragment store
 with the transport and planner; its graph-validation assertions require query
-and LLM module targets. Neither case exercises production startup.
+and LLM module targets. Neither case has been run; the fixture case does not
+validate configured production startup.
 The existing `ShardTransferStoreTests` target also contains RocksDB-backed
 fragment-store regressions. These sources are registered but have not been
 built or run. Registration alone is not evidence that a target passed.

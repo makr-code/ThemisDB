@@ -1,10 +1,10 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-02-02"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-24"
 Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
@@ -16,7 +16,7 @@ Human_Author: "ThemisDB Team"
 
 **Version:** 2.0.0  
 **Status:** ✅ Produktionsreif  
-**Letzte Aktualisierung:** 2026-02-02  
+**Letzte Aktualisierung:** 2026-11-24<br>
 **Sprache:** Deutsch
 
 > **Zentrale Referenz** für alle Benchmark- und Performance-Tests in ThemisDB
@@ -3334,6 +3334,12 @@ Fehlt ein optionales externes Artefakt, wird nur der davon abhängige Benchmark 
 konkreten Meldung übersprungen; ein übersprungener Fall ist kein Performance-Nachweis.
 Ein vorhandenes, aber fehlerhaftes Artefakt bleibt ein Fehler und darf nicht als Skip
 behandelt oder durch ein anderes Modell ersetzt werden.
+
+Für `bench_llm_raid_pipeline` aktivieren `THEMIS_LLM_MODEL_PATH` oder `THEMIS_MODEL_DIR`
+die modellgestützten Fälle explizit. Ohne eine dieser Variablen werden solche Fälle
+übersprungen, statt ein beliebiges GGUF aus einem Benutzer- oder Repository-Verzeichnis
+automatisch zu laden; der RAID-Datenverteilungstest läuft weiterhin. Ist ein explizit
+konfiguriertes Modell ungültig, bleibt der Ladefehler ein Fehler.
 
 ---
 

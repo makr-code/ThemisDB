@@ -27,6 +27,8 @@
 namespace themis {
 namespace tensor {
 
+class PersistentTensorFingerprintGraph;
+
 // ============================================================================
 // FingerprintEntry — per-adapter fingerprint record
 // ============================================================================
@@ -99,7 +101,8 @@ public:
     /**
      * @brief Check whether a train is structurally safe for graph scoring.
      * @param train Train to validate; cores and modes must be nonempty and aligned.
-     * @return True when core sizes, bond ranks, and finite values are valid.
+     * @return True when core sizes, bond ranks, boundary ranks, and finite
+     *         values are valid.
      * @note This does not authenticate data or impose a fixed computation limit.
      */
     [[nodiscard]] static bool isTrainValid(const storage::TTTrain& train) noexcept;
@@ -280,6 +283,12 @@ public:
     static void clearExactSimilarityFn();
 
 private:
+    friend class PersistentTensorFingerprintGraph;
+
+    [[nodiscard]] bool replaceTenantDomainEntries(
+        const std::string& tenant_id, const std::string& domain,
+        const TensorFingerprintGraph& validated);
+
     [[nodiscard]] std::vector<SimilarityResult> findSimilarImpl(
         const std::string& query_key, std::size_t k,
         const query::RequestContext& request, query::StopReason* stop_reason,

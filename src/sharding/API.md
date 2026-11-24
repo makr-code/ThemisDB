@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -211,16 +211,22 @@ does not make the participant or replication logs compatible with coordinator
 logs. `getTransactionRecord()` exposes a value snapshot for lifecycle/participant
 status synchronization; it does not transfer ownership of internal state.
 
-The canonical coordinator and CrossShard configuration also accept an optional
-`decision_writer`/`decision_lookup` pair for a quorum-backed decision authority.
-`RaftTwoPhaseCommitDecisionStore` provides these callbacks for a
-`RaftShardManager::getRaftInstance()` result and logical Raft group ID. Both
-callbacks must be installed together. The store requires the current leader, a
-quorum, and a healthy durable journal; it serializes writers sharing the same
-Raft instance, scans committed and retained-uncommitted entries, and rejects
-conflicting decisions. The lookup returns only committed decisions. A missing
-or corrupt log entry, unavailable authority, term change, or conflicting history
-fails closed.
+The lower-level `TwoPhaseCommitCoordinator::Config` accepts an optional
+`decision_writer`/`decision_lookup` pair, which must be installed together.
+`CrossShardTransactionConfig` exposes only a shared `raft_decision_store` for
+quorum-backed decisions; it passes that store's writer and lookup to the
+canonical coordinator. If the store is absent, CrossShard retains its existing
+local-WAL-only behavior.
+`RaftShardManager::createTwoPhaseCommitDecisionStore()` creates the store for a
+managed shard, restores any installed decision snapshot, and retains that
+shard's Raft instance. Assigning the shared store to CrossShard configuration
+installs both callbacks and retains the store's lifetime. The store requires
+the current leader, a quorum, and a healthy durable journal; it serializes
+writers sharing the same Raft instance,
+scans committed and retained-uncommitted entries, and rejects conflicting
+decisions. The lookup returns only committed decisions. A missing or corrupt
+log entry, unavailable authority, term change, or conflicting history fails
+closed.
 
 When configured, a normal commit must pass the authority before local decision
 WAL or phase two; recovery checks the authority first, rejects
@@ -229,22 +235,48 @@ WAL before replaying phase two. If the authority has no committed decision,
 recovery can proceed with ABORT only after the writer confirms it. If these
 callbacks are absent, behavior remains local-WAL-only.
 
-The current Raft snapshot format does not contain this decision state machine.
-The adapter therefore refuses reads and writes after log compaction rather than
-treating compacted history as absence; snapshot integration remains required
-for operation across compaction. It also does not route requests to a remote
-leader: the coordinator must receive the current leader's Raft instance or
-provide an external leader-routing layer. Multi-node transport, crash/failover,
-compaction, and release-platform evidence remain required before claiming
+`RaftSnapshotManager` writes the legacy snapshot format when no extensions are
+supplied; it also reads those legacy files. Named extensions use the version-2
+format, with an independent SHA-256 checksum per extension. Older binaries do
+not read version-2 files. `RaftTwoPhaseCommitDecisionStore::createAndInstallSnapshot()` captures all
+committed decisions through the requested boundary, persists them under
+`kSnapshotExtensionName`, installs the application snapshot, compacts Raft, and
+advances the shared in-memory decision state as one serialized operation.
+Callers still choose when to snapshot and must provide the complete application
+state. The lower-level `captureSnapshotState()` remains available for custom
+snapshot assembly. After loading and installing a snapshot, startup can
+construct the store with the `RaftSnapshotManager` overload. It loads the
+snapshot at the journal's installed boundary and restores the named extension
+before the store is returned; a missing snapshot, mismatched boundary, or
+missing decision extension throws. The low-level constructor and
+`restoreSnapshotState()` remain available for callers that manage snapshot
+loading themselves. Restore rejects corrupt, wrong-group, regressing,
+boundary-mismatched, or conflicting state; lookups and writes remain fail-closed
+if the compacted Raft boundary has no restored decision state.
+
+The manager also serializes compaction with Raft state transitions and keeps the
+in-memory snapshot index and term aligned with the durable log anchor. Snapshot
+creation remains an explicit operation. `RaftShardManager` can construct the
+snapshot-aware store, but callers must invoke the factory and inject the shared
+store into CrossShard configuration; no store is created automatically during
+manager startup. Follower snapshot installation is also not wired. The store
+does not route requests to a remote leader: the coordinator must receive the
+current leader's Raft instance or provide an external leader-routing layer.
+Follower installation, automatic store configuration, leader routing,
+crash/failover, and release-platform evidence remain required before claiming
 end-to-end quorum-backed 2PC.
+Adding the extension map changes the public `RaftSnapshot` C++ layout; consumers
+must rebuild against matching headers and libraries.
 
 Roll out only after quiescing older coordinators and preserving all log domains.
 Unresolved older records require explicit maintainer reconciliation. Rolling
 back before the first new 2PC write is different from downgrading an activated
 coordinator: older CrossShard binaries do not consume the new canonical log
 directory. Do not downgrade after activation without an explicitly reviewed
-state-reconciliation/migration procedure; merely deleting the new directory
-or draining its pending count is not a safe rollback.
+state-reconciliation/migration procedure; this includes any version-2 Raft
+snapshot carrying decision extensions. Older readers cannot consume that
+format; merely deleting the new directory or draining its pending count is not
+a safe rollback.
 
 Participants require a WAL for writes, sync PREPARE before voting YES and terminal
 records before ACK; missing WAL configuration leaves readiness false.

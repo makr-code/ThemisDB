@@ -907,6 +907,17 @@ TEST(AdapterRepository, AR02_load_unknown_returns_invalid) {
     EXPECT_FALSE(desc.valid);
 }
 
+TEST(AdapterRepository, RejectsStructurallyInvalidPersistedTrain) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto invalid = makeAdapterTrain();
+    invalid.mode_sizes.front() += 1;
+    ASSERT_TRUE(backend->put("__adapters__:tenant1:legal:llama3-8b",
+                             invalid.serialize()));
+
+    EXPECT_FALSE(repo.loadAdapter("legal", "llama3-8b").valid);
+}
+
 // AR-03: listDomains() returns all stored domains (deduplicated, sorted)
 TEST(AdapterRepository, AR03_listDomains_sorted_deduplicated) {
     auto backend = std::make_shared<InMemoryTensorBackend>();

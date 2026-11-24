@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-23
+Datum: 2026-11-24
 Status: Active
 
 ## PR gate scope and large campaigns (2026-11-23)
@@ -508,5 +508,5 @@ Status: Active
 
 ## .github/workflows/release-winget.yml
 - Kategorie: build_test_ci
-- Hash: `930ab8ec4a9bfa90`
+- Hash: `faa24172f411a656`
 - Titel: (binary or unreadable)

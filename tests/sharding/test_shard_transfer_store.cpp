@@ -277,10 +277,10 @@ protected:
     }
 
     bool openDatabase(bool disable_wal_for_benchmark = false) {
-        themis::storage::RocksDBWrapper::Config config;
+        themis::RocksDBWrapper::Config config;
         config.db_path = path.string();
         config.disable_wal_for_benchmark = disable_wal_for_benchmark;
-        database = std::make_shared<themis::storage::RocksDBWrapper>(config);
+        database = std::make_shared<themis::RocksDBWrapper>(config);
         if (!database->open()) {
             return false;
         }
@@ -290,7 +290,7 @@ protected:
     }
 
     std::filesystem::path path;
-    std::shared_ptr<themis::storage::RocksDBWrapper> database;
+    std::shared_ptr<themis::RocksDBWrapper> database;
     std::unique_ptr<ShardArtifactFragmentStore> fragment_store;
 };
 

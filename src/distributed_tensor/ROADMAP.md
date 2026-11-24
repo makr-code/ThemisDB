@@ -1,9 +1,9 @@
 # Distributed Tensor Module Roadmap
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
-**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/shard_rpc_fragment_fetcher.h`, `proto/sharding/shard_rpc.proto`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/local_projection_publisher.h`, `include/distributed_tensor/shard_rpc_fragment_fetcher.h`, `proto/sharding/shard_rpc.proto`, `src/main_server.cpp`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
 **Related:** Issues #7341, #7414
 
 <!--
@@ -39,12 +39,17 @@ under `tests/sharding/`; its original case uses a test reader. An additional
 unrun source case uses a fixture fingerprint graph and the local publisher, reopens
 RocksDB, and retrieves it through mTLS and the manifest-bound adapter; graph validation
 is included when the query and LLM module targets are available. It does not
-exercise host startup, an automatic publisher, or a distributed-tensor soak.
+exercise production host configuration or a distributed-tensor soak.
 A versioned principal/shard/artifact RocksDB mapping
 and opt-in `main_server.cpp` startup are now implemented in source. A local
 single-shard publisher persists a remote-readable manifest record; callers can
-fetch it through mTLS when they already have a trusted artifact ID. Authenticated
-producer, host integration, discovery and freshness remain open. A versioned adapter-similarity graph
+fetch it through mTLS when they already have a trusted artifact ID. An opt-in
+`main_server.cpp` startup publisher now loads and validates one configured
+tenant's adapter records, builds the fingerprint graph, and publishes one
+configured query projection when the ShardRPC adapter target is linked. The
+server link is independent of test-target registration, so production wiring
+does not disappear when focused sharding tests are disabled.
+Continuous producer updates, discovery and freshness remain open. A versioned adapter-similarity graph
 projection and fail-closed planner validation are source-implemented, but have
 not been built or run. The benchmark parent configuration adds
 `benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
@@ -190,7 +195,7 @@ pending.
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
-- [~] RocksDB fragment-store regressions and opt-in host startup are registered/implemented in source; no build or runtime validation has been performed. A Linux mTLS case composes the local publisher, fragment store and adapter with a fixture summary; host startup and automatic publication remain untested.
+- [~] RocksDB fragment-store regressions and opt-in host startup publication are implemented in source; no build or runtime validation has been performed. A Linux mTLS case composes the local publisher, fragment store and adapter with a fixture summary; production configuration and live startup remain untested.
 - [?] Historical test-source/pass claims remain unvalidated; they do not establish current behavior. New SHA-256 regressions are registered in focused test sources but have not been run.
 - [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
@@ -282,7 +287,7 @@ are not established module capabilities.
 
 | Area | Source evidence | Gap and consequence |
 |---|---|---|
-| Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `ShardRPCFragmentFetcher` supplies manifest-verifying gRPC/mTLS transport. `GraphSummaryProjectionCodec` accepts only the versioned adapter-similarity payload and the planner requires graph-backed evidence. `ShardArtifactFragmentStore` maps `(principal_id, shard_id, artifact_id)` into a versioned RocksDB keyspace, and `main_server.cpp` starts its reader only under explicit mTLS configuration. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | Payload producers must persist bytes before publishing the matching manifest; no automatic publisher or distributed manifest consensus exists. The mapping is not a `TensorNetworkStorageEngine` field mapping, arbitrary tensor bytes are not projectable, and none of the new paths has runtime evidence. |
+| Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `ShardRPCFragmentFetcher` supplies manifest-verifying gRPC/mTLS transport. `GraphSummaryProjectionCodec` accepts only the versioned adapter-similarity payload and the planner requires graph-backed evidence. `ShardArtifactFragmentStore` maps `(principal_id, shard_id, artifact_id)` into a versioned RocksDB keyspace. `main_server.cpp` can serve fragments and, when explicitly enabled and linked, publish one validated tenant adapter snapshot at startup. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | Startup publication is one-shot and configuration-driven; it does not refresh on later writes. Trusted artifact discovery, revocation, freshness, multi-shard publication and distributed manifest consensus remain open. The mapping is not a `TensorNetworkStorageEngine` field mapping, arbitrary tensor bytes are not projectable, and none of the new paths has runtime evidence. |
 | Integrity and security | The active target includes `src/distributed_tensor/integrity_verification.cc`, which now uses OpenSSL EVP SHA-256 conditionally and fails closed without it. The nested implementation remains outside the target. See `CMakeLists.txt` and `SECURITY.md`. | Hashing does not authenticate a producer; the manifest's separate `compute_manifest_hash()` remains non-cryptographic. New code/tests are unbuilt and untested; no production trust claim is established. |
 | Recovery and resilience | `recovery_manager.cc` creates in-memory jobs with timestamp-based IDs and heuristic recovery-time estimates; `recovery_manager.h` describes retries and degraded modes. | Durable job state, real shard transfer/reconstruction, idempotency, and observed recovery objectives are not established by this module source. |
 | Tests | `tests/distributed_tensor/CMakeLists.txt` registers allocation, operations, and performance tests; a separate EPIC 3 suite is registered from `tests/epic3_distributed_tensor/`. | Registration is not execution evidence. The latest recorded configure attempt in `TEST_EVIDENCE_COLLECTION.md` stopped before generating targets because `fmt` was unavailable; current pass status is unverified. |
@@ -439,11 +444,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
   integration evidence. A focused ShardRPC mTLS integration test now
   exercises real fragment transport with a test-only storage reader; another
   unrun case composes the production fragment store and mTLS adapter. The
-  production storage mapping and optional host startup now exist in source;
-  neither has build/runtime evidence. A bounded adapter-similarity projection
+  production storage mapping, optional mTLS serving, and an opt-in one-shot
+  startup publisher now exist in source; none has build/runtime evidence.
+  Trusted artifact discovery and refresh remain open. A bounded adapter-similarity projection
   and planner validation path are also source-implemented but unverified. No
-  publisher call site or distributed-tensor soak exists; those ownership and
-  deployment gates remain open.
+  consumer discovery path or distributed-tensor soak exists; those ownership
+  and deployment gates remain open.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)

@@ -214,7 +214,7 @@ protected:
 };
 
 // Phase 1 Final: 1 thread
-BENCHMARK_F(ParallelityBenchPhase1Final, Phase1Final_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase1Final, Phase1Final_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -230,6 +230,8 @@ BENCHMARK_F(ParallelityBenchPhase1Final, Phase1Final_1Thread) (benchmark::State&
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+// Avoid zero CPU-time readings for these short Windows worker runs.
+BENCHMARK_REGISTER_F(ParallelityBenchPhase1Final, Phase1Final_1Thread)->UseRealTime();
 
 // Phase 1 Final: 4 threads
 BENCHMARK_F(ParallelityBenchPhase1Final, Phase1Final_4Threads) (benchmark::State& state) {
@@ -344,7 +346,7 @@ protected:
 };
 
 // Phase 2F: 1 thread (baseline)
-BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2Final, Phase2Final_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -360,6 +362,7 @@ BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_1Thread) (benchmark::State&
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2Final, Phase2Final_1Thread)->UseRealTime();
 
 // Phase 2F: 4 threads
 BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_4Threads) (benchmark::State& state) {
@@ -610,7 +613,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_32Threads) (benchmark::State& 
 }
 
 // Phase 2G: 1 thread
-BENCHMARK_F(ParallelityBenchPhase2G, Phase2G_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G, Phase2G_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -619,6 +622,7 @@ BENCHMARK_F(ParallelityBenchPhase2G, Phase2G_1Thread) (benchmark::State& state) 
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G, Phase2G_1Thread)->UseRealTime();
 
 // Phase 2G: 4 threads
 BENCHMARK_F(ParallelityBenchPhase2G, Phase2G_4Threads) (benchmark::State& state) {
@@ -703,7 +707,7 @@ protected:
 };
 
 // Phase 2G Non-Tx: 1 thread
-BENCHMARK_F(ParallelityBenchPhase2G_NonTxn, Phase2GNTX_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G_NonTxn, Phase2GNTX_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -719,6 +723,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_NonTxn, Phase2GNTX_1Thread) (benchmark::Stat
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G_NonTxn, Phase2GNTX_1Thread)->UseRealTime();
 
 // Phase 2G Non-Tx: 4 threads
 BENCHMARK_F(ParallelityBenchPhase2G_NonTxn, Phase2GNTX_4Threads) (benchmark::State& state) {
@@ -831,7 +836,7 @@ protected:
 };
 
 // A/B2 Non-Tx: 1 thread
-BENCHMARK_F(ParallelityBenchPhase2G_Unprepared_NonTxn, Phase2GUNTX_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G_Unprepared_NonTxn, Phase2GUNTX_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -847,6 +852,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_Unprepared_NonTxn, Phase2GUNTX_1Thread) (ben
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G_Unprepared_NonTxn, Phase2GUNTX_1Thread)->UseRealTime();
 
 // A/B2 Non-Tx: 4 threads
 BENCHMARK_F(ParallelityBenchPhase2G_Unprepared_NonTxn, Phase2GUNTX_4Threads) (benchmark::State& state) {
@@ -1208,7 +1214,7 @@ protected:
 };
 
 // A/B5 Txn10 + dual queue: 1 thread
-BENCHMARK_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -1217,6 +1223,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_1Thread) (b
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_1Thread)->UseRealTime();
 
 // A/B5 Txn10 + dual queue: 4 threads
 BENCHMARK_F(ParallelityBenchPhase2G_Txn10_DualQueue, Phase2G_Txn10DQ_4Threads) (benchmark::State& state) {
@@ -1616,7 +1623,7 @@ protected:
     }
 };
 
-BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -1630,6 +1637,7 @@ BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_1Thread) (benchmark::State& st
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_1Thread)->UseRealTime();
 
 BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
@@ -1742,13 +1750,14 @@ protected:
     }
 };
 
-BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) { doTxnChunked(work_id, 100, 10); }, 1);
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_1Thread)->UseRealTime();
 
 BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
@@ -2414,7 +2423,7 @@ protected:
 };
 
 // Sharded: 1 thread (baseline)
-BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchSharded, ShardedParallel_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int thread_id) {
@@ -2433,6 +2442,7 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_1Thread) (benchmark::State&
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchSharded, ShardedParallel_1Thread)->UseRealTime();
 
 // Sharded: 4 threads
 BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_4Threads) (benchmark::State& state) {
@@ -2552,7 +2562,7 @@ protected:
 };
 
 // Config Optimized: 1 thread (baseline)
-BENCHMARK_F(ParallelityBenchOptimizedConfig, ConfigOpt_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchOptimizedConfig, ConfigOpt_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -2568,6 +2578,7 @@ BENCHMARK_F(ParallelityBenchOptimizedConfig, ConfigOpt_1Thread) (benchmark::Stat
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchOptimizedConfig, ConfigOpt_1Thread)->UseRealTime();
 
 // Config Optimized: 4 threads
 BENCHMARK_F(ParallelityBenchOptimizedConfig, ConfigOpt_4Threads) (benchmark::State& state) {

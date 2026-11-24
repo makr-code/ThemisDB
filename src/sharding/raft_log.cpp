@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/raft_log.h"
+#include "sharding/raft_state.h"
 #include <stdexcept>
 #include "utils/zstd_codec.h"
 #include <algorithm>
@@ -55,6 +56,12 @@ namespace sharding {
 // ============================================================================
 
 namespace {
+    constexpr std::array<char, 8> kSnapshotV2Magic{
+        'T', 'H', 'M', 'S', 'N', 'P', '2', '\0'};
+    constexpr uint32_t kMaxSnapshotExtensions = 64;
+    constexpr uint32_t kMaxSnapshotExtensionNameBytes = 128;
+    constexpr uint32_t kSnapshotChecksumBytes = 64;
+
     std::string raftJournalChecksum(std::string_view payload) {
         std::array<unsigned char, SHA256_DIGEST_LENGTH> hash{};
         SHA256(reinterpret_cast<const unsigned char*>(payload.data()), payload.size(), hash.data());
@@ -1268,6 +1275,49 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
                                             uint64_t snapshot_index,
                                             uint64_t snapshot_term,
                                             const std::vector<uint8_t>& state_data) {
+    return createAndInstall(log, snapshot_index, snapshot_term, state_data, {});
+}
+
+bool RaftSnapshotManager::createAndInstall(
+    RaftLog& log,
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    const std::vector<uint8_t>& state_data,
+    const RaftSnapshotExtensions& extensions) {
+    return createAndInstallImpl(
+        log, snapshot_index, snapshot_term, state_data, extensions,
+        [&log, snapshot_index, snapshot_term] {
+            log.compactUpTo(snapshot_index, snapshot_term);
+        });
+}
+
+bool RaftSnapshotManager::createAndInstall(RaftState& state,
+                                            uint64_t snapshot_index,
+                                            uint64_t snapshot_term,
+                                            const std::vector<uint8_t>& state_data) {
+    return createAndInstall(state, snapshot_index, snapshot_term, state_data, {});
+}
+
+bool RaftSnapshotManager::createAndInstall(
+    RaftState& state,
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    const std::vector<uint8_t>& state_data,
+    const RaftSnapshotExtensions& extensions) {
+    return createAndInstallImpl(
+        state.getLog(), snapshot_index, snapshot_term, state_data, extensions,
+        [&state, snapshot_index, snapshot_term] {
+            state.compactLogForSnapshot(snapshot_index, snapshot_term);
+        });
+}
+
+bool RaftSnapshotManager::createAndInstallImpl(
+    RaftLog& log,
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    const std::vector<uint8_t>& state_data,
+    const RaftSnapshotExtensions& extensions,
+    const std::function<void()>& compact_log) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     try {
@@ -1293,15 +1343,33 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
                               snapshot_term, snapshot_index, entry->term);
                 return false;
             }
-        } else if (log.getSnapshotIndex() == snapshot_index &&
-                   log.getSnapshotTerm() != snapshot_term) {
-            spdlog::error("RaftSnapshotManager: snapshot_term ({}) does not match "
-                          "existing snapshot anchor term ({}) for index {}",
-                          snapshot_term, log.getSnapshotTerm(), snapshot_index);
-            return false;
+        } else {
+            if (log.getSnapshotIndex() != snapshot_index ||
+                log.getSnapshotTerm() != snapshot_term) {
+                spdlog::error("RaftSnapshotManager: snapshot boundary ({}, {}) does not "
+                              "match a retained entry or the existing anchor ({}, {})",
+                              snapshot_index, snapshot_term,
+                              log.getSnapshotIndex(), log.getSnapshotTerm());
+                return false;
+            }
         }
         if (state_data.empty()) {
             spdlog::warn("RaftSnapshotManager: creating snapshot with empty state data");
+        }
+        if (extensions.size() > kMaxSnapshotExtensions) {
+            spdlog::error("RaftSnapshotManager: too many snapshot extensions ({})",
+                          extensions.size());
+            return false;
+        }
+        for (const auto& [name, payload] : extensions) {
+            if (name.empty() || name.size() > kMaxSnapshotExtensionNameBytes ||
+                name.find('\0') != std::string::npos ||
+                name.size() > std::numeric_limits<uint32_t>::max() ||
+                payload.size() >
+                    static_cast<size_t>(std::numeric_limits<std::streamsize>::max())) {
+                spdlog::error("RaftSnapshotManager: invalid snapshot extension name or size");
+                return false;
+            }
         }
 
         // 2. Compute checksum of raw (pre-compression) state data
@@ -1315,9 +1383,8 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             return false;
         }
 
-        // 4. Build binary snapshot file layout:
-        //    [snapshot_index: 8B][snapshot_term: 8B][uncompressed_size: 8B]
-        //    [checksum_len: 4B][checksum: N bytes][compressed_data: rest]
+        // 4. Build a versioned binary layout. The application payload remains
+        //    independently compressed; extensions are stored as checked blocks.
         const uint32_t checksum_len = static_cast<uint32_t>(checksum.size());
         const uint64_t uncompressed_size = state_data.size();
         const uint64_t ts = static_cast<uint64_t>(
@@ -1326,6 +1393,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
 
         const std::string path = snapshotPath(snapshot_index);
         const std::string temp_path = path + ".tmp";
+        const bool has_extensions = !extensions.empty();
 
         std::ofstream file(temp_path, std::ios::binary | std::ios::trunc);
         if (!file.is_open()) {
@@ -1342,16 +1410,53 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             return file.good();
         };
 
-        if (!write64(snapshot_index) ||
+        if (has_extensions) {
+            file.write(kSnapshotV2Magic.data(),
+                       static_cast<std::streamsize>(kSnapshotV2Magic.size()));
+        }
+        if (!file.good() ||
+            !write64(snapshot_index) ||
             !write64(snapshot_term) ||
             !write64(uncompressed_size) ||
             !write64(ts) ||
-            !write32(checksum_len)) {
+            !write32(checksum_len) ||
+            (has_extensions &&
+             !write32(static_cast<uint32_t>(extensions.size())))) {
             spdlog::error("RaftSnapshotManager: header write failed for {}", temp_path);
             file.close();
             std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
+        }
+
+        for (const auto& [name, payload] : extensions) {
+            const auto extension_checksum =
+                computeChecksum(payload.data(), payload.size());
+            if (!write32(static_cast<uint32_t>(name.size())) ||
+                !write64(static_cast<uint64_t>(payload.size())) ||
+                !write32(kSnapshotChecksumBytes)) {
+                spdlog::error("RaftSnapshotManager: extension header write failed for {}",
+                              temp_path);
+                file.close();
+                std::error_code ec = {};
+                std::filesystem::remove(temp_path, ec);
+                return false;
+            }
+            file.write(name.data(), static_cast<std::streamsize>(name.size()));
+            file.write(extension_checksum.data(),
+                       static_cast<std::streamsize>(extension_checksum.size()));
+            if (!payload.empty()) {
+                file.write(reinterpret_cast<const char*>(payload.data()),
+                           static_cast<std::streamsize>(payload.size()));
+            }
+            if (!file.good()) {
+                spdlog::error("RaftSnapshotManager: extension write failed for {}",
+                              temp_path);
+                file.close();
+                std::error_code ec = {};
+                std::filesystem::remove(temp_path, ec);
+                return false;
+            }
         }
 
         file.write(checksum.data(), static_cast<std::streamsize>(checksum_len));
@@ -1409,8 +1514,8 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
                      snapshot_index, snapshot_term,
                      uncompressed_size,compressed.size(), ratio, path);
 
-        // 5. Compact the in-memory Raft log
-        log.compactUpTo(snapshot_index, snapshot_term);
+        // 5. Compact the Raft log and, when available, synchronize RaftState metadata.
+        compact_log();
 
         // 6. Remove old snapshots beyond retention limit
         cleanupOldSnapshots();
@@ -1482,6 +1587,18 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
         };
 
         RaftSnapshot snap;
+        std::array<char, kSnapshotV2Magic.size()> magic{};
+        file.read(magic.data(), static_cast<std::streamsize>(magic.size()));
+        const bool is_v2 = file.gcount() == static_cast<std::streamsize>(magic.size()) &&
+                           magic == kSnapshotV2Magic;
+        if (!is_v2) {
+            file.clear();
+            file.seekg(0, std::ios::beg);
+            if (!file.good()) {
+                spdlog::error("RaftSnapshotManager: cannot rewind snapshot {}", path);
+                return std::nullopt;
+            }
+        }
 
         auto idx = read64("snapshot_index");  if (!idx) return std::nullopt;
         snap.snapshot_index = *idx;
@@ -1497,6 +1614,16 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
 
         auto clen = read32("checksum_len"); if (!clen) return std::nullopt;
         const uint32_t checksum_len = *clen;
+        uint32_t extension_count = 0;
+        if (is_v2) {
+            auto count = read32("extension_count");
+            if (!count || *count > kMaxSnapshotExtensions) {
+                spdlog::error("RaftSnapshotManager: invalid extension count in {}",
+                              path);
+                return std::nullopt;
+            }
+            extension_count = *count;
+        }
 
         // Enforce expected checksum length to prevent large allocations from
         // a corrupt or malicious file.
@@ -1506,12 +1633,99 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
             return std::nullopt;
         }
         // Verify the file contains enough bytes for the checksum + any data
-        const size_t bytes_consumed_so_far = kMinHeaderBytes;
-        if (file_size < bytes_consumed_so_far + checksum_len) {
+        if (is_v2) {
+            for (uint32_t extension_index = 0;
+                 extension_index < extension_count; ++extension_index) {
+                const auto name_length = read32("extension_name_length");
+                const auto data_length = read64("extension_data_length");
+                const auto extension_checksum_length =
+                    read32("extension_checksum_length");
+                if (!name_length || *name_length == 0 ||
+                    *name_length > kMaxSnapshotExtensionNameBytes ||
+                    !data_length || !extension_checksum_length ||
+                    *extension_checksum_length != kSnapshotChecksumBytes) {
+                    spdlog::error("RaftSnapshotManager: invalid extension header in {}",
+                                  path);
+                    return std::nullopt;
+                }
+
+                const auto position = file.tellg();
+                if (position < 0 ||
+                    static_cast<uint64_t>(position) > file_size) {
+                    spdlog::error("RaftSnapshotManager: invalid extension offset in {}",
+                                  path);
+                    return std::nullopt;
+                }
+                const auto remaining =
+                    file_size - static_cast<size_t>(position);
+                const auto fixed_bytes =
+                    static_cast<size_t>(*name_length) + kSnapshotChecksumBytes;
+                if (fixed_bytes > remaining ||
+                    *data_length > remaining - fixed_bytes ||
+                    *data_length >
+                        std::numeric_limits<size_t>::max() ||
+                    *data_length >
+                        static_cast<uint64_t>(
+                            std::numeric_limits<std::streamsize>::max())) {
+                    spdlog::error("RaftSnapshotManager: truncated or oversized extension in {}",
+                                  path);
+                    return std::nullopt;
+                }
+
+                std::string name(*name_length, '\0');
+                file.read(name.data(), static_cast<std::streamsize>(name.size()));
+                if (!file.good() ||
+                    file.gcount() != static_cast<std::streamsize>(name.size()) ||
+                    name.find('\0') != std::string::npos) {
+                    spdlog::error("RaftSnapshotManager: invalid extension name in {}",
+                                  path);
+                    return std::nullopt;
+                }
+
+                std::string expected_extension_checksum(kSnapshotChecksumBytes, '\0');
+                file.read(expected_extension_checksum.data(),
+                          static_cast<std::streamsize>(
+                              expected_extension_checksum.size()));
+                if (!file.good() ||
+                    file.gcount() != static_cast<std::streamsize>(
+                                         expected_extension_checksum.size())) {
+                    spdlog::error("RaftSnapshotManager: truncated extension checksum in {}",
+                                  path);
+                    return std::nullopt;
+                }
+
+                std::vector<uint8_t> extension_data(
+                    static_cast<size_t>(*data_length));
+                if (!extension_data.empty()) {
+                    file.read(reinterpret_cast<char*>(extension_data.data()),
+                              static_cast<std::streamsize>(extension_data.size()));
+                    if (!file.good() ||
+                        file.gcount() != static_cast<std::streamsize>(
+                                             extension_data.size())) {
+                        spdlog::error("RaftSnapshotManager: truncated extension data in {}",
+                                      path);
+                        return std::nullopt;
+                    }
+                }
+                const auto actual_extension_checksum =
+                    computeChecksum(extension_data.data(), extension_data.size());
+                if (actual_extension_checksum != expected_extension_checksum ||
+                    !snap.extensions.emplace(std::move(name),
+                                             std::move(extension_data)).second) {
+                    spdlog::error("RaftSnapshotManager: extension checksum mismatch or duplicate name in {}",
+                                  path);
+                    return std::nullopt;
+                }
+            }
+        }
+
+        const auto checksum_position = file.tellg();
+        if (checksum_position < 0 ||
+            static_cast<uint64_t>(checksum_position) > file_size ||
+            file_size - static_cast<size_t>(checksum_position) < checksum_len) {
             spdlog::error("RaftSnapshotManager: file too small for checksum in {}", path);
             return std::nullopt;
         }
-
         snap.checksum.resize(checksum_len);
         file.read(snap.checksum.data(), static_cast<std::streamsize>(checksum_len));
         if (!file.good() || file.gcount() != static_cast<std::streamsize>(checksum_len)) {

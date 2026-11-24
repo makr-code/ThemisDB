@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-29"
-Last Updated: "2026-11-19"
+Last Updated: "2026-11-24"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -92,6 +92,28 @@ See `src/sharding/API.md` and `src/sharding/RUNBOOK.md` for readiness, endpoint
 resolution and old-log constraints. Full combined crash-matrix, production
 transport, replica-process, platform/CI evidence and maintainer acceptance
 remain open under DIS-06.
+
+For quorum-backed sharding 2PC, the `createTwoPhaseCommitDecisionStore()`
+factory on `RaftShardManager` creates a store for an initialized group and
+restores the snapshot extension at the durable Raft journal's installed
+boundary. It fails before returning when that snapshot or extension is absent
+or mismatched. Set the shared store on
+`CrossShardTransactionConfig::raft_decision_store` to install both authority
+callbacks and retain the store lifetime. Direct writer/lookup callbacks remain
+available only in the lower-level `TwoPhaseCommitCoordinator::Config`; the
+CrossShard public callback fields are removed for v3.0.0. Applications using
+those fields must create and inject the shared store instead. Store creation
+and configuration remain explicit application steps, not automatic manager
+startup behavior. Removing the fields changes the C++ struct layout and source
+API; consumers must update source and rebuild against matching headers and
+libraries. Without an injected store, CrossShard retains its local-WAL-only
+behavior.
+For compacting a decision group's Raft log, use
+`RaftTwoPhaseCommitDecisionStore::createAndInstallSnapshot()` to persist the
+named decision extension alongside complete application state and advance the
+in-memory decision snapshot before returning. The caller still chooses a
+committed boundary and initiates the snapshot; low-level capture/restore remains
+available for custom assembly and startup flows.
 
 ## SAGA (Distributed Transactions)
 

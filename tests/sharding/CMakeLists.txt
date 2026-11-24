@@ -26,7 +26,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
    AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
     add_executable(test_shard_transfer_grpc test_shard_transfer_grpc.cpp)
     target_link_libraries(test_shard_transfer_grpc PRIVATE
-        ${TEST_LIBS} themis_core themis_shard_proto gRPC::grpc++ OpenSSL::Crypto)
+        ${TEST_LIBS} themis_shard_proto gRPC::grpc++ OpenSSL::Crypto)
     if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
         target_link_libraries(test_shard_transfer_grpc PRIVATE themis_sharding)
     endif()
@@ -92,7 +92,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_two_phase_commit.cpp")
     message(STATUS "Adding Sharding: TwoPhaseCommit focused tests")
     add_executable(test_two_phase_commit_focused ../test_two_phase_commit.cpp)
     target_include_directories(test_two_phase_commit_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_two_phase_commit_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    # This suite does not use GMock; its Windows DLL can register tests in a
+    # different GoogleTest instance than the one used by gtest_main.
+    target_link_libraries(test_two_phase_commit_focused PRIVATE GTest::gtest GTest::gtest_main themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_two_phase_commit_focused PRIVATE THEMIS_TEST_BUILD=1)
     themis_register_module_focused_test(MODULE sharding NAME TwoPhaseCommitFocusedTests TARGET test_two_phase_commit_focused TIER unit TIMEOUT 90 LABELS 2pc distributed transaction)
     message(STATUS "  TwoPhaseCommit: prepare/commit/abort, coordinator crash recovery")

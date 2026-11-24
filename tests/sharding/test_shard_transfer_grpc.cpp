@@ -363,7 +363,6 @@ public:
             const_cast<char*>(member_list.c_str()),
             const_cast<char*>(address_list.c_str()),
             const_cast<char*>(parent.c_str()),
-            const_cast<char*>(startup_mode),
             nullptr,
         };
         const int error = ::posix_spawn(&pid_, argv[0], nullptr, nullptr, argv, environ);
@@ -437,6 +436,7 @@ public:
             const_cast<char*>(member_list.c_str()),
             const_cast<char*>(address_list.c_str()),
             const_cast<char*>(parent.c_str()),
+            const_cast<char*>(startup_mode),
             nullptr,
         };
         const int error = ::posix_spawn(&pid_, argv[0], nullptr, nullptr, argv, environ);
@@ -500,6 +500,8 @@ private:
         raft_config.raft_config.cluster_members = members;
         raft_config.raft_config.persistence_path =
             (root / (node_id + ".journal")).string();
+        raft_config.raft_config.election_timeout_min_ms = 1000;
+        raft_config.raft_config.election_timeout_max_ms = 1200;
         auto raft =
             std::make_shared<themisdb::sharding::RaftConsensus>(raft_config);
 
@@ -532,6 +534,8 @@ private:
 
     themisdb::sharding::RaftShardManager::Config manager_config =
         raftManagerConfig(root, members, peer_addresses, node_id);
+    manager_config.raft_config.raft_config.election_timeout_min_ms = 3000;
+    manager_config.raft_config.raft_config.election_timeout_max_ms = 3500;
     themisdb::sharding::RaftShardManager manager(manager_config);
     if (!manager.initializeShard(kRaftGroup, members)) {
         return EXIT_FAILURE;
@@ -721,10 +725,11 @@ using RaftCertificates = std::map<std::string, themis::tests::PemMaterial>;
     const fs::path& root, const std::vector<std::string>& members) {
     RaftCertificates certificates;
     std::string trusted_clients;
+    std::size_t serial = 1;
     for (const auto& member : members) {
         const auto identity = member + ".test";
-        auto material =
-            themis::tests::generateSelfSignedPemMaterial(member, identity, {identity});
+        auto material = themis::tests::generateSelfSignedPemMaterial(
+            std::to_string(serial++), identity, {identity});
         writePem(root / (member + "-cert.pem"), material.certificate_pem);
         writePem(root / (member + "-key.pem"), material.private_key_pem);
         trusted_clients += material.certificate_pem;
@@ -812,7 +817,7 @@ waitForRaftReadyMarker(const fs::path& path, std::chrono::milliseconds timeout) 
 [[nodiscard]] themisdb::sharding::RaftShardManager::Config raftManagerConfig(
     const fs::path& root, const std::vector<std::string>& members,
     const std::map<std::string, std::string>& addresses,
-    const std::string& local_node_id = "node1") {
+    const std::string& local_node_id) {
     themisdb::sharding::RaftShardManager::Config config;
     config.raft_config.raft_config.node_id = local_node_id;
     config.raft_config.raft_config.persistence_path =
@@ -978,15 +983,15 @@ TEST(ShardFragmentGrpc, StoredProjectionFlowsThroughMtlsAndManifestBoundPlanner)
     themis::storage::TTCore core;
     core.r_left = 1;
     core.n = 2;
-    core.r_right = 2;
-    core.data = {1.0f, 2.0f, 3.0f, 4.0f};
+    core.r_right = 1;
+    core.data = {1.0f, 2.0f};
     train.cores.push_back(core);
     train.mode_sizes = {2};
     tensor::TensorFingerprintGraph graph_source;
-    const std::string query_key = "__adapters__:tenant-a:alpha:model-a";
-    ASSERT_TRUE(graph_source.addAdapter(query_key, train, "alpha", "model-a", "tenant-a"));
-    ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-a:Alpha:Alpha", train,
-                                        "Alpha", "Alpha", "tenant-a"));
+    const std::string query_key = "__adapters__:tenant-a:Alpha:Alpha";
+    ASSERT_TRUE(graph_source.addAdapter(query_key, train, "Alpha", "Alpha", "tenant-a"));
+    ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-a:alpha:model-a", train,
+                                        "alpha", "model-a", "tenant-a"));
     const auto source_snapshot = graph_source.snapshotSimilarForTenant(query_key, "tenant-a", 1);
     ASSERT_TRUE(source_snapshot);
     ASSERT_EQ(source_snapshot->candidates.size(), 1u);
@@ -1002,25 +1007,25 @@ TEST(ShardFragmentGrpc, StoredProjectionFlowsThroughMtlsAndManifestBoundPlanner)
         db, "shard-a", "node2",
         themis::sharding::ShardArtifactFragmentStore::kDefaultMaxFragmentBytes);
     auto manifest = publisher->publishFromGraph(
-        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 1);
+        graph_source, "principal-a", "tenant-a", "source-a", "Alpha", "Alpha", 1);
     EXPECT_THROW((void)publisher->publishFromGraph(
-        graph_source, "principal-a", "tenant-b", "source-a", "alpha", "model-a", 1),
+        graph_source, "principal-a", "tenant-b", "source-a", "Alpha", "Alpha", 1),
         std::runtime_error);
     EXPECT_THROW((void)publisher->publishFromGraph(
-        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "missing", 1),
+        graph_source, "principal-a", "tenant-a", "source-a", "Alpha", "missing", 1),
         std::runtime_error);
     EXPECT_THROW((void)publisher->publishFromGraph(
-        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 0),
+        graph_source, "principal-a", "tenant-a", "source-a", "Alpha", "Alpha", 0),
         std::invalid_argument);
     tensor::TensorFingerprintGraph invalid_query;
     ASSERT_TRUE(invalid_query.addAdapter(query_key, train, "other", "model-a", "tenant-a"));
     EXPECT_THROW((void)publisher->publishFromGraph(
-        invalid_query, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 1),
+        invalid_query, "principal-a", "tenant-a", "source-a", "Alpha", "Alpha", 1),
         std::runtime_error);
     ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-b:foreign:model", train,
                                         "foreign", "model", "tenant-a"));
     EXPECT_THROW((void)publisher->publishFromGraph(
-        graph_source, "principal-a", "tenant-a", "source-a", "alpha", "model-a", 2),
+        graph_source, "principal-a", "tenant-a", "source-a", "Alpha", "Alpha", 2),
         std::invalid_argument);
     ASSERT_TRUE(graph_source.removeAdapter("__adapters__:tenant-b:foreign:model"));
     EXPECT_EQ(publisher->publish("principal-a", "tenant-a", "source-a", summary).artifact_id(),
@@ -1390,11 +1395,11 @@ TEST(ShardTransferGrpc, ResumesAfterReceiverCrashAndRejectsInvalidTransfers) {
 TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     const FixtureDirectory root;
     const auto server_tls =
-        themis::tests::generateSelfSignedPemMaterial("raft-server", "localhost", {"localhost"});
+        themis::tests::generateSelfSignedPemMaterial("101", "localhost", {"localhost"});
     const auto client_tls =
-        themis::tests::generateSelfSignedPemMaterial("raft-client", "node1.test", {"node1.test"});
+        themis::tests::generateSelfSignedPemMaterial("102", "node1.test", {"node1.test"});
     const auto unbound_tls =
-        themis::tests::generateSelfSignedPemMaterial("raft-unbound", "intruder.test", {"intruder.test"});
+        themis::tests::generateSelfSignedPemMaterial("103", "intruder.test", {"intruder.test"});
     writePem(root.path / "server-cert.pem", server_tls.certificate_pem);
     writePem(root.path / "server-key.pem", server_tls.private_key_pem);
     writePem(root.path / "client-cert.pem", client_tls.certificate_pem);
@@ -1436,6 +1441,7 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     client_config.expected_peer_node_id = "node2";
     client_config.expected_peer_identity_property = "x509_subject_alternative_name";
     client_config.expected_peer_identity_value = "localhost";
+    client_config.timeout_ms = 1000;
     themisdb::sharding::RaftShardManager::Config manager_config;
     manager_config.raft_config.raft_config.node_id = "node1";
     manager_config.raft_config.raft_config.persistence_path =
@@ -1495,9 +1501,9 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
 TEST(RaftPeerGrpc, VolatileFollowerCannotGrantVoteOrAppendAck) {
     const FixtureDirectory root;
     const auto server_tls =
-        themis::tests::generateSelfSignedPemMaterial("volatile-server", "localhost", {"localhost"});
+        themis::tests::generateSelfSignedPemMaterial("201", "localhost", {"localhost"});
     const auto client_tls =
-        themis::tests::generateSelfSignedPemMaterial("volatile-client", "node1.test", {"node1.test"});
+        themis::tests::generateSelfSignedPemMaterial("202", "node1.test", {"node1.test"});
     writePem(root.path / "volatile-server-cert.pem", server_tls.certificate_pem);
     writePem(root.path / "volatile-server-key.pem", server_tls.private_key_pem);
     writePem(root.path / "volatile-client-cert.pem", client_tls.certificate_pem);

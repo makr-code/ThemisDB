@@ -424,7 +424,6 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_cross_coordinator_wal_recovery.cpp")
         test_cross_coordinator_wal_recovery.cpp
         ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_cross_coordinator_wal_recovery_focused PRIVATE
@@ -438,9 +437,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_cross_coordinator_wal_recovery.cpp")
         Threads::Threads
     )
 
-    target_compile_definitions(test_cross_coordinator_wal_recovery_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
+    if(TARGET themis_base)
+        target_link_libraries(test_cross_coordinator_wal_recovery_focused PRIVATE themis_base)
+    endif()
 
     themis_register_module_test(
         MODULE transaction

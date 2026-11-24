@@ -1,6 +1,6 @@
 # Distributed Tensor Module
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `include/sharding/shard_artifact_fragment_store.h`, `include/sharding/shard_rpc_server.h`, `src/main_server.cpp`, `proto/sharding/shard_rpc.proto`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `tests/sharding/CMakeLists.txt`, `tests/sharding/test_shard_transfer_store.cpp`, `tests/sharding/test_shard_transfer_grpc.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
@@ -73,7 +73,7 @@ checksum and is not an integrity or authenticity guarantee.
   publisher, reopens RocksDB, and fetches it over mTLS using a manifest-bound
   planner; it also checks
   graph validation when the query and LLM module targets exist. It does not
-  cover the host startup or an automatic publisher, and has not been run. The
+  exercise the production host configuration, and has not been run. The
   existing `ShardTransferStoreTests` target now also registers RocksDB-backed
   fragment-store regressions for principal/shard isolation, immutable replay,
   digest/size checks, and restart persistence; those sources have not been
@@ -100,11 +100,19 @@ headers; mixed-version binary ABI compatibility is not claimed. Strict graph
 validation accepts only the versioned adapter-similarity projection defined by
 `GraphSummaryProjectionCodec`; arbitrary tensor bytes and unknown formats
 remain fail-closed.
-Host publishers persist each fragment through `ShardArtifactFragmentStore`
-using `(principal_id, shard_id, artifact_id)` before advertising the matching
-manifest placement. This dedicated keyspace is not a `TensorFieldKey` mapping,
-and no automatic host publisher is currently installed. `LocalProjectionPublisher`
-provides a single-shard local publisher and persistent public-manifest reader.
+When the optional ShardRPC adapter is built, `main_server` can be configured
+with `sharding.tensor_projection_publisher.enabled: true` to publish one
+startup snapshot from the tenant-scoped adapter repository. The host requires
+an explicit principal, tenant, source snapshot label, node, query domain/model,
+and bounded top-k; the principal must also be present in the fragment RPC
+identity bindings. It loads and validates the tenant's stored adapter trains,
+constructs the fingerprint graph, then persists the projection and remote
+manifest. Startup fails closed on invalid configuration, a missing query,
+invalid adapter, or a storage/publication error. This one-shot source label is
+not freshness or discovery, and the graph is not refreshed after startup.
+The fragment keyspace is not a `TensorFieldKey` mapping.
+`LocalProjectionPublisher` provides a single-shard local publisher and
+persistent public-manifest reader.
 `publishFromGraph()` builds the summary from a tenant-checked fingerprint
 graph query and requires query metadata and candidate keys to match the tenant.
 Its `loadRemote()` reads an immutable manifest record over the existing mTLS
@@ -138,10 +146,10 @@ digest reported as verified by the fetcher before decoding. It merges the
 decoded candidates and invokes `GraphTruthValidator`; strict validation passes
 only when every evidence item is validated, meets the configured graph-score
 threshold, and has supporting graph nodes. Missing, malformed, conflicting, or
-unsupported projections fail closed. The local publisher encodes this format
-and persists its manifest after the fragment; automatic producer and host
-integration are not implemented. The codec, publisher, and planner changes have not been
-built or run.
+unsupported projections fail closed. The opt-in startup publisher encodes
+this format from stored tenant adapters, but trusted artifact discovery,
+refresh/invalidation, and multi-shard publication are not implemented. The
+publisher, host wiring, codec, and planner have not been built or run.
 
 This integration applies to the public
 `themis::distributed_tensor::DistributedTensorPlanner`. The separate

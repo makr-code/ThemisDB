@@ -41,7 +41,10 @@ foreach(_src IN LISTS ANALYTICS_MODULE_TEST_SOURCES)
 
     if(_stem STREQUAL "test_analytics_gap_closure")
         list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/analytics/expert_system_engine.cpp
             ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/model_serving.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
         )
     endif()
 

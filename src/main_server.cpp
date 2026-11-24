@@ -89,6 +89,11 @@
 #include "tensor/tensor_core_bridge.h"
 #include "tensor/tensor_ingestion_bridge.h"
 #include "storage/tensor_network_storage_engine.h"
+#ifdef THEMIS_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER
+#include "distributed_tensor/local_projection_publisher.h"
+#include "tensor/adapter_repository.h"
+#include "tensor/tensor_fingerprint_graph.h"
+#endif
 #include "toolbox/ingestion_toolbox.h"
 #include "toolbox/toolbox_registry.h"
 #include "transaction/transaction_manager.h"
@@ -1802,6 +1807,99 @@ int main(int argc, char* argv[]) {
 #else
             THEMIS_CRITICAL(
                 "Tensor fragment RPC is enabled in configuration, but this binary lacks gRPC support");
+            return 1;
+#endif
+        }
+    }
+
+    if (cfg && cfg->contains("sharding") &&
+        (*cfg)["sharding"].contains("tensor_projection_publisher")) {
+        const auto& publisher_cfg = (*cfg)["sharding"]["tensor_projection_publisher"];
+        if (!publisher_cfg.is_object()) {
+            THEMIS_CRITICAL("sharding.tensor_projection_publisher must be an object");
+            return 1;
+        }
+        if (publisher_cfg.value("enabled", false)) {
+#ifdef THEMIS_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER
+            const auto& sharding_cfg = (*cfg)["sharding"];
+            if (!sharding_cfg.contains("tensor_fragment_rpc") ||
+                !sharding_cfg["tensor_fragment_rpc"].is_object() ||
+                !sharding_cfg["tensor_fragment_rpc"].value("enabled", false) ||
+                !tensor_fragment_rpc_server || !tensor_fragment_store) {
+                THEMIS_CRITICAL(
+                    "Tensor projection publisher requires the enabled tensor fragment RPC server");
+                return 1;
+            }
+
+            const auto principal_id =
+                publisher_cfg.value("principal_id", std::string{});
+            const auto tenant_id =
+                publisher_cfg.value("tenant_id", std::string{});
+            const auto source_snapshot_id =
+                publisher_cfg.value("source_snapshot_id", std::string{});
+            const auto node_id = publisher_cfg.value("node_id", std::string{});
+            const auto query_domain = publisher_cfg.value("domain", std::string{});
+            const auto query_model =
+                publisher_cfg.value("base_model_id", std::string{});
+            const auto top_k = publisher_cfg.value("top_k", uint64_t{10});
+            const auto& identity_bindings =
+                sharding_cfg["tensor_fragment_rpc"]["identity_bindings"];
+            const bool principal_is_bound = identity_bindings.is_array() &&
+                std::any_of(identity_bindings.begin(), identity_bindings.end(),
+                    [&principal_id](const auto& binding) {
+                        return binding.is_object() &&
+                            binding.value("principal_id", std::string{}) == principal_id;
+                    });
+            if (principal_id.empty() || tenant_id.empty() ||
+                source_snapshot_id.empty() || node_id.empty() ||
+                query_domain.empty() || query_model.empty() ||
+                top_k == 0 || top_k > 1024 || !principal_is_bound) {
+                THEMIS_CRITICAL(
+                    "Tensor projection publisher requires explicit identity, tenant, "
+                    "source snapshot, node, query, bounded top_k, and an RPC-bound principal");
+                return 1;
+            }
+
+            try {
+                auto graph =
+                    std::make_shared<themis::tensor::TensorFingerprintGraph>();
+                auto backend =
+                    std::make_shared<themis::storage::RocksDBTensorBackend>(db);
+                themis::tensor::AdapterRepository repository(backend, tenant_id);
+                for (const auto& [domain, base_model_id] : repository.listAdapters()) {
+                    auto adapter = repository.loadAdapter(domain, base_model_id);
+                    if (!adapter.valid || adapter.tenant_id != tenant_id ||
+                        !graph->addAdapter(adapter.adapter_key, adapter.train,
+                                           adapter.domain, adapter.base_model_id,
+                                           adapter.tenant_id)) {
+                        throw std::runtime_error(
+                            "unable to construct a validated tenant adapter snapshot");
+                    }
+                }
+
+                const auto max_fragment_bytes =
+                    sharding_cfg["tensor_fragment_rpc"].value(
+                        "max_tensor_fragment_bytes",
+                        uint64_t{64ULL * 1024ULL * 1024ULL});
+                themis::distributed_tensor::LocalProjectionPublisher publisher(
+                    db, local_shard_id, node_id, max_fragment_bytes);
+                const auto manifest = publisher.publishFromGraph(
+                    *graph, principal_id, tenant_id, source_snapshot_id,
+                    query_domain, query_model, static_cast<std::size_t>(top_k));
+                THEMIS_INFO(
+                    "Published startup tensor projection snapshot {} for tenant {} "
+                    "on shard {}",
+                    manifest.artifact_id(), tenant_id, local_shard_id);
+            } catch (const std::exception& error) {
+                THEMIS_CRITICAL(
+                    "Tensor projection startup publication failed; startup aborted: {}",
+                    error.what());
+                return 1;
+            }
+#else
+            THEMIS_CRITICAL(
+                "Tensor projection publisher is enabled, but this binary lacks the "
+                "distributed tensor ShardRPC adapter");
             return 1;
 #endif
         }

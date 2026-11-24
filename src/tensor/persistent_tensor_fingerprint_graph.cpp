@@ -7,14 +7,15 @@
  */
 
 #include "tensor/persistent_tensor_fingerprint_graph.h"
+#include "utils/logger.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <limits>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 namespace themis::tensor {
@@ -23,17 +24,6 @@ namespace {
 
 constexpr uint32_t kEntryFormatVersion = 1;
 constexpr uint32_t kJournalFormatVersion = 1;
-
-/**
- * @brief Make Journal Key.
- * @param[in] prefix Input parameter.
- * @return Return value.
- * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), std::to_string().
- */
-std::string makeJournalKey(const std::string& prefix) {
-    const auto now = std::chrono::steady_clock::now().time_since_epoch().count();
-    return prefix + std::to_string(now);
-}
 
 /**
  * @brief Delete If Present.
@@ -75,7 +65,6 @@ bool PersistentTensorFingerprintGraph::rehydrate() {
         return false;
     }
 
-    std::vector<std::pair<PersistedEntry, storage::TTTrain>> entries;
     TensorFingerprintGraph validated;
     const auto keys = backend_->listKeys(entryPrefix());
     for (const auto& key : keys) {
@@ -88,31 +77,14 @@ bool PersistentTensorFingerprintGraph::rehydrate() {
         if (!train_opt) {
             return false;
         }
-        const auto existing = graph_->entry(persisted->adapter_key);
-        if ((existing && (existing->tenant_id != tenant_id_ ||
-                          existing->domain != domain_)) ||
-            !validated.addAdapter(persisted->adapter_key, *train_opt,
+        if (!validated.addAdapter(persisted->adapter_key, *train_opt,
                                   persisted->domain, persisted->base_model_id,
                                   persisted->tenant_id)) {
             return false;
         }
-        entries.emplace_back(*persisted, std::move(*train_opt));
     }
 
-    for (const auto& key : graph_->adapterKeys()) {
-        const auto existing = graph_->entry(key);
-        if (existing && existing->tenant_id == tenant_id_ && existing->domain == domain_) {
-            graph_->removeAdapter(key);
-        }
-    }
-    for (const auto& [entry, train] : entries) {
-        if (!graph_->addAdapter(entry.adapter_key, train, entry.domain,
-                                entry.base_model_id, entry.tenant_id)) {
-            return false;
-        }
-    }
-
-    return true;
+    return graph_->replaceTenantDomainEntries(tenant_id_, domain_, validated);
 }
 
 /**
@@ -141,6 +113,9 @@ bool PersistentTensorFingerprintGraph::addAdapter(const std::string& adapter_key
         if (!persisted || !entryMatchesKey(*persisted, key)) {
             return false;
         }
+    }
+    if (!recoverJournal()) {
+        return false;
     }
 
     PersistedEntry entry;
@@ -185,6 +160,9 @@ bool PersistentTensorFingerprintGraph::removeAdapter(const std::string& adapter_
     const auto key = entryKeyFor(adapter_key);
     const auto persisted = readEntry(key);
     if (!persisted || !entryMatchesKey(*persisted, key)) {
+        return false;
+    }
+    if (!recoverJournal()) {
         return false;
     }
 
@@ -256,12 +234,12 @@ bool PersistentTensorFingerprintGraph::entryMatchesKey(
  * @param[in] target_key Input parameter.
  * @param[in] payload Input parameter.
  * @return True when the operation succeeds.
- * @details Calls: makeJournalKey(), journalPrefix(), serializeJournalRecord(), put(), deleteIfPresent(), del().
+ * @details Calls: journalPrefix(), serializeJournalRecord(), put(), deleteIfPresent(), del().
  */
 bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
                                                         const std::string& target_key,
                                                         const std::vector<uint8_t>& payload) {
-    const auto journal_key = makeJournalKey(journalPrefix());
+    const auto journal_key = journalPrefix() + "active";
     const auto journal_record = serializeJournalRecord(op, target_key, payload);
     if (!backend_->put(journal_key, journal_record)) {
         return false;
@@ -275,10 +253,25 @@ bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
     }
 
     if (!applied) {
-        return false;
+        if (backend_->del(journal_key)) {
+            return false;
+        }
+        const bool journal_retained = backend_->get(journal_key).has_value();
+        if (journal_retained) {
+            THEMIS_WARN(
+                "PersistentTensorFingerprintGraph: backend mutation is retained "
+                "in the replay journal after an apply failure");
+        }
+        return journal_retained;
     }
 
-    return backend_->del(journal_key);
+    // The target mutation is committed; a retained journal is safe to replay.
+    if (!backend_->del(journal_key) && backend_->get(journal_key)) {
+        THEMIS_WARN(
+            "PersistentTensorFingerprintGraph: committed mutation retains a "
+            "replay journal; later writes will recover it first");
+    }
+    return true;
 }
 
 /**
@@ -288,6 +281,17 @@ bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
  */
 bool PersistentTensorFingerprintGraph::recoverJournal() {
     const auto journals = backend_->listKeys(journalPrefix());
+    struct PendingJournal {
+        std::string key;
+        JournalOp op;
+        std::string target_key;
+        std::vector<uint8_t> target_payload;
+    };
+
+    std::vector<PendingJournal> pending;
+    pending.reserve(journals.size());
+    std::unordered_set<std::string> target_keys;
+
     for (const auto& journal_key : journals) {
         const auto payload = backend_->get(journal_key);
         if (!payload) {
@@ -300,36 +304,50 @@ bool PersistentTensorFingerprintGraph::recoverJournal() {
 
         if (!deserializeJournalRecord(*payload, op, target_key, target_payload) ||
             target_key.size() <= entryPrefix().size() ||
-            target_key.rfind(entryPrefix(), 0) != 0) {
+            target_key.rfind(entryPrefix(), 0) != 0 ||
+            !target_keys.insert(target_key).second) {
             return false;
         }
 
-        bool applied = false;
+        const auto existing = backend_->get(target_key);
+        if (existing) {
+            const auto entry = deserializeEntry(*existing);
+            if (!entry || !entryMatchesKey(*entry, target_key)) {
+                return false;
+            }
+        }
+
         if (op == JournalOp::Put) {
             const auto entry = deserializeEntry(target_payload);
             if (!entry || !entryMatchesKey(*entry, target_key)) {
                 return false;
             }
-            applied = backend_->put(target_key, target_payload);
         } else {
             if (!target_payload.empty()) {
                 return false;
             }
-            const auto existing = backend_->get(target_key);
-            if (existing) {
-                const auto entry = deserializeEntry(*existing);
-                if (!entry || !entryMatchesKey(*entry, target_key)) {
-                    return false;
-                }
-            }
-            applied = deleteIfPresent(*backend_, target_key);
         }
 
+        pending.push_back(
+            PendingJournal{journal_key, op, std::move(target_key),
+                           std::move(target_payload)});
+    }
+
+    for (const auto& journal : pending) {
+        bool applied = false;
+        if (journal.op == JournalOp::Put) {
+            applied = backend_->put(journal.target_key, journal.target_payload);
+        } else {
+            applied = deleteIfPresent(*backend_, journal.target_key);
+        }
         if (!applied) {
             return false;
         }
 
-        if (!backend_->del(journal_key)) {
+        if (!backend_->del(journal.key)) {
+            THEMIS_WARN(
+                "PersistentTensorFingerprintGraph: replay applied but journal "
+                "cleanup failed; retry recovery before accepting writes");
             return false;
         }
     }

@@ -13,9 +13,12 @@
 // Licensed under MIT License
 
 #include "sharding/raft_shard_manager.h"
+#include "sharding/raft_two_phase_commit_decision_store.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <stdexcept>
+#include <utility>
 
 namespace themisdb {
 namespace sharding {
@@ -403,6 +406,20 @@ std::shared_ptr<RaftConsensus> RaftShardManager::getRaftInstance(const std::stri
     }
     
     return nullptr;
+}
+
+std::shared_ptr<themis::sharding::RaftTwoPhaseCommitDecisionStore>
+RaftShardManager::createTwoPhaseCommitDecisionStore(
+    const std::string& shard_id,
+    const RaftSnapshotManager& snapshot_manager) const {
+    auto raft = getRaftInstance(shard_id);
+    if (!raft) {
+        throw std::invalid_argument(
+            "cannot create a 2PC decision store for an uninitialized Raft shard");
+    }
+    return std::make_shared<
+        themis::sharding::RaftTwoPhaseCommitDecisionStore>(
+            std::move(raft), shard_id, snapshot_manager);
 }
 
 /**

@@ -210,25 +210,27 @@ if(TARGET themis_training)
         EXTRA_ARGS --gtest_color=yes
     )
 
-    add_executable(module_training_test_adalora_training_pipeline_focused
-        ${CMAKE_CURRENT_SOURCE_DIR}/training/test_adalora_training_pipeline.cpp
-    )
-    target_link_libraries(module_training_test_adalora_training_pipeline_focused
-        PRIVATE themis_training GTest::gtest_main
-    )
-    themis_register_module_focused_test(
-        MODULE training
-        NAME adalora_training_pipeline
-        TARGET module_training_test_adalora_training_pipeline_focused
-        TIER benchmark
-        TIMEOUT 300
-    )
-    gtest_discover_tests(module_training_test_adalora_training_pipeline_focused
-        DISCOVERY_MODE POST_BUILD
-        DISCOVERY_TIMEOUT 60
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
-        EXTRA_ARGS --gtest_color=yes
-    )
+    if(THEMIS_ENABLE_LLM)
+        add_executable(module_training_test_adalora_training_pipeline_focused
+            ${CMAKE_CURRENT_SOURCE_DIR}/training/test_adalora_training_pipeline.cpp
+        )
+        target_link_libraries(module_training_test_adalora_training_pipeline_focused
+            PRIVATE themis_training GTest::gtest_main
+        )
+        themis_register_module_focused_test(
+            MODULE training
+            NAME adalora_training_pipeline
+            TARGET module_training_test_adalora_training_pipeline_focused
+            TIER benchmark
+            TIMEOUT 300
+        )
+        gtest_discover_tests(module_training_test_adalora_training_pipeline_focused
+            DISCOVERY_MODE POST_BUILD
+            DISCOVERY_TIMEOUT 60
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     add_executable(module_training_test_docs_db_training_sample_provider_focused
         ${CMAKE_CURRENT_SOURCE_DIR}/training/test_docs_db_training_sample_provider.cpp
@@ -26647,7 +26649,17 @@ endif() # THEMIS_BUILD_CHIMERA
 # Exception: themis_tests sets THEMIS_BASE_EXPORTS + /FORCE:MULTIPLE and
 # deliberately compiles logger.cpp to provide the definitions — leave it.
 # ---------------------------------------------------------------------------
-get_directory_property(_focused_test_targets BUILDSYSTEM_TARGETS)
+function(_themis_collect_buildsystem_targets _directory _output)
+    get_property(_targets DIRECTORY "${_directory}" PROPERTY BUILDSYSTEM_TARGETS)
+    get_property(_subdirectories DIRECTORY "${_directory}" PROPERTY SUBDIRECTORIES)
+    foreach(_subdirectory IN LISTS _subdirectories)
+        _themis_collect_buildsystem_targets("${_subdirectory}" _child_targets)
+        list(APPEND _targets ${_child_targets})
+    endforeach()
+    set(${_output} "${_targets}" PARENT_SCOPE)
+endfunction()
+
+_themis_collect_buildsystem_targets("${CMAKE_CURRENT_SOURCE_DIR}" _focused_test_targets)
 set(_logger_src_variants
     "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
     "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"

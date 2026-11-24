@@ -1581,7 +1581,6 @@ set(THEMIS_LLM_SOURCES
 set(THEMIS_TRAINING_SOURCES
     ../src/training/auto_labeler.cpp
     ../src/training/ada_lora_adapter.cpp
-    ../src/training/adalora_training_pipeline.cpp
     ../src/training/docs_db_training_sample_provider.cpp
     ../src/training/adalora_tt_bridge.cpp
     ../src/training/adapter_serving.cpp
@@ -1598,6 +1597,12 @@ set(THEMIS_TRAINING_SOURCES
     ../src/training/training_pipeline.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
 )
+
+if(THEMIS_ENABLE_LLM)
+    list(APPEND THEMIS_TRAINING_SOURCES
+        ../src/training/adalora_training_pipeline.cpp
+    )
+endif()
 
 # When LLM is disabled, keep only LLM-independent code paths in the modular
 # LLM source set. This prevents hard dependencies on llama.cpp headers in

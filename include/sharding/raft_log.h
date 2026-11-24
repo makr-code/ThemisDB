@@ -27,6 +27,8 @@
 namespace themisdb {
 namespace sharding {
 
+class RaftState;
+
 /**
  * @brief A single entry in the Raft log
  * 
@@ -332,7 +334,10 @@ struct RaftSnapshot {
     std::string checksum;             ///< SHA-256 of the *uncompressed* state data
     uint64_t uncompressed_size;       ///< Size of the state data before compression
     uint64_t timestamp;               ///< Creation timestamp (ms since epoch)
+    std::map<std::string, std::vector<uint8_t>> extensions; ///< Checksummed named state-machine extensions
 };
+
+using RaftSnapshotExtensions = std::map<std::string, std::vector<uint8_t>>;
 
 /**
  * @brief A single chunk of a snapshot suitable for wire transfer
@@ -403,6 +408,62 @@ public:
                           const std::vector<uint8_t>& state_data);
 
     /**
+     * @brief Persist application state and named extension state before log compaction.
+     * @param log Raft log whose committed prefix is compacted.
+     * @param snapshot_index Last committed entry represented by the snapshot.
+     * @param snapshot_term Term of the entry at @p snapshot_index.
+     * @param state_data Raw application state; it remains independently compressed
+     *        and checksummed.
+     * @param extensions At most 64 named opaque state-machine extensions; names
+     *        must be non-empty, unique, and at most 128 bytes.
+     * @return True only when the complete snapshot is durably installed and the
+     *         log is compacted; false on validation, I/O, or compaction failure.
+     * @note Each extension has an independent SHA-256 checksum. Older snapshot
+     *       files remain readable and contain no extensions.
+     */
+    bool createAndInstall(RaftLog& log,
+                          uint64_t snapshot_index,
+                          uint64_t snapshot_term,
+                          const std::vector<uint8_t>& state_data,
+                          const RaftSnapshotExtensions& extensions);
+
+    /**
+     * @brief Persist a snapshot and compact the Raft state and log together.
+     * @param state Raft state whose snapshot metadata must match the compacted log.
+     * @param snapshot_index Last committed entry represented by the snapshot.
+     * @param snapshot_term Term of the entry at @p snapshot_index.
+     * @param state_data Complete opaque state-machine snapshot payload.
+     * @return True only when the snapshot is durably installed and the Raft log
+     *         and in-memory snapshot metadata are advanced to the same anchor.
+     *         False on persistence, validation, or compaction failure; the prior
+     *         log boundary remains unchanged.
+     * @note This overload does not apply or restore @p state_data in an
+     *       application state machine. Callers must provide a complete payload
+     *       and arrange its restoration separately.
+     */
+    bool createAndInstall(RaftState& state,
+                          uint64_t snapshot_index,
+                          uint64_t snapshot_term,
+                          const std::vector<uint8_t>& state_data);
+
+    /**
+     * @brief Persist application and extension state, then compact Raft state.
+     * @param state Raft state whose snapshot metadata must match the compacted log.
+     * @param snapshot_index Last committed entry represented by the snapshot.
+     * @param snapshot_term Term of the entry at @p snapshot_index.
+     * @param state_data Raw application state.
+     * @param extensions At most 64 named opaque state-machine extensions.
+     * @return True only after durable installation and synchronized Raft compaction.
+     * @note Extension validation and persistence follow the RaftLog overload.
+     *       This method does not apply or restore application state.
+     */
+    bool createAndInstall(RaftState& state,
+                          uint64_t snapshot_index,
+                          uint64_t snapshot_term,
+                          const std::vector<uint8_t>& state_data,
+                          const RaftSnapshotExtensions& extensions);
+
+    /**
      * @brief Load the most recently persisted snapshot from disk
      * @return The snapshot, or std::nullopt if none exists
      */
@@ -459,6 +520,13 @@ public:
 private:
     Config config_;
     mutable std::mutex mutex_;
+
+    bool createAndInstallImpl(RaftLog& log,
+                              uint64_t snapshot_index,
+                              uint64_t snapshot_term,
+                              const std::vector<uint8_t>& state_data,
+                              const RaftSnapshotExtensions& extensions,
+                              const std::function<void()>& compact_log);
 
     /** @brief Build file path for a snapshot index. */
     std::string snapshotPath(uint64_t snapshot_index) const;

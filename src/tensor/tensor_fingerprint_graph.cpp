@@ -143,13 +143,63 @@ bool TensorFingerprintGraph::isTrainValid(const storage::TTTrain& train) noexcep
             core.r_left != previous_rank || core.n != train.mode_sizes[i] ||
             core.n > max_size / core.r_left ||
             core.r_right > max_size / (core.r_left * core.n) ||
-            core.r_right > max_size / core.r_right ||
             core.data.size() != core.numElements() ||
             !std::all_of(core.data.begin(), core.data.end(),
                          [](float value) { return std::isfinite(value); })) {
             return false;
         }
         previous_rank = core.r_right;
+    }
+    return previous_rank == 1;
+}
+
+bool TensorFingerprintGraph::replaceTenantDomainEntries(
+    const std::string& tenant_id, const std::string& domain,
+    const TensorFingerprintGraph& validated) {
+    if (this == &validated || tenant_id.empty() || domain.empty()) {
+        return false;
+    }
+
+    std::shared_lock validated_lock(validated.mutex_);
+    for (const auto& [key, entry] : validated.entries_) {
+        if (entry.tenant_id != tenant_id || entry.domain != domain ||
+            entry.adapter_key != key || !isTrainValid(entry.exact_train) ||
+            !validated.trains_.contains(key) ||
+            !validated.train_self_ip_.contains(key)) {
+            return false;
+        }
+    }
+
+    std::unique_lock lock(mutex_);
+    auto next_entries = entries_;
+    auto next_trains = trains_;
+    auto next_self_ips = train_self_ip_;
+    for (auto it = next_entries.begin(); it != next_entries.end();) {
+        if (it->second.tenant_id == tenant_id && it->second.domain == domain) {
+            next_trains.erase(it->first);
+            next_self_ips.erase(it->first);
+            it = next_entries.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    for (const auto& [key, entry] : validated.entries_) {
+        const auto existing = next_entries.find(key);
+        if (existing != next_entries.end()) {
+            return false;
+        }
+        next_entries.emplace(key, entry);
+        next_trains.emplace(key, validated.trains_.at(key));
+        next_self_ips.emplace(key, validated.train_self_ip_.at(key));
+    }
+
+    entries_.swap(next_entries);
+    trains_.swap(next_trains);
+    train_self_ip_.swap(next_self_ips);
+    {
+        std::unique_lock stats_lock(stats_mutex_);
+        stats_.total_adapters = entries_.size();
     }
     return true;
 }

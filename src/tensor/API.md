@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -122,7 +122,15 @@ Contract notes:
 
 - `rehydrate()` checks persisted entries and journal targets against the
   configured tenant and domain before replay or graph replacement. It preserves
-  unrelated graph entries and returns `false` for invalid or conflicting data.
+  unrelated graph entries, atomically replaces this tenant/domain view for
+  graph readers, and returns `false` for invalid, ambiguous, or conflicting data.
+- Mutations use one stable journal slot per tenant/domain and replay pending
+  intent before accepting another write. Multiple outstanding records targeting
+  the same entry fail closed rather than relying on journal-key ordering.
+- If an entry mutation succeeds but journal cleanup fails, the operation remains
+  committed and its journal is replayed before a later write. An apply failure
+  with an undeletable journal is likewise treated as accepted intent; cleanup
+  failures are logged. Callers must still serialize mutations across wrappers.
 - TT-train decoding rejects truncated data, overflowing lengths and trailing
   bytes; graph insertion additionally checks mode sizes, adjacent ranks,
   allocation-size overflow and finite core values. Decoding does not
@@ -131,11 +139,11 @@ Contract notes:
   rather than treating them as missing records or a complete prefix scan.
   Existing callers of the backend must handle `std::runtime_error`.
 - During recovery the caller must exclude graph readers and writers as well as
-  backend mutations. Replacement is not atomic, and journal replay may change
-  the backend even when later validation fails. Add/remove also require
-  serialized mutations and reject conflicting tenant/domain graph keys.
-  Recovery is not a transactional storage snapshot and callers must handle
-  failures explicitly.
+  backend mutations. All journal records are validated before replay, but replay
+  may modify the backend before a later write or cleanup failure leaves recovery
+  incomplete. Add/remove also require serialized mutations and reject conflicting
+  tenant/domain graph keys. Recovery is not a transactional storage snapshot and
+  callers must handle failures explicitly.
 
 ### `DreamOrchestrator`
 

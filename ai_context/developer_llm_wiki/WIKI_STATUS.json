@@ -1,29 +1,24 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T20:09:43+00:00",
+  "generated_at": "2026-11-24T10:38:45+00:00",
   "mode": "incremental",
   "source_count": 8127,
-  "source_hash": "384b1d976a596275abacb02e88ddcc0eb30e0cd58db21257970fb626f6dbed50",
+  "source_hash": "00be3e2fcd52bf2cc0a6a20060bc68c8b6c658c41c707212856850c5e0202c95",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 10,
+    "changed_count": 5,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
-      "docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md",
-      "include/distributed_tensor/local_projection_publisher.h",
-      "include/sharding/raft_shard_manager.h",
-      "include/storage/tensor_train_decomposer.h",
-      "include/tensor/persistent_tensor_fingerprint_graph.h",
-      "include/tensor/tensor_fingerprint_graph.h",
-      "src/distributed_tensor/README.md",
-      "src/distributed_tensor/ROADMAP.md",
+      "CHANGELOG.md",
+      "ai_context/api_contracts/transaction.md",
+      "include/sharding/raft_two_phase_commit_decision_store.h",
+      "src/sharding/FUTURE_ENHANCEMENTS.md",
       "src/sharding/ROADMAP.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "da2a4f85c22f696d2f27db626a62e82ab3a5fa29bf15dc9b43db9b5b8d430a42"
+  "manifest_sha256": "29dca6cdbbbd96b54115567d81bb3129202b9056c96d025757603ccb76aa607e"
 }

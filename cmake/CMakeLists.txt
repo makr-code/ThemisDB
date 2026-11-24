@@ -6317,6 +6317,14 @@ if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
                      ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
 endif()
 
+# Host publisher wiring must not depend on test target registration.
+if(TARGET themis_server AND TARGET themis_distributed_tensor_shard_rpc_adapter)
+    target_link_libraries(themis_server PRIVATE
+        themis_distributed_tensor_shard_rpc_adapter)
+    target_compile_definitions(themis_server PRIVATE
+        THEMIS_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER=1)
+endif()
+
 # The sharding tests are registered before the distributed-tensor module.
 if(THEMIS_BUILD_MODULAR AND TARGET test_shard_transfer_grpc AND
    TARGET themis_distributed_tensor_shard_rpc_adapter)
@@ -6329,6 +6337,7 @@ if(THEMIS_BUILD_MODULAR AND TARGET test_shard_transfer_grpc AND
         if(TARGET themis_llm_ext)
             target_link_libraries(test_shard_transfer_grpc PRIVATE themis_llm_ext)
         endif()
+
         target_compile_definitions(test_shard_transfer_grpc PRIVATE
             THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH=1)
     endif()

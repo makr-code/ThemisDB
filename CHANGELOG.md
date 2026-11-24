@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Added - Integrated Raft 2PC snapshot creation
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- `RaftTwoPhaseCommitDecisionStore::createAndInstallSnapshot()` now captures
+  committed decision state, persists it as the named snapshot extension with
+  application state, compacts the Raft log, and advances in-memory snapshot
+  state in one serialized operation. The application still controls the
+  snapshot trigger and supplies complete application state.
+
 ### Fixed - CI evidence consumers and Wave 4 linker dependency
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
@@ -57,6 +68,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   layout, `GraphIndexManager::boundedBfs` signature, and
   `SkillDelegationContext::createRoot` signature changed; binary consumers
   must rebuild for v3.0.0.
+- `CrossShardTransactionConfig` removes the public `decision_writer` and
+  `decision_lookup` members. Use `RaftShardManager::createTwoPhaseCommitDecisionStore()`
+  and `raft_decision_store` for quorum-backed decisions; the callback seam
+  remains on `TwoPhaseCommitCoordinator::Config`. Consumers must update source
+  and rebuild. Without an injected store, CrossShard retains local-WAL-only
+  behavior.
 - Hosts creating a delegation root must pass a trusted permission authorizer.
   Delegated execution requires exact tool/resource grants and shared
   candidate/content metering. Payload-byte metering begins after storage reads;

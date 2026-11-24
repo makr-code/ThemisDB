@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-16"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,12 +12,12 @@ Human_Author: "ThemisDB Team"
 
 # Runbook: Distributed Tensor Module
 
-> **Not validated for production operations:** Source now includes an opt-in
-> mTLS fragment RPC listener and a RocksDB-backed immutable fragment store, but
-> neither has been built or exercised in this session. The Linux transport
-> integration suite includes an unrun publisher-to-mTLS manifest and fragment case
-> with a fixture fingerprint graph; no end-to-end production startup, automatic publisher, or distributed
-> worker service is claimed. The former in-process
+> **Not validated for production operations:** Source includes an opt-in mTLS
+> fragment RPC listener, RocksDB fragment store, and one-shot startup projection
+> publisher, but none has been built or exercised. The Linux transport suite
+> includes an unrun fixture-graph publisher-to-mTLS case; no production startup,
+> live freshness, artifact discovery, or distributed worker service is claimed.
+> The former in-process
 > stub soak was removed; no transport-backed soak result is claimed.
 
 ## Purpose
@@ -69,6 +69,40 @@ behavior, not tested power-loss evidence, and depends on the storage stack
 honoring sync operations. A publisher must commit the manifest only after the
 fragment write succeeds.
 
+### Optional startup projection publication
+
+The server can publish one adapter-similarity projection at startup when the
+distributed tensor ShardRPC adapter is included in the binary. Configure this
+only when the selected tenant has the query adapter and at least one eligible
+similar adapter:
+
+```yaml
+sharding:
+  tensor_projection_publisher:
+    enabled: true
+    principal_id: "tenant-a"
+    tenant_id: "tenant-a"
+    source_snapshot_id: "adapter-catalog-2026-11-24"
+    node_id: "node-2"
+    domain: "legal"
+    base_model_id: "llama3-8b"
+    top_k: 10
+```
+
+The principal must occur in `tensor_fragment_rpc.identity_bindings`; that
+configuration pair is the operator's principal-to-tenant authorization
+binding. The RPC server must also be enabled, and its shard, TLS, listener, and
+identity configuration remain mandatory. At startup the host enumerates and
+loads the tenant's adapter records from RocksDB, rejects an invalid or
+unreadable record, builds a fingerprint graph, and publishes one query summary.
+Missing query data, no publishable candidates, incompatible optional build
+configuration, and persistence failures abort startup. The source snapshot ID
+is an operator-supplied label, not a measured source revision or freshness
+proof. This publication does not track subsequent adapter changes; operators
+must restart with an updated snapshot label to publish again. The resulting
+artifact ID is logged but not entered in a trusted cross-shard discovery
+service.
+
 `LocalProjectionPublisher` additionally stores a manifest record readable through
 the same mTLS fragment endpoint. `loadRemote()` requires a trusted artifact ID,
 tenant-bound principal, expected shard and node, and an explicitly configured
@@ -85,8 +119,9 @@ or identity bindings, server startup fails. During shutdown the fragment RPC
 listener stops before the shared RocksDB database closes. Missing or
 over-limit fragments are not served; corrupt metadata or payload causes a
 failed RPC. Graph validation accepts the versioned adapter-similarity
-projection, not arbitrary opaque tensor fragments; an automatic projection
-publisher is not yet implemented.
+projection, not arbitrary opaque tensor fragments. The publisher remains
+single-shard and startup-only; discovery, refresh, revocation, and
+multi-shard coordination are not implemented.
 
 This configuration and lifecycle are source-backed but not runtime-validated.
 Do not treat registration of the focused tests as a production readiness

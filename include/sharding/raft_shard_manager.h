@@ -25,6 +25,10 @@
 #include <optional>
 #include <functional>
 
+namespace themis::sharding {
+class RaftTwoPhaseCommitDecisionStore;
+}
+
 namespace themisdb {
 namespace sharding {
 
@@ -181,6 +185,22 @@ public:
      */
     [[nodiscard]] std::shared_ptr<RaftConsensus> getRaftInstance(
         const std::string& shard_id) const;
+
+    /**
+     * @brief Create the shared 2PC decision adapter for a managed shard.
+     * @param shard_id Logical Raft group ID; also used as the decision-store group ID.
+     * @param snapshot_manager Snapshot storage used to restore any installed decision state.
+     * @return A decision store retaining the shard's Raft instance.
+     * @throws std::invalid_argument if the shard has no managed Raft instance.
+     * @throws std::runtime_error if its installed snapshot cannot be restored.
+     * @note Callers should share the returned store among coordinators using this
+     *       group so each observes the same restored in-memory decision state.
+     */
+    [[nodiscard]] std::shared_ptr<
+        themis::sharding::RaftTwoPhaseCommitDecisionStore>
+    createTwoPhaseCommitDecisionStore(
+        const std::string& shard_id,
+        const RaftSnapshotManager& snapshot_manager) const;
     
     /**
      * @brief Get configuration

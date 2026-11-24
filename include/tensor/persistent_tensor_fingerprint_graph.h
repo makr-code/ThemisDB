@@ -22,8 +22,10 @@ namespace themis::tensor {
  * @brief Durable wrapper for TensorFingerprintGraph using ITensorStorageBackend.
  *
  * Persists each fingerprint graph entry under tenant/domain scoped keys and uses
- * a small operation journal for recovery of partial writes. Callers must
- * serialize graph and backend mutations made through these wrappers.
+ * a single operation journal for recovery of partial writes. Pending operations
+ * are replayed before another write; conflicting journals for one target fail
+ * closed. Callers must serialize graph and backend mutations made through these
+ * wrappers.
  */
 class PersistentTensorFingerprintGraph {
 public:
@@ -34,14 +36,15 @@ public:
 
     /**
      * @brief Recover the journal and replace this tenant/domain's graph entries.
-     * @return False for invalid or out-of-scope journal/entry records or failed
-     *         writes; unrelated tenant/domain graph entries are preserved.
+     * @return False for invalid, out-of-scope, or ambiguous journal/entry records
+     *         or failed writes; unrelated tenant/domain graph entries are
+     *         preserved.
      * @throws std::runtime_error when a backend reports a read or scan failure.
-     * @note Callers must exclude concurrent graph reads and mutations, and
-     *       backend mutations, throughout recovery. Recovered entries are
-     *       validated before the existing graph is modified, but replacement
-     *       is not atomic. Journal replay may modify the backend even if
-     *       validation later fails.
+     * @note Readers see either the previous or recovered graph contents.
+     *       Callers must exclude concurrent graph and backend mutations
+     *       throughout recovery. All journal records are validated before
+     *       replay; replay may still modify the backend before a later write or
+     *       cleanup failure leaves recovery incomplete.
      */
     [[nodiscard]] bool rehydrate();
 
@@ -50,7 +53,9 @@ public:
      * @param adapter_key Non-empty graph key, owned by this tenant and domain.
      * @param train Adapter tensor train.
      * @param base_model_id Adapter model identifier.
-     * @return False on invalid input, a conflicting namespace, or a failed write.
+     * @return True when the entry is written or retained as a replayable
+     *         operation; false on invalid input, a conflicting namespace, or
+     *         failure before the operation is accepted.
      */
     [[nodiscard]] bool addAdapter(const std::string& adapter_key,
                                   const storage::TTTrain& train,
@@ -59,7 +64,9 @@ public:
     /**
      * @brief Remove an adapter belonging to this tenant and domain.
      * @param adapter_key Non-empty graph key.
-     * @return False if absent, conflicting, or a storage operation fails.
+     * @return True when removal is written or retained as a replayable
+     *         operation; false if absent, conflicting, or the operation cannot
+     *         be accepted.
      */
     [[nodiscard]] bool removeAdapter(const std::string& adapter_key);
 

@@ -160,22 +160,33 @@ BENCHMARK_F(BranchManagerBenchmark, SwitchBranch)(benchmark::State& state) {
 }
 
 // Benchmark: Delete branch
-BENCHMARK_F(BranchManagerBenchmark, DeleteBranch)(benchmark::State& state) {
-    state.PauseTiming();
+BENCHMARK_DEFINE_F(BranchManagerBenchmark, DeleteBranch)(benchmark::State& state) {
     int branch_count = 0;
     
     for (auto _ : state) {
+        state.PauseTiming();
         // Create branch
         std::string branch_name = "feature/bench_" + std::to_string(branch_count++);
-        branch_manager_->createBranch(branch_name, "main", "Benchmark branch");
+        const auto branch = branch_manager_->createBranch(
+            branch_name, "main", "Benchmark branch");
         
         state.ResumeTiming();
+        if (!branch.has_value()) {
+            state.SkipWithError("Failed to create branch for DeleteBranch benchmark");
+            return;
+        }
+
         // Delete branch
         bool success = branch_manager_->deleteBranch(branch_name, true);
+        if (!success) {
+            state.SkipWithError("DeleteBranch benchmark operation failed");
+            return;
+        }
         benchmark::DoNotOptimize(success);
-        state.PauseTiming();
     }
+    state.SetItemsProcessed(state.iterations());
 }
+BENCHMARK_REGISTER_F(BranchManagerBenchmark, DeleteBranch)->UseRealTime();
 
 // Benchmark: Check branch exists
 BENCHMARK_F(BranchManagerBenchmark, BranchExists)(benchmark::State& state) {
@@ -254,29 +265,40 @@ BENCHMARK_F(BranchManagerBenchmark, JsonSerialization)(benchmark::State& state) 
 }
 
 // Benchmark: Merge branches (fast-forward)
-BENCHMARK_F(BranchManagerBenchmark, MergeBranchesFastForward)(benchmark::State& state) {
-    state.PauseTiming();
+BENCHMARK_DEFINE_F(BranchManagerBenchmark, MergeBranchesFastForward)(benchmark::State& state) {
     int merge_count = 0;
     
     for (auto _ : state) {
+        state.PauseTiming();
         // Create source and target branches
         std::string source_name = "source_" + std::to_string(merge_count);
         std::string target_name = "target_" + std::to_string(merge_count);
         merge_count++;
         
-        branch_manager_->createBranch(source_name, "main", "Source");
+        const auto source = branch_manager_->createBranch(source_name, "main", "Source");
         
         BranchManager::CreateBranchOptions options;
         options.from_sequence = 1;
-        branch_manager_->createBranch(target_name, "main", "Target", "system", options);
+        const auto target = branch_manager_->createBranch(
+            target_name, "main", "Target", "system", options);
         
         state.ResumeTiming();
+        if (!source.has_value() || !target.has_value()) {
+            state.SkipWithError("Failed to create branches for MergeBranchesFastForward benchmark");
+            return;
+        }
+
         // Perform merge
         auto result = branch_manager_->mergeBranches(source_name, target_name);
+        if (!result.success) {
+            state.SkipWithError(result.message.c_str());
+            return;
+        }
         benchmark::DoNotOptimize(result);
-        state.PauseTiming();
     }
+    state.SetItemsProcessed(state.iterations());
 }
+BENCHMARK_REGISTER_F(BranchManagerBenchmark, MergeBranchesFastForward)->UseRealTime();
 
 } // namespace transaction
 } // namespace themis

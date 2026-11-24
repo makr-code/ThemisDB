@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-**Last Updated:** 2026-11-23
+**Last Updated:** 2026-11-24
 **Source level:** Level 1 — module implementation
 **SOT domain:** architecture-governance
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `include/sharding/shard_artifact_fragment_store.h`, `include/sharding/shard_rpc_server.h`, `src/sharding/shard_artifact_fragment_store.cpp`, `src/main_server.cpp`, `cmake/CMakeLists.txt`
@@ -109,19 +109,24 @@ file:
 | `DistributedTensorPlanner::Config` | Summary TTL, minimum fragment success rate, fallback routing, fragment-load timeout, strict graph validation |
 | `FragmentLoadRequest` / `ShardRPCFragmentFetcher::Config` | Manifest-selected peer and digest, positive timeout, per-fragment and aggregate response byte ceilings |
 | `sharding.tensor_fragment_rpc` host config | Explicit enable flag, listen address, certificate/key/client CA, identity-to-principal bindings, maximum payload, chunk size, and maximum deadline |
+| `sharding.tensor_projection_publisher` host config | Explicit opt-in; tenant-bound principal and tenant, operator snapshot label, node, query domain/model, and bounded top-k; requires the fragment RPC server and a matching identity binding |
 | `StripeTransport` | Protocol, compression/encryption flags and algorithms, streams, timeout, retries, backoff |
 | `StorageStrategyAssessor::Config` | Quantization constraints, NVMe, multi-consumer, mmap support, and page-lock availability |
 | `ShardPlacementStrategy::compute_placement()` | Node capacities, optional factorization hints, and placement constraints |
 
 The host-owned fragment store and opt-in server startup are implemented in
-source, but they are not a `TensorNetworkStorageEngine` field mapping and are
-not wired into an automatic manifest/payload publisher. The host publisher
-must choose the tenant-bound principal and write the fragment before publishing
-its manifest. Startup requires explicit mTLS identity bindings and fails closed
-when the RPC feature is enabled without its configuration. The focused storage
-regressions are registered but have not been built or run. A Linux mTLS source
-test now composes the local publisher, fragment store, and adapter using a
-fixture summary; it does not exercise host startup or automatic publication.
+source, but they are not a `TensorNetworkStorageEngine` field mapping. When the
+optional ShardRPC adapter is linked, `sharding.tensor_projection_publisher`
+can opt into one startup publication from the configured tenant's persisted
+adapter repository. Startup validates each loaded train, builds a
+tenant-scoped fingerprint graph, then publishes using explicit principal,
+source-snapshot label, node, and query settings. Its principal must be present
+in the mTLS identity bindings. This is a one-time process-start snapshot; it
+does not track later adapter writes or provide discovery, freshness, revocation,
+or multi-shard coordination. Invalid configuration or publication failure
+aborts startup. Focused storage regressions are registered but have not been
+built or run. A Linux mTLS source test composes the local publisher, fragment
+store, and adapter using a fixture summary; it does not exercise host config.
 
 The module target compiles the root-level `integrity_verification.cc`, which
 uses OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and
@@ -166,9 +171,11 @@ The earlier architecture text described a direct LLM-training pipeline and
 overstated storage persistence and sharding integration. The current ShardRPC
 path has a canonical principal/shard/artifact key mapping and opt-in production
 server composition. A local publisher commits the fragment, local manifest and
-remote-readable manifest record in order. A consumer with a trusted artifact ID
-can fetch that record via mTLS, but automatic publication, discovery and freshness
-management remain unwired. There is no mapping to `TensorNetworkStorageEngine` field keys.
+remote-readable manifest record in order. An opt-in startup producer builds
+its input graph from stored tenant adapters and publishes one projection. A
+consumer with a trusted artifact ID can fetch that record via mTLS, but trusted
+artifact discovery and freshness management remain unwired. There is no mapping
+to `TensorNetworkStorageEngine` field keys.
 The graph projection codec and planner path are source-implemented but have not
 been built or run; source registration is not runtime evidence.
 

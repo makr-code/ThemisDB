@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-23
+Datum: 2026-11-24
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `dac925e61578a00e`
+- Hash: `c9071f4edb13d8db`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -59,12 +59,12 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `dc721ee703bf1a31`
+- Hash: `f636981aca95e372`
 - Titel: ThemisDB Release Strategy
 - Auszug:
-  - > Status: Active
-  - > Purpose: compact, manual, CI-free release process
-  - >
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-03-15"
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
@@ -356,7 +356,7 @@ Status: Active
 
 ## ai_context/api_contracts/transaction.md
 - Kategorie: governance_and_docs
-- Hash: `a6f46dd2fe19b4a8`
+- Hash: `33f10dce97bb256c`
 - Titel: Transaction Module Contract
 - Auszug:
   - ---
@@ -392,7 +392,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
 - Kategorie: governance_and_docs
-- Hash: `749b4c1d7f749440`
+- Hash: `3e4a02404904c340`
 - Titel: Distributed Tensor — Developer LLM Wiki
 - Auszug:
   - ---

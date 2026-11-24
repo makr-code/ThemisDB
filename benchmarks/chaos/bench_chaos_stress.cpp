@@ -227,26 +227,28 @@ static void BM_ConcurrentStress(benchmark::State& state) {
 
     for (auto _ : state) {
         std::atomic<uint64_t> ops{0};
+        std::atomic<uint64_t> active_queries{0};
         std::vector<std::thread> threads;
         threads.reserve(static_cast<size_t>(kThreads));
 
         for (int t = 0; t < kThreads; ++t) {
-            threads.emplace_back([&injector, &ops, t]() {
+            threads.emplace_back([&injector, &ops, &active_queries, t]() {
+                uint64_t thread_active_queries = 0;
                 for (int i = 0; i < 64; ++i) {
                     if (i % 3 == 0) {
                         injector.injectFault(
                             makeSpec("stress_" + std::to_string(t) + "_" + std::to_string(i),
                                      kAllFaultTypes[i % kFaultTypeCount]));
                     } else if (i % 3 == 1) {
-                        bool active = injector.isFaultActive(
+                        thread_active_queries += injector.isFaultActive(
                             "stress_" + std::to_string(t) + "_" + std::to_string(i - 1));
-                        benchmark::DoNotOptimize(active);
                     } else {
                         injector.recoverFault(
                             "stress_" + std::to_string(t) + "_" + std::to_string(i - 1));
                     }
                     ops.fetch_add(1, std::memory_order_relaxed);
                 }
+                active_queries.fetch_add(thread_active_queries, std::memory_order_relaxed);
             });
         }
         for (auto& th : threads) {
@@ -254,6 +256,7 @@ static void BM_ConcurrentStress(benchmark::State& state) {
         }
         injector.clearAllFaults();
         benchmark::DoNotOptimize(ops.load());
+        benchmark::DoNotOptimize(active_queries.load());
     }
 
     state.SetItemsProcessed(state.iterations() * kThreads * 64LL);

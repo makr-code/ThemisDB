@@ -25,6 +25,7 @@
 
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/two_phase_commit_coordinator.h"
+#include "sharding/raft_two_phase_commit_decision_store.h"
 #include "sharding/detail/two_phase_commit_contract.h"
 #include <stdexcept>
 #include "sharding/shard_rpc_client.h"
@@ -220,8 +221,10 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     canonical_2pc_config.commit_timeout = config_.commit_timeout;
     canonical_2pc_config.abort_timeout = config_.abort_timeout;
     canonical_2pc_config.fencing_token_provider = config_.fencing_token_provider;
-    canonical_2pc_config.decision_writer = config_.decision_writer;
-    canonical_2pc_config.decision_lookup = config_.decision_lookup;
+    if (config_.raft_decision_store) {
+        canonical_2pc_config.decision_writer = config_.raft_decision_store->writer();
+        canonical_2pc_config.decision_lookup = config_.raft_decision_store->lookup();
+    }
     canonical_2pc_config.in_process_response_handler =
         config_.in_process_rpc_response_handler;
     canonical_2pc_config.commit_timestamp_provider = [this](const std::string& id)
