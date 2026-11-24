@@ -10,8 +10,12 @@ name: "Release: WinGet Consumer"
 # Automated WinGet community package submission for published releases.
 #
 # Trigger:
-#   - Manually or via workflow_call with an explicit version
+#   - Manually or via workflow_call; version is optional. When blank, the latest
+#     published GitHub release is resolved (prereleases only with allow_prerelease).
 #   - Prereleases require allow_prerelease and use a separate Preview package
+#   - Release, asset and manifest metadata (project URL, description, license,
+#     publisher, release notes, tags) are resolved from GitHub repository/release
+#     metadata and repository files by scripts/release/resolve_release_metadata.py
 #
 # Pipeline stages:
 #   detect-release → download-artifacts → generate-checksums
@@ -31,8 +35,9 @@ on:
         required: false
     inputs:
       version:
-        description: "Version to submit to WinGet (e.g., 2.4.0)"
-        required: true
+        description: "Optional version to submit to WinGet (e.g., 2.4.0); blank resolves the latest published GitHub release"
+        required: false
+        default: ""
         type: string
       dry_run:
         description: "Generate and validate manifests without submitting a PR or updating GitHub issue status."
@@ -55,8 +60,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to submit to WinGet (e.g., 2.4.0)"
-        required: true
+        description: "Optional version to submit to WinGet (e.g., 2.4.0); blank resolves the latest published GitHub release"
+        required: false
+        default: ""
         type: string
       dry_run:
         description: "Generate and validate manifests without submitting a PR or updating GitHub issue status."
@@ -148,6 +154,7 @@ jobs:
       is-stable: ${{ steps.detect.outputs.is-stable }}
       should-submit: ${{ steps.detect.outputs.should-submit }}
       package-identifier: ${{ steps.detect.outputs.package-identifier }}
+      tag: ${{ steps.detect.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -164,33 +171,41 @@ jobs:
         env:
           VERSION_INPUT: ${{ inputs.version }}
           ALLOW_PRERELEASE: ${{ inputs.allow_prerelease }}
+          REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           VERSION="${VERSION_INPUT#v}"
-          if ! [[ "$VERSION" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([a-zA-Z0-9.]+))?$ ]]; then
-            echo "::error::Invalid WinGet release version."; exit 1
+          if [[ -n "$VERSION" ]]; then
+            if ! [[ "$VERSION" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([a-zA-Z0-9.]+))?$ ]]; then
+              echo "::error::Invalid WinGet release version."; exit 1
+            fi
+            suffix="${BASH_REMATCH[3]:-}"
+            if [[ -n "$suffix" && "${ALLOW_PRERELEASE:-false}" != "true" ]]; then
+              {
+                echo "version=$VERSION"
+                echo "release-type=prerelease"
+                echo "is-stable=false"
+                echo "should-submit=false"
+              } >> "$GITHUB_OUTPUT"
+              echo "::notice::Skipping prerelease version $VERSION; allow_prerelease is false."
+              exit 0
+            fi
           fi
-          suffix="${BASH_REMATCH[3]:-}"
-          if [[ -n "$suffix" && "${ALLOW_PRERELEASE:-false}" != "true" ]]; then
-            {
-              echo "version=$VERSION"
-              echo "release-type=prerelease"
-              echo "is-stable=false"
-              echo "should-submit=false"
-            } >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping prerelease version $VERSION; allow_prerelease is false."
-            exit 0
-          fi
-          release="$(gh release view "v${VERSION}" --repo "makr-code/ThemisDB" --json isDraft,isPrerelease,publishedAt)"
-          if ! jq -e '(.isDraft | type == "boolean") and (.isPrerelease | type == "boolean") and (.isDraft == false) and (.publishedAt | if type == "string" then (try fromdateiso8601 catch null) | type == "number" else false end)' <<< "$release" > /dev/null; then
-            echo "::error::WinGet requires an existing published, non-draft release."; exit 1
-          fi
+          resolver_args=(--repo "$REPOSITORY" --output release-metadata/release-metadata.json
+                         --github-output resolved.env
+                         --require-asset 'windows-zip=windows.*(x64|amd64).*\.zip$')
+          if [[ -n "$VERSION" ]]; then resolver_args+=(--version "$VERSION"); fi
+          if [[ "${ALLOW_PRERELEASE:-false}" == "true" ]]; then resolver_args+=(--allow-prerelease); fi
+          : > resolved.env
+          python3 scripts/release/resolve_release_metadata.py "${resolver_args[@]}"
+          resolved() { sed -n "s/^$1=//p" resolved.env | tail -n 1; }
+          VERSION="$(resolved version)"
           release_type=stable
           is_stable=true
           package_identifier=ThemisDB.ThemisDB
           should_submit=true
-          if [[ -n "$suffix" ]] || [[ "$(jq -r '.isPrerelease' <<< "$release")" == "true" ]]; then
+          if [[ "$(resolved is-prerelease)" == "true" ]]; then
             release_type=prerelease
             is_stable=false
             package_identifier=ThemisDB.ThemisDB.Preview
@@ -201,11 +216,28 @@ jobs:
           fi
           {
             echo "version=$VERSION"
+            echo "tag=$(resolved tag)"
             echo "release-type=$release_type"
             echo "is-stable=$is_stable"
             echo "package-identifier=$package_identifier"
             echo "should-submit=$should_submit"
+            echo "version-source=$(resolved source)"
           } >> "$GITHUB_OUTPUT"
+          {
+            echo "### WinGet release resolution"
+            echo "- version: \`$VERSION\` (source: \`$(resolved source)\`)"
+            echo "- package: \`$package_identifier\` (submit: \`$should_submit\`)"
+            echo "- Windows ZIP: \`$(resolved asset-windows-zip)\`"
+          } >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
+      - name: Upload resolved release metadata
+        if: steps.detect.outputs.should-submit == 'true'
+        uses: actions/upload-artifact@v5
+        with:
+          name: winget-release-metadata
+          path: release-metadata/release-metadata.json
+          retention-days: 90
+          if-no-files-found: error
 
   download-artifacts:
     name: "Release: Download Artifacts"
@@ -219,9 +251,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          TAG="v${{ needs.detect-release.outputs.version }}"
+          TAG="${{ needs.detect-release.outputs.tag }}"
           mkdir -p release-artifacts
-          gh release download "$TAG" --repo "makr-code/ThemisDB" --dir release-artifacts --clobber
+          gh release download "$TAG" --repo "${{ github.repository }}" --dir release-artifacts --clobber
           if [[ -z "$(find release-artifacts -type f -print -quit)" ]]; then
             echo "::error::No release assets downloaded for tag $TAG"
             exit 1
@@ -296,6 +328,12 @@ jobs:
           name: winget-release-assets
           path: release-artifacts/
 
+      - name: Download resolved release metadata
+        uses: actions/download-artifact@v5
+        with:
+          name: winget-release-metadata
+          path: release-metadata/
+
       - name: Generate WinGet manifests
         id: generate
         shell: pwsh
@@ -310,6 +348,19 @@ jobs:
             throw "Expected exactly one Windows AMD64 ZIP artifact, found $($Zip64.Count)."
           }
           $Artifact = $Zip64[0]
+          $MetadataPath = 'release-metadata/release-metadata.json'
+          if (-not (Test-Path $MetadataPath)) { throw "Resolved release metadata is missing: $MetadataPath" }
+          $Metadata = Get-Content $MetadataPath -Raw | ConvertFrom-Json
+          if ($Metadata.version -ne $Version) {
+            throw "Resolved release metadata version '$($Metadata.version)' does not match '$Version'."
+          }
+          $ReleaseAsset = @($Metadata.assets | Where-Object { $_.name -eq $Artifact.filename })
+          if ($ReleaseAsset.Count -ne 1 -or [string]::IsNullOrWhiteSpace($ReleaseAsset[0].url)) {
+            throw "Release metadata has no download URL for $($Artifact.filename)."
+          }
+          if ($ReleaseAsset[0].sha256 -and $ReleaseAsset[0].sha256 -ne $Artifact.sha256) {
+            throw "GitHub asset digest $($ReleaseAsset[0].sha256) does not match downloaded checksum $($Artifact.sha256)."
+          }
           python3 scripts/release/validate_runtime_payload.py (Join-Path "release-artifacts" $Artifact.filename)
           if ($LASTEXITCODE -ne 0) { throw 'Windows ZIP must contain compiled docs.db and TinyLlama.' }
           $PreviewArgs = @{}
@@ -323,8 +374,9 @@ jobs:
           & ./scripts/release/new-winget-manifest.ps1 `
             -Version $Version `
             -PackageIdentifier $PackageIdentifier `
-            -InstallerUrl "https://github.com/makr-code/ThemisDB/releases/download/v${Version}/$($Artifact.filename)" `
+            -InstallerUrl $ReleaseAsset[0].url `
             -InstallerSha256 $Artifact.sha256 `
+            -MetadataPath $MetadataPath `
             -InstallerArchivePath (Join-Path "release-artifacts" $Artifact.filename) `
             -IncludeGermanLocale @PreviewArgs
           if (-not $?) { throw 'WinGet manifest generation failed.' }
