@@ -775,7 +775,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "1f9bf20516fdc001"
+      "sha256_prefix": "e783abb9440a2b18"
     },
     {
       "category": "governance",
@@ -795,7 +795,7 @@
     {
       "category": "governance",
       "path": "RELEASE_STRATEGY.md",
-      "sha256_prefix": "4a22ab385c00d15c"
+      "sha256_prefix": "f3c08e47c38a0b51"
     },
     {
       "category": "governance",
@@ -805,7 +805,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "8c1ad43c7157ce4e"
+      "sha256_prefix": "c9071f4edb13d8db"
     },
     {
       "category": "governance",
@@ -1170,7 +1170,7 @@
     {
       "category": "docs",
       "path": "docs/RELEASE_PROCESS_QUICKREF.md",
-      "sha256_prefix": "51c92db6eef266f3"
+      "sha256_prefix": "3b47f1d4765b50eb"
     },
     {
       "category": "docs",
@@ -2540,7 +2540,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "2cbce3593f4d6187"
+      "sha256_prefix": "2ee785ebdf7b47bc"
     },
     {
       "category": "docs",
@@ -4910,7 +4910,7 @@
     {
       "category": "docs",
       "path": "docs/migration/v2.4-to-v3.0.md",
-      "sha256_prefix": "e2168a94ef9a1ef6"
+      "sha256_prefix": "0037576336c651f8"
     },
     {
       "category": "docs",
@@ -5020,7 +5020,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md",
-      "sha256_prefix": "4cc020a13ac604d2"
+      "sha256_prefix": "aed95963dfb76a53"
     },
     {
       "category": "docs",
@@ -5390,7 +5390,7 @@
     {
       "category": "docs",
       "path": "docs/performance/BENCHMARK_RUNBOOK.md",
-      "sha256_prefix": "3e98f20dcc6d7b97"
+      "sha256_prefix": "efc7956efb22a8ae"
     },
     {
       "category": "docs",
@@ -5745,7 +5745,7 @@
     {
       "category": "docs",
       "path": "docs/release/RELEASE_TARGET_ARCHITECTURE.md",
-      "sha256_prefix": "d45b5ceafd72d360"
+      "sha256_prefix": "0ca3363ded2f2e7b"
     },
     {
       "category": "docs",
@@ -7068,14 +7068,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-23T02:02:15.878047+00:00",
+  "generated_at": "2026-11-24T11:42:08.937849+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-24\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `34faaeee0bd6b2fe`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 8110,
-    "wiki_generated_at": "2026-11-19T08:31:39+00:00",
-    "wiki_source_hash": "1172ea3ff93f55ea752d9a5625dc643ec1695f8ccd91849af93d8b7f24f3bc05"
+    "source_count": 8127,
+    "wiki_generated_at": "2026-11-24T10:38:45+00:00",
+    "wiki_source_hash": "00be3e2fcd52bf2cc0a6a20060bc68c8b6c658c41c707212856850c5e0202c95"
   },
   "modules": [
     {
@@ -9003,15 +9003,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "1f9bf20516fdc001",
+    "ARCHITECTURE.md": "e783abb9440a2b18",
     "FUTURE_ENHANCEMENTS.md": "d9f033e9da09b940",
     "ROADMAP.md": "2950fdd7042f43ce",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "a3d4c385a6c55454",
-    "ai_context/developer_llm_wiki/": "9a7f66ee4f18492c",
+    "ai_context/api_contracts/": "f029e4d6a42805da",
+    "ai_context/developer_llm_wiki/": "c183ac9e7a2e8a85",
     "ai_working/": "b5a8382e2d911c54",
-    "docs/": "e7a1329082dac5d8"
+    "docs/": "54fded1efe89b6af"
   },
   "statistics": {
     "ai_working_artifact_count": 33,
