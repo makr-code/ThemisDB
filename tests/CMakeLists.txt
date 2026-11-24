@@ -991,8 +991,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # These tests compile implementation units that intentionally expose
     # duplicate symbols or incompatible same-named types; keep them isolated.
     ".*test_vulkan_vector_index_bridge\\.cpp$"
-    ".*test_redis_hiredis_bridge\\.cpp$"
-    ".*test_policy_conflict_detection\\.cpp$"
     ".*test_grpc_plugin_lifecycle\\.cpp$"
     ".*test_grpc_observability\\.cpp$"
     # Placeholder test for unimplemented AC-5 (Timeout Determinism)
@@ -1027,84 +1025,33 @@ themis_register_test_target(
     TIMEOUT 60
 )
 
-if(NOT THEMIS_ENABLE_REDIS)
-    add_executable(test_redis_hiredis_bridge_focused
-        "${CMAKE_CURRENT_SOURCE_DIR}/test_redis_hiredis_bridge.cpp"
-        "${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp"
+if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+    add_executable(test_grpc_plugin_bridge_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_observability.cpp"
+        "${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp"
     )
-    target_include_directories(test_redis_hiredis_bridge_focused PRIVATE
+    target_include_directories(test_grpc_plugin_bridge_focused PRIVATE
         "${THEMIS_ROOT_DIR}/include"
         "${THEMIS_ROOT_DIR}/src"
     )
-    target_link_libraries(test_redis_hiredis_bridge_focused PRIVATE
+    target_link_libraries(test_grpc_plugin_bridge_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
-        nlohmann_json::nlohmann_json
+        gRPC::grpc++
         Threads::Threads
     )
-    target_compile_definitions(test_redis_hiredis_bridge_focused PRIVATE THEMIS_TEST_BUILD=1)
-    themis_register_test_target(
-        NAME RedisHiredisBridgeTests
-        TARGET test_redis_hiredis_bridge_focused
-        LABELS cache redis bridge focused unit
-        TIMEOUT 60
+    target_compile_definitions(test_grpc_plugin_bridge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_GRPC=1
     )
-endif()
-
-add_executable(test_policy_conflict_detection_focused
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_conflict_detection.cpp"
-    "${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp"
-)
-target_include_directories(test_policy_conflict_detection_focused PRIVATE
-    "${THEMIS_ROOT_DIR}/include"
-    "${THEMIS_ROOT_DIR}/src"
-)
-target_link_libraries(test_policy_conflict_detection_focused PRIVATE
-    ${TEST_LIBS}
-    themis_core
-    spdlog::spdlog
-    Threads::Threads
-)
-target_compile_definitions(test_policy_conflict_detection_focused PRIVATE THEMIS_TEST_BUILD=1)
-themis_register_test_target(
-    NAME PolicyConflictDetectionTests
-    TARGET test_policy_conflict_detection_focused
-    LABELS governance policy conflict focused unit
-    TIMEOUT 60
-)
-
-if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
-    foreach(_grpc_bridge_test IN ITEMS
-            test_grpc_plugin_lifecycle
-            test_grpc_observability)
-        add_executable("${_grpc_bridge_test}_focused"
-            "${CMAKE_CURRENT_SOURCE_DIR}/${_grpc_bridge_test}.cpp"
-            "${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp"
-        )
-        target_include_directories("${_grpc_bridge_test}_focused" PRIVATE
-            "${THEMIS_ROOT_DIR}/include"
-            "${THEMIS_ROOT_DIR}/src"
-        )
-        target_link_libraries("${_grpc_bridge_test}_focused" PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            spdlog::spdlog
-            gRPC::grpc++
-            Threads::Threads
-        )
-        target_compile_definitions("${_grpc_bridge_test}_focused" PRIVATE
-            THEMIS_TEST_BUILD=1
-            THEMIS_ENABLE_GRPC=1
-        )
-        string(REPLACE "test_" "" _grpc_bridge_test_name "${_grpc_bridge_test}")
-        themis_register_test_target(
-            NAME "Grpc${_grpc_bridge_test_name}Tests"
-            TARGET "${_grpc_bridge_test}_focused"
-            LABELS rpc grpc bridge focused unit
-            TIMEOUT 120
-        )
-    endforeach()
+    themis_register_test_target(
+        NAME GrpcPluginBridgeTests
+        TARGET test_grpc_plugin_bridge_focused
+        LABELS rpc grpc bridge focused unit
+        TIMEOUT 120
+    )
 endif()
 
 list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
@@ -1184,6 +1131,7 @@ target_sources(themis_tests PRIVATE
     # Restore missing link providers for unresolved test symbols in monolithic themis_tests.
     ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
     ${THEMIS_ROOT_DIR}/src/replication/lag_alert_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp
     ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
     ${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp
     ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
@@ -2006,6 +1954,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
+            ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
             # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp

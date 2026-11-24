@@ -24,7 +24,7 @@
 #include <nlohmann/json.hpp>
 
 // ============================================================================
-// RedisCacheCoordinator
+// HiredisRedisCacheCoordinator
 //
 // Redis pub/sub backed implementation of ICacheCoordinator for distributed
 // cache coordination across ThemisDB nodes.
@@ -44,14 +44,16 @@
 //     attempts reconnection at `reconnect_interval_ms` intervals.
 //
 // Usage:
-//   RedisCacheCoordinator::Config cfg;
+//   HiredisRedisCacheCoordinator::Config cfg;
 //   cfg.host   = "redis-cluster.internal";
 //   cfg.port   = 6379;
 //   cfg.auth   = "s3cr3t";
-//   auto coord = std::make_shared<RedisCacheCoordinator>(cfg);
+//   auto coord = std::make_shared<HiredisRedisCacheCoordinator>(cfg);
 //   cache.setCoordinator(coord);
 //
 // Thread-safety: all public methods are thread-safe.
+// This legacy hiredis implementation has a distinct type name from the
+// distributed coordinator so both implementations can coexist in test builds.
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_REDIS
@@ -61,7 +63,7 @@
 namespace themis {
 namespace cache {
 
-class RedisCacheCoordinator final : public ICacheCoordinator {
+class HiredisRedisCacheCoordinator final : public ICacheCoordinator {
 public:
     // -----------------------------------------------------------------------
     // Configuration
@@ -91,17 +93,19 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Redis Cache Coordinator.
-     * @param[in] config Input parameter.
-     * @return Return value.
+     * @brief Creates a hiredis-backed cache coordinator.
+     * @param config Connection, channel, and authentication settings.
+     * @note Connection failures leave the coordinator unavailable; cache
+     * operations continue locally. If hiredis support is disabled, the
+     * coordinator remains unavailable and records publish failures.
      */
-    explicit RedisCacheCoordinator(const Config& config);
+    explicit HiredisRedisCacheCoordinator(const Config& config);
 
-    ~RedisCacheCoordinator() override;
+    ~HiredisRedisCacheCoordinator() override;
 
     // Non-copyable
-    RedisCacheCoordinator(const RedisCacheCoordinator&) = delete;
-    RedisCacheCoordinator& operator=(const RedisCacheCoordinator&) = delete;
+    HiredisRedisCacheCoordinator(const HiredisRedisCacheCoordinator&) = delete;
+    HiredisRedisCacheCoordinator& operator=(const HiredisRedisCacheCoordinator&) = delete;
 
     // -----------------------------------------------------------------------
     // ICacheCoordinator interface
