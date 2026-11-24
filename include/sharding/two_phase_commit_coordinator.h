@@ -97,7 +97,8 @@ enum class CoordinatorTxnState {
     COMMIT_DECIDED,      ///< All voted COMMIT; Phase 2 COMMIT in progress
     ABORT_DECIDED,       ///< At least one voted ABORT; Phase 2 ABORT in progress
     COMPLETED,           ///< All participants acknowledged Phase 2; done
-    FAILED               ///< Unrecoverable error
+    FAILED,              ///< Unrecoverable error
+    PREPARED             ///< Adapter Phase 1 completed; awaiting a terminal decision
 };
 
 /** @brief Per-transaction tracking record kept by the coordinator. */
@@ -507,6 +508,12 @@ private:
     /// Build production/test endpoint transport, preserving recorded MVCC timestamps.
     std::unique_ptr<ShardRPCServer::RequestHandler> makeEndpointParticipant(
         const ShardRPCClient::Config& rpc_config);
+
+    /// Register an endpoint while mutex_ is held, including during WAL recovery.
+    void registerParticipantByEndpointLocked(
+        const std::string& shard_id,
+        const ShardRPCClient::Config& rpc_config,
+        bool recovery_registration);
 
     /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
     /// @param lock  A held unique_lock on mutex_. It is briefly released around

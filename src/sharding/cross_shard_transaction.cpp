@@ -1928,6 +1928,12 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
             return false;
         }
         if (!prepared) {
+            const auto selected_decision =
+                canonical_2pc_coordinator_->getTransactionDecision(txn.transaction_id);
+            if (selected_decision && !*selected_decision) {
+                txn.state = TransactionState::UNKNOWN;
+                return false;
+            }
             std::vector<std::string> shards;
             for (const auto& [shard_id, _] : txn.participants) {
                 shards.push_back(shard_id);

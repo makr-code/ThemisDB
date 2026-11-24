@@ -383,7 +383,7 @@ BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_4Threads) (benchmark::State
 }
 
 // Phase 2F: 8 threads (KEY TEST)
-BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_8Threads) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2Final, Phase2Final_8Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(8);
         executor.execute([this](int work_id) {
@@ -402,7 +402,7 @@ BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_8Threads) (benchmark::State
 BENCHMARK_REGISTER_F(ParallelityBenchPhase2Final, Phase2Final_8Threads)->UseRealTime();
 
 // Phase 2F: 16 threads
-BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_16Threads) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2Final, Phase2Final_16Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(16);
         executor.execute([this](int work_id) {
@@ -418,6 +418,7 @@ BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_16Threads) (benchmark::Stat
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2Final, Phase2Final_16Threads)->UseRealTime();
 
 // Phase 2F: 32 threads
 BENCHMARK_F(ParallelityBenchPhase2Final, Phase2Final_32Threads) (benchmark::State& state) {
@@ -1101,7 +1102,7 @@ protected:
 };
 
 // A/B4 Txn5: 1 thread
-BENCHMARK_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -1110,9 +1111,10 @@ BENCHMARK_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_1Thread) (benchmark::Stat
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_1Thread)->UseRealTime();
 
 // A/B4 Txn5: 4 threads
-BENCHMARK_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_4Threads) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(4);
         executor.execute([this](int work_id) {
@@ -1121,6 +1123,7 @@ BENCHMARK_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_4Threads) (benchmark::Sta
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_4Threads)->UseRealTime();
 
 // A/B4 Txn5: 8 threads
 BENCHMARK_F(ParallelityBenchPhase2G_Txn5, Phase2G_Txn5_8Threads) (benchmark::State& state) {
@@ -1337,7 +1340,7 @@ BENCHMARK_F(RocksDBRaw_NonTxn, RocksRawNTX_1Thread) (benchmark::State& state) {
 }
 
 // Raw Non-Tx: 4 threads
-BENCHMARK_F(RocksDBRaw_NonTxn, RocksRawNTX_4Threads) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(RocksDBRaw_NonTxn, RocksRawNTX_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(4);
         executor.execute([this](int work_id) {
@@ -1359,6 +1362,7 @@ BENCHMARK_F(RocksDBRaw_NonTxn, RocksRawNTX_4Threads) (benchmark::State& state) {
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
+BENCHMARK_REGISTER_F(RocksDBRaw_NonTxn, RocksRawNTX_4Threads)->UseRealTime();
 
 // Raw Non-Tx: 8 threads
 BENCHMARK_F(RocksDBRaw_NonTxn, RocksRawNTX_8Threads) (benchmark::State& state) {
@@ -1830,7 +1834,7 @@ protected:
     }
 };
 
-BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {
@@ -1957,7 +1961,7 @@ protected:
     }
 };
 
-BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) { doTxnChunked(work_id, 100, 10); }, 1);
@@ -2167,7 +2171,7 @@ protected:
 };
 
 // Parallel inserts - 1 thread baseline
-BENCHMARK_F(ParallelityBench, ParallelInserts_1Thread) (benchmark::State& state) {
+BENCHMARK_DEFINE_F(ParallelityBench, ParallelInserts_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(1);
         executor.execute([this](int work_id) {

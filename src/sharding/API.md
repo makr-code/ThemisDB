@@ -207,6 +207,10 @@ staging; a restart without a durable decision selects durable ABORT. `abort()`
 cannot replace COMMIT. `commit()` success means completed delivery, not merely
 a durable COMMIT decision; inspect `getTransactionDecision()` to distinguish them.
 Concurrent drivers of the same transaction fail closed.
+For CrossShard adapter staging, completed PREPARE is exposed as `PREPARED`;
+failed preparation selects and durably records ABORT before phase two. If ABORT
+delivery remains in-doubt, the enclosing commit returns `UNKNOWN` without
+immediately sending a duplicate ABORT; explicit recovery may retry delivery.
 
 `CrossShardTransactionCoordinator` delegates only its 2PC path; its lifecycle,
 SSI handling and other protocols remain distinct. With persistence enabled,

@@ -1889,6 +1889,68 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnkn
               themisdb::sharding::TransactionState::UNKNOWN);
 }
 
+TEST(CrossShardTwoPhaseCommitContractTest,
+     MissingRaftQuorumNeverSendsPrepareFailureAbort) {
+    int abort_calls = 0;
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-no-quorum");
+    TemporaryTransactionLog raft_log("themis-cross-shard-2pc-abort-no-quorum-raft");
+    auto config = durableCrossShardConfig(transaction_log);
+    config.in_process_rpc_response_handler =
+        [&abort_calls](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "prepare") {
+                return {{"vote", "abort"}, {"status", "rejected"}};
+            }
+            if (method == "abort") {
+                ++abort_calls;
+                return {{"status", "aborted"}};
+            }
+            return {{"status", "unexpected"}};
+        };
+
+    themisdb::sharding::RaftShardManager::Config raft_manager_config;
+    raft_manager_config.raft_config.raft_config.node_id = "coord-abort-no-quorum";
+    raft_manager_config.raft_config.raft_config.persistence_path =
+        (raft_log.logPath().parent_path() / "raft.journal").string();
+    raft_manager_config.replication_factor = 3;
+    raft_manager_config.enable_auto_start = false;
+    themisdb::sharding::RaftShardManager raft_manager(raft_manager_config);
+    ASSERT_TRUE(raft_manager.initializeShard(
+        "coord-abort-no-quorum-group",
+        {"coord-abort-no-quorum", "peer-a", "peer-b"}));
+    auto consensus = raft_manager.getRaftInstance("coord-abort-no-quorum-group");
+    ASSERT_NE(consensus, nullptr);
+    auto& raft_state = consensus->getRaftState();
+    raft_state.becomeCandidate();
+    raft_state.receiveVote("peer-a", true);
+    ASSERT_TRUE(raft_state.isLeader());
+
+    themisdb::sharding::RaftSnapshotManager::Config snapshot_config;
+    snapshot_config.snapshot_directory =
+        (raft_log.logPath().parent_path() / "snapshots").string();
+    themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
+    config.raft_decision_store =
+        raft_manager.createTwoPhaseCommitDecisionStore(
+            "coord-abort-no-quorum-group", snapshot_manager);
+
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cross-2pc-abort-no-quorum",
+        themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+    ASSERT_TRUE(coordinator.addParticipant(
+        "txn-cross-2pc-abort-no-quorum",
+        "shard-a",
+        "inproc://contract-abort-no-quorum",
+        {"write"}));
+
+    EXPECT_FALSE(coordinator.commit("txn-cross-2pc-abort-no-quorum"));
+    EXPECT_EQ(abort_calls, 0);
+    EXPECT_EQ(raft_state.getLog().getCommitIndex(), 0u);
+    EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-abort-no-quorum"),
+              themisdb::sharding::TransactionState::UNKNOWN);
+}
+
 TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsIdempotent) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-contract");
     auto config = durableCrossShardConfig(transaction_log);
@@ -2061,6 +2123,7 @@ TEST(ShardRPCClientAdapterTest, ConstructWithConfig) {
     cfg.endpoint     = "localhost:50051";
     cfg.timeout_ms   = 1000;
     cfg.max_retries  = 0; // no retries so tests are fast
+    cfg.allow_insecure = true;
 
     // Construction must not throw
     EXPECT_NO_THROW(ShardRPCClientAdapter adapter(cfg));
@@ -2071,6 +2134,7 @@ TEST(ShardRPCClientAdapterTest, HealthCheckReturnsStructuredInfo) {
     cfg.endpoint     = "localhost:0"; // unreachable
     cfg.timeout_ms   = 50;
     cfg.max_retries  = 0;
+    cfg.allow_insecure = true;
 
     ShardRPCClientAdapter adapter(cfg);
 
@@ -2089,6 +2153,7 @@ TEST(ShardRPCClientAdapterTest, MalformedPayloadVotesAbort) {
     cfg.endpoint    = "localhost:0";
     cfg.timeout_ms  = 50;
     cfg.max_retries = 0;
+    cfg.allow_insecure = true;
 
     ShardRPCClientAdapter adapter(cfg);
 
@@ -2102,6 +2167,7 @@ TEST(ShardRPCClientAdapterTest, MissingOrMismatchedFencingTokenVotesAbort) {
     cfg.endpoint = "localhost:0";
     cfg.timeout_ms = 50;
     cfg.max_retries = 0;
+    cfg.allow_insecure = true;
 
     ShardRPCClientAdapter adapter(cfg);
 
@@ -2120,6 +2186,7 @@ TEST(ShardRPCClientAdapterTest, FailedRemoteAbortIsNotReportedAsAcknowledged) {
     cfg.endpoint = "localhost:0";
     cfg.timeout_ms = 50;
     cfg.max_retries = 0;
+    cfg.allow_insecure = true;
 
     ShardRPCClientAdapter adapter(cfg);
     EXPECT_FALSE(adapter.onAbort("txn-abort-nack"));
@@ -2170,6 +2237,7 @@ TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointIncreasesCount) {
     rpc_cfg.endpoint    = "shard-a:50051";
     rpc_cfg.timeout_ms  = 500;
     rpc_cfg.max_retries = 0;
+    rpc_cfg.allow_insecure = true;
 
     coord.registerParticipantByEndpoint("shard-a", rpc_cfg);
     EXPECT_EQ(coord.participantCount(), 1u);
@@ -2190,6 +2258,7 @@ TEST(TwoPhaseCommitCoordinatorEndpointTest, UnregisterRemovesEndpointParticipant
     rpc_cfg.endpoint    = "shard-x:50051";
     rpc_cfg.timeout_ms  = 500;
     rpc_cfg.max_retries = 0;
+    rpc_cfg.allow_insecure = true;
 
     coord.registerParticipantByEndpoint("shard-x", rpc_cfg);
     EXPECT_EQ(coord.participantCount(), 1u);
@@ -2210,6 +2279,7 @@ TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointCanBeOverwritten) 
     rpc_cfg.endpoint    = "shard-y:50051";
     rpc_cfg.timeout_ms  = 500;
     rpc_cfg.max_retries = 0;
+    rpc_cfg.allow_insecure = true;
 
     coord.registerParticipantByEndpoint("shard-y", rpc_cfg);
 

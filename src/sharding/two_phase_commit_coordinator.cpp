@@ -355,8 +355,20 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
     if (!active_drivers_.empty() || recovery_status_ == "running") {
         throw std::logic_error("cannot replace participants while protocol RPCs are active");
     }
+    registerParticipantByEndpointLocked(shard_id, rpc_config, false);
+}
+
+void TwoPhaseCommitCoordinator::registerParticipantByEndpointLocked(
+    const std::string&            shard_id,
+    const ShardRPCClient::Config& rpc_config,
+    bool                          recovery_registration
+) {
+    if (shard_id.empty() || !validEndpoint(rpc_config.endpoint) ||
+        (isTestEndpoint(rpc_config.endpoint) && !config_.in_process_response_handler)) {
+        throw std::invalid_argument("invalid shard endpoint or missing explicit test handler");
+    }
     const auto existing_endpoint = participant_endpoints_.find(shard_id);
-    if (hasUnresolvedParticipantLocked(shard_id)) {
+    if (!recovery_registration && hasUnresolvedParticipantLocked(shard_id)) {
         if (existing_endpoint != participant_endpoints_.end() &&
             existing_endpoint->second == rpc_config.endpoint) {
             return;
@@ -892,7 +904,7 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
         std::lock_guard<std::timed_mutex> lock(mutex_);
         const auto existing = transactions_.find(transaction_id);
         if (existing != transactions_.end()) {
-            if (existing->second.state == CoordinatorTxnState::PREPARING) {
+            if (existing->second.state == CoordinatorTxnState::PREPARED) {
                 return AdapterPrepareResult::PREPARED;
             }
             if (existing->second.state == CoordinatorTxnState::COMPLETED) {
@@ -970,13 +982,35 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
         auto& stored = transactions_.at(transaction_id);
         stored.state = CoordinatorTxnState::PREPARING;
         prepared = runPhase1(stored, lock);
-        stored.state = prepared
-            ? CoordinatorTxnState::PREPARING
-            : CoordinatorTxnState::ABORT_DECIDED;
-        stored.decision_commit = false;
+        if (prepared) {
+            stored.state = CoordinatorTxnState::PREPARED;
+        }
     }
     if (prepared) {
         return AdapterPrepareResult::PREPARED;
+    }
+
+    bool quorum_decision_recorded = false;
+    if (config_.decision_writer) {
+        try {
+            quorum_decision_recorded = config_.decision_writer(
+                coordinator_id_, transaction_id,
+                TwoPhaseCommitDecision{false, std::nullopt});
+        } catch (const std::exception& error) {
+            THEMIS_ERROR(
+                "2PC coordinator [{}] quorum ABORT write failed for txn {}: {}",
+                coordinator_id_, transaction_id, error.what());
+            std::lock_guard<std::timed_mutex> lock(mutex_);
+            transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
+            ++total_errors_;
+            return AdapterPrepareResult::FAILED;
+        }
+        if (!quorum_decision_recorded) {
+            std::lock_guard<std::timed_mutex> lock(mutex_);
+            transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
+            ++total_errors_;
+            return AdapterPrepareResult::FAILED;
+        }
     }
 
     const bool decision_recorded = logToWAL(
@@ -994,6 +1028,13 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
         return AdapterPrepareResult::FAILED;
     }
 
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        auto& stored = transactions_.at(transaction_id);
+        stored.state = CoordinatorTxnState::ABORT_DECIDED;
+        stored.decision_commit = false;
+    }
+
     bool acknowledged = false;
     {
         std::unique_lock<std::timed_mutex> lock(mutex_);
@@ -1006,9 +1047,11 @@ TwoPhaseCommitCoordinator::prepareForAdapter(
                   {"phase", "complete"}});
     {
         std::lock_guard<std::timed_mutex> lock(mutex_);
-        transactions_.at(transaction_id).state = completed
+        auto& stored = transactions_.at(transaction_id);
+        stored.state = completed
             ? CoordinatorTxnState::COMPLETED
             : CoordinatorTxnState::ABORT_DECIDED;
+        stored.decision_commit = false;
     }
     if (completed) {
         ++total_aborts_;
@@ -1045,7 +1088,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commitPreparedForAdapter(
         }
         const auto it = transactions_.find(transaction_id);
         if (it == transactions_.end() ||
-            it->second.state != CoordinatorTxnState::PREPARING) {
+            it->second.state != CoordinatorTxnState::PREPARED) {
             outcome.reason = "transaction is not prepared";
             return outcome;
         }
@@ -1198,6 +1241,26 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::abortForAdapter(
         outcome.reason = "failed to durably persist transaction BEGIN";
         return outcome;
     }
+    if (config_.decision_writer) {
+        bool quorum_decision_recorded = false;
+        try {
+            quorum_decision_recorded = config_.decision_writer(
+                coordinator_id_, transaction_id,
+                TwoPhaseCommitDecision{false, std::nullopt});
+        } catch (const std::exception& error) {
+            THEMIS_ERROR(
+                "2PC coordinator [{}] quorum ABORT write failed for txn {}: {}",
+                coordinator_id_, transaction_id, error.what());
+            outcome.reason = "failed to record quorum-backed ABORT decision";
+            ++total_errors_;
+            return outcome;
+        }
+        if (!quorum_decision_recorded) {
+            outcome.reason = "quorum-backed ABORT decision was not committed";
+            ++total_errors_;
+            return outcome;
+        }
+    }
     if (!logToWAL(WALEntryType::ABORT_TX, transaction_id,
                   {{"transaction_id", transaction_id},
                    {"coordinator_id", coordinator_id_},
@@ -1330,7 +1393,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                     ShardRPCClient::Config rpc_config;
                     rpc_config.endpoint = endpoint;
                     rpc_config.timeout_ms = static_cast<int>(config_.prepare_timeout.count());
-                    registerParticipantByEndpoint(shard_id, rpc_config);
+                    std::lock_guard<std::timed_mutex> lock(mutex_);
+                    registerParticipantByEndpointLocked(shard_id, rpc_config, true);
                 }
             }
         }
@@ -1647,6 +1711,9 @@ TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
             break;
         case CoordinatorTxnState::PREPARING:
             rt.state = RecoverableTwoPhaseState::PREPARING;
+            break;
+        case CoordinatorTxnState::PREPARED:
+            rt.state = RecoverableTwoPhaseState::PREPARED;
             break;
         case CoordinatorTxnState::COMMIT_DECIDED:
             rt.state             = RecoverableTwoPhaseState::COMMITTING;

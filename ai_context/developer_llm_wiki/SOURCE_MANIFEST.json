@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T18:45:05+00:00",
+  "generated_at": "2026-11-24T20:18:38+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -21000,9 +21000,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2327556,
-      "sha256": "4c0d97bd983cb80a43443a0aaab30908fbdfd4f118b1bcffbc370882359eee58",
-      "modified_utc": "2026-11-24T18:26:29+00:00"
+      "size": 2327680,
+      "sha256": "d84a3211ec06b99173987af0c607e1b6317a134ecc95ed1493bca1f910ba8cc7",
+      "modified_utc": "2026-11-24T18:55:39+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -51443,9 +51443,9 @@
     {
       "path": "include/sharding/two_phase_commit_coordinator.h",
       "category": "modules_and_api",
-      "size": 25667,
-      "sha256": "78ac902d8d74ab59804276d5e3116dcb0f6025cf2e2aead5bd0d877d3b251144",
-      "modified_utc": "2026-11-23T17:19:22+00:00"
+      "size": 26006,
+      "sha256": "a807139e86cf72deb711f57bbddea90ee03b6b6fb6a9fd2c531ebd345c9b0f89",
+      "modified_utc": "2026-11-24T20:16:21+00:00"
     },
     {
       "path": "include/sharding/two_phase_commit_participant.h",

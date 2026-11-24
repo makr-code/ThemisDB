@@ -1,18 +1,20 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T18:45:05+00:00",
+  "generated_at": "2026-11-24T20:18:38+00:00",
   "mode": "incremental",
   "source_count": 8128,
-  "source_hash": "f7eb7227352345149e4d4e54e7806053562ec003ce548206c84a40b667e3e531",
+  "source_hash": "802700f719ea05f65e38f1a1c4804bc51d433acccd8710f59d4d48059877de90",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 0,
+    "changed_count": 1,
     "added_preview": [],
     "removed_preview": [],
-    "changed_preview": []
+    "changed_preview": [
+      "include/sharding/two_phase_commit_coordinator.h"
+    ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "f4f427530a7397cad51d498e89b5fb6e16c90e28314f34c893a138d7c4661c61"
+  "manifest_sha256": "fbf7fe6748e9d1878c2657e4085f7ce52791daf30db334887bb7cf3329bafca3"
 }
