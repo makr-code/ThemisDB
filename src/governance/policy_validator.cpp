@@ -22,9 +22,9 @@
 namespace themis {
 namespace governance {
 
-// ========== PolicyConflict Implementation ==========
+// ========== PolicyValidationConflict Implementation ==========
 
-nlohmann::json PolicyConflict::toJson() const {
+nlohmann::json PolicyValidationConflict::toJson() const {
     nlohmann::json j;
     j["conflict_type"]          = conflict_type;
     j["severity"]               = severity;
@@ -99,8 +99,8 @@ PolicyValidator::PolicyValidator(std::shared_ptr<PolicyManager> policy_manager)
     }
 }
 
-std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
-    std::vector<PolicyConflict> conflicts;
+std::vector<PolicyValidationConflict> PolicyValidator::detectConflicts() const {
+    std::vector<PolicyValidationConflict> conflicts;
 
     if (!policy_manager_) {
         return conflicts;
@@ -117,7 +117,7 @@ std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
                 continue;
             }
             if (areContradictory(rules[i], rules[j])) {
-                PolicyConflict conflict;
+                PolicyValidationConflict conflict;
                 conflict.conflict_type = "contradictory";
                 // Determine severity based on which attribute conflicts
                 if (rules[i].require_encryption != rules[j].require_encryption) {
@@ -140,8 +140,8 @@ std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
     return conflicts;
 }
 
-std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() const {
-    std::vector<PolicyConflict> overlaps;
+std::vector<PolicyValidationConflict> PolicyValidator::detectOverlappingPermissions() const {
+    std::vector<PolicyValidationConflict> overlaps;
 
     if (!policy_manager_) {
         return overlaps;
@@ -191,7 +191,7 @@ std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() cons
             }
 
             if (act_overlap && r1.priority == r2.priority) {
-                PolicyConflict conflict;
+                PolicyValidationConflict conflict;
                 conflict.conflict_type          = "overlapping";
                 conflict.severity               = "medium";
                 conflict.affected_rules         = {r1.id, r2.id};
@@ -209,8 +209,8 @@ std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() cons
     return overlaps;
 }
 
-std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const {
-    std::vector<PolicyConflict> circular;
+std::vector<PolicyValidationConflict> PolicyValidator::detectCircularDependencies() const {
+    std::vector<PolicyValidationConflict> circular;
 
     auto rules = policy_manager_->listRules();
 
@@ -311,7 +311,7 @@ std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const 
         }
 
         if (component.size() >= 3) {
-            PolicyConflict conflict;
+            PolicyValidationConflict conflict;
             conflict.conflict_type  = "circular";
             conflict.severity       = "high";
             conflict.affected_rules = component;

@@ -988,6 +988,11 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # the full themis_tests link graph.
     ".*test_device_manager\\.cpp$"
     ".*test_backend_registry_startup\\.cpp$"
+    # These tests compile implementation units that intentionally expose
+    # duplicate symbols or incompatible same-named types; keep them isolated.
+    ".*test_vulkan_vector_index_bridge\\.cpp$"
+    ".*test_grpc_plugin_lifecycle\\.cpp$"
+    ".*test_grpc_observability\\.cpp$"
     # Placeholder test for unimplemented AC-5 (Timeout Determinism)
     # References TimeoutCoordinator which has not been implemented yet
     ".*test_transaction_timeout_determinism\\.cpp$"
@@ -995,6 +1000,59 @@ list(APPEND TEST_EXCLUDE_PATTERNS
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
 endforeach()
+
+# These implementation-bridge suites must not share the unified test
+# executable: their implementation translation units define symbols that
+# collide with other test sources or with each other.
+add_executable(test_vulkan_vector_index_bridge_focused
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_vector_index_bridge.cpp"
+)
+target_include_directories(test_vulkan_vector_index_bridge_focused PRIVATE
+    "${THEMIS_ROOT_DIR}/include"
+    "${THEMIS_ROOT_DIR}/src"
+)
+target_link_libraries(test_vulkan_vector_index_bridge_focused PRIVATE
+    ${TEST_LIBS}
+    themis_core
+    spdlog::spdlog
+    Threads::Threads
+)
+target_compile_definitions(test_vulkan_vector_index_bridge_focused PRIVATE THEMIS_TEST_BUILD=1)
+themis_register_test_target(
+    NAME VulkanVectorIndexBridgeTests
+    TARGET test_vulkan_vector_index_bridge_focused
+    LABELS index vulkan bridge focused unit
+    TIMEOUT 60
+)
+
+if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+    add_executable(test_grpc_plugin_bridge_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_observability.cpp"
+        "${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp"
+    )
+    target_include_directories(test_grpc_plugin_bridge_focused PRIVATE
+        "${THEMIS_ROOT_DIR}/include"
+        "${THEMIS_ROOT_DIR}/src"
+    )
+    target_link_libraries(test_grpc_plugin_bridge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        gRPC::grpc++
+        Threads::Threads
+    )
+    target_compile_definitions(test_grpc_plugin_bridge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_GRPC=1
+    )
+    themis_register_test_target(
+        NAME GrpcPluginBridgeTests
+        TARGET test_grpc_plugin_bridge_focused
+        LABELS rpc grpc bridge focused unit
+        TIMEOUT 120
+    )
+endif()
 
 list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
@@ -1058,7 +1116,6 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/governance/iso27001_rules.cpp
     ${THEMIS_ROOT_DIR}/src/graph/graph_watermark.cpp
     ${THEMIS_ROOT_DIR}/src/network/kernel_bypass.cpp
-    ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
     ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
     ${THEMIS_ROOT_DIR}/src/storage/vector_index_backend.cpp
     ${THEMIS_ROOT_DIR}/src/content/adapters/audio_extractor_adapter.cpp
@@ -1897,8 +1954,6 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
-            # Redis hiredis bridge tests reference RedisCacheCoordinator directly,
-            # so the monolithic test binary must link the hiredis-backed source.
             ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
             # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp

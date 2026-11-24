@@ -1,6 +1,6 @@
 /**
  * @file test_redis_hiredis_bridge.cpp
- * @brief Unit tests for RedisCacheCoordinator RedisPublishFn bridge (STUB #42).
+ * @brief Unit tests for HiredisRedisCacheCoordinator RedisPublishFn bridge (STUB #42).
  *
  * Verifies that no-hiredis builds fail closed even if a test bridge is set:
  *   RCC-HR-01  No fn set           → publish_errors_ incremented.
@@ -23,7 +23,7 @@ using namespace themis::cache;
 class RedisHiredisBridgeTest : public ::testing::Test {
 protected:
     void TearDown() override {
-        RedisCacheCoordinator::setRedisPublishFn({});  // restore clean state
+        HiredisRedisCacheCoordinator::setRedisPublishFn({});  // restore clean state
     }
 };
 
@@ -34,12 +34,12 @@ TEST_F(RedisHiredisBridgeTest, NoFnIncrementsPublishErrors) {
 #ifdef THEMIS_ENABLE_REDIS
     GTEST_SKIP() << "THEMIS_ENABLE_REDIS is ON — hiredis path active; skip.";
 #endif
-    RedisCacheCoordinator::setRedisPublishFn({});  // ensure clean state
+    HiredisRedisCacheCoordinator::setRedisPublishFn({});  // ensure clean state
 
-    RedisCacheCoordinator::Config cfg;
+    HiredisRedisCacheCoordinator::Config cfg;
     cfg.host = "127.0.0.1";
     cfg.port = 6379;
-    RedisCacheCoordinator coord(cfg);
+    HiredisRedisCacheCoordinator coord(cfg);
 
     coord.publishEntry("k1", nlohmann::json{{"v", 1}}, 60, "tenant");
     coord.publishInvalidation("k*", "tenant");
@@ -59,14 +59,14 @@ TEST_F(RedisHiredisBridgeTest, BridgeCannotOverrideMissingHiredis) {
 #endif
 
     int call_count = 0;
-    RedisCacheCoordinator::setRedisPublishFn(
+    HiredisRedisCacheCoordinator::setRedisPublishFn(
         [&](const std::string& /*channel*/, const std::string& /*payload*/) -> bool {
             ++call_count;
             return true;
         });
 
-    RedisCacheCoordinator::Config cfg;
-    RedisCacheCoordinator coord(cfg);
+    HiredisRedisCacheCoordinator::Config cfg;
+    HiredisRedisCacheCoordinator coord(cfg);
 
     coord.publishEntry("k1", nlohmann::json{{"v", 42}}, 30, "t1");
     coord.publishInvalidation("k*", "t1");
@@ -89,14 +89,14 @@ TEST_F(RedisHiredisBridgeTest, ThrowingFnCannotOverrideMissingHiredis) {
 #endif
 
     int call_count = 0;
-    RedisCacheCoordinator::setRedisPublishFn(
+    HiredisRedisCacheCoordinator::setRedisPublishFn(
         [&call_count](const std::string&, const std::string&) -> bool {
             ++call_count;
             throw std::runtime_error("simulated transport error");
         });
 
-    RedisCacheCoordinator::Config cfg;
-    RedisCacheCoordinator coord(cfg);
+    HiredisRedisCacheCoordinator::Config cfg;
+    HiredisRedisCacheCoordinator coord(cfg);
 
     EXPECT_NO_THROW(coord.publishEntry("k1", {}, 10, "t"));
     EXPECT_NO_THROW(coord.publishInvalidation("k*", "t"));

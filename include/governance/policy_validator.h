@@ -22,7 +22,16 @@
 namespace themis {
 namespace governance {
 
-struct PolicyConflict {
+/**
+ * @brief Conflict finding returned by PolicyValidator.
+ *
+ * @note This type is distinct from PolicyConflict, the detector result type.
+ * The previous shared name was ambiguous and produced duplicate C++ symbols
+ * when both governance implementations were linked.
+ * @note Migrate PolicyValidator results from PolicyConflict to
+ * PolicyValidationConflict.
+ */
+struct PolicyValidationConflict {
     std::string conflict_type;                         // "contradictory", "overlapping", "circular"
     std::string severity;                              // "critical", "high", "medium", "low"
     std::vector<std::string> affected_rules;
@@ -30,8 +39,9 @@ struct PolicyConflict {
     std::vector<std::string> resolution_suggestions;
     
     /**
-     * @brief To Json.
-     * @return Return value.
+     * @brief Serializes this validator finding.
+     * @return JSON with the conflict type, severity, affected rules,
+     * description, and resolution suggestions.
      */
     nlohmann::json toJson() const;
 };
@@ -68,7 +78,7 @@ struct ValidationReport {
     std::string report_id;
     std::int64_t generated_at;
     
-    std::vector<PolicyConflict> conflicts;
+    std::vector<PolicyValidationConflict> conflicts;
     std::vector<SecurityViolation> violations;
     std::vector<RuleEffectiveness> effectiveness_metrics;
     
@@ -88,22 +98,25 @@ public:
     PolicyValidator(std::shared_ptr<PolicyManager> policy_manager);
     
     /**
-     * @brief Detect Conflicts.
-     * @return Return value.
+     * @brief Finds contradictory rules in the managed policy set.
+     * @return Validator conflicts, or an empty vector when no manager is set
+     * or no contradictory rules are found.
      */
-    std::vector<PolicyConflict> detectConflicts() const;
+    std::vector<PolicyValidationConflict> detectConflicts() const;
     
     /**
-     * @brief Detect Overlapping Permissions.
-     * @return Return value.
+     * @brief Finds rules with overlapping permissions and equal priority.
+     * @return Overlap findings, or an empty vector when no manager is set or
+     * no qualifying overlap is found.
      */
-    std::vector<PolicyConflict> detectOverlappingPermissions() const;
+    std::vector<PolicyValidationConflict> detectOverlappingPermissions() const;
     
     /**
-     * @brief Detect Circular Dependencies.
-     * @return Return value.
+     * @brief Finds circular dependencies among managed policy rules.
+     * @return Circular-dependency findings; an empty vector indicates none
+     * were detected.
      */
-    std::vector<PolicyConflict> detectCircularDependencies() const;
+    std::vector<PolicyValidationConflict> detectCircularDependencies() const;
     
     /**
      * @brief Calculate Effectiveness.
