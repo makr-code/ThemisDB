@@ -937,6 +937,13 @@ class DeploymentWorkflowTests(unittest.TestCase):
 
     def test_release_version_contract_uses_workflow_revision(self):
         steps = workflow("release-mainline.yml")["jobs"]["preflight-release-policy"]["steps"]
+        source_checkout = next(item for item in steps if item.get("name") == "Checkout repository")
+        self.assertEqual(
+            source_checkout["with"]["ref"],
+            "${{ github.event.workflow_run.head_sha || github.event.release.tag_name || github.sha }}",
+        )
+        self.assertNotIn("inputs.tag_name", source_checkout["with"]["ref"])
+
         policy_checkout = next(
             item for item in steps if item.get("name") == "Checkout workflow revision for release policy"
         )

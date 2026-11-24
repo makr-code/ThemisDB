@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-23"
+Last Updated: "2026-11-24"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -126,6 +126,7 @@ Status: Active
 - `release-build-matrix.yml` defaults to `run_ctest: true` for existing release callers. `build-mainline.yml` sets `run_ctest: false` and runs CTest/benchmarks only through its separate reusable validation gates.
 - Mainline packaging and nightly GitHub Release publication may proceed when at least one package exists and every produced package passes the runtime gate. A runtime validation failure still blocks publication, and a release with no distributable package fails closed.
 - A partial platform release does not hide the failed build lane: the aggregate matrix and final release status remain failed. Nightly Docker manifest promotion still requires both validated `amd64` and `arm64` image digests.
+- `release-mainline.yml` checks out the selected workflow ref before resolving a manual-dispatch `tag_name`. If the tag exists, preflight switches to it; otherwise it validates the selected ref without creating a tag or release. Dispatch dry-runs skip publication jobs and cannot create registry PRs.
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `c9eef9353efbb853`

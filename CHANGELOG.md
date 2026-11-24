@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Fixed - Mainline dry-run for not-yet-created release tags
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- `release-mainline.yml` now checks out the selected workflow ref before resolving
+  an optional target tag. This allows dry-run builds for new tags to reach
+  preflight and payload validation without creating a tag, release, or PR.
+- Added a regression assertion for the checkout/ref contract.
+
 ### Changed - Release metadata resolved from GitHub for all deployment paths
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

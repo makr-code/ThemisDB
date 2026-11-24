@@ -639,6 +639,8 @@ Rules:
 
 The `release-winget.yml` manual dispatch and reusable call default to `allow_prerelease=false` and `dry_run=true`. Set `allow_prerelease=true` to opt in to a prerelease (a version with a suffix or a GitHub Release marked prerelease); set `dry_run=false` to request creation of a draft PR. Both stable and opted-in prerelease submissions require an existing, published, non-draft GitHub Release and its release assets. A dry run generates and validates manifests but does not submit a PR.
 
+For `release-mainline.yml` manual dispatches, preflight checks out the selected workflow ref first, then switches to `tag_name` if that tag already exists. A not-yet-created tag is resolved against the selected workflow ref, allowing a dry-run build and payload validation without creating a tag, release, or publication PR. Actual publication remains separately approval-gated.
+
 ### Release metadata resolution
 
 All downstream build and deployment paths resolve release and package metadata through `scripts/release/resolve_release_metadata.py` instead of hard-coded values:
