@@ -124,9 +124,14 @@ source-snapshot label, node, and query settings. Its principal must be present
 in the mTLS identity bindings. This is a one-time process-start snapshot; it
 does not track later adapter writes or provide discovery, freshness, revocation,
 or multi-shard coordination. Invalid configuration or publication failure
-aborts startup. Focused storage regressions are registered but have not been
-built or run. A Linux mTLS source test composes the local publisher, fragment
-store, and adapter using a fixture summary; it does not exercise host config.
+aborts startup. `ShardTransferStoreTests` built and passed 1/1 in the Linux WSL
+build tree on 2026-11-24; these focused regressions cover the durable fragment
+mapping, not configured host startup. The Linux mTLS fixture test stores tenant
+adapters through `AdapterRepository`, reopens RocksDB, reloads them to build
+the graph, and composes the local publisher and fragment store with mTLS
+retrieval and manifest-bound planning. Its two focused gtests passed 2/2 and
+the complete executable passed 8/8; its CTest selection passed 1/1 on retry.
+It does not exercise host config.
 
 The module target compiles the root-level `integrity_verification.cc`, which
 uses OpenSSL EVP SHA-256 when OpenSSL Crypto is found at configure time and
@@ -162,10 +167,11 @@ by this coordinator.
   registered in `tests/integration/`; the former stub-only source was removed.
   The focused real mTLS fragment-transport tests are registered under
   `tests/sharding/`; one uses a test-only reader and another composes the
-  local publisher, RocksDB store, and adapter with a fixture summary. The same
-  `ShardTransferStoreTests` target now includes RocksDB-backed fragment-store
-  source regressions, but neither the source regressions nor the production
-  startup path has been built or run.
+  local publisher, RocksDB store, and adapter with adapters reloaded from
+  RocksDB after reopen. The same
+  `ShardTransferStoreTests` target includes RocksDB-backed fragment-store
+  regressions and passed 1/1 in the Linux WSL build tree on 2026-11-24. The
+  production startup path has not been run.
 
 The earlier architecture text described a direct LLM-training pipeline and
 overstated storage persistence and sharding integration. The current ShardRPC

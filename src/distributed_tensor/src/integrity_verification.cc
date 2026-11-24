@@ -3,6 +3,8 @@
  * @brief Implementation of integrity verification, Merkle structures, and receipt semantics.
  */
 
+#include <cassert>
+
 #include "../include/integrity_verification.h"
 
 #include <openssl/sha.h>

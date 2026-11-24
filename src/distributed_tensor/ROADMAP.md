@@ -36,12 +36,14 @@ phase/contract sources. No distributed-tensor soak is registered under
 it exercised no production transport. A focused ShardRPC gRPC/mTLS
 fragment-fetch test is conditionally registered as `ShardTransferGrpcTests`
 under `tests/sharding/`; its original case uses a test reader. An additional
-source case uses a fixture fingerprint graph and the local publisher, reopens
-RocksDB, and retrieves it through mTLS and the manifest-bound adapter; graph
-validation is included when the query and LLM module targets are available.
-`ShardTransferGrpcTests` passed 1/1 in the Linux CTest run on 2026-11-24. This
-fixture path does not exercise production host configuration or a
-distributed-tensor soak.
+source case stores tenant adapters through `AdapterRepository`, closes and
+reopens RocksDB, reloads the records to build a fixture fingerprint graph,
+then publishes and retrieves its summary through mTLS and the manifest-bound
+adapter; graph validation is included when the query and LLM module targets
+are available. The two `ShardFragmentGrpc.*` tests passed 2/2, the complete
+test executable passed 8/8, and `ShardTransferGrpcTests` passed 1/1 in CTest
+on 2026-11-24. This fixture path does not exercise production host
+configuration or a distributed-tensor soak.
 A versioned principal/shard/artifact RocksDB mapping
 and opt-in `main_server.cpp` startup are now implemented in source. A local
 single-shard publisher persists a remote-readable manifest record; callers can
@@ -53,7 +55,9 @@ server link is independent of test-target registration, so production wiring
 does not disappear when focused sharding tests are disabled.
 Continuous producer updates, discovery and freshness remain open. A versioned adapter-similarity graph
 projection and fail-closed planner validation are source-implemented and were
-built and exercised by the focused mTLS test. `themis_server` also built with
+built and exercised by the focused mTLS test. The RocksDB fragment-store
+regressions also built and passed in `ShardTransferStoreTests` on 2026-11-24.
+`themis_server` also built with
 the ShardRPC adapter linked while `THEMIS_ENABLE_HTTP_SERVER=OFF`; production
 configuration and live startup remain untested. The benchmark parent configuration adds
 `benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
@@ -65,9 +69,13 @@ Historical validation note (2026-10-31): a diagnostic configure stopped at
 generated no targets and is superseded for the focused paths by the
 2026-11-24 Linux validation:
 
-- `cmake --build build-linux-raft-grpc --target test_shard_transfer_grpc --parallel 6` — passed.
-- `ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure` — passed, 1/1 CTest test.
+- `cmake --build build-linux-raft-grpc --target test_shard_transfer_store --parallel 6` — passed.
+- `ctest --test-dir build-linux-raft-grpc -R "^ShardTransferStoreTests$" --output-on-failure` — passed, 1/1 CTest test.
 - `cmake --build build-linux-raft-grpc --target themis_server --parallel 6` — passed; compile/link evidence only, not a production startup test.
+- `./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc --gtest_filter="ShardFragmentGrpc.*"` — passed, 2/2 tests.
+- `./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc` — passed, 8/8 tests.
+- `THEMIS_CTEST_EMIT_TEST_OUTPUT=1 ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure` — passed, 1/1 CTest test on retry; the first attempt timed out at 90 seconds.
+- The changed test translation unit compiled from its existing `compile_commands.json` entry and linked using the generated Ninja link command. A standard CMake rebuild was stopped after regeneration expanded the target to 731 actions (8 had started).
 
 No full module suite, benchmark, production-configured startup, or soak test
 was run. Source registration and this focused evidence do not establish
@@ -197,7 +205,7 @@ pending.
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
-- [~] Active receipt hashing uses OpenSSL EVP SHA-256 when available, rejects unsupported/malformed inputs, and fails closed without OpenSSL; hashing does not authenticate the producer. Build/test validation remains pending.
+- [~] Active receipt hashing uses OpenSSL EVP SHA-256 when available, rejects unsupported/malformed inputs, and fails closed without OpenSSL; hashing does not authenticate the producer. The focused test and implementation translation units compile in the current WSL configuration, but the target has not been linked or run.
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 - [x] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026) ✅ **2026-08-17: delta log overflow detection (95% threshold), instability detection heuristics, fail-closed behavior**
@@ -264,8 +272,9 @@ guards and exact targets. A real ShardRPC fragment-transport integration test
 is conditionally configured under `tests/sharding/`; one case uses the
 local publisher and RocksDB reader with a fixture summary, but does not exercise
 production startup or automatic publication. `ShardTransferStoreTests` also
-contains source regressions for the dedicated RocksDB mapping, but it has not
-been built or run. `benchmarks/epic3_distributed_tensor/`
+contains RocksDB-backed regressions for the dedicated mapping; its focused
+target built and passed 1/1 in the Linux WSL build tree on 2026-11-24.
+`benchmarks/epic3_distributed_tensor/`
 configures four standard benchmark sources and the partial-refit and
 summary-first targets when benchmarks are enabled.
 

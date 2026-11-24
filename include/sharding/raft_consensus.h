@@ -88,6 +88,11 @@ public:
      */
     using ReplicationCallback = std::function<AppendEntriesResponse(
         const std::string& node_id, const AppendEntriesRequest& request)>;
+    using SnapshotInstallCallback = std::function<AppendEntriesResponse(
+        const std::string& node_id,
+        uint64_t leader_term,
+        uint64_t snapshot_index,
+        uint64_t snapshot_term)>;
     using VoteRequestCallback = std::function<VoteResponse(
         const std::string& voter_id, const VoteRequest& request)>;
     using HeartbeatCallback = std::function<bool(const std::string& node_id,
@@ -208,6 +213,16 @@ public:
     void setReplicationCallback(ReplicationCallback callback);
 
     /**
+     * @brief Configure snapshot catch-up for followers behind the compacted log.
+     * @param callback Transfers the exact local snapshot boundary to one peer.
+     *        Success must attest that its application, durable Raft journal,
+     *        and active protocol state were all restored.
+     * @note The callback is invoked outside consensus locks. An absent callback
+     *       leaves compacted-prefix catch-up fail-closed.
+     */
+    void setSnapshotInstallCallback(SnapshotInstallCallback callback);
+
+    /**
      * @brief Set the peer transport used to request votes during elections.
      * @param callback Sends one request to the named voter and returns its response.
      *        A response is counted only when its voter identity and term match the
@@ -300,6 +315,7 @@ private:
     
     // Callbacks
     ReplicationCallback replication_callback_;   ///< Log replication transport callback.
+    SnapshotInstallCallback snapshot_install_callback_; ///< Authenticated snapshot transfer callback.
     VoteRequestCallback vote_request_callback_;  ///< Peer vote-request transport callback.
     HeartbeatCallback heartbeat_callback_;       ///< Heartbeat transport callback.
     
@@ -352,6 +368,13 @@ private:
     AppendEntriesResponse replicateToFollower(const std::string& node_id,
                                                const AppendEntriesRequest& request,
                                                const ReplicationCallback& callback);
+
+    /**
+     * @brief Install a compacted snapshot when tracked peer progress requires it.
+     * @return True when no installation is needed or the exact snapshot boundary
+     *         was durably installed; false leaves peer progress unchanged.
+     */
+    bool installSnapshotIfRequired(const std::string& node_id, uint64_t term);
 
     /**
      * @brief Build one bounded AppendEntries batch from a peer's tracked next index.

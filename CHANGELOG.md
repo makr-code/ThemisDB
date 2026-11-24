@@ -69,8 +69,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   matches, and rejects conflicts with committed local history. Snapshot
   files can now be received through `RaftSnapshotManager::installTransferredSnapshot()`,
   which validates their size, format, payload checksum, and extension checksums
-  before atomic installation. Chunked mTLS transport and application-state
-  restoration are not yet wired; this is not end-to-end follower catch-up.
+  before atomic installation. Its chunk overload additionally verifies chunk
+  order, counts, final markers, aggregate size, and per-chunk SHA-256 before
+  changing the snapshot directory. A bounded mTLS `InstallRaftSnapshot` stream
+  now authenticates the leader, validates every frame and only acknowledges
+  after a configured restorer reports success and the durable Raft boundary is
+  verified. `RaftShardManager` can initiate this transfer when follower
+  progress falls behind compaction, then continue with AppendEntries. These
+  callbacks remain opt-in: the production application must bind them to a
+  crash-recoverable application/active-2PC-state restore, and multi-process
+  snapshot/failover evidence is still required before claiming end-to-end
+  follower catch-up.
 
 ### Fixed - CI evidence consumers and Wave 4 linker dependency
 

@@ -1738,6 +1738,8 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
     themisdb::sharding::RaftSnapshotManager snapshot_manager(snapshot_config);
     auto decision_store = raft_manager.createTwoPhaseCommitDecisionStore(
         "coord-cross-test-raft-group", snapshot_manager);
+    auto active_store = raft_manager.createTwoPhaseCommitDecisionStore(
+        "coord-cross-test-raft-group", snapshot_manager);
     EXPECT_THROW(
         (void)raft_manager.createTwoPhaseCommitDecisionStore(
             "missing-2pc-decision-group", snapshot_manager),
@@ -1771,6 +1773,30 @@ TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommi
     EXPECT_EQ(consensus->getRaftState().getLog().getCommitIndex(), 1u);
     EXPECT_EQ(coordinator.getTransactionState("txn-cross-2pc-contract"),
               themisdb::sharding::TransactionState::COMMITTED);
+
+    const auto snapshot_entry =
+        consensus->getRaftState().getLog().getEntry(1);
+    ASSERT_TRUE(snapshot_entry.has_value());
+    const std::vector<uint8_t> application_state{'s', 't', 'a', 't', 'e'};
+    ASSERT_TRUE(decision_store->createAndInstallSnapshot(
+        snapshot_manager, 1, snapshot_entry->term, application_state));
+    const auto installed_snapshot = snapshot_manager.loadSnapshot(1);
+    ASSERT_TRUE(installed_snapshot.has_value());
+    auto snapshot_without_2pc = *installed_snapshot;
+    snapshot_without_2pc.extensions.erase(std::string(
+        RaftTwoPhaseCommitDecisionStore::kSnapshotExtensionName));
+    EXPECT_THROW(
+        (void)raft_manager.restoreActiveTwoPhaseCommitDecisionStores(
+            "coord-cross-test-raft-group", snapshot_without_2pc),
+        std::runtime_error);
+    EXPECT_EQ(
+        raft_manager.restoreActiveTwoPhaseCommitDecisionStores(
+            "coord-cross-test-raft-group", *installed_snapshot),
+        2u);
+    const auto refreshed_decision = active_store->lookup()(
+        config.coordinator_id, "txn-cross-2pc-contract");
+    ASSERT_TRUE(refreshed_decision.has_value());
+    EXPECT_TRUE(refreshed_decision->commit);
 }
 
 TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnknownWithoutAbort) {

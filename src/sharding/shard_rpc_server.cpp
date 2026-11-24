@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <optional>
 #include <chrono>
+#include <mutex>
 #include <set>
 #include <stdexcept>
 
@@ -177,7 +178,13 @@ public:
         uint32_t tensor_fragment_max_deadline_ms,
         std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
             const std::string&)> raft_group_resolver,
-        std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings)
+        std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings,
+        std::function<std::shared_ptr<themisdb::sharding::RaftSnapshotManager>(
+            const std::string&)> raft_snapshot_manager_resolver,
+        ShardRPCServer::Config::RaftSnapshotInstallHandler
+            raft_snapshot_install_handler,
+        uint64_t max_raft_snapshot_bytes,
+        uint32_t raft_snapshot_max_deadline_ms)
         : handler_(handler),
           identity_bindings_(std::move(identity_bindings)),
           transfer_store_(std::move(transfer_store)),
@@ -190,7 +197,13 @@ public:
           tensor_fragment_chunk_bytes_(tensor_fragment_chunk_bytes),
           tensor_fragment_max_deadline_ms_(tensor_fragment_max_deadline_ms),
           raft_group_resolver_(std::move(raft_group_resolver)),
-          raft_identity_bindings_(std::move(raft_identity_bindings)) {}
+          raft_identity_bindings_(std::move(raft_identity_bindings)),
+          raft_snapshot_manager_resolver_(
+              std::move(raft_snapshot_manager_resolver)),
+          raft_snapshot_install_handler_(
+              std::move(raft_snapshot_install_handler)),
+          max_raft_snapshot_bytes_(max_raft_snapshot_bytes),
+          raft_snapshot_max_deadline_ms_(raft_snapshot_max_deadline_ms) {}
 
     grpc::Status PrepareShardTransfer(
         grpc::ServerContext* context, const proto::ShardTransferManifest* request,
@@ -573,6 +586,157 @@ public:
         }
     }
 
+    grpc::Status InstallRaftSnapshot(
+        grpc::ServerContext* context,
+        grpc::ServerReader<proto::RaftSnapshotChunkProto>* reader,
+        proto::RaftSnapshotInstallResponseProto* response) override {
+        const auto deadline_status = validateRaftSnapshotDeadline(context);
+        if (!deadline_status.ok()) {
+            return deadline_status;
+        }
+        if (!reader) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft snapshot stream is missing"};
+        }
+
+        proto::RaftSnapshotChunkProto frame;
+        if (!reader->Read(&frame)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft snapshot stream is empty"};
+        }
+        std::shared_ptr<themisdb::sharding::RaftConsensus> raft;
+        const auto peer_status = validateRaftPeer(
+            context, frame.raft_group_id(), frame.leader_id(), raft);
+        if (!peer_status.ok()) {
+            return peer_status;
+        }
+        if (!raft_snapshot_manager_resolver_ ||
+            !raft_snapshot_install_handler_) {
+            return {grpc::StatusCode::FAILED_PRECONDITION,
+                    "Raft snapshot restoration is not configured"};
+        }
+        std::unique_lock snapshot_lock(snapshot_install_mutex_,
+                                       std::try_to_lock);
+        if (!snapshot_lock.owns_lock()) {
+            return {grpc::StatusCode::RESOURCE_EXHAUSTED,
+                    "another Raft snapshot installation is already in progress"};
+        }
+        constexpr uint64_t kMaxSnapshotChunks = 4096;
+        constexpr std::size_t kMaxSnapshotChunkBytes = 4U * 1024U * 1024U;
+        const auto group_id = frame.raft_group_id();
+        const auto leader_id = frame.leader_id();
+        const auto leader_term = frame.leader_term();
+        const auto snapshot_index = frame.snapshot_index();
+        const auto snapshot_term = frame.snapshot_term();
+        const auto total_chunks = frame.total_chunks();
+        if (group_id.empty() || leader_id.empty() || leader_term == 0 ||
+            snapshot_index == 0 || snapshot_term == 0 ||
+            snapshot_term > leader_term || total_chunks == 0 ||
+            total_chunks > kMaxSnapshotChunks ||
+            max_raft_snapshot_bytes_ == 0 ||
+            max_raft_snapshot_bytes_ > (512ULL * 1024ULL * 1024ULL)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft snapshot stream metadata or configured limits are invalid"};
+        }
+        const auto local_term = raft->getRaftState().getCurrentTerm();
+        if (leader_term < local_term) {
+            response->set_follower_id(raft->getRaftState().getNodeId());
+            response->set_term(local_term);
+            response->set_snapshot_index(snapshot_index);
+            response->set_snapshot_term(snapshot_term);
+            response->set_installed(false);
+            return grpc::Status::OK;
+        }
+
+        std::vector<themisdb::sharding::RaftSnapshotChunk> chunks;
+        chunks.reserve(static_cast<std::size_t>(total_chunks));
+        uint64_t total_bytes = 0;
+        for (uint64_t expected_index = 0; expected_index < total_chunks;
+             ++expected_index) {
+            if (context->IsCancelled()) {
+                return {grpc::StatusCode::CANCELLED,
+                        "Raft snapshot installation was cancelled"};
+            }
+            if (expected_index != 0 && !reader->Read(&frame)) {
+                return {grpc::StatusCode::INVALID_ARGUMENT,
+                        "Raft snapshot stream ended before all chunks arrived"};
+            }
+            if (frame.raft_group_id() != group_id ||
+                frame.leader_id() != leader_id ||
+                frame.leader_term() != leader_term ||
+                frame.snapshot_index() != snapshot_index ||
+                frame.snapshot_term() != snapshot_term ||
+                frame.chunk_index() != expected_index ||
+                frame.total_chunks() != total_chunks ||
+                frame.data().empty() ||
+                frame.data().size() > kMaxSnapshotChunkBytes ||
+                frame.data().size() > max_raft_snapshot_bytes_ ||
+                !isLowercaseSha256(frame.checksum_sha256()) ||
+                total_bytes > max_raft_snapshot_bytes_ - frame.data().size()) {
+                return {grpc::StatusCode::INVALID_ARGUMENT,
+                        "Raft snapshot chunk metadata or size is invalid"};
+            }
+            total_bytes += static_cast<uint64_t>(frame.data().size());
+            themisdb::sharding::RaftSnapshotChunk chunk;
+            chunk.snapshot_index = snapshot_index;
+            chunk.chunk_index = expected_index;
+            chunk.total_chunks = total_chunks;
+            chunk.data.assign(frame.data().begin(), frame.data().end());
+            chunk.checksum = frame.checksum_sha256();
+            chunk.last_chunk = expected_index + 1 == total_chunks;
+            chunks.emplace_back(std::move(chunk));
+        }
+        if (reader->Read(&frame)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft snapshot stream contains more chunks than declared"};
+        }
+        if (context->IsCancelled()) {
+            return {grpc::StatusCode::CANCELLED,
+                    "Raft snapshot installation was cancelled"};
+        }
+
+        try {
+            auto snapshots = raft_snapshot_manager_resolver_(group_id);
+            if (!snapshots) {
+                return {grpc::StatusCode::NOT_FOUND,
+                        "Raft snapshot manager is not configured for the group"};
+            }
+            if (!snapshots->installTransferredSnapshot(
+                    snapshot_index, snapshot_term, chunks)) {
+                return {grpc::StatusCode::DATA_LOSS,
+                        "Raft snapshot validation or durable installation failed"};
+            }
+            const auto snapshot = snapshots->loadSnapshot(snapshot_index);
+            if (!snapshot || snapshot->snapshot_index != snapshot_index ||
+                snapshot->snapshot_term != snapshot_term) {
+                return {grpc::StatusCode::DATA_LOSS,
+                        "installed Raft snapshot boundary does not match the stream"};
+            }
+            if (!raft_snapshot_install_handler_(
+                    *raft, *snapshots, leader_id, leader_term, *snapshot)) {
+                return {grpc::StatusCode::FAILED_PRECONDITION,
+                        "application and Raft snapshot restoration was not committed"};
+            }
+            const auto& state = raft->getRaftState();
+            if (state.getSnapshotIndex() != snapshot_index ||
+                state.getSnapshotTerm() != snapshot_term ||
+                state.getCurrentTerm() < leader_term) {
+                return {grpc::StatusCode::FAILED_PRECONDITION,
+                        "snapshot installer did not activate the requested Raft boundary"};
+            }
+            response->set_follower_id(state.getNodeId());
+            response->set_term(state.getCurrentTerm());
+            response->set_snapshot_index(snapshot_index);
+            response->set_snapshot_term(snapshot_term);
+            response->set_installed(true);
+            return grpc::Status::OK;
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("Raft snapshot installation failed: {}", error.what());
+            return {grpc::StatusCode::INTERNAL,
+                    "Raft snapshot installation failed"};
+        }
+    }
+
     grpc::Status CollectWaitForEdges(
         grpc::ServerContext* context,
         const themis::sharding::proto::CollectWaitForEdgesRequest* request,
@@ -640,6 +804,20 @@ private:
         const auto now = std::chrono::system_clock::now();
         return context && context->deadline() > now &&
                context->deadline() <= now + std::chrono::seconds(5);
+    }
+
+    grpc::Status validateRaftSnapshotDeadline(
+        grpc::ServerContext* context) const {
+        const auto now = std::chrono::system_clock::now();
+        if (!context || raft_snapshot_max_deadline_ms_ == 0 ||
+            raft_snapshot_max_deadline_ms_ > 300000 ||
+            context->deadline() <= now ||
+            context->deadline() >
+                now + std::chrono::milliseconds(raft_snapshot_max_deadline_ms_)) {
+            return {grpc::StatusCode::INVALID_ARGUMENT,
+                    "Raft snapshot RPC requires a bounded configured deadline"};
+        }
+        return grpc::Status::OK;
     }
 
     grpc::Status validateRaftPeer(grpc::ServerContext* context,
@@ -759,6 +937,13 @@ private:
     std::function<std::shared_ptr<themisdb::sharding::RaftConsensus>(
         const std::string&)> raft_group_resolver_;
     std::vector<ShardRPCServer::RaftIdentityBinding> raft_identity_bindings_;
+    std::function<std::shared_ptr<themisdb::sharding::RaftSnapshotManager>(
+        const std::string&)> raft_snapshot_manager_resolver_;
+    ShardRPCServer::Config::RaftSnapshotInstallHandler
+        raft_snapshot_install_handler_;
+    uint64_t max_raft_snapshot_bytes_;
+    uint32_t raft_snapshot_max_deadline_ms_;
+    std::mutex snapshot_install_mutex_;
     std::string listen_address_;
 };
 
@@ -889,6 +1074,22 @@ bool ShardRPCServer::start() {
             throw std::runtime_error(
                 "ShardRPCServer: Raft transport requires both a group resolver and identity bindings");
         }
+        if (static_cast<bool>(impl_->config.raft_snapshot_manager_resolver) !=
+            static_cast<bool>(impl_->config.raft_snapshot_install_handler)) {
+            throw std::runtime_error(
+                "ShardRPCServer: Raft snapshot installation requires both a snapshot manager resolver and an installer");
+        }
+        if (impl_->config.raft_snapshot_manager_resolver &&
+            (!impl_->config.raft_group_resolver ||
+             !impl_->config.enable_mtls ||
+             !impl_->config.tls_require_client_cert ||
+             impl_->config.max_raft_snapshot_bytes == 0 ||
+             impl_->config.max_raft_snapshot_bytes > (512ULL * 1024ULL * 1024ULL) ||
+             impl_->config.raft_snapshot_max_deadline_ms == 0 ||
+             impl_->config.raft_snapshot_max_deadline_ms > 300000)) {
+            throw std::runtime_error(
+                "ShardRPCServer: Raft snapshot installation requires mTLS and bounded transport limits");
+        }
         if (impl_->config.raft_group_resolver &&
             (!impl_->config.enable_mtls || !impl_->config.tls_require_client_cert)) {
             throw std::runtime_error(
@@ -914,10 +1115,19 @@ bool ShardRPCServer::start() {
             impl_->config.max_tensor_fragment_bytes,
             impl_->config.tensor_fragment_chunk_bytes,
             impl_->config.tensor_fragment_max_deadline_ms,
-            impl_->config.raft_group_resolver, impl_->config.raft_identity_bindings);
+            impl_->config.raft_group_resolver, impl_->config.raft_identity_bindings,
+            impl_->config.raft_snapshot_manager_resolver,
+            impl_->config.raft_snapshot_install_handler,
+            impl_->config.max_raft_snapshot_bytes,
+            impl_->config.raft_snapshot_max_deadline_ms);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;
+        if (impl_->config.raft_snapshot_manager_resolver) {
+            // A 4 MiB payload plus protobuf framing metadata exceeds gRPC's
+            // default 4 MiB inbound-message limit.
+            builder.SetMaxReceiveMessageSize(5 * 1024 * 1024);
+        }
         
         // Configure server credentials
         std::shared_ptr<grpc::ServerCredentials> credentials;

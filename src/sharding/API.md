@@ -97,10 +97,25 @@ missing prefix. Each AppendEntries request is bounded to 256 entries, 1 MiB per
 command and 3 MiB aggregate command payload, with the configured transport's
 bounded deadline and durable-ack contract unchanged. Multi-node proposals over
 the 1 MiB command limit are rejected before durable append, so an unsupported
-entry cannot block future prefix replication. A follower behind a
-compacted snapshot still requires snapshot installation; this recovery path
-does not add or simulate snapshot transfer. The missing Raft installation
-transport is tracked in [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
+entry cannot block future prefix replication. `InstallRaftSnapshot` now streams
+bounded chunks over the same authenticated Raft transport. The server verifies
+the member identity, group, deadline, chunk sequence, checksums, and aggregate
+size (at most 512 MiB and one concurrent installation), then atomically installs
+the snapshot file. Concurrent streams fail with `RESOURCE_EXHAUSTED`. A success
+response is sent only after a configured installer reports success and the
+durable Raft boundary matches the requested index/term. `RaftShardManager` can
+send that snapshot automatically when tracked peer progress falls behind
+compaction, then resume AppendEntries.
+Both paths remain fail-closed without their explicit snapshot-manager and
+application-restorer callbacks. After the receiver has durably installed the
+matching Raft journal anchor, `RaftShardManager::restoreActiveTwoPhaseCommitDecisionStores()`
+refreshes all live decision-store instances for that group from the snapshot's
+2PC extension; it rejects a mismatched anchor or a missing extension when active
+stores exist. The application installer must call this before acknowledging and
+must coordinate application-state activation with the journal/2PC restore so a
+crash cannot expose a mixed state. The helper does not itself make application
+state activation crash-atomic. The multi-process runtime gate remains open in
+[#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 
 The `DistributedGateway` no longer installs its in-process callback; multi-node
 proposals fail closed until a real peer transport is configured. The Linux gRPC
@@ -259,16 +274,22 @@ in-memory snapshot index and term aligned with the durable log anchor. Snapshot
 creation remains an explicit operation. `RaftShardManager` can construct the
 snapshot-aware store, but callers must invoke the factory and inject the shared
 store into CrossShard configuration; no store is created automatically during
-manager startup. Follower snapshot installation is also not wired. The store
-does not route requests to a remote leader: the coordinator must receive the
-current leader's Raft instance or provide an external leader-routing layer.
-Follower installation, automatic store configuration, leader routing,
-crash/failover, and release-platform evidence remain required before claiming
-end-to-end quorum-backed 2PC.
+manager startup. The store does not route requests to a remote leader: the
+coordinator must receive the current leader's Raft instance or provide an
+external leader-routing layer.
+Follower snapshot transport and automatic catch-up are now available through
+explicit mTLS peer and restore callbacks, but the application must bind those
+callbacks to its transactional state restore and to any live decision-store
+refresh. Leader routing, crash/failover, and release-platform evidence remain
+required before claiming end-to-end quorum-backed 2PC.
 Adding the extension map changes the public `RaftSnapshot` C++ layout; consumers
 must rebuild against matching headers and libraries. The transfer-size setting
 also changes `RaftSnapshotManager::Config` layout; mixed-version binary ABI is
 not guaranteed.
+The snapshot-install RPC is additive on the protobuf wire, but the new snapshot
+resolver, installer and timeout fields change public Raft/RPC config-struct
+layouts; C++ consumers must rebuild together. An older peer that does not
+implement the RPC cannot catch up across compaction and remains unacknowledged.
 
 The receiver-side journal primitive `RaftState::installSnapshotFromLeader()`
 accepts only another configured member, a non-stale term, and a snapshot
@@ -284,8 +305,11 @@ RPC path; follower catch-up is therefore not yet end-to-end.
 The separate payload boundary `RaftSnapshotManager::installTransferredSnapshot()`
 validates a complete serialized snapshot file, enforces
 `Config::max_transfer_bytes`, and installs it atomically. The RPC caller must
-assemble and verify chunks, then coordinate the file with journal installation
-and application-state restoration.
+coordinate the file with journal installation and application-state restoration.
+Its chunk overload rejects inconsistent indices/counts, missing or misplaced
+final markers, empty chunks, oversized aggregate input, and per-chunk SHA-256
+mismatches before installing any file. This protects the snapshot-file boundary;
+it does not authenticate the sender or install the Raft journal/application state.
 
 Roll out only after quiescing older coordinators and preserving all log domains.
 Unresolved older records require explicit maintainer reconciliation. Rolling

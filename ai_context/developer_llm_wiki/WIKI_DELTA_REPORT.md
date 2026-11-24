@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- src/distributed_tensor/README.md
+- src/sharding/FUTURE_ENHANCEMENTS.md

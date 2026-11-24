@@ -53,6 +53,18 @@ struct TensorFragmentPayload {
 };
 
 /**
+ * @brief Result of an authenticated Raft snapshot-install stream.
+ * @note `installed` is true only after the follower reports its exact snapshot
+ *       boundary; the follower's configured installer owns application restore.
+ */
+struct RaftSnapshotInstallResult {
+    uint64_t term = 0;
+    uint64_t snapshot_index = 0;
+    uint64_t snapshot_term = 0;
+    bool installed = false;
+};
+
+/**
  * @brief Exception thrown for non-retryable RPC errors.
  *
  * Thrown when a gRPC status code is classified as non-retryable
@@ -134,6 +146,8 @@ public:
 
         /// Local hard cap for tensor fragment responses; values above 1 GiB are rejected.
         uint64_t max_tensor_fragment_bytes = 64ULL * 1024ULL * 1024ULL;
+        /// Local hard cap for one Raft snapshot stream.
+        uint64_t max_raft_snapshot_bytes = 512ULL * 1024ULL * 1024ULL;
     };
     
     /**
@@ -277,6 +291,29 @@ public:
         const std::string& raft_group_id,
         const std::string& expected_peer_node_id,
         const themisdb::sharding::AppendEntriesRequest& request);
+
+    /**
+     * @brief Stream a validated local snapshot to one authenticated Raft peer.
+     * @param raft_group_id Logical Raft group to install into.
+     * @param expected_peer_node_id Configured follower identity bound to TLS.
+     * @param snapshot_manager Source snapshot manager containing the boundary.
+     * @param leader_term Current sender term authenticated by the Raft handler.
+     * @param snapshot_index Committed snapshot boundary to transfer.
+     * @param timeout_ms Positive deadline, capped at five minutes.
+     * @return Follower term and installed boundary; `installed` is false when
+     *         the receiver rejects the transfer.
+     * @throws std::runtime_error for invalid configuration, missing/corrupt
+     *         source chunks, identity mismatch, timeout, or RPC failure.
+     * @note Streaming is not retried. The receiver only acknowledges after its
+     *       configured application installer and Raft-boundary check succeed.
+     */
+    [[nodiscard]] RaftSnapshotInstallResult installRaftSnapshot(
+        const std::string& raft_group_id,
+        const std::string& expected_peer_node_id,
+        const themisdb::sharding::RaftSnapshotManager& snapshot_manager,
+        uint64_t leader_term,
+        uint64_t snapshot_index,
+        uint32_t timeout_ms);
 
     /**
      * @brief Fetch one bounded tensor fragment from an explicitly bound shard.

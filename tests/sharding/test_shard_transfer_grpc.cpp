@@ -12,6 +12,7 @@
 #include "sharding/shard_transfer_store.h"
 #include "sharding/raft_consensus.h"
 #include "sharding/raft_shard_manager.h"
+#include "utils/zstd_codec.h"
 #include "shard_rpc.grpc.pb.h"
 
 #if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_RPC_ADAPTER)
@@ -19,6 +20,7 @@
 #include "distributed_tensor/graph_summary_projection.h"
 #include "distributed_tensor/local_projection_publisher.h"
 #include "sharding/shard_artifact_fragment_store.h"
+#include "tensor/adapter_repository.h"
 #endif
 
 #if defined(THEMIS_TEST_HAS_DISTRIBUTED_TENSOR_GRAPH)
@@ -987,11 +989,35 @@ TEST(ShardFragmentGrpc, StoredProjectionFlowsThroughMtlsAndManifestBoundPlanner)
     core.data = {1.0f, 2.0f};
     train.cores.push_back(core);
     train.mode_sizes = {2};
-    tensor::TensorFingerprintGraph graph_source;
+
     const std::string query_key = "__adapters__:tenant-a:Alpha:Alpha";
-    ASSERT_TRUE(graph_source.addAdapter(query_key, train, "Alpha", "Alpha", "tenant-a"));
-    ASSERT_TRUE(graph_source.addAdapter("__adapters__:tenant-a:alpha:model-a", train,
-                                        "alpha", "model-a", "tenant-a"));
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(db);
+        tensor::AdapterRepository repository(backend, "tenant-a");
+        ASSERT_TRUE(repository.store("Alpha", "Alpha", train));
+        ASSERT_TRUE(repository.store("alpha", "model-a", train));
+    }
+
+    store.reset();
+    db->close();
+    ASSERT_TRUE(db->open());
+    store = std::make_shared<themis::sharding::ShardArtifactFragmentStore>(db);
+
+    tensor::TensorFingerprintGraph graph_source;
+    {
+        auto backend = std::make_shared<themis::storage::RocksDBTensorBackend>(db);
+        tensor::AdapterRepository repository(backend, "tenant-a");
+        const auto adapters = repository.listAdapters();
+        ASSERT_EQ(adapters.size(), 2u);
+        for (const auto& [domain, base_model_id] : adapters) {
+            const auto adapter = repository.loadAdapter(domain, base_model_id);
+            ASSERT_TRUE(adapter.valid);
+            ASSERT_EQ(adapter.tenant_id, "tenant-a");
+            ASSERT_TRUE(graph_source.addAdapter(
+                adapter.adapter_key, adapter.train, adapter.domain,
+                adapter.base_model_id, adapter.tenant_id));
+        }
+    }
     const auto source_snapshot = graph_source.snapshotSimilarForTenant(query_key, "tenant-a", 1);
     ASSERT_TRUE(source_snapshot);
     ASSERT_EQ(source_snapshot->candidates.size(), 1u);
@@ -1429,6 +1455,34 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
             }
             return {};
         };
+    themisdb::sharding::RaftSnapshotManager::Config receiver_snapshot_config;
+    receiver_snapshot_config.snapshot_directory =
+        (root.path / "receiver-snapshots").string();
+    auto receiver_snapshots =
+        std::make_shared<themisdb::sharding::RaftSnapshotManager>(
+            receiver_snapshot_config);
+    auto restored_application_state =
+        std::make_shared<std::vector<uint8_t>>();
+    server_config.raft_snapshot_manager_resolver =
+        [receiver_snapshots](const std::string& group_id) {
+            return group_id == "payments" ? receiver_snapshots : nullptr;
+        };
+    server_config.raft_snapshot_install_handler =
+        [restored_application_state](
+            themisdb::sharding::RaftConsensus& receiver,
+            themisdb::sharding::RaftSnapshotManager&,
+            const std::string& leader_id,
+            uint64_t leader_term,
+            const themisdb::sharding::RaftSnapshot& snapshot) {
+            if (!receiver.getRaftState().installSnapshotFromLeader(
+                    leader_id, leader_term, snapshot.snapshot_index,
+                    snapshot.snapshot_term)) {
+                return false;
+            }
+            *restored_application_state =
+                themis::utils::zstd_decompress(snapshot.data);
+            return true;
+        };
     ShardRPCServer server(server_config);
     ASSERT_TRUE(server.start());
 
@@ -1474,6 +1528,26 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     EXPECT_EQ(leader->getRaftState().getLog().getCommitIndex(), 1u);
     ASSERT_TRUE(raft->getRaftState().getLog().getEntry(1).has_value());
     EXPECT_EQ(raft->getRaftState().getLog().getEntry(1)->command, "durable-decision");
+
+    themisdb::sharding::RaftSnapshotManager::Config source_snapshot_config;
+    source_snapshot_config.snapshot_directory =
+        (root.path / "leader-snapshots").string();
+    themisdb::sharding::RaftSnapshotManager source_snapshots(
+        source_snapshot_config);
+    const std::vector<uint8_t> application_state{
+        'd', 'u', 'r', 'a', 'b', 'l', 'e', '-', 's', 't', 'a', 't', 'e'};
+    const auto snapshot_entry = leader->getRaftState().getLog().getEntry(1);
+    ASSERT_TRUE(snapshot_entry.has_value());
+    ASSERT_TRUE(source_snapshots.createAndInstall(
+        leader->getRaftState(), 1, snapshot_entry->term, application_state));
+    const auto snapshot_result = client.installRaftSnapshot(
+        "payments", "node2", source_snapshots, leader->getCurrentTerm(), 1, 5000);
+    ASSERT_TRUE(snapshot_result.installed);
+    EXPECT_EQ(snapshot_result.snapshot_index, 1u);
+    EXPECT_EQ(snapshot_result.snapshot_term, snapshot_entry->term);
+    EXPECT_EQ(raft->getRaftState().getSnapshotIndex(), 1u);
+    EXPECT_EQ(raft->getRaftState().getSnapshotTerm(), snapshot_entry->term);
+    EXPECT_EQ(*restored_application_state, application_state);
 
     grpc::SslCredentialsOptions unbound_credentials;
     unbound_credentials.pem_root_certs = server_tls.certificate_pem;

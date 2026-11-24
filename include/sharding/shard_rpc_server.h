@@ -137,6 +137,39 @@ public:
         /// Exact X.509 identity-to-member mappings required when Raft is enabled.
         std::vector<RaftIdentityBinding> raft_identity_bindings;
 
+        /// Resolve the durable snapshot directory for the requested Raft group.
+        std::function<std::shared_ptr<themisdb::sharding::RaftSnapshotManager>(
+            const std::string& raft_group_id)> raft_snapshot_manager_resolver;
+
+        /**
+         * @brief Restore one verified snapshot before the server acknowledges installation.
+         * @param raft Authenticated group's local consensus instance.
+         * @param snapshots Manager where the verified snapshot file is installed.
+         * @param leader_id Authenticated Raft member that sent the stream.
+         * @param leader_term Sender's current Raft term.
+         * @param snapshot Fully parsed snapshot with validated checksums;
+         *        `data` remains Zstandard-compressed and must be decoded by the
+         *        application restore implementation.
+         * @return True only after application state, the durable Raft journal
+         *         boundary/hard state, and any live 2PC decision store are
+         *         restored and consistent; false rejects the install.
+         * @note Implementations must make activation crash-recoverable and must
+         *       not expose partial state. The server verifies the resulting Raft
+         *       boundary before returning a successful RPC response.
+         */
+        using RaftSnapshotInstallHandler = std::function<bool(
+            themisdb::sharding::RaftConsensus& raft,
+            themisdb::sharding::RaftSnapshotManager& snapshots,
+            const std::string& leader_id,
+            uint64_t leader_term,
+            const themisdb::sharding::RaftSnapshot& snapshot)>;
+        RaftSnapshotInstallHandler raft_snapshot_install_handler;
+
+        /// Hard limit for received Raft snapshot stream bytes.
+        uint64_t max_raft_snapshot_bytes = 512ULL * 1024ULL * 1024ULL;
+        /// Maximum deadline accepted for snapshot installation RPCs.
+        uint32_t raft_snapshot_max_deadline_ms = 300000;
+
         /// Local shard identity served by the fragment reader.
         std::string tensor_fragment_shard_id;
         /// Storage-owner callback. If absent, the fragment RPC is unavailable.

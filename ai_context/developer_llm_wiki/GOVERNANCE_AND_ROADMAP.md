@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `2a6d1553f0031ca7`
+- Hash: `ff6ccdeb872847ea`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -392,7 +392,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
 - Kategorie: governance_and_docs
-- Hash: `39ec7a9d2c07c507`
+- Hash: `640e4ba8c1139d2f`
 - Titel: Distributed Tensor — Developer LLM Wiki
 - Auszug:
   - ---

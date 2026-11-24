@@ -544,6 +544,24 @@ public:
         const std::vector<uint8_t>& snapshot_file);
 
     /**
+     * @brief Verify and install a complete snapshot assembled from transfer chunks.
+     * @param chunks All chunks for one snapshot in increasing zero-based order.
+     *        Every chunk must agree on snapshot index and total count; the final
+     *        chunk alone must have @p last_chunk set.
+     * @return True after the complete file passes per-chunk and snapshot
+     *         validation and is durably installed, or when the identical file
+     *         already exists. False on missing, reordered, inconsistent,
+     *         corrupt, oversized, or incomplete input; no snapshot is installed.
+     * @throws std::bad_alloc if memory for the bounded assembled file cannot be
+     *         allocated. Durable storage failures are reported as false.
+     * @note The total assembled file is bounded by `Config::max_transfer_bytes`.
+     */
+    [[nodiscard]] bool installTransferredSnapshot(
+        uint64_t expected_index,
+        uint64_t expected_term,
+        const std::vector<RaftSnapshotChunk>& chunks);
+
+    /**
      * @brief List all persisted snapshot indices (newest first)
       * @return Snapshot indices sorted descending by index.
      */

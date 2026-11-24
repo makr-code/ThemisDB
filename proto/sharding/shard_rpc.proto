@@ -53,6 +53,9 @@ service ShardService {
     // the authenticated X.509 identity must map to the claimed member node ID.
     rpc RequestVote(RaftVoteRequestProto) returns (RaftVoteResponseProto);
     rpc AppendEntries(RaftAppendEntriesRequestProto) returns (RaftAppendEntriesResponseProto);
+    // Streams a bounded Raft snapshot to an authenticated member. The receiving
+    // application installer must restore application and 2PC state before ACK.
+    rpc InstallRaftSnapshot(stream RaftSnapshotChunkProto) returns (RaftSnapshotInstallResponseProto);
 
     // Gossip Protocol
     rpc GossipExchange(GossipMessage) returns (GossipMessage);
@@ -283,6 +286,26 @@ message RaftAppendEntriesResponseProto {
     uint64 term = 2;
     bool success = 3;
     uint64 match_index = 4;
+}
+
+message RaftSnapshotChunkProto {
+    string raft_group_id = 1;
+    string leader_id = 2;
+    uint64 leader_term = 3;
+    uint64 snapshot_index = 4;
+    uint64 snapshot_term = 5;
+    uint64 chunk_index = 6;
+    uint64 total_chunks = 7;
+    bytes data = 8;
+    string checksum_sha256 = 9;
+}
+
+message RaftSnapshotInstallResponseProto {
+    string follower_id = 1;
+    uint64 term = 2;
+    uint64 snapshot_index = 3;
+    uint64 snapshot_term = 4;
+    bool installed = 5;
 }
 
 // Gossip-Enhanced Configuration Management (YARN-Inspired)

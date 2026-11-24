@@ -859,6 +859,7 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
         source_log, 1, 1, payload, extensions));
 
     std::vector<uint8_t> snapshot_file;
+    std::vector<RaftSnapshotChunk> chunks;
     const auto chunk_count = source.getChunkCount(1);
     ASSERT_GT(chunk_count, 0u);
     for (size_t chunk_index = 0; chunk_index < chunk_count; ++chunk_index) {
@@ -866,6 +867,7 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
         ASSERT_TRUE(chunk.has_value());
         EXPECT_EQ(chunk->chunk_index, chunk_index);
         EXPECT_EQ(chunk->total_chunks, chunk_count);
+        chunks.push_back(*chunk);
         snapshot_file.insert(
             snapshot_file.end(), chunk->data.begin(), chunk->data.end());
     }
@@ -875,8 +877,8 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
     target_config.max_transfer_bytes = snapshot_file.size();
     RaftSnapshotManager target(target_config);
 
-    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, snapshot_file));
-    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, snapshot_file));
+    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, chunks));
+    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, chunks));
     const auto installed = target.loadSnapshot(1);
     ASSERT_TRUE(installed.has_value());
     EXPECT_EQ(installed->snapshot_index, 1u);
@@ -887,16 +889,37 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
     auto corrupted_file = snapshot_file;
     corrupted_file.back() ^= 0xFF;
     EXPECT_FALSE(target.installTransferredSnapshot(1, 1, corrupted_file));
+    auto corrupted_chunks = chunks;
+    corrupted_chunks.back().data.back() ^= 0xFF;
+    EXPECT_FALSE(target.installTransferredSnapshot(1, 1, corrupted_chunks));
     const auto unchanged = target.loadSnapshot(1);
     ASSERT_TRUE(unchanged.has_value());
     EXPECT_EQ(unchanged->extensions.at("decision-state"), extensions.at("decision-state"));
     EXPECT_FALSE(target.installTransferredSnapshot(2, 1, snapshot_file));
+
+    auto reordered_chunks = chunks;
+    if (reordered_chunks.size() > 1) {
+        std::swap(reordered_chunks[0], reordered_chunks[1]);
+        RaftSnapshotManager::Config invalid_config;
+        invalid_config.snapshot_directory =
+            (directory_ / "reordered-snapshots").string();
+        RaftSnapshotManager invalid(invalid_config);
+        EXPECT_FALSE(invalid.installTransferredSnapshot(1, 1, reordered_chunks));
+        auto truncated_chunks = chunks;
+        truncated_chunks.pop_back();
+        EXPECT_FALSE(invalid.installTransferredSnapshot(1, 1, truncated_chunks));
+        auto invalid_final_marker = chunks;
+        invalid_final_marker.front().last_chunk = true;
+        EXPECT_FALSE(invalid.installTransferredSnapshot(1, 1, invalid_final_marker));
+        EXPECT_FALSE(invalid.loadSnapshot(1).has_value());
+    }
 
     RaftSnapshotManager::Config limited_config;
     limited_config.snapshot_directory = (directory_ / "limited-snapshots").string();
     limited_config.max_transfer_bytes = snapshot_file.size() - 1;
     RaftSnapshotManager limited(limited_config);
     EXPECT_FALSE(limited.installTransferredSnapshot(1, 1, snapshot_file));
+    EXPECT_FALSE(limited.installTransferredSnapshot(1, 1, chunks));
     EXPECT_FALSE(limited.loadSnapshot(1).has_value());
 }
 

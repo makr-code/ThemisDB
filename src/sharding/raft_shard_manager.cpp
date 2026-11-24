@@ -46,6 +46,7 @@ RaftShardManager::~RaftShardManager() {
     }
     
     raft_instances_.clear();
+    active_decision_stores_.clear();
 }
 
 /**
@@ -161,6 +162,46 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
                         return AppendEntriesResponse(request.term, false, 0);
                     }
                 });
+            if (config_.raft_snapshot_manager_resolver) {
+                const auto snapshot_manager_resolver =
+                    config_.raft_snapshot_manager_resolver;
+                if (config_.raft_snapshot_timeout_ms == 0 ||
+                    config_.raft_snapshot_timeout_ms > 300000) {
+                    throw std::runtime_error(
+                        "Raft snapshot timeout must be between 1 ms and five minutes");
+                }
+                const auto snapshot_timeout_ms =
+                    config_.raft_snapshot_timeout_ms;
+                raft->setSnapshotInstallCallback(
+                    [peer_clients, group_id, snapshot_manager_resolver,
+                     snapshot_timeout_ms](
+                        const std::string& peer_node_id,
+                        uint64_t leader_term,
+                        uint64_t snapshot_index,
+                        uint64_t snapshot_term) {
+                        const auto client = peer_clients->find(peer_node_id);
+                        if (client == peer_clients->end() || !client->second) {
+                            throw std::runtime_error(
+                                "Raft snapshot peer has no configured RPC client");
+                        }
+                        auto snapshots = snapshot_manager_resolver(group_id);
+                        if (!snapshots) {
+                            throw std::runtime_error(
+                                "Raft snapshot source is unavailable for the group");
+                        }
+                        const auto result = client->second->installRaftSnapshot(
+                            group_id, peer_node_id, *snapshots, leader_term,
+                            snapshot_index, snapshot_timeout_ms);
+                        if (!result.installed ||
+                            result.snapshot_index != snapshot_index ||
+                            result.snapshot_term != snapshot_term) {
+                            return AppendEntriesResponse(
+                                result.term, false, result.snapshot_index);
+                        }
+                        return AppendEntriesResponse(
+                            result.term, true, result.snapshot_index);
+                    });
+            }
             // RaftConsensus sends bounded AppendEntries batches from each
             // replica's tracked next_index on its heartbeat loop, allowing
             // the same authenticated transport to repair a lagging prefix.
@@ -197,6 +238,7 @@ void RaftShardManager::removeShard(const std::string& shard_id) {
             it->second->stop();
         }
         raft_instances_.erase(it);
+        active_decision_stores_.erase(shard_id);
         spdlog::info("Removed Raft instance for shard: {}", shard_id);
     }
 }
@@ -412,14 +454,78 @@ std::shared_ptr<themis::sharding::RaftTwoPhaseCommitDecisionStore>
 RaftShardManager::createTwoPhaseCommitDecisionStore(
     const std::string& shard_id,
     const RaftSnapshotManager& snapshot_manager) const {
-    auto raft = getRaftInstance(shard_id);
-    if (!raft) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto raft_it = raft_instances_.find(shard_id);
+    if (raft_it == raft_instances_.end() || !raft_it->second) {
         throw std::invalid_argument(
             "cannot create a 2PC decision store for an uninitialized Raft shard");
     }
-    return std::make_shared<
+    auto store = std::make_shared<
         themis::sharding::RaftTwoPhaseCommitDecisionStore>(
-            std::move(raft), shard_id, snapshot_manager);
+            raft_it->second, shard_id, snapshot_manager);
+    auto& active_stores = active_decision_stores_[shard_id];
+    active_stores.erase(
+        std::remove_if(active_stores.begin(), active_stores.end(),
+                       [](const auto& weak_store) {
+                           return weak_store.expired();
+                       }),
+        active_stores.end());
+    active_stores.emplace_back(store);
+    return store;
+}
+
+size_t RaftShardManager::restoreActiveTwoPhaseCommitDecisionStores(
+    const std::string& shard_id,
+    const RaftSnapshot& snapshot) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto raft_it = raft_instances_.find(shard_id);
+    if (raft_it == raft_instances_.end() || !raft_it->second) {
+        throw std::invalid_argument(
+            "cannot restore 2PC decision stores for an uninitialized Raft shard");
+    }
+
+    const auto& state = raft_it->second->getRaftState();
+    if (state.getSnapshotIndex() != snapshot.snapshot_index ||
+        state.getSnapshotTerm() != snapshot.snapshot_term) {
+        throw std::runtime_error(
+            "2PC snapshot refresh does not match the installed Raft boundary");
+    }
+
+    auto stores_it = active_decision_stores_.find(shard_id);
+    if (stores_it == active_decision_stores_.end()) {
+        return 0;
+    }
+    auto& active_stores = stores_it->second;
+    std::vector<std::shared_ptr<
+        themis::sharding::RaftTwoPhaseCommitDecisionStore>> stores;
+    stores.reserve(active_stores.size());
+    active_stores.erase(
+        std::remove_if(active_stores.begin(), active_stores.end(),
+                       [&stores](const auto& weak_store) {
+                           if (auto store = weak_store.lock()) {
+                               stores.emplace_back(std::move(store));
+                               return false;
+                           }
+                           return true;
+                       }),
+        active_stores.end());
+    if (stores.empty()) {
+        return 0;
+    }
+
+    const auto extension = snapshot.extensions.find(
+        std::string(themis::sharding::RaftTwoPhaseCommitDecisionStore::
+                        kSnapshotExtensionName));
+    if (extension == snapshot.extensions.end()) {
+        throw std::runtime_error(
+            "installed snapshot is missing the active 2PC decision-state extension");
+    }
+    for (const auto& store : stores) {
+        store->restoreSnapshotState(snapshot.snapshot_index,
+                                    snapshot.snapshot_term,
+                                    extension->second);
+    }
+    return stores.size();
 }
 
 /**

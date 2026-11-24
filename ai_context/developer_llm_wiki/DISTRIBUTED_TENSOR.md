@@ -52,9 +52,11 @@ end-to-end service:
    server/reader only when `sharding.tensor_fragment_rpc.enabled` is explicit
    and requires verified mTLS plus identity-to-principal bindings. Publishers
    must persist bytes before publishing the matching manifest. The Linux
-   `ShardTransferGrpcTests` fixture path exercises publication, RocksDB reopen,
-   mTLS retrieval, and manifest-bound planning; it passed 1/1 CTest test on
-   2026-11-24.
+   `ShardTransferGrpcTests` fixture stores tenant adapters through
+   `AdapterRepository`, reopens RocksDB, reloads the records to build its
+   fingerprint graph, then exercises publication, mTLS retrieval, and
+   manifest-bound planning. The two focused gtests passed 2/2, the complete
+   executable passed 8/8, and the CTest selection passed 1/1 on 2026-11-24.
    `LocalProjectionPublisher` persists a local and mTLS-readable manifest after
    the fragment; `publishFromGraph()` derives a summary from a tenant-checked
    fingerprint graph. Remote loading requires a trusted artifact ID and established
@@ -154,13 +156,17 @@ concurrent update coverage. No distributed-tensor soak test is registered in
 `tests/integration`: the former in-process stub-only source was removed because
 it did not exercise a production transport. A Linux-only `ShardTransferGrpcTests`
 target under `tests/sharding/` includes the mTLS stream and manifest
-adapter with a test storage reader. Its fixture case publishes a graph summary
-through the local publisher, reopens RocksDB, and composes the fragment store
-with mTLS retrieval and manifest-bound planning; the focused CTest selection
-passed 1/1 on 2026-11-24. This does not validate configured production startup.
+adapter with a test storage reader. Its fixture case reloads persisted
+adapters after reopening RocksDB, builds a graph summary, and composes the
+local publisher and fragment store with mTLS retrieval and manifest-bound
+planning. The two focused gtests passed 2/2, the complete executable passed
+8/8, and the CTest selection passed 1/1 on 2026-11-24. This does not validate
+configured production startup.
 The existing `ShardTransferStoreTests` target also contains RocksDB-backed
-fragment-store regressions; its Windows focused build and CTest passed 1/1 on
-2026-11-24. Registration alone is not evidence that a target passed.
+fragment-store regressions; the target built and passed 1/1 in the Linux WSL
+build tree on 2026-11-24. The regressions cover WAL sync, immutable
+principal/shard/artifact mapping, size and digest checks, and reopen. Neither
+fixture test validates configured production startup.
 The nightly coverage workflow runs `distributed_tensor`-labelled tests,
 publishes module-level summaries and LCOV data, and enforces 70% line / 60%
 branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.

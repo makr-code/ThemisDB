@@ -127,6 +127,11 @@ std::optional<uint64_t> RaftConsensus::proposeWithIndex(const std::string& comma
                 continue;  // Skip self
             }
 
+            if (!installSnapshotIfRequired(member, request.term)) {
+                updateReplicaHealth(member, false);
+                continue;
+            }
+
             AppendEntriesRequest peer_request;
             try {
                 peer_request = buildReplicationRequest(
@@ -233,6 +238,12 @@ void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
     // to read the callback, preventing a data race on std::function.
     std::lock_guard<std::mutex> lock(replica_mutex_);
     replication_callback_ = std::move(callback);
+}
+
+void RaftConsensus::setSnapshotInstallCallback(
+    SnapshotInstallCallback callback) {
+    std::lock_guard<std::mutex> lock(replica_mutex_);
+    snapshot_install_callback_ = std::move(callback);
 }
 
 void RaftConsensus::setVoteRequestCallback(VoteRequestCallback callback) {
@@ -514,6 +525,10 @@ void RaftConsensus::sendHeartbeats() {
         bool success = false;
         if (replication_cb) {
             try {
+                if (!installSnapshotIfRequired(member, hb.term)) {
+                    updateReplicaHealth(member, false);
+                    continue;
+                }
                 const auto request = buildReplicationRequest(
                     member, raft_state_.getLog().getLastLogIndex(),
                     hb.commit_index, hb.term);
@@ -583,6 +598,61 @@ AppendEntriesResponse RaftConsensus::replicateToFollower(
         receiveAppendEntriesResponse(node_id, rejected);
     }
     return response;
+}
+
+bool RaftConsensus::installSnapshotIfRequired(const std::string& node_id,
+                                             uint64_t term) {
+    const auto& log = raft_state_.getLog();
+    const uint64_t snapshot_index = log.getSnapshotIndex();
+    const uint64_t snapshot_term = log.getSnapshotTerm();
+    if (snapshot_index == 0) {
+        return true;
+    }
+
+    uint64_t next_index = 1;
+    uint64_t match_index = 0;
+    SnapshotInstallCallback callback;
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+        const auto replica = replica_states_.find(node_id);
+        if (replica == replica_states_.end()) {
+            return false;
+        }
+        next_index = std::max<uint64_t>(1, replica->second.next_index);
+        match_index = replica->second.match_index;
+        callback = snapshot_install_callback_;
+    }
+    if (next_index > snapshot_index || match_index >= snapshot_index) {
+        return true;
+    }
+    if (!callback) {
+        THEMIS_WARN("[RaftConsensus] peer {} requires snapshot {} but no installer is configured",
+                    node_id, snapshot_index);
+        return false;
+    }
+
+    try {
+        const auto response =
+            callback(node_id, term, snapshot_index, snapshot_term);
+        if (response.term > term) {
+            receiveAppendEntriesResponse(node_id, response);
+            return false;
+        }
+        if (response.term != term || !response.success ||
+            response.match_index < snapshot_index) {
+            updateReplicaHealth(node_id, false);
+            return false;
+        }
+        auto installed = response;
+        installed.match_index = snapshot_index;
+        receiveAppendEntriesResponse(node_id, installed);
+        return true;
+    } catch (const std::exception& error) {
+        THEMIS_WARN("[RaftConsensus] snapshot install to {} failed: {}",
+                    node_id, error.what());
+        updateReplicaHealth(node_id, false);
+        return false;
+    }
 }
 
 AppendEntriesRequest RaftConsensus::buildReplicationRequest(

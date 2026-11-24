@@ -24,6 +24,7 @@
 #include <mutex>
 #include <optional>
 #include <functional>
+#include <vector>
 
 namespace themis::sharding {
 class RaftTwoPhaseCommitDecisionStore;
@@ -83,6 +84,20 @@ public:
          */
         std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
             const std::string& peer_node_id)> raft_peer_config_resolver;
+
+        /**
+         * @brief Resolve the local durable snapshot source used for follower catch-up.
+         * @param shard_id Logical Raft group whose local snapshot should be sent.
+         * @return Shared snapshot manager, or null when the group has no available snapshot.
+         * @note Called concurrently by Raft heartbeat workers. The resolver must be
+         *       thread-safe. Without it, lagging followers behind compaction remain
+         *       unable to catch up and the transport fails closed.
+         */
+        std::function<std::shared_ptr<RaftSnapshotManager>(
+            const std::string& shard_id)> raft_snapshot_manager_resolver;
+
+        /// Deadline used when streaming a snapshot to a lagging peer; must be 1–300000 ms.
+        uint32_t raft_snapshot_timeout_ms{300000};
     };
 
     /**
@@ -201,6 +216,22 @@ public:
     createTwoPhaseCommitDecisionStore(
         const std::string& shard_id,
         const RaftSnapshotManager& snapshot_manager) const;
+
+    /**
+     * @brief Refresh every live 2PC decision store after snapshot journal installation.
+     * @param shard_id Logical Raft group whose snapshot was installed.
+     * @param snapshot Verified snapshot whose boundary must equal the durable Raft anchor.
+     * @return Number of live decision-store instances refreshed; zero when none exist.
+     * @throws std::invalid_argument if the group is not managed.
+     * @throws std::runtime_error if the installed boundary differs or a live store
+     *         cannot restore the snapshot's decision extension.
+     * @note Call only after application restoration and
+     *       `RaftState::installSnapshotFromLeader()` succeed. The method serializes
+     *       with store creation so no active adapter misses the refresh.
+     */
+    [[nodiscard]] size_t restoreActiveTwoPhaseCommitDecisionStores(
+        const std::string& shard_id,
+        const RaftSnapshot& snapshot) const;
     
     /**
      * @brief Get configuration
@@ -213,6 +244,8 @@ private:
     
     // Map of shard_id to Raft consensus instance
     std::map<std::string, std::shared_ptr<RaftConsensus>> raft_instances_; ///< Managed Raft instances per shard.
+    mutable std::map<std::string, std::vector<std::weak_ptr<
+        themis::sharding::RaftTwoPhaseCommitDecisionStore>>> active_decision_stores_;
     mutable std::mutex mutex_;                                              ///< Protects instance map and lifecycle operations.
     
     /**

@@ -114,10 +114,21 @@ it for an initialized shard and restores its installed snapshot, but the
 application must still call the factory and inject the shared store; no store
 is created automatically at manager startup. A durable follower journal-anchor
 replacement primitive now exists and preserves a matching suffix or rejects a
-conflict with committed history. `RaftSnapshotManager::installTransferredSnapshot()`
-now validates and atomically stores a size-bounded complete snapshot file, but
-chunked mTLS transport, coordinated application-state restoration, and automatic
-follower catch-up remain absent. Older binaries cannot read
+conflict with committed history. `RaftSnapshotManager::installTransferredSnapshot()` validates and atomically
+stores a size-bounded complete snapshot file. Its chunk overload rejects
+inconsistent ordering/counts, incorrect final-chunk markers, empty/oversized
+chunks, and SHA-256 mismatches before file mutation. Bounded mTLS
+`InstallRaftSnapshot` streaming and automatic tracked-peer catch-up are now
+implemented behind explicit server restore and local snapshot-source
+callbacks. `RaftShardManager` tracks its factory-created active 2PC stores
+weakly and exposes `restoreActiveTwoPhaseCommitDecisionStores()` to refresh each
+live store from the installed snapshot extension. It fails on an anchor mismatch
+or a missing extension when live stores exist. The receiver still fails closed
+unless the configured installer restores application state, installs the durable
+Raft boundary, invokes the 2PC refresh, and only then acknowledges. The helper
+does not make application-state activation crash-atomic, and production
+application wiring plus multi-process runtime proof remain acceptance blockers.
+Older binaries cannot read
 extension-bearing version-2 snapshots, so downgrade requires explicit state
 reconciliation. CockroachDB Parallel Commits remain out of scope until the full
 gate passes.

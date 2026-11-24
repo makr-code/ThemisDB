@@ -377,11 +377,18 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
 
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
     )
+    if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
+        CMAKE_CXX_COMPILER_ID MATCHES "Clang") AND
+       NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+        # Keep the repository's version file from shadowing the standard <version> header.
+        target_compile_options(${_target} PRIVATE "-iquote${THEMIS_ROOT_DIR}")
+    else()
+        target_include_directories(${_target} PRIVATE ${THEMIS_ROOT_DIR})
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_distributed_tensor

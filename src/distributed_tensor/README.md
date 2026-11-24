@@ -68,16 +68,20 @@ checksum and is not an integrity or authenticity guarantee.
   in-process stub-only source was removed because it did not exercise a real
   shard transport. A focused mTLS fragment-fetch test is registered in
   `tests/sharding/test_shard_transfer_grpc.cpp`; it exercises the real
-  ShardRPC stream and a test-only storage reader, but has not been run. An
-  additional source case publishes a fixture summary through the local
-  publisher, reopens RocksDB, and fetches it over mTLS using a manifest-bound
-  planner; it also checks
-  graph validation when the query and LLM module targets exist. It does not
-  exercise the production host configuration, and has not been run. The
+  ShardRPC stream and a test-only storage reader. The focused CTest selection
+  passed 1/1 on 2026-11-24. An
+  additional source case stores two tenant adapters through
+  `AdapterRepository`, closes and reopens RocksDB, reloads those records to
+  build the fixture fingerprint graph, then publishes and fetches its summary
+  over mTLS using a manifest-bound planner. It also checks graph validation
+  when the query and LLM module targets exist. The two
+  `ShardFragmentGrpc.*` gtests passed 2/2, and the complete executable passed
+  8/8 on 2026-11-24. This does not exercise production host configuration. The
   existing `ShardTransferStoreTests` target now also registers RocksDB-backed
   fragment-store regressions for principal/shard isolation, immutable replay,
-  digest/size checks, and restart persistence; those sources have not been
-  built or run. Production server startup is opt-in through
+  digest/size checks, WAL sync, and restart persistence; its focused target
+  built and passed 1/1 in the Linux WSL build tree on 2026-11-24. These tests
+  do not exercise production startup. Production server startup is opt-in through
   `sharding.tensor_fragment_rpc`; see the runbook and `src/sharding/API.md` for
   required mTLS configuration and the canonical storage mapping.
 - `benchmarks/distributed_tensor/CMakeLists.txt` conditionally registers
@@ -204,21 +208,35 @@ rejected with `-std=c++17` at `std::span`, as expected.
 ## Focused verification (2026-11-24)
 
 In the existing Linux Debug build tree (`build-linux-raft-grpc`), the
-ShardRPC integration target and production server target built successfully:
+latest persisted-adapter test source compiled and the test executable was
+relinked using the generated compile and link commands. The focused CTest,
+storage-regression, and server-link evidence is:
 
 ```sh
-cmake --build build-linux-raft-grpc --target test_shard_transfer_grpc --parallel 6
-ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure
+cmake --build build-linux-raft-grpc --target test_shard_transfer_store --parallel 6
+ctest --test-dir build-linux-raft-grpc -R "^ShardTransferStoreTests$" --output-on-failure
 cmake --build build-linux-raft-grpc --target themis_server --parallel 6
+./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc --gtest_filter="ShardFragmentGrpc.*"
+./build-linux-raft-grpc/bin/tests_by_module/sharding/Debug/test_shard_transfer_grpc
+THEMIS_CTEST_EMIT_TEST_OUTPUT=1 ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure
 ```
 
-The focused CTest selection passed 1/1. Its fixture case covers graph-based
-publication, RocksDB reopen, mTLS manifest retrieval, and manifest-bound
-planner validation. The server build verifies compilation and linkage of the
+The two direct ShardFragmentGrpc tests passed 2/2; the complete executable
+passed 8/8; and the CTest selection passed 1/1 on its retry (the first CTest
+attempt timed out at 90 seconds). The fixture case loads persisted adapters
+after a RocksDB reopen before graph-based publication, mTLS manifest retrieval,
+and manifest-bound planner validation. The fragment-store regressions cover WAL sync, immutable principal/shard/
+artifact mapping, bounds, digest verification, and reopen. The server build verifies compilation and linkage of the
 opt-in host composition with gRPC enabled and `THEMIS_ENABLE_HTTP_SERVER=OFF`;
 it does not run the configured production startup. Trusted discovery,
 freshness/invalidation, continuous updates, benchmarks, and soak coverage
 remain open.
+
+The changed gRPC test translation unit was compiled from the existing
+`compile_commands.json` entry and relinked with the target's generated Ninja
+link command. A normal CMake rebuild was stopped after CMake regeneration
+expanded the target to 731 actions (8 had started); the focused test source
+and executable were validated separately as described above.
 
 ## Verweise
 

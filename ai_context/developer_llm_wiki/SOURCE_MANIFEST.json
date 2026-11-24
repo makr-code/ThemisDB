@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T13:46:39+00:00",
+  "generated_at": "2026-11-24T17:11:04+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -742,9 +742,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 163083,
-      "sha256": "2a6d1553f0031ca7b8e7ded8a3e8651df4b7031f090025cb32a15dc8eda8a6d3",
-      "modified_utc": "2026-11-24T13:11:42+00:00"
+      "size": 163714,
+      "sha256": "ff6ccdeb872847ea7dee8e27b55f7d0ed87f83d1a6f0efa5c5e6998f1ee407ae",
+      "modified_utc": "2026-11-24T17:00:44+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -1029,9 +1029,9 @@
     {
       "path": "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
       "category": "governance_and_docs",
-      "size": 12076,
-      "sha256": "39ec7a9d2c07c5078673349428e533a923be3f0308cc1f6e20ba0aa123374fbb",
-      "modified_utc": "2026-11-24T13:45:53+00:00"
+      "size": 12489,
+      "sha256": "640e4ba8c1139d2f703cc8a6c78a49b7931a6d5549c4edc00a8f7dacd8b84014",
+      "modified_utc": "2026-11-24T17:00:01+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/DOCUMENT.md",
@@ -21001,8 +21001,8 @@
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
       "size": 2327314,
-      "sha256": "2ee785ebdf7b47bcdf8bd6536c8f1f2f4a9b043e4dda12c956e96d9d31281625",
-      "modified_utc": "2026-11-24T11:41:08+00:00"
+      "sha256": "2db1ae0bebb7496db057aa1ccf5ffe94759669cc5bd7ead04749047b8bf989bd",
+      "modified_utc": "2026-11-24T13:48:28+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -51135,9 +51135,9 @@
     {
       "path": "include/sharding/raft_consensus.h",
       "category": "modules_and_api",
-      "size": 17155,
-      "sha256": "81f5bc476ae728c54f6e5076147bef4097bc8daf6f0317ea881890c1c4365e7c",
-      "modified_utc": "2026-11-23T03:02:28+00:00"
+      "size": 18328,
+      "sha256": "7636369b5651f915c3c8755bf94f4e782b6b63cd7cb0935604d407eb90c1137f",
+      "modified_utc": "2026-11-24T17:00:47+00:00"
     },
     {
       "path": "include/sharding/raft_consensus_adapter.h",
@@ -51149,16 +51149,16 @@
     {
       "path": "include/sharding/raft_log.h",
       "category": "modules_and_api",
-      "size": 24000,
-      "sha256": "6379d7cab3e3fedc65c6fa36dca903cc54e680ad76f1aa61607adedbaf567355",
-      "modified_utc": "2026-11-24T13:16:08+00:00"
+      "size": 25037,
+      "sha256": "463df7071beb91fce6740806bf76b91b6bf5a9058d88d200478f9eb8410baa75",
+      "modified_utc": "2026-11-24T16:07:22+00:00"
     },
     {
       "path": "include/sharding/raft_shard_manager.h",
       "category": "modules_and_api",
-      "size": 9966,
-      "sha256": "1660fff98b528d227e0a530aa87496bbaf138a069342fff054e14295ace70bca",
-      "modified_utc": "2026-11-24T09:36:22+00:00"
+      "size": 10774,
+      "sha256": "1b3a470a000bf6bbc1ac4bb484171ce9ce6cb0db4eef7a58467026cd46e86bf2",
+      "modified_utc": "2026-11-24T17:01:01+00:00"
     },
     {
       "path": "include/sharding/raft_state.h",
@@ -51324,9 +51324,9 @@
     {
       "path": "include/sharding/shard_rpc_client.h",
       "category": "modules_and_api",
-      "size": 18768,
-      "sha256": "1dd6ab5db456aeccbdd1e8984c064e91938b7f66a08f4f1f7e2fdba5e54f9c5f",
-      "modified_utc": "2026-11-23T16:19:51+00:00"
+      "size": 20588,
+      "sha256": "9e259c276ba7f8032d2c98eae20fea14ac55eaac5c44450eb160d4200e26464c",
+      "modified_utc": "2026-11-24T16:45:37+00:00"
     },
     {
       "path": "include/sharding/shard_rpc_client_adapter.h",
@@ -51338,9 +51338,9 @@
     {
       "path": "include/sharding/shard_rpc_server.h",
       "category": "modules_and_api",
-      "size": 10892,
-      "sha256": "83a445ddd87b2d366d35436cd6c3d1b61050285aaef3481ae2cec3e82461bd5a",
-      "modified_utc": "2026-11-23T16:19:51+00:00"
+      "size": 12857,
+      "sha256": "63a8ca9d85f9ffd8a39f5d629fae58294997d6df1450a236576c4a95991064b5",
+      "modified_utc": "2026-11-24T17:06:22+00:00"
     },
     {
       "path": "include/sharding/shard_topology.h",
@@ -55678,16 +55678,16 @@
     {
       "path": "src/distributed_tensor/README.md",
       "category": "modules_and_api",
-      "size": 15831,
-      "sha256": "43a70b38bf19d5e1e97932affa947243078a889012166185aceab11dd0309730",
-      "modified_utc": "2026-11-24T13:46:32+00:00"
+      "size": 17264,
+      "sha256": "db8d7a806dd1120a050e914b28b0ecd84e447641089bc2edad8d17fcfbe9d1f0",
+      "modified_utc": "2026-11-24T17:00:27+00:00"
     },
     {
       "path": "src/distributed_tensor/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 43707,
-      "sha256": "9b551eea5ad7b7ba4452b534fef0c247d4fc8bf7f1f33c429416afbed5d51c96",
-      "modified_utc": "2026-11-24T13:45:53+00:00"
+      "size": 44845,
+      "sha256": "994b11db441944406d5fc211627ea09ab9934573fb0ab3974222d658c7d36506",
+      "modified_utc": "2026-11-24T16:59:21+00:00"
     },
     {
       "path": "src/distributed_tensor/include/README.md",
@@ -56560,9 +56560,9 @@
     {
       "path": "src/sharding/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 15596,
-      "sha256": "e86a00853e099acfa10ed748486965171a914312c49f9cdd52a52084e11d027b",
-      "modified_utc": "2026-11-24T13:11:37+00:00"
+      "size": 16171,
+      "sha256": "19319d51fc7bfea8aa15a01b20b4ca2d869353aab195678f808367cddbae0995",
+      "modified_utc": "2026-11-24T17:10:54+00:00"
     },
     {
       "path": "src/sharding/README.md",
@@ -56574,9 +56574,9 @@
     {
       "path": "src/sharding/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 46894,
-      "sha256": "2c4afee8c3c2108a001f81e50b12b4831eacb51dd6f80e6443554fd8c2ebaa8c",
-      "modified_utc": "2026-11-24T13:11:12+00:00"
+      "size": 47528,
+      "sha256": "1187a5f80441fe11e8203aec49cd0cb004932bcc8d067c5d31e892192f41ddb4",
+      "modified_utc": "2026-11-24T17:00:36+00:00"
     },
     {
       "path": "src/stable_diffusion/FUTURE_ENHANCEMENTS.md",

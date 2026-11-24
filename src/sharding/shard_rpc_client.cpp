@@ -102,6 +102,16 @@ void requireRaftStatus(const grpc::Status& status) {
     }
 }
 
+void setRaftSnapshotDeadline(grpc::ClientContext& context,
+                             const ShardRPCClient::Config& config,
+                             uint32_t timeout_ms) {
+    if (timeout_ms == 0 || timeout_ms > 300000 || config.timeout_ms <= 0) {
+        throw std::runtime_error("Raft snapshot deadline must be between 1 ms and five minutes");
+    }
+    context.set_deadline(std::chrono::system_clock::now() +
+                         std::chrono::milliseconds(timeout_ms));
+}
+
 bool isLowercaseSha256(const std::string& digest) {
     return digest.size() == 64 &&
            std::all_of(digest.begin(), digest.end(), [](unsigned char ch) {
@@ -860,6 +870,107 @@ themisdb::sharding::AppendEntriesResponse ShardRPCClient::appendRaftEntries(
     (void)expected_peer_node_id;
     (void)request;
     throw std::runtime_error("Raft AppendEntries gRPC is not available in this build");
+#endif
+}
+
+RaftSnapshotInstallResult ShardRPCClient::installRaftSnapshot(
+    const std::string& raft_group_id,
+    const std::string& expected_peer_node_id,
+    const themisdb::sharding::RaftSnapshotManager& snapshot_manager,
+    uint64_t leader_term,
+    uint64_t snapshot_index,
+    uint32_t timeout_ms) {
+#if THEMIS_HAS_SHARD_GRPC
+    validateRaftTransport(impl_->config, raft_group_id, expected_peer_node_id,
+                          impl_->config.local_node_id);
+    if (!impl_->stub) {
+        throw std::runtime_error("Raft snapshot installation requires a gRPC transport");
+    }
+    constexpr uint64_t kMaxSnapshotBytes = 512ULL * 1024ULL * 1024ULL;
+    constexpr uint64_t kMaxSnapshotChunks = 4096;
+    constexpr std::size_t kMaxSnapshotChunkBytes = 4U * 1024U * 1024U;
+    if (leader_term == 0 || snapshot_index == 0 ||
+        impl_->config.max_raft_snapshot_bytes == 0 ||
+        impl_->config.max_raft_snapshot_bytes > kMaxSnapshotBytes) {
+        throw std::runtime_error("Raft snapshot transfer has invalid boundary or size limits");
+    }
+    const auto snapshot = snapshot_manager.loadSnapshot(snapshot_index);
+    const auto chunk_count = snapshot_manager.getChunkCount(snapshot_index);
+    if (!snapshot || snapshot->snapshot_index != snapshot_index ||
+        snapshot->snapshot_term == 0 || snapshot->snapshot_term > leader_term ||
+        chunk_count == 0 || chunk_count > kMaxSnapshotChunks) {
+        throw std::runtime_error("Raft snapshot source is missing or has invalid metadata");
+    }
+
+    grpc::ClientContext context;
+    setRaftSnapshotDeadline(context, impl_->config, timeout_ms);
+    proto::RaftSnapshotInstallResponseProto rpc_response;
+    auto stream = impl_->stub->InstallRaftSnapshot(&context, &rpc_response);
+    if (!stream) {
+        throw std::runtime_error("Raft snapshot stream could not be created");
+    }
+    uint64_t total_bytes = 0;
+    bool write_failed = false;
+    for (uint64_t chunk_index = 0; chunk_index < chunk_count; ++chunk_index) {
+        const auto chunk = snapshot_manager.getChunk(snapshot_index, chunk_index);
+        if (!chunk || chunk->snapshot_index != snapshot_index ||
+            chunk->chunk_index != chunk_index || chunk->total_chunks != chunk_count ||
+            chunk->last_chunk != (chunk_index + 1 == chunk_count) ||
+            chunk->data.empty() || chunk->data.size() > kMaxSnapshotChunkBytes ||
+            chunk->data.size() > impl_->config.max_raft_snapshot_bytes ||
+            !isLowercaseSha256(chunk->checksum) ||
+            total_bytes > impl_->config.max_raft_snapshot_bytes - chunk->data.size()) {
+            context.TryCancel();
+            throw std::runtime_error("Raft snapshot source contains an invalid chunk");
+        }
+        total_bytes += static_cast<uint64_t>(chunk->data.size());
+
+        proto::RaftSnapshotChunkProto frame;
+        frame.set_raft_group_id(raft_group_id);
+        frame.set_leader_id(impl_->config.local_node_id);
+        frame.set_leader_term(leader_term);
+        frame.set_snapshot_index(snapshot_index);
+        frame.set_snapshot_term(snapshot->snapshot_term);
+        frame.set_chunk_index(chunk_index);
+        frame.set_total_chunks(chunk_count);
+        frame.set_data(reinterpret_cast<const char*>(chunk->data.data()),
+                       chunk->data.size());
+        frame.set_checksum_sha256(chunk->checksum);
+        if (!stream->Write(frame)) {
+            write_failed = true;
+            break;
+        }
+    }
+    const bool writes_done = stream->WritesDone();
+    const auto status = stream->Finish();
+    requireRaftStatus(status);
+    if (rpc_response.follower_id() != expected_peer_node_id) {
+        throw std::runtime_error(
+            "Raft snapshot response identity does not match the configured peer");
+    }
+    if (rpc_response.term() < leader_term) {
+        throw std::runtime_error("Raft snapshot response term is stale");
+    }
+    if ((write_failed || !writes_done) &&
+        !(rpc_response.term() > leader_term && !rpc_response.installed())) {
+        throw std::runtime_error("Raft snapshot stream ended before all chunks were sent");
+    }
+    if (rpc_response.installed() &&
+        (rpc_response.snapshot_index() != snapshot_index ||
+         rpc_response.snapshot_term() != snapshot->snapshot_term)) {
+        throw std::runtime_error(
+            "Raft snapshot response does not confirm the requested boundary");
+    }
+    return {rpc_response.term(), rpc_response.snapshot_index(),
+            rpc_response.snapshot_term(), rpc_response.installed()};
+#else
+    (void)raft_group_id;
+    (void)expected_peer_node_id;
+    (void)snapshot_manager;
+    (void)leader_term;
+    (void)snapshot_index;
+    (void)timeout_ms;
+    throw std::runtime_error("Raft snapshot gRPC is not available in this build");
 #endif
 }
 

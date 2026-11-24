@@ -2135,6 +2135,44 @@ bool RaftSnapshotManager::installTransferredSnapshot(
     }
 }
 
+bool RaftSnapshotManager::installTransferredSnapshot(
+    uint64_t expected_index,
+    uint64_t expected_term,
+    const std::vector<RaftSnapshotChunk>& chunks) {
+    if (expected_index == 0 || expected_term == 0 || chunks.empty() ||
+        chunks.size() > config_.max_transfer_bytes) {
+        return false;
+    }
+
+    size_t total_bytes = 0;
+    const auto expected_chunk_count = static_cast<uint64_t>(chunks.size());
+
+    for (size_t position = 0; position < chunks.size(); ++position) {
+        const auto& chunk = chunks[position];
+        if (chunk.snapshot_index != expected_index ||
+            chunk.chunk_index != position ||
+            chunk.total_chunks != expected_chunk_count ||
+            chunk.last_chunk != (position + 1 == chunks.size()) ||
+            chunk.data.empty() ||
+            chunk.data.size() > config_.max_transfer_bytes - total_bytes ||
+            chunk.checksum != computeChecksum(chunk.data.data(), chunk.data.size())) {
+            return false;
+        }
+
+        total_bytes += chunk.data.size();
+    }
+
+    std::vector<uint8_t> snapshot_file;
+    snapshot_file.reserve(total_bytes);
+    for (const auto& chunk : chunks) {
+        snapshot_file.insert(
+            snapshot_file.end(), chunk.data.begin(), chunk.data.end());
+    }
+
+    return installTransferredSnapshot(
+        expected_index, expected_term, snapshot_file);
+}
+
 /**
  * @brief Cleanup Old Snapshots.
  * @details Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), rfind(), ends_with().
