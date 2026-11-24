@@ -24,16 +24,13 @@ services:
     volumes:
       # No persistent volumes for testing
       - type: tmpfs
-        target: /var/lib/themisdb/data
+        target: /var/lib/themis/data
         tmpfs:
           size: 1G
       - type: tmpfs
-        target: /var/lib/themisdb/logs
+        target: /logs
         tmpfs:
           size: 100M
-    environment:
-      - THEMIS_LOG_LEVEL=warn  # Reduce log noise in CI
-      - THEMIS_TEST_MODE=true
     deploy:
       resources:
         limits:
@@ -54,12 +51,9 @@ services:
         BUILD_TESTS: "ON"
     volumes:
       - type: tmpfs
-        target: /var/lib/themisdb/data
+        target: /var/lib/themis/data
         tmpfs:
           size: 512M
-    environment:
-      - THEMIS_LOG_LEVEL=warn
-      - THEMIS_TEST_MODE=true
     deploy:
       resources:
         limits:
@@ -131,7 +125,7 @@ services:
     environment:
       - GTEST_OUTPUT=xml:/app/test-results/
       - THEMIS_TEST_DB_HOST=test-db
-      - THEMIS_TEST_DB_PORT=8529
+      - THEMIS_TEST_DB_PORT=8080
     depends_on:
       - themisdb
       - test-db

@@ -4,20 +4,20 @@
 # Configuration for Docker Compose development environment
 # ============================================================================
 
-# Server Configuration
+# Server Configuration (keys read by themis_server: host, port, worker_threads)
 server:
   host: "0.0.0.0"
-  http_port: 8529
-  aql_port: 8765
-  metrics_port: 9090
+  port: 8080              # HTTP REST/AQL API incl. /health and /metrics
+  worker_threads: 0       # 0 = auto
   max_connections: 1000
   request_timeout: 300  # seconds
 
 # Storage Configuration
 storage:
-  data_dir: "/var/lib/themisdb/data"
-  wal_dir: "/var/lib/themisdb/data/wal"
-  backup_dir: "/var/lib/themisdb/backups"
+  rocksdb_path: "/var/lib/themis/data"
+  data_dir: "/var/lib/themis/data"
+  wal_dir: "/var/lib/themis/data/wal"
+  backup_dir: "/var/lib/themis/backups"
   
   # RocksDB Configuration
   rocksdb:
@@ -30,7 +30,7 @@ storage:
 # Logging Configuration
 logging:
   level: "info"  # trace, debug, info, warn, error
-  output: "/var/lib/themisdb/logs/themisdb.log"
+  output: "/logs/themisdb.log"
   max_size_mb: 100
   max_files: 10
   console: true
@@ -82,7 +82,7 @@ metrics:
   enabled: true
   prometheus:
     enabled: true
-    port: 9090
+    port: 8080  # served by the HTTP API (server.port); 9090 is health-only
     path: "/metrics"
   
   # Metric Collection

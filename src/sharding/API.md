@@ -266,7 +266,26 @@ Follower installation, automatic store configuration, leader routing,
 crash/failover, and release-platform evidence remain required before claiming
 end-to-end quorum-backed 2PC.
 Adding the extension map changes the public `RaftSnapshot` C++ layout; consumers
-must rebuild against matching headers and libraries.
+must rebuild against matching headers and libraries. The transfer-size setting
+also changes `RaftSnapshotManager::Config` layout; mixed-version binary ABI is
+not guaranteed.
+
+The receiver-side journal primitive `RaftState::installSnapshotFromLeader()`
+accepts only another configured member, a non-stale term, and a snapshot
+boundary with a positive index and term. It
+atomically rewrites the durable Raft journal and hard state; a
+matching local boundary preserves its suffix, while a conflicting committed
+boundary is rejected without changing the journal. If the boundary does not
+match only uncommitted local history, that suffix is discarded. The caller must
+validate and durably store the snapshot payload before calling this method, and
+restore the application state before serving requests. This primitive does not
+transfer snapshot bytes, apply the application snapshot, or provide the mTLS
+RPC path; follower catch-up is therefore not yet end-to-end.
+The separate payload boundary `RaftSnapshotManager::installTransferredSnapshot()`
+validates a complete serialized snapshot file, enforces
+`Config::max_transfer_bytes`, and installs it atomically. The RPC caller must
+assemble and verify chunks, then coordinate the file with journal installation
+and application-state restoration.
 
 Roll out only after quiescing older coordinators and preserving all log domains.
 Unresolved older records require explicit maintainer reconciliation. Rolling

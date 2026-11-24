@@ -36,21 +36,24 @@ services:
     container_name: themisdb-cpu
     hostname: themisdb-cpu
     ports:
-      - "8529:8529"
+      - "8529:8080"  # HTTP REST/AQL API (+ /health, /metrics)
     volumes:
-      - themisdb-cpu-data:/var/lib/themisdb/data
-      - ./config:/etc/themisdb:ro
+      - themisdb-cpu-data:/var/lib/themis/data
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
     environment:
       - THEMIS_EDITION=COMMUNITY
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 60s
     restart: unless-stopped
     # Expected log:
     # [WARN] Vulkan backend: Not available (disabled at build time)
@@ -78,19 +81,21 @@ services:
     container_name: themisdb-vulkan
     hostname: themisdb-vulkan
     ports:
-      - "8530:8529"
+      - "8530:8080"  # HTTP REST/AQL API (+ /health, /metrics)
     devices:
       - /dev/dri:/dev/dri  # GPU access via Direct Rendering Infrastructure
     volumes:
-      - themisdb-vulkan-data:/var/lib/themisdb/data
-      - ./config:/etc/themisdb:ro
+      - themisdb-vulkan-data:/var/lib/themis/data
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
       # Mount Vulkan ICD files from host
       - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
       - /etc/vulkan/icd.d:/etc/vulkan/icd.d:ro
     environment:
       - THEMIS_EDITION=COMMUNITY
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
       # Optional: Specify ICD file for specific GPU vendor
       # Intel:
       - VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/intel_icd.x86_64.json
@@ -102,10 +107,11 @@ services:
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 60s
     restart: unless-stopped
     # Expected log:
     # [INFO] Vulkan backend: Available
@@ -136,14 +142,16 @@ services:
     hostname: themisdb-cuda
     runtime: nvidia  # Requires nvidia-container-runtime
     ports:
-      - "8531:8529"
+      - "8531:8080"  # HTTP REST/AQL API (+ /health, /metrics)
     volumes:
-      - themisdb-cuda-data:/var/lib/themisdb/data
-      - ./config:/etc/themisdb:ro
+      - themisdb-cuda-data:/var/lib/themis/data
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
     environment:
       - THEMIS_EDITION=ENTERPRISE
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
       # NVIDIA-specific environment variables
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
@@ -157,10 +165,11 @@ services:
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 60s
     restart: unless-stopped
     # Expected log (if CUDA enabled):
     # [INFO] CUDA backend: Available
@@ -189,28 +198,31 @@ services:
     container_name: themisdb-enterprise
     hostname: themisdb-enterprise
     ports:
-      - "8532:8529"
+      - "8532:8080"  # HTTP REST/AQL API (+ /health, /metrics)
     # Conditionally mount GPU devices (graceful fallback if not present)
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - themisdb-enterprise-data:/var/lib/themisdb/data
-      - ./config:/etc/themisdb:ro
+      - themisdb-enterprise-data:/var/lib/themis/data
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
       - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
     environment:
       - THEMIS_EDITION=ENTERPRISE
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
     group_add:
       - video
       - render
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 60s
     restart: unless-stopped
 
 # ============================================================================

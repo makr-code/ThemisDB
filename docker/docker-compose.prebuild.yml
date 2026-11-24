@@ -55,16 +55,26 @@ services:
     image: themisdb:community-prebuild
     container_name: themisdb-community-prebuild
     ports:
-      - "8080:8080"
-      - "18765:18765"
-      - "4318:4318"
+      - "8080:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "9090:9090"  # Health/error service (/health, /errors)
+      # gRPC (WAL/API) only starts with THEMIS_WAL_GRPC_ENABLE_MTLS=true or _ALLOW_INSECURE=true
+      # - "50051:50051"
     volumes:
-      - themisdb-data:/data
+      - themisdb-data:/var/lib/themis/data
       - themisdb-logs:/logs
     environment:
       - THEMIS_EDITION=COMMUNITY
-      - THEMIS_DATA_DIR=/data
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     restart: unless-stopped
     networks:
       - themisdb-network
@@ -95,14 +105,23 @@ services:
     image: themisdb:minimal-prebuild
     container_name: themisdb-minimal-prebuild
     ports:
-      - "8081:8080"
-      - "18766:18765"
+      - "8081:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "9091:9090"  # Health/error service
     volumes:
-      - themisdb-minimal-data:/data
+      - themisdb-minimal-data:/var/lib/themis/data
     environment:
       - THEMIS_EDITION=MINIMAL
-      - THEMIS_DATA_DIR=/data
-      - THEMIS_LOG_LEVEL=info
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     restart: unless-stopped
     networks:
       - themisdb-network
@@ -133,7 +152,7 @@ services:
     container_name: themisdb-dev-prebuild
     volumes:
       - ./build:/build  # Mount build directory
-      - themisdb-dev-data:/data
+      - themisdb-dev-data:/var/lib/themis/data
     environment:
       - THEMIS_EDITION=COMMUNITY
       - CMAKE_BUILD_TYPE=Debug

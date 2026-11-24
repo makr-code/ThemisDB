@@ -506,6 +506,8 @@ RUN python3 scripts/release/validate_runtime_payload.py /opt/themis-runtime
 # ============================================================================
 # Stage 5: runtime - Production image (optimized for size and startup)
 # ============================================================================
+FROM prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0 AS prometheus-upstream
+FROM grafana/grafana:13.3.0@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205 AS grafana-upstream
 FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION=COMMUNITY
@@ -514,6 +516,13 @@ ARG TARGETARCH
 ENV DEBIAN_FRONTEND=noninteractive
 ENV THEMIS_EDITION=${THEMIS_EDITION}
 ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
+# Container runtime contract (see docker/README.md "Runtime contract").
+# themis_server resolves listener settings as CLI > env > config file > default,
+# so CMD intentionally passes no --port/--data-dir flags.
+ENV THEMIS_CONFIG=/etc/themis/config.yaml \
+    THEMIS_DATA_DIR=/var/lib/themis/data \
+    THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0 \
+    THEMIS_HEALTH_PORT=9090
 
 WORKDIR /app
 
@@ -556,6 +565,16 @@ RUN ldconfig && \
     cat /tmp/runtime-libraries.txt && \
     ! grep -q "not found" /tmp/runtime-libraries.txt
 
+COPY docker/config/config.yaml /etc/themis/config.yaml
+COPY --from=prometheus-upstream /bin/prometheus /usr/local/bin/prometheus
+COPY --from=prometheus-upstream /LICENSE /NOTICE /usr/share/licenses/prometheus/
+COPY --from=grafana-upstream /usr/share/grafana /usr/share/grafana
+COPY --from=grafana-upstream /etc/grafana/grafana.ini /etc/grafana/grafana.ini
+COPY --from=grafana-upstream /run.sh /usr/local/bin/grafana-upstream-run
+COPY docker/monitoring/grafana /etc/themis-monitoring/grafana
+COPY docker/grafana/dashboards /usr/share/themis-monitoring/dashboards
+COPY --chmod=755 docker/monitoring/entrypoint.sh /usr/local/bin/themis-entrypoint
+
 RUN set -eux; \
     if ! getent group themis >/dev/null; then \
         groupadd -r themis; \
@@ -563,19 +582,25 @@ RUN set -eux; \
     if ! id -u themis >/dev/null 2>&1; then \
         useradd -r -g themis -d /app -s /usr/sbin/nologin themis; \
     fi; \
-    mkdir -p /logs; \
-    chown -R themis:themis /app /models /logs
+    mkdir -p /logs /var/lib/themis/data /var/lib/prometheus /var/lib/grafana/plugins /var/log/grafana; \
+    chown -R themis:themis /app /models /logs /var/lib/themis /etc/themis /var/lib/prometheus /var/lib/grafana /var/log/grafana
 
 USER themis
 
 RUN /app/themis_server --version
 
-EXPOSE 8080
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+VOLUME ["/var/lib/themis/data", "/var/lib/prometheus", "/var/lib/grafana"]
 
-ENTRYPOINT ["/app/themis_server"]
-CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]
+# 8080 = HTTP REST/AQL API incl. /health and /metrics
+# 9090 = health/error service (THEMIS_HEALTH_PORT)
+# 50051 = gRPC WAL/API (only when THEMIS_WAL_GRPC_ENABLE_MTLS or _ALLOW_INSECURE is set)
+# 9091 = Prometheus, 3000 = Grafana (both only with THEMIS_MONITORING_ENABLED)
+EXPOSE 8080 9090 50051 9091 3000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD curl -fsS "http://127.0.0.1:${THEMIS_PORT:-8080}/health" >/dev/null || exit 1
+
+ENTRYPOINT ["/usr/local/bin/themis-entrypoint", "/app/themis_server"]
+CMD []
 
 # ============================================================================
 # Stage 6: debug - Development/debugging image (optimized, minimal extra tools)
@@ -620,6 +645,15 @@ RUN ldconfig && \
     ! grep -q "not found" /tmp/runtime-libraries.txt && \
     /app/themis_server --version
 
-EXPOSE 8080
+COPY docker/config/config.yaml /etc/themis/config.yaml
+RUN mkdir -p /var/lib/themis/data /logs
+
+ENV THEMIS_CONFIG=/etc/themis/config.yaml \
+    THEMIS_DATA_DIR=/var/lib/themis/data \
+    THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0 \
+    THEMIS_HEALTH_PORT=9090
+
+VOLUME ["/var/lib/themis/data"]
+EXPOSE 8080 9090 50051
 ENTRYPOINT ["/app/themis_server"]
-CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]
+CMD []

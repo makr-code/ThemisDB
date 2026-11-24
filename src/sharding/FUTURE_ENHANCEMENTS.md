@@ -112,8 +112,12 @@ fields are removed for v3.0.0, so consumers must migrate to the store factory
 and rebuild. `RaftShardManager::createTwoPhaseCommitDecisionStore()` constructs
 it for an initialized shard and restores its installed snapshot, but the
 application must still call the factory and inject the shared store; no store
-is created automatically at manager startup. Follower snapshot installation
-is still absent. Older binaries cannot read
+is created automatically at manager startup. A durable follower journal-anchor
+replacement primitive now exists and preserves a matching suffix or rejects a
+conflict with committed history. `RaftSnapshotManager::installTransferredSnapshot()`
+now validates and atomically stores a size-bounded complete snapshot file, but
+chunked mTLS transport, coordinated application-state restoration, and automatic
+follower catch-up remain absent. Older binaries cannot read
 extension-bearing version-2 snapshots, so downgrade requires explicit state
 reconciliation. CockroachDB Parallel Commits remain out of scope until the full
 gate passes.

@@ -149,7 +149,8 @@ threshold, and has supporting graph nodes. Missing, malformed, conflicting, or
 unsupported projections fail closed. The opt-in startup publisher encodes
 this format from stored tenant adapters, but trusted artifact discovery,
 refresh/invalidation, and multi-shard publication are not implemented. The
-publisher, host wiring, codec, and planner have not been built or run.
+publisher, host wiring, codec, and planner built in the focused Linux targets;
+the mTLS fixture case passed. The configured host startup has not been run.
 
 This integration applies to the public
 `themis::distributed_tensor::DistributedTensorPlanner`. The separate
@@ -185,8 +186,12 @@ publisher must produce the supported payload format.
 explicit projection format before calling `GraphTruthValidator`.
 Fragment-load success alone remains insufficient: identity, digest metadata,
 projection validity, and graph-backed evidence are all required.
+The codec, planner, publisher, and host composition have now built, and the
+focused mTLS fixture test passed. Configured production startup has not been run;
+trusted artifact discovery, refresh/invalidation, and multi-shard publication
+remain unimplemented.
 
-## Verification attempt (2026-10-31)
+## Historical verification attempt (2026-10-31)
 
 A diagnostic configure with tests and benchmarks enabled used CMake 3.31.6,
 GNU 13.3.0, Debug mode, and an empty toolchain file. Configuration stopped at
@@ -195,6 +200,25 @@ available; no build tree targets were generated. Consequently, no
 distributed-tensor test or benchmark executable was built or run. A standalone
 syntax check of `tensor_storage_strategy.h` passed with `-std=c++20` and was
 rejected with `-std=c++17` at `std::span`, as expected.
+
+## Focused verification (2026-11-24)
+
+In the existing Linux Debug build tree (`build-linux-raft-grpc`), the
+ShardRPC integration target and production server target built successfully:
+
+```sh
+cmake --build build-linux-raft-grpc --target test_shard_transfer_grpc --parallel 6
+ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure
+cmake --build build-linux-raft-grpc --target themis_server --parallel 6
+```
+
+The focused CTest selection passed 1/1. Its fixture case covers graph-based
+publication, RocksDB reopen, mTLS manifest retrieval, and manifest-bound
+planner validation. The server build verifies compilation and linkage of the
+opt-in host composition with gRPC enabled and `THEMIS_ENABLE_HTTP_SERVER=OFF`;
+it does not run the configured production startup. Trusted discovery,
+freshness/invalidation, continuous updates, benchmarks, and soak coverage
+remain open.
 
 ## Verweise
 

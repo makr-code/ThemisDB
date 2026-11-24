@@ -28,7 +28,9 @@ namespace http  = beast::http;
 class GrpcWebProxyHandler {
 public:
     struct Config {
-        std::string backend_address = "localhost:18765";
+        /// Target of the in-process gRPC server; HttpServer overrides this via
+        /// resolveGrpcListenSettings() (THEMIS_WAL_GRPC_PORT / THEMIS_GRPC_WEB_BACKEND).
+        std::string backend_address = "127.0.0.1:50051";
 
         std::string cors_allow_origin = "*";
 

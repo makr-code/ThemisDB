@@ -36,10 +36,12 @@ phase/contract sources. No distributed-tensor soak is registered under
 it exercised no production transport. A focused ShardRPC gRPC/mTLS
 fragment-fetch test is conditionally registered as `ShardTransferGrpcTests`
 under `tests/sharding/`; its original case uses a test reader. An additional
-unrun source case uses a fixture fingerprint graph and the local publisher, reopens
-RocksDB, and retrieves it through mTLS and the manifest-bound adapter; graph validation
-is included when the query and LLM module targets are available. It does not
-exercise production host configuration or a distributed-tensor soak.
+source case uses a fixture fingerprint graph and the local publisher, reopens
+RocksDB, and retrieves it through mTLS and the manifest-bound adapter; graph
+validation is included when the query and LLM module targets are available.
+`ShardTransferGrpcTests` passed 1/1 in the Linux CTest run on 2026-11-24. This
+fixture path does not exercise production host configuration or a
+distributed-tensor soak.
 A versioned principal/shard/artifact RocksDB mapping
 and opt-in `main_server.cpp` startup are now implemented in source. A local
 single-shard publisher persists a remote-readable manifest record; callers can
@@ -50,17 +52,26 @@ configured query projection when the ShardRPC adapter target is linked. The
 server link is independent of test-target registration, so production wiring
 does not disappear when focused sharding tests are disabled.
 Continuous producer updates, discovery and freshness remain open. A versioned adapter-similarity graph
-projection and fail-closed planner validation are source-implemented, but have
-not been built or run. The benchmark parent configuration adds
+projection and fail-closed planner validation are source-implemented and were
+built and exercised by the focused mTLS test. `themis_server` also built with
+the ShardRPC adapter linked while `THEMIS_ENABLE_HTTP_SERVER=OFF`; production
+configuration and live startup remain untested. The benchmark parent configuration adds
 `benchmarks/epic3_distributed_tensor/` and its placement, integrity, recovery,
 retrieval, partial-refit, and summary-first sources. The separate private
 integrity test and benchmark are registered only when OpenSSL Crypto is found.
 
-These registrations confirm configured source paths, not the historical test
-counts or pass claims reported below. A diagnostic configure was attempted for
-this follow-up but stopped at `cmake/Dependencies.cmake:727` because the
-required `fmt` library was unavailable; no build tree or module targets were
-generated. No module test or benchmark was run.
+Historical validation note (2026-10-31): a diagnostic configure stopped at
+`cmake/Dependencies.cmake:727` because `fmt` was unavailable. That attempt
+generated no targets and is superseded for the focused paths by the
+2026-11-24 Linux validation:
+
+- `cmake --build build-linux-raft-grpc --target test_shard_transfer_grpc --parallel 6` — passed.
+- `ctest --test-dir build-linux-raft-grpc -R "^ShardTransferGrpcTests$" --output-on-failure` — passed, 1/1 CTest test.
+- `cmake --build build-linux-raft-grpc --target themis_server --parallel 6` — passed; compile/link evidence only, not a production startup test.
+
+No full module suite, benchmark, production-configured startup, or soak test
+was run. Source registration and this focused evidence do not establish
+production enablement or release readiness.
 
 The source inventory establishes implementation surfaces, but not production
 enablement, release readiness, or measured runtime behavior. Phase labels and
@@ -195,7 +206,7 @@ pending.
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
-- [~] RocksDB fragment-store regressions and opt-in host startup publication are implemented in source; no build or runtime validation has been performed. A Linux mTLS case composes the local publisher, fragment store and adapter with a fixture summary; production configuration and live startup remain untested.
+- [~] RocksDB fragment-store regressions and opt-in host startup publication are implemented in source. The Linux mTLS fixture case built and passed through publisher, RocksDB reopen, transport, and manifest-bound retrieval; `themis_server` compiled and linked with the adapter. Production configuration and live startup remain untested.
 - [?] Historical test-source/pass claims remain unvalidated; they do not establish current behavior. New SHA-256 regressions are registered in focused test sources but have not been run.
 - [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
@@ -360,7 +371,7 @@ criterion to be checked against a recorded baseline.
   - [ ] Add contract tests for missing fetcher, timeout, cancellation, duplicate/unknown shard, partial response, corruption, exhausted retries, and primary-artifact degraded-mode rejection (Target: v2.5.0).
 - **Risk / trade-off:** retries and degraded reads can amplify load or weaken correctness; default to bounded fail-closed behavior for primary/ground-truth artifacts and make any advisory path explicit.
 - **Exit metrics:** 100% of injected failure cases terminate within the configured deadline plus documented test tolerance; retry count never exceeds the configured cap; zero incomplete, wrong-identity, or invalid-integrity results are accepted as success.
-- **Validation:** deterministic fault-injection tests; concurrency/race checks for recovery state; the RocksDB store regressions and ShardRPC mTLS integration test are registered but unbuilt/unrun; production startup/storage runtime evidence and caller-driven cancellation remain unverified.
+- **Validation:** deterministic fault-injection tests; concurrency/race checks for recovery state; the Linux ShardRPC mTLS fixture case is built and passed, and the Windows RocksDB store test passed. Production startup/storage runtime evidence and caller-driven cancellation remain unverified.
 
 #### Wave 4 — v2.5.0 integration and performance evidence (P0; 2–4 engineering weeks)
 
@@ -368,7 +379,7 @@ criterion to be checked against a recorded baseline.
   recovery on an explicitly described deployment profile.
 - **Dependencies:** Waves 1–3 and a provisioned representative multi-process or multi-node environment.
 - **Tasks:**
-  - [~] Add end-to-end tests that exercise placement → fetch → integrity check → fallback/recovery with the selected adapter, including a failed node and stale summary; a new unrun test source composes local fixture-summary publication, RocksDB reopen, mTLS, manifest-bound fetch and conditional graph validation, but does not cover distributed recovery (Target: v2.5.0).
+  - [~] Add end-to-end tests that exercise placement → fetch → integrity check → fallback/recovery with the selected adapter, including a failed node and stale summary; the passing fixture case composes local graph-summary publication, RocksDB reopen, mTLS, manifest-bound fetch and conditional graph validation, but does not cover distributed recovery (Target: v2.5.0).
   - [ ] Replace any release decision based on DT-BM-01..04 stub thresholds with measurements from the real execution path; retain the stubs only as isolated microbenchmarks (Target: v2.5.0).
   - [ ] Capture p50/p95/p99 latency, throughput, bytes transferred, resource use, and recovery time for 1/2/4-node profiles and 1 MiB/64 MiB/1 GiB artifacts; run each profile at least three times and archive raw outputs with topology/build metadata (Target: v2.5.0).
 - **Risk / trade-off:** representative hardware and network variability may block or dominate results; publish environment and variance, and do not generalize a single topology’s result.
@@ -442,12 +453,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - The previous `tests/integration/test_distributed_tensor_soak.cpp` used only
   in-process queue, sync, and routing stubs; it has been removed and is not
   integration evidence. A focused ShardRPC mTLS integration test now
-  exercises real fragment transport with a test-only storage reader; another
-  unrun case composes the production fragment store and mTLS adapter. The
+  exercises real fragment transport with a test-only storage reader; its
+  fixture-graph case composing the production fragment store and mTLS adapter
+  passed in the Linux focused CTest run on 2026-11-24. The
   production storage mapping, optional mTLS serving, and an opt-in one-shot
-  startup publisher now exist in source; none has build/runtime evidence.
+  startup publisher now build successfully; only the fixture path has runtime
+  test evidence, not the configured production startup.
   Trusted artifact discovery and refresh remain open. A bounded adapter-similarity projection
-  and planner validation path are also source-implemented but unverified. No
+  and planner validation path are exercised by that fixture case. No
   consumer discovery path or distributed-tensor soak exists; those ownership
   and deployment gates remain open.
 

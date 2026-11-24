@@ -50,7 +50,7 @@ Exact model backend not verifiable from final document text alone.
 - phase-5 metadata now defines canonical seed `42`, representative topologies, and gate identities
 - runtime benchmark sources should be added only alongside the corresponding distributed tensor implementation sources
 - phase-6 acceptance documentation must consume recorded pass/fail outputs instead of narrative-only status claims
-- `ShardArtifactFragmentStore` owns immutable, principal-scoped payload persistence with synchronous WAL commits. `main_server.cpp` wires it to `ShardRPCServer` only when explicitly enabled and can publish one adapter-similarity snapshot at startup when the optional adapter target is linked and explicit tenant/principal/node/query configuration is present. This does not refresh on writes or discover the resulting artifact; source has not been built or run
+- `ShardArtifactFragmentStore` owns immutable, principal-scoped payload persistence with synchronous WAL commits. The Linux `ShardTransferGrpcTests` fixture path built and passed on 2026-11-24, covering local publication, RocksDB reopen, mTLS manifest retrieval, and manifest-bound planning. `themis_server` also compiled and linked with the optional adapter target; configured production startup has not been run. This does not refresh on writes or discover the resulting artifact.
 - `GraphSummaryProjectionCodec` defines the bounded `TSPJ` version-1 adapter-similarity payload and the planner merges decoded candidates before `GraphTruthValidator`. Unknown or invalid formats remain fail-closed; arbitrary tensor weights are not projectable through this contract
 
 ## Test Strategy

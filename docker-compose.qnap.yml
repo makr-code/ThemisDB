@@ -15,9 +15,9 @@
 #
 # ACCESS
 # ──────
-#   ThemisDB HTTP API : http://<QNAP-IP>:18765
-#   ThemisDB gRPC     : <QNAP-IP>:18081
-#   Prometheus Metrics: http://<QNAP-IP>:19090
+#   ThemisDB HTTP API : http://<QNAP-IP>:18765   (also /health and /metrics)
+#   Health service    : http://<QNAP-IP>:19090/health
+#   ThemisDB gRPC     : <QNAP-IP>:18081 (disabled by default, see below)
 #   Admin UI          : http://<QNAP-IP>:18766
 #
 # SECURITY NOTE
@@ -45,21 +45,26 @@ services:
     container_name: themisdb
     restart: unless-stopped
     ports:
-      - "18765:8080"   # HTTP REST / AQL API
-      - "18081:8081"   # gRPC
-      - "19090:9090"   # Prometheus metrics
+      - "18765:8080"   # HTTP REST / AQL API (+ /health, /metrics)
+      - "19090:9090"   # Health/error service
+      # gRPC (WAL + API) — enable together with THEMIS_WAL_GRPC_* below:
+      # - "18081:50051"
     volumes:
       # Persistent data — stored on QNAP shared folder
       - themis-data:/var/lib/themis/data
-      # Optional: mount a custom config file from the host
-      # - ./config/config.yaml:/etc/themis/config/config.yaml:ro
-      - themis-logs:/var/log/themis
+      # Optional: replace the image default config (/etc/themis/config.yaml)
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
+      - themis-logs:/logs
     environment:
       - THEMIS_EDITION=COMMUNITY
-      - THEMIS_LOG_LEVEL=info
+      # Image defaults (CLI > env > config file > default):
+      - THEMIS_CONFIG=/etc/themis/config.yaml
       - THEMIS_DATA_DIR=/var/lib/themis/data
-      - THEMIS_METRICS_ENABLED=true
-      - THEMIS_TRACING_ENABLED=false
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
+      # gRPC: requires mTLS (THEMIS_WAL_GRPC_ENABLE_MTLS=true + *_CERT_PATH/*_KEY_PATH/*_CA_CERT_PATH)
+      # or, for trusted LANs only, THEMIS_WAL_GRPC_ALLOW_INSECURE=true
       # Uncomment to require authentication (Phase 2):
       # - THEMIS_AUTH_ENABLED=true
       # - THEMIS_ADMIN_USER=admin
@@ -67,11 +72,11 @@ services:
       # MFA enforcement for admin role (Phase 2):
       # - THEMIS_MFA_REQUIRED_ROLES=admin,operator
     healthcheck:
-      test: ["CMD", "curl", "-fL", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 15s
+      start_period: 60s
     networks:
       - themis-net
     deploy:

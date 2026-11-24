@@ -1,24 +1,20 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T10:38:45+00:00",
+  "generated_at": "2026-11-24T13:46:39+00:00",
   "mode": "incremental",
-  "source_count": 8127,
-  "source_hash": "00be3e2fcd52bf2cc0a6a20060bc68c8b6c658c41c707212856850c5e0202c95",
+  "source_count": 8128,
+  "source_hash": "6ec10a41f4842c5bd335da0c4b1f113f0d00259ee94dc0c3970b4381338a3111",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 5,
+    "changed_count": 1,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "CHANGELOG.md",
-      "ai_context/api_contracts/transaction.md",
-      "include/sharding/raft_two_phase_commit_decision_store.h",
-      "src/sharding/FUTURE_ENHANCEMENTS.md",
-      "src/sharding/ROADMAP.md"
+      "src/distributed_tensor/README.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "29dca6cdbbbd96b54115567d81bb3129202b9056c96d025757603ccb76aa607e"
+  "manifest_sha256": "db1cd90050db98a537fd71b2b4e5f44d2038e1c4e5039a04d0e786a915e5b690"
 }

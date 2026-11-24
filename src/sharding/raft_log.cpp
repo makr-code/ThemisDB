@@ -20,6 +20,7 @@
 #include <array>
 #include <charconv>
 #include <chrono>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -717,6 +718,19 @@ void RaftLog::persistHardState(uint64_t term, const std::string& voted_for) {
 }
 
 void RaftLog::compactJournal() {
+    persistJournalState(
+        log_, commit_index_, snapshot_index_, snapshot_term_,
+        persisted_hard_state_present_, persisted_term_, persisted_vote_);
+}
+
+void RaftLog::persistJournalState(
+    const std::map<uint64_t, LogEntry>& log,
+    uint64_t commit_index,
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    bool hard_state_present,
+    uint64_t hard_state_term,
+    const std::string& hard_state_vote) {
     if (persistence_path_.empty()) {
         return;
     }
@@ -725,22 +739,22 @@ void RaftLog::compactJournal() {
     }
 
     std::string contents;
-    if (snapshot_index_ > 0) {
+    if (snapshot_index > 0) {
         contents += formatRaftJournalRecord(
-            "B|" + std::to_string(snapshot_index_) + "|" + std::to_string(snapshot_term_));
+            "B|" + std::to_string(snapshot_index) + "|" + std::to_string(snapshot_term));
     }
-    if (persisted_hard_state_present_) {
+    if (hard_state_present) {
         contents += formatRaftJournalRecord(
-            "H|" + std::to_string(persisted_term_) + "|" +
-            encodeJournalField(persisted_vote_));
+            "H|" + std::to_string(hard_state_term) + "|" +
+            encodeJournalField(hard_state_vote));
     }
-    for (const auto& [index, entry] : log_) {
+    for (const auto& [index, entry] : log) {
         contents += formatRaftJournalRecord(
             "E|" + std::to_string(entry.term) + "|" + std::to_string(index) + "|" +
             std::to_string(entry.timestamp_ns) + "|" + encodeJournalField(entry.command));
     }
-    if (commit_index_ > 0) {
-        contents += formatRaftJournalRecord("C|" + std::to_string(commit_index_));
+    if (commit_index > 0) {
+        contents += formatRaftJournalRecord("C|" + std::to_string(commit_index));
     }
 
     const auto temporary_path = std::filesystem::path(
@@ -759,7 +773,7 @@ void RaftLog::compactJournal() {
         std::error_code remove_error;
         std::filesystem::remove(temporary_path, remove_error);
         persistence_healthy_ = false;
-        throw std::runtime_error("cannot install compacted Raft journal: " + install_error);
+        throw std::runtime_error("cannot atomically install Raft journal: " + install_error);
     }
 }
 
@@ -1142,6 +1156,93 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
     // verified snapshot_index <= commit_index, so commit_index_ is already
     // correct and we must not move it forward.
     compactJournal();
+}
+
+void RaftLog::installSnapshotWithHardState(
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    uint64_t hard_state_term,
+    const std::string& hard_state_vote) {
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+
+    if (persistence_path_.empty()) {
+        throw std::runtime_error(
+            "Raft snapshot installation requires a durable journal");
+    }
+    if (!persistence_healthy_) {
+        throw std::runtime_error("Raft snapshot installation requires a healthy journal");
+    }
+    if (hard_state_term < persisted_term_ ||
+        (hard_state_term == persisted_term_ && !persisted_vote_.empty() &&
+         hard_state_vote != persisted_vote_)) {
+        throw std::runtime_error("Raft snapshot installation contains regressing hard state");
+    }
+    installSnapshotLocked(
+        snapshot_index,
+        snapshot_term,
+        hard_state_term,
+        hard_state_vote,
+        true);
+}
+
+void RaftLog::installSnapshotLocked(
+    uint64_t snapshot_index,
+    uint64_t snapshot_term,
+    uint64_t hard_state_term,
+    const std::string& hard_state_vote,
+    bool hard_state_present) {
+    if (snapshot_index == 0 || snapshot_term == 0 ||
+        snapshot_index < snapshot_index_) {
+        throw std::runtime_error("Raft snapshot boundary is empty or regresses");
+    }
+    if (snapshot_index == snapshot_index_) {
+        if (snapshot_term != snapshot_term_) {
+            throw std::runtime_error("Raft snapshot term conflicts with the installed anchor");
+        }
+        if (hard_state_present != persisted_hard_state_present_ ||
+            hard_state_term != persisted_term_ ||
+            hard_state_vote != persisted_vote_) {
+            persistJournalState(
+                log_, commit_index_, snapshot_index_, snapshot_term_,
+                hard_state_present, hard_state_term, hard_state_vote);
+            persisted_hard_state_present_ = hard_state_present;
+            persisted_term_ = hard_state_term;
+            persisted_vote_ = hard_state_vote;
+        }
+        return;
+    }
+
+    const auto boundary = log_.find(snapshot_index);
+    const bool matching_boundary =
+        boundary != log_.end() && boundary->second.term == snapshot_term;
+    if (snapshot_index <= commit_index_ && !matching_boundary) {
+        throw std::runtime_error(
+            "Raft snapshot conflicts with committed local history");
+    }
+
+    std::map<uint64_t, LogEntry> retained_entries;
+    if (matching_boundary) {
+        retained_entries.insert(log_.upper_bound(snapshot_index), log_.end());
+    }
+    const uint64_t installed_commit_index =
+        matching_boundary ? std::max(commit_index_, snapshot_index) : snapshot_index;
+
+    persistJournalState(
+        retained_entries,
+        installed_commit_index,
+        snapshot_index,
+        snapshot_term,
+        hard_state_present,
+        hard_state_term,
+        hard_state_vote);
+
+    log_.swap(retained_entries);
+    commit_index_ = installed_commit_index;
+    snapshot_index_ = snapshot_index;
+    snapshot_term_ = snapshot_term;
+    persisted_hard_state_present_ = hard_state_present;
+    persisted_term_ = hard_state_term;
+    persisted_vote_ = hard_state_vote;
 }
 
 /**
@@ -1751,29 +1852,27 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
         }
         file.close();
 
-        // Decompress to verify checksum
-        if (!snap.data.empty()) {
-            auto decompressed = themis::utils::zstd_decompress(snap.data);
-            if (decompressed.empty() && snap.uncompressed_size > 0) {
-                spdlog::error("RaftSnapshotManager: decompression failed for snapshot {}",
-                              snapshot_index);
-                return std::nullopt;
-            }
-            // Verify decompressed size matches the stored metadata
-            if (decompressed.size() != snap.uncompressed_size) {
-                spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
-                              "expected {} got {}",
-                              snapshot_index, snap.uncompressed_size,decompressed.size());
-                return std::nullopt;
-            }
-            const std::string actual_checksum =
-                computeChecksum(decompressed.data(),decompressed.size());
-            if (actual_checksum != snap.checksum) {
-                spdlog::error("RaftSnapshotManager: checksum mismatch for snapshot {} "
-                              "(expected={} actual={})",
-                              snapshot_index, snap.checksum, actual_checksum);
-                return std::nullopt;
-            }
+        // Verify even empty payloads so a malformed zero-byte file cannot bypass
+        // the size and application-state checksum contract.
+        auto decompressed = themis::utils::zstd_decompress(snap.data);
+        if (decompressed.empty() && snap.uncompressed_size > 0) {
+            spdlog::error("RaftSnapshotManager: decompression failed for snapshot {}",
+                          snapshot_index);
+            return std::nullopt;
+        }
+        if (decompressed.size() != snap.uncompressed_size) {
+            spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
+                          "expected {} got {}",
+                          snapshot_index, snap.uncompressed_size,decompressed.size());
+            return std::nullopt;
+        }
+        const std::string actual_checksum =
+            computeChecksum(decompressed.data(),decompressed.size());
+        if (actual_checksum != snap.checksum) {
+            spdlog::error("RaftSnapshotManager: checksum mismatch for snapshot {} "
+                          "(expected={} actual={})",
+                          snapshot_index, snap.checksum, actual_checksum);
+            return std::nullopt;
         }
 
         return snap;
@@ -1907,6 +2006,132 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
         spdlog::error("RaftSnapshotManager: getChunk error snapshot={} chunk={}: {}",
                       snapshot_index, chunk_index, e.what());
         return std::nullopt;
+    }
+}
+
+bool RaftSnapshotManager::installTransferredSnapshot(
+    uint64_t expected_index,
+    uint64_t expected_term,
+    const std::vector<uint8_t>& snapshot_file) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::filesystem::path staging_directory;
+    const auto cleanup_staging = [&staging_directory, expected_index]() {
+        if (staging_directory.empty()) {
+            return;
+        }
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(staging_directory, cleanup_error);
+        if (cleanup_error) {
+            spdlog::warn("RaftSnapshotManager: cannot clean staging directory for "
+                         "snapshot {}: {}",
+                         expected_index, cleanup_error.message());
+        }
+    };
+
+    try {
+        if (expected_index == 0 || expected_term == 0 ||
+            snapshot_file.empty() ||
+            snapshot_file.size() > config_.max_transfer_bytes ||
+            snapshot_file.size() >
+                static_cast<size_t>(std::numeric_limits<std::streamsize>::max())) {
+            spdlog::warn("RaftSnapshotManager: invalid transferred snapshot metadata or size");
+            return false;
+        }
+
+        const auto transfer_nonce =
+            std::chrono::steady_clock::now().time_since_epoch().count();
+        staging_directory =
+            std::filesystem::path(config_.snapshot_directory) /
+            (".incoming-" + std::to_string(expected_index) + "-" +
+             std::to_string(transfer_nonce));
+        const auto staging_path =
+            staging_directory /
+            ("raft_snapshot_" + std::to_string(expected_index) + ".bin");
+        const std::string_view file_contents(
+            reinterpret_cast<const char*>(snapshot_file.data()),
+            snapshot_file.size());
+        std::string write_error;
+        if (!writeDurableTemporaryFile(staging_path, file_contents, write_error)) {
+            spdlog::error("RaftSnapshotManager: cannot stage transferred snapshot {}: {}",
+                          expected_index, write_error);
+            cleanup_staging();
+            return false;
+        }
+
+        Config verifier_config;
+        verifier_config.snapshot_directory = staging_directory.string();
+        verifier_config.max_transfer_bytes = config_.max_transfer_bytes;
+        RaftSnapshotManager verifier(verifier_config);
+        const auto verified_snapshot = verifier.loadSnapshot(expected_index);
+        if (!verified_snapshot ||
+            verified_snapshot->snapshot_index != expected_index ||
+            verified_snapshot->snapshot_term != expected_term) {
+            spdlog::warn("RaftSnapshotManager: transferred snapshot {} failed format, "
+                         "checksum, or boundary validation",
+                         expected_index);
+            cleanup_staging();
+            return false;
+        }
+
+        const auto destination_path = std::filesystem::path(snapshotPath(expected_index));
+        if (std::filesystem::exists(destination_path)) {
+            const auto existing_size = std::filesystem::file_size(destination_path);
+            if (existing_size != snapshot_file.size()) {
+                spdlog::warn("RaftSnapshotManager: conflicting transferred snapshot {} "
+                             "already exists with a different size",
+                             expected_index);
+                cleanup_staging();
+                return false;
+            }
+
+            std::ifstream existing_file(destination_path, std::ios::binary);
+            if (!existing_file.is_open()) {
+                spdlog::error("RaftSnapshotManager: cannot open existing snapshot {}",
+                              expected_index);
+                cleanup_staging();
+                return false;
+            }
+            std::array<uint8_t, 64 * 1024> buffer{};
+            size_t offset = 0;
+            while (offset < snapshot_file.size()) {
+                const auto bytes_to_read =
+                    std::min(buffer.size(), snapshot_file.size() - offset);
+                existing_file.read(
+                    reinterpret_cast<char*>(buffer.data()),
+                    static_cast<std::streamsize>(bytes_to_read));
+                if (existing_file.gcount() !=
+                        static_cast<std::streamsize>(bytes_to_read) ||
+                    std::memcmp(buffer.data(), snapshot_file.data() + offset,
+                                bytes_to_read) != 0) {
+                spdlog::warn("RaftSnapshotManager: conflicting transferred snapshot {} "
+                             "does not match the existing file",
+                             expected_index);
+                    cleanup_staging();
+                    return false;
+                }
+                offset += bytes_to_read;
+            }
+            spdlog::info("RaftSnapshotManager: transferred snapshot {} already installed",
+                     expected_index);
+            cleanup_staging();
+            return true;
+        }
+
+        std::string install_error;
+        if (!installDurableSnapshot(
+                staging_path, destination_path, install_error)) {
+            spdlog::error("RaftSnapshotManager: cannot install transferred snapshot {}: {}",
+                          expected_index, install_error);
+            cleanup_staging();
+            return false;
+        }
+        cleanup_staging();
+        return true;
+    } catch (const std::exception& error) {
+        cleanup_staging();
+        spdlog::error("RaftSnapshotManager: transferred snapshot {} failed: {}",
+                      expected_index, error.what());
+        return false;
     }
 }
 

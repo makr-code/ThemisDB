@@ -178,6 +178,8 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
     test -f /src/build/bin/themis_server && \
     mkdir -p /src/build/data
 
+FROM prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0 AS prometheus-upstream
+FROM grafana/grafana:13.3.0@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205 AS grafana-upstream
 FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION
@@ -192,35 +194,53 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     THEMIS_EDITION=${THEMIS_EDITION} \
     LD_LIBRARY_PATH=/opt/themis/lib \
-    THEMIS_CONFIG_DIR=/etc/themis/config \
+    THEMIS_CONFIG=/etc/themis/config.yaml \
     THEMIS_DATA_DIR=/var/lib/themis/data \
     THEMIS_LOG_DIR=/var/log/themis \
-    THEMIS_MODEL_DIR=/opt/themis/models
+    THEMIS_MODEL_DIR=/opt/themis/models \
+    THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0 \
+    THEMIS_HEALTH_PORT=9090
 
 WORKDIR /opt/themis
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates libssl3t64 zlib1g libstdc++6 libgomp1 libsodium23 libvulkan1 && \
+        ca-certificates curl libssl3t64 zlib1g libstdc++6 libgomp1 libsodium23 libvulkan1 && \
     apt-get upgrade -y --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /opt/themis/lib /etc/themis/config /var/log/themis /var/lib/themis/data /opt/themis/models
+    mkdir -p /opt/themis/lib /etc/themis /var/log/themis /var/lib/themis/data /opt/themis/models
 
 COPY --from=build /src/build/bin/themis_server /opt/themis/themis_server
 COPY --from=build /src/build/lib/ /opt/themis/lib/
 COPY --from=build /src/build/data/ /opt/themis/data/
-COPY docker/config /etc/themis/config
+COPY docker/config/config.yaml /etc/themis/config.yaml
+COPY --from=prometheus-upstream /bin/prometheus /usr/local/bin/prometheus
+COPY --from=prometheus-upstream /LICENSE /NOTICE /usr/share/licenses/prometheus/
+COPY --from=grafana-upstream /usr/share/grafana /usr/share/grafana
+COPY --from=grafana-upstream /etc/grafana/grafana.ini /etc/grafana/grafana.ini
+COPY --from=grafana-upstream /run.sh /usr/local/bin/grafana-upstream-run
+COPY docker/monitoring/grafana /etc/themis-monitoring/grafana
+COPY docker/grafana/dashboards /usr/share/themis-monitoring/dashboards
+COPY --chmod=755 docker/monitoring/entrypoint.sh /usr/local/bin/themis-entrypoint
 
 RUN set -eux; \
-    chmod 755 /opt/themis /opt/themis/lib /var/log/themis /var/lib/themis /var/lib/themis/data; \
     if ! getent group themis >/dev/null; then groupadd -r themis; fi; \
     if ! getent passwd themis >/dev/null; then useradd -r -d /opt/themis -s /bin/false -g themis themis; fi; \
-    chown -R themis:themis /opt/themis /etc/themis /var/lib/themis /var/log/themis; \
-    mkdir -p /data; chown -R root:root /opt/themis /data; \
+    chown -R root:root /opt/themis; \
+    chmod 755 /opt/themis /opt/themis/lib; \
+    mkdir -p /var/lib/prometheus /var/lib/grafana/plugins /var/log/grafana; \
+    chown -R themis:themis /var/lib/themis /var/log/themis /opt/themis/models /var/lib/prometheus /var/lib/grafana /var/log/grafana; \
+    chmod 644 /etc/themis/config.yaml; \
     ldconfig
 
 USER themis
-EXPOSE 8080 18765
-ENTRYPOINT ["/opt/themis/themis_server"]
-CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]
+VOLUME ["/var/lib/themis/data", "/var/lib/prometheus", "/var/lib/grafana"]
+# 8080 = HTTP REST/AQL API incl. /health and /metrics; 9090 = health/error service;
+# 50051 = gRPC (only with THEMIS_WAL_GRPC_ENABLE_MTLS or THEMIS_WAL_GRPC_ALLOW_INSECURE)
+# 9091 = Prometheus, 3000 = Grafana (both only with THEMIS_MONITORING_ENABLED)
+EXPOSE 8080 9090 50051 9091 3000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD curl -fsS "http://127.0.0.1:${THEMIS_PORT:-8080}/health" >/dev/null || exit 1
+ENTRYPOINT ["/usr/local/bin/themis-entrypoint", "/opt/themis/themis_server"]
+CMD []

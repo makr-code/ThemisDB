@@ -534,6 +534,47 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     return response;
 }
 
+bool RaftState::installSnapshotFromLeader(
+    const std::string& leader_id,
+    uint64_t leader_term,
+    uint64_t snapshot_index,
+    uint64_t snapshot_term) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+
+    if (!log_.hasDurableJournal() || !log_.isPersistenceHealthy()) {
+        return false;
+    }
+    if (leader_id.empty() || leader_id == config_.node_id ||
+        std::find(config_.cluster_members.begin(),
+                  config_.cluster_members.end(),
+                  leader_id) == config_.cluster_members.end() ||
+        snapshot_index == 0 || snapshot_term == 0 || snapshot_term > leader_term ||
+        leader_term < current_term_ || snapshot_index < snapshot_index_ ||
+        (snapshot_index == snapshot_index_ &&
+         snapshot_term != snapshot_term_)) {
+        return false;
+    }
+    if (leader_term == current_term_ && !voted_for_.empty() &&
+        voted_for_ != leader_id) {
+        return false;
+    }
+
+    const std::string installed_vote =
+        leader_term > current_term_ ? std::string{} : voted_for_;
+    log_.installSnapshotWithHardState(
+        snapshot_index, snapshot_term, leader_term, installed_vote);
+
+    snapshot_index_ = snapshot_index;
+    snapshot_term_ = snapshot_term;
+    current_term_ = leader_term;
+    voted_for_ = installed_vote;
+    state_ = RaftNodeState::FOLLOWER;
+    leader_id_ = leader_id;
+    votes_received_.clear();
+    resetElectionTimeout();
+    return true;
+}
+
 /**
  * @brief Get Log.
  * @return Return value.

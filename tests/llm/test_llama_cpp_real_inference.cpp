@@ -35,10 +35,12 @@
 #endif
 
 #include <gtest/gtest.h>
+#include <chrono>
 #include <filesystem>
 #include <cstdlib>
 #include <atomic>
 #include <cmath>
+#include <memory>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -502,6 +504,68 @@ TEST_F(LlamaCppRealInferenceTest, E3_UnloadedPlugin_ErrorResponse) {
     EXPECT_FALSE(resp.error_message.empty())
         << "generate() on unloaded plugin should return a non-empty error_message";
     spdlog::info("[E3] unloaded error_message='{}'", resp.error_message);
+#endif
+}
+
+// ═══════════════════════════════════════════════════════════
+// Group F – ThemisDB backend control contract
+// ═══════════════════════════════════════════════════════════
+
+/** F1: An expired request deadline is rejected before inference or streaming. */
+TEST_F(LlamaCppRealInferenceTest, F1_ExpiredDeadline_FailsClosedBeforeInference) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
+    }
+    LlamaPlugin plugin;
+    ASSERT_TRUE(makePlugin(plugin));
+
+    std::atomic<int> callback_count{0};
+    auto req = makeReq("This request must not reach inference.", 8);
+    req.trace_id = "0123456789abcdef0123456789abcdef";
+    req.span_id = "0123456789abcdef";
+    req.deadline = std::chrono::steady_clock::time_point::min();
+    req.stream_callback = [&callback_count](const std::string&) {
+        callback_count.fetch_add(1, std::memory_order_relaxed);
+    };
+
+    const auto response = plugin.generate(req);
+    EXPECT_FALSE(response.success);
+    EXPECT_EQ(response.error_message, "Request deadline exceeded");
+    EXPECT_EQ(response.trace_id, req.trace_id);
+    EXPECT_EQ(response.span_id, req.span_id);
+    EXPECT_EQ(callback_count.load(std::memory_order_relaxed), 0);
+#endif
+}
+
+/** F2: A pre-cancelled request is rejected before inference or streaming. */
+TEST_F(LlamaCppRealInferenceTest, F2_PreCancelledRequest_FailsClosedBeforeInference) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
+    }
+    LlamaPlugin plugin;
+    ASSERT_TRUE(makePlugin(plugin));
+
+    std::atomic<int> callback_count{0};
+    auto req = makeReq("This request must not reach inference.", 8);
+    req.trace_id = "fedcba9876543210fedcba9876543210";
+    req.span_id = "fedcba9876543210";
+    req.cancellation_token = std::make_shared<const std::atomic<bool>>(true);
+    req.stream_callback = [&callback_count](const std::string&) {
+        callback_count.fetch_add(1, std::memory_order_relaxed);
+    };
+
+    const auto response = plugin.generate(req);
+    EXPECT_FALSE(response.success);
+    EXPECT_EQ(response.error_message, "Request cancelled");
+    EXPECT_EQ(response.trace_id, req.trace_id);
+    EXPECT_EQ(response.span_id, req.span_id);
+    EXPECT_EQ(callback_count.load(std::memory_order_relaxed), 0);
 #endif
 }
 

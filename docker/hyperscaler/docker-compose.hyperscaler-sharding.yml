@@ -30,21 +30,22 @@ x-themis-base: &themis-base
     CLUSTER_SIZE: "10"
     REPLICATION_FACTOR: "2"
     CONSISTENCY_LEVEL: QUORUM
-    THEMIS_ENABLE_TRACING: "true"
-    THEMIS_ENABLE_LLM_STORE: "true"
-    THEMIS_ENABLE_GPU: "true"
-    THEMIS_LOG_LEVEL: info
+    # Runtime contract (CLI > env > config file > default); overrides stale image ENV
+    THEMIS_CONFIG: /etc/themis/config.yaml
+    THEMIS_DATA_DIR: /var/lib/themis/data
+    THEMIS_HOST: 0.0.0.0
+    THEMIS_PORT: "8080"
+    THEMIS_HEALTH_BIND_ADDRESS: 0.0.0.0
+    THEMIS_HEALTH_PORT: "9090"
     THEMIS_WORKER_THREADS: "16"
-    THEMIS_MAX_CONNECTIONS: "10000"
-    THEMIS_MEMTABLE_SIZE_MB: "512"
-    THEMIS_BLOCK_CACHE_SIZE_MB: "2048"
-    THEMIS_MAX_BACKGROUND_JOBS: "16"
+    # gRPC WAL/API (50051) only starts with THEMIS_WAL_GRPC_ENABLE_MTLS=true (+ cert/key/CA paths).
+    # Tensor-fragment ShardRPC needs sharding.tensor_fragment_rpc.listen_address (e.g. 0.0.0.0:50052, mTLS).
   healthcheck:
-    test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+    test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
     interval: 15s
     timeout: 5s
     retries: 3
-    start_period: 30s
+    start_period: 60s
 
 networks:
   themis-cluster:
@@ -83,12 +84,11 @@ services:
     container_name: themis-shard-0
     hostname: shard-0
     ports:
-      - "8080:8080"
-      - "18765:18765"
-      - "9090:9090"
+      - "8080:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19090:9090"  # Health/error service
     volumes:
-      - shard-0-data:/var/lib/themisdb
-      - ./logs/shard-0:/var/log/themis
+      - shard-0-data:/var/lib/themis/data
+      - ./logs/shard-0:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_0
@@ -106,12 +106,11 @@ services:
     container_name: themis-shard-1
     hostname: shard-1
     ports:
-      - "8081:8080"
-      - "18766:18765"
-      - "9091:9090"
+      - "8081:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19091:9090"  # Health/error service
     volumes:
-      - shard-1-data:/var/lib/themisdb
-      - ./logs/shard-1:/var/log/themis
+      - shard-1-data:/var/lib/themis/data
+      - ./logs/shard-1:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_1
@@ -129,12 +128,11 @@ services:
     container_name: themis-shard-2
     hostname: shard-2
     ports:
-      - "8082:8080"
-      - "18767:18765"
-      - "9092:9090"
+      - "8082:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19092:9090"  # Health/error service
     volumes:
-      - shard-2-data:/var/lib/themisdb
-      - ./logs/shard-2:/var/log/themis
+      - shard-2-data:/var/lib/themis/data
+      - ./logs/shard-2:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_2
@@ -156,12 +154,11 @@ services:
     container_name: themis-shard-3
     hostname: shard-3
     ports:
-      - "8083:8080"
-      - "18768:18765"
-      - "9093:9090"
+      - "8083:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19093:9090"  # Health/error service
     volumes:
-      - shard-3-data:/var/lib/themisdb
-      - ./logs/shard-3:/var/log/themis
+      - shard-3-data:/var/lib/themis/data
+      - ./logs/shard-3:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_3
@@ -179,12 +176,11 @@ services:
     container_name: themis-shard-4
     hostname: shard-4
     ports:
-      - "8084:8080"
-      - "18769:18765"
-      - "9094:9090"
+      - "8084:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19094:9090"  # Health/error service
     volumes:
-      - shard-4-data:/var/lib/themisdb
-      - ./logs/shard-4:/var/log/themis
+      - shard-4-data:/var/lib/themis/data
+      - ./logs/shard-4:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_4
@@ -202,12 +198,11 @@ services:
     container_name: themis-shard-5
     hostname: shard-5
     ports:
-      - "8085:8080"
-      - "18770:18765"
-      - "9095:9090"
+      - "8085:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19095:9090"  # Health/error service
     volumes:
-      - shard-5-data:/var/lib/themisdb
-      - ./logs/shard-5:/var/log/themis
+      - shard-5-data:/var/lib/themis/data
+      - ./logs/shard-5:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_5
@@ -229,12 +224,11 @@ services:
     container_name: themis-shard-6
     hostname: shard-6
     ports:
-      - "8086:8080"
-      - "18771:18765"
-      - "9096:9090"
+      - "8086:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19096:9090"  # Health/error service
     volumes:
-      - shard-6-data:/var/lib/themisdb
-      - ./logs/shard-6:/var/log/themis
+      - shard-6-data:/var/lib/themis/data
+      - ./logs/shard-6:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_6
@@ -252,12 +246,11 @@ services:
     container_name: themis-shard-7
     hostname: shard-7
     ports:
-      - "8087:8080"
-      - "18772:18765"
-      - "9097:9090"
+      - "8087:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19097:9090"  # Health/error service
     volumes:
-      - shard-7-data:/var/lib/themisdb
-      - ./logs/shard-7:/var/log/themis
+      - shard-7-data:/var/lib/themis/data
+      - ./logs/shard-7:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_7
@@ -275,12 +268,11 @@ services:
     container_name: themis-shard-8
     hostname: shard-8
     ports:
-      - "8088:8080"
-      - "18773:18765"
-      - "9098:9090"
+      - "8088:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19098:9090"  # Health/error service
     volumes:
-      - shard-8-data:/var/lib/themisdb
-      - ./logs/shard-8:/var/log/themis
+      - shard-8-data:/var/lib/themis/data
+      - ./logs/shard-8:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_8
@@ -298,12 +290,11 @@ services:
     container_name: themis-shard-9
     hostname: shard-9
     ports:
-      - "8089:8080"
-      - "18774:18765"
-      - "9099:9090"
+      - "8089:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "19099:9090"  # Health/error service
     volumes:
-      - shard-9-data:/var/lib/themisdb
-      - ./logs/shard-9:/var/log/themis
+      - shard-9-data:/var/lib/themis/data
+      - ./logs/shard-9:/logs
     environment:
       <<: *themis-env-base
       SHARD_ID: shard_9

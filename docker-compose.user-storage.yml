@@ -36,8 +36,8 @@ services:
       vault:
         condition: service_healthy
     ports:
-      - "5432:5432"
-      - "8080:8080"
+      - "8080:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "9090:9090"  # Health/error service (/health, /errors)
     cap_add:
       - SYS_ADMIN  # Required for FUSE
     devices:
@@ -46,35 +46,30 @@ services:
       - apparmor:unconfined  # May be required for FUSE
     volumes:
       # Encrypted data directories
-      - ./data/encrypted:/var/lib/themisdb/encrypted
+      - ./data/encrypted:/var/lib/themis/encrypted
       # Mount points for decrypted data
-      - ./data/mnt:/var/lib/themisdb/mnt
-      # Configuration
-      - ./config:/etc/themisdb:ro
+      - ./data/mnt:/var/lib/themis/mnt
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
       # Vault token (secret)
       - ./secrets/vault_token:/run/secrets/vault_token:ro
     environment:
       # Vault configuration
       - VAULT_ADDR=http://vault:8200
       - VAULT_TOKEN_FILE=/run/secrets/vault_token
-      
-      # ThemisDB configuration
-      - THEMIS_CONFIG=/etc/themisdb/themis.yaml
-      - THEMIS_PLUGIN_DIR=/opt/themis/plugins
-      - THEMIS_DATA_DIR=/var/lib/themisdb
-      
-      # User storage plugin configuration
-      - THEMIS_USER_STORAGE_CONFIG=/etc/themisdb/storage_config.yaml
-      
-      # Logging
-      - THEMIS_LOG_LEVEL=info
-      - THEMIS_LOG_FILE=/var/log/themis/themis.log
+
+      # ThemisDB runtime contract (CLI > env > config file > default)
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
     restart: unless-stopped
     networks:
       - themis-network

@@ -1,0 +1,36 @@
+# ============================================================================
+# ThemisDB container default configuration
+# ============================================================================
+# Baked into the image at /etc/themis/config.yaml (THEMIS_CONFIG points here).
+# Override by mounting your own file:
+#   -v ./config.yaml:/etc/themis/config.yaml:ro
+#
+# Precedence for listener/data settings: CLI > environment > this file > default
+#   server.host            <- THEMIS_HOST
+#   server.port            <- THEMIS_PORT
+#   server.worker_threads  <- THEMIS_WORKER_THREADS
+#   storage.rocksdb_path   <- THEMIS_DATA_DIR
+#
+# Additional listeners (environment only):
+#   Health/error service : THEMIS_HEALTH_BIND_ADDRESS / THEMIS_HEALTH_PORT (9090)
+#   gRPC (WAL + API)     : THEMIS_WAL_GRPC_HOST / THEMIS_WAL_GRPC_PORT (50051);
+#                          starts only with THEMIS_WAL_GRPC_ENABLE_MTLS=true or
+#                          THEMIS_WAL_GRPC_ALLOW_INSECURE=true (dev only)
+# ============================================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8080            # HTTP REST/AQL API, /health and /metrics
+  worker_threads: 0     # 0 = auto (CPU count)
+
+storage:
+  rocksdb_path: "/var/lib/themis/data"   # mount a volume here
+  # memtable_size_mb: 512
+  # block_cache_size_mb: 512
+  # compression: { default: "lz4", bottommost: "zstd" }
+
+features:
+  semantic_cache: false
+  llm_store: false
+  cdc: false
+  timeseries: false

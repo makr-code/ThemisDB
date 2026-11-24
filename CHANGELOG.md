@@ -9,6 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Added - Optional bundled Docker monitoring
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- Docker runtime images include digest-pinned official Prometheus and Grafana
+  binaries. `THEMIS_MONITORING_ENABLED=true` starts both alongside ThemisDB;
+  Grafana requires an explicit initial admin password. Monitoring is off by
+  default. Ports 9091 and 3000 and separate data volumes are available.
+
+### Fixed - Docker runtime contract (ports, config, data volume)
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- `themis_server` now resolves host, port, data directory and worker threads
+  as CLI > environment (`THEMIS_HOST`, `THEMIS_PORT`, `THEMIS_DATA_DIR`,
+  `THEMIS_WORKER_THREADS`) > config file > default, and reads the config path
+  from `THEMIS_CONFIG` (`include/server/server_listen_settings.h`).
+  **Behavior change:** config `server.port`/`server.host`/`server.worker_threads`
+  and `storage.rocksdb_path` no longer override explicit CLI flags; invalid
+  port/thread values now abort startup. `/etc/themis/config.{yaml,yml,json}`
+  was added to the default config search path.
+- The gRPC-Web proxy (`POST /grpc-web/*`) forwarded to `localhost:18765`, where
+  nothing listens; it now targets the in-process gRPC server
+  (`127.0.0.1:<THEMIS_WAL_GRPC_PORT>`, override via `THEMIS_GRPC_WEB_BACKEND`).
+  An invalid `THEMIS_WAL_GRPC_PORT` now fails gRPC startup instead of being
+  ignored. MCP, WebSocket, SSE and GraphQL are documented as sharing the HTTP port.
+- Docker images (`docker/Dockerfile.unified`, `Dockerfile`) ship
+  `/etc/themis/config.yaml`, declare `VOLUME /var/lib/themis/data`, expose
+  8080 (API), 9090 (health/error service, now bound to `0.0.0.0`) and 50051
+  (gRPC, opt-in), and no longer hard-code `--port`/`--data-dir` in `CMD`.
+  The root `Dockerfile` previously pointed `--config` at a missing file.
+  Migration: data moved from `/app/data/themis_server` to
+  `/var/lib/themis/data`; set `THEMIS_DATA_DIR=/app/data/themis_server` to keep
+  the old location.
+- Compose files and Prometheus targets now map ports the server actually
+  listens on (removed dead 8081/8529/8765 mappings; metrics scraped from 8080).
+
 ### Added - Integrated Raft 2PC snapshot creation
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
@@ -19,6 +58,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   application state, compacts the Raft log, and advances in-memory snapshot
   state in one serialized operation. The application still controls the
   snapshot trigger and supplies complete application state.
+
+### Added - Durable Raft follower snapshot journal installation
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- `RaftState::installSnapshotFromLeader()` atomically replaces a durable
+  journal boundary and hard state, retains a suffix only when its boundary term
+  matches, and rejects conflicts with committed local history. Snapshot
+  files can now be received through `RaftSnapshotManager::installTransferredSnapshot()`,
+  which validates their size, format, payload checksum, and extension checksums
+  before atomic installation. Chunked mTLS transport and application-state
+  restoration are not yet wired; this is not end-to-end follower catch-up.
 
 ### Fixed - CI evidence consumers and Wave 4 linker dependency
 

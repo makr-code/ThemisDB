@@ -33,30 +33,27 @@ services:
     restart: unless-stopped
     
     ports:
-      - "8529:8529"  # HTTP API
-      - "9090:9090"  # Metrics
+      - "8529:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "9090:9090"  # Health/error service (/health, /errors)
     
     volumes:
-      - themisdb-data:/var/lib/themisdb/data
-      - themisdb-logs:/var/lib/themisdb/logs
-      - ../config:/etc/themisdb:ro
+      - themisdb-data:/var/lib/themis/data
+      - themisdb-logs:/logs
+      # Optional: replace the image default config
+      # - ../config/config.yaml:/etc/themis/config.yaml:ro
     
     environment:
-      - THEMIS_ENABLE_LLM=true
-      - THEMIS_LORA_ENABLED=true
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_METRICS_PORT=9090
-      - THEMIS_LOG_LEVEL=info
-      - THEMIS_DATA_DIR=/var/lib/themisdb/data
-      - THEMIS_LOG_DIR=/var/lib/themisdb/logs
-      - THEMIS_MAX_MEMORY=8G
-      - THEMIS_CACHE_SIZE=2G
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
     
     networks:
       - ethics-ai-network
     
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/api/version"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -100,7 +97,7 @@ services:
     
     environment:
       - THEMIS_HOST=themisdb
-      - THEMIS_PORT=8529
+      - THEMIS_PORT=8080  # ThemisDB container-internal API port
       - SERVICE_PORT=8080
       - METRICS_PORT=8081
       - LOG_LEVEL=info
@@ -156,7 +153,7 @@ services:
     
     environment:
       - THEMIS_HOST=themisdb
-      - THEMIS_PORT=8529
+      - THEMIS_PORT=8080  # ThemisDB container-internal API port
       - SERVICE_PORT=8080
       - METRICS_PORT=8081
       - LOG_LEVEL=info

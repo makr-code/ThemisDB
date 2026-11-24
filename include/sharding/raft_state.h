@@ -216,6 +216,28 @@ public:
         const AppendEntriesRequest& request);
 
     /**
+     * @brief Install a previously validated snapshot received from a Raft member.
+     * @param leader_id Configured member that supplied the snapshot.
+     * @param leader_term Current term asserted by that member.
+     * @param snapshot_index Last log index represented by the snapshot.
+     * @param snapshot_term Term of the entry at @p snapshot_index.
+     * @return False when the sender is not another configured member, the term is
+     *         stale, metadata is invalid, or the journal is not durable/healthy;
+     *         true only after durable install.
+     * @throws std::runtime_error if the snapshot conflicts with committed local
+     *         history or the durable journal cannot be replaced.
+     * @note The caller must validate and durably store the snapshot payload before
+     *       invoking this method, and restore the application state before serving
+     *       requests. Journal anchor and hard state are replaced in one durable
+     *       operation; this method does not persist or apply the payload itself.
+     */
+    [[nodiscard]] bool installSnapshotFromLeader(
+        const std::string& leader_id,
+        uint64_t leader_term,
+        uint64_t snapshot_index,
+        uint64_t snapshot_term);
+
+    /**
      * @brief Get reference to the Raft log
         * @return Mutable reference to RaftLog storage state.
      */

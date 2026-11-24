@@ -464,6 +464,7 @@ jobs:
           no-cache-filters: runtime
 
       - name: Validate default container startup before publication
+        id: runtime-validation
         env:
           IMAGE_REF: ${{ steps.meta.outputs.tags }}
           IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
@@ -481,9 +482,27 @@ jobs:
           fi
           python3 scripts/release/runtime_smoke_gate.py --image "$IMAGE_REF" \
             --output "${RUNNER_TEMP}/nightly-runtime-smoke.json"
-          if [ "${DRY_RUN}" != "true" ]; then
-            printf '%s\n' "$IMAGE_REF" > "${RUNNER_TEMP}/nightly-docker-digest-${{ matrix.arch }}.txt"
-          fi
+          echo "image_ref=${IMAGE_REF}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate bundled monitoring
+        shell: bash
+        env:
+          IMAGE_REF: ${{ steps.runtime-validation.outputs.image_ref }}
+        run: |
+          set -euo pipefail
+          bash scripts/release/smoke-docker-monitoring.sh "$IMAGE_REF"
+
+      - name: Record validated platform digest
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
+        shell: bash
+        env:
+          IMAGE_REF: ${{ steps.runtime-validation.outputs.image_ref }}
+        run: |
+          set -euo pipefail
+          [[ "$IMAGE_REF" =~ @sha256:[0-9a-f]{64}$ ]] || {
+            echo "::error::Missing validated nightly image digest"; exit 1;
+          }
+          printf '%s\n' "$IMAGE_REF" > "${RUNNER_TEMP}/nightly-docker-digest-${{ matrix.arch }}.txt"
 
       - name: Upload nightly runtime dependency and startup evidence
         if: always()

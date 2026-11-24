@@ -176,8 +176,10 @@ its input graph from stored tenant adapters and publishes one projection. A
 consumer with a trusted artifact ID can fetch that record via mTLS, but trusted
 artifact discovery and freshness management remain unwired. There is no mapping
 to `TensorNetworkStorageEngine` field keys.
-The graph projection codec and planner path are source-implemented but have not
-been built or run; source registration is not runtime evidence.
+The graph projection codec and planner path were built and exercised by the
+focused Linux mTLS fixture test on 2026-11-24. The `themis_server` target also
+compiled and linked with the adapter in an HTTP-server-disabled configuration;
+the production host configuration and live startup have not been run.
 
 ## Sequenz (kritischer Ablauf)
 

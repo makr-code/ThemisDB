@@ -25,28 +25,31 @@ services:
         BUILD_BENCHMARKS: "OFF"
     image: themisdb:community
     container_name: themisdb
+    hostname: themisdb
     restart: unless-stopped
     ports:
-      - "18080:8080"       # HTTP API
-      - "18081:8081"       # gRPC
-      - "19090:9090"       # Metrics
+      - "18080:8080"       # HTTP REST/AQL API (+ /health, /metrics)
+      - "19090:9090"       # Health/error service (/health, /errors)
+      # - "50051:50051"    # gRPC: requires THEMIS_WAL_GRPC_ENABLE_MTLS or THEMIS_WAL_GRPC_ALLOW_INSECURE
     volumes:
       - themis-data:/var/lib/themis/data
-      - ./config:/etc/themis/config:ro
       - ./logs:/var/log/themis
+      # Optional: replace the image default config (docker/config/config.yaml)
+      # - ./docker/config/config.yaml:/etc/themis/config.yaml:ro
     environment:
       - THEMIS_EDITION=COMMUNITY
-      - THEMIS_LOG_LEVEL=info
+      # Image defaults (shown for clarity; CLI > env > config file > default):
+      - THEMIS_CONFIG=/etc/themis/config.yaml
       - THEMIS_DATA_DIR=/var/lib/themis/data
-      - THEMIS_CONFIG=/etc/themis/config/config.yaml
-      - THEMIS_METRICS_ENABLED=true
-      - THEMIS_TRACING_ENABLED=false
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
     healthcheck:
-      test: ["CMD", "curl", "-fL", "http://localhost:8080/api/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 10s
+      start_period: 60s
     networks:
       - themis-net
     # Resource limits (adjust based on workload)

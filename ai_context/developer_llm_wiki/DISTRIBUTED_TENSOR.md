@@ -51,8 +51,10 @@ end-to-end service:
    complete payload bytes and a verified SHA-256. `main_server.cpp` starts the
    server/reader only when `sharding.tensor_fragment_rpc.enabled` is explicit
    and requires verified mTLS plus identity-to-principal bindings. Publishers
-   must persist bytes before publishing the matching manifest. Fragment writes
-   and identical replays request synchronous WAL commits; this is untested.
+   must persist bytes before publishing the matching manifest. The Linux
+   `ShardTransferGrpcTests` fixture path exercises publication, RocksDB reopen,
+   mTLS retrieval, and manifest-bound planning; it passed 1/1 CTest test on
+   2026-11-24.
    `LocalProjectionPublisher` persists a local and mTLS-readable manifest after
    the fragment; `publishFromGraph()` derives a summary from a tenant-checked
    fingerprint graph. Remote loading requires a trusted artifact ID and established
@@ -112,19 +114,17 @@ API types.
   operation authenticates the producer. The nested implementation remains
   outside the product target and is compiled into EPIC-3 test/benchmark
   targets only when OpenSSL is found. `ArtifactManifest::compute_manifest_hash()`
-  remains non-cryptographic. The
-  SHA-256 implementation and new regression sources have not been built or
-  tested; the generated `WIKI_STATUS.json` has not been refreshed.
+  remains non-cryptographic. The active implementation compiled in the
+  verified target; dedicated integrity regression sources have not been run.
 - Placement plans are not automatically persisted or applied; callers may
   persist placement metadata through `ManifestStore`. The planner itself does
   not fetch fragments; the optional ShardRPC adapter transports manifest-bound
-  bytes. Host fragment storage and opt-in server composition, including a
-  one-shot startup publisher, are source-backed but have no build/runtime
-  evidence; server linkage is independent of test registration, but trusted
-  discovery and freshness are still absent. The mapping is not a
-  `TensorNetworkStorageEngine` mapping. Graph-
-  truth validation fails closed for missing, invalid, or unsupported
-  projections; the new codec and planner changes have not been built or run.
+  bytes. The Linux mTLS fixture path passed and `themis_server` compiled and
+  linked with the optional adapter in an HTTP-server-disabled build. This does
+  not validate configured host startup, trusted artifact discovery, or
+  freshness. The mapping is not a `TensorNetworkStorageEngine` mapping.
+  Graph-truth validation fails closed for missing, invalid, or unsupported
+  projections.
 
 Follow the public headers for exact signatures and edge behavior. The module
 [README](../../src/distributed_tensor/README.md),
@@ -140,8 +140,10 @@ distributed tensor target can link that tensor module in non-enterprise
 configurations too. Static owners and shared owners with exported symbols are
 de-duplicated against `themis_tensor`, which links those owners privately.
 Tensor test targets filter direct source additions against the same owners.
-Non-exporting shared owners still overlap. These changes have not been
-configured, built, or tested; the generated wiki manifest remains unchanged.
+Non-exporting shared owners still overlap. The Linux configuration built
+`test_shard_transfer_grpc` and `themis_server` on 2026-11-24; this verifies the
+focused integration and server composition, not every tensor test target or
+owner-deduplication combination.
 
 The module-local focused test CMake registers three executables and CTest cases
 from allocation, operations, and performance test sources; see
@@ -152,14 +154,13 @@ concurrent update coverage. No distributed-tensor soak test is registered in
 `tests/integration`: the former in-process stub-only source was removed because
 it did not exercise a production transport. A Linux-only `ShardTransferGrpcTests`
 target under `tests/sharding/` includes the mTLS stream and manifest
-adapter with a test storage reader. A second unrun case publishes a fixture
-summary through the local publisher and composes the RocksDB fragment store
-with the transport and planner; its graph-validation assertions require query
-and LLM module targets. Neither case has been run; the fixture case does not
-validate configured production startup.
+adapter with a test storage reader. Its fixture case publishes a graph summary
+through the local publisher, reopens RocksDB, and composes the fragment store
+with mTLS retrieval and manifest-bound planning; the focused CTest selection
+passed 1/1 on 2026-11-24. This does not validate configured production startup.
 The existing `ShardTransferStoreTests` target also contains RocksDB-backed
-fragment-store regressions. These sources are registered but have not been
-built or run. Registration alone is not evidence that a target passed.
+fragment-store regressions; its Windows focused build and CTest passed 1/1 on
+2026-11-24. Registration alone is not evidence that a target passed.
 The nightly coverage workflow runs `distributed_tensor`-labelled tests,
 publishes module-level summaries and LCOV data, and enforces 70% line / 60%
 branch coverage for `manifest_store.cpp` and `src/artifact_manifest.cc`.

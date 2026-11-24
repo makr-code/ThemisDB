@@ -12,9 +12,64 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = REPO_ROOT / "tests" / "test_docker_runtime_package_regressions.py"
 WORKFLOW = REPO_ROOT / ".github" / "workflows" / "reusable-docker-image-platform.yml"
 RELEASE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-docker-image.yml"
+NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 
 
 class DockerPlatformValidationTests(unittest.TestCase):
+    def test_monitoring_gate_blocks_release_before_digest_upload(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        steps = workflow["jobs"]["build"]["steps"]
+        gate = next(step for step in steps if step.get("name") == "Validate bundled monitoring")
+        digest = next(step for step in steps if step.get("name") == "Write digest artifact")
+        self.assertLess(steps.index(gate), steps.index(digest))
+        self.assertNotIn("if", gate)
+        self.assertEqual(gate["env"]["WORKFLOW_SHA"], "${{ github.sha }}")
+        self.assertIn('git show "${WORKFLOW_SHA}:scripts/release/smoke-docker-monitoring.sh"', gate["run"])
+        self.assertIn('bash "$VALIDATOR" "$IMAGE_ID"', gate["run"])
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            functions = root / "functions"
+            functions.write_text(
+                'git() { if [ "$MISSING_SCRIPT" = true ]; then return 1; fi; '
+                'printf "exit %s\\n" "$VALIDATOR_EXIT"; }\n'
+                'docker() { if [ "$INSPECT_OK" = true ]; then echo sha256:local; '
+                'else return 1; fi; }\n',
+                encoding="utf-8",
+            )
+            for missing, inspect_ok, validator_exit, success in (
+                (False, True, 0, True),
+                (True, True, 0, False),
+                (False, False, 0, False),
+                (False, True, 1, False),
+            ):
+                with self.subTest(missing=missing, inspect_ok=inspect_ok, validator_exit=validator_exit):
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", gate["run"]],
+                        env={**os.environ, "BASH_ENV": str(functions), "RUNNER_TEMP": tmp,
+                             "WORKFLOW_SHA": "workflow-sha", "IMAGE_REF": "image",
+                             "MISSING_SCRIPT": str(missing).lower(),
+                             "INSPECT_OK": str(inspect_ok).lower(),
+                             "VALIDATOR_EXIT": str(validator_exit)},
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode == 0, success, result.stderr)
+
+    def test_nightly_monitoring_gate_precedes_validated_digest(self) -> None:
+        workflow = yaml.safe_load(NIGHTLY_WORKFLOW.read_text(encoding="utf-8"))
+        job = workflow["jobs"]["publish-docker"]
+        steps = job["steps"]
+        gate = next(step for step in steps if step.get("name") == "Validate bundled monitoring")
+        digest = next(step for step in steps if step.get("name") == "Record validated platform digest")
+        runtime = next(step for step in steps if step.get("id") == "runtime-validation")
+        self.assertLess(steps.index(runtime), steps.index(gate))
+        self.assertLess(steps.index(gate), steps.index(digest))
+        self.assertNotIn("if", gate)
+        self.assertIn('bash scripts/release/smoke-docker-monitoring.sh "$IMAGE_REF"', gate["run"])
+        self.assertEqual(gate["env"]["IMAGE_REF"], "${{ steps.runtime-validation.outputs.image_ref }}")
+        self.assertIn("publish-docker", workflow["jobs"]["publish-docker-manifest"]["needs"])
+        self.assertEqual({lane["arch"] for lane in job["strategy"]["matrix"]["include"]}, {"amd64", "arm64"})
+
     def test_release_dry_run_is_available_for_dispatch_and_workflow_calls(self) -> None:
         workflow = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))
         for trigger in ("workflow_dispatch", "workflow_call"):

@@ -513,6 +513,18 @@ jobs:
           python3 "$VALIDATOR" --image "$IMAGE_ID" \
             --output "${RUNNER_TEMP}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json"
 
+      - name: Validate bundled monitoring
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+        run: |
+          set -euo pipefail
+          VALIDATOR="${RUNNER_TEMP}/smoke-docker-monitoring.sh"
+          git show "${WORKFLOW_SHA}:scripts/release/smoke-docker-monitoring.sh" > "$VALIDATOR"
+          IMAGE_ID="$(docker image inspect --format '{{.Id}}' "$IMAGE_REF")"
+          bash "$VALIDATOR" "$IMAGE_ID"
+
       - name: Upload runtime dependency and startup evidence
         if: always()
         uses: actions/upload-artifact@v5

@@ -381,7 +381,8 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         stage = extract_stage(self._dockerfile_text(), "runtime")
         for marker in ("ldd /app/themis_server", 'grep -q "not found"',
                        "RUN /app/themis_server --version",
-                       'CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]'):
+                       'ENTRYPOINT ["/usr/local/bin/themis-entrypoint", "/app/themis_server"]',
+                       "CMD []"):
             self.assertIn(marker, stage)
         self.assertLess(stage.index("USER themis"), stage.index("RUN /app/themis_server --version"))
         packages = extract_installed_packages(stage, "runtime")

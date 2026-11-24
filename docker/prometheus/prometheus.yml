@@ -27,7 +27,7 @@ scrape_configs:
   - job_name: 'themisdb-lora'
     static_configs:
       - targets:
-          - 'themisdb:9090'
+          - 'themisdb:8080'
         labels:
           service: 'themisdb'
           component: 'lora-framework'
@@ -39,7 +39,7 @@ scrape_configs:
   - job_name: 'themisdb-test'
     static_configs:
       - targets:
-          - 'test-db:9090'
+          - 'test-db:8080'
         labels:
           service: 'themisdb'
           component: 'test-instance'

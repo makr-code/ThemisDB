@@ -177,6 +177,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
 #include "server/grpc_web_proxy_handler.h"
+#include "server/server_listen_settings.h"
 #include "server/serverless_function_api_handler.h"
 #include "metadata/schema_manager.h"
 
@@ -1841,12 +1842,22 @@ HttpServer::HttpServer(
     }
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
 
-    // Initialize gRPC-Web proxy handler
+    // Initialize gRPC-Web proxy handler. It forwards to the in-process gRPC
+    // server, so the backend follows THEMIS_WAL_GRPC_HOST/PORT (default 50051).
     {
         GrpcWebProxyHandler::Config gwcfg;
-        gwcfg.backend_address = "localhost:18765";
+        const auto grpc_listen = themis::server::resolveGrpcListenSettings(
+            themis::server::processEnvLookup);
+        if (grpc_listen.ok) {
+            gwcfg.backend_address = grpc_listen.settings.web_backend_address;
+        } else {
+            THEMIS_WARN("gRPC-Web proxy: {}; using default backend {}",
+                        grpc_listen.error, gwcfg.backend_address);
+        }
+        const std::string grpc_web_backend = gwcfg.backend_address;
         grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
-        THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
+        THEMIS_INFO("gRPC-Web proxy handler initialized (backend: {}, endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)",
+                    grpc_web_backend);
     }
 
     // Initialize Serverless Function Hosting Handler

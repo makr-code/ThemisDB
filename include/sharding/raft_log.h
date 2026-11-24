@@ -300,6 +300,25 @@ private:
     void appendDurableRecord(const std::string& payload);
     void replayJournal();
     void compactJournal();
+    void installSnapshotLocked(
+        uint64_t snapshot_index,
+        uint64_t snapshot_term,
+        uint64_t hard_state_term,
+        const std::string& hard_state_vote,
+        bool hard_state_present);
+    void installSnapshotWithHardState(
+        uint64_t snapshot_index,
+        uint64_t snapshot_term,
+        uint64_t hard_state_term,
+        const std::string& hard_state_vote);
+    void persistJournalState(
+        const std::map<uint64_t, LogEntry>& log,
+        uint64_t commit_index,
+        uint64_t snapshot_index,
+        uint64_t snapshot_term,
+        bool hard_state_present,
+        uint64_t hard_state_term,
+        const std::string& hard_state_vote);
     void acquirePersistenceLock();
     void releasePersistenceLock() noexcept;
 
@@ -340,17 +359,17 @@ struct RaftSnapshot {
 using RaftSnapshotExtensions = std::map<std::string, std::vector<uint8_t>>;
 
 /**
- * @brief A single chunk of a snapshot suitable for wire transfer
+ * @brief A single chunk of a serialized snapshot file suitable for wire transfer
  *
- * Large snapshots are split into fixed-size chunks.  Each chunk carries a
- * SHA-256 checksum of its own payload so that the receiver can detect
+ * Large snapshot files are split into fixed-size chunks. Each chunk carries a
+ * SHA-256 checksum of its own bytes so the receiver can detect
  * corruption or a truncated transfer without waiting for the final chunk.
  */
 struct RaftSnapshotChunk {
     uint64_t snapshot_index = 0;   ///< Identifies which snapshot this chunk belongs to
     uint64_t chunk_index;      ///< 0-based index of this chunk
     uint64_t total_chunks;     ///< Total number of chunks in the snapshot
-    std::vector<uint8_t> data; ///< Chunk payload (compressed snapshot bytes)
+    std::vector<uint8_t> data; ///< Slice of the complete serialized snapshot file
     std::string checksum;      ///< SHA-256 of this chunk's data
     bool last_chunk;           ///< True if this is the final chunk
 };
@@ -368,7 +387,7 @@ struct RaftSnapshotChunk {
  * - At most `max_snapshots` snapshot files are retained on disk; older ones
  *   are deleted after a new snapshot is successfully written.
  * - The chunked-transfer API (`getChunk`) exposes fixed-size pieces of the
- *   on-disk compressed data together with per-chunk SHA-256 checksums so that
+ *   serialized on-disk snapshot together with per-chunk SHA-256 checksums so that
  *   the receiver can verify each piece independently (tolerating network
  *   interruptions during lagging-replica catch-up).
  */
@@ -384,6 +403,7 @@ public:
         int compression_level = 3;      ///< ZSTD compression level
         size_t max_snapshots = 5;       ///< Maximum on-disk snapshots to retain
         size_t chunk_size_bytes = kDefaultChunkSizeBytes;  ///< Per-chunk transfer size
+        size_t max_transfer_bytes = 512ULL * 1024 * 1024;  ///< Maximum received snapshot file size
     };
 
     explicit RaftSnapshotManager(const Config& config);
@@ -493,8 +513,8 @@ public:
     /**
      * @brief Retrieve a single transfer chunk of a snapshot
      *
-     * The chunk contains a slice of the on-disk compressed snapshot data plus
-     * a SHA-256 checksum of that slice.  The receiver must verify the checksum
+     * The chunk contains a slice of the serialized snapshot file plus a
+     * SHA-256 checksum of that slice. The receiver must verify the checksum
      * before accumulating data; if any chunk fails verification the transfer
      * should be restarted from that chunk index.
      *
@@ -504,6 +524,24 @@ public:
      */
     std::optional<RaftSnapshotChunk> getChunk(uint64_t snapshot_index,
                                                uint64_t chunk_index) const;
+
+    /**
+     * @brief Validate and durably install a complete snapshot file received in chunks.
+     * @param expected_index Snapshot boundary asserted by the authenticated sender.
+     * @param expected_term Term at @p expected_index asserted by the sender.
+     * @param snapshot_file Complete serialized snapshot file, bounded by
+     *        `Config::max_transfer_bytes`.
+     * @return True after the snapshot is validated and atomically installed, or when
+     *         an identical snapshot already exists. False on invalid metadata,
+     *         checksum/format errors, size-limit violations, or I/O failures.
+     * @note This installs payload bytes only; the caller must assemble and verify
+     *       transfer chunks, then coordinate Raft journal installation and
+     *       application-state restoration before acknowledging catch-up.
+     */
+    [[nodiscard]] bool installTransferredSnapshot(
+        uint64_t expected_index,
+        uint64_t expected_term,
+        const std::vector<uint8_t>& snapshot_file);
 
     /**
      * @brief List all persisted snapshot indices (newest first)

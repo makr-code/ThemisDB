@@ -101,6 +101,7 @@
 #include "server/http_server.h"
 #endif
 #include "server/server_activation_profile.h"
+#include "server/server_listen_settings.h"
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "sharding/wal_applier.h"
@@ -220,10 +221,11 @@ extern std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
 namespace {
 
 struct ServerCommandLineOptions {
-    std::string db_path = "./data/themis_server";
-    std::string host = "0.0.0.0";
-    uint16_t port = 8765;
-    size_t num_threads = 0;
+    // Unset values fall back to env/config/defaults via resolveServerListenSettings().
+    std::optional<std::string> db_path;
+    std::optional<std::string> host;
+    std::optional<uint16_t> port;
+    std::optional<size_t> num_threads;
     std::optional<std::string> config_path;
     bool show_help = false;
     bool show_version = false;
@@ -244,12 +246,13 @@ using themis::cli::is_version_flag;
 void print_usage(std::ostream& out, const char* prog) {
     out << "Usage: " << prog << " [options]\n"
         << "Options:\n"
-        << "  --db PATH            Database path (default: ./data/themis_server)\n"
+        << "  --db PATH            Database path (env THEMIS_DATA_DIR, default: ./data/themis_server)\n"
         << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
-        << "  --host HOST          Server host (default: 0.0.0.0)\n"
-        << "  --port PORT          Server port (default: 8765)\n"
-        << "  --threads N          Number of worker threads (default: auto)\n"
-        << "  --config FILE        Load server/storage config from JSON or YAML file\n"
+        << "  --host HOST          Server host (env THEMIS_HOST, default: 0.0.0.0)\n"
+        << "  --port PORT          Server port (env THEMIS_PORT, default: 8765)\n"
+        << "  --threads N          Number of worker threads (env THEMIS_WORKER_THREADS, default: auto)\n"
+        << "  --config FILE        Load server/storage config from JSON or YAML file (env THEMIS_CONFIG)\n"
+        << "Precedence: CLI > environment > config file > default.\n"
         << "  --server-profile P   Server activation profile: minimal|standard|enterprise\n"
         << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
         << "  --allow-degraded-build  Allow startup with missing production build features\n"
@@ -302,17 +305,12 @@ bool parse_server_command_line(int argc,
             continue;
         }
 
-        if (arg_view == "--db") {
-            if (!consume_next_value(argc, argv, index, arg_view, options.db_path, error_message)) {
+        if (arg_view == "--db" || arg_view == "--data-dir") {
+            std::string db_value = {};
+            if (!consume_next_value(argc, argv, index, arg_view, db_value, error_message)) {
                 return false;
             }
-            continue;
-        }
-
-        if (arg_view == "--data-dir") {
-            if (!consume_next_value(argc, argv, index, arg_view, options.db_path, error_message)) {
-                return false;
-            }
+            options.db_path = std::move(db_value);
             continue;
         }
 
@@ -322,9 +320,11 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--host") {
-            if (!consume_next_value(argc, argv, index, arg_view, options.host, error_message)) {
+            std::string host_value = {};
+            if (!consume_next_value(argc, argv, index, arg_view, host_value, error_message)) {
                 return false;
             }
+            options.host = std::move(host_value);
             continue;
         }
 
@@ -1033,11 +1033,8 @@ int main(int argc, char* argv[]) {
         initializeMimalloc();
 #endif
         
-        auto db_path = command_line_options.db_path;
-        auto host = command_line_options.host;
-        auto port = command_line_options.port;
-        auto num_threads = command_line_options.num_threads;
-        const auto& config_path = command_line_options.config_path;
+        const auto config_path = themis::server::resolveServerConfigPath(
+            command_line_options.config_path, themis::server::processEnvLookup);
         
         // Load config (JSON or YAML) if provided or in default locations
         auto load_config = [&](const std::string& path) -> std::optional<json> {
@@ -1115,17 +1112,39 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("Failed to read config file: {}", *config_path);
                 return 1;
             }
+            THEMIS_INFO("Loaded config from {}", *config_path);
         } else {
             // default search paths (prefer YAML) - now includes new hierarchical paths
             for (const auto& p : {
                     std::string("./config.yaml"), std::string("./config.yml"), std::string("./config.json"),
                     std::string("./config/core/config.yaml"), std::string("./config/core/config.yml"), std::string("./config/core/config.json"),
                     std::string("./config/config.yaml"), std::string("./config/config.yml"), std::string("./config/config.json"),
+                    std::string("/etc/themis/config.yaml"), std::string("/etc/themis/config.yml"), std::string("/etc/themis/config.json"),
                     std::string("/etc/vccdb/config.yaml"), std::string("/etc/vccdb/config.yml"), std::string("/etc/vccdb/config.json")}) {
                 cfg = load_config(p);
                 if (cfg) { THEMIS_INFO("Loaded config from {}", p); break; }
             }
         }
+
+        themis::server::ServerListenCliOverrides listen_cli{};
+        listen_cli.host = command_line_options.host;
+        listen_cli.port = command_line_options.port;
+        listen_cli.data_dir = command_line_options.db_path;
+        listen_cli.worker_threads = command_line_options.num_threads;
+        const auto listen_resolution = themis::server::resolveServerListenSettings(
+            listen_cli, themis::server::processEnvLookup, cfg);
+        if (!listen_resolution.ok) {
+            THEMIS_CRITICAL("Invalid server listen configuration: {}", listen_resolution.error);
+            return 1;
+        }
+        const auto& listen = listen_resolution.settings;
+        const std::string db_path = listen.data_dir;
+        const std::string host = listen.host;
+        const uint16_t port = listen.port;
+        const size_t num_threads = listen.worker_threads;
+        THEMIS_INFO("Listen settings: host={} ({}), port={} ({}), data_dir={} ({}), worker_threads={} ({})",
+                    host, listen.host_source, port, listen.port_source,
+                    db_path, listen.data_dir_source, num_threads, listen.worker_threads_source);
 
         const bool allow_degraded_build = has_allow_degraded_build_flag(argc, argv);
         const bool production_mode = themis::security::HSMSecurityChecker::isProductionMode();
@@ -1188,14 +1207,12 @@ int main(int argc, char* argv[]) {
         db_config.enable_wal = true;
         db_config.enable_blobdb = false;
 
-        // Apply JSON config if present
+        // Apply JSON config if present (rocksdb_path/host/port/worker_threads are
+        // resolved above with CLI > env > config precedence).
         if (cfg) {
             // storage
             if (cfg->contains("storage")) {
                 const auto& s = (*cfg)["storage"];
-                if (s.contains("rocksdb_path")) {
-                  db_config.db_path = s["rocksdb_path"].get<std::string>();
-                }
                 if (s.contains("memtable_size_mb")) {
                   db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
                 }
@@ -1219,19 +1236,6 @@ int main(int argc, char* argv[]) {
                     if (c.contains("bottommost")) {
                       db_config.compression_bottommost = c["bottommost"].get<std::string>();
                     }
-                }
-            }
-            // server
-            if (cfg->contains("server")) {
-                const auto& sv = (*cfg)["server"];
-                if (sv.contains("host")) {
-                  host = sv["host"].get<std::string>();
-                }
-                if (sv.contains("port")) {
-                  port = static_cast<uint16_t>(sv["port"].get<int>());
-                }
-                if (sv.contains("worker_threads")) {
-                  num_threads = sv["worker_threads"].get<size_t>();
                 }
             }
             // features (beta)
@@ -2754,15 +2758,14 @@ int main(int argc, char* argv[]) {
                 return false;
             }
 
-            std::string grpc_host = "0.0.0.0";
-            int grpc_port = 50051;
-            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) {
-              grpc_host = h;
+            const auto grpc_listen = themis::server::resolveGrpcListenSettings(
+                themis::server::processEnvLookup);
+            if (!grpc_listen.ok) {
+                THEMIS_ERROR("gRPC: {}; gRPC server will not start", grpc_listen.error);
+                grpc_tls_active = false;
+                return false;
             }
-            if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
-                try { grpc_port = std::stoi(p); } catch (...) {}
-            }
-            const std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
+            const std::string grpc_addr = grpc_listen.settings.listen_address;
 
             const bool enable_tls = parseBoolEnv(std::getenv("THEMIS_WAL_GRPC_ENABLE_MTLS"), false);
             const bool allow_insecure = parseBoolEnv(std::getenv("THEMIS_WAL_GRPC_ALLOW_INSECURE"), false);
@@ -3469,6 +3472,7 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("");
         
         // Dynamic endpoint discovery from HttpServer (feature-aware, always in sync)
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         try {
             auto endpoints = g_server->getRegisteredEndpoints();
             THEMIS_INFO("Available endpoints ({} total):",endpoints.size());
@@ -3515,6 +3519,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("  POST /entities     - Create entity");
             THEMIS_INFO("  (See /api/openapi.json for complete API specification)");
         }
+#endif
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_cdc) {
             THEMIS_INFO("  GET  /changefeed          - CDC feed (beta)");
@@ -3641,11 +3646,13 @@ int main(int argc, char* argv[]) {
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
         
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         // Stop ModuleLoader watchdog before releasing the loader
         if (module_loader && module_loader->isWatchdogRunning()) {
             THEMIS_INFO("Stopping ModuleLoader watchdog...");
             module_loader->stopWatchdog();
         }
+#endif
         
         // Stop HSM warning thread
         stopHSMWarningThread();
@@ -3664,8 +3671,10 @@ int main(int argc, char* argv[]) {
         graph_index.reset();
         secondary_index.reset();
         db.reset();
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         module_loader.reset();
         hot_reload_mgr.reset();
+#endif
 
         // Stop ShardRepairEngine (if active) before releasing its resources
         if (g_shard_repair_engine && g_shard_repair_engine->isRunning()) {

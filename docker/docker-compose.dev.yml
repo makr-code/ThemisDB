@@ -28,27 +28,24 @@ services:
       - ../benchmarks:/app/benchmarks:ro
       # Mount build directory for incremental builds
       - themisdb-build:/app/build
-      # Mount local config for easy editing
-      - ./config:/etc/themisdb
-    environment:
-      - THEMIS_LOG_LEVEL=debug
-      - THEMIS_ENABLE_PROFILING=true
-      - THEMIS_METRICS_DETAILED=true
+      # Optional: replace the image default config
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
     ports:
       # Add debugging ports
       - "5678:5678"  # Python debugger
       - "2345:2345"  # Go debugger (if needed)
       - "40000:40000"  # C++ debugger (gdbserver)
-    command: >
-      /bin/bash -c "
-      echo 'Starting ThemisDB in development mode...';
-      if [ -f /app/build/themisdb ]; then
-        /app/build/themisdb --config /etc/themisdb/themisdb.yaml;
-      else
-        echo 'Build not found. Run: docker-compose exec themisdb bash -c \"cd /app/build && cmake .. && make\"';
-        tail -f /dev/null;
-      fi
-      "
+    # Image ENTRYPOINT is /app/themis_server; override to run the dev wrapper.
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        echo 'Starting ThemisDB in development mode...'
+        if [ -x /app/build/bin/themis_server ]; then
+          exec /app/build/bin/themis_server --config /etc/themis/config.yaml
+        else
+          echo 'Local build not found in /app/build/bin; using image binary /app/themis_server'
+          exec /app/themis_server
+        fi
 
   # ==========================================================================
   # Test Database - Development Overrides
@@ -63,9 +60,6 @@ services:
       - ../include:/app/include:ro
       - ../tests:/app/tests:ro
       - test-db-build:/app/build
-    environment:
-      - THEMIS_LOG_LEVEL=trace  # Maximum verbosity for tests
-      - THEMIS_ENABLE_TEST_MODE=true
 
   # ==========================================================================
   # Prometheus - Development Overrides

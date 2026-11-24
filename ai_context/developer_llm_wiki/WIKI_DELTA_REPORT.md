@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 5
+- Changed: 1
 
 ## Added
 
@@ -33,8 +33,4 @@ Status: Active
 
 ## Changed
 
-- CHANGELOG.md
-- ai_context/api_contracts/transaction.md
-- include/sharding/raft_two_phase_commit_decision_store.h
-- src/sharding/FUTURE_ENHANCEMENTS.md
-- src/sharding/ROADMAP.md
+- src/distributed_tensor/README.md

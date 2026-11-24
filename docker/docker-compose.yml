@@ -29,32 +29,30 @@ services:
     container_name: themisdb-lora
     hostname: themisdb
     ports:
-      - "8529:8529"  # HTTP API (main REST/AQL endpoint)
-      - "8765:8765"  # Alternative HTTP port / AQL endpoint
-      - "9090:9090"  # Health/Error Service (independent diagnostics port)
+      - "8529:8080"  # HTTP REST/AQL API (+ /health, /metrics)
+      - "9090:9090"  # Health/error service (/health, /errors)
     volumes:
-      - themisdb-data:/var/lib/themisdb/data
-      - themisdb-logs:/var/lib/themisdb/logs
-      - ./config:/etc/themisdb:ro
+      - themisdb-data:/var/lib/themis/data
+      - themisdb-logs:/logs
+      # Optional: replace the image default config (docker/config/config.yaml)
+      # - ./config/config.yaml:/etc/themis/config.yaml:ro
     environment:
-      - THEMIS_ENABLE_LLM=true
-      - THEMIS_LORA_ENABLED=true
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_METRICS_PORT=9090
-      - THEMIS_LOG_LEVEL=info
-      - THEMIS_DATA_DIR=/var/lib/themisdb/data
-      - THEMIS_LOG_DIR=/var/lib/themisdb/logs
+      # CLI > env > config file > default
+      - THEMIS_CONFIG=/etc/themis/config.yaml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_PORT=8080
+      - THEMIS_HEALTH_BIND_ADDRESS=0.0.0.0
+      - THEMIS_HEALTH_PORT=9090
     depends_on:
       - prometheus
     networks:
       - themis-network
     healthcheck:
-      # Use Health/Error service for health checks (independent from main server)
-      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
     restart: unless-stopped
 
   # ==========================================================================
@@ -134,23 +132,17 @@ services:
     container_name: themisdb-test
     hostname: test-db
     ports:
-      - "8530:8529"  # Offset port for test instance
+      - "8530:8080"  # Offset port for test instance
     volumes:
-      - test-db-data:/var/lib/themisdb/data
-    environment:
-      - THEMIS_ENABLE_LLM=true
-      - THEMIS_LORA_ENABLED=true
-      - THEMIS_HTTP_PORT=8529
-      - THEMIS_LOG_LEVEL=debug
-      - THEMIS_DATA_DIR=/var/lib/themisdb/data
+      - test-db-data:/var/lib/themis/data
     networks:
       - themis-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
     restart: unless-stopped
 
   # ==========================================================================

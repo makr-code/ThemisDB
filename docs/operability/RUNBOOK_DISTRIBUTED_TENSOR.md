@@ -12,11 +12,12 @@ Human_Author: "ThemisDB Team"
 
 # Runbook: Distributed Tensor Module
 
-> **Not validated for production operations:** Source includes an opt-in mTLS
-> fragment RPC listener, RocksDB fragment store, and one-shot startup projection
-> publisher, but none has been built or exercised. The Linux transport suite
-> includes an unrun fixture-graph publisher-to-mTLS case; no production startup,
-> live freshness, artifact discovery, or distributed worker service is claimed.
+> **Not validated for production operations:** The opt-in mTLS fragment RPC
+> listener, RocksDB fragment store, publisher, and planner were built and the
+> Linux fixture-graph publisher-to-mTLS case passed in `ShardTransferGrpcTests`
+> (2026-11-24). The `themis_server` target compiled and linked with this adapter,
+> but configured production startup was not run. No live freshness, trusted
+> artifact discovery, or distributed worker service is claimed.
 > The former in-process
 > stub soak was removed; no transport-backed soak result is claimed.
 
@@ -123,9 +124,9 @@ projection, not arbitrary opaque tensor fragments. The publisher remains
 single-shard and startup-only; discovery, refresh, revocation, and
 multi-shard coordination are not implemented.
 
-This configuration and lifecycle are source-backed but not runtime-validated.
-Do not treat registration of the focused tests as a production readiness
-result.
+The fixture path is runtime-tested; the configured host startup and production
+lifecycle are not. Do not treat compilation or the focused test as production
+readiness evidence.
 
 ## Scenario 1 — Shard Sync Failure
 

@@ -656,6 +656,164 @@ TEST_F(RaftPersistenceTest, SnapshotCompactionRecoversAnchorAndCommitIndex) {
     EXPECT_TRUE(recovered.getEntry(3).has_value());
 }
 
+TEST_F(RaftPersistenceTest, RemoteSnapshotInstallPreservesMatchingSuffixAcrossRestart) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState state(config);
+        auto& log = state.getLog();
+        log.append(LogEntry{1, 1, "entry-1", 1});
+        log.append(LogEntry{2, 2, "entry-2", 2});
+        log.append(LogEntry{2, 3, "entry-3", 3});
+        log.append(LogEntry{3, 4, "entry-4", 4});
+        log.setCommitIndex(3);
+
+        ASSERT_TRUE(state.installSnapshotFromLeader("node1", 3, 2, 2));
+        EXPECT_EQ(state.getSnapshotIndex(), 2u);
+        EXPECT_EQ(state.getSnapshotTerm(), 2u);
+        EXPECT_EQ(log.getCommitIndex(), 3u);
+        EXPECT_TRUE(log.hasEntry(2, 2));
+        EXPECT_FALSE(log.getEntry(2).has_value());
+        ASSERT_TRUE(log.getEntry(3).has_value());
+        EXPECT_EQ(log.getEntry(3)->command, "entry-3");
+        ASSERT_TRUE(log.getEntry(4).has_value());
+        EXPECT_EQ(log.getEntry(4)->command, "entry-4");
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getSnapshotIndex(), 2u);
+    EXPECT_EQ(recovered.getSnapshotTerm(), 2u);
+    EXPECT_EQ(recovered.getLog().getCommitIndex(), 3u);
+    EXPECT_TRUE(recovered.getLog().hasEntry(2, 2));
+    EXPECT_TRUE(recovered.getLog().getEntry(3).has_value());
+    EXPECT_TRUE(recovered.getLog().getEntry(4).has_value());
+}
+
+TEST_F(RaftPersistenceTest, RemoteSnapshotInstallCanAdvancePastLocalTail) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState state(config);
+        auto& log = state.getLog();
+        log.append(LogEntry{1, 1, "committed", 1});
+        log.append(LogEntry{1, 2, "uncommitted", 2});
+        log.setCommitIndex(1);
+
+        ASSERT_TRUE(state.installSnapshotFromLeader("node1", 3, 5, 3));
+        EXPECT_EQ(state.getSnapshotIndex(), 5u);
+        EXPECT_EQ(state.getSnapshotTerm(), 3u);
+        EXPECT_EQ(log.getCommitIndex(), 5u);
+        EXPECT_EQ(log.getLastLogIndex(), 5u);
+        EXPECT_TRUE(log.hasEntry(5, 3));
+        EXPECT_FALSE(log.getEntry(1).has_value());
+        EXPECT_FALSE(log.getEntry(2).has_value());
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getSnapshotIndex(), 5u);
+    EXPECT_EQ(recovered.getSnapshotTerm(), 3u);
+    EXPECT_EQ(recovered.getLog().getCommitIndex(), 5u);
+    EXPECT_TRUE(recovered.getLog().hasEntry(5, 3));
+    EXPECT_FALSE(recovered.getLog().getEntry(1).has_value());
+}
+
+TEST_F(RaftPersistenceTest, RemoteSnapshotInstallRejectsCommittedConflictWithoutChangingState) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState state(config);
+        auto& log = state.getLog();
+        log.append(LogEntry{1, 1, "entry-1", 1});
+        log.append(LogEntry{2, 2, "entry-2", 2});
+        log.setCommitIndex(2);
+        state.compactLogForSnapshot(1, 1);
+
+        EXPECT_THROW(
+            static_cast<void>(
+                state.installSnapshotFromLeader("node1", 3, 2, 3)),
+            std::runtime_error);
+        EXPECT_FALSE(state.installSnapshotFromLeader("node1", 3, 0, 0));
+        EXPECT_FALSE(state.installSnapshotFromLeader("node1", 3, 1, 2));
+        EXPECT_EQ(state.getCurrentTerm(), 0u);
+        EXPECT_EQ(state.getSnapshotIndex(), 1u);
+        EXPECT_EQ(state.getSnapshotTerm(), 1u);
+        EXPECT_EQ(log.getCommitIndex(), 2u);
+        ASSERT_TRUE(log.getEntry(2).has_value());
+        EXPECT_EQ(log.getEntry(2)->command, "entry-2");
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getSnapshotIndex(), 1u);
+    EXPECT_EQ(recovered.getLog().getCommitIndex(), 2u);
+    ASSERT_TRUE(recovered.getLog().getEntry(2).has_value());
+    EXPECT_EQ(recovered.getLog().getEntry(2)->command, "entry-2");
+}
+
+TEST_F(RaftPersistenceTest, SnapshotInstallFromLeaderPersistsAnchorAndNewTermTogether) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState follower(config);
+        follower.becomeCandidate();
+        ASSERT_EQ(follower.getCurrentTerm(), 1u);
+        ASSERT_EQ(follower.getVotedFor(), "node2");
+
+        ASSERT_TRUE(follower.installSnapshotFromLeader("node1", 2, 5, 1));
+        EXPECT_EQ(follower.getCurrentTerm(), 2u);
+        EXPECT_TRUE(follower.getVotedFor().empty());
+        EXPECT_EQ(follower.getLeaderId(), "node1");
+        EXPECT_EQ(follower.getSnapshotIndex(), 5u);
+        EXPECT_EQ(follower.getSnapshotTerm(), 1u);
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getCurrentTerm(), 2u);
+    EXPECT_TRUE(recovered.getVotedFor().empty());
+    EXPECT_EQ(recovered.getSnapshotIndex(), 5u);
+    EXPECT_EQ(recovered.getSnapshotTerm(), 1u);
+    EXPECT_EQ(recovered.getLog().getCommitIndex(), 5u);
+}
+
+TEST_F(RaftPersistenceTest, SnapshotInstallFromLeaderRejectsStaleAndNonMemberRequests) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    RaftState follower(config);
+    follower.becomeCandidate();
+    ASSERT_EQ(follower.getCurrentTerm(), 1u);
+
+    EXPECT_FALSE(follower.installSnapshotFromLeader("node1", 0, 3, 0));
+    EXPECT_FALSE(follower.installSnapshotFromLeader("unknown", 2, 3, 1));
+    EXPECT_FALSE(follower.installSnapshotFromLeader("node2", 2, 3, 1));
+    EXPECT_FALSE(follower.installSnapshotFromLeader("node1", 2, 0, 0));
+    EXPECT_FALSE(follower.installSnapshotFromLeader("node1", 2, 3, 0));
+    EXPECT_FALSE(follower.installSnapshotFromLeader("node1", 1, 3, 2));
+    EXPECT_EQ(follower.getCurrentTerm(), 1u);
+    EXPECT_EQ(follower.getVotedFor(), "node2");
+    EXPECT_EQ(follower.getSnapshotIndex(), 0u);
+    EXPECT_EQ(follower.getLog().getCommitIndex(), 0u);
+
+    RaftConfig volatile_config;
+    volatile_config.node_id = "node2";
+    volatile_config.cluster_members = {"node1", "node2", "node3"};
+    RaftState volatile_follower(volatile_config);
+    EXPECT_FALSE(volatile_follower.installSnapshotFromLeader("node1", 1, 3, 1));
+}
+
 TEST_F(RaftPersistenceTest, SnapshotPayloadAndCompactedJournalRecoverTogether) {
     RaftSnapshotManager::Config snapshot_config;
     snapshot_config.snapshot_directory = (directory_ / "snapshots").string();
@@ -683,6 +841,92 @@ TEST_F(RaftPersistenceTest, SnapshotPayloadAndCompactedJournalRecoverTogether) {
     EXPECT_EQ(snapshot->uncompressed_size, snapshot_payload.size());
     EXPECT_EQ(snapshot->checksum,
               "4ba69735ca53765ed6a709edb56c6ea236b7193a3b29a6b390c346f0f4340e4e");
+}
+
+TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotently) {
+    RaftSnapshotManager::Config source_config;
+    source_config.snapshot_directory = (directory_ / "source-snapshots").string();
+    source_config.chunk_size_bytes = 16;
+    RaftSnapshotManager source(source_config);
+
+    RaftLog source_log((directory_ / "source.wal").string());
+    source_log.append(LogEntry{1, 1, "committed", 1});
+    source_log.setCommitIndex(1);
+    const std::vector<uint8_t> payload{'r', 'a', 'f', 't', '-', 's', 't', 'a', 't', 'e'};
+    RaftSnapshotExtensions extensions{
+        {"decision-state", std::vector<uint8_t>{'d', 'e', 'c', 'i', 's', 'i', 'o', 'n'}}};
+    ASSERT_TRUE(source.createAndInstall(
+        source_log, 1, 1, payload, extensions));
+
+    std::vector<uint8_t> snapshot_file;
+    const auto chunk_count = source.getChunkCount(1);
+    ASSERT_GT(chunk_count, 0u);
+    for (size_t chunk_index = 0; chunk_index < chunk_count; ++chunk_index) {
+        const auto chunk = source.getChunk(1, chunk_index);
+        ASSERT_TRUE(chunk.has_value());
+        EXPECT_EQ(chunk->chunk_index, chunk_index);
+        EXPECT_EQ(chunk->total_chunks, chunk_count);
+        snapshot_file.insert(
+            snapshot_file.end(), chunk->data.begin(), chunk->data.end());
+    }
+
+    RaftSnapshotManager::Config target_config;
+    target_config.snapshot_directory = (directory_ / "target-snapshots").string();
+    target_config.max_transfer_bytes = snapshot_file.size();
+    RaftSnapshotManager target(target_config);
+
+    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, snapshot_file));
+    ASSERT_TRUE(target.installTransferredSnapshot(1, 1, snapshot_file));
+    const auto installed = target.loadSnapshot(1);
+    ASSERT_TRUE(installed.has_value());
+    EXPECT_EQ(installed->snapshot_index, 1u);
+    EXPECT_EQ(installed->snapshot_term, 1u);
+    ASSERT_EQ(installed->extensions.size(), 1u);
+    EXPECT_EQ(installed->extensions.at("decision-state"), extensions.at("decision-state"));
+
+    auto corrupted_file = snapshot_file;
+    corrupted_file.back() ^= 0xFF;
+    EXPECT_FALSE(target.installTransferredSnapshot(1, 1, corrupted_file));
+    const auto unchanged = target.loadSnapshot(1);
+    ASSERT_TRUE(unchanged.has_value());
+    EXPECT_EQ(unchanged->extensions.at("decision-state"), extensions.at("decision-state"));
+    EXPECT_FALSE(target.installTransferredSnapshot(2, 1, snapshot_file));
+
+    RaftSnapshotManager::Config limited_config;
+    limited_config.snapshot_directory = (directory_ / "limited-snapshots").string();
+    limited_config.max_transfer_bytes = snapshot_file.size() - 1;
+    RaftSnapshotManager limited(limited_config);
+    EXPECT_FALSE(limited.installTransferredSnapshot(1, 1, snapshot_file));
+    EXPECT_FALSE(limited.loadSnapshot(1).has_value());
+}
+
+TEST_F(RaftPersistenceTest, EmptyTransferredSnapshotStillVerifiesApplicationChecksum) {
+    RaftSnapshotManager::Config source_config;
+    source_config.snapshot_directory = (directory_ / "empty-source").string();
+    source_config.chunk_size_bytes = 16;
+    RaftSnapshotManager source(source_config);
+
+    RaftLog source_log((directory_ / "empty-source.wal").string());
+    source_log.append(LogEntry{1, 1, "committed", 1});
+    source_log.setCommitIndex(1);
+    ASSERT_TRUE(source.createAndInstall(
+        source_log, 1, 1, std::vector<uint8_t>{}));
+
+    std::vector<uint8_t> snapshot_file;
+    for (size_t chunk_index = 0; chunk_index < source.getChunkCount(1); ++chunk_index) {
+        const auto chunk = source.getChunk(1, chunk_index);
+        ASSERT_TRUE(chunk.has_value());
+        snapshot_file.insert(
+            snapshot_file.end(), chunk->data.begin(), chunk->data.end());
+    }
+    ASSERT_GT(snapshot_file.size(), 36u);
+    snapshot_file[36] ^= 0xFF;
+
+    RaftSnapshotManager::Config target_config;
+    target_config.snapshot_directory = (directory_ / "empty-target").string();
+    RaftSnapshotManager target(target_config);
+    EXPECT_FALSE(target.installTransferredSnapshot(1, 1, snapshot_file));
+    EXPECT_FALSE(target.loadSnapshot(1).has_value());
 }
 
 TEST_F(RaftPersistenceTest, SnapshotMetadataDoesNotCompactUntilCompactionIsRequested) {
