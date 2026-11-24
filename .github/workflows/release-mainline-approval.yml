@@ -13,7 +13,7 @@ name: "Release: GitHub Release Approval Gate"
 #   5. Posts approval comment: "/publish-release"
 #   6. This workflow (release-mainline-approval.yml) reacts and publishes release
 #   7. Sets draft=false, making release publicly visible
-#   8. Closes the tracking issue
+#   8. Records downstream tracking issues on the review issue
 #
 # Rationale:
 #   - Human-controlled: maintainer decides when/if to publish to users
@@ -31,7 +31,7 @@ name: "Release: GitHub Release Approval Gate"
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: read
@@ -86,9 +86,29 @@ jobs:
             const comment = context.payload.comment;
             const body = (comment.body || '').trim();
             const user = comment.user.login;
-            const holdCommand = /\/hold-release\b|\/pause-release\b/i.test(body);
-            const rejectCommand = /\/reject-release\b|\/cancel-release\b/i.test(body);
-            const rollbackCommand = /\/rollback-release\b/i.test(body);
+            if (context.payload.action !== 'created') {
+              core.setFailed('Only a newly created comment may authorize a release command.');
+              return;
+            }
+            if (context.payload.issue.state !== 'open') {
+              core.setFailed('Release review issue is closed; reopen it before issuing a release command.');
+              return;
+            }
+            const commands = {
+              '/publish-release': 'approve',
+              '/approve-release': 'approve',
+              '@publish-release': 'approve',
+              '/hold-release': 'hold',
+              '/pause-release': 'hold',
+              '/reject-release': 'reject',
+              '/cancel-release': 'reject',
+              '/rollback-release': 'rollback',
+            };
+            const status = Object.hasOwn(commands, body) ? commands[body] : undefined;
+            if (!status) {
+              core.setFailed('Expected exactly one standalone release command; no action was taken.');
+              return;
+            }
             
             try {
               const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
@@ -98,8 +118,7 @@ jobs:
               });
               
               if (!['admin', 'maintain'].includes(permission.permission)) {
-                const bodyText = (context.payload.comment.body || '').trim();
-                if (/\/hold-release\b|\/pause-release\b|\/reject-release\b|\/cancel-release\b|\/rollback-release\b/i.test(bodyText)) {
+                if (status !== 'approve') {
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
@@ -111,10 +130,10 @@ jobs:
                 return;
               }
                
-              if (holdCommand || rejectCommand || rollbackCommand) {
+              if (status !== 'approve') {
                 core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
                 core.setOutput('is_maintainer', 'true');
-                core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+                core.setOutput('status', status);
                 return;
               }
               
@@ -296,22 +315,82 @@ jobs:
             ];
             
             const createdIssues = [];
+            const repo = { owner: context.repo.owner, repo: context.repo.repo };
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              ...repo, state: 'all',
+            });
             
             for (const registry of registries) {
               const title = `📦 ${registry.name} Release: v${version}`;
+              const marker = `<!-- registry-release:v${version}:${registry.keyword} -->`;
+              const instructionsMarker = '<!-- registry-approval-instructions:v1 -->';
+              const prereleaseInstructions = registry.name === 'WinGet'
+                ? ' A prerelease requires explicit opt-in by editing the issue field to `**WinGet prerelease opt-in:** true`; a missing field defaults to false. Never opt in without review.'
+                : '';
+              const instructions = `${instructionsMarker}\n### Current approval instructions\n` +
+                `These instructions supersede any earlier approval order.${prereleaseInstructions}\n` +
+                `1. Complete validation and post \`/${registry.keyword}\` on this issue as an admin or maintainer to start \`${registry.workflow}\`.\n` +
+                `2. Find the triggered run in Actions, then approve its pending \`${registry.environment}\` environment.\n` +
+                `3. Monitor \`${registry.downstreamWorkflow}\` and verify publication; dispatch alone is not proof of success.`;
+              const labelNames = issue => (issue.labels || []).map(label => typeof label === 'string' ? label : label.name);
+              const hasVersion = issue => {
+                const lines = (issue.body || '').split(/\r?\n/).map(line => line.trim())
+                  .filter(line => /^##\s+Release Version:/i.test(line));
+                return lines.length === 1 && lines[0] === `## Release Version: v${version}`;
+              };
+              const candidates = existingIssues.filter(issue => !issue.pull_request && issue.title === title);
+              const legacyMatches = candidates.filter(issue => labelNames(issue).includes(registry.label) && hasVersion(issue));
+              if (candidates.some(issue => !(issue.body || '').includes(marker) && !legacyMatches.includes(issue))) {
+                throw new Error(`Ambiguous ${registry.name} tracking issue for v${version}; resolve it before retrying.`);
+              }
+              const matches = existingIssues.filter(issue => !issue.pull_request &&
+                ((issue.body || '').includes(marker) || legacyMatches.includes(issue)));
+              if (matches.length > 1) {
+                throw new Error(`Multiple ${registry.name} tracking issues for v${version}; resolve duplicates before retrying.`);
+              }
+              if (matches.length === 1) {
+                const issue = matches[0];
+                if (issue.state !== 'open') {
+                  throw new Error(`${registry.name} tracking issue #${issue.number} is closed; review its outcome and reopen it if further publication is intended.`);
+                }
+                if (!labelNames(issue).includes(registry.label)) {
+                  throw new Error(`${registry.name} tracking issue #${issue.number} lacks the required ${registry.label} label.`);
+                }
+                if (!hasVersion(issue)) {
+                  throw new Error(`${registry.name} tracking issue #${issue.number} does not identify v${version}; resolve it before retrying.`);
+                }
+                if (!(issue.body || '').includes(instructionsMarker)) {
+                  const current = (await github.rest.issues.get({ ...repo, issue_number: issue.number })).data;
+                  if (current.state !== 'open' || !labelNames(current).includes(registry.label) || !hasVersion(current)) {
+                    throw new Error(`${registry.name} tracking issue #${issue.number} changed during reconciliation; inspect it before retrying.`);
+                  }
+                  if (!(current.body || '').includes(instructionsMarker)) {
+                    await github.rest.issues.update({
+                      ...repo, issue_number: issue.number, body: `${current.body || ''}\n\n${instructions}`,
+                    });
+                  }
+                }
+                if (labelNames(issue).includes('release-review')) {
+                  await github.rest.issues.removeLabel({ ...repo, issue_number: issue.number, name: 'release-review' });
+                }
+                createdIssues.push({ name: registry.name, number: issue.number, keyword: registry.keyword });
+                core.info(`Reusing ${issue.state} tracking issue #${issue.number} for ${registry.name}`);
+                continue;
+              }
               const preconditions = registry.preconditions(version);
               const validation = registry.validation(version);
               const success = registry.success(version);
               const verification = registry.verification(version);
-              const body = `## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n### Deployment Instructions\n- **GitHub Environment:** \`${registry.environment}\`\n- **Required approvers:** ${registry.approvers}\n- **Approval workflow:** \`${registry.workflow}\`\n- **Exact approval command:** \`/${registry.keyword}\`\n- **Workflow that runs after approval:** \`${registry.downstreamWorkflow}\`\n- **Required preconditions:** ${preconditions}\n\n### Manual approval steps\n1. Open the repository Actions page and find the run for \`${registry.workflow}\`.\n2. Approve the GitHub Environment \`${registry.environment}\` in the pending approval prompt. This approval is required before deployment can proceed.\n3. Post the exact comment \`/${registry.keyword}\` on this issue to trigger the downstream publication gate.\n4. Confirm the next workflow execution is \`${registry.downstreamWorkflow}\` and monitor it until completion.\n\n### Validation Steps\n- [ ] Download and verify the release artifacts for v${version}\n- [ ] Verify checksums and signatures\n- [ ] Review changelog and metadata\n- [ ] Confirm the target registry/channel is correct\n- [ ] ${validation}\n\n### Success Criteria\n- [ ] The GitHub Environment \`${registry.environment}\` is approved\n- [ ] The approval command \`/${registry.keyword}\` is used by an admin or maintainer\n- [ ] \`${registry.downstreamWorkflow}\` completes successfully\n- [ ] ${success}\n\n### Failure / Rollback Notes\n- [ ] If validation fails, do not approve the environment or publish the package\n- [ ] Cancel the workflow run and leave the issue open if there is a packaging, security, or dependency blocker\n- [ ] ${registry.failure}\n\n### Post-deployment Verification\n- [ ] Confirm the target channel/registry reflects the new version\n- [ ] ${verification}\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable`;
+              const prereleaseField = registry.name === 'WinGet'
+                ? '**WinGet prerelease opt-in:** false\n\nSet this field to `true` only after explicitly reviewing and approving a prerelease for WinGet.\n\n'
+                : '';
+              const body = `${marker}\n## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n${prereleaseField}### Deployment Instructions\n- **GitHub Environment:** \`${registry.environment}\`\n- **Required approvers:** ${registry.approvers}\n- **Approval workflow:** \`${registry.workflow}\`\n- **Exact approval command:** \`/${registry.keyword}\`\n- **Workflow that runs after approval:** \`${registry.downstreamWorkflow}\`\n- **Required preconditions:** ${preconditions}\n\n### Manual approval steps\n1. Complete validation and post the exact comment \`/${registry.keyword}\` on this issue as an admin or maintainer to start \`${registry.workflow}\`.\n2. Open the repository Actions page and find the run triggered by that comment.\n3. Approve the pending GitHub Environment \`${registry.environment}\` prompt. This approval is required before deployment can proceed.\n4. Confirm the next workflow execution is \`${registry.downstreamWorkflow}\` and monitor it until completion.\n\n### Validation Steps\n- [ ] Download and verify the release artifacts for v${version}\n- [ ] Verify checksums and signatures\n- [ ] Review changelog and metadata\n- [ ] Confirm the target registry/channel is correct\n- [ ] ${validation}\n\n### Success Criteria\n- [ ] The GitHub Environment \`${registry.environment}\` is approved\n- [ ] The approval command \`/${registry.keyword}\` is used by an admin or maintainer\n- [ ] \`${registry.downstreamWorkflow}\` completes successfully\n- [ ] ${success}\n\n### Failure / Rollback Notes\n- [ ] If validation fails, do not approve the environment or publish the package\n- [ ] Cancel the workflow run and leave the issue open if there is a packaging, security, or dependency blocker\n- [ ] ${registry.failure}\n\n### Post-deployment Verification\n- [ ] Confirm the target channel/registry reflects the new version\n- [ ] ${verification}\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable`;
                
-              try {
                 const created = await github.rest.issues.create({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
+                  ...repo,
                   title: title,
-                  body: body,
-                  labels: [registry.label, registry.distro_label, 'release-review'],
+                  body: body.replace('### Manual approval steps', `${instructionsMarker}\n### Manual approval steps`),
+                  labels: [registry.label, registry.distro_label],
                 });
                 createdIssues.push({
                   name: registry.name,
@@ -319,9 +398,6 @@ jobs:
                   keyword: registry.keyword
                 });
                 core.info(`✓ Created tracking issue #${created.data.number} for ${registry.name}`);
-              } catch (error) {
-                core.warning(`⚠ Could not create ${registry.name} tracking issue: ${error.message}`);
-              }
             }
             
             core.setOutput('tracking_issues', JSON.stringify(createdIssues));
@@ -336,19 +412,14 @@ jobs:
             const user = context.payload.comment.user.login;
             const trackingJson = '${{ steps.create_tracking.outputs.tracking_issues }}' || '[]';
             
-            let trackingIssues = [];
-            try {
-              trackingIssues = JSON.parse(trackingJson);
-            } catch (e) {
-              core.warning('Could not parse tracking issues: ' + e.message);
-            }
+            const trackingIssues = JSON.parse(trackingJson);
             
             let nextStepsList = 'Each registry requires explicit approval:\n';
             for (const t of trackingIssues) {
               nextStepsList += `   - ${t.name}: Comment \`/${t.keyword}\` on #${t.number}\n`;
             }
             
-            const comment = `✅ **GitHub Release Published**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Release is now publicly visible on GitHub\n\n**Access Release:**\n- Release URL: https://github.com/${{ github.repository }}/releases/tag/v${version}\n- Download artifacts from the release page\n- All signatures and checksums are included\n\n**Next Steps:**\n1. Tracking issues created for downstream registries:\n${nextStepsList}\n2. No automatic downstream triggering; each registry requires independent maintainer approval via its tracking issue\n3. Monitor artifact downloads and user reports\n\n**Tracking:** Release audit trail is complete.`;
+            const comment = `✅ **GitHub Release Published**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Release is now publicly visible on GitHub\n\n**Access Release:**\n- Release URL: https://github.com/${{ github.repository }}/releases/tag/v${version}\n- Download artifacts and checksums from the release page\n\n**Next Steps:**\n1. Downstream registry tracking issues:\n${nextStepsList}\n2. No automatic downstream triggering; each registry requires independent maintainer approval via its tracking issue\n3. Monitor artifact downloads and user reports\n\nThe review issue remains open; downstream publication is not yet confirmed.`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -369,5 +440,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              body: `❌ **GitHub Release Publication Failed**\n\nJob Status: ${failureReason}\n\nThe draft release remains unpublished. Please check the workflow logs and try again.`,
+              body: `❌ **GitHub Release Workflow Failed**\n\nJob Status: ${failureReason}\n\n` +
+                ('${{ steps.publish_release.outcome }}' === 'success'
+                  ? 'The GitHub release is already public, but follow-up steps failed. Check the workflow logs and retry to reconcile downstream tracking issues.'
+                  : 'Publication did not complete successfully. Check the release state and workflow logs before retrying.'),
             });

@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - Consolidated release approval tracking
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: unknown -->
+> Exact model backend not verifiable from final document text alone.
+
+- A maintainer approves the staged GitHub Release with a newly created standalone
+  issue comment; edits do not trigger commands, and retries require a new
+  comment. Downstream registry issues are reconciled by version and registry
+  and require separate issue commands and protected environment approval.
+  Restaging preserves the human review checklist and requires a fresh review.
+- Registry wrappers skip closed-issue comments rather than reopening issues; a
+  direct reusable-gate call fails, and a closed or duplicate downstream match
+  blocks reconciliation. Legacy open issue bodies are preserved while updated
+  instructions are appended as comments.
+- WinGet approval dispatches the issue's version, not the newest release.
+  A prerelease requires `**WinGet prerelease opt-in:** true` on its issue;
+  the downstream run attempts a draft PR, not direct package publication.
+- Reused issues do not prevent repeated dispatches. Gate failures remain visible;
+  job summaries describe gate results, not downstream publication or PR merge.
+
 ### Fixed - Mainline dry-run for not-yet-created release tags
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
