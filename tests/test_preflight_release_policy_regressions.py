@@ -440,6 +440,12 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
         target_block = sharding_cmake.split("add_executable(test_dis10_concurrent_serializability", 1)[1]
         target_block = target_block.split("if(EXISTS", 1)[0]
+        link_block = target_block.split(
+            "target_link_libraries(test_dis10_concurrent_serializability PRIVATE", 1
+        )[1].split(")", 1)[0]
+        self.assertIn("GTest::gtest GTest::gtest_main", link_block)
+        self.assertNotIn("${TEST_LIBS}", link_block)
+        self.assertNotIn("gmock", link_block.lower())
         self.assertIn("Threads::Threads ZLIB::ZLIB", target_block)
         self.assertIn("ENVIRONMENT \"${DIS10_SERIALIZABILITY_TEST_ENVIRONMENT}\"", target_block)
         self.assertIn("export THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE=", reusable_workflow)
