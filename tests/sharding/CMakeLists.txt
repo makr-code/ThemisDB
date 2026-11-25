@@ -61,6 +61,7 @@ target_link_libraries(test_dis10_concurrent_serializability PRIVATE
 if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
     target_link_libraries(test_dis10_concurrent_serializability PRIVATE themis_sharding)
 endif()
+themis_link_zlib_if_available(test_dis10_concurrent_serializability)
 target_compile_definitions(test_dis10_concurrent_serializability PRIVATE
     THEMIS_TEST_BUILD=1)
 set(DIS10_SERIALIZABILITY_TEST_ENVIRONMENT)

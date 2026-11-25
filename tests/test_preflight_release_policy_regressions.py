@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import textwrap
 import unittest
@@ -441,9 +442,56 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         target_block = sharding_cmake.split("add_executable(test_dis10_concurrent_serializability", 1)[1]
         target_block = target_block.split("if(EXISTS", 1)[0]
         self.assertIn("Threads::Threads ZLIB::ZLIB", target_block)
+        self.assertIn("themis_link_zlib_if_available(test_dis10_concurrent_serializability)", target_block)
         self.assertIn("ENVIRONMENT \"${DIS10_SERIALIZABILITY_TEST_ENVIRONMENT}\"", target_block)
         self.assertIn("export THEMIS_DIS10_SERIALIZABILITY_EVIDENCE_FILE=", reusable_workflow)
         self.assertIn("THEMIS_CTEST_STRICT_EVIDENCE=1 THEMIS_CTEST_EMIT_TEST_OUTPUT=1", reusable_workflow)
+
+    @unittest.skipUnless(
+        sys.platform.startswith("linux") and all(shutil.which(tool) for tool in ("cmake", "ninja", "cc")),
+        "requires Linux, CMake, Ninja and a C compiler",
+    )
+    def test_dis10_release_link_resolves_transitive_zlib(self) -> None:
+        cmake_text = (REPO_ROOT / "cmake" / "CMakeLists.txt").read_text(encoding="utf-8")
+        helper = "function(themis_link_zlib_if_available" + cmake_text.split(
+            "function(themis_link_zlib_if_available", 1
+        )[1].split("endfunction()", 1)[0] + "endfunction()\n"
+        sharding_cmake = SHARDING_CMAKELISTS.read_text(encoding="utf-8")
+        target = "add_executable(test_dis10_concurrent_serializability" + sharding_cmake.split(
+            "add_executable(test_dis10_concurrent_serializability", 1
+        )[1].split("target_compile_definitions", 1)[0]
+
+        for empty_target in (True, False):
+            with self.subTest(empty_target=empty_target), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                (root / "dependency.c").write_text(
+                    "extern unsigned long compressBound(unsigned long);\n"
+                    "unsigned long dependency(void) { return compressBound(10); }\n",
+                    encoding="utf-8",
+                )
+                (root / "test_dis10_concurrent_serializability.cpp").write_text(
+                    'extern "C" unsigned long dependency(void);\n'
+                    "int main() { return dependency() > 10 ? 0 : 1; }\n",
+                    encoding="utf-8",
+                )
+                zlib = (
+                    "add_library(ZLIB::ZLIB INTERFACE IMPORTED)\n"
+                    if empty_target else "find_package(ZLIB REQUIRED)\n"
+                )
+                (root / "CMakeLists.txt").write_text(
+                    "cmake_minimum_required(VERSION 3.20)\nproject(DIS10Link C CXX)\n"
+                    + zlib + "find_package(Threads REQUIRED)\n"
+                    + "add_library(themis_sharding SHARED dependency.c)\n"
+                    + "set(THEMIS_BUILD_MODULAR ON)\n" + helper + target,
+                    encoding="utf-8",
+                )
+                for command in (
+                    ["cmake", "-S", str(root), "-B", str(root / "build"), "-G", "Ninja"],
+                    ["cmake", "--build", str(root / "build"), "--target", "test_dis10_concurrent_serializability"],
+                    [str(root / "build" / "test_dis10_concurrent_serializability")],
+                ):
+                    result = subprocess.run(command, capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
