@@ -43,6 +43,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
         packages = shlex.split(install.replace("\\\n", " "))
         self.assertIn("libboost-filesystem-dev", packages)
         self.assertIn("libcpp-httplib-dev", packages)
+        self.assertIn("libyaml-cpp-dev", packages)
 
     def test_fast_compile_uses_system_packages_without_vcpkg_checkout(self):
         lane = workflow("build-mainline.yml")["jobs"]["fast-compile-check"]["with"]
