@@ -94,6 +94,7 @@ jobs:
             libspdlog-dev \
             libtbb-dev \
             nlohmann-json3-dev \
+            libyaml-cpp-dev \
             libbenchmark-dev \
             libcpp-httplib-dev \
             libboost-dev \
