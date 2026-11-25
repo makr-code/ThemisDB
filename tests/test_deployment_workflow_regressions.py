@@ -927,6 +927,61 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 self.assertEqual(result.returncode == 0, should_pass, result.stderr + result.stdout)
                 self.assertEqual(log.exists(), should_pass)
 
+    def test_manifest_retries_only_registry_protocol_errors(self):
+        script = step("release-docker-image.yml", "merge-image-manifest", "manifest")["run"]
+        script = script.replace(
+            "${{ needs.prepare-release-context.outputs.tag_list }}",
+            "themisdb/themisdb:2.4.0,themisdb/themisdb:2.4",
+        )
+        cases = [
+            ("success", 0, 1, [], True),
+            ("protocol", 1, 2, ["5"], True),
+            ("protocol", 2, 3, ["5", "10"], True),
+            ("protocol", 3, 3, ["5", "10"], False),
+            ("denied", 1, 1, [], False),
+        ]
+        for error, failures, attempts, delays, succeeds in cases:
+            with self.subTest(error=error, failures=failures), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                digests = directory / "docker-digests"
+                digests.mkdir()
+                for index, platform in enumerate(("linux-amd64", "linux-arm64")):
+                    (digests / f"docker-digest-{platform}.txt").write_text(
+                        f"ghcr.io/example/image:platform-{index}@sha256:{str(index) * 64}\n"
+                    )
+                binary = directory / "bin"
+                binary.mkdir()
+                docker = binary / "docker"
+                docker.write_text(
+                    '#!/bin/bash\n'
+                    'if [[ "$3" == "inspect" ]]; then echo \'"sha256:abc"\'; exit; fi\n'
+                    'printf "%s\\n" "$*" >> "$CALL_LOG"\n'
+                    'count=$(wc -l < "$CALL_LOG")\n'
+                    'if (( count <= FAILURES )); then\n'
+                    '  if [[ "$ERROR" == "protocol" ]]; then\n'
+                    '    echo "stream error: stream ID 297; PROTOCOL_ERROR; received from peer" >&2\n'
+                    '  else echo "denied: access forbidden" >&2; fi\n'
+                    '  exit 42\n'
+                    'fi\n'
+                )
+                docker.chmod(0o755)
+                sleep = binary / "sleep"
+                sleep.write_text('#!/bin/sh\necho "$1" >> "$SLEEP_LOG"\n')
+                sleep.chmod(0o755)
+                calls = directory / "calls"
+                sleeps = directory / "sleeps"
+                result, values = run_bash(
+                    script, directory, PATH=f"{binary}:{os.environ['PATH']}",
+                    CALL_LOG=str(calls), SLEEP_LOG=str(sleeps),
+                    ERROR=error, FAILURES=str(failures),
+                )
+                self.assertEqual(result.returncode, 0 if succeeds else 42, result.stdout + result.stderr)
+                invocations = calls.read_text().splitlines()
+                self.assertEqual(len(invocations), attempts)
+                self.assertEqual(len(set(invocations)), 1)
+                self.assertEqual(sleeps.read_text().splitlines() if sleeps.exists() else [], delays)
+                self.assertEqual(values.get("digest"), "sha256:abc" if succeeds else None)
+
     def test_release_source_and_edition_are_propagated_to_builds(self):
         packaging = workflow("release-mainline.yml")["jobs"]
         self.assertNotIn("docker-image", packaging)

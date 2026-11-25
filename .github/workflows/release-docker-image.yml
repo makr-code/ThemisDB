@@ -755,7 +755,24 @@ jobs:
           for ref in "${refs[@]}"; do
             create_cmd+=( "${ref}" )
           done
-          "${create_cmd[@]}"
+          create_log="$(mktemp)"
+          trap 'rm -f "${create_log}"' EXIT
+          for attempt in 1 2 3; do
+            if "${create_cmd[@]}" 2>&1 | tee "${create_log}"; then
+              break
+            else
+              statuses=("${PIPESTATUS[@]}")
+            fi
+            if [ "${statuses[1]}" -ne 0 ]; then
+              echo "::error::Failed to capture manifest creation output."
+              exit 1
+            fi
+            if [ "${attempt}" -eq 3 ] || ! grep -Fq 'PROTOCOL_ERROR; received from peer' "${create_log}"; then
+              exit "${statuses[0]}"
+            fi
+            echo "::warning::Registry HTTP/2 protocol error; retrying manifest creation (attempt ${attempt}/3)."
+            sleep "$((attempt * 5))"
+          done
 
           PRIMARY_TAG="${tags[0]}"
           echo "primary_tag=${PRIMARY_TAG}" >> "${GITHUB_OUTPUT}"
