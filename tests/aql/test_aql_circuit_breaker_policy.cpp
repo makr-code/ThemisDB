@@ -41,7 +41,9 @@ public:
         int half_open_max_requests = 2;    ///< Permitted calls in HALF_OPEN before decision
     };
 
-    explicit MockCircuitBreaker(const Config& cfg = Config{})
+    MockCircuitBreaker() : MockCircuitBreaker(Config{}) {}
+
+    explicit MockCircuitBreaker(const Config& cfg)
         : cfg_(cfg), state_(State::CLOSED), failures_(0), half_open_calls_(0) {}
 
     /// @return true if the request is allowed
@@ -150,6 +152,22 @@ private:
 // ============================================================================
 // Test Cases
 // ============================================================================
+
+TEST(CircuitBreakerPolicy, DefaultConfiguration) {
+    MockCircuitBreaker cb;
+    EXPECT_EQ(cb.getConfig().failure_threshold, 3);
+    EXPECT_EQ(cb.getConfig().half_open_max_requests, 2);
+    EXPECT_EQ(cb.getState(), MockCircuitBreaker::State::CLOSED);
+    for (int i = 0; i < 3; ++i) {
+        EXPECT_TRUE(cb.allowRequest());
+        cb.onFailure();
+    }
+    EXPECT_EQ(cb.getState(), MockCircuitBreaker::State::OPEN);
+    cb.transitionToHalfOpen();
+    EXPECT_TRUE(cb.allowRequest());
+    EXPECT_TRUE(cb.allowRequest());
+    EXPECT_FALSE(cb.allowRequest());
+}
 
 /**
  * @test CircuitBreakerPolicy_FailureThresholdTriggersOpen
