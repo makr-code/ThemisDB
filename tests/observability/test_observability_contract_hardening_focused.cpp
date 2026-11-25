@@ -581,3 +581,27 @@ TEST(ObservabilityContractHardeningOCH20, ExporterIncidentDiagnosticsRemainExpli
     EXPECT_NE(metrics.find("exporter_health_status"), std::string::npos);
     EXPECT_NE(metrics.find("exporter=\"otlp\""), std::string::npos);
 }
+
+TEST(ObservabilityContractHardening, SummaryQuantilesShareTheSeriesLabelSet) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.reset();
+    mc.observeHistogram("unlabeled_summary", 3.0);
+    mc.observeHistogramWithExemplar("labeled_summary", 5.0, Exemplar("trace-123", 5.0),
+                                   {{"operation", "read"}, {"status", "ok"}});
+
+    const auto metrics = mc.getPrometheusMetrics();
+    for (const auto* quantile : {"0.5", "0.95", "0.99"}) {
+        EXPECT_NE(metrics.find(std::string("unlabeled_summary{quantile=\"") + quantile + "\"}"),
+                  std::string::npos);
+        EXPECT_NE(metrics.find(std::string("labeled_summary{operation=\"read\",status=\"ok\",quantile=\"")
+                               + quantile + "\"}"), std::string::npos);
+    }
+    EXPECT_NE(metrics.find("labeled_summary_count{operation=\"read\",status=\"ok\"} 1"),
+              std::string::npos);
+    EXPECT_NE(metrics.find("labeled_summary_sum{operation=\"read\",status=\"ok\"} 5.00"),
+              std::string::npos);
+    EXPECT_NE(metrics.find("labeled_summary{operation=\"read\",status=\"ok\",quantile=\"0.99\"} 5.00 # {traceID=\"trace-123\"}"),
+              std::string::npos);
+    EXPECT_EQ(metrics.find("}{quantile="), std::string::npos);
+    mc.reset();
+}

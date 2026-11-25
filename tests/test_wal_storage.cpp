@@ -365,7 +365,7 @@ TEST_F(WALStorageTest, RecoveryMetricsIncludeProgressAndTerminalStatus) {
     EXPECT_EQ(metricCounterValue(exported, complete_status),
               metricCounterValue(before, complete_status) + 1);
     EXPECT_NE(exported.find(
-                  "storage_wal_recovery_duration_ms{status=\"COMPLETE\"}"),
+                  "storage_wal_recovery_duration_ms{status=\"COMPLETE\",quantile=\"0.5\"}"),
               std::string::npos);
 }
 
