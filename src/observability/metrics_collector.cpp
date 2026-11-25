@@ -369,17 +369,18 @@ std::string MetricsCollector::getPrometheusMetrics() const {
         size_t pos = key.find('{');
         std::string name = (pos != std::string::npos) ? key.substr(0, pos) : key;
         std::string labels = (pos != std::string::npos) ? key.substr(pos) : "";
+        std::string quantile_labels = labels.empty() ? "{" : labels.substr(0, labels.size() - 1) + ",";
         
         oss << "# TYPE " << name << " summary\n";
-        oss << name << labels << "{quantile=\"0.5\"} " << std::fixed << std::setprecision(2) 
+        oss << name << quantile_labels << "quantile=\"0.5\"} " << std::fixed << std::setprecision(2)
             << hist->percentile(0.5) << "\n";
-        oss << name << labels << "{quantile=\"0.95\"} " << hist->percentile(0.95) << "\n";
+        oss << name << quantile_labels << "quantile=\"0.95\"} " << hist->percentile(0.95) << "\n";
 
         // p99 – attach exemplar when one has been recorded for this series
         {
             double p99 = hist->percentile(0.99);
             std::string exemplar_str = formatExemplar(hist->latest_exemplar);
-            oss << name << labels << "{quantile=\"0.99\"} "
+            oss << name << quantile_labels << "quantile=\"0.99\"} "
                 << std::fixed << std::setprecision(2) << p99;
             if (!exemplar_str.empty()) {
                 oss << " " << exemplar_str;
