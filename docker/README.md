@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2025-12-14"
-Last Updated: "2026-11-24"
+Last Updated: "2026-11-25"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -243,6 +243,14 @@ both `linux/amd64` and `linux/arm64` before promoting the final image tags.
 The test checks scraping, Grafana's provisioned datasource and dashboard, and
 process shutdown and failure handling. Release builds of older tags without
 bundled monitoring fail this gate; use a release source containing the change.
+
+The nightly workflow runs after the scheduled develop mainline build when
+commits have changed since the last nightly release. It builds from that
+mainline run's commit and publishes Docker Hub `nightly`, dated and
+version-dated tags, as well as GHCR `nightly` and dated tags, only after both
+platform runtime and monitoring checks pass. Manual runs default to dry-run;
+publishing requires disabling dry-run and valid Docker Hub and GHCR credentials.
+Nightly metadata still requires the release matrix's runtime gate to pass.
 
 ## Compose files
 
