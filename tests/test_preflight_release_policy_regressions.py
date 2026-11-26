@@ -213,6 +213,15 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             re.compile(r"brew install[^\n]*\bgoogletest\b"),
         )
 
+    def test_macos_kqueue_lane_installs_cpp_httplib(self) -> None:
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
+
+        self.assertRegex(
+            macos_kqueue_job,
+            re.compile(r"brew install[^\n]*\bcpp-httplib\b"),
+        )
+
     def test_macos_kqueue_lane_uses_modular_test_targets(self) -> None:
         workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
@@ -487,6 +496,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 (root / "CMakeLists.txt").write_text(
                     "cmake_minimum_required(VERSION 3.20)\nproject(DIS10Link C CXX)\n"
                     + zlib + "find_package(Threads REQUIRED)\n"
+                    + "add_library(GTest::gtest INTERFACE IMPORTED)\n"
+                    + "add_library(GTest::gtest_main INTERFACE IMPORTED)\n"
                     + "add_library(themis_sharding SHARED dependency.c)\n"
                     + "set(THEMIS_BUILD_MODULAR ON)\n" + helper + target,
                     encoding="utf-8",
