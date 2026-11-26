@@ -56,7 +56,8 @@ public:
         std::string error_message;
     };
 
-    explicit TokenPolicyEngine(const Config& cfg = Config{}) : cfg_(cfg), current_tokens_(0) {}
+    TokenPolicyEngine() : TokenPolicyEngine(Config{}) {}
+    explicit TokenPolicyEngine(const Config& cfg) : cfg_(cfg), current_tokens_(0) {}
 
     AddResult addTurn(const std::string& nl, const std::string& aql) {
         uint32_t cost = cfg_.tokensFor(nl) + cfg_.tokensFor(aql);
@@ -120,6 +121,15 @@ private:
 // ============================================================================
 // Test Cases
 // ============================================================================
+
+TEST(TokenPolicy, DefaultConfiguration) {
+    TokenPolicyEngine engine;
+
+    EXPECT_EQ(engine.config().max_budget_tokens, 4096u);
+    EXPECT_EQ(engine.config().max_turns, 20u);
+    EXPECT_EQ(engine.currentTokens(), 0u);
+    EXPECT_EQ(engine.turnCount(), 0u);
+}
 
 /**
  * @test TokenPolicy_BudgetExactlyExhaustedBoundaryCondition
