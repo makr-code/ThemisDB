@@ -157,6 +157,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           set +e
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/voice-bench -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_ENABLE_VOICE_ASSISTANT=ON \
@@ -284,6 +285,7 @@ jobs:
           set -euo pipefail
           export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
           export PATH="${VCPKG_ROOT}:${PATH}"
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B "${BUILD_DIR}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
@@ -466,6 +468,7 @@ jobs:
         env:
           SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B "${BUILD_DIR}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
@@ -576,6 +579,7 @@ jobs:
         env:
           SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B "${BUILD_DIR}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
@@ -652,6 +656,7 @@ jobs:
 
       - name: Configure CUDA build
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/gpu-cuda -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_ENABLE_CUDA=ON \
@@ -708,6 +713,7 @@ jobs:
 
       - name: Configure HIP build
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/gpu-hip -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_ENABLE_HIP=ON \
@@ -765,6 +771,7 @@ jobs:
 
       - name: Configure CPU-only (verify disabled-stub path compiles)
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/gpu-cpu-fallback -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_ENABLE_CUDA=OFF \
@@ -824,6 +831,7 @@ jobs:
 
       - name: Configure nightly sweep (system-packages, no vcpkg)
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build-nightly-bench-sweep -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_EDITION=COMMUNITY \
@@ -902,6 +910,7 @@ jobs:
 
       - name: Configure Wave D observability build
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/wave-d-observability -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
@@ -1015,6 +1024,7 @@ jobs:
 
       - name: Configure build
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
@@ -1133,6 +1143,7 @@ jobs:
 
       - name: Configure soak test build
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build/wave-d-soak -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \

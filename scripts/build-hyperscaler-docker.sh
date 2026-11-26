@@ -12,13 +12,14 @@ echo "=================================="
 echo ""
 
 # Build Docker image
+git submodule update --init --depth 1 -- llama.cpp
+cmake -DPROJECT_SOURCE_DIR="$PWD" -P cmake/LlamaCppSubmoduleCheck.cmake
 echo "Building Docker image themisdb-hyperscaler:latest..."
 docker build \
   -f docker/hyperscaler/Dockerfile \
   -t themisdb-hyperscaler:latest \
   --build-arg THEMIS_VERSION=1.3.4-hyperscaler \
   --build-arg ENABLE_LLM=ON \
-  --build-arg LLAMA_GIT_REF=master \
   .
 
 echo ""

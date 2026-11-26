@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -16,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def workflow(name):
-    return yaml.safe_load((ROOT / ".github/workflows" / name).read_text())
+    return yaml.safe_load((ROOT / ".github/workflows" / name).read_text(encoding="utf-8"))
 
 
 def step(name, job, step_id):
@@ -37,6 +38,23 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_direct_root_cmake_jobs_initialize_pinned_llama_submodule(self):
+        configure_pattern = re.compile(
+            r"^\s*cmake\s+(?:--preset\b|-S\s+\.(?=\s|$)|-B\s)", re.MULTILINE
+        )
+        init_pattern = re.compile(r"git submodule update[^\n]*--[^\n]*llama\.cpp")
+        for path in (ROOT / ".github/workflows").glob("*.yml"):
+            for name, job in workflow(path.name).get("jobs", {}).items():
+                commands = "\n".join(str(item.get("run", "")) for item in job.get("steps", []))
+                configure = configure_pattern.search(commands)
+                if not configure or "THEMIS_ENABLE_LLM=OFF" in commands:
+                    continue
+                with self.subTest(workflow=path.name, job=name):
+                    initialize = init_pattern.search(commands)
+                    self.assertIsNotNone(initialize, "LLM defaults to ON: initialize its public gitlink")
+                    self.assertLess(initialize.start(), configure.start())
+                    self.assertNotIn("--remote", initialize.group())
+
     def test_benchmark_runner_installs_required_system_dependencies(self):
         steps = workflow("reusable-benchmark-runner.yml")["jobs"]["run-benchmarks"]["steps"]
         install = next(item["run"] for item in steps if item.get("name") == "Install system dependencies")
@@ -1585,7 +1603,9 @@ class DeploymentWorkflowTests(unittest.TestCase):
 class GgmlErrnoWorkaroundTests(unittest.TestCase):
     def configure(self, directory, apple, target=True, explicit_cerrno=False):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
-        after_fetch = dependencies.split("FetchContent_MakeAvailable(llama_cpp)", 1)[1]
+        after_fetch = dependencies.split(
+            'add_subdirectory("${PROJECT_SOURCE_DIR}/llama.cpp" "${CMAKE_BINARY_DIR}/llama_cpp")', 1
+        )[1]
         start = "if(APPLE AND TARGET ggml-base)"
         self.assertIn(start, after_fetch)
         block = start + after_fetch.split(start, 1)[1].split("endif()", 1)[0] + "endif()"

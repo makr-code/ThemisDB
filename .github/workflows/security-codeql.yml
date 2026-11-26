@@ -201,6 +201,7 @@ jobs:
           git config --file .git/config --remove-section submodule.plugins/themisdb_storage 2>/dev/null || true
           git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki 2>/dev/null || true
           git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer 2>/dev/null || true
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake --preset community-release -DCMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tail -30
 
       - name: Build (manual cmake build for CodeQL extraction)

@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - Patched llama.cpp dependency
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- Native and Docker LLM builds use the commit-pinned public llama.cpp fork
+  submodule at `llama.cpp`, including the trainable Attention/MLP LoRA patch.
+  Missing/unpatched sources fail instead of downloading upstream. Initialize
+  the submodule before building; there is no alternate legacy source path.
+- Weekly reviewed fork updates and Dependabot pin-update PRs keep the engine
+  current without automatic merge. A dedicated Linux/Windows PR workflow
+  checks native training and adapter round trips.
+
 ### Added - Optional bundled Docker monitoring
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

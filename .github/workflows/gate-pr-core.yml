@@ -647,6 +647,9 @@ jobs:
       - name: Run workflow boundary unit tests
         run: python -m pytest tools/tests/test_check_workflow_boundaries.py -q
 
+      - name: Validate pinned LLM checkout coverage
+        run: python -m unittest tests.test_deployment_workflow_regressions.DeploymentWorkflowTests.test_direct_root_cmake_jobs_initialize_pinned_llama_submodule
+
       - name: Run CTest evidence and gate exception tests
         run: |
           python3 -m unittest \

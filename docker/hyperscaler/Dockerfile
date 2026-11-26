@@ -121,11 +121,9 @@ COPY include ./include
 COPY cmake ./cmake
 COPY src ./src
 
-# Clone llama.cpp for LLM support
-ARG LLAMA_GIT_REF=master
-RUN echo "Cloning llama.cpp (${LLAMA_GIT_REF}) - LLM support enabled"; \
-    git clone --depth=1 https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
-    (cd /src/llama.cpp && git fetch --depth=1 origin ${LLAMA_GIT_REF} || true && git checkout ${LLAMA_GIT_REF} || true)
+# Use the same initialized, patched submodule as native builds.
+COPY llama.cpp ./llama.cpp
+RUN cmake -DPROJECT_SOURCE_DIR=/src -P cmake/LlamaCppSubmoduleCheck.cmake
 
 # Build ThemisDB Hyperscaler Edition with LLM + GPU support
 RUN echo "=== Building ThemisDB HYPERSCALER Edition for x64-linux ===" && \

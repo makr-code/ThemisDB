@@ -111,6 +111,7 @@ jobs:
 
       - name: Prepare optional submodule paths
         run: |
+          git submodule update --init --depth 1 -- llama.cpp
           mkdir -p internal llama.cpp vcpkg/downloads
 
       - name: Test pinned model checksum validation

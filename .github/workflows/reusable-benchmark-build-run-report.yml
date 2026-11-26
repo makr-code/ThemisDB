@@ -231,6 +231,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           cmake -S . -B build/bench-suite -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \

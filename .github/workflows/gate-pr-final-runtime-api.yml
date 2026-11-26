@@ -92,6 +92,7 @@ jobs:
       - name: Configure focused LLM gate build
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           mkdir -p internal llama.cpp vcpkg/downloads
           cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -179,6 +180,7 @@ jobs:
           COMPOSE_DOCKER_CLI_BUILD: '1'
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
           if [ ! -d "${GITHUB_WORKSPACE}/internal" ]; then
             echo "::warning::${GITHUB_WORKSPACE}/internal missing; creating empty placeholder for public CI context"

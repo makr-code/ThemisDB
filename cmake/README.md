@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-04-17
-Last Updated: 2026-11-11
+Last Updated: 2026-11-26
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -32,6 +32,66 @@ Dieser Ordner enthält 4 Unterordner und 42 Dateien und bildet einen abgegrenzte
 ## Hinweise
 - Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
 - Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+
+## Patched llama.cpp submodule
+
+Both CMake entry points use the public `makr-code/llama.cpp` fork at the
+repository-root `llama.cpp` path. Initialize only this dependency with
+`git submodule update --init --depth 1 -- llama.cpp` (or run
+`scripts/setup-llamacpp.sh`). No credentials for private plugins are required.
+The gitlink, not a CMake tag or moving branch, pins the build revision.
+
+With LLM support enabled, missing sources, an absent
+`LLAMA_THEMIS_TRAINABLE_LORA` API marker, or a submodule HEAD different from the
+gitlink fail configure. Neither CMake nor Docker downloads upstream as a
+fallback. Docker contexts must contain the initialized submodule. Source
+snapshots without the parent Git metadata verify the patch API but cannot
+verify commit identity; verify the gitlink before producing such a snapshot.
+The runtime commit diagnostic is emitted only when Git identity is available.
+
+Upstream updates follow two reviewed steps:
+
+1. The fork's weekly/manual updater merges upstream into a candidate descended
+   from `themisdb`, runs native LoRA tests, and opens a draft PR.
+   Conflicts are reported in an issue and block build/publication; failed tests
+   also block publication. No branch is automatically merged. Maintainers use
+   normal merge commits, never squash/rebase, to retain upstream ancestry.
+   Those alternate merge buttons are disabled on the fork.
+2. After a maintainer merges a tested fork update, Dependabot checks only
+   `llama.cpp` weekly (Tuesday 05:00 UTC) and opens at most one pin-update PR
+   against `develop`. `.github/workflows/build-llama-submodule.yml` validates
+   the pinned patch and native training on Linux and Windows.
+
+The fork automation uses its own `GITHUB_TOKEN`, not a copied personal token.
+Since token-created PRs do not automatically trigger other workflows, its
+candidate tests must run before PR creation. ThemisDB's Dependabot PRs do
+trigger PR checks. Maintainers must require those checks in branch protection;
+this configuration does not change existing repository protection rules.
+The parent automation becomes active only after its configuration reaches
+`develop`; a local file or unmerged PR is not an active schedule.
+Fork workflow runs have verified both current-base candidate publication and
+fail-closed conflict reporting. Latest upstream currently conflicts with the
+training patch; see `makr-code/llama.cpp#2`. The validation-only draft
+`makr-code/llama.cpp#3` is not an upstream update and must not be merged.
+
+Run the focused configuration contracts with:
+
+```powershell
+cmake -S tests\cmake\llama_submodule -B build\llama-submodule-contract
+ctest --test-dir build\llama-submodule-contract -C Release --no-tests=error --output-on-failure
+cmake -DPROJECT_SOURCE_DIR="$PWD" -P cmake\LlamaCppSubmoduleCheck.cmake
+```
+
+The native patch supports trainable LoRA on Attention/MLP. This dependency
+integration does not complete AdaLoRA rank allocation, ThemisDB training backend
+wiring, or Raft adapter distribution. Those remain separate roadmap work.
+Native training currently supports dense Llama F32/quantized base models on
+CPU (`n_gpu_layers=0`), with full-context batches (`n_batch` and `n_ubatch` at
+least the actual context length). Both entry points disable `GGML_CPU_REPACK`
+to preserve tensor layouts for gradients; this can affect CPU inference
+performance and needs representative benchmarking. GPU, F16/BF16-base,
+aLoRA and truncated-history training are not supported by this patch.
+GGUF export is synchronous, not atomic; publish only completed exports.
 
 ## MSVC Handler Optimization
 

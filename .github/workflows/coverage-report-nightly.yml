@@ -65,6 +65,7 @@ jobs:
       - name: CMake configure (with coverage enabled)
         run: |
           mkdir -p build
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build \
             -DTHEMIS_ENABLE_COVERAGE=ON \
             -DTHEMIS_BUILD_TESTS=ON \

@@ -400,8 +400,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git submodule sync -- whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
-          git submodule update --init --depth 1 whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+          git submodule sync -- llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+          git submodule update --init --depth 1 llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
           test -f whisper.cpp/CMakeLists.txt
           test -f stable-diffusion.cpp/CMakeLists.txt
           test -e ffmpeg

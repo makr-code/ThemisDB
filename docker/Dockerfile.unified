@@ -275,21 +275,11 @@ RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
     if [ -d /tmp/build-context/llama.cpp ] && [ -f /tmp/build-context/llama.cpp/CMakeLists.txt ]; then \
         cp -a /tmp/build-context/llama.cpp/. /opt/llama.cpp/; \
     else \
-        LLAMA_CPP_GIT_TAG="$(sed -n 's/.*set([[:space:]]*LLAMA_CPP_GIT_TAG[[:space:]]*"\([^"]*\)".*/\1/p' /tmp/build-context/cmake/Dependencies.cmake | head -n 1)"; \
-        if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then \
-            echo "ERROR: Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"; \
-            exit 1; \
-        fi; \
-        rm -rf /opt/llama.cpp; \
-        echo "llama.cpp not present in Docker context; fetching pinned revision ${LLAMA_CPP_GIT_TAG}"; \
-        if printf '%s' "${LLAMA_CPP_GIT_TAG}" | grep -Eq '^[0-9a-fA-F]{40}$'; then \
-            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
-            git -C /opt/llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"; \
-        else \
-            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
-        fi; \
+        echo "ERROR: Initialize the pinned llama.cpp submodule before building the Docker context"; \
+        exit 1; \
     fi; \
-    test -f /opt/llama.cpp/CMakeLists.txt
+    test -f /opt/llama.cpp/CMakeLists.txt; \
+    grep -Eq '^#define[[:space:]]+LLAMA_THEMIS_TRAINABLE_LORA[[:space:]]+1([[:space:]]|$)' /opt/llama.cpp/include/llama.h
 
 # Build if LLM is enabled
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \

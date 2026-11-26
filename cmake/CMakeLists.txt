@@ -1926,29 +1926,21 @@ endif()
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
-    # Prefer local static build of llama.cpp to avoid shared DLL issues
-    option(THEMIS_FORCE_LLAMA_SUBDIR "Prefer local static llama.cpp even if a target exists" OFF)
+    set(LLAMA_SRC_DIR "${THEMIS_ROOT_DIR}/llama.cpp")
+    include("${THEMIS_ROOT_DIR}/cmake/LlamaCppSubmodule.cmake")
+    themis_validate_llama_submodule("${LLAMA_SRC_DIR}" _THEMIS_LLAMA_CPP_COMMIT)
+    set(GGML_CPU_REPACK OFF CACHE BOOL "Preserve base tensor layouts for native LoRA training" FORCE)
+    if(_THEMIS_LLAMA_CPP_COMMIT)
+        add_compile_definitions(THEMIS_LLAMA_CPP_EXPECTED_COMMIT="${_THEMIS_LLAMA_CPP_COMMIT}")
+    endif()
 
-    # Check if llama was already found via find_package (e.g. from installed version)
-    if(TARGET llama AND NOT THEMIS_FORCE_LLAMA_SUBDIR)
-        message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
-    else()
-        # Prefer local, non-committed root clone at ${THEMIS_ROOT_DIR}/llama.cpp
-        # Fallback to legacy path external/llama.cpp if present
-        set(LLAMA_SRC_DIR "${THEMIS_ROOT_DIR}/llama.cpp")
-        if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
-            if(EXISTS "${THEMIS_ROOT_DIR}/external/llama.cpp/CMakeLists.txt")
-                set(LLAMA_SRC_DIR "${THEMIS_ROOT_DIR}/external/llama.cpp")
-                message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
-            else()
-                message(FATAL_ERROR
-                    "llama.cpp source not found!\n"
-                    "Clone locally (ignored by Git/Docker):\n"
-                    "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
-                    "Or run: bash scripts/setup-llamacpp.sh")
-            endif()
+    if(TARGET llama)
+        get_target_property(_llama_imported llama IMPORTED)
+        if(_llama_imported)
+            message(FATAL_ERROR "An installed llama target cannot replace the pinned trainable-LoRA submodule.")
         endif()
-
+        message(STATUS "llama.cpp submodule target already configured")
+    else()
         # Configure llama.cpp build options
         set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
         set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
@@ -1984,11 +1976,7 @@ if(THEMIS_ENABLE_LLM)
         # Use flat directory structure to avoid deep nesting (Windows MAX_PATH issue)
         # Instead of: ${CMAKE_BINARY_DIR}/llama_cpp_build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/...
         # Use: _exts/llama_cpp/
-        if(THEMIS_FORCE_LLAMA_SUBDIR)
-            set(LLAMA_BIN_DIR "${CMAKE_EXTERNALS_BASE_DIR}/llama_cpp_forced")
-        else()
-            set(LLAMA_BIN_DIR "${CMAKE_EXTERNALS_BASE_DIR}/llama_cpp")
-        endif()
+        set(LLAMA_BIN_DIR "${CMAKE_EXTERNALS_BASE_DIR}/llama_cpp")
         
         message(STATUS "llama.cpp build dir: ${LLAMA_BIN_DIR}")
         file(MAKE_DIRECTORY "${LLAMA_BIN_DIR}")

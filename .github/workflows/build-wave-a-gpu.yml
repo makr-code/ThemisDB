@@ -121,6 +121,7 @@ jobs:
           BUILD_DIR="build-wave-a-gpu-ci"
           echo "build-dir=$BUILD_DIR" >> "$GITHUB_OUTPUT"
           
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake --preset community-release \
             -B "$BUILD_DIR" \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -195,6 +196,7 @@ jobs:
 
       - name: "Configure CMake"
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -281,6 +283,7 @@ jobs:
 
       - name: "Configure CMake"
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -435,6 +438,7 @@ jobs:
 
       - name: "Configure representative GPU benchmark build"
         run: |
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B build-wave-a-gpu-bench -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_TESTS=OFF \

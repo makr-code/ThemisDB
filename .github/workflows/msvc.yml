@@ -213,6 +213,9 @@ jobs:
           sccache --version
           cmake --version
 
+      - name: Initialize pinned public llama.cpp submodule
+        run: git submodule update --init --depth 1 -- llama.cpp
+
       - name: Configure CMake
         env:
           CMAKE_PREFIX_PATH: 'C:/msys64/usr;C:/Strawberry/perl/site/lib;C:/Strawberry/perl/vendor/lib;C:/Strawberry/perl/lib'
