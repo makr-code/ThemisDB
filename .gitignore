@@ -647,3 +647,7 @@ tests/data/certificates/ca_cert.srl
 # Generated doku.db corpus (too large for git)
 test-assets/doku.db.json
 test-assets/doku.db
+
+# Local RocksDB provenance-store runtime logs
+/themis_provenance_store/LOG
+/themis_provenance_store/LOG.old.*
