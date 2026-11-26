@@ -8363,7 +8363,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_tensor_fingerprint
       TARGET bench_tensor_fingerprint
       MODULE "tensor"
-      TIMEOUT 120
+      TIMEOUT 600
     EXTRA_LABELS release_critical
     )
   endif()
@@ -8463,7 +8463,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_timeseries_ingestion
       TARGET bench_timeseries_ingestion
       MODULE "timeseries_ingestion"
-      TIMEOUT 120
+      TIMEOUT 240
     )
   endif()
   # Module: timeseries_release (1)

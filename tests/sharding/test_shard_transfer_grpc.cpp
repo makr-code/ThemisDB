@@ -1563,6 +1563,7 @@ TEST(RaftPeerGrpc, AuthenticatedVoteAndDurableAppendEntries) {
     ASSERT_TRUE(source_decisions->createAndInstallSnapshot(
         source_snapshots, snapshot_index, snapshot_entry->term,
         application_state));
+    ShardRPCClient client(client_config);
     const auto snapshot_result = client.installRaftSnapshot(
         "payments", "node2", source_snapshots, leader->getCurrentTerm(),
         snapshot_index, 5000);

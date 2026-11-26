@@ -161,6 +161,7 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, RegisterUnregister)(benchmark::Sta
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, RegisterUnregister)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(5000);
 
 // ============================================================================
@@ -206,6 +207,7 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ExecuteTaskNow)(benchmark::State& 
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, ExecuteTaskNow)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(10);
 
 // ============================================================================
@@ -248,6 +250,7 @@ BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, ListTasks)
     ->Arg(50)
     ->Arg(100)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(1000);
 
 // ============================================================================
@@ -266,6 +269,7 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, GetStats)(benchmark::State& state)
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, GetStats)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(5000);
 
 // ============================================================================
@@ -302,6 +306,7 @@ static void BM_ConcurrentRegister(benchmark::State& state) {
 
 BENCHMARK(BM_ConcurrentRegister)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Threads(2)
     ->Iterations(2000);
 

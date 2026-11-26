@@ -1,6 +1,6 @@
 # LLM focused module tests (flat hierarchy under tests/llm)
 
-file(GLOB LLM_MODULE_TEST_SOURCES
+file(GLOB LLM_MODULE_TEST_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 

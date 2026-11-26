@@ -14,7 +14,6 @@
 #include "sharding/cloud_agent.h"
 #include "sharding/urn.h"
 #include "sharding/cross_shard_transaction.h"
-#include "sharding/two_phase_commit_participant.h"
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_OPENCL)
 #include "sharding/gpu_erasure_coder.h"
 #endif
@@ -357,18 +356,17 @@ static void BM_PercolatorCommitLatency(benchmark::State& state) {
 
     themisdb::sharding::PercolatorCoordinator percolator(cfg, nullptr, nullptr);
 
-    std::map<std::string, std::unique_ptr<themis::sharding::TwoPhaseCommitParticipant>> participants;
-    for (int i = 0; i < num_shards; ++i) {
-        const std::string shard_id = "shard_" + std::to_string(i);
-        participants.emplace(
-            shard_id,
-            std::make_unique<themis::sharding::TwoPhaseCommitParticipant>(shard_id)
-        );
-    }
-
-    nlohmann::json prepare_payload_json;
-    prepare_payload_json["operations"] = nlohmann::json::array({"SET bench_key bench_value"});
-    const std::string prepare_payload = prepare_payload_json.dump();
+    // Successful in-process participant responses isolate coordinator latency
+    // from WAL and fencing setup, which this benchmark does not measure.
+    const auto prepare_fn = [](const std::string&, const std::string&) {
+        return true;
+    };
+    const auto commit_fn = [](const std::string&, const std::string&) {
+        return true;
+    };
+    const auto abort_fn = [](const std::string&, const std::string&) {
+        return true;
+    };
 
     uint64_t txn_seq = 0;
     size_t success_count = 0;
@@ -381,37 +379,14 @@ static void BM_PercolatorCommitLatency(benchmark::State& state) {
         txn.state = themisdb::sharding::TransactionState::ACTIVE;
         txn.start_time = std::chrono::system_clock::now();
 
-        for (const auto& [shard_id, _participant] : participants) {
+        for (int i = 0; i < num_shards; ++i) {
+            const std::string shard_id = "shard_" + std::to_string(i);
             themisdb::sharding::ShardParticipant p;
             p.shard_id = shard_id;
             p.endpoint = "inmem://" + shard_id;
             p.operations = {"SET bench_key bench_value"};
             txn.participants.emplace(shard_id, std::move(p));
         }
-
-        auto prepare_fn = [&](const std::string& shard_id, const std::string& txn_id) {
-            auto it = participants.find(shard_id);
-            if (it == participants.end()) {
-                return false;
-            }
-            return it->second->onPrepare(txn_id, "bench_coordinator", prepare_payload);
-        };
-
-        auto commit_fn = [&](const std::string& shard_id, const std::string& txn_id) {
-            auto it = participants.find(shard_id);
-            if (it == participants.end()) {
-                return false;
-            }
-            return it->second->onCommit(txn_id);
-        };
-
-        auto abort_fn = [&](const std::string& shard_id, const std::string& txn_id) {
-            auto it = participants.find(shard_id);
-            if (it == participants.end()) {
-                return false;
-            }
-            return it->second->onAbort(txn_id);
-        };
 
         const bool ok = percolator.execute(txn, prepare_fn, commit_fn, abort_fn);
         benchmark::DoNotOptimize(ok);
@@ -434,6 +409,7 @@ BENCHMARK(BM_PercolatorCommitLatency)
     ->Arg(10)
     ->Arg(20)
     ->Unit(benchmark::kMillisecond)
+    ->UseRealTime()
     ->Iterations(200);
 
 // ============================================================================
@@ -553,6 +529,7 @@ BENCHMARK_REGISTER_F(ShardSplitDowntimeFixture, ZeroDowntimeReadAvailability)
     ->Args({10000, 256})
     ->Args({100000, 1024})
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(200);
 
 // ============================================================================
@@ -733,6 +710,7 @@ BENCHMARK_REGISTER_F(RebalancingFixture, WriteLatencyDuringMigration)
     ->Args({10000, 1024})
     ->Args({100000, 2048})
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(200);
 
 BENCHMARK_DEFINE_F(RebalancingFixture, RebalancerDecisionCycle)(benchmark::State& state) {
@@ -815,6 +793,7 @@ BENCHMARK_REGISTER_F(RebalancingFixture, RebalancerDecisionCycle)
     ->Args({512, 16})
     ->Args({1024, 24})
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(200);
 
 BENCHMARK_DEFINE_F(RebalancingFixture, AntiEntropyScanThroughput)(benchmark::State& state) {
@@ -1400,6 +1379,7 @@ BENCHMARK_REGISTER_F(GossipOverheadFixture, TopologyPropagation100Nodes)
     ->Arg(100)
     ->Arg(150)
     ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
     ->Iterations(150);
 
 // ============================================================================

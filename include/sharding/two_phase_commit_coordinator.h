@@ -198,7 +198,9 @@ public:
         std::function<std::optional<EpochToken>(const std::string&)> fencing_token_provider;
 
         /// Resolve trusted transport/TLS configuration for recovered shard IDs.
-        /// Missing entries leave recovery blocked; no transport is invented.
+        /// For WAL-recorded endpoints, the resolved endpoint must match exactly;
+        /// missing resolvers/entries or mismatches fail recovery before phase two.
+        /// Called without the coordinator mutex; it must be safe for concurrent calls.
         std::function<std::optional<ShardRPCClient::Config>(const std::string&)>
             participant_endpoint_resolver;
 
@@ -383,8 +385,9 @@ public:
      *
      * @return Number of transactions whose phase-two acknowledgements all
      *         succeeded and whose completion record was written successfully.
-     * @throws std::runtime_error if WAL durability/replay fails or a recovered
-     *         transaction lacks valid participant identities. Callers must
+     * @throws std::runtime_error if WAL durability/replay fails, a recovered
+     *         transaction lacks valid participant identities, or its recorded
+     *         endpoint cannot be matched to trusted transport configuration. Callers must
      *         keep service unavailable; a zero resolved count is not success.
      * @note An ambiguous live WAL append/flush fault requires restart and a
      *       validated rescan before recovery; it cannot select a new decision.

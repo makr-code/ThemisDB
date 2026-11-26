@@ -84,16 +84,20 @@ static void BM_LoRALayer_Construction(benchmark::State& state) {
         benchmark::DoNotOptimize(warmup);
     }
     
-    const auto benchmark_start = std::chrono::steady_clock::now();
+    double total_nanoseconds = 0.0;
     for (auto _ : state) {
-        LoRALayer layer(dim, dim, rank);
-        benchmark::DoNotOptimize(layer);
+        const auto construction_start = std::chrono::steady_clock::now();
+        {
+            LoRALayer layer(dim, dim, rank);
+            benchmark::DoNotOptimize(layer);
+            total_nanoseconds += std::chrono::duration<double, std::nano>(
+                std::chrono::steady_clock::now() - construction_start).count();
+        }
     }
-    const auto benchmark_end = std::chrono::steady_clock::now();
     
     // Phase 5 gate: LoRA layer construction <50µs for standard dimensions
     if (dim == 768) {  // Standard BERT dimension
-        const double nanos = averageNanoseconds(benchmark_start, benchmark_end, state);
+        const double nanos = total_nanoseconds / static_cast<double>(state.iterations());
         double micros = nanos / 1000.0;
         
         state.counters["construction_us"] = micros;
@@ -116,16 +120,20 @@ static void BM_AttentionLoRA_Construction(benchmark::State& state) {
         benchmark::DoNotOptimize(warmup);
     }
     
-    const auto benchmark_start = std::chrono::steady_clock::now();
+    double total_nanoseconds = 0.0;
     for (auto _ : state) {
-        AttentionLoRA attn(dim, rank);
-        benchmark::DoNotOptimize(attn);
+        const auto construction_start = std::chrono::steady_clock::now();
+        {
+            AttentionLoRA attn(dim, rank);
+            benchmark::DoNotOptimize(attn);
+            total_nanoseconds += std::chrono::duration<double, std::nano>(
+                std::chrono::steady_clock::now() - construction_start).count();
+        }
     }
-    const auto benchmark_end = std::chrono::steady_clock::now();
     
     // Phase 5 gate: Attention construction <50µs for standard dimensions
     if (dim == 768) {
-        const double nanos = averageNanoseconds(benchmark_start, benchmark_end, state);
+        const double nanos = total_nanoseconds / static_cast<double>(state.iterations());
         double micros = nanos / 1000.0;
         
         state.counters["construction_us"] = micros;
@@ -150,18 +158,22 @@ static void BM_Sequential_Construction(benchmark::State& state) {
         benchmark::DoNotOptimize(warmup);
     }
     
-    const auto benchmark_start = std::chrono::steady_clock::now();
+    double total_nanoseconds = 0.0;
     for (auto _ : state) {
-        Sequential seq;
-        for (size_t i = 0; i < num_layers; ++i) {
-            seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+        const auto construction_start = std::chrono::steady_clock::now();
+        {
+            Sequential seq;
+            for (size_t i = 0; i < num_layers; ++i) {
+                seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+            }
+            benchmark::DoNotOptimize(seq);
+            total_nanoseconds += std::chrono::duration<double, std::nano>(
+                std::chrono::steady_clock::now() - construction_start).count();
         }
-        benchmark::DoNotOptimize(seq);
     }
-    const auto benchmark_end = std::chrono::steady_clock::now();
     
     // Per-layer average should be within gate
-    const double nanos = averageNanoseconds(benchmark_start, benchmark_end, state);
+    const double nanos = total_nanoseconds / static_cast<double>(state.iterations());
     double micros_per_layer = (nanos / 1000.0) / num_layers;
     
     state.counters["construction_us_per_layer"] = micros_per_layer;

@@ -26,7 +26,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
    AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
     add_executable(test_shard_transfer_grpc test_shard_transfer_grpc.cpp)
     target_link_libraries(test_shard_transfer_grpc PRIVATE
-        ${TEST_LIBS} themis_shard_proto gRPC::grpc++ OpenSSL::Crypto)
+        ${TEST_LIBS} themis_core themis_shard_proto gRPC::grpc++ OpenSSL::Crypto)
     if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
         target_link_libraries(test_shard_transfer_grpc PRIVATE themis_sharding)
     endif()

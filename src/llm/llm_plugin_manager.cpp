@@ -139,31 +139,36 @@ void LLMPluginManager::registerPlugin(
  * @details Calls: lock(), find(), end(), spdlog::warn(), clear(), empty(), spdlog::info(), erase().
  */
 void LLMPluginManager::unregisterPlugin(const std::string& name) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = plugins_.find(name);
-    if (it == plugins_.end()) {
-        spdlog::warn("Plugin '{}' not found, cannot unregister", name);
-        return;
-    }
-    
-    // If this was the default, clear it
-    if (default_plugin_name_ == name) {
-        default_plugin_name_.clear();
-        
-        // Set a new default if other plugins exist
-        if (!plugins_.empty()) {
-            for (const auto& [plugin_name, _] : plugins_) {
-                if (plugin_name != name) {
-                    default_plugin_name_ = plugin_name;
-                    spdlog::info("Set '{}' as new default LLM plugin", plugin_name);
-                    break;
+    std::shared_ptr<ILLMPlugin> plugin_to_destroy;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        auto it = plugins_.find(name);
+        if (it == plugins_.end()) {
+            spdlog::warn("Plugin '{}' not found, cannot unregister", name);
+            return;
+        }
+
+        if (default_plugin_name_ == name) {
+            default_plugin_name_.clear();
+
+            if (!plugins_.empty()) {
+                for (const auto& [plugin_name, _] : plugins_) {
+                    if (plugin_name != name) {
+                        default_plugin_name_ = plugin_name;
+                        spdlog::info("Set '{}' as new default LLM plugin", plugin_name);
+                        break;
+                    }
                 }
             }
         }
+
+        plugin_to_destroy = std::move(it->second.plugin);
+        plugins_.erase(it);
     }
-    
-    plugins_.erase(it);
+
+    // Plugin teardown can acquire other locks, so do not run it under mutex_.
+    plugin_to_destroy.reset();
     spdlog::info("Unregistered LLM plugin: {}", name);
 }
 

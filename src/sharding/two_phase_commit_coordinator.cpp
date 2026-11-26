@@ -1390,11 +1390,18 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                     }
                 }
                 if (needs_registration) {
-                    ShardRPCClient::Config rpc_config;
-                    rpc_config.endpoint = endpoint;
-                    rpc_config.timeout_ms = static_cast<int>(config_.prepare_timeout.count());
+                    if (!config_.participant_endpoint_resolver) {
+                        throw std::runtime_error(
+                            "no trusted endpoint resolver for recovered participant " + shard_id);
+                    }
+                    const auto rpc_config = config_.participant_endpoint_resolver(shard_id);
+                    if (!rpc_config || rpc_config->endpoint != endpoint) {
+                        throw std::runtime_error(
+                            "trusted endpoint is missing or conflicts with recovered transaction " +
+                            txn_id + " for participant " + shard_id);
+                    }
                     std::lock_guard<std::timed_mutex> lock(mutex_);
-                    registerParticipantByEndpointLocked(shard_id, rpc_config, true);
+                    registerParticipantByEndpointLocked(shard_id, *rpc_config, true);
                 }
             }
         }

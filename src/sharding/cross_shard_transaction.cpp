@@ -875,83 +875,102 @@ bool CrossShardTransactionCoordinator::addParticipant(
         return false;
     }
     
-    // W2-S07: Lock with timeout to prevent indefinite blocking on high contention
-    std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
-    if (!lock.try_lock_for(config_.lock_timeout)) {
-        spdlog::error("Lock acquisition timeout adding participant to transaction {}", transaction_id);
-        return false;
-    }
-    
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    if (txn.state != TransactionState::ACTIVE) {
-        spdlog::error("Transaction {} is not active", transaction_id);
-        return false;
-    }
-    
-    // W2-S04: Fail-closed if participant already exists (duplicate shard)
-    if (txn.participants.find(shard_id) != txn.participants.end()) {
-        spdlog::error("Participant {} already exists in transaction {}", shard_id, transaction_id);
-        return false;
-    }
-
-    if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
-        const auto endpoint_it = canonical_2pc_endpoints_.find(shard_id);
-        if (endpoint_it != canonical_2pc_endpoints_.end() &&
-            endpoint_it->second != endpoint) {
-            const bool endpoint_in_use = std::any_of(
-                transactions_.begin(), transactions_.end(),
-                [&shard_id](const auto& entry) {
-                    const auto& existing_txn = entry.second;
-                    return existing_txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
-                        existing_txn.state != TransactionState::COMMITTED &&
-                        existing_txn.state != TransactionState::ABORTED &&
-                        existing_txn.participants.find(shard_id) !=
-                            existing_txn.participants.end();
-                });
-            if (endpoint_in_use) {
-                spdlog::error(
-                    "2PC participant {} endpoint {} is still required by an unresolved transaction; "
-                    "refusing change to {}",
-                    shard_id, endpoint_it->second, endpoint);
-                return false;
-            }
-        }
-        try {
-            if (endpoint_it == canonical_2pc_endpoints_.end() ||
-                endpoint_it->second != endpoint) {
-                themis::sharding::ShardRPCClient::Config rpc_config;
-                rpc_config.endpoint = endpoint;
-                rpc_config.shard_id = shard_id;
-                rpc_config.timeout_ms =
-                    static_cast<int>(config_.prepare_timeout.count());
-                canonical_2pc_coordinator_->registerParticipantByEndpoint(
-                    shard_id, rpc_config);
-                canonical_2pc_endpoints_[shard_id] = endpoint;
-            }
-        } catch (const std::exception& e) {
-            spdlog::error(
-                "Failed to register canonical 2PC participant {} at {}: {}",
-                shard_id, endpoint, e.what());
+    std::optional<themis::sharding::ShardRPCClient::Config> resolved_rpc_config;
+    for (;;) {
+        std::unique_lock<std::timed_mutex> lock(transactions_mutex_, std::defer_lock);
+        if (!lock.try_lock_for(config_.lock_timeout)) {
+            spdlog::error("Lock acquisition timeout adding participant to transaction {}", transaction_id);
             return false;
         }
+
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return false;
+        }
+
+        auto& txn = it->second;
+        if (txn.state != TransactionState::ACTIVE) {
+            spdlog::error("Transaction {} is not active", transaction_id);
+            return false;
+        }
+
+        if (txn.participants.find(shard_id) != txn.participants.end()) {
+            spdlog::error("Participant {} already exists in transaction {}", shard_id, transaction_id);
+            return false;
+        }
+
+        if (txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT) {
+            const auto endpoint_it = canonical_2pc_endpoints_.find(shard_id);
+            if (endpoint_it != canonical_2pc_endpoints_.end() &&
+                endpoint_it->second != endpoint) {
+                const bool endpoint_in_use = std::any_of(
+                    transactions_.begin(), transactions_.end(),
+                    [&shard_id](const auto& entry) {
+                        const auto& existing_txn = entry.second;
+                        return existing_txn.protocol == TransactionProtocol::TWO_PHASE_COMMIT &&
+                            existing_txn.state != TransactionState::COMMITTED &&
+                            existing_txn.state != TransactionState::ABORTED &&
+                            existing_txn.participants.find(shard_id) !=
+                                existing_txn.participants.end();
+                    });
+                if (endpoint_in_use) {
+                    spdlog::error(
+                        "2PC participant {} endpoint {} is still required by an unresolved transaction; "
+                        "refusing change to {}",
+                        shard_id, endpoint_it->second, endpoint);
+                    return false;
+                }
+            }
+            if (endpoint_it == canonical_2pc_endpoints_.end() ||
+                endpoint_it->second != endpoint) {
+                if (config_.participant_endpoint_resolver && !resolved_rpc_config) {
+                    lock.unlock();
+                    try {
+                        resolved_rpc_config = config_.participant_endpoint_resolver(shard_id);
+                    } catch (const std::exception& e) {
+                        spdlog::error("Failed to resolve 2PC participant {}: {}", shard_id, e.what());
+                        return false;
+                    }
+                    if (!resolved_rpc_config || resolved_rpc_config->endpoint != endpoint) {
+                        spdlog::error("Trusted endpoint missing or mismatched for 2PC participant {} at {}",
+                                      shard_id, endpoint);
+                        return false;
+                    }
+                    // Recheck transaction and participant state after calling external code.
+                    continue;
+                }
+                try {
+                    themis::sharding::ShardRPCClient::Config rpc_config;
+                    if (resolved_rpc_config) {
+                        rpc_config = *resolved_rpc_config;
+                    } else {
+                        rpc_config.endpoint = endpoint;
+                        rpc_config.shard_id = shard_id;
+                        rpc_config.timeout_ms =
+                            static_cast<int>(config_.prepare_timeout.count());
+                    }
+                    canonical_2pc_coordinator_->registerParticipantByEndpoint(
+                        shard_id, rpc_config);
+                    canonical_2pc_endpoints_[shard_id] = endpoint;
+                } catch (const std::exception& e) {
+                    spdlog::error(
+                        "Failed to register canonical 2PC participant {} at {}: {}",
+                        shard_id, endpoint, e.what());
+                    return false;
+                }
+            }
+        }
+
+        ShardParticipant participant;
+        participant.shard_id = shard_id;
+        participant.endpoint = endpoint;
+        participant.operations = operations;
+        txn.participants[shard_id] = participant;
+
+        spdlog::debug("Added participant {} to transaction {}", shard_id, transaction_id);
+        return true;
     }
-    
-    // Add participant
-    ShardParticipant participant;
-    participant.shard_id = shard_id;
-    participant.endpoint = endpoint;
-    participant.operations = operations;
-    
-    txn.participants[shard_id] = participant;
-    
-    spdlog::debug("Added participant {} to transaction {}", shard_id, transaction_id);
-    return true;
 }
 
 /**

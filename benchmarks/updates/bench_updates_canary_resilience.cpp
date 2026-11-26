@@ -151,21 +151,25 @@ BENCHMARK_F(CanaryRolloutBenchmark, AutomaticRollbackOnFailure)(::benchmark::Sta
 }
 
 BENCHMARK_REGISTER_F(CanaryRolloutBenchmark, NetworkDelayResilience)
+    ->UseRealTime()
     ->Iterations(100)
     ->Unit(::benchmark::kMillisecond)
     ->Name("Updates/CanaryRollout/NetworkDelayResilience");
 
 BENCHMARK_REGISTER_F(CanaryRolloutBenchmark, NodeFailureAtStages)
+    ->UseRealTime()
     ->Iterations(100)
     ->Unit(::benchmark::kMillisecond)
     ->Name("Updates/CanaryRollout/NodeFailureAtStages");
 
 BENCHMARK_REGISTER_F(CanaryRolloutBenchmark, HealthCheckTimeout)
+    ->UseRealTime()
     ->Iterations(100)
     ->Unit(::benchmark::kMillisecond)
     ->Name("Updates/CanaryRollout/HealthCheckTimeout");
 
 BENCHMARK_REGISTER_F(CanaryRolloutBenchmark, AutomaticRollbackOnFailure)
+    ->UseRealTime()
     ->Iterations(100)
     ->Unit(::benchmark::kMillisecond)
     ->Name("Updates/CanaryRollout/AutomaticRollbackOnFailure");

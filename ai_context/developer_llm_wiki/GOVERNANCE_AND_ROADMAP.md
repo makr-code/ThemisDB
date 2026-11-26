@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-24
+Datum: 2026-11-26
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md

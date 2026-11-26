@@ -216,7 +216,16 @@ immediately sending a duplicate ABORT; explicit recovery may retry delivery.
 SSI handling and other protocols remain distinct. With persistence enabled,
 the canonical log lives under `data_dir/two_phase_commit`, separate from
 `data_dir/wal`. Configure `participant_endpoint_resolver` with trusted current
-transport/TLS settings for persisted shard identities. Missing endpoints or
+transport/TLS settings for shard identities. For a new endpoint registration,
+a configured resolver supplies the full RPC configuration and its endpoint must
+exactly match the requested endpoint; a missing result, mismatch, or resolver
+exception rejects the participant. It is called outside the transaction lock and
+transaction state is rechecked afterward. Existing endpoint registrations remain
+in use; without a resolver, initial registration retains the default RPC settings.
+During endpoint-backed WAL replay, the resolved endpoint must exactly match the recorded endpoint;
+missing resolvers or entries and mismatches fail recovery before phase-two RPCs.
+Previously registered participants remain usable under their registration contract.
+Missing endpoints or
 unresolved older CrossShard 2PC records block recovery rather than guessing a
 decision. There is no automatic WAL migration or coordinator API removal.
 Configuration/record additions require rebuilding C++ consumers against matching

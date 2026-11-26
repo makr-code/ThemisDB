@@ -49,6 +49,15 @@ public:
 
 class LoRALayer : public ITrainableLayer {
 public:
+    /**
+     * @brief Creates a trainable low-rank projection.
+     * @param in_dim Input feature dimension; must be greater than zero.
+     * @param out_dim Output feature dimension; must be greater than zero.
+     * @param rank Low-rank dimension; must be greater than zero.
+     * @param scaling Multiplier applied to the low-rank projection.
+     * @note Gradient buffers are allocated on the first successful backward pass.
+     * @throws std::invalid_argument if any dimension is zero.
+     */
     LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling = 1.0f);
     ~LoRALayer() override = default;
     

@@ -1010,6 +1010,31 @@ TEST(EXSHardeningTest_Standalone, EXS26_MultiPlugin_LoadUnload_NoExceptionLeakag
     }
 }
 
+TEST(EXSHardeningTest_Standalone, EXS26_UnregisterDestroysPluginOutsideManagerLock) {
+    LLMPluginManager mgr;
+    bool destructor_reentered_manager = false;
+
+    struct ReentrantPlugin final : P5MockPlugin {
+        ReentrantPlugin(LLMPluginManager& manager, bool& reentered)
+            : P5MockPlugin("ok"), manager_(manager), reentered_(reentered) {}
+
+        ~ReentrantPlugin() override {
+            reentered_ = !manager_.hasPlugin("reentrant");
+        }
+
+        LLMPluginManager& manager_;
+        bool& reentered_;
+    };
+
+    mgr.registerPlugin(
+        "reentrant",
+        std::make_unique<ReentrantPlugin>(mgr, destructor_reentered_manager));
+    mgr.unregisterPlugin("reentrant");
+
+    EXPECT_TRUE(destructor_reentered_manager);
+    EXPECT_FALSE(mgr.hasPlugin("reentrant"));
+}
+
 // ── EXS-27 ───────────────────────────────────────────────────────────────────
 
 /**

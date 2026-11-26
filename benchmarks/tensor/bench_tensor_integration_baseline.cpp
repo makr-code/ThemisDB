@@ -22,11 +22,13 @@ class TensorPipelineFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
         mid_layer_ = std::make_shared<TensorMidLayer>();
-        adapter_repo_ = std::make_shared<AdapterRepository>();
+        adapter_repo_ = std::make_shared<AdapterRepository>(
+            std::make_shared<storage::InMemoryTensorBackend>(), "tenant1");
         fingerprint_graph_ = std::make_shared<TensorFingerprintGraph>();
         
         mid_layer_->setAdapterRepository(adapter_repo_);
         mid_layer_->setFingerprintGraph(fingerprint_graph_);
+        adapter_repo_->setFingerprintGraph(fingerprint_graph_);
         
         // Pre-populate adapter repository with test data
         populateAdapters(1000);
@@ -67,11 +69,12 @@ protected:
 
     void populateAdapters(int count) {
         for (int i = 0; i < count; ++i) {
-            std::string key = "adapter:model:v1:" + std::to_string(i);
+            const std::string base_model_id = i == 0
+                ? "model"
+                : "model:" + std::to_string(i);
             TensorTrainCore core = makeSyntheticTrain(static_cast<std::uint32_t>(i + 1));
 
-            (void)adapter_repo_->store("tenant1", "domain1", key, core);
-            fingerprint_graph_->addAdapter(key, core, "tenant1", "domain1");
+            (void)adapter_repo_->store("domain1", base_model_id, core);
         }
     }
 

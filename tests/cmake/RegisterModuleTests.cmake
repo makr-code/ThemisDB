@@ -124,5 +124,40 @@ endfunction()
 
 # Convenience helper for focused tests with a consistent label footprint.
 function(themis_register_module_focused_test)
+    set(options)
+    set(oneValueArgs TARGET)
+    cmake_parse_arguments(FOCUSED "${options}" "${oneValueArgs}" "" ${ARGN})
+
+    if(TARGET "${FOCUSED_TARGET}" AND
+       NOT FOCUSED_TARGET STREQUAL "themis_tests" AND
+       NOT FOCUSED_TARGET STREQUAL "test_websocket_cdc_focused")
+        get_target_property(_sources "${FOCUSED_TARGET}" SOURCES)
+        set(_logger_removed FALSE)
+        foreach(_source IN LISTS _sources)
+            get_filename_component(_source_name "${_source}" NAME)
+            get_filename_component(_source_parent "${_source}" DIRECTORY)
+            get_filename_component(_source_parent_name "${_source_parent}" NAME)
+            get_filename_component(_source_grandparent "${_source_parent}" DIRECTORY)
+            get_filename_component(_source_grandparent_name "${_source_grandparent}" NAME)
+            if(_source_name STREQUAL "logger.cpp" AND
+               _source_parent_name STREQUAL "utils" AND
+               _source_grandparent_name STREQUAL "src")
+                list(REMOVE_ITEM _sources "${_source}")
+                set(_logger_removed TRUE)
+            endif()
+        endforeach()
+
+        if(_logger_removed)
+            set_property(TARGET "${FOCUSED_TARGET}" PROPERTY SOURCES "${_sources}")
+        endif()
+
+        get_target_property(_compile_definitions "${FOCUSED_TARGET}" COMPILE_DEFINITIONS)
+        if(_compile_definitions)
+            list(REMOVE_ITEM _compile_definitions "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
+            set_property(TARGET "${FOCUSED_TARGET}" PROPERTY
+                COMPILE_DEFINITIONS "${_compile_definitions}")
+        endif()
+    endif()
+
     themis_register_module_test(${ARGN} KIND focused LABELS focus)
 endfunction()

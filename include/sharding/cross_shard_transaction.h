@@ -254,8 +254,10 @@ struct CrossShardTransactionConfig {
     /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
     CrossShardSSIManager::Config ssi_config;
 
-    /// Trusted per-shard endpoint/TLS resolver, including startup phase-two replay.
-    /// Missing/malformed endpoints leave canonical recovery blocked.
+    /// Trusted per-shard RPC/TLS resolver for new 2PC endpoint registrations and
+    /// startup phase-two replay. Called without the transaction mutex; a missing
+    /// result or endpoint mismatch fails registration/recovery. Existing
+    /// registrations remain in use until their endpoint can safely be replaced.
     std::function<std::optional<themis::sharding::ShardRPCClient::Config>(
         const std::string&)> participant_endpoint_resolver;
 };
@@ -334,7 +336,10 @@ public:
      * @param shard_id Shard to add
      * @param endpoint Shard endpoint
      * @param operations Operations to perform on this shard
-     * @return true if added successfully
+     * @return true if added successfully. For a new 2PC endpoint, a configured
+     *         resolver must return a matching endpoint; missing results,
+     *         mismatches, resolver exceptions, or concurrent state changes fail
+     *         the registration without adding the participant.
      */
     bool addParticipant(
         const std::string& transaction_id,

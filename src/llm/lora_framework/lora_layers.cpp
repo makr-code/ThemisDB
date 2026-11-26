@@ -307,12 +307,10 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     // B: (in_dim, rank) - Kaiming initialization
     B_ = std::make_unique<Tensor>(tensor_utils::kaiming_uniform({in_dim, rank}));
     B_->requires_grad = true;
-    B_->grad = std::make_unique<Tensor>(std::vector<size_t>{in_dim, rank}, 0.0f);
     
     // A: (rank, out_dim) - Zero initialization (as per LoRA paper)
     A_ = std::make_unique<Tensor>(tensor_utils::zeros({rank, out_dim}));
     A_->requires_grad = true;
-    A_->grad = std::make_unique<Tensor>(std::vector<size_t>{rank, out_dim}, 0.0f);
     
     spdlog::debug("{}: Initialized with {} parameters", name_, parameter_count());
 }

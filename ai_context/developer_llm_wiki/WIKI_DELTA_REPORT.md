@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-24"
+Last Updated: "2026-11-26"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-11-24
+Datum: 2026-11-26
 Status: Active
 
 ## Summary
@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- include/sharding/two_phase_commit_coordinator.h
+- include/sharding/cross_shard_transaction.h

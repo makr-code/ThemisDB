@@ -17,7 +17,6 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_auth_rate_limiter_distributed")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/auth/rate_limiter_backend.cpp
-            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
         )
     endif()
     target_include_directories(${_target} PRIVATE

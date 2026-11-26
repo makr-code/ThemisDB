@@ -192,7 +192,7 @@ protected:
  * pattern with a tight access window (top 5% of key space) to reproduce the
  * cache pressure, then measures per-op latency.
  */
-BENCHMARK_F(IncidentCRUDFixture, IRS01_BurstReadSpike)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(IncidentCRUDFixture, IRS01_BurstReadSpike)(benchmark::State& state) {
     // Narrow access window: top 5% of records → cache pressure
     const int hot_window = kDefaultRecordCount / 20;
     KeyGenerator kg(kW8CanonicalSeed + 10);
@@ -217,7 +217,7 @@ BENCHMARK_REGISTER_F(IncidentCRUDFixture, IRS01_BurstReadSpike)
  * immediate reads on the same key to validate read-your-writes consistency
  * and measure the round-trip latency under this access pattern.
  */
-BENCHMARK_F(IncidentCRUDFixture, IRS03_ReadAfterWrite)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(IncidentCRUDFixture, IRS03_ReadAfterWrite)(benchmark::State& state) {
     KeyGenerator kg(kW8CanonicalSeed + 30);
     int counter = 0;
     for (auto _ : state) {
@@ -243,7 +243,7 @@ BENCHMARK_REGISTER_F(IncidentCRUDFixture, IRS03_ReadAfterWrite)
  * inserts records, deletes a fraction (creating tombstones), then measures
  * read latency to quantify the tombstone overhead on the read path.
  */
-BENCHMARK_F(IncidentCRUDFixture, IRS07_DeleteTombstoneReadCost)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(IncidentCRUDFixture, IRS07_DeleteTombstoneReadCost)(benchmark::State& state) {
     // Issue deletes on every 3rd key to build tombstone pressure
     for (int i = 0; i < kDefaultRecordCount; i += 3) {
         db_->del("entity_" + std::to_string(i));
@@ -308,7 +308,7 @@ protected:
  * (reduced for CI resource budget) and measures aggregate throughput.
  * Gate: combined throughput ≥ 60 000 ops/s.
  */
-BENCHMARK_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& state) {
     static constexpr int kWriterThreads = 4;
     static constexpr int kWritesPerThread = 2'000;
     double total_elapsed_seconds = 0.0;
@@ -405,7 +405,7 @@ protected:
  * unexpectedly high SST file fan-out, making each scan touch more levels
  * than expected.  This scenario runs range scans within the hot prefix.
  */
-BENCHMARK_F(HotPrefixScanFixture, IRS04_HotPrefixRangeScan)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotPrefixScanFixture, IRS04_HotPrefixRangeScan)(benchmark::State& state) {
     std::mt19937_64 rng(kW8CanonicalSeed + 40);
     std::uniform_int_distribution<int> dist(0, kHotPrefixRange - 100);
     for (auto _ : state) {
@@ -467,7 +467,7 @@ protected:
  * reader runs concurrently, measuring the read-side latency impact.
  * Gate: mixed p99 ≤ 400 µs.
  */
-BENCHMARK_F(IngestReadFixture, IRS05_IngestWithConcurrentRead)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(IngestReadFixture, IRS05_IngestWithConcurrentRead)(benchmark::State& state) {
     static constexpr int kBatchSize = 200;
     std::atomic<bool> stop_reader{false};
     std::atomic<int64_t> read_ops{0};
@@ -551,7 +551,7 @@ protected:
  * by creating a fresh index and bulk-inserting all entries, then measuring
  * the per-record indexing time.
  */
-BENCHMARK_F(IndexRebuildFixture, IRS06_IndexRebuildLatency)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(IndexRebuildFixture, IRS06_IndexRebuildLatency)(benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
         auto idx = std::make_unique<SecondaryIndexManager>(*db_);
@@ -625,7 +625,7 @@ protected:
  * and caused both read and write throughput to degrade.  This scenario
  * reproduces the mixed read/write pattern with 16 KB values.
  */
-BENCHMARK_F(LargePayloadFixture, IRS08_LargePayloadMixed)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(LargePayloadFixture, IRS08_LargePayloadMixed)(benchmark::State& state) {
     KeyGenerator kg(kW8CanonicalSeed + 8);
     std::mt19937_64 mix_rng(kW8CanonicalSeed + 88);
     std::uniform_int_distribution<int> mix(0, 99);

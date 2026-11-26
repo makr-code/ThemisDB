@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-24T20:18:38+00:00",
+  "generated_at": "2026-11-26T08:13:45+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -21001,8 +21001,8 @@
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
       "size": 2327680,
-      "sha256": "d84a3211ec06b99173987af0c607e1b6317a134ecc95ed1493bca1f910ba8cc7",
-      "modified_utc": "2026-11-24T18:55:39+00:00"
+      "sha256": "a8ea5355e34989c9e434a0341360597a9c318abb459504692a53fc58bf017d36",
+      "modified_utc": "2026-11-24T20:29:55+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -50848,9 +50848,9 @@
     {
       "path": "include/sharding/cross_shard_transaction.h",
       "category": "modules_and_api",
-      "size": 42487,
-      "sha256": "101788c118f6683eb4bb77aea7aad51644768b1811aac89badf71aa3858ac55e",
-      "modified_utc": "2026-11-24T09:50:17+00:00"
+      "size": 42908,
+      "sha256": "8f0f858d63c46d90ee74e7f6e067a82f5a9ecf99204ad3b3c6427662256850e9",
+      "modified_utc": "2026-11-26T08:11:04+00:00"
     },
     {
       "path": "include/sharding/data_migrator.h",
@@ -51443,9 +51443,9 @@
     {
       "path": "include/sharding/two_phase_commit_coordinator.h",
       "category": "modules_and_api",
-      "size": 26006,
-      "sha256": "a807139e86cf72deb711f57bbddea90ee03b6b6fb6a9fd2c531ebd345c9b0f89",
-      "modified_utc": "2026-11-24T20:16:21+00:00"
+      "size": 26274,
+      "sha256": "6571f95db68ea79b1e7c7d43089045e37f4579d9199f99aff5be5b151ce975bb",
+      "modified_utc": "2026-11-26T07:45:32+00:00"
     },
     {
       "path": "include/sharding/two_phase_commit_participant.h",

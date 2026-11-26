@@ -614,6 +614,7 @@ static void BM_Storage_SustainedWrite_NoSync(benchmark::State& state) {
     state.SetLabel("nosync_wal");
 }
 BENCHMARK(BM_Storage_SustainedWrite_NoSync)
+    ->UseRealTime()
     ->Unit(benchmark::kMicrosecond);
 
 // ── (b) Batched writes — group commit via WriteBatch ─────────────────────────
@@ -663,6 +664,7 @@ static void BM_Storage_SustainedWrite_Batched(benchmark::State& state) {
     state.SetLabel("batched_wal_batch" + std::to_string(kBatchSize));
 }
 BENCHMARK(BM_Storage_SustainedWrite_Batched)
+    ->UseRealTime()
     ->Arg(64)
     ->Arg(256)
     ->Arg(1024)
@@ -699,6 +701,7 @@ static void BM_Storage_SustainedWrite_FullSync(benchmark::State& state) {
     state.SetLabel("fullsync_wal");
 }
 BENCHMARK(BM_Storage_SustainedWrite_FullSync)
+    ->UseRealTime()
     ->Unit(benchmark::kMicrosecond);
 
 // ── (d) WAL group-commit — appendBatch vs N × appendPut ──────────────────────

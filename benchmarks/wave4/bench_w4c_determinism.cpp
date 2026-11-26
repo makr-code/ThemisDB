@@ -86,7 +86,8 @@ static void BM_W4C_01_SeedStability(benchmark::State& state) {
 }
 BENCHMARK(BM_W4C_01_SeedStability)
     ->Iterations(50)
-    ->Unit(benchmark::kMicrosecond);
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
 
 // ============================================================================
 // W4C-02 — Warmup effectiveness
@@ -379,7 +380,8 @@ static void BM_W4C_06_ClockPrecision(benchmark::State& state) {
 }
 BENCHMARK(BM_W4C_06_ClockPrecision)
     ->Iterations(20)
-    ->Unit(benchmark::kNanosecond);
+    ->Unit(benchmark::kNanosecond)
+    ->UseRealTime();
 
 }  // namespace
 

@@ -21,6 +21,7 @@
 #include "sharding/raft_shard_manager.h"
 #include "sharding/raft_two_phase_commit_decision_store.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
+#include "test_crypto_material_utils.h"
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -1712,6 +1713,125 @@ durableCrossShardConfig(const TemporaryTransactionLog& log) {
     return config;
 }
 
+TEST(CrossShardTwoPhaseCommitContractTest, InitialRegistrationUsesTrustedResolverConfiguration) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-resolver");
+    auto config = durableCrossShardConfig(transaction_log);
+    int resolve_mode = 0;
+    int prepare_calls = 0;
+    themisdb::sharding::CrossShardTransactionCoordinator* coordinator_ptr = nullptr;
+    config.participant_endpoint_resolver =
+        [&](const std::string& shard) -> std::optional<ShardRPCClient::Config> {
+            EXPECT_EQ(shard, "shard-a");
+            EXPECT_EQ(coordinator_ptr->getTransactionState("txn-resolver"),
+                      themisdb::sharding::TransactionState::ACTIVE);
+            if (resolve_mode == 0) {
+                return std::nullopt;
+            }
+            if (resolve_mode == 1) {
+                throw std::runtime_error("resolver unavailable");
+            }
+            ShardRPCClient::Config rpc;
+            rpc.endpoint = resolve_mode == 2 ? "inproc://wrong" : "inproc://resolver";
+            rpc.max_retries = 1;
+            return rpc;
+        };
+    config.in_process_rpc_response_handler =
+        [&](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "prepare") {
+                ++prepare_calls;
+                throw std::runtime_error("injected RPC failure");
+            }
+            return {{"status", "aborted"}};
+        };
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    coordinator_ptr = &coordinator;
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-resolver", themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+
+    for (resolve_mode = 0; resolve_mode < 3; ++resolve_mode) {
+        EXPECT_FALSE(coordinator.addParticipant(
+            "txn-resolver", "shard-a", "inproc://resolver", {"write"}));
+        const auto transaction = coordinator.getTransaction("txn-resolver");
+        ASSERT_TRUE(transaction.has_value());
+        EXPECT_TRUE(transaction->participants.empty());
+    }
+    ASSERT_TRUE(coordinator.addParticipant(
+        "txn-resolver", "shard-a", "inproc://resolver", {"write"}));
+    EXPECT_FALSE(coordinator.prepare("txn-resolver"));
+    EXPECT_EQ(prepare_calls, 1);
+}
+
+TEST(CrossShardTwoPhaseCommitContractTest, RegistrationRechecksStateAfterResolver) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-resolver-state");
+    auto config = durableCrossShardConfig(transaction_log);
+    themisdb::sharding::CrossShardTransactionCoordinator* coordinator_ptr = nullptr;
+    config.participant_endpoint_resolver =
+        [&](const std::string&) -> std::optional<ShardRPCClient::Config> {
+            static_cast<void>(coordinator_ptr->abort("txn-resolver-state"));
+            ShardRPCClient::Config rpc;
+            rpc.endpoint = "inproc://resolver-state";
+            return rpc;
+        };
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    coordinator_ptr = &coordinator;
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-resolver-state", themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+    EXPECT_FALSE(coordinator.addParticipant(
+        "txn-resolver-state", "shard-a", "inproc://resolver-state", {"write"}));
+    const auto transaction = coordinator.getTransaction("txn-resolver-state");
+    ASSERT_TRUE(transaction.has_value());
+    EXPECT_NE(transaction->state, themisdb::sharding::TransactionState::ACTIVE);
+    EXPECT_TRUE(transaction->participants.empty());
+}
+
+#if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+TEST(CrossShardTwoPhaseCommitContractTest, InitialRegistrationLoadsResolvedMtlsCredentials) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-resolver-mtls");
+    const auto material = themis::tests::generateSelfSignedPemMaterial(
+        "42", "participant.test", {"participant.test"});
+    const auto root = transaction_log.logPath().parent_path();
+    const auto cert = root / "client-cert.pem";
+    const auto key = root / "client-key.pem";
+    {
+        std::ofstream cert_file(cert, std::ios::binary);
+        std::ofstream key_file(key, std::ios::binary);
+        cert_file << material.certificate_pem;
+        key_file << material.private_key_pem;
+        ASSERT_TRUE(cert_file.good());
+        ASSERT_TRUE(key_file.good());
+    }
+
+    auto config = durableCrossShardConfig(transaction_log);
+    bool credentials_available = false;
+    config.participant_endpoint_resolver =
+        [&](const std::string& shard) -> std::optional<ShardRPCClient::Config> {
+            ShardRPCClient::Config rpc;
+            rpc.endpoint = "127.0.0.1:50051";
+            rpc.shard_id = shard;
+            if (credentials_available) {
+                rpc.tls_cert_path = cert.string();
+                rpc.tls_key_path = key.string();
+                rpc.tls_ca_cert_path = cert.string();
+            }
+            return rpc;
+        };
+    themisdb::sharding::CrossShardTransactionCoordinator coordinator(
+        config, std::make_shared<themisdb::sharding::TwoPhaseContractConsensus>());
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-resolver-mtls", themisdb::sharding::TransactionProtocol::TWO_PHASE_COMMIT));
+    EXPECT_FALSE(coordinator.addParticipant(
+        "txn-resolver-mtls", "shard-a", "127.0.0.1:50051", {"write"}));
+    credentials_available = true;
+    EXPECT_TRUE(coordinator.addParticipant(
+        "txn-resolver-mtls", "shard-a", "127.0.0.1:50051", {"write"}));
+}
+#endif
+
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommitMatchCanonicalDecision) {
     TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-contract");
     TemporaryTransactionLog raft_log("themis-cross-shard-2pc-raft-authority");
@@ -2322,6 +2442,16 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RestoresEndpointForInDoubtPhaseTwoRe
     rpc_config.endpoint = "inproc://canonical-endpoint-recovery";
     rpc_config.timeout_ms = 20;
     rpc_config.max_retries = 1;
+    int resolver_calls = 0;
+    config.participant_endpoint_resolver =
+        [&rpc_config, &resolver_calls](const std::string& shard)
+            -> std::optional<ShardRPCClient::Config> {
+            ++resolver_calls;
+            if (shard != "shard-endpoint") {
+                return std::nullopt;
+            }
+            return rpc_config;
+        };
 
     {
         TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", config);
@@ -2339,10 +2469,42 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RestoresEndpointForInDoubtPhaseTwoRe
         EXPECT_TRUE(recoverable.front().decision_commit);
     }
 
+    auto recovery_config = config;
+    recovery_config.participant_endpoint_resolver = {};
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", recovery_config);
+        EXPECT_THROW((void)coordinator.recoverInDoubtTransactions(), std::runtime_error);
+        EXPECT_FALSE(coordinator.isReady());
+        EXPECT_EQ(commit_calls, 1);
+    }
+
+    recovery_config.participant_endpoint_resolver = [](const std::string&)
+        -> std::optional<ShardRPCClient::Config> { return std::nullopt; };
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", recovery_config);
+        EXPECT_THROW((void)coordinator.recoverInDoubtTransactions(), std::runtime_error);
+        EXPECT_FALSE(coordinator.isReady());
+        EXPECT_EQ(commit_calls, 1);
+    }
+
+    recovery_config.participant_endpoint_resolver = [](const std::string&)
+        -> std::optional<ShardRPCClient::Config> {
+        ShardRPCClient::Config rpc;
+        rpc.endpoint = "inproc://wrong-endpoint";
+        return rpc;
+    };
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", recovery_config);
+        EXPECT_THROW((void)coordinator.recoverInDoubtTransactions(), std::runtime_error);
+        EXPECT_FALSE(coordinator.isReady());
+        EXPECT_EQ(commit_calls, 1);
+    }
+
     reject_first_commit = false;
     {
         TwoPhaseCommitCoordinator coordinator("coord-endpoint-recovery", config);
         EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 1u);
+        EXPECT_EQ(resolver_calls, 1);
         EXPECT_EQ(prepare_calls, 1);
         EXPECT_EQ(commit_calls, 2);
         EXPECT_TRUE(coordinator.getRecoverableTransactions().empty());

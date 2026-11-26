@@ -173,7 +173,7 @@ protected:
 // DFR-01: Latency injection – reads with simulated I/O delay
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR01_LatencyInjectionReads)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR01_LatencyInjectionReads)(benchmark::State& state) {
     // Inject 50 µs delay in 10% of reads (simulates occasional SSD stall)
     FaultInjector fi(0.10, std::chrono::microseconds(50));
     KeyGenerator kg(kW7CanonicalSeed + 101);
@@ -194,7 +194,7 @@ BENCHMARK_REGISTER_F(DegradationBaseFixture, DFR01_LatencyInjectionReads)
 // DFR-02: Partial write failure – write path with injected error rate
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR02_PartialWriteFailure)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR02_PartialWriteFailure)(benchmark::State& state) {
     // 5% of writes "fail" (simulated via conditional skip)
     FaultInjector fi(0.05, std::chrono::microseconds(0));
     KeyGenerator kg(kW7CanonicalSeed + 102);
@@ -259,7 +259,7 @@ BENCHMARK_REGISTER_F(DegradationBaseFixture, DFR03_SaturationConcurrency)
 // DFR-04: Backpressure – write stall detection under compaction pressure
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR04_BackpressureWriteStall)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR04_BackpressureWriteStall)(benchmark::State& state) {
     // Inject compaction-like delay in 15% of writes (300 µs)
     FaultInjector fi(0.15, std::chrono::microseconds(300));
     KeyGenerator kg(kW7CanonicalSeed + 104);
@@ -323,7 +323,7 @@ protected:
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
-BENCHMARK_F(ColdStartFixture, DFR05_ColdStartReadLatency)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ColdStartFixture, DFR05_ColdStartReadLatency)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed + 105);
     for (auto _ : state) {
         std::string val = {};
@@ -341,7 +341,7 @@ BENCHMARK_REGISTER_F(ColdStartFixture, DFR05_ColdStartReadLatency)
 // DFR-06: Resource reduction – performance at half available threads
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)(benchmark::State& state) {
     // Simulate half-resource constraint by using only 2 concurrent workers
     // regardless of hardware parallelism.
     constexpr int kConstrainedThreads = 2;
@@ -375,7 +375,7 @@ BENCHMARK_REGISTER_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)
 // DFR-07: Recovery characterisation – latency normalisation after compaction
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR07_RecoveryAfterCompaction)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR07_RecoveryAfterCompaction)(benchmark::State& state) {
     // Phase 0 (iterations 0-2): inject heavy write load (compaction trigger)
     // Phase 1 (iterations 3+): measure recovery read latency
     int iter = 0;
@@ -410,7 +410,7 @@ BENCHMARK_REGISTER_F(DegradationBaseFixture, DFR07_RecoveryAfterCompaction)
 // DFR-08: Degraded mixed workload – combined read/write under fault pressure
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR08_DegradedMixedWorkload)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR08_DegradedMixedWorkload)(benchmark::State& state) {
     // 20% reads with 50 µs injected delay + 5% writes that fail = full pressure
     FaultInjector read_fi(0.20, std::chrono::microseconds(50));
     FaultInjector write_fi(0.05, std::chrono::microseconds(0));
