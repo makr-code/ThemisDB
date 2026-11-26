@@ -142,22 +142,29 @@ public:
         } catch (...) {
             return false;
         }
+    }
 
-        bool onCommitFromCoordinator(
-            const std::string& transaction_id,
-            const std::string& coordinator_shard_id
-        ) override {
-            const int64_t commit_ts = static_cast<int64_t>(
-                std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()
-                ).count()
-            );
-            try {
-                return !coordinator_shard_id.empty() &&
-                       client_.commit(transaction_id, commit_ts, coordinator_shard_id);
-            } catch (...) {
-                return false;
-            }
+    /**
+     * @brief Forward a coordinator's COMMIT decision to the remote participant.
+     * @param transaction_id Transaction identifier.
+     * @param coordinator_shard_id Coordinator identity; must not be empty.
+     * @return true on remote acknowledgement; false for an empty identity,
+     *         rejection, or transport failure.
+     */
+    bool onCommitFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_shard_id
+    ) override {
+        const int64_t commit_ts = static_cast<int64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count()
+        );
+        try {
+            return !coordinator_shard_id.empty() &&
+                   client_.commit(transaction_id, commit_ts, coordinator_shard_id);
+        } catch (...) {
+            return false;
         }
     }
 
@@ -177,17 +184,24 @@ public:
         } catch (...) {
             return false;
         }
+    }
 
-        bool onAbortFromCoordinator(
-            const std::string& transaction_id,
-            const std::string& coordinator_shard_id
-        ) override {
-            try {
-                return !coordinator_shard_id.empty() &&
-                       client_.abort(transaction_id, coordinator_shard_id);
-            } catch (...) {
-                return false;
-            }
+    /**
+     * @brief Forward a coordinator's ABORT decision to the remote participant.
+     * @param transaction_id Transaction identifier.
+     * @param coordinator_shard_id Coordinator identity; must not be empty.
+     * @return true on remote acknowledgement; false for an empty identity,
+     *         rejection, or transport failure.
+     */
+    bool onAbortFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_shard_id
+    ) override {
+        try {
+            return !coordinator_shard_id.empty() &&
+                   client_.abort(transaction_id, coordinator_shard_id);
+        } catch (...) {
+            return false;
         }
     }
 
