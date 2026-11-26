@@ -98,6 +98,7 @@ jobs:
             libyaml-cpp-dev \
             libbenchmark-dev \
             libcpp-httplib-dev \
+            libpugixml-dev \
             libboost-dev \
             libboost-system-dev \
             libboost-filesystem-dev
