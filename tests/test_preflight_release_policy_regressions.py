@@ -213,6 +213,15 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             re.compile(r"brew install[^\n]*\bgoogletest\b"),
         )
 
+    def test_macos_kqueue_lane_installs_cpp_httplib(self) -> None:
+        workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")
+
+        self.assertRegex(
+            macos_kqueue_job,
+            re.compile(r"brew install[^\n]*\bcpp-httplib\b"),
+        )
+
     def test_macos_kqueue_lane_uses_modular_test_targets(self) -> None:
         workflow_text = MAINLINE_VALIDATION_GATES.read_text(encoding="utf-8")
         macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue")

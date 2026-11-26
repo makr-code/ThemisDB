@@ -108,7 +108,7 @@ jobs:
         run: |
           set -euo pipefail
           brew update --quiet
-          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap
+          brew install cmake ninja sccache fmt spdlog nlohmann-json tbb openssl boost rocksdb zstd lz4 snappy yaml-cpp pugixml googletest openldap cpp-httplib
 
       - name: Setup sccache (toolchain-native)
         id: sccache-setup
