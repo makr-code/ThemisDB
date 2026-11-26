@@ -89,11 +89,13 @@ jobs:
             libgtest-dev \
             libgmock-dev \
             libssl-dev \
+            libcurl4-openssl-dev \
             zlib1g-dev \
             libfmt-dev \
             libspdlog-dev \
             libtbb-dev \
             nlohmann-json3-dev \
+            libyaml-cpp-dev \
             libbenchmark-dev \
             libcpp-httplib-dev \
             libboost-dev \

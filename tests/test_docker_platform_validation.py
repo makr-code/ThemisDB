@@ -157,6 +157,34 @@ docker() {
         self.assertIn("publish-docker", workflow["jobs"]["publish-docker-manifest"]["needs"])
         self.assertEqual({lane["arch"] for lane in job["strategy"]["matrix"]["include"]}, {"amd64", "arm64"})
 
+    def test_nightly_docker_uses_upstream_source_and_architecture_cache(self) -> None:
+        workflow = yaml.safe_load(NIGHTLY_WORKFLOW.read_text(encoding="utf-8"))
+        job = workflow["jobs"]["publish-docker"]
+        self.assertIn("always()", job["if"])
+        self.assertIn("!cancelled()", job["if"])
+        self.assertIn("needs.generate-metadata.result == 'success'", job["if"])
+        steps = {step["name"]: step for step in job["steps"]}
+        self.assertEqual(
+            steps["Checkout"]["with"]["ref"],
+            "${{ github.event.workflow_run.head_sha || github.sha }}",
+        )
+        context = steps["Prepare Docker build context"]["run"]
+        for submodule in ("whisper.cpp", "stable-diffusion.cpp", "ffmpeg", "external/GIUF"):
+            self.assertIn(submodule, context)
+        self.assertIn("git submodule update --init", context)
+        self.assertIn("test_docker_runtime_package_regressions.py",
+                      steps["Validate Docker dependency providers and runtime packages"]["run"])
+        build = steps["Build staged Docker runtime candidate"]["with"]
+        for cache in ("cache-from", "cache-to"):
+            self.assertIn("themisdb-docker-unified-linux-${{ matrix.arch }}-tinyllama",
+                          build[cache])
+        manifest = workflow["jobs"]["publish-docker-manifest"]
+        self.assertIn("always()", manifest["if"])
+        self.assertIn("!cancelled()", manifest["if"])
+        self.assertIn("needs.generate-metadata.result == 'success'", manifest["if"])
+        self.assertIn("needs.publish-docker.result == 'success'", manifest["if"])
+        self.assertIn("inputs.dry_run != true", manifest["if"])
+
     def test_release_dry_run_is_available_for_dispatch_and_workflow_calls(self) -> None:
         workflow = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))
         for trigger in ("workflow_dispatch", "workflow_call"):

@@ -56,11 +56,14 @@ endif()
 
 add_executable(test_dis10_concurrent_serializability
     test_dis10_concurrent_serializability.cpp)
+# This test does not use GMock; its Windows DLL can register tests in a
+# different GoogleTest instance than the one used by gtest_main.
 target_link_libraries(test_dis10_concurrent_serializability PRIVATE
-    ${TEST_LIBS} Threads::Threads ZLIB::ZLIB)
+    GTest::gtest GTest::gtest_main Threads::Threads ZLIB::ZLIB)
 if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
     target_link_libraries(test_dis10_concurrent_serializability PRIVATE themis_sharding)
 endif()
+themis_link_zlib_if_available(test_dis10_concurrent_serializability)
 target_compile_definitions(test_dis10_concurrent_serializability PRIVATE
     THEMIS_TEST_BUILD=1)
 set(DIS10_SERIALIZABILITY_TEST_ENVIRONMENT)
