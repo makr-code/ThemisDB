@@ -112,6 +112,7 @@ jobs:
         id: cmake_configure
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           cmake -S . -B build/bench -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             ${{ inputs.configure_flags }}

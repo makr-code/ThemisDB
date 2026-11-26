@@ -106,6 +106,7 @@ jobs:
           export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
           ccache_path="$(command -v ccache)"
           export THEMIS_COMPILER_CACHE_PROGRAM="${ccache_path}"
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B "${{ env.BUILD_DIR }}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -197,6 +198,7 @@ jobs:
           export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
           ccache_path="$(command -v ccache)"
           export THEMIS_COMPILER_CACHE_PROGRAM="${ccache_path}"
+          git submodule update --init --depth 1 -- llama.cpp || exit 1
           cmake -S . -B "${{ env.BUILD_DIR_SOAK }}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_TESTS=ON \

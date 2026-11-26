@@ -51,9 +51,12 @@ The runtime commit diagnostic is emitted only when Git identity is available.
 
 Upstream updates follow two reviewed steps:
 
-1. The fork's weekly/manual updater prepares an upstream-integrated candidate, runs native
-   LoRA tests, and opens a draft PR to `themisdb`. Conflicts and failed tests
-   block publication of an update; no branch is automatically merged.
+1. The fork's weekly/manual updater merges upstream into a candidate descended
+   from `themisdb`, runs native LoRA tests, and opens a draft PR.
+   Conflicts are reported in an issue and block build/publication; failed tests
+   also block publication. No branch is automatically merged. Maintainers use
+   normal merge commits, never squash/rebase, to retain upstream ancestry.
+   Those alternate merge buttons are disabled on the fork.
 2. After a maintainer merges a tested fork update, Dependabot checks only
    `llama.cpp` weekly (Tuesday 05:00 UTC) and opens at most one pin-update PR
    against `develop`. `.github/workflows/build-llama-submodule.yml` validates
@@ -66,6 +69,10 @@ trigger PR checks. Maintainers must require those checks in branch protection;
 this configuration does not change existing repository protection rules.
 The parent automation becomes active only after its configuration reaches
 `develop`; a local file or unmerged PR is not an active schedule.
+Fork workflow runs have verified both current-base candidate publication and
+fail-closed conflict reporting. Latest upstream currently conflicts with the
+training patch; see `makr-code/llama.cpp#2`. The validation-only draft
+`makr-code/llama.cpp#3` is not an upstream update and must not be merged.
 
 Run the focused configuration contracts with:
 

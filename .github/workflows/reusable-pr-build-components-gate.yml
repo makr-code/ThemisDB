@@ -35,6 +35,7 @@ jobs:
       - name: Configure (community-release)
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           cmake --preset community-release \
             -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
 

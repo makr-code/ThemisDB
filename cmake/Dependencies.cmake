@@ -1795,9 +1795,7 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "  - Flash Attention: ${LLAMA_FLASH_ATTN}")
         message(STATUS "  - Continuous Batching: ${LLAMA_CONTINUOUS_BATCHING}")
         add_compile_definitions(THEMIS_ENABLE_LLM=1)
-        # Expose the pinned commit hash as a compile-time constant so that
-        # LlamaWrapper can compare it against the runtime llama_build_commit()
-        # value at startup and warn on mismatch (risk mitigation for API drift).
+        # Expose the verified pin to LlamaWrapper's best-effort runtime diagnostic.
         if(_THEMIS_LLAMA_CPP_COMMIT)
             add_compile_definitions(THEMIS_LLAMA_CPP_EXPECTED_COMMIT="${_THEMIS_LLAMA_CPP_COMMIT}")
         endif()

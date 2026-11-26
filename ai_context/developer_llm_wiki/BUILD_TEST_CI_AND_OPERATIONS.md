@@ -37,6 +37,12 @@ Status: Active
   `GGML_CPU_REPACK=OFF` is required and configured in both entry points.
   GPU/F16/BF16 training remains unsupported. No inference performance claim
   follows from the tiny-model tests.
+- Fork Actions verified current-base draft-PR publication and fail-closed
+  latest-upstream conflict reporting (`makr-code/llama.cpp#2`). Candidates
+  merge upstream and must be promoted with normal merge commits; squash,
+  rebase and auto-merge are disabled on the fork. Latest upstream has not
+  been promoted. Direct CMake jobs initialize the public pin, with a focused
+  checkout-coverage regression in the core PR gate.
 
 ## Docker release Trivy ownership boundary
 
