@@ -17,6 +17,27 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-26
 Status: Active
 
+## llama.cpp dependency and update boundary
+
+- Both CMake entry points use the pinned `llama.cpp` root submodule from the
+  public `makr-code/llama.cpp` fork. Missing sources, an absent trainable-LoRA
+  patch marker, and Git HEAD/gitlink mismatches fail configure; upstream
+  download and alternate-directory fallbacks are removed.
+- Docker builds consume initialized sources. Git-free snapshots verify the
+  API marker, not commit identity; verify the pin before packaging.
+- Fork upstream updates are tested draft PRs; parent Dependabot updates are
+  weekly pin PRs to `develop`. Neither stage auto-merges.
+  `build-llama-submodule.yml` provides Linux/Windows native patch checks.
+  Parent schedules activate only after merge; local configuration is not
+  evidence of a successful scheduled run.
+- Operational source of truth: `cmake/README.md`,
+  `cmake/LlamaCppSubmodule.cmake`, `.github/dependabot.yml`.
+  This integration alone does not establish AdaLoRA/Raft E2E completion.
+- Native patch validation covers real tiny F32/Q4_0 dense Llama models on CPU;
+  `GGML_CPU_REPACK=OFF` is required and configured in both entry points.
+  GPU/F16/BF16 training remains unsupported. No inference performance claim
+  follows from the tiny-model tests.
+
 ## Docker release Trivy ownership boundary
 
 - `.github/workflows/reusable-docker-image-platform.yml` retains a full-image

@@ -10,6 +10,10 @@
 [submodule "whisper.cpp"]
 	path = whisper.cpp
 	url = https://github.com/ggerganov/whisper.cpp.git
+[submodule "llama.cpp"]
+	path = llama.cpp
+	url = https://github.com/makr-code/llama.cpp.git
+	branch = themisdb
 [submodule "stable-diffusion.cpp"]
 	path = stable-diffusion.cpp
 	url = https://github.com/leejet/stable-diffusion.cpp.git

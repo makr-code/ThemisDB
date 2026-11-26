@@ -1656,21 +1656,16 @@ if(THEMIS_ENABLE_LLM)
     # =========================================================================
     # LLAMA.CPP INTEGRATION WITH DEPENDENCY PINNING
     # =========================================================================
-    # Use FetchContent for reproducible builds with pinned commit
-    # Pinned commit: b7974 (Feb 2026 - stable release with Flash Attention support)
-    # To update: Change GIT_TAG to desired commit hash and test thoroughly
+    # The gitlink is the only revision pin; updates arrive through reviewed PRs.
+    include("${CMAKE_CURRENT_LIST_DIR}/LlamaCppSubmodule.cmake")
+    themis_validate_llama_submodule("${PROJECT_SOURCE_DIR}/llama.cpp" _THEMIS_LLAMA_CPP_COMMIT)
     
-    include(FetchContent)
-    
-    set(LLAMA_CPP_GIT_TAG "b7974" CACHE STRING "llama.cpp commit hash for reproducible builds")
-    
-    message(STATUS "Fetching llama.cpp (pinned commit: ${LLAMA_CPP_GIT_TAG})")
-    
-    # Configure llama.cpp build options (set before FetchContent)
+    # Configure llama.cpp build options before adding the submodule.
     set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Build llama tests" FORCE)
     set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Build llama examples" FORCE)
     set(LLAMA_BUILD_TOOLS OFF CACHE BOOL "Build llama tools" FORCE)
     set(LLAMA_BUILD_COMMON OFF CACHE BOOL "Build llama common utils" FORCE)
+    set(GGML_CPU_REPACK OFF CACHE BOOL "Preserve base tensor layouts for native LoRA training" FORCE)
     set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Build llama server" FORCE)
     set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
 
@@ -1731,27 +1726,7 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_CONTINUOUS_BATCHING ON CACHE BOOL "Enable continuous batching" FORCE)
     message(STATUS "Continuous Batching: ENABLED (+8x throughput)")
     
-    # Prefer repository-vendored llama.cpp when present to avoid fragile
-    # FetchContent git clone/update behavior in source archives/submodule snapshots.
-    if(EXISTS "${PROJECT_SOURCE_DIR}/llama.cpp/CMakeLists.txt")
-        message(STATUS "llama.cpp: using local vendored source")
-        FetchContent_Declare(
-            llama_cpp
-            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
-            DOWNLOAD_COMMAND ""
-            UPDATE_COMMAND ""
-        )
-    else()
-        FetchContent_Declare(
-            llama_cpp
-            GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
-            GIT_TAG ${LLAMA_CPP_GIT_TAG}
-            GIT_SHALLOW FALSE  # Need full history for commit verification
-            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
-        )
-    endif()
-    
-    FetchContent_MakeAvailable(llama_cpp)
+    add_subdirectory("${PROJECT_SOURCE_DIR}/llama.cpp" "${CMAKE_BINARY_DIR}/llama_cpp")
 
     # gguf.cpp lacks a direct errno include under LLVM libc++; keep the
     # workaround private to ggml-base C++ sources, not C sources or consumers.
@@ -1786,7 +1761,7 @@ if(THEMIS_ENABLE_LLM)
     # =========================================================================
     # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
     # =========================================================================
-    # After FetchContent_MakeAvailable, apply the compatibility flags
+    # Apply compatibility flags after the submodule creates its targets.
     if(MSVC AND TARGET llama)
         target_compile_options(llama PRIVATE /Zc:char8_t-)
         message(STATUS "Applied /Zc:char8_t- to llama target for MSVC compatibility")
@@ -1816,16 +1791,18 @@ if(THEMIS_ENABLE_LLM)
             target_link_libraries(llama PUBLIC OpenMP::OpenMP_C)
         endif()
         message(STATUS "llama.cpp configured successfully - LLM plugin support enabled")
-        message(STATUS "  - Version: ${LLAMA_CPP_GIT_TAG}")
+        message(STATUS "  - Submodule commit: ${_THEMIS_LLAMA_CPP_COMMIT}")
         message(STATUS "  - Flash Attention: ${LLAMA_FLASH_ATTN}")
         message(STATUS "  - Continuous Batching: ${LLAMA_CONTINUOUS_BATCHING}")
         add_compile_definitions(THEMIS_ENABLE_LLM=1)
         # Expose the pinned commit hash as a compile-time constant so that
         # LlamaWrapper can compare it against the runtime llama_build_commit()
         # value at startup and warn on mismatch (risk mitigation for API drift).
-        add_compile_definitions(THEMIS_LLAMA_CPP_EXPECTED_COMMIT="${LLAMA_CPP_GIT_TAG}")
+        if(_THEMIS_LLAMA_CPP_COMMIT)
+            add_compile_definitions(THEMIS_LLAMA_CPP_EXPECTED_COMMIT="${_THEMIS_LLAMA_CPP_COMMIT}")
+        endif()
     else()
-        message(FATAL_ERROR "llama.cpp target 'llama' not created after FetchContent")
+        message(FATAL_ERROR "llama.cpp submodule did not create target 'llama'")
     endif()
     
     # Voice assistant support (requires Whisper, Piper)

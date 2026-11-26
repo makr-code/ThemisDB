@@ -558,13 +558,13 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     
     // ─── llama.cpp runtime version compatibility check ───────────────────────
     // Compare the commit hash baked in at build time (THEMIS_LLAMA_CPP_EXPECTED_COMMIT,
-    // set by cmake/Dependencies.cmake from LLAMA_CPP_GIT_TAG) against the commit
+    // set by CMake from the verified submodule gitlink) against the commit
     // reported by the linked llama.cpp shared/static library at runtime.
     //
     // A mismatch means the linked library was built from a different commit than
     // the one this code was compiled against.  This can happen when:
-    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
-    //    the FetchContent build.
+    //  - A system-level llama.cpp library overrides the submodule-built library
+    //    during runtime dynamic loading.
     //  - A developer manually replaces the library file without rebuilding.
     //
     // We do NOT abort on mismatch because the API may still be compatible —
@@ -587,9 +587,9 @@ LlamaWrapper::LlamaWrapper(const Config& config)
                 "LlamaWrapper: llama.cpp version could not be matched exactly — "
                 "expected commit '{}' was not found in runtime system info '{}'. "
                 "Grammar constraints, LoRA adapters, and token-sampler APIs may behave "
-                "unexpectedly. Update LLAMA_CPP_GIT_TAG in cmake/Dependencies.cmake or "
-                "ensure the correct library is linked. "
-                "See docs/llm/LORA_ADAPTER_MIGRATION.md for upgrade guidance.",
+                "unexpectedly. Reinitialize the pinned llama.cpp submodule and rebuild, "
+                "or ensure the correct library is linked. "
+                "See cmake/README.md for the dependency contract.",
                 expected_commit, runtime_info_str);
         } else {
             spdlog::info("  llama.cpp version: {} (matches expected {})",

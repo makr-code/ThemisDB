@@ -313,6 +313,12 @@ jobs:
           ref: ${{ inputs.source_sha || github.sha }}
           submodules: ${{ inputs.submodules }}
 
+      - name: Initialize pinned public llama.cpp submodule
+        shell: bash
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
+
       - name: Checkout cache tooling for pinned release sources
         if: inputs.source_sha != ''
         uses: actions/checkout@v5

@@ -1584,7 +1584,9 @@ class DeploymentWorkflowTests(unittest.TestCase):
 class GgmlErrnoWorkaroundTests(unittest.TestCase):
     def configure(self, directory, apple, target=True, explicit_cerrno=False):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
-        after_fetch = dependencies.split("FetchContent_MakeAvailable(llama_cpp)", 1)[1]
+        after_fetch = dependencies.split(
+            'add_subdirectory("${PROJECT_SOURCE_DIR}/llama.cpp" "${CMAKE_BINARY_DIR}/llama_cpp")', 1
+        )[1]
         start = "if(APPLE AND TARGET ggml-base)"
         self.assertIn(start, after_fetch)
         block = start + after_fetch.split(start, 1)[1].split("endif()", 1)[0] + "endif()"

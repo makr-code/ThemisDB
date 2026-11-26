@@ -1,0 +1,82 @@
+name: "Build: Patched llama.cpp submodule"
+
+on:
+  pull_request:
+    branches: [develop]
+    paths:
+      - llama.cpp
+      - .gitmodules
+      - .github/dependabot.yml
+      - .github/workflows/build-llama-submodule.yml
+      - cmake/LlamaCppSubmodule*.cmake
+      - cmake/Dependencies.cmake
+      - cmake/CMakeLists.txt
+      - tests/cmake/llama_submodule/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: llama-submodule-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  patched-training:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: false
+
+      - name: Initialize only the pinned public engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
+          cmake -DPROJECT_SOURCE_DIR="$PWD" -P cmake/LlamaCppSubmoduleCheck.cmake
+
+      - name: Verify missing, unpatched, and mismatched sources fail
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S tests/cmake/llama_submodule -B build/submodule-contract
+          ctest --test-dir build/submodule-contract -C Release --no-tests=error --output-on-failure
+
+      - name: Build native LoRA training test
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S llama.cpp -B build/llama-training \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DGGML_NATIVE=OFF \
+            -DGGML_CPU_REPACK=OFF \
+            -DGGML_CUDA=OFF \
+            -DGGML_VULKAN=OFF \
+            -DLLAMA_BUILD_TESTS=ON \
+            -DLLAMA_BUILD_COMMON=ON \
+            -DLLAMA_BUILD_TOOLS=OFF \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=OFF
+          cmake --build build/llama-training --config Release --parallel 2 --target test-lora-train
+
+      - name: Exercise real training and adapter round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          ctest --test-dir build/llama-training -C Release -R '^lora-train$' \
+            --no-tests=error --output-on-failure --output-junit lora-training.xml
+
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: llama-training-${{ matrix.os }}
+          path: build/llama-training/lora-training.xml
+          if-no-files-found: warn

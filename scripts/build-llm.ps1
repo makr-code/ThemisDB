@@ -23,7 +23,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$RepoRoot = "C:\VCC\themis"
+$RepoRoot = Split-Path -Parent $PSScriptRoot
 $BuildDir = "$RepoRoot\build-clang-llm"
 $VcVarsAll = "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvarsall.bat"
 
@@ -52,17 +52,14 @@ if ($CleanBuild) {
 }
 New-Item -ItemType Directory -Path $BuildDir -Force | Out-Null
 
-# Clone llama.cpp if not present
-$LlamaDir = "$RepoRoot\llama.cpp"
-if (-not (Test-Path "$LlamaDir\CMakeLists.txt")) {
-    Write-Host "=== Cloning llama.cpp for LLM support ===" -ForegroundColor Cyan
-    git clone https://github.com/ggerganov/llama.cpp.git $LlamaDir
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "✗ Failed to clone llama.cpp" -ForegroundColor Red
-        exit 1
-    }
-} else {
-    Write-Host "✓ llama.cpp already present" -ForegroundColor Green
+Write-Host "=== Initializing pinned llama.cpp submodule ===" -ForegroundColor Cyan
+git -C $RepoRoot submodule update --init --depth 1 -- llama.cpp
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to initialize the pinned llama.cpp submodule."
+}
+cmake "-DPROJECT_SOURCE_DIR=$RepoRoot" -P "$RepoRoot\cmake\LlamaCppSubmoduleCheck.cmake"
+if ($LASTEXITCODE -ne 0) {
+    throw "llama.cpp submodule validation failed."
 }
 
 # Configure

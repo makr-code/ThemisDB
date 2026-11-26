@@ -893,6 +893,7 @@ jobs:
       - name: Configure and build LLM inference tests
         run: |
           set -euo pipefail
+          git submodule update --init --depth 1 -- llama.cpp
           mkdir -p internal llama.cpp vcpkg/downloads
           cmake -S . -B build \
             -DTHEMIS_BUILD_TESTS=ON \
