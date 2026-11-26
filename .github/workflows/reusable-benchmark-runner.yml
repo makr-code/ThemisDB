@@ -89,6 +89,7 @@ jobs:
             libgtest-dev \
             libgmock-dev \
             libssl-dev \
+            libcurl4-openssl-dev \
             zlib1g-dev \
             libfmt-dev \
             libspdlog-dev \
