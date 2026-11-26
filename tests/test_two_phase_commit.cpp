@@ -2449,6 +2449,36 @@ TEST(ShardRPCClientAdapterTest, RemoteAbortRejectionIsNotReportedAsAcknowledged)
     EXPECT_EQ(abort_calls, 1);
 }
 
+TEST(ShardRPCClientAdapterTest, CoordinatorDecisionsForwardIdentityAndFailClosed) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "inproc://adapter-coordinator-decisions";
+    cfg.max_retries = 1;
+    int calls = 0;
+    bool acknowledge = true;
+    ShardRPCClientAdapter adapter(
+        cfg,
+        [&](std::string method, nlohmann::json params) -> nlohmann::json {
+            ++calls;
+            EXPECT_EQ(params["transaction_id"], "txn-1");
+            EXPECT_EQ(params["coordinator_shard_id"], "coord-1");
+            if (!acknowledge) {
+                return {{"status", "rejected"}};
+            }
+            return {{"status", method == "commit" ? "committed" : "aborted"}};
+        });
+    ShardRPCServer::RequestHandler& handler = adapter;
+
+    EXPECT_FALSE(handler.onCommitFromCoordinator("txn-1", ""));
+    EXPECT_FALSE(handler.onAbortFromCoordinator("txn-1", ""));
+    EXPECT_EQ(calls, 0);
+    EXPECT_TRUE(handler.onCommitFromCoordinator("txn-1", "coord-1"));
+    EXPECT_TRUE(handler.onAbortFromCoordinator("txn-1", "coord-1"));
+    acknowledge = false;
+    EXPECT_FALSE(handler.onCommitFromCoordinator("txn-1", "coord-1"));
+    EXPECT_FALSE(handler.onAbortFromCoordinator("txn-1", "coord-1"));
+    EXPECT_EQ(calls, 4);
+}
+
 TEST(ShardRPCClientAdapterTest, InProcessHandlerRejectsRemoteEndpoint) {
     ShardRPCClient::Config cfg;
     cfg.endpoint = "shard-a:50051";
