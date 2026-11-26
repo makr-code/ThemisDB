@@ -414,6 +414,69 @@ class MonitoringRouteTranslationUnitTests(unittest.TestCase):
 
 
 class MonolithicRuntimeSourceTests(unittest.TestCase):
+    def test_transaction_process_target_links_base_only_when_available(self) -> None:
+        cmake = (REPO_ROOT / "tests" / "transaction" / "CMakeLists.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertRegex(
+            cmake,
+            r"(?ms)target_link_libraries\(test_transaction_process_crash_recovery PRIVATE"
+            r"(?:(?!\)).)*\)\n"
+            r"    if\(TARGET themis_base\)\n"
+            r"        target_link_libraries\(test_transaction_process_crash_recovery PRIVATE themis_base\)\n"
+            r"    endif\(\)",
+        )
+        primary_link = re.search(
+            r"target_link_libraries\(test_transaction_process_crash_recovery PRIVATE(.*?)\)",
+            cmake,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(primary_link)
+        self.assertNotIn("themis_base", primary_link.group(1))
+        self.assertRegex(
+            cmake,
+            r"(?m)^    if\(TARGET themis_sharding\)\n"
+            r"        target_link_libraries\(test_transaction_process_crash_recovery PRIVATE themis_sharding\)\n"
+            r"    else\(\)\n"
+            r"        target_link_libraries\(test_transaction_process_crash_recovery PRIVATE themis_core\)\n"
+            r"    endif\(\)",
+        )
+
+    def test_dis10_transport_target_links_monolithic_core(self) -> None:
+        cmake = (REPO_ROOT / "tests" / "sharding" / "CMakeLists.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertRegex(
+            cmake,
+            r"(?m)^    if\(THEMIS_BUILD_MODULAR AND TARGET themis_sharding\)\n"
+            r"        target_link_libraries\(test_dis10_real_transport_process_recovery PRIVATE themis_sharding\)\n"
+            r"    else\(\)\n"
+            r"        target_link_libraries\(test_dis10_real_transport_process_recovery PRIVATE themis_core\)\n"
+            r"    endif\(\)",
+        )
+
+    def test_participant_epoch_fencing_is_in_monolithic_core(self) -> None:
+        cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        self.assertRegex(
+            cmake,
+            r"(?m)^if\(NOT THEMIS_BUILD_MODULAR\)\n"
+            r"(?:(?!endif\(\)).*\n)*"
+            r"    list\(APPEND THEMIS_CORE_SOURCES \.\./src/sharding/epoch_fencing\.cpp\)\n"
+            r"(?:(?!endif\(\)).*\n)*endif\(\)",
+        )
+        self.assertIn("../src/sharding/epoch_fencing.cpp", MODULAR_BUILD.read_text(encoding="utf-8"))
+
+    def test_shard_rpc_circuit_breaker_is_in_monolithic_core(self) -> None:
+        cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        self.assertRegex(
+            cmake,
+            r"(?m)^if\(NOT THEMIS_BUILD_MODULAR\)\n"
+            r"    list\(APPEND THEMIS_CORE_SOURCES \.\./src/sharding/circuit_breaker\.cpp\)\n"
+            r"(?:(?!endif\(\)).*\n)*"
+            r"endif\(\)",
+        )
+        self.assertIn("../src/sharding/circuit_breaker.cpp", MODULAR_BUILD.read_text(encoding="utf-8"))
+
     def test_runtime_dependencies_are_registered_with_their_consumers(self) -> None:
         cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
         core = re.search(r"\bset\(THEMIS_CORE_SOURCES\s+(.*?)\n\s*\)", cmake, re.DOTALL)
@@ -434,6 +497,38 @@ class MonolithicRuntimeSourceTests(unittest.TestCase):
                 with self.subTest(source=source):
                     self.assertRegex(block, rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s*(?:#.*)?)?$")
                     self.assertEqual(len(re.findall(rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s|$)", block)), 1)
+
+
+@unittest.skipUnless(shutil.which("cmake"), "requires CMake")
+class FocusedTestBaseLinkTests(unittest.TestCase):
+    def test_base_link_requires_target_and_avoids_duplicates(self) -> None:
+        cmake = (REPO_ROOT / "tests" / "CMakeLists.txt").read_text(encoding="utf-8")
+        start = cmake.index("    get_target_property(_existing_libs ${_tgt} LINK_LIBRARIES)",
+                            cmake.index("# Ensure every focused executable has the baseline runtime libs"))
+        end = cmake.index("    if(TARGET spdlog::spdlog)", start)
+        block = cmake[start:end]
+        for has_base, already_linked in ((False, False), (True, False), (True, True)):
+            with self.subTest(has_base=has_base, already_linked=already_linked), tempfile.TemporaryDirectory(
+                prefix="focused-test-base-"
+            ) as tmp:
+                root = Path(tmp)
+                (root / "dummy.c").write_text("int main(void) { return 0; }\n")
+                (root / "CMakeLists.txt").write_text(
+                    "cmake_minimum_required(VERSION 3.20)\n"
+                    "project(FocusedBase C)\n"
+                    + ("add_library(themis_base INTERFACE)\n" if has_base else "")
+                    + "add_executable(probe dummy.c)\n"
+                    + ("target_link_libraries(probe PRIVATE themis_base)\n" if already_linked else "")
+                    + "set(_tgt probe)\n" + block
+                    + "get_target_property(result probe LINK_LIBRARIES)\n"
+                    + 'file(WRITE "${CMAKE_BINARY_DIR}/links.txt" "${result}")\n'
+                )
+                subprocess.run(
+                    ["cmake", "-S", str(root), "-B", str(root / "build")],
+                    check=True, capture_output=True, text=True,
+                )
+                links = (root / "build" / "links.txt").read_text()
+                self.assertEqual(links.count("themis_base"), 1 if has_base else 0)
 
 
 @unittest.skipUnless(shutil.which("cmake"), "requires CMake")

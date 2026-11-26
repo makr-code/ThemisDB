@@ -9,6 +9,7 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "storage/blob_redundancy_manager.h"
+#include "../src/server/raid_config.h"
 #include <rocksdb/listener.h>
 #include <vector>
 #include <map>
@@ -140,6 +141,56 @@ TEST_F(RedundancyStrategyTest, ConfigValidation) {
     // Invalid: parity_shards = 0
     config.erasure_coding.parity_shards = 0;
     EXPECT_FALSE(config.validate());
+}
+
+TEST_F(RedundancyStrategyTest, UnsupportedRaftConfigurationFailsClosed) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+    ASSERT_TRUE(config.validate());
+    RedundancyStrategy strategy(config);
+
+    config.enable_raft_consensus = true;
+    EXPECT_FALSE(config.validate());
+    EXPECT_THROW((void)RedundancyStrategy{config}, std::invalid_argument);
+    EXPECT_THROW(strategy.updateConfig(config), std::invalid_argument);
+    EXPECT_FALSE(strategy.getConfig().enable_raft_consensus);
+    CollectionRedundancyManager manager;
+    RedundancyConfig existing;
+    existing.replication_factor = 0;
+    manager.setDefaultConfig(existing);
+    manager.setCollectionConfig("collection1", existing);
+    EXPECT_THROW(manager.setDefaultConfig(config), std::invalid_argument);
+    EXPECT_THROW(manager.setCollectionConfig("collection1", config), std::invalid_argument);
+    EXPECT_FALSE(manager.getConfig("collection1").enable_raft_consensus);
+    EXPECT_EQ(manager.getConfig("collection1").replication_factor, 0u);
+    EXPECT_EQ(manager.getConfig("other").replication_factor, 0u);
+
+    const auto result = strategy.write(
+        "doc1", {'H', 'i'}, "collection1", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.acknowledgements, 3u);
+}
+
+TEST(RaidServerConfigTest, RejectsRaftForDefaultAndCollection) {
+    using themis::server::detail::parseRaidConfig;
+    CollectionRedundancyManager manager;
+    const auto normal = parseRaidConfig(nlohmann::json::parse(
+        R"({"mode":"MIRROR","replication_factor":3,"write_concern":"ALL"})"));
+    EXPECT_FALSE(normal.enable_raft_consensus);
+    EXPECT_NO_THROW(manager.setDefaultConfig(normal));
+    EXPECT_NO_THROW(manager.setCollectionConfig("users", normal));
+    const auto disabled = parseRaidConfig(nlohmann::json::parse(
+        R"({"enable_raft_consensus":false})"));
+    EXPECT_FALSE(disabled.enable_raft_consensus);
+    const auto enabled = parseRaidConfig(nlohmann::json::parse(
+        R"({"enable_raft_consensus":true})"));
+    EXPECT_THROW(manager.setDefaultConfig(enabled), std::invalid_argument);
+    EXPECT_THROW(manager.setCollectionConfig("users", enabled), std::invalid_argument);
+    EXPECT_EQ(manager.getConfig("users").write_concern, WriteConcern::ALL);
+    EXPECT_THROW(parseRaidConfig(nlohmann::json::parse(
+        R"({"enable_raft_consensus":"true"})")), nlohmann::json::type_error);
 }
 
 TEST_F(RedundancyStrategyTest, StorageEfficiency) {

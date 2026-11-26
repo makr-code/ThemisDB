@@ -106,6 +106,24 @@ std::optional<std::string> resolveCoordinatorShardId(
     return resolved_shard_id;
 }
 
+grpc::Status authorizeTerminalCoordinator(
+    grpc::ServerContext* context,
+    const std::vector<ShardRPCServer::CoordinatorIdentityBinding>& bindings,
+    std::string& coordinator_shard_id) {
+    const auto peer = getAuthenticatedPeerIdentity(context);
+    if (!peer) {
+        return {grpc::StatusCode::UNAUTHENTICATED,
+                "terminal transaction RPC requires an authenticated X.509 shard identity"};
+    }
+    const auto resolved = resolveCoordinatorShardId(*peer, bindings);
+    if (!resolved) {
+        return {grpc::StatusCode::PERMISSION_DENIED,
+                "authenticated X.509 identity is not configured for shard coordination"};
+    }
+    coordinator_shard_id = *resolved;
+    return grpc::Status::OK;
+}
+
 std::optional<std::string> resolveRaftNodeId(
     const AuthenticatedPeerIdentity& peer_identity,
     const std::vector<ShardRPCServer::RaftIdentityBinding>& bindings) {
@@ -433,11 +451,22 @@ public:
         if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
+        std::string coordinator_shard_id;
+        const auto authorization = authorizeTerminalCoordinator(
+            context, identity_bindings_, coordinator_shard_id);
+        if (!authorization.ok()) {
+            return authorization;
+        }
+        if (request->coordinator_shard_id() != coordinator_shard_id) {
+            return grpc::Status(grpc::StatusCode::PERMISSION_DENIED,
+                                "claimed coordinator identity does not match authenticated peer");
+        }
         
         THEMIS_DEBUG("gRPC CommitTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onCommit(request->transaction_id());
+            bool success = handler_->onCommitFromCoordinator(
+                request->transaction_id(), coordinator_shard_id);
             response->set_success(success);
             
             return grpc::Status::OK;
@@ -458,11 +487,22 @@ public:
         if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
+        std::string coordinator_shard_id;
+        const auto authorization = authorizeTerminalCoordinator(
+            context, identity_bindings_, coordinator_shard_id);
+        if (!authorization.ok()) {
+            return authorization;
+        }
+        if (request->coordinator_shard_id() != coordinator_shard_id) {
+            return grpc::Status(grpc::StatusCode::PERMISSION_DENIED,
+                                "claimed coordinator identity does not match authenticated peer");
+        }
         
         THEMIS_DEBUG("gRPC AbortTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onAbort(request->transaction_id());
+            bool success = handler_->onAbortFromCoordinator(
+                request->transaction_id(), coordinator_shard_id);
             response->set_success(success);
             
             return grpc::Status::OK;

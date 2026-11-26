@@ -41,7 +41,7 @@ public:
         }
 
         registered_here_ = llm::createLlamaWrapper(
-            "llamacpp", model_path, llm::json::object());
+            "llamacpp", model_path, llm::json{{"enable_embeddings", true}});
         if (!registered_here_ || manager.getDefaultPlugin() == nullptr) {
             error_message = "Failed to register llama.cpp benchmark backend";
             return false;

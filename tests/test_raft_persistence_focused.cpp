@@ -252,6 +252,12 @@ TEST_F(RaftPersistenceTest, ProposalIndexIsAbsentWithoutQuorum) {
         state.receiveVote("node2", true);
         ASSERT_TRUE(state.isLeader());
 
+        EXPECT_FALSE(consensus.proposeWithIndex("no-transport").has_value());
+        EXPECT_FALSE(state.getLog().getEntry(1).has_value());
+        consensus.setReplicationCallback([](const std::string&,
+                                            const AppendEntriesRequest& request) {
+            return AppendEntriesResponse{request.term, false, 0};
+        });
         EXPECT_FALSE(consensus.proposeWithIndex("unreplicated").has_value());
         EXPECT_EQ(state.getLog().getCommitIndex(), 0u);
         ASSERT_TRUE(state.getLog().getEntry(1).has_value());
@@ -266,8 +272,15 @@ TEST_F(RaftPersistenceTest, ProposalIndexIsAbsentWithoutQuorum) {
     recovered_state.becomeCandidate();
     recovered_state.receiveVote("node2", true);
     ASSERT_TRUE(recovered_state.isLeader());
+    recovered.setReplicationCallback([](const std::string&,
+                                         const AppendEntriesRequest& request) {
+        return AppendEntriesResponse{request.term, false, 0};
+    });
     EXPECT_FALSE(recovered.proposeWithIndex("after-restart").has_value());
-    EXPECT_FALSE(recovered_state.getLog().getEntry(2).has_value());
+    const auto second = recovered_state.getLog().getEntry(2);
+    ASSERT_TRUE(second.has_value());
+    EXPECT_EQ(second->command, "after-restart");
+    EXPECT_EQ(recovered_state.getLog().getCommitIndex(), 0u);
 }
 
 TEST_F(RaftPersistenceTest, MultiNodeProposalRejectsVolatileLeaderBeforeReplication) {
@@ -374,17 +387,25 @@ TEST_F(RaftPersistenceTest, ConcurrentProposalsReturnTheirOwnIndices) {
     state.receiveVote("node2", true);
     ASSERT_TRUE(state.isLeader());
 
+    RaftConfig follower_config = config.raft_config;
+    follower_config.node_id = "node2";
+    follower_config.persistence_path = (directory_ / "follower.wal").string();
+    RaftState follower(follower_config);
+
     std::promise<void> first_in_callback;
     auto entered = first_in_callback.get_future();
     std::promise<void> release_first;
     auto released = release_first.get_future();
-    consensus.setReplicationCallback([&](const std::string&,
+    consensus.setReplicationCallback([&](const std::string& node,
                                           const AppendEntriesRequest& request) {
+        if (node != "node2") {
+            return AppendEntriesResponse{request.term, false, 0};
+        }
         if (request.entries.back().command == "first") {
             first_in_callback.set_value();
             released.wait();
         }
-        return acknowledgeAppendEntries(request);
+        return follower.handleAppendEntries(request);
     });
 
     auto first = std::async(std::launch::async, [&] {
@@ -399,20 +420,23 @@ TEST_F(RaftPersistenceTest, ConcurrentProposalsReturnTheirOwnIndices) {
     release_first.set_value();
     const auto first_index = first.get();
     ASSERT_TRUE(first_index.has_value());
-    EXPECT_FALSE(second_while_first_is_uncommitted.has_value());
+    ASSERT_TRUE(second_while_first_is_uncommitted.has_value());
     EXPECT_EQ(*first_index, 1u);
-    const auto second = consensus.proposeWithIndex("second");
-    ASSERT_TRUE(second.has_value());
-    EXPECT_EQ(*second, 2u);
+    EXPECT_EQ(*second_while_first_is_uncommitted, 2u);
+    EXPECT_EQ(state.getLog().getCommitIndex(), 2u);
     const auto first_entry = state.getLog().getEntry(*first_index);
-    const auto second_entry = state.getLog().getEntry(*second);
+    const auto second_entry = state.getLog().getEntry(*second_while_first_is_uncommitted);
     ASSERT_TRUE(first_entry.has_value());
     ASSERT_TRUE(second_entry.has_value());
     EXPECT_EQ(first_entry->command, "first");
     EXPECT_EQ(second_entry->command, "second");
+    ASSERT_TRUE(follower.getLog().getEntry(1).has_value());
+    ASSERT_TRUE(follower.getLog().getEntry(2).has_value());
+    EXPECT_EQ(follower.getLog().getEntry(1)->command, "first");
+    EXPECT_EQ(follower.getLog().getEntry(2)->command, "second");
 }
 
-TEST_F(RaftPersistenceTest, FailedEarlierProposalBlocksCommitAcrossUnreplicatedTail) {
+TEST_F(RaftPersistenceTest, LaterQuorumCommitsRetainedPrefixAfterEarlierAttemptFails) {
     RaftConsensus::Config config;
     config.raft_config.node_id = "node1";
     config.raft_config.cluster_members = {"node1", "node2", "node3"};
@@ -424,6 +448,11 @@ TEST_F(RaftPersistenceTest, FailedEarlierProposalBlocksCommitAcrossUnreplicatedT
         state.becomeCandidate();
         state.receiveVote("node2", true);
         ASSERT_TRUE(state.isLeader());
+
+        RaftConfig follower_config = config.raft_config;
+        follower_config.node_id = "node2";
+        follower_config.persistence_path = (directory_ / "follower.wal").string();
+        RaftState follower(follower_config);
 
         std::promise<void> first_in_callback;
         auto entered = first_in_callback.get_future();
@@ -438,7 +467,10 @@ TEST_F(RaftPersistenceTest, FailedEarlierProposalBlocksCommitAcrossUnreplicatedT
                 }
                 return AppendEntriesResponse{request.term, false, 0};
             }
-            return acknowledgeAppendEntries(request);
+            if (node == "node2") {
+                return follower.handleAppendEntries(request);
+            }
+            return AppendEntriesResponse{request.term, false, 0};
         });
 
         auto first = std::async(std::launch::async, [&] {
@@ -452,16 +484,20 @@ TEST_F(RaftPersistenceTest, FailedEarlierProposalBlocksCommitAcrossUnreplicatedT
         const auto second_while_first_is_uncommitted = consensus.proposeWithIndex("second");
         release_first.set_value();
         EXPECT_FALSE(first.get().has_value());
-        EXPECT_FALSE(second_while_first_is_uncommitted.has_value());
-        EXPECT_FALSE(consensus.proposeWithIndex("second").has_value());
-        EXPECT_EQ(state.getLog().getCommitIndex(), 0u);
+        ASSERT_TRUE(second_while_first_is_uncommitted.has_value());
+        EXPECT_EQ(*second_while_first_is_uncommitted, 2u);
+        EXPECT_EQ(state.getLog().getCommitIndex(), 2u);
         EXPECT_TRUE(state.getLog().getEntry(1).has_value());
-        EXPECT_FALSE(state.getLog().getEntry(2).has_value());
+        EXPECT_TRUE(state.getLog().getEntry(2).has_value());
+        ASSERT_TRUE(follower.getLog().getEntry(1).has_value());
+        ASSERT_TRUE(follower.getLog().getEntry(2).has_value());
+        EXPECT_EQ(follower.getLog().getEntry(1)->command, "first");
+        EXPECT_EQ(follower.getLog().getEntry(2)->command, "second");
         EXPECT_FALSE(consensus.isReadOnly());
     }
 
     RaftConsensus recovered(config);
-    EXPECT_EQ(recovered.getRaftState().getLog().getCommitIndex(), 0u);
+    EXPECT_EQ(recovered.getRaftState().getLog().getCommitIndex(), 2u);
     const auto entry = recovered.getRaftState().getLog().getEntry(1);
     ASSERT_TRUE(entry.has_value());
     EXPECT_EQ(entry->command, "first");
@@ -469,8 +505,15 @@ TEST_F(RaftPersistenceTest, FailedEarlierProposalBlocksCommitAcrossUnreplicatedT
     recovered_state.becomeCandidate();
     recovered_state.receiveVote("node2", true);
     ASSERT_TRUE(recovered_state.isLeader());
+    recovered.setReplicationCallback([](const std::string&,
+                                         const AppendEntriesRequest& request) {
+        return AppendEntriesResponse{request.term, false, 0};
+    });
     EXPECT_FALSE(recovered.proposeWithIndex("after-restart").has_value());
-    EXPECT_FALSE(recovered_state.getLog().getEntry(2).has_value());
+    const auto third = recovered_state.getLog().getEntry(3);
+    ASSERT_TRUE(third.has_value());
+    EXPECT_EQ(third->command, "after-restart");
+    EXPECT_EQ(recovered_state.getLog().getCommitIndex(), 2u);
 }
 
 TEST_F(RaftPersistenceTest, AppendEntriesAcknowledgesOnlyTheVerifiedDurablePrefix) {
@@ -786,6 +829,36 @@ TEST_F(RaftPersistenceTest, SnapshotInstallFromLeaderPersistsAnchorAndNewTermTog
     EXPECT_EQ(recovered.getLog().getCommitIndex(), 5u);
 }
 
+TEST_F(RaftPersistenceTest, SameTermSnapshotInstallPreservesPriorVoteAcrossRestart) {
+    RaftConfig config;
+    config.node_id = "node2";
+    config.cluster_members = {"node1", "node2", "node3"};
+    config.persistence_path = journal_path_.string();
+
+    {
+        RaftState follower(config);
+        follower.becomeCandidate();
+        ASSERT_EQ(follower.getCurrentTerm(), 1u);
+        ASSERT_EQ(follower.getVotedFor(), "node2");
+        ASSERT_TRUE(follower.installSnapshotFromLeader("node1", 1, 5, 1));
+        EXPECT_EQ(follower.getCurrentTerm(), 1u);
+        EXPECT_EQ(follower.getVotedFor(), "node2");
+        EXPECT_EQ(follower.getLeaderId(), "node1");
+    }
+
+    RaftState recovered(config);
+    EXPECT_EQ(recovered.getCurrentTerm(), 1u);
+    EXPECT_EQ(recovered.getVotedFor(), "node2");
+    EXPECT_EQ(recovered.getSnapshotIndex(), 5u);
+    EXPECT_EQ(recovered.getSnapshotTerm(), 1u);
+    VoteRequest request;
+    request.term = 1;
+    request.candidate_id = "node3";
+    request.last_log_index = 5;
+    request.last_log_term = 1;
+    EXPECT_FALSE(recovered.handleVoteRequest(request).vote_granted);
+}
+
 TEST_F(RaftPersistenceTest, SnapshotInstallFromLeaderRejectsStaleAndNonMemberRequests) {
     RaftConfig config;
     config.node_id = "node2";
@@ -879,6 +952,9 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
 
     ASSERT_TRUE(target.installTransferredSnapshot(1, 1, chunks));
     ASSERT_TRUE(target.installTransferredSnapshot(1, 1, chunks));
+    for (const auto& entry : std::filesystem::directory_iterator(target_config.snapshot_directory)) {
+        EXPECT_FALSE(entry.is_directory()) << entry.path();
+    }
     const auto installed = target.loadSnapshot(1);
     ASSERT_TRUE(installed.has_value());
     EXPECT_EQ(installed->snapshot_index, 1u);
@@ -896,6 +972,9 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
     ASSERT_TRUE(unchanged.has_value());
     EXPECT_EQ(unchanged->extensions.at("decision-state"), extensions.at("decision-state"));
     EXPECT_FALSE(target.installTransferredSnapshot(2, 1, snapshot_file));
+    for (const auto& entry : std::filesystem::directory_iterator(target_config.snapshot_directory)) {
+        EXPECT_FALSE(entry.is_directory()) << entry.path();
+    }
 
     auto reordered_chunks = chunks;
     if (reordered_chunks.size() > 1) {
@@ -921,6 +1000,13 @@ TEST_F(RaftPersistenceTest, TransferredSnapshotIsValidatedAndInstalledIdempotent
     EXPECT_FALSE(limited.installTransferredSnapshot(1, 1, snapshot_file));
     EXPECT_FALSE(limited.installTransferredSnapshot(1, 1, chunks));
     EXPECT_FALSE(limited.loadSnapshot(1).has_value());
+
+    RaftSnapshotManager::Config unavailable_config;
+    unavailable_config.snapshot_directory = (directory_ / "unavailable-snapshots").string();
+    RaftSnapshotManager unavailable(unavailable_config);
+    ASSERT_TRUE(std::filesystem::remove(unavailable_config.snapshot_directory));
+    EXPECT_FALSE(unavailable.installTransferredSnapshot(1, 1, snapshot_file));
+    EXPECT_FALSE(std::filesystem::exists(unavailable_config.snapshot_directory));
 }
 
 TEST_F(RaftPersistenceTest, EmptyTransferredSnapshotStillVerifiesApplicationChecksum) {
@@ -950,6 +1036,52 @@ TEST_F(RaftPersistenceTest, EmptyTransferredSnapshotStillVerifiesApplicationChec
     RaftSnapshotManager target(target_config);
     EXPECT_FALSE(target.installTransferredSnapshot(1, 1, snapshot_file));
     EXPECT_FALSE(target.loadSnapshot(1).has_value());
+}
+
+TEST_F(RaftPersistenceTest, SnapshotRetentionPreservesInstalledAnchorOverNewerTransfer) {
+    RaftSnapshotManager::Config source_config;
+    source_config.snapshot_directory = (directory_ / "retention-source").string();
+    RaftSnapshotManager source(source_config);
+    RaftLog source_log((directory_ / "retention-source.wal").string());
+    source_log.append(LogEntry{1, 1, "one", 1});
+    source_log.append(LogEntry{1, 2, "two", 2});
+    source_log.append(LogEntry{1, 3, "three", 3});
+    source_log.setCommitIndex(3);
+    ASSERT_TRUE(source.createAndInstall(source_log, 1, 1, {'o', 'l', 'd'}));
+    ASSERT_TRUE(source.createAndInstall(source_log, 3, 1, {'n', 'e', 'w'}));
+
+    RaftSnapshotManager::Config target_config;
+    target_config.snapshot_directory = (directory_ / "retention-target").string();
+    target_config.max_snapshots = 1;
+    RaftSnapshotManager target(target_config);
+    for (const uint64_t index : {1u, 3u}) {
+        const auto incoming = source.getChunk(index, 0);
+        ASSERT_TRUE(incoming.has_value());
+        ASSERT_EQ(incoming->total_chunks, 1u);
+        ASSERT_TRUE(target.installTransferredSnapshot(index, 1, incoming->data));
+    }
+
+    const auto target_journal = (directory_ / "retention-target.wal").string();
+    {
+        RaftLog target_log(target_journal);
+        target_log.append(LogEntry{1, 1, "one", 1});
+        target_log.append(LogEntry{1, 2, "two", 2});
+        target_log.setCommitIndex(2);
+        ASSERT_TRUE(target.createAndInstall(target_log, 2, 1, {'c', 'u', 'r'}));
+        EXPECT_EQ(target_log.getSnapshotIndex(), 2u);
+    }
+    RaftLog recovered(target_journal);
+    EXPECT_EQ(recovered.getSnapshotIndex(), 2u);
+    EXPECT_TRUE(target.loadSnapshot(recovered.getSnapshotIndex()).has_value());
+    EXPECT_FALSE(target.loadSnapshot(1).has_value());
+    EXPECT_TRUE(target.loadSnapshot(3).has_value());
+}
+
+TEST_F(RaftPersistenceTest, SnapshotRetentionRejectsZeroCapacity) {
+    RaftSnapshotManager::Config config;
+    config.snapshot_directory = (directory_ / "zero-retention").string();
+    config.max_snapshots = 0;
+    EXPECT_THROW(RaftSnapshotManager manager(config), std::invalid_argument);
 }
 
 TEST_F(RaftPersistenceTest, SnapshotMetadataDoesNotCompactUntilCompactionIsRequested) {

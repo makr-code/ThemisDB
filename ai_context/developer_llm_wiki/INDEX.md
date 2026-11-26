@@ -24,7 +24,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: INCREMENTAL
 - Quellen gesamt: 8128
-- Quellen-Hash: `98609f03beeede4f44d8f7b0782b7b979c49b022308f66ecd9b97be8318cf865`
+- Quellen-Hash: `ec75f66c8dcc91dc2c815a5c738bb93d3b3d50bece96a95e4a3c48fc94875371`
 
 ## Status And Source-of-Truth Governance
 

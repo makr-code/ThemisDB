@@ -988,6 +988,9 @@ bool createLlamaWrapper(
         if (config.contains("n_threads")) {
             plugin_config.n_threads = config["n_threads"].get<int>();
         }
+        if (config.contains("enable_embeddings")) {
+            plugin_config.enable_embeddings = config["enable_embeddings"].get<bool>();
+        }
         if (config.contains("max_vram_mb")) {
             plugin_config.max_vram_mb = config["max_vram_mb"].get<size_t>();
         }

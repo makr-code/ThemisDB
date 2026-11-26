@@ -112,14 +112,28 @@ bool TwoPhaseCommitParticipant::onPrepare(
         payload_valid = false;
     }
 
+    const auto matchesPreparedRequest = [&](const ParticipantTransaction& existing) {
+        return payload_valid &&
+               token.issuer == coordinator_shard_id &&
+               token.issuer == existing.fencing_token.issuer &&
+               token.shard_id == existing.fencing_token.shard_id &&
+               token.epoch == existing.fencing_token.epoch &&
+               ops == existing.operations;
+    };
+
     std::unique_lock<std::mutex> lock(mutex_);
     if (!wal_ || durability_failed_ || !recovery_complete_) {
+        return false;
+    }
+    if (!storageCallbacksConfigured()) {
+        THEMIS_ERROR("2PC participant [{}] PREPARE rejected: storage and lock callbacks are required",
+                     shard_id_);
         return false;
     }
 
     auto it = transactions_.find(transaction_id);
     if (it != transactions_.end()) {
-        if (!payload_valid || token.issuer != coordinator_shard_id) {
+        if (!matchesPreparedRequest(it->second)) {
             return false;
         }
         THEMIS_DEBUG("2PC participant [{}] duplicate PREPARE for {} – returning stored vote {}",
@@ -145,7 +159,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
 
     it = transactions_.find(transaction_id);
     if (it != transactions_.end()) {
-        if (!payload_valid || token.issuer != coordinator_shard_id) {
+        if (!matchesPreparedRequest(it->second)) {
             return false;
         }
         return it->second.vote_committed;
@@ -157,6 +171,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
     if (fencing_result != FencingResult::ALLOWED) {
         ParticipantTransaction txn;
         txn.transaction_id = transaction_id;
+        txn.coordinator_shard_id = coordinator_shard_id;
         txn.state = ParticipantTxnState::ABORTED;
         txn.vote_committed = false;
         txn.prepared_at = std::chrono::steady_clock::now();
@@ -173,21 +188,18 @@ bool TwoPhaseCommitParticipant::onPrepare(
         return false;
     }
 
-    bool vote = true;
-    // Validate operations and acquire row locks
-    if (validate_and_lock_) {
-        try {
-            vote = validate_and_lock_(transaction_id, ops);
-        } catch (const std::exception& e) {
-            THEMIS_WARN("2PC participant [{}] PREPARE {}: lock/validation error: {}",
-                        shard_id_, transaction_id, e.what());
-            vote = false;
-        }
+    bool vote = false;
+    try {
+        vote = validate_and_lock_(transaction_id, ops);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("2PC participant [{}] PREPARE {}: lock/validation error: {}",
+                    shard_id_, transaction_id, e.what());
     }
 
     // Record state
     ParticipantTransaction txn;
     txn.transaction_id = transaction_id;
+    txn.coordinator_shard_id = coordinator_shard_id;
     txn.operations     = std::move(ops);
     txn.fencing_token  = token;
     txn.vote_committed = vote;
@@ -246,6 +258,23 @@ bool TwoPhaseCommitParticipant::onPrepare(
  * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch().
  */
 bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
+    return onCommitInternal(transaction_id, std::nullopt);
+}
+
+bool TwoPhaseCommitParticipant::onCommitFromCoordinator(
+    const std::string& transaction_id,
+    const std::string& coordinator_shard_id
+) {
+    if (coordinator_shard_id.empty()) {
+        return false;
+    }
+    return onCommitInternal(transaction_id, coordinator_shard_id);
+}
+
+bool TwoPhaseCommitParticipant::onCommitInternal(
+    const std::string& transaction_id,
+    const std::optional<std::string>& coordinator_shard_id
+) {
     if (transaction_id.empty()) {
         return false;
     }
@@ -257,6 +286,13 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     }
 
     auto it = transactions_.find(transaction_id);
+    if (coordinator_shard_id &&
+        (it == transactions_.end() ||
+         it->second.coordinator_shard_id != *coordinator_shard_id)) {
+        THEMIS_ERROR("2PC participant [{}] COMMIT {} rejected: coordinator identity mismatch",
+                     shard_id_, transaction_id);
+        return false;
+    }
 
     // Idempotency: already committed
     if (it != transactions_.end() && it->second.state == ParticipantTxnState::COMMITTED) {
@@ -272,6 +308,12 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     }
 
     auto& txn = it->second;
+    if (!apply_operations_) {
+        txn.resolution_pending = true;
+        THEMIS_ERROR("2PC participant [{}] COMMIT {} rejected: storage apply callback is missing",
+                     shard_id_, transaction_id);
+        return false;
+    }
     if (txn.commit_timestamp == 0) {
         txn.commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
             std::chrono::system_clock::now().time_since_epoch()
@@ -279,17 +321,15 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     }
 
     // Apply buffered operations to the storage engine
-    bool applied = true;
+    bool applied = false;
     FencingResult fencing_result = FencingResult::INVALID_TOKEN;
     if (config_.fencing_manager &&
         config_.fencing_manager->config().shard_id == shard_id_) {
         try {
             fencing_result = config_.fencing_manager->applyWithToken(
                 txn.fencing_token, txn.fencing_token.issuer, [&] {
-                    if (apply_operations_) {
-                        applied = apply_operations_(transaction_id, txn.operations,
-                                                    txn.commit_timestamp);
-                    }
+                    applied = apply_operations_(transaction_id, txn.operations,
+                                                txn.commit_timestamp);
                 });
         } catch (const std::exception& e) {
             THEMIS_ERROR("2PC participant [{}] COMMIT {}: apply error: {}",
@@ -348,6 +388,23 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
  * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), release_locks_(), THEMIS_WARN().
  */
 bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
+    return onAbortInternal(transaction_id, std::nullopt);
+}
+
+bool TwoPhaseCommitParticipant::onAbortFromCoordinator(
+    const std::string& transaction_id,
+    const std::string& coordinator_shard_id
+) {
+    if (coordinator_shard_id.empty()) {
+        return false;
+    }
+    return onAbortInternal(transaction_id, coordinator_shard_id);
+}
+
+bool TwoPhaseCommitParticipant::onAbortInternal(
+    const std::string& transaction_id,
+    const std::optional<std::string>& coordinator_shard_id
+) {
     if (transaction_id.empty()) {
         return false;
     }
@@ -359,6 +416,13 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
     }
 
     auto it = transactions_.find(transaction_id);
+    if (coordinator_shard_id &&
+        (it == transactions_.end() ||
+         it->second.coordinator_shard_id != *coordinator_shard_id)) {
+        THEMIS_ERROR("2PC participant [{}] ABORT {} rejected: coordinator identity mismatch",
+                     shard_id_, transaction_id);
+        return false;
+    }
 
     // Idempotency: already aborted
     if (it != transactions_.end() && it->second.state == ParticipantTxnState::ABORTED) {
@@ -375,6 +439,8 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
 
     if (!logToWAL(WALEntryType::ABORT_TX, transaction_id, {
             {"transaction_id", transaction_id},
+            {"coordinator_shard", coordinator_shard_id.value_or(
+                it != transactions_.end() ? it->second.coordinator_shard_id : std::string{})},
             {"shard_id",       shard_id_}
         }, true)) {
         durability_failed_ = true;
@@ -397,6 +463,7 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
         // Never prepared – still record the abort for completeness
         ParticipantTransaction txn;
         txn.transaction_id = transaction_id;
+        txn.coordinator_shard_id = coordinator_shard_id.value_or("");
         txn.state          = ParticipantTxnState::ABORTED;
         txn.vote_committed = false;
         txn.prepared_at    = std::chrono::steady_clock::now();
@@ -421,7 +488,8 @@ TwoPhaseCommitParticipant::onHealthCheck() {
     std::lock_guard<std::mutex> lock(mutex_);
     ShardRPCServer::HealthInfo info;
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
-    info.is_healthy     = wal_ && !durability_failed_ && recovery_complete_ &&
+    info.is_healthy     = wal_ && storageCallbacksConfigured() &&
+                          !durability_failed_ && recovery_complete_ &&
                           recoveryBlockersLocked() == 0;
     info.version        = "1.0";
     info.uptime_seconds = static_cast<uint64_t>(
@@ -509,11 +577,16 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
             }
         }
 
+        if (!restored_transactions.empty() &&
+            (!validate_and_lock_ || !release_locks_)) {
+            throw std::runtime_error(
+                "cannot restore prepared participant transactions without lock callbacks");
+        }
+
         for (const auto& txn_id : restored_transactions) {
             const auto it = transactions_.find(txn_id);
             if (it == transactions_.end() ||
-                it->second.state != ParticipantTxnState::PREPARED ||
-                !validate_and_lock_) {
+                it->second.state != ParticipantTxnState::PREPARED) {
                 continue;
             }
             attempted_lock_restores.push_back(txn_id);
@@ -565,6 +638,8 @@ void TwoPhaseCommitParticipant::applyRecoveredEntry(const WALEntry& entry) {
 
         ParticipantTransaction txn;
         txn.transaction_id = txn_id;
+        txn.coordinator_shard_id =
+            entry.data.value("coordinator_shard", std::string{});
         txn.vote_committed = entry.data.value("vote", true);
         txn.state = txn.vote_committed
             ? ParticipantTxnState::PREPARED
@@ -580,6 +655,9 @@ void TwoPhaseCommitParticipant::applyRecoveredEntry(const WALEntry& entry) {
             const auto issued_at_ms = token_json.value("issued_at_ms", int64_t{0});
             txn.fencing_token.issued_at = std::chrono::system_clock::time_point{
                 std::chrono::milliseconds{issued_at_ms}};
+            if (txn.coordinator_shard_id.empty()) {
+                txn.coordinator_shard_id = txn.fencing_token.issuer;
+            }
         }
         txn.prepared_at = std::chrono::steady_clock::now();
         transactions_[txn_id] = std::move(txn);
@@ -595,9 +673,19 @@ void TwoPhaseCommitParticipant::applyRecoveredEntry(const WALEntry& entry) {
     if (it == transactions_.end()) {
         ParticipantTransaction txn;
         txn.transaction_id = txn_id;
+        txn.coordinator_shard_id =
+            entry.data.value("coordinator_shard", std::string{});
         txn.prepared_at = std::chrono::steady_clock::now();
         txn.vote_committed = entry.type == WALEntryType::COMMIT_TX;
         it = transactions_.emplace(txn_id, std::move(txn)).first;
+    }
+    const auto terminal_coordinator =
+        entry.data.value("coordinator_shard", std::string{});
+    if (!terminal_coordinator.empty() &&
+        !it->second.coordinator_shard_id.empty() &&
+        terminal_coordinator != it->second.coordinator_shard_id) {
+        throw std::runtime_error(
+            "participant WAL terminal coordinator mismatch for " + txn_id);
     }
 
     if (entry.type == WALEntryType::COMMIT_TX) {
@@ -671,7 +759,8 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
     }
 
     const auto in_doubt_count = recoveryBlockersLocked();
-    const bool ready = wal_ && !durability_failed_ && recovery_complete_ && in_doubt_count == 0;
+    const bool ready = wal_ && storageCallbacksConfigured() && !durability_failed_ &&
+                       recovery_complete_ && in_doubt_count == 0;
     return {
         {"shard_id",               shard_id_},
         {"uptime_seconds",         static_cast<uint64_t>(
@@ -681,6 +770,7 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
         {"recovery_status",        !wal_ ? "disabled" :
                                    durability_failed_ ? "failed" :
                                    !recovery_complete_ ? "running" :
+                                   !storageCallbacksConfigured() ? "blocked" :
                                    in_doubt_count != 0 ? "blocked" : "complete"},
         {"active_in_doubt",        in_doubt_count},
         {"wal_recovery_status",    wal_recovery_status},

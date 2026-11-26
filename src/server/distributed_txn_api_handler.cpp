@@ -184,7 +184,7 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
 
         if (!coordinator_->addOperation(txn_id, shard, op)) {
             return error(http::status::unprocessable_entity,
-                         "Failed to add operation – transaction not active or not found", req);
+                         "Failed to add operation – invalid transaction, participant, or persistence failure", req);
         }
 
         return ok({{"transaction_id", txn_id}, {"status", "ok"}}, req);

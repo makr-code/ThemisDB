@@ -426,7 +426,17 @@ private:
         const std::string& model_id) const;
 };
 
-bool createLlamaWrapper(
+/**
+ * @brief Create and register the llama.cpp plugin for a model.
+ * @param name Registry name; an empty value uses "llamacpp".
+ * @param model_path Path to the model file; an empty path is rejected.
+ * @param config Optional configuration object. In particular,
+ *        `enable_embeddings` configures embedding extraction on the model
+ *        context and wrapper.
+ * @return True when the model loads and the plugin is registered; false when
+ *         configuration, model loading, or plugin setup fails.
+ */
+[[nodiscard]] bool createLlamaWrapper(
     const std::string& name = "llamacpp",
     const std::string& model_path = "",
     const json& config = {}

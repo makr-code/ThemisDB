@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-11-24"
+Last Updated: "2026-11-26"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -83,6 +83,22 @@ journal before appending or invoking the transport callback.
 Heartbeat AppendEntries responses with a higher term cause the leader to persist
 that term and step down; delayed successful responses cannot regress tracked
 replica progress.
+
+`ShardRaftInfo::last_applied` is now an optional database applied index and is
+unavailable until a durable DB state machine supplies it. It no longer reports
+the Raft commit index as an applied-index proxy. This is a C++ source and ABI
+change: consumers must rebuild and handle an empty value, including at index
+zero, rather than substituting the commit index or using it for snapshots.
+`RedundancyConfig::enable_raft_consensus=true` is rejected at strategy
+construction, strategy update and collection configuration: the RAID write path
+does not currently execute through a durable Raft-backed database state
+machine. Collection setters reject this flag before replacing existing settings;
+other invalid settings continue to be rejected when a strategy is constructed.
+Existing configurations using this flag must not be deployed until that
+integration is implemented; disabling the flag does not provide equivalent
+consensus guarantees. When RAID is enabled, the server reads this Boolean in
+both `raid.default` and `raid.collections`; true or a non-Boolean value fails
+startup rather than silently accepting unprotected writes.
 
 An uncommitted log tail is retained after quorum failure. Every proposal
 invocation appends a distinct entry after that tail, including when its command
@@ -212,6 +228,24 @@ failed preparation selects and durably records ABORT before phase two. If ABORT
 delivery remains in-doubt, the enclosing commit returns `UNKNOWN` without
 immediately sending a duplicate ABORT; explicit recovery may retry delivery.
 
+The separate `DistributedTransactionCoordinator::addOperation()` accepts only
+shards declared at BEGIN. With recovery logging enabled, it returns success only
+after the operation record is synced. A failed or ambiguous WAL write moves the
+transaction to ABORTING and blocks readiness until recovery; it cannot be committed.
+Both its 2PC and Percolator commit paths require a coordinator WAL before
+PREPARE. A failed COMMIT decision write may already have reached the WAL: the
+coordinator keeps it in-doubt, blocks readiness and excludes it from in-process
+replay rather than issuing ABORT. Restart reconstructs the WAL; recovery must
+durably reaffirm a found COMMIT or record a chosen ABORT before terminal RPCs.
+This coordinator is not the canonical coordinator pair described above, and its
+RPC clients still lack per-peer mTLS configuration.
+Replay reconstructs transaction history from the complete startup WAL scan and
+confirmed subsequent records rather than the bounded serving cache. Conflicting
+decisions, inconsistent COMMIT timestamps, or missing COMMIT timestamps reject
+startup; affected historical WALs require operator-controlled migration. The
+history currently retains completed transactions in memory, and safe retention
+and compaction remain open.
+
 `CrossShardTransactionCoordinator` delegates only its 2PC path; its lifecycle,
 SSI handling and other protocols remain distinct. With persistence enabled,
 the canonical log lives under `data_dir/two_phase_commit`, separate from
@@ -309,12 +343,16 @@ accepts only another configured member, a non-stale term, and a snapshot
 boundary with a positive index and term. It
 atomically rewrites the durable Raft journal and hard state; a
 matching local boundary preserves its suffix, while a conflicting committed
-boundary is rejected without changing the journal. If the boundary does not
-match only uncommitted local history, that suffix is discarded. The caller must
+boundary is rejected without changing the journal. A snapshot from a leader in
+the current term is accepted even if the follower voted for another member;
+that prior vote remains durable and prevents a second vote in the term. If the
+boundary does not match only uncommitted local history, that suffix is discarded. The caller must
 validate and durably store the snapshot payload before calling this method, and
 restore the application state before serving requests. This primitive does not
 transfer snapshot bytes, apply the application snapshot, or provide the mTLS
 RPC path; follower catch-up is therefore not yet end-to-end.
+`ShardRaftInfo::last_applied` is unavailable until a durable database applied
+watermark exists; it cannot currently establish a DB snapshot boundary.
 The separate payload boundary `RaftSnapshotManager::installTransferredSnapshot()`
 validates a complete serialized snapshot file, enforces
 `Config::max_transfer_bytes`, and installs it atomically. The RPC caller must
@@ -323,6 +361,10 @@ Its chunk overload rejects inconsistent indices/counts, missing or misplaced
 final markers, empty chunks, oversized aggregate input, and per-chunk SHA-256
 mismatches before installing any file. This protects the snapshot-file boundary;
 it does not authenticate the sender or install the Raft journal/application state.
+`max_snapshots` must be positive; a zero value now throws during construction
+instead of deleting the installed snapshot. Local compaction retains its installed
+snapshot and newer transferred files that may still be awaiting activation.
+Pending transfers or logged cleanup failures can exceed the retention target.
 
 Roll out only after quiescing older coordinators and preserving all log domains.
 Unresolved older records require explicit maintainer reconciliation. Rolling
@@ -334,8 +376,14 @@ snapshot carrying decision extensions. Older readers cannot consume that
 format; merely deleting the new directory or draining its pending count is not
 a safe rollback.
 
-Participants require a WAL for writes, sync PREPARE before voting YES and terminal
-records before ACK; missing WAL configuration leaves readiness false.
+Participants require a WAL and explicit validation/locking, durable apply, and
+lock-release callbacks for new PREPAREs. Missing callbacks leave readiness false
+and reject PREPARE before acquiring locks or recording a vote; they are no longer
+implicit successful no-ops. A recovered PREPARE without lock callbacks fails
+startup; with lock callbacks but no apply callback, COMMIT fails and ABORT remains
+available. Existing deployments must configure all three callbacks before
+enabling writes. Participants sync PREPARE before voting YES and terminal
+records before ACK; missing WAL configuration also leaves readiness false.
 `prepare_timeout` is an uncertainty-reporting threshold: the existing
 `abortTimedOutTransactions()` API returns zero, retains prepared locks and
 never writes ABORT. Delayed authoritative decisions and duplicate requests
@@ -411,7 +459,9 @@ Explicit limits (QRY-07 is not complete):
   provider or token is invalid. The participant validates the token before
   invoking prepare-time validation/locking, retains it with prepared state, and
   writes it to participant WAL. Before applying COMMIT, it revalidates the token
-  atomically with the storage callback through `applyWithToken()`.
+  atomically with the storage callback through `applyWithToken()`. A duplicate
+  PREPARE returns the stored vote only if its operations, issuer, shard, and
+  epoch match the recorded request, including after WAL recovery.
 - `ShardRPCClient::prepare(txn_id, operations)` returns false without dispatch;
   callers must use the explicit-token overload. The token is carried in the
   existing gRPC `transaction_data` payload. Distributed and cross-shard
@@ -421,6 +471,13 @@ Explicit limits (QRY-07 is not complete):
   remains unresolved rather than being marked complete. WAL-backed coordinator
   configurations retain the recorded decision for recovery. Remote abort
   adapters report the actual acknowledgement status.
+- Shard gRPC COMMIT and ABORT now require an authenticated X.509 peer that
+  resolves unambiguously through `coordinator_identity_bindings`. Deployments
+  must configure those bindings for terminal RPC clients; insecure, unmapped or
+  ambiguous callers are rejected. This is a membership check only: the handler
+  interface does not receive the resolved identity and cannot bind a terminal
+  request to the coordinator that prepared that transaction. Per-transaction
+  authorization and authoritative decision verification remain open blockers.
 
 The issuer is an identity string checked for emptiness/equality, not a
 cryptographically signed credential or authenticated-principal binding. These

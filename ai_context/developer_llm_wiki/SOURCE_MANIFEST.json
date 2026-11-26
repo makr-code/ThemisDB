@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-26T08:13:45+00:00",
+  "generated_at": "2026-11-26T12:04:46+00:00",
   "source_count": 8128,
   "sources": [
     {
@@ -476,9 +476,9 @@
     {
       "path": ".github/workflows/release-docker-image.yml",
       "category": "build_test_ci",
-      "size": 41750,
-      "sha256": "f9ad6daeb2c1a6a4e41b93280a8f79b182314cde8546869a3dfdc96b70d7f5b9",
-      "modified_utc": "2026-11-23T09:39:34+00:00"
+      "size": 42481,
+      "sha256": "7a3c5292ff3a77bb1221467d0d7e6ac49432de7368d4c829a5bd745e3bf06225",
+      "modified_utc": "2026-11-26T09:43:04+00:00"
     },
     {
       "path": ".github/workflows/release-evidence-chain.yml",
@@ -518,9 +518,9 @@
     {
       "path": ".github/workflows/release-nightly.yml",
       "category": "build_test_ci",
-      "size": 29506,
-      "sha256": "9d353abc950c557e57057cdc01460795b462087c976153825abff317e0eba6d2",
-      "modified_utc": "2026-11-24T13:39:31+00:00"
+      "size": 30590,
+      "sha256": "5f3967d33fe98bafbedda63008e8495588ca93ead80b4c6a3b553abd6848ab25",
+      "modified_utc": "2026-11-26T09:43:04+00:00"
     },
     {
       "path": ".github/workflows/release-promote.yml",
@@ -581,9 +581,9 @@
     {
       "path": ".github/workflows/reusable-benchmark-runner.yml",
       "category": "build_test_ci",
-      "size": 7537,
-      "sha256": "5d33f594c0e508a3902c563899c2f79813bee1ae6899d74a5a06d7df688404d2",
-      "modified_utc": "2026-11-24T18:26:29+00:00"
+      "size": 7602,
+      "sha256": "876d2e748b016f72c647aaf9c9c15cac91c87f31b84f918c81e1771e24cb1d52",
+      "modified_utc": "2026-11-26T09:43:04+00:00"
     },
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
@@ -21000,9 +21000,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2327680,
-      "sha256": "a8ea5355e34989c9e434a0341360597a9c318abb459504692a53fc58bf017d36",
-      "modified_utc": "2026-11-24T20:29:55+00:00"
+      "size": 2327707,
+      "sha256": "b9a33c29d03f249058836bf68c7a0b9a861ca228fb0829f1d62d4ef5f5dff594",
+      "modified_utc": "2026-11-26T09:43:04+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -32116,9 +32116,9 @@
     {
       "path": "docs/en/sharding/RAFT_CONSENSUS_PER_SHARD.md",
       "category": "governance_and_docs",
-      "size": 11827,
-      "sha256": "9f5c79cc276bb8c54f1f820f65b94a26e87cc06ed7efb26ab727598846378894",
-      "modified_utc": "2026-11-23T03:02:28+00:00"
+      "size": 9279,
+      "sha256": "03694545145454b5916305c5b9f8a033821a7e516dd1221342539552f2544754",
+      "modified_utc": "2026-11-26T11:51:31+00:00"
     },
     {
       "path": "docs/en/sharding/RAID5_BACKUP_IMPLEMENTATION_SUMMARY.md",
@@ -44541,9 +44541,9 @@
     {
       "path": "include/llm/llm_plugin_manager.h",
       "category": "modules_and_api",
-      "size": 13719,
-      "sha256": "e1012dad2463e4e2b2be3e0323be39b8a636c56f0a059a84983505d68ca4feaa",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 14250,
+      "sha256": "53e1393efd66ee4477397908e4f37cf42c914cf6dc49e538c7e9339644c0007c",
+      "modified_utc": "2026-11-26T10:29:57+00:00"
     },
     {
       "path": "include/llm/llm_prefix_cache.h",
@@ -44912,9 +44912,9 @@
     {
       "path": "include/llm/lora_framework/lora_layers.h",
       "category": "modules_and_api",
-      "size": 11817,
-      "sha256": "d9d732d21ac3d308e3d72c6828f6e2de6313e7b7b61adbcee40c4cb84b428a14",
-      "modified_utc": "2026-11-23T03:02:28+00:00"
+      "size": 12317,
+      "sha256": "5221893b6cb20a49844bcb75483a1f1c700f5bb8e8e1cb18671befd532a71a3c",
+      "modified_utc": "2026-11-26T09:22:17+00:00"
     },
     {
       "path": "include/llm/lora_framework/lora_metrics.h",
@@ -50883,9 +50883,9 @@
     {
       "path": "include/sharding/distributed_transaction.h",
       "category": "modules_and_api",
-      "size": 18148,
-      "sha256": "65432e3c72e100ef2ee6e8f99a35186b402e024db3a7328d7d383ba6f72edf3f",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 20147,
+      "sha256": "3000a99a851ed8368d3244f3a452e343b2497184a235be714e32e609cd986ee9",
+      "modified_utc": "2026-11-26T11:31:22+00:00"
     },
     {
       "path": "include/sharding/dual_consensus_orchestrator.h",
@@ -51149,23 +51149,23 @@
     {
       "path": "include/sharding/raft_log.h",
       "category": "modules_and_api",
-      "size": 25037,
-      "sha256": "463df7071beb91fce6740806bf76b91b6bf5a9058d88d200478f9eb8410baa75",
-      "modified_utc": "2026-11-24T16:07:22+00:00"
+      "size": 25461,
+      "sha256": "52f4cdbdf18edf437e8a376d9c232eaf5fc8a8228f5f5c501c14932e88b6985b",
+      "modified_utc": "2026-11-26T10:20:30+00:00"
     },
     {
       "path": "include/sharding/raft_shard_manager.h",
       "category": "modules_and_api",
-      "size": 12037,
-      "sha256": "d88ade7b8ca5657c04149f4b1ff674c5860ede8b2e3d0a6975c5db5c6e7800f7",
-      "modified_utc": "2026-11-24T17:50:32+00:00"
+      "size": 12152,
+      "sha256": "75540b7e4706da4de199f91448729fe6dd591545c113f12efa41ca2eb08dfff7",
+      "modified_utc": "2026-11-26T11:01:16+00:00"
     },
     {
       "path": "include/sharding/raft_state.h",
       "category": "modules_and_api",
-      "size": 13304,
-      "sha256": "ffb3a8c1c28bef66c2e116147efca16118241c868a2c75c0cf394f8cef44d81e",
-      "modified_utc": "2026-11-24T12:57:06+00:00"
+      "size": 13387,
+      "sha256": "44f80f9f5bc8aca83ba924c3ed9120d2a72fa0f1e73c4243ed980db548f3750c",
+      "modified_utc": "2026-11-26T10:09:04+00:00"
     },
     {
       "path": "include/sharding/raft_two_phase_commit_decision_store.h",
@@ -51212,9 +51212,9 @@
     {
       "path": "include/sharding/redundancy_strategy.h",
       "category": "modules_and_api",
-      "size": 33365,
-      "sha256": "7cc0c68018d3f4805880074f59916ecd984b159a7db2ae0cccf30f99a96c09d4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 34245,
+      "sha256": "91c893e8bef158daedaf59884beb510c9474746c10a32def813869da65cbaded",
+      "modified_utc": "2026-11-26T11:44:03+00:00"
     },
     {
       "path": "include/sharding/remote_executor.h",
@@ -51338,9 +51338,9 @@
     {
       "path": "include/sharding/shard_rpc_server.h",
       "category": "modules_and_api",
-      "size": 12857,
-      "sha256": "63a8ca9d85f9ffd8a39f5d629fae58294997d6df1450a236576c4a95991064b5",
-      "modified_utc": "2026-11-24T17:06:22+00:00"
+      "size": 13419,
+      "sha256": "18ce8f9c003ea6fa206e57df760971a4c616398316317ee6c7aa12310dc33eb8",
+      "modified_utc": "2026-11-26T12:00:35+00:00"
     },
     {
       "path": "include/sharding/shard_topology.h",
@@ -51450,9 +51450,9 @@
     {
       "path": "include/sharding/two_phase_commit_participant.h",
       "category": "modules_and_api",
-      "size": 15034,
-      "sha256": "e4d44f6d72c678df0a55dee3dfce3382a7cfc3accd8cd150a2e87d752b3525d6",
-      "modified_utc": "2026-11-23T03:02:28+00:00"
+      "size": 15558,
+      "sha256": "ba0d5164ae98a4477c6aaddccb665d000097226d2874785d6a36e635349c9d06",
+      "modified_utc": "2026-11-26T12:04:17+00:00"
     },
     {
       "path": "include/sharding/urn.h",
@@ -56560,9 +56560,9 @@
     {
       "path": "src/sharding/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 16417,
-      "sha256": "1c344381e70c334717f885396df14449a7b33111c05b62b3820cad7d8d593a1e",
-      "modified_utc": "2026-11-24T17:19:12+00:00"
+      "size": 17286,
+      "sha256": "4457af8579fdd1d708e8ab370b7f74ee37ff0c0306a3899d73cbcdf3f68ff08e",
+      "modified_utc": "2026-11-26T11:01:16+00:00"
     },
     {
       "path": "src/sharding/README.md",
@@ -56574,9 +56574,9 @@
     {
       "path": "src/sharding/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 47811,
-      "sha256": "3a1ed56d731453e255354f2decd3b2434248844bb8a3ea7b96a485959a41475e",
-      "modified_utc": "2026-11-24T17:19:02+00:00"
+      "size": 51069,
+      "sha256": "ccf318205e4655b641e8221a083512b01fb4c65fd297c00dc3a090e3609fb4f0",
+      "modified_utc": "2026-11-26T12:00:52+00:00"
     },
     {
       "path": "src/stable_diffusion/FUTURE_ENHANCEMENTS.md",

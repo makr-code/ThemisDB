@@ -42,7 +42,9 @@ struct ShardRaftInfo {
     RaftNodeState role;                                  ///< Current Raft role.
     uint64_t term;                                       ///< Current Raft term.
     uint64_t commit_index;                               ///< Last committed log index.
-    uint64_t last_applied;                               ///< Last applied log index (or proxy value).
+    /// Durable database applied index; unavailable until a DB state machine supplies it.
+    /// An empty value is not index zero and must not be used as a snapshot boundary.
+    std::optional<uint64_t> last_applied;
     std::string leader_id;                               ///< Current leader ID, empty when unknown.
     bool has_quorum;                                     ///< True when shard currently has quorum.
     bool is_healthy;                                     ///< Aggregated shard health flag.

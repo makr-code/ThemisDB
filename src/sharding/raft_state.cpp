@@ -554,11 +554,6 @@ bool RaftState::installSnapshotFromLeader(
          snapshot_term != snapshot_term_)) {
         return false;
     }
-    if (leader_term == current_term_ && !voted_for_.empty() &&
-        voted_for_ != leader_id) {
-        return false;
-    }
-
     const std::string installed_vote =
         leader_term > current_term_ ? std::string{} : voted_for_;
     log_.installSnapshotWithHardState(

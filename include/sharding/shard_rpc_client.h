@@ -197,6 +197,20 @@ public:
         const std::string& txn_id,
         int64_t commit_timestamp
     );
+
+    /**
+     * @brief Send COMMIT bound to the coordinator identity authenticated by mTLS.
+     * @param txn_id Non-empty transaction ID.
+     * @param commit_timestamp Commit timestamp in nanoseconds.
+     * @param coordinator_shard_id Coordinator identity; must match the client's
+     *        authenticated certificate binding and the identity recorded at PREPARE.
+     * @return True only when the participant acknowledges the decision.
+     */
+    bool commit(
+        const std::string& txn_id,
+        int64_t commit_timestamp,
+        const std::string& coordinator_shard_id
+    );
     
     /**
      * @brief Send ABORT request
@@ -204,6 +218,18 @@ public:
      * @return true if aborted successfully
      */
     bool abort(const std::string& txn_id);
+
+    /**
+     * @brief Send ABORT bound to the coordinator identity authenticated by mTLS.
+     * @param txn_id Non-empty transaction ID.
+     * @param coordinator_shard_id Coordinator identity; must match the client's
+     *        authenticated certificate binding and the identity recorded at PREPARE.
+     * @return True only when the participant acknowledges the decision.
+     */
+    bool abort(
+        const std::string& txn_id,
+        const std::string& coordinator_shard_id
+    );
     
     /**
      * @brief Send COMPENSATE request (SAGA compensation)

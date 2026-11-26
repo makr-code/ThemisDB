@@ -130,11 +130,33 @@ public:
         return true;
     }
 
+    bool onCommitFromCoordinator(
+        [[maybe_unused]] const std::string& transaction_id,
+        const std::string& coordinator_shard_id) override {
+        if (coordinator_shard_id != "coordinator-A") {
+            return false;
+        }
+        ++commit_count;
+        return true;
+    }
+
+    bool onAbortFromCoordinator(
+        [[maybe_unused]] const std::string& transaction_id,
+        const std::string& coordinator_shard_id) override {
+        if (coordinator_shard_id != "coordinator-A") {
+            return false;
+        }
+        ++abort_count;
+        return true;
+    }
+
     ShardRPCServer::HealthInfo onHealthCheck() override {
         return {};
     }
 
     std::atomic<int> prepare_count{0};
+    std::atomic<int> commit_count{0};
+    std::atomic<int> abort_count{0};
 };
 #endif
 
@@ -406,6 +428,14 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedPeer) {
 
     EXPECT_TRUE(client.prepare("txn-authenticated-coordinator", operations, token));
     EXPECT_EQ(handler.prepare_count.load(), 1);
+    EXPECT_TRUE(client.commit("txn-authenticated-coordinator", 1, "coordinator-A"));
+    EXPECT_TRUE(client.abort("txn-authenticated-coordinator", "coordinator-A"));
+    EXPECT_EQ(handler.commit_count.load(), 1);
+    EXPECT_EQ(handler.abort_count.load(), 1);
+    EXPECT_FALSE(client.commit("txn-spoofed-identity", 1, "spoofed-coordinator"));
+    EXPECT_FALSE(client.abort("txn-spoofed-identity", "spoofed-coordinator"));
+    EXPECT_EQ(handler.commit_count.load(), 1);
+    EXPECT_EQ(handler.abort_count.load(), 1);
 
     token.issuer = "spoofed-coordinator";
     EXPECT_FALSE(client.prepare("txn-spoofed-coordinator", operations, token));
@@ -460,6 +490,10 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsUnmappedAuthenticatedPeer) {
 
     EXPECT_FALSE(client.prepare("txn-unmapped-coordinator", operations, token));
     EXPECT_EQ(handler.prepare_count.load(), 0);
+    EXPECT_FALSE(client.commit("txn-unmapped-coordinator", 1, "coordinator-A"));
+    EXPECT_FALSE(client.abort("txn-unmapped-coordinator", "coordinator-A"));
+    EXPECT_EQ(handler.commit_count.load(), 0);
+    EXPECT_EQ(handler.abort_count.load(), 0);
 }
 
 TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedSanPeer) {
@@ -563,5 +597,9 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsAmbiguousSanPeer) {
 
     EXPECT_FALSE(client.prepare("txn-ambiguous-san-coordinator", operations, token));
     EXPECT_EQ(handler.prepare_count.load(), 0);
+    EXPECT_FALSE(client.commit("txn-ambiguous-san-coordinator", 1, "coordinator-A"));
+    EXPECT_FALSE(client.abort("txn-ambiguous-san-coordinator", "coordinator-A"));
+    EXPECT_EQ(handler.commit_count.load(), 0);
+    EXPECT_EQ(handler.abort_count.load(), 0);
 }
 #endif

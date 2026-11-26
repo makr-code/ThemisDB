@@ -3742,6 +3742,11 @@ if(NOT THEMIS_ENABLE_LLM)
     )
 endif()
 
+if(NOT THEMIS_BUILD_MODULAR)
+    list(APPEND THEMIS_CORE_SOURCES ../src/sharding/circuit_breaker.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/sharding/epoch_fencing.cpp)
+endif()
+
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
 
 # ============================================================================

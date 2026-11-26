@@ -42,6 +42,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND THEMIS_ENABLE_GRPC
         ${TEST_LIBS} themis_shard_proto gRPC::grpc++ OpenSSL::Crypto Threads::Threads)
     if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding)
         target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE themis_sharding)
+    else()
+        target_link_libraries(test_dis10_real_transport_process_recovery PRIVATE themis_core)
     endif()
     themis_register_module_focused_test(
         MODULE sharding

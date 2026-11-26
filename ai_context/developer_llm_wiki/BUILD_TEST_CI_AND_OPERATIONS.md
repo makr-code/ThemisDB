@@ -485,7 +485,7 @@ Status: Active
 
 ## .github/workflows/release-docker-image.yml
 - Kategorie: build_test_ci
-- Hash: `f9ad6daeb2c1a6a4`
+- Hash: `7a3c5292ff3a77bb`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-evidence-chain.yml
@@ -515,7 +515,7 @@ Status: Active
 
 ## .github/workflows/release-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `9d353abc950c557e`
+- Hash: `5f3967d33fe98baf`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-promote.yml

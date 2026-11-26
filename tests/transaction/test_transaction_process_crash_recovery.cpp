@@ -197,7 +197,8 @@ int runParticipantChild(
                 notifyAndWait(control_fd, 'A');
             }
             return true;
-        });
+        },
+        [](const std::string&) {});
     const auto payload = makePreparePayload(config.fencing_manager);
 
     if (stage == "prepare") {

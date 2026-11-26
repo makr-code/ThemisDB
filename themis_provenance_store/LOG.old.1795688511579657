@@ -1,0 +1,252 @@
+2026/11/26-11:21:41.340207 84ec RocksDB version: 11.8.1
+2026/11/26-11:21:41.340326 84ec Git sha 0
+2026/11/26-11:21:41.340391 84ec Compile date 2026-11-12 09:49:28
+2026/11/26-11:21:41.340428 84ec DB SUMMARY
+2026/11/26-11:21:41.340459 84ec Host name (Env):  DESKTOP-712S8LO
+2026/11/26-11:21:41.340487 84ec DB Session ID:  T4P1NYT34EGEZFZMCZFK
+2026/11/26-11:21:41.341858 84ec CURRENT file:  CURRENT
+2026/11/26-11:21:41.341906 84ec IDENTITY file:  IDENTITY
+2026/11/26-11:21:41.342099 84ec MANIFEST file:  MANIFEST-000383 size: 185 Bytes
+2026/11/26-11:21:41.342132 84ec SST files in themis_provenance_store dir, Total Num: 0, files: 
+2026/11/26-11:21:41.342157 84ec Write Ahead Log file in themis_provenance_store: 000690.log size: 0 ; 
+2026/11/26-11:21:41.342195 84ec                         Options.error_if_exists: 0
+2026/11/26-11:21:41.342404 84ec                       Options.create_if_missing: 1
+2026/11/26-11:21:41.342470 84ec                         Options.paranoid_checks: 1
+2026/11/26-11:21:41.342523 84ec                        Options.open_files_async: 0
+2026/11/26-11:21:41.342544 84ec             Options.flush_verify_memtable_count: 1
+2026/11/26-11:21:41.342562 84ec          Options.compaction_verify_record_count: 1
+2026/11/26-11:21:41.342580 84ec                               Options.track_and_verify_wals_in_manifest: 0
+2026/11/26-11:21:41.342598 84ec                               Options.track_and_verify_wals: 0
+2026/11/26-11:21:41.342615 84ec        Options.verify_sst_unique_id_in_manifest: 1
+2026/11/26-11:21:41.342655 84ec                                     Options.env: 0000014F6762E0D0
+2026/11/26-11:21:41.342696 84ec                                      Options.fs: WinFS
+2026/11/26-11:21:41.342713 84ec                                Options.info_log: 0000014F6D2F0AE0
+2026/11/26-11:21:41.342729 84ec                Options.max_file_opening_threads: 16
+2026/11/26-11:21:41.342744 84ec                Options.read_io_executor_threads: 1
+2026/11/26-11:21:41.342760 84ec                              Options.statistics: 0000000000000000
+2026/11/26-11:21:41.342778 84ec                               Options.use_fsync: 0
+2026/11/26-11:21:41.342795 84ec                       Options.max_log_file_size: 0
+2026/11/26-11:21:41.342813 84ec                   Options.log_file_time_to_roll: 0
+2026/11/26-11:21:41.342831 84ec                       Options.keep_log_file_num: 1000
+2026/11/26-11:21:41.342867 84ec                    Options.recycle_log_file_num: 0
+2026/11/26-11:21:41.342890 84ec                     Options.async_wal_precreate: 0
+2026/11/26-11:21:41.342904 84ec                         Options.allow_fallocate: 1
+2026/11/26-11:21:41.342919 84ec                        Options.allow_mmap_reads: 0
+2026/11/26-11:21:41.342933 84ec                       Options.allow_mmap_writes: 0
+2026/11/26-11:21:41.342947 84ec                        Options.use_direct_reads: 0
+2026/11/26-11:21:41.342994 84ec             Options.use_direct_io_for_compaction_reads: 0
+2026/11/26-11:21:41.343028 84ec         Options.use_direct_io_for_flush_and_compaction: 0
+2026/11/26-11:21:41.343041 84ec          Options.create_missing_column_families: 0
+2026/11/26-11:21:41.343054 84ec                              Options.db_log_dir: 
+2026/11/26-11:21:41.343066 84ec                                 Options.wal_dir: 
+2026/11/26-11:21:41.343097 84ec                Options.table_cache_numshardbits: 6
+2026/11/26-11:21:41.343132 84ec                         Options.WAL_ttl_seconds: 0
+2026/11/26-11:21:41.343145 84ec                       Options.WAL_size_limit_MB: 0
+2026/11/26-11:21:41.343261 84ec                        Options.max_write_batch_group_size_bytes: 1048576
+2026/11/26-11:21:41.343286 84ec                     Options.is_fd_close_on_exec: 1
+2026/11/26-11:21:41.343304 84ec                   Options.advise_random_on_open: 1
+2026/11/26-11:21:41.343336 84ec                    Options.db_write_buffer_size: 0
+2026/11/26-11:21:41.343374 84ec                    Options.write_buffer_manager: 0000014F6762E760
+2026/11/26-11:21:41.343391 84ec                      Options.use_adaptive_mutex: 0
+2026/11/26-11:21:41.343475 84ec                            Options.rate_limiter: 0000000000000000
+2026/11/26-11:21:41.343513 84ec     Options.sst_file_manager.rate_bytes_per_sec: 0
+2026/11/26-11:21:41.343531 84ec                       Options.wal_recovery_mode: 2
+2026/11/26-11:21:41.343544 84ec                  Options.enable_thread_tracking: 0
+2026/11/26-11:21:41.343559 84ec                  Options.enable_pipelined_write: 0
+2026/11/26-11:21:41.343575 84ec                  Options.unordered_write: 0
+2026/11/26-11:21:41.343589 84ec         Options.allow_concurrent_memtable_write: 1
+2026/11/26-11:21:41.343604 84ec      Options.enable_write_thread_adaptive_yield: 1
+2026/11/26-11:21:41.343647 84ec             Options.write_thread_max_yield_usec: 100
+2026/11/26-11:21:41.343666 84ec            Options.write_thread_slow_yield_usec: 3
+2026/11/26-11:21:41.343680 84ec                               Options.row_cache: None
+2026/11/26-11:21:41.343694 84ec                              Options.wal_filter: None
+2026/11/26-11:21:41.343707 84ec             Options.avoid_flush_during_recovery: 0
+2026/11/26-11:21:41.343721 84ec         Options.enforce_write_buffer_manager_during_recovery: 1
+2026/11/26-11:21:41.343737 84ec             Options.allow_ingest_behind: 0
+2026/11/26-11:21:41.343752 84ec             Options.two_write_queues: 0
+2026/11/26-11:21:41.343778 84ec             Options.manual_wal_flush: 0
+2026/11/26-11:21:41.343790 84ec             Options.wal_compression: 0
+2026/11/26-11:21:41.343799 84ec             Options.background_close_inactive_wals: 0
+2026/11/26-11:21:41.343807 84ec             Options.atomic_flush: 0
+2026/11/26-11:21:41.343816 84ec             Options.avoid_unnecessary_blocking_io: 0
+2026/11/26-11:21:41.343826 84ec             Options.prefix_seek_opt_in_only: 0
+2026/11/26-11:21:41.343834 84ec                 Options.persist_stats_to_disk: 0
+2026/11/26-11:21:41.343844 84ec                 Options.write_dbid_to_manifest: 1
+2026/11/26-11:21:41.343871 84ec                 Options.reuse_manifest_on_open: 0
+2026/11/26-11:21:41.343887 84ec                 Options.write_identity_file: 1
+2026/11/26-11:21:41.343902 84ec                 Options.log_readahead_size: 0
+2026/11/26-11:21:41.343947 84ec                 Options.file_checksum_gen_factory: Unknown
+2026/11/26-11:21:41.343968 84ec                 Options.best_efforts_recovery: 0
+2026/11/26-11:21:41.343984 84ec                Options.max_bgerror_resume_count: 2147483647
+2026/11/26-11:21:41.343997 84ec            Options.bgerror_resume_retry_interval: 1000000
+2026/11/26-11:21:41.344012 84ec             Options.allow_data_in_errors: 0
+2026/11/26-11:21:41.344025 84ec             Options.db_host_id: __hostname__
+2026/11/26-11:21:41.344040 84ec             Options.enforce_single_del_contracts: true
+2026/11/26-11:21:41.344054 84ec             Options.metadata_write_temperature: kUnknown
+2026/11/26-11:21:41.344068 84ec             Options.wal_write_temperature: kUnknown
+2026/11/26-11:21:41.344112 84ec             Options.max_background_jobs: 2
+2026/11/26-11:21:41.344135 84ec             Options.max_background_compactions: -1
+2026/11/26-11:21:41.344147 84ec             Options.max_subcompactions: 1
+2026/11/26-11:21:41.344158 84ec             Options.avoid_flush_during_shutdown: 0
+2026/11/26-11:21:41.344171 84ec           Options.writable_file_max_buffer_size: 1048576
+2026/11/26-11:21:41.344183 84ec             Options.delayed_write_rate : 16777216
+2026/11/26-11:21:41.344195 84ec             Options.max_total_wal_size: 0
+2026/11/26-11:21:41.344209 84ec             Options.delete_obsolete_files_period_micros: 21600000000
+2026/11/26-11:21:41.344222 84ec                   Options.stats_dump_period_sec: 600
+2026/11/26-11:21:41.344234 84ec                 Options.stats_persist_period_sec: 600
+2026/11/26-11:21:41.344265 84ec                 Options.stats_history_buffer_size: 1048576
+2026/11/26-11:21:41.344327 84ec                          Options.max_open_files: -1
+2026/11/26-11:21:41.344351 84ec                          Options.bytes_per_sync: 0
+2026/11/26-11:21:41.344363 84ec                      Options.wal_bytes_per_sync: 0
+2026/11/26-11:21:41.344411 84ec                   Options.strict_bytes_per_sync: 0
+2026/11/26-11:21:41.344425 84ec       Options.compaction_readahead_size: 2097152
+2026/11/26-11:21:41.344436 84ec                  Options.max_background_flushes: -1
+2026/11/26-11:21:41.344471 84ec                  Options.max_manifest_file_size: 1073741824
+2026/11/26-11:21:41.344528 84ec                  Options.max_manifest_space_amp_pct: 500
+2026/11/26-11:21:41.344545 84ec             Options.manifest_preallocation_size: 4194304
+2026/11/26-11:21:41.344559 84ec       Options.verify_manifest_content_on_close: 0
+2026/11/26-11:21:41.344573 84ec          Options.optimize_manifest_for_recovery: 0
+2026/11/26-11:21:41.344587 84ec Options.daily_offpeak_time_utc: 
+2026/11/26-11:21:41.344619 84ec Options.max_compaction_trigger_wakeup_seconds: 43200
+2026/11/26-11:21:41.344653 84ec                          Options.fast_sst_open: 0
+2026/11/26-11:21:41.344669 84ec Compression algorithms supported:
+2026/11/26-11:21:41.344685 84ec 	kZSTD supported: 1
+2026/11/26-11:21:41.344721 84ec 	kCustomCompressionA3 supported: 0
+2026/11/26-11:21:41.344739 84ec 	kSnappyCompression supported: 1
+2026/11/26-11:21:41.344755 84ec 	kCustomCompressionA5 supported: 0
+2026/11/26-11:21:41.344769 84ec 	kBZip2Compression supported: 0
+2026/11/26-11:21:41.344784 84ec 	kZlibCompression supported: 1
+2026/11/26-11:21:41.344800 84ec 	kLZ4Compression supported: 0
+2026/11/26-11:21:41.344815 84ec 	kXpressCompression supported: 0
+2026/11/26-11:21:41.344830 84ec 	kCustomCompressionA7 supported: 0
+2026/11/26-11:21:41.344845 84ec 	kLZ4HCCompression supported: 0
+2026/11/26-11:21:41.344859 84ec 	kCustomCompressionB2 supported: 0
+2026/11/26-11:21:41.344873 84ec 	kCustomCompression9C supported: 0
+2026/11/26-11:21:41.344888 84ec 	kCustomCompression80 supported: 0
+2026/11/26-11:21:41.344921 84ec 	kCustomCompressionB3 supported: 0
+2026/11/26-11:21:41.344937 84ec 	kCustomCompression9B supported: 0
+2026/11/26-11:21:41.344951 84ec 	kCustomCompression81 supported: 0
+2026/11/26-11:21:41.344966 84ec 	kCustomCompressionB0 supported: 0
+2026/11/26-11:21:41.344981 84ec 	kCustomCompression9A supported: 0
+2026/11/26-11:21:41.344995 84ec 	kCustomCompression82 supported: 0
+2026/11/26-11:21:41.345009 84ec 	kCustomCompressionB1 supported: 0
+2026/11/26-11:21:41.345032 84ec 	kCustomCompression83 supported: 0
+2026/11/26-11:21:41.345050 84ec 	kCustomCompressionB6 supported: 0
+2026/11/26-11:21:41.345066 84ec 	kCustomCompression84 supported: 0
+2026/11/26-11:21:41.345080 84ec 	kCustomCompressionB7 supported: 0
+2026/11/26-11:21:41.345094 84ec 	kCustomCompression9F supported: 0
+2026/11/26-11:21:41.345108 84ec 	kCustomCompression85 supported: 0
+2026/11/26-11:21:41.345122 84ec 	kCustomCompressionB4 supported: 0
+2026/11/26-11:21:41.345135 84ec 	kCustomCompression9E supported: 0
+2026/11/26-11:21:41.345149 84ec 	kCustomCompression86 supported: 0
+2026/11/26-11:21:41.345165 84ec 	kCustomCompressionB5 supported: 0
+2026/11/26-11:21:41.345179 84ec 	kCustomCompression9D supported: 0
+2026/11/26-11:21:41.345196 84ec 	kCustomCompression87 supported: 0
+2026/11/26-11:21:41.345211 84ec 	kCustomCompression88 supported: 0
+2026/11/26-11:21:41.345225 84ec 	kCustomCompression89 supported: 0
+2026/11/26-11:21:41.345266 84ec 	kCustomCompression92 supported: 0
+2026/11/26-11:21:41.345287 84ec 	kCustomCompression8A supported: 0
+2026/11/26-11:21:41.345301 84ec 	kCustomCompression91 supported: 0
+2026/11/26-11:21:41.345312 84ec 	kCustomCompression8B supported: 0
+2026/11/26-11:21:41.345322 84ec 	kCustomCompression90 supported: 0
+2026/11/26-11:21:41.345332 84ec 	kCustomCompression8C supported: 0
+2026/11/26-11:21:41.345346 84ec 	kCustomCompression97 supported: 0
+2026/11/26-11:21:41.345381 84ec 	kCustomCompression8D supported: 0
+2026/11/26-11:21:41.345403 84ec 	kCustomCompression96 supported: 0
+2026/11/26-11:21:41.345419 84ec 	kCustomCompression8E supported: 0
+2026/11/26-11:21:41.345434 84ec 	kCustomCompression95 supported: 0
+2026/11/26-11:21:41.345448 84ec 	kCustomCompression8F supported: 0
+2026/11/26-11:21:41.345462 84ec 	kCustomCompression93 supported: 0
+2026/11/26-11:21:41.345483 84ec 	kCustomCompression94 supported: 0
+2026/11/26-11:21:41.345501 84ec 	kCustomCompression98 supported: 0
+2026/11/26-11:21:41.345515 84ec 	kCustomCompression99 supported: 0
+2026/11/26-11:21:41.345531 84ec 	kCustomCompressionA0 supported: 0
+2026/11/26-11:21:41.345567 84ec 	kCustomCompressionA1 supported: 0
+2026/11/26-11:21:41.345583 84ec 	kCustomCompressionA2 supported: 0
+2026/11/26-11:21:41.345598 84ec 	kCustomCompressionA4 supported: 0
+2026/11/26-11:21:41.345615 84ec 	kCustomCompressionA6 supported: 0
+2026/11/26-11:21:41.345632 84ec 	kCustomCompressionA8 supported: 0
+2026/11/26-11:21:41.345648 84ec 	kCustomCompressionA9 supported: 0
+2026/11/26-11:21:41.345664 84ec 	kCustomCompressionAA supported: 0
+2026/11/26-11:21:41.345681 84ec 	kCustomCompressionAB supported: 0
+2026/11/26-11:21:41.345700 84ec 	kCustomCompressionAC supported: 0
+2026/11/26-11:21:41.345718 84ec 	kCustomCompressionAD supported: 0
+2026/11/26-11:21:41.345739 84ec 	kCustomCompressionAE supported: 0
+2026/11/26-11:21:41.345756 84ec 	kCustomCompressionAF supported: 0
+2026/11/26-11:21:41.345771 84ec 	kCustomCompressionB8 supported: 0
+2026/11/26-11:21:41.345785 84ec 	kCustomCompressionB9 supported: 0
+2026/11/26-11:21:41.345799 84ec 	kCustomCompressionBA supported: 0
+2026/11/26-11:21:41.345813 84ec 	kCustomCompressionBB supported: 0
+2026/11/26-11:21:41.345828 84ec 	kCustomCompressionBC supported: 0
+2026/11/26-11:21:41.345842 84ec 	kCustomCompressionBD supported: 0
+2026/11/26-11:21:41.345858 84ec 	kCustomCompressionBE supported: 0
+2026/11/26-11:21:41.345873 84ec 	kCustomCompressionBF supported: 0
+2026/11/26-11:21:41.345888 84ec 	kCustomCompressionC0 supported: 0
+2026/11/26-11:21:41.345902 84ec 	kCustomCompressionC1 supported: 0
+2026/11/26-11:21:41.345934 84ec 	kCustomCompressionC2 supported: 0
+2026/11/26-11:21:41.345969 84ec 	kCustomCompressionC3 supported: 0
+2026/11/26-11:21:41.345984 84ec 	kCustomCompressionC4 supported: 0
+2026/11/26-11:21:41.345998 84ec 	kCustomCompressionC5 supported: 0
+2026/11/26-11:21:41.346019 84ec 	kCustomCompressionC6 supported: 0
+2026/11/26-11:21:41.346035 84ec 	kCustomCompressionC7 supported: 0
+2026/11/26-11:21:41.346056 84ec 	kCustomCompressionC8 supported: 0
+2026/11/26-11:21:41.346107 84ec 	kCustomCompressionC9 supported: 0
+2026/11/26-11:21:41.346151 84ec 	kCustomCompressionCA supported: 0
+2026/11/26-11:21:41.346168 84ec 	kCustomCompressionCB supported: 0
+2026/11/26-11:21:41.346183 84ec 	kCustomCompressionCC supported: 0
+2026/11/26-11:21:41.346197 84ec 	kCustomCompressionCD supported: 0
+2026/11/26-11:21:41.346212 84ec 	kCustomCompressionCE supported: 0
+2026/11/26-11:21:41.346225 84ec 	kCustomCompressionCF supported: 0
+2026/11/26-11:21:41.346238 84ec 	kCustomCompressionD0 supported: 0
+2026/11/26-11:21:41.346272 84ec 	kCustomCompressionD1 supported: 0
+2026/11/26-11:21:41.346288 84ec 	kCustomCompressionD2 supported: 0
+2026/11/26-11:21:41.346317 84ec 	kCustomCompressionD3 supported: 0
+2026/11/26-11:21:41.346348 84ec 	kCustomCompressionD4 supported: 0
+2026/11/26-11:21:41.346360 84ec 	kCustomCompressionD5 supported: 0
+2026/11/26-11:21:41.346373 84ec 	kCustomCompressionD6 supported: 0
+2026/11/26-11:21:41.346387 84ec 	kCustomCompressionD7 supported: 0
+2026/11/26-11:21:41.346403 84ec 	kCustomCompressionD8 supported: 0
+2026/11/26-11:21:41.346416 84ec 	kCustomCompressionD9 supported: 0
+2026/11/26-11:21:41.346429 84ec 	kCustomCompressionDA supported: 0
+2026/11/26-11:21:41.347162 84ec 	kCustomCompressionDB supported: 0
+2026/11/26-11:21:41.347183 84ec 	kCustomCompressionDC supported: 0
+2026/11/26-11:21:41.347197 84ec 	kCustomCompressionDD supported: 0
+2026/11/26-11:21:41.347211 84ec 	kCustomCompressionDE supported: 0
+2026/11/26-11:21:41.347297 84ec 	kCustomCompressionDF supported: 0
+2026/11/26-11:21:41.347315 84ec 	kCustomCompressionE0 supported: 0
+2026/11/26-11:21:41.347326 84ec 	kCustomCompressionE1 supported: 0
+2026/11/26-11:21:41.347339 84ec 	kCustomCompressionE2 supported: 0
+2026/11/26-11:21:41.347391 84ec 	kCustomCompressionE3 supported: 0
+2026/11/26-11:21:41.347404 84ec 	kCustomCompressionE4 supported: 0
+2026/11/26-11:21:41.347514 84ec 	kCustomCompressionE5 supported: 0
+2026/11/26-11:21:41.347528 84ec 	kCustomCompressionE6 supported: 0
+2026/11/26-11:21:41.347538 84ec 	kCustomCompressionE7 supported: 0
+2026/11/26-11:21:41.347564 84ec 	kCustomCompressionE8 supported: 0
+2026/11/26-11:21:41.347599 84ec 	kCustomCompressionE9 supported: 0
+2026/11/26-11:21:41.347614 84ec 	kCustomCompressionEA supported: 0
+2026/11/26-11:21:41.347625 84ec 	kCustomCompressionEB supported: 0
+2026/11/26-11:21:41.347654 84ec 	kCustomCompressionEC supported: 0
+2026/11/26-11:21:41.347670 84ec 	kCustomCompressionED supported: 0
+2026/11/26-11:21:41.347686 84ec 	kCustomCompressionEE supported: 0
+2026/11/26-11:21:41.347697 84ec 	kCustomCompressionEF supported: 0
+2026/11/26-11:21:41.347707 84ec 	kCustomCompressionF0 supported: 0
+2026/11/26-11:21:41.347721 84ec 	kCustomCompressionF1 supported: 0
+2026/11/26-11:21:41.347733 84ec 	kCustomCompressionF2 supported: 0
+2026/11/26-11:21:41.347766 84ec 	kCustomCompressionF3 supported: 0
+2026/11/26-11:21:41.347794 84ec 	kCustomCompressionF4 supported: 0
+2026/11/26-11:21:41.347809 84ec 	kCustomCompressionF5 supported: 0
+2026/11/26-11:21:41.347824 84ec 	kCustomCompressionF6 supported: 0
+2026/11/26-11:21:41.347837 84ec 	kCustomCompressionF7 supported: 0
+2026/11/26-11:21:41.347849 84ec 	kCustomCompressionF8 supported: 0
+2026/11/26-11:21:41.347862 84ec 	kCustomCompressionF9 supported: 0
+2026/11/26-11:21:41.347872 84ec 	kCustomCompressionFA supported: 0
+2026/11/26-11:21:41.347881 84ec 	kCustomCompressionFB supported: 0
+2026/11/26-11:21:41.347890 84ec 	kCustomCompressionFC supported: 0
+2026/11/26-11:21:41.347899 84ec 	kCustomCompressionFD supported: 0
+2026/11/26-11:21:41.347909 84ec 	kCustomCompressionFE supported: 0
+2026/11/26-11:21:41.347927 84ec Fast CRC32 supported: Not supported on x86
+2026/11/26-11:21:41.347942 84ec DMutex implementation: std::mutex
+2026/11/26-11:21:41.347956 84ec Jemalloc supported: 0
+2026/11/26-11:21:41.349591 84ec [WARN] [db\db_impl\db_impl_open.cc:2970] DB::Open() failed: Corruption: CURRENT file corrupted
+2026/11/26-11:21:41.349620 84ec [db\db_impl\db_impl.cc:544] Shutdown: canceling all background work
+2026/11/26-11:21:41.350066 84ec [db\db_impl\db_impl.cc:1026] Shutdown complete

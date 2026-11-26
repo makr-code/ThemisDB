@@ -164,6 +164,7 @@ message PrepareResponse {
 
 message CommitRequest {
     string transaction_id = 1;
+    string coordinator_shard_id = 2;
 }
 
 message CommitResponse {
@@ -173,6 +174,7 @@ message CommitResponse {
 
 message AbortRequest {
     string transaction_id = 1;
+    string coordinator_shard_id = 2;
 }
 
 message AbortResponse {

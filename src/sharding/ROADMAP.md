@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-24
+Last Updated: 2026-11-26
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -77,6 +77,10 @@ snapshot extension after the journal anchor changes. A server-side application
 installer must invoke this after durable journal installation and coordinate it
 with application-state activation; absent or incomplete callbacks fail closed.
 The helper does not provide crash-atomic application-state activation.
+`last_applied` is currently unavailable, not a durable database apply watermark;
+it cannot establish a snapshot boundary.
+Production also requires a shard state-machine apply path that binds the DB
+generation to its Raft index and term before snapshot creation or activation.
 The integrated Linux multi-process runtime gate remains open in
 [#8348](https://github.com/makr-code/ThemisDB/issues/8348).
 Multi-node commands above the transport's 1 MiB per-command limit are rejected
@@ -85,9 +89,22 @@ before the leader durably appends them.
 Focused source regressions cover quorum restoration with repeated identical
 commands producing distinct entries, pre-append rejection of an oversized
 multi-node command, advancing a retained prefix with a new term's command, and
-durable follower catch-up.
-They are not yet runtime-validated; full build/test and multi-process recovery
-evidence remain open.
+durable follower catch-up. On 2026-11-26, the complete focused Raft persistence
+and proposal-recovery suites passed three Linux diagnostic runs (42 tests per
+run). Their test and required Raft translation units were freshly compiled and
+linked without the existing core archive, using flags and dependencies from the
+existing build configuration. This is not a fresh full CMake/CTest build or
+multi-process recovery evidence; those gates remain open.
+
+On the same date, all five `RaftPeerGrpc` tests passed once in a Linux
+diagnostic executable, including the mTLS snapshot transfer and two- and
+three-process restart/failover scenarios. The test and sixteen required
+production translation units were freshly compiled without the existing core
+archive. The linked shard protobuf archive was reused, but its generated files
+matched the current schema and both archive objects matched fresh recompiles.
+This is not a clean, registered CMake/CTest build or complete DB/2PC snapshot
+activation evidence. Two earlier failover failures in a mixed-archive build
+remain unexplained despite subsequent successful runs.
 
 ### Raft election transport seam (2026-11-20)
 
@@ -100,8 +117,9 @@ now wired to shard gRPC vote/append handlers with verified mTLS identity
 bindings, five-second maximum deadlines, and explicit group resolution.
 `RaftShardManager` installs peer callbacks only when a strict per-peer client
 resolver is configured. Without it, multi-node elections remain unable to elect
-a leader. Focused source files compiled directly, but the new gRPC integration
-test and multi-process behavior are not yet runtime-validated. See [API.md](API.md)
+a leader. At that checkpoint, focused source files compiled directly, but the
+gRPC integration and multi-process behavior had not yet been runtime-validated;
+see the newer diagnostic evidence above. See [API.md](API.md)
 and the open integration boundary in
 [`src/replication/ROADMAP.md`](../replication/ROADMAP.md#cross-layer-transaction-and-replication-boundary).
 
@@ -125,6 +143,32 @@ recovery blocks readiness while terminal RPCs remain available.
 No WAL encoding consolidation, API removal or automatic migration of unresolved
 older CrossShard records is included. See [API.md](API.md),
 [RUNBOOK.md](RUNBOOK.md) and [../../audit/ROADMAP.md](../../audit/ROADMAP.md).
+Participants now reject new PREPAREs and report unhealthy when any storage or
+lock callback is absent; recovery of prepared WAL records also fails closed
+without lock acquisition and release callbacks. Existing deployments must supply
+all three callbacks. This closes a false-success path but does not implement a
+Raft-backed DB state machine or crash-atomic snapshot activation.
+`ShardRaftInfo::last_applied` is now optional and unavailable instead of
+reporting the commit index as a proxy. Consumers must rebuild and handle an
+empty value; this does not implement a database applied watermark.
+The RAID `enable_raft_consensus` setting previously did not route writes through
+Raft. Configuration validation now rejects the setting instead of silently
+accepting non-consensus writes; production Raft-backed RAID writes remain open.
+The separate `DistributedTransactionCoordinator` rejects operations for
+nonparticipants and blocks on failed operation-WAL sync. Its 2PC and Percolator
+paths now retain an uncertain COMMIT as in-doubt rather than issuing ABORT;
+recovery reaffirms the reconstructed decision durably before phase two.
+Recovery reconstructs the complete startup WAL stream instead of the bounded
+serving cache and rejects conflicting or invalid decisions at startup. Historical
+WALs containing such records require operator-controlled migration; completed
+transaction history remains in memory and needs safe compaction. Its RPC clients
+still do not receive per-peer mTLS configuration. These limitations and the lack
+of clean-build and real-participant evidence remain production-safety blockers,
+not E2E evidence.
+Shard gRPC terminal RPCs now reject unauthenticated, unmapped, and ambiguous
+coordinator identities. This membership gate does not associate an authorized
+caller with the transaction's recorded coordinator or verify its decision;
+per-transaction authorization and authoritative decision verification remain open.
 
 ### DIS-10 multi-process evidence boundary
 

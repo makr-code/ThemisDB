@@ -58,6 +58,7 @@ enum class ParticipantTxnState {
  */
 struct ParticipantTransaction {
     std::string             transaction_id; ///< Globale Transaktions-ID.
+    std::string             coordinator_shard_id; ///< Authenticated coordinator bound at PREPARE.
     ParticipantTxnState     state = ParticipantTxnState::PREPARED; ///< Aktueller Teilnehmerzustand.
     nlohmann::json          operations; ///< Gepufferte Operationen fuer spaeteres COMMIT.
     EpochToken              fencing_token; ///< Epoch credential checked at PREPARE and COMMIT.
@@ -130,9 +131,8 @@ public:
     /**
      * @brief Construct a participant with optional storage callbacks
      *
-     * If validate_and_lock / apply / release are left nullptr the participant
-     * uses its test-friendly no-op callbacks. This default-config overload has
-     * no WAL and accepts introspection only; use the Config overload for writes.
+     * This default-config overload has no WAL and accepts introspection only;
+     * use the Config overload with all three callbacks for writes.
      *
      * @param shard_id   Identifier of this shard
      * @param validate   Callback to validate & lock ops in PREPARE phase
@@ -149,15 +149,16 @@ public:
     /**
      * @brief Construct a participant with optional storage callbacks
      *
-     * If validate_and_lock / apply / release are left nullptr the participant
-     * uses its test-friendly no-op callbacks, but writes still require a configured
-     * WAL, fencing manager and a valid per-shard token.
+     * PREPARE requires all three callbacks, a configured WAL, fencing manager
+     * and valid per-shard token. Missing callbacks block readiness. Recovered
+     * PREPARE records require validation and release callbacks to restore locks.
      *
      * @param shard_id   Identifier of this shard
      * @param config     Participant configuration
      * @param validate   Callback to validate & lock ops in PREPARE phase
      * @param apply      Callback to apply ops in COMMIT phase
      * @param release    Callback to release locks in ABORT/after COMMIT
+     * @throws std::runtime_error if prepared WAL state cannot be restored safely.
      */
     explicit TwoPhaseCommitParticipant(
         const std::string&          shard_id,
@@ -177,10 +178,12 @@ public:
      * Validates operations, acquires locks, writes PREPARE_TX to WAL,
      * and returns VOTE_COMMIT (true) or VOTE_ABORT (false). When WAL is
      * configured, a failed durable PREPARE write releases acquired locks and
-     * returns VOTE_ABORT. Missing WAL or empty identifiers reject the request
-     * before validation/locking; no volatile COMMIT vote is permitted.
-     * Idempotent: a duplicate PREPARE for the same txn_id returns the
-     * same vote as the original call without re-locking.
+     * returns VOTE_ABORT. Missing WAL, any storage/lock callback, or empty
+     * identifiers reject the request before validation/locking; no volatile
+     * COMMIT vote is permitted.
+     * Idempotent: a duplicate PREPARE returns the original vote without
+     * re-locking only when operations, coordinator, target shard and fencing
+     * epoch match the recorded request; mismatches return false.
     * @param transaction_id Non-empty globally unique transaction ID.
     * @param coordinator_shard_id Non-empty coordinator identity matching the token issuer.
     * @param transaction_data Serialisiertes JSON mit Teilnehmeroperationen.
@@ -200,10 +203,16 @@ public:
      * If the WAL write fails, returns false and retains the prepared state.
      * Idempotent: duplicate COMMIT messages return true immediately.
      * Missing WAL, empty IDs and contradictory terminal decisions return false.
+     * A missing apply callback leaves a recovered PREPARE unresolved and returns
+     * false without writing COMMIT; an already durable COMMIT remains idempotent.
     * @param transaction_id Non-empty globally unique transaction ID.
     * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) COMMIT.
      */
     bool onCommit(const std::string& transaction_id) override;
+    bool onCommitFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_shard_id
+    ) override;
 
     /**
      * @brief Handle ABORT request
@@ -215,6 +224,10 @@ public:
     * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) ABORT.
      */
     bool onAbort(const std::string& transaction_id) override;
+    bool onAbortFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_shard_id
+    ) override;
 
     /**
      * @brief Handle health-check request.
@@ -222,7 +235,7 @@ public:
      *         or failed-apply PREPARE awaits a coordinator decision. Ordinary
      *         in-flight PREPAREs do not block readiness.
      * @note Decision RPCs remain available while reconciliation blocks readiness.
-     *       Missing WAL configuration blocks readiness and rejects new PREPARE.
+     *       Missing WAL or storage/lock callbacks block readiness and new PREPARE.
      */
     ShardRPCServer::HealthInfo onHealthCheck() override;
 
@@ -263,7 +276,8 @@ public:
      * left in PREPARED state; the coordinator should re-resolve them.
      *
      * @return Number of in-doubt transactions found.
-     * @throws std::exception when WAL reading or replay fails; callers must
+     * @throws std::exception when WAL reading, replay, or prepared lock
+     *         restoration fails, including absent lock callbacks; callers must
      *         keep the participant unavailable until recovery succeeds.
      */
     size_t recoverFromWAL();
@@ -278,10 +292,19 @@ public:
     nlohmann::json getStatistics() const;
 
 private:
+    bool onCommitInternal(
+        const std::string& transaction_id,
+        const std::optional<std::string>& coordinator_shard_id
+    );
+    bool onAbortInternal(
+        const std::string& transaction_id,
+        const std::optional<std::string>& coordinator_shard_id
+    );
+
     const std::string shard_id_; ///< Lokale Shard-ID dieses Participants.
     Config            config_;   ///< Laufzeitkonfiguration (WAL/Timeout).
 
-    // Storage callbacks (may be nullptr -> accept-all default)
+    // Missing storage callbacks disable PREPARE and readiness.
     ValidateAndLockCallback validate_and_lock_; ///< PREPARE-Validierung und Sperrverwaltung.
     ApplyOperationsCallback apply_operations_;  ///< COMMIT-Anwendung der gepufferten Operationen.
     ReleaseLockCallback     release_locks_;     ///< Freigabe gehaltener Sperren.
@@ -291,6 +314,9 @@ private:
     std::map<std::string, ParticipantTransaction> transactions_; ///< In-Memory-Transaktionszustand.
     bool durability_failed_ = false;
     bool recovery_complete_ = true;
+    [[nodiscard]] bool storageCallbacksConfigured() const noexcept {
+        return validate_and_lock_ && apply_operations_ && release_locks_;
+    }
     [[nodiscard]] size_t recoveryBlockersLocked() const; ///< Requires mutex_; counts unresolved recovery, not live prepares.
 
     // WAL for durable logging

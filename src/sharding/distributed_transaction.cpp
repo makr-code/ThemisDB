@@ -97,6 +97,59 @@ static inline std::string_view recoveryWalComponentId(
     return cfg.coordinator_id.empty() ? std::string_view{"default"} : std::string_view{cfg.coordinator_id};
 }
 
+static void validateDistributedRecoveryEntry(
+    const themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions& history,
+    const WALEntry& entry
+) {
+    if (entry.type != WALEntryType::BEGIN_TX &&
+        entry.type != WALEntryType::PREPARE_TX &&
+        entry.type != WALEntryType::COMMIT_TX &&
+        entry.type != WALEntryType::ABORT_TX) {
+        return;
+    }
+    if (entry.transaction_id.empty() || !entry.data.is_object()) {
+        throw std::runtime_error("invalid distributed coordinator WAL transaction metadata");
+    }
+    const auto previous = history.find(entry.transaction_id);
+    const bool has_decision = previous != history.end() && previous->second.has_decision;
+    const bool terminal = entry.type == WALEntryType::COMMIT_TX ||
+                          entry.type == WALEntryType::ABORT_TX;
+    const bool commit = entry.type == WALEntryType::COMMIT_TX;
+    if (has_decision &&
+        ((terminal && previous->second.decision_commit != commit) ||
+         entry.type == WALEntryType::BEGIN_TX || entry.type == WALEntryType::PREPARE_TX)) {
+        throw std::runtime_error("distributed coordinator WAL has conflicting decisions");
+    }
+    if (terminal && entry.data.contains("phase")) {
+        const auto& phase = entry.data.at("phase");
+        if (!phase.is_string() || (phase != "decision" && phase != "complete")) {
+            throw std::runtime_error("invalid distributed coordinator WAL phase");
+        }
+        if (phase == "complete" && !has_decision) {
+            throw std::runtime_error("distributed coordinator WAL completion has no decision");
+        }
+    }
+    if (terminal && entry.data.contains("decision") &&
+        entry.data.at("decision") != (commit ? "commit" : "abort")) {
+        throw std::runtime_error("distributed coordinator WAL decision does not match record type");
+    }
+    const bool completion = terminal && entry.data.contains("phase") &&
+                            entry.data.at("phase") == "complete";
+    if (commit && !completion) {
+        const char* timestamp_key = entry.data.contains("commit_timestamp_ns")
+            ? "commit_timestamp_ns" : "commit_time";
+        if (!entry.data.contains(timestamp_key)) {
+            throw std::runtime_error("distributed COMMIT WAL decision has no timestamp");
+        }
+        const auto& timestamp = entry.data.at(timestamp_key);
+        if (!timestamp.is_number_integer() || timestamp.get<int64_t>() <= 0 ||
+            (has_decision && previous->second.commit_timestamp_ns &&
+             *previous->second.commit_timestamp_ns != timestamp.get<int64_t>())) {
+            throw std::runtime_error("invalid or conflicting distributed commit timestamp");
+        }
+    }
+}
+
 DistributedTransactionCoordinator::DistributedTransactionCoordinator(
     std::shared_ptr<TrueTime> truetime,
     const Config& config
@@ -110,6 +163,17 @@ DistributedTransactionCoordinator::DistributedTransactionCoordinator(
         wal_config.wal_directory = config_.wal_directory;
         wal_config.segment_size = 16 * 1024 * 1024;  // 16 MB
         wal_config.sync_on_write = true;             // Durability
+        wal_config.recovery_callback = [this](const WALEntry& entry) {
+            validateDistributedRecoveryEntry(recovery_history_, entry);
+            if (entry.type == WALEntryType::BEGIN_TX ||
+                entry.type == WALEntryType::PREPARE_TX ||
+                entry.type == WALEntryType::COMMIT_TX ||
+                entry.type == WALEntryType::ABORT_TX) {
+                themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+                    recovery_history_, entry);
+            }
+            return true;
+        };
         
         wal_manager_ = std::make_unique<WALManager>(wal_config);
         
@@ -213,6 +277,13 @@ bool DistributedTransactionCoordinator::addOperation(
         THEMIS_ERROR("addOperation: shard_id is empty for txn {}, rejecting operation", txn_id);
         return false;
     }
+    if (std::none_of(txn.participants.begin(), txn.participants.end(),
+                     [&shard_id](const auto& participant) {
+                         return participant.shard_id == shard_id;
+                     })) {
+        THEMIS_ERROR("addOperation: shard {} is not a participant in txn {}", shard_id, txn_id);
+        return false;
+    }
     
     // W2-S06: Operation validation — ensure operation is not malformed
     if (!operation.is_object() && !operation.is_array()) {
@@ -227,14 +298,13 @@ bool DistributedTransactionCoordinator::addOperation(
     }
     txn.operations[shard_id].push_back(operation);
     
-    // Log to recovery WAL if enabled (ensures durability before returning)
-    if (config_.enable_recovery_log) {
-        try {
-            logOperationAddedForRecovery(txn_id, shard_id, operation);
-        } catch (const std::exception& e) {
-            THEMIS_WARN("Failed to log operation to WAL: {}, proceeding with in-memory state", e.what());
-            // Fall-through: in-memory state is already updated, accept reduced durability guarantee
-        }
+    if (config_.enable_recovery_log &&
+        !logOperationAddedForRecovery(txn_id, shard_id, operation)) {
+        txn.state = TransactionState::ABORTING;
+        txn.error_detail = "Operation WAL append or sync failed; recovery must resolve the transaction";
+        recovery_blockers_.insert(txn_id);
+        THEMIS_ERROR("Transaction {} cannot proceed after operation WAL failure", txn_id);
+        return false;
     }
     
     return true;
@@ -259,6 +329,13 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         return false;
     }
     
+    if (!config_.enable_recovery_log || !wal_manager_) {
+        txn.error_detail =
+            "Distributed commit requires a durable coordinator decision log";
+        THEMIS_ERROR("Transaction {} cannot commit without a durable coordinator WAL", txn_id);
+        return false;
+    }
+
     const std::string coordinator_id = coordinatorLabel(config_);
 
     // -----------------------------------------------------------------------
@@ -271,11 +348,6 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         (txn.isolation_level == DistributedIsolationLevel::SNAPSHOT_ISOLATION);
 
     if (use_percolator) {
-        if (!config_.enable_recovery_log || !wal_manager_) {
-            txn.error_detail =
-                "Percolator commit requires a durable coordinator decision log";
-            return false;
-        }
         txn.state = TransactionState::PREPARING;
         THEMIS_DEBUG("Transaction {} using Percolator commit path (SNAPSHOT_ISOLATION)",
                      txn_id);
@@ -496,56 +568,29 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     
     // Phase 2: Commit
     txn.state = TransactionState::COMMITTING;
+    markCommitDecisionUncertain(txn_id);
     lock.unlock();
 
     // DTM-4: Write and durably flush the COMMIT decision to WAL *before*
     // broadcasting Phase 2 to participants.  A coordinator crash after flush
     // but before broadcast is recoverable; a crash before flush is not.
-    if (wal_manager_ && config_.enable_recovery_log &&
-        !logDecisionStateForRecovery(txn, true, "decision")) {
-            THEMIS_ERROR("DTM: Failed to flush COMMIT WAL entry for txn '{}'. "
-                         "Aborting to prevent unsafe state.", txn.transaction_id);
-            if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
-                spdlog::error("Lock acquisition timeout in WAL flush error handler for txn {}",
-                              txn_id);
-                markRecoveryTimeoutBlocker(txn_id);
-                return false;
-            }
-            txn.state = TransactionState::ABORTING;
-            txn.error_detail = "WAL flush failed before Phase 2 COMMIT";
-            const bool abort_decision_durable = logDecisionStateForRecovery(
-                txn, false, "decision", "commit_decision_flush_failed");
-            if (!abort_decision_durable) {
-                txn.error_detail += "; durable ABORT decision could not be confirmed";
-                recovery_blockers_.insert(txn_id);
-                return false;
-            }
-            recovery_blockers_.insert(txn_id);
-            lock.unlock();
-            bool all_aborted = true;
-            for (auto& participant : txn.participants) {
-                if (!sendAbort(participant, txn_id)) {
-                    all_aborted = false;
-                }
-            }
-            if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
-                spdlog::error("Lock acquisition timeout completing abort after WAL flush failure "
-                              "for txn {}", txn_id);
-                markRecoveryTimeoutBlocker(txn_id);
-                return false;
-            }
-            if (!all_aborted) {
-                txn.state = TransactionState::ABORTING;
-                return false;
-            }
-            txn.state = TransactionState::ABORTED;
-            recovery_blockers_.erase(txn_id);
-            if (config_.enable_recovery_log) {
-                logTransactionForRecovery(txn);
-            }
-            aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
-            return false;
+    bool decision_durable = false;
+    try {
+        decision_durable = logDecisionStateForRecovery(txn, true, "decision");
+    } catch (const std::exception& error) {
+        THEMIS_ERROR("COMMIT WAL write for transaction {} failed: {}", txn_id, error.what());
     }
+    if (!decision_durable) {
+        THEMIS_ERROR("COMMIT WAL outcome for transaction {} is uncertain; restart recovery is required",
+                     txn_id);
+        markRecoveryTimeoutBlocker(txn_id);
+        if (lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            txn.error_detail = "COMMIT WAL outcome is uncertain; restart recovery is required";
+            recovery_blockers_.insert(txn_id);
+        }
+        return false;
+    }
+    clearCommitDecisionUncertain(txn_id);
 
     auto commit_start = std::chrono::steady_clock::now();
     bool committed = false;
@@ -776,6 +821,7 @@ DistributedTransactionCoordinator::getRecoverableTransactions() const {
      * @return Return value.
      */
     std::lock_guard<std::timed_mutex> lock(mutex_);
+    std::lock_guard<std::mutex> timeout_lock(recovery_timeout_mutex_);
     recoverable.reserve(transactions_.size());
     for (const auto& [txn_id, txn] : transactions_) {
         if (txn.state == TransactionState::COMMITTED ||
@@ -797,12 +843,13 @@ DistributedTransactionCoordinator::getRecoverableTransactions() const {
                 break;
             case TransactionState::COMMITTING:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMMITTING;
-                info.decision_recorded = true;
+                info.decision_recorded = !uncertain_commit_decisions_.contains(txn_id) &&
+                                         !unconfirmed_recovery_decisions_.contains(txn_id);
                 info.decision_commit = true;
                 break;
             case TransactionState::ABORTING:
                 info.state = themis::transaction::RecoverableTwoPhaseState::ABORTING;
-                info.decision_recorded = true;
+                info.decision_recorded = !unconfirmed_recovery_decisions_.contains(txn_id);
                 info.decision_commit = false;
                 break;
             case TransactionState::COMMITTED:
@@ -841,6 +888,31 @@ void DistributedTransactionCoordinator::clearRecoveryTimeoutBlocker(
 ) {
     std::lock_guard<std::mutex> lock(recovery_timeout_mutex_);
     recovery_timeout_blockers_.erase(txn_id);
+}
+
+void DistributedTransactionCoordinator::markCommitDecisionUncertain(
+    const std::string& txn_id
+) {
+    std::lock_guard<std::mutex> lock(recovery_timeout_mutex_);
+    uncertain_commit_decisions_.insert(txn_id);
+}
+
+void DistributedTransactionCoordinator::clearCommitDecisionUncertain(
+    const std::string& txn_id
+) {
+    std::lock_guard<std::mutex> lock(recovery_timeout_mutex_);
+    uncertain_commit_decisions_.erase(txn_id);
+}
+
+void DistributedTransactionCoordinator::setRecoveryDecisionUnconfirmed(
+    const std::string& txn_id, bool unconfirmed
+) {
+    std::lock_guard<std::mutex> lock(recovery_timeout_mutex_);
+    if (unconfirmed) {
+        unconfirmed_recovery_decisions_.insert(txn_id);
+    } else {
+        unconfirmed_recovery_decisions_.erase(txn_id);
+    }
 }
 
 void DistributedTransactionCoordinator::setShardEndpointMap(
@@ -1270,15 +1342,30 @@ bool DistributedTransactionCoordinator::logBeginStateForRecovery(
         });
     }
 
-    return WALLoggingHelper::appendEntryWithResult(
-        wal_manager_.get(),
+    return appendRecoveryRecord(
         WALEntryType::BEGIN_TX,
         txn.transaction_id,
-        begin_data,
-        /*sync=*/true,
-        "distributed-coordinator-recovery",
-        recoveryWalComponentId(config_)
+        begin_data
     ).has_value();
+}
+
+std::optional<LSN> DistributedTransactionCoordinator::appendRecoveryRecord(
+    WALEntryType type, const std::string& txn_id, const nlohmann::json& data
+) {
+    std::lock_guard<std::mutex> lock(recovery_history_mutex_);
+    const auto entry = WALLoggingHelper::buildEntry(type, txn_id, data);
+    validateDistributedRecoveryEntry(recovery_history_, entry);
+    const auto lsn = WALLoggingHelper::appendEntryWithResult(
+        wal_manager_.get(), type, txn_id, data, /*sync=*/true,
+        "distributed-coordinator-recovery", recoveryWalComponentId(config_));
+    if (lsn) {
+        if (type == WALEntryType::BEGIN_TX || type == WALEntryType::PREPARE_TX ||
+            type == WALEntryType::COMMIT_TX || type == WALEntryType::ABORT_TX) {
+            themis::transaction::TwoPhaseCommitWALRecovery::applyEntry(
+                recovery_history_, entry);
+        }
+    }
+    return lsn;
 }
 
 /**
@@ -1288,13 +1375,13 @@ bool DistributedTransactionCoordinator::logBeginStateForRecovery(
  * @param[in] operation Input parameter.
  * @details Calls: WALLoggingHelper::appendEntryWithResult(), get(), recoveryWalComponentId().
  */
-void DistributedTransactionCoordinator::logOperationAddedForRecovery(
+bool DistributedTransactionCoordinator::logOperationAddedForRecovery(
     const std::string& txn_id,
     const std::string& shard_id,
     const nlohmann::json& operation
 ) {
     if (!wal_manager_) {
-        return;
+        return false;
     }
 
     const nlohmann::json operation_data = {
@@ -1304,15 +1391,11 @@ void DistributedTransactionCoordinator::logOperationAddedForRecovery(
         {"operation", operation}
     };
 
-    (void)WALLoggingHelper::appendEntryWithResult(
-        wal_manager_.get(),
+    return appendRecoveryRecord(
         WALEntryType::UPDATE,
         txn_id,
-        operation_data,
-        /*sync=*/true,
-        "distributed-coordinator-recovery",
-        recoveryWalComponentId(config_)
-    );
+        operation_data
+    ).has_value();
 }
 
 /**
@@ -1355,14 +1438,10 @@ bool DistributedTransactionCoordinator::logDecisionStateForRecovery(
         });
     }
 
-    return WALLoggingHelper::appendEntryWithResult(
-        wal_manager_.get(),
+    return appendRecoveryRecord(
         commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
         txn.transaction_id,
-        recovery_data,
-        /*sync=*/true,
-        "distributed-coordinator-recovery",
-        recoveryWalComponentId(config_)
+        recovery_data
     ).has_value();
 }
 
@@ -1397,16 +1476,12 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
         });
     }
     
-    const auto lsn = WALLoggingHelper::appendEntryWithResult(
-        wal_manager_.get(),
+    const auto lsn = appendRecoveryRecord(
         txn.state == TransactionState::ABORTED
             ? WALEntryType::ABORT_TX
             : WALEntryType::COMMIT_TX,
         txn.transaction_id,
-        recovery_data,
-        /*sync=*/true,
-        "distributed-coordinator-recovery",
-        recoveryWalComponentId(config_)
+        recovery_data
     );
     if (lsn.has_value()) {
         THEMIS_INFO("Transaction {} logged for recovery at LSN {}",
@@ -1445,14 +1520,10 @@ bool DistributedTransactionCoordinator::logPreparedStateForRecovery(
         });
     }
     
-    const auto lsn = WALLoggingHelper::appendEntryWithResult(
-        wal_manager_.get(),
+    const auto lsn = appendRecoveryRecord(
         WALEntryType::PREPARE_TX,
         txn.transaction_id,
-        prepared_data,
-        /*sync=*/true,
-        "distributed-coordinator-recovery",
-        recoveryWalComponentId(config_)
+        prepared_data
     );
     if (!lsn.has_value()) {
         return false;
@@ -1469,6 +1540,7 @@ bool DistributedTransactionCoordinator::logPreparedStateForRecovery(
  * @details Calls: THEMIS_INFO(), getOldestLSN(), getCurrentLSN(), readRange(), size(), themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(), has_value(), std::chrono::nanoseconds().
  */
 size_t DistributedTransactionCoordinator::recoverTransactions() {
+    std::lock_guard<std::mutex> recovery_run_lock(recovery_run_mutex_);
     if (!wal_manager_) {
         recovery_initialized_.store(true, std::memory_order_relaxed);
         return 0; // WAL not enabled
@@ -1491,28 +1563,21 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
             std::lock_guard<std::mutex> lock(recovery_timeout_mutex_);
             retry_candidates.insert(
                 recovery_timeout_blockers_.begin(), recovery_timeout_blockers_.end());
+            for (const auto& txn_id : uncertain_commit_decisions_) {
+                retry_candidates.erase(txn_id);
+            }
         }
     }
     
     THEMIS_INFO("Starting transaction recovery from WAL");
     
     try {
-        // Read all entries from WAL
-        LSN oldest_lsn = wal_manager_->getOldestLSN();
-        LSN current_lsn = wal_manager_->getCurrentLSN();
-        
-        if (oldest_lsn > current_lsn) {
-            THEMIS_INFO("No transactions to recover");
-            recovery_initialized_.store(true, std::memory_order_relaxed);
-            return 0;
+        themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovered;
+        {
+            std::lock_guard<std::mutex> lock(recovery_history_mutex_);
+            recovered = recovery_history_;
         }
-        
-        std::vector<WALEntry> entries = wal_manager_->readRange(oldest_lsn, current_lsn);
-        
-        THEMIS_INFO("Found {} WAL entries to process",entries.size());
-
-        const auto recovered =
-            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
+        THEMIS_INFO("Found {} WAL transactions to process", recovered.size());
 
         size_t recovered_count = 0;
         for (const auto& [txn_id, replay_txn] : recovered) {
@@ -1569,16 +1634,25 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
                 transactions_[txn_id] = std::move(recovery_txn);
                 recovery_blockers_.erase(txn_id);
                 clearRecoveryTimeoutBlocker(txn_id);
+                setRecoveryDecisionUnconfirmed(txn_id, false);
                 continue;
             }
 
             bool success = participants_resolved;
+            setRecoveryDecisionUnconfirmed(txn_id, true);
             if (replay_txn.has_decision && replay_txn.decision_commit) {
                 recovery_txn.state = TransactionState::COMMITTING;
                 THEMIS_WARN("Recovery: re-driving COMMIT for in-doubt txn {}", txn_id);
+                if (success && !logDecisionStateForRecovery(recovery_txn, true, "decision")) {
+                    success = false;
+                    markCommitDecisionUncertain(txn_id);
+                    recovery_txn.error_detail =
+                        "Recovery COMMIT decision could not be durably reaffirmed";
+                }
                 if (success) {
+                    setRecoveryDecisionUnconfirmed(txn_id, false);
                     success = commitPhase(recovery_txn);
-                } else {
+                } else if (recovery_txn.error_detail.empty()) {
                     recovery_txn.error_detail =
                         "Recovery COMMIT replay is blocked because participant identities or endpoints are unresolved";
                 }
@@ -1598,7 +1672,13 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
                     THEMIS_WARN("Recovery: re-driving ABORT for in-doubt txn {}", txn_id);
                 }
 
+                if (success && !logDecisionStateForRecovery(recovery_txn, false, "decision")) {
+                    success = false;
+                    recovery_txn.error_detail =
+                        "Recovery ABORT decision could not be durably recorded";
+                }
                 if (success) {
+                    setRecoveryDecisionUnconfirmed(txn_id, false);
                     for (auto& participant : recovery_txn.participants) {
                         if (!sendAbort(participant, txn_id)) {
                             success = false;
@@ -1606,7 +1686,7 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
                                         participant.shard_id, txn_id);
                         }
                     }
-                } else {
+                } else if (recovery_txn.error_detail.empty()) {
                     recovery_txn.error_detail =
                         "Recovery ABORT replay is blocked because participant identities or endpoints are unresolved";
                 }
@@ -1714,35 +1794,26 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
     // sufficient to guarantee TT.now().earliest > commit_time.
     truetime_->waitUntil(txn.commit_time);
 
-    if (!logDecisionStateForRecovery(txn, true, "decision")) {
-        {
-            std::lock_guard<std::timed_mutex> lock(mutex_);
-            txn.state = TransactionState::ABORTING;
-            recovery_blockers_.insert(txn.transaction_id);
-        }
-        txn.error_detail = "Percolator COMMIT decision could not be durably recorded";
-        const bool abort_decision_durable =
-            logDecisionStateForRecovery(txn, false, "decision", "percolator_commit_log_failed");
-        if (!abort_decision_durable) {
-            std::lock_guard<std::timed_mutex> lock(mutex_);
-            recovery_blockers_.insert(txn.transaction_id);
-            return false;
-        }
-        bool all_aborted = true;
-        for (auto& participant : txn.participants) {
-            if (!sendAbort(participant, txn.transaction_id)) {
-                all_aborted = false;
-            }
-        }
+    {
         std::lock_guard<std::timed_mutex> lock(mutex_);
-        if (!all_aborted) {
-            recovery_blockers_.insert(txn.transaction_id);
-            return false;
-        }
-        txn.state = TransactionState::ABORTED;
-        recovery_blockers_.erase(txn.transaction_id);
+        txn.state = TransactionState::COMMITTING;
+        markCommitDecisionUncertain(txn.transaction_id);
+    }
+    bool decision_durable = false;
+    try {
+        decision_durable = logDecisionStateForRecovery(txn, true, "decision");
+    } catch (const std::exception& error) {
+        THEMIS_ERROR("Percolator COMMIT WAL write for transaction {} failed: {}",
+                     txn.transaction_id, error.what());
+    }
+    if (!decision_durable) {
+        markRecoveryTimeoutBlocker(txn.transaction_id);
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        txn.error_detail = "Percolator COMMIT WAL outcome is uncertain; restart recovery is required";
+        recovery_blockers_.insert(txn.transaction_id);
         return false;
     }
+    clearCommitDecisionUncertain(txn.transaction_id);
 
     // Step 3: Send COMMIT to all participants.
     {

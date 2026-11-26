@@ -384,8 +384,9 @@ struct RaftSnapshotChunk {
  * - Compaction is triggered automatically when the estimated in-memory log
  *   size exceeds `compaction_threshold_bytes` (default 512 MB).
  * - Snapshot files are named `raft_snapshot_<snapshot_index>.bin`.
- * - At most `max_snapshots` snapshot files are retained on disk; older ones
- *   are deleted after a new snapshot is successfully written.
+ * - After local compaction, retention preserves the installed snapshot and
+ *   newer transferred files; pending transfers or deletion errors can exceed
+ *   the configured retention target.
  * - The chunked-transfer API (`getChunk`) exposes fixed-size pieces of the
  *   serialized on-disk snapshot together with per-chunk SHA-256 checksums so that
  *   the receiver can verify each piece independently (tolerating network
@@ -401,11 +402,17 @@ public:
         /// Compact the log once its estimated size exceeds this threshold
         size_t compaction_threshold_bytes = 512ULL * 1024 * 1024;  // 512 MB
         int compression_level = 3;      ///< ZSTD compression level
-        size_t max_snapshots = 5;       ///< Maximum on-disk snapshots to retain
+        size_t max_snapshots = 5;       ///< Positive retention target, including the installed snapshot.
         size_t chunk_size_bytes = kDefaultChunkSizeBytes;  ///< Per-chunk transfer size
         size_t max_transfer_bytes = 512ULL * 1024 * 1024;  ///< Maximum received snapshot file size
     };
 
+    /**
+     * @brief Construct a manager and prepare its snapshot directory.
+     * @param config Snapshot settings; max_snapshots must be positive.
+     * @throws std::invalid_argument if max_snapshots is zero.
+     * @throws std::runtime_error if the directory cannot be created durably.
+     */
     explicit RaftSnapshotManager(const Config& config);
     ~RaftSnapshotManager() = default;
 
@@ -587,8 +594,8 @@ private:
     /** @brief Build file path for a snapshot index. */
     std::string snapshotPath(uint64_t snapshot_index) const;
 
-    /** @brief Remove snapshots beyond configured retention. */
-    void cleanupOldSnapshots();
+    /** @brief Remove old snapshots while preserving the anchor and newer transfers. */
+    void cleanupOldSnapshots(uint64_t installed_index);
 
     /** @brief Compute lowercase SHA-256 checksum for input bytes. */
     static std::string computeChecksum(const uint8_t* data, size_t size);

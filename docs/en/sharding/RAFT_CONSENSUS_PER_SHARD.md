@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-02-17"
-Last Updated: "2026-11-20"
+Last Updated: "2026-11-26"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,7 +23,9 @@ Human_Author: "ThemisDB Contributors"
 > [replication roadmap](../../../src/replication/ROADMAP.md) for open contracts and
 > integration evidence.
 
-ThemisDB now supports Raft consensus per shard, enabling leader-based writes, automatic failover, and strong consistency guarantees across distributed shards.
+ThemisDB provides per-shard Raft consensus primitives. Production database
+apply, crash-consistent snapshot activation and Raft-backed RAID writes are
+not yet integrated end-to-end.
 
 ## Key Components
 
@@ -45,49 +47,34 @@ Tracks Raft state for each shard including:
 - Known leader ID
 - Quorum status
 
-### 3. Integrated Write Path
-When the relevant runtime components are explicitly wired, `RedundancyStrategy`
-can enforce leader-based writes:
-- Only shard leaders accept writes
-- Writes are replicated via Raft log
-- Quorum acknowledgment required for commit
-- Automatic redirect hints on leader changes
+### 3. Database Write Path
 
-These component-level behaviors and the example configuration do not establish
-an end-to-end production topology or a coupled Raft/2PC durability contract.
-Verify the active runtime wiring and the replication evidence before relying on
-them for deployment guarantees.
+`RedundancyStrategy` does not route writes through Raft. Setting
+`RedundancyConfig::enable_raft_consensus=true` is rejected by the C++ strategy
+and collection manager until a durable DB state machine is wired. When RAID is
+enabled, the server also rejects true or non-Boolean values in `raid.default`
+and `raid.collections`. A Raft log commit is not evidence that database state
+was applied.
 
 ## Configuration
 
-### Enable Raft Consensus
+### Configure a Raft Group
 
 ```cpp
-// 1. Configure RaftShardManager
 RaftShardManager::Config raft_config;
-raft_config.replication_factor = 3;  // Number of replicas per shard
+raft_config.replication_factor = 3;
 raft_config.enable_auto_start = true;
-raft_config.raft_config.raft_config.election_timeout_min = std::chrono::milliseconds(150);
-raft_config.raft_config.raft_config.election_timeout_max = std::chrono::milliseconds(300);
-raft_config.raft_config.raft_config.heartbeat_interval = std::chrono::milliseconds(50);
+raft_config.raft_config.raft_config.node_id = "node_001";
 
-// Create RaftShardManager
 auto raft_manager = std::make_shared<RaftShardManager>(raft_config);
-
-// 2. Initialize Raft for each shard
 std::string shard_id = "shard_001";
-std::vector<std::string> replicas = {"shard_001", "shard_002", "shard_003"};
+std::vector<std::string> replicas = {"node_001", "node_002", "node_003"};
 raft_manager->initializeShard(shard_id, replicas);
-
-// 3. Enable Raft in RedundancyStrategy
-RedundancyConfig redundancy_config;
-redundancy_config.enable_raft_consensus = true;  // Enable Raft
-redundancy_config.mode = RedundancyMode::MIRROR;
-redundancy_config.replication_factor = 3;
-
-auto strategy = std::make_shared<RedundancyStrategy>(redundancy_config);
-strategy->setRaftShardManager(raft_manager);
 ```
+
+For multi-node operation, configure durable journals and a trusted per-peer
+mTLS resolver. This example does not configure transport and cannot establish
+multi-node quorum or database write support.
 
 ### Configuration Options
 
@@ -105,7 +92,7 @@ strategy->setRaftShardManager(raft_manager);
 - `read_only_on_partition`: Become read-only in minority partition (default: true)
 
 **RedundancyConfig:**
-- `enable_raft_consensus`: Enable Raft for writes (default: false)
+- `enable_raft_consensus`: Must remain false; true is rejected (default: false)
 - `write_concern`: Write concern level (ONE, MAJORITY, ALL, QUORUM)
 - `replication_timeout`: Timeout for Raft commit (default: 5000ms)
 
@@ -129,31 +116,6 @@ if (raft_info) {
     std::cout << "Commit Index: " << raft_info->commit_index << "\n";
     std::cout << "Leader: " << raft_info->leader_id << "\n";
     std::cout << "Has Quorum: " << raft_info->has_quorum << "\n";
-}
-```
-
-### Write Data (Leader-Enforced)
-
-```cpp
-// Writes automatically go through Raft when enabled
-WriteResult result = strategy->write(
-    "doc_123",                  // document ID
-    document_data,              // data to write
-    "my_collection",            // collection name
-    hash_ring,                  // consistent hash ring
-    topology,                   // shard topology
-    write_handler               // write handler callback
-);
-
-if (result.success) {
-    std::cout << "Write committed via Raft\n";
-    std::cout << "Written to shards: ";
-    for (const auto& shard : result.written_shards) {
-        std::cout << shard << " ";
-    }
-} else {
-    std::cout << "Write failed: " << result.error_message << "\n";
-    // May contain redirect hint if not leader
 }
 ```
 
@@ -187,7 +149,7 @@ When Raft is enabled, the following metrics are exposed at `/metrics`:
 - `themis_raft_role{shard_id}`: Current role (0=FOLLOWER, 1=CANDIDATE, 2=LEADER)
 - `themis_raft_term{shard_id}`: Current term number
 - `themis_raft_commit_index{shard_id}`: Last committed log index
-- `themis_raft_last_applied{shard_id}`: Last applied log index
+- A durable database applied index is currently unavailable.
 - `themis_raft_log_size{shard_id}`: Total log entries
 
 ### Leadership Metrics
@@ -251,19 +213,6 @@ When Raft is enabled, the following metrics are exposed at `/metrics`:
 - Verify network connectivity between nodes
 - Check `themis_raft_has_quorum` metric
 
-### Write Rejected (Not Leader)
-**Symptom:** `proposeRaftWrite()` fails with "Not the leader" message
-
-**Causes:**
-- Node is not the current leader
-- Recent leader change
-- Node is in CANDIDATE or FOLLOWER state
-
-**Solution:**
-- Redirect writes to current leader (see error log for leader ID)
-- Wait for election to complete if in CANDIDATE state
-- Use load balancer that tracks leader status
-
 ### High Replication Lag
 **Symptom:** `themis_raft_replication_lag_entries` metric is high
 
@@ -292,48 +241,15 @@ When Raft is enabled, the following metrics are exposed at `/metrics`:
 
 ## Migration from Non-Raft
 
-To migrate existing shards to Raft consensus:
-
-1. **Plan Maintenance Window**: Brief downtime required during migration
-
-2. **Enable Raft Configuration**:
-```cpp
-redundancy_config.enable_raft_consensus = true;
-```
-
-3. **Initialize Raft for Shards**:
-```cpp
-for (const auto& shard : all_shards) {
-    raft_manager->initializeShard(shard.id, shard.replicas);
-}
-```
-
-4. **Wait for Leader Election**: Monitor until leaders are elected
-
-5. **Enable Write Enforcement**: Start routing writes through Raft
-
-6. **Validate**: Confirm writes are being committed via Raft log
+Migration to Raft-backed database writes is not supported until the durable
+apply path, snapshot activation and restart/failover gates are implemented and
+validated. Do not treat log replication alone as a migration.
 
 ## Performance Impact
 
-**Write Latency:**
-- +2-5ms for Raft log append and quorum replication
-- Depends on network latency between replicas
-- Negligible for most applications
-
-**Read Latency:**
-- No impact (reads don't require Raft)
-- Can read from followers if eventual consistency is acceptable
-
-**Throughput:**
-- Slight reduction in write throughput due to Raft overhead
-- Read throughput unaffected
-- Overall improvement in consistency guarantees
-
-**Resource Usage:**
-- Additional CPU for Raft state machine (~5% overhead)
-- Additional memory for Raft log (~100MB per 1M entries)
-- Additional network traffic for heartbeats (~1KB/s per shard)
+No end-to-end performance claim is available for the missing Raft-backed
+database write path. Benchmark latency, throughput and resource use after the
+complete deployment and failure-recovery path is implemented.
 
 ## See Also
 

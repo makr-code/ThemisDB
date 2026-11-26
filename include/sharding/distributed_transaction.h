@@ -17,6 +17,7 @@
 #include "sharding/wal_manager.h"
 #include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
+#include "transaction/two_phase_commit_wal_recovery.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -166,9 +167,13 @@ public:
     /**
      * @brief Add an operation to the transaction
      * @param txn_id Transaction ID
-     * @param shard_id Target shard
+     * @param shard_id Target shard; must be a participant declared at BEGIN.
      * @param operation Operation to perform
-     * @return True if added successfully
+     * @return True if added successfully and, when recovery logging is enabled,
+     *         its WAL record was durably synced. False for invalid input or
+     *         when persistence fails.
+     * @note A WAL append or sync failure has an ambiguous outcome: the transaction
+     *       becomes ABORTING and blocks readiness until recovery resolves it.
      */
     bool addOperation(
         const std::string& txn_id,
@@ -189,7 +194,12 @@ public:
      * - Send commit requests to all participants
      * 
      * @param txn_id Transaction ID
-     * @return True if committed successfully
+     * @return True if committed successfully. False if no durable coordinator
+     *         WAL is configured or a protocol phase fails.
+     * @note Missing recovery logging rejects both commit protocols before PREPARE.
+     *       If a COMMIT WAL write has an uncertain outcome, the transaction
+     *       remains COMMITTING and blocks readiness until restart and WAL replay;
+     *       no ABORT is sent or recorded in its place.
      */
     bool commit(const std::string& txn_id);
     
@@ -233,9 +243,13 @@ public:
     /**
      * @brief Recover and re-drive in-doubt transactions from the WAL.
      *
-     * Transactions with a durable COMMIT decision are re-driven with COMMIT.
-     * Transactions that reached PREPARED without a durable final decision are
-     * conservatively re-driven with ABORT.
+     * Replays a reconstructed COMMIT or chooses ABORT when no decision exists,
+     * and durably records that choice again before sending any terminal RPC.
+     * A COMMIT write with an uncertain outcome is excluded from in-process
+     * recovery and remains a readiness blocker until coordinator restart and
+     * WAL reconstruction. Unresolved participant endpoints also block replay.
+     * Recovery tracks the full startup WAL scan and confirmed subsequent
+     * records, not just the bounded read-range cache.
      *
      * @return Number of transactions resolved to a final state by this pass.
      * @throws std::exception If reading or reconstructing the configured WAL fails.
@@ -257,6 +271,8 @@ public:
     /**
      * @brief Snapshot current in-doubt transactions using the shared state model.
      * @return Normalized non-final transaction list for global recovery orchestration.
+     *         Unconfirmed COMMIT writes and recovery decisions are not reported
+     *         as recorded decisions.
      */
     [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
     getRecoverableTransactions() const override;
@@ -290,7 +306,12 @@ private:
     std::unordered_set<std::string> recovery_blockers_; ///< Durable unresolved work that blocks readiness.
     mutable std::mutex recovery_timeout_mutex_;
     std::unordered_set<std::string> recovery_timeout_blockers_;
+    std::unordered_set<std::string> uncertain_commit_decisions_;
+    std::unordered_set<std::string> unconfirmed_recovery_decisions_;
     std::atomic<bool> recovery_initialized_{false};
+    mutable std::mutex recovery_history_mutex_;
+    std::mutex recovery_run_mutex_;
+    themis::transaction::TwoPhaseCommitWALRecovery::RecoveredTransactions recovery_history_;
     
     // ======================================================================
     // DEADLOCK PREVENTION: Canonical Lock Acquisition Order
@@ -388,16 +409,22 @@ private:
      * @param txn Distributed transaction
      */
     [[nodiscard]] bool logBeginStateForRecovery(const DistributedTransaction& txn);
+    [[nodiscard]] std::optional<LSN> appendRecoveryRecord(
+        WALEntryType type, const std::string& txn_id, const nlohmann::json& data);
     void markRecoveryTimeoutBlocker(const std::string& txn_id);
     void clearRecoveryTimeoutBlocker(const std::string& txn_id);
+    void markCommitDecisionUncertain(const std::string& txn_id);
+    void clearCommitDecisionUncertain(const std::string& txn_id);
+    void setRecoveryDecisionUnconfirmed(const std::string& txn_id, bool unconfirmed);
 
     /**
      * @brief Log operation append event for transaction recovery replay.
      * @param txn_id Transaction identifier.
      * @param shard_id Participant shard identifier.
      * @param operation Operation payload appended to transaction state.
+     * @return True only if the operation record was durably synced.
      */
-    void logOperationAddedForRecovery(
+    [[nodiscard]] bool logOperationAddedForRecovery(
         const std::string& txn_id,
         const std::string& shard_id,
         const nlohmann::json& operation

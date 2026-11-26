@@ -95,6 +95,10 @@ inline bool retryReplicationWithBackoff(
 // ═══════════════════════════════════════════════════════════
 
 bool RedundancyConfig::validate() const {
+    if (enable_raft_consensus) {
+        spdlog::error("Raft-backed redundancy writes are unavailable: no durable shard state machine is wired");
+        return false;
+    }
     if (replication_factor < 1) {
         spdlog::error("Invalid replication_factor: must be >= 1");
         return false;
@@ -2846,6 +2850,9 @@ CollectionRedundancyManager::~CollectionRedundancyManager() = default;
  * @details Calls: lock().
  */
 void CollectionRedundancyManager::setDefaultConfig(const RedundancyConfig& config) {
+    if (config.enable_raft_consensus) {
+        throw std::invalid_argument("Raft-backed redundancy writes are not supported");
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     default_config_ = config;
 }
@@ -2860,6 +2867,9 @@ void CollectionRedundancyManager::setCollectionConfig(
     const std::string& collection,
     const RedundancyConfig& config
 ) {
+    if (config.enable_raft_consensus) {
+        throw std::invalid_argument("Raft-backed redundancy writes are not supported");
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     collection_configs_[collection] = config;
     

@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- include/sharding/cross_shard_transaction.h
+- include/sharding/two_phase_commit_participant.h

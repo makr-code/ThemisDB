@@ -130,6 +130,16 @@ static std::string temporaryWALDirectory() {
     return directory;
 }
 
+static bool testValidateAndLock(const std::string&, const nlohmann::json&) {
+    return true;
+}
+
+static bool testApplyOperations(const std::string&, const nlohmann::json&, int64_t) {
+    return true;
+}
+
+static void testReleaseLocks(const std::string&) {}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test Fixture
 // ─────────────────────────────────────────────────────────────────────────────
@@ -259,6 +269,78 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, MissingWALNeverVotesOrAcknowledgesAb
     EXPECT_FALSE(participant.getStatistics()["ready"].get<bool>());
 }
 
+TEST(TwoPhaseCommitParticipantRecoveryTest, MissingStorageCallbacksNeverVoteCommit) {
+    for (int missing = 0; missing < 3; ++missing) {
+        SCOPED_TRACE(missing);
+        TwoPhaseCommitParticipant::Config config;
+        config.wal_directory = temporaryWALDirectory();
+        config.fencing_manager = testFencingManager("shard-1");
+
+        int locks = 0;
+        ValidateAndLockCallback validate =
+            [&locks](const std::string&, const nlohmann::json&) {
+                ++locks;
+                return true;
+            };
+        ApplyOperationsCallback apply =
+            [](const std::string&, const nlohmann::json&, int64_t) {
+                return true;
+            };
+        ReleaseLockCallback release = [](const std::string&) {};
+        if (missing == 0) validate = nullptr;
+        if (missing == 1) apply = nullptr;
+        if (missing == 2) release = nullptr;
+
+        TwoPhaseCommitParticipant participant(
+            "shard-1", config, validate, apply, release);
+        EXPECT_FALSE(participant.onHealthCheck().is_healthy);
+        EXPECT_FALSE(participant.getStatistics()["ready"].get<bool>());
+        EXPECT_FALSE(participant.onPrepare(
+            "missing-callback", "coord",
+            opsToPayload(nlohmann::json::array({{{"key", "x"}}}))));
+        EXPECT_FALSE(participant.onCommit("missing-callback"));
+        EXPECT_FALSE(participant.getTransactionState("missing-callback").has_value());
+        EXPECT_EQ(locks, 0);
+    }
+}
+
+TEST(TwoPhaseCommitParticipantRecoveryTest, MissingLockCallbacksBlockPreparedRecovery) {
+    TemporaryTransactionLog log("themis_missing_participant_recovery_locks");
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = log.logPath().parent_path().string();
+    config.fencing_manager = testFencingManager("shard-1");
+    {
+        TwoPhaseCommitParticipant participant(
+            "shard-1", config,
+            [](const std::string&, const nlohmann::json&) { return true; },
+            [](const std::string&, const nlohmann::json&, int64_t) { return true; },
+            [](const std::string&) {});
+        ASSERT_TRUE(participant.onPrepare(
+            "prepared", "coord", opsToPayload(nlohmann::json::array())));
+    }
+    const ApplyOperationsCallback apply =
+        [](const std::string&, const nlohmann::json&, int64_t) { return true; };
+    const ValidateAndLockCallback validate =
+        [](const std::string&, const nlohmann::json&) { return true; };
+    const ReleaseLockCallback release = [](const std::string&) {};
+    EXPECT_THROW(
+        TwoPhaseCommitParticipant("shard-1", config, nullptr, apply, release),
+        std::runtime_error);
+    EXPECT_THROW(
+        TwoPhaseCommitParticipant("shard-1", config, validate, apply, nullptr),
+        std::runtime_error);
+    {
+        TwoPhaseCommitParticipant participant(
+            "shard-1", config, validate, nullptr, release);
+        EXPECT_FALSE(participant.onHealthCheck().is_healthy);
+        EXPECT_FALSE(participant.onCommit("prepared"));
+        EXPECT_EQ(participant.getTransactionState("prepared"),
+                  ParticipantTxnState::PREPARED);
+        EXPECT_TRUE(participant.onAbort("prepared"));
+        EXPECT_FALSE(participant.onHealthCheck().is_healthy);
+    }
+}
+
 TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRestart) {
     const auto wal_directory = (std::filesystem::temp_directory_path() /
         ("themis_participant_recovery_" +
@@ -269,7 +351,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
     config.fencing_manager = testFencingManager("shard-recovery");
 
     {
-        TwoPhaseCommitParticipant participant("shard-recovery", config);
+        TwoPhaseCommitParticipant participant(
+            "shard-recovery", config, testValidateAndLock,
+            testApplyOperations, testReleaseLocks);
         const auto payload = opsToPayload(nlohmann::json::array({
             {{"type", "insert"}, {"key", "recovery-key"}, {"value", "recovery-value"}}
         }), "shard-recovery", "coordinator");
@@ -288,7 +372,7 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
                 const std::string&, const nlohmann::json&, int64_t) {
                 applied_count.fetch_add(1, std::memory_order_relaxed);
                 return true;
-            });
+            }, testReleaseLocks);
         EXPECT_FALSE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.recoverFromWAL(), 1u);
         EXPECT_FALSE(participant.onHealthCheck().is_healthy);
@@ -296,6 +380,14 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRe
         EXPECT_EQ(participant.getTransactionState(transaction_id),
                   ParticipantTxnState::PREPARED);
         EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
+        const auto operations = nlohmann::json::array({
+            {{"type", "insert"}, {"key", "recovery-key"}, {"value", "recovery-value"}}
+        });
+        EXPECT_FALSE(participant.onPrepare(
+            transaction_id, "other", opsToPayload(operations, "shard-recovery", "other")));
+        EXPECT_TRUE(participant.onPrepare(
+            transaction_id, "coordinator",
+            opsToPayload(operations, "shard-recovery", "coordinator")));
         ASSERT_TRUE(participant.onCommit(transaction_id));
         EXPECT_TRUE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(applied_count.load(std::memory_order_relaxed), 1);
@@ -370,7 +462,7 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, RecoversPrepareOlderThanServingCache
             EXPECT_EQ(txn_id, "old-prepared-transaction");
             restored_lock_count.fetch_add(1, std::memory_order_relaxed);
             return true;
-        });
+        }, testApplyOperations, testReleaseLocks);
 
     EXPECT_FALSE(participant.onHealthCheck().is_healthy);
     EXPECT_TRUE(participant.getStatistics()["recovery_complete"].get<bool>());
@@ -433,7 +525,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, PreservesTruncatedTailRecoveryStatus
     TwoPhaseCommitParticipant::Config config;
     config.wal_directory = wal_directory;
     config.fencing_manager = testFencingManager("shard-truncated-tail");
-    TwoPhaseCommitParticipant participant("shard-truncated-tail", config);
+    TwoPhaseCommitParticipant participant(
+        "shard-truncated-tail", config, testValidateAndLock,
+        testApplyOperations, testReleaseLocks);
 
     EXPECT_TRUE(participant.onHealthCheck().is_healthy);
     EXPECT_EQ(participant.getStatistics()["wal_recovery_status"], "truncated_tail");
@@ -586,6 +680,23 @@ TEST_F(TwoPhaseCommitParticipantTest, DuplicatePrepareRejectsMismatchedTokenIssu
     EXPECT_EQ(participant_->getTransactionState(txn), ParticipantTxnState::PREPARED);
 }
 
+TEST_F(TwoPhaseCommitParticipantTest, DuplicatePrepareRejectsDifferentCoordinatorOrOperations) {
+    const std::string txn = "txn-duplicate-binding";
+    const auto ops = nlohmann::json::array({{{"key", "original"}}});
+    ASSERT_TRUE(participant_->onPrepare(txn, "coord", makePayload(ops)));
+
+    EXPECT_FALSE(participant_->onPrepare(txn, "other", makePayload(ops, false, "other")));
+    const auto changed_ops = nlohmann::json::array({{{"key", "different"}}});
+    EXPECT_FALSE(participant_->onPrepare(txn, "coord", makePayload(changed_ops)));
+    auto other_epoch = nlohmann::json::parse(makePayload(ops));
+    other_epoch["fencing_token"]["epoch"] = 2;
+    EXPECT_FALSE(participant_->onPrepare(txn, "coord", other_epoch.dump()));
+    EXPECT_FALSE(participant_->onPrepare(txn, "coord", makePayload(ops, false, "coord", "other-shard")));
+    EXPECT_TRUE(participant_->onPrepare(txn, "coord", makePayload(ops)));
+    ASSERT_TRUE(participant_->onCommit(txn));
+    EXPECT_EQ(applied_ops_.at(txn), ops);
+}
+
 TEST_F(TwoPhaseCommitParticipantTest, DuplicateCommitIsIdempotent) {
     const std::string txn = "txn-005";
     nlohmann::json ops    = nlohmann::json::array();
@@ -686,7 +797,7 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, TimedOutPrepareNeverWritesAbortAcros
     size_t releases = 0;
     {
         TwoPhaseCommitParticipant participant(
-            "shard-timeout", config, {}, {},
+            "shard-timeout", config, testValidateAndLock, testApplyOperations,
             [&releases](const std::string&) { ++releases; });
         ASSERT_TRUE(participant.onPrepare("timeout-restart", "coordinator", payload));
         EXPECT_EQ(participant.abortTimedOutTransactions(), 0u);
@@ -705,7 +816,7 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, TimedOutPrepareNeverWritesAbortAcros
     {
         TwoPhaseCommitParticipant participant(
             "shard-timeout", config,
-            [](const std::string&, const nlohmann::json&) { return true; }, {},
+            testValidateAndLock, testApplyOperations,
             [&releases](const std::string&) { ++releases; });
         EXPECT_FALSE(participant.onHealthCheck().is_healthy);
         EXPECT_EQ(participant.abortTimedOutTransactions(), 0u);
@@ -717,7 +828,9 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, TimedOutPrepareNeverWritesAbortAcros
         EXPECT_TRUE(participant.onHealthCheck().is_healthy);
     }
     {
-        TwoPhaseCommitParticipant participant("shard-timeout", config);
+        TwoPhaseCommitParticipant participant(
+            "shard-timeout", config, testValidateAndLock,
+            testApplyOperations, testReleaseLocks);
         EXPECT_EQ(participant.getTransactionState("timeout-restart"),
                   ParticipantTxnState::ABORTED);
         EXPECT_TRUE(participant.onHealthCheck().is_healthy);
@@ -740,10 +853,10 @@ TEST(TwoPhaseCommitParticipantRecoveryTest, FailedApplyBlocksNewWorkButAllowsDec
     config.wal_directory = temporaryWALDirectory();
     config.fencing_manager = testFencingManager("shard-retry");
     TwoPhaseCommitParticipant participant(
-        "shard-retry", config, {},
+        "shard-retry", config, testValidateAndLock,
         [&accept_apply](const std::string&, const nlohmann::json&, int64_t) {
             return accept_apply;
-        });
+        }, testReleaseLocks);
     const auto payload = opsToPayload(nlohmann::json::array(), "shard-retry", "coord");
     ASSERT_TRUE(participant.onPrepare("retry", "coord", payload));
     EXPECT_FALSE(participant.onCommit("retry"));
@@ -796,7 +909,8 @@ TEST_F(TwoPhaseCommitParticipantTest, CoordinatorCrashRecovery) {
         cfg.wal_directory   = temporaryWALDirectory();
         cfg.sync_wal_writes = false;
         cfg.fencing_manager = testFencingManager(id);
-        return std::make_unique<TwoPhaseCommitParticipant>(id, cfg);
+        return std::make_unique<TwoPhaseCommitParticipant>(
+            id, cfg, testValidateAndLock, testApplyOperations, testReleaseLocks);
     };
 
     auto p1 = make_participant("shard-A");
@@ -840,7 +954,8 @@ TEST_F(TwoPhaseCommitParticipantTest, PartialCommitRecovery) {
         cfg.wal_directory   = temporaryWALDirectory();
         cfg.sync_wal_writes = false;
         cfg.fencing_manager = testFencingManager(id);
-        return std::make_unique<TwoPhaseCommitParticipant>(id, cfg);
+        return std::make_unique<TwoPhaseCommitParticipant>(
+            id, cfg, testValidateAndLock, testApplyOperations, testReleaseLocks);
     };
 
     auto pA = make_participant("shard-A");
@@ -931,14 +1046,15 @@ static_assert(static_cast<int>(CoordinatorTxnState::ABORT_DECIDED) == 3);
 static_assert(static_cast<int>(CoordinatorTxnState::COMPLETED) == 4);
 static_assert(static_cast<int>(CoordinatorTxnState::FAILED) == 5);
 
-// Helper: build a durable TwoPhaseCommitParticipant with no-op callbacks.
+// Coordinator protocol tests use explicit no-op participant callbacks.
 static std::unique_ptr<TwoPhaseCommitParticipant>
 makeParticipant(const std::string& id) {
     TwoPhaseCommitParticipant::Config cfg;
     cfg.wal_directory   = temporaryWALDirectory();
     cfg.sync_wal_writes = false;
     cfg.fencing_manager = testFencingManager(id);
-    return std::make_unique<TwoPhaseCommitParticipant>(id, cfg);
+    return std::make_unique<TwoPhaseCommitParticipant>(
+        id, cfg, testValidateAndLock, testApplyOperations, testReleaseLocks);
 }
 
 class TwoPhaseCommitCoordinatorTest : public ::testing::Test {
@@ -1435,8 +1551,8 @@ TEST_F(TwoPhaseCommitCoordinatorTest, OneAbortVoteAbortsAllShards) {
         "shard-abort",
         cfg,
         /*validate*/ [](const std::string&, const nlohmann::json&) { return false; },
-        nullptr,
-        nullptr
+        testApplyOperations,
+        testReleaseLocks
     );
     coord_->registerParticipant("shard-abort", aborter.get());
 
@@ -1489,8 +1605,9 @@ TEST(TwoPhaseCommitCoordinatorFencingTest, FailedParticipantCommitIsNotReportedA
     participant_cfg.wal_directory = temporaryWALDirectory();
     participant_cfg.fencing_manager = testFencingManager("shard-apply-fails");
     TwoPhaseCommitParticipant participant(
-        "shard-apply-fails", participant_cfg, nullptr,
-        [](const std::string&, const nlohmann::json&, int64_t) { return false; });
+        "shard-apply-fails", participant_cfg, testValidateAndLock,
+        [](const std::string&, const nlohmann::json&, int64_t) { return false; },
+        testReleaseLocks);
     coord.registerParticipant("shard-apply-fails", &participant);
 
     nlohmann::json ops = nlohmann::json::array();
@@ -1539,7 +1656,8 @@ TEST_F(TwoPhaseCommitCoordinatorTest, RecommittingAbortedTxnPreservesAbortDecisi
     participant_config.fencing_manager = testFencingManager("shard-reject-prepare");
     TwoPhaseCommitParticipant rejecting_participant(
         "shard-reject-prepare", participant_config,
-        [](const std::string&, const nlohmann::json&) { return false; });
+        [](const std::string&, const nlohmann::json&) { return false; },
+        testApplyOperations, testReleaseLocks);
     coord_->registerParticipant("shard-reject-prepare", &rejecting_participant);
 
     const auto first = coord_->commit(txn, {{"shard-reject-prepare", ops}});
@@ -2145,7 +2263,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, StatisticsAreAccurate) {
     auto aborter = std::make_unique<TwoPhaseCommitParticipant>(
         "shard-stat-abort", cfg,
         [](const std::string&, const nlohmann::json&) { return false; },
-        nullptr, nullptr
+        testApplyOperations, testReleaseLocks
     );
     coord_->registerParticipant("shard-stat-abort", aborter.get());
     coord_->commit("stat-txn-3", {{"shard-stat-abort", ops}});
@@ -2563,7 +2681,9 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
         TwoPhaseCommitParticipant::Config p_cfg;
         p_cfg.wal_directory = temporaryWALDirectory();
         p_cfg.fencing_manager = testFencingManager("shard-wal");
-        auto participant    = std::make_unique<TwoPhaseCommitParticipant>("shard-wal", p_cfg);
+        auto participant = std::make_unique<TwoPhaseCommitParticipant>(
+            "shard-wal", p_cfg, testValidateAndLock,
+            testApplyOperations, testReleaseLocks);
         coord.registerParticipant("shard-wal", participant.get());
 
         nlohmann::json ops = nlohmann::json::array();
@@ -2768,7 +2888,9 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
         p_cfg.sync_wal_writes = false;
         p_cfg.fencing_manager = testFencingManager("shard-wal");
         auto prepared_participant =
-            std::make_unique<TwoPhaseCommitParticipant>("shard-wal", p_cfg);
+            std::make_unique<TwoPhaseCommitParticipant>(
+                "shard-wal", p_cfg, testValidateAndLock,
+                testApplyOperations, testReleaseLocks);
         const auto ops = nlohmann::json::array();
         ASSERT_TRUE(prepared_participant->onPrepare(
             txn, "coord-wal-test", opsToPayload(ops, "shard-wal", "coord-wal-test")));
@@ -2963,7 +3085,9 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, PersistsDecisionBeforeCompletionWith
     participant_cfg.wal_directory = temporaryWALDirectory();
     participant_cfg.fencing_manager = testFencingManager("shard-wal-order");
     auto participant =
-        std::make_unique<TwoPhaseCommitParticipant>("shard-wal-order", participant_cfg);
+        std::make_unique<TwoPhaseCommitParticipant>(
+            "shard-wal-order", participant_cfg, testValidateAndLock,
+            testApplyOperations, testReleaseLocks);
 
     const std::string txn = "wal-txn-decision-order";
     TwoPhaseCommitCoordinator::Config coordinator_cfg;

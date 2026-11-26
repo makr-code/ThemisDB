@@ -88,10 +88,12 @@ public:
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
         bool tls_require_client_cert = true;
         /**
-         * @brief Trusted X.509 identity-to-shard mappings for PREPARE RPCs.
+         * @brief Trusted X.509 identity-to-shard mappings for transaction RPCs.
          * @note Multiple identity values may map to the same shard to support
          *       certificate rotation. Unmapped or ambiguously mapped identities
-         *       are rejected before the request handler runs.
+         *       are rejected before the request handler runs. For COMMIT and
+         *       ABORT this verifies membership only, not ownership of a specific
+         *       transaction.
          */
         std::vector<CoordinatorIdentityBinding> coordinator_identity_bindings;
 
@@ -211,17 +213,41 @@ public:
         ) = 0;
         
         /**
-         * @brief Handle commit phase of 2PC
-         * @param transaction_id Transaction ID
-         * @return true if committed successfully
+         * @brief Apply an authenticated coordinator's COMMIT decision.
+         * @param transaction_id Transaction ID.
+         * @param coordinator_shard_id Identity resolved from the authenticated
+         *        X.509 peer; must match the coordinator bound at PREPARE.
+         * @return true only when the transaction and recorded coordinator match;
+         *         default implementation rejects the request.
          */
+        virtual bool onCommitFromCoordinator(
+            const std::string& transaction_id,
+            const std::string& coordinator_shard_id) {
+            (void)transaction_id;
+            (void)coordinator_shard_id;
+            return false;
+        }
+
+        /** @brief Handle an internal, already-authorized COMMIT decision. */
         virtual bool onCommit(const std::string& transaction_id) = 0;
         
         /**
-         * @brief Handle abort request
-         * @param transaction_id Transaction ID
-         * @return true if aborted successfully
+         * @brief Apply an authenticated coordinator's ABORT decision.
+         * @param transaction_id Transaction ID.
+         * @param coordinator_shard_id Identity resolved from the authenticated
+         *        X.509 peer; must match the coordinator bound at PREPARE.
+         * @return true only when the transaction and recorded coordinator match;
+         *         default implementation rejects the request.
          */
+        virtual bool onAbortFromCoordinator(
+            const std::string& transaction_id,
+            const std::string& coordinator_shard_id) {
+            (void)transaction_id;
+            (void)coordinator_shard_id;
+            return false;
+        }
+
+        /** @brief Handle an internal, already-authorized ABORT decision. */
         virtual bool onAbort(const std::string& transaction_id) = 0;
         
         /**

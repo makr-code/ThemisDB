@@ -133,7 +133,23 @@ public:
         }
         return !require_timestamp_ && delegate_->onCommit(id);
     }
+    bool onCommitFromCoordinator(
+        const std::string& id,
+        const std::string& coordinator_id) override {
+        const auto timestamp = timestamp_(id);
+        if (timestamp) {
+            return *timestamp > 0 &&
+                   client_.commit(id, *timestamp, coordinator_id);
+        }
+        return !require_timestamp_ &&
+               delegate_->onCommitFromCoordinator(id, coordinator_id);
+    }
     bool onAbort(const std::string& id) override { return delegate_->onAbort(id); }
+    bool onAbortFromCoordinator(
+        const std::string& id,
+        const std::string& coordinator_id) override {
+        return delegate_->onAbortFromCoordinator(id, coordinator_id);
+    }
     ShardRPCServer::HealthInfo onHealthCheck() override { return delegate_->onHealthCheck(); }
 
 private:
@@ -167,8 +183,20 @@ public:
         return commit_->onCommit(transaction_id);
     }
 
+    bool onCommitFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_id) override {
+        return commit_->onCommitFromCoordinator(transaction_id, coordinator_id);
+    }
+
     bool onAbort(const std::string& transaction_id) override {
         return abort_->onAbort(transaction_id);
+    }
+
+    bool onAbortFromCoordinator(
+        const std::string& transaction_id,
+        const std::string& coordinator_id) override {
+        return abort_->onAbortFromCoordinator(transaction_id, coordinator_id);
     }
 
     ShardRPCServer::HealthInfo onHealthCheck() override {
@@ -1945,9 +1973,11 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
         try {
             bool acknowledged = false;
             if (do_commit) {
-                acknowledged = participant->onCommit(rec.transaction_id);
+                acknowledged = participant->onCommitFromCoordinator(
+                    rec.transaction_id, coordinator_id_);
             } else {
-                acknowledged = participant->onAbort(rec.transaction_id);
+                acknowledged = participant->onAbortFromCoordinator(
+                    rec.transaction_id, coordinator_id_);
             }
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; returning without phase-two completion",

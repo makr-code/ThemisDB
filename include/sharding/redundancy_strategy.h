@@ -199,7 +199,8 @@ struct RedundancyConfig {
     uint32_t write_quorum = 2;  // For quorum writes
     bool enable_quorum_enforcement = false;  // Enable quorum-based consistency (default: OFF for RC1)
     bool enable_partition_detection = false;  // Enable network partition detection
-    bool enable_raft_consensus = false;       // Enable Raft consensus for writes
+    /// Reserved for Raft-backed writes; true is rejected until durable DB apply is wired.
+    bool enable_raft_consensus = false;
     
     // Stripe settings (for STRIPE, STRIPE_MIRROR)
     StripeConfig stripe;
@@ -221,7 +222,11 @@ struct RedundancyConfig {
     bool auto_recovery = true;
     uint32_t recovery_parallelism = 4;
     
-    // Validate configuration
+    /**
+     * @brief Validate redundancy settings against supported execution paths.
+     * @return False for invalid settings or when Raft-backed writes are requested;
+     *         that path lacks an integrated durable database state machine.
+     */
     bool validate() const;
     
     // Get storage efficiency (0.0 to 1.0)
@@ -646,7 +651,11 @@ public:
     /** @brief Return currently active strategy configuration. */
     const RedundancyConfig& getConfig() const { return config_; }
     
-    /** @brief Update strategy configuration (dynamic reconfiguration). */
+    /**
+     * @brief Update strategy configuration (dynamic reconfiguration).
+     * @param config Valid configuration; Raft-backed writes are currently unsupported.
+     * @throws std::invalid_argument if the configuration is invalid, leaving it unchanged.
+     */
     void updateConfig(const RedundancyConfig& config);
     
     /** @brief Return aggregated redundancy runtime statistics. */
@@ -863,10 +872,19 @@ public:
     /** @brief Destroy manager and owned strategy instances. */
     ~CollectionRedundancyManager();
     
-    /** @brief Set default redundancy config used when collection override is absent. */
+    /**
+     * @brief Set the default redundancy config used when no collection override exists.
+     * @param config Configuration; Raft-backed writes are currently unsupported.
+     * @throws std::invalid_argument if Raft is requested; the previous default remains.
+     */
     void setDefaultConfig(const RedundancyConfig& config);
     
-    /** @brief Set or replace per-collection redundancy configuration. */
+    /**
+     * @brief Set or replace a collection's redundancy configuration.
+     * @param collection Collection identifier.
+     * @param config Configuration; Raft-backed writes are currently unsupported.
+     * @throws std::invalid_argument if Raft is requested; existing settings remain.
+     */
     void setCollectionConfig(const std::string& collection, 
                             const RedundancyConfig& config);
     

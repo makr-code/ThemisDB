@@ -1339,6 +1339,9 @@ std::string sha256Hex(const uint8_t* data, size_t size) {
 
 RaftSnapshotManager::RaftSnapshotManager(const Config& config)
     : config_(config) {
+    if (config_.max_snapshots == 0) {
+        throw std::invalid_argument("RaftSnapshotManager: max_snapshots must be positive");
+    }
     if (config_.chunk_size_bytes == 0) {
         spdlog::warn("RaftSnapshotManager: chunk_size_bytes=0 is invalid; "
                      "clamping to default 4 MB");
@@ -1619,7 +1622,7 @@ bool RaftSnapshotManager::createAndInstallImpl(
         compact_log();
 
         // 6. Remove old snapshots beyond retention limit
-        cleanupOldSnapshots();
+        cleanupOldSnapshots(snapshot_index);
 
         return true;
 
@@ -2040,10 +2043,19 @@ bool RaftSnapshotManager::installTransferredSnapshot(
 
         const auto transfer_nonce =
             std::chrono::steady_clock::now().time_since_epoch().count();
-        staging_directory =
+        auto candidate_directory =
             std::filesystem::path(config_.snapshot_directory) /
             (".incoming-" + std::to_string(expected_index) + "-" +
              std::to_string(transfer_nonce));
+        std::error_code create_error;
+        if (!std::filesystem::create_directory(candidate_directory, create_error)) {
+            spdlog::error("RaftSnapshotManager: cannot create staging directory for "
+                          "snapshot {}: {}",
+                          expected_index,
+                          create_error ? create_error.message() : "already exists");
+            return false;
+        }
+        staging_directory.swap(candidate_directory);
         const auto staging_path =
             staging_directory /
             ("raft_snapshot_" + std::to_string(expected_index) + ".bin");
@@ -2177,7 +2189,7 @@ bool RaftSnapshotManager::installTransferredSnapshot(
  * @brief Cleanup Old Snapshots.
  * @details Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), rfind(), ends_with().
  */
-void RaftSnapshotManager::cleanupOldSnapshots() {
+void RaftSnapshotManager::cleanupOldSnapshots(uint64_t installed_index) {
     // NOTE: called with mutex_ held
     try {
         // Build list without taking the lock again (already held by caller)
@@ -2203,10 +2215,18 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
             }
         }
         std::sort(ids.begin(), ids.end(), std::greater<uint64_t>());
-        for (size_t i = config_.max_snapshots; i < ids.size(); ++i) {
-            const std::string p = snapshotPath(ids[i]);
+        size_t retained = 1;
+        for (const auto id : ids) {
+            if (id == installed_index) {
+                continue;
+            }
+            if (id > installed_index || retained < config_.max_snapshots) {
+                ++retained;
+                continue;
+            }
+            const std::string p = snapshotPath(id);
             std::filesystem::remove(p);
-            spdlog::info("RaftSnapshotManager: removed old snapshot {}", ids[i]);
+            spdlog::info("RaftSnapshotManager: removed old snapshot {}", id);
         }
     } catch (const std::exception& e) {
         spdlog::error("RaftSnapshotManager: cleanupOldSnapshots error: {}", e.what());

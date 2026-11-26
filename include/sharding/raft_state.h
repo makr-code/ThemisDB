@@ -229,7 +229,8 @@ public:
      * @note The caller must validate and durably store the snapshot payload before
      *       invoking this method, and restore the application state before serving
      *       requests. Journal anchor and hard state are replaced in one durable
-     *       operation; this method does not persist or apply the payload itself.
+     *       operation. A prior vote in the same term is retained even when it
+     *       names another member; this method does not persist or apply the payload.
      */
     [[nodiscard]] bool installSnapshotFromLeader(
         const std::string& leader_id,

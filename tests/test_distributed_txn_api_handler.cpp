@@ -23,9 +23,11 @@
 #include <cstdlib>
 #include <chrono>
 #include <filesystem>
+#include <future>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 using namespace themis::server;
 using namespace themis::sharding;
@@ -356,6 +358,40 @@ TEST(DistributedTransactionCoordinatorRecoveryTest,
 }
 
 TEST(DistributedTransactionCoordinatorRecoveryTest,
+     TwoPhaseCommitRequiresDurableCoordinatorLog) {
+    for (const bool percolator : {false, true}) {
+        SCOPED_TRACE(percolator);
+        auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+        DistributedTransactionCoordinator::Config cfg;
+        cfg.enable_recovery_log = false;
+        cfg.use_percolator_for_snapshot = percolator;
+        DistributedTransactionCoordinator coordinator(truetime, cfg);
+        const auto transaction_id = coordinator.beginTransaction(
+            {"shard-a"}, percolator ? DistributedIsolationLevel::SNAPSHOT_ISOLATION
+                                    : DistributedIsolationLevel::SERIALIZABLE);
+        ASSERT_FALSE(transaction_id.empty());
+        EXPECT_FALSE(coordinator.commit(transaction_id));
+        EXPECT_EQ(coordinator.getTransactionState(transaction_id), TransactionState::ACTIVE);
+    }
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     OperationForNonParticipantShardIsRejected) {
+    auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = false;
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+    const auto transaction_id = coordinator.beginTransaction({"shard-a"});
+    ASSERT_FALSE(transaction_id.empty());
+
+    EXPECT_FALSE(coordinator.addOperation(
+        transaction_id, "shard-b", {{"type", "put"}, {"key", "k"}}));
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id), TransactionState::ACTIVE);
+    EXPECT_TRUE(coordinator.addOperation(
+        transaction_id, "shard-a", {{"type", "put"}, {"key", "k"}}));
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
      RuntimeRecoveryRetryDoesNotAbortLiveTransaction) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
         ("distributed_txn_live_wal_" +
@@ -378,6 +414,271 @@ TEST(DistributedTransactionCoordinatorRecoveryTest,
     EXPECT_EQ(coordinator.getTransactionState(transaction_id), TransactionState::ACTIVE);
     EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 0u);
 }
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     RecoveryIncludesTransactionsOlderThanWalServingCache) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+        ("distributed_txn_history_wal_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+    {
+        WALManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        cfg.sync_on_write = false;
+        WALManager wal(cfg);
+        WALEntry begin;
+        begin.type = WALEntryType::BEGIN_TX;
+        begin.transaction_id = "old-commit";
+        begin.data = {{"participants", nlohmann::json::array({
+            {{"shard_id", "shard-a"}, {"endpoint", "127.0.0.1:1"}}
+        })}};
+        wal.append(begin);
+        WALEntry decision;
+        decision.type = WALEntryType::COMMIT_TX;
+        decision.transaction_id = begin.transaction_id;
+        decision.data = {{"phase", "decision"}, {"commit_timestamp_ns", 42}};
+        wal.append(decision);
+        WALEntry filler;
+        filler.type = WALEntryType::UPDATE;
+        filler.data = nlohmann::json::object();
+        for (std::size_t i = 0; i < cfg.max_in_memory_entries + 1; ++i) {
+            wal.append(filler);
+        }
+        ASSERT_TRUE(wal.flushDurable());
+        EXPECT_EQ(wal.readRange(wal.getOldestLSN()).size(), cfg.max_in_memory_entries);
+    }
+    auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.wal_directory = wal_dir;
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+    EXPECT_EQ(coordinator.getTransactionState("old-commit"), TransactionState::COMMITTING);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coordinator.getTransactionState("old-commit"), TransactionState::COMMITTING);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     ContradictoryWalDecisionsRejectStartup) {
+    for (int scenario = 0; scenario < 3; ++scenario) {
+        SCOPED_TRACE(scenario);
+        const auto wal_dir = (std::filesystem::temp_directory_path() /
+            ("distributed_txn_conflict_wal_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        struct WalDirGuard {
+            const std::string& path;
+            ~WalDirGuard() { std::filesystem::remove_all(path); }
+        } guard{wal_dir};
+        {
+            WALManagerConfig cfg;
+            cfg.wal_directory = wal_dir;
+            WALManager wal(cfg);
+            WALEntry decision;
+            decision.transaction_id = "conflict";
+            decision.type = WALEntryType::COMMIT_TX;
+            decision.data = {{"phase", "decision"}};
+            if (scenario != 2) {
+                decision.data["commit_timestamp_ns"] = 42;
+            }
+            wal.append(decision);
+            if (scenario == 0) {
+                decision.type = WALEntryType::ABORT_TX;
+                wal.append(decision);
+            } else if (scenario == 1) {
+                decision.data["commit_timestamp_ns"] = 43;
+                wal.append(decision);
+            }
+            ASSERT_TRUE(wal.flushDurable());
+        }
+        auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+        DistributedTransactionCoordinator::Config cfg;
+        cfg.wal_directory = wal_dir;
+        EXPECT_THROW(DistributedTransactionCoordinator(truetime, cfg), std::runtime_error);
+    }
+}
+
+#if !defined(_WIN32)
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     OperationWalFlushFailureBlocksCommitAndReadiness) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+        ("distributed_txn_operation_wal_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = true;
+    cfg.wal_directory = wal_dir;
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+    const auto transaction_id = coordinator.beginTransaction({"shard-a"});
+    ASSERT_FALSE(transaction_id.empty());
+    ASSERT_TRUE(coordinator.addOperation(
+        transaction_id, "shard-a", {{"type", "put"}, {"key", "already-durable"}}));
+
+    {
+        ScopedEnvVar fail_fsync("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", "1");
+        EXPECT_FALSE(coordinator.addOperation(
+            transaction_id, "shard-a", {{"type", "put"}, {"key", "k"}, {"value", "v"}}));
+    }
+
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id), TransactionState::ABORTING);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+    EXPECT_FALSE(coordinator.commit(transaction_id));
+    EXPECT_FALSE(coordinator.addOperation(
+        transaction_id, "shard-a", {{"type", "put"}, {"key", "other"}}));
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     UncertainCommitNeverWritesOppositeDecision) {
+    for (const bool percolator : {false, true}) {
+        SCOPED_TRACE(percolator);
+        const auto wal_dir = (std::filesystem::temp_directory_path() /
+            ("distributed_txn_decision_wal_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        struct WalDirGuard {
+            const std::string& path;
+            ~WalDirGuard() { std::filesystem::remove_all(path); }
+        } guard{wal_dir};
+
+        {
+            TrueTime::Config tt;
+            tt.base_uncertainty_us = 200000;
+            auto truetime = std::make_shared<TrueTime>(tt);
+            DistributedTransactionCoordinator::Config cfg;
+            cfg.wal_directory = wal_dir;
+            cfg.use_percolator_for_snapshot = percolator;
+            DistributedTransactionCoordinator coordinator(truetime, cfg);
+            const auto txn_id = coordinator.beginTransaction(
+                {}, percolator ? DistributedIsolationLevel::SNAPSHOT_ISOLATION
+                               : DistributedIsolationLevel::SERIALIZABLE);
+            ASSERT_FALSE(txn_id.empty());
+            auto result = std::async(std::launch::async, [&] { return coordinator.commit(txn_id); });
+            const auto expected_state = percolator ? TransactionState::PREPARING
+                                                   : TransactionState::PREPARED;
+            const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+            while (coordinator.getTransactionState(txn_id) != expected_state &&
+                   std::chrono::steady_clock::now() < deadline) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            ASSERT_EQ(coordinator.getTransactionState(txn_id), expected_state);
+            {
+                ScopedEnvVar fail_fsync("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", "1");
+                EXPECT_FALSE(result.get());
+            }
+            EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTING);
+            EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+                const auto in_doubt = coordinator.getRecoverableTransactions();
+                ASSERT_EQ(in_doubt.size(), 1u);
+                EXPECT_FALSE(in_doubt.front().decision_recorded);
+            EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+            EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTING);
+        }
+
+        WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir;
+        WALManager wal(wal_cfg);
+        const auto entries = wal.readRange(wal.getOldestLSN());
+        std::size_t commits = 0;
+        std::size_t aborts = 0;
+        for (const auto& entry : entries) {
+            commits += entry.type == WALEntryType::COMMIT_TX;
+            aborts += entry.type == WALEntryType::ABORT_TX;
+        }
+        EXPECT_EQ(commits, 1u);
+        EXPECT_EQ(aborts, 0u);
+    }
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     RecoveryRequiresDurableDecisionBeforeTerminalDelivery) {
+    for (const bool has_commit : {false, true}) {
+        SCOPED_TRACE(has_commit);
+        const auto wal_dir = (std::filesystem::temp_directory_path() /
+            ("distributed_txn_reaffirm_wal_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        struct WalDirGuard {
+            const std::string& path;
+            ~WalDirGuard() { std::filesystem::remove_all(path); }
+        } guard{wal_dir};
+        const std::string txn_id = "reaffirm";
+        {
+            WALManagerConfig wal_cfg;
+            wal_cfg.wal_directory = wal_dir;
+            wal_cfg.sync_on_write = true;
+            WALManager wal(wal_cfg);
+            WALEntry begin;
+            begin.type = WALEntryType::BEGIN_TX;
+            begin.transaction_id = txn_id;
+            begin.data = {{"participants", nlohmann::json::array({
+                {{"shard_id", "shard-a"}, {"endpoint", "127.0.0.1:1"}}
+            })}};
+            wal.append(begin);
+            if (has_commit) {
+                WALEntry decision;
+                decision.type = WALEntryType::COMMIT_TX;
+                decision.transaction_id = txn_id;
+                decision.data = {{"phase", "decision"}, {"commit_timestamp_ns", 42}};
+                wal.append(decision);
+            }
+            wal.flush();
+        }
+        {
+            auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+            DistributedTransactionCoordinator::Config cfg;
+            cfg.wal_directory = wal_dir;
+            cfg.rpc_timeout_ms = 50;
+            DistributedTransactionCoordinator coordinator(truetime, cfg);
+            coordinator.setShardEndpointMap({{"shard-a", "127.0.0.1:1"}});
+            {
+                ScopedEnvVar fail_fsync("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", "1");
+                EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+            }
+            EXPECT_EQ(coordinator.getTransactionState(txn_id),
+                      has_commit ? TransactionState::COMMITTING : TransactionState::ABORTING);
+            EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+            const auto in_doubt = coordinator.getRecoverableTransactions();
+            ASSERT_EQ(in_doubt.size(), 1u);
+            EXPECT_FALSE(in_doubt.front().decision_recorded);
+            if (has_commit) {
+                EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+            }
+        }
+        if (has_commit) {
+            auto truetime = std::make_shared<TrueTime>(TrueTime::Config{});
+            DistributedTransactionCoordinator::Config cfg;
+            cfg.wal_directory = wal_dir;
+            cfg.rpc_timeout_ms = 50;
+            cfg.max_retries = 0;
+            DistributedTransactionCoordinator coordinator(truetime, cfg);
+            coordinator.setShardEndpointMap({{"shard-a", "127.0.0.1:1"}});
+            EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+            EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTING);
+            EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+            const auto in_doubt = coordinator.getRecoverableTransactions();
+            ASSERT_EQ(in_doubt.size(), 1u);
+            EXPECT_TRUE(in_doubt.front().decision_recorded);
+        }
+        WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir;
+        WALManager wal(wal_cfg);
+        const auto entries = wal.readRange(wal.getOldestLSN());
+        std::size_t commits = 0;
+        std::size_t aborts = 0;
+        for (const auto& entry : entries) {
+            commits += entry.type == WALEntryType::COMMIT_TX;
+            aborts += entry.type == WALEntryType::ABORT_TX;
+        }
+        EXPECT_EQ(commits, has_commit ? 3u : 0u);
+        EXPECT_EQ(aborts, has_commit ? 0u : 1u);
+    }
+}
+#endif
 
 TEST(MonitoringApiHandlerReadinessTest, BlocksWhileTransactionRecoveryIsUnresolved) {
     std::atomic<uint64_t> request_count{0};

@@ -102,6 +102,7 @@
 #endif
 #include "server/server_activation_profile.h"
 #include "server/server_listen_settings.h"
+#include "server/raid_config.h"
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "sharding/wal_applier.h"
@@ -2236,29 +2237,7 @@ int main(int argc, char* argv[]) {
             themis::sharding::RedundancyConfig default_config;
             if (cfg->contains("raid") && (*cfg)["raid"].contains("default")) {
                 const auto& def = (*cfg)["raid"]["default"];
-                
-                // Parse mode
-                std::string mode_str = def.value("mode", std::string("MIRROR"));
-                if (mode_str == "NONE") {
-                  default_config.mode = themis::sharding::RedundancyMode::NONE;
-                }
-                else if (mode_str == "MIRROR") default_config.mode = themis::sharding::RedundancyMode::MIRROR;
-                else if (mode_str == "STRIPE") default_config.mode = themis::sharding::RedundancyMode::STRIPE;
-                else if (mode_str == "STRIPE_MIRROR") default_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
-                else if (mode_str == "PARITY") default_config.mode = themis::sharding::RedundancyMode::PARITY;
-                else if (mode_str == "RAID6") default_config.mode = themis::sharding::RedundancyMode::RAID6;
-                else if (mode_str == "GEO_MIRROR") default_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
-                
-                default_config.replication_factor = def.value("replication_factor", 3);
-                
-                // Parse write concern
-                std::string wc_str = def.value("write_concern", std::string("MAJORITY"));
-                if (wc_str == "ONE") {
-                  default_config.write_concern = themis::sharding::WriteConcern::ONE;
-                }
-                else if (wc_str == "MAJORITY") default_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
-                else if (wc_str == "ALL") default_config.write_concern = themis::sharding::WriteConcern::ALL;
-                else if (wc_str == "QUORUM") default_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+                default_config = themis::server::detail::parseRaidConfig(def);
             }
             redundancy_manager->setDefaultConfig(default_config);
             THEMIS_INFO("  RAID default mode: {}, replication_factor: {}", 
@@ -2271,30 +2250,7 @@ int main(int argc, char* argv[]) {
                     std::string collection_name = it.key();
                     const auto& coll_config = it.value();
                     
-                    themis::sharding::RedundancyConfig coll_redundancy_config;
-                    
-                    // Parse mode
-                    std::string mode_str = coll_config.value("mode", std::string("MIRROR"));
-                    if (mode_str == "NONE") {
-                      coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
-                    }
-                    else if (mode_str == "MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::MIRROR;
-                    else if (mode_str == "STRIPE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE;
-                    else if (mode_str == "STRIPE_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
-                    else if (mode_str == "PARITY") coll_redundancy_config.mode = themis::sharding::RedundancyMode::PARITY;
-                    else if (mode_str == "RAID6") coll_redundancy_config.mode = themis::sharding::RedundancyMode::RAID6;
-                    else if (mode_str == "GEO_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
-                    
-                    coll_redundancy_config.replication_factor = coll_config.value("replication_factor", 3);
-                    
-                    // Parse write concern
-                    std::string wc_str = coll_config.value("write_concern", std::string("MAJORITY"));
-                    if (wc_str == "ONE") {
-                      coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
-                    }
-                    else if (wc_str == "MAJORITY") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
-                    else if (wc_str == "ALL") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ALL;
-                    else if (wc_str == "QUORUM") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+                    auto coll_redundancy_config = themis::server::detail::parseRaidConfig(coll_config);
                     
                     redundancy_manager->setCollectionConfig(collection_name, coll_redundancy_config);
                     THEMIS_INFO("  Collection '{}': mode={}, replication_factor={}", 

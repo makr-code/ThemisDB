@@ -26792,7 +26792,7 @@ foreach(_tgt IN LISTS _focused_test_targets)
     #   themis_base  – Logger dllimport symbols
     #   spdlog/fmt   – logging backend
     get_target_property(_existing_libs ${_tgt} LINK_LIBRARIES)
-    if(NOT _existing_libs OR NOT "themis_base" IN_LIST _existing_libs)
+    if(TARGET themis_base AND (NOT _existing_libs OR NOT "themis_base" IN_LIST _existing_libs))
         target_link_libraries(${_tgt} PRIVATE themis_base)
     endif()
     if(TARGET spdlog::spdlog)

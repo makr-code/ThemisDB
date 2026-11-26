@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-24
+Last Updated: 2026-11-26
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -85,11 +85,14 @@ persisted log entry, persisted vote rejection, volatile-journal vote/append
 rejection, stale-term/partial-prefix rejection, bounded timeout failure, and
 proposal failure after both remote nodes are killed, plus separate leader-process
 SIGKILL/restart recovery. They have not been compiled or run in the current
-Windows benchmark configuration. Separate leader SIGKILL/restart is source
-coverage and follower processes are now wired for independent re-election.
-The focused gRPC
-runtime test plus stale-term/log, unavailable-journal, partial-prefix, timeout,
-and fault-injection cases must still execute before the gate can close. This
+Windows benchmark configuration. On 2026-11-26 the five `RaftPeerGrpc` tests
+passed once in a Linux diagnostic executable built from current production
+translation units without the existing core archive; the reused shard protobuf
+archive matched fresh generated sources and compiled objects. See
+[ROADMAP.md](ROADMAP.md#raft-proposal-and-follower-prefix-recovery-2026-11-22)
+for the build and earlier failover-failure limitations. A clean registered
+build, production application snapshot activation and crash-boundary tests
+remain required before the gate can close. This
 transport does not add conflict repair, safe membership changes, or a
 quorum-backed 2PC decision state machine. `RaftSnapshotManager` now has a
 `createAndInstall(RaftState&, ...)` overload that keeps local snapshot metadata
@@ -128,6 +131,15 @@ unless the configured installer restores application state, installs the durable
 Raft boundary, invokes the 2PC refresh, and only then acknowledges. The helper
 does not make application-state activation crash-atomic, and production
 application wiring plus multi-process runtime proof remain acceptance blockers.
+`RaftShardManager` reports `last_applied` as unavailable rather than substituting
+the commit index; it does not track a durable database applied index. An
+unavailable value must not select or certify a database snapshot boundary.
+Production snapshot
+creation requires a shard state-machine apply path that durably binds its
+database state to the exact Raft index and term. Activation must recover as one
+consistent database, Raft-anchor, and 2PC-decision generation after failure at
+every persistence boundary, with reads and writes gated until recovery finishes.
+The main server does not yet configure this lifecycle.
 Older binaries cannot read
 extension-bearing version-2 snapshots, so downgrade requires explicit state
 reconciliation. CockroachDB Parallel Commits remain out of scope until the full

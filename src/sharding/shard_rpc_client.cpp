@@ -626,13 +626,22 @@ bool ShardRPCClient::commit(
     const std::string& txn_id,
     int64_t commit_timestamp
 ) {
+    return commit(txn_id, commit_timestamp, {});
+}
+
+bool ShardRPCClient::commit(
+    const std::string& txn_id,
+    int64_t commit_timestamp,
+    const std::string& coordinator_shard_id
+) {
     THEMIS_DEBUG("RPC COMMIT to {}: txn={}, ts={}", 
                 impl_->config.endpoint, txn_id, commit_timestamp);
     
     try {
         nlohmann::json params = {
             {"transaction_id", txn_id},
-            {"commit_timestamp", commit_timestamp}
+            {"commit_timestamp", commit_timestamp},
+            {"coordinator_shard_id", coordinator_shard_id}
         };
         
         auto response = sendRequest("commit", params);
@@ -658,11 +667,19 @@ bool ShardRPCClient::commit(
  * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::abort(const std::string& txn_id) {
+    return abort(txn_id, {});
+}
+
+bool ShardRPCClient::abort(
+    const std::string& txn_id,
+    const std::string& coordinator_shard_id
+) {
     THEMIS_DEBUG("RPC ABORT to {}: txn={}", impl_->config.endpoint, txn_id);
     
     try {
         nlohmann::json params = {
-            {"transaction_id", txn_id}
+            {"transaction_id", txn_id},
+            {"coordinator_shard_id", coordinator_shard_id}
         };
         
         auto response = sendRequest("abort", params);
@@ -1370,6 +1387,7 @@ nlohmann::json ShardRPCClient::handleCommitGrpc(
 ) {
     themis::sharding::proto::CommitRequest request;
     request.set_transaction_id(params.value("transaction_id", ""));
+    request.set_coordinator_shard_id(params.value("coordinator_shard_id", ""));
     
     themis::sharding::proto::CommitResponse response;
     grpc::Status status = impl_->stub->CommitTransaction(&context, request, &response);
@@ -1404,6 +1422,7 @@ nlohmann::json ShardRPCClient::handleAbortGrpc(
 ) {
     themis::sharding::proto::AbortRequest request;
     request.set_transaction_id(params.value("transaction_id", ""));
+    request.set_coordinator_shard_id(params.value("coordinator_shard_id", ""));
     
     themis::sharding::proto::AbortResponse response;
     grpc::Status status = impl_->stub->AbortTransaction(&context, request, &response);

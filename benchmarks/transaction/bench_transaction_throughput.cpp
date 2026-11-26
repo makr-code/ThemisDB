@@ -4,7 +4,7 @@
 // TX-4 (2PC Latency, 5 Shards) — direct benchmark via TwoPhaseCommitFixture:
 //   Uses TwoPhaseCommitCoordinator + 5 in-process TwoPhaseCommitParticipant mocks.
 //   A unique coordinator/participant WAL and valid per-shard fencing tokens
-//   exercise the complete durable in-process protocol with null storage callbacks.
+//   exercise the durable in-process protocol with explicit no-op storage callbacks.
 //   SLO: ≤ 5 ms per cross-shard commit.
 //
 // TX-6 (Deadlock Detection Call Latency) — direct benchmark via DeadlockDetectionFixture:
@@ -1608,7 +1608,7 @@ BENCHMARK(BM_TransactionHotKeyOverwrite)
 //
 // Measures end-to-end 2PC commit latency across N in-process participants,
 // including coordinator and participant WALs, fencing, PREPARE fan-out, and
-// COMMIT broadcast. Null storage callbacks exclude application storage work.
+// COMMIT broadcast. No-op storage callbacks exclude application storage work.
 //
 // SLO (TX-4): ≤ 5 ms per commit across 5 shards.
 // ============================================================================
@@ -1633,7 +1633,7 @@ public:
                 "Failed to clear 2PC benchmark WAL: " + cleanup_error.message());
         }
 
-        // Build durable participants first (null callbacks → no storage application).
+        // Benchmark-only no-op callbacks exclude application storage work.
         for (int i = 0; i < num_shards; ++i) {
             const auto shard_id = "bench_shard_" + std::to_string(i);
             themis::sharding::TwoPhaseCommitParticipant::Config participant_cfg;
@@ -1649,7 +1649,10 @@ public:
             participants_.emplace(
                 shard_id,
                 std::make_unique<themis::sharding::TwoPhaseCommitParticipant>(
-                    shard_id, participant_cfg)
+                    shard_id, participant_cfg,
+                    [](const std::string&, const nlohmann::json&) { return true; },
+                    [](const std::string&, const nlohmann::json&, int64_t) { return true; },
+                    [](const std::string&) {})
             );
         }
 

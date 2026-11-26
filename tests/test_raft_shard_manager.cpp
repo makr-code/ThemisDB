@@ -232,7 +232,7 @@ TEST_F(RaftShardManagerTest, GetShardRaftInfoDetails) {
     EXPECT_EQ(info->role, RaftNodeState::FOLLOWER);
     EXPECT_EQ(info->term, 0);
     EXPECT_EQ(info->commit_index, 0);
-    EXPECT_EQ(info->last_applied, 0);
+    EXPECT_FALSE(info->last_applied.has_value());
     EXPECT_TRUE(info->leader_id.empty());
     
     // Replica IDs (if present) must be non-empty and exclude the local node ID.
@@ -240,6 +240,26 @@ TEST_F(RaftShardManagerTest, GetShardRaftInfoDetails) {
         EXPECT_FALSE(replica_id.empty());
         EXPECT_NE(replica_id, "shard_001");
     }
+}
+
+TEST_F(RaftShardManagerTest, CommittedIndexDoesNotImplyDatabaseApplication) {
+    ASSERT_TRUE(manager_->initializeShard(
+        "group_alpha", {"shard_001", "shard_002", "shard_003"}));
+    const auto raft = manager_->getRaftInstance("group_alpha");
+    ASSERT_NE(raft, nullptr);
+    auto& log = raft->getRaftState().getLog();
+    ASSERT_EQ(log.append(LogEntry{1, 1, "committed"}), 1u);
+    log.setCommitIndex(1);
+
+    const auto info = manager_->getShardRaftInfo("group_alpha");
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->commit_index, 1u);
+    EXPECT_FALSE(info->last_applied.has_value());
+
+    const auto all_info = manager_->getAllShardRaftInfo();
+    ASSERT_EQ(all_info.size(), 1u);
+    EXPECT_EQ(all_info.at("group_alpha").commit_index, 1u);
+    EXPECT_FALSE(all_info.at("group_alpha").last_applied.has_value());
 }
 
 TEST_F(RaftShardManagerTest, MultipleShardsConcurrent) {

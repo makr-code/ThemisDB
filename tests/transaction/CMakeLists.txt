@@ -270,13 +270,17 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_process_crash_recovery.cpp
     target_link_libraries(test_transaction_process_crash_recovery PRIVATE
         ${TEST_LIBS}
         GTest::gtest
-        themis_base
         RocksDB::rocksdb
         spdlog::spdlog
         Threads::Threads
     )
+    if(TARGET themis_base)
+        target_link_libraries(test_transaction_process_crash_recovery PRIVATE themis_base)
+    endif()
     if(TARGET themis_sharding)
         target_link_libraries(test_transaction_process_crash_recovery PRIVATE themis_sharding)
+    else()
+        target_link_libraries(test_transaction_process_crash_recovery PRIVATE themis_core)
     endif()
 
     target_compile_definitions(test_transaction_process_crash_recovery PRIVATE
