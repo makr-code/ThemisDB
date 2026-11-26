@@ -496,6 +496,8 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
                 (root / "CMakeLists.txt").write_text(
                     "cmake_minimum_required(VERSION 3.20)\nproject(DIS10Link C CXX)\n"
                     + zlib + "find_package(Threads REQUIRED)\n"
+                    + "add_library(GTest::gtest INTERFACE IMPORTED)\n"
+                    + "add_library(GTest::gtest_main INTERFACE IMPORTED)\n"
                     + "add_library(themis_sharding SHARED dependency.c)\n"
                     + "set(THEMIS_BUILD_MODULAR ON)\n" + helper + target,
                     encoding="utf-8",
