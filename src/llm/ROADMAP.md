@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-19 -->
+<!-- Last Updated: 2026-11-26 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -271,6 +271,11 @@ This plan is a research-backed proposal, not a release commitment. It separates 
 - [ ] Qualify AdaLoRA artifact promotion and Multi-LoRA request activation/
   composition separately, including base compatibility, cache validity,
   in-flight lifecycle and explicit required-adapter failure
+  (Target: Q2 2027 proposal).
+- [ ] Qualify GPU-trained native Attention/MLP LoRA artifacts with Multi-LoRA
+  serving and shared VRAM/inference admission; track real GPU training and
+  CPU/GPU parity gates in [the training roadmap](../training/ROADMAP.md)
+  rather than equate GPU inference offload with training support
   (Target: Q2 2027 proposal).
 - [ ] Verify tensor-layer selection-to-llama.cpp handoff with measured
   reconstruction/task-quality bounds; do not infer direct tensor execution

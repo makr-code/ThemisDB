@@ -37,11 +37,19 @@ Status: Active
   `GGML_CPU_REPACK=OFF` is required and configured in both entry points.
   GPU/F16/BF16 training remains unsupported. No inference performance claim
   follows from the tiny-model tests.
+- Real native GPU Attention/MLP LoRA/AdaLoRA training is a delivery target,
+  Vulkan first, then CUDA, with explicit device/capability/VRAM admission, all-target
+  gradient and CPU/GPU parity gates, export/resume/failure tests and actual
+  device benchmarks. Canonical acceptance is in `src/training/ROADMAP.md`
+  and `src/training/FUTURE_ENHANCEMENTS.md`; GPU inference or compilation
+  does not establish training support.
 - Fork Actions verified current-base draft-PR publication and fail-closed
   latest-upstream conflict reporting (`makr-code/llama.cpp#2`). Candidates
   merge upstream and must be promoted with normal merge commits; squash,
   rebase and auto-merge are disabled on the fork. Latest upstream has not
-  been promoted. Direct CMake jobs initialize the public pin, with a focused
+  been promoted; conflict resolution is in draft `makr-code/llama.cpp#4` and
+  requires review and merge before the parent pin update. Direct CMake jobs
+  initialize the public pin, with a focused
   checkout-coverage regression in the core PR gate.
 
 ## Docker release Trivy ownership boundary

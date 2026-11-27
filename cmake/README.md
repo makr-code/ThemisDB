@@ -71,8 +71,10 @@ The parent automation becomes active only after its configuration reaches
 `develop`; a local file or unmerged PR is not an active schedule.
 Fork workflow runs have verified both current-base candidate publication and
 fail-closed conflict reporting. Latest upstream currently conflicts with the
-training patch; see `makr-code/llama.cpp#2`. The validation-only draft
-`makr-code/llama.cpp#3` is not an upstream update and must not be merged.
+training patch; see `makr-code/llama.cpp#2`. The conflict-resolution candidate
+is under review in `makr-code/llama.cpp#4`; it must be merged into `themisdb`
+before the corresponding ThemisDB pin update is approved. The validation-only
+draft `makr-code/llama.cpp#3` was closed without merging.
 
 Run the focused configuration contracts with:
 
@@ -92,6 +94,9 @@ to preserve tensor layouts for gradients; this can affect CPU inference
 performance and needs representative benchmarking. GPU, F16/BF16-base,
 aLoRA and truncated-history training are not supported by this patch.
 GGUF export is synchronous, not atomic; publish only completed exports.
+The planned native GPU training sequence is Vulkan first, then CUDA, with
+separate real-device capability, gradient, parity and resource gates for each
+backend; see `src/training/FUTURE_ENHANCEMENTS.md`.
 
 ## MSVC Handler Optimization
 

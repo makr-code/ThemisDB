@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-14"
+Last Updated: "2026-11-26"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,6 +50,25 @@ work; historical completion labels do not close these new gates. See
 [the specialization plan](FUTURE_ENHANCEMENTS.md) and
 [the hybrid boundary](../llm/ARCHITECTURE.md).
 
+### Native GPU LoRA/AdaLoRA Training (Target: Q2 2027 proposal)
+
+- [ ] Train Attention and MLP LoRA tensors through the patched llama.cpp
+  forward/backward graph and optimizer on an explicitly selected GPU;
+  qualify Vulkan first, then CUDA, with frozen base weights and no silent CPU or engine
+  fallback (Target: Q2 2027 proposal).
+- [ ] Connect GPU training to the existing source-neutral provider/backend
+  contracts, AdaLoRA rank allocation, tenant/domain owner fencing and signed
+  artifact admission; distribute adapters, never source documents
+  (Target: Q2 2027 proposal).
+- [ ] Qualify real GPU execution, CPU/GPU gradient and export/inference parity,
+  checkpoint recovery, bounded VRAM admission and time-to-target-loss
+  benchmarks before advertising support (Target: Q2 2027 proposal).
+
+Current evidence covers the fork's CPU native training only; GPU inference,
+GPU-labeled stress tests and successful GPU backend compilation do not establish GPU
+backpropagation or optimizer support. Detailed gates are in
+[FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md#native-gpu-loraadalora-training-target-q2-2027-proposal).
+
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
 - [x] expand stress coverage for GPU-backed and checkpoint-resume workloads (Wave D: test_training_highcardinality_stress.cpp — 3 cases delivered 2026-09-16)
@@ -64,10 +83,12 @@ work; historical completion labels do not close these new gates. See
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
+- [ ] Define native GPU backend/device capability, supported dtype/target profiles, VRAM reservation, cancellation and checkpoint ownership contracts (Target: Q2 2027 proposal).
 - [x] freeze training, checkpoint, and adapter lifecycle contracts for current major line (2026-08-09: TRAINING_CONTRACT.md created; lifecycle states, adapter invariants, checkpoint atomicity frozen)
 - [x] define explicit error taxonomy for labeling, checkpoint, and serving incidents (2026-08-09: TRAINING_CONTRACT.md §4 references frozen TrainingErrorCode; summary table for 3 incident classes)
 
 ### Phase 2: Core Implementation
+- [ ] Implement GPU-resident Attention/MLP forward/backward and LoRA optimizer work in the fork, then integrate the existing native training backend and AdaLoRA rank scheduling (Target: Q2 2027 proposal).
 - [ ] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
 - [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 - [x] load bounded, validated samples from the configured ThemisDB collection into IncrementalLoRATrainer (Target: Q4 2026)
@@ -75,6 +96,7 @@ work; historical completion labels do not close these new gates. See
 - [~] add the source-neutral `ITrainingSampleProvider` contract, read-only docs.db provider, and shared native AdaLoRA consumer with TinyLlama GGUF export (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
+- [ ] Reject unsupported GPU/operator/dtype profiles and handle OOM, cancellation, device loss and stale owner epochs without CPU fallback or partial publication (Target: Q2 2027 proposal).
 - [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
 - [x] fail closed on DB query errors and invalid collection names; count and skip malformed/empty samples deterministically (Target: Q4 2026)
 - [x] filter selected IDs before the bounded DB result limit and fail closed for empty, duplicate, missing, or invalid selected records (Target: Q4 2026)
@@ -82,6 +104,7 @@ work; historical completion labels do not close these new gates. See
 - [x] unify diagnostics across dataset, training, and adapter incident classes (Wave D: RUNBOOK_TRAINING_PIPELINE.md — 5 log patterns delivered 2026-09-16)
 
 ### Phase 4: Tests
+- [ ] Run real-device frozen-base, all-target-gradient, CPU/GPU parity, export/load, interruption/resume and inference-contention tests; report absent hardware as not run (Target: Q2 2027 proposal).
 - [x] AdaLoRAAdapter::saveToFile()/loadFromFile() checkpoint round-trip — LORA-04 updated (2026-08-24)
 - [x] AdaLoRA rebuild-gate contract — LORA-08 (cache HIT / MISS / force-rebuild, 4-phase test) (2026-08-24)
 - [x] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Wave D: test_training_highcardinality_stress.cpp delivered 2026-09-16)
@@ -90,11 +113,13 @@ work; historical completion labels do not close these new gates. See
 - [x] cover a selected key beyond the unfiltered query limit, partial/duplicate selection failure, TT scaling/output round-trip, orthogonality reporting, and metadata reload (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
+- [ ] Record GPU time-to-target-loss, tokens/s, peak VRAM and concurrent inference p95/p99 per model/device/profile; enforce admitted memory bounds and the same-profile regression gate (Target: Q2 2027 proposal).
 - [x] lock benchmark-backed release gates for training hot paths (Wave D: bench_training_dedicated_gates.cpp — TR-BM-01..04 delivered 2026-09-16)
 - [x] benchmark built-in, custom, JSON, trainBatch, AQL iterator, collection, selection, and pipeline paths with separate read/preprocess/train/end-to-end counters (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
+- [ ] Publish the tested GPU capability matrix, exact device/runtime/model identities, failure runbook and benchmark evidence before declaring GPU training supported (Target: Q2 2027 proposal).
 - [x] core training module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 
@@ -105,10 +130,12 @@ work; historical completion labels do not close these new gates. See
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths
 - [ ] release benchmark stabilization complete
+- [ ] native GPU training capability, numerical parity and resource/failure gates passed on actual hardware
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on training configuration, adapter size, and available acceleration.
+- Native Attention/MLP GPU training is an explicit delivery goal, not an implemented or validated capability of the current fork integration.
 - model-backed source cases require a real GGUF artifact; without one, their benchmark preflight is reported as not run.
 - docs.db training requires a generated RocksDB with valid `chunk_` records or legacy `doc_` previews and a real TinyLlama-compatible GGUF model; provider-only unit coverage is not end-to-end training evidence.
 - training source authorization and cryptographic signing/verification of exported AdaLoRA artifacts remain unimplemented production gates.
