@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-26"
+Last Updated: "2026-11-28"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-26
+Datum: 2026-11-28
 Status: Active
 
 ## llama.cpp dependency and update boundary
@@ -167,6 +167,12 @@ Status: Active
 - Mainline packaging and nightly GitHub Release publication may proceed when at least one package exists and every produced package passes the runtime gate. A runtime validation failure still blocks publication, and a release with no distributable package fails closed.
 - A partial platform release does not hide the failed build lane: the aggregate matrix and final release status remain failed. Nightly Docker manifest promotion still requires both validated `amd64` and `arm64` image digests.
 - `release-mainline.yml` checks out the selected workflow ref before resolving a manual-dispatch `tag_name`. If the tag exists, preflight switches to it; otherwise it validates the selected ref without creating a tag or release. Dispatch dry-runs skip publication jobs and cannot create registry PRs.
+
+## Retry-safe nightly publication
+
+- The canonical operating contract is [Release Strategy §8](../../RELEASE_STRATEGY.md#8-nightly-release-flow-automated) and [`release-nightly.yml`](../../.github/workflows/release-nightly.yml). A retry may resume only a draft prerelease whose immutable tag points to the exact built source commit. It may replace expected assets, but unexpected assets, a mismatched tag/ref, a non-draft release, or a newer published-nightly baseline fails closed.
+- The nightly Docker approval workflow validates the selected source semantically: the Docker context must include `RELEASE_TYPE`, the build stage must copy it into `/src`, and CMake must consume it. Unrelated historical source changes are allowed; the general source-preflight override does not bypass this contract.
+- Tags and published releases are not moved or deleted automatically. Inspect and manually reconcile inconsistent GitHub state; a successful build or draft upload is not evidence that publication completed.
 
 ## Release approval and downstream publication
 
