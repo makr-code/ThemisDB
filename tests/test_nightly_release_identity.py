@@ -96,40 +96,123 @@ class NightlyReleaseIdentityTests(unittest.TestCase):
         publish = next(s for s in jobs["publish-release"]["steps"] if s.get("id") == "release")
         self.assertIn("inputs.dry_run != true", publish["if"])
         self.assertEqual(publish["env"]["SOURCE_SHA"], SHA_EXPR)
+        self.assertEqual(publish["env"]["EXPECTED_LAST_NIGHTLY_TAG"],
+                         "${{ needs.check-changes.outputs.last-nightly-tag }}")
         script = publish["with"]["script"]
         harness = r"""
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
         const calls = [];
-        const uploaded = [];
+        const scenario = process.env.SCENARIO;
+        const sha = process.env.SOURCE_SHA;
+        const expectedBaseline = process.env.EXPECTED_LAST_NIGHTLY_TAG;
+        const fail = status => { const e = new Error('API error'); e.status = status; throw e; };
+        const state = {
+          ref: scenario === 'mismatched-source'
+            ? {type:'commit',sha:'b'.repeat(40)}
+            : (['matching-orphan-tag', 'matching-partial-draft', 'upload-failure-retry',
+                'non-draft-release', 'unexpected-assets', 'newer-publication-race'].includes(scenario)
+              ? {type:'commit',sha} : null),
+          release: ['matching-partial-draft', 'non-draft-release', 'unexpected-assets',
+                    'newer-publication-race'].includes(scenario)
+            ? {id:123,tag_name:process.env.NIGHTLY_TAG,
+               draft:scenario !== 'non-draft-release',prerelease:true}
+            : null,
+          assets: ['matching-partial-draft', 'newer-publication-race'].includes(scenario)
+            ? [{name:'build-metadata.json',state:'uploaded',size:2}]
+            : (scenario === 'unexpected-assets'
+              ? [{name:'unexpected.txt',state:'uploaded',size:1}] : []),
+          published: scenario === 'newer-publication-race'
+            ? [{tag_name:'v2.4.0-nightly.20261128.41',draft:false,prerelease:true,
+                published_at:'2026-11-28T09:00:00Z'}]
+            : (expectedBaseline
+              ? [{tag_name:expectedBaseline,draft:false,prerelease:true,
+                  published_at:'2026-11-27T09:00:00Z'}] : []),
+          uploadFailures: scenario === 'upload-failure-retry' ? 1 : 0
+        };
         const realRequire = require;
         const child = realRequire('child_process');
+        const listReleases = async () => {};
+        const listAssets = async () => {};
         const fakeRequire = name => name === 'child_process' ? {
           execFileSync: (program, args, options) => {
             if (program !== 'gh') return child.execFileSync(program, args, options);
+            if (!process.env.GH_TOKEN) throw new Error('GH_TOKEN is required for gh uploads');
+            if (!args.includes('--clobber')) throw new Error('Expected uploads to use --clobber');
             const file = args[3];
             const asset = realRequire('path').basename(file);
             calls.push('upload:' + asset);
-            if (scenario === 'upload-failure') fail(500);
-            uploaded.push({name:asset,state:'uploaded',size:realRequire('fs').statSync(file).size});
+            if (state.uploadFailures > 0 && asset === 'package.tgz') {
+              state.uploadFailures -= 1;
+              fail(500);
+            }
+            const uploaded = {name:asset,state:'uploaded',size:realRequire('fs').statSync(file).size};
+            state.assets = state.assets.filter(existing => existing.name !== asset);
+            state.assets.push(uploaded);
           }
         } : realRequire(name);
-        const scenario = process.env.SCENARIO;
-        const fail = status => { const e = new Error('API error'); e.status = status; throw e; };
         const github = {rest: {repos: {
-          getReleaseByTag: async () => { calls.push('getRelease'); if (scenario !== 'release-exists') fail(404); },
-          createRelease: async x => {calls.push('createRelease:' + x.target_commitish + ':' + x.draft); return {data:{id:123}};},
-          listReleaseAssets: async () => {},
-          getRelease: async () => {calls.push('getDraft'); return {data:{draft:true,tag_name:process.env.NIGHTLY_TAG}};},
-          updateRelease: async x => {calls.push('publish:' + x.draft);}
+          getReleaseByTag: async () => {
+            calls.push('getRelease');
+            if (!state.release) fail(404);
+            return {data:state.release};
+          },
+          createRelease: async x => {
+            calls.push('createRelease:' + x.target_commitish + ':' + x.draft);
+            state.release = {id:123,tag_name:x.tag_name,draft:x.draft,prerelease:x.prerelease};
+            return {data:state.release};
+          },
+          listReleases,
+          listReleaseAssets: listAssets,
+          getRelease: async () => {calls.push('getDraft'); return {data:state.release};},
+          updateRelease: async x => {
+            calls.push('publish:' + x.draft);
+            state.release.draft = x.draft;
+          }
         }, git: {
-          createRef: async x => {calls.push('createRef:' + x.sha); if (scenario === 'tag-exists') fail(422);},
-          getRef: async () => {calls.push('getRef'); return {data:{object:{type:'commit',
-            sha: scenario === 'wrong-ref' ? 'b'.repeat(40) : process.env.SOURCE_SHA}}};}
-        }}, paginate: async () => {calls.push('listAssets'); return scenario === 'missing-asset' ? [] : uploaded;}};
-        new AsyncFunction('github', 'context', 'require', process.env.SCRIPT)(
+          createRef: async x => {
+            calls.push('createRef:' + x.sha);
+            if (state.ref) fail(422);
+            state.ref = {type:'commit',sha:x.sha};
+          },
+          getRef: async () => {
+            calls.push('getRef');
+            if (!state.ref) fail(404);
+            return {data:{object:state.ref}};
+          }
+        }}, paginate: async method => {
+          if (method === listReleases) {
+            calls.push('listPublishedReleases');
+            return state.published;
+          }
+          calls.push('listAssets');
+          return state.assets;
+        }};
+        const publish = new AsyncFunction('github', 'context', 'require', process.env.SCRIPT);
+        const run = () => publish(
           github, {repo:{owner:'owner',repo:'repo'}}, fakeRequire
-        ).then(() => console.log(JSON.stringify({ok:true,calls})))
-         .catch(e => console.log(JSON.stringify({ok:false,calls,error:e.message})));
+        );
+        (async () => {
+          try {
+            await run();
+            if (scenario === 'upload-failure-retry') throw new Error('first upload unexpectedly succeeded');
+            console.log(JSON.stringify({ok:true,calls,releaseDraft:state.release?.draft,ref:state.ref}));
+          } catch (error) {
+            if (scenario !== 'upload-failure-retry' || error.message !== 'API error') {
+              console.log(JSON.stringify({ok:false,calls,error:error.message,
+                releaseDraft:state.release?.draft,ref:state.ref}));
+              return;
+            }
+            const firstAttemptCalls = [...calls];
+            try {
+              await run();
+              console.log(JSON.stringify({ok:true,calls,firstAttemptCalls,
+                releaseDraft:state.release?.draft,ref:state.ref}));
+            } catch (retryError) {
+              console.log(JSON.stringify({ok:false,calls,firstAttemptCalls,error:retryError.message,
+                releaseDraft:state.release?.draft,ref:state.ref}));
+            }
+          }
+        })();
         """
         with tempfile.TemporaryDirectory(dir=ROOT) as temp:
             directory = Path(temp)
@@ -140,8 +223,9 @@ class NightlyReleaseIdentityTests(unittest.TestCase):
             (directory / "release-artifacts").mkdir()
             (directory / "release-artifacts/package.tgz").write_text("data")
             (directory / "release-notes.md").write_text("notes")
-            for scenario in ("success", "wrong-source", "wrong-metadata", "release-exists", "tag-exists",
-                             "wrong-ref", "upload-failure", "missing-asset"):
+            for scenario in ("success", "wrong-source", "wrong-metadata", "matching-orphan-tag",
+                             "matching-partial-draft", "mismatched-source", "non-draft-release",
+                             "unexpected-assets", "upload-failure-retry", "newer-publication-race"):
                 with self.subTest(scenario=scenario):
                     (directory / "build-metadata.json").write_text(json.dumps({
                         "git": {"commit": "b" * 40 if scenario == "wrong-metadata" else sha},
@@ -150,20 +234,42 @@ class NightlyReleaseIdentityTests(unittest.TestCase):
                     result = subprocess.run(["node", "-e", harness], cwd=directory, capture_output=True, text=True,
                                             env={**os.environ, "SCRIPT": script, "SCENARIO": scenario,
                                                  "SOURCE_SHA": "b" * 40 if scenario == "wrong-source" else sha,
+                                                 "GH_TOKEN": "test-token",
+                                                 "EXPECTED_LAST_NIGHTLY_TAG":
+                                                     "" if scenario in ("success", "newer-publication-race")
+                                                     else "v2.4.0-nightly.20261127.1",
                                                  "NIGHTLY_TAG": "v2.4.0-nightly.20261128.42",
                                                  "BUILD_VERSION": "2.4.0"})
                     self.assertEqual(result.returncode, 0, result.stderr)
                     data = json.loads(result.stdout)
-                    self.assertEqual(data["ok"], scenario == "success", data)
+                    expected_success = scenario in ("success", "matching-orphan-tag",
+                                                    "matching-partial-draft", "upload-failure-retry")
+                    self.assertEqual(data["ok"], expected_success, data)
                     if scenario == "success":
-                        self.assertEqual(data["calls"], ["getRelease", "createRef:" + sha, "getRef",
-                                                         "createRelease:" + sha + ":true", "upload:build-metadata.json",
-                                                         "upload:package.tgz", "listAssets", "getRef", "getDraft",
-                                                         "publish:false"])
-                    else:
+                        self.assertIn("createRef:" + sha, data["calls"])
+                        self.assertIn("createRelease:" + sha + ":true", data["calls"])
+                        self.assertEqual(data["calls"].count("publish:false"), 1)
+                    if scenario == "matching-orphan-tag":
+                        self.assertNotIn("createRef:" + sha, data["calls"])
+                        self.assertIn("createRelease:" + sha + ":true", data["calls"])
+                    if scenario == "matching-partial-draft":
+                        self.assertNotIn("createRelease:" + sha + ":true", data["calls"])
+                        self.assertEqual(data["calls"].count("listAssets"), 2)
+                        self.assertEqual(data["calls"].count("publish:false"), 1)
+                    if scenario == "upload-failure-retry":
+                        self.assertNotIn("publish:false", data["firstAttemptCalls"])
+                        self.assertEqual(data["calls"].count("getRelease"), 2)
+                        self.assertEqual(data["calls"].count("publish:false"), 1)
+                    if scenario in ("mismatched-source", "non-draft-release", "unexpected-assets"):
                         self.assertNotIn("publish:false", data["calls"])
-                        if scenario not in ("upload-failure", "missing-asset"):
-                            self.assertFalse(any(c.startswith("createRelease:") for c in data["calls"]))
+                        self.assertFalse(any(c.startswith("upload:") for c in data["calls"]))
+                    if scenario in ("wrong-source", "wrong-metadata"):
+                        self.assertNotIn("publish:false", data["calls"])
+                    if scenario == "newer-publication-race":
+                        self.assertNotIn("publish:false", data["calls"])
+                        self.assertIn("listPublishedReleases", data["calls"])
+                        self.assertTrue(data["releaseDraft"])
+                        self.assertEqual(data["ref"]["sha"], sha)
 
     def test_release_notes_preserve_special_commit_subjects(self):
         script = next(s["run"] for s in NIGHTLY["jobs"]["publish-release"]["steps"]

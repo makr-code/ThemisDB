@@ -60,40 +60,30 @@ class DockerReleaseTypeContextTests(unittest.TestCase):
         self.assertEqual(build["with"]["context"], ".")
         self.assertEqual(self.steps.index(self.context_step) + 1, self.steps.index(build))
 
-    def test_selected_source_contract_fails_closed_even_with_preflight_override(self):
+    def test_selected_source_contract_accepts_unrelated_changes(self):
         files = (".dockerignore", "docker/Dockerfile.unified", "CMakeLists.txt",
                  "cmake/Versions.cmake")
-        for changed in ("", *files, "docker/Dockerfile.unified.dockerignore"):
-            with self.subTest(changed=changed), tempfile.TemporaryDirectory(dir=ROOT) as temp:
-                root = Path(temp)
-                for name in files:
-                    target = root / name
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copyfile(ROOT / name, target)
-                if changed == "docker/Dockerfile.unified.dockerignore":
-                    (root / changed).write_text("*\n")
-                elif changed:
-                    with (root / changed).open("a") as source:
-                        source.write("\n# historical change\n")
-                (root / "shell-functions").write_text(
-                    "git() {\n"
-                    '  case "$1" in\n'
-                    '    fetch) return 0 ;;\n'
-                    '    show) cat "$TRUSTED_ROOT/${2#*:}" ;;\n'
-                    '    *) return 1 ;;\n'
-                    "  esac\n"
-                    "}\n"
-                )
-                result = subprocess.run(
-                    ["bash", "-euo", "pipefail", "-c", self.contract_step["run"]],
-                    cwd=root, env={
-                        **os.environ, "BASH_ENV": str(root / "shell-functions"),
-                        "TRUSTED_ROOT": str(ROOT), "WORKFLOW_SHA": "trusted",
-                        "RELEASE_TYPE": "nightly", "OVERRIDE_SOURCE_PREFLIGHT": "true",
-                    },
-                    text=True, capture_output=True, check=False,
-                )
-                self.assertEqual(result.returncode == 0, not changed, result.stderr)
+        with tempfile.TemporaryDirectory(dir=ROOT) as temp:
+            root = Path(temp)
+            for name in files:
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / name, target)
+                with target.open("a") as source:
+                    source.write("\n# unrelated historical source change\n")
+            unrelated = root / "src/unrelated.cpp"
+            unrelated.parent.mkdir(parents=True)
+            unrelated.write_text("// Unrelated source change.\n")
+
+            result = subprocess.run(
+                ["bash", "-euo", "pipefail", "-c", self.contract_step["run"]],
+                cwd=root, env={
+                    **os.environ, "RELEASE_TYPE": "nightly",
+                    "OVERRIDE_SOURCE_PREFLIGHT": "true",
+                },
+                text=True, capture_output=True, check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_strict_source_contract_applies_only_to_nightly(self):
         for channel in ("", "stable", "alpha", "beta", "rc"):
@@ -105,10 +95,15 @@ class DockerReleaseTypeContextTests(unittest.TestCase):
                 )
                 self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_trusted_but_incomplete_docker_contract_is_rejected(self):
+    def test_broken_selected_source_contract_is_rejected_even_with_preflight_override(self):
         files = (".dockerignore", "docker/Dockerfile.unified", "CMakeLists.txt",
                  "cmake/Versions.cmake")
-        for defect in ("missing-copy", "missing-include", "later-ignore"):
+        defects = (
+            "missing-copy", "missing-include", "later-ignore", "dockerfile-ignore",
+            "missing-ignore-file", "missing-dockerfile", "missing-cmake-include",
+            "missing-versions-file", "missing-cmake-read",
+        )
+        for defect in defects:
             with self.subTest(defect=defect), tempfile.TemporaryDirectory(dir=ROOT) as temp:
                 root = Path(temp)
                 for name in files:
@@ -118,25 +113,32 @@ class DockerReleaseTypeContextTests(unittest.TestCase):
                 if defect == "missing-copy":
                     path = root / "docker/Dockerfile.unified"
                     path.write_text(path.read_text().replace("VERSION RELEASE_TYPE LICENSE", "VERSION LICENSE"))
-                else:
+                elif defect in ("missing-include", "later-ignore"):
                     path = root / ".dockerignore"
                     text = path.read_text()
                     path.write_text(text.replace("!RELEASE_TYPE\n", "") if defect == "missing-include"
-                                    else text + "\nRELEASE_*\n")
-                (root / "shell-functions").write_text(
-                    "git() {\n"
-                    '  case "$1" in\n'
-                    '    fetch) return 0 ;;\n'
-                    '    show) cat "${2#*:}" ;;\n'
-                    '    *) return 1 ;;\n'
-                    "  esac\n"
-                    "}\n"
-                )
+                                    else text + "\nRELEASE_TYPE\n")
+                elif defect == "dockerfile-ignore":
+                    (root / "docker/Dockerfile.unified.dockerignore").write_text("*\n")
+                elif defect == "missing-ignore-file":
+                    (root / ".dockerignore").unlink()
+                elif defect == "missing-dockerfile":
+                    (root / "docker/Dockerfile.unified").unlink()
+                elif defect == "missing-cmake-include":
+                    path = root / "CMakeLists.txt"
+                    path.write_text(path.read_text().replace("include(cmake/Versions.cmake)", ""))
+                elif defect == "missing-versions-file":
+                    (root / "cmake/Versions.cmake").unlink()
+                else:
+                    path = root / "cmake/Versions.cmake"
+                    path.write_text(path.read_text().replace(
+                        'file(READ "${CMAKE_SOURCE_DIR}/RELEASE_TYPE" _themis_release_type_raw)', ""
+                    ))
                 result = subprocess.run(
                     ["bash", "-euo", "pipefail", "-c", self.contract_step["run"]],
                     cwd=root, env={
-                        **os.environ, "BASH_ENV": str(root / "shell-functions"),
-                        "WORKFLOW_SHA": "trusted", "RELEASE_TYPE": "nightly",
+                        **os.environ, "RELEASE_TYPE": "nightly",
+                        "OVERRIDE_SOURCE_PREFLIGHT": "true",
                     },
                     text=True, capture_output=True, check=False,
                 )

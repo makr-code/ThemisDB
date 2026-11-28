@@ -401,7 +401,6 @@ jobs:
         shell: bash
         env:
           RELEASE_TYPE: ${{ inputs.release_type }}
-          WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           if [[ -z "$RELEASE_TYPE" ]]; then
@@ -414,14 +413,7 @@ jobs:
           if [[ "$RELEASE_TYPE" != "nightly" ]]; then
             exit 0
           fi
-          # Only known workflow-revision build contracts may publish an overridden nightly.
-          git fetch --no-tags origin "$WORKFLOW_SHA"
-          for file in .dockerignore docker/Dockerfile.unified CMakeLists.txt cmake/Versions.cmake; do
-            if ! git show "${WORKFLOW_SHA}:${file}" | cmp -s - "$file"; then
-              echo "::error::Selected source has an unverified release type contract in $file; publish a new source tag." >&2
-              exit 1
-            fi
-          done
+          # Validate the selected source's channel path, not unrelated file contents.
           if [[ -e docker/Dockerfile.unified.dockerignore ]]; then
             echo "::error::Dockerfile-specific ignore rules have an unverified release type contract." >&2
             exit 1
@@ -448,7 +440,7 @@ jobs:
             echo "::error::Docker build stage does not consume the release type context." >&2; exit 1
           fi
           grep -Fxq 'include(cmake/Versions.cmake)' CMakeLists.txt
-          grep -Fq 'file(READ "${CMAKE_SOURCE_DIR}/RELEASE_TYPE" _themis_release_type_raw)' cmake/Versions.cmake
+          grep -Fq "file(READ \"\${CMAKE_SOURCE_DIR}/RELEASE_TYPE\" _themis_release_type_raw)" cmake/Versions.cmake
 
       - name: Apply resolved release type to Docker context
         shell: bash
