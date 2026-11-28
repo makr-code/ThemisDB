@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-14"
+Last Updated: "2026-11-26"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -101,6 +101,85 @@ Exact model backend not verifiable from final document text alone.
 - preserve explicit failure signaling for labeling, adapter, and serving faults.
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
+
+## Native GPU LoRA/AdaLoRA Training (Target: Q2 2027 proposal)
+
+### Scope
+
+Implement real GPU Attention/MLP LoRA training in the patched llama.cpp fork,
+then connect the existing native backend, AdaLoRA rank allocation and
+source-neutral providers. Qualify Vulkan first, then CUDA; each GPU backend
+requires its own capability and evidence gates. CPU-only native
+tests and GPU inference offload are not GPU training evidence.
+
+### Design Constraints
+
+- Keep base weights frozen. Execute Attention/MLP forward/backward and LoRA
+  optimizer tensor work on the selected GPU; CPU orchestration and artifact
+  I/O are allowed, hidden CPU graph execution is not.
+- Select backend and device explicitly. Reject missing backward/optimizer
+  operators or unsupported dtype/quantization profiles before accepting a job.
+  Qualify an F32 reference profile first; quantized bases and mixed precision
+  need separate numerical and device-kernel validation.
+- Reserve bounded VRAM for weights, activations, gradients, optimizer state
+  and checkpoints before admission; isolate training contexts from serving
+  and honor shared inference/database resource budgets.
+- Preserve mandatory tenant identity and fenced ownership of
+  `(tenant, domain, base_model_digest)`. Source documents and training records
+  stay local; GPU use does not change adapter-only distribution policy.
+
+### Required Interfaces
+
+- Extend the existing training job/backend contract with selected backend,
+  device identity, validated capability profile and memory budget; do not
+  introduce a parallel trainer or implicit fallback.
+- Report progress, cancellation and explicit device/operator/OOM failures.
+  Checkpoints bind model/tokenizer, target shapes, rank masks, optimizer
+  state, RNG state and dtype/profile for supported resume.
+- Preserve the existing finalized artifact/admission interface and immutable
+  digest identity; CPU/GPU serving consumes the same validated adapter format,
+  not device pointers or distributed training documents.
+
+### Implementation Notes
+
+Inventory the actual forward/backward/optimizer operators for the native
+Attention/MLP graph and implement missing device kernels in the fork before
+enabling a profile. Verify device residency with execution traces, rather than
+infer it from `n_gpu_layers` or a successful Vulkan/CUDA build. Synchronize GPU work
+before checkpoint/export and release buffers only after outstanding work ends.
+AdaLoRA mask/rank changes must update the device graph and optimizer state
+without updating frozen base tensors.
+
+### Test Strategy
+
+- Use a real GPU and real GGUF fixtures to verify updates for every configured
+  Attention/MLP A/B target, unchanged base bytes, finite gradients and reduced
+  loss. Missing hardware is not run, never a passing simulation.
+- For the F32 reference profile, compare CPU/GPU forward outputs, gradients
+  and one-step updates with `atol=1e-5`, `rtol=1e-4`; define and record separate
+  tolerances before admitting other profiles. Do not require byte-identical
+  cross-device floating-point training.
+- Exercise GPU-trained GGUF export/load/inference, rank changes,
+  checkpoint/resume, cancellation, OOM, device loss and concurrent serving.
+  Interrupted or stale-owner jobs must not publish partially trained artifacts.
+
+### Performance Targets
+
+Record time to the same target loss, training tokens/s, peak VRAM,
+checkpoint/export time and concurrent inference/DB p95/p99 against an
+equivalent CPU run with the same model, samples, rank and optimizer.
+Peak usage must stay within the admitted device budget; the existing
+same-profile throughput regression threshold of 10% also applies to GPU
+training. Ratify hardware-specific speedup and contention budgets from real
+baselines; no numerical speedup is claimed without those measurements.
+
+### Security / Reliability
+
+Authorize local samples before training and retain provenance, signing and
+quality approval before publication. GPU failures stop the job explicitly;
+there is no silent CPU fallback, synthetic gradient path or auto-promotion.
+Cancellation and owner-epoch changes fence checkpoint/export/publication,
+and release device resources without disrupting unrelated serving jobs.
 
 ## Native Specialization to Multi-LoRA Serving (Proposal; Q2 2027)
 
