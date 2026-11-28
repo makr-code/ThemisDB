@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-26
+Datum: 2026-11-28
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -14,7 +14,7 @@ Status: Active
 
 ## BRANCHING_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `bc5b076360285457`
+- Hash: `0e5e1cd9d6791b65`
 - Titel: ThemisDB Branching Strategy
 - Auszug:
   - > Status: Active
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `f6ed97ee8d1f3015`
+- Hash: `dac7435fe6b9e034`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -59,7 +59,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `f3c08e47c38a0b51`
+- Hash: `84ba2d2f1cc633e6`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - ---

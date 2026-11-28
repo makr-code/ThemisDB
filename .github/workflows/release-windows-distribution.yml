@@ -545,7 +545,7 @@ jobs:
   publish-windows-distro-bundle:
     name: "Publish: Windows Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-windows-distro-bundle]
-    if: always() && needs.detect-release.outputs.publish_requested == 'true' && needs.detect-release.outputs.dry_run_enabled != 'true' && needs.prepare-windows-distro-bundle.result != 'failure'
+    if: always() && needs.detect-release.result == 'success' && needs.prepare-windows-distro-bundle.result == 'success' && needs.detect-release.outputs.publish_requested == 'true' && needs.detect-release.outputs.dry_run_enabled != 'true'
     runs-on: ubuntu-latest
     environment: ${{ needs.detect-release.outputs.publish_environment }}
     steps:

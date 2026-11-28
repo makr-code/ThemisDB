@@ -661,6 +661,7 @@ jobs:
     with:
       platform: ${{ matrix.platform }}
       version: ${{ needs.prepare-release-context.outputs.version }}
+      release_type: ${{ needs.prepare-release-context.outputs.release_type }}
       tag_list: ${{ needs.prepare-release-context.outputs.tag_list }}
       registry: ${{ needs.prepare-release-context.outputs.registry }}
       push_to_registry: ${{ needs.prepare-release-context.outputs.push_requested == 'true' }}

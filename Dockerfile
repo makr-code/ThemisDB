@@ -134,7 +134,7 @@ ARG BUILD_BENCHMARKS
 ARG TARGETARCH
 WORKDIR /src
 
-COPY CMakeLists.txt VERSION LICENSE ./
+COPY CMakeLists.txt VERSION RELEASE_TYPE LICENSE ./
 COPY cmake ./cmake
 COPY include ./include
 COPY src ./src
@@ -174,6 +174,10 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_STRICT_BUILD=OFF \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
+    if [ "$(cat /src/RELEASE_TYPE)" = "nightly" ]; then \
+        grep -Fxq 'THEMIS_VERSION_TYPE:STRING=nightly' /src/build/CMakeCache.txt || \
+            { echo "ERROR: CMake did not select the nightly release type" >&2; exit 1; }; \
+    fi && \
     cmake --build /src/build --parallel $(nproc) --target themis_server && \
     test -f /src/build/bin/themis_server && \
     mkdir -p /src/build/data

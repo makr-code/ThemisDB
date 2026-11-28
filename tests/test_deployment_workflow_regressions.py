@@ -14,6 +14,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TEST_SOURCE_SHA = "0123456789abcdef0123456789abcdef01234567"
 
 
 def workflow(name):
@@ -30,7 +31,12 @@ def run_bash(script, directory, **environment):
     result = subprocess.run(
         ["bash", "-euo", "pipefail", "-c", script],
         cwd=directory,
-        env={**os.environ, "GITHUB_OUTPUT": str(output), **environment},
+        env={
+            **os.environ,
+            "GITHUB_OUTPUT": str(output),
+            "SOURCE_SHA": TEST_SOURCE_SHA,
+            **environment,
+        },
         capture_output=True, text=True,
     )
     values = dict(line.split("=", 1) for line in output.read_text().splitlines() if "=" in line)
@@ -1006,7 +1012,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
         packaging = workflow("release-mainline.yml")["jobs"]
         self.assertNotIn("docker-image", packaging)
         self.assertIn("preflight-release-policy", packaging["publish-community"]["needs"])
-        self.assertIn("github.event_name == 'release'", packaging["publish-community"]["if"])
+        self.assertIn("github.event_name == 'workflow_dispatch'", packaging["publish-community"]["if"])
+        self.assertNotIn("github.event_name == 'release'", packaging["publish-community"]["if"])
         self.assertEqual(packaging["build-matrix"]["with"]["source_sha"],
                          "${{ needs.preflight-release-policy.outputs.source_sha }}")
         platforms = workflow("release-docker-image.yml")["jobs"]["build-platforms"]["with"]
