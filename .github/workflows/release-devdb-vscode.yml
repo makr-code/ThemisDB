@@ -1,0 +1,105 @@
+name: "Release: DevDB VS Code extension"
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish a protected DevDB release tag after environment approval"
+        type: boolean
+        default: false
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: devdb-vscode-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      sha256: ${{ steps.package.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate request and extension prerequisite
+        env:
+          REQUEST_PUBLISH: ${{ inputs.publish }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          REF_PROTECTED: ${{ github.ref_protected }}
+        run: |
+          python3 .github/scripts/devdb_vscode_release.py request
+          if [ "$REQUEST_PUBLISH" = "true" ]; then
+            git fetch --no-tags origin '+refs/heads/develop:refs/remotes/origin/develop'
+            git merge-base --is-ancestor HEAD refs/remotes/origin/develop || {
+              echo "Release tag must point to a commit on develop" >&2
+              exit 1
+            }
+          fi
+          python3 .github/scripts/devdb_vscode_release.py source
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Build and test extension
+        working-directory: tools/themisdb-devdb-vscode
+        run: |
+          npm ci
+          npm run build
+          npm test
+      - name: Package and validate VSIX
+        id: package
+        env:
+          REQUEST_PUBLISH: ${{ inputs.publish }}
+          REF: ${{ github.ref }}
+        run: |
+          npm install --prefix "$RUNNER_TEMP/vsce" --ignore-scripts --no-save @vscode/vsce@4.1.1
+          (cd tools/themisdb-devdb-vscode && "$RUNNER_TEMP/vsce/node_modules/.bin/vsce" package --out "$RUNNER_TEMP/devdb.vsix")
+          git diff --exit-code HEAD -- tools/themisdb-devdb-vscode/package.json tools/themisdb-devdb-vscode/package-lock.json
+          python3 .github/scripts/devdb_vscode_release.py artifact "$RUNNER_TEMP/devdb.vsix"
+          echo "sha256=$(sha256sum "$RUNNER_TEMP/devdb.vsix" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v5
+        with:
+          name: devdb-vsix
+          path: ${{ runner.temp }}/devdb.vsix
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'makr-code/ThemisDB' && inputs.publish == true && github.ref_type == 'tag' && github.ref_protected == true
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: devdb-marketplace-production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Require administrator enablement
+        env:
+          ENABLED: ${{ vars.DEVDB_MARKETPLACE_PUBLISHING_ENABLED }}
+        run: |
+          if [ "$ENABLED" != "true" ]; then
+            echo "Configure and protect the production environment before enabling publication" >&2
+            exit 1
+          fi
+      - uses: actions/download-artifact@v5
+        with:
+          name: devdb-vsix
+          path: ${{ runner.temp }}/devdb-artifact
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Publish checked VSIX with Marketplace OIDC
+        env:
+          EXPECTED_SHA: ${{ needs.build.outputs.sha256 }}
+        run: |
+          npm install --prefix "$RUNNER_TEMP/vsce" --ignore-scripts --no-save @vscode/vsce@4.1.1
+          printf '%s  %s\n' "$EXPECTED_SHA" "$RUNNER_TEMP/devdb-artifact/devdb.vsix" | sha256sum --check
+          "$RUNNER_TEMP/vsce/node_modules/.bin/vsce" publish --oidc --packagePath "$RUNNER_TEMP/devdb-artifact/devdb.vsix"

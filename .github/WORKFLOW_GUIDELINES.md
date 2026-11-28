@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-23
+> Last Updated: 2026-11-28
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -88,6 +88,70 @@ flowchart TD
 5. Label-Operationen ueber kanonische Status-Action/State-Machine fuehren.
 6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
 7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
+
+### DevDB VS Code Marketplace publishing
+
+`release-devdb-vscode.yml` is manual-only and defaults to a build/test/VSIX
+preview, not publication. **Prerequisite:** the separately reviewed extension
+must first be integrated into `develop` at `tools/themisdb-devdb-vscode/`,
+including `package.json`, `package-lock.json`, and real `build` and focused
+`test` npm scripts. There is currently no such tracked extension in this
+checkout; this workflow does not supply or simulate one. An explicitly
+requested preview or release fails clearly while it is absent. Unrelated PRs
+do not trigger it. Integrators must verify that the extension's actual scripts
+and packaging contract are appropriate before use.
+
+The local preview described in the issue is read-only and defaults to pilot
+port 28091. E2E, graph/vector and runtime gaps remain unresolved; the workflow
+does not validate a pilot DevDB, Docker, or a live extension session. A VSIX
+preview is not authorization to release.
+
+Before any real publication, a repository administrator and Marketplace
+publisher owner must:
+
+1. Verify ownership of publisher `makr-code` and the extension name, and agree
+   on the release version. If that publisher is not correct, review and change
+   the hard-coded publisher check before enabling publication.
+2. Configure protection/rulesets for `devdb-v*` tags, restricting creation,
+   updates, deletion and bypass to authorized release maintainers. Set up the
+   GitHub environment `devdb-marketplace-production` with required reviewers
+   (prevent self-review where available) and deployment ref restrictions
+   allowing only the protected DevDB release tags. Review plan/repository
+   support for these controls. Merely naming an environment in YAML does **not**
+   configure reviewers or restrictions. Only after verifying these controls,
+   set environment variable `DEVDB_MARKETPLACE_PUBLISHING_ENABLED` to `true`;
+   absence or any other value blocks publication.
+3. In the publisher's Marketplace management page, create a Trusted Publishing
+   policy with repository owner `makr-code`, repository `ThemisDB`, workflow
+   filename `release-devdb-vscode.yml`, and environment
+   `devdb-marketplace-production` (exact spelling). Policy setup and publisher
+   ownership cannot be inferred from this repository. See Microsoft's
+   [secure publishing instructions](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#secure-automated-publishing-to-visual-studio-marketplace).
+   For private repositories the first token exchange must occur within 48 hours
+   after policy creation; follow the current Marketplace instructions.
+
+After integration and separate human release authorization, dispatch the
+workflow on an existing protected tag `devdb-vMAJOR.MINOR.PATCH`, with
+`publish=true`. Its commit must be an ancestor of `develop`, and its manifest
+version must exactly match the tag. The workflow never creates or updates
+versions, commits or tags. It validates publisher, name and version in both
+source and VSIX, runs `npm ci`, `npm run build`, `npm test`, and packages the
+VSIX before requesting environment approval. The production job downloads that
+same artifact and verifies the build job's SHA-256 before `vsce publish --oidc
+--packagePath`. `@vscode/vsce` 4.1.1 is pinned; its published source supports
+both flags and rejects an existing Marketplace version without
+`--skip-duplicate`. Marketplace remains the authority for uniqueness, including
+concurrent releases; a rejected or unavailable Marketplace check is a failure.
+Only the production job receives `id-token: write`.
+
+For a non-publishing validation, dispatch with `publish=false` on the intended
+integrated ref and inspect the tests and `devdb-vsix` artifact. Offline safety
+checks can be run with
+`python3 -m unittest discover -s tests -p 'test_devdb_vscode_release.py' -v`;
+workflow lint uses `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
+The preview still requires the actual extension, Node/npm dependencies and
+VSIX tooling. No real Marketplace publication or policy exchange can be
+verified without the external setup and a maintainer's explicit approval.
 
 ### WAL-Prozess-Crash-Evidenz (STO-07)
 

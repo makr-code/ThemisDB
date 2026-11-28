@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Added - DevDB VS Code publishing preparation
+
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+> Exact model backend not verifiable from final document text alone.
+
+- A manual-only VSIX preview and protected, approval-gated Marketplace
+  publishing workflow is prepared. The DevDB extension must first be
+  integrated into `develop`; external environment and Marketplace setup and
+  separate human release approval are required before publication.
+
 ### Changed - Patched llama.cpp dependency
 
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->

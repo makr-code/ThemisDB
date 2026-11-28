@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-23
+> Last Updated: 2026-11-28
 > Update Note: PR CI now runs one release-critical build and one final-runtime gate; sanitizer and Wave B transaction campaigns run on schedule or manually.
 > Status: active
-> Total Workflows: 103 (verified 2026-11-23)
+> Total Workflows: 105 (verified 2026-11-28)
 > AI_Used: true
 > AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
 > AI_Contributor: "GitHub Copilot"
@@ -275,7 +275,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 | `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
 | `gate-workflow-guidelines.yml` | Gate: Workflow Guidelines Compliance (Automated workflow policy validation) | governance |
 
-### 3. RELEASE & PUBLICATION (21 Workflows)
+### 3. RELEASE & PUBLICATION (22 Workflows)
 
 | Workflow | Purpose | Stage |
 |----------|---------|-------|
@@ -285,6 +285,7 @@ unverändert und die Testselektion wird nicht abgeschwächt.
 | `release-docker-image.yml` | Release: Docker Image Consumer (Docker Hub publish) | distribution |
 | `release-docker-approval.yml` | Release: Docker Approval Gate (Docker release approval) | approval |
 | `release-winget.yml` | Release: WinGet Consumer (WinGet publish) | distribution |
+| `release-devdb-vscode.yml` | Manual DevDB VSIX preview and approval-gated Marketplace publishing; extension integration is required | distribution |
 | `release-winget-approval.yml` | Release: WinGet Approval Gate (WinGet approval) | approval |
 | `release-windows-distribution.yml` | Release: Windows Distribution Consumer (Windows MSI/ZIP) | distribution |
 | `release-windows-distro-approval.yml` | Release: Windows Distro Approval Gate (Windows approval) | approval |
