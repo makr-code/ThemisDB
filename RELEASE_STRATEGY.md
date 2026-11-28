@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-03-15"
-Last Updated: "2026-11-24"
+Last Updated: "2026-11-28"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,7 +15,7 @@ Exact model backend not verifiable from final document text alone.
 # ThemisDB Release Strategy
 
 > Status: Active
-> Purpose: compact, manual, CI-free release process
+> Purpose: governed release and automated nightly publication process
 >
 > Canonical root onboarding path: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md) → [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) → [VERSIONING.md](VERSIONING.md)
 >
@@ -26,7 +26,7 @@ Exact model backend not verifiable from final document text alone.
 - `develop` is the working branch.
 - The canonical branch and edition model is defined in `BRANCHING_STRATEGY.md`.
 - Release branches are optional and short-lived.
-- Releases are created manually by a release manager.
+- Regular releases require release-manager review; nightly prereleases use the automated flow in §8.
 - One source tag identifies one released source state.
 - A release may contain multiple artefacts, but those artefacts are produced once by the canonical CPack-backed release build matrix.
 - Package availability is evaluated per OS/architecture lane. A failed lane does not block publication of other lanes when at least one distributable package exists and all produced packages pass runtime validation; the aggregate workflow status remains failed to expose the incomplete platform set.
@@ -36,7 +36,7 @@ Exact model backend not verifiable from final document text alone.
 - GitHub Issues for a release must be linked via the corresponding milestone.
 - Pull requests and routine development use fast, targeted validation to minimize resource usage and keep velocity high.
 - Scheduled nightly builds perform the deeper full validation pass for integration, packaging, and distribution readiness.
-- Release publication remains a human-gated step and is not triggered by every merge or push.
+- Regular release publication remains human-gated and is not triggered by every merge or push; nightly GitHub prereleases and validated Docker manifests use the automatic flow in §8.
 
 ## 2. Versioning
 
@@ -123,7 +123,7 @@ Military tags:
 
 Rules:
 
-- Tags are annotated or signed.
+- Regular release tags are annotated or signed; the automated nightly workflow creates a lightweight tag at the built commit.
 - Tags are created only after artefacts and release notes are ready.
 - One tag may point to multiple packaged outputs.
 - ZIP and MSI belong to the same release tag if they come from the same commit.
@@ -315,62 +315,49 @@ git push origin military-v1.9.0
 
 ## 8. Nightly Release Flow (Automated)
 
-Nightly releases are generated automatically every day at 03:30 UTC (or on manual trigger) to provide early access to development builds.
+Nightly prereleases provide early access to development builds. A scheduled build is an opportunity to publish, not a guarantee that every run produces a release.
 
 ### Triggers
 
-1. **Schedule:** Daily at 03:30 UTC
-2. **Manual:** Workflow dispatch with optional force flag
-3. **Condition:** Only if commits exist since last nightly release (skip if no changes)
+1. **Schedule:** `.github/workflows/build-mainline.yml` is scheduled daily at 02:00 UTC. On completion of that scheduled `develop` run, `.github/workflows/release-nightly.yml` handles a successful or failed upstream conclusion; the nightly workflow does not have its own cron. Its own package and runtime gates still apply.
+2. **Manual:** Dispatch `release-nightly.yml`; `force=true` bypasses the no-change check. `dry_run` defaults to `true`.
+3. **Changes:** Normally proceed only when commits exist since the last reachable published nightly release, or no such release exists. Draft releases and orphan tags are not baselines. Without changes and without force, publication is skipped.
 
 ### Workflow
 
 Workflow: `.github/workflows/release-nightly.yml`
 
 **Steps:**
-1. Detect commits since last nightly via git tags
-2. Set `RELEASE_TYPE=nightly`
-3. Generate nightly version: `v2.4.0-nightly.YYYYMMDD.runnum` (e.g., `v2.4.0-nightly.20260904.1234`)
-4. Build community edition (matrix: linux-release, windows-release)
-5. Generate build metadata (timestamp, commit hash, build number, release type)
-6. Create GitHub Pre-release with tag `v2.4.0-nightly.YYYYMMDD`
-7. Push Docker images:
-   - `themisdb:nightly`
-   - `themisdb:nightly-YYYYMMDD`
-   - `themisdb:2.4.0-nightly-YYYYMMDD`
-8. Attach build-metadata.json, SBOM, and changelog to release
-9. Post notification to GitHub Discussions (pinned nightly tracker issue)
+1. Check for changes against the last reachable published nightly release and build the community package matrix at the selected source commit with the `nightly` release-type override.
+2. Generate build metadata and the GitHub tag `v<version>-nightly.<YYYYMMDD>.<runnum>` from `VERSION`, the UTC date and workflow run number. The tag identifies the built source commit; an existing tag is not moved.
+3. Create a draft GitHub prerelease, upload the produced package assets and `build-metadata.json`, then verify asset count, names and sizes and recheck the tag's source commit before publishing. Release notes contain build information and up to 20 recent commits since that published baseline (or from HEAD if none exists). An upload or verification failure leaves the release as a draft; a rerun fails closed if the tag or release already exists and requires manual reconciliation.
+4. Build and validate Docker runtime candidates independently for `amd64` and `arm64`. Promote multi-architecture manifests only after GitHub prerelease publication succeeds and both validated platform digests are available.
+5. After GitHub prerelease publication, reconcile per-version WinGet and Docker tracking issues. Nightly Linux and Windows distribution issue handoff is unavailable: their approval workflows currently target stable channels. Do not create those nightly issues until the downstream paths safely handle prereleases. A tracking issue is not a submission or proof of publication; the WinGet path requires separate opt-in and approval (§11.4).
+6. Report individual job outcomes in the run summary and update the nightly status tracker for eligible publishing attempts and change-gate failures. No-change runs do not update the tracker. Inspect the jobs and assets rather than treating a notification as proof of success.
 
 ### Artifacts
 
-Nightly releases include:
-- Linux: `.tar.gz`, `.zip`, `.deb`, `.rpm`
-- Windows: `.zip`
-- Build metadata: `build-metadata.json`
-- Software Bill of Materials: `sbom-source.cyclonedx.json`
-- Nightly changelog (generated from commits since last nightly)
+Assets depend on which platform lanes and package generators succeed. The release includes the packages actually produced and `build-metadata.json`; do not assume every platform or format is present. Release notes contain the generated recent-change list. Inspect the release assets and run evidence for any additional artefacts.
 
 ### Versioning
 
 - Nightly tag format: `v<major>.<minor>.<patch>-nightly.<YYYYMMDD>.<runnum>`
-- Docker tags:
-  - `themisdb:nightly` (always latest nightly)
-  - `themisdb:nightly-YYYYMMDD` (specific date)
-  - `themisdb:2.4.0-nightly-YYYYMMDD` (full version with date)
-- OCI labels: `org.opencontainers.image.revision` (git commit), `io.themisdb.build.type=nightly`
+- Package builds use the `nightly` channel; package filenames need not contain the date or run number and are not a unique per-run CPack version. WiX/MSI uses the numeric base version, also without a date or run number. Consequently, package managers cannot reliably distinguish or upgrade successive nightly builds with the same base version; the unique GitHub tag does not change the installed package version.
+- Docker Hub manifests: `themisdb/themisdb:nightly`, `themisdb/themisdb:nightly-YYYYMMDD`, and `themisdb/themisdb:<version>-nightly-YYYYMMDD`. GHCR receives `ghcr.io/<owner>/<repo>:nightly` and `:nightly-YYYYMMDD`. Date tags can be replaced by another run on the same day.
 
 ### Quality Gates
 
-- No additional CI gates beyond standard build verification
-- Nightly releases are for early testing; use RC or stable for production
+- Package publication requires at least one distributable package and successful runtime validation of every produced package. Missing failed lanes may yield a partial release, but a failed lane remains visible in the aggregate matrix and final status; a runtime validation failure or zero packages blocks package publication.
+- Docker manifest promotion requires successful GitHub prerelease publication, successful runtime validation and recorded digests for **both** `amd64` and `arm64`, even if a partial GitHub package release is allowed. A failed Docker lane blocks promotion, not necessarily GitHub prerelease publication; a failed release publication blocks promotion.
+- The separate approved Docker publication for a nightly tag fails closed unless the tagged source's Docker/CMake release-channel contract matches the workflow revision and passes its checks. Older tags or changed contract files can require a newly built release tag; do not move an existing tag. The source-preflight override does not bypass this contract.
+- Nightlies are for early testing; use RC or stable for production.
 
 ### Rules
 
 - Nightly releases are marked as `prerelease=true` on GitHub
-- Pre-release images do not receive the `latest` tag
-- Nightly artifacts are not submitted to WinGet automatically; any prerelease submission requires the explicit opt-in below.
-- Nightly changelog is auto-generated from `git log` since last nightly
-- Old nightly releases (>30 days) may be cleaned up to manage storage
+- Nightly images do not receive the `latest` tag.
+- WinGet is not submitted automatically. An explicit nightly version, prerelease opt-in, maintainer command and protected environment approval are required on the issue-driven path; a partial release without a suitable Windows ZIP cannot be submitted. Upstream acceptance and availability are not verified.
+- A manual dry run builds and validates where the gates permit, but does not create a release, promote Docker manifests, or update tracking issues. Inspect its actual job results for skips and failures. Publishing runs can fail or be partial after some side effects have already occurred; they do not automatically roll back an already published release.
 
 ---
 
@@ -797,7 +784,7 @@ For historical reassignment work, also verify:
 
 ## 11.4 Release Publishing Approval Gates (2026 Security Hardening)
 
-External publishing is human-gated to prevent accidental publication of incomplete or problematic releases. The mainline and registry gates use commands on their respective tracking issues. The registry wrappers additionally require their protected GitHub Environment approval. Manual or reusable WinGet dispatch remains separately controlled and defaults to prerelease opt-out and dry-run.
+Regular GitHub release publication and the issue-driven registry paths are human-gated to prevent accidental publication of incomplete or problematic releases. Nightly GitHub prereleases and validated nightly Docker manifests follow the automated exception in §8. The mainline and registry gates use commands on their respective tracking issues. The registry wrappers additionally require their protected GitHub Environment approval. Manual or reusable WinGet dispatch remains separately controlled and defaults to prerelease opt-out and dry-run.
 
 ### Flow Overview
 

@@ -360,7 +360,7 @@ ARG TARGETARCH
 WORKDIR /src
 
 # Copy source code and required build metadata
-COPY CMakeLists.txt CMakePresets.json VERSION LICENSE ./
+COPY CMakeLists.txt CMakePresets.json VERSION RELEASE_TYPE LICENSE ./
 COPY cmake ./cmake
 COPY include ./include
 COPY src ./src
@@ -413,8 +413,8 @@ RUN set -eux; \
     fi; \
     echo "OK: httplib.h present at /src/vcpkg_installed/${TRIPLET}/include/httplib.h"
 
-# Copy llama.cpp
-COPY --from=llama /opt/llama.cpp /opt/llama.cpp
+# CMake validates the staged source at ${PROJECT_SOURCE_DIR}/llama.cpp.
+COPY --from=llama /opt/llama.cpp /src/llama.cpp
 
 # Ensure system RocksDB dev headers/libs for build
 RUN --mount=type=cache,id=apt-cache-build-${TARGETARCH},target=/var/cache/apt,sharing=locked \
@@ -481,6 +481,10 @@ RUN set -eux; \
         -DOPENSSL_ROOT_DIR="/src/vcpkg_installed/${TRIPLET}" \
         -DOpenSSL_DIR="/src/vcpkg_installed/${TRIPLET}/share/openssl" \
         ${EXTRA_ARGS} && \
+    if [ "$(cat /src/RELEASE_TYPE)" = "nightly" ]; then \
+        grep -Fxq 'THEMIS_VERSION_TYPE:STRING=nightly' "/src/${THEMIS_BUILD_DIR}/CMakeCache.txt" || \
+            { echo "ERROR: CMake did not select the nightly release type" >&2; exit 1; }; \
+    fi && \
     cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" docs_database --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}" && \
     cmake --install "${THEMIS_BUILD_DIR}" --prefix /opt/themis-runtime --component documentation
 

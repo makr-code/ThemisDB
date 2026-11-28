@@ -1006,7 +1006,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
         packaging = workflow("release-mainline.yml")["jobs"]
         self.assertNotIn("docker-image", packaging)
         self.assertIn("preflight-release-policy", packaging["publish-community"]["needs"])
-        self.assertIn("github.event_name == 'release'", packaging["publish-community"]["if"])
+        self.assertIn("github.event_name == 'workflow_dispatch'", packaging["publish-community"]["if"])
+        self.assertNotIn("github.event_name == 'release'", packaging["publish-community"]["if"])
         self.assertEqual(packaging["build-matrix"]["with"]["source_sha"],
                          "${{ needs.preflight-release-policy.outputs.source_sha }}")
         platforms = workflow("release-docker-image.yml")["jobs"]["build-platforms"]["with"]

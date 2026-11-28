@@ -128,6 +128,46 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
                     "Build a source revision containing the canonical Linux preset migration.",
                 )
 
+    def test_build_uses_validated_llama_source_at_project_root(self) -> None:
+        text = self._dockerfile_text()
+        llama = extract_stage(text, "llama", base_image="base")
+        build = extract_stage(text, "build", base_image="deps")
+        self.assertIn("cp -a /tmp/build-context/llama.cpp/. /opt/llama.cpp/", llama)
+        self.assertIn("test -f /opt/llama.cpp/CMakeLists.txt", llama)
+        self.assertIn("LLAMA_THEMIS_TRAINABLE_LORA", llama)
+        self.assertIn("exit 1", llama)
+        copies = re.findall(r"^COPY\s+--from=llama\s+(\S+)\s+(\S+)\s*$",
+                            build, re.MULTILINE)
+        self.assertIn(("/opt/llama.cpp", "/src/llama.cpp"), copies)
+        self.assertEqual(
+            sum(destination.rstrip("/") == "/src/llama.cpp"
+                for _, destination in copies), 1
+        )
+        self.assertLess(
+            build.index("COPY --from=llama /opt/llama.cpp /src/llama.cpp"),
+            build.index("cmake --preset"),
+        )
+
+    def test_selected_source_preflight_rejects_wrong_llama_destination(self) -> None:
+        dockerfile = self._dockerfile_text()
+        expected = "COPY --from=llama /opt/llama.cpp /src/llama.cpp"
+        self.assertEqual(dockerfile.count(expected), 1)
+        for wrong_destination in (False, True):
+            with self.subTest(wrong_destination=wrong_destination), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                (root / "docker").mkdir()
+                selected = dockerfile.replace(
+                    expected, "COPY --from=llama /opt/llama.cpp /opt/llama.cpp"
+                ) if wrong_destination else dockerfile
+                (root / "docker/Dockerfile.unified").write_text(selected, encoding="utf-8")
+                result = subprocess.run(
+                    [sys.executable, str(Path(__file__).resolve()),
+                     "DockerRuntimePackageRegressionTests.test_build_uses_validated_llama_source_at_project_root"],
+                    env={**os.environ, "THEMIS_SOURCE_ROOT": str(root)},
+                    capture_output=True, text=True, timeout=10,
+                )
+                self.assertEqual(result.returncode == 0, not wrong_destination, result.stderr)
+
     def test_build_directory_matches_preset_and_image_copies(self) -> None:
         text = self._dockerfile_text()
         build = extract_stage(text, "build", base_image="deps")

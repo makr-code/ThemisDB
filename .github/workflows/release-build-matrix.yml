@@ -10,6 +10,11 @@ on:
         required: false
         default: ''
         type: string
+      release_type_override:
+        description: Optional nightly channel override for package builds
+        required: false
+        default: ''
+        type: string
       build_matrix:
         description: Build matrix presets
         required: false
@@ -145,6 +150,7 @@ jobs:
           RUN_CTEST: ${{ inputs.run_ctest }}
           RUN_NUMBER: ${{ github.run_number }}
           SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+          RELEASE_TYPE_OVERRIDE: ${{ inputs.release_type_override }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
         run: |
           set -euo pipefail
@@ -163,6 +169,9 @@ jobs:
           distribution = os.environ["DISTRIBUTION"].strip().lower()
           run_ctest = os.environ.get("RUN_CTEST", "true").strip().lower() == "true"
           run_number = os.environ["RUN_NUMBER"]
+          release_type_override = os.environ.get("RELEASE_TYPE_OVERRIDE", "")
+          if release_type_override not in {"", "nightly"}:
+              raise ValueError("Only the nightly release type override is supported")
           dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
               raise ValueError("Windows dependency concurrency must be between 1 and 4")
@@ -494,6 +503,15 @@ jobs:
                       " -DGGML_BMI2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
                   )
               entry["configure_command"] = entry["configure_command"].replace("${CMAKE_FLAGS}", lane_flags)
+              if release_type_override:
+                  entry["configure_command"] = (
+                      "set -euo pipefail\n"
+                      "version=\"$(tr -d '[:space:]' < VERSION)\"\n"
+                      '[[ "$version" =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$ ]] || '
+                      '{ echo "::error::Nightly builds require a numeric VERSION"; exit 1; }\n'
+                      "printf '%s\\n' nightly > RELEASE_TYPE\n"
+                      + entry["configure_command"]
+                  )
               payload_gate = (
                   f'cmake --build "{entry["build_directory"]}" --target docs_database --config {build_type}\n'
                   f'cmake --install "{entry["build_directory"]}" --config {build_type} '

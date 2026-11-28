@@ -6,6 +6,7 @@
 !CMakeLists.txt
 !CMakePresets.json
 !VERSION
+!RELEASE_TYPE
 !LICENSE
 !vcpkg-configuration.json
 

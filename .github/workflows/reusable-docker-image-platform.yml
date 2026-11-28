@@ -16,6 +16,11 @@ on:
         description: "Canonical product version from release workflow"
         required: true
         type: string
+      release_type:
+        description: "Resolved release channel; empty preserves the checked-out source value"
+        required: false
+        default: ""
+        type: string
       tag_list:
         description: "Comma-separated final image tags used for manifest creation"
         required: false
@@ -391,6 +396,90 @@ jobs:
               ] | .[]' "${META}"
             echo "OCI_LABELS_EOF"
           } >> "${GITHUB_OUTPUT}"
+
+      - name: Validate release type source contract
+        shell: bash
+        env:
+          RELEASE_TYPE: ${{ inputs.release_type }}
+          WORKFLOW_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$RELEASE_TYPE" ]]; then
+            exit 0
+          fi
+          case "$RELEASE_TYPE" in
+            nightly|alpha|beta|rc|stable) ;;
+            *) echo "::error::Unsupported Docker release type: $RELEASE_TYPE" >&2; exit 1 ;;
+          esac
+          if [[ "$RELEASE_TYPE" != "nightly" ]]; then
+            exit 0
+          fi
+          # Only known workflow-revision build contracts may publish an overridden nightly.
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          for file in .dockerignore docker/Dockerfile.unified CMakeLists.txt cmake/Versions.cmake; do
+            if ! git show "${WORKFLOW_SHA}:${file}" | cmp -s - "$file"; then
+              echo "::error::Selected source has an unverified release type contract in $file; publish a new source tag." >&2
+              exit 1
+            fi
+          done
+          if [[ -e docker/Dockerfile.unified.dockerignore ]]; then
+            echo "::error::Dockerfile-specific ignore rules have an unverified release type contract." >&2
+            exit 1
+          fi
+          if ! awk '
+            $0 == "!RELEASE_TYPE" { included=1; next }
+            included && $0 !~ /^([[:space:]]*#|[[:space:]]*$|!)/ {
+              pattern=$0
+              gsub(/^[[:space:]\/]+|[[:space:]\/]+$/, "", pattern)
+              if (pattern == "RELEASE_TYPE" || pattern ~ /^\*\*\// ||
+                  (pattern !~ /\// && pattern ~ /[*?\[\\]/)) exit 1
+            }
+            END { if (!included) exit 1 }
+          ' .dockerignore; then
+            echo "::error::Docker ignore rules do not safely include RELEASE_TYPE." >&2; exit 1
+          fi
+          if ! awk '
+            /^FROM / { build=($0 == "FROM deps AS build"); next }
+            build && $0 == "WORKDIR /src" { workdir=1 }
+            build && $0 == "COPY CMakeLists.txt CMakePresets.json VERSION RELEASE_TYPE LICENSE ./" { copy=1 }
+            build && $0 == "COPY cmake ./cmake" { cmake=1 }
+            END { if (!(workdir && copy && cmake)) exit 1 }
+          ' docker/Dockerfile.unified; then
+            echo "::error::Docker build stage does not consume the release type context." >&2; exit 1
+          fi
+          grep -Fxq 'include(cmake/Versions.cmake)' CMakeLists.txt
+          grep -Fq 'file(READ "${CMAKE_SOURCE_DIR}/RELEASE_TYPE" _themis_release_type_raw)' cmake/Versions.cmake
+
+      - name: Apply resolved release type to Docker context
+        shell: bash
+        env:
+          RELEASE_TYPE: ${{ inputs.release_type }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$RELEASE_TYPE" ]]; then
+            echo "No release type override; preserving checked-out source."
+            exit 0
+          fi
+          case "$RELEASE_TYPE" in
+            nightly|alpha|beta|rc|stable) ;;
+            *) echo "::error::Unsupported Docker release type: $RELEASE_TYPE" >&2; exit 1 ;;
+          esac
+          # Versions.cmake gives a VERSION prerelease suffix precedence over RELEASE_TYPE.
+          version="$(sed 's/^[[:space:]]*//;s/[[:space:]]*$//' VERSION)"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-([A-Za-z0-9.-]+))?(\+.*)?$ ]]; then
+            echo "::error::Invalid VERSION in Docker build context: $version" >&2; exit 1
+          fi
+          suffix="${BASH_REMATCH[2]}"
+          if [[ -n "$suffix" ]]; then
+            suffix="$(printf '%s' "$suffix" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')"
+            if [[ "$suffix" != "$RELEASE_TYPE" ]]; then
+              echo "::error::VERSION prerelease suffix conflicts with resolved Docker release type $RELEASE_TYPE." >&2; exit 1
+            fi
+          fi
+          printf '%s\n' "$RELEASE_TYPE" > RELEASE_TYPE
+          if ! cmp -s RELEASE_TYPE <(printf '%s\n' "$RELEASE_TYPE"); then
+            echo "::error::Docker build context RELEASE_TYPE does not match $RELEASE_TYPE." >&2; exit 1
+          fi
 
       - name: Build platform image once for local scan and optional registry push
         id: build-candidate

@@ -6,21 +6,21 @@ name: "Release: Nightly"
 #
 # Pipeline stages:
 #   check-changes → set-release-type → build-matrix → generate-metadata
-#   → publish-release + publish-docker → publish-docker-manifest → notify
+#   → publish-release → track-downstream; publish-docker → publish-docker-manifest → notify
 #
 # Produces:
-#   GitHub Release: v<version>-nightly.<date>[.<run>]
+#   GitHub Release: v<version>-nightly.<date>.<run>
 #   Docker tags:
 #     - themisdb:nightly
 #     - themisdb:nightly-<date>
 #     - themisdb:<version>-nightly-<date>
 #   Release artifacts:
 #     - build-metadata.json
-#     - SBOM (CycloneDX)
-#     - Nightly changelog
+#     - Packages from successful platform lanes
+#   Release notes include the nightly changelog.
 #
 # Nightly versioning: uses VERSION file base + "nightly" suffix
-# Example: VERSION=2.4.0 → v2.4.0-nightly.20260904
+# Example: VERSION=2.4.0 → v2.4.0-nightly.20260904.1234
 
 on:
   workflow_run:
@@ -55,7 +55,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [mark-release-pending, check-changes, set-release-type, build-matrix, generate-metadata, publish-release, publish-docker, publish-docker-manifest, finalize-release-status, notify]
+    needs: [mark-release-pending, check-changes, set-release-type, build-matrix, generate-metadata, publish-release, track-downstream, publish-docker, publish-docker-manifest, finalize-release-status, notify]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,9 +72,13 @@ jobs:
     name: "Release: Mark Nightly Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: check-changes
     if: |
-      github.event_name == 'schedule' ||
-      (github.event_name == 'workflow_dispatch' && inputs.dry_run != true)
+      needs.check-changes.result == 'success' &&
+      (needs.check-changes.outputs.has-changes == 'true' ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true')) &&
+      ((github.event_name == 'workflow_run' && github.event.workflow_run.event == 'schedule') ||
+       (github.event_name == 'workflow_dispatch' && inputs.dry_run != true))
     permissions:
       contents: read
       issues: write
@@ -95,14 +99,14 @@ jobs:
 
             Current status: **⏳ pending**
 
-            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.event.workflow_run.head_sha || github.sha }}`
 
             _This issue tracks nightly release publication health for the develop branch._
             _Labels: `status/release-pending` = nightly release running; final state is applied after workflow completion._
           labels-to-add: 'status/release-pending'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
+          source-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
 
   check-changes:
     name: "Validate: Changes Since Last Nightly"
@@ -121,11 +125,25 @@ jobs:
 
       - name: Check for commits since last nightly
         id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          
-          # Get most recent nightly tag
-          LAST_NIGHTLY=$(git describe --tags --match "v*-nightly*" --abbrev=0 2>/dev/null || echo "")
+
+          # Only published releases are baselines: failed runs can leave a tag or draft.
+          published_tags="$(gh api --paginate --jq \
+            '.[] | select(.draft == false and .prerelease == true and (.tag_name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+-nightly\\.[0-9]{8}(\\.[0-9]+)?$"))) | .tag_name' \
+            "repos/${GITHUB_REPOSITORY}/releases?per_page=100")"
+          git rev-parse --verify HEAD >/dev/null
+          matches=()
+          while IFS= read -r tag; do
+            [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-nightly\.[0-9]{8}(\.[0-9]+)?$ ]] || continue
+            matches+=(--match "$tag")
+          done <<< "$published_tags"
+          LAST_NIGHTLY=""
+          if ((${#matches[@]})); then
+            LAST_NIGHTLY="$(git describe --tags --abbrev=0 "${matches[@]}" HEAD 2>/dev/null || true)"
+          fi
           
           if [[ -z "$LAST_NIGHTLY" ]]; then
             echo "::notice::No prior nightly tags found — forcing build"
@@ -164,6 +182,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Validate canonical version contract
         run: |
@@ -173,6 +193,11 @@ jobs:
 
       - name: Update RELEASE_TYPE to nightly
         run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < VERSION)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+            echo "::error::Nightly builds require a numeric VERSION"; exit 1;
+          }
           echo "nightly" > RELEASE_TYPE
           chmod +x .github/scripts/version-release-type-manager.sh
           .github/scripts/version-release-type-manager.sh validate
@@ -185,6 +210,7 @@ jobs:
     with:
       build_matrix: community-only
       source_sha: ${{ github.event.workflow_run.head_sha || github.sha }}
+      release_type_override: nightly
 
   generate-metadata:
     name: "Release: Generate Build Metadata"
@@ -286,75 +312,113 @@ jobs:
 
       - name: Generate nightly release notes
         id: release-notes
+        env:
+          LAST_NIGHTLY: ${{ needs.check-changes.outputs.last-nightly-tag }}
+          SOURCE_BRANCH: ${{ github.event.workflow_run.head_branch || github.ref_name }}
         run: |
           set -euo pipefail
+          python3 - <<'PY'
+          import datetime
+          import os
+          import pathlib
+          import subprocess
 
-          BUILD_DATE=$(date +%Y-%m-%d)
-          COMMIT_SHORT=$(git rev-parse --short HEAD)
-          COMMIT_URL="https://github.com/${{ github.repository }}/commit/$(git rev-parse HEAD)"
-          BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          
-          # Generate changelog entries
-          LAST_NIGHTLY="${{ needs.check-changes.outputs.last-nightly-tag }}"
-          if [[ -n "$LAST_NIGHTLY" ]]; then
-            CHANGELOG=$(git log --oneline -20 "$LAST_NIGHTLY..HEAD")
-          else
-            CHANGELOG=$(git log --oneline -20 HEAD)
-          fi
-          
-          # Build release notes
-          cat > release-notes.md << 'RELEASE_NOTES_EOF'
-          # ThemisDB Nightly Release — RELEASE_DATE_PLACEHOLDER
-          
-          **Build Number:** `GITHUB_RUN_NUMBER_PLACEHOLDER`  
-          **Commit:** [`COMMIT_SHORT_PLACEHOLDER`](COMMIT_URL_PLACEHOLDER)  
-          **Branch:** `BRANCH_PLACEHOLDER`
-          
-          ## ⚠️ Pre-release Notice
-          
-          This is a **nightly build** of ThemisDB's `develop` branch. It may contain unfinished features and breaking changes.
-          
-          ## Recent Changes
-          
-          ```
-          CHANGELOG_PLACEHOLDER
-          ```
-          
-          ## Build Metadata
-          
-          ```json
-          BUILD_METADATA_PLACEHOLDER
-          ```
-          
-          RELEASE_NOTES_EOF
-          
-          # Substitute placeholders
-          sed -i "s|RELEASE_DATE_PLACEHOLDER|$BUILD_DATE|g" release-notes.md
-          sed -i "s|GITHUB_RUN_NUMBER_PLACEHOLDER|${{ github.run_number }}|g" release-notes.md
-          sed -i "s|COMMIT_SHORT_PLACEHOLDER|$COMMIT_SHORT|g" release-notes.md
-          sed -i "s|COMMIT_URL_PLACEHOLDER|$COMMIT_URL|g" release-notes.md
-          sed -i "s|BRANCH_PLACEHOLDER|$BRANCH|g" release-notes.md
-          sed -i "s|CHANGELOG_PLACEHOLDER|${CHANGELOG//$'\n'/\\n}|g" release-notes.md
-          
-          # Embed build metadata
-          sed -i "/BUILD_METADATA_PLACEHOLDER/r build-metadata.json" release-notes.md
-          sed -i "/BUILD_METADATA_PLACEHOLDER/d" release-notes.md
-          
-          echo "Release notes generated"
-          cat release-notes.md
+          def git(*args):
+              return subprocess.check_output(["git", *args], text=True).strip()
+
+          sha = git("rev-parse", "HEAD")
+          previous = os.environ["LAST_NIGHTLY"]
+          changelog = git("log", "--oneline", "-20", f"{previous}..HEAD" if previous else "HEAD")
+          metadata = pathlib.Path("build-metadata.json").read_text()
+          notes = (
+              f"# ThemisDB Nightly Release — {datetime.datetime.now(datetime.timezone.utc):%Y-%m-%d}\n\n"
+              f"**Build Number:** `{os.environ['GITHUB_RUN_NUMBER']}`  \n"
+              f"**Commit:** [`{git('rev-parse', '--short', 'HEAD')}`]"
+              f"({os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{sha})  \n"
+              f"**Branch:** `{os.environ['SOURCE_BRANCH']}`\n\n"
+              "## ⚠️ Pre-release Notice\n\n"
+              "This is a **nightly build**. It may contain unfinished features and breaking changes.\n\n"
+              "## Recent Changes\n\n"
+              f"````\n{changelog}\n````\n\n"
+              "## Build Metadata\n\n"
+              f"```json\n{metadata.rstrip()}\n```\n"
+          )
+          pathlib.Path("release-notes.md").write_text(notes)
+          PY
 
       - name: Create GitHub Release
         id: release
         if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        env:
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          NIGHTLY_TAG: ${{ needs.generate-metadata.outputs.nightly-tag }}
+          BUILD_VERSION: ${{ needs.generate-metadata.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
         with:
-          tag_name: ${{ needs.generate-metadata.outputs.nightly-tag }}
-          body_path: release-notes.md
-          prerelease: true
-          draft: false
-          files: |
-            build-metadata.json
-            release-artifacts/**/*
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const {execFileSync} = require('child_process');
+            const {SOURCE_SHA: sha, NIGHTLY_TAG: tag, BUILD_VERSION: version} = process.env;
+            const metadata = JSON.parse(fs.readFileSync('build-metadata.json', 'utf8'));
+            const head = execFileSync('git', ['rev-parse', 'HEAD'], {encoding: 'utf8'}).trim();
+            if (!/^[0-9a-f]{40}$/.test(sha) || head !== sha ||
+                metadata.git.commit !== sha || metadata.version.release_type !== 'nightly' ||
+                metadata.version.version !== version || !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(version) ||
+                !tag.startsWith(`v${version}-nightly.`) ||
+                !/^v[0-9]+\.[0-9]+\.[0-9]+-nightly\.[0-9]{8}\.[0-9]+$/.test(tag)) {
+              throw new Error('Nightly source, metadata, or tag identity mismatch');
+            }
+            const files = ['build-metadata.json'];
+            function collect(dir) {
+              for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+                const file = path.join(dir, entry.name);
+                if (entry.isDirectory()) collect(file);
+                else if (entry.isFile()) files.push(file);
+                else throw new Error(`Unsupported release asset: ${file}`);
+              }
+            }
+            collect('release-artifacts');
+            if (new Set(files.map(file => path.basename(file))).size !== files.length) {
+              throw new Error('Duplicate release asset names');
+            }
+            const repo = context.repo;
+            try {
+              await github.rest.repos.getReleaseByTag({...repo, tag});
+              throw new Error(`Release ${tag} already exists`);
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
+            // createRef is atomic and refuses an existing tag, including on reruns.
+            await github.rest.git.createRef({...repo, ref: `refs/tags/${tag}`, sha});
+            const created = await github.rest.git.getRef({...repo, ref: `tags/${tag}`});
+            if (created.data.object.type !== 'commit' || created.data.object.sha !== sha) {
+              throw new Error('Created nightly tag does not point to the source commit');
+            }
+            const release = await github.rest.repos.createRelease({
+              ...repo, tag_name: tag, target_commitish: sha, name: tag,
+              body: fs.readFileSync('release-notes.md', 'utf8'), prerelease: true, draft: true,
+            });
+            for (const file of files) {
+              execFileSync('gh', ['release', 'upload', tag, path.resolve(file),
+                '--repo', `${repo.owner}/${repo.repo}`], {stdio: 'inherit'});
+            }
+            const assets = await github.paginate(github.rest.repos.listReleaseAssets, {
+              ...repo, release_id: release.data.id, per_page: 100,
+            });
+            if (assets.length !== files.length || files.some(file => !assets.some(asset =>
+              asset.name === path.basename(file) && asset.state === 'uploaded' &&
+              asset.size === fs.statSync(file).size))) {
+              throw new Error('Draft release asset verification failed');
+            }
+            const verified = await github.rest.git.getRef({...repo, ref: `tags/${tag}`});
+            const draft = await github.rest.repos.getRelease({...repo, release_id: release.data.id});
+            if (verified.data.object.type !== 'commit' || verified.data.object.sha !== sha ||
+                !draft.data.draft || draft.data.tag_name !== tag) {
+              throw new Error('Draft release or tag identity changed before publication');
+            }
+            await github.rest.repos.updateRelease({...repo, release_id: release.data.id, draft: false});
 
       - name: Preview GitHub Release publication
         if: github.event_name == 'workflow_dispatch' && inputs.dry_run
@@ -368,6 +432,35 @@ jobs:
             echo "- Would attach \`build-metadata.json\` and the downloaded release artifacts."
           } >> "$GITHUB_STEP_SUMMARY"
           echo "::notice::Dry run: GitHub Release ${NIGHTLY_TAG} was not created."
+
+  track-downstream:
+    name: "Release: Track Downstream Approvals"
+    needs: [publish-release, generate-metadata]
+    if: |
+      needs.publish-release.result == 'success' &&
+      needs.generate-metadata.result == 'success' &&
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    concurrency:
+      group: nightly-downstream-${{ needs.generate-metadata.outputs.nightly-tag }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout trusted workflow revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.workflow_sha }}
+          persist-credentials: false
+      - name: Reconcile downstream tracking issues
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        env:
+          NIGHTLY_TAG: ${{ needs.generate-metadata.outputs.nightly-tag }}
+        with:
+          script: |
+            const track = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/track-nightly-downstream.js`);
+            await track({github, context, core, tag: process.env.NIGHTLY_TAG});
 
   publish-docker:
     name: "Validate: Nightly Docker Runtime (${{ matrix.arch }})"
@@ -462,6 +555,17 @@ jobs:
             exit 1
           fi
 
+      - name: Set nightly Docker build channel
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < VERSION)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+            echo "::error::Nightly Docker builds require a numeric VERSION"; exit 1;
+          }
+          printf '%s\n' nightly > RELEASE_TYPE
+          test "$(cat RELEASE_TYPE)" = nightly
+
       - name: Build staged Docker runtime candidate
         id: build-candidate
         # Keep step timeout below the job timeout so failures surface at step level first.
@@ -539,8 +643,9 @@ jobs:
       always() && !cancelled() &&
       needs.generate-metadata.result == 'success' &&
       needs.publish-docker.result == 'success' &&
+      needs.publish-release.result == 'success' &&
       (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
-    needs: [generate-metadata, publish-docker]
+    needs: [generate-metadata, publish-docker, publish-release]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -590,8 +695,14 @@ jobs:
 
   finalize-release-status:
     name: "Release: Finalize Nightly Status"
-    needs: [check-changes, build-matrix, generate-metadata, publish-release, publish-docker, publish-docker-manifest]
-    if: always() && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+    needs: [mark-release-pending, check-changes, build-matrix, generate-metadata, publish-release, track-downstream, publish-docker, publish-docker-manifest]
+    if: |
+      always() && !cancelled() &&
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true) &&
+      (needs.check-changes.result == 'failure' ||
+       (needs.check-changes.result == 'success' &&
+        (needs.check-changes.outputs.has-changes == 'true' ||
+         (github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true'))))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -608,11 +719,12 @@ jobs:
           BUILD_RESULT: ${{ needs.build-matrix.result }}
           METADATA_RESULT: ${{ needs.generate-metadata.result }}
           RELEASE_RESULT: ${{ needs.publish-release.result }}
+          TRACKING_RESULT: ${{ needs.track-downstream.result }}
           DOCKER_RESULT: ${{ needs.publish-docker-manifest.result }}
         run: |
           set -euo pipefail
           if [ "${CHANGE_RESULT}" = "success" ] || [ "${CHANGE_RESULT}" = "skipped" ]; then
-            if [ "${BUILD_RESULT}" = "success" ] && [ "${METADATA_RESULT}" = "success" ] && [ "${RELEASE_RESULT}" = "success" ] && [ "${DOCKER_RESULT}" = "success" ]; then
+            if [ "${BUILD_RESULT}" = "success" ] && [ "${METADATA_RESULT}" = "success" ] && [ "${RELEASE_RESULT}" = "success" ] && [ "${TRACKING_RESULT}" = "success" ] && [ "${DOCKER_RESULT}" = "success" ]; then
               {
                 echo "status_label=ci/build-ok"
                 echo "status_text=passing"
@@ -666,7 +778,7 @@ jobs:
             Reason: `${{ steps.status.outputs.status_reason }}`
             Marker: `${{ steps.status.outputs.status_markers || 'none' }}`
 
-            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.event.workflow_run.head_sha || github.sha }}`
 
             _This issue tracks nightly release publication health for the develop branch._
             _Labels: `status/release-pending` = nightly release running; `ci/build-failed` = nightly release gate failed._
@@ -683,7 +795,7 @@ jobs:
           status-group: 'ci/build-ok,ci/build-failed,status/release-pending'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
+          source-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Comment nightly release status
         uses: ./.github/actions/status-flags-and-issues
@@ -693,14 +805,14 @@ jobs:
           issue-number: ${{ steps.nightly_tracker.outputs.issue-number }}
           issue-title: '[Release] Status tracker — nightly'
           issue-marker: '<!-- release-nightly:type:release-status -->'
-          issue-body: '${{ steps.status.outputs.status_icon }} Nightly release `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          issue-body: '${{ steps.status.outputs.status_icon }} Nightly release `${{ github.event.workflow_run.head_sha || github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
-          source-sha: ${{ github.sha }}
+          source-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
 
   notify:
     name: "Automation: Notify Build Completion"
-    needs: [generate-metadata, publish-release, publish-docker-manifest]
+    needs: [generate-metadata, publish-release, track-downstream, publish-docker-manifest]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -710,6 +822,7 @@ jobs:
           NIGHTLY_TAG: ${{ needs.generate-metadata.outputs.nightly-tag }}
           VERSION: ${{ needs.generate-metadata.outputs.version }}
           RELEASE_RESULT: ${{ needs.publish-release.result }}
+          TRACKING_RESULT: ${{ needs.track-downstream.result }}
           DOCKER_RESULT: ${{ needs.publish-docker-manifest.result }}
         run: |
           set -euo pipefail
@@ -730,6 +843,7 @@ jobs:
             else
               echo "- Mode: publishing"
               echo "- GitHub Release job: \`${RELEASE_RESULT}\`"
+              echo "- Downstream tracking job: \`${TRACKING_RESULT}\`"
               echo "- Docker manifest job: \`${DOCKER_RESULT}\`"
             fi
             echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"

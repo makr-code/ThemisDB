@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -16,6 +17,75 @@ NIGHTLY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-nightly.yml"
 
 
 class DockerPlatformValidationTests(unittest.TestCase):
+    def test_docker_builds_include_release_type_in_cmake_source(self) -> None:
+        rules = [
+            line.strip() for line in (REPO_ROOT / ".dockerignore").read_text(
+                encoding="utf-8"
+            ).splitlines() if line.strip() and not line.lstrip().startswith("#")
+        ]
+        self.assertEqual(rules[0], "*")
+        self.assertIn("!RELEASE_TYPE", rules)
+        self.assertNotIn("RELEASE_TYPE", rules)
+        for dockerfile in ("Dockerfile", "docker/Dockerfile.unified"):
+            with self.subTest(dockerfile=dockerfile):
+                text = (REPO_ROOT / dockerfile).read_text(encoding="utf-8")
+                build = text.split("FROM deps AS build\n", 1)[1].split("\nFROM ", 1)[0]
+                copies = [
+                    line.split()[1:-1] for line in build.splitlines()
+                    if line.startswith("COPY ") and not line.startswith("COPY --")
+                    and line.endswith(" ./")
+                ]
+                self.assertTrue(any("VERSION" in copy and "RELEASE_TYPE" in copy
+                                    for copy in copies))
+                check = 'if [ "$(cat /src/RELEASE_TYPE)" = "nightly" ]; then'
+                self.assertIn(check, build)
+                self.assertLess(build.index("cmake "), build.index(check))
+                self.assertLess(build.index(check), build.index("cmake --build"))
+
+    def test_docker_release_type_is_resolved_by_cmake(self) -> None:
+        cases = (
+            ("2.4.0", "alpha", "alpha", True),
+            ("2.4.0", "nightly", "nightly", True),
+            ("2.4.0", "stable", "stable", True),
+            ("2.4.0-alpha", "stable", "alpha", True),
+            ("2.4.0-alpha", "nightly", "alpha", False),
+        )
+        for version, channel, expected, passes in cases:
+            with self.subTest(version=version, channel=channel), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                (root / "RELEASE_TYPE").write_text(channel + "\n", encoding="utf-8")
+                (root / "VERSION").write_text(version + "\n", encoding="utf-8")
+                (root / "CMakeLists.txt").write_text(
+                    "cmake_minimum_required(VERSION 3.20)\n"
+                    "project(DockerReleaseType NONE)\n"
+                    f'include("{(REPO_ROOT / "cmake/Versions.cmake").as_posix()}")\n'
+                    'file(WRITE "${CMAKE_BINARY_DIR}/channel" "${THEMIS_VERSION_TYPE}")\n',
+                    encoding="utf-8",
+                )
+                result = subprocess.run(
+                    ["cmake", "-S", str(root), "-B", str(root / "build")],
+                    capture_output=True, text=True, timeout=30,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual((root / "build/channel").read_text(), expected)
+                for dockerfile in ("Dockerfile", "docker/Dockerfile.unified"):
+                    with self.subTest(dockerfile=dockerfile):
+                        text = (REPO_ROOT / dockerfile).read_text(encoding="utf-8")
+                        check = re.search(
+                            r'if \[ "\$\(cat /src/RELEASE_TYPE\)" = "nightly" \]; then \\\n'
+                            r'.*?    fi(?= &&)', text, re.DOTALL,
+                        )
+                        self.assertIsNotNone(check)
+                        command = (check.group(0).replace("${THEMIS_BUILD_DIR}", "build")
+                                   .replace("/src", str(root)))
+                        verify = subprocess.run(
+                            ["sh", "-eu", "-c", command],
+                            capture_output=True, text=True, timeout=10,
+                        )
+                        self.assertEqual(verify.returncode == 0, passes, verify.stderr)
+                        if not passes:
+                            self.assertIn("CMake did not select the nightly", verify.stderr)
+
     def test_trivy_external_monitoring_is_advisory_with_scoped_gate(self) -> None:
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         steps = workflow["jobs"]["build"]["steps"]
