@@ -394,7 +394,7 @@ Workflow: `.github/workflows/release-promote.yml`
    - Override: Input `version_bump` parameter for MAJOR or PATCH
 3. **Update RELEASE_TYPE:** Write `RELEASE_TYPE` file with new type (alpha|beta|rc|stable)
 4. **Update CHANGELOG:** Add new section `## [<new-version>] - YYYY-MM-DD` with git log entries
-5. **Create Release PR:** 
+5. **Create Release PR:**
    - Branch: `release/v<new-version>`
    - Target: `develop`
    - Includes PR checklist for manual verification

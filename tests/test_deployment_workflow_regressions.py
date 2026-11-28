@@ -14,6 +14,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TEST_SOURCE_SHA = "0123456789abcdef0123456789abcdef01234567"
 
 
 def workflow(name):
@@ -30,7 +31,12 @@ def run_bash(script, directory, **environment):
     result = subprocess.run(
         ["bash", "-euo", "pipefail", "-c", script],
         cwd=directory,
-        env={**os.environ, "GITHUB_OUTPUT": str(output), **environment},
+        env={
+            **os.environ,
+            "GITHUB_OUTPUT": str(output),
+            "SOURCE_SHA": TEST_SOURCE_SHA,
+            **environment,
+        },
         capture_output=True, text=True,
     )
     values = dict(line.split("=", 1) for line in output.read_text().splitlines() if "=" in line)
